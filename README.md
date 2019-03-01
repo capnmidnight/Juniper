@@ -22,6 +22,44 @@ Juniper is a framework within Unity 3D for managing and developing virtual, augm
 - *XR* - Management of VR and AR hardware, specifically the detection of surfaces and the tracking of positional hardware.
 - *Other* - Scene and project management tools, for managing complex scene hierarchies in the Unity editor and at runtime.
 
+# Source-Lines of Code
+
+##Juniper.Units
+
+```
+───────────────────────────────────────────────────────────────────────────────
+Language                 Files     Lines     Code  Comments   Blanks Complexity
+───────────────────────────────────────────────────────────────────────────────
+C#                          85     10658     4293      5159     1206         99
+MSBuild                      1       129      129         0        0          0
+───────────────────────────────────────────────────────────────────────────────
+Total                       86     10787     4422      5159     1206         99
+───────────────────────────────────────────────────────────────────────────────
+Estimated Cost to Develop $251,479
+Estimated Schedule Effort 7.038804 months
+Estimated People Required 2.165463
+───────────────────────────────────────────────────────────────────────────────
+
+```
+
+##Juniper.NeuroSky
+
+```
+───────────────────────────────────────────────────────────────────────────────
+Language                 Files     Lines     Code  Comments   Blanks Complexity
+───────────────────────────────────────────────────────────────────────────────
+C#                           8       684      539        34      111         36
+MSBuild                      2       175      175         0        0          0
+───────────────────────────────────────────────────────────────────────────────
+Total                       10       859      714        34      111         36
+───────────────────────────────────────────────────────────────────────────────
+Estimated Cost to Develop $37,066
+Estimated Schedule Effort 3.400342 months
+Estimated People Required 0.660709
+───────────────────────────────────────────────────────────────────────────────
+
+```
+
 ##Juniper
 
 ```
@@ -32,8 +70,8 @@ C#                         382     42334    27534      9295     5505       3407
 XML                         21    148903   133227         0    15676          0
 Plain Text                   2        22       18         0        4          0
 JSON                         2       311      311         0        0          0
-Objective C++                1       107       64        35        8         20
 License                      1        13       10         0        3          0
+Objective C++                1       107       64        35        8         20
 ───────────────────────────────────────────────────────────────────────────────
 Total                      409    191690   161164      9330    21196       3427
 ───────────────────────────────────────────────────────────────────────────────

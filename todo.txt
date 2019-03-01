@@ -17,7 +17,7 @@
 (T) 2019-02-01 Vuforia - HoloLens
 (Z) 2019-02-01 Unity AR Foundation
 x 2019-02-11 2019-02-01 pri:F Magic Leap - Hands
-(F) 2019-02-01 Magic Leap - Hand Gestures
+x 2019-03-01 2019-02-01 pri:F Magic Leap - Hand Gestures
 (T) 2019-02-01 Magic Leap - Anchoring
 x 2019-02-05 2019-02-01 pri:F Magic Leap - Meshing
 (F) 2019-02-01 Magic Leap - Image Tracking
