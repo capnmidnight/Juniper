@@ -1,0 +1,279 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Accord.Extensions.Vision</name>
+    </assembly>
+    <members>
+        <member name="T:Accord.Extensions.Imaging.Camshift">
+            <summary>
+              Continuously Adaptive Mean Shift (Camshift) Object Tracker
+            </summary>
+            <remarks>
+            <para>
+              Camshift stands for "Continuously Adaptive Mean Shift". It combines the basic
+              Mean Shift algorithm with an adaptive region-sizing step. The kernel is a step
+              function applied to a probability map. The probability of each image pixel is
+              based on color using a method called histogram back-projection.</para>
+            <para>
+              The implementation of this code has used Gary Bradski's original publication,
+              the OpenCV Library and the FaceIt implementation as references. The OpenCV
+              library is distributed under a BSD license. FaceIt is distributed under a MIT
+              license. The original licensing terms for FaceIt are described in the source
+              code and in the Copyright.txt file accompanying the framework.</para>  
+              
+            <para>
+              References:
+              <list type="bullet">
+                <item><description>
+                  G.R. Bradski, Computer video face tracking for use in a perceptual user interface,
+                  Intel Technology Journal, Q2 1998. Available on:
+                  <a href="ftp://download.intel.com/technology/itj/q21998/pdf/camshift.pdf">
+                  ftp://download.intel.com/technology/itj/q21998/pdf/camshift.pdf </a></description></item>
+                <item><description>
+                  R. Hewitt, Face tracking project description: Camshift Algorithm. Available on:
+                  <a href="http://www.robinhewitt.com/research/track/camshift.html">
+                  http://www.robinhewitt.com/research/track/camshift.html </a></description></item>
+                <item><description>
+                  OpenCV Computer Vision Library. Available on:
+                  <a href="http://sourceforge.net/projects/opencvlibrary/">
+                  http://sourceforge.net/projects/opencvlibrary/ </a></description></item>
+                <item><description>
+                  FaceIt object tracking in Flash AS3. Available on:
+                  <a href="http://www.libspark.org/browser/as3/FaceIt">
+                  http://www.libspark.org/browser/as3/FaceIt </a></description></item>
+             </list></para>  
+            </remarks>
+            
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Camshift.Process(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Rectangle)">
+            <summary>
+            Camshift algorithm
+            </summary>
+            <param name="probabilityMap">Probability map [0-1].</param>
+            <param name="roi">Initial Search area</param>
+            <returns>Object position, size and angle packed into a structure.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Camshift.Process(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Rectangle,Accord.Extensions.Imaging.TermCriteria,Accord.Extensions.Imaging.Moments.CentralMoments@)">
+            <summary>
+            Camshift algorithm
+            </summary>
+            <param name="probabilityMap">Probability map [0-255].</param>
+            <param name="roi">Initial Search area</param>
+            <param name="termCriteria">Mean shift termination criteria (PLEASE DO NOT REMOVE (but you can move it) THIS CLASS; PLEASE!!!)</param>
+            <param name="centralMoments">Calculated central moments (up to order 2).</param>
+            <returns>Object position, size and angle packed into a structure.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.KLTFeatureStatus">
+            <summary>
+            Status of an KLT feature.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.KLTFeatureStatus.Success">
+            <summary>
+            Successfully tracked
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.KLTFeatureStatus.Drifted">
+            <summary>
+            Movement was farther than it could possibly be tracked
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.KLTFeatureStatus.OutOfBounds">
+            <summary>
+            Movement was out of image bounds
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.KLTFeatureStatus.SmallEigenValue">
+            <summary>
+            Eigen value was smaller than specified meaning that feature does no lie on corner or corner does not have strong gradients
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.KLTFeatureStatus.Failed">
+            <summary>
+            Miscellaneous track failure
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.KLTFeatureStatus.LargeError">
+            <summary>
+            Feature's error was too large
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.PyrLKOpticalFlow`1">
+            <summary>
+            Pyramidal Kanade-Lucas-Tomasi optical flow.
+            </summary>
+            <typeparam name="TColor">Image color. This implementation supports all color types.</typeparam>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.PyrLKOpticalFlow`1.EstimateFlow(`0[0:,0:],`0[0:,0:],AForge.Point[],AForge.Point[]@,Accord.Extensions.Imaging.KLTFeatureStatus[]@,System.Int32,System.Int32,System.Single,System.Single,System.Int32)">
+            <summary>
+            Estimates LK optical flow.
+            </summary>
+            <param name="prevImg">Previous image.</param>
+            <param name="currImg">Current image.</param>
+            <param name="prevFeatures">Previous features.</param>
+            <param name="currFeatures">Current features.</param>
+            <param name="status">Feature status.</param>
+            <param name="windowSize">Aperture size.</param>
+            <param name="iterations">Maximal number of iterations. If <paramref name="minFeatureShift"/> is reached then number of iterations will be lower.</param>
+            <param name="minFeatureShift">Minimal feature shift in horizontal or vertical direction.</param>
+            <param name="minEigenValue">Minimal eigen value. 
+            Eigen values could be interpreted as lengths of ellipse's axes. 
+            If zero ellipse turn into line therefore there is no corner.</param>
+            <param name="pyrLevels">Number of pyramid levels. By using 0 pyramid levels pyramidal implementation reduces to non-pyramidal one.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.PyrLKOpticalFlow`1.EstimateFlow(Accord.Extensions.Imaging.PyrLKStorage{`0},AForge.Point[],AForge.Point[]@,Accord.Extensions.Imaging.KLTFeatureStatus[]@,System.Int32,System.Int32,System.Single,System.Single)">
+            <summary>
+            Estimates LK optical flow.
+            </summary>
+            <param name="storage">Used storage. Number of pyramid levels is specified within storage. Use storage to gain performance in video* by 2x! </param>
+            <param name="prevFeatures">Previous features.</param>
+            <param name="currFeatures">Current features.</param>
+            <param name="status">Feature status.</param>
+            <param name="windowSize">Aperture size.</param>
+            <param name="iterations">Maximal number of iterations. If <paramref name="minFeatureShift"/> is reached then number of iterations will be lower.</param>
+            <param name="minFeatureShift">Minimal feature shift in horizontal or vertical direction.</param>
+            <param name="minEigenValue">Minimal eigen value. 
+            Eigen values could be interpreted as lengths of ellipse's axes. 
+            If zero ellipse turn into line therefore there is no corner.</param>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.PyrLKStorage`1">
+            <summary>
+            Storage for pyramidal images and its derivative which are used in LK flow.
+            Very often sequential images are processed therefore calculations for both images are redundant. 
+            This class is using this property to skip some calculations and therefore speeds up sequential frame processing by 2x!
+            </summary>
+            <typeparam name="TColor">Image color.</typeparam>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.PyrLKStorage`1.#ctor(System.Int32)">
+            <summary>
+            Creates LK storage.
+            </summary>
+            <param name="pyrLevels">Number of pyramid levels. Minimal is 0 - only current image will be used.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.PyrLKStorage`1.Process(`0[0:,0:],`0[0:,0:])">
+            <summary>
+            Calculates pyramid and its derivations.
+            </summary>
+            <param name="prevImg">Previous image.</param>
+            <param name="currImg">Current image.</param>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.PyrLKStorage`1.PyrLevels">
+            <summary>
+            Number of pyramidal levels
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.PyrLKStorage`1.PrevImgPyr">
+            <summary>
+            Previous image pyramid.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.PyrLKStorage`1.CurrImgPyr">
+            <summary>
+            Current image pyramid.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.PyrLKStorage`1.PrevImgPyrDerivX">
+            <summary>
+            Previous image pyramidal horizontal derivatives
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.PyrLKStorage`1.CurrImgPyrDerivX">
+            <summary>
+            Current image pyramidal horizontal derivatives
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.PyrLKStorage`1.PrevImgPyrDerivY">
+            <summary>
+            Previous image pyramidal vertical derivatives
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.PyrLKStorage`1.CurrImgPyrDerivY">
+            <summary>
+            Current image pyramidal vertical derivatives
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Meanshift">
+            <summary>
+            Mean shift is a non-parametric feature-space analysis technique for locating the maxima of a density function. 
+            Application domains include various image-procesing and computer vision applications such as: image segmentation and object tracking.
+            <para>
+            See <a href="http://en.wikipedia.org/wiki/Mean-shift#Mean_shift_for_visual_tracking">Mean-shift</a> for details.
+            </para>
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Meanshift.DEFAULT_TERM">
+            <summary>
+            Gets the default termination criteria for the mean-shift algorithm: max-iterations: 10, min-error: 1.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Meanshift.Process(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Rectangle,Accord.Extensions.Imaging.TermCriteria,Accord.Extensions.Imaging.Moments.CentralMoments@)">
+            <summary>
+            Meanshift algorithm
+            </summary>
+            <param name="probabilityMap">Probability map [0-255].</param>
+            <param name="roi">Initial search area</param>
+            <param name="termCriteria">Mean shift termination criteria</param>
+            <param name="centralMoments">Calculated central moments (up to order 2).</param>
+            <returns>Object area.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Meanshift.Process(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Rectangle,Accord.Extensions.Imaging.TermCriteria)">
+            <summary>
+            Meanshift algorithm
+            </summary>
+            <param name="probabilityMap">Probability map [0-1].</param>
+            <param name="roi">Initial search area</param>
+            <param name="termCriteria">Mean shift termination criteria.</param>
+            <returns>Object area.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Meanshift.Process(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Rectangle)">
+            <summary>
+            Meanshift algorithm
+            </summary>
+            <param name="probabilityMap">Probability map [0-1].</param>
+            <param name="roi">Initial search area</param>
+            <returns>Object area.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.LKOpticalFlow`1">
+            <summary>
+            Lucas-Kanade optical flow.
+            </summary>
+            <typeparam name="TColor">Image color. This implementation supports all color types.</typeparam>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.LKOpticalFlow`1.EstimateFlow(`0[0:,0:],`0[0:,0:],AForge.Point[],AForge.Point[]@,Accord.Extensions.Imaging.KLTFeatureStatus[]@,System.Int32,System.Int32,System.Single,System.Single,AForge.Point[])">
+            <summary>
+            Estimates LK optical flow.
+            </summary>
+            <param name="prevImg">Previous image.</param>
+            <param name="currImg">Current image.</param>
+            <param name="prevFeatures">Previous features.</param>
+            <param name="currFeatures">Current features.</param>
+            <param name="status">Feature status.</param>
+            <param name="windowSize">Aperture size.</param>
+            <param name="iterations">Maximal number of iterations. If <paramref name="minFeatureShift"/> is reached then number of iterations will be lower.</param>
+            <param name="minFeatureShift">Minimal feature shift in horizontal or vertical direction.</param>
+            <param name="minEigenValue">Minimal eigen value. 
+            Eigen values could be interpreted as lengths of ellipse's axes. 
+            If zero ellipse turn into line therefore there is no corner.</param>
+            <param name="initialEstimate">Initial estimate shifts input features by specified amount. Default is zero. 
+            Used for pyramidal implementation.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.LKOpticalFlow`1.EstimateFlow(Accord.Extensions.Imaging.PyrLKStorage{`0},AForge.Point[],AForge.Point[]@,Accord.Extensions.Imaging.KLTFeatureStatus[]@,System.Int32,System.Int32,System.Single,System.Single,AForge.Point[],System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="storage">Memory storage used for pyramid and derivative calculation. 
+            By using storage instead images if using sequential image input (e.g. frame by frame video) </param>
+            <param name="prevFeatures">Previous features.</param>
+            <param name="currFeatures">Current features.</param>
+            <param name="status">Feature status.</param>
+            <param name="windowSize">Aperture size.</param>
+            <param name="iterations">Maximal number of iterations. If <paramref name="minFeatureShift"/> is reached then number of iterations will be lower.</param>
+            <param name="minFeatureShift">Minimal feature shift in horizontal or vertical direction.</param>
+            <param name="minEigenValue">Minimal eigen value. 
+            Eigen values could be interpreted as lengths of ellipse's axes. 
+            If zero ellipse turn into line therefore there is no corner.</param>
+            <param name="initialEstimate">Initial estimate shifts input features by specified amount. Default is zero.</param>
+            <param name="storagePyrLevel">Used pyramid level for the input storage. Default is zero.</param>
+        </member>
+    </members>
+</doc>

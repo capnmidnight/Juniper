@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 4167d9ee5c8b8a94da02d92df1bbc577
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - clip: {instanceID: 0}
+  - renderTexture: {fileID: 8400000, guid: 171c774ee7634a6458a4149d1c159257, type: 2}
+  - skyboxMaterial: {fileID: 2100000, guid: 0071be3a78e62f94aa68671636582868, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

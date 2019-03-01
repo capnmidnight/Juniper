@@ -1,0 +1,2145 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Accord.Extensions.Imaging.Algorithms</name>
+    </assembly>
+    <members>
+        <member name="T:Accord.Extensions.Imaging.AnnotationType">
+            <summary>
+            Annotated object type.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.AnnotationType.Point">
+            <summary>
+            Point
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.AnnotationType.Rectangle">
+            <summary>
+            Rectangle
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.AnnotationType.Polygon">
+            <summary>
+            Polygon
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.AnnotationType.Empty">
+            <summary>
+            Polygon does not contain points or its value is null.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Annotation">
+            <summary>
+            Object annotation.
+            <para>Used during training process. See ObjectAnnotater application in samples.</para>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Annotation.#ctor">
+            <summary>
+            Creates new empty annotation.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Annotation.Clone">
+            <summary>
+            Clones annotation. Tag is cloned only is implements <see cref="T:System.ICloneable"/> interface.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Annotation.Label">
+            <summary>
+            Gets or sets the annotation label
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Annotation.Polygon">
+            <summary>
+            Gets or sets the object contour.
+            <para>See rectangle to vertexes extension to transform rectangle into set of points.</para>
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Annotation.Tag">
+            <summary>
+            Additional annotation data.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Annotation.BoundingRectangle">
+            <summary>
+            Gets the bounding rectangle for the annotation polygon.
+            <para>If the polygon is null or empty an empty rectangle is returned.</para>
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Annotation.Center">
+            <summary>
+            Gets the center of the polygon.
+            <para>If the polygon is null or empty an empty point is returned.</para>
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Annotation.Type">
+            <summary>
+            Gets the annotated object type.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.AnnotationDatabaseExtensions">
+            <summary>
+            Contains extension methods for the annotation database type.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.AnnotationDatabaseExtensions.Clone(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Accord.Extensions.Imaging.Annotation}})">
+            <summary>
+            Clones the database (tag is cloned only if implements <see cref="T:System.ICloneable"/> interface).
+            </summary>
+            <param name="data">Database to clone.</param>
+            <returns>Cloned database.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.AnnotationDatabaseExtensions.GetAnnotationsByLabels(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Accord.Extensions.Imaging.Annotation}},Accord.Extensions.Imaging.AnnotationType)">
+            <summary>
+            Gets the annotations of the specified type with the same label.
+            </summary>
+            <param name="data">Database.</param>
+            <param name="type">Annotation type.</param>
+            <returns>Annotations per label for the specified annotation type.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.AnnotationDatabaseExtensions.GetAnnotations(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Accord.Extensions.Imaging.Annotation}},System.Func{System.String,System.Boolean},System.Func{Accord.Extensions.Imaging.Annotation,System.Boolean})">
+            <summary>
+            Gets annotations from all images (flattens the database).
+            </summary>
+            <param name="data">Database.</param>
+            <param name="imgKeySelector">Image key selector function. Returns true if the provided image key should be selected.</param>
+            <param name="annotationSelector">Annotation selector function. Returns true if the provided annotation should be selected.</param>
+            <returns>Annotations from all images.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.AnnotationDatabaseExtensions.GetAnnotations(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Accord.Extensions.Imaging.Annotation}})">
+            <summary>
+            Gets annotations from all images (flattens the database).
+            </summary>
+            <param name="data">Database.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.AnnotationDatabaseExtensions.AnnotationCountByLabels(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Accord.Extensions.Imaging.Annotation}},Accord.Extensions.Imaging.AnnotationType)">
+            <summary>
+            Count the number of annotations of the specified type with the same label.
+            </summary>
+            <param name="data">Database.</param>
+            <param name="type">Annotation type.</param>
+            <returns>The number of annotations per label for the specified annotation type.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.AnnotationDatabaseExtensions.AnnotationCount(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Accord.Extensions.Imaging.Annotation}},System.Func{System.String,System.Boolean})">
+            <summary>
+            Gets the number of annotations which have label that matches specified predicate.
+            </summary>
+            <param name="data">Database.</param>
+            <param name="labelPredicate">A label matching predicate.</param>
+            <returns>Number of annotations.</returns>
+            <example>
+            var nAnnotations = database.NumberOfAnnotations((label) => label.Contains("Bus"));
+            Console.WriteLine(nAnnotations);
+            </example>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.AnnotationDatabaseExtensions.AnnotationCount(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Accord.Extensions.Imaging.Annotation}})">
+            <summary>
+            Gets the number of annotations in the database.
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.AnnotationXmlDatabaseExtensions">
+            <summary>
+            <para>Methods of this class can be used as extensions.</para>
+            Provides extension methods for the annotation database structure:
+            <para>    Dictionary(imageKey, list of annotations).</para>
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.AnnotationXmlDatabaseExtensions.ROOT_ELEMENT">
+            <summary>
+            Gets the root element name of the serialized database.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.AnnotationXmlDatabaseExtensions.Load(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Accord.Extensions.Imaging.Annotation}},System.String)">
+            <summary>
+            Load the annotation database. Existing data will not be overwritten.
+            </summary>
+            <param name="data">Empty database.</param>
+            <param name="fileName">Database file.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.AnnotationXmlDatabaseExtensions.Save(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Accord.Extensions.Imaging.Annotation}},System.String)">
+            <summary>
+            Saves database to a xml file.
+            </summary>
+            <param name="data">Database.</param>
+            <param name="fileName">File name for the serialized database.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.AnnotationXmlDatabaseExtensions.MergeDatabases(System.Collections.Generic.IEnumerable{System.String},System.String)">
+            <summary>
+            Merges specified annotation databases into one database and saves it into specified file.
+            <para>All image paths will be modified so the root of their relatives paths is the output database path.</para>
+            </summary>
+            <param name="dbFileNames">Database file names.</param>
+            <param name="outputDbFileName">Output database file name.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.AnnotationXmlDatabaseExtensions.ExportBoundingBoxes(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Accord.Extensions.Imaging.Annotation}},System.String,System.Func{System.String,System.Boolean})">
+            <summary>
+            Saves annotations of type rectangle to the specified text file as: &lt;image relative path&gt; ;   &lt;bounding box&gt; ; &lt;label&gt;
+            <para>Each annotation is written in a new line in case of multiple bounding boxes per image.</para>
+            </summary>
+            <param name="data">Database.</param>
+            <param name="fileName">Text file where to export the object bounding boxes.</param>
+            <param name="labelSelector">Labels selector.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.AnnotationXmlDatabaseExtensions.ExportBoundingBoxes(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{Accord.Extensions.Imaging.Annotation}},System.String)">
+            <summary>
+            Saves annotations of type rectangle to the specified text file as: &lt;image relative path&gt; ;   &lt;bounding box&gt; ; &lt;label&gt;
+            <para>Each annotation is written in a new line in case of multiple bounding boxes per image.</para>
+            </summary>
+            <param name="data">Database.</param>
+            <param name="fileName">Text file where to export the object bounding boxes.</param>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.AnnotationXmlDatabaseExtensions.ImageAnnotations`1">
+            <summary>
+            This class encapsulates all annotations in an image. 
+            It is used internally, but it is public due to serialization / deserialization request.
+            </summary>
+            <typeparam name="TAnnotation">Type of annotation.</typeparam>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.AnnotationXmlDatabaseExtensions.ImageAnnotations`1.ImageKey">
+            <summary>
+            Image key.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.AnnotationXmlDatabaseExtensions.ImageAnnotations`1.Annotations">
+            <summary>
+            List of annotations for the image specified by the key.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.BagOfVisualWordsExtensions">
+            <summary>
+             Bag of Visual Words extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BagOfVisualWordsExtensions.Compute``2(Accord.Imaging.BagOfVisualWords{``0,``1},Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:][],System.Double)">
+            <summary>
+            Computes the Bag of Words model.
+            </summary>
+            <typeparam name="TPoint">
+            The <see cref="T:Accord.Imaging.IFeaturePoint`1"/> type to be used with this class,
+            such as <see cref="T:Accord.Imaging.SpeededUpRobustFeaturePoint"/>.
+            </typeparam>
+            <typeparam name="TFeature">
+            The feature type of the <typeparamref name="TPoint"/>, such
+            as <see cref="T:double[]"/>.
+            </typeparam>
+            <param name="bow">Bag of Visual Words.</param>
+            <param name="images">The set of images to initialize the model.</param>
+            <param name="threshold">Convergence rate for the k-means algorithm. Default is 1e-5.</param>
+            <returns>The list of feature points detected in all images.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ComplexImageExtensions">
+            <summary>
+            Provides extensions for arithmetics with a complex image type.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ComplexImageExtensions.FFT(Accord.Extensions.Math.ComplexF[0:,0:],Accord.Extensions.Math.FourierTransform.Direction,System.Boolean)">
+            <summary>
+            Calculates Fast Fourier transform.
+            </summary>
+            <param name="image">Input image.</param>
+            <param name="direction">Forward or backward direction.</param>
+            <param name="inPlace">Process in place or not.</param>
+            <returns>Processed image. If <paramref name="inPlace"/> is used the result is the same as input image therefore may be omitted.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ComplexImageExtensions.ToComplex(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:])">
+            <summary>
+            Converts the grayscale image to a complex image where the specified image is taken as a real part.
+            </summary>
+            <param name="image">Real part of a complex image.</param>
+            <returns>Complex image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ComplexImageExtensions.MulComplex(Accord.Extensions.Math.ComplexF[0:,0:],Accord.Extensions.Math.ComplexF[0:,0:],System.Boolean)">
+            <summary>
+            Multiplies two complex images element-wise.
+            </summary>
+            <param name="imageA">First image.</param>
+            <param name="imageB">Second image.</param>
+            <param name="inPlace">
+            True to save the result in the first image, false otherwise.
+            <para>If true the returned image is the source image.</para>
+            </param>
+            <returns>Multiplied image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ComplexImageExtensions.Magnitude(Accord.Extensions.Math.ComplexF[0:,0:],Accord.Extensions.Rectangle)">
+            <summary>
+            Calculates magnitude of the specified complex image.
+            </summary>
+            <param name="image">Image.</param>
+            <param name="area">The specified working area.</param>
+            <returns>Magnitude image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ComplexImageExtensions.ReplaceRe(Accord.Extensions.Math.ComplexF[0:,0:],System.Single[0:,0:],Accord.Extensions.Rectangle)">
+            <summary>
+            Replaces real channel with the specified one.
+            </summary>
+            <param name="source">Source image.</param>
+            <param name="value">The matrix which replaces the real channel of a source.</param>
+            <param name="sourceArea">Source working area.</param>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ConvolutionBorder">
+            <summary>
+            Image border handling.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.ConvolutionBorder.BorderNone">
+            <summary>
+            Border is zeroed (omitted).
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.ConvolutionBorder.BorderMirror">
+            <summary>
+            Image border is mirrored.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.FFTConvolution">
+            <summary>
+            Contains extension methods for FFT convolution.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.FFTConvolution.ConvolveFFT``1(``0[0:,0:],System.Collections.Generic.IList{System.Single[0:,0:]},Accord.Extensions.Imaging.ConvolutionBorder)">
+            <summary>
+            Convolves the image with the specified kernels.
+            </summary>
+            <typeparam name="TColor">Image color type.</typeparam>
+            <param name="image">Image.</param>
+            <param name="kernels">Kernels.</param>
+            <param name="options">Options for resolving border pixels.</param>
+            <returns>Convolved image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.CorrelationMatchingExtensions">
+            <summary>
+             Maximum cross-correlation feature point matching algorithm extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.CorrelationMatchingExtensions.Match(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],AForge.IntPoint[],AForge.IntPoint[],System.Int32,System.Int32)">
+            <summary>
+             Maximum cross-correlation feature point matching algorithm.
+            </summary>
+            <param name="image1">First image.</param>
+            <param name="image2">Second image.</param>
+            <param name="points1">Points from the first image.</param>
+            <param name="points2">Points from the second image.</param>
+            <param name="windowSize">The size of the correlation window.</param>
+            <param name="maxDistance">The maximum distance to consider points as correlated.</param>
+            <returns>Matched point-pairs.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.PhaseExtensions">
+            <summary>
+            Contains image extensions methods for calculating phase image from two images (real and imaginary).
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.PhaseExtensions.Phase(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],Accord.Extensions.Imaging.Gray{System.Single}[0:,0:])">
+            <summary>
+            Calculates phase using Atan2 (secondImage / firstImage). 
+            </summary>
+            <param name="imageX">First image.</param>
+            <param name="imageY">Second image.</param>
+            <returns>Phase.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.PhaseExtensions.Phase(Accord.Extensions.Imaging.Gray{System.Double}[0:,0:],Accord.Extensions.Imaging.Gray{System.Double}[0:,0:])">
+            <summary>
+            Calculates phase using Atan2 (secondImage / firstImage). 
+            </summary>
+            <param name="imageX">First image.</param>
+            <param name="imageY">Second image.</param>
+            <returns>Phase.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.InRangeFilter">
+            <summary>
+            Contains extension methods for pixel in range checking.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.InRangeFilter.InRange``1(``0[0:,0:],``0,``0,System.Byte,System.Int32[])">
+            <summary>
+            Checks and produces mask where values != 0 means that values on those indicies are in the range.
+            </summary>
+            <param name="img">Input image.</param>
+            <param name="min">Minimal value.</param>
+            <param name="max">Maximal value.</param>
+            <param name="valueToSet">Value to set to result mask.</param>
+            <param name="channelIndicies">Which channel indicies to check. If not used then it is assumed that all indicies are used.</param>
+            <returns>Mask</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.BlendExtensions">
+            <summary>
+            Contains blend filter extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BlendExtensions.Blend(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],System.Boolean,System.Boolean)">
+            <summary>
+            The blending filter is able to blend two images using a homography matrix.
+            A linear alpha gradient is used to smooth out differences between the two
+            images, effectively blending them in two images. The gradient is computed
+            considering the distance between the centers of the two images.
+            <para>Homography matrix is set to identity.</para>
+            <para>Fill color is set to black with alpha set to 0 (all zeros).</para>
+            </summary>
+            <param name="im">Image.</param>
+            <param name="overlayIm">The overlay image (also called the anchor).</param>
+            <param name="gradient">A value indicating whether to blend using a linear
+             gradient or just superimpose the two images with equal weights.</param>
+            <param name="alphaOnly">A value indicating whether only the alpha channel
+            should be blended. This can be used together with a transparency
+            mask to selectively blend only portions of the image.</param>
+            <returns>Blended image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BlendExtensions.Blend(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Imaging.MatrixH,Accord.Extensions.Imaging.Bgra{System.Byte},System.Boolean,System.Boolean)">
+            <summary>
+            The blending filter is able to blend two images using a homography matrix.
+            A linear alpha gradient is used to smooth out differences between the two
+            images, effectively blending them in two images. The gradient is computed
+            considering the distance between the centers of the two images.
+            </summary>
+            <param name="im">Image.</param>
+            <param name="overlayIm">The overlay image (also called the anchor).</param>
+            <param name="homography">Homography matrix used to map a image passed to
+            the filter to the overlay image specified at filter creation.</param>
+            <param name="fillColor">The filling color used to fill blank spaces. The filling color will only be visible after the image is converted
+            to 24bpp. The alpha channel will be used internally by the filter.</param>
+            <param name="gradient">A value indicating whether to blend using a linear
+             gradient or just superimpose the two images with equal weights.</param>
+            <param name="alphaOnly">A value indicating whether only the alpha channel
+            should be blended. This can be used together with a transparency
+            mask to selectively blend only portions of the image.</param>
+            <returns>Blended image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BlendExtensions.Blend(Accord.Extensions.Imaging.Bgr{System.Byte}[0:,0:],Accord.Extensions.Imaging.Bgr{System.Byte}[0:,0:],System.Boolean,System.Boolean)">
+            <summary>
+            The blending filter is able to blend two images using a homography matrix.
+            A linear alpha gradient is used to smooth out differences between the two
+            images, effectively blending them in two images. The gradient is computed
+            considering the distance between the centers of the two images.
+            <para>Homography matrix is set to identity.</para>
+            <para>Fill color is set to black with alpha set to 0 (all zeros).</para>
+            </summary>
+            <param name="im">Image.</param>
+            <param name="overlayIm">The overlay image (also called the anchor).</param>
+            <param name="gradient">A value indicating whether to blend using a linear
+             gradient or just superimpose the two images with equal weights.</param>
+            <param name="alphaOnly">A value indicating whether only the alpha channel
+            should be blended. This can be used together with a transparency
+            mask to selectively blend only portions of the image.</param>
+            <returns>Blended image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BlendExtensions.Blend(Accord.Extensions.Imaging.Bgr{System.Byte}[0:,0:],Accord.Extensions.Imaging.Bgr{System.Byte}[0:,0:],Accord.Imaging.MatrixH,Accord.Extensions.Imaging.Bgra{System.Byte},System.Boolean,System.Boolean)">
+            <summary>
+            The blending filter is able to blend two images using a homography matrix.
+            A linear alpha gradient is used to smooth out differences between the two
+            images, effectively blending them in two images. The gradient is computed
+            considering the distance between the centers of the two images.
+            </summary>
+            <param name="im">Image.</param>
+            <param name="overlayIm">The overlay image (also called the anchor).</param>
+            <param name="homography">Homography matrix used to map a image passed to
+            the filter to the overlay image specified at filter creation.</param>
+            <param name="fillColor">The filling color used to fill blank spaces. The filling color will only be visible after the image is converted
+            to 24bpp. The alpha channel will be used internally by the filter.</param>
+            <param name="gradient">A value indicating whether to blend using a linear
+             gradient or just superimpose the two images with equal weights.</param>
+            <param name="alphaOnly">A value indicating whether only the alpha channel
+            should be blended. This can be used together with a transparency
+            mask to selectively blend only portions of the image.</param>
+            <returns>Blended image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BlendExtensions.Blend(Accord.Extensions.Imaging.Bgra{System.Byte}[0:,0:],Accord.Extensions.Imaging.Bgra{System.Byte}[0:,0:],System.Boolean,System.Boolean)">
+            <summary>
+            The blending filter is able to blend two images using a homography matrix.
+            A linear alpha gradient is used to smooth out differences between the two
+            images, effectively blending them in two images. The gradient is computed
+            considering the distance between the centers of the two images.
+            <para>Homography matrix is set to identity.</para>
+            <para>Fill color is set to black with alpha set to 0 (all zeros).</para>
+            </summary>
+            <param name="im">Image.</param>
+            <param name="overlayIm">The overlay image (also called the anchor).</param>
+            <param name="gradient">A value indicating whether to blend using a linear
+             gradient or just superimpose the two images with equal weights.</param>
+            <param name="alphaOnly">A value indicating whether only the alpha channel
+            should be blended. This can be used together with a transparency
+            mask to selectively blend only portions of the image.</param>
+            <returns>Blended image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BlendExtensions.Blend(Accord.Extensions.Imaging.Bgra{System.Byte}[0:,0:],Accord.Extensions.Imaging.Bgra{System.Byte}[0:,0:],Accord.Imaging.MatrixH,Accord.Extensions.Imaging.Bgra{System.Byte},System.Boolean,System.Boolean)">
+            <summary>
+            The blending filter is able to blend two images using a homography matrix.
+            A linear alpha gradient is used to smooth out differences between the two
+            images, effectively blending them in two images. The gradient is computed
+            considering the distance between the centers of the two images.
+            </summary>
+            <param name="im">Image.</param>
+            <param name="overlayIm">The overlay image (also called the anchor).</param>
+            <param name="homography">Homography matrix used to map a image passed to
+            the filter to the overlay image specified at filter creation.</param>
+            <param name="fillColor">The filling color used to fill blank spaces. The filling color will only be visible after the image is converted
+            to 24bpp. The alpha channel will be used internally by the filter.</param>
+            <param name="gradient">A value indicating whether to blend using a linear
+             gradient or just superimpose the two images with equal weights.</param>
+            <param name="alphaOnly">A value indicating whether only the alpha channel
+            should be blended. This can be used together with a transparency
+            mask to selectively blend only portions of the image.</param>
+            <returns>Blended image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.GrayLevelDifferenceMethodExtensions">
+            <summary>
+            Gray-Level Difference Method (GLDM) extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.GrayLevelDifferenceMethodExtensions.GrayLevelDifferenceMethod(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Imaging.CooccurrenceDegree,System.Boolean)">
+            <summary>
+             Gray-Level Difference Method (GLDM).
+             <para>Computes an gray-level histogram of difference values between adjacent pixels in an image.</para>
+             <para>Accord.NET internal call. Please see: <see cref="T:Accord.Imaging.GrayLevelDifferenceMethod">Gray-Level Difference Method</see> for details.</para>
+            </summary>
+            <param name="image">The source image.</param>
+            <param name="autoGray">Whether the maximum value of gray should be automatically computed from the image. </param>
+            <param name="degree">The direction at which the co-occurrence should be found.</param>
+            <returns>An histogram containing co-occurrences for every gray level in <paramref name="image"/>.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.GrayLevelRunLengthMatrixExtensions">
+            <summary>
+            Gray-Level Run-Length Matrix extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.GrayLevelRunLengthMatrixExtensions.Compute(Accord.Imaging.GrayLevelRunLengthMatrix,Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Gray{System.Byte}})">
+            <summary>
+            Computes the Gray-level Run-length for the given image source.
+            </summary>
+            <param name="grayLevelRunLengthMatrix">Gray-Level Run-Length Matrix.</param>
+            <param name="source">The source image.</param>
+            <returns>An array of run-length vectors containing level counts for every width pixel in <paramref name="source"/>.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.FastCornersDetectorExtensions">
+            <summary>
+            Features from Accelerated Segment Test (FAST) corners detector extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.FastCornersDetectorExtensions.CornerFeaturesDetector(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],System.Int32)">
+            <summary>
+            Features from Accelerated Segment Test (FAST) corners detector.
+            <para>Accord.NET internal call. Please see: <see cref="T:Accord.Imaging.FastCornersDetector"/> for details.</para>
+            </summary>
+            <param name="im">Image.</param>
+            <param name="threshold">The suppression threshold. Decreasing this value increases the number of points detected by the algorithm.</param>
+            <returns>Interest point locations.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.GoodFeaturesToTrackExtensions">
+            <summary>
+            Contains extensions for good features to track.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.GoodFeaturesToTrackExtensions.GoodFeaturesToTrack(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],System.Int32,System.Single,System.Single)">
+            <summary>
+            Searches the image for the good features to track. 
+            <para>For each location a Hessian matrix is made and min eig-value is compared against threshold.</para>
+            </summary>
+            <param name="image">Image.</param>
+            <param name="winSize">Window size.</param>
+            <param name="minEigVal">Minimum eigen value.</param>
+            <param name="minimalDistance">Minimum distance from two features.</param>
+            <returns>List of locations that have eigen value larger than <paramref name="minEigVal"/>.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.HarrisCornersDetectorExtensions">
+            <summary>
+            Harris corners extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.HarrisCornersDetectorExtensions.HarrisCorners``1(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Imaging.HarrisCornerMeasure,System.Single,System.Double,System.Int32)">
+            <summary>
+            Harris Corners Detector.
+            <para>Accord.NET internal call. Please see: <see cref="T:Accord.Imaging.HarrisCornersDetector"/> for details.</para>
+            </summary>
+            <param name="im">Image.</param>
+            <param name="measure">Corners measures.</param>
+            <param name="threshold">Harris threshold.</param>
+            <param name="sigma">Gaussian smoothing sigma.</param>
+            <param name="suppression">Non-maximum suppression window radius.</param>
+            <returns>Interest point locations.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.DenseHistogram">
+            <summary>
+            Image histogram.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.Normalize(System.Single)">
+            <summary>
+            Normalizes histogram so that sum of values are <paramref name="scale"/>.
+            </summary>
+            <param name="scale">Scale</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.Sum">
+            <summary>
+            Calculates histogram sum.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.Min">
+            <summary>
+            Calculates histogram min.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.Max">
+            <summary>
+            Calculates histogram max.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.Scale(System.Single)">
+            <summary>
+            Scales histogram values by user defined factor.
+            </summary>
+            <param name="factor"></param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.Mean">
+            <summary>
+            Calculates the mean value of the histogram.
+            </summary>
+            <returns>Mean of the histogram.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.Deviation(System.Single)">
+            <summary>
+            Calculates deviation of the histogram.
+            </summary>
+            <param name="mean">Histogram mean value.</param>
+            <returns>Deviation of the histogram.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.Deviation">
+            <summary>
+            Calculates deviation of the histogram.
+            <para>If the mean value is already calculated use the function overload to reduce performance penalties.</para>
+            </summary>
+            <returns>Deviation of the histogram.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.BackProject(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:][])">
+            <summary>
+            Back-projects (creates probability map) from histogram values.
+            </summary>
+            <param name="srcs">Image channels.</param>
+            <returns>Back-projection image (probability image) </returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.Calculate(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],System.Boolean,Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],AForge.IntPoint)">
+            <summary>
+            Calculates histogram.
+            </summary>
+            <param name="channel">Image channel.</param>
+            <param name="accumulate">Accumulate or erase histogram before.</param>
+            <param name="mask">Mask for image color locations.</param>
+            <param name="maskOffset">The location offset for the mask. The mask area will be [offsetX, offsetY, channelWidth, channelHeight].</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.Calculate(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:][],System.Boolean,Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],AForge.IntPoint)">
+            <summary>
+            Calculates histogram.
+            </summary>
+            <param name="channels">Image channels.</param>
+            <param name="accumulate">Accumulate or erase histogram before.</param>
+            <param name="mask">Mask for image color locations.</param>
+            <param name="maskOffset">The location offset for the mask. The mask area will be [offsetX, offsetY, channelWidth, channelHeight].</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.#ctor(System.Int32,AForge.IntRange)">
+            <summary>
+            Constructs histogram.
+            </summary>
+            <param name="binSize">Bin size.</param>
+            <param name="range">Image values range.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.#ctor(System.Int32[],AForge.IntRange[])">
+            <summary>
+            Constructs histogram.
+            </summary>
+            <param name="binSizes">Bin sizes.</param>
+            <param name="ranges">Image values ranges.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.Dispose">
+            <summary>
+            Disposes histogram.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.Finalize">
+            <summary>
+            Disposes dense histogram.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.CopyBlank">
+            <summary>
+            Gets the same histogram representation but without data. (data is default =  zero)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DenseHistogram.CreateRatioHistogram(Accord.Extensions.Imaging.DenseHistogram,System.Single,System.Single)">
+            <summary>
+            Creates ratio histogram [0.. <paramref name="histogramsNormalizationFactor"/>].
+            </summary>
+            <param name="hist2">Second histogram. This histogram will be element-wise dived with it. Both histograms must be normalized to the same value!</param>
+            <param name="histogramsNormalizationFactor">Histogram normalization factor. The maximum value in the ratio histogram will be the provided value.</param>
+            <param name="hist2Gain">Second histogram gain.</param>
+            <returns>Normalized ratio histogram</returns>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.DenseHistogram.NumberOfElements">
+            <summary>
+            Gets total number of elements.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.DenseHistogram.HistogramArray">
+            <summary>
+            Internal histogram structure. Use image stride and <see cref="P:Accord.Extensions.Imaging.DenseHistogram.ValueToIndexMultipliers"/> to access elements properly.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.DenseHistogram.HistogramData">
+            <summary>
+            Histogram data. Unmanaged representation of <see cref="P:Accord.Extensions.Imaging.DenseHistogram.HistogramArray"/>.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.DenseHistogram.ValueToIndexMultipliers">
+            <summary>
+            Value is multiplied with those values to obtain appropriate histogram index.
+                                                         binSizes[i]
+               idx = (val - range[i].Min) * -----------------------------------
+                                             range[i].Max - range[i].Min + 1
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.DenseHistogram.Strides">
+            <summary>
+            Strides fro each dimensions. To access 3rd dimension use pinter + Strides[2].
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.RobinsonEdgeDetectorExtensions">
+            <summary>
+            Contains extensions for Robinson's Edge Detector.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.RobinsonEdgeDetectorExtensions.Rectification``1(``0[0:,0:])">
+            <summary>
+            Robinson's Edge Detector.
+            <para>Accord.NET internal call. Please see: <see cref="T:Accord.Imaging.Filters.RobinsonEdgeDetector"/> for details.</para>
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">Image.</param>
+            <returns>Edge image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ContrastStrechExtensions">
+            <summary>
+            Contains extension methods for contrast stretching.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ContrastStrechExtensions.StretchContrast(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],System.Boolean)">
+            <summary>
+            Stretches intensity values in a linear way across full pixel range.
+            </summary>
+            <param name="im">Image.</param>
+            <param name="inPlace">Process in place or make not. If in place is set to true, returned value may be discarded.</param>
+            <returns>Corrected image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ContrastStrechExtensions.StretchContrast``1(``0[0:,0:],System.Boolean)">
+            <summary>
+            Stretches intensity values in a linear way across full pixel range.
+            </summary>
+            <param name="im">Image.</param>
+            <param name="inPlace">Process in place or make not. If in place is set to true, returned value may be discarded.</param>
+            <returns>Corrected image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.CorrectContrastExtensions">
+            <summary>
+            Contains extension methods for contrast correction.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.CorrectContrastExtensions.CorrectContrast(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],System.Int32,System.Boolean)">
+            <summary>
+            Adjusts pixels' contrast value by increasing RGB values of bright pixel and decreasing
+            pixel values of dark pixels (or vise versa if contrast needs to be decreased).
+            </summary>
+            <param name="im">Image.</param>
+            <param name="factor">Factor which is used to adjust contrast. Factor values greater than
+            0 increase contrast making light areas lighter and dark areas darker. Factor values
+            less than 0 decrease contrast - decreasing variety of contrast.</param>
+            <param name="inPlace">Process in place or make not. If in place is set to true, returned value may be discarded.</param>
+            <returns>Corrected image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.CorrectContrastExtensions.CorrectContrast``1(``0[0:,0:],System.Int32,System.Boolean)">
+            <summary>
+            Adjusts pixels' contrast value by increasing RGB values of bright pixel and decreasing
+            pixel values of dark pixels (or vise versa if contrast needs to be decreased).
+            </summary>
+            <param name="im">Image.</param>
+            <param name="factor">Factor which is used to adjust contrast. Factor values greater than
+            0 increase contrast making light areas lighter and dark areas darker. Factor values
+            less than 0 decrease contrast - decreasing variety of contrast.</param>
+            <param name="inPlace">Process in place or make not. If in place is set to true, returned value may be discarded.</param>
+            <returns>Corrected image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.GrayWorldExtensions">
+            <summary>
+            Contains extensions for Gray-world algorithm.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.GrayWorldExtensions.GrayWorld(Accord.Extensions.Imaging.Bgr{System.Byte}[0:,0:],System.Boolean)">
+            <summary>
+            Gray World filter for color normalization. 
+            <para>Accord.NET internal call.</para>
+            </summary>
+            <param name="img">Image.</param>
+            <param name="inPlace">Apply in place or not. If it is set to true return value can be omitted.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.GrayWorldExtensions.GrayWorld(Accord.Extensions.Imaging.Bgra{System.Byte}[0:,0:],System.Boolean)">
+            <summary>
+            Gray World filter for color normalization. 
+            <para>Accord.NET internal call.</para>
+            </summary>
+            <param name="img">Image.</param>
+            <param name="inPlace">Apply in place or not. If it is set to true return value can be omitted.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.CompassConvolutionExtensions">
+            <summary>
+            Contains extensions for Compass convolution filter.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.CompassConvolutionExtensions.CompassConvolution``1(``0[0:,0:],System.Int32[0:,0:][])">
+            <summary>
+            Compass convolution filter.
+            <para>Accord.NET internal call. See <see cref="T:Accord.Imaging.Filters.CompassConvolution"/> for details.</para>
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">Image.</param>
+            <param name="masks">Convolution masks.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.CannyExtensions">
+            <summary>
+            Canny extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.CannyExtensions.Canny(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],System.Byte,System.Byte,System.Double,System.Int32)">
+            <summary>
+            Applies Canny filter on specified image. (uses AForge implementation)
+            </summary>
+            <param name="im">image</param>
+            <param name="lowThreshold">Low threshold value used for hysteresis</param>
+            <param name="highThreshold">High threshold value used for hysteresis</param>
+            <param name="sigma">Gaussian sigma</param>
+            <param name="gaussianSize">Gaussian filter size</param>
+            <returns>Processed image with Canny filter</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.KirschEdgeDetectorExtensions">
+            <summary>
+            Contains extensions for Kirsch's Edge Detector filter.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.KirschEdgeDetectorExtensions.Kirsch``1(``0[0:,0:])">
+            <summary>
+            Kirsch's Edge Detector
+            <para>Accord.NET internal call.</para>
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">Input image.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.LaplaceExtensions">
+            <summary>
+            Laplace extensions.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Filters.LaplaceExtensions.Laplace_3x3">
+            <summary>
+            laplace 3x3 kernel.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.LaplaceExtensions.Laplace``1(``0[0:,0:],System.Int32,System.Boolean)">
+            <summary>
+            Calculates the Laplacian of the image with the appropriate kernel.
+            </summary>
+            <param name="im">Input image.</param>
+            <param name="apertureSize">Kernel size.</param>
+            <param name="normalizeKernel">Normalize kernel so the sum of all elements is 1.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.ExponentialExtensions">
+            <summary>
+            Contains extensions for exponential filter.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.ExponentialExtensions.Exponential``1(``0[0:,0:],System.Boolean)">
+            <summary>
+            Simple exp image filter. Applies the <see cref="M:System.Math.Exp(System.Double)"/>
+            function for each pixel in the image, clipping values as needed.
+            The resultant image can be converted back using the Logarithm
+            filter.
+            <para>Accord.NET internal call. Please see: <see cref="T:Accord.Imaging.Filters.Exponential"/> for details.</para>
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">Image.</param>
+            <param name="inPlace">Apply in place or not. If it is set to true return value can be omitted.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.FindNonZeroExtensions">
+            <summary>
+            Contains methods for finding non-zero pixels.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.FindNonZeroExtensions.FindNonZero(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],System.Collections.Generic.IList{System.Single}@)">
+            <summary>
+            Find non-zero locations in the image.
+            </summary>
+            <param name="img">Image.</param>
+            <param name="values">Found non-zero values at the returned positions.</param>
+            <returns>List of found non-zero locations.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.GaborFilterExtensions">
+            <summary>
+            Contains Gabor filter extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.GaborFilterExtensions.GaborFilter(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],System.Int32,System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            <para>(Accord .NET internal call)</para>
+            In image processing, a Gabor filter, named after Dennis Gabor, is a linear 
+            filter used for edge detection. Frequency and orientation representations 
+            of Gabor filters are similar to those of the human visual system, and they
+            have been found to be particularly appropriate for texture representation 
+            and discrimination. In the spatial domain, a 2D Gabor filter is a Gaussian
+            kernel function modulated by a sinusoidal plane wave. The Gabor filters are
+            self-similar: all filters can be generated from one mother wavelet by dilation
+            and rotation.
+            </summary>
+            <param name="img">Image.</param>
+            <param name="size">The size of the filter</param>
+            <param name="sigma">The Gaussian variance for the filter.</param>
+            <param name="theta">The orientation for the filter, in radians.</param>
+            <param name="lambda">The wavelength for the filter.</param>
+            <param name="gamma">The aspect ratio for the filter.</param>
+            <param name="psi">The phase offset for the filter.</param>
+            <returns>Filtered image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.GaborFilterExtensions.GaborFilter(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Imaging.Filters.GaborFilter)">
+            <summary>
+            <para>(Accord .NET internal call)</para>
+            In image processing, a Gabor filter, named after Dennis Gabor, is a linear 
+            filter used for edge detection. Frequency and orientation representations 
+            of Gabor filters are similar to those of the human visual system, and they
+            have been found to be particularly appropriate for texture representation 
+            and discrimination. In the spatial domain, a 2D Gabor filter is a Gaussian
+            kernel function modulated by a sinusoidal plane wave. The Gabor filters are
+            self-similar: all filters can be generated from one mother wavelet by dilation
+            and rotation.
+            </summary>
+            <param name="img">Image.</param>
+            <param name="gaborFilter">Gabor filter instance. 
+            <para>To avoid calculating Gabor every time use this function overload that receives instance.</para>
+            </param>
+            <returns>Filtered image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ArithmeticsByteExtensions">
+            <summary>
+            Contains math operations applicable on an image.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticsByteExtensions.AddByte``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Adds pixels of two images. The operation is executed for each channel.
+            <para>If using 8-bit values an overflow might happen.</para>
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">First image.</param>
+            <param name="img2">Second image.</param>
+            <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+            <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticsByteExtensions.SubByte``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Subtracts pixels of two images. The operation is executed for each channel.
+            <para>If using 8-bit values an overflow might happen.</para>
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">First image.</param>
+            <param name="img2">Second image.</param>
+            <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+            <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticsByteExtensions.MulByte``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Multiplies pixels of two images. The operation is executed for each channel.
+            <para>If using 8-bit values an overflow might happen.</para>
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">First image.</param>
+            <param name="img2">Second image.</param>
+            <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+            <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticsByteExtensions.DivByte``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Divides pixels of two images. The operation is executed for each channel. If using integers, an integer division is going to be applied.
+            <para>If using 8-bit values an overflow might happen.</para>
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">First image.</param>
+            <param name="img2">Second image.</param>
+            <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+            <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticsByteExtensions.MinByte``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Select minimal value for each channel.
+            </summary>
+            <param name="imageA">First image.</param>
+            <param name="imageB">Second image.</param>
+            <param name="inPlace">Process in place or not.</param>
+            <returns>MIN(imageA, imageB) per channel</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticsByteExtensions.MaxByte``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Select maximal value for each channel.
+            </summary>
+            <param name="imageA">First image.</param>
+            <param name="imageB">Second image.</param>
+            <param name="inPlace">Process in place or not.</param>
+            <returns>MAX(imageA, imageB) per channel</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ArithmeticsFloatExtensions">
+            <summary>
+            Contains math operations applicable on an image.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticsFloatExtensions.AddFloat``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Adds pixels of two images. The operation is executed for each channel.
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="imageA">First image.</param>
+            <param name="imageB">Second image.</param>
+            <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+            <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticsFloatExtensions.SubFloat``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Subtracts pixels of two images. The operation is executed for each channel.
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="imageA">First image.</param>
+            <param name="imageB">Second image.</param>
+            <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+            <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticsFloatExtensions.MulFloat``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Multiplies pixels of two images. The operation is executed for each channel.
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="imageA">First image.</param>
+            <param name="imageB">Second image.</param>
+            <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+            <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticsFloatExtensions.DivFloat``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Divides pixels of two images. The operation is executed for each channel. If using integers, an integer division is going to be applied.
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="imageA">First image.</param>
+            <param name="imageB">Second image.</param>
+            <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+            <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticsFloatExtensions.MinFloat``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Select minimal value for each channel.
+            </summary>
+            <param name="imageA">First image.</param>
+            <param name="imageB">Second image.</param>
+            <param name="inPlace">Process in place or not.</param>
+            <returns>MIN(imageA, imageB) per channel</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticsFloatExtensions.MaxFloat``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Select maximal value for each channel.
+            </summary>
+            <param name="imageA">First image.</param>
+            <param name="imageB">Second image.</param>
+            <param name="inPlace">Process in place or not.</param>
+            <returns>MAX(imageA, imageB) per channel</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ArithmeticLogicByteExtensions">
+            <summary>
+            Provides extensions for bitwise logic operations.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticLogicByteExtensions.AndByte``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Executes pixel-wise logic AND operation.
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">First image.</param>
+            <param name="img2">Second image.</param>
+            <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+            <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticLogicByteExtensions.OrByte``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Executes pixel-wise logic OR operation.
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">First image.</param>
+            <param name="img2">Second image.</param>
+            <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+            <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticLogicByteExtensions.XorByte``1(``0[0:,0:],``0[0:,0:],System.Boolean)">
+            <summary>
+            Executes pixel-wise logic XOR operation.
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">First image.</param>
+            <param name="img2">Second image.</param>
+            <param name="inPlace">If true the result is going to be stored in the first image. If false a new image is going to be created.</param>
+            <returns>The result image. If <paramref name="inPlace"/> is set to true, the return value can be discarded.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ArithmeticLogicNotByteExtensions">
+            <summary>
+            Contains extension methods for logic NOT operation applicable on an image.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ArithmeticLogicNotByteExtensions.Not``1(``0[0:,0:],System.Boolean)">
+            <summary>
+            Performs bitwise NOT operation on image.
+            </summary>
+            <param name="img">Image.</param>
+            <param name="inPlace">Perform this operation on original image or not.</param>
+            <returns>Processed image. If <paramref name="inPlace"/> is set to true returned value can be discarded.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.MagnitudeExtensions">
+            <summary>
+            Contains extension methods for calculating an magnitude image from two images as sqrt(x * x + y * y)
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.MagnitudeExtensions.Magnitude(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],Accord.Extensions.Imaging.Gray{System.Single}[0:,0:])">
+            <summary>
+            Calculates magnitude using Euclidean distance. 
+            </summary>
+            <param name="imageA">First image.</param>
+            <param name="imageB">Second image.</param>
+            <returns>Magnitude.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.MagnitudeExtensions.Magnitude(Accord.Extensions.Imaging.Gray{System.Double}[0:,0:],Accord.Extensions.Imaging.Gray{System.Double}[0:,0:])">
+            <summary>
+            Calculates magnitude using Euclidean distance. 
+            </summary>
+            <param name="imageA">First image.</param>
+            <param name="imageB">Second image.</param>
+            <returns>Magnitude.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.KuwaharaExtensions">
+            <summary>
+            Contains extensions for Kuwahara filter.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.KuwaharaExtensions.Kuwahara(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Kuwahara filter.
+            <para>Accord.NET internal call. See: <see cref="T:Accord.Imaging.Filters.Kuwahara"/> for details.</para>
+            </summary>
+            <param name="img">Image.</param>
+            <param name="size">the size of the kernel used in the Kuwahara filter. This should be odd and greater than or equal to five</param>
+            <param name="blockSize">the size of each of the four inner blocks used in the Kuwahara filter. This is always half the <paramref name="size"/> minus one.</param>
+            <param name="inPlace">Apply in place or not. If it is set to true return value can be omitted.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.LogarithmExtensions">
+            <summary>
+            Contains extensions for Logarithm filter.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.LogarithmExtensions.Logarithm``1(``0[0:,0:],System.Boolean)">
+            <summary>
+            Simple log image filter. Applies the <see cref="M:System.Math.Log(System.Double)"/>
+            function for each pixel in the image, clipping values as needed.
+            <para>Accord.NET internal call. Please see: <see cref="T:Accord.Imaging.Filters.Logarithm"/> for details.</para>
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">Image.</param>
+            <param name="inPlace">Apply in place or not. If it is set to true return value can be omitted.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.NonMaximaSupressionExtensions">
+            <summary>
+            Non-maxima suppression extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.NonMaximaSupressionExtensions.SupressNonMaxima(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],System.Int32,System.Int32)">
+            <summary>
+            Does non-maxima supression for the following gray image. Can be useful for detections filtering (e.g. post-processing output from Harris detector).
+            </summary>
+            <param name="img">Image.</param>
+            <param name="radius">Non-maxima supression radius (kernel radius).</param>
+            <param name="discardValue">The value will be discarded (0 - for black).</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.NonMaximaSupressionExtensions.SupressNonMaxima(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],System.Int32,System.Int32)">
+            <summary>
+            Does non-maxima supression for the following gray image. Can be useful for detections filtering (e.g. post-processing output from Harris detector).
+            </summary>
+            <param name="img">Image.</param>
+            <param name="dest">Destination image. Must have the same size as source image.</param>
+            <param name="radius">Non-maxima supression radius (kernel radius).</param>
+            <param name="discardValue">The value will be discarded (0 - for black).</param>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.BinaryThreshold">
+            <summary>
+            Contains extension methods for binary thresholding.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BinaryThreshold.ThresholdToZero``1(``0[0:,0:],``0,``0)">
+            <summary>
+            Applies binary threshold to a input image.
+            <para>
+            Pixels which are not in [min..max] range are set to zero.
+            </para>
+            </summary>
+            <param name="img">Image.</param> 
+            <param name="minValue">Minimal value in range.</param>
+            <param name="maxValue">Maximum value in range.</param>
+            <returns>Thresholded image where pixels which are not in [min..max] range are set to zero.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.BorderFollowingExtensions">
+            <summary>
+            Border following extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BorderFollowingExtensions.FindContour(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],System.Byte)">
+            <summary>
+            Extracts the contour from a single object in a grayscale image. (uses Accord built-in function)
+            </summary>
+            <param name="im">Image.</param>
+            <param name="minGradientStrength">The pixel value threshold above which a pixel
+            is considered black (belonging to the object). Default is zero.</param>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.RectificationExtensions">
+            <summary>
+            Contains extensions for Rectification filter.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.RectificationExtensions.Rectification(Accord.Extensions.Imaging.Bgra{System.Byte}[0:,0:],System.Double[0:,0:],Accord.Extensions.Imaging.Bgra{System.Byte})">
+            <summary>
+            Rectification filter for projective transformation.
+            <para>Accord.NET internal call. Please see: <see cref="T:Accord.Imaging.Filters.Rectification"/> for details.</para>
+            </summary>
+            <param name="img">Image.</param>
+            <param name="homography">The homography matrix used to map a image passed to the filter to the overlay image.</param>
+            <param name="fillColor">The filling color used to fill blank spaces.</param>
+            <returns>Rectified image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.RectificationExtensions.Rectification(Accord.Extensions.Imaging.Bgr{System.Byte}[0:,0:],System.Double[0:,0:],Accord.Extensions.Imaging.Bgr{System.Byte})">
+            <summary>
+            Rectification filter for projective transformation.
+            <para>Accord.NET internal call. Please see: <see cref="T:Accord.Imaging.Filters.Rectification"/> for details.</para>
+            </summary>
+            <param name="img">Image.</param>
+            <param name="homography">The homography matrix used to map a image passed to the filter to the overlay image.</param>
+            <param name="fillColor">The filling color used to fill blank spaces.</param>
+            <returns>Rectified image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.RectificationExtensions.Rectification(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],System.Double[0:,0:],Accord.Extensions.Imaging.Gray{System.Byte})">
+            <summary>
+            Rectification filter for projective transformation.
+            <para>Accord.NET internal call. Please see: <see cref="T:Accord.Imaging.Filters.Rectification"/> for details.</para>
+            </summary>
+            <param name="img">Image.</param>
+            <param name="homography">The homography matrix used to map a image passed to the filter to the overlay image.</param>
+            <param name="fillColor">The filling color used to fill blank spaces.</param>
+            <returns>Rectified image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.VarianceExtensions">
+            <summary>
+            Contains methods for variance calculation.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.VarianceExtensions.Variance(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],System.Int32)">
+            <summary>
+            <para>(Accord .NET internal call)</para>
+            The Variance filter replaces each pixel in an image by its
+            neighborhood variance. The end result can be regarded as an
+            border enhancement, making the Variance filter suitable to
+            be used as an edge detection mechanism.
+            </summary>
+            <param name="img">Image.</param>
+            <param name="radius">The radius neighborhood used to compute a pixel's local variance.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.VarianceExtensions.Variance``1(``0[0:,0:],System.Int32)">
+            <summary>
+            <para>(Accord .NET internal call)</para>
+            The Variance filter replaces each pixel in an image by its
+            neighborhood variance. The end result can be regarded as an
+            border enhancement, making the Variance filter suitable to
+            be used as an edge detection mechanism.
+            </summary>
+            <param name="img">Image.</param>
+            <param name="radius">The radius neighborhood used to compute a pixel's local variance.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.VarianceExtensions.Variance(Accord.Extensions.Imaging.Bgra{System.Byte}[0:,0:],System.Int32)">
+            <summary>
+            <para>(Accord .NET internal call)</para>
+            The Variance filter replaces each pixel in an image by its
+            neighborhood variance. The end result can be regarded as an
+            border enhancement, making the Variance filter suitable to
+            be used as an edge detection mechanism.
+            </summary>
+            <param name="img">Image.</param>
+            <param name="radius">The radius neighborhood used to compute a pixel's local variance.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.WaveletTransformExtensions">
+            <summary>
+            Contains wavelet transform extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.WaveletTransformExtensions.WaveletTransform(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Math.Wavelets.IWavelet,System.Boolean)">
+            <summary>
+            Applies wavelet transform filter (Accord.NET).
+            </summary>
+            <param name="img">Image.</param>
+            <param name="wavelet">A wavelet function.</param>
+            <param name="backward">True to perform backward transform, false otherwise.</param>
+            <returns>Transformed image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.WhitePatchExtensions">
+            <summary>
+            Contains extensions for White-patch algorithm.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.WhitePatchExtensions.WhitePatch(Accord.Extensions.Imaging.Bgr{System.Byte}[0:,0:],System.Boolean)">
+            <summary>
+            Applies White Patch filter for color normalization (Accord.NET function)
+            </summary>
+            <param name="img">image.</param>
+            <param name="inPlace">Apply in place or not. If it is set to true return value can be omitted.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.WhitePatchExtensions.WhitePatch(Accord.Extensions.Imaging.Bgra{System.Byte}[0:,0:],System.Boolean)">
+            <summary>
+            Applies White Patch filter for color normalization (Accord.NET function)
+            </summary>
+            <param name="img">image.</param>
+            <param name="inPlace">Apply in place or not. If it is set to true return value can be omitted.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.IntegralImage.IntegralImageExtensions.MakeIntegral(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:])">
+            <summary>
+            Creates integral image.
+            </summary>
+            <param name="img">Image.</param>
+            <returns>Integral image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.IntegralImage.IntegralImageExtensions.MakeIntegral(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:])">
+            <summary>
+            Creates integral image.
+            </summary>
+            <param name="img">Image.</param>
+            <returns>Integral image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.IntegralImage.IntegralImageExtensions.MakeIntegral(Accord.Extensions.Imaging.Gray{System.Double}[0:,0:])">
+            <summary>
+            Creates integral image.
+            </summary>
+            <param name="img">Image.</param>
+            <returns>Integral image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.IntegralImage.IntegralImageExtensions.GetSum(Accord.Extensions.Imaging.Gray{System.Int32}[0:,0:],System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Gets sum under image region (requires only 4 lookups).
+            </summary>
+            <param name="img">Image.</param>
+            <param name="x">Location X.</param>
+            <param name="y">Location Y.</param>
+            <param name="width">Region width.</param>
+            <param name="height">Region height.</param>
+            <returns>Sum of pixels under specified region.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.IntegralImage.IntegralImageExtensions.GetSum(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Gets sum under image region (requires only 4 lookups).
+            </summary>
+            <param name="img">Image.</param>
+            <param name="x">Location X.</param>
+            <param name="y">Location Y.</param>
+            <param name="width">Region width.</param>
+            <param name="height">Region height.</param>
+            <returns>Sum of pixels under specified region.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.IntegralImage.IntegralImageExtensions.GetSum(Accord.Extensions.Imaging.Gray{System.Double}[0:,0:],System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Gets sum under image region (requires only 4 lookups).
+            </summary>
+            <param name="img">Image.</param>
+            <param name="x">Location X.</param>
+            <param name="y">Location Y.</param>
+            <param name="width">Region width.</param>
+            <param name="height">Region height.</param>
+            <returns>Sum of pixels under specified region.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ICornerDetectorExtensions">
+            <summary>
+            Corner detector generic extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ICornerDetectorExtensions.ProcessImage(AForge.Imaging.ICornersDetector,Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:])">
+            <summary>
+            Process image looking for corners.
+            </summary>
+            <param name="cornerDetector">Corner detection algorithm instance.</param>
+            <param name="image">Source image to process.</param>
+            <returns>Returns list of found corners (X-Y coordinates).</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.IFeatureDetectorExtensions">
+            <summary>
+            Feature detector generic extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.IFeatureDetectorExtensions.ProcessImage``2(Accord.Imaging.IFeatureDetector{``0,``1},Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:])">
+            <summary>
+            Process image looking for interest points.
+            </summary>
+            <typeparam name="TPoint">The type of returned feature points.</typeparam>
+            <typeparam name="TFeature">The type of extracted features.</typeparam>
+            <param name="featureDetector">Feature detector.</param>
+            <param name="image">Source image data to process.</param>
+            <returns>Returns list of found interest points.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Moments.CentralMoments">
+             <summary>
+               Central image moments.
+             </summary>
+            
+             <remarks>
+             <para>
+               In image processing, computer vision and related fields, an image moment is
+               a certain particular weighted average (moment) of the image pixels' intensities,
+               or a function of such moments, usually chosen to have some attractive property 
+               or interpretation.</para>
+            
+             <para>
+               Image moments are useful to describe objects after segmentation. Simple properties 
+               of the image which are found via image moments include area (or total intensity), 
+               its centroid, and information about its orientation.</para>
+               
+             <para>
+               The central moments can be used to find the location, center of mass and the 
+               dimensions of a given object within an image.</para>
+               
+             <para>
+               References:
+               <list type="bullet">
+                 <item><description>
+                   Wikipedia contributors. "Image moment." Wikipedia, The Free Encyclopedia. Wikipedia,
+                   The Free Encyclopedia. Available at http://en.wikipedia.org/wiki/Image_moment </description></item>
+               </list>
+             </para>
+             </remarks>
+             
+             <example>
+             <code>
+             Bitmap image = ...;
+            
+             // Compute the center moments of up to third order
+             CentralMoments cm = new CentralMoments(image, order: 3);
+             
+             // Get size and orientation of the image
+             SizeF size = target.GetSize();
+             float angle = target.GetOrientation();
+             </code>
+             </example>
+             
+             <seealso cref="T:Accord.Extensions.Imaging.Moments.RawMoments"/>
+             <seealso cref="T:Accord.Extensions.Imaging.Moments.HuMoments"/>
+             
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Moments.IMoments">
+            <summary>
+              Common interface for image moments.
+            </summary>
+            
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.IMoments.Compute(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Rectangle)">
+            <summary>
+            Computes moments for the provided image.
+            </summary>
+            <param name="image">Image.</param>
+            <param name="area">Area</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.IMoments.Compute(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],Accord.Extensions.Rectangle)">
+            <summary>
+            Computes moments for the provided image.
+            </summary>
+            <param name="image">Image.</param>
+            <param name="area">Area</param>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.IMoments.Order">
+            <summary>
+              Gets or sets the maximum order of the moments.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Moments.CentralMoments.DefaultOrder">
+            <summary>
+              Gets the default maximum moment order.
+            </summary>
+            
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.CentralMoments.#ctor(System.Int32)">
+            <summary>
+              Initializes a new instance of the <see cref="T:Accord.Extensions.Imaging.Moments.CentralMoments"/> class.
+            </summary>
+            
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.CentralMoments.#ctor(Accord.Extensions.Imaging.Moments.RawMoments)">
+            <summary>
+              Initializes a new instance of the <see cref="T:Accord.Extensions.Imaging.Moments.CentralMoments"/> class.
+            </summary>
+            
+            <param name="moments">The raw moments to construct central moments.</param>
+            
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.CentralMoments.Compute(Accord.Extensions.Imaging.Moments.RawMoments)">
+            <summary>
+              Computes the center moments from the specified raw moments.
+            </summary>
+            
+            <param name="moments">The raw moments to use as base of calculations.</param>
+            
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.CentralMoments.Compute(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Rectangle)">
+            <summary>
+            Computes moments for the provided image.
+            </summary>
+            <param name="image">Image.</param>
+            <param name="area">Area</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.CentralMoments.Compute(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],Accord.Extensions.Rectangle)">
+            <summary>
+            Computes moments for the provided image.
+            </summary>
+            <param name="image">Image.</param>
+            <param name="area">Area</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.CentralMoments.GetEllipse">
+            <summary>
+            Gets the size and the orientation of the ellipse computed from covariance matrix.
+            The ellipse center is at (0,0).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.CentralMoments.Mu00">
+            <summary>
+              Central moment of order (0,0).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.CentralMoments.Mu10">
+            <summary>
+              Central moment of order (1,0).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.CentralMoments.Mu01">
+            <summary>
+              Central moment of order (0,1).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.CentralMoments.Mu11">
+            <summary>
+              Central moment of order (1,1).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.CentralMoments.Mu20">
+            <summary>
+              Central moment of order (2,0).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.CentralMoments.Mu02">
+            <summary>
+              Central moment of order (0,2).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.CentralMoments.Mu21">
+            <summary>
+              Central moment of order (2,1).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.CentralMoments.Mu12">
+            <summary>
+              Central moment of order (1,2).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.CentralMoments.Mu30">
+            <summary>
+              Central moment of order (3,0).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.CentralMoments.Mu03">
+            <summary>
+              Central moment of order (0,3).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.CentralMoments.Order">
+            <summary>
+              Gets or sets the maximum order of the moments.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Moments.HuMoments">
+             <summary>
+               Hu's set of invariant image moments.
+             </summary>
+             
+             <remarks>
+             <para>
+               In image processing, computer vision and related fields, an image moment is
+               a certain particular weighted average (moment) of the image pixels' intensities,
+               or a function of such moments, usually chosen to have some attractive property 
+               or interpretation.</para>
+            
+             <para>
+               Image moments are useful to describe objects after segmentation. Simple properties 
+               of the image which are found via image moments include area (or total intensity), 
+               its centroid, and information about its orientation.</para>
+               
+             <para>
+               Hu's set of invariant moments are invariant under translation, changes in scale, 
+               and also rotation. The first moment, <see cref="P:Accord.Extensions.Imaging.Moments.HuMoments.I1"/>, is analogous to the moment 
+               of inertia around the image's centroid, where the pixels' intensities are analogous
+               to physical density. The last one, I7, is skew invariant, which enables it to distinguish
+               mirror images of otherwise identical images.</para>
+               
+             <para>
+               References:
+               <list type="bullet">
+                 <item><description>
+                   Wikipedia contributors. "Image moment." Wikipedia, The Free Encyclopedia. Wikipedia,
+                   The Free Encyclopedia. Available at http://en.wikipedia.org/wiki/Image_moment </description></item>
+               </list>
+             </para>
+             </remarks>
+             
+             <example>
+             <code>
+             Bitmap image = ...;
+            
+             // Compute the Hu moments of up to third order
+             HuMoments hu = new HuMoments(image, order: 3);
+             </code>
+             </example>
+             
+             <seealso cref="T:Accord.Extensions.Imaging.Moments.RawMoments"/>
+             <seealso cref="T:Accord.Extensions.Imaging.Moments.CentralMoments"/>
+             
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.HuMoments.#ctor(System.Int32)">
+            <summary>
+              Initializes a new instance of the <see cref="T:Accord.Extensions.Imaging.Moments.HuMoments"/> class.
+            </summary>
+            
+            <param name="order">The maximum moment order to be computed.</param>
+            
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.HuMoments.Compute(Accord.Extensions.Imaging.Moments.CentralMoments)">
+            <summary>
+              Computes the Hu moments from the specified central moments.
+            </summary>
+            
+            <param name="moments">The central moments to use as base of calculations.</param>
+            
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.HuMoments.Compute(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Rectangle)">
+            <summary>
+            Computes moments for the provided image.
+            </summary>
+            <param name="image">Image.</param>
+            <param name="area">Area</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.HuMoments.Compute(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],Accord.Extensions.Rectangle)">
+            <summary>
+            Computes moments for the provided image.
+            </summary>
+            <param name="image">Image.</param>
+            <param name="area">Area</param>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.HuMoments.I1">
+            <summary>
+              Hu moment of order 1.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.HuMoments.I2">
+            <summary>
+              Hu moment of order 2.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.HuMoments.I3">
+            <summary>
+              Hu moment of order 3.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.HuMoments.I4">
+            <summary>
+              Hu moment of order 4.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.HuMoments.I5">
+            <summary>
+              Hu moment of order 5.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.HuMoments.I6">
+            <summary>
+              Hu moment of order 6.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.HuMoments.I7">
+            <summary>
+              Hu moment of order 7.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.HuMoments.Order">
+            <summary>
+              Gets or sets the maximum order of the moments.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Moments.RawMoments">
+             <summary>
+               Raw image moments.
+             </summary>
+             
+             <remarks>
+             <para>
+               In image processing, computer vision and related fields, an image moment is
+               a certain particular weighted average (moment) of the image pixels' intensities,
+               or a function of such moments, usually chosen to have some attractive property 
+               or interpretation.</para>
+            
+             <para>
+               Image moments are useful to describe objects after segmentation. Simple properties 
+               of the image which are found via image moments include area (or total intensity), 
+               its centroid, and information about its orientation.</para>
+               
+             <para>
+               The raw moments are the most basic moments which can be computed from an image,
+               and can then be further processed to achieve <see cref="T:Accord.Extensions.Imaging.Moments.CentralMoments"/> or even
+               <see cref="T:Accord.Extensions.Imaging.Moments.HuMoments"/>.</para>
+               
+             <para>
+               References:
+               <list type="bullet">
+                 <item><description>
+                   Wikipedia contributors. "Image moment." Wikipedia, The Free Encyclopedia. Wikipedia,
+                   The Free Encyclopedia. Available at http://en.wikipedia.org/wiki/Image_moment </description></item>
+               </list>
+             </para>
+             </remarks>
+             
+             <example>
+             <code>
+             Bitmap image = ...;
+            
+             // Compute the raw moments of up to third order
+             RawMoments m = new RawMoments(image, order: 3);
+             </code>
+             </example>
+             
+             <seealso cref="T:Accord.Extensions.Imaging.Moments.HuMoments"/>
+             <seealso cref="T:Accord.Extensions.Imaging.Moments.CentralMoments"/>
+             
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Moments.RawMoments.DefaultOrder">
+            <summary>
+              Gets the default maximum moment order.
+            </summary>
+            
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.RawMoments.#ctor(System.Int32)">
+            <summary>
+              Initializes a new instance of the <see cref="N:Accord.Extensions.Imaging.Moments"/> class.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.RawMoments.Compute(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Rectangle)">
+            <summary>
+            Computes moments for the provided image.
+            </summary>
+            <param name="image">Image.</param>
+            <param name="area">Area</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.RawMoments.Compute(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],Accord.Extensions.Rectangle)">
+            <summary>
+            Computes moments for the provided image.
+            </summary>
+            <param name="image">Image.</param>
+            <param name="area">Area</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Moments.RawMoments.Reset">
+            <summary>
+              Resets all moments to zero.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.M00">
+            <summary>
+              Raw moment of order (0,0).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.M10">
+            <summary>
+              Raw moment of order (1,0).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.M01">
+            <summary>
+              Raw moment of order (0,1).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.M11">
+            <summary>
+              Raw moment of order (1,1).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.M20">
+            <summary>
+              Raw moment of order (2,0).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.M02">
+            <summary>
+              Raw moment of order (0,2).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.M21">
+            <summary>
+              Raw moment of order (2,1).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.M12">
+            <summary>
+              Raw moment of order (1,2).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.M30">
+            <summary>
+              Raw moment of order (3,0).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.M03">
+            <summary>
+              Raw moment of order (0,3).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.InvM00">
+            <summary>
+              Inverse raw moment of order (0,0).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.CenterX">
+            <summary>
+              Gets the X centroid of the image.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.CenterY">
+            <summary>
+              Gets the Y centroid of the image.
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.Area">
+            <summary>
+              Gets the area (for binary images) or sum of
+              gray level (for grayscale images).
+            </summary>
+            
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Moments.RawMoments.Order">
+            <summary>
+              Gets or sets the maximum order of the moments.
+            </summary>
+        </member>
+        <member name="M:MoreLinq.MoreEnumerable.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            Immediately executes the given action on each element in the source sequence.
+            </summary>
+            <typeparam name="T">The type of the elements in the sequence</typeparam>
+            <param name="source">The sequence of elements</param>
+            <param name="action">The action to execute on each element</param>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.GetRectSubPixExtensions">
+            <summary>
+            Contains extension methods for calculating warped image portion.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.GetRectSubPixExtensions.GetRectSubPix(Accord.Extensions.Imaging.Gray{System.Single}[0:,0:],Accord.Extensions.RectangleF)">
+            <summary>
+            Gets specified image portion. 
+            If the coordinates are not the rounded, they will be interpolated.
+            </summary>
+            <param name="source">Image.</param>
+            <param name="area">Requested area.</param>
+            <returns>Interpolated image area.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.GetRectSubPixExtensions.GetRectSubPix``1(``0[0:,0:],Accord.Extensions.RectangleF)">
+            <summary>
+            Gets specified image portion. 
+            If the coordinates are not the rounded, they will be interpolated.
+            </summary>
+            <typeparam name="TColor">Image color type.</typeparam>
+            <param name="source">Image.</param>
+            <param name="area">Requested area.</param>
+            <returns>Interpolated image area.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.GetRectSubPixExtensions.GetRectSubPix``1(Accord.Extensions.Imaging.Image{``0},Accord.Extensions.RectangleF)">
+            <summary>
+            Gets specified image portion. 
+            If the coordinates are not the rounded, they will be interpolated.
+            </summary>
+            <typeparam name="TColor">Image color type.</typeparam>
+            <param name="img">Image.</param>
+            <param name="area">Requested area.</param>
+            <returns>Interpolated image area.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.PyramidExtensions">
+            <summary>
+            Contains extension methods for pyramid image calculation.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.PyramidExtensions.PyrDown``1(``0[0:,0:],System.Int32,System.Int32)">
+            <summary>
+            Resides the input image by <paramref name="level"/> * <paramref name="downSampleFactor"/>.
+            <para>It is assumed that input image is already blurred.</para>
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="im">Input image.</param>
+            <param name="level">Pyramid level. If zero an original image will be returned.</param>
+            <param name="downSampleFactor">Down sample factor.</param>
+            <returns>Down-sampled image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.PyramidExtensions.GetPyramidScale(System.Int32,System.Single)">
+            <summary>
+            Gets pyramid scale for the specified level.
+            </summary>
+            <param name="levelDepth">Pyramid level.</param>
+            <param name="downSampleFactor">Down sample factor.</param>
+            <returns>Resize scale.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.SmoothGaussianExtensions">
+            <summary>
+            Gaussian smooth extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.SmoothGaussianExtensions.SmoothGaussian``1(``0[0:,0:],System.Int32,System.Double)">
+            <summary>
+            Smooths an image with Gaussian kernel.
+            </summary>
+            <param name="img">Input image.</param>
+            <param name="kernelSize">Kernel size.</param>
+            <param name="sigma">Sigma (standard deviation)</param>
+            <returns>Smoothed image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.SmoothGaussianExtensions.SmoothGaussian``1(``0[0:,0:],System.Int32)">
+            <summary>
+            <para>Smooths an image with Gaussian kernel.</para>
+            
+            <para>
+            Sigma calculation: 
+            When you want to cover an area below the Gaussian (centered on the mean) that covers 99.73% of the total area, you have to at least consider an interval of size 3*sigma, spread in both directions from the mean.
+            In other words, using the parameter n of discrete cells for representing a Gaussian, we get 3*sigma &lt;= n/2. We could reformulate this as
+            3*sigma &lt;= (n/2-1) + (1+eps), where eps is a non-zero constant. Rearranging gives sigma &lt;= 0.3334*(n/2-1) + (1+eps)/3.
+            eps is set to: 1.4
+            </para>
+            </summary>
+            <param name="img">Input image.</param>
+            <param name="kernelSize">Kernel size.</param>
+            <returns>Smoothed image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Filters.SobelExtensions">
+            <summary>
+            Sobel extensions.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Filters.SobelExtensions.Sobel_3x3_X">
+            <summary>
+            Sobel 3x3 for finding vertical edges.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Filters.SobelExtensions.Sobel_3x3_Y">
+            <summary>
+            Sobel 3x3 for finding horizontal edges.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Filters.SobelExtensions.Sobel``1(``0[0:,0:],System.Int32,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Calculates the image derivative by convolving the image with the appropriate kernel.
+            Most often, the function is called with (xorder=1, yorder=0, aperture_size=3) or (xorder=0, yorder=1, aperture_size=3) to calculate first x- or y- image derivative.
+            </summary>
+            <param name="im">Input image.</param>
+            <param name="xOrder">Horizontal derivative order. </param>
+            <param name="yOrder">Vertical derivative order.</param>
+            <param name="apertureSize">Kernel size.</param>
+            <param name="normalizeKernel">Normalize kernel so the sum of all elements is 1.</param>
+            <returns>Processed image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.TermCriteria">
+            <summary>
+            Termination criteria.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.TermCriteria.#ctor">
+            <summary>
+            Initializes structure.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.TermCriteria.ShouldTerminate(System.Int32,System.Double)">
+            <summary>
+            Returns whether an procedure should terminate or not.
+            </summary>
+            <param name="numOfIterations">Number of executed iterations.</param>
+            <param name="error">Current error.</param>
+            <returns>True if an procedure should terminate.</returns>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.TermCriteria.MaxIterations">
+            <summary>
+            Gets or sets max number of iterations.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.TermCriteria.MinError">
+            <summary>
+            Gets or sets minimal error.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.InterpolationMode">
+            <summary>
+            Interpolation mode.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.InterpolationMode.NearestNeighbor">
+            <summary>
+            Nearest-neighbor interpolation.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.InterpolationMode.Bilinear">
+            <summary>
+            Bilinear interpolation.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.InterpolationMode.Bicubic">
+            <summary>
+            Bicubic interpolation.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ResizeExtensionsBase">
+            <summary>
+            Contains image resize extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ResizeExtensionsBase.Resize``1(``0[0:,0:],Accord.Extensions.Size,Accord.Extensions.Imaging.InterpolationMode)">
+            <summary>
+            Resizes an image using specified interpolation mode.
+            </summary>
+            <param name="img">Input image.</param>
+            <param name="newSize">New image size.</param>
+            <param name="mode">Interpolation mode.</param>
+            <returns>Resized image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ResizeExtensionsBase.Resize``1(``0[0:,0:],System.Single,Accord.Extensions.Imaging.InterpolationMode)">
+            <summary>
+            Resizes an image using specified interpolation mode.
+            </summary>
+            <param name="img">Input image.</param>
+            <param name="scale">Non-negative image size scale factor. If 1 the new size will be equal.</param>
+            <param name="mode">Interpolation mode.</param>
+            <returns>Resized image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ResizeExtensions_Gray">
+            <summary>
+            Contains image resize extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ResizeExtensions_Gray.Resize(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],Accord.Extensions.Size,Accord.Extensions.Imaging.InterpolationMode)">
+            <summary>
+            Resizes an image using specified interpolation mode.
+            </summary>
+            <param name="img">Input image.</param>
+            <param name="newSize">New image size.</param>
+            <param name="mode">Interpolation mode.</param>
+            <returns>Resized image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ResizeExtensions_Gray.Resize(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:],System.Single,Accord.Extensions.Imaging.InterpolationMode)">
+            <summary>
+            Resizes an image using specified interpolation mode.
+            </summary>
+            <param name="img">Input image.</param>
+            <param name="scale">Non-negative image size scale factor. If 1 the new size will be equal.</param>
+            <param name="mode">Interpolation mode.</param>
+            <returns>Resized image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ResizeExtensions_Color">
+            <summary>
+            Contains image resize extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ResizeExtensions_Color.Resize``1(``0[0:,0:],Accord.Extensions.Size,Accord.Extensions.Imaging.InterpolationMode)">
+            <summary>
+            Resizes an image using specified interpolation mode.
+            </summary>
+            <param name="img">Input image.</param>
+            <param name="newSize">New image size.</param>
+            <param name="mode">Interpolation mode.</param>
+            <returns>Resized image.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ResizeExtensions_Color.Resize``1(``0[0:,0:],System.Single,Accord.Extensions.Imaging.InterpolationMode)">
+            <summary>
+            Resizes an image using specified interpolation mode.
+            </summary>
+            <param name="img">Input image.</param>
+            <param name="scale">Non-negative image size scale factor. If 1 the new size will be equal.</param>
+            <param name="mode">Interpolation mode.</param>
+            <returns>Resized image.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ResizeNearsetNeighbur">
+            <summary>
+            Nearest-neighbor interpolation.
+            <para>The methods of this class are used internally in Resize() method extension.</para> 
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ResizeNearsetNeighbur.Resize``1(Accord.Extensions.Imaging.Image{``0},Accord.Extensions.Size)">
+            <summary>
+            Resizes the input image by using nearest neighbor interpolation.
+            </summary>
+            <typeparam name="TColor">Color type.</typeparam>
+            <param name="img">Image.</param>
+            <param name="newSize">New image size.</param>
+            <returns>Resized image.</returns>
+        </member>
+    </members>
+</doc>

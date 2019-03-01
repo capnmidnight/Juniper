@@ -1,0 +1,2759 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Accord.Extensions.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Accord.Extensions.Caching.LRUCache`2">
+            <summary>
+            Represents key value pair cache collection which is using "Least Recently Used (LRU)" element replace when the capacity is reached.
+            </summary>
+            <typeparam name="K">Key.</typeparam>
+            <typeparam name="V">Value.</typeparam>
+        </member>
+        <member name="F:Accord.Extensions.Caching.LRUCache`2.syncObj">
+            <summary>
+            Add, Clear, CopyTo, and Remove lock on this object to keep them thread-safe.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Caching.LRUCache`2.objectSizeFunc">
+            <summary>
+            User-defined function for getting an object expense (size).
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Caching.LRUCache`2.isCapacityReached">
+            <summary>
+            User-defined function for getting an stopping condition. 
+            Parameters: total cache size (user defined) - see: <see cref="F:Accord.Extensions.Caching.LRUCache`2.objectSizeFunc"/>.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.#ctor(System.Func{System.UInt64,System.Boolean},System.Func{`1,System.UInt64})">
+            <summary>
+            Initializes a new instance of the LRUCache class that is empty and has the specified
+            initial capacity.
+            </summary>
+            <param name="isCapacityReached">Func that return true if the capacity is reached.</param>
+            <param name="objectSizeFunc">Func that returns the object size in bytes.</param>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.Add(`0,`1)">
+            <summary>
+            Add an item to the LRUCache, making it the newest item (i.e. the last
+            item in the list). If the key is already in the LRUCache, its value is replaced.
+            </summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+            <remarks>If the LRUCache has a nonzero capacity, and it is at its capacity, this 
+            method will discard the oldest item, raising the DiscardingOldestItem event before 
+            it does so.</remarks>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.Add(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+            Add an item to the LRUCache, making it the newest item (i.e. the last
+            item in the list). If the key is already in the LRUCache, an exception is thrown.
+            </summary>
+            <param name="pair">The item that is being used.</param>
+            <remarks>If the LRUCache has a nonzero capacity, and it is at its capacity, this 
+            method will discard the oldest item, raising the DiscardingOldestItem event before 
+            it does so.</remarks>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.AddOrUpdate(`0,`1)">
+            <summary>
+            Add an item to the LRUCache, making it the newest item (i.e. the last
+            item in the list). If the key is already in the LRUCache, its value is replaced.
+            </summary>
+            <param name="key">Data key value.</param>
+            <param name="value">Value.</param>
+             /// <remarks>If the LRUCache has a nonzero capacity, and it is at its capacity, this 
+            method will discard the oldest item, raising the DiscardingOldestItem event before 
+            it does so.</remarks>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.Remove(`0)">
+            <summary>
+            Remove the specified item from the LRUCache.
+            </summary>
+            <param name="key">The key of the item to remove from the LRUCache.</param>
+            <returns>true if the item was successfully removed from the LRUCache,
+            otherwise false.  This method also returns false if the item was not
+            found in the LRUCache.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.Clear">
+            <summary>
+            Clear the contents of the LRUCache.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.TryGetValue(`0,`1@)">
+            <summary>
+            Gets the value associated with the specified key.
+            </summary>
+            <param name="key">Key.</param>
+            <param name="value">Value.</param>
+            <returns> 
+            True if the System.Collections.Generic.Dictionary{TKey,TValue} contains an 
+            element with the specified key; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.ContainsKey(`0)">
+            <summary>
+            Determines whether the LRUCache contains a specific value.
+            </summary>
+            <param name="key">The key of the item to locate in the LRUCache.</param>
+            <returns>true if the item is in the LRUCache, otherwise false.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.Contains(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+            Determines whether the cache contains specified item or not.
+            </summary>
+            <param name="item">Specified item.</param>
+            <returns>True if the item is in cache, false otherwise.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.CopyTo(System.Collections.Generic.KeyValuePair{`0,`1}[],System.Int32)">
+            <summary>
+            Copies the elements of the LRUCache to an array, starting at a particular 
+            array index.
+            </summary>
+            <param name="array">The one-dimensional array that is the destination of
+            items copied from the LRUCache.</param>
+            <param name="arrayIndex">The index in array at which copying begins.</param>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.Remove(System.Collections.Generic.KeyValuePair{`0,`1})">
+            <summary>
+            Remove the specified item from the LRUCache.
+            </summary>
+            <param name="item">The item to remove from the LRUCache.</param>
+            <returns>true if the item was successfully removed from the LRUCache,
+            otherwise false. This method also returns false if the item was not
+            found in the LRUCache.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the items in the LRUCache.
+            </summary>
+            <returns>An IEnumerator object that may be used to iterate through the 
+            LRUCache./></returns>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LRUCache`2.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the items in the LRUCache.
+            </summary>
+            <returns>An IEnumerator object that may be used to iterate through the 
+            LRUCache./></returns>
+        </member>
+        <member name="E:Accord.Extensions.Caching.LRUCache`2.OnRemoveItem">
+            <summary>
+            Occurs when the LRUCache is about to discard its oldest item
+            because its capacity has been reached and a new item is being added.  
+            </summary>
+            <remarks>The item has not been discarded yet, and thus is still contained in 
+            the Oldest property.</remarks>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LRUCache`2.Count">
+            <summary>
+            Gets the number of items contained in the LRUCache.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LRUCache`2.TotalSize">
+            <summary>
+            Gets the total size of all items in user defined units.
+            <para>Default: 1 per item. </para>
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LRUCache`2.Oldest">
+            <summary>
+            The oldest (i.e. least recently used) item in the LRUCache.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LRUCache`2.Keys">
+            <summary>
+            Returns keys.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LRUCache`2.Values">
+            <summary>
+            Returns values.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LRUCache`2.Item(`0)">
+            <summary>
+            Gets or sets value which is associated with specified key.
+            If the key already exist a previous value will be updated. 
+            The appropriate events will be fired.
+            </summary>
+            <param name="key">Object key.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LRUCache`2.IsReadOnly">
+            <summary>
+            Gets a value indicating whether the LRUCache is read-only.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Caching.LRUCache`2.RemovedItem">
+            <summary>
+            Occurs when the item is about to be removed.
+            </summary>
+            <param name="sender">LRU cache instance.</param>
+            <param name="item">Item to be removed.</param>
+            <param name="userRequested">Is the removal user request or is it performed automatically by cache.</param>
+        </member>
+        <member name="T:Accord.Extensions.IndexedCollection`1">
+            <summary>
+            Indexed collection class.
+            Represents the wrapper for the collection and the provided indexes.
+            <para>Can be used if the large collections must be accessed through indexes to avoid data copy.</para>
+            </summary>
+            <typeparam name="T">Element type.</typeparam>
+        </member>
+        <member name="M:Accord.Extensions.IndexedCollection`1.#ctor(System.Collections.Generic.IList{`0},System.Collections.Generic.IList{System.Int32})">
+            <summary>
+            Creates new indexed collection.
+            </summary>
+            <param name="collection">Collection.</param>
+            <param name="indices">Indexes.</param>
+        </member>
+        <member name="M:Accord.Extensions.IndexedCollection`1.GetEnumerator">
+            <summary>
+            Gets the enumerator for the indexed collection.
+            </summary>
+            <returns>Enumerator for the indexed collection.</returns>
+        </member>
+        <member name="M:Accord.Extensions.IndexedCollection`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Gets the enumerator for the indexed collection.
+            </summary>
+            <returns>Enumerator for the indexed collection.</returns>
+        </member>
+        <member name="P:Accord.Extensions.IndexedCollection`1.Item(System.Int32)">
+            <summary>
+            Gets the element of the provided collection where the provided index is mapped using provided indexes.
+            </summary>
+            <param name="index">Index.</param>
+            <returns>Collection element.</returns>
+        </member>
+        <member name="P:Accord.Extensions.IndexedCollection`1.Count">
+            <summary>
+            Gets the number of elements within collection.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.IndexedCollection`1.IndexedCollectionEnumerator">
+            <summary>
+            Indexed collection enumerator.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.IndexedCollection`1.IndexedCollectionEnumerator.#ctor(System.Collections.Generic.IList{`0},System.Collections.Generic.IList{System.Int32})">
+            <summary>
+            Creates new indexed collection enumerator.
+            </summary>
+            <param name="collection">Collection.</param>
+            <param name="indices">Indexes.</param>
+        </member>
+        <member name="M:Accord.Extensions.IndexedCollection`1.IndexedCollectionEnumerator.Dispose">
+            <summary>
+            Disposes the indexed collection enumerator instance.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.IndexedCollection`1.IndexedCollectionEnumerator.MoveNext">
+            <summary>
+            Moves the index to the next element.
+            </summary>
+            <returns>True if the move operation is valid, false otherwise.</returns>
+        </member>
+        <member name="M:Accord.Extensions.IndexedCollection`1.IndexedCollectionEnumerator.Reset">
+            <summary>
+            Resets the enumerator.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.IndexedCollection`1.IndexedCollectionEnumerator.Current">
+            <summary>
+            Gets the current element.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.IndexedCollection`1.IndexedCollectionEnumerator.System#Collections#IEnumerator#Current">
+            <summary>
+            Gets the current element.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Map`2">
+            <summary>
+            Structure that sets association between two keys.
+            <para>
+            It is taken from: <a href="http://stackoverflow.com/questions/10966331/two-way-bidirectional-dictionary-in-c"/> and modified.
+            </para>
+            </summary>
+            <typeparam name="T1">First key type.</typeparam>
+            <typeparam name="T2">Second key type.</typeparam>
+            <example>
+            <code>
+            var map = new Map &lt;int, string &gt;();
+            map.Add(42, "Hello");
+            
+            Console.WriteLine(map.Forward[42]);
+            // Outputs "Hello"
+            
+            Console.WriteLine(map.Reverse["Hello"]);
+            //Outputs 42
+            </code>
+            </example>
+        </member>
+        <member name="M:Accord.Extensions.Map`2.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Accord.Extensions.Map`2"/>.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Map`2.Add(`0,`1)">
+            <summary>
+            Adds the specified association.
+            </summary>
+            <param name="t1"></param>
+            <param name="t2"></param>
+        </member>
+        <member name="M:Accord.Extensions.Map`2.Clear">
+            <summary>
+            Removes all associations from the <see cref="T:Accord.Extensions.Map`2"/>.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Map`2.Forward">
+            <summary>
+            Gets all associations with the first <typeparamref name="T1"/> key.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Map`2.Reverse">
+            <summary>
+            Gets all associations with the second <typeparamref name="T2"/> key.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Map`2.Indexer`2">
+            <summary>
+            Represents all associations associated with a key.
+            </summary>
+            <typeparam name="T3">First key type.</typeparam>
+            <typeparam name="T4">Second key type.</typeparam>
+        </member>
+        <member name="M:Accord.Extensions.Map`2.Indexer`2.#ctor(System.Collections.Generic.Dictionary{`2,`3})">
+            <summary>
+            Creates new instance from a dictionary.
+            </summary>
+            <param name="dictionary">Association dictionary.</param>
+        </member>
+        <member name="M:Accord.Extensions.Map`2.Indexer`2.TryGetValue(`2,`3@)">
+            <summary>
+            Gets the associated key.
+            </summary>
+            <param name="index">Key.</param>
+            <param name="value">Associated value (other key).</param>
+            <returns>Returns true if the specified key exists, otherwise returns false.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Map`2.Indexer`2.Contains(`2)">
+            <summary>
+            Determines whether the specified key exists.
+            </summary>
+            <param name="index">Key.</param>
+            <returns>Returns true if the specified key exists otherwise returns false.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Map`2.Indexer`2.GetEnumerator">
+            <summary>
+            Return the enumerator that iterates through the collection.
+            </summary>
+            <returns>Collection enumerator.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Map`2.Indexer`2.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Return the enumerator that iterates through the collection.
+            </summary>
+            <returns>Collection enumerator.</returns>
+        </member>
+        <member name="P:Accord.Extensions.Map`2.Indexer`2.Item(`2)">
+            <summary>
+            Gets the associated key.
+            </summary>
+            <param name="index">Key.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Accord.Extensions.Caching.ILazy`1">
+            <summary>
+            Interface for the Lazy cache object item.
+            </summary>
+            <typeparam name="TObj">Object value.</typeparam>
+        </member>
+        <member name="P:Accord.Extensions.Caching.ILazy`1.IsValueCreated">
+            <summary>
+            Returns true if the object value is loaded in the memory.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Caching.ILazy`1.Value">
+            <summary>
+            Gets the object value.
+            If the object value is not loaded, the object will be constructed.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Caching.LazyMemoryCache`2">
+            <summary>
+            Lazy memory cache.
+            Caches object constructor and destructor into RAM, so when a user requests an object by using appropriate key an object is loaded into memory.
+            An object will be removed automatically from memory by using LRU strategy.
+            
+            <para>Use this class for loading collections that can not fit into memory. 
+            This class provides convenient interface where the cache itself can be represented as collection.
+            </para>
+            
+            </summary>
+            <typeparam name="TKey">Object key.</typeparam>
+            <typeparam name="TValue">Object value.</typeparam>
+        </member>
+        <member name="F:Accord.Extensions.Caching.LazyMemoryCache`2.cache">
+            <summary>
+            Structure that contains all objects (objects that consume memory + reference objects).
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Caching.LazyMemoryCache`2.managmentStrategy">
+            <summary>
+            Management strategy (LRU) that is responsible for automatically object unloading.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Caching.LazyMemoryCache`2.forceCollectionOnRemoval">
+            <summary>
+            Forces GC.Collect()  (user option).
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Caching.LazyMemoryCache`2.syncObj">
+            <summary>
+            Sync object, needed for non-concurrent structures.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LazyMemoryCache`2.#ctor(System.Func{System.UInt64,System.Boolean},System.Func{`1,System.UInt64},System.Boolean)">
+            <summary>
+            Constructs lazy memory cache which caches object constructor and destructor.
+            <para>Value loading is handled in a lazy way (JIT), and it is automatically unloaded from memory when a specified capacity is reached.</para>
+            <para>The memory management is handled by LRU strategy. See: LRUCache.</para>
+            </summary>
+            <param name="isCapacityReached">Function that returns true if the cache limit is reached and the cache should start to unload items.</param>
+            <param name="objectSizeFunc">Function to determine object size.</param>
+            <param name="forceCollectionOnRemoval">
+            <para>When set to true calls GC.Collect() when a value is unloaded due to capacity reach, but the CPU consumption can be high and accessing / adding elements can be temporary delay due to garbage collector.</para>
+            <para>If false the GC.Collect() is not called which can lead to cache evict values more aggressively which could be avoided by setting this flag to true.
+            Also the capacity will be probably breached but the memory overflow exception should not be thrown.
+            </para>
+            </param>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LazyMemoryCache`2.AddOrUpdate(`0,System.Func{`1},System.Action{`1})">
+            <summary>
+            Adds or updates the object value and the related cache statistics.
+            </summary>
+            <param name="key">Object key.</param>
+            <param name="constructor">Object constructor.</param>
+            <param name="destructor">Object destructor.</param>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LazyMemoryCache`2.TryRemove(`0)">
+            <summary>
+            Unloads and removes the object from the cache.
+            </summary>
+            <param name="key">Object key.</param>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LazyMemoryCache`2.TryGetValue(`0,Accord.Extensions.Caching.ILazy{`1}@)">
+            <summary>
+            Tries to get value under the specified key.
+            </summary>
+            <param name="key">Object key.</param>
+            <param name="value">Object key.</param>
+            <returns>True if the specified key exist, false otherwise.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LazyMemoryCache`2.GetEnumerator">
+            <summary>
+            Gets the enumerator for the cache.
+            <para>By enumerating the collection objects are loaded only if the value property from <see cref="T:Accord.Extensions.Caching.ILazy`1"/> is read.</para>
+            </summary>
+            <returns>Enumerator.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LazyMemoryCache`2.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Gets the enumerator for the cache.
+            <para>By enumerating the collection objects are loaded only if the value property from <see cref="T:Accord.Extensions.Caching.ILazy`1"/> is read.</para>
+            </summary>
+            <returns>Enumerator.</returns>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LazyMemoryCache`2.HardFaults">
+            <summary>
+            Gets the number of hard faults.
+            (every time when an item is loaded the value is incremented by one)
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LazyMemoryCache`2.Count">
+            <summary>
+            Gets the number of objects in the cache.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LazyMemoryCache`2.TotalSize">
+            <summary>
+            Gets the total size of objects (specified by function in constructor) in the cache.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Caching.LazyMemoryCache`2.LazyCacheItem`2">
+            <summary>
+            Represents lazy cache item. 
+            The object value can be loaded on demand and also unloaded. The appropriate events are also given.
+            </summary>
+            <typeparam name="ObjKey">Object key.</typeparam>
+            <typeparam name="TObj">Object value.</typeparam>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LazyMemoryCache`2.LazyCacheItem`2.#ctor(`2,System.Func{`3},System.Action{`3})">
+            <summary>
+            Constructs new lazy cache item.
+            </summary>
+            <param name="key">Key of the object.</param>
+            <param name="constructor">Object constructor.</param>
+            <param name="destructor">Object destructor.</param>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LazyMemoryCache`2.LazyCacheItem`2.Unload">
+            <summary>
+            Unloads object from the memory (destructs).
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Caching.LazyMemoryCache`2.LazyCacheItem`2.Dispose">
+            <summary>
+            Disposes the contained object.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LazyMemoryCache`2.LazyCacheItem`2.IsValueCreated">
+            <summary>
+            Returns true if the object value is loaded in the memory.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LazyMemoryCache`2.LazyCacheItem`2.Value">
+            <summary>
+            Gets the object value.
+            If the object value is not loaded, the object will be constructed.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Caching.LazyMemoryCache`2.LazyCacheItem`2.Key">
+            <summary>
+            Gets the object key.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Diagnostics">
+            <summary>
+            Contains methods for code performance measurement. 
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Diagnostics.MeasureTime(System.Action)">
+            <summary>
+            Executes a provided action and measures time in milliseconds that was consumed by provided action.
+            </summary>
+            <param name="action">User specified action.</param>
+            <returns>Elapsed time in milliseconds.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Diagnostics.MeasureAverageTime(System.Action{System.Int32},System.Int32)">
+            <summary>
+             Executes a provided action several times and measures average time in milliseconds that was consumed by provided action.
+            </summary>
+            <param name="action">User specified action. The parameter is current execution count [0..executionCount-1].</param>
+            <param name="executionCount">Number of times to execute the specified action.</param>
+            <returns>Average elapsed time in milliseconds.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Diagnostics.StartConsoleLogging(System.String,System.Boolean)">
+            <summary>
+            Starts to clone the console output to a specified file.
+            <para>If the logging is active the old instance is replaced by a new one.</para>
+            </summary>
+            <param name="fileName">Log-file name</param>
+            <param name="append">True to append to an existing file, false to overwrite it.</param>
+        </member>
+        <member name="M:Accord.Extensions.Diagnostics.StopConsoleLogging">
+            <summary>
+            Stops the logging process.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Diagnostics.CombinedWriter">
+            <summary>
+            Combined console stream writer. Enables the cloning the console output.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.BinaryTree.BinaryTreeArrayExtensions">
+            <summary>
+            Contains methods that simulate binary tree using array.
+            <para>All methods are extension on <see cref="T:System.Collections.Generic.IList`1"/></para>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.BinaryTree.BinaryTreeArrayExtensions.LeafIndices``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Gets leaf node indices.
+            </summary>
+            <typeparam name="T">Data type.</typeparam>
+            <param name="collection">Data collection observed as binary tree.</param>
+            <returns>Node indices.</returns>
+        </member>
+        <member name="M:Accord.Extensions.BinaryTree.BinaryTreeArrayExtensions.ParentIndex``1(System.Collections.Generic.IList{``0},System.Int32)">
+            <summary>
+            Returns parent index determined by its child <paramref name="nodeIndex"/>.
+            </summary>
+            <typeparam name="T">Data type.</typeparam>
+            <param name="collection">Data collection observed as binary tree.</param>
+            <param name="nodeIndex">Left or right child index.</param>
+            <returns>Parent index.</returns>
+        </member>
+        <member name="M:Accord.Extensions.BinaryTree.BinaryTreeArrayExtensions.LeftChildIndex``1(System.Collections.Generic.IList{``0},System.Int32)">
+            <summary>
+            Returns child index determined by its <paramref name="parentIndex"/>.
+            </summary>
+            <typeparam name="T">Data type.</typeparam>
+            <param name="collection">Data collection observed as binary tree.</param>
+            <param name="parentIndex">Parent index.</param>
+            <returns>Child index.</returns>
+        </member>
+        <member name="M:Accord.Extensions.BinaryTree.BinaryTreeArrayExtensions.RightChildIndex``1(System.Collections.Generic.IList{``0},System.Int32)">
+            <summary>
+            Returns child index determined by its <paramref name="parentIndex"/>.
+            </summary>
+            <typeparam name="T">Data type.</typeparam>
+            <param name="collection">Data collection observed as binary tree.</param>
+            <param name="parentIndex">Parent index.</param>
+            <returns>Child index.</returns>
+        </member>
+        <member name="M:Accord.Extensions.BinaryTree.BinaryTreeArrayExtensions.GetLeftChild``1(System.Collections.Generic.IList{``0},System.Int32,``0@)">
+            <summary>
+            Gets the node determined by its <paramref name="parentIndex"/>.
+            </summary>
+            <typeparam name="T">Data type.</typeparam>
+            <param name="collection">Data collection observed as binary tree.</param>
+            <param name="parentIndex">Parent index.</param>
+            <param name="node">Child value.</param>
+            <returns>True if the child index is in collection bounds, false otherwise.</returns>
+        </member>
+        <member name="M:Accord.Extensions.BinaryTree.BinaryTreeArrayExtensions.GetRightChild``1(System.Collections.Generic.IList{``0},System.Int32,``0@)">
+            <summary>
+            Gets the node determined by its <paramref name="parentIndex"/>.
+            </summary>
+            <typeparam name="T">Data type.</typeparam>
+            <param name="collection">Data collection observed as binary tree.</param>
+            <param name="parentIndex">Parent index.</param>
+            <param name="node">Child value.</param>
+            <returns>True if the child index is in collection bounds, false otherwise.</returns>
+        </member>
+        <member name="M:Accord.Extensions.BinaryTree.BinaryTreeArrayExtensions.ReplaceLeftChild``1(System.Collections.Generic.IList{``0},System.Int32,``0)">
+            <summary>
+            Replaces child element given by the <paramref name="parentIndex"/>.
+            </summary>
+            <typeparam name="T">Data type.</typeparam>
+            <param name="collection">Data collection observed as binary tree.</param>
+            <param name="parentIndex">Parent index.</param>
+            <param name="child">New child value.</param>
+            <returns>True if the child index is in collection bounds - child can not be replaced, false otherwise.</returns>
+        </member>
+        <member name="M:Accord.Extensions.BinaryTree.BinaryTreeArrayExtensions.ReplaceRightChild``1(System.Collections.Generic.IList{``0},System.Int32,``0)">
+            <summary>
+            Replaces child element given by the <paramref name="parentIndex"/>.
+            </summary>
+            <typeparam name="T">Data type.</typeparam>
+            <param name="collection">Data collection observed as binary tree.</param>
+            <param name="parentIndex">Parent index.</param>
+            <param name="child">New child value.</param>
+            <returns>True if the child index is in collection bounds - child can not be replaced, false otherwise.</returns>
+        </member>
+        <member name="M:Accord.Extensions.BinaryTree.BinaryTreeArrayExtensions.GetBinaryTreeDepth``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Gets depth of the binary tree.
+            </summary>
+            <typeparam name="T">Data type.</typeparam>
+            <param name="collection">Data collection observed as binary tree.</param>
+            <returns>Depth of the binary tree.</returns>
+        </member>
+        <member name="T:Accord.Extensions.DictonaryMatExtensions">
+            <summary>
+            <para>Defined functions can be used as object extensions.</para>
+            Provides extension methods for <see cref="T:System.Collections.Generic.Dictionary`2"/> matrix.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.DictonaryMatExtensions.ContainsKey``2(System.Collections.Generic.IDictionary{Accord.Extensions.Pair{``0},``1},``0,``0)">
+            <summary>
+            Determines whether the dictionary matrix contains the specified key.
+            </summary>
+            <typeparam name="TKey">Key type.</typeparam>
+            <typeparam name="TValue">Value type.</typeparam>
+            <param name="mat">Sparse matrix - nested dictionaries.</param>
+            <param name="firstKey">First key - row selector.</param>
+            <param name="secondKey">Second key - column selector.</param>
+            <returns>True if the specified key exist in dictionary matrix, false otherwise.</returns>
+        </member>
+        <member name="M:Accord.Extensions.DictonaryMatExtensions.Get``2(System.Collections.Generic.IDictionary{Accord.Extensions.Pair{``0},``1},``0,``0)">
+            <summary>
+            Gets the value associated with the two keys set.
+            </summary>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+            <typeparam name="TKey">Key type.</typeparam>
+            <typeparam name="TValue">Value type.</typeparam>
+            <param name="mat">Sparse matrix - nested dictionaries.</param>
+            <param name="firstKey">First key - row selector.</param>
+            <param name="secondKey">Second key - column selector.</param>
+            <returns>Value.</returns>
+        </member>
+        <member name="M:Accord.Extensions.DictonaryMatExtensions.TryGetValue``2(System.Collections.Generic.IDictionary{Accord.Extensions.Pair{``0},``1},``0,``0,``1@)">
+            <summary>
+            Gets the value determined by the <paramref name="firstKey"/> and <paramref name="secondKey"/>.
+            </summary>
+            <typeparam name="TKey">Key type.</typeparam>
+            <typeparam name="TValue">Value type.</typeparam>
+            <param name="mat">Sparse matrix - nested dictionaries.</param>
+            <param name="firstKey">First key - row selector.</param>
+            <param name="secondKey">Second key - colum selector.</param>
+            <param name="value">Value.</param>
+            <returns>True if provided keys exist, false otherwise.</returns>
+        </member>
+        <member name="M:Accord.Extensions.DictonaryMatExtensions.Add``2(System.Collections.Generic.IDictionary{Accord.Extensions.Pair{``0},``1},``0,``0,``1)">
+            <summary>
+            Adds data determined by the provided keys.
+            <para>In case the provided keys already exist, an exception is thrown.</para>
+            </summary>
+            <exception cref="T:System.ArgumentException">Key already exist.</exception>
+            <typeparam name="TKey">Key type.</typeparam>
+            <typeparam name="TValue">Value type.</typeparam>
+            <param name="mat">Sparse matrix - nested dictionaries.</param>
+            <param name="firstKey">First key - row selector.</param>
+            <param name="secondKey">Second key - colum selector.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Accord.Extensions.DictonaryMatExtensions.AddOrUpdate``2(System.Collections.Generic.IDictionary{Accord.Extensions.Pair{``0},``1},``0,``0,``1)">
+            <summary>
+            Adds or update data determined by the provided keys.
+            </summary>
+            <typeparam name="TKey">Key type.</typeparam>
+            <typeparam name="TValue">Value type.</typeparam>
+            <param name="mat">Sparse matrix - nested dictionaries.</param>
+            <param name="firstKey">First key - row selector.</param>
+            <param name="secondKey">Second key - colum selector.</param>
+            <param name="value">Value.</param>
+        </member>
+        <member name="M:Accord.Extensions.DictonaryMatExtensions.Remove``2(System.Collections.Generic.IDictionary{Accord.Extensions.Pair{``0},``1},``0,``0)">
+            <summary>
+            Removes data determined by the provided keys.
+            </summary>
+            <typeparam name="TKey">Key type.</typeparam>
+            <typeparam name="TValue">Value type.</typeparam>
+            <param name="mat">Sparse matrix - nested dictionaries.</param>
+            <param name="firstKey">First key - row selector.</param>
+            <param name="secondKey">Second key - colum selector.</param>
+            <returns>True if the provided keys exist, false otherwise.</returns>
+        </member>
+        <member name="M:Accord.Extensions.DictonaryMatExtensions.ToSparseMatrix``2(System.Collections.Generic.IEnumerable{``1},System.Func{``1,``0},System.Func{``1,``0})">
+            <summary>
+            Creates new sparse matrix from provided collection.
+            </summary>
+            <typeparam name="TKey">Key type.</typeparam>
+            <typeparam name="TValue">Value type.</typeparam>
+            <param name="values"></param>
+            <param name="firstKeySelector">Row matrix selector.</param>
+            <param name="secondKeySelector">Column matrix selector.</param>
+            <returns>Sparse matrix - nested dictionaries.</returns>
+        </member>
+        <member name="M:Accord.Extensions.DictonaryMatExtensions.ToSparseMatrix``3(System.Collections.Generic.IEnumerable{``2},System.Func{``2,``0},System.Func{``2,``0},System.Func{``2,``1})">
+            <summary>
+            Creates new sparse matrix from provided collection.
+            </summary>
+            <typeparam name="TSrcValue">Source value type.</typeparam>
+            <typeparam name="TKey">Key type.</typeparam>
+            <typeparam name="TValue">Value type.</typeparam>
+            <param name="values"></param>
+            <param name="firstKeySelector">Row matrix selector.</param>
+            <param name="secondKeySelector">Column matrix selector.</param>
+            <param name="valueSelector">Value selector.</param>
+            <returns>Sparse matrix - nested dictionaries.</returns>
+        </member>
+        <member name="M:Accord.Extensions.DictonaryMatExtensions.AsEnumerable``2(System.Collections.Generic.IDictionary{Accord.Extensions.Pair{``0},``1})">
+            <summary>
+            Returns the collection of sparse matrix values.
+            </summary>
+            <typeparam name="TKey">Key type.</typeparam>
+            <typeparam name="TValue">Value type.</typeparam>
+            <param name="mat">Sparse matrix - nested dictionaries.</param>
+            <returns>Collection of sparse matrix values.</returns>
+        </member>
+        <member name="M:Accord.Extensions.DictonaryMatExtensions.GetKeys``2(System.Collections.Generic.IDictionary{Accord.Extensions.Pair{``0},``1})">
+            <summary>
+            Returns the collection of sparse matrix row and column keys.
+            </summary>
+            <typeparam name="TKey">Key type.</typeparam>
+            <typeparam name="TValue">Value type.</typeparam>
+            <param name="mat">Sparse matrix - nested dictionaries.</param>
+            <returns>Collection of sparse matrix row and column keys.</returns>
+        </member>
+        <member name="T:Accord.Extensions.IndexOfMaxExtensions">
+            <summary>
+            <para>Defined functions can be used as object extensions.</para>
+            Provides methods for finding the index of the max element in a sequence.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.IndexOfMaxExtensions.IndexOfMax``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Finds the index of the max element in a sequence.
+            <para>Default comparer is used for a selected key.</para>
+            </summary>
+            <typeparam name="TSource">Collection type.</typeparam>
+            <param name="collection">Collection.</param>
+            <returns>
+            The index of the maximum element.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">in case when the collection is empty.</exception>
+        </member>
+        <member name="M:Accord.Extensions.IndexOfMaxExtensions.IndexOfMax``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Int32,``1})">
+            <summary>
+            Finds the index of the max element in a sequence.
+            <para>Default comparer is used for a selected key.</para>
+            </summary>
+            <typeparam name="TSource">Collection type.</typeparam>
+            <typeparam name="TKey">Key type.</typeparam>
+            <param name="collection">Collection.</param>
+            <param name="selector">Key selector. Parameters are: the current element and an index of an element in the sequence.</param>
+            <returns>
+            The index of the maximum element.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">in case when the collection is empty.</exception>
+        </member>
+        <member name="M:Accord.Extensions.IndexOfMaxExtensions.IndexOfMax``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Int32,``1},System.Collections.Generic.IComparer{``1})">
+            <summary>
+            Finds the index of the max element in a sequence.
+            </summary>
+            <typeparam name="TSource">Collection type.</typeparam>
+            <typeparam name="TKey">Key type.</typeparam>
+            <param name="collection">Collection.</param>
+            <param name="selector">Key selector. Parameters are: the current element and an index of an element in the sequence.</param>
+            <param name="comparer">Comparer for the selected key type.</param>
+            <returns>
+            The index of the maximum element.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">in case when the collection is empty.</exception>
+        </member>
+        <member name="T:Accord.Extensions.IndexOfMinExtensions">
+            <summary>
+            Contains extension methods for determining the index of the minimum element in collection.
+            <para>All methods can be used as extensions.</para>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.IndexOfMinExtensions.IndexOfMin``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Finds the index of the min element in a sequence.
+            <para>Default comparer is used for a selected key.</para>
+            </summary>
+            <typeparam name="TSource">Collection type.</typeparam>
+            <param name="collection">Collection.</param>
+            <returns>
+            The index of the minimum element.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">in case when the collection is empty.</exception>
+        </member>
+        <member name="M:Accord.Extensions.IndexOfMinExtensions.IndexOfMin``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Int32,``1})">
+            <summary>
+            Finds the index of the min element in a sequence.
+            <para>Default comparer is used for a selected key.</para>
+            </summary>
+            <typeparam name="TSource">Collection type.</typeparam>
+            <typeparam name="TKey">Key type.</typeparam>
+            <param name="collection">Collection.</param>
+            <param name="selector">Key selector. Parameters are: the current element and an index of an element in the sequence.</param>
+            <returns>
+            The index of the minimum element.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">in case when the collection is empty.</exception>
+        </member>
+        <member name="M:Accord.Extensions.IndexOfMinExtensions.IndexOfMin``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Int32,``1},System.Collections.Generic.IComparer{``1})">
+            <summary>
+            Finds the index of the min element in a sequence.
+            </summary>
+            <typeparam name="TSource">Collection type.</typeparam>
+            <typeparam name="TKey">Key type.</typeparam>
+            <param name="collection">Collection.</param>
+            <param name="selector">Key selector. Parameters are: the current element and an index of an element in the sequence.</param>
+            <param name="comparer">Comparer for the selected key type.</param>
+            <returns>
+            The index of the minimum element.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">in case when the collection is empty.</exception>
+        </member>
+        <member name="T:Accord.Extensions.SelectExtensions">
+            <summary>
+            Contains extension methods for projecting a collection.
+            <para>All methods can be used as extensions.</para>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.SelectExtensions.Select``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1},System.Action{System.Single})">
+            <summary>
+            Projects each element of a sequence into a new form by giving the progress expressed as percentage.
+            </summary>
+            <typeparam name="TSrc">Source type.</typeparam>
+            <typeparam name="TDest">Projected type.</typeparam>
+            <param name="collection">Collection.</param>
+            <param name="selector">Selector function.</param>
+            <param name="percentageAction">Executed prior every selection. Parameter represents percentage in range [0..1].</param>
+            <returns>Projected collection.</returns>
+        </member>
+        <member name="T:Accord.Extensions.EnumerableExtensions">
+            <summary>
+            <para>Some of defined functions can be used as object extensions.</para>
+            Provides extension methods for collections.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.EnumerableExtensions.GetRange(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Gets linear range of type Int32.
+            </summary>
+            <param name="start">Starting value.</param>
+            <param name="end">Maximum value.</param>
+            <param name="step">Step between values.</param>
+            <returns>Range of values.</returns>
+        </member>
+        <member name="M:Accord.Extensions.EnumerableExtensions.GetRange(System.Single,System.Single,System.Single)">
+            <summary>
+            Gets linear range of type Single.
+            </summary>
+            <param name="start">Starting value.</param>
+            <param name="end">Maximum value.</param>
+            <param name="step">Step between values.</param>
+            <returns>Range of values.</returns>
+        </member>
+        <member name="M:Accord.Extensions.EnumerableExtensions.GetAt``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Gets elements from source array at user defined indices.
+            </summary>
+            <param name="src">Data array.</param>
+            <param name="indicies">User defined indices.</param>
+            <returns>Array of values at specified indices.</returns>
+        </member>
+        <member name="M:Accord.Extensions.EnumerableExtensions.SetAt``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IEnumerable{System.Int32},System.Collections.Generic.IList{``0})">
+            <summary>
+            Sets elements from source array at user defined indices.
+            </summary>
+            <param name="src">Data array.</param>
+            <param name="indicies">User defined indices.</param>
+            <param name="newValues">New values that replace old ones.</param>
+        </member>
+        <member name="M:Accord.Extensions.EnumerableExtensions.ApplyInPlace``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IEnumerable{System.Int32},System.Func{``0,``0})">
+            <summary>
+            Applies a user specified function to a given array at specified indices.
+            </summary>
+            <param name="src">Source collection.</param>
+            <param name="indicies">Selection indices.</param>
+            <param name="func">Function to apply at elements which are selected with indices.</param>
+        </member>
+        <member name="M:Accord.Extensions.EnumerableExtensions.GetRange``1(System.Collections.Generic.IList{``0},AForge.IntRange)">
+            <summary>
+            Gets elements from source array at user defined indices.
+            </summary>
+            <param name="src">Data array.</param>
+            <param name="range">User defined range.</param>
+            <returns>Array of values in specified range.</returns>
+        </member>
+        <member name="M:Accord.Extensions.EnumerableExtensions.GetRange``1(System.Collections.Generic.IList{``0},System.Int32,System.Int32)">
+            <summary>
+            Gets elements from source array at user defined indices.
+            </summary>
+            <param name="src">Data array.</param>
+            <param name="startIndex">Start index.</param>
+            <param name="length">Range length.</param>
+            <returns>Array of values in specified range.</returns>
+        </member>
+        <member name="M:Accord.Extensions.EnumerableExtensions.GetRange``1(System.Collections.Generic.IList{``0},System.Int32)">
+            <summary>
+            Gets elements from source array at user defined indices.
+            </summary>
+            <param name="src">Data array.</param>
+            <param name="startIndex">Start index.</param>
+            <returns>Array of values in specified range.</returns>
+        </member>
+        <member name="M:Accord.Extensions.EnumerableExtensions.Remove``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Removes user-specified elements from the list.
+            </summary>
+            <typeparam name="T">Element type.</typeparam>
+            <param name="src">Data collection.</param>
+            <param name="elements">Elements to remove.</param>
+        </member>
+        <member name="M:Accord.Extensions.EnumerableExtensions.RemoveAt``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Removes user-specified element indices from the collection.
+            </summary>
+            <typeparam name="T">Element type.</typeparam>
+            <param name="src">Data collection.</param>
+            <param name="elementIndices">Indices of the elements to remove.</param>
+        </member>
+        <member name="M:Accord.Extensions.EnumerableExtensions.Create``1(System.Int32,System.Func{System.Int32,``0})">
+            <summary>
+            Creates a collection using provided function.
+            </summary>
+            <typeparam name="T">Element type.</typeparam>
+            <param name="numberOfElements">Number of elements to create.</param>
+            <param name="creator">Element creator. Receives current element index as parameter.</param>
+            <returns>Array of created elements.</returns>
+        </member>
+        <member name="M:Accord.Extensions.EnumerableExtensions.EnumerateWith``3(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``1},System.Func{``0,``1,``2})">
+            <summary>
+            Enumerates both collections simultaneously and executes user-specified function.
+            <para>Both collection will be iterated until end is reached for one of them.</para>
+            </summary>
+            <typeparam name="TFirst">First collection data type.</typeparam>
+            <typeparam name="TSecond">Second collection data type.</typeparam>
+            <typeparam name="TOutput">Output element type.</typeparam>
+            <param name="first">First collection.</param>
+            <param name="second">Second collection.</param>
+            <param name="function">User specified function.</param>
+            <returns>The result collection which elements are generated by using user-specified function.</returns>
+        </member>
+        <member name="T:Accord.Extensions.PathExtensions">
+            <summary>
+            <para>Defined functions can be used as object extensions.</para>
+            Provides methods for string which is treated as file and directory path.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.PathExtensions.EnumerateFiles(System.IO.DirectoryInfo,System.String[],System.IO.SearchOption)">
+             <summary>
+             Returns an enumerable collection of file information that matches a specified search pattern and search subdirectory option.
+             </summary>
+             <param name="dirInfo">Directory info.</param>
+             <param name="searchPatterns">The search strings (e.g. new string[]{ ".jpg", ".bmp" }</param>
+             <param name="searchOption">
+             One of the enumeration values that specifies whether the search operation
+             should include only the current directory or all subdirectories. The default
+             value is <see cref="F:System.IO.SearchOption.TopDirectoryOnly"/>.
+            </param>
+             <returns>An enumerable collection of files that matches <paramref name="searchPatterns"/> and <paramref name="searchOption"/>.</returns>
+        </member>
+        <member name="M:Accord.Extensions.PathExtensions.IsSubfolder(System.String,System.String)">
+            <summary>
+            Gets whether the path is child path.
+            </summary>
+            <param name="childPath">The child path.</param>
+            <param name="parentPath">The parent path.</param>
+            <returns>True if the child path is indeed child path (or the same) as parent path, otherwise false.</returns>
+        </member>
+        <member name="M:Accord.Extensions.PathExtensions.GetRelativeFilePath(System.String,System.IO.DirectoryInfo)">
+            <summary>
+            Gets relative file path regarding specified directory.
+            </summary>
+            <param name="fileName">Full file name and path.</param>
+            <param name="dirInfo">
+            Directory info of a directory path which serves as root.
+            </param>
+            <returns>Relative file path. In case the relative path could not be find the empty string is returned.</returns>
+        </member>
+        <member name="M:Accord.Extensions.PathExtensions.NormalizePathDelimiters(System.String)">
+            <summary>
+            Replaces path delimiters with platform-specific one defined in <see cref="F:System.IO.Path.DirectorySeparatorChar"/>.
+            </summary>
+            <param name="path">Path to replace delimiters.</param>
+            <returns>Path with replaced delimiters.</returns>
+        </member>
+        <member name="M:Accord.Extensions.PathExtensions.NormalizePathDelimiters(System.String,System.String)">
+            <summary>
+            Replaces path delimiters with specified one.
+            </summary>
+            <param name="path">Path to replace delimiters.</param>
+            <param name="normalizedDelimiter">Replacing delimiter.</param>
+            <returns>Path with replaced delimiters.</returns>
+        </member>
+        <member name="M:Accord.Extensions.PathExtensions.IsDirectory(System.String)">
+            <summary>
+            Checks whether the path is file or directory.
+            </summary>
+            <param name="path">File or directory path.</param>
+            <returns>
+            True if the path is directory, false if the path is file. 
+            Null is returned if the path does not exist or in case of an internal error.
+            </returns>
+        </member>
+        <member name="T:Accord.Extensions.RandomExtensions">
+            <summary>
+            <para>Defined functions can be used as object extensions.</para>
+            Provides extension methods for <see cref="T:System.Random"/>.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.RandomExtensions.NextDouble(System.Random,System.Double,System.Double)">
+            <summary>
+            Returns the random number in user-specified interval.
+            </summary>
+            <param name="random">Random generator.</param>
+            <param name="minimum">Minimum number.</param>
+            <param name="maximum">Maximum number.</param>
+            <returns>Random number in user-specified interval.</returns>
+        </member>
+        <member name="T:Accord.Extensions.MethodCache">
+            <summary>
+            Represents a set of cache decorated methods 
+            Taken from: http://www.codeproject.com/Articles/195369/Simple-Method-Caching 
+            and slightly modified.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.MethodCache.Global">
+            <summary>
+            Gets the global (singleton) instance of the method cache.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.MethodCache.Invoke``1(System.Func{``0})">
+            <summary>
+            Invokes the target <paramref name="function"/>
+            </summary>        
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method.</param>        
+            <returns>The result of invoking the target method.</returns>
+        </member>
+        <member name="M:Accord.Extensions.MethodCache.Invoke``2(System.Func{``0,``1},``0)">
+            <summary>
+            Invokes the target <paramref name="function"/>
+            </summary>
+            <typeparam name="T">The type of the parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method.</param>
+            <param name="arg">The argument passed to the parameter of the target method.</param>
+            <returns>The result of invoking the target method.</returns>
+        </member>
+        <member name="M:Accord.Extensions.MethodCache.Invoke``3(System.Func{``0,``1,``2},``0,``1)">
+            <summary>
+            Invokes the target <paramref name="function"/>
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method.</param>
+            <param name="arg1">The argument passed to the first parameter of the target method.</param>
+            <param name="arg2">The argument passed to the second parameter of the target method.</param>
+            <returns>The result of invoking the target method.</returns>
+        </member>
+        <member name="M:Accord.Extensions.MethodCache.Invoke``4(System.Func{``0,``1,``2,``3},``0,``1,``2)">
+            <summary>
+            Invokes the target <paramref name="function"/>
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method.</param>
+            <param name="arg1">The argument passed to the first parameter of the target method.</param>
+            <param name="arg2">The argument passed to the second parameter of the target method.</param>
+            <param name="arg3">The argument passed to the third parameter of the target method.</param>
+            <returns>The result of invoking the target method.</returns>
+        </member>
+        <member name="M:Accord.Extensions.MethodCache.Invoke``5(System.Func{``0,``1,``2,``3,``4},``0,``1,``2,``3)">
+            <summary>
+            Invokes the target <paramref name="function"/>
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method.</param>
+            <param name="arg1">The argument passed to the first parameter of the target method.</param>
+            <param name="arg2">The argument passed to the second parameter of the target method.</param>
+            <param name="arg3">The argument passed to the third parameter of the target method.</param>
+            <param name="arg4">The argument passed to the forth parameter of the target method.</param>
+            <returns>The result of invoking the target method.</returns>
+        </member>
+        <member name="T:Accord.Extensions.CacheProvider">
+            <summary>
+            A class that is capable of decorating a method with a cache.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.CacheProvider.Decorate``1(System.Func{``0})">
+            <summary>
+            Decorates the target <paramref name="function"/> by returning a function
+            delegate that points back to a cache for this function.
+            </summary>        
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method to decorate.</param>
+            <returns>A function delegate that represents the cached version of the target method.</returns>
+        </member>
+        <member name="M:Accord.Extensions.CacheProvider.Decorate``2(System.Func{``0,``1})">
+            <summary>
+            Decorates the target <paramref name="function"/> by returning a function
+            delegate that points back to a cache indexed by the method arguments.
+            </summary>
+            <typeparam name="T">The type of the parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method to decorate.</param>
+            <returns>A function delegate that represents the cached version of the target method.</returns>
+        </member>
+        <member name="M:Accord.Extensions.CacheProvider.Decorate``3(System.Func{``0,``1,``2})">
+            <summary>
+            Decorates the target <paramref name="function"/> by returning a function
+            delegate that points back to a cache indexed by the method arguments.
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method to decorate.</param>
+            <returns>A function delegate that represents the cached version of the target method.</returns>
+        </member>
+        <member name="M:Accord.Extensions.CacheProvider.Decorate``4(System.Func{``0,``1,``2,``3})">
+            <summary>
+            Decorates the target <paramref name="function"/> by returning a function
+            delegate that points back to a cache indexed by the method arguments.
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>        
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method to decorate.</param>
+            <returns>A function delegate that represents the cached version of the target method.</returns>
+        </member>
+        <member name="M:Accord.Extensions.CacheProvider.Decorate``5(System.Func{``0,``1,``2,``3,``4})">
+            <summary>
+            Decorates the target <paramref name="function"/> by returning a function
+            delegate that points back to a cache indexed by the method arguments.
+            </summary>
+            <typeparam name="T1">The type of the first parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T2">The type of the second parameter of the method that this delegate encapsulates.</typeparam>        
+            <typeparam name="T3">The type of the third parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="T4">The type of the forth parameter of the method that this delegate encapsulates.</typeparam>
+            <typeparam name="TResult">The type of the return value of the method that this delegate encapsulates.</typeparam>
+            <param name="function">The target method to decorate.</param>
+            <returns>A function delegate that represents the cached version of the target method.</returns>
+        </member>
+        <member name="T:Accord.Extensions.NaturalSortComparer">
+            <summary>
+            Provides functions for natural string comparison.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.NaturalSortComparer.#ctor(System.Boolean)">
+            <summary>
+            Creates a new instance of <see cref="T:Accord.Extensions.NaturalSortComparer"/>.
+            </summary>
+            <param name="inAscendingOrder">Sorts in ascending order, otherwise descending.</param>
+        </member>
+        <member name="M:Accord.Extensions.NaturalSortComparer.Compare(System.String,System.String)">
+            <summary>
+            Compares two strings.
+            </summary>
+            <param name="x">First string.</param>
+            <param name="y">Second string.</param>
+            <returns>0 - the same objects, -1, +1 otherwise depending whether the first string precedes the second one or not.</returns>
+        </member>
+        <member name="T:Accord.Extensions.ParallelExtensions">
+            <summary>
+            Provides extensions for working with collections in parallel way.
+            <para>Taken from <a href="http://blogs.msdn.com/b/pfxteam/archive/2009/08/12/9867246.aspx">parallel while</a> and modified.</para>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.ParallelExtensions.While(System.Func{System.Boolean},System.Action{System.Threading.Tasks.ParallelLoopState})">
+            <summary>
+            Executes a while loop in parallel.
+            </summary>
+            <param name="condition">Condition function. Returns true if the loop should advance, false otherwise.</param>
+            <param name="body">Body function.</param>
+        </member>
+        <member name="M:Accord.Extensions.ParallelExtensions.While(System.Threading.Tasks.ParallelOptions,System.Func{System.Boolean},System.Action{System.Threading.Tasks.ParallelLoopState})">
+            <summary>
+            Executes a while loop in parallel.
+            </summary>
+            <param name="parallelOptions">Parallel options.</param>
+            <param name="condition">Condition function. Returns true if the loop should advance, false otherwise.</param>
+            <param name="body">Body function.</param>
+        </member>
+        <member name="T:Accord.Extensions.InfinitePartitioner">
+            <summary>
+            Represents an infinite data partitioner. Returns an infinite collection of type <see cref="T:System.Boolean"/>.
+            <para>It is used in While function extension.</para>
+            <para>Taken from <a href="http://blogs.msdn.com/b/pfxteam/archive/2009/08/12/9867246.aspx">parallel while</a>.</para>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.InfinitePartitioner.GetPartitions(System.Int32)">
+            <summary>
+            Gets the partitions.
+            </summary>
+            <param name="partitionCount">The partition count.</param>
+            <returns>partitions.</returns>
+        </member>
+        <member name="M:Accord.Extensions.InfinitePartitioner.GetDynamicPartitions">
+            <summary>
+            Creates and returns ininite enumerators of type <see cref="T:System.Boolean"/>.
+            </summary>
+            <returns>Ininite enumerators of type <see cref="T:System.Boolean"/></returns>
+        </member>
+        <member name="M:Accord.Extensions.InfinitePartitioner.InfiniteEnumerator">
+            <summary>
+            Gets the ininite enumerator.
+            </summary>
+            <returns>The ininite enumerator.</returns>
+        </member>
+        <member name="P:Accord.Extensions.InfinitePartitioner.SupportsDynamicPartitions">
+            <summary>
+            This partitioner supports dynamic partitions (returns true).
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.CircularListExtensions">
+            <summary>
+            <para>Defined functions can be used as object extensions.</para>
+            Provides methods for circular list.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.CircularListExtensions.ToCircularList``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Creates <see cref="T:Accord.Extensions.CircularList`1"/> from <see cref="T:System.Collections.Generic.List`1"/>.
+            </summary>
+            <typeparam name="T">Element type.</typeparam>
+            <param name="list">List of elements.</param>
+            <returns>New instance of <see cref="T:Accord.Extensions.CircularList`1"/>. Elements are not deep cloned.</returns>
+        </member>
+        <member name="T:Accord.Extensions.CircularList`1">
+            <summary>
+            Represents s strongly typed circular list of objects meaning that any index is converted to absolute one before accessing the element - negative indices are supported.
+            </summary>
+            <typeparam name="T">The object type.</typeparam>
+        </member>
+        <member name="M:Accord.Extensions.CircularList`1.#ctor">
+            <summary>
+            Creates the default instance.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.CircularList`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Creates the instance from collection.
+            </summary>
+            <param name="collection">The specified collection.</param>
+        </member>
+        <member name="M:Accord.Extensions.CircularList`1.RemoveAt(System.Int32)">
+            <summary>
+            Removes element at index.
+            </summary>
+            <param name="index">The circular index.</param>
+        </member>
+        <member name="M:Accord.Extensions.CircularList`1.GetRange(System.Int32,System.Int32)">
+            <summary>
+            Gets the range of elements from specified index range.
+            </summary>
+            <param name="index">The starting index.</param>
+            <param name="count">The number of elements.</param>
+            <returns>The circular list (data is shared).</returns>
+        </member>
+        <member name="M:Accord.Extensions.CircularList`1.GetRange(AForge.IntRange)">
+            <summary>
+            Gets the range of elements from specified index range.
+            </summary>
+            <param name="range">The index range.</param>
+            <returns>The circular list (data is shared).</returns>
+        </member>
+        <member name="M:Accord.Extensions.CircularList`1.RemoveRange(System.Int32,System.Int32)">
+            <summary>
+            Removes range from the collection.
+            </summary>
+            <param name="index">The starting index (circular).</param>
+            <param name="count">The number of elements to remove.</param>
+        </member>
+        <member name="M:Accord.Extensions.CircularList`1.Insert(System.Int32,`0)">
+            <summary>
+            Inserts an element to the specified index.
+            </summary>
+            <param name="index">The specified index where to insert an element.</param>
+            <param name="item">The element to insert.</param>
+        </member>
+        <member name="M:Accord.Extensions.CircularList`1.InsertRange(System.Int32,System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Inserts a range to the collection.
+            </summary>
+            <param name="index">The starting position (circular).</param>
+            <param name="collection">The collection to insert.</param>
+        </member>
+        <member name="P:Accord.Extensions.CircularList`1.Item(System.Int32)">
+            <summary>
+            Gets or sets the element at specified index.
+            </summary>
+            <param name="index">The specified index.</param>
+            <returns>The element at specified index.</returns>
+        </member>
+        <member name="T:Accord.Extensions.SerializationExtensions">
+            <summary>
+            <para>Defined functions can be used as object extensions.</para>
+            Provides serialization extensions. 
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.SerializationExtensions.ToXElement``1(``0,System.Boolean)">
+            <summary>
+            Serializes specified object to <see cref="T:System.Xml.Linq.XElement"/>.
+            </summary>
+            <typeparam name="T">An object generic type.</typeparam>
+            <param name="obj">An input object.</param>
+            <param name="writeEmptyNamespace">Writes empty name-space attribute instead of standard w3.org name-space.</param>
+            <returns>Serialized object.</returns>
+        </member>
+        <member name="M:Accord.Extensions.SerializationExtensions.FromXElement``1(System.Xml.Linq.XElement)">
+            <summary>
+            De-serializes the specified <see cref="T:System.Xml.Linq.XElement"/> to an object.
+            </summary>
+            <typeparam name="T">Destination generic object type.</typeparam>
+            <param name="xElement">An element to deserialize.</param>
+            <returns>De-serialized object.</returns>
+        </member>
+        <member name="M:Accord.Extensions.SerializationExtensions.ToBinary``1(``0)">
+            <summary>
+            Serializes specified object to memory stream by using binary formatter.
+            </summary>
+            <typeparam name="T">Object type.</typeparam>
+            <param name="obj">Object to serialize.</param>
+            <returns>Memory stream containing serialized object.</returns>
+        </member>
+        <member name="M:Accord.Extensions.SerializationExtensions.ToBinary``1(``0,System.String)">
+            <summary>
+            Serializes specified object to memory stream by using binary formatter.
+            <para>If the file exists it will be overwritten.</para>
+            </summary>
+            <typeparam name="T">Object type.</typeparam>
+            <param name="obj">Object to serialize.</param>
+            <param name="fileName">The name of the file to save serialized object.</param>
+        </member>
+        <member name="M:Accord.Extensions.SerializationExtensions.ToBinary``1(``0,System.IO.Stream)">
+            <summary>
+            Serializes specified object to memory stream by using binary formatter.
+            </summary>
+            <typeparam name="T">Object type.</typeparam>
+            <param name="obj">Object to serialize.</param>
+            <param name="stream">The existing stream to serialize to.</param>
+        </member>
+        <member name="M:Accord.Extensions.SerializationExtensions.FromBinary``1(System.IO.Stream)">
+            <summary>
+            De-serializes the object from the specified stream.
+            <para>When de-serializing multiple objects the position within stream must not be tampered by the user.</para>
+            </summary>
+            <typeparam name="T">Object type.</typeparam>
+            <param name="stream">The stream which contains object data.</param>
+            <returns>De-serialized object.</returns>
+        </member>
+        <member name="T:Accord.Extensions.ParallelRandom`1">
+            <summary>
+            Parallel random class.
+            </summary>
+            <typeparam name="TRandom">Random type.</typeparam>
+        </member>
+        <member name="M:Accord.Extensions.ParallelRandom`1.Initialize(System.Func{System.Int32,`0})">
+            <summary>
+            Initializes a new parallel random generator.
+            </summary>
+            <param name="localRandCreator">Local random creation function.</param>
+        </member>
+        <member name="P:Accord.Extensions.ParallelRandom`1.Local">
+            <summary>
+            Gets the random generator of the current thread.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.ParallelRandom">
+            <summary>
+            Parallel random class of an System.Random
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.ParallelRandom.#cctor">
+            <summary>
+            Initializes parallel random generator.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.ParallelRandom.Next">
+            <summary>
+            Gets the next random number. 
+            This function encapsulates the rand.Next() function where rand is an instance of System.Random class.
+            <para>Oppose to rand.Next() this function is thread safe.</para>
+            </summary>
+            <returns>New random non-negative number.</returns>
+        </member>
+        <member name="M:Accord.Extensions.ParallelRandom.Next(System.Int32,System.Int32)">
+            <summary>
+            Returns a random number within a specified range.
+            </summary>
+            <param name="minValue">The inclusive lower bound of the random number returned.</param>
+            <param name="maxValue">
+            The exclusive upper bound of the random number returned. maxValue must be
+            greater than or equal to minValue.
+            </param>
+            <returns>A 32-bit signed integer greater than or equal to minValue and less than maxValue.</returns>
+        </member>
+        <member name="M:Accord.Extensions.ParallelRandom.NextBytes(System.Byte[])">
+            <summary>
+            Fills the provided array of bytes with random values.
+            </summary>
+            <param name="buffer">Buffer to fill with random numbers.</param>
+        </member>
+        <member name="T:Accord.Extensions.RectangleF">
+            <summary>
+            Stores a set of four floating-point numbers that represent the location and size of a rectangle.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.RectangleF.Empty">
+             <summary>
+            	Empty Shared Field
+             </summary>
+            
+             <remarks>
+            	An uninitialized RectangleF Structure.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.FromLTRB(System.Single,System.Single,System.Single,System.Single)">
+             <summary>
+            	FromLTRB Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a RectangleF structure from left, top, right,
+            	and bottom coordinates.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.Inflate(Accord.Extensions.RectangleF,System.Single,System.Single)">
+             <summary>
+            	Inflate Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a new RectangleF by inflating an existing 
+            	RectangleF by the specified coordinate values.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.Inflate(System.Single,System.Single)">
+             <summary>
+            	Inflate Method
+             </summary>
+            
+             <remarks>
+            	Inflates the RectangleF by a specified width and height.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.Inflate(Accord.Extensions.SizeF)">
+             <summary>
+            	Inflate Method
+             </summary>
+            
+             <remarks>
+            	Inflates the RectangleF by a specified Size.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.Intersect(Accord.Extensions.RectangleF,Accord.Extensions.RectangleF)">
+             <summary>
+            	Intersect Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a new RectangleF by intersecting 2 existing 
+            	RectangleFs. Returns null if there is no intersection.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.Intersect(Accord.Extensions.RectangleF)">
+             <summary>
+            	Intersect Method
+             </summary>
+            
+             <remarks>
+            	Replaces the RectangleF with the intersection of itself
+            	and another RectangleF.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.Union(Accord.Extensions.RectangleF,Accord.Extensions.RectangleF)">
+             <summary>
+            	Union Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a new RectangleF from the union of 2 existing 
+            	RectangleFs.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.op_Equality(Accord.Extensions.RectangleF,Accord.Extensions.RectangleF)">
+             <summary>
+            	Equality Operator
+             </summary>
+            
+             <remarks>
+            	Compares two RectangleF objects. The return value is
+            	based on the equivalence of the Location and Size 
+            	properties of the two RectangleFs.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.op_Inequality(Accord.Extensions.RectangleF,Accord.Extensions.RectangleF)">
+             <summary>
+            	Inequality Operator
+             </summary>
+            
+             <remarks>
+            	Compares two RectangleF objects. The return value is
+            	based on the equivalence of the Location and Size 
+            	properties of the two RectangleFs.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.op_Implicit(Accord.Extensions.Rectangle)~Accord.Extensions.RectangleF">
+             <summary>
+            	Rectangle to RectangleF Conversion
+             </summary>
+            
+             <remarks>
+            	Converts a Rectangle object to a RectangleF.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.#ctor(AForge.Point,Accord.Extensions.SizeF)">
+             <summary>
+            	RectangleF Constructor
+             </summary>
+            
+             <remarks>
+            	Creates a RectangleF from PointF and SizeF values.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.#ctor(System.Single,System.Single,System.Single,System.Single)">
+             <summary>
+            	RectangleF Constructor
+             </summary>
+            
+             <remarks>
+            	Creates a RectangleF from a specified x,y location and
+            	width and height values.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.Contains(System.Single,System.Single)">
+             <summary>
+            	Contains Method
+             </summary>
+            
+             <remarks>
+            	Checks if an x,y coordinate lies within this RectangleF.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.Contains(AForge.Point)">
+             <summary>
+            	Contains Method
+             </summary>
+            
+             <remarks>
+            	Checks if a Point lies within this RectangleF.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.Contains(Accord.Extensions.RectangleF)">
+             <summary>
+            	Contains Method
+             </summary>
+            
+             <remarks>
+            	Checks if a RectangleF lies entirely within this 
+            	RectangleF.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.Equals(System.Object)">
+             <summary>
+            	Equals Method
+             </summary>
+            
+             <remarks>
+            	Checks equivalence of this RectangleF and an object.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.GetHashCode">
+             <summary>
+            	GetHashCode Method
+             </summary>
+            
+             <remarks>
+            	Calculates a hashing value.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.IntersectsWith(Accord.Extensions.RectangleF)">
+             <summary>
+            	IntersectsWith Method
+             </summary>
+            
+             <remarks>
+            	Checks if a RectangleF intersects with this one.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.Offset(System.Single,System.Single)">
+             <summary>
+            	Offset Method
+             </summary>
+            
+             <remarks>
+            	Moves the RectangleF a specified distance.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.Offset(AForge.Point)">
+             <summary>
+            	Offset Method
+             </summary>
+            
+             <remarks>
+            	Moves the RectangleF a specified distance.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.RectangleF.ToString">
+             <summary>
+            	ToString Method
+             </summary>
+            
+             <remarks>
+            	Formats the RectangleF in (x,y,w,h) notation.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.RectangleF.Bottom">
+             <summary>
+            	Bottom Property
+             </summary>
+            
+             <remarks>
+            	The Y coordinate of the bottom edge of the RectangleF.
+            	Read only.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.RectangleF.Height">
+             <summary>
+            	Height Property
+             </summary>
+            
+             <remarks>
+            	The Height of the RectangleF.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.RectangleF.IsEmpty">
+             <summary>
+            	IsEmpty Property
+             </summary>
+            
+             <remarks>
+            	Indicates if the width or height are zero. Read only.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.RectangleF.Left">
+             <summary>
+            	Left Property
+             </summary>
+            
+             <remarks>
+            	The X coordinate of the left edge of the RectangleF.
+            	Read only.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.RectangleF.Location">
+             <summary>
+            	Location Property
+             </summary>
+            
+             <remarks>
+            	The Location of the top-left corner of the RectangleF.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.RectangleF.Right">
+             <summary>
+            	Right Property
+             </summary>
+            
+             <remarks>
+            	The X coordinate of the right edge of the RectangleF.
+            	Read only.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.RectangleF.Size">
+             <summary>
+            	Size Property
+             </summary>
+            
+             <remarks>
+            	The Size of the RectangleF.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.RectangleF.Top">
+             <summary>
+            	Top Property
+             </summary>
+            
+             <remarks>
+            	The Y coordinate of the top edge of the RectangleF.
+            	Read only.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.RectangleF.Width">
+             <summary>
+            	Width Property
+             </summary>
+            
+             <remarks>
+            	The Width of the RectangleF.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.RectangleF.X">
+             <summary>
+            	X Property
+             </summary>
+            
+             <remarks>
+            	The X coordinate of the RectangleF.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.RectangleF.Y">
+             <summary>
+            	Y Property
+             </summary>
+            
+             <remarks>
+            	The Y coordinate of the RectangleF.
+             </remarks>
+        </member>
+        <member name="T:Accord.Extensions.SizeF">
+            <summary>
+            Stores an ordered pair of floating-point numbers, which specify a Height and Width and defines related functions.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.SizeF.Empty">
+             <summary>
+            	Empty Shared Field
+             </summary>
+            
+             <remarks>
+            	An uninitialized SizeF Structure.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.SizeF.op_Addition(Accord.Extensions.SizeF,Accord.Extensions.SizeF)">
+             <summary>
+            	Addition Operator
+             </summary>
+            
+             <remarks>
+            	Addition of two SizeF structures.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.SizeF.op_Equality(Accord.Extensions.SizeF,Accord.Extensions.SizeF)">
+             <summary>
+            	Equality Operator
+             </summary>
+            
+             <remarks>
+            	Compares two SizeF objects. The return value is
+            	based on the equivalence of the Width and Height 
+            	properties of the two Sizes.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.SizeF.op_Inequality(Accord.Extensions.SizeF,Accord.Extensions.SizeF)">
+             <summary>
+            	Inequality Operator
+             </summary>
+            
+             <remarks>
+            	Compares two SizeF objects. The return value is
+            	based on the equivalence of the Width and Height 
+            	properties of the two Sizes.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.SizeF.op_Subtraction(Accord.Extensions.SizeF,Accord.Extensions.SizeF)">
+             <summary>
+            	Subtraction Operator
+             </summary>
+            
+             <remarks>
+            	Subtracts two SizeF structures.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.SizeF.op_Explicit(Accord.Extensions.SizeF)~AForge.Point">
+             <summary>
+            	SizeF to PointF Conversion
+             </summary>
+            
+             <remarks>
+            	Returns a PointF based on the dimensions of a given 
+            	SizeF. Requires explicit cast.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.SizeF.#ctor(AForge.Point)">
+             <summary>
+            	SizeF Constructor
+             </summary>
+            
+             <remarks>
+            	Creates a SizeF from a PointF value.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.SizeF.#ctor(Accord.Extensions.SizeF)">
+             <summary>
+            	SizeF Constructor
+             </summary>
+            
+             <remarks>
+            	Creates a SizeF from an existing SizeF value.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.SizeF.#ctor(System.Single,System.Single)">
+             <summary>
+            	SizeF Constructor
+             </summary>
+            
+             <remarks>
+            	Creates a SizeF from specified dimensions.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.SizeF.Equals(System.Object)">
+             <summary>
+            	Equals Method
+             </summary>
+            
+             <remarks>
+            	Checks equivalence of this SizeF and another object.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.SizeF.GetHashCode">
+             <summary>
+            	GetHashCode Method
+             </summary>
+            
+             <remarks>
+            	Calculates a hashing value.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.SizeF.op_Explicit(Accord.Extensions.SizeF)~Accord.Extensions.Size">
+            <summary>
+            Truncates width and height value and returns integer representation of the size.
+            </summary>
+            <param name="size">Size to convert into integer Size representation.</param>
+            <returns>Integer Size representation.</returns>
+        </member>
+        <member name="M:Accord.Extensions.SizeF.ToString">
+             <summary>
+            	ToString Method
+             </summary>
+            
+             <remarks>
+            	Formats the SizeF as a string in coordinate notation.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.SizeF.IsEmpty">
+             <summary>
+            	IsEmpty Property
+             </summary>
+            
+             <remarks>
+            	Indicates if both Width and Height are zero.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.SizeF.Width">
+             <summary>
+            	Width Property
+             </summary>
+            
+             <remarks>
+            	The Width coordinate of the SizeF.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.SizeF.Height">
+             <summary>
+            	Height Property
+             </summary>
+            
+             <remarks>
+            	The Height coordinate of the SizeF.
+             </remarks>
+        </member>
+        <member name="T:Accord.Extensions.Platform">
+            <summary>
+            Contains functions and properties for platform interoperability.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Platform.getRunningPlatform">
+            <summary>
+            Gets operating system name.
+            <para>
+            Taken from: <a href="http://stackoverflow.com/questions/10138040/how-to-detect-properly-windows-linux-mac-operating-systems"/> and modified.
+            </para>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Platform.AddDllSearchPath(System.String)">
+            <summary>
+            Adds the specified directory to unmanaged library search path for functions that load unmanaged library. See <paramref name="dllDirectory"/> attribute is also included.
+            Internally it changes process environmental variable.
+            </summary>
+            <param name="dllDirectory">Directory where to search unmanaged libraries.</param>
+        </member>
+        <member name="M:Accord.Extensions.Platform.GetDefaultDllSearchPath(System.String)">
+            <summary>
+            Gets a default unmanaged library search directory.
+            The default directory is platform specific:
+            <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
+            <para>  MacOS: /UnmanagedLibraries/MacOS/</para>
+            <para>  Linux: /UnmanagedLibraries/Linux/</para>
+            </summary>
+            <param name="rootDirectory">Root directory which marks the starting point (e.g. executing assembly directory).</param>
+            <returns>Default unmanaged library search directory.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Platform.AddDllSearchPath">
+            <summary>
+            Adds the default directory to unmanaged library search path for functions that load unmanaged library. The root directory is the current directory. 
+            The default directory is platform specific:
+            <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
+            <para>  MacOS: /UnmanagedLibraries/MacOS/</para>
+            <para>  Linux: /UnmanagedLibraries/Linux/</para>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Platform.LoadLibrary(System.String)">
+            <summary>
+            Loads an unmanaged library. use <see cref="M:Accord.Extensions.Platform.GetModuleFormatString"/> to set the appropriate extension if necessary.
+            </summary>
+            <param name="fileName">Unmanaged library file name.</param>
+            <returns>Pointer to an loaded library.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Platform.GetModuleFormatString">
+            <summary>
+            Gets a platform specific module format (e.g. Windows {0}.dll).
+            </summary>
+            <returns>Modlule format string.</returns>
+        </member>
+        <member name="P:Accord.Extensions.Platform.RunningPlatform">
+            <summary>
+            Gets operating system name.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Platform.OperatingSystem">
+            <summary>
+            Operating system type.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Platform.OperatingSystem.Windows">
+            <summary>
+            Windows family.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Platform.OperatingSystem.Linux">
+            <summary>
+            Linux family
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Platform.OperatingSystem.MacOS">
+            <summary>
+            MacOS family
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Platform.LoadUnixLibFlags">
+            <summary>
+            Flags for <see cref="M:Accord.Extensions.Platform.LoadUnixLibrary(System.String,Accord.Extensions.Platform.LoadUnixLibFlags)"/> function.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Rectangle">
+            <summary>
+            Stores a set of four integer numbers that represent the location and size of a rectangle.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Rectangle.Empty">
+             <summary>
+            	Empty Shared Field
+             </summary>
+            
+             <remarks>
+            	An uninitialized Rectangle Structure.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Ceiling(Accord.Extensions.RectangleF)">
+             <summary>
+            	Ceiling Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a Rectangle structure from a RectangleF 
+            	structure by taking the ceiling of the X, Y, Width,
+            	and Height properties.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.FromLTRB(System.Int32,System.Int32,System.Int32,System.Int32)">
+             <summary>
+            	FromLTRB Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a Rectangle structure from left, top, right,
+            	and bottom coordinates.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Inflate(Accord.Extensions.Rectangle,System.Int32,System.Int32)">
+             <summary>
+            	Inflate Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a new Rectangle by inflating an existing 
+            	Rectangle by the specified coordinate values.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Inflate(System.Int32,System.Int32)">
+             <summary>
+            	Inflate Method
+             </summary>
+            
+             <remarks>
+            	Inflates the Rectangle by a specified width and height.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Inflate(Accord.Extensions.Size)">
+             <summary>
+            	Inflate Method
+             </summary>
+            
+             <remarks>
+            	Inflates the Rectangle by a specified Size.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Intersect(Accord.Extensions.Rectangle,Accord.Extensions.Rectangle)">
+             <summary>
+            	Intersect Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a new Rectangle by intersecting 2 existing 
+            	Rectangles. Returns null if there is no	intersection.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Intersect(Accord.Extensions.Rectangle)">
+             <summary>
+            	Intersect Method
+             </summary>
+            
+             <remarks>
+            	Replaces the Rectangle with the intersection of itself
+            	and another Rectangle.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Round(Accord.Extensions.RectangleF)">
+             <summary>
+            	Round Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a Rectangle structure from a RectangleF by
+            	rounding the X, Y, Width, and Height properties.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Truncate(Accord.Extensions.RectangleF)">
+             <summary>
+            	Truncate Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a Rectangle structure from a RectangleF by
+            	truncating the X, Y, Width, and Height properties.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Union(Accord.Extensions.Rectangle,Accord.Extensions.Rectangle)">
+             <summary>
+            	Union Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a new Rectangle from the union of 2 existing 
+            	Rectangles.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.op_Equality(Accord.Extensions.Rectangle,Accord.Extensions.Rectangle)">
+             <summary>
+            	Equality Operator
+             </summary>
+            
+             <remarks>
+            	Compares two Rectangle objects. The return value is
+            	based on the equivalence of the Location and Size 
+            	properties of the two Rectangles.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.op_Inequality(Accord.Extensions.Rectangle,Accord.Extensions.Rectangle)">
+             <summary>
+            	Inequality Operator
+             </summary>
+            
+             <remarks>
+            	Compares two Rectangle objects. The return value is
+            	based on the equivalence of the Location and Size 
+            	properties of the two Rectangles.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.#ctor(AForge.IntPoint,Accord.Extensions.Size)">
+             <summary>
+            	Rectangle Constructor
+             </summary>
+            
+             <remarks>
+            	Creates a Rectangle from Point and Size values.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.#ctor(System.Int32,System.Int32,System.Int32,System.Int32)">
+             <summary>
+            	Rectangle Constructor
+             </summary>
+            
+             <remarks>
+            	Creates a Rectangle from a specified x,y location and
+            	width and height values.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Contains(System.Int32,System.Int32)">
+             <summary>
+            	Contains Method
+             </summary>
+            
+             <remarks>
+            	Checks if an x,y coordinate lies within this Rectangle.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Contains(AForge.IntPoint)">
+             <summary>
+            	Contains Method
+             </summary>
+            
+             <remarks>
+            	Checks if a Point lies within this Rectangle.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Contains(Accord.Extensions.Rectangle)">
+             <summary>
+            	Contains Method
+             </summary>
+            
+             <remarks>
+            	Checks if a Rectangle lies entirely within this 
+            	Rectangle.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Equals(System.Object)">
+             <summary>
+            	Equals Method
+             </summary>
+            
+             <remarks>
+            	Checks equivalence of this Rectangle and another object.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.GetHashCode">
+             <summary>
+            	GetHashCode Method
+             </summary>
+            
+             <remarks>
+            	Calculates a hashing value.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.IntersectsWith(Accord.Extensions.Rectangle)">
+             <summary>
+            	IntersectsWith Method
+             </summary>
+            
+             <remarks>
+            	Checks if a Rectangle intersects with this one.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Offset(System.Int32,System.Int32)">
+             <summary>
+            	Offset Method
+             </summary>
+            
+             <remarks>
+            	Moves the Rectangle a specified distance.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.Offset(AForge.IntPoint)">
+             <summary>
+            	Offset Method
+             </summary>
+            
+             <remarks>
+            	Moves the Rectangle a specified distance.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Rectangle.ToString">
+             <summary>
+            	ToString Method
+             </summary>
+            
+             <remarks>
+            	Formats the Rectangle as a string in (x,y,w,h) notation.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Rectangle.Bottom">
+             <summary>
+            	Bottom Property
+             </summary>
+            
+             <remarks>
+            	The Y coordinate of the bottom edge of the Rectangle.
+            	Read only.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Rectangle.Height">
+             <summary>
+            	Height Property
+             </summary>
+            
+             <remarks>
+            	The Height of the Rectangle.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Rectangle.IsEmpty">
+             <summary>
+            	IsEmpty Property
+             </summary>
+            
+             <remarks>
+            	Indicates if the width or height are zero. Read only.
+             </remarks>		
+        </member>
+        <member name="P:Accord.Extensions.Rectangle.Left">
+             <summary>
+            	Left Property
+             </summary>
+            
+             <remarks>
+            	The X coordinate of the left edge of the Rectangle.
+            	Read only.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Rectangle.Location">
+             <summary>
+            	Location Property
+             </summary>
+            
+             <remarks>
+            	The Location of the top-left corner of the Rectangle.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Rectangle.Right">
+             <summary>
+            	Right Property
+             </summary>
+            
+             <remarks>
+            	The X coordinate of the right edge of the Rectangle.
+            	Read only.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Rectangle.Size">
+             <summary>
+            	Size Property
+             </summary>
+            
+             <remarks>
+            	The Size of the Rectangle.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Rectangle.Top">
+             <summary>
+            	Top Property
+             </summary>
+            
+             <remarks>
+            	The Y coordinate of the top edge of the Rectangle.
+            	Read only.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Rectangle.Width">
+             <summary>
+            	Width Property
+             </summary>
+            
+             <remarks>
+            	The Width of the Rectangle.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Rectangle.X">
+             <summary>
+            	X Property
+             </summary>
+            
+             <remarks>
+            	The X coordinate of the Rectangle.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Rectangle.Y">
+             <summary>
+            	Y Property
+             </summary>
+            
+             <remarks>
+            	The Y coordinate of the Rectangle.
+             </remarks>
+        </member>
+        <member name="T:Accord.Extensions.Size">
+            <summary>
+            Stores an ordered pair of integer numbers, which specify a Height and Width and defines related functions.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Size.Empty">
+             <summary>
+            	Empty Shared Field
+             </summary>
+            
+             <remarks>
+            	An uninitialized Size Structure.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.Ceiling(Accord.Extensions.SizeF)">
+             <summary>
+            	Ceiling Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a Size structure from a SizeF structure by
+            	taking the ceiling of the Width and Height properties.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.Round(Accord.Extensions.SizeF)">
+             <summary>
+            	Round Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a Size structure from a SizeF structure by
+            	rounding the Width and Height properties.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.Truncate(Accord.Extensions.SizeF)">
+             <summary>
+            	Truncate Shared Method
+             </summary>
+            
+             <remarks>
+            	Produces a Size structure from a SizeF structure by
+            	truncating the Width and Height properties.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.op_Addition(Accord.Extensions.Size,Accord.Extensions.Size)">
+             <summary>
+            	Addition Operator
+             </summary>
+            
+             <remarks>
+            	Addition of two Size structures.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.op_Equality(Accord.Extensions.Size,Accord.Extensions.Size)">
+             <summary>
+            	Equality Operator
+             </summary>
+            
+             <remarks>
+            	Compares two Size objects. The return value is
+            	based on the equivalence of the Width and Height 
+            	properties of the two Sizes.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.op_Inequality(Accord.Extensions.Size,Accord.Extensions.Size)">
+             <summary>
+            	Inequality Operator
+             </summary>
+            
+             <remarks>
+            	Compares two Size objects. The return value is
+            	based on the equivalence of the Width and Height 
+            	properties of the two Sizes.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.op_Subtraction(Accord.Extensions.Size,Accord.Extensions.Size)">
+             <summary>
+            	Subtraction Operator
+             </summary>
+            
+             <remarks>
+            	Subtracts two Size structures.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.op_Explicit(Accord.Extensions.Size)~AForge.IntPoint">
+             <summary>
+            	Size to Point Conversion
+             </summary>
+            
+             <remarks>
+            	Returns a Point based on the dimensions of a given 
+            	Size. Requires explicit cast.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.op_Implicit(Accord.Extensions.Size)~Accord.Extensions.SizeF">
+             <summary>
+            	Size to SizeF Conversion
+             </summary>
+            
+             <remarks>
+            	Creates a SizeF based on the dimensions of a given 
+            	Size. No explicit cast is required.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.#ctor(AForge.IntPoint)">
+             <summary>
+            	Size Constructor
+             </summary>
+            
+             <remarks>
+            	Creates a Size from a Point value.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.#ctor(System.Int32,System.Int32)">
+             <summary>
+            	Size Constructor
+             </summary>
+            
+             <remarks>
+            	Creates a Size from specified dimensions.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.Equals(System.Object)">
+             <summary>
+            	Equals Method
+             </summary>
+            
+             <remarks>
+            	Checks equivalence of this Size and another object.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.GetHashCode">
+             <summary>
+            	GetHashCode Method
+             </summary>
+            
+             <remarks>
+            	Calculates a hashing value.
+             </remarks>
+        </member>
+        <member name="M:Accord.Extensions.Size.ToString">
+             <summary>
+            	ToString Method
+             </summary>
+            
+             <remarks>
+            	Formats the Size as a string in coordinate notation.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Size.IsEmpty">
+             <summary>
+            	IsEmpty Property
+             </summary>
+            
+             <remarks>
+            	Indicates if both Width and Height are zero.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Size.Width">
+             <summary>
+            	Width Property
+             </summary>
+            
+             <remarks>
+            	The Width coordinate of the Size.
+             </remarks>
+        </member>
+        <member name="P:Accord.Extensions.Size.Height">
+             <summary>
+            	Height Property
+             </summary>
+            
+             <remarks>
+            	The Height coordinate of the Size.
+             </remarks>
+        </member>
+        <member name="T:Accord.Extensions.History`1">
+            <summary>
+            Represents s strongly typed list of objects. 
+            The collection represents history; it can be more suitable than <see cref="T:System.Collections.Generic.List`1"/> for object tracking where saving the detection history is common task.
+            </summary>
+            <typeparam name="T">Type object type.</typeparam>
+        </member>
+        <member name="M:Accord.Extensions.History`1.#ctor(System.Int32)">
+            <summary>
+            Creates a new collection.
+            </summary>
+            <param name="maxNumOfElems">Maximum number of elements. If the maximum is reached the oldest elements are replaced.</param>
+        </member>
+        <member name="M:Accord.Extensions.History`1.Add(`0)">
+            <summary>
+            Adds element to the collection.
+            </summary>
+            <param name="elem">The specified element.</param>
+        </member>
+        <member name="M:Accord.Extensions.History`1.Clear">
+            <summary>
+            Removes all elements from the history.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.History`1.GetRange(System.Int32)">
+            <summary>
+            Returns part of the history. First element is the newest.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.History`1.RemoveRange(System.Int32,System.Int32)">
+            <summary>
+            Removes the specified range from the histroy.
+            </summary>
+            <param name="startDepth">Starting depth.</param>
+            <param name="numOfElems">Number of elemets to remove. If specified more than maximum, maximum elements will be removed.</param>
+        </member>
+        <member name="M:Accord.Extensions.History`1.GetAllElements">
+            <summary>
+            Gets all elements.
+            </summary>
+            <returns>The list of elements.</returns>
+        </member>
+        <member name="M:Accord.Extensions.History`1.ToString">
+            <summary>
+            Gets the string representation.
+            </summary>
+            <returns>The string representation.</returns>
+        </member>
+        <member name="M:Accord.Extensions.History`1.Clone">
+            <summary>
+            Clones the history. The data is shared.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="E:Accord.Extensions.History`1.OnAddElement">
+            <summary>
+            Represents an event that is fired when a new object is added.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.History`1.Item(System.Int32)">
+            <summary>
+            Gets or sets the element at specified history depth.
+            </summary>
+            <param name="histDepth">Histroy depth. Zero means current state.</param>
+            <returns>An element at specified index.</returns>
+        </member>
+        <member name="P:Accord.Extensions.History`1.Current">
+            <summary>
+            Gets or sets the current element (depth zero).
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.History`1.Oldest">
+            <summary>
+            Get or sets the oldest element (maximum depth).
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.History`1.Count">
+            <summary>
+            Gets the number of elements.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.History`1.MaxCount">
+            <summary>
+            Get the number of history capacity. If th emaximum is reached newly added elements will overwrite the oldest ondes.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.History`1.AddElement">
+            <summary>
+            Function delegate for adding an object.
+            </summary>
+            <param name="elem"></param>
+        </member>
+        <member name="T:Accord.Extensions.PinnedArray`1">
+            <summary>
+            Class that represents the pinned array.
+            </summary>
+            <typeparam name="T">Generic type of an structure. The structure must have blittable types.</typeparam>
+        </member>
+        <member name="M:Accord.Extensions.PinnedArray`1.#ctor(System.Int32)">
+            <summary>
+            Constructs pinned array. (allocation)
+            </summary>
+            <param name="length">Number of elements.</param>
+        </member>
+        <member name="M:Accord.Extensions.PinnedArray`1.#ctor(`0[])">
+            <summary>
+            Constructs pinned array. (pinns array - data is not copied)
+            </summary>
+            <param name="array">Input array</param>
+        </member>
+        <member name="M:Accord.Extensions.PinnedArray`1.#ctor(System.Int32,System.IntPtr)">
+            <summary>
+            Constructs pinned array. (data is copied from data source)
+            </summary>
+            <param name="length">Number of elements.</param>
+            <param name="dataSource">Pointer to data.</param>
+        </member>
+        <member name="M:Accord.Extensions.PinnedArray`1.Dispose">
+            <summary>
+            Disposes pinned array (frees alocated handle). 
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.PinnedArray`1.Finalize">
+            <summary>
+            Destructs pinned array (releases pinning handle).
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.PinnedArray`1.Equals(Accord.Extensions.PinnedArray{`0})">
+            <summary>
+            Compares two arrays by checking address and length. (no data comparing).
+            </summary>
+            <param name="other">Second array.</param>
+            <returns>Are equal or not.</returns>
+        </member>
+        <member name="P:Accord.Extensions.PinnedArray`1.Array">
+            <summary>
+            Internal pinned array.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.PinnedArray`1.SizeInBytes">
+            <summary>
+            Length of the array in bytes.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.PinnedArray`1.Data">
+            <summary>
+            Unmanaged data pointer.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.SearchMethods">
+            <summary>
+            <para>Defined functions can be used as object extensions.</para>
+            Provides methods for graph search. 
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.SearchMethods.BreadthFirstSearch``1(System.Collections.Generic.List{``0},``0,``0,System.Func{``0,``0,System.Boolean})">
+            <summary>
+            Breadth first search.
+            </summary>
+            <param name="data">Initial set to search</param>
+            <param name="src">Start element.</param>
+            <param name="dest">End element.</param>
+            <param name="areAdjacent">Function that returns true if two elements are adjacent.</param>
+            <returns>All possible paths from source to destination node.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Pair`1">
+            <summary>
+            Represents pair of <typeparamref name="T"/> type.
+            </summary>
+            <typeparam name="T">Generic type.</typeparam>
+        </member>
+        <member name="F:Accord.Extensions.Pair`1.First">
+            <summary>
+            Gets or sets the first element.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Pair`1.Second">
+            <summary>
+            Gets or sets the second element.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Pair`1.#ctor">
+            <summary>
+            Constructs the empty pair. 
+            Properties are initialized to the default type values.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Pair`1.#ctor(`0,`0)">
+            <summary>
+            Constructs the pair structure.
+            </summary>
+            <param name="first">First value.</param>
+            <param name="second">Second value.</param>
+        </member>
+        <member name="M:Accord.Extensions.Pair`1.Equals(System.Object)">
+            <summary>
+            Determines whether the current object is equal to the specified one.
+            </summary>
+            <param name="obj">Other object to compare with.</param>
+            <returns>True if the current object is equal to the specified one, false otherwise.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Pair`1.GetHashCode">
+            <summary>
+            Gets the object's hash code.
+            </summary>
+            <returns>Object's has code.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Pair`1.ToString">
+            <summary>
+            Gets the string representation of the object.
+            </summary>
+            <returns>String representation of the object.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Pair`1.op_Implicit(Accord.Extensions.Pair{`0})~System.Tuple{`0,`0}">
+            <summary>
+            Converts the structure into System.Tuple{T, T}.
+            </summary>
+            <param name="pair">Value pair.</param>
+            <returns>Tuple.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Pair`1.op_Implicit(System.Tuple{`0,`0})~Accord.Extensions.Pair{`0}">
+            <summary>
+            Converts the structure into Accord.Extensions.Pair{T}.
+            </summary>
+            <param name="tuple">Tuple.</param>
+            <returns>Pair.</returns>
+        </member>
+    </members>
+</doc>

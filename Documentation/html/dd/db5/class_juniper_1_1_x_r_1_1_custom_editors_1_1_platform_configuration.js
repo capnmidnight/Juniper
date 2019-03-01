@@ -1,0 +1,26 @@
+var class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration =
+[
+    [ "PlatformConfiguration", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#abd370d0e58f917b67b4a237102b2e4c9", null ],
+    [ "Activate", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a2422b03ac45411766139d162b8013f5d", null ],
+    [ "Deactivate", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a3b7f62df2ffbb55891a5fb319a9a5cdf", null ],
+    [ "InstallRawPackages", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a806b406a55a9a84052f8e5e3d41c3bb3", null ],
+    [ "InstallUnityPackages", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a097ee700567e2728dd5e8b7d3a2a3dbe", null ],
+    [ "SwitchTarget", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#aeb4128c894fa3136d0d51b2e670a18d6", null ],
+    [ "UninstallRawPackages", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a4912f6c13cb28c0e50143a3d639c418c", null ],
+    [ "UninstallUnityPackages", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#adce006147bbee40b417f7333a37da5a7", null ],
+    [ "buildTarget", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#aa9f15fca61ee1d3ad9db3cce226f2845", null ],
+    [ "CompilerDefine", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a10d1c6b5c4b82443840f7587f500cb42", null ],
+    [ "IsSupported", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#adcf05d75b47478b5730c3a7168ecf5fb", null ],
+    [ "Name", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a6d58c5c1ea0517029507d0e6e6fae72a", null ],
+    [ "packages", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a28c9a018c0d0e960a6e7362501b24b73", null ],
+    [ "TargetGroup", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#ac8b2afdbcc3a0cf793aa6dc2ab828471", null ],
+    [ "vrSystems", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a5d40ac167627f9f7ac94038b182cda01", null ],
+    [ "XRPlatforms", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#ab8dbe9438ff779ec323dd94b57ebb7ee", null ],
+    [ "BuildTarget", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#aa8663a33c340ecea282f76b99275aa91", null ],
+    [ "CompilerDefines", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a50b6b26be9b8fa1bc9bf83aee45fd449", null ],
+    [ "ExcludedUnityPackages", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#ac7654d29203f3d9b6017da18804a5cfd", null ],
+    [ "IncludedUnityPackages", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#abca3294bfd8b9dcd3dccdc8f82a4129b", null ],
+    [ "RawPackages", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a048131684b94633092df4495cba46d27", null ],
+    [ "UninstallableRawPackages", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a0de3ed7ceb4f30359d51bd9bef27c8b5", null ],
+    [ "UninstallableUnityPackages", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a15c8c0abe2d52e2e1ec5865a16631036", null ]
+];

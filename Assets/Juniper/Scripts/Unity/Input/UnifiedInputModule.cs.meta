@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: d9ee0192a19ac42ec94a27f13a0c1cd1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - LaserPointerMaterial: {fileID: 2100000, guid: 992ca64fce85d4330a73d82232ecd2b4,
+      type: 2}
+  executionOrder: -5
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

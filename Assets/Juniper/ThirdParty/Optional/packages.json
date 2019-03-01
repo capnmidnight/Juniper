@@ -1,0 +1,82 @@
+[
+  {
+    "Name": "UBER",
+    "CompilerDefine": "UBER_SHADER"
+  },
+  {
+    "Name": "NatCam",
+    "CompilerDefine": "NATCAM"
+  },
+  {
+    "Name": "FogVolume",
+    "CompilerDefine": "FOG_VOLUME"
+  },
+  {
+    "Name": "SteamVR",
+    "CompilerDefine": "STEAMVR"
+  },
+  {
+    "Name": "MagicLeap",
+    "CompilerDefine": "MAGIC_LEAP",
+    "spatializer": "MSA Spatializer"
+  },
+  {
+    "Name": "ResonanceAudio",
+    "CompilerDefine": "RESONANCEAUDIO",
+    "spatializer": "Resonance Audio"
+  },
+  {
+    "Name": "Oculus",
+    "CompilerDefine": "OCULUS",
+    "spatializer": "OculusSpatializer",
+    "androidSdkVersion": "AndroidApiLevel21"
+  },
+  {
+    "Name": "GoogleVR",
+    "CompilerDefine": "GOOGLEVR",
+    "androidSdkVersion": "AndroidApiLevel24"
+  },
+  {
+    "Name": "WaveVR",
+    "CompilerDefine": "WAVEVR",
+    "androidSdkVersion": "AndroidApiLevel25"
+  },
+  {
+    "Name": "GoogleARCore",
+    "CompilerDefine": "ARCORE"
+  },
+  {
+    "Name": "UnityARKitPlugin",
+    "CompilerDefine": "ARKIT",
+    "iOSVersion": "11.0"
+  },
+  {
+    "Name": "Tobii",
+    "CompilerDefine": "TOBII"
+  },
+  {
+    "Name": "Vuforia",
+    "CompilerDefine": "VUFORIA"
+  },
+  {
+    "Name": "NeuroSky",
+    "CompilerDefine": "NEUROSKY"
+  },
+  {
+    "Name": "UWP",
+    "spatializer": "Microsoft HRTF",
+    "wsaSubtarget": "AnyDevice"
+  },
+  {
+    "Name": "HoloLens",
+    "CompilerDefine": "HOLOLENS",
+    "spatializer": "Microsoft HRTF",
+    "wsaSubtarget": "HoloLens"
+  },
+  {
+    "Name": "WindowsMR",
+    "CompilerDefine": "WINDOWSMR",
+    "spatializer": "Microsoft HRTF",
+    "wsaSubtarget": "PC"
+  }
+]

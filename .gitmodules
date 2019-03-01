@@ -1,0 +1,4 @@
+[submodule "Juniper.Units"]
+	path = Juniper.Units
+	url = https://github.com/capnmidnight/Juniper.Units.git
+	branch = master

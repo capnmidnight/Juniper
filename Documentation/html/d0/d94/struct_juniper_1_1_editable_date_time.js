@@ -1,0 +1,27 @@
+var struct_juniper_1_1_editable_date_time =
+[
+    [ "EditableDateTime", "d0/d94/struct_juniper_1_1_editable_date_time.html#ae5f8591f48ff9ed165669d8fb5acd105", null ],
+    [ "Equals", "d0/d94/struct_juniper_1_1_editable_date_time.html#af1685266af7319657460233d784be0bf", null ],
+    [ "GetHashCode", "d0/d94/struct_juniper_1_1_editable_date_time.html#a15faae6ca0f642191bf61352d4b7200c", null ],
+    [ "operator !=", "d0/d94/struct_juniper_1_1_editable_date_time.html#a4b06de04a8385bdfdadb0e29e49e4efb", null ],
+    [ "operator !=", "d0/d94/struct_juniper_1_1_editable_date_time.html#a179798a01df6f06a5845c8a8fd22fd01", null ],
+    [ "operator !=", "d0/d94/struct_juniper_1_1_editable_date_time.html#ab74be67bfcfb2bd94f9f6c6cfe5fd11b", null ],
+    [ "operator DateTime", "d0/d94/struct_juniper_1_1_editable_date_time.html#a1ed8ec13195040270ad9c848e8094269", null ],
+    [ "operator EditableDateTime", "d0/d94/struct_juniper_1_1_editable_date_time.html#ab494ed362888d0b013eea44d7b74edb6", null ],
+    [ "operator==", "d0/d94/struct_juniper_1_1_editable_date_time.html#a36c4d3ee7bbe2a8282642d30e62fa87b", null ],
+    [ "operator==", "d0/d94/struct_juniper_1_1_editable_date_time.html#a2d97fbf0a500a0697eaaa1b2f20c8155", null ],
+    [ "operator==", "d0/d94/struct_juniper_1_1_editable_date_time.html#a3705579a392f31fd1ada5bb5d9c0eff0", null ],
+    [ "Changed", "d0/d94/struct_juniper_1_1_editable_date_time.html#a9f6db95c8e40293878a283a59dbf115b", null ],
+    [ "Day", "d0/d94/struct_juniper_1_1_editable_date_time.html#ace159afb93a55090cdfd8de4d199c005", null ],
+    [ "Hour", "d0/d94/struct_juniper_1_1_editable_date_time.html#ad23c6cf6ac80d57775a882c05b2d16f1", null ],
+    [ "Kind", "d0/d94/struct_juniper_1_1_editable_date_time.html#aff240cc97d70503604a0a94059a087f2", null ],
+    [ "lastValue", "d0/d94/struct_juniper_1_1_editable_date_time.html#a1773fb1920e1e47e83eef1db65466e37", null ],
+    [ "Millisecond", "d0/d94/struct_juniper_1_1_editable_date_time.html#a196b72b8e2ff26568d2155d1ffac64e7", null ],
+    [ "Minute", "d0/d94/struct_juniper_1_1_editable_date_time.html#a8c335be2456ba900aeeb56a360364fac", null ],
+    [ "Month", "d0/d94/struct_juniper_1_1_editable_date_time.html#aa9e7f615742146f7a9c71c182ebfbf29", null ],
+    [ "Now", "d0/d94/struct_juniper_1_1_editable_date_time.html#a55bd611cf62ca8ce8c7b4a5aaa13a752", null ],
+    [ "Second", "d0/d94/struct_juniper_1_1_editable_date_time.html#afcfd4d41e9dfdc1866ac4a1de0c9794e", null ],
+    [ "TestOffset", "d0/d94/struct_juniper_1_1_editable_date_time.html#a5438653cb0409b7dbbad2c20b45866b1", null ],
+    [ "Year", "d0/d94/struct_juniper_1_1_editable_date_time.html#ae51c12fae1ab1961b5429c1301190835", null ],
+    [ "Value", "d0/d94/struct_juniper_1_1_editable_date_time.html#aae8211c65d89e9fbf3735bb482d7db7d", null ]
+];

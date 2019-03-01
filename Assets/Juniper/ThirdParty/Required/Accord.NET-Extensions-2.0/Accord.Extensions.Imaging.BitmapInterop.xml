@@ -1,0 +1,327 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Accord.Extensions.Imaging.BitmapInterop</name>
+    </assembly>
+    <members>
+        <member name="T:Accord.Extensions.Imaging.BitmapConversionExtensions">
+            <summary>
+            Provides extension methods for converting generic image into <see cref="T:System.Drawing.Bitmap"/>.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToArray(System.Drawing.Bitmap)">
+            <summary>
+            Converts a bitmap to an image (copies data). 
+            </summary>
+            <param name="bmp">Input bitmap.</param>
+            <returns>2D array.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToBitmap(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Gray{System.Byte}})">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToBitmap(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Gray{System.Int16}})">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToBitmap(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Bgr{System.Byte}})">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToBitmap(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Bgra{System.Byte}})">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToBitmap(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Bgr{System.Int16}})">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToBitmap(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Bgra{System.Int16}})">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToBitmap(Accord.Extensions.Imaging.Gray{System.Byte}[0:,0:])">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToBitmap(Accord.Extensions.Imaging.Gray{System.Int16}[0:,0:])">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToBitmap(Accord.Extensions.Imaging.Bgr{System.Byte}[0:,0:])">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToBitmap(Accord.Extensions.Imaging.Bgra{System.Byte}[0:,0:])">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToBitmap(Accord.Extensions.Imaging.Bgr{System.Int16}[0:,0:])">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.ToBitmap(Accord.Extensions.Imaging.Bgra{System.Int16}[0:,0:])">
+            <summary>
+            Converts an image to an bitmap.
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.AsBitmap(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Gray{System.Byte}})">
+            <summary>
+            Casts an image to an bitmap.
+            <para>Notice that GDI+ does not support bitmaps which stride is not 4.</para>
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.AsBitmap(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Gray{System.Int16}})">
+            <summary>
+            Casts an image to an bitmap.
+            <para>Notice that GDI+ does not support bitmaps which stride is not 4.</para>
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.AsBitmap(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Bgr{System.Byte}})">
+            <summary>
+            Casts an image to an bitmap.
+            <para>Notice that GDI+ does not support bitmaps which stride is not 4.</para>
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.AsBitmap(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Bgra{System.Byte}})">
+            <summary>
+            Casts an image to an bitmap.
+            <para>Notice that GDI+ does not support bitmaps which stride is not 4.</para>
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.AsBitmap(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Bgr{System.Int16}})">
+            <summary>
+            Casts an image to an bitmap.
+            <para>Notice that GDI+ does not support bitmaps which stride is not 4.</para>
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.AsBitmap(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Bgra{System.Int16}})">
+            <summary>
+            Casts an image to an bitmap.
+            <para>Notice that GDI+ does not support bitmaps which stride is not 4.</para>
+            </summary>
+            <param name="img">Input image.</param>
+            <returns>Bitmap</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.SetGrayscalePalette(System.Drawing.Bitmap)">
+            <summary>
+            Replaces color palette entries with grayscale intensities (256 entries).
+            </summary>
+            <param name="image">The 8-bpp grayscale image.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BitmapConversionExtensions.LockBits(System.Drawing.Bitmap,System.Drawing.Imaging.ImageLockMode)">
+            <summary>
+            Lock a <see cref="T:System.Drawing.Bitmap"/> into system memory.
+            </summary>
+            <param name="bmp">Bitmap to lock.</param>
+            <param name="imageLockMode">Specifies the access level.</param>
+            <returns>Bitmap data.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.BmpSaveExtensions">
+            <summary>
+            Bitmap file save extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.BmpSaveExtensions.Save(System.Drawing.Image,System.String,System.Int32)">
+            <summary>
+            Saves the specified image.
+            <para>
+            Quality parameter is only supported for JPEG, PNG file types. 
+            For other file types this value is omitted.
+            </para>
+            </summary>
+            <param name="image">Image.</param>
+            <param name="filename">File name.</param>
+            <param name="quality">Quality parameter [0..100] where 0 means maximum compression.</param>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ColorExtensions">
+            <summary>
+            Contains color format conversion extensions.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ColorExtensions.ToColor(Accord.Extensions.Imaging.Gray{System.Byte},System.Byte)">
+            <summary>
+            Gets System.Drawing.Color from Bgr8 color.
+            </summary>
+            <param name="color">Color.</param>
+            <param name="opacity">Opacity. If color has 4 channels opacity is discarded.</param>
+            <returns>System.Drawing.Color</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ColorExtensions.ToColor(Accord.Extensions.Imaging.Bgr{System.Byte},System.Byte)">
+            <summary>
+            Gets System.Drawing.Color from Bgr8 color.
+            </summary>
+            <param name="color">Color.</param>
+            <param name="opacity">Opacity. If color has 4 channels opacity is discarded.</param>
+            <returns>System.Drawing.Color</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ColorExtensions.ToColor(Accord.Extensions.Imaging.Bgra{System.Byte})">
+            <summary>
+            Gets System.Drawing.Color from Bgra8 color.
+            </summary>
+            <param name="color">Color.</param>
+            <returns>System.Drawing.Color</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ColorExtensions.ToBgr(System.Drawing.Color)">
+            <summary>
+            Converts (casts) the color into 32-bit BGR color.
+            </summary>
+            <param name="color">Color.</param>
+            <returns>Bgr representation.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.DrawingStructureConversions">
+            <summary>
+            Contains extension methods for System.Drawing namespace and Accord.NET extensions structure conversion.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DrawingStructureConversions.ToPt(System.Drawing.Point)">
+            <summary>
+            Converts <see cref="T:System.Drawing.Point"/> to the <see cref="T:AForge.IntPoint"/>.
+            </summary>
+            <param name="point"><see cref="T:System.Drawing.Point"/></param>
+            <returns><see cref="T:AForge.IntPoint"/></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DrawingStructureConversions.ToPt(System.Drawing.PointF)">
+            <summary>
+            Converts <see cref="T:System.Drawing.PointF"/> to the <see cref="T:AForge.Point"/>.
+            </summary>
+            <param name="point"><see cref="T:System.Drawing.PointF"/></param>
+            <returns><see cref="T:AForge.Point"/></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DrawingStructureConversions.ToPt(AForge.IntPoint)">
+            <summary>
+            Converts to <see cref="T:AForge.IntPoint"/> to the <see cref="T:System.Drawing.Point"/>.
+            </summary>
+            <param name="point"><see cref="T:AForge.IntPoint"/></param>
+            <returns><see cref="T:System.Drawing.Point"/></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DrawingStructureConversions.ToPt(AForge.Point)">
+            <summary>
+            Converts to <see cref="T:AForge.Point"/> to the <see cref="T:System.Drawing.PointF"/>.
+            </summary>
+            <param name="point"><see cref="T:AForge.Point"/></param>
+            <returns><see cref="T:System.Drawing.PointF"/></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DrawingStructureConversions.ToRect(System.Drawing.Rectangle)">
+            <summary>
+            Converts the <see cref="T:System.Drawing.Rectangle"/> to the <see cref="T:Accord.Extensions.Rectangle"/>.
+            </summary>
+            <param name="rect"><see cref="T:System.Drawing.Rectangle"/></param>
+            <returns><see cref="T:Accord.Extensions.Rectangle"/></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DrawingStructureConversions.ToRect(System.Drawing.RectangleF)">
+            <summary>
+            Converts the <see cref="T:System.Drawing.RectangleF"/> to the <see cref="T:Accord.Extensions.RectangleF"/>.
+            </summary>
+            <param name="rect"><see cref="T:System.Drawing.RectangleF"/></param>
+            <returns><see cref="T:Accord.Extensions.RectangleF"/></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DrawingStructureConversions.ToRect(Accord.Extensions.Rectangle)">
+            <summary>
+            Converts the <see cref="T:Accord.Extensions.Rectangle"/> to the <see cref="T:System.Drawing.Rectangle"/>.
+            </summary>
+            <param name="rect"><see cref="T:Accord.Extensions.Rectangle"/></param>
+            <returns><see cref="T:System.Drawing.Rectangle"/></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DrawingStructureConversions.ToRect(Accord.Extensions.RectangleF)">
+            <summary>
+            Converts the <see cref="T:Accord.Extensions.RectangleF"/> to the <see cref="T:System.Drawing.RectangleF"/>.
+            </summary>
+            <param name="rect"><see cref="T:Accord.Extensions.RectangleF"/></param>
+            <returns><see cref="T:System.Drawing.RectangleF"/></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DrawingStructureConversions.ToSize(System.Drawing.Size)">
+            <summary>
+            Converts the <see cref="T:System.Drawing.Size"/> to the <see cref="T:Accord.Extensions.Size"/>.
+            </summary>
+            <param name="size"><see cref="T:System.Drawing.Size"/></param>
+            <returns><see cref="T:Accord.Extensions.Size"/></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DrawingStructureConversions.ToSize(System.Drawing.SizeF)">
+            <summary>
+            Converts the <see cref="T:System.Drawing.SizeF"/> to the <see cref="T:Accord.Extensions.SizeF"/>.
+            </summary>
+            <param name="size"><see cref="T:System.Drawing.SizeF"/></param>
+            <returns><see cref="T:Accord.Extensions.SizeF"/></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DrawingStructureConversions.ToSize(Accord.Extensions.Size)">
+            <summary>
+            Converts the <see cref="T:Accord.Extensions.Size"/> to the <see cref="T:System.Drawing.Size"/>.
+            </summary>
+            <param name="size"><see cref="T:Accord.Extensions.Size"/></param>
+            <returns><see cref="T:System.Drawing.Size"/></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.DrawingStructureConversions.ToSize(Accord.Extensions.SizeF)">
+            <summary>
+            Converts the <see cref="T:Accord.Extensions.SizeF"/> to the <see cref="T:System.Drawing.SizeF"/>.
+            </summary>
+            <param name="size"><see cref="T:Accord.Extensions.SizeF"/></param>
+            <returns><see cref="T:System.Drawing.SizeF"/></returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.ImageSaveExtensions">
+            <summary>
+            Generic image save extensions.
+            <para>An image is first converted to <see cref="T:System.Drawing.Bitmap"/> and then saved.</para>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ImageSaveExtensions.Save``1(Accord.Extensions.Imaging.Image{``0},System.String)">
+            <summary>
+            Save an image.
+            </summary>
+            <param name="image">Input image.</param>
+            <param name="filename">File name</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.ImageSaveExtensions.Save(Accord.Extensions.Imaging.Image{Accord.Extensions.Imaging.Gray{System.Byte}},System.String)">
+            <summary>
+            Save an image. 
+            </summary>
+            <param name="image">Input image.</param>
+            <param name="filename">File name</param>
+        </member>
+    </members>
+</doc>

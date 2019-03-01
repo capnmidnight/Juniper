@@ -1,0 +1,101 @@
+(T) 2019-02-01 Oculus Go
+(T) 2019-02-01 Oculus Rift
+(Z) 2019-02-01 Oculus Quest
+(T) 2019-02-01 Vive Standard
+(T) 2019-02-01 Vive Pro
+(T) 2019-02-01 Vive Focus
+(T) 2019-02-01 Daydream
+(T) 2019-02-01 Mirage Solo
+(T) 2019-02-01 Gear VR
+(T) 2019-02-01 WindowsMR
+(T) 2019-02-01 HoloLens
+(T) 2019-02-01 Magic Leap
+(T) 2019-02-01 ARCore
+(T) 2019-02-01 ARKit
+(T) 2019-02-01 Vuforia - Android
+(T) 2019-02-01 Vuforia - iOS
+(T) 2019-02-01 Vuforia - HoloLens
+(Z) 2019-02-01 Unity AR Foundation
+x 2019-02-11 2019-02-01 pri:F Magic Leap - Hands
+(F) 2019-02-01 Magic Leap - Hand Gestures
+(T) 2019-02-01 Magic Leap - Anchoring
+x 2019-02-05 2019-02-01 pri:F Magic Leap - Meshing
+(F) 2019-02-01 Magic Leap - Image Tracking
+(F) 2019-02-01 Magic Leap - Plane Extraction
+(F) 2019-02-01 Magic Leap - Object Recognition
+(Z) 2019-02-01 SteamVR 2.0
+(Z) 2019-02-01 Leap Motion
+(T) 2019-02-01 Tobii
+(Z) 2019-02-01 NeuroSky - PC
+(Z) 2019-02-01 NeuroSky - Android
+(Z) 2019-02-01 NeuroSky - iOS
+(Z) 2019-02-01 NeuroSky - UWP?
+(F) 2019-02-01 Speech Synthesis
+(T) 2019-02-01 Speech Recognition - UWP
+(F) 2019-02-01 Speech Recognition - PC
+(F) 2019-02-01 Speech Recognition - Android
+(F) 2019-02-01 Speech Recognition - iOS
+(Z) 2019-02-01 Magic Leap - Speech Recognition
+(T) 2019-02-01 Cardboard - Android
+(T) 2019-02-01 Cardboard - iOS
+(T) 2019-02-01 Cardboard - Windows Phone?
+(T) 2019-02-01 Magic Window - Android
+(T) 2019-02-01 Magic Window - iOS
+(T) 2019-02-01 Magic Window - UWP?
+(F) 2019-02-01 Tooltips
+(F) 2019-02-01 Confirmation Dialogs
+(A) 2019-02-01 Use Oculus Pacakges from Unity
+(Z) 2019-02-01 Configuration Management Tools
+x 2019-02-18 2019-02-01 pri:F Long Press
+(F) 2019-02-01 Double Clicks
+(F) 2019-02-01 Force Clicks
+x 2019-02-04 2019-02-01 pri:F User Prefs for Options
+(F) 2019-02-01 Touch Gestures - Swipes
+(F) 2019-02-01 Touch Gestures - Multi-finger
+(F) 2019-02-01 Touch Gestures - Circular Motion
+(A) 2019-02-01 Test Plans
+(A) 2019-02-01 Unit Tests
+(A) 2019-02-01 Code Documentation
+(A) 2019-02-01 Architecture Docs
+(A) 2019-02-01 Design Docs
+(A) 2019-02-01 Business Case Docs
+(A) 2019-02-01 Requirements Docs
+(F) 2019-02-01 Per-platform Camera Follow
+(F) 2019-02-01 UI Controls
+(D) 2019-02-01 UI Controls
+(F) 2019-02-01 Options Interface - VR Mode
+(F) 2019-02-01 Options Interface - Music Volume
+(F) 2019-02-01 Options Interface - Language
+(F) 2019-02-01 Options Interface - Units
+(F) 2019-02-01 Options Interface - Subtitles
+(F) 2019-02-01 Subtitles
+(F) 2019-02-01 Options Interface - Button Config
+(F) 2019-02-01 Options Interface - Voice Over
+(F) 2019-02-01 Options Interface - Tooltips for each option
+(F) 2019-02-01 Options Interface - Show Subtitles
+(F) 2019-02-01 Navigation Events
+(F) 2019-02-01 Boundary Rendering
+(F) 2019-02-01 Grab Hands
+(F) 2019-02-01 Motion Controller Collider Events
+(A) 2019-02-01 Accessibility Documentation
+(D) 2019-02-01 Tutorials w/ Videos
+(D) 2019-02-01 More demos
+(A) 2019-02-01 Upgrade Accord.NET
+(F) 2019-02-01 Multiplayer Server
+(F) 2019-02-01 Langauge Packs
+(F) 2019-02-01 Audio-only Mode
+(Z) 2019-02-01 Intel RealSense
+(F) 2019-02-01 Narration Tools?
+(F) 2019-02-01 Data Access - SqlSiphon
+(F) 2019-02-01 Data Access - JSON/REST
+(F) 2019-02-01 Data Access - XML/WSDL
+(F) 2019-02-01 Virtual Keyboards
+(A) 2019-02-01 Bakery?
+(F) 2019-02-01 Chromakey
+(Z) 2019-02-01 Mixed Reality view
+(A) 2019-02-01 Third party lib patches
+(Z) 2019-02-01 GameObject Code Behinds
+x 2019-02-17 2019-02-01 pri:B Better Gaze Smoothing
+x 2019-02-19 2019-02-12 pri:F Magic Leap - Light Estimation
+(F) 2019-02-17 Streaming Audio
+(B) 2019-02-18 Magic Leap - wider meshing area

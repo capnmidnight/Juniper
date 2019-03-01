@@ -1,0 +1,28 @@
+var class_juniper_1_1_world_1_1_light_measurement =
+[
+    [ "Awake", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a3ce7e782bc5d5456494f50763213e218", null ],
+    [ "GetAveragePixelIntensity", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a1eec967bdc6e4001dc0be141d70854f0", null ],
+    [ "GetIlluminationManagerCoroutine", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#ac7e5d0d3f83aa2f636e0f6ed4ac5d99c", null ],
+    [ "Install", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a1b6ac53ecfc1f6f263a976d92303c356", null ],
+    [ "PrintDebugReport", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#aaebc615f721d35e793a89b1b42d9b63c", null ],
+    [ "SetFakeValues", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a6490a64c5381c88dfe4fb8f4eac594a3", null ],
+    [ "Start", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#aac66b3157c9ae7ee24070d408d9e8d4e", null ],
+    [ "Start", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#aac66b3157c9ae7ee24070d408d9e8d4e", null ],
+    [ "Uninstall", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a0e32ce1c30025e9b6e1325d1dde5e1d9", null ],
+    [ "UnityARSessionNativeInterface_ARFrameUpdatedEvent", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#ac8346b9c7acc63a319a8447ea5c3ffc7", null ],
+    [ "Update", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#abe06bcb7eedd8f3215732fc5facc1e1e", null ],
+    [ "analyzer", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#aaebda03817cc1273bd935c1359ec68da", null ],
+    [ "Color", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a963307e274d30193b2a0da248ba59e71", null ],
+    [ "ColorEstimate", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a07cc89f9682caf5a29707ad13716a8f7", null ],
+    [ "DebugReport", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a1a7f3386dd7e6bbe49e63b737aa74548", null ],
+    [ "illumination", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a894a553c508130319d6f2219bac12cac", null ],
+    [ "Intensity", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a71446d03ca749f3d930582bd71b40568", null ],
+    [ "IntensityEstimate", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a105e6db1cbf0ea8bcf16719b030dafb8", null ],
+    [ "lastColor", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a341afce3733b9b0c96688f3c369f2a13", null ],
+    [ "lastIntensity", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#ac81023015e01b6c312b42d1833e54511", null ],
+    [ "NumSampleRows", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#acc472437112952e5cd4b0d3d33ddc62b", null ],
+    [ "NumSamplesPerRow", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a38fb481ff1229599ee4cb8056611c351", null ],
+    [ "useCustomAnalyzer", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a6b4ead4065526fc9d8b2bcf6c9155a4f", null ],
+    [ "useFake", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#ae1aab2b103a25df8b8ad22da81233537", null ],
+    [ "UseFakeIntensity", "da/d73/class_juniper_1_1_world_1_1_light_measurement.html#a0737221e1983b7ee1b52b15a4b3d6aad", null ]
+];

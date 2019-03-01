@@ -1,0 +1,25 @@
+var class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer =
+[
+    [ "Awake", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#ae561b667345e9175d9f106ab110a1a37", null ],
+    [ "InternalUpdate", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#aa1dd80e7af5834bff1f2d98db61b7c0b", null ],
+    [ "IsButtonDown", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#abd13d3a8a3c12eecb2b464fa896808ed", null ],
+    [ "IsButtonDown", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a22e0c59a6e945dafe53189ffe80e23a1", null ],
+    [ "IsButtonPressed", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a8600053c03ecab684d91e5d4407e2550", null ],
+    [ "IsButtonPressed", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#acf15032362ec6061b9fd71cd7e43f24b", null ],
+    [ "IsButtonUp", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a1edc4cbc1e52ea6a64f32ae09b445851", null ],
+    [ "IsButtonUp", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#ae0279d9c92c11c88145d58657c30c926", null ],
+    [ "SetProbe", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#afbf8051271fb0e35450c5f668eeda59b", null ],
+    [ "anyExclusionsConnected", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a1dc8d4c575b9df179c6e00404811b501", null ],
+    [ "exclusionCandidates", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a83e4889bec89c93a757064278b57995c", null ],
+    [ "gazed", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a81ce6dcc6ae51943ce21dee32565ba6d", null ],
+    [ "gazeThreshold", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#aafc9b760898601a20fbd736fc3e9d549", null ],
+    [ "gazeTime", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a3a2cf4c2f78b7ca55c517f2bf21fb73b", null ],
+    [ "IsConnected", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a7b34315c9a6a09f59f0e12c9635aadaf", null ],
+    [ "lastTarget", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a02e1214b4df2ad9bc6581391ea1f6548", null ],
+    [ "SCREEN_MIDPOINT", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a4d406eb3d37bd9d7d29918b1b53d24a0", null ],
+    [ "surrogate", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a39ada57cad4dc591f03676c6eb59e503", null ],
+    [ "surrogateCandidates", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a31934b11f6fa04e945216e31a02d8b3a", null ],
+    [ "ViewportPoint", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#aaa1a73f216b562fcc59e1b86be791666", null ],
+    [ "wasGazed", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a54259c7383b2d3599045f938eabf680e", null ],
+    [ "ScreenPoint", "d4/dd3/class_juniper_1_1_input_1_1_pointers_1_1_gaze_pointer.html#a98f625a3b65591cdfc0964f98efb3a0e", null ]
+];

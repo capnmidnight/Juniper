@@ -1,0 +1,85 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+namespace Juniper.Animation
+{
+    /// <summary>
+    /// An animator for UIs that swap out child components as visible/invisible. Only one such
+    /// component is allowed on a gameObject at a time.
+    /// </summary>
+    [DisallowMultipleComponent]
+    public class ChildSwapAnimator : AbstractAnimator
+    {
+        /// <summary>
+        /// The names of the child transforms to swap around.
+        /// </summary>
+        public string[] stateNames;
+
+        private Dictionary<string, Vector3> scales;
+
+        public void Awake() =>
+            scales = stateNames.ToDictionary(
+                s => s,
+                s => this.Query(s)?.localScale ?? Vector3.one);
+
+        /// <summary>
+        /// Returns true if a transform named <paramref name="name"/> is a child of this transform.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public override bool HasState(string name) =>
+            transform.Find(name) != null;
+
+        /// <summary>
+        /// Sets the child transform named in <paramref name="name"/> to Active, while all other
+        /// child transforms named in <see cref="stateNames"/> are set to Inactive.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>An enumerator suitable for using in a Unity coroutine.</returns>
+        public override IEnumerator PlayCoroutine(string name)
+        {
+            foreach (var key in stateNames)
+            {
+                var obj = this.Query(key);
+                if (obj != null)
+                {
+                    obj.SetActive(key == name);
+                    if (Application.isPlaying)
+                    {
+                        obj.localScale = scales.Get(key, Vector3.one);
+                    }
+                }
+            }
+            yield return null;
+        }
+
+        public override IEnumerator BlendCoroutine(string fromName, string toName, float amount)
+        {
+            foreach (var key in stateNames)
+            {
+                var obj = this.Query(key);
+                if (obj != null)
+                {
+                    obj.SetActive((key == fromName && amount < 0.5f)
+                        || (key == toName && amount >= 0.5f));
+                    if (Application.isPlaying)
+                    {
+                        obj.localScale = scales.Get(key, Vector3.one);
+                    }
+                }
+            }
+
+            if (Application.isPlaying)
+            {
+                var scale = Vector3.Lerp(scales[fromName], scales[toName], amount);
+                var start = this.Query(fromName);
+                var end = this.Query(toName);
+                start.localScale = end.localScale = scale;
+            }
+
+            yield return null;
+        }
+    }
+}
