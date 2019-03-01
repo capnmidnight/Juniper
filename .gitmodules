@@ -2,3 +2,7 @@
 	path = Juniper.Units
 	url = https://github.com/capnmidnight/Juniper.Units.git
 	branch = master
+[submodule "Juniper.NeuroSky"]
+	path = Juniper.NeuroSky
+	url = C:/Users/sean/Projects/Juniper/Juniper.NeuroSky
+	branch = refs/heads/master
