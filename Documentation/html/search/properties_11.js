@@ -1,7 +1,7 @@
 var searchData=
 [
   ['target',['Target',['../df/d07/class_juniper_1_1_widgets_1_1_attention_director.html#a3581175fad2999f9eecaa7466f8557f2',1,'Juniper::Widgets::AttentionDirector']]],
-  ['targetfound',['TargetFound',['../d4/d05/class_juniper_1_1_image_tracking_1_1_tracker_keeper.html#ab84c7aee40da1ccddd37ee32f14231a1',1,'Juniper::ImageTracking::TrackerKeeper']]],
+  ['targetfound',['TargetFound',['../d0/d81/class_juniper_1_1_image_tracking_1_1_abstract_tracker_keeper.html#ac88a80d84797aa738006c1b7dd681118',1,'Juniper::ImageTracking::AbstractTrackerKeeper']]],
   ['targetosversion',['TargetOSVersion',['../d6/dc5/class_unity_editor_1_1_player_settings_ext_1_1i_o_s.html#a04616a70665dcc3abee5043f077b8d74',1,'UnityEditor::PlayerSettingsExt::iOS']]],
   ['targetvalue',['TargetValue',['../d5/dae/class_juniper_1_1_widgets_1_1_loading_bar.html#a8ff743698289e69cc2e3d18f564cb9c2',1,'Juniper::Widgets::LoadingBar']]],
   ['temperature',['Temperature',['../d8/d7d/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_report.html#a0127d95ed8d4a6f6ba1b5f1d20f88ebe',1,'Juniper::World::Climate::IWeatherReport']]],
@@ -17,7 +17,7 @@ var searchData=
   ['touchpadtoucheddown',['TouchPadTouchedDown',['../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a5f6e5528a302f05dddd5a1e5f8a36f09',1,'Juniper.Input.Pointers.Motion.AbstractMotionController.TouchPadTouchedDown()'],['../dd/dde/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html#a0f35f7d62d60bd9acca7a44fd78b5699',1,'Juniper.Input.Pointers.Motion.AbstractWindowsMRDevice.TouchPadTouchedDown()']]],
   ['touchpadtouchedup',['TouchPadTouchedUp',['../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ab3802ae5955181e64b738e51e226d44b',1,'Juniper.Input.Pointers.Motion.AbstractMotionController.TouchPadTouchedUp()'],['../dd/dde/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html#a236abb7d02ff704c612ca2ebfcd4cf8d',1,'Juniper.Input.Pointers.Motion.AbstractWindowsMRDevice.TouchPadTouchedUp()']]],
   ['touchpoint',['TouchPoint',['../da/dfc/class_juniper_1_1_input_1_1_pointers_1_1_probe.html#ae74ace55eb8de026abd155b453a144e9',1,'Juniper::Input::Pointers::Probe']]],
-  ['tracking',['Tracking',['../d4/d05/class_juniper_1_1_image_tracking_1_1_tracker_keeper.html#aa2552168d534cc5a6be827c0c048be3b',1,'Juniper::ImageTracking::TrackerKeeper']]],
+  ['tracking',['Tracking',['../d0/d81/class_juniper_1_1_image_tracking_1_1_abstract_tracker_keeper.html#a545a4c725b31550ba865f7d189ce3a4e',1,'Juniper::ImageTracking::AbstractTrackerKeeper']]],
   ['transform',['transform',['../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a615e06ad758c8d8c760c8cba63baf846',1,'Juniper::Input::Pointers::IPointerDevice']]],
   ['transitionlength',['TransitionLength',['../d6/d38/class_juniper_1_1_animation_1_1_abstract_transition_controller.html#a13625d10942d2b854d6c15a53234c01d',1,'Juniper::Animation::AbstractTransitionController']]],
   ['trigger',['Trigger',['../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a32fb019d83ff58852618a7969666ac20',1,'Juniper.Input.Pointers.Motion.AbstractMotionController.Trigger()'],['../dc/d7d/interface_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_i_motion_controller.html#afa69c30097cad76ebe170517f7571ace',1,'Juniper.Input.Pointers.Motion.IMotionController.Trigger()']]]

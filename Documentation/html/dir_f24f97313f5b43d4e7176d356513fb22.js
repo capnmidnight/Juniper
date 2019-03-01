@@ -7,5 +7,6 @@ var dir_f24f97313f5b43d4e7176d356513fb22 =
     [ "MagicLeapLightMeasurement.cs", "dc/d85/_magic_leap_light_measurement_8cs.html", [
       [ "MagicLeapLightMeasurement", "dc/d53/class_juniper_1_1_world_1_1_light_estimation_1_1_magic_leap_light_measurement.html", "dc/d53/class_juniper_1_1_world_1_1_light_estimation_1_1_magic_leap_light_measurement" ]
     ] ],
-    [ "MagicLeapMotionController.cs", "da/db0/_magic_leap_motion_controller_8cs.html", null ]
+    [ "MagicLeapMotionController.cs", "da/db0/_magic_leap_motion_controller_8cs.html", null ],
+    [ "MagicLeapTrackerKeeper.cs", "db/de6/_magic_leap_tracker_keeper_8cs.html", null ]
 ];

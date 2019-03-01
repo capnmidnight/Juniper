@@ -13,9 +13,9 @@ var searchData=
   ['usefakecoord',['UseFakeCoord',['../d4/da2/class_juniper_1_1_world_1_1_g_p_s_location.html#a11f76ef127bf3798e2a6b2ab36e169df',1,'Juniper::World::GPSLocation']]],
   ['usefakeheading',['UseFakeHeading',['../de/d92/class_juniper_1_1_world_1_1_compass_rose.html#a7f7b28717f043ea69d89d35ce10dcfa0',1,'Juniper::World::CompassRose']]],
   ['usefakeintensity',['UseFakeIntensity',['../d5/d84/class_juniper_1_1_world_1_1_light_estimation_1_1_vuforia_light_measurement.html#a3f331a8370da311be4ed1da41db634ab',1,'Juniper.World.LightEstimation.VuforiaLightMeasurement.UseFakeIntensity()'],['../d0/d88/class_juniper_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#a48cc91ada0413de5261639fb32e89b1e',1,'Juniper.World.LightEstimation.AbstractLightMeasurement.UseFakeIntensity()'],['../dd/d3e/class_juniper_1_1_world_1_1_outdoor_wind_estimate.html#a80b3f8acfe5b42a8e439fb8d865cb1b3',1,'Juniper.World.OutdoorWindEstimate.UseFakeIntensity()']]],
-  ['usepet',['usePET',['../d4/d05/class_juniper_1_1_image_tracking_1_1_tracker_keeper.html#a8b1506344f143532b200f6480afbb541',1,'Juniper::ImageTracking::TrackerKeeper']]],
+  ['usepet',['usePET',['../da/d57/class_juniper_1_1_image_tracking_1_1_vuforia_tracker_keeper.html#a6fb035d80fb5efd101e7e22652c43964',1,'Juniper::ImageTracking::VuforiaTrackerKeeper']]],
   ['usert',['userT',['../d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#afaac82b905e742a47e6a095307c27003',1,'Juniper::Widgets::TeleportPad']]],
   ['useshared',['UseShared',['../da/dfe/class_unity_engine_1_1_renderer_ext.html#a9392ea029e81936202beae43b191efeb',1,'UnityEngine::RendererExt']]],
-  ['usingpet',['usingPET',['../d4/d05/class_juniper_1_1_image_tracking_1_1_tracker_keeper.html#aa75598804d7c9e906467734585eed24e',1,'Juniper::ImageTracking::TrackerKeeper']]],
+  ['usingpet',['usingPET',['../da/d57/class_juniper_1_1_image_tracking_1_1_vuforia_tracker_keeper.html#a48c07ea32f7adb5f319b13f57104fe63',1,'Juniper::ImageTracking::VuforiaTrackerKeeper']]],
   ['uwp_5fmenu_5fname',['UWP_MENU_NAME',['../d2/d00/class_juniper_1_1_x_r_1_1_custom_editors_1_1_x_r_system_editor.html#a8653291010fdb7caa41d62adcb012e10',1,'Juniper::XR::CustomEditors::XRSystemEditor']]]
 ];

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['v',['v',['../d0/dca/struct_juniper_1_1_h_s_v_color.html#ae9de4e1e5cb420fa50b007d4c1acbf4b',1,'Juniper::HSVColor']]],
-  ['value',['value',['../da/d6a/class_juniper_1_1_widgets_1_1_progress_bar.html#ace45bfb9f8435c45e1dcde6f86bde258',1,'Juniper.Widgets.ProgressBar.value()'],['../d6/dc2/class_system_1_1_collections_1_1_generic_1_1_n_ary_tree.html#a7e0aae00d480b95fc6cdff88881a072b',1,'System.Collections.Generic.NAryTree.Value()'],['../d7/d2a/struct_juniper_1_1_pooled_component.html#a00dc04fbe711a2f295b814a9a0c5d189',1,'Juniper.PooledComponent.Value()']]],
+  ['value',['Value',['../d6/dc2/class_system_1_1_collections_1_1_generic_1_1_n_ary_tree.html#a7e0aae00d480b95fc6cdff88881a072b',1,'System.Collections.Generic.NAryTree.Value()'],['../d7/d2a/struct_juniper_1_1_pooled_component.html#a00dc04fbe711a2f295b814a9a0c5d189',1,'Juniper.PooledComponent.Value()'],['../da/d6a/class_juniper_1_1_widgets_1_1_progress_bar.html#ace45bfb9f8435c45e1dcde6f86bde258',1,'Juniper.Widgets.ProgressBar.value()']]],
   ['valuechanged',['ValueChanged',['../dd/d30/class_juniper_1_1_widgets_1_1_abstract_valued.html#aef6165c369137f898e54959069c97e36',1,'Juniper::Widgets::AbstractValued']]],
   ['variable',['Variable',['../da/d38/class_unity_engine_1_1_abstract_reference.html#a4bfc8cbc8f57d37b3b31a6a5c5dd64f7',1,'UnityEngine::AbstractReference']]],
   ['variance',['variance',['../dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html#aa6841e491be8a27a68861259afb777d1',1,'Juniper::Statistics::AbstractCollectionStatistics']]],
@@ -19,5 +19,5 @@ var searchData=
   ['volumeslider',['volumeSlider',['../d6/d01/class_juniper_1_1_audio_1_1_interaction_audio.html#aa3540d7bc9c8f53e074151319136dc36',1,'Juniper::Audio::InteractionAudio']]],
   ['vrplatformhaspassthrough',['VRPlatformHasPassthrough',['../db/d97/class_juniper_1_1_x_r_system.html#a0b6689fac36a89f331c7c4b84033fe87',1,'Juniper::XRSystem']]],
   ['vrsystems',['vrSystems',['../dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#a5d40ac167627f9f7ac94038b182cda01',1,'Juniper::XR::CustomEditors::PlatformConfiguration']]],
-  ['vuforia_5finit_5fattempts',['VUFORIA_INIT_ATTEMPTS',['../d4/d05/class_juniper_1_1_image_tracking_1_1_tracker_keeper.html#a20313803e1e8d771b4a8689df5294a73',1,'Juniper::ImageTracking::TrackerKeeper']]]
+  ['vuforia_5finit_5fattempts',['VUFORIA_INIT_ATTEMPTS',['../da/d57/class_juniper_1_1_image_tracking_1_1_vuforia_tracker_keeper.html#a1f10fbed6ed44b335c30cacc230b9c50',1,'Juniper::ImageTracking::VuforiaTrackerKeeper']]]
 ];

@@ -163,8 +163,6 @@
 100% - Juniper.Units/src/Time/Seconds.cs - (4 of 4)
 100% - Assets/Juniper/Scripts/Unity/LightMapping/LightMapSet.cs - (7 of 7)
 100% - Juniper.Units/src/Speed/KilometersPerHour.cs - (4 of 4)
- 98% - Assets/Juniper/Scripts/Unity/ImageTracking/TrackerKeeper.cs - (55 of 56)
-	 XRSystem Juniper.ImageTracking.TrackerKeeper.xr
  95% - Assets/Juniper/Scripts/Unity/World/Climate/Weather.cs - (21 of 22)
 	 string Juniper.World.Climate.Weather.lastReportJSON
  95% - Assets/Juniper/Scripts/Unity/Widgets/Draggable.cs - (58 of 61)
@@ -179,6 +177,12 @@
 	 EventHandler<float> Juniper.Widgets.AbstractValued.ValueChange
 	 float Juniper.Widgets.AbstractValued.value
 	 void Juniper.Widgets.AbstractTouchable.BlendState
+ 88% - Assets/Juniper/Scripts/Unity/Platforms/Vuforia/VuforiaTrackerKeeper.cs - (40 of 45)
+	 override IEnumerable<TrackableFoundEventHandler> Juniper.ImageTracking.VuforiaTrackerKeeper.FirstTargets
+	 override void Juniper.ImageTracking.VuforiaTrackerKeeper.OnTrackingStarted
+	 override void Juniper.ImageTracking.VuforiaTrackerKeeper.OnTrackingStarting
+	 override void Juniper.ImageTracking.VuforiaTrackerKeeper.OnTrackingStopped
+	 override void Juniper.ImageTracking.VuforiaTrackerKeeper.OnTrackingStopping
  85% - Assets/Juniper/Scripts/Unity/Haptics/DefaultHaptics.cs - (6 of 7)
 	 void Juniper.Haptics.DefaultHaptics.SetVibration
  84% - Assets/Juniper/Scripts/Unity/World/OutdoorLightEstimate.cs - (22 of 26)
@@ -193,11 +197,25 @@
 	 void Juniper.Widgets.AbstractTouchable.BlendState
 	 void Juniper.Widgets.Clickable.OnLongPress
 	 void Juniper.Widgets.Clickable.OnLongPressUpdate
+ 83% - Assets/Juniper/Scripts/Unity/Platforms/ARKit/ARKitTrackerKeeper.cs - (30 of 36)
+	 override void Juniper.ImageTracking.ARKitTrackerKeeper.OnTrackingStarting
+	 virtual IEnumerable<TrackableFoundEventHandler> Juniper.ImageTracking.AbstractTrackerKeeper.FirstTargets
+	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStarted
+	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStopped
+	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStopping
+	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.PrintDebugReport
  80% - Assets/Juniper/Scripts/Unity/World/IndoorLightEstimate.cs - (17 of 21)
 	 virtual void Juniper.World.IndoorLightEstimate.Install
 	 virtual void Juniper.World.IndoorLightEstimate.Reinstall
 	 void Juniper.World.IndoorLightEstimate.Reset
 	 void Juniper.World.IndoorLightEstimate.Uninstall
+ 80% - Assets/Juniper/Scripts/Unity/ImageTracking/AbstractTrackerKeeper.cs - (24 of 30)
+	 virtual IEnumerable<TrackableFoundEventHandler> Juniper.ImageTracking.AbstractTrackerKeeper.FirstTargets
+	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStarted
+	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStarting
+	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStopped
+	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.OnTrackingStopping
+	 virtual void Juniper.ImageTracking.AbstractTrackerKeeper.PrintDebugReport
  79% - Assets/Juniper/Scripts/Unity/Animation/SpiralTransition.cs - (39 of 49)
 	 WaitUntil Juniper.AbstractStateController.Waiter
 	 bool Juniper.AbstractStateController.HasStopped
@@ -1509,5 +1527,5 @@
   0% - Assets/Juniper/Scripts/Unity/Input/Pointers/Motion/AbstractMotionController.cs - (0 of 1)
 	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
 
-63% API documentation coverage
+64% API documentation coverage
 ```

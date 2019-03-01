@@ -21,5 +21,5 @@ var searchData=
   ['now',['Now',['../d0/d94/struct_juniper_1_1_editable_date_time.html#a55bd611cf62ca8ce8c7b4a5aaa13a752',1,'Juniper::EditableDateTime']]],
   ['numsamplerows',['NumSampleRows',['../d5/d84/class_juniper_1_1_world_1_1_light_estimation_1_1_vuforia_light_measurement.html#aa28b660f9c2adaa9048b317be67ede92',1,'Juniper::World::LightEstimation::VuforiaLightMeasurement']]],
   ['numsamplesperrow',['NumSamplesPerRow',['../d5/d84/class_juniper_1_1_world_1_1_light_estimation_1_1_vuforia_light_measurement.html#a6983b6c0444e60b93b39c514a45542d7',1,'Juniper::World::LightEstimation::VuforiaLightMeasurement']]],
-  ['numupdates',['numUpdates',['../d4/d05/class_juniper_1_1_image_tracking_1_1_tracker_keeper.html#abd67991d9d50b0422bf19fdb2cf919d5',1,'Juniper::ImageTracking::TrackerKeeper']]]
+  ['numupdates',['numUpdates',['../da/d57/class_juniper_1_1_image_tracking_1_1_vuforia_tracker_keeper.html#a7c59ba29aa7106a33318fc27043b682a',1,'Juniper::ImageTracking::VuforiaTrackerKeeper']]]
 ];

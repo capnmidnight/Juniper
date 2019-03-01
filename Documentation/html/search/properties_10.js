@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['safe',['Safe',['../d4/d05/class_juniper_1_1_image_tracking_1_1_tracker_keeper.html#ae77ea29022167a80b488fc5958e16727',1,'Juniper::ImageTracking::TrackerKeeper']]],
+  ['safe',['Safe',['../d0/d81/class_juniper_1_1_image_tracking_1_1_abstract_tracker_keeper.html#ae128673ec04706814bc40988c48b0e2c',1,'Juniper::ImageTracking::AbstractTrackerKeeper']]],
   ['screendelta',['ScreenDelta',['../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a06adc24e3332f7f25e9489bb8cb3b591',1,'Juniper::Input::Pointers::IPointerDevice']]],
   ['screenpoint',['ScreenPoint',['../da/d81/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html#a203f0e1e4747d675365aa10621cbc47d',1,'Juniper.Input.Pointers.AbstractPointerDevice.ScreenPoint()'],['../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a7fa96151e1c6c1a7a9b74cf717f2025b',1,'Juniper.Input.Pointers.IPointerDevice.ScreenPoint()'],['../d4/da7/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_mouse.html#abb9e575edbd80cd6538eb254e90cc78a',1,'Juniper.Input.Pointers.Screen.Mouse.ScreenPoint()']]],
   ['scrolldelta',['ScrollDelta',['../da/d81/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html#a4c21f9995c89a133b5bf4167803cb47f',1,'Juniper.Input.Pointers.AbstractPointerDevice.ScrollDelta()'],['../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#ae28698b718efdcba53d9bcec3312b84e',1,'Juniper.Input.Pointers.IPointerDevice.ScrollDelta()']]],

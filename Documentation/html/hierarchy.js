@@ -413,8 +413,15 @@ var hierarchy =
         ] ],
         [ "Juniper.Haptics.NoHaptics", "d3/df6/class_juniper_1_1_haptics_1_1_no_haptics.html", null ]
       ] ],
+      [ "Juniper.ImageTracking.AbstractTrackerKeeper", "d0/d81/class_juniper_1_1_image_tracking_1_1_abstract_tracker_keeper.html", [
+        [ "Juniper.ImageTracking.ARCoreTrackerKeeper", "d6/d1a/class_juniper_1_1_image_tracking_1_1_a_r_core_tracker_keeper.html", [
+          [ "Juniper.ImageTracking.TrackerKeeper", "d4/d05/class_juniper_1_1_image_tracking_1_1_tracker_keeper.html", null ]
+        ] ],
+        [ "Juniper.ImageTracking.ARKitTrackerKeeper", "d7/d01/class_juniper_1_1_image_tracking_1_1_a_r_kit_tracker_keeper.html", null ],
+        [ "Juniper.ImageTracking.NoTrackerKeeper", "d9/de2/class_juniper_1_1_image_tracking_1_1_no_tracker_keeper.html", null ],
+        [ "Juniper.ImageTracking.VuforiaTrackerKeeper", "da/d57/class_juniper_1_1_image_tracking_1_1_vuforia_tracker_keeper.html", null ]
+      ] ],
       [ "Juniper.ImageTracking.TrackableFoundEventHandler", "d0/de5/class_juniper_1_1_image_tracking_1_1_trackable_found_event_handler.html", null ],
-      [ "Juniper.ImageTracking.TrackerKeeper", "d4/d05/class_juniper_1_1_image_tracking_1_1_tracker_keeper.html", null ],
       [ "Juniper.Input.AbstractVelocityLocomotion", "d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html", [
         [ "Juniper.Input.HoverCraft", "db/d36/class_juniper_1_1_input_1_1_hover_craft.html", null ],
         [ "Juniper.Input.NoLocomotion", "d0/de6/class_juniper_1_1_input_1_1_no_locomotion.html", [

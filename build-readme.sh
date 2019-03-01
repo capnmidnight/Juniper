@@ -12,5 +12,3 @@ cat \
     Documentation/README-parts/setup.md \
     Documentation/README-parts/dev.md \
 > README.md
-
-markdown-pdf README.md

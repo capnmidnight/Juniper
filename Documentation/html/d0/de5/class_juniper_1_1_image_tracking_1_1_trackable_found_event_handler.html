@@ -28,7 +28,7 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
-  <td id="projectlogo"><img alt="Logo" src="../../logo.jpg"/></td>
+  <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Juniper
    </div>
@@ -260,7 +260,7 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        {</div><div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="preprocessor">#if VUFORIA</span></div><div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            <a class="code" href="../../d0/de5/class_juniper_1_1_image_tracking_1_1_trackable_found_event_handler.html#af467091ae495ecc90599867ee99cf497">trackable</a> = GetComponentInChildren&lt;TrackableBehaviour&gt;();</div><div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            <a class="code" href="../../d0/de5/class_juniper_1_1_image_tracking_1_1_trackable_found_event_handler.html#af467091ae495ecc90599867ee99cf497">trackable</a>.RegisterTrackableEventHandler(<span class="keyword">this</span>);</div><div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;</div><div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            var keeper = <a class="code" href="../../d3/d40/class_unity_engine_1_1_component_ext.html">ComponentExt</a>.FindAny&lt;TrackerKeeper&gt;();</div><div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            keeper?.Register(<span class="keyword">this</span>);</div><div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_image_tracking_1_1_trackable_found_event_handler_html_af467091ae495ecc90599867ee99cf497"><div class="ttname"><a href="../../d0/de5/class_juniper_1_1_image_tracking_1_1_trackable_found_event_handler.html#af467091ae495ecc90599867ee99cf497">Juniper.ImageTracking.TrackableFoundEventHandler.trackable</a></div><div class="ttdeci">TrackableBehaviour trackable</div><div class="ttdoc">The Vuforia tracked object.</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00031">TrackableFoundEventHandler.cs:31</a></div></div>
 <div class="ttc" id="class_unity_engine_1_1_component_ext_html"><div class="ttname"><a href="../../d3/d40/class_unity_engine_1_1_component_ext.html">UnityEngine.ComponentExt</a></div><div class="ttdoc">Extension methods for Unity's Component class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d68/_component_ext_8cs_source.html#l00012">ComponentExt.cs:12</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dc/d9b/_tracker_keeper_8cs_source.html#l00237">Juniper.ImageTracking.TrackerKeeper.Register()</a>, and <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00031">Juniper.ImageTracking.TrackableFoundEventHandler.trackable</a>.</p>
+<p class="reference">References <a class="el" href="../../da/d0d/_abstract_tracker_keeper_8cs_source.html#l00136">Juniper.ImageTracking.AbstractTrackerKeeper.Register()</a>, and <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00031">Juniper.ImageTracking.TrackableFoundEventHandler.trackable</a>.</p>
 
 </div>
 </div>
@@ -900,7 +900,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00106">106</a> of file <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html">TrackableFoundEventHandler.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00252">Juniper.ImageTracking.TrackableFoundEventHandler.OnLostOrFound()</a>, and <a class="el" href="../../dc/d9b/_tracker_keeper_8cs_source.html#l00237">Juniper.ImageTracking.TrackerKeeper.Register()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00252">Juniper.ImageTracking.TrackableFoundEventHandler.OnLostOrFound()</a>, and <a class="el" href="../../da/d0d/_abstract_tracker_keeper_8cs_source.html#l00136">Juniper.ImageTracking.AbstractTrackerKeeper.Register()</a>.</p>
 
 </div>
 </div>
@@ -920,7 +920,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00111">111</a> of file <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html">TrackableFoundEventHandler.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00252">Juniper.ImageTracking.TrackableFoundEventHandler.OnLostOrFound()</a>, and <a class="el" href="../../dc/d9b/_tracker_keeper_8cs_source.html#l00237">Juniper.ImageTracking.TrackerKeeper.Register()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00252">Juniper.ImageTracking.TrackableFoundEventHandler.OnLostOrFound()</a>, and <a class="el" href="../../da/d0d/_abstract_tracker_keeper_8cs_source.html#l00136">Juniper.ImageTracking.AbstractTrackerKeeper.Register()</a>.</p>
 
 </div>
 </div>
@@ -940,7 +940,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00116">116</a> of file <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html">TrackableFoundEventHandler.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00215">Juniper.ImageTracking.TrackableFoundEventHandler.OnSafeOrProximity()</a>, and <a class="el" href="../../dc/d9b/_tracker_keeper_8cs_source.html#l00237">Juniper.ImageTracking.TrackerKeeper.Register()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00215">Juniper.ImageTracking.TrackableFoundEventHandler.OnSafeOrProximity()</a>, and <a class="el" href="../../da/d0d/_abstract_tracker_keeper_8cs_source.html#l00136">Juniper.ImageTracking.AbstractTrackerKeeper.Register()</a>.</p>
 
 </div>
 </div>
@@ -960,7 +960,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00121">121</a> of file <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html">TrackableFoundEventHandler.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00215">Juniper.ImageTracking.TrackableFoundEventHandler.OnSafeOrProximity()</a>, and <a class="el" href="../../dc/d9b/_tracker_keeper_8cs_source.html#l00237">Juniper.ImageTracking.TrackerKeeper.Register()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d06/_trackable_found_event_handler_8cs_source.html#l00215">Juniper.ImageTracking.TrackableFoundEventHandler.OnSafeOrProximity()</a>, and <a class="el" href="../../da/d0d/_abstract_tracker_keeper_8cs_source.html#l00136">Juniper.ImageTracking.AbstractTrackerKeeper.Register()</a>.</p>
 
 </div>
 </div>

@@ -51,6 +51,8 @@ var searchData=
   ['noterrain',['NoTerrain',['../d9/df7/class_juniper_1_1_ground_1_1_no_terrain.html',1,'Juniper::Ground']]],
   ['noterrain_2ecs',['NoTerrain.cs',['../d1/db2/_no_terrain_8cs.html',1,'']]],
   ['notices_2emd',['notices.md',['../d5/de9/notices_8md.html',1,'']]],
+  ['notrackerkeeper',['NoTrackerKeeper',['../d9/de2/class_juniper_1_1_image_tracking_1_1_no_tracker_keeper.html',1,'Juniper::ImageTracking']]],
+  ['notrackerkeeper_2ecs',['NoTrackerKeeper.cs',['../d8/db2/_no_tracker_keeper_8cs.html',1,'']]],
   ['november',['November',['../d8/dd0/namespace_system.html#a9948aa83f3da57bc2f9e436b6a08675ba7e823b37564da492ca1629b4732289a8',1,'System']]],
   ['now',['Now',['../d0/d94/struct_juniper_1_1_editable_date_time.html#a55bd611cf62ca8ce8c7b4a5aaa13a752',1,'Juniper::EditableDateTime']]],
   ['nuke',['Nuke',['../da/df2/class_system_1_1_i_o_1_1_directory_info_ext.html#a054f27a2b6f53823fdfdd0b72073eb67',1,'System::IO::DirectoryInfoExt']]],
@@ -60,5 +62,5 @@ var searchData=
   ['numberext_2ecs',['NumberExt.cs',['../d9/dfe/_number_ext_8cs.html',1,'']]],
   ['numsamplerows',['NumSampleRows',['../d5/d84/class_juniper_1_1_world_1_1_light_estimation_1_1_vuforia_light_measurement.html#aa28b660f9c2adaa9048b317be67ede92',1,'Juniper::World::LightEstimation::VuforiaLightMeasurement']]],
   ['numsamplesperrow',['NumSamplesPerRow',['../d5/d84/class_juniper_1_1_world_1_1_light_estimation_1_1_vuforia_light_measurement.html#a6983b6c0444e60b93b39c514a45542d7',1,'Juniper::World::LightEstimation::VuforiaLightMeasurement']]],
-  ['numupdates',['numUpdates',['../d4/d05/class_juniper_1_1_image_tracking_1_1_tracker_keeper.html#abd67991d9d50b0422bf19fdb2cf919d5',1,'Juniper::ImageTracking::TrackerKeeper']]]
+  ['numupdates',['numUpdates',['../da/d57/class_juniper_1_1_image_tracking_1_1_vuforia_tracker_keeper.html#a7c59ba29aa7106a33318fc27043b682a',1,'Juniper::ImageTracking::VuforiaTrackerKeeper']]]
 ];

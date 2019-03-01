@@ -1,5 +1,11 @@
 var dir_97b562bbf815bb07f8d86c9aab075dde =
 [
+    [ "AbstractTrackerKeeper.cs", "da/d0d/_abstract_tracker_keeper_8cs.html", [
+      [ "AbstractTrackerKeeper", "d0/d81/class_juniper_1_1_image_tracking_1_1_abstract_tracker_keeper.html", "d0/d81/class_juniper_1_1_image_tracking_1_1_abstract_tracker_keeper" ]
+    ] ],
+    [ "NoTrackerKeeper.cs", "d8/db2/_no_tracker_keeper_8cs.html", [
+      [ "NoTrackerKeeper", "d9/de2/class_juniper_1_1_image_tracking_1_1_no_tracker_keeper.html", "d9/de2/class_juniper_1_1_image_tracking_1_1_no_tracker_keeper" ]
+    ] ],
     [ "TrackableFoundEventArgs.cs", "de/dc9/_trackable_found_event_args_8cs.html", [
       [ "TrackingStateChangeEventArgs", "db/dc5/class_juniper_1_1_image_tracking_1_1_tracking_state_change_event_args.html", "db/dc5/class_juniper_1_1_image_tracking_1_1_tracking_state_change_event_args" ]
     ] ],

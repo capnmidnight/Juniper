@@ -122,7 +122,7 @@ var searchData=
   ['loadallscenes',['LoadAllScenes',['../d0/dde/class_juniper_1_1_master_scene_controller.html#aabde5e5584417f0aa6e9c019558a2c5d',1,'Juniper::MasterSceneController']]],
   ['loadallscenescoroutine',['LoadAllScenesCoroutine',['../d0/dde/class_juniper_1_1_master_scene_controller.html#ab27fff8796d634ef2523350301522de0',1,'Juniper::MasterSceneController']]],
   ['loadallscenescoroutine2',['LoadAllScenesCoroutine2',['../d0/dde/class_juniper_1_1_master_scene_controller.html#afdfbc818f864604bfc36295b5e1e36bb',1,'Juniper::MasterSceneController']]],
-  ['loaddataset',['LoadDataSet',['../d4/d05/class_juniper_1_1_image_tracking_1_1_tracker_keeper.html#a742816863bf2d2b5cd3a58b84cc4a146',1,'Juniper::ImageTracking::TrackerKeeper']]],
+  ['loaddataset',['LoadDataSet',['../da/d57/class_juniper_1_1_image_tracking_1_1_vuforia_tracker_keeper.html#ac840c29bdd08f81da8bb56d3a39639b3',1,'Juniper::ImageTracking::VuforiaTrackerKeeper']]],
   ['loaderror',['LoadError',['../dc/de1/class_juniper_1_1_streamable_asset.html#a5a7a6380de4b6d76fb7d9f41774cf4db',1,'Juniper::StreamableAsset']]],
   ['loadfirstscene',['LoadFirstScene',['../d0/dde/class_juniper_1_1_master_scene_controller.html#ade82e6eb60e053304c863a0e85f8a35d',1,'Juniper::MasterSceneController']]],
   ['loadingbar',['LoadingBar',['../d5/dae/class_juniper_1_1_widgets_1_1_loading_bar.html',1,'Juniper.Widgets.LoadingBar'],['../d0/dde/class_juniper_1_1_master_scene_controller.html#a8e87be4515e954b356a8096f4685b713',1,'Juniper.MasterSceneController.loadingBar()']]],

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['x',['X',['../d0/da5/struct_juniper_1_1_world_1_1_g_i_s_1_1_u_t_m_point.html#ab9da3bc9171b6d34809751b8df105458',1,'Juniper.World.GIS.UTMPoint.X()'],['../da/d6a/class_juniper_1_1_statistics_1_1_kalman_motion_filter.html#a8be856e13f2f63169ceeab9cbe79aaf0',1,'Juniper.Statistics.KalmanMotionFilter.X()'],['../de/d75/namespace_juniper.html#ad07516cea58a7e230fb306ab4a2e42c7a02129bb861061d1a052c592e2dc6b383',1,'Juniper.X()'],['../de/d75/namespace_juniper.html#a5e469413b715278bac31283a19d2e774a02129bb861061d1a052c592e2dc6b383',1,'Juniper.X()']]],
-  ['xr',['xr',['../d9/d08/class_juniper_1_1_animation_1_1_fade_transition.html#aa44622d650dfa96006feb9a8c2487fce',1,'Juniper.Animation.FadeTransition.xr()'],['../d4/d05/class_juniper_1_1_image_tracking_1_1_tracker_keeper.html#a014d668bf110863141f5963401ff0580',1,'Juniper.ImageTracking.TrackerKeeper.xr()']]],
+  ['xr',['xr',['../d9/d08/class_juniper_1_1_animation_1_1_fade_transition.html#aa44622d650dfa96006feb9a8c2487fce',1,'Juniper.Animation.FadeTransition.xr()'],['../d0/d81/class_juniper_1_1_image_tracking_1_1_abstract_tracker_keeper.html#a752329293508534886621c635d6e8101',1,'Juniper.ImageTracking.AbstractTrackerKeeper.xr()']]],
   ['xrplatforms',['XRPlatforms',['../dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#ab8dbe9438ff779ec323dd94b57ebb7ee',1,'Juniper::XR::CustomEditors::PlatformConfiguration']]],
   ['xrsystem',['XRSystem',['../db/d97/class_juniper_1_1_x_r_system.html',1,'Juniper']]],
   ['xrsystem_2ecs',['XRSystem.cs',['../dc/d53/_x_r_system_8cs.html',1,'']]],

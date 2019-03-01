@@ -11,5 +11,6 @@ var searchData=
   ['volumefade',['VolumeFade',['../d4/d62/class_juniper_1_1_audio_1_1_volume_fade.html',1,'Juniper::Audio']]],
   ['vuforiaimageanalyzer',['VuforiaImageAnalyzer',['../d2/d57/class_juniper_1_1_x_r_1_1_vuforia_image_analyzer.html',1,'Juniper::XR']]],
   ['vuforialightmeasurement',['VuforiaLightMeasurement',['../d5/d84/class_juniper_1_1_world_1_1_light_estimation_1_1_vuforia_light_measurement.html',1,'Juniper::World::LightEstimation']]],
+  ['vuforiatrackerkeeper',['VuforiaTrackerKeeper',['../da/d57/class_juniper_1_1_image_tracking_1_1_vuforia_tracker_keeper.html',1,'Juniper::ImageTracking']]],
   ['vuforiaunityext',['VuforiaUnityExt',['../d0/d23/class_vuforia_1_1_vuforia_unity_ext.html',1,'Vuforia']]]
 ];
