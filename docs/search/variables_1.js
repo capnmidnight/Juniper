@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['a',['a',['../d0/dca/struct_juniper_1_1_h_s_v_color.html#a90c83bbbdf79c49a81ddc5230cb1209c',1,'Juniper::HSVColor']]],
+  ['a',['a',['../d0/dca/struct_juniper_1_1_h_s_v_color.html#a90c83bbbdf79c49a81ddc5230cb1209c',1,'Juniper.HSVColor.a()'],['../d3/d87/class_hjg_1_1_pngcs_1_1_zlib_1_1_adler32.html#aab7b6a951f3bf2a97230a8099a666875',1,'Hjg.Pngcs.Zlib.Adler32.a()'],['../d6/de5/class_juniper_1_1_units_1_1_datum_w_g_s__84.html#a92b4d5584afe15273ca21e2d806fd853',1,'Juniper.Units.DatumWGS_84.a()']]],
+  ['abbreviations',['Abbreviations',['../d2/d5c/class_juniper_1_1_units.html#a81945e3522a6aecaf5ae7133b5eede0d',1,'Juniper::Units']]],
   ['accelerations',['accelerations',['../d6/d76/class_juniper_1_1_widgets_1_1_shaker.html#ae10c94e3a5c0c02dd991cecd2c4b9842',1,'Juniper::Widgets::Shaker']]],
   ['act',['act',['../d0/d1d/class_juniper_1_1_animation_1_1_workflow_step.html#a3b68c00bde0776647c9e1a880fc0b721',1,'Juniper::Animation::WorkflowStep']]],
   ['actions',['actions',['../d9/d08/class_juniper_1_1_animation_1_1_fade_transition.html#a7c005518cafb683499992c5f75d1123f',1,'Juniper::Animation::FadeTransition']]],
@@ -9,6 +10,12 @@ var searchData=
   ['allcompilerdefines',['AllCompilerDefines',['../d4/d26/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platforms.html#a8f410447dff652660c8a793d1d261d1a',1,'Juniper::XR::CustomEditors::Platforms']]],
   ['allplatforms',['AllPlatforms',['../d4/d26/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platforms.html#a6bed6bdc9d66dc8e7b1655722e07b8bc',1,'Juniper::XR::CustomEditors::Platforms']]],
   ['allrawpackages',['allRawPackages',['../d4/d26/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platforms.html#a37858532bc6e48ce341338176e3fb750',1,'Juniper::XR::CustomEditors::Platforms']]],
+  ['alpha',['Alpha',['../d3/d25/class_hjg_1_1_pngcs_1_1_image_info.html#aed7ebbd5aec57e10c8cff71d5d83d0a6',1,'Hjg.Pngcs.ImageInfo.Alpha()'],['../d0/d8d/class_system_1_1_number_ext.html#aae0e5602765e27261d57d33936bb9e78',1,'System.NumberExt.ALPHA()']]],
+  ['alpha1',['Alpha1',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#a15471abf65c087c4131114d237128d2d',1,'Juniper::NeuroSky::MindWaveAdapter']]],
+  ['alpha2',['Alpha2',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#a2c2589ea4dc43e7941ad0a05f9d6e56e',1,'Juniper::NeuroSky::MindWaveAdapter']]],
+  ['alreadywrittenkeys',['alreadyWrittenKeys',['../db/d34/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunks_list_for_write.html#aa481d90138f8c2d2720608981442f8fb',1,'Hjg::Pngcs::Chunks::ChunksListForWrite']]],
+  ['altitude',['Altitude',['../d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html#a0d4a465a23494f53c09263443f6e4d6e',1,'Juniper::World::GIS::LatLngPoint']]],
+  ['altitudedegrees',['AltitudeDegrees',['../d9/dc6/struct_juniper_1_1_world_1_1_g_i_s_1_1_horizontal_spherical_position.html#ae264807285d2b54dec4bea562c3767c2',1,'Juniper::World::GIS::HorizontalSphericalPosition']]],
   ['ambientscale',['ambientScale',['../d6/db7/class_juniper_1_1_world_1_1_indoor_light_estimate.html#ab273d7a0032f4428bd27f15b6e1d72a3',1,'Juniper::World::IndoorLightEstimate']]],
   ['amount',['amount',['../d7/d7d/class_juniper_1_1_widgets_1_1_rotatable.html#af04a2471517964040e1ef6b05a2f8d95',1,'Juniper::Widgets::Rotatable']]],
   ['analyzer',['analyzer',['../d5/d84/class_juniper_1_1_world_1_1_light_estimation_1_1_vuforia_light_measurement.html#acf99b5ceca16df4f2456abb8ff79343e',1,'Juniper::World::LightEstimation::VuforiaLightMeasurement']]],
@@ -35,7 +42,11 @@ var searchData=
   ['attack',['attack',['../d6/d38/class_juniper_1_1_animation_1_1_abstract_transition_controller.html#a47da63ed9e9964fdabe911361f466c42',1,'Juniper.Animation.AbstractTransitionController.attack()'],['../d4/d62/class_juniper_1_1_audio_1_1_volume_fade.html#a44be7b0df6220bf7e216152fcc08b8c4',1,'Juniper.Audio.VolumeFade.attack()']]],
   ['attacktime',['attackTime',['../d6/d38/class_juniper_1_1_animation_1_1_abstract_transition_controller.html#a7dedf6951607dea2ced2a132929bc450',1,'Juniper::Animation::AbstractTransitionController']]],
   ['attemptformats',['attemptFormats',['../d2/d57/class_juniper_1_1_x_r_1_1_vuforia_image_analyzer.html#afd158bcfbd57dbf8665539a7ff9e1327',1,'Juniper::XR::VuforiaImageAnalyzer']]],
+  ['attention',['Attention',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#a92725624a3bd497a292d0a30281f5a8c',1,'Juniper::NeuroSky::MindWaveAdapter']]],
+  ['author',['author',['../de/d27/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_text_var_1_1_png_txt_info.html#af24b5c1b603e8c59697624630b849ce2',1,'Hjg::Pngcs::Chunks::PngChunkTextVar::PngTxtInfo']]],
+  ['autoreadenabled',['autoReadEnabled',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#a4b1811276c92ae7a5e56ffd3b658829d',1,'Juniper::NeuroSky::MindWaveAdapter']]],
   ['averagingiterations',['averagingIterations',['../de/d92/class_juniper_1_1_world_1_1_compass_rose.html#a2515c3fa785045cb952dbd0de1ed625d',1,'Juniper::World::CompassRose']]],
   ['axialmovement',['AxialMovement',['../dc/dfb/class_juniper_1_1_input_1_1_camera_control.html#a0e09cbe39fce890150af263060d4cf92',1,'Juniper::Input::CameraControl']]],
-  ['axis',['axis',['../d3/d3f/class_juniper_1_1_widgets_1_1_abstract_constraint_handle.html#a821be27b1e6da65e2adbd712cbf26c5c',1,'Juniper::Widgets::AbstractConstraintHandle']]]
+  ['axis',['axis',['../d3/d3f/class_juniper_1_1_widgets_1_1_abstract_constraint_handle.html#a821be27b1e6da65e2adbd712cbf26c5c',1,'Juniper::Widgets::AbstractConstraintHandle']]],
+  ['azimuthdegrees',['AzimuthDegrees',['../d9/dc6/struct_juniper_1_1_world_1_1_g_i_s_1_1_horizontal_spherical_position.html#a6b7dc7dfd8625b6e5ee8406f753447e5',1,'Juniper::World::GIS::HorizontalSphericalPosition']]]
 ];

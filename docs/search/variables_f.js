@@ -2,6 +2,7 @@ var searchData=
 [
   ['occlusionmaterial',['OcclusionMaterial',['../d9/d8c/class_juniper_1_1_ground_1_1_abstract_ground.html#a2d554257dbeba4d4ba0f83a7fc3db6c7',1,'Juniper::Ground::AbstractGround']]],
   ['occlusionmaterialineditor',['OcclusionMaterialInEditor',['../d9/d8c/class_juniper_1_1_ground_1_1_abstract_ground.html#af99c15e16dc997f17c475020acdf145f',1,'Juniper::Ground::AbstractGround']]],
+  ['offset',['offset',['../da/d65/class_ar_1_1_com_1_1_hjg_1_1_pngcs_1_1_buffered_stream_feeder.html#a3a2de78cc3901934d19d4e95a2cfeb4f',1,'Ar.Com.Hjg.Pngcs.BufferedStreamFeeder.offset()'],['../d7/df3/class_hjg_1_1_pngcs_1_1_png_i_dat_chunk_input_stream.html#a1253e1fe60456e571e193d18ab1cd885',1,'Hjg.Pngcs.PngIDatChunkInputStream.offset()'],['../df/dc0/class_hjg_1_1_pngcs_1_1_png_i_dat_chunk_input_stream_1_1_idat_chunk_info.html#a8c01ec6527cf2d1e6052d7864c3fdd69',1,'Hjg.Pngcs.PngIDatChunkInputStream.IdatChunkInfo.offset()'],['../d7/d0b/class_hjg_1_1_pngcs_1_1_png_reader.html#a01fb4b872e877e2ce4818c133593c603',1,'Hjg.Pngcs.PngReader.offset()']]],
   ['ok',['ok',['../d7/d66/class_juniper_1_1_widgets_1_1_file_selector.html#ad5d99558505a7b6e38e71a0f9cf2045e',1,'Juniper::Widgets::FileSelector']]],
   ['oldrotation',['oldRotation',['../de/d45/class_unity_engine_1_1_text_mesh_size.html#a924f13e20c2e7583e1e2767554d67c8c',1,'UnityEngine::TextMeshSize']]],
   ['oldscale',['oldScale',['../de/d45/class_unity_engine_1_1_text_mesh_size.html#a5f235ae6f303c7a6df5140a0ed51db58',1,'UnityEngine::TextMeshSize']]],
@@ -51,10 +52,16 @@ var searchData=
   ['opened',['Opened',['../dc/d25/class_juniper_1_1_widgets_1_1_openable.html#a1ccce0f48efe8856038737d779d7e202',1,'Juniper::Widgets::Openable']]],
   ['openweathermapapikey',['OpenWeatherMapAPIKey',['../d5/d64/class_juniper_1_1_world_1_1_climate_1_1_weather.html#a0756fe07087cef280c40fa5da5fde414',1,'Juniper::World::Climate::Weather']]],
   ['operation',['operation',['../d1/d22/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_a_p_i.html#a6cf0b6670b4839c8c3a5de01f7e80e21',1,'Juniper::World::Climate::OpenWeatherMap::API']]],
+  ['optimal',['OPTIMAL',['../da/d3d/class_hjg_1_1_pngcs_1_1_zlib_1_1_deflate_compress_level.html#a54b3897a6988993957f1d781f405b5bd',1,'Hjg::Pngcs::Zlib::DeflateCompressLevel']]],
   ['option',['Option',['../db/d97/class_juniper_1_1_x_r_system.html#a0c80ffc4e9fbf6876a2adf22c3ea3076',1,'Juniper::XRSystem']]],
   ['optionsinterface',['optionsInterface',['../d0/dde/class_juniper_1_1_master_scene_controller.html#a73cb89f90add8ff420e296460d1f31d1',1,'Juniper::MasterSceneController']]],
   ['orientation',['orientation',['../de/ddc/class_juniper_1_1_world_1_1_sun_position.html#a1c7e2d6a9413f6f93d72291edc1df0e0',1,'Juniper::World::SunPosition']]],
   ['originvelocity',['originVelocity',['../de/d21/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html#a4b5d9a938b071352815b2b230f056c9e',1,'Juniper::Input::Pointers::Motion::HoloLensHand']]],
+  ['ost',['ost',['../d5/d3c/class_hjg_1_1_pngcs_1_1_zlib_1_1_zlib_output_stream.html#aa0f97e3539a84857c7629f5546bc6a18',1,'Hjg::Pngcs::Zlib::ZlibOutputStream']]],
   ['other_5fmenu_5fname',['OTHER_MENU_NAME',['../d2/d00/class_juniper_1_1_x_r_1_1_custom_editors_1_1_x_r_system_editor.html#add86c678548204ef83e44cd962cbcf6d',1,'Juniper::XR::CustomEditors::XRSystemEditor']]],
-  ['overhead',['overhead',['../d6/db7/class_juniper_1_1_world_1_1_indoor_light_estimate.html#a1a87ecb9196e9ce493e6cd7a2ab568fc',1,'Juniper::World::IndoorLightEstimate']]]
+  ['outputstream',['outputStream',['../d5/d5c/class_hjg_1_1_pngcs_1_1_png_i_dat_chunk_output_stream.html#a65b1e3632d416325a90d560d265a4afd',1,'Hjg.Pngcs.PngIDatChunkOutputStream.outputStream()'],['../d7/dc1/class_hjg_1_1_pngcs_1_1_png_writer.html#a13aacbd5b668f866f58a19cad5962039',1,'Hjg.Pngcs.PngWriter.outputStream()']]],
+  ['overhead',['overhead',['../d6/db7/class_juniper_1_1_world_1_1_indoor_light_estimate.html#a1a87ecb9196e9ce493e6cd7a2ab568fc',1,'Juniper::World::IndoorLightEstimate']]],
+  ['ox',['oX',['../da/d1f/class_hjg_1_1_pngcs_1_1_png_deinterlacer.html#ad4d8d371ac4cb80537f604edb6086ca1',1,'Hjg::Pngcs::PngDeinterlacer']]],
+  ['oxsamples',['oXsamples',['../da/d1f/class_hjg_1_1_pngcs_1_1_png_deinterlacer.html#ab58ac15d3dee4c72a56ff82df6fba192',1,'Hjg::Pngcs::PngDeinterlacer']]],
+  ['oy',['oY',['../da/d1f/class_hjg_1_1_pngcs_1_1_png_deinterlacer.html#a4f648edf0da645a51356e75862d4fe31',1,'Hjg::Pngcs::PngDeinterlacer']]]
 ];

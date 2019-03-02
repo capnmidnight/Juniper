@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vuforia',['Vuforia',['../d4/d0f/namespace_vuforia.html',1,'']]]
+  ['libstreamsdk',['libStreamSDK',['../d7/d22/namespacelib_stream_s_d_k.html',1,'']]]
 ];

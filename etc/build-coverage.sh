@@ -1,5 +1,7 @@
 rm -rf xml/
-sed -e "s/GENERATE_HTML          = YES/GENERATE_HTML          = NO/" doxygen.config > doxygen.xml.config
+cat doxygen.config \
+	| sed -e "s/GENERATE_XML           = NO/GENERATE_XML           = YES/" \
+	> doxygen.xml.config
 doxygen doxygen.xml.config
 rm doxygen.xml.config
 

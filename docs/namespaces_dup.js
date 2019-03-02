@@ -1,6 +1,9 @@
 var namespaces_dup =
 [
+    [ "Ar", "d8/de2/namespace_ar.html", "d8/de2/namespace_ar" ],
+    [ "Hjg", "dc/d42/namespace_hjg.html", "dc/d42/namespace_hjg" ],
     [ "Juniper", "de/d75/namespace_juniper.html", "de/d75/namespace_juniper" ],
+    [ "libStreamSDK", "d7/d22/namespacelib_stream_s_d_k.html", null ],
     [ "System", "d8/dd0/namespace_system.html", "d8/dd0/namespace_system" ],
     [ "UnityEditor", "d8/d5f/namespace_unity_editor.html", null ],
     [ "UnityEngine", "d3/d82/namespace_unity_engine.html", "d3/d82/namespace_unity_engine" ],

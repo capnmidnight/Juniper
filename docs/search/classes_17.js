@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['zip',['Zip',['../d1/d40/class_juniper_1_1_data_1_1_zip.html',1,'Juniper::Data']]]
+  ['yobibytes',['Yobibytes',['../de/d7b/class_juniper_1_1_units_1_1_yobibytes.html',1,'Juniper::Units']]],
+  ['yotabytes',['Yotabytes',['../d6/d2d/class_juniper_1_1_units_1_1_yotabytes.html',1,'Juniper::Units']]]
 ];

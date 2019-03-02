@@ -1,6 +1,8 @@
 var searchData=
 [
+  ['radians',['Radians',['../da/dc0/class_juniper_1_1_units_1_1_radians.html',1,'Juniper::Units']]],
   ['rain',['Rain',['../d7/da6/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_rain.html',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport']]],
+  ['ratio',['Ratio',['../dd/d5b/class_juniper_1_1_units_1_1_ratio.html',1,'Juniper::Units']]],
   ['rawimage',['RawImage',['../da/d87/struct_juniper_1_1_imaging_1_1_raw_image.html',1,'Juniper::Imaging']]],
   ['rawpackage',['RawPackage',['../d4/d68/class_juniper_1_1_x_r_1_1_custom_editors_1_1_raw_package.html',1,'Juniper::XR::CustomEditors']]],
   ['readonlyattribute',['ReadOnlyAttribute',['../d8/dff/class_unity_engine_1_1_read_only_attribute.html',1,'UnityEngine']]],

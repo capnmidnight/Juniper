@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['radians_2ecs',['Radians.cs',['../d4/d37/_radians_8cs.html',1,'']]],
+  ['ratio_2ecs',['Ratio.cs',['../d7/dff/_ratio_8cs.html',1,'']]],
   ['rawimage_2ecs',['RawImage.cs',['../dc/de9/_raw_image_8cs.html',1,'']]],
   ['rawpackage_2ecs',['RawPackage.cs',['../df/d1e/_raw_package_8cs.html',1,'']]],
   ['readme_2emd',['README.md',['../d9/dd6/_r_e_a_d_m_e_8md.html',1,'']]],

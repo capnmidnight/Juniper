@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['cartesianaxis',['CartesianAxis',['../de/d75/namespace_juniper.html#ad07516cea58a7e230fb306ab4a2e42c7',1,'Juniper']]],
-  ['cartesianaxisflags',['CartesianAxisFlags',['../de/d75/namespace_juniper.html#a5e469413b715278bac31283a19d2e774',1,'Juniper']]]
+  ['baudrate',['Baudrate',['../d7/d22/namespacelib_stream_s_d_k.html#aa3b6680e6587f06f315770a6325d76a6',1,'libStreamSDK']]]
 ];

@@ -56,6 +56,7 @@ var searchData=
   ['abstractwindowsmrdevice',['AbstractWindowsMRDevice',['../dd/dde/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html',1,'Juniper::Input::Pointers::Motion']]],
   ['abstractwindowsmrdevice_3c_20hololensprobeconfiguration_2c_20haptics_2enohaptics_20_3e',['AbstractWindowsMRDevice&lt; HoloLensProbeConfiguration, Haptics.NoHaptics &gt;',['../dd/dde/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html',1,'Juniper::Input::Pointers::Motion']]],
   ['abstractwindowsmrdevice_3c_20windowsmrprobeconfiguration_2c_20hapticstype_20_3e',['AbstractWindowsMRDevice&lt; WindowsMRProbeConfiguration, HapticsType &gt;',['../dd/dde/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html',1,'Juniper::Input::Pointers::Motion']]],
+  ['adler32',['Adler32',['../d3/d87/class_hjg_1_1_pngcs_1_1_zlib_1_1_adler32.html',1,'Hjg::Pngcs::Zlib']]],
   ['alphatransition',['AlphaTransition',['../dc/de2/class_juniper_1_1_animation_1_1_alpha_transition.html',1,'Juniper::Animation']]],
   ['anchored',['Anchored',['../d3/de1/class_juniper_1_1_anchoring_1_1_anchored.html',1,'Juniper::Anchoring']]],
   ['anchorstore',['AnchorStore',['../df/d66/class_juniper_1_1_anchoring_1_1_anchor_store.html',1,'Juniper::Anchoring']]],
@@ -73,5 +74,7 @@ var searchData=
   ['arrayext',['ArrayExt',['../da/d4a/class_system_1_1_array_ext.html',1,'System']]],
   ['attentiondirector',['AttentionDirector',['../df/d07/class_juniper_1_1_widgets_1_1_attention_director.html',1,'Juniper::Widgets']]],
   ['audioclipcollection',['AudioClipCollection',['../db/de2/class_juniper_1_1_audio_1_1_audio_clip_collection.html',1,'Juniper::Audio']]],
-  ['audiosettingsext',['AudioSettingsExt',['../da/dd9/class_unity_editor_1_1_audio_settings_ext.html',1,'UnityEditor']]]
+  ['audiosettingsext',['AudioSettingsExt',['../da/dd9/class_unity_editor_1_1_audio_settings_ext.html',1,'UnityEditor']]],
+  ['azlibinputstream',['AZlibInputStream',['../dd/d12/class_hjg_1_1_pngcs_1_1_zlib_1_1_a_zlib_input_stream.html',1,'Hjg::Pngcs::Zlib']]],
+  ['azliboutputstream',['AZlibOutputStream',['../d8/d64/class_hjg_1_1_pngcs_1_1_zlib_1_1_a_zlib_output_stream.html',1,'Hjg::Pngcs::Zlib']]]
 ];

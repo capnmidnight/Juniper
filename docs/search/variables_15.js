@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['units',['units',['../d1/d22/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_a_p_i.html#afe8e63f2a7478a2730fe7b29c25b9356',1,'Juniper::World::Climate::OpenWeatherMap::API']]],
+  ['units',['units',['../d1/d22/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_a_p_i.html#afe8e63f2a7478a2730fe7b29c25b9356',1,'Juniper.World.Climate.OpenWeatherMap.API.units()'],['../d3/d36/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_o_f_f_s.html#ace9a2991fd5674a5b74d8504828e5494',1,'Hjg.Pngcs.Chunks.PngChunkOFFS.units()']]],
   ['unity_5fsubmodule_5fprefix',['UNITY_SUBMODULE_PREFIX',['../d4/de4/class_juniper_1_1_x_r_1_1_custom_editors_1_1_unity_package.html#a1ee38cb4ac67a2dbb7f1f75f838e02a3',1,'Juniper::XR::CustomEditors::UnityPackage']]],
+  ['unpackedmode',['unpackedMode',['../d7/d0b/class_hjg_1_1_pngcs_1_1_png_reader.html#a57dc70abe3b780273c5c0815341d78b6',1,'Hjg.Pngcs.PngReader.unpackedMode()'],['../d7/dc1/class_hjg_1_1_pngcs_1_1_png_writer.html#a4782ba02689f4faa4e9b78f23b4d31b6',1,'Hjg.Pngcs.PngWriter.unpackedMode()']]],
   ['untilnextrequest',['UntilNextRequest',['../d5/d6f/class_juniper_1_1_data_1_1_managed_request.html#a5d3b8ab1c18edf5c36978271ef9dbbfc',1,'Juniper::Data::ManagedRequest']]],
   ['untilnextrequestseconds',['UntilNextRequestSeconds',['../d5/d6f/class_juniper_1_1_data_1_1_managed_request.html#a519d280314044bffc292f848b5e0cf93',1,'Juniper::Data::ManagedRequest']]],
   ['updatecountbeforespatialmappingcleanup',['updateCountBeforeSpatialMappingCleanup',['../da/dde/class_juniper_1_1_ground_1_1_holo_lens_ground.html#ae839d7d930f85475150929591020e9c4',1,'Juniper::Ground::HoloLensGround']]],

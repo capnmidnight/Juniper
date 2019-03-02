@@ -1,10 +1,15 @@
 var searchData=
 [
+  ['datetimeext_2ecs',['DateTimeExt.cs',['../d6/d8c/_date_time_ext_8cs.html',1,'']]],
   ['datetimeext2_2ecs',['DateTimeExt2.cs',['../df/d5b/_date_time_ext2_8cs.html',1,'']]],
+  ['datum_2ecs',['Datum.cs',['../dd/d86/_datum_8cs.html',1,'']]],
   ['daydreammotioncontroller_2ecs',['DaydreamMotionController.cs',['../d1/dde/_daydream_motion_controller_8cs.html',1,'']]],
+  ['days_2ecs',['Days.cs',['../dd/dac/_days_8cs.html',1,'']]],
   ['debugobject_2ecs',['DebugObject.cs',['../dd/d24/_debug_object_8cs.html',1,'']]],
   ['defaulthaptics_2ecs',['DefaultHaptics.cs',['../d9/d15/_default_haptics_8cs.html',1,'']]],
   ['defaultlocomotion_2ecs',['DefaultLocomotion.cs',['../da/d18/_default_locomotion_8cs.html',1,'']]],
+  ['deflatecompresslevel_2ecs',['DeflateCompressLevel.cs',['../d7/d16/_deflate_compress_level_8cs.html',1,'']]],
+  ['degrees_2ecs',['Degrees.cs',['../dc/d9f/_degrees_8cs.html',1,'']]],
   ['detectvideoend_2ecs',['DetectVideoEnd.cs',['../d6/d8a/_detect_video_end_8cs.html',1,'']]],
   ['device_2ecs',['Device.cs',['../df/d53/_device_8cs.html',1,'']]],
   ['dictionaryext_2ecs',['DictionaryExt.cs',['../db/dd4/_dictionary_ext_8cs.html',1,'']]],

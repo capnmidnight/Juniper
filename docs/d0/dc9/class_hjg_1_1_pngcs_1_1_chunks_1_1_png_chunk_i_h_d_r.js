@@ -1,0 +1,37 @@
+var class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r =
+[
+    [ "ChunkOrderingConstraint", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a622a7db2554ec2db33c9411a3b0c2cac", [
+      [ "NONE", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a622a7db2554ec2db33c9411a3b0c2cacab50339a10e1de285ac99d4c3990b8693", null ],
+      [ "BEFORE_PLTE_AND_IDAT", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a622a7db2554ec2db33c9411a3b0c2caca7e46595f531be1c5f6cf84559fc9b92e", null ],
+      [ "AFTER_PLTE_BEFORE_IDAT", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a622a7db2554ec2db33c9411a3b0c2caca63876522bb6000d580d53eb67534ddc3", null ],
+      [ "BEFORE_IDAT", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a622a7db2554ec2db33c9411a3b0c2caca422484982bd1aec91f424d70812c553a", null ],
+      [ "NA", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a622a7db2554ec2db33c9411a3b0c2cacad4cd0dabcf4caa22ad92fab40844c786", null ]
+    ] ],
+    [ "PngChunkIHDR", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a9ae9b4bc9021003cc63f6085864ca473", null ],
+    [ "AllowsMultiple", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a2d755f25fa856f36ee3db15554051f95", null ],
+    [ "CloneChunk< T >", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a51fb1c08b8adabf229cc2a8edeb0d204", null ],
+    [ "CloneDataFromRead", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a5f3e1b8016f19398a56c98c19dce170d", null ],
+    [ "createEmptyChunk", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a4051d5a15e57929d88fb5dd80340ba69", null ],
+    [ "CreateRawChunk", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#ae0421ec476d0e1b708b48847c0a2dd34", null ],
+    [ "Equals", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#acfca57f8adf216263147446260aa94c9", null ],
+    [ "FactoryRegister", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a02ec9e1d11fc4479d44e082ac6d92e82", null ],
+    [ "GetHashCode", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a29edbee76219234431adbb1b5e267627", null ],
+    [ "GetOrderingConstraint", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a563cc2a26ab806490a8575192fb839d3", null ],
+    [ "ParseFromRaw", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#ae048b99af717217768d3bacb0f8536ac", null ],
+    [ "ToString", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a08e56110f5521aefb2d36395d37c9da5", null ],
+    [ "Crit", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a41f7b133129b766b16dc03d4a9af2106", null ],
+    [ "ID", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#abe930b2ec17690f0eddbf556d3de5d30", null ],
+    [ "Id", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#ad4da002e97c3f74d4749e1d03e1beb7a", null ],
+    [ "ImgInfo", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a153f778c8b8743a6190ad0865ece42b8", null ],
+    [ "Bitspc", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#ad9ceab219145764f704bc8572903fcfb", null ],
+    [ "ChunkGroup", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a5203a0d55c4ae1147e205ede1f4c4c4c", null ],
+    [ "Colormodel", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a5adc707627c4a45381764182a11fcb53", null ],
+    [ "Cols", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a8c875f72bf6da68a8526244b75532bf9", null ],
+    [ "Compmeth", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a4b5785089bd0c8ffff20ce7fb3b86e80", null ],
+    [ "Filmeth", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a939aaac317a21bed02e54189a750ce00", null ],
+    [ "Interlaced", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a96146ed9d6c08c5c0da9818c36cdb610", null ],
+    [ "Length", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a53bfc57faeda8927108918c879e72655", null ],
+    [ "Offset", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a1f0c4f25718c09157bc2e5d5d819db9e", null ],
+    [ "Priority", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a146b3c825c4bf95fd829add8fea68222", null ],
+    [ "Rows", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html#a65393ecddf6dcb62adc5049038f76f5b", null ]
+];

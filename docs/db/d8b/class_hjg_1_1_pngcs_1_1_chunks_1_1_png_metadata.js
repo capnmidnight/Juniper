@@ -1,0 +1,25 @@
+var class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata =
+[
+    [ "PngMetadata", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#afff0132c24883910dc1ef59b5ab9388c", null ],
+    [ "CreatePLTEChunk", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#a900a0ccc5918a134bd239490d2d330c2", null ],
+    [ "CreateTRNSChunk", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#a1a0a4fa0bc9f582e9d31971157fa2857", null ],
+    [ "getChunkListW", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#abba685f9440f7493baa3f3db8bd2f655", null ],
+    [ "GetDpi", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#ada1a25f416f9b39ad482cbea80dd769c", null ],
+    [ "GetPLTE", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#a75b17011c39c3881ab8e184f7f5d8a01", null ],
+    [ "GetTime", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#a338b218e70aadcccf8627d962a8a2424", null ],
+    [ "GetTimeAsString", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#aab6a7f88b1c710ae9a216680818d3843", null ],
+    [ "GetTRNS", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#a2a50a08d19bcb68cc8aaf7777f2429f9", null ],
+    [ "GetTxtForKey", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#abba13bf50e7a638371242f6888baa8ee", null ],
+    [ "GetTxtsForKey", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#aa5ab3e7f26dfaac5b85cfbc85ab2ebfb", null ],
+    [ "QueueChunk", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#ab6aa99679b0e47be00ae32deb3df41a0", null ],
+    [ "QueueChunk", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#aa0d5dd220e3845debc5569b5a4c6ed47", null ],
+    [ "SetDpi", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#adb0d12136357cc5e821639a603457a30", null ],
+    [ "SetDpi", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#a951f20da97fc6da2bc99c8822e5981fa", null ],
+    [ "SetText", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#a5c6bdf129dc794621ba2a9641332fbde", null ],
+    [ "SetText", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#a9ee7a76c627e54ff79f6562f7a1c104b", null ],
+    [ "SetTimeNow", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#a645d499b0a7a901eb3043259ef84d46f", null ],
+    [ "SetTimeNow", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#a5f0b203c795d8f4c275fc63a33a47b7d", null ],
+    [ "SetTimeYMDHMS", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#a0b374ac95d9fa778dea74ebc4f8e133d", null ],
+    [ "chunkList", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#aa71cfaa44bf092e103a6b2dfa587fd48", null ],
+    [ "ReadOnly", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html#af907df80c73ebdb139237ecd0893e6ae", null ]
+];
