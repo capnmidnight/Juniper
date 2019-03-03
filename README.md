@@ -31,17 +31,12 @@ Juniper is a framework within Unity 3D for managing and developing virtual, augm
 Language                     Files       Lines      Code    Comments     Blanks
 ───────────────────────────────────────────────────────────────────────────────
 C#                             382       42334     27534        9295       5505
-XML                             21      148903    133227           0      15676
-Plain Text                       2          22        18           0          4
-JSON                             2         311       311           0          0
-License                          1          13        10           0          3
-Objective C++                    1         107        64          35          8
 ───────────────────────────────────────────────────────────────────────────────
-Total                          409      191690    161164        9330      21196
+Total                          382       42334     27534        9295       5505
 ───────────────────────────────────────────────────────────────────────────────
-Estimated Cost to Develop $10,970,685
-Estimated Schedule Effort 29.552685 months
-Estimated People Required 22.500101
+Estimated Cost to Develop $1,715,793
+Estimated Schedule Effort 14.601748 months
+Estimated People Required 7.122097
 ───────────────────────────────────────────────────────────────────────────────
 
 ```
@@ -53,13 +48,12 @@ Estimated People Required 22.500101
 Language                     Files       Lines      Code    Comments     Blanks
 ───────────────────────────────────────────────────────────────────────────────
 C#                              85       10658      4293        5159       1206
-MSBuild                          1         129       129           0          0
 ───────────────────────────────────────────────────────────────────────────────
-Total                           86       10787      4422        5159       1206
+Total                           85       10658      4293        5159       1206
 ───────────────────────────────────────────────────────────────────────────────
-Estimated Cost to Develop $251,479
-Estimated Schedule Effort 7.038804 months
-Estimated People Required 2.165463
+Estimated Cost to Develop $243,781
+Estimated Schedule Effort 6.956144 months
+Estimated People Required 2.124126
 ───────────────────────────────────────────────────────────────────────────────
 
 ```
@@ -71,14 +65,12 @@ Estimated People Required 2.165463
 Language                     Files       Lines      Code    Comments     Blanks
 ───────────────────────────────────────────────────────────────────────────────
 C#                              32         669       524          34        111
-Plain Text                       8         143       143           0          0
-MSBuild                          2         175       175           0          0
 ───────────────────────────────────────────────────────────────────────────────
-Total                           42         987       842          34        111
+Total                           32         669       524          34        111
 ───────────────────────────────────────────────────────────────────────────────
-Estimated Cost to Develop $44,073
-Estimated Schedule Effort 3.631588 months
-Estimated People Required 0.735582
+Estimated Cost to Develop $26,785
+Estimated Schedule Effort 3.005455 months
+Estimated People Required 0.540179
 ───────────────────────────────────────────────────────────────────────────────
 
 ```
