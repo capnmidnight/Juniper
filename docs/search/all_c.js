@@ -163,7 +163,6 @@ var searchData=
   ['longpressevents',['LongPressEvents',['../d6/d53/class_juniper_1_1_events_1_1_long_press_events.html',1,'Juniper::Events']]],
   ['longpresshandler',['longPressHandler',['../d6/d53/class_juniper_1_1_events_1_1_long_press_events.html#a0d72da79b25353f797de9eb81bc984f8',1,'Juniper::Events::LongPressEvents']]],
   ['longpresshandler_2ecs',['LongPressHandler.cs',['../d1/dd5/_long_press_handler_8cs.html',1,'']]],
-  ['longpressstarttime',['longPressStartTime',['../d2/d70/class_juniper_1_1_widgets_1_1_clickable.html#a528ecc09ba08e7d0d8bb3bf05e80ceca',1,'Juniper::Widgets::Clickable']]],
   ['longpressupdatehandler',['longPressUpdateHandler',['../d6/d53/class_juniper_1_1_events_1_1_long_press_events.html#a12f515530b837f7b89923d904cb24d22',1,'Juniper::Events::LongPressEvents']]],
   ['loop',['Loop',['../dd/dad/class_juniper_1_1_data_1_1_abstract_background_repeating_thread.html#af293750bae7841c895809650a75fc8ca',1,'Juniper.Data.AbstractBackgroundRepeatingThread.Loop()'],['../d5/d6f/class_juniper_1_1_data_1_1_managed_request.html#a8b934d0670bf18f2bf63670c2ca7c7d7',1,'Juniper.Data.ManagedRequest.Loop()'],['../d2/d57/class_juniper_1_1_x_r_1_1_vuforia_image_analyzer.html#a49b291d6f2e5248bd74b84b01a46bfc5',1,'Juniper.XR.VuforiaImageAnalyzer.Loop()']]],
   ['loopingagaindoesntgrowsize',['LoopingAgainDoesntGrowSize',['../d5/df9/class_juniper_1_1_statistics_1_1_single_statistics_tests.html#abf7311fa1f244d0969e399649a336259',1,'Juniper::Statistics::SingleStatisticsTests']]],

@@ -1,8 +1,5 @@
 var NAVTREEINDEX8 =
 {
-"d3/d4d/class_juniper_1_1_units_1_1_miles_per_hour.html#a9a65483f04e4373e3b37ecff4faaf25f":[6,0,2,38,43,4],
-"d3/d4d/class_juniper_1_1_units_1_1_miles_per_hour.html#a9a72408e6708c61019592a1ff7c63e88":[6,0,2,38,43,2],
-"d3/d4d/class_juniper_1_1_units_1_1_miles_per_hour.html#af01e128cdc7a0ad96fad8a1afa46c73a":[6,0,2,38,43,7],
 "d3/d4d/class_juniper_1_1_units_1_1_miles_per_hour.html#af10a09006741cdb7f841ce5fe0436686":[6,0,2,38,43,6],
 "d3/d51/_lerp_motion_filter_8cs.html":[7,0,1,0,0,0,1,1,15,3],
 "d3/d51/_lerp_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6":[7,0,1,0,0,0,1,1,15,3,1],
@@ -249,5 +246,8 @@ var NAVTREEINDEX8 =
 "d3/deb/obj_2x64_2_release_2_temporary_generated_file__036_c0_b5_b-1481-4323-8_d20-8_f5_a_d_c_b23_d92_8cs_source.html":[7,0,1,1,0,0,0,0,1,0],
 "d3/def/_haptic_pattern_element_8cs.html":[7,0,1,0,0,0,1,1,8,3],
 "d3/def/_haptic_pattern_element_8cs.html#a033eb0472e5a7d12e4540107db61c90b":[7,0,1,0,0,0,1,1,8,3,1],
-"d3/def/_haptic_pattern_element_8cs.html#a033eb0472e5a7d12e4540107db61c90ba0610123bdd4ffc191a3ea05a847e1307":[7,0,1,0,0,0,1,1,8,3,1,9]
+"d3/def/_haptic_pattern_element_8cs.html#a033eb0472e5a7d12e4540107db61c90ba0610123bdd4ffc191a3ea05a847e1307":[7,0,1,0,0,0,1,1,8,3,1,9],
+"d3/def/_haptic_pattern_element_8cs.html#a033eb0472e5a7d12e4540107db61c90ba0eaadb4fcb48a0a0ed7bc9868be9fbaa":[7,0,1,0,0,0,1,1,8,3,1,5],
+"d3/def/_haptic_pattern_element_8cs.html#a033eb0472e5a7d12e4540107db61c90ba316853cc3718335f11c048e33b9be98a":[7,0,1,0,0,0,1,1,8,3,1,8],
+"d3/def/_haptic_pattern_element_8cs.html#a033eb0472e5a7d12e4540107db61c90ba505a83f220c02df2f85c3810cd9ceb38":[7,0,1,0,0,0,1,1,8,3,1,7]
 };

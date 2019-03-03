@@ -187,13 +187,6 @@ namespace Juniper.Widgets
             return enabledPart;
         }
 
-        protected void BlendState(string fromPart, string toPart, float amount)
-        {
-            fromPart = NormalizePart(fromPart);
-            toPart = NormalizePart(toPart);
-            animator?.Blend(fromPart, toPart, amount);
-        }
-
         /// <summary>
         /// Saves the worldSpace position of any pointer events that were fired on this object. The
         /// worldSpace position is then used by Draggable objects to figure out where to move them.

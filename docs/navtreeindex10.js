@@ -1,8 +1,5 @@
 var NAVTREEINDEX10 =
 {
-"d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a199d36e599ddcd34f81732ed09373a02":[6,0,2,11,0,1,17,23],
-"d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a1e5704e28e6cc24b8702f0d14ee5ecdd":[6,0,2,11,0,1,17,1],
-"d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a2c72b576087622ad1e8650393de4e1af":[6,0,2,11,0,1,17,12],
 "d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a2cca9186485795ed310277e537082275":[6,0,2,11,0,1,17,40],
 "d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a32fb019d83ff58852618a7969666ac20":[6,0,2,11,0,1,17,41],
 "d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a34ec59cb3296f83cc87f039e7402e672":[6,0,2,11,0,1,17,3],
@@ -249,5 +246,8 @@ var NAVTREEINDEX10 =
 "d4/de4/class_juniper_1_1_x_r_1_1_custom_editors_1_1_unity_package.html#aadfdd8c07240d8536b4ce78f0d471058":[6,0,2,18,0,5,3],
 "d4/de4/class_juniper_1_1_x_r_1_1_custom_editors_1_1_unity_package.html#ab788924b36d83079db0dd247ddc3ce3a":[6,0,2,18,0,5,5],
 "d4/de5/class_juniper_1_1_units_1_1_proportion.html":[6,0,2,38,57],
-"d4/de5/class_juniper_1_1_units_1_1_proportion.html#ad81478123c1e5b3cf8d5ecf201fa00bb":[6,0,2,38,57,0]
+"d4/de5/class_juniper_1_1_units_1_1_proportion.html#ad81478123c1e5b3cf8d5ecf201fa00bb":[6,0,2,38,57,0],
+"d4/df0/class_juniper_1_1_units_1_1_tons.html":[6,0,2,38,70],
+"d4/df0/class_juniper_1_1_units_1_1_tons.html#a2f58ac756cb35987203f53845d3b695c":[6,0,2,38,70,0],
+"d4/df0/class_juniper_1_1_units_1_1_tons.html#a3af9f8352cd8c005b38982c427a06cf5":[6,0,2,38,70,5]
 };

@@ -61,9 +61,6 @@ namespace Juniper.Animation
             }
         }
 
-        public override IEnumerator BlendCoroutine(string fromName, string toName, float amount) =>
-            PlayCoroutine(toName);
-
         /// <summary>
         /// The animator over which we are abstracting.
         /// </summary>

@@ -54,6 +54,15 @@ namespace Juniper.Widgets
         [Tooltip("The output value will be rescaled from the domain [0, 1] to the range [minValue, maxValue]")]
         public float _value;
 
+        /// <summary>
+        /// The output value will be rescaled from the domain [0, 1] to the range [ <see
+        /// cref="minValue"/>, <see cref="maxValue"/>]
+        /// </summary>
+        /// <remarks>
+        /// To satisfy the IValuedControl interface, value needs to be a property. But to work
+        /// with the Unity Editor, it needs to be a field. So we have to manually create our own
+        /// property backing.
+        /// </remarks>
         public float value
         {
             get { return _value; }
@@ -152,6 +161,9 @@ namespace Juniper.Widgets
         protected bool ValueChanged =>
             !Mathf.Approximately(value, lastValue);
 
+        /// <summary>
+        /// An event for detecting when the Draggable has changed.
+        /// </summary>
         public event EventHandler<float> ValueChange;
 
         /// <summary>

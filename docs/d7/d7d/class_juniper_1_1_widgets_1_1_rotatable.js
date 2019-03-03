@@ -1,7 +1,6 @@
 var class_juniper_1_1_widgets_1_1_rotatable =
 [
     [ "Awake", "d7/d7d/class_juniper_1_1_widgets_1_1_rotatable.html#a8fda1019379d42de16e4e8fc63b1665c", null ],
-    [ "BlendState", "d7/d7d/class_juniper_1_1_widgets_1_1_rotatable.html#a67989c4156ac2482088b217afa1d97b8", null ],
     [ "GetPosition", "d7/d7d/class_juniper_1_1_widgets_1_1_rotatable.html#a44e16380420df4faadf1e4421731af86", null ],
     [ "LateUpdate", "d7/d7d/class_juniper_1_1_widgets_1_1_rotatable.html#ad2e1b01d247334862308da0f3c76bb14", null ],
     [ "OnBeginDrag", "d7/d7d/class_juniper_1_1_widgets_1_1_rotatable.html#a0e4c1fc5db597b0e38fec9b47de8d9ce", null ],

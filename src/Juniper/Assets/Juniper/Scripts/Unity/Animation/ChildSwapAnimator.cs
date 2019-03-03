@@ -54,32 +54,5 @@ namespace Juniper.Animation
             }
             yield return null;
         }
-
-        public override IEnumerator BlendCoroutine(string fromName, string toName, float amount)
-        {
-            foreach (var key in stateNames)
-            {
-                var obj = this.Query(key);
-                if (obj != null)
-                {
-                    obj.SetActive((key == fromName && amount < 0.5f)
-                        || (key == toName && amount >= 0.5f));
-                    if (Application.isPlaying)
-                    {
-                        obj.localScale = scales.Get(key, Vector3.one);
-                    }
-                }
-            }
-
-            if (Application.isPlaying)
-            {
-                var scale = Vector3.Lerp(scales[fromName], scales[toName], amount);
-                var start = this.Query(fromName);
-                var end = this.Query(toName);
-                start.localScale = end.localScale = scale;
-            }
-
-            yield return null;
-        }
     }
 }

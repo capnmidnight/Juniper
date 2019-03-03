@@ -127,13 +127,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a44d82dbe9e5df69b7c31c9c840a61c59"><td class="memItemLeft" align="right" valign="top">abstract IEnumerator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dea/class_juniper_1_1_animation_1_1_abstract_animator.html#a44d82dbe9e5df69b7c31c9c840a61c59">PlayCoroutine</a> (string name)</td></tr>
 <tr class="memdesc:a44d82dbe9e5df69b7c31c9c840a61c59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute an animation and return an IEnumerator that can be used to yield in a coroutine for asynchronous execution.  <a href="#a44d82dbe9e5df69b7c31c9c840a61c59">More...</a><br /></td></tr>
 <tr class="separator:a44d82dbe9e5df69b7c31c9c840a61c59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0f1ee538e6a3ad752149f92f96659b6"><td class="memItemLeft" align="right" valign="top">abstract IEnumerator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dea/class_juniper_1_1_animation_1_1_abstract_animator.html#ae0f1ee538e6a3ad752149f92f96659b6">BlendCoroutine</a> (string fromName, string toName, float amount)</td></tr>
-<tr class="separator:ae0f1ee538e6a3ad752149f92f96659b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14c04296978253d637a99df50c9eb6bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dea/class_juniper_1_1_animation_1_1_abstract_animator.html#a14c04296978253d637a99df50c9eb6bb">Play</a> (string name)</td></tr>
 <tr class="memdesc:a14c04296978253d637a99df50c9eb6bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Play an animation immediately, with no chance to wait for its completion.  <a href="#a14c04296978253d637a99df50c9eb6bb">More...</a><br /></td></tr>
 <tr class="separator:a14c04296978253d637a99df50c9eb6bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8176b6ada708da88fc3650056f0794b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dea/class_juniper_1_1_animation_1_1_abstract_animator.html#a8176b6ada708da88fc3650056f0794b9">Blend</a> (string fromName, string toName, float amount)</td></tr>
-<tr class="separator:a8176b6ada708da88fc3650056f0794b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d57ddb8766cdccd300a6fc58d0d31b9"><td class="memItemLeft" align="right" valign="top">abstract bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dea/class_juniper_1_1_animation_1_1_abstract_animator.html#a9d57ddb8766cdccd300a6fc58d0d31b9">HasState</a> (string name)</td></tr>
 <tr class="memdesc:a9d57ddb8766cdccd300a6fc58d0d31b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true in child classes to indicate they support the given state message.  <a href="#a9d57ddb8766cdccd300a6fc58d0d31b9">More...</a><br /></td></tr>
 <tr class="separator:a9d57ddb8766cdccd300a6fc58d0d31b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,86 +145,6 @@ Static Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../de/d7c/_abstract_animator_8cs_source.html#l00012">12</a> of file <a class="el" href="../../de/d7c/_abstract_animator_8cs_source.html">AbstractAnimator.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a8176b6ada708da88fc3650056f0794b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8176b6ada708da88fc3650056f0794b9">&#9670;&nbsp;</a></span>Blend()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Juniper.Animation.AbstractAnimator.Blend </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>fromName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>toName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>amount</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="../../d3/d04/_abstract_touchable_8cs_source.html#l00190">Juniper.Widgets.AbstractTouchable.BlendState()</a>.</p>
-
-</div>
-</div>
-<a id="ae0f1ee538e6a3ad752149f92f96659b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0f1ee538e6a3ad752149f92f96659b6">&#9670;&nbsp;</a></span>BlendCoroutine()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">abstract IEnumerator Juniper.Animation.AbstractAnimator.BlendCoroutine </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>fromName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>toName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>amount</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../da/df8/class_juniper_1_1_animation_1_1_child_swap_animator.html#ab262125800dc757b374228193b0420ea">Juniper.Animation.ChildSwapAnimator</a>.</p>
-
-</div>
-</div>
 <a id="a6ab83865374784d535988dfe6576d0aa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6ab83865374784d535988dfe6576d0aa">&#9670;&nbsp;</a></span>GetAnimator()</h2>
 

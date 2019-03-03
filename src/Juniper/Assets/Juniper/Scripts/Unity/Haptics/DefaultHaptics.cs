@@ -48,10 +48,14 @@ namespace Juniper.Haptics
 
 #endif
 
-        private void SetVibration(float v)
+        /// <summary>
+        /// Set a haptic pulse playing at a set amplitude.
+        /// </summary>
+        /// <param name="amplitude">The strength of the vibration.</param>
+        private void SetVibration(float amplitude)
         {
 #if UNITY_STANDALONE || UNITY_EDITOR
-            GamePad.SetVibration(PlayerIndex.One, v, v);
+            GamePad.SetVibration(PlayerIndex.One, amplitude, amplitude);
 
 #elif UNITY_WSA
             if (gp != null)

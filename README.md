@@ -125,13 +125,13 @@ As of Version 2017.2 of Unity, this feature is broken, defaulting the Build Targ
 ───────────────────────────────────────────────────────────────────────────────
 Language                     Files       Lines      Code    Comments     Blanks
 ───────────────────────────────────────────────────────────────────────────────
-C#                             307       34691     22320        7785       4586
+C#                             307       34657     22278        7800       4579
 ───────────────────────────────────────────────────────────────────────────────
-Total                          307       34691     22320        7785       4586
+Total                          307       34657     22278        7800       4579
 ───────────────────────────────────────────────────────────────────────────────
-Estimated Cost to Develop $1,376,357
-Estimated Schedule Effort 13.428453 months
-Estimated People Required 6.212307
+Estimated Cost to Develop $1,373,638
+Estimated Schedule Effort 13.418365 months
+Estimated People Required 6.204694
 ───────────────────────────────────────────────────────────────────────────────
 
 ```

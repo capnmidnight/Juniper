@@ -24,7 +24,6 @@ namespace Juniper.Widgets
         public UnityEvent onClick;
 
         public UnityEvent onLongPress;
-        private float longPressStartTime;
 
         /// <summary>
         /// The event to call when the button is enabled and clicked. You should only use this
@@ -70,18 +69,10 @@ namespace Juniper.Widgets
             LongPress?.Invoke(this, EventArgs.Empty);
         }
 
-        public override void OnPointerDown(PointerEventData eventData)
-        {
-            base.OnPointerDown(eventData);
-
-            longPressStartTime = Time.time;
-        }
-
         public void OnLongPressUpdate(PointerEventData evt)
         {
             if (evt.button == clickButton && !IsDisabled)
             {
-                BlendState("Hovered", "Pressed", (Time.time - longPressStartTime) / 2);
             }
         }
     }

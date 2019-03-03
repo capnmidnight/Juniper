@@ -21,6 +21,7 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/LightMapping/LightMapSwitcher.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Tooltip.cs - (11 of 11)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Haptics/HapticPatternElement.cs - (1 of 1)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/AbstractAnimator.cs - (3 of 3)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/ManagedRequest.cs - (39 of 39)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Gigabytes.cs - (16 of 16)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Angles/Gradians.cs - (4 of 4)
@@ -62,6 +63,7 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/iOS/iOS10Haptics.cs - (3 of 3)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Area/SquareMillimeters.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Standoff.cs - (7 of 7)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/Climate/Weather.cs - (22 of 22)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/Collections/Generic/ListExt.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Units.cs - (5 of 5)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Pebibytes.cs - (16 of 16)
@@ -82,6 +84,7 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Light/Brightness.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/TweenType.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Mibibytes.cs - (16 of 16)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Draggable.cs - (60 of 60)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Length/Millimeters.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Bytes.cs - (16 of 16)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Speed/MilesPerHour.cs - (4 of 4)
@@ -135,6 +138,7 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Angles/Radians.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Speed/FeetPerSecond.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Speed/MillimetersPerSecond.cs - (4 of 4)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/AbstractValued.cs - (51 of 51)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/OutdoorWindEstimate.cs - (8 of 8)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/API.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Mass/Ounces.cs - (4 of 4)
@@ -153,6 +157,7 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Volume/CubicMillimeters.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/IWeatherReport.cs - (15 of 15)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/AbstractBackgroundRepeatingThread.cs - (10 of 10)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Rotatable.cs - (56 of 56)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Time/Days.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Plugins/iOS/TapticFeedback.mm - (8 of 8)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/TranslationHandle.cs - (10 of 10)
@@ -168,26 +173,18 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Acceleration/MetersPerSecondSquared.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Comment.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/RendererExt.cs - (1 of 1)
- 95% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/Climate/Weather.cs - (21 of 22)
-	 string Juniper.World.Climate.Weather.lastReportJSON
- 95% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Draggable.cs - (58 of 61)
-	 EventHandler<float> Juniper.Widgets.AbstractValued.ValueChange
-	 float Juniper.Widgets.AbstractValued.value
-	 void Juniper.Widgets.AbstractTouchable.BlendState
- 94% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Rotatable.cs - (54 of 57)
-	 EventHandler<float> Juniper.Widgets.AbstractValued.ValueChange
-	 float Juniper.Widgets.AbstractValued.value
-	 void Juniper.Widgets.AbstractTouchable.BlendState
- 94% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/AbstractValued.cs - (49 of 52)
-	 EventHandler<float> Juniper.Widgets.AbstractValued.ValueChange
-	 float Juniper.Widgets.AbstractValued.value
-	 void Juniper.Widgets.AbstractTouchable.BlendState
  88% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Vuforia/VuforiaTrackerKeeper.cs - (40 of 45)
 	 override IEnumerable<TrackableFoundEventHandler> Juniper.ImageTracking.VuforiaTrackerKeeper.FirstTargets
 	 override void Juniper.ImageTracking.VuforiaTrackerKeeper.OnTrackingStarted
 	 override void Juniper.ImageTracking.VuforiaTrackerKeeper.OnTrackingStarting
 	 override void Juniper.ImageTracking.VuforiaTrackerKeeper.OnTrackingStopped
 	 override void Juniper.ImageTracking.VuforiaTrackerKeeper.OnTrackingStopping
+ 86% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Openable.cs - (31 of 36)
+	 EventHandler Juniper.Widgets.Clickable.LongPress
+	 UnityEvent Juniper.Widgets.Clickable.onLongPress
+	 virtual void Juniper.Widgets.Clickable.OnLongPress
+	 void Juniper.Widgets.Clickable.OnLongPress
+	 void Juniper.Widgets.Clickable.OnLongPressUpdate
  85% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Haptics/DefaultHaptics.cs - (6 of 7)
 	 void Juniper.Haptics.DefaultHaptics.SetVibration
  84% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/OutdoorLightEstimate.cs - (22 of 26)
@@ -195,13 +192,6 @@
 	 virtual void Juniper.World.IndoorLightEstimate.Reinstall
 	 void Juniper.World.IndoorLightEstimate.Reset
 	 void Juniper.World.IndoorLightEstimate.Uninstall
- 83% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Openable.cs - (31 of 37)
-	 EventHandler Juniper.Widgets.Clickable.LongPress
-	 UnityEvent Juniper.Widgets.Clickable.onLongPress
-	 virtual void Juniper.Widgets.Clickable.OnLongPress
-	 void Juniper.Widgets.AbstractTouchable.BlendState
-	 void Juniper.Widgets.Clickable.OnLongPress
-	 void Juniper.Widgets.Clickable.OnLongPressUpdate
  83% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ARKit/ARKitTrackerKeeper.cs - (30 of 36)
 	 override void Juniper.ImageTracking.ARKitTrackerKeeper.OnTrackingStarting
 	 virtual IEnumerable<TrackableFoundEventHandler> Juniper.ImageTracking.AbstractTrackerKeeper.FirstTargets
@@ -213,6 +203,12 @@
 	 const int Hjg.Pngcs.ImageInfo.MAX_COLS_ROWS_VAL
 	 override bool Hjg.Pngcs.ImageInfo.Equals
 	 override int Hjg.Pngcs.ImageInfo.GetHashCode
+ 81% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Clickable.cs - (22 of 27)
+	 EventHandler Juniper.Widgets.Clickable.LongPress
+	 UnityEvent Juniper.Widgets.Clickable.onLongPress
+	 virtual void Juniper.Widgets.Clickable.OnLongPress
+	 void Juniper.Widgets.Clickable.OnLongPress
+	 void Juniper.Widgets.Clickable.OnLongPressUpdate
  80% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/IndoorLightEstimate.cs - (17 of 21)
 	 virtual void Juniper.World.IndoorLightEstimate.Install
 	 virtual void Juniper.World.IndoorLightEstimate.Reinstall
@@ -247,14 +243,6 @@
 	 float Juniper.Audio.InteractionAudio.Play_Internal
 	 float Juniper.Audio.InteractionAudio.Volume
 	 void Juniper.Audio.InteractionAudio.Volume_ValueChange
- 75% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Clickable.cs - (22 of 29)
-	 EventHandler Juniper.Widgets.Clickable.LongPress
-	 UnityEvent Juniper.Widgets.Clickable.onLongPress
-	 float Juniper.Widgets.Clickable.longPressStartTime
-	 virtual void Juniper.Widgets.Clickable.OnLongPress
-	 void Juniper.Widgets.AbstractTouchable.BlendState
-	 void Juniper.Widgets.Clickable.OnLongPress
-	 void Juniper.Widgets.Clickable.OnLongPressUpdate
  75% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/VideoVader.cs - (37 of 49)
 	 WaitUntil Juniper.AbstractStateController.Waiter
 	 bool Juniper.AbstractStateController.HasStopped
@@ -356,6 +344,17 @@
 	 void Juniper.Ground.GoogleARCoreGroundPlaneVisualizer.Reset
 	 void Juniper.Ground.GoogleARCoreGroundPlaneVisualizer.Uninstall
 	 void Juniper.IInstallable.Reinstall
+ 68% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/TeleportPad.cs - (22 of 32)
+	 EventHandler Juniper.Widgets.Clickable.LongPress
+	 FadeTransition Juniper.Widgets.TeleportPad.darth
+	 Transform Juniper.Widgets.TeleportPad.userT
+	 UnityEvent Juniper.Widgets.Clickable.onLongPress
+	 bool Juniper.Widgets.TeleportPad.running
+	 virtual void Juniper.Widgets.Clickable.OnLongPress
+	 void Juniper.Widgets.Clickable.OnLongPress
+	 void Juniper.Widgets.Clickable.OnLongPressUpdate
+	 void Juniper.Widgets.TeleportPad.Darth_Entered
+	 void Juniper.Widgets.TeleportPad.Start
  68% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ARCore/ARCoreLightMeasurement.cs - (13 of 19)
 	 override void Juniper.World.LightEstimation.ARCoreLightMeasurement.InternalUpdate
 	 virtual void Juniper.World.LightEstimation.AbstractLightMeasurement.Install
@@ -365,6 +364,9 @@
 	 void Juniper.World.LightEstimation.AbstractLightMeasurement.Reset
  66% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/ThirdParty/Required/Hjg.Pngcs/Chunks/ChunkPredicateEquiv.cs - (2 of 3)
 	 readonly PngChunk Hjg.Pngcs.Chunks.ChunkPredicateEquiv.chunk
+ 66% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/ChildSwapAnimator.cs - (4 of 6)
+	 Dictionary<string, Vector3> Juniper.Animation.ChildSwapAnimator.scales
+	 void Juniper.Animation.ChildSwapAnimator.Awake
  66% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/ThirdParty/Required/Hjg.Pngcs/Chunks/PngChunkSingle.cs - (12 of 18)
 	 ChunkRaw Hjg.Pngcs.Chunks.PngChunk.createEmptyChunk
 	 Hjg.Pngcs.Chunks.PngChunkSingle.PngChunkSingle
@@ -397,18 +399,6 @@
 	 void Juniper.Ground.AbstractGround.Reset
 	 void Juniper.Ground.AbstractGround.Start
 	 void Juniper.Ground.AbstractGround.ToggleVisualization
- 66% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/TeleportPad.cs - (22 of 33)
-	 EventHandler Juniper.Widgets.Clickable.LongPress
-	 FadeTransition Juniper.Widgets.TeleportPad.darth
-	 Transform Juniper.Widgets.TeleportPad.userT
-	 UnityEvent Juniper.Widgets.Clickable.onLongPress
-	 bool Juniper.Widgets.TeleportPad.running
-	 virtual void Juniper.Widgets.Clickable.OnLongPress
-	 void Juniper.Widgets.AbstractTouchable.BlendState
-	 void Juniper.Widgets.Clickable.OnLongPress
-	 void Juniper.Widgets.Clickable.OnLongPressUpdate
-	 void Juniper.Widgets.TeleportPad.Darth_Entered
-	 void Juniper.Widgets.TeleportPad.Start
  65% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/ThirdParty/Required/Hjg.Pngcs/Chunks/PngChunkSTER.cs - (13 of 20)
 	 ChunkRaw Hjg.Pngcs.Chunks.PngChunk.createEmptyChunk
 	 Hjg.Pngcs.Chunks.PngChunkSTER.PngChunkSTER
@@ -453,9 +443,6 @@
 	 override bool Hjg.Pngcs.Chunks.PngChunkSingle.Equals
 	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
 	 void Hjg.Pngcs.Chunks.PngChunkPHYS.SetAsDpi2
- 60% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/AbstractAnimator.cs - (3 of 5)
-	 abstract IEnumerator Juniper.Animation.AbstractAnimator.BlendCoroutine
-	 void Juniper.Animation.AbstractAnimator.Blend
  60% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Probe.cs - (21 of 35)
 	 Camera Juniper.Input.Pointers.Probe.EventCamera
 	 LineRenderer Juniper.Input.Pointers.Probe.line
@@ -757,11 +744,6 @@
 	 override int Hjg.Pngcs.Chunks.PngChunkSingle.GetHashCode
 	 void Hjg.Pngcs.Chunks.PngChunkOFFS.SetPosX
 	 void Hjg.Pngcs.Chunks.PngChunkOFFS.SetPosY
- 50% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/ChildSwapAnimator.cs - (4 of 8)
-	 Dictionary<string, Vector3> Juniper.Animation.ChildSwapAnimator.scales
-	 override IEnumerator Juniper.Animation.ChildSwapAnimator.BlendCoroutine
-	 void Juniper.Animation.AbstractAnimator.Blend
-	 void Juniper.Animation.ChildSwapAnimator.Awake
  50% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/ThirdParty/Required/Hjg.Pngcs/Chunks/ChunksList.cs - (9 of 18)
 	 internal Hjg.Pngcs.Chunks.ChunksList.ChunksList
 	 internal const int Hjg.Pngcs.Chunks.ChunksList.CHUNK_GROUP_0_IDHR

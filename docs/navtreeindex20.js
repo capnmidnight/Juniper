@@ -1,10 +1,5 @@
 var NAVTREEINDEX20 =
 {
-"d7/df5/_chunk_reader_mode_8cs.html#a2332c7a97292804baeb9f7f01125fde7ab93c13848c6490ae962feec15fbdd151":[7,0,1,0,0,0,2,0,0,5,0,2],
-"d7/df5/_chunk_reader_mode_8cs_source.html":[7,0,1,0,0,0,2,0,0,5],
-"d7/df5/_sun_position_8cs.html":[7,0,1,0,0,0,1,1,18,7],
-"d7/df5/_sun_position_8cs_source.html":[7,0,1,0,0,0,1,1,18,7],
-"d7/dfa/_i_enumerable_ext_tests_8cs.html":[7,0,1,0,0,0,1,1,4,1,1,0],
 "d7/dfa/_i_enumerable_ext_tests_8cs_source.html":[7,0,1,0,0,0,1,1,4,1,1,0],
 "d7/dfb/_square_millimeters_8cs.html":[7,0,1,2,0,2,6],
 "d7/dfb/_square_millimeters_8cs_source.html":[7,0,1,2,0,2,6],
@@ -249,5 +244,10 @@ var NAVTREEINDEX20 =
 "d8/d91/_grams_8cs_source.html":[7,0,1,2,0,7,0],
 "d8/d98/_grounded_8cs.html":[7,0,1,0,0,0,1,1,0,2],
 "d8/d98/_grounded_8cs_source.html":[7,0,1,0,0,0,1,1,0,2],
-"d8/da0/_exabytes_8cs.html":[7,0,1,2,0,3,1]
+"d8/da0/_exabytes_8cs.html":[7,0,1,2,0,3,1],
+"d8/da0/_exabytes_8cs_source.html":[7,0,1,2,0,3,1],
+"d8/da0/_holo_lens_hand_8cs.html":[7,0,1,0,0,0,1,1,13,9,2],
+"d8/da0/_holo_lens_hand_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9":[7,0,1,0,0,0,1,1,13,9,2,2],
+"d8/da0/_holo_lens_hand_8cs_source.html":[7,0,1,0,0,0,1,1,13,9,2],
+"d8/da1/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html":[6,0,2,11,0,1,12]
 };

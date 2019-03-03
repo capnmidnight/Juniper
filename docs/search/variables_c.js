@@ -78,6 +78,5 @@ var searchData=
   ['longitude',['Longitude',['../d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html#afc0434e2f6b522e465732e4ac14aea0d',1,'Juniper::World::GIS::LatLngPoint']]],
   ['longitudedegrees',['LongitudeDegrees',['../dd/da2/struct_juniper_1_1_world_1_1_g_i_s_1_1_geocentric_ecliptic_spherical_position.html#af7652962006788dd4bd184b30f68edc0',1,'Juniper::World::GIS::GeocentricEclipticSphericalPosition']]],
   ['longpresshandler',['longPressHandler',['../d6/d53/class_juniper_1_1_events_1_1_long_press_events.html#a0d72da79b25353f797de9eb81bc984f8',1,'Juniper::Events::LongPressEvents']]],
-  ['longpressstarttime',['longPressStartTime',['../d2/d70/class_juniper_1_1_widgets_1_1_clickable.html#a528ecc09ba08e7d0d8bb3bf05e80ceca',1,'Juniper::Widgets::Clickable']]],
   ['longpressupdatehandler',['longPressUpdateHandler',['../d6/d53/class_juniper_1_1_events_1_1_long_press_events.html#a12f515530b837f7b89923d904cb24d22',1,'Juniper::Events::LongPressEvents']]]
 ];

@@ -1,7 +1,6 @@
 var class_juniper_1_1_widgets_1_1_teleport_pad =
 [
     [ "Awake", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#a4eb0277f4895a47a761159d60a39346f", null ],
-    [ "BlendState", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#a67989c4156ac2482088b217afa1d97b8", null ],
     [ "Darth_Entered", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#a57e125595f1b2fd7a5918c5806ecef71", null ],
     [ "GetPosition", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#a44e16380420df4faadf1e4421731af86", null ],
     [ "LateUpdate", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#a3f8e7b69a4063342b788a6a7f952e351", null ],
@@ -10,7 +9,7 @@ var class_juniper_1_1_widgets_1_1_teleport_pad =
     [ "OnLongPress", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#a5bdf5a6b5fa0a707e1b86dcb864a651d", null ],
     [ "OnLongPressUpdate", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#aaadd3b74bf94cf61fa0c4d530948ffb0", null ],
     [ "OnPointerClick", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#a9bdb7b997b16e0f997a3f17f6b1e135f", null ],
-    [ "OnPointerDown", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#a2b8e58e4892d6516cbf05d2d505b900f", null ],
+    [ "OnPointerDown", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#a97f30489a82e62d662a668591f841207", null ],
     [ "OnPointerEnter", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#a7cc4d97fe7a85bd9b7ac563e24363c54", null ],
     [ "OnPointerExit", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#ae21f9cf1a8776b11818378086dd68ac1", null ],
     [ "OnPointerUp", "d2/da9/class_juniper_1_1_widgets_1_1_teleport_pad.html#a4d539659d0317c5168628d4917dc204e", null ],

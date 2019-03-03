@@ -53,17 +53,12 @@ namespace Juniper.Animation
         /// <returns></returns>
         public abstract IEnumerator PlayCoroutine(string name);
 
-        public abstract IEnumerator BlendCoroutine(string fromName, string toName, float amount);
-
         /// <summary>
         /// Play an animation immediately, with no chance to wait for its completion.
         /// </summary>
         /// <param name="name"></param>
         public void Play(string name) =>
             StartCoroutine(PlayCoroutine(name));
-
-        public void Blend(string fromName, string toName, float amount) =>
-            StartCoroutine(BlendCoroutine(fromName, toName, amount));
 
         /// <summary>
         /// Returns true in child classes to indicate they support the given state message.

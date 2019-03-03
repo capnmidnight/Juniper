@@ -1,7 +1,6 @@
 var class_juniper_1_1_widgets_1_1_openable =
 [
     [ "Awake", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#a85adde05e775bcb709b88054473ced7b", null ],
-    [ "BlendState", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#a67989c4156ac2482088b217afa1d97b8", null ],
     [ "GetPosition", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#a44e16380420df4faadf1e4421731af86", null ],
     [ "LateUpdate", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#a22dd48b68ae8463d32c5f2e6687462be", null ],
     [ "OnClick", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#af325b00a1eeeb9e9ee231f1fbcc89267", null ],
@@ -9,7 +8,7 @@ var class_juniper_1_1_widgets_1_1_openable =
     [ "OnLongPress", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#a5bdf5a6b5fa0a707e1b86dcb864a651d", null ],
     [ "OnLongPressUpdate", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#aaadd3b74bf94cf61fa0c4d530948ffb0", null ],
     [ "OnPointerClick", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#ae61a22ed8e4ab5e76046c54ad58a492b", null ],
-    [ "OnPointerDown", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#a2b8e58e4892d6516cbf05d2d505b900f", null ],
+    [ "OnPointerDown", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#a97f30489a82e62d662a668591f841207", null ],
     [ "OnPointerEnter", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#a7cc4d97fe7a85bd9b7ac563e24363c54", null ],
     [ "OnPointerExit", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#ae21f9cf1a8776b11818378086dd68ac1", null ],
     [ "OnPointerUp", "dc/d25/class_juniper_1_1_widgets_1_1_openable.html#a4d539659d0317c5168628d4917dc204e", null ],

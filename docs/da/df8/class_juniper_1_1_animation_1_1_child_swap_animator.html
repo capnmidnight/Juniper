@@ -134,13 +134,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab48347b491ac56c2ea24056d368e0c25"><td class="memItemLeft" align="right" valign="top">override IEnumerator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/df8/class_juniper_1_1_animation_1_1_child_swap_animator.html#ab48347b491ac56c2ea24056d368e0c25">PlayCoroutine</a> (string name)</td></tr>
 <tr class="memdesc:ab48347b491ac56c2ea24056d368e0c25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the child transform named in <em>name</em>  to Active, while all other child transforms named in <a class="el" href="../../da/df8/class_juniper_1_1_animation_1_1_child_swap_animator.html#a2d453980ed14ca68962e1c1a76d552d8" title="The names of the child transforms to swap around.">stateNames</a> are set to Inactive.  <a href="#ab48347b491ac56c2ea24056d368e0c25">More...</a><br /></td></tr>
 <tr class="separator:ab48347b491ac56c2ea24056d368e0c25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab262125800dc757b374228193b0420ea"><td class="memItemLeft" align="right" valign="top">override IEnumerator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/df8/class_juniper_1_1_animation_1_1_child_swap_animator.html#ab262125800dc757b374228193b0420ea">BlendCoroutine</a> (string fromName, string toName, float amount)</td></tr>
-<tr class="separator:ab262125800dc757b374228193b0420ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14c04296978253d637a99df50c9eb6bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dea/class_juniper_1_1_animation_1_1_abstract_animator.html#a14c04296978253d637a99df50c9eb6bb">Play</a> (string name)</td></tr>
 <tr class="memdesc:a14c04296978253d637a99df50c9eb6bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Play an animation immediately, with no chance to wait for its completion.  <a href="#a14c04296978253d637a99df50c9eb6bb">More...</a><br /></td></tr>
 <tr class="separator:a14c04296978253d637a99df50c9eb6bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8176b6ada708da88fc3650056f0794b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dea/class_juniper_1_1_animation_1_1_abstract_animator.html#a8176b6ada708da88fc3650056f0794b9">Blend</a> (string fromName, string toName, float amount)</td></tr>
-<tr class="separator:a8176b6ada708da88fc3650056f0794b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -178,101 +174,6 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a8176b6ada708da88fc3650056f0794b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8176b6ada708da88fc3650056f0794b9">&#9670;&nbsp;</a></span>Blend()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Juniper.Animation.AbstractAnimator.Blend </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>fromName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>toName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>amount</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="reference">Referenced by <a class="el" href="../../d3/d04/_abstract_touchable_8cs_source.html#l00190">Juniper.Widgets.AbstractTouchable.BlendState()</a>.</p>
-
-</div>
-</div>
-<a id="ab262125800dc757b374228193b0420ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab262125800dc757b374228193b0420ea">&#9670;&nbsp;</a></span>BlendCoroutine()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">override IEnumerator Juniper.Animation.ChildSwapAnimator.BlendCoroutine </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>fromName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>toName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>amount</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="../../d8/dea/class_juniper_1_1_animation_1_1_abstract_animator.html#ae0f1ee538e6a3ad752149f92f96659b6">Juniper.Animation.AbstractAnimator</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html#l00058">58</a> of file <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html">ChildSwapAnimator.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        {</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">foreach</span> (var key <span class="keywordflow">in</span> <a class="code" href="../../da/df8/class_juniper_1_1_animation_1_1_child_swap_animator.html#a2d453980ed14ca68962e1c1a76d552d8">stateNames</a>)</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            {</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                var obj = this.Query(key);</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keywordflow">if</span> (obj != <span class="keyword">null</span>)</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    obj.SetActive((key == fromName &amp;&amp; amount &lt; 0.5f)</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                        || (key == toName &amp;&amp; amount &gt;= 0.5f));</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    <span class="keywordflow">if</span> (Application.isPlaying)</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                        obj.localScale = <a class="code" href="../../da/df8/class_juniper_1_1_animation_1_1_child_swap_animator.html#a509abcef30ff4f8b9109dda125ca75b7">scales</a>.Get(key, <a class="code" href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>.one);</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    }</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                }</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            }</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordflow">if</span> (Application.isPlaying)</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            {</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                var scale = <a class="code" href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>.Lerp(<a class="code" href="../../da/df8/class_juniper_1_1_animation_1_1_child_swap_animator.html#a509abcef30ff4f8b9109dda125ca75b7">scales</a>[fromName], <a class="code" href="../../da/df8/class_juniper_1_1_animation_1_1_child_swap_animator.html#a509abcef30ff4f8b9109dda125ca75b7">scales</a>[toName], amount);</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                var start = this.Query(fromName);</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                var end = this.Query(toName);</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                start.localScale = end.localScale = scale;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            }</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            yield <span class="keywordflow">return</span> <span class="keyword">null</span>;</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_animation_1_1_child_swap_animator_html_a2d453980ed14ca68962e1c1a76d552d8"><div class="ttname"><a href="../../da/df8/class_juniper_1_1_animation_1_1_child_swap_animator.html#a2d453980ed14ca68962e1c1a76d552d8">Juniper.Animation.ChildSwapAnimator.stateNames</a></div><div class="ttdeci">string [] stateNames</div><div class="ttdoc">The names of the child transforms to swap around.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d06/_child_swap_animator_8cs_source.html#l00018">ChildSwapAnimator.cs:18</a></div></div>
-<div class="ttc" id="class_juniper_1_1_animation_1_1_child_swap_animator_html_a509abcef30ff4f8b9109dda125ca75b7"><div class="ttname"><a href="../../da/df8/class_juniper_1_1_animation_1_1_child_swap_animator.html#a509abcef30ff4f8b9109dda125ca75b7">Juniper.Animation.ChildSwapAnimator.scales</a></div><div class="ttdeci">Dictionary&lt; string, Vector3 &gt; scales</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d06/_child_swap_animator_8cs_source.html#l00020">ChildSwapAnimator.cs:20</a></div></div>
-<div class="ttc" id="_abstract_motion_filter_8cs_html_af3326292fdd04d2b384b6d781d9594f6"><div class="ttname"><a href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a></div><div class="ttdeci">UnityEngine.Vector3 Vector3</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/df7/_abstract_motion_filter_8cs_source.html#l00003">AbstractMotionFilter.cs:3</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html#l00020">Juniper.Animation.ChildSwapAnimator.scales</a>, and <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html#l00018">Juniper.Animation.ChildSwapAnimator.stateNames</a>.</p>
 
 </div>
 </div>
@@ -467,7 +368,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html#l00020">20</a> of file <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html">ChildSwapAnimator.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html#l00058">Juniper.Animation.ChildSwapAnimator.BlendCoroutine()</a>, and <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html#l00041">Juniper.Animation.ChildSwapAnimator.PlayCoroutine()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html#l00041">Juniper.Animation.ChildSwapAnimator.PlayCoroutine()</a>.</p>
 
 </div>
 </div>
@@ -487,7 +388,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html#l00018">18</a> of file <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html">ChildSwapAnimator.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html#l00058">Juniper.Animation.ChildSwapAnimator.BlendCoroutine()</a>, <a class="el" href="../../de/d7c/_abstract_animator_8cs_source.html#l00023">Juniper.Animation.AbstractAnimator.GetAnimator()</a>, and <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html#l00041">Juniper.Animation.ChildSwapAnimator.PlayCoroutine()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../de/d7c/_abstract_animator_8cs_source.html#l00023">Juniper.Animation.AbstractAnimator.GetAnimator()</a>, and <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html#l00041">Juniper.Animation.ChildSwapAnimator.PlayCoroutine()</a>.</p>
 
 </div>
 </div>

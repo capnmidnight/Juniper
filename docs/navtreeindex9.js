@@ -1,8 +1,5 @@
 var NAVTREEINDEX9 =
 {
-"d3/def/_haptic_pattern_element_8cs.html#a033eb0472e5a7d12e4540107db61c90ba0eaadb4fcb48a0a0ed7bc9868be9fbaa":[7,0,1,0,0,0,1,1,8,3,1,5],
-"d3/def/_haptic_pattern_element_8cs.html#a033eb0472e5a7d12e4540107db61c90ba316853cc3718335f11c048e33b9be98a":[7,0,1,0,0,0,1,1,8,3,1,8],
-"d3/def/_haptic_pattern_element_8cs.html#a033eb0472e5a7d12e4540107db61c90ba505a83f220c02df2f85c3810cd9ceb38":[7,0,1,0,0,0,1,1,8,3,1,7],
 "d3/def/_haptic_pattern_element_8cs.html#a033eb0472e5a7d12e4540107db61c90ba5f8cf541e0133c98e21d0c27510404a1":[7,0,1,0,0,0,1,1,8,3,1,1],
 "d3/def/_haptic_pattern_element_8cs.html#a033eb0472e5a7d12e4540107db61c90ba6adf97f83acf6453d4a6a4b1070f3754":[7,0,1,0,0,0,1,1,8,3,1,0],
 "d3/def/_haptic_pattern_element_8cs.html#a033eb0472e5a7d12e4540107db61c90ba87f8a6ab85c9ced3702b4ea641ad4bb5":[7,0,1,0,0,0,1,1,8,3,1,3],
@@ -249,5 +246,8 @@ var NAVTREEINDEX9 =
 "d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a0ab9bed2405eed7f9152cecfabedef0c":[6,0,2,11,0,1,17,25],
 "d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a0d6518d1b5f2f1891ee7f81939c73c4c":[6,0,2,11,0,1,17,27],
 "d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a0da19e973110d6e7cda62aa4aeb64267":[6,0,2,11,0,1,17,18],
-"d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a13ca8bf3b81d5d501861209a83e414f9":[6,0,2,11,0,1,17,22]
+"d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a13ca8bf3b81d5d501861209a83e414f9":[6,0,2,11,0,1,17,22],
+"d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a199d36e599ddcd34f81732ed09373a02":[6,0,2,11,0,1,17,23],
+"d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a1e5704e28e6cc24b8702f0d14ee5ecdd":[6,0,2,11,0,1,17,1],
+"d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a2c72b576087622ad1e8650393de4e1af":[6,0,2,11,0,1,17,12]
 };

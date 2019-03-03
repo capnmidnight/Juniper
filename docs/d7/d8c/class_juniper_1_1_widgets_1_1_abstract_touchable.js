@@ -1,7 +1,6 @@
 var class_juniper_1_1_widgets_1_1_abstract_touchable =
 [
     [ "Awake", "d7/d8c/class_juniper_1_1_widgets_1_1_abstract_touchable.html#a4eb0277f4895a47a761159d60a39346f", null ],
-    [ "BlendState", "d7/d8c/class_juniper_1_1_widgets_1_1_abstract_touchable.html#a67989c4156ac2482088b217afa1d97b8", null ],
     [ "GetPosition", "d7/d8c/class_juniper_1_1_widgets_1_1_abstract_touchable.html#a44e16380420df4faadf1e4421731af86", null ],
     [ "LateUpdate", "d7/d8c/class_juniper_1_1_widgets_1_1_abstract_touchable.html#a3f8e7b69a4063342b788a6a7f952e351", null ],
     [ "NormalizePart", "d7/d8c/class_juniper_1_1_widgets_1_1_abstract_touchable.html#a7427cb6872dc9822a9b58da54d2d0e0f", null ],

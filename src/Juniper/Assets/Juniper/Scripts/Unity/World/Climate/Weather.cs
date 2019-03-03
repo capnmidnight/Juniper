@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+
 using Juniper.Progress;
 using Juniper.World.GIS;
+
 using UnityEngine;
 
 namespace Juniper.World.Climate
@@ -21,6 +23,9 @@ namespace Juniper.World.Climate
         /// </summary>
         private const string REPORT_KEY = "JUNIPER_GIS_OPENWEATHERMAP_CACHED_WEATHER_REPORT";
 
+        /// <summary>
+        /// Used to compare to the most recent report to see if it needs to be cached.
+        /// </summary>
         private string lastReportJSON;
 
         /// <summary>
