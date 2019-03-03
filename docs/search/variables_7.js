@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['gama',['gAMA',['../dc/dfd/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunk_helper.html#a070dcb984cd1108eb6e3351c9f85a4f5',1,'Hjg::Pngcs::Chunks::ChunkHelper']]],
-  ['gamma',['gamma',['../d9/d23/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_g_a_m_a.html#a139100e723d1ef2daa916bf013a66016',1,'Hjg::Pngcs::Chunks::PngChunkGAMA']]],
   ['gamma1',['Gamma1',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#a517368c497bb8e2e8a013d2fbae27981',1,'Juniper::NeuroSky::MindWaveAdapter']]],
   ['gamma2',['Gamma2',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#ad6f9ad5c3c0eefe6d0c3407b0879b996',1,'Juniper::NeuroSky::MindWaveAdapter']]],
   ['gazed',['gazed',['../d2/d9a/class_juniper_1_1_input_1_1_pointers_1_1_gaze_1_1_gaze_pointer.html#a7e02e69e8355737bdecb5341ce117eca',1,'Juniper::Input::Pointers::Gaze::GazePointer']]],
@@ -9,15 +7,9 @@ var searchData=
   ['gazethreshold',['gazeThreshold',['../d2/d9a/class_juniper_1_1_input_1_1_pointers_1_1_gaze_1_1_gaze_pointer.html#aafde33a4caaab88f2c70b0e3a993d3be',1,'Juniper::Input::Pointers::Gaze::GazePointer']]],
   ['gazetime',['gazeTime',['../d2/d9a/class_juniper_1_1_input_1_1_pointers_1_1_gaze_1_1_gaze_pointer.html#ac94b50e35bc57ba27b3b6c577e7394dd',1,'Juniper::Input::Pointers::Gaze::GazePointer']]],
   ['generateplanes',['generatePlanes',['../d9/d00/class_juniper_1_1_ground_1_1_a_r_kit_ground.html#a2528699f84f2bacddb60f02e7c17273d',1,'Juniper::Ground::ARKitGround']]],
-  ['go',['go',['../dd/dd7/class_juniper_1_1_animation_1_1_transition_controller_tests.html#a415134f419ba77e5c26a8b236d232531',1,'Juniper.Animation.TransitionControllerTests.go()'],['../d9/d8f/class_juniper_1_1_state_controller_tests.html#a0958753c7ba7f5033e65c714f21918bd',1,'Juniper.StateControllerTests.go()']]],
   ['graboffset',['grabOffset',['../dd/d30/class_juniper_1_1_widgets_1_1_abstract_valued.html#ab0a39c8a74972d062185b4f535e90e33',1,'Juniper::Widgets::AbstractValued']]],
   ['graphics_5fquality_5fkey',['GRAPHICS_QUALITY_KEY',['../d2/d52/class_juniper_1_1_widgets_1_1_quality_degrader.html#af7f8ddcf81fa6bc767e3541e81139a43',1,'Juniper::Widgets::QualityDegrader']]],
   ['gravity',['GRAVITY',['../dc/d24/class_juniper_1_1_units_1_1_feet_per_second_squared.html#acefc81108ebe8347715e93ff3ca2fc58',1,'Juniper.Units.FeetPerSecondSquared.GRAVITY()'],['../d4/d41/class_juniper_1_1_units_1_1_meters_per_second_squared.html#a8c3ec44d8fd09e4c4db68c2c992118ff',1,'Juniper.Units.MetersPerSecondSquared.GRAVITY()']]],
-  ['gray',['gray',['../d6/df9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_b_k_g_d.html#a51782461adb7b5e5630b7f562878499d',1,'Hjg.Pngcs.Chunks.PngChunkBKGD.gray()'],['../d5/da1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_t_r_n_s.html#a8f3f350e0d4ff9f42f39ec12a5222288',1,'Hjg.Pngcs.Chunks.PngChunkTRNS.gray()']]],
-  ['green',['green',['../d6/df9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_b_k_g_d.html#a38c50ced0094f00e1e077030ef0df7f4',1,'Hjg.Pngcs.Chunks.PngChunkBKGD.green()'],['../d5/da1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_t_r_n_s.html#a3152a092fa1a10734210f76324a7ca61',1,'Hjg.Pngcs.Chunks.PngChunkTRNS.green()']]],
-  ['greenx',['greenx',['../d5/d39/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_c_h_r_m.html#a761f9186493382dffd8cbac0eff84e75',1,'Hjg::Pngcs::Chunks::PngChunkCHRM']]],
-  ['greeny',['greeny',['../d5/d39/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_c_h_r_m.html#a4f279016083656ae111e9eb88a11447a',1,'Hjg::Pngcs::Chunks::PngChunkCHRM']]],
-  ['greyscale',['Greyscale',['../d3/d25/class_hjg_1_1_pngcs_1_1_image_info.html#a6c28e6c485202d13c24d90c2f8a5d6a9',1,'Hjg::Pngcs::ImageInfo']]],
   ['ground',['ground',['../d2/d52/class_juniper_1_1_widgets_1_1_quality_degrader.html#a6d19d188899c545d0f09133caad4147b',1,'Juniper::Widgets::QualityDegrader']]],
   ['groundlayer',['GroundLayer',['../d9/d8c/class_juniper_1_1_ground_1_1_abstract_ground.html#a25d9de6e6893f23d52b64f917c3feb9c',1,'Juniper::Ground::AbstractGround']]],
   ['groundrenderer',['groundRenderer',['../da/dde/class_juniper_1_1_ground_1_1_holo_lens_ground.html#a3346ab8a4a472941b83b2e360a9df79f',1,'Juniper::Ground::HoloLensGround']]],

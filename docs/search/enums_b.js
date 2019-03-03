@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['options',['Options',['../de/d75/namespace_juniper.html#aa0ae52a17511e7a52beae1e3dc428c13',1,'Juniper']]]
+  ['platformtypes',['PlatformTypes',['../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991',1,'Juniper']]]
 ];

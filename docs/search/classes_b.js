@@ -20,8 +20,6 @@ var searchData=
   ['milliseconds',['Milliseconds',['../df/d5d/class_juniper_1_1_units_1_1_milliseconds.html',1,'Juniper::Units']]],
   ['mindwaveadapter',['MindWaveAdapter',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html',1,'Juniper::NeuroSky']]],
   ['minutes',['Minutes',['../dc/dc8/class_juniper_1_1_units_1_1_minutes.html',1,'Juniper::Units']]],
-  ['mockstatecontroller',['MockStateController',['../d9/db3/class_juniper_1_1_state_controller_tests_1_1_mock_state_controller.html',1,'Juniper::StateControllerTests']]],
-  ['mocktransition',['MockTransition',['../d8/dad/class_juniper_1_1_animation_1_1_transition_controller_tests_1_1_mock_transition.html',1,'Juniper::Animation::TransitionControllerTests']]],
   ['mockworldanchor',['MockWorldAnchor',['../d9/de8/class_juniper_1_1_anchoring_1_1_mock_world_anchor.html',1,'Juniper::Anchoring']]],
   ['motioncontroller',['MotionController',['../d8/da1/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html',1,'Juniper::Input::Pointers::Motion']]],
   ['mouse',['Mouse',['../d4/da7/class_juniper_1_1_input_1_1_pointers_1_1_screen_1_1_mouse.html',1,'Juniper::Input::Pointers::Screen']]],

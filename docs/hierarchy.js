@@ -99,13 +99,11 @@ var hierarchy =
     [ "Juniper.Input.Pointers.Motion.AbstractWindowsMRDevice< WindowsMRProbeConfiguration, HapticsType >", "dd/dde/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html", [
       [ "Juniper.Input.Pointers.Motion.WindowsMRMotionController", "d3/d9d/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html", null ]
     ] ],
-    [ "Hjg.Pngcs.Zlib.Adler32", "d3/d87/class_hjg_1_1_pngcs_1_1_zlib_1_1_adler32.html", null ],
     [ "Juniper.Angle", "d8/d42/struct_juniper_1_1_angle.html", null ],
     [ "UnityEditor.PluginImporterExt.iOS.ARKit", "d0/dcd/class_unity_editor_1_1_plugin_importer_ext_1_1i_o_s_1_1_a_r_kit.html", null ],
     [ "System.ArrayExt", "da/d4a/class_system_1_1_array_ext.html", null ],
     [ "UnityEngine.BoundsExt", "d5/d9b/class_unity_engine_1_1_bounds_ext.html", null ],
     [ "Juniper.Units.Brightness", "dc/df2/class_juniper_1_1_units_1_1_brightness.html", null ],
-    [ "Ar.Com.Hjg.Pngcs.BufferedStreamFeeder", "da/d65/class_ar_1_1_com_1_1_hjg_1_1_pngcs_1_1_buffered_stream_feeder.html", null ],
     [ "UnityEngine.UI.ButtonExt", "d4/ddf/class_unity_engine_1_1_u_i_1_1_button_ext.html", null ],
     [ "Juniper.Input.Pointers.ButtonMapper< ButtonIDType >", "d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html", null ],
     [ "Juniper.Input.Pointers.ButtonMapper< VirtualTouchPadButton >", "d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html", null ],
@@ -114,24 +112,11 @@ var hierarchy =
     [ "UnityEngine.CameraExt", "d9/da8/class_unity_engine_1_1_camera_ext.html", null ],
     [ "Juniper.Units.Celsius", "de/d87/class_juniper_1_1_units_1_1_celsius.html", null ],
     [ "Juniper.Units.Centimeters", "da/d27/class_juniper_1_1_units_1_1_centimeters.html", null ],
-    [ "Hjg.Pngcs.Chunks.ChunkCopyBehaviour", "df/d63/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunk_copy_behaviour.html", null ],
-    [ "Hjg.Pngcs.Chunks.ChunkHelper", "dc/dfd/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunk_helper.html", null ],
-    [ "Hjg.Pngcs.Chunks.ChunkPredicate", "d0/d69/interface_hjg_1_1_pngcs_1_1_chunks_1_1_chunk_predicate.html", [
-      [ "Hjg.Pngcs.Chunks.ChunkPredicateEquiv", "d9/d0f/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunk_predicate_equiv.html", null ],
-      [ "Hjg.Pngcs.Chunks.ChunkPredicateId", "d1/d35/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunk_predicate_id.html", null ],
-      [ "Hjg.Pngcs.Chunks.ChunkPredicateId2", "db/dbf/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunk_predicate_id2.html", null ]
-    ] ],
-    [ "Hjg.Pngcs.Chunks.ChunkRaw", "da/d3e/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunk_raw.html", null ],
-    [ "Ar.Com.Hjg.Pngcs.ChunkReader", "d0/d81/class_ar_1_1_com_1_1_hjg_1_1_pngcs_1_1_chunk_reader.html", null ],
-    [ "Hjg.Pngcs.Chunks.ChunksList", "d2/d65/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunks_list.html", [
-      [ "Hjg.Pngcs.Chunks.ChunksListForWrite", "db/d34/class_hjg_1_1_pngcs_1_1_chunks_1_1_chunks_list_for_write.html", null ]
-    ] ],
     [ "Juniper.World.Climate.OpenWeatherMap.WeatherReport.Clouds", "d7/d24/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_clouds.html", null ],
     [ "UnityEngine.ColliderExt", "d7/d52/class_unity_engine_1_1_collider_ext.html", null ],
     [ "UnityEngine.ColorExt", "da/de1/class_unity_engine_1_1_color_ext.html", null ],
     [ "UnityEngine.ComponentExt", "d3/d40/class_unity_engine_1_1_component_ext.html", null ],
     [ "Juniper.World.Climate.OpenWeatherMap.WeatherReport.Coord", "d0/d5c/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_coord.html", null ],
-    [ "Hjg.Pngcs.Zlib.CRC32", "de/dd5/class_hjg_1_1_pngcs_1_1_zlib_1_1_c_r_c32.html", null ],
     [ "Juniper.Units.CubicCentimeters", "df/d93/class_juniper_1_1_units_1_1_cubic_centimeters.html", null ],
     [ "Juniper.Units.CubicFeet", "d6/df4/class_juniper_1_1_units_1_1_cubic_feet.html", null ],
     [ "Juniper.Units.CubicInches", "d0/d1a/class_juniper_1_1_units_1_1_cubic_inches.html", null ],
@@ -143,7 +128,6 @@ var hierarchy =
     [ "System.DateTimeExt2", "dd/deb/class_system_1_1_date_time_ext2.html", null ],
     [ "Juniper.Units.DatumWGS_84", "d6/de5/class_juniper_1_1_units_1_1_datum_w_g_s__84.html", null ],
     [ "Juniper.Units.Days", "d8/d6d/class_juniper_1_1_units_1_1_days.html", null ],
-    [ "Hjg.Pngcs.Zlib.DeflateCompressLevel", "da/d3d/class_hjg_1_1_pngcs_1_1_zlib_1_1_deflate_compress_level.html", null ],
     [ "Juniper.Units.Degrees", "d5/d39/class_juniper_1_1_units_1_1_degrees.html", null ],
     [ "UnityEngine.Android.Device", "d8/d02/class_unity_engine_1_1_android_1_1_device.html", null ],
     [ "System.Collections.Generic.DictionaryExt", "de/dda/class_system_1_1_collections_1_1_generic_1_1_dictionary_ext.html", null ],
@@ -168,23 +152,12 @@ var hierarchy =
     ] ],
     [ "Juniper.Units.Exabytes", "d6/dfc/class_juniper_1_1_units_1_1_exabytes.html", null ],
     [ "Juniper.Units.Exbibytes", "d3/d31/class_juniper_1_1_units_1_1_exbibytes.html", null ],
-    [ "Exception", null, [
-      [ "Hjg.Pngcs.PngjException", "db/ddb/class_hjg_1_1_pngcs_1_1_pngj_exception.html", [
-        [ "Hjg.Pngcs.PngjBadCrcException", "d7/d3c/class_hjg_1_1_pngcs_1_1_pngj_bad_crc_exception.html", null ],
-        [ "Hjg.Pngcs.PngjInputException", "d0/d99/class_hjg_1_1_pngcs_1_1_pngj_input_exception.html", null ],
-        [ "Hjg.Pngcs.PngjOutputException", "d5/d25/class_hjg_1_1_pngcs_1_1_pngj_output_exception.html", null ]
-      ] ],
-      [ "Hjg.Pngcs.PngjExceptionInternal", "dd/de1/class_hjg_1_1_pngcs_1_1_pngj_exception_internal.html", null ],
-      [ "Hjg.Pngcs.PngjUnsupportedException", "df/d67/class_hjg_1_1_pngcs_1_1_pngj_unsupported_exception.html", null ]
-    ] ],
     [ "System.ExceptionExt", "d5/d22/class_system_1_1_exception_ext.html", null ],
     [ "Juniper.Units.Farenheit", "d2/d75/class_juniper_1_1_units_1_1_farenheit.html", null ],
     [ "Juniper.Units.Feet", "df/d09/class_juniper_1_1_units_1_1_feet.html", null ],
     [ "Juniper.Units.FeetPerSecond", "d0/d40/class_juniper_1_1_units_1_1_feet_per_second.html", null ],
     [ "Juniper.Units.FeetPerSecondSquared", "dc/d24/class_juniper_1_1_units_1_1_feet_per_second_squared.html", null ],
     [ "System.IO.FileExt", "de/dac/class_system_1_1_i_o_1_1_file_ext.html", null ],
-    [ "Hjg.Pngcs.FileHelper", "db/db3/class_hjg_1_1_pngcs_1_1_file_helper.html", null ],
-    [ "Hjg.Pngcs.FilterWriteStrategy", "d1/d39/class_hjg_1_1_pngcs_1_1_filter_write_strategy.html", null ],
     [ "UnityEngine.GameObjectExt", "dd/d93/class_unity_engine_1_1_game_object_ext.html", null ],
     [ "Juniper.World.GIS.GeocentricEclipticSphericalPosition", "dd/da2/struct_juniper_1_1_world_1_1_g_i_s_1_1_geocentric_ecliptic_spherical_position.html", null ],
     [ "Juniper.Units.Gibibytes", "dd/dd2/class_juniper_1_1_units_1_1_gibibytes.html", null ],
@@ -213,12 +186,10 @@ var hierarchy =
         [ "Juniper.Widgets.Rotatable", "d7/d7d/class_juniper_1_1_widgets_1_1_rotatable.html", null ]
       ] ]
     ] ],
-    [ "Ar.Com.Hjg.Pngcs.IBytesConsumer", "d6/d09/interface_ar_1_1_com_1_1_hjg_1_1_pngcs_1_1_i_bytes_consumer.html", null ],
     [ "IComparer", null, [
       [ "Juniper.Collections.TextureSortComparer", "d9/d6b/class_juniper_1_1_collections_1_1_texture_sort_comparer.html", null ],
       [ "System.Collections.Generic.NaturalSortComparer", "d1/d51/class_system_1_1_collections_1_1_generic_1_1_natural_sort_comparer.html", null ]
     ] ],
-    [ "Hjg.Pngcs.PngIDatChunkInputStream.IdatChunkInfo", "df/dc0/class_hjg_1_1_pngcs_1_1_png_i_dat_chunk_input_stream_1_1_idat_chunk_info.html", null ],
     [ "IDisposable", null, [
       [ "Juniper.NeuroSky.MindWaveAdapter", "d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html", null ]
     ] ],
@@ -235,7 +206,6 @@ var hierarchy =
       [ "Juniper.Widgets.MaterialCollection", "d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html", null ]
     ] ],
     [ "System.Collections.Generic.IEnumerableExt", "d5/df6/class_system_1_1_collections_1_1_generic_1_1_i_enumerable_ext.html", null ],
-    [ "System.IEnumerableExtTests", "d5/d12/class_system_1_1_i_enumerable_ext_tests.html", null ],
     [ "IEnumerator", null, [
       [ "System.Collections.InterleavedEnumerator", "d1/df7/class_system_1_1_collections_1_1_interleaved_enumerator.html", null ]
     ] ],
@@ -298,10 +268,6 @@ var hierarchy =
       [ "Juniper.Statistics.AbstractCollectionStatistics< T >", "dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html", null ],
       [ "System.Collections.Generic.RingBuffer< T >", "d5/d75/class_system_1_1_collections_1_1_generic_1_1_ring_buffer.html", null ]
     ] ],
-    [ "Hjg.Pngcs.ImageInfo", "d3/d25/class_hjg_1_1_pngcs_1_1_image_info.html", null ],
-    [ "Hjg.Pngcs.ImageLine", "d5/d32/class_hjg_1_1_pngcs_1_1_image_line.html", null ],
-    [ "Hjg.Pngcs.ImageLineHelper", "dd/dec/class_hjg_1_1_pngcs_1_1_image_line_helper.html", null ],
-    [ "Hjg.Pngcs.ImageLines", "dd/dd1/class_hjg_1_1_pngcs_1_1_image_lines.html", null ],
     [ "Juniper.Units.Inches", "df/dda/class_juniper_1_1_units_1_1_inches.html", null ],
     [ "Juniper.Installable", "d3/d9d/class_juniper_1_1_installable.html", null ],
     [ "UnityEditor.PlayerSettingsExt.iOS", "d6/dc5/class_unity_editor_1_1_player_settings_ext_1_1i_o_s.html", null ],
@@ -397,11 +363,6 @@ var hierarchy =
     [ "Juniper.Units.Lumens", "d8/d75/class_juniper_1_1_units_1_1_lumens.html", null ],
     [ "Juniper.World.Climate.OpenWeatherMap.WeatherReport.Main", "de/d67/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_main.html", null ],
     [ "Juniper.Units.Megabytes", "d3/d36/class_juniper_1_1_units_1_1_megabytes.html", null ],
-    [ "MemoryStream", null, [
-      [ "Hjg.Pngcs.ProgressiveOutputStream", "d0/df0/class_hjg_1_1_pngcs_1_1_progressive_output_stream.html", [
-        [ "Hjg.Pngcs.PngIDatChunkOutputStream", "d5/d5c/class_hjg_1_1_pngcs_1_1_png_i_dat_chunk_output_stream.html", null ]
-      ] ]
-    ] ],
     [ "Juniper.Units.Meters", "d4/d56/class_juniper_1_1_units_1_1_meters.html", null ],
     [ "Juniper.Units.MetersPerSecond", "df/d73/class_juniper_1_1_units_1_1_meters_per_second.html", null ],
     [ "Juniper.Units.MetersPerSecondSquared", "d4/d41/class_juniper_1_1_units_1_1_meters_per_second_squared.html", null ],
@@ -422,10 +383,8 @@ var hierarchy =
           [ "Juniper.Animation.FadeTransition", "d9/d08/class_juniper_1_1_animation_1_1_fade_transition.html", null ],
           [ "Juniper.Animation.ScaleTransition", "d8/da8/class_juniper_1_1_animation_1_1_scale_transition.html", null ],
           [ "Juniper.Animation.SpiralTransition", "d8/d2c/class_juniper_1_1_animation_1_1_spiral_transition.html", null ],
-          [ "Juniper.Animation.TransitionControllerTests.MockTransition", "d8/dad/class_juniper_1_1_animation_1_1_transition_controller_tests_1_1_mock_transition.html", null ],
           [ "Juniper.Animation.TranslationTransition", "d4/d0e/class_juniper_1_1_animation_1_1_translation_transition.html", null ]
         ] ],
-        [ "Juniper.StateControllerTests.MockStateController", "d9/db3/class_juniper_1_1_state_controller_tests_1_1_mock_state_controller.html", null ],
         [ "Juniper.SubSceneController", "db/d32/class_juniper_1_1_sub_scene_controller.html", null ]
       ] ],
       [ "Juniper.Anchoring.Anchored", "d3/de1/class_juniper_1_1_anchoring_1_1_anchored.html", null ],
@@ -519,8 +478,7 @@ var hierarchy =
       [ "Juniper.World.OutdoorWindEstimate", "dd/d3e/class_juniper_1_1_world_1_1_outdoor_wind_estimate.html", null ],
       [ "Juniper.World.SunPosition", "de/ddc/class_juniper_1_1_world_1_1_sun_position.html", null ],
       [ "Juniper.XRSystem", "db/d97/class_juniper_1_1_x_r_system.html", null ],
-      [ "System.ScreenDebugger", "de/d00/class_system_1_1_screen_debugger.html", null ],
-      [ "XInputTestCS", "d8/dbd/class_x_input_test_c_s.html", null ]
+      [ "System.ScreenDebugger", "de/d00/class_system_1_1_screen_debugger.html", null ]
     ] ],
     [ "System.Collections.Generic.NAryTree< T >", "d6/dc2/class_system_1_1_collections_1_1_generic_1_1_n_ary_tree.html", null ],
     [ "Juniper.Haptics.iOS10Haptics.NativeMethods", "d5/db9/class_juniper_1_1_haptics_1_1i_o_s10_haptics_1_1_native_methods.html", null ],
@@ -541,44 +499,7 @@ var hierarchy =
     [ "Juniper.XR.CustomEditors.PlatformConfiguration", "dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html", null ],
     [ "Juniper.XR.CustomEditors.Platforms", "d4/d26/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platforms.html", null ],
     [ "UnityEditor.PluginImporterExt", "dc/d9d/class_unity_editor_1_1_plugin_importer_ext.html", null ],
-    [ "Hjg.Pngcs.Chunks.PngChunk", "dd/d5f/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk.html", [
-      [ "Hjg.Pngcs.Chunks.PngChunkMultiple", "d0/d05/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_multiple.html", [
-        [ "Hjg.Pngcs.Chunks.PngChunkIDAT", "d0/df1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_d_a_t.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkSPLT", "d3/d17/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_s_p_l_t.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkTextVar", "d0/d0e/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_text_var.html", [
-          [ "Hjg.Pngcs.Chunks.PngChunkITXT", "dd/de4/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_t_x_t.html", null ],
-          [ "Hjg.Pngcs.Chunks.PngChunkTEXT", "de/d9c/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_t_e_x_t.html", null ],
-          [ "Hjg.Pngcs.Chunks.PngChunkZTXT", "d3/d58/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_z_t_x_t.html", null ]
-        ] ],
-        [ "Hjg.Pngcs.Chunks.PngChunkUNKNOWN", "dd/df6/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_u_n_k_n_o_w_n.html", null ]
-      ] ],
-      [ "Hjg.Pngcs.Chunks.PngChunkSingle", "d2/dc1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_single.html", [
-        [ "Hjg.Pngcs.Chunks.PngChunkBKGD", "d6/df9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_b_k_g_d.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkCHRM", "d5/d39/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_c_h_r_m.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkGAMA", "d9/d23/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_g_a_m_a.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkHIST", "d7/d34/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_h_i_s_t.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkICCP", "de/da0/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_c_c_p.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkIEND", "d5/d01/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_e_n_d.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkIHDR", "d0/dc9/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_i_h_d_r.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkOFFS", "d3/d36/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_o_f_f_s.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkPHYS", "da/d47/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_p_h_y_s.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkPLTE", "da/dc1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_p_l_t_e.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkSBIT", "df/d01/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_s_b_i_t.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkSRGB", "db/d35/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_s_r_g_b.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkSTER", "d0/db1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_s_t_e_r.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkTIME", "d9/d6a/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_t_i_m_e.html", null ],
-        [ "Hjg.Pngcs.Chunks.PngChunkTRNS", "d5/da1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_t_r_n_s.html", null ]
-      ] ],
-      [ "Hjg.Pngcs.Chunks.PngChunkSkipped", "dc/de1/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_skipped.html", null ]
-    ] ],
-    [ "Hjg.Pngcs.PngCsUtils", "dd/dfd/class_hjg_1_1_pngcs_1_1_png_cs_utils.html", null ],
-    [ "Hjg.Pngcs.PngDeinterlacer", "da/d1f/class_hjg_1_1_pngcs_1_1_png_deinterlacer.html", null ],
-    [ "Hjg.Pngcs.PngHelperInternal", "d7/d80/class_hjg_1_1_pngcs_1_1_png_helper_internal.html", null ],
     [ "Juniper.Imaging.PNGImageLoader", "d8/d77/class_juniper_1_1_imaging_1_1_p_n_g_image_loader.html", null ],
-    [ "Hjg.Pngcs.Chunks.PngMetadata", "db/d8b/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_metadata.html", null ],
-    [ "Hjg.Pngcs.PngReader", "d7/d0b/class_hjg_1_1_pngcs_1_1_png_reader.html", null ],
-    [ "Hjg.Pngcs.Chunks.PngChunkTextVar.PngTxtInfo", "de/d27/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_text_var_1_1_png_txt_info.html", null ],
-    [ "Hjg.Pngcs.PngWriter", "d7/dc1/class_hjg_1_1_pngcs_1_1_png_writer.html", null ],
     [ "PointerInputModule", null, [
       [ "Juniper.Input.UnifiedInputModule", "d7/d3d/class_juniper_1_1_input_1_1_unified_input_module.html", null ]
     ] ],
@@ -622,8 +543,6 @@ var hierarchy =
     ] ],
     [ "Juniper.Units.Seconds", "d8/d32/class_juniper_1_1_units_1_1_seconds.html", null ],
     [ "UnityEditor.SerializedPropertyExt", "d1/d16/class_unity_editor_1_1_serialized_property_ext.html", null ],
-    [ "System.SigFigsTests", "d9/dc2/class_system_1_1_sig_figs_tests.html", null ],
-    [ "Juniper.Statistics.SingleStatisticsTests", "d5/df9/class_juniper_1_1_statistics_1_1_single_statistics_tests.html", null ],
     [ "Juniper.World.Climate.OpenWeatherMap.WeatherReport.Snow", "dc/d54/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_snow.html", null ],
     [ "Juniper.Units.SquareCentimeters", "d9/db5/class_juniper_1_1_units_1_1_square_centimeters.html", null ],
     [ "Juniper.Units.SquareFeet", "d3/d06/class_juniper_1_1_units_1_1_square_feet.html", null ],
@@ -632,15 +551,7 @@ var hierarchy =
     [ "Juniper.Units.SquareMeters", "d4/d3d/class_juniper_1_1_units_1_1_square_meters.html", null ],
     [ "Juniper.Units.SquareMiles", "d3/d4c/class_juniper_1_1_units_1_1_square_miles.html", null ],
     [ "Juniper.Units.SquareMillimeters", "db/d18/class_juniper_1_1_units_1_1_square_millimeters.html", null ],
-    [ "Juniper.StateControllerTests", "d9/d8f/class_juniper_1_1_state_controller_tests.html", null ],
     [ "Stream", null, [
-      [ "Hjg.Pngcs.PngIDatChunkInputStream", "d7/df3/class_hjg_1_1_pngcs_1_1_png_i_dat_chunk_input_stream.html", null ],
-      [ "Hjg.Pngcs.Zlib.AZlibInputStream", "dd/d12/class_hjg_1_1_pngcs_1_1_zlib_1_1_a_zlib_input_stream.html", [
-        [ "Hjg.Pngcs.Zlib.ZlibInputStream", "dc/d5d/class_hjg_1_1_pngcs_1_1_zlib_1_1_zlib_input_stream.html", null ]
-      ] ],
-      [ "Hjg.Pngcs.Zlib.AZlibOutputStream", "d8/d64/class_hjg_1_1_pngcs_1_1_zlib_1_1_a_zlib_output_stream.html", [
-        [ "Hjg.Pngcs.Zlib.ZlibOutputStream", "d5/d3c/class_hjg_1_1_pngcs_1_1_zlib_1_1_zlib_output_stream.html", null ]
-      ] ],
       [ "Juniper.Progress.StreamProgress", "da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html", null ]
     ] ],
     [ "Juniper.StreamableAsset", "dc/de1/class_juniper_1_1_streamable_asset.html", [
@@ -650,7 +561,6 @@ var hierarchy =
     [ "Juniper.Data.StreamingAssets", "de/dcc/class_juniper_1_1_data_1_1_streaming_assets.html", null ],
     [ "System.Text.StringBuilderExt", "d8/d0b/class_system_1_1_text_1_1_string_builder_ext.html", null ],
     [ "System.StringExt", "d1/d3f/class_system_1_1_string_ext.html", null ],
-    [ "Juniper.SubSceneControllerTests", "d1/d07/class_juniper_1_1_sub_scene_controller_tests.html", null ],
     [ "Juniper.World.Climate.OpenWeatherMap.WeatherReport.Sys", "df/dae/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_sys.html", null ],
     [ "Juniper.Units.Tebibytes", "d7/d08/class_juniper_1_1_units_1_1_tebibytes.html", null ],
     [ "Juniper.Units.Terabytes", "d2/d98/class_juniper_1_1_units_1_1_terabytes.html", null ],
@@ -658,10 +568,8 @@ var hierarchy =
     [ "Juniper.Units.Tons", "d4/df0/class_juniper_1_1_units_1_1_tons.html", null ],
     [ "System.TrackedValue< T >", "d0/dfa/struct_system_1_1_tracked_value.html", null ],
     [ "UnityEngine.TransformExt", "d0/d5e/class_unity_engine_1_1_transform_ext.html", null ],
-    [ "Juniper.Animation.TransitionControllerTests", "dd/dd7/class_juniper_1_1_animation_1_1_transition_controller_tests.html", null ],
     [ "Juniper.Animation.Tween", "d5/d91/class_juniper_1_1_animation_1_1_tween.html", null ],
     [ "Juniper.Units", "d2/d5c/class_juniper_1_1_units.html", null ],
-    [ "Juniper.UnitsTests", "d7/d53/class_juniper_1_1_units_tests.html", null ],
     [ "UnityEvent", null, [
       [ "Juniper.Events.PointerEvent", "d1/d7a/class_juniper_1_1_events_1_1_pointer_event.html", null ],
       [ "Juniper.Input.UnifiedInputModule.PointerFoundEvent", "d1/dd5/class_juniper_1_1_input_1_1_unified_input_module_1_1_pointer_found_event.html", null ],
@@ -687,6 +595,5 @@ var hierarchy =
     [ "Juniper.Units.Yotabytes", "d6/d2d/class_juniper_1_1_units_1_1_yotabytes.html", null ],
     [ "Juniper.Units.Zebibytes", "d6/d7f/class_juniper_1_1_units_1_1_zebibytes.html", null ],
     [ "Juniper.Units.Zettabytes", "d5/d44/class_juniper_1_1_units_1_1_zettabytes.html", null ],
-    [ "Juniper.Data.Zip", "d1/d40/class_juniper_1_1_data_1_1_zip.html", null ],
-    [ "Hjg.Pngcs.Zlib.ZlibStreamFactory", "df/d88/class_hjg_1_1_pngcs_1_1_zlib_1_1_zlib_stream_factory.html", null ]
+    [ "Juniper.Data.Zip", "d1/d40/class_juniper_1_1_data_1_1_zip.html", null ]
 ];

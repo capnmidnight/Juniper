@@ -1,18 +1,11 @@
 var searchData=
 [
   ['iaudioclipcollection',['IAudioClipCollection',['../d4/d37/interface_juniper_1_1_audio_1_1_i_audio_clip_collection.html',1,'Juniper::Audio']]],
-  ['ibytesconsumer',['IBytesConsumer',['../d6/d09/interface_ar_1_1_com_1_1_hjg_1_1_pngcs_1_1_i_bytes_consumer.html',1,'Ar::Com::Hjg::Pngcs']]],
-  ['idatchunkinfo',['IdatChunkInfo',['../df/dc0/class_hjg_1_1_pngcs_1_1_png_i_dat_chunk_input_stream_1_1_idat_chunk_info.html',1,'Hjg::Pngcs::PngIDatChunkInputStream']]],
   ['ienumerableext',['IEnumerableExt',['../d5/df6/class_system_1_1_collections_1_1_generic_1_1_i_enumerable_ext.html',1,'System::Collections::Generic']]],
-  ['ienumerableexttests',['IEnumerableExtTests',['../d5/d12/class_system_1_1_i_enumerable_ext_tests.html',1,'System']]],
   ['ihandedpointer',['IHandedPointer',['../dc/d0e/interface_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html',1,'Juniper::Input::Pointers::Motion']]],
   ['iinstallable',['IInstallable',['../db/d28/interface_juniper_1_1_i_installable.html',1,'Juniper']]],
   ['ikeywordtriggered',['IKeywordTriggered',['../da/d92/interface_juniper_1_1_input_1_1_speech_1_1_i_keyword_triggered.html',1,'Juniper::Input::Speech']]],
   ['ilongpresshandler',['ILongPressHandler',['../d7/db1/interface_juniper_1_1_events_1_1_i_long_press_handler.html',1,'Juniper::Events']]],
-  ['imageinfo',['ImageInfo',['../d3/d25/class_hjg_1_1_pngcs_1_1_image_info.html',1,'Hjg::Pngcs']]],
-  ['imageline',['ImageLine',['../d5/d32/class_hjg_1_1_pngcs_1_1_image_line.html',1,'Hjg::Pngcs']]],
-  ['imagelinehelper',['ImageLineHelper',['../dd/dec/class_hjg_1_1_pngcs_1_1_image_line_helper.html',1,'Hjg::Pngcs']]],
-  ['imagelines',['ImageLines',['../dd/dd1/class_hjg_1_1_pngcs_1_1_image_lines.html',1,'Hjg::Pngcs']]],
   ['imotioncontroller',['IMotionController',['../dc/d7d/interface_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_i_motion_controller.html',1,'Juniper::Input::Pointers::Motion']]],
   ['inches',['Inches',['../df/dda/class_juniper_1_1_units_1_1_inches.html',1,'Juniper::Units']]],
   ['indoorlightestimate',['IndoorLightEstimate',['../d6/db7/class_juniper_1_1_world_1_1_indoor_light_estimate.html',1,'Juniper::World']]],

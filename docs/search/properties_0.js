@@ -1,7 +1,6 @@
 var searchData=
 [
   ['allscenes',['AllScenes',['../d0/dde/class_juniper_1_1_master_scene_controller.html#a0a86ec4d5c03acf6795e1f6ec6974888',1,'Juniper::MasterSceneController']]],
-  ['alphasb',['Alphasb',['../df/d01/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk_s_b_i_t.html#ac47041ad97c3552d4c3ca77477f59ed5',1,'Hjg::Pngcs::Chunks::PngChunkSBIT']]],
   ['amplitude',['Amplitude',['../d5/d99/struct_juniper_1_1_haptics_1_1_haptic_pattern_element.html#a17fbb8301d6c32be1b91efc109dd7489',1,'Juniper::Haptics::HapticPatternElement']]],
   ['anybuttonpressed',['AnyButtonPressed',['../dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html#ab580020acb97490ed6b8f9300b1b1221',1,'Juniper::Input::Pointers::IPointerButtons']]],
   ['anydragging',['AnyDragging',['../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#aba1b8bbd3a497433a3f17a13de8c9f98',1,'Juniper::Input::Pointers::ButtonMapper']]],

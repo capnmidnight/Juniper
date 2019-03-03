@@ -8,7 +8,6 @@ var namespace_juniper_1_1_animation =
     [ "Flipbook", "de/d31/class_juniper_1_1_animation_1_1_flipbook.html", "de/d31/class_juniper_1_1_animation_1_1_flipbook" ],
     [ "ScaleTransition", "d8/da8/class_juniper_1_1_animation_1_1_scale_transition.html", "d8/da8/class_juniper_1_1_animation_1_1_scale_transition" ],
     [ "SpiralTransition", "d8/d2c/class_juniper_1_1_animation_1_1_spiral_transition.html", "d8/d2c/class_juniper_1_1_animation_1_1_spiral_transition" ],
-    [ "TransitionControllerTests", "dd/dd7/class_juniper_1_1_animation_1_1_transition_controller_tests.html", "dd/dd7/class_juniper_1_1_animation_1_1_transition_controller_tests" ],
     [ "TranslationTransition", "d4/d0e/class_juniper_1_1_animation_1_1_translation_transition.html", "d4/d0e/class_juniper_1_1_animation_1_1_translation_transition" ],
     [ "Tween", "d5/d91/class_juniper_1_1_animation_1_1_tween.html", "d5/d91/class_juniper_1_1_animation_1_1_tween" ],
     [ "WorkflowStep", "d0/d1d/class_juniper_1_1_animation_1_1_workflow_step.html", "d0/d1d/class_juniper_1_1_animation_1_1_workflow_step" ]

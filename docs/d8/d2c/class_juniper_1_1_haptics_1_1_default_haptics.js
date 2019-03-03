@@ -7,7 +7,7 @@ var class_juniper_1_1_haptics_1_1_default_haptics =
     [ "Play", "d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#af29591b61c97592224f207da3c0304ed", null ],
     [ "PlayCoroutine", "d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a825d03d731074b25d1c4adfdc331e4c1", null ],
     [ "PlayCoroutine", "d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#aacb035a200bcf7bc482fe25d8499bb03", null ],
-    [ "SetVibration", "d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a05deb5cfa7aa94e7e2564ea1e0eae905", null ],
+    [ "SetVibration", "d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a90c61aebbfd08dd39f7be5612a152d5c", null ],
     [ "Vibrate", "d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a6367070ed0a67fed43ef75bad32abbaa", null ],
     [ "Vibrate", "d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a95b5292b7c6a7112278464a95593cba0", null ],
     [ "Vibrate", "d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a6db208f02b1f4a9f7ce72bd955fd86df", null ],

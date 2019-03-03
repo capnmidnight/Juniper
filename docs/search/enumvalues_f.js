@@ -12,6 +12,5 @@ var searchData=
   ['pressed',['Pressed',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82ad78a68f6a85421ae121c2cb5b73a1040',1,'Juniper::Input']]],
   ['pressing',['Pressing',['../da/dfc/class_juniper_1_1_input_1_1_pointers_1_1_probe.html#a539f893193628a41a1ee559a3414bf94adc20dfae8fe3f015bae7d4a6cb03bc06',1,'Juniper::Input::Pointers::Probe']]],
   ['pressure',['Pressure',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aaa78578c428179b490a0461e76ba5f319',1,'Juniper::Units']]],
-  ['process',['PROCESS',['../d2/d59/namespace_ar_1_1_com_1_1_hjg_1_1_pngcs.html#a2332c7a97292804baeb9f7f01125fde7ab93c13848c6490ae962feec15fbdd151',1,'Ar::Com::Hjg::Pngcs']]],
   ['proportion',['Proportion',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa02f35c355ee76767b75e3bdabcff8b35',1,'Juniper.Units.Proportion()'],['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a02f35c355ee76767b75e3bdabcff8b35',1,'Juniper.Proportion()']]]
 ];

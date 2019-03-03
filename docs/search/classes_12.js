@@ -18,7 +18,6 @@ var searchData=
   ['trackingstatechangeeventargs',['TrackingStateChangeEventArgs',['../db/dc5/class_juniper_1_1_image_tracking_1_1_tracking_state_change_event_args.html',1,'Juniper::ImageTracking']]],
   ['transformevent',['TransformEvent',['../d1/d11/class_unity_engine_1_1_events_1_1_transform_event.html',1,'UnityEngine::Events']]],
   ['transformext',['TransformExt',['../d0/d5e/class_unity_engine_1_1_transform_ext.html',1,'UnityEngine']]],
-  ['transitioncontrollertests',['TransitionControllerTests',['../dd/dd7/class_juniper_1_1_animation_1_1_transition_controller_tests.html',1,'Juniper::Animation']]],
   ['translationhandle',['TranslationHandle',['../dd/d53/class_juniper_1_1_widgets_1_1_translation_handle.html',1,'Juniper::Widgets']]],
   ['translationtransition',['TranslationTransition',['../d4/d0e/class_juniper_1_1_animation_1_1_translation_transition.html',1,'Juniper::Animation']]],
   ['tween',['Tween',['../d5/d91/class_juniper_1_1_animation_1_1_tween.html',1,'Juniper::Animation']]]

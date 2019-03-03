@@ -20,7 +20,6 @@ var searchData=
   ['sine',['Sine',['../d0/db1/namespace_juniper_1_1_animation.html#a8de32a5b2c01af7d37fec5183b8b5820a6ca9e2d793f678aba7c1b19526592a46',1,'Juniper::Animation']]],
   ['single',['Single',['../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a820c62af5ff1f6377835bf460e53ec84a66ba162102bbf6ae31b522aec561735e',1,'Juniper::Widgets::ListView']]],
   ['singletoggle',['SingleToggle',['../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a820c62af5ff1f6377835bf460e53ec84a09669e1a1abcf7533d372b2e34c9b5c6',1,'Juniper::Widgets::ListView']]],
-  ['skip',['SKIP',['../d2/d59/namespace_ar_1_1_com_1_1_hjg_1_1_pngcs.html#a2332c7a97292804baeb9f7f01125fde7ab85df04e922fe1dd3c1f0692faeaacef',1,'Ar::Com::Hjg::Pngcs']]],
   ['sleet',['SLEET',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40acca0b6547f1d7d96009994876fa26dbf',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
   ['smallarea',['SmallArea',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa97b8dbee9db318b1a93ec42cc8461178',1,'Juniper::Units']]],
   ['smallfilesize',['SmallFileSize',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa268ee2961cdd54142b88917c7fb221d2',1,'Juniper::Units']]],

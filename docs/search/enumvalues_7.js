@@ -17,7 +17,6 @@ var searchData=
   ['hitobject',['HitObject',['../da/dfc/class_juniper_1_1_input_1_1_pointers_1_1_probe.html#a539f893193628a41a1ee559a3414bf94a5e73d7babacace42682a9ceea1a3e8fb',1,'Juniper::Input::Pointers::Probe']]],
   ['holographic',['Holographic',['../de/d75/namespace_juniper.html#a42db9d24cad0f6fad0d73e41213a098da2de33b48acaeae4662afb601a4e87ed7',1,'Juniper']]],
   ['hours',['Hours',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a6a7e73161603d87b26a8eac49dab0a9c',1,'Juniper']]],
-  ['huffman',['Huffman',['../d5/d06/namespace_hjg_1_1_pngcs_1_1_zlib.html#abd8e28c8d2b010d910c0d05f06d73af4a3342ecec260a073bf4005f15f833a1bb',1,'Hjg::Pngcs::Zlib']]],
   ['hugefilesize',['HugeFileSize',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa82d5fd73d4f3995c5dd0db1ab78ffccd',1,'Juniper::Units']]],
   ['hugevolume',['HugeVolume',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa88eb451e50f236fdf625ea96336ecf00',1,'Juniper::Units']]],
   ['hurricane',['HURRICANE',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40aeb2bfb01f6a33407a5ea0d3710f5304d',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]]

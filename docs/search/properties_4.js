@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['elementsperrow',['ElementsPerRow',['../d5/d32/class_hjg_1_1_pngcs_1_1_image_line.html#af2d98f46244efa16283009e1c8650137',1,'Hjg::Pngcs::ImageLine']]],
   ['enableautoread',['EnableAutoRead',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#a5cdcac5053d25c96874e6c6a0f8411ac',1,'Juniper::NeuroSky::MindWaveAdapter']]],
   ['enabledatalog',['EnableDataLog',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#ace857c2a10da70919de75416975f9ae7',1,'Juniper::NeuroSky::MindWaveAdapter']]],
   ['enablestreamlog',['EnableStreamLog',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#aee623bb8dd63da91746caeea904de1a2',1,'Juniper::NeuroSky::MindWaveAdapter']]],

@@ -2,7 +2,6 @@ var searchData=
 [
   ['unifiedinputmodule',['UnifiedInputModule',['../d7/d3d/class_juniper_1_1_input_1_1_unified_input_module.html',1,'Juniper::Input']]],
   ['units',['Units',['../d2/d5c/class_juniper_1_1_units.html',1,'Juniper']]],
-  ['unitstests',['UnitsTests',['../d7/d53/class_juniper_1_1_units_tests.html',1,'Juniper']]],
   ['unityasyncoperationprogress',['UnityAsyncOperationProgress',['../d2/d9c/class_juniper_1_1_progress_1_1_unity_async_operation_progress.html',1,'Juniper::Progress']]],
   ['unityeditorprogressdialog',['UnityEditorProgressDialog',['../dd/d5a/class_juniper_1_1_progress_1_1_unity_editor_progress_dialog.html',1,'Juniper::Progress']]],
   ['unityeventext',['UnityEventExt',['../d2/d26/class_unity_engine_1_1_events_1_1_unity_event_ext.html',1,'UnityEngine::Events']]],

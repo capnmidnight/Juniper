@@ -4,7 +4,6 @@ var searchData=
   ['days',['Days',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794ae807d3ccf8d24c8c1a3d86db5da78da8',1,'Juniper']]],
   ['debug',['Debug',['../d4/dc6/namespace_juniper_1_1_ground.html#afc27165cfa3b9534d617928f9c1b3d04aa603905470e2a5b8c13e96b579ef0dba',1,'Juniper::Ground']]],
   ['december',['December',['../d8/dd0/namespace_system.html#a9948aa83f3da57bc2f9e436b6a08675ba82331503174acbae012b2004f6431fa5',1,'System']]],
-  ['default',['Default',['../d5/d06/namespace_hjg_1_1_pngcs_1_1_zlib.html#abd8e28c8d2b010d910c0d05f06d73af4a7a1920d61156abc05a60135aefe8bc67',1,'Hjg::Pngcs::Zlib']]],
   ['degrees',['Degrees',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a9ef125630442bb42e2e367e0cf70d892',1,'Juniper']]],
   ['directory',['Directory',['../d7/d66/class_juniper_1_1_widgets_1_1_file_selector.html#a11718bc322ddc8d4da6ff00eda048afeae73cda510e8bb947f7e61089e5581494',1,'Juniper::Widgets::FileSelector']]],
   ['disabled',['Disabled',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82ab9f5c797ebbf55adccdd8539a65a0241',1,'Juniper::Input']]],

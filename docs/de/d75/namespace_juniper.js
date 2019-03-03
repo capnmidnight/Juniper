@@ -34,11 +34,8 @@ var namespace_juniper =
     [ "Platform", "d1/d76/class_juniper_1_1_platform.html", "d1/d76/class_juniper_1_1_platform" ],
     [ "PooledComponent", "d7/d2a/struct_juniper_1_1_pooled_component.html", "d7/d2a/struct_juniper_1_1_pooled_component" ],
     [ "StageExtensions", "d4/d78/class_juniper_1_1_stage_extensions.html", "d4/d78/class_juniper_1_1_stage_extensions" ],
-    [ "StateControllerTests", "d9/d8f/class_juniper_1_1_state_controller_tests.html", "d9/d8f/class_juniper_1_1_state_controller_tests" ],
     [ "StreamableAsset", "dc/de1/class_juniper_1_1_streamable_asset.html", null ],
     [ "SubSceneController", "db/d32/class_juniper_1_1_sub_scene_controller.html", "db/d32/class_juniper_1_1_sub_scene_controller" ],
-    [ "SubSceneControllerTests", "d1/d07/class_juniper_1_1_sub_scene_controller_tests.html", "d1/d07/class_juniper_1_1_sub_scene_controller_tests" ],
     [ "Units", "d2/d5c/class_juniper_1_1_units.html", "d2/d5c/class_juniper_1_1_units" ],
-    [ "UnitsTests", "d7/d53/class_juniper_1_1_units_tests.html", "d7/d53/class_juniper_1_1_units_tests" ],
     [ "XRSystem", "db/d97/class_juniper_1_1_x_r_system.html", "db/d97/class_juniper_1_1_x_r_system" ]
 ];

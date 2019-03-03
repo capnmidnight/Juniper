@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['interaction',['Interaction',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82',1,'Juniper::Input']]]
+  ['level',['Level',['../de/d75/namespace_juniper.html#a726d4e314bcbb83319c207b2b851358b',1,'Juniper']]]
 ];

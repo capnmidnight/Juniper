@@ -8,11 +8,9 @@ var namespace_system =
     [ "DateTimeExt2", "dd/deb/class_system_1_1_date_time_ext2.html", "dd/deb/class_system_1_1_date_time_ext2" ],
     [ "ErrorArgs", "de/d09/class_system_1_1_error_args.html", "de/d09/class_system_1_1_error_args" ],
     [ "ExceptionExt", "d5/d22/class_system_1_1_exception_ext.html", "d5/d22/class_system_1_1_exception_ext" ],
-    [ "IEnumerableExtTests", "d5/d12/class_system_1_1_i_enumerable_ext_tests.html", "d5/d12/class_system_1_1_i_enumerable_ext_tests" ],
     [ "NullableExt", "d7/d5d/class_system_1_1_nullable_ext.html", "d7/d5d/class_system_1_1_nullable_ext" ],
     [ "NumberExt", "d0/d8d/class_system_1_1_number_ext.html", "d0/d8d/class_system_1_1_number_ext" ],
     [ "ScreenDebugger", "de/d00/class_system_1_1_screen_debugger.html", "de/d00/class_system_1_1_screen_debugger" ],
-    [ "SigFigsTests", "d9/dc2/class_system_1_1_sig_figs_tests.html", "d9/dc2/class_system_1_1_sig_figs_tests" ],
     [ "StringExt", "d1/d3f/class_system_1_1_string_ext.html", "d1/d3f/class_system_1_1_string_ext" ],
     [ "TrackedValue", "d0/dfa/struct_system_1_1_tracked_value.html", "d0/dfa/struct_system_1_1_tracked_value" ]
 ];

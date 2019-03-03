@@ -7,7 +7,6 @@ var searchData=
   ['debugobject',['DebugObject',['../de/d32/class_juniper_1_1_widgets_1_1_debug_object.html',1,'Juniper::Widgets']]],
   ['defaulthaptics',['DefaultHaptics',['../d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html',1,'Juniper::Haptics']]],
   ['defaultlocomotion',['DefaultLocomotion',['../da/dcc/class_juniper_1_1_input_1_1_default_locomotion.html',1,'Juniper::Input']]],
-  ['deflatecompresslevel',['DeflateCompressLevel',['../da/d3d/class_hjg_1_1_pngcs_1_1_zlib_1_1_deflate_compress_level.html',1,'Hjg::Pngcs::Zlib']]],
   ['degrees',['Degrees',['../d5/d39/class_juniper_1_1_units_1_1_degrees.html',1,'Juniper::Units']]],
   ['detectvideoend',['DetectVideoEnd',['../d3/d14/class_juniper_1_1_widgets_1_1_detect_video_end.html',1,'Juniper::Widgets']]],
   ['device',['Device',['../d8/d02/class_unity_engine_1_1_android_1_1_device.html',1,'UnityEngine::Android']]],

@@ -1,7 +1,6 @@
 var searchData=
 [
   ['acceleration',['Acceleration',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa3b926d163371fd620b09b63219b12f52',1,'Juniper::Units']]],
-  ['after_5fplte_5fbefore_5fidat',['AFTER_PLTE_BEFORE_IDAT',['../dd/d5f/class_hjg_1_1_pngcs_1_1_chunks_1_1_png_chunk.html#a622a7db2554ec2db33c9411a3b0c2caca63876522bb6000d580d53eb67534ddc3',1,'Hjg::Pngcs::Chunks::PngChunk']]],
   ['airtap',['AirTap',['../d7/dac/namespace_juniper_1_1_input_1_1_pointers_1_1_motion.html#af527056cce88b66b9d9609b3707f49cfa28e889104deeb9b72b847b5026fe2e75',1,'Juniper::Input::Pointers::Motion']]],
   ['android',['Android',['../de/d75/namespace_juniper.html#a6e1ae745b610b801cab2beca6c1e8ea1ae84e30b9390cdb64db6db2c9ab87846d',1,'Juniper.Android()'],['../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991ae84e30b9390cdb64db6db2c9ab87846d',1,'Juniper.Android()']]],
   ['androidarcore',['AndroidARCore',['../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991a78c6066ed551c5b0c02e7bbd9c2da683',1,'Juniper']]],
