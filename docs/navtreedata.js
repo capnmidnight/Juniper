@@ -26,20 +26,20 @@ var NAVTREE =
   [ "Juniper", "index.html", [
     [ "Juniper For Fun and Profit", "index.html", [
       [ "Introduction", "index.html#autotoc_md17", null ],
-      [ "Source-Lines of Code", "index.html#autotoc_md18", [
-        [ "Juniper", "index.html#autotoc_md19", null ],
-        [ "Juniper.Units", "index.html#autotoc_md20", null ],
-        [ "Juniper.NeuroSky", "index.html#autotoc_md21", null ]
+      [ "Setup", "index.html#autotoc_md18", [
+        [ "Installation", "index.html#autotoc_md19", null ],
+        [ "Project Integration", "index.html#autotoc_md20", null ],
+        [ "Configuration", "index.html#autotoc_md21", null ]
       ] ],
-      [ "Setup", "index.html#autotoc_md22", [
-        [ "Installation", "index.html#autotoc_md23", null ],
-        [ "Project Integration", "index.html#autotoc_md24", null ],
-        [ "Configuration", "index.html#autotoc_md25", null ]
+      [ "Development", "index.html#autotoc_md22", [
+        [ "Tools", "index.html#autotoc_md23", null ],
+        [ "Debugging", "index.html#autotoc_md24", null ],
+        [ "Platform Notes", "index.html#autotoc_md25", null ]
       ] ],
-      [ "Development", "index.html#autotoc_md26", [
-        [ "Tools", "index.html#autotoc_md27", null ],
-        [ "Debugging", "index.html#autotoc_md28", null ],
-        [ "Platform Notes", "index.html#autotoc_md29", null ]
+      [ "Code Metrics", "index.html#autotoc_md26", [
+        [ "Juniper", "index.html#autotoc_md27", null ],
+        [ "Juniper.Units", "index.html#autotoc_md28", null ],
+        [ "Juniper.NeuroSky", "index.html#autotoc_md29", null ]
       ] ]
     ] ],
     [ "Documentation Coverage", "d9/da4/autotoc_md0.html", null ],

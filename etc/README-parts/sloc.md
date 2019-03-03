@@ -1,5 +1,5 @@
 
-# Source-Lines of Code
+# Code Metrics
 
 ## Juniper
 
@@ -7,18 +7,20 @@
 ───────────────────────────────────────────────────────────────────────────────
 Language                     Files       Lines      Code    Comments     Blanks
 ───────────────────────────────────────────────────────────────────────────────
-C#                             382       42334     27534        9295       5505
+C#                             307       34691     22320        7785       4586
 ───────────────────────────────────────────────────────────────────────────────
-Total                          382       42334     27534        9295       5505
+Total                          307       34691     22320        7785       4586
 ───────────────────────────────────────────────────────────────────────────────
-Estimated Cost to Develop $1,715,793
-Estimated Schedule Effort 14.601748 months
-Estimated People Required 7.122097
+Estimated Cost to Develop $1,376,357
+Estimated Schedule Effort 13.428453 months
+Estimated People Required 6.212307
 ───────────────────────────────────────────────────────────────────────────────
 
 ```
 
 ## Juniper.Units
+
+[project site](https://capnmidnight.github.io/Juniper.Units)
 
 ```
 ───────────────────────────────────────────────────────────────────────────────
@@ -36,6 +38,8 @@ Estimated People Required 2.124126
 ```
 
 ## Juniper.NeuroSky
+
+[project site](https://capnmidnight.github.io/Juniper.NeuroSky)
 
 ```
 ───────────────────────────────────────────────────────────────────────────────

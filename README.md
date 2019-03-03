@@ -21,59 +21,6 @@ Juniper is a framework within Unity 3D for managing and developing virtual, augm
 - *Units* - Conversions between and formattings of values tagged with units of measure.
 - *XR* - Management of VR and AR hardware, specifically the detection of surfaces and the tracking of positional hardware.
 - *Other* - Scene and project management tools, for managing complex scene hierarchies in the Unity editor and at runtime.
-
-# Source-Lines of Code
-
-## Juniper
-
-```
-───────────────────────────────────────────────────────────────────────────────
-Language                     Files       Lines      Code    Comments     Blanks
-───────────────────────────────────────────────────────────────────────────────
-C#                             382       42334     27534        9295       5505
-───────────────────────────────────────────────────────────────────────────────
-Total                          382       42334     27534        9295       5505
-───────────────────────────────────────────────────────────────────────────────
-Estimated Cost to Develop $1,715,793
-Estimated Schedule Effort 14.601748 months
-Estimated People Required 7.122097
-───────────────────────────────────────────────────────────────────────────────
-
-```
-
-## Juniper.Units
-
-```
-───────────────────────────────────────────────────────────────────────────────
-Language                     Files       Lines      Code    Comments     Blanks
-───────────────────────────────────────────────────────────────────────────────
-C#                              85       10658      4293        5159       1206
-───────────────────────────────────────────────────────────────────────────────
-Total                           85       10658      4293        5159       1206
-───────────────────────────────────────────────────────────────────────────────
-Estimated Cost to Develop $243,781
-Estimated Schedule Effort 6.956144 months
-Estimated People Required 2.124126
-───────────────────────────────────────────────────────────────────────────────
-
-```
-
-## Juniper.NeuroSky
-
-```
-───────────────────────────────────────────────────────────────────────────────
-Language                     Files       Lines      Code    Comments     Blanks
-───────────────────────────────────────────────────────────────────────────────
-C#                              32         669       524          34        111
-───────────────────────────────────────────────────────────────────────────────
-Total                           32         669       524          34        111
-───────────────────────────────────────────────────────────────────────────────
-Estimated Cost to Develop $26,785
-Estimated Schedule Effort 3.005455 months
-Estimated People Required 0.540179
-───────────────────────────────────────────────────────────────────────────────
-
-```
 # Setup
 
 ## Installation
@@ -169,3 +116,60 @@ These are notes specific to each AR subsystem and/or operating system
 The Hololens documentation talks about a Unity Build setting "C# Projects" that enables completing the build and deploying to the device from Visual Studio rather than from Unity. The rationale for this feature is that it makes it faster to iterate on *changes* to scripts. If you want to make changes to the scene, to any assets, or add any scripts, you need to still do it through Unity.
 
 As of Version 2017.2 of Unity, this feature is broken, defaulting the Build Target Architecture to ARM. Just manually change the architecture to x86 (not x64).
+
+# Code Metrics
+
+## Juniper
+
+```
+───────────────────────────────────────────────────────────────────────────────
+Language                     Files       Lines      Code    Comments     Blanks
+───────────────────────────────────────────────────────────────────────────────
+C#                             307       34691     22320        7785       4586
+───────────────────────────────────────────────────────────────────────────────
+Total                          307       34691     22320        7785       4586
+───────────────────────────────────────────────────────────────────────────────
+Estimated Cost to Develop $1,376,357
+Estimated Schedule Effort 13.428453 months
+Estimated People Required 6.212307
+───────────────────────────────────────────────────────────────────────────────
+
+```
+
+## Juniper.Units
+
+[project site](https://capnmidnight.github.io/Juniper.Units)
+
+```
+───────────────────────────────────────────────────────────────────────────────
+Language                     Files       Lines      Code    Comments     Blanks
+───────────────────────────────────────────────────────────────────────────────
+C#                              85       10658      4293        5159       1206
+───────────────────────────────────────────────────────────────────────────────
+Total                           85       10658      4293        5159       1206
+───────────────────────────────────────────────────────────────────────────────
+Estimated Cost to Develop $243,781
+Estimated Schedule Effort 6.956144 months
+Estimated People Required 2.124126
+───────────────────────────────────────────────────────────────────────────────
+
+```
+
+## Juniper.NeuroSky
+
+[project site](https://capnmidnight.github.io/Juniper.NeuroSky)
+
+```
+───────────────────────────────────────────────────────────────────────────────
+Language                     Files       Lines      Code    Comments     Blanks
+───────────────────────────────────────────────────────────────────────────────
+C#                              32         669       524          34        111
+───────────────────────────────────────────────────────────────────────────────
+Total                           32         669       524          34        111
+───────────────────────────────────────────────────────────────────────────────
+Estimated Cost to Develop $26,785
+Estimated Schedule Effort 3.005455 months
+Estimated People Required 0.540179
+───────────────────────────────────────────────────────────────────────────────
+
+```

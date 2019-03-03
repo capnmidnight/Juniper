@@ -12,7 +12,7 @@ body, table, div, p, dl, p.reference, p.definition {
 	background-color: #393e46;
 }
 
-#nav-path, #nav-path a {
+#nav-path, #nav-path a, #projectalign, #projectname {
 	color: white;
 }
 
@@ -1267,6 +1267,7 @@ dl.section dd {
 
 #projectalign
 {
+	display: inline-block;
 	vertical-align: middle;
 }
 
@@ -1274,9 +1275,6 @@ dl.section dd {
 {
 	font-size: 300%;
 	margin: 0px;
-	padding: 0 1em;
-	vertical-align: middle;
-	color: white;
 }
 
 #projectbrief
