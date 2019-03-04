@@ -1,4 +1,4 @@
-.0using Juniper.Progress;
+using Juniper.Progress;
 
 using UnityEngine;
 
