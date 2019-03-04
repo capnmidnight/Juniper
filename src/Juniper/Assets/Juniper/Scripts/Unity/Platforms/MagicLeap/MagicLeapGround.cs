@@ -19,9 +19,11 @@ namespace Juniper.Ground
             { Level.High, MLSpatialMapper.LevelOfDetail.Maximum }
         };
 
+        private MLSpatialMapper mapper;
+
         public override void Install(bool reset)
         {
-            var mapper = DisplayManager.MainCamera.EnsureComponent<MLSpatialMapper>().Value;
+            mapper = DisplayManager.MainCamera.EnsureComponent<MLSpatialMapper>().Value;
             mapper.meshParent = transform;
             if (mapper.meshPrefab == null)
             {
@@ -42,8 +44,6 @@ namespace Juniper.Ground
         {
             base.Awake();
 
-            var stage = ComponentExt.FindAny<StageExtensions>();
-            var mapper = stage.GetComponent<MLSpatialMapper>();
             mapper.meshType = MLSpatialMapper.MeshType.Triangles;
             mapper.levelOfDetail = DETAIL_LEVELS[spatialMappingFidelity];
             mapper.computeNormals = true;
@@ -53,8 +53,6 @@ namespace Juniper.Ground
 
         private void Mapper_meshAdded(UnityEngine.Experimental.XR.TrackableId obj)
         {
-            var stage = ComponentExt.FindAny<StageExtensions>();
-            var mapper = stage.GetComponent<MLSpatialMapper>();
             var mesh = mapper.meshIdToGameObjectMap[obj];
             var rend = mesh.GetComponent<Renderer>();
             rend.SetMaterial(CurrentMaterial);
