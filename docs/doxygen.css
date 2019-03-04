@@ -16,6 +16,10 @@ body, table, div, p, dl, p.reference, p.definition {
 	color: white;
 }
 
+#projectname {
+	text-decoration: none;
+}
+
 /* @group Heading Levels */
 
 h1.groupheader {
@@ -45,16 +49,7 @@ h3.groupheader {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	-webkit-transition: text-shadow 0.5s linear;
-	-moz-transition: text-shadow 0.5s linear;
-	-ms-transition: text-shadow 0.5s linear;
-	-o-transition: text-shadow 0.5s linear;
-	transition: text-shadow 0.5s linear;
 	margin-right: 15px;
-}
-
-h1.glow, h2.glow, h3.glow, h4.glow, h5.glow, h6.glow {
-	text-shadow: 0 0 15px cyan;
 }
 
 dt {
@@ -133,15 +128,10 @@ div.navtab {
 a {
 	color: #344154;
 	font-weight: normal;
-	text-decoration: none;
 }
 
 .contents a:visited {
 	color: #405067;
-}
-
-a:hover {
-	text-decoration: underline;
 }
 
 a.qindex {
@@ -631,18 +621,9 @@ table.memberdecls {
 	padding: 6px 0px 6px 0px;
 	color: #192029;
 	font-weight: bold;
-	text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.9);
 	background-color: #D7DEE6;
-	/* opera specific markup */
 	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
 	border-top-right-radius: 4px;
-	/* firefox specific markup */
-	-moz-box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 5px;
-	-moz-border-radius-topright: 4px;
-	/* webkit specific markup */
-	-webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
-	-webkit-border-top-right-radius: 4px;
-
 }
 
 .overload {
@@ -747,7 +728,6 @@ span.mlabel {
 	border-left:1px solid #4C5F7B;
 	border-right:1px solid #B8C3D3;
 	border-bottom:1px solid #B8C3D3;
-	text-shadow: none;
 	color: white;
 	margin-right: 4px;
 	padding: 2px 3px;
@@ -1033,9 +1013,7 @@ table.fieldtable {
 {
 	height:32px;
 	display:block;
-	text-decoration: none;
 	outline: none;
-	text-decoration: none;
 }
 
 .navpath li.navelem a:hover
@@ -1753,8 +1731,4 @@ tt, code, kbd, samp
 	direction:ltr; 
 }
 /* @end */
-
-u {
-	text-decoration: underline;
-}
 

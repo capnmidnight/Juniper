@@ -54,8 +54,8 @@
 	box-sizing:border-box;
 }
 
-.sm-dox{
-
+ul.sm-dox > li > a {
+    color: white;
 }
 
 .sm-dox a,.sm-dox a:focus,.sm-dox a:hover,.sm-dox a:active{
@@ -64,14 +64,7 @@
 	font-size:13px;
 	font-weight:bold;
 	line-height:36px;
-	text-decoration:none;
-	color: white;
 	outline:0;
-}
-
-.sm-dox a:hover{
-	color:white;
-	text-shadow:0 1px 1px black
 }
 
 .sm-dox a.current{
@@ -93,7 +86,6 @@
 	overflow:hidden;
 	font:bold 12px/28px monospace !important;
 	text-align:center;
-	text-shadow:none;
 	background:rgba(255,255,255,0.5);
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
@@ -131,14 +123,7 @@
 	font-size:12px;
 	border-left:8px solid transparent;
 	line-height:36px;
-	text-shadow:none;
 	background-color:white;
-}
-
-.sm-dox ul a:hover{
-	background-repeat:repeat-x;
-	color:white;
-	text-shadow:0 1px 1px black
 }
 
 .sm-dox ul ul a,.sm-dox ul ul a:hover,.sm-dox ul ul a:focus,.sm-dox ul ul a:active{
@@ -213,12 +198,6 @@
 		border-radius:0 !important;
 	}
 
-	.sm-dox a:hover{
-		background-repeat:repeat-x;
-		color:white;
-		text-shadow:0 1px 1px black
-	}
-
 	.sm-dox a:hover span.sub-arrow{
 		border-color:white transparent transparent transparent
 	}
@@ -275,12 +254,6 @@
 	.sm-dox ul a,.sm-dox ul a:hover,.sm-dox ul a:focus,.sm-dox ul a:active,.sm-dox ul a.highlighted{
 		color:#555;
 		border:0 !important;
-	}
-
-	.sm-dox ul a:hover{
-		background-repeat:repeat-x;
-		color:white;
-		text-shadow:0 1px 1px black
 	}
 
 	.sm-dox ul a:hover span.sub-arrow{
