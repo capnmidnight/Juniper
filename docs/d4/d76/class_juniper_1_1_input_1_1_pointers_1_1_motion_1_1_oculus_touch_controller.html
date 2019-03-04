@@ -155,10 +155,6 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a0911af45ad2b756e46efccebec6f35c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a199d36e599ddcd34f81732ed09373a02"><td class="memItemLeft" align="right" valign="top">override bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a199d36e599ddcd34f81732ed09373a02">IsLeftHand</a></td></tr>
 <tr class="separator:a199d36e599ddcd34f81732ed09373a02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0da19e973110d6e7cda62aa4aeb64267"><td class="memItemLeft" align="right" valign="top">override bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a0da19e973110d6e7cda62aa4aeb64267">AnyButtonPressed</a></td></tr>
-<tr class="separator:a0da19e973110d6e7cda62aa4aeb64267"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13ca8bf3b81d5d501861209a83e414f9"><td class="memItemLeft" align="right" valign="top">override bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a13ca8bf3b81d5d501861209a83e414f9">IsDragging</a></td></tr>
-<tr class="separator:a13ca8bf3b81d5d501861209a83e414f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -201,6 +197,10 @@ Properties</h2></td></tr>
 <tr class="separator:a4cecbcb53e5bee78b45094fced34f654"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32fb019d83ff58852618a7969666ac20"><td class="memItemLeft" align="right" valign="top">abstract float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a32fb019d83ff58852618a7969666ac20">Trigger</a><code> [get]</code></td></tr>
 <tr class="separator:a32fb019d83ff58852618a7969666ac20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0da19e973110d6e7cda62aa4aeb64267"><td class="memItemLeft" align="right" valign="top">override bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a0da19e973110d6e7cda62aa4aeb64267">AnyButtonPressed</a><code> [get]</code></td></tr>
+<tr class="separator:a0da19e973110d6e7cda62aa4aeb64267"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13ca8bf3b81d5d501861209a83e414f9"><td class="memItemLeft" align="right" valign="top">override bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a13ca8bf3b81d5d501861209a83e414f9">IsDragging</a><code> [get]</code></td></tr>
+<tr class="separator:a13ca8bf3b81d5d501861209a83e414f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -216,7 +216,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A motion controller or hand-tracking. Currently only implements WindowsMR. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00032">32</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00030">30</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ab032407cb400da5d7760c8f7d5d5d679"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab032407cb400da5d7760c8f7d5d5d679">&#9670;&nbsp;</a></span>Awake()</h2>
@@ -241,12 +241,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00147">147</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        {</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            base.Awake();</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            AddButton(<a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#aac5cbc8efcc7473488ae02fb232f20df">TRIGGER_BUTTON</a>, <a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Left);</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            AddButton(<a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#aa78d0c789ce4aa3bc9b1f847827931bc">TOUCHPAD_BUTTON</a>, <a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Right);</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            AddButton(OVRInput.Button.Back, <a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Middle);</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        }</div><div class="ttc" id="_hover_craft_8cs_html_a5c50200d19d49e922dc81f88da2bcbf9"><div class="ttname"><a href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a></div><div class="ttdeci">UnityEngine.EventSystems.PointerEventData.InputButton InputButton</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00005">HoverCraft.cs:5</a></div></div>
-<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller_html_aa78d0c789ce4aa3bc9b1f847827931bc"><div class="ttname"><a href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#aa78d0c789ce4aa3bc9b1f847827931bc">Juniper.Input.Pointers.Motion.OculusTouchController.TOUCHPAD_BUTTON</a></div><div class="ttdeci">const OVRInput.Button TOUCHPAD_BUTTON</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00085">OculusTouchController.cs:85</a></div></div>
-<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller_html_aac5cbc8efcc7473488ae02fb232f20df"><div class="ttname"><a href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#aac5cbc8efcc7473488ae02fb232f20df">Juniper.Input.Pointers.Motion.OculusTouchController.TRIGGER_BUTTON</a></div><div class="ttdeci">const OVRInput.Button TRIGGER_BUTTON</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00086">OculusTouchController.cs:86</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00141">141</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        {</div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            base.Awake();</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            AddButton(<a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#aac5cbc8efcc7473488ae02fb232f20df">TRIGGER_BUTTON</a>, <a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Left);</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            AddButton(<a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#aa78d0c789ce4aa3bc9b1f847827931bc">TOUCHPAD_BUTTON</a>, <a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Right);</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            AddButton(OVRInput.Button.Back, <a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Middle);</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        }</div><div class="ttc" id="_hover_craft_8cs_html_a5c50200d19d49e922dc81f88da2bcbf9"><div class="ttname"><a href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a></div><div class="ttdeci">UnityEngine.EventSystems.PointerEventData.InputButton InputButton</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00005">HoverCraft.cs:5</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller_html_aa78d0c789ce4aa3bc9b1f847827931bc"><div class="ttname"><a href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#aa78d0c789ce4aa3bc9b1f847827931bc">Juniper.Input.Pointers.Motion.OculusTouchController.TOUCHPAD_BUTTON</a></div><div class="ttdeci">const OVRInput.Button TOUCHPAD_BUTTON</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00083">OculusTouchController.cs:83</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller_html_aac5cbc8efcc7473488ae02fb232f20df"><div class="ttname"><a href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#aac5cbc8efcc7473488ae02fb232f20df">Juniper.Input.Pointers.Motion.OculusTouchController.TRIGGER_BUTTON</a></div><div class="ttdeci">const OVRInput.Button TRIGGER_BUTTON</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00084">OculusTouchController.cs:84</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00085">Juniper.Input.Pointers.Motion.OculusTouchController.TOUCHPAD_BUTTON</a>, and <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00086">Juniper.Input.Pointers.Motion.OculusTouchController.TRIGGER_BUTTON</a>.</p>
+<p class="reference">References <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00083">Juniper.Input.Pointers.Motion.OculusTouchController.TOUCHPAD_BUTTON</a>, and <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00084">Juniper.Input.Pointers.Motion.OculusTouchController.TRIGGER_BUTTON</a>.</p>
 
 </div>
 </div>
@@ -274,14 +274,14 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00089">89</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            reset &amp;= Application.isEditor;</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            base.Install(reset);</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            PointerConfig.Install(<a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">touchPadButtons</a>, gameObject);</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            PointerConfig.Install(<a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">triggerButtons</a>, gameObject);</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#if UNITY_EDITOR</span></div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordflow">if</span> (LaserPointerMaterial == <span class="keyword">null</span>)</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            {</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                LaserPointerMaterial = <a class="code" href="../../d8/d5f/namespace_unity_editor.html">UnityEditor</a>.AssetDatabase.LoadAssetAtPath&lt;Material&gt;(</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                    <a class="code" href="../../d8/dd0/namespace_system.html">System</a>.<a class="code" href="../../dc/d30/namespace_system_1_1_i_o.html">IO</a>.<a class="code" href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html">PathExt</a>.<a class="code" href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html#a9035d7dafebaf274171d5814827a03a3">FixPath</a>(<span class="stringliteral">&quot;Assets/Juniper/Materials/LaserPointer.mat&quot;</span>));</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            }</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        }</div><div class="ttc" id="class_system_1_1_i_o_1_1_path_ext_html_a9035d7dafebaf274171d5814827a03a3"><div class="ttname"><a href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html#a9035d7dafebaf274171d5814827a03a3">System.IO.PathExt.FixPath</a></div><div class="ttdeci">static string FixPath(string path)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d16/_path_ext_8cs_source.html#l00010">PathExt.cs:10</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00103">103</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        {</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            reset &amp;= Application.isEditor;</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            base.Install(reset);</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            PointerConfig.Install(<a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">touchPadButtons</a>, gameObject);</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            PointerConfig.Install(<a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">triggerButtons</a>, gameObject);</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#if UNITY_EDITOR</span></div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="keywordflow">if</span> (LaserPointerMaterial == <span class="keyword">null</span>)</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            {</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                LaserPointerMaterial = <a class="code" href="../../d8/d5f/namespace_unity_editor.html">UnityEditor</a>.AssetDatabase.LoadAssetAtPath&lt;Material&gt;(</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                    <a class="code" href="../../d8/dd0/namespace_system.html">System</a>.<a class="code" href="../../dc/d30/namespace_system_1_1_i_o.html">IO</a>.<a class="code" href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html">PathExt</a>.<a class="code" href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html#a9035d7dafebaf274171d5814827a03a3">FixPath</a>(<span class="stringliteral">&quot;Assets/Juniper/Materials/LaserPointer.mat&quot;</span>));</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            }</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        }</div><div class="ttc" id="class_system_1_1_i_o_1_1_path_ext_html_a9035d7dafebaf274171d5814827a03a3"><div class="ttname"><a href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html#a9035d7dafebaf274171d5814827a03a3">System.IO.PathExt.FixPath</a></div><div class="ttdeci">static string FixPath(string path)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d16/_path_ext_8cs_source.html#l00010">PathExt.cs:10</a></div></div>
 <div class="ttc" id="namespace_system_html"><div class="ttname"><a href="../../d8/dd0/namespace_system.html">System</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d32/_array_ext_8cs_source.html#l00004">ArrayExt.cs:4</a></div></div>
-<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_ae76fc6a63e9e7760dae3abc1da8ad91d"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::touchPadButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTouchPadButton &gt; touchPadButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00069">AbstractMotionController.cs:69</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_ae76fc6a63e9e7760dae3abc1da8ad91d"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::touchPadButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTouchPadButton &gt; touchPadButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00083">AbstractMotionController.cs:83</a></div></div>
 <div class="ttc" id="namespace_unity_editor_html"><div class="ttname"><a href="../../d8/d5f/namespace_unity_editor.html">UnityEditor</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d24/_serialized_property_ext_8cs_source.html#l00006">SerializedPropertyExt.cs:6</a></div></div>
 <div class="ttc" id="namespace_system_1_1_i_o_html"><div class="ttname"><a href="../../dc/d30/namespace_system_1_1_i_o.html">System.IO</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dcd/_directory_ext_8cs_source.html#l00003">DirectoryExt.cs:3</a></div></div>
 <div class="ttc" id="class_system_1_1_i_o_1_1_path_ext_html"><div class="ttname"><a href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html">System.IO.PathExt</a></div><div class="ttdoc">A static class containing a few functions that the normal System.IO.Path class does not contain.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d16/_path_ext_8cs_source.html#l00008">PathExt.cs:8</a></div></div>
-<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a4cb2bfc26538de3bf726380c2737d11c"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::triggerButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTriggerButton &gt; triggerButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00070">AbstractMotionController.cs:70</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a4cb2bfc26538de3bf726380c2737d11c"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::triggerButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTriggerButton &gt; triggerButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00084">AbstractMotionController.cs:84</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -308,8 +308,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00156">156</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        {</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            transform.localPosition = OVRInput.GetLocalControllerPosition(NativeHandID);</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            transform.localRotation = OVRInput.GetLocalControllerRotation(NativeHandID);</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            base.InternalUpdate();</div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00150">150</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        {</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            transform.localPosition = OVRInput.GetLocalControllerPosition(NativeHandID);</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            transform.localRotation = OVRInput.GetLocalControllerRotation(NativeHandID);</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            base.InternalUpdate();</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a34ec59cb3296f83cc87f039e7402e672"></a>
@@ -349,11 +349,15 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00155">155</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        {</div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a144fa613ab035a97f68e33cab34a1e5a">VirtualButtonInBounds</a>(button) &amp;&amp; <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a2eda4901f434bb54288e1cabf7bca113">TouchPadPressedDown</a>;</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a144fa613ab035a97f68e33cab34a1e5a"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a144fa613ab035a97f68e33cab34a1e5a">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::VirtualButtonInBounds</a></div><div class="ttdeci">bool VirtualButtonInBounds(VirtualTouchPadButton button)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00324">AbstractMotionController.cs:324</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a2eda4901f434bb54288e1cabf7bca113"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a2eda4901f434bb54288e1cabf7bca113">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::TouchPadPressedDown</a></div><div class="ttdeci">abstract bool TouchPadPressedDown</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00214">AbstractMotionController.cs:214</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="ac9aee5feee5ca543c28857d8d879d89f"></a>
@@ -375,11 +379,16 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00170">170</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        {</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a47d59d25c3b66c74c9f892314968ed30">VirtualTriggerButtonThreshold</a>(button, <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a32fb019d83ff58852618a7969666ac20">Trigger</a>)</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                &amp;&amp; !<a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a47d59d25c3b66c74c9f892314968ed30">VirtualTriggerButtonThreshold</a>(button, <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae777b195da4422ee51e60fb5d1821746">lastTrigger</a>);</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a32fb019d83ff58852618a7969666ac20"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a32fb019d83ff58852618a7969666ac20">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::Trigger</a></div><div class="ttdeci">abstract float Trigger</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00132">AbstractMotionController.cs:132</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_ae777b195da4422ee51e60fb5d1821746"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae777b195da4422ee51e60fb5d1821746">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::lastTrigger</a></div><div class="ttdeci">float lastTrigger</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00136">AbstractMotionController.cs:136</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a47d59d25c3b66c74c9f892314968ed30"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a47d59d25c3b66c74c9f892314968ed30">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::VirtualTriggerButtonThreshold</a></div><div class="ttdeci">bool VirtualTriggerButtonThreshold(VirtualTriggerButton button, float triggerValue)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00331">AbstractMotionController.cs:331</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a835f3268e4859f82ebb3aa3a61933a95"></a>
@@ -401,11 +410,16 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00317">317</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        {</div><div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            <span class="keywordflow">return</span> base.IsButtonDown(button)</div><div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;                || <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">touchPadButtons</a>.<a class="code" href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a7716d95ebabad093bc29624b1a80d4cd">IsButtonDown</a>(button)</div><div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;                || <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">triggerButtons</a>.<a class="code" href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a7716d95ebabad093bc29624b1a80d4cd">IsButtonDown</a>(button);</div><div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_ae76fc6a63e9e7760dae3abc1da8ad91d"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::touchPadButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTouchPadButton &gt; touchPadButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00083">AbstractMotionController.cs:83</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_button_mapper_html_a7716d95ebabad093bc29624b1a80d4cd"><div class="ttname"><a href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a7716d95ebabad093bc29624b1a80d4cd">Juniper.Input.Pointers.ButtonMapper.IsButtonDown</a></div><div class="ttdeci">bool IsButtonDown(InputButton button)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d6a/_button_mapper_8cs_source.html#l00108">ButtonMapper.cs:108</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a4cb2bfc26538de3bf726380c2737d11c"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::triggerButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTriggerButton &gt; triggerButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00084">AbstractMotionController.cs:84</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="ab6da59716155e084b8d9f1652dee8e86"></a>
@@ -445,11 +459,15 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00150">150</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        {</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a144fa613ab035a97f68e33cab34a1e5a">VirtualButtonInBounds</a>(button) &amp;&amp; <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a82284d38333c3cf5797aa09bd16548cc">TouchPadPressed</a>;</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a144fa613ab035a97f68e33cab34a1e5a"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a144fa613ab035a97f68e33cab34a1e5a">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::VirtualButtonInBounds</a></div><div class="ttdeci">bool VirtualButtonInBounds(VirtualTouchPadButton button)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00324">AbstractMotionController.cs:324</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a82284d38333c3cf5797aa09bd16548cc"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a82284d38333c3cf5797aa09bd16548cc">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::TouchPadPressed</a></div><div class="ttdeci">abstract bool TouchPadPressed</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00209">AbstractMotionController.cs:209</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="abd0b85dde4573b5e35a959b3c7856b93"></a>
@@ -471,11 +489,15 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00165">165</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        {</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a47d59d25c3b66c74c9f892314968ed30">VirtualTriggerButtonThreshold</a>(button, <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a32fb019d83ff58852618a7969666ac20">Trigger</a>);</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a32fb019d83ff58852618a7969666ac20"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a32fb019d83ff58852618a7969666ac20">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::Trigger</a></div><div class="ttdeci">abstract float Trigger</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00132">AbstractMotionController.cs:132</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a47d59d25c3b66c74c9f892314968ed30"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a47d59d25c3b66c74c9f892314968ed30">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::VirtualTriggerButtonThreshold</a></div><div class="ttdeci">bool VirtualTriggerButtonThreshold(VirtualTriggerButton button, float triggerValue)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00331">AbstractMotionController.cs:331</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a74779359c7e192f8d5896f1ec6c923cd"></a>
@@ -497,11 +519,16 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00303">303</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        {</div><div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            <span class="keywordflow">return</span> base.IsButtonPressed(button)</div><div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                || <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">touchPadButtons</a>.<a class="code" href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#ac08231b1141bb49d1418842727e8a7b0">IsButtonPressed</a>(button)</div><div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;                || <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">triggerButtons</a>.<a class="code" href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#ac08231b1141bb49d1418842727e8a7b0">IsButtonPressed</a>(button);</div><div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_button_mapper_html_ac08231b1141bb49d1418842727e8a7b0"><div class="ttname"><a href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#ac08231b1141bb49d1418842727e8a7b0">Juniper.Input.Pointers.ButtonMapper.IsButtonPressed</a></div><div class="ttdeci">bool IsButtonPressed(InputButton button)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d6a/_button_mapper_8cs_source.html#l00120">ButtonMapper.cs:120</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_ae76fc6a63e9e7760dae3abc1da8ad91d"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::touchPadButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTouchPadButton &gt; touchPadButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00083">AbstractMotionController.cs:83</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a4cb2bfc26538de3bf726380c2737d11c"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::triggerButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTriggerButton &gt; triggerButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00084">AbstractMotionController.cs:84</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="abe867ab632f700a73dfec3c4236ca47c"></a>
@@ -541,11 +568,15 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00160">160</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        {</div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a144fa613ab035a97f68e33cab34a1e5a">VirtualButtonInBounds</a>(button) &amp;&amp; <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a50aeef54f8e38748983e9565d0fba0f1">TouchPadPressedUp</a>;</div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a144fa613ab035a97f68e33cab34a1e5a"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a144fa613ab035a97f68e33cab34a1e5a">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::VirtualButtonInBounds</a></div><div class="ttdeci">bool VirtualButtonInBounds(VirtualTouchPadButton button)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00324">AbstractMotionController.cs:324</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a50aeef54f8e38748983e9565d0fba0f1"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a50aeef54f8e38748983e9565d0fba0f1">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::TouchPadPressedUp</a></div><div class="ttdeci">abstract bool TouchPadPressedUp</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00219">AbstractMotionController.cs:219</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a705aea13c1bd7db4618880540ed4039e"></a>
@@ -567,11 +598,16 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00176">176</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        {</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            <span class="keywordflow">return</span> !<a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a47d59d25c3b66c74c9f892314968ed30">VirtualTriggerButtonThreshold</a>(button, <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a32fb019d83ff58852618a7969666ac20">Trigger</a>)</div><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                &amp;&amp; <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a47d59d25c3b66c74c9f892314968ed30">VirtualTriggerButtonThreshold</a>(button, <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae777b195da4422ee51e60fb5d1821746">lastTrigger</a>);</div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a32fb019d83ff58852618a7969666ac20"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a32fb019d83ff58852618a7969666ac20">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::Trigger</a></div><div class="ttdeci">abstract float Trigger</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00132">AbstractMotionController.cs:132</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_ae777b195da4422ee51e60fb5d1821746"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae777b195da4422ee51e60fb5d1821746">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::lastTrigger</a></div><div class="ttdeci">float lastTrigger</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00136">AbstractMotionController.cs:136</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a47d59d25c3b66c74c9f892314968ed30"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a47d59d25c3b66c74c9f892314968ed30">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::VirtualTriggerButtonThreshold</a></div><div class="ttdeci">bool VirtualTriggerButtonThreshold(VirtualTriggerButton button, float triggerValue)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00331">AbstractMotionController.cs:331</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="af9e4a2eb27257a2026d42143f2b8e6f4"></a>
@@ -593,11 +629,16 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00310">310</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        {</div><div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            <span class="keywordflow">return</span> base.IsButtonUp(button)</div><div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                || <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">touchPadButtons</a>.<a class="code" href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a54714093c53c55a6a67010f2d6e02e46">IsButtonUp</a>(button)</div><div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                || <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">triggerButtons</a>.<a class="code" href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a54714093c53c55a6a67010f2d6e02e46">IsButtonUp</a>(button);</div><div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_ae76fc6a63e9e7760dae3abc1da8ad91d"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::touchPadButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTouchPadButton &gt; touchPadButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00083">AbstractMotionController.cs:83</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_button_mapper_html_a54714093c53c55a6a67010f2d6e02e46"><div class="ttname"><a href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a54714093c53c55a6a67010f2d6e02e46">Juniper.Input.Pointers.ButtonMapper.IsButtonUp</a></div><div class="ttdeci">bool IsButtonUp(InputButton button)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d6a/_button_mapper_8cs_source.html#l00114">ButtonMapper.cs:114</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a4cb2bfc26538de3bf726380c2737d11c"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::triggerButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTriggerButton &gt; triggerButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00084">AbstractMotionController.cs:84</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a89f86924a80739f6eda7ed9bebc1109c"></a>
@@ -634,10 +675,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00222">222</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        {</div><div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            var a = base.ProcessButtons(evtData, pixelDragThresholdSquared);</div><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            var b = <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">touchPadButtons</a>.<a class="code" href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a9c0e130d5cba888b5c108b6075fe0a5e">Process</a>(evtData, pixelDragThresholdSquared);</div><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            var c = <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">triggerButtons</a>.<a class="code" href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a9c0e130d5cba888b5c108b6075fe0a5e">Process</a>(evtData, pixelDragThresholdSquared);</div><div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            <span class="keywordflow">return</span> a ?? b ?? c;</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_ae76fc6a63e9e7760dae3abc1da8ad91d"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::touchPadButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTouchPadButton &gt; touchPadButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00069">AbstractMotionController.cs:69</a></div></div>
-<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_button_mapper_html_a9c0e130d5cba888b5c108b6075fe0a5e"><div class="ttname"><a href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a9c0e130d5cba888b5c108b6075fe0a5e">Juniper.Input.Pointers.ButtonMapper.Process</a></div><div class="ttdeci">IEventSystemHandler Process(PointerEventData eventData, float pixelDragThresholdSquared)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d6a/_button_mapper_8cs_source.html#l00111">ButtonMapper.cs:111</a></div></div>
-<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a4cb2bfc26538de3bf726380c2737d11c"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::triggerButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTriggerButton &gt; triggerButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00070">AbstractMotionController.cs:70</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00284">284</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        {</div><div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;            var a = base.ProcessButtons(evtData, pixelDragThresholdSquared);</div><div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;            var b = <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">touchPadButtons</a>.<a class="code" href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a9c0e130d5cba888b5c108b6075fe0a5e">Process</a>(evtData, pixelDragThresholdSquared);</div><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            var c = <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">triggerButtons</a>.<a class="code" href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a9c0e130d5cba888b5c108b6075fe0a5e">Process</a>(evtData, pixelDragThresholdSquared);</div><div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;</div><div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;            <span class="keywordflow">return</span> a ?? b ?? c;</div><div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_ae76fc6a63e9e7760dae3abc1da8ad91d"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::touchPadButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTouchPadButton &gt; touchPadButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00083">AbstractMotionController.cs:83</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_button_mapper_html_a9c0e130d5cba888b5c108b6075fe0a5e"><div class="ttname"><a href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a9c0e130d5cba888b5c108b6075fe0a5e">Juniper.Input.Pointers.ButtonMapper.Process</a></div><div class="ttdeci">IEventSystemHandler Process(PointerEventData eventData, float pixelDragThresholdSquared)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d6a/_button_mapper_8cs_source.html#l00131">ButtonMapper.cs:131</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a4cb2bfc26538de3bf726380c2737d11c"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::triggerButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTriggerButton &gt; triggerButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00084">AbstractMotionController.cs:84</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -665,8 +706,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00161">161</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        {</div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            var pLen = point.magnitude;</div><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <span class="keywordflow">if</span> (pLen &gt; 0)</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            {</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                var onUnitCircle = point / pLen;</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                <span class="keywordtype">float</span> mx = Mathf.Abs(onUnitCircle.x),</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                    my = Mathf.Abs(onUnitCircle.y);</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                var onUnitSquare = onUnitCircle;</div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                <span class="keywordflow">if</span> (mx &gt; my)</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                {</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                    onUnitSquare /= mx;</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                }</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (my &gt; 0)</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                {</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                    onUnitSquare /= my;</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                }</div><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;</div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                point *= onUnitSquare.magnitude;</div><div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            }</div><div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="keywordflow">return</span> point;</div><div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00223">223</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        {</div><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            var pLen = point.magnitude;</div><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            <span class="keywordflow">if</span> (pLen &gt; 0)</div><div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            {</div><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                var onUnitCircle = point / pLen;</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                <span class="keywordtype">float</span> mx = Mathf.Abs(onUnitCircle.x),</div><div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                    my = Mathf.Abs(onUnitCircle.y);</div><div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div><div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                var onUnitSquare = onUnitCircle;</div><div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                <span class="keywordflow">if</span> (mx &gt; my)</div><div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                {</div><div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                    onUnitSquare /= mx;</div><div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                }</div><div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (my &gt; 0)</div><div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                {</div><div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                    onUnitSquare /= my;</div><div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                }</div><div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;</div><div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                point *= onUnitSquare.magnitude;</div><div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            }</div><div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            <span class="keywordflow">return</span> point;</div><div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="af7307e001cabce274c4c99a0041d0a4f"></a>
@@ -693,36 +734,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00185">185</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        {</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            var pLen = point.magnitude;</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            <span class="keywordflow">if</span> (pLen &gt; 0)</div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;            {</div><div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                var onUnitCircle = point / pLen;</div><div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                var onUnitSquare = <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a789e891a2aa814792f317c73ac779aa7">Round2Square</a>(onUnitCircle);</div><div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                point /= onUnitSquare.magnitude;</div><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            }</div><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            <span class="keywordflow">return</span> point;</div><div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a789e891a2aa814792f317c73ac779aa7"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a789e891a2aa814792f317c73ac779aa7">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::Round2Square</a></div><div class="ttdeci">static Vector2 Round2Square(Vector2 point)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00161">AbstractMotionController.cs:161</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00247">247</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        {</div><div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            var pLen = point.magnitude;</div><div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            <span class="keywordflow">if</span> (pLen &gt; 0)</div><div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            {</div><div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                var onUnitCircle = point / pLen;</div><div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                var onUnitSquare = <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a789e891a2aa814792f317c73ac779aa7">Round2Square</a>(onUnitCircle);</div><div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                point /= onUnitSquare.magnitude;</div><div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            }</div><div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            <span class="keywordflow">return</span> point;</div><div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a789e891a2aa814792f317c73ac779aa7"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a789e891a2aa814792f317c73ac779aa7">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::Round2Square</a></div><div class="ttdeci">static Vector2 Round2Square(Vector2 point)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00223">AbstractMotionController.cs:223</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a0da19e973110d6e7cda62aa4aeb64267"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0da19e973110d6e7cda62aa4aeb64267">&#9670;&nbsp;</a></span>AnyButtonPressed</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">override bool <a class="el" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html">Juniper.Input.Pointers.Motion.AbstractMotionController</a>&lt; HandIDType, ButtonIDType, ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a37a8b3604acd65fd8d72a4d3469ef944">HapticsType</a> &gt;.AnyButtonPressed</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00143">143</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
-
-</div>
-</div>
 <a id="ad046c0412dc260ad65ed6d5223726fa8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad046c0412dc260ad65ed6d5223726fa8">&#9670;&nbsp;</a></span>BatteryLevel</h2>
 
@@ -735,7 +752,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            0.01f * OVRInput.GetControllerBatteryPercentRemaining(NativeHandID)</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00128">128</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00122">122</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -751,7 +768,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            OVRPlugin.batteryStatus == OVRPlugin.BatteryStatus.Charging</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00125">125</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00119">119</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -767,31 +784,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            OVRInput.IsControllerConnected(NativeHandID)</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00080">80</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
-
-</div>
-</div>
-<a id="a13ca8bf3b81d5d501861209a83e414f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13ca8bf3b81d5d501861209a83e414f9">&#9670;&nbsp;</a></span>IsDragging</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">override bool <a class="el" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html">Juniper.Input.Pointers.Motion.AbstractMotionController</a>&lt; HandIDType, ButtonIDType, ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a37a8b3604acd65fd8d72a4d3469ef944">HapticsType</a> &gt;.IsDragging</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00231">231</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00078">78</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -807,7 +800,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            NativeHandID == OVRInput.Controller.LTouch || NativeHandID == OVRInput.Controller.LTrackedRemote</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00144">144</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00138">138</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -823,7 +816,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            NativeHandID == OVRInput.Controller.RTouch || NativeHandID == OVRInput.Controller.RTrackedRemote</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00141">141</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00135">135</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -839,7 +832,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#af7307e001cabce274c4c99a0041d0a4f">Square2Round</a>(<a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a058a373b02f545f656f80769ac5ebbb2">SquareTouchPoint</a>)</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00111">111</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00107">107</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -855,7 +848,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            OVRInput.Get(<a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a0d6518d1b5f2f1891ee7f81939c73c4c">TOUCHPAD_AXIS</a>, NativeHandID)</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00108">108</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00104">104</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -879,7 +872,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00083">83</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00081">81</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -903,9 +896,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00085">85</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00083">83</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00147">Juniper.Input.Pointers.Motion.OculusTouchController.Awake()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00141">Juniper.Input.Pointers.Motion.OculusTouchController.Awake()</a>.</p>
 
 </div>
 </div>
@@ -929,7 +922,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00084">84</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00082">82</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -953,7 +946,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00069">69</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00083">83</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
 
 </div>
 </div>
@@ -977,7 +970,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            OVRInput.Get(<a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#aa78d0c789ce4aa3bc9b1f847827931bc">TOUCHPAD_BUTTON</a>, NativeHandID)</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00098">98</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00095">95</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -1001,7 +994,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            OVRInput.GetDown(<a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#aa78d0c789ce4aa3bc9b1f847827931bc">TOUCHPAD_BUTTON</a>, NativeHandID)</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00101">101</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00098">98</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -1025,7 +1018,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            OVRInput.GetUp(<a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#aa78d0c789ce4aa3bc9b1f847827931bc">TOUCHPAD_BUTTON</a>, NativeHandID)</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00104">104</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00101">101</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -1049,7 +1042,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            OVRInput.Get(<a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a978ff73ec7db2736405e30db90d4a393">TOUCHPAD_TOUCH</a>, NativeHandID)</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00088">88</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00086">86</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -1073,7 +1066,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            OVRInput.GetDown(<a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a978ff73ec7db2736405e30db90d4a393">TOUCHPAD_TOUCH</a>, NativeHandID)</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00091">91</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00089">89</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -1097,7 +1090,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            OVRInput.GetUp(<a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a978ff73ec7db2736405e30db90d4a393">TOUCHPAD_TOUCH</a>, NativeHandID)</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00094">94</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00092">92</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
 </div>
 </div>
@@ -1121,9 +1114,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00086">86</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00084">84</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00147">Juniper.Input.Pointers.Motion.OculusTouchController.Awake()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00141">Juniper.Input.Pointers.Motion.OculusTouchController.Awake()</a>.</p>
 
 </div>
 </div>
@@ -1147,11 +1140,38 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00070">70</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00084">84</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
+<a id="a0da19e973110d6e7cda62aa4aeb64267"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0da19e973110d6e7cda62aa4aeb64267">&#9670;&nbsp;</a></span>AnyButtonPressed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">override bool <a class="el" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html">Juniper.Input.Pointers.Motion.AbstractMotionController</a>&lt; HandIDType, ButtonIDType, ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a37a8b3604acd65fd8d72a4d3469ef944">HapticsType</a> &gt;.AnyButtonPressed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00183">183</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        {</div><div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            {</div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                <span class="keywordflow">return</span> base.AnyButtonPressed</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                    || <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ac396811ddb3eef42946b9ae040bd5565">IsButtonPressed</a>(<a class="code" href="../../d7/de5/namespace_juniper_1_1_input.html#ad5afcad5323b73bcac5c9707f1746ffa">VirtualTouchPadButton</a>.Any)</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                    || <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ac396811ddb3eef42946b9ae040bd5565">IsButtonPressed</a>(<a class="code" href="../../d7/de5/namespace_juniper_1_1_input.html#a2142c978c8700c9702ef9fe45dce440d">VirtualTriggerButton</a>.On)</div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                    || <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ac396811ddb3eef42946b9ae040bd5565">IsButtonPressed</a>(<a class="code" href="../../d7/de5/namespace_juniper_1_1_input.html#a2142c978c8700c9702ef9fe45dce440d">VirtualTriggerButton</a>.Full);</div><div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            }</div><div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_ac396811ddb3eef42946b9ae040bd5565"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ac396811ddb3eef42946b9ae040bd5565">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::IsButtonPressed</a></div><div class="ttdeci">bool IsButtonPressed(VirtualTouchPadButton button)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00150">AbstractMotionController.cs:150</a></div></div>
+<div class="ttc" id="namespace_juniper_1_1_input_html_ad5afcad5323b73bcac5c9707f1746ffa"><div class="ttname"><a href="../../d7/de5/namespace_juniper_1_1_input.html#ad5afcad5323b73bcac5c9707f1746ffa">Juniper.Input.VirtualTouchPadButton</a></div><div class="ttdeci">VirtualTouchPadButton</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db7/_virtual_touch_pad_button_8cs_source.html#l00004">VirtualTouchPadButton.cs:4</a></div></div>
+<div class="ttc" id="namespace_juniper_1_1_input_html_a2142c978c8700c9702ef9fe45dce440d"><div class="ttname"><a href="../../d7/de5/namespace_juniper_1_1_input.html#a2142c978c8700c9702ef9fe45dce440d">Juniper.Input.VirtualTriggerButton</a></div><div class="ttdeci">VirtualTriggerButton</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d27/_virtual_trigger_button_8cs_source.html#l00003">VirtualTriggerButton.cs:3</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a4cecbcb53e5bee78b45094fced34f654"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4cecbcb53e5bee78b45094fced34f654">&#9670;&nbsp;</a></span>IsDominantHand</h2>
 
@@ -1172,9 +1192,36 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00132">132</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        {</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            {</div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                var dom = OVRInput.GetDominantHand();</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                <span class="keywordflow">return</span> dom == OVRInput.Handedness.LeftHanded &amp;&amp; <a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a199d36e599ddcd34f81732ed09373a02">IsLeftHand</a></div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                      || dom == OVRInput.Handedness.RightHanded &amp;&amp; <a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a0911af45ad2b756e46efccebec6f35c4">IsRightHand</a>;</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            }</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller_html_a0911af45ad2b756e46efccebec6f35c4"><div class="ttname"><a href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a0911af45ad2b756e46efccebec6f35c4">Juniper.Input.Pointers.Motion.OculusTouchController.IsRightHand</a></div><div class="ttdeci">override bool IsRightHand</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00141">OculusTouchController.cs:141</a></div></div>
-<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller_html_a199d36e599ddcd34f81732ed09373a02"><div class="ttname"><a href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a199d36e599ddcd34f81732ed09373a02">Juniper.Input.Pointers.Motion.OculusTouchController.IsLeftHand</a></div><div class="ttdeci">override bool IsLeftHand</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00144">OculusTouchController.cs:144</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00126">126</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        {</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            {</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                var dom = OVRInput.GetDominantHand();</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                <span class="keywordflow">return</span> dom == OVRInput.Handedness.LeftHanded &amp;&amp; <a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a199d36e599ddcd34f81732ed09373a02">IsLeftHand</a></div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                      || dom == OVRInput.Handedness.RightHanded &amp;&amp; <a class="code" href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a0911af45ad2b756e46efccebec6f35c4">IsRightHand</a>;</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            }</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller_html_a0911af45ad2b756e46efccebec6f35c4"><div class="ttname"><a href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a0911af45ad2b756e46efccebec6f35c4">Juniper.Input.Pointers.Motion.OculusTouchController.IsRightHand</a></div><div class="ttdeci">override bool IsRightHand</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00135">OculusTouchController.cs:135</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller_html_a199d36e599ddcd34f81732ed09373a02"><div class="ttname"><a href="../../d4/d76/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a199d36e599ddcd34f81732ed09373a02">Juniper.Input.Pointers.Motion.OculusTouchController.IsLeftHand</a></div><div class="ttdeci">override bool IsLeftHand</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00138">OculusTouchController.cs:138</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a13ca8bf3b81d5d501861209a83e414f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13ca8bf3b81d5d501861209a83e414f9">&#9670;&nbsp;</a></span>IsDragging</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">override bool <a class="el" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html">Juniper.Input.Pointers.Motion.AbstractMotionController</a>&lt; HandIDType, ButtonIDType, ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a37a8b3604acd65fd8d72a4d3469ef944">HapticsType</a> &gt;.IsDragging</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00294">294</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        {</div><div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            {</div><div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                <span class="keywordflow">return</span> base.IsDragging</div><div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                    || <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">touchPadButtons</a>.<a class="code" href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#aba1b8bbd3a497433a3f17a13de8c9f98">AnyDragging</a></div><div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                    || <a class="code" href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">triggerButtons</a>.<a class="code" href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#aba1b8bbd3a497433a3f17a13de8c9f98">AnyDragging</a>;</div><div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            }</div><div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_ae76fc6a63e9e7760dae3abc1da8ad91d"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#ae76fc6a63e9e7760dae3abc1da8ad91d">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::touchPadButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTouchPadButton &gt; touchPadButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00083">AbstractMotionController.cs:83</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_button_mapper_html_aba1b8bbd3a497433a3f17a13de8c9f98"><div class="ttname"><a href="../../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#aba1b8bbd3a497433a3f17a13de8c9f98">Juniper.Input.Pointers.ButtonMapper.AnyDragging</a></div><div class="ttdeci">bool AnyDragging</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d6a/_button_mapper_8cs_source.html#l00050">ButtonMapper.cs:50</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_html_a4cb2bfc26538de3bf726380c2737d11c"><div class="ttname"><a href="../../d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a4cb2bfc26538de3bf726380c2737d11c">Juniper.Input.Pointers.Motion.AbstractMotionController&lt; OVRInput.Controller, OVRInput.Button, OculusTouchProbeConfiguration, NoHaptics &gt;::triggerButtons</a></div><div class="ttdeci">readonly ButtonMapper&lt; VirtualTriggerButton &gt; triggerButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00084">AbstractMotionController.cs:84</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -1198,8 +1245,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00035">35</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        {</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <span class="keywordflow">if</span> (OVRInput.GetDominantHand() == OVRInput.Handedness.LeftHanded)</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                {</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#if UNITY_ANDROID</span></div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                    <span class="keywordflow">return</span> OVRInput.Controller.LTrackedRemote;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#else</span></div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    <span class="keywordflow">return</span> OVRInput.Controller.LTouch;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                }</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">else</span></div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#if UNITY_ANDROID</span></div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                    <span class="keywordflow">return</span> OVRInput.Controller.RTrackedRemote;</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#else</span></div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                    <span class="keywordflow">return</span> OVRInput.Controller.RTouch;</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                }</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            }</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html#l00033">33</a> of file <a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            {</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                <span class="keywordflow">if</span> (OVRInput.GetDominantHand() == OVRInput.Handedness.LeftHanded)</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#if UNITY_ANDROID</span></div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                    <span class="keywordflow">return</span> OVRInput.Controller.LTrackedRemote;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#else</span></div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                    <span class="keywordflow">return</span> OVRInput.Controller.LTouch;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                }</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                <span class="keywordflow">else</span></div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                {</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#if UNITY_ANDROID</span></div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                    <span class="keywordflow">return</span> OVRInput.Controller.RTrackedRemote;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#else</span></div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                    <span class="keywordflow">return</span> OVRInput.Controller.RTouch;</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                }</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            }</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a32fb019d83ff58852618a7969666ac20"></a>
@@ -1222,12 +1269,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00113">113</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;{ <span class="keyword">get</span>; }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html#l00132">132</a> of file <a class="el" href="../../d7/d75/_abstract_motion_controller_8cs_source.html">AbstractMotionController.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        {</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="keyword">get</span>;</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Oculus/<a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Oculus/<a class="el" href="../../db/dfc/_oculus_touch_controller_8cs_source.html">OculusTouchController.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

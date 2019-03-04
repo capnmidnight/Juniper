@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['magicleapdisplaymanager_2ecs',['MagicLeapDisplayManager.cs',['../d1/d92/_magic_leap_display_manager_8cs.html',1,'']]],
   ['magicleapgazepointer_2ecs',['MagicLeapGazePointer.cs',['../dc/dd1/_magic_leap_gaze_pointer_8cs.html',1,'']]],
   ['magicleapground_2ecs',['MagicLeapGround.cs',['../de/d66/_magic_leap_ground_8cs.html',1,'']]],
   ['magicleaphand_2ecs',['MagicLeapHand.cs',['../da/d21/_magic_leap_hand_8cs.html',1,'']]],

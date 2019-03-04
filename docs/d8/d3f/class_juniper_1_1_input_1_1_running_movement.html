@@ -149,7 +149,7 @@ Protected Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -157,6 +157,12 @@ Protected Attributes</h2></td></tr>
 <p>Retrieves configuration values for the default height of the avatar. </p>
 
 <p>Reimplemented in <a class="el" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#a1fe8d0e9e2f541f4904393f6eb03269c">Juniper.Input.HoverCraft</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00022">22</a> of file <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html">AbstractVelocityLocomotion.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a489fc5232093ac8325f868654033b6e6">stage</a> = <a class="code" href="../../d3/d40/class_unity_engine_1_1_component_ext.html">ComponentExt</a>.FindAny&lt;StageExtensions&gt;();</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        }</div><div class="ttc" id="class_unity_engine_1_1_component_ext_html"><div class="ttname"><a href="../../d3/d40/class_unity_engine_1_1_component_ext.html">UnityEngine.ComponentExt</a></div><div class="ttdoc">Extension methods for Unity's Component class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d68/_component_ext_8cs_source.html#l00012">ComponentExt.cs:12</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_abstract_velocity_locomotion_html_a489fc5232093ac8325f868654033b6e6"><div class="ttname"><a href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a489fc5232093ac8325f868654033b6e6">Juniper.Input.AbstractVelocityLocomotion.stage</a></div><div class="ttdeci">StageExtensions stage</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00017">AbstractVelocityLocomotion.cs:17</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00017">Juniper.Input.AbstractVelocityLocomotion.stage</a>.</p>
 
 </div>
 </div>
@@ -187,7 +193,7 @@ Protected Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">11</a> of file <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html">RunningMovement.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        {</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            var horiz = <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a9cdb658ca3de6d25eab2f005a9fecdf2">jink</a> * <a class="code" href="../../d3/d82/namespace_unity_engine.html">UnityEngine</a>.Input.GetAxisRaw(<span class="stringliteral">&quot;Horizontal&quot;</span>);</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            var vert = <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#ae2b6ab3e476f13be12100dc31ffb4343">moveSpeed</a> * <a class="code" href="../../d3/d82/namespace_unity_engine.html">UnityEngine</a>.Input.GetAxisRaw(<span class="stringliteral">&quot;Vertical&quot;</span>);</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            var moveDirection = (horiz * <a class="code" href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>.right) + (vert * <a class="code" href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>.forward);</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="comment">// don&#39;t allow keyboard movement to change the y-velocity.</span></div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            moveDirection.y = 0;</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="comment">// provide a max-limit to move speed, but allow analog values for lower speeds.</span></div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            <span class="keywordflow">if</span> (moveDirection.sqrMagnitude &gt; 1)</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            {</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                moveDirection.Normalize();</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            }</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a5e05c602ad4f75480fc8740dcfc3ce2d">velocity</a> = moveDirection * <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a6d21b585821e8c42ff3d87b3f4ca7ed8">MOVEMENT_SCALE</a>;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            base.Update();</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_abstract_velocity_locomotion_html_a9cdb658ca3de6d25eab2f005a9fecdf2"><div class="ttname"><a href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a9cdb658ca3de6d25eab2f005a9fecdf2">Juniper.Input.AbstractVelocityLocomotion.jink</a></div><div class="ttdeci">float jink</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00012">AbstractVelocityLocomotion.cs:12</a></div></div>
-<div class="ttc" id="_abstract_motion_filter_8cs_html_af3326292fdd04d2b384b6d781d9594f6"><div class="ttname"><a href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a></div><div class="ttdeci">UnityEngine.Vector3 Vector3</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/df7/_abstract_motion_filter_8cs_source.html#l00003">AbstractMotionFilter.cs:3</a></div></div>
+<div class="ttc" id="_abstract_motion_filter_8cs_html_af3326292fdd04d2b384b6d781d9594f6"><div class="ttname"><a href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a></div><div class="ttdeci">UnityEngine.Vector3 Vector3</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/df7/_abstract_motion_filter_8cs_source.html#l00005">AbstractMotionFilter.cs:5</a></div></div>
 <div class="ttc" id="class_juniper_1_1_input_1_1_abstract_velocity_locomotion_html_a6d21b585821e8c42ff3d87b3f4ca7ed8"><div class="ttname"><a href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a6d21b585821e8c42ff3d87b3f4ca7ed8">Juniper.Input.AbstractVelocityLocomotion.MOVEMENT_SCALE</a></div><div class="ttdeci">const float MOVEMENT_SCALE</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00014">AbstractVelocityLocomotion.cs:14</a></div></div>
 <div class="ttc" id="class_juniper_1_1_input_1_1_abstract_velocity_locomotion_html_a5e05c602ad4f75480fc8740dcfc3ce2d"><div class="ttname"><a href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a5e05c602ad4f75480fc8740dcfc3ce2d">Juniper.Input.AbstractVelocityLocomotion.velocity</a></div><div class="ttdeci">Vector3 velocity</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00015">AbstractVelocityLocomotion.cs:15</a></div></div>
 <div class="ttc" id="namespace_unity_engine_html"><div class="ttname"><a href="../../d3/d82/namespace_unity_engine.html">UnityEngine</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/de8/_label_attribute_drawer_8cs_source.html#l00003">LabelAttributeDrawer.cs:3</a></div></div>
@@ -246,7 +252,7 @@ Protected Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00014">14</a> of file <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html">AbstractVelocityLocomotion.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">Juniper.Input.RunningMovement.Update()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00041">Juniper.Input.HoverCraft.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">Juniper.Input.RunningMovement.Update()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00052">Juniper.Input.HoverCraft.Update()</a>.</p>
 
 </div>
 </div>
@@ -274,7 +280,7 @@ Protected Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00010">10</a> of file <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html">AbstractVelocityLocomotion.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">Juniper.Input.RunningMovement.Update()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00041">Juniper.Input.HoverCraft.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">Juniper.Input.RunningMovement.Update()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00052">Juniper.Input.HoverCraft.Update()</a>.</p>
 
 </div>
 </div>
@@ -300,12 +306,12 @@ Protected Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00015">15</a> of file <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html">AbstractVelocityLocomotion.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">Juniper.Input.RunningMovement.Update()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00041">Juniper.Input.HoverCraft.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">Juniper.Input.RunningMovement.Update()</a>, <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00027">Juniper.Input.AbstractVelocityLocomotion.Update()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00052">Juniper.Input.HoverCraft.Update()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/<a class="el" href="../../dd/dd3/_running_movement_8cs_source.html">RunningMovement.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/<a class="el" href="../../dd/dd3/_running_movement_8cs_source.html">RunningMovement.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

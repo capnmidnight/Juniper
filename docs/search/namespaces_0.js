@@ -5,9 +5,11 @@ var searchData=
   ['audio',['Audio',['../d9/d61/namespace_juniper_1_1_audio.html',1,'Juniper']]],
   ['climate',['Climate',['../d2/d56/namespace_juniper_1_1_world_1_1_climate.html',1,'Juniper::World']]],
   ['collections',['Collections',['../db/d80/namespace_juniper_1_1_collections.html',1,'Juniper']]],
+  ['configurationmanagement',['ConfigurationManagement',['../d4/df1/namespace_juniper_1_1_configuration_management.html',1,'Juniper']]],
   ['console',['Console',['../d4/ddb/namespace_juniper_1_1_neuro_sky_1_1_console.html',1,'Juniper::NeuroSky']]],
-  ['customeditors',['CustomEditors',['../de/d62/namespace_juniper_1_1_custom_editors.html',1,'Juniper.CustomEditors'],['../d5/d55/namespace_juniper_1_1_x_r_1_1_custom_editors.html',1,'Juniper.XR.CustomEditors']]],
+  ['customeditors',['CustomEditors',['../de/d62/namespace_juniper_1_1_custom_editors.html',1,'Juniper']]],
   ['data',['Data',['../d5/d98/namespace_juniper_1_1_data.html',1,'Juniper']]],
+  ['display',['Display',['../d8/d42/namespace_juniper_1_1_display.html',1,'Juniper']]],
   ['editor',['Editor',['../d3/d0f/namespace_juniper_1_1_world_1_1_g_i_s_1_1_editor.html',1,'Juniper::World::GIS']]],
   ['events',['Events',['../d5/d31/namespace_juniper_1_1_events.html',1,'Juniper']]],
   ['gaze',['Gaze',['../db/de5/namespace_juniper_1_1_input_1_1_pointers_1_1_gaze.html',1,'Juniper::Input::Pointers']]],
@@ -28,7 +30,7 @@ var searchData=
   ['screen',['Screen',['../db/d36/namespace_juniper_1_1_input_1_1_pointers_1_1_screen.html',1,'Juniper::Input::Pointers']]],
   ['speech',['Speech',['../df/d0a/namespace_juniper_1_1_input_1_1_speech.html',1,'Juniper::Input']]],
   ['statistics',['Statistics',['../dd/d57/namespace_juniper_1_1_statistics.html',1,'Juniper']]],
+  ['vuforia',['Vuforia',['../dc/dbe/namespace_juniper_1_1_vuforia.html',1,'Juniper']]],
   ['widgets',['Widgets',['../d6/d88/namespace_juniper_1_1_widgets.html',1,'Juniper']]],
-  ['world',['World',['../d3/dd9/namespace_juniper_1_1_world.html',1,'Juniper']]],
-  ['xr',['XR',['../d2/d08/namespace_juniper_1_1_x_r.html',1,'Juniper']]]
+  ['world',['World',['../d3/dd9/namespace_juniper_1_1_world.html',1,'Juniper']]]
 ];

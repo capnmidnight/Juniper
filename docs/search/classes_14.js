@@ -1,16 +1,13 @@
 var searchData=
 [
-  ['valuechangedeventargs',['ValueChangedEventArgs',['../d0/d04/class_juniper_1_1_animation_1_1_abstract_transition_controller_1_1_value_changed_event_args.html',1,'Juniper::Animation::AbstractTransitionController']]],
-  ['valuedragger',['ValueDragger',['../dd/d32/class_juniper_1_1_widgets_1_1_value_dragger.html',1,'Juniper::Widgets']]],
-  ['vector2statistics',['Vector2Statistics',['../d0/d49/class_juniper_1_1_statistics_1_1_vector2_statistics.html',1,'Juniper::Statistics']]],
-  ['vector3event',['Vector3Event',['../d3/d7d/class_unity_engine_1_1_events_1_1_vector3_event.html',1,'UnityEngine::Events']]],
-  ['vector3statistics',['Vector3Statistics',['../d6/d1f/class_juniper_1_1_statistics_1_1_vector3_statistics.html',1,'Juniper::Statistics']]],
-  ['vector4statistics',['Vector4Statistics',['../da/d3a/class_juniper_1_1_statistics_1_1_vector4_statistics.html',1,'Juniper::Statistics']]],
-  ['vectorext',['VectorExt',['../d2/dd8/class_unity_engine_1_1_vector_ext.html',1,'UnityEngine']]],
-  ['videovader',['VideoVader',['../dd/d40/class_juniper_1_1_widgets_1_1_video_vader.html',1,'Juniper::Widgets']]],
-  ['volumefade',['VolumeFade',['../d4/d62/class_juniper_1_1_audio_1_1_volume_fade.html',1,'Juniper::Audio']]],
-  ['vuforiaimageanalyzer',['VuforiaImageAnalyzer',['../d2/d57/class_juniper_1_1_x_r_1_1_vuforia_image_analyzer.html',1,'Juniper::XR']]],
-  ['vuforialightmeasurement',['VuforiaLightMeasurement',['../d5/d84/class_juniper_1_1_world_1_1_light_estimation_1_1_vuforia_light_measurement.html',1,'Juniper::World::LightEstimation']]],
-  ['vuforiatrackerkeeper',['VuforiaTrackerKeeper',['../da/d57/class_juniper_1_1_image_tracking_1_1_vuforia_tracker_keeper.html',1,'Juniper::ImageTracking']]],
-  ['vuforiaunityext',['VuforiaUnityExt',['../d0/d23/class_vuforia_1_1_vuforia_unity_ext.html',1,'Vuforia']]]
+  ['unifiedinputmodule',['UnifiedInputModule',['../d7/d3d/class_juniper_1_1_input_1_1_unified_input_module.html',1,'Juniper::Input']]],
+  ['units',['Units',['../d2/d5c/class_juniper_1_1_units.html',1,'Juniper']]],
+  ['unityasyncoperationprogress',['UnityAsyncOperationProgress',['../d2/d9c/class_juniper_1_1_progress_1_1_unity_async_operation_progress.html',1,'Juniper::Progress']]],
+  ['unityeditorprogressdialog',['UnityEditorProgressDialog',['../dd/d5a/class_juniper_1_1_progress_1_1_unity_editor_progress_dialog.html',1,'Juniper::Progress']]],
+  ['unityeventext',['UnityEventExt',['../d2/d26/class_unity_engine_1_1_events_1_1_unity_event_ext.html',1,'UnityEngine::Events']]],
+  ['unitypackage',['UnityPackage',['../da/d62/class_juniper_1_1_configuration_management_1_1_unity_package.html',1,'Juniper::ConfigurationManagement']]],
+  ['unityslideradapter',['UnitySliderAdapter',['../d4/dcc/class_juniper_1_1_widgets_1_1_unity_slider_adapter.html',1,'Juniper::Widgets']]],
+  ['utm',['UTM',['../d8/d7a/class_juniper_1_1_units_1_1_u_t_m.html',1,'Juniper::Units']]],
+  ['utmpoint',['UTMPoint',['../d0/da5/struct_juniper_1_1_world_1_1_g_i_s_1_1_u_t_m_point.html',1,'Juniper::World::GIS']]],
+  ['utmpointext',['UTMPointExt',['../dd/d0d/class_juniper_1_1_world_1_1_g_i_s_1_1_u_t_m_point_ext.html',1,'Juniper::World::GIS']]]
 ];

@@ -153,8 +153,6 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a2e78ae4d16669aed9bacade6e81fd7e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab73186393a901df31e1a9f1578ffcfae"><td class="memItemLeft" align="right" valign="top">UnityEvent&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ab73186393a901df31e1a9f1578ffcfae">onSelectionChanged</a></td></tr>
 <tr class="separator:ab73186393a901df31e1a9f1578ffcfae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03d063ed3617db0c6bb6001790412730"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/de9/class_juniper_1_1_widgets_1_1_list_view_item.html">ListViewItem</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a03d063ed3617db0c6bb6001790412730">FirstSelectedItem</a></td></tr>
-<tr class="separator:a03d063ed3617db0c6bb6001790412730"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -162,6 +160,10 @@ Properties</h2></td></tr>
 <tr class="separator:af5657450bf856f0a91c1dde63f8657b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad09032012924403f4c40e745afaa1c7b"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="../../da/de9/class_juniper_1_1_widgets_1_1_list_view_item.html">ListViewItem</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a> = new List&lt;<a class="el" href="../../da/de9/class_juniper_1_1_widgets_1_1_list_view_item.html">ListViewItem</a>&gt;()<code> [get]</code></td></tr>
 <tr class="separator:ad09032012924403f4c40e745afaa1c7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03d063ed3617db0c6bb6001790412730"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/de9/class_juniper_1_1_widgets_1_1_list_view_item.html">ListViewItem</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a03d063ed3617db0c6bb6001790412730">FirstSelectedItem</a><code> [get]</code></td></tr>
+<tr class="separator:a03d063ed3617db0c6bb6001790412730"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2b5a848f5aa845f50a34a740dc97c2d"><td class="memItemLeft" align="right" valign="top">ScrollRect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ab2b5a848f5aa845f50a34a740dc97c2d">Container</a><code> [get]</code></td></tr>
+<tr class="separator:ab2b5a848f5aa845f50a34a740dc97c2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -174,8 +176,6 @@ Private Member Functions</h2></td></tr>
 Private Attributes</h2></td></tr>
 <tr class="memitem:ad7f24a8c0a641b2150144474f5637486"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">count</a></td></tr>
 <tr class="separator:ad7f24a8c0a641b2150144474f5637486"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2b5a848f5aa845f50a34a740dc97c2d"><td class="memItemLeft" align="right" valign="top">ScrollRect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ab2b5a848f5aa845f50a34a740dc97c2d">Container</a></td></tr>
-<tr class="separator:ab2b5a848f5aa845f50a34a740dc97c2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
@@ -258,20 +258,20 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00065">65</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        {</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            var item = <span class="keyword">new</span> GameObject().AddComponent&lt;ListViewItem&gt;();</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            item.transform.SetParent(<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ab2b5a848f5aa845f50a34a740dc97c2d">Container</a>.content, <span class="keyword">false</span>);</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Items</a>.Add(item);</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            item.Key = key;</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            item.Text = text;</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            item.DataItem = dataItem;</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            item.normalColor = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a958462d14c1efd32269117ddca920d4b">normalColor</a>;</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            item.disabledColor = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aaa0cb66aadf060e94788f30861e3d068">disabledColor</a>;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            item.BackgroundColor = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aa796b82dfb995e114c9ee79365f07f8c">normalBackgroundColor</a>;</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            item.Font = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a784e9c367c4ca6d53ef8d5fd806e24d5">font</a>;</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            item.FontSize = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aab3c0a8c07bc349145c78fb6957fed55">fontSize</a>;</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            item.RemoveAllListeners();</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            item.AddListener(() =&gt;</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a3da0493441d9bfcaec152890fe83188f">ChangeSelection</a>(item));</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            item.transform.SetSiblingIndex(<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">count</a>++);</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="keywordflow">return</span> item;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_aaa0cb66aadf060e94788f30861e3d068"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aaa0cb66aadf060e94788f30861e3d068">Juniper.Widgets.ListView.disabledColor</a></div><div class="ttdeci">Color disabledColor</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00019">ListView.cs:19</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00076">76</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        {</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            var item = <span class="keyword">new</span> GameObject().AddComponent&lt;ListViewItem&gt;();</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            item.transform.SetParent(<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ab2b5a848f5aa845f50a34a740dc97c2d">Container</a>.content, <span class="keyword">false</span>);</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Items</a>.Add(item);</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            item.Key = key;</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            item.Text = text;</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            item.DataItem = dataItem;</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            item.normalColor = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a958462d14c1efd32269117ddca920d4b">normalColor</a>;</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            item.disabledColor = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aaa0cb66aadf060e94788f30861e3d068">disabledColor</a>;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            item.BackgroundColor = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aa796b82dfb995e114c9ee79365f07f8c">normalBackgroundColor</a>;</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            item.Font = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a784e9c367c4ca6d53ef8d5fd806e24d5">font</a>;</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            item.FontSize = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aab3c0a8c07bc349145c78fb6957fed55">fontSize</a>;</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            item.RemoveAllListeners();</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            item.AddListener(() =&gt;</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a3da0493441d9bfcaec152890fe83188f">ChangeSelection</a>(item));</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            item.transform.SetSiblingIndex(<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">count</a>++);</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">return</span> item;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_aaa0cb66aadf060e94788f30861e3d068"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aaa0cb66aadf060e94788f30861e3d068">Juniper.Widgets.ListView.disabledColor</a></div><div class="ttdeci">Color disabledColor</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00019">ListView.cs:19</a></div></div>
 <div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_af5657450bf856f0a91c1dde63f8657b0"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Juniper.Widgets.ListView.Items</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Items</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00031">ListView.cs:31</a></div></div>
-<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ad7f24a8c0a641b2150144474f5637486"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">Juniper.Widgets.ListView.count</a></div><div class="ttdeci">int count</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00111">ListView.cs:111</a></div></div>
+<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ad7f24a8c0a641b2150144474f5637486"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">Juniper.Widgets.ListView.count</a></div><div class="ttdeci">int count</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00128">ListView.cs:128</a></div></div>
 <div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_aab3c0a8c07bc349145c78fb6957fed55"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aab3c0a8c07bc349145c78fb6957fed55">Juniper.Widgets.ListView.fontSize</a></div><div class="ttdeci">int fontSize</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00015">ListView.cs:15</a></div></div>
 <div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_aa796b82dfb995e114c9ee79365f07f8c"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aa796b82dfb995e114c9ee79365f07f8c">Juniper.Widgets.ListView.normalBackgroundColor</a></div><div class="ttdeci">Color normalBackgroundColor</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00016">ListView.cs:16</a></div></div>
-<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ab2b5a848f5aa845f50a34a740dc97c2d"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ab2b5a848f5aa845f50a34a740dc97c2d">Juniper.Widgets.ListView.Container</a></div><div class="ttdeci">ScrollRect Container</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00113">ListView.cs:113</a></div></div>
-<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a3da0493441d9bfcaec152890fe83188f"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a3da0493441d9bfcaec152890fe83188f">Juniper.Widgets.ListView.ChangeSelection</a></div><div class="ttdeci">void ChangeSelection(ListViewItem selected)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00116">ListView.cs:116</a></div></div>
+<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ab2b5a848f5aa845f50a34a740dc97c2d"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ab2b5a848f5aa845f50a34a740dc97c2d">Juniper.Widgets.ListView.Container</a></div><div class="ttdeci">ScrollRect Container</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00131">ListView.cs:131</a></div></div>
+<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a3da0493441d9bfcaec152890fe83188f"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a3da0493441d9bfcaec152890fe83188f">Juniper.Widgets.ListView.ChangeSelection</a></div><div class="ttdeci">void ChangeSelection(ListViewItem selected)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00138">ListView.cs:138</a></div></div>
 <div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a958462d14c1efd32269117ddca920d4b"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a958462d14c1efd32269117ddca920d4b">Juniper.Widgets.ListView.normalColor</a></div><div class="ttdeci">Color normalColor</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00018">ListView.cs:18</a></div></div>
 <div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a784e9c367c4ca6d53ef8d5fd806e24d5"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a784e9c367c4ca6d53ef8d5fd806e24d5">Juniper.Widgets.ListView.font</a></div><div class="ttdeci">Font font</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00014">ListView.cs:14</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00116">Juniper.Widgets.ListView.ChangeSelection()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00113">Juniper.Widgets.ListView.Container</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00111">Juniper.Widgets.ListView.count</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00019">Juniper.Widgets.ListView.disabledColor</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00014">Juniper.Widgets.ListView.font</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00015">Juniper.Widgets.ListView.fontSize</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00031">Juniper.Widgets.ListView.Items</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00016">Juniper.Widgets.ListView.normalBackgroundColor</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00018">Juniper.Widgets.ListView.normalColor</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00138">Juniper.Widgets.ListView.ChangeSelection()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00131">Juniper.Widgets.ListView.Container</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00128">Juniper.Widgets.ListView.count</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00019">Juniper.Widgets.ListView.disabledColor</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00014">Juniper.Widgets.ListView.font</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00015">Juniper.Widgets.ListView.fontSize</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00031">Juniper.Widgets.ListView.Items</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00016">Juniper.Widgets.ListView.normalBackgroundColor</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00018">Juniper.Widgets.ListView.normalColor</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dbd/_file_selector_8cs_source.html#l00196">Juniper.Widgets.FileSelector.AddEntry()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00057">Juniper.Widgets.ListView.AddItems&lt; T &gt;()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dbd/_file_selector_8cs_source.html#l00203">Juniper.Widgets.FileSelector.AddEntry()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00068">Juniper.Widgets.ListView.AddItems&lt; T &gt;()</a>.</p>
 
 </div>
 </div>
@@ -315,10 +315,10 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00057">57</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        {</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> items)</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a26282a62eba6c6655378b1665ddcdb93">AddItem</a>(getText(item), item, getKey(item));</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            }</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a26282a62eba6c6655378b1665ddcdb93"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a26282a62eba6c6655378b1665ddcdb93">Juniper.Widgets.ListView.AddItem</a></div><div class="ttdeci">ListViewItem AddItem(string text, object dataItem, string key)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00065">ListView.cs:65</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00068">68</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        {</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> items)</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            {</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a26282a62eba6c6655378b1665ddcdb93">AddItem</a>(getText(item), item, getKey(item));</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            }</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a26282a62eba6c6655378b1665ddcdb93"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a26282a62eba6c6655378b1665ddcdb93">Juniper.Widgets.ListView.AddItem</a></div><div class="ttdeci">ListViewItem AddItem(string text, object dataItem, string key)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00076">ListView.cs:76</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00065">Juniper.Widgets.ListView.AddItem()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00076">Juniper.Widgets.ListView.AddItem()</a>.</p>
 
 </div>
 </div>
@@ -327,6 +327,9 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Juniper.Widgets.ListView.Awake </td>
@@ -335,7 +338,17 @@ Static Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00042">42</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            GetComponentsInChildren(<span class="keyword">true</span>, <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Items</a>);</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_af5657450bf856f0a91c1dde63f8657b0"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Juniper.Widgets.ListView.Items</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Items</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00031">ListView.cs:31</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00031">Juniper.Widgets.ListView.Items</a>.</p>
 
 </div>
 </div>
@@ -363,15 +376,15 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00116">116</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        {</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            var wasInSelection = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.Contains(selected);</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            var newSelection = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.ToList();</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad8e65f68fcb42c18de1ab059d441a39b">selectionMode</a> != <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a820c62af5ff1f6377835bf460e53ec84">SelectionMode</a>.Multiple)</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            {</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                newSelection.Clear();</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            }</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (wasInSelection)</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            {</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                newSelection.Remove(selected);</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            }</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad8e65f68fcb42c18de1ab059d441a39b">selectionMode</a> == <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a820c62af5ff1f6377835bf460e53ec84">SelectionMode</a>.Single</div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                || (!wasInSelection &amp;&amp; <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad8e65f68fcb42c18de1ab059d441a39b">selectionMode</a> != <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a820c62af5ff1f6377835bf460e53ec84">SelectionMode</a>.None))</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            {</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                newSelection.Add(selected);</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            }</div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a0d5365fd0d7a1aad5caeb6b5cfa539b4">SetSelection</a>(newSelection);</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a820c62af5ff1f6377835bf460e53ec84"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a820c62af5ff1f6377835bf460e53ec84">Juniper.Widgets.ListView.SelectionMode</a></div><div class="ttdeci">SelectionMode</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00023">ListView.cs:23</a></div></div>
-<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a0d5365fd0d7a1aad5caeb6b5cfa539b4"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a0d5365fd0d7a1aad5caeb6b5cfa539b4">Juniper.Widgets.ListView.SetSelection</a></div><div class="ttdeci">void SetSelection(IEnumerable&lt; string &gt; keys)</div></div>
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00138">138</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        {</div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            var wasInSelection = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.Contains(selected);</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            var newSelection = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.ToList();</div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad8e65f68fcb42c18de1ab059d441a39b">selectionMode</a> != <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a820c62af5ff1f6377835bf460e53ec84">SelectionMode</a>.Multiple)</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            {</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                newSelection.Clear();</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            }</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (wasInSelection)</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            {</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                newSelection.Remove(selected);</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            }</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad8e65f68fcb42c18de1ab059d441a39b">selectionMode</a> == <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a820c62af5ff1f6377835bf460e53ec84">SelectionMode</a>.Single</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                || (!wasInSelection &amp;&amp; <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad8e65f68fcb42c18de1ab059d441a39b">selectionMode</a> != <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a820c62af5ff1f6377835bf460e53ec84">SelectionMode</a>.None))</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            {</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                newSelection.Add(selected);</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            }</div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a0d5365fd0d7a1aad5caeb6b5cfa539b4">SetSelection</a>(newSelection);</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a820c62af5ff1f6377835bf460e53ec84"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a820c62af5ff1f6377835bf460e53ec84">Juniper.Widgets.ListView.SelectionMode</a></div><div class="ttdeci">SelectionMode</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00023">ListView.cs:23</a></div></div>
+<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a0d5365fd0d7a1aad5caeb6b5cfa539b4"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a0d5365fd0d7a1aad5caeb6b5cfa539b4">Juniper.Widgets.ListView.SetSelection</a></div><div class="ttdeci">void SetSelection(IEnumerable&lt; string &gt; keys)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00105">ListView.cs:105</a></div></div>
 <div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ad09032012924403f4c40e745afaa1c7b"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Juniper.Widgets.ListView.Selection</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Selection</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00032">ListView.cs:32</a></div></div>
 <div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ad8e65f68fcb42c18de1ab059d441a39b"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad8e65f68fcb42c18de1ab059d441a39b">Juniper.Widgets.ListView.selectionMode</a></div><div class="ttdeci">SelectionMode selectionMode</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00013">ListView.cs:13</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00032">Juniper.Widgets.ListView.Selection</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00013">Juniper.Widgets.ListView.selectionMode</a>, and <a class="el" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a0d5365fd0d7a1aad5caeb6b5cfa539b4">Juniper.Widgets.ListView.SetSelection()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00032">Juniper.Widgets.ListView.Selection</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00013">Juniper.Widgets.ListView.selectionMode</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00105">Juniper.Widgets.ListView.SetSelection()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00065">Juniper.Widgets.ListView.AddItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00076">Juniper.Widgets.ListView.AddItem()</a>.</p>
 
 </div>
 </div>
@@ -398,14 +411,14 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00040">40</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Items</a>)</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                item.gameObject.Destroy();</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            }</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Items</a>.Clear();</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.Clear();</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">count</a> = 0;</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_af5657450bf856f0a91c1dde63f8657b0"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Juniper.Widgets.ListView.Items</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Items</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00031">ListView.cs:31</a></div></div>
-<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ad7f24a8c0a641b2150144474f5637486"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">Juniper.Widgets.ListView.count</a></div><div class="ttdeci">int count</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00111">ListView.cs:111</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00047">47</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Items</a>)</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            {</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                item.gameObject.Destroy();</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            }</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Items</a>.Clear();</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.Clear();</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">count</a> = 0;</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_af5657450bf856f0a91c1dde63f8657b0"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Juniper.Widgets.ListView.Items</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Items</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00031">ListView.cs:31</a></div></div>
+<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ad7f24a8c0a641b2150144474f5637486"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">Juniper.Widgets.ListView.count</a></div><div class="ttdeci">int count</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00128">ListView.cs:128</a></div></div>
 <div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ad09032012924403f4c40e745afaa1c7b"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Juniper.Widgets.ListView.Selection</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Selection</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00032">ListView.cs:32</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00111">Juniper.Widgets.ListView.count</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00031">Juniper.Widgets.ListView.Items</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00032">Juniper.Widgets.ListView.Selection</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00128">Juniper.Widgets.ListView.count</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00031">Juniper.Widgets.ListView.Items</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00032">Juniper.Widgets.ListView.Selection</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dbd/_file_selector_8cs_source.html#l00130">Juniper.Widgets.FileSelector.ReadDirectory()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dbd/_file_selector_8cs_source.html#l00135">Juniper.Widgets.FileSelector.ReadDirectory()</a>.</p>
 
 </div>
 </div>
@@ -414,6 +427,9 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Juniper.Widgets.ListView.ClearSelection </td>
@@ -422,7 +438,18 @@ Static Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00100">100</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        {</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a0d5365fd0d7a1aad5caeb6b5cfa539b4">SetSelection</a>(<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a18a76456984d7c7141191331d93d58c8">EMPTY_SELECTION</a>);</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a18a76456984d7c7141191331d93d58c8"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a18a76456984d7c7141191331d93d58c8">Juniper.Widgets.ListView.EMPTY_SELECTION</a></div><div class="ttdeci">static readonly List&lt; ListViewItem &gt; EMPTY_SELECTION</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00127">ListView.cs:127</a></div></div>
+<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a0d5365fd0d7a1aad5caeb6b5cfa539b4"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a0d5365fd0d7a1aad5caeb6b5cfa539b4">Juniper.Widgets.ListView.SetSelection</a></div><div class="ttdeci">void SetSelection(IEnumerable&lt; string &gt; keys)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00105">ListView.cs:105</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00127">Juniper.Widgets.ListView.EMPTY_SELECTION</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00105">Juniper.Widgets.ListView.SetSelection()</a>.</p>
 
 </div>
 </div>
@@ -431,6 +458,9 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool Juniper.Widgets.ListView.ContainsItem </td>
@@ -440,7 +470,17 @@ Static Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00063">63</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a981bd8ba5b2a3502c0b54446d0881d85">GetItem</a>(key) != <span class="keyword">null</span>;</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a981bd8ba5b2a3502c0b54446d0881d85"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a981bd8ba5b2a3502c0b54446d0881d85">Juniper.Widgets.ListView.GetItem</a></div><div class="ttdeci">ListViewItem GetItem(string key)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00058">ListView.cs:58</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00058">Juniper.Widgets.ListView.GetItem()</a>.</p>
 
 </div>
 </div>
@@ -449,6 +489,9 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="../../da/de9/class_juniper_1_1_widgets_1_1_list_view_item.html">ListViewItem</a> Juniper.Widgets.ListView.GetItem </td>
@@ -458,9 +501,19 @@ Static Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00098">Juniper.Widgets.ListView.RemoveItem()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00058">58</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        {</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Items</a>.FirstOrDefault(i =&gt; i.Key == key);</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_af5657450bf856f0a91c1dde63f8657b0"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Juniper.Widgets.ListView.Items</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Items</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00031">ListView.cs:31</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00031">Juniper.Widgets.ListView.Items</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00063">Juniper.Widgets.ListView.ContainsItem()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00115">Juniper.Widgets.ListView.RemoveItem()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00105">Juniper.Widgets.ListView.SetSelection()</a>.</p>
 
 </div>
 </div>
@@ -488,12 +541,12 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00098">98</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        {</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            var item = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a981bd8ba5b2a3502c0b54446d0881d85">GetItem</a>(key);</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="keywordflow">if</span> (item != <span class="keyword">null</span>)</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            {</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Items</a>.Remove(item);</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                item.gameObject.Destroy();</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                --<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">count</a>;</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            }</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_af5657450bf856f0a91c1dde63f8657b0"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Juniper.Widgets.ListView.Items</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Items</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00031">ListView.cs:31</a></div></div>
-<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ad7f24a8c0a641b2150144474f5637486"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">Juniper.Widgets.ListView.count</a></div><div class="ttdeci">int count</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00111">ListView.cs:111</a></div></div>
-<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a981bd8ba5b2a3502c0b54446d0881d85"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a981bd8ba5b2a3502c0b54446d0881d85">Juniper.Widgets.ListView.GetItem</a></div><div class="ttdeci">ListViewItem GetItem(string key)</div></div>
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00115">115</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        {</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            var item = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a981bd8ba5b2a3502c0b54446d0881d85">GetItem</a>(key);</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div><div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <span class="keywordflow">if</span> (item != <span class="keyword">null</span>)</div><div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            {</div><div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Items</a>.Remove(item);</div><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                item.gameObject.Destroy();</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                --<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">count</a>;</div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            }</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_af5657450bf856f0a91c1dde63f8657b0"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Juniper.Widgets.ListView.Items</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Items</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00031">ListView.cs:31</a></div></div>
+<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ad7f24a8c0a641b2150144474f5637486"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad7f24a8c0a641b2150144474f5637486">Juniper.Widgets.ListView.count</a></div><div class="ttdeci">int count</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00128">ListView.cs:128</a></div></div>
+<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a981bd8ba5b2a3502c0b54446d0881d85"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a981bd8ba5b2a3502c0b54446d0881d85">Juniper.Widgets.ListView.GetItem</a></div><div class="ttdeci">ListViewItem GetItem(string key)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00058">ListView.cs:58</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00111">Juniper.Widgets.ListView.count</a>, <a class="el" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a981bd8ba5b2a3502c0b54446d0881d85">Juniper.Widgets.ListView.GetItem()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00031">Juniper.Widgets.ListView.Items</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00128">Juniper.Widgets.ListView.count</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00058">Juniper.Widgets.ListView.GetItem()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00031">Juniper.Widgets.ListView.Items</a>.</p>
 
 </div>
 </div>
@@ -502,6 +555,9 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Juniper.Widgets.ListView.SetSelection </td>
@@ -511,9 +567,20 @@ Static Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00116">Juniper.Widgets.ListView.ChangeSelection()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00105">105</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        {</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a0d5365fd0d7a1aad5caeb6b5cfa539b4">SetSelection</a>(keys.Select(<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a981bd8ba5b2a3502c0b54446d0881d85">GetItem</a>).ToList());</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a0d5365fd0d7a1aad5caeb6b5cfa539b4"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a0d5365fd0d7a1aad5caeb6b5cfa539b4">Juniper.Widgets.ListView.SetSelection</a></div><div class="ttdeci">void SetSelection(IEnumerable&lt; string &gt; keys)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00105">ListView.cs:105</a></div></div>
+<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a981bd8ba5b2a3502c0b54446d0881d85"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a981bd8ba5b2a3502c0b54446d0881d85">Juniper.Widgets.ListView.GetItem</a></div><div class="ttdeci">ListViewItem GetItem(string key)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00058">ListView.cs:58</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00058">Juniper.Widgets.ListView.GetItem()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00138">Juniper.Widgets.ListView.ChangeSelection()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00100">Juniper.Widgets.ListView.ClearSelection()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00110">Juniper.Widgets.ListView.SetSelection()</a>.</p>
 
 </div>
 </div>
@@ -522,6 +589,9 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Juniper.Widgets.ListView.SetSelection </td>
@@ -531,7 +601,18 @@ Static Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00110">110</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        {</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a0d5365fd0d7a1aad5caeb6b5cfa539b4">SetSelection</a>(<span class="keyword">new</span>[] { <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a981bd8ba5b2a3502c0b54446d0881d85">GetItem</a>(key) }.ToList());</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a0d5365fd0d7a1aad5caeb6b5cfa539b4"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a0d5365fd0d7a1aad5caeb6b5cfa539b4">Juniper.Widgets.ListView.SetSelection</a></div><div class="ttdeci">void SetSelection(IEnumerable&lt; string &gt; keys)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00105">ListView.cs:105</a></div></div>
+<div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a981bd8ba5b2a3502c0b54446d0881d85"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a981bd8ba5b2a3502c0b54446d0881d85">Juniper.Widgets.ListView.GetItem</a></div><div class="ttdeci">ListViewItem GetItem(string key)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00058">ListView.cs:58</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00058">Juniper.Widgets.ListView.GetItem()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00105">Juniper.Widgets.ListView.SetSelection()</a>.</p>
 
 </div>
 </div>
@@ -559,8 +640,8 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00139">139</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        {</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            var changed = newSelection.Count != <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.Count</div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                || !newSelection.All(<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.Contains);</div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keywordflow">if</span> (changed)</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            {</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.Clear();</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.AddRange(newSelection);</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Items</a>)</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                {</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                    var highlight = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.Contains(item);</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                    item.BackgroundColor = highlight ? <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a35d54db3e1940cfcff5f335598e8ed98">highlightBackgroundColor</a> : <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aa796b82dfb995e114c9ee79365f07f8c">normalBackgroundColor</a>;</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                    item.normalColor = highlight ? <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a2e78ae4d16669aed9bacade6e81fd7e2">highlightColor</a> : <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a958462d14c1efd32269117ddca920d4b">normalColor</a>;</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                }</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ab73186393a901df31e1a9f1578ffcfae">onSelectionChanged</a>?.Invoke();</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            }</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_af5657450bf856f0a91c1dde63f8657b0"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Juniper.Widgets.ListView.Items</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Items</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00031">ListView.cs:31</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00161">161</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        {</div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            var changed = newSelection.Count != <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.Count</div><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                || !newSelection.All(<a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.Contains);</div><div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="keywordflow">if</span> (changed)</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            {</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.Clear();</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.AddRange(newSelection);</div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                <span class="keywordflow">foreach</span> (var item <span class="keywordflow">in</span> <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Items</a>)</div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                {</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                    var highlight = <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.Contains(item);</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                    item.BackgroundColor = highlight ? <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a35d54db3e1940cfcff5f335598e8ed98">highlightBackgroundColor</a> : <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aa796b82dfb995e114c9ee79365f07f8c">normalBackgroundColor</a>;</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                    item.normalColor = highlight ? <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a2e78ae4d16669aed9bacade6e81fd7e2">highlightColor</a> : <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a958462d14c1efd32269117ddca920d4b">normalColor</a>;</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                }</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ab73186393a901df31e1a9f1578ffcfae">onSelectionChanged</a>?.Invoke();</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            }</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_af5657450bf856f0a91c1dde63f8657b0"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#af5657450bf856f0a91c1dde63f8657b0">Juniper.Widgets.ListView.Items</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Items</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00031">ListView.cs:31</a></div></div>
 <div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_aa796b82dfb995e114c9ee79365f07f8c"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#aa796b82dfb995e114c9ee79365f07f8c">Juniper.Widgets.ListView.normalBackgroundColor</a></div><div class="ttdeci">Color normalBackgroundColor</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00016">ListView.cs:16</a></div></div>
 <div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ad09032012924403f4c40e745afaa1c7b"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Juniper.Widgets.ListView.Selection</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Selection</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00032">ListView.cs:32</a></div></div>
 <div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_a35d54db3e1940cfcff5f335598e8ed98"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a35d54db3e1940cfcff5f335598e8ed98">Juniper.Widgets.ListView.highlightBackgroundColor</a></div><div class="ttdeci">Color highlightBackgroundColor</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00017">ListView.cs:17</a></div></div>
@@ -573,32 +654,6 @@ Static Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ab2b5a848f5aa845f50a34a740dc97c2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2b5a848f5aa845f50a34a740dc97c2d">&#9670;&nbsp;</a></span>Container</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">ScrollRect Juniper.Widgets.ListView.Container</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            GetComponent&lt;ScrollRect&gt;()</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00113">113</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00065">Juniper.Widgets.ListView.AddItem()</a>.</p>
-
-</div>
-</div>
 <a id="ad7f24a8c0a641b2150144474f5637486"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad7f24a8c0a641b2150144474f5637486">&#9670;&nbsp;</a></span>count</h2>
 
@@ -619,9 +674,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00111">111</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00128">128</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00065">Juniper.Widgets.ListView.AddItem()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00040">Juniper.Widgets.ListView.Clear()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00098">Juniper.Widgets.ListView.RemoveItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00076">Juniper.Widgets.ListView.AddItem()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00047">Juniper.Widgets.ListView.Clear()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00115">Juniper.Widgets.ListView.RemoveItem()</a>.</p>
 
 </div>
 </div>
@@ -639,7 +694,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00019">19</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00065">Juniper.Widgets.ListView.AddItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00076">Juniper.Widgets.ListView.AddItem()</a>.</p>
 
 </div>
 </div>
@@ -663,23 +718,9 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00110">110</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00127">127</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 
-</div>
-</div>
-<a id="a03d063ed3617db0c6bb6001790412730"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03d063ed3617db0c6bb6001790412730">&#9670;&nbsp;</a></span>FirstSelectedItem</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../da/de9/class_juniper_1_1_widgets_1_1_list_view_item.html">ListViewItem</a> Juniper.Widgets.ListView.FirstSelectedItem</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.FirstOrDefault()</div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00034">34</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00100">Juniper.Widgets.ListView.ClearSelection()</a>.</p>
 
 </div>
 </div>
@@ -697,7 +738,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00014">14</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00065">Juniper.Widgets.ListView.AddItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00076">Juniper.Widgets.ListView.AddItem()</a>.</p>
 
 </div>
 </div>
@@ -715,7 +756,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00015">15</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00065">Juniper.Widgets.ListView.AddItem()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00076">Juniper.Widgets.ListView.AddItem()</a>.</p>
 
 </div>
 </div>
@@ -733,7 +774,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00017">17</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00139">Juniper.Widgets.ListView.SetSelection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00161">Juniper.Widgets.ListView.SetSelection()</a>.</p>
 
 </div>
 </div>
@@ -751,7 +792,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00020">20</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00139">Juniper.Widgets.ListView.SetSelection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00161">Juniper.Widgets.ListView.SetSelection()</a>.</p>
 
 </div>
 </div>
@@ -769,7 +810,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00016">16</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00065">Juniper.Widgets.ListView.AddItem()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00139">Juniper.Widgets.ListView.SetSelection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00076">Juniper.Widgets.ListView.AddItem()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00161">Juniper.Widgets.ListView.SetSelection()</a>.</p>
 
 </div>
 </div>
@@ -787,7 +828,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00018">18</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00065">Juniper.Widgets.ListView.AddItem()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00139">Juniper.Widgets.ListView.SetSelection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00076">Juniper.Widgets.ListView.AddItem()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00161">Juniper.Widgets.ListView.SetSelection()</a>.</p>
 
 </div>
 </div>
@@ -805,7 +846,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00021">21</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00139">Juniper.Widgets.ListView.SetSelection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00161">Juniper.Widgets.ListView.SetSelection()</a>.</p>
 
 </div>
 </div>
@@ -823,11 +864,62 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00013">13</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00116">Juniper.Widgets.ListView.ChangeSelection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00138">Juniper.Widgets.ListView.ChangeSelection()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
+<a id="ab2b5a848f5aa845f50a34a740dc97c2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2b5a848f5aa845f50a34a740dc97c2d">&#9670;&nbsp;</a></span>Container</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ScrollRect Juniper.Widgets.ListView.Container</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00131">131</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        {</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            {</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                <span class="keywordflow">return</span> GetComponent&lt;ScrollRect&gt;();</div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            }</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00076">Juniper.Widgets.ListView.AddItem()</a>.</p>
+
+</div>
+</div>
+<a id="a03d063ed3617db0c6bb6001790412730"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03d063ed3617db0c6bb6001790412730">&#9670;&nbsp;</a></span>FirstSelectedItem</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../da/de9/class_juniper_1_1_widgets_1_1_list_view_item.html">ListViewItem</a> Juniper.Widgets.ListView.FirstSelectedItem</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00035">35</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        {</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Selection</a>.FirstOrDefault();</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            }</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_list_view_html_ad09032012924403f4c40e745afaa1c7b"><div class="ttname"><a href="../../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#ad09032012924403f4c40e745afaa1c7b">Juniper.Widgets.ListView.Selection</a></div><div class="ttdeci">List&lt; ListViewItem &gt; Selection</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da2/_list_view_8cs_source.html#l00032">ListView.cs:32</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="af5657450bf856f0a91c1dde63f8657b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af5657450bf856f0a91c1dde63f8657b0">&#9670;&nbsp;</a></span>Items</h2>
 
@@ -850,7 +942,7 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00031">31</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{ <span class="keyword">get</span>; } = <span class="keyword">new</span> List&lt;ListViewItem&gt;();</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00065">Juniper.Widgets.ListView.AddItem()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00040">Juniper.Widgets.ListView.Clear()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00098">Juniper.Widgets.ListView.RemoveItem()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00139">Juniper.Widgets.ListView.SetSelection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00076">Juniper.Widgets.ListView.AddItem()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00042">Juniper.Widgets.ListView.Awake()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00047">Juniper.Widgets.ListView.Clear()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00058">Juniper.Widgets.ListView.GetItem()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00115">Juniper.Widgets.ListView.RemoveItem()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00161">Juniper.Widgets.ListView.SetSelection()</a>.</p>
 
 </div>
 </div>
@@ -876,12 +968,12 @@ Static Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00032">32</a> of file <a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;{ <span class="keyword">get</span>; } = <span class="keyword">new</span> List&lt;ListViewItem&gt;();</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00116">Juniper.Widgets.ListView.ChangeSelection()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00040">Juniper.Widgets.ListView.Clear()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00139">Juniper.Widgets.ListView.SetSelection()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00138">Juniper.Widgets.ListView.ChangeSelection()</a>, <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00047">Juniper.Widgets.ListView.Clear()</a>, and <a class="el" href="../../d3/da2/_list_view_8cs_source.html#l00161">Juniper.Widgets.ListView.SetSelection()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/<a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/<a class="el" href="../../d3/da2/_list_view_8cs_source.html">ListView.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

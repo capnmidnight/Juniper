@@ -22,7 +22,7 @@ var searchData=
   ['milliseconds',['Milliseconds',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a38f246763036ccaeba7db6d563c4d821',1,'Juniper']]],
   ['minutes',['Minutes',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794af670ea66cfb0e90bd6090472ad692694',1,'Juniper']]],
   ['mist',['MIST',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40afef8fa0af2b8946f4ec3172c3e402265',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
-  ['modelgeneratedobject',['ModelGeneratedObject',['../d2/d08/namespace_juniper_1_1_x_r.html#a8495b4fa473ca5483c6e13495d18274aa0844a08731a831dcba345e7e1fedcebf',1,'Juniper::XR']]],
+  ['modelgeneratedobject',['ModelGeneratedObject',['../d1/dd9/namespace_juniper_1_1_image_tracking.html#ad98a7f0e97d2fa327382e52f7b61cb04a0844a08731a831dcba345e7e1fedcebf',1,'Juniper::ImageTracking']]],
   ['moderate_5fbreeze',['MODERATE_BREEZE',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40a589b93d5ae9e95443d2efa3f48c092ed',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
   ['moderate_5frain',['MODERATE_RAIN',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40a1f3c79362c950f0eedc6b0724bfd20c8',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
   ['monoscopic',['Monoscopic',['../de/d75/namespace_juniper.html#afdef876db6475e1e32fde7d9095d3626a3f3700c4383b3f5e01d6ecf8bf353b36',1,'Juniper']]],

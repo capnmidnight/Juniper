@@ -155,7 +155,7 @@ Private Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>When no specific haptic implementation is available, but we know the system supports haptics, we fallback to using Unity's built-in Vibrate function, which is pretty primitive. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00022">22</a> of file <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html">DefaultHaptics.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00024">24</a> of file <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html">DefaultHaptics.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a70c7d914b247ea2e4046a3981d8c05e2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a70c7d914b247ea2e4046a3981d8c05e2">&#9670;&nbsp;</a></span>Cancel()</h2>
@@ -184,10 +184,10 @@ Private Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#a902f1f545abd693a81bac3996473e124">Juniper.Haptics.AbstractHapticExpressor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00075">75</a> of file <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html">DefaultHaptics.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            base.Cancel();</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <a class="code" href="../../d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a90c61aebbfd08dd39f7be5612a152d5c">SetVibration</a>(0);</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_default_haptics_html_a90c61aebbfd08dd39f7be5612a152d5c"><div class="ttname"><a href="../../d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a90c61aebbfd08dd39f7be5612a152d5c">Juniper.Haptics.DefaultHaptics.SetVibration</a></div><div class="ttdeci">void SetVibration(float amplitude)</div><div class="ttdoc">Set a haptic pulse playing at a set amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d15/_default_haptics_8cs_source.html#l00055">DefaultHaptics.cs:55</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00077">77</a> of file <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html">DefaultHaptics.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            base.Cancel();</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <a class="code" href="../../d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a90c61aebbfd08dd39f7be5612a152d5c">SetVibration</a>(0);</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_default_haptics_html_a90c61aebbfd08dd39f7be5612a152d5c"><div class="ttname"><a href="../../d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a90c61aebbfd08dd39f7be5612a152d5c">Juniper.Haptics.DefaultHaptics.SetVibration</a></div><div class="ttdeci">void SetVibration(float amplitude)</div><div class="ttdoc">Set a haptic pulse playing at a set amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d15/_default_haptics_8cs_source.html#l00057">DefaultHaptics.cs:57</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00055">Juniper.Haptics.DefaultHaptics.SetVibration()</a>.</p>
+<p class="reference">References <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00057">Juniper.Haptics.DefaultHaptics.SetVibration()</a>.</p>
 
 </div>
 </div>
@@ -210,7 +210,7 @@ Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -226,6 +226,10 @@ Private Member Functions</h2></td></tr>
 <p>Implements <a class="el" href="../../d0/d83/class_juniper_1_1_haptics_1_1_abstract_haptic_device.html#aed5b62c07119a415c60160728550e0ee">Juniper.Haptics.AbstractHapticDevice</a>.</p>
 
 <p>Reimplemented in <a class="el" href="../../d6/ddc/class_juniper_1_1_haptics_1_1i_o_s10_haptics.html#a359479ac500f02654883d0b215fd125b">Juniper.Haptics.iOS10Haptics</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00023">23</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        {</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            HapticPatternElement.Play(<span class="keyword">this</span>, expr);</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d3/def/_haptic_pattern_element_8cs_source.html#l00110">Juniper.Haptics.HapticPatternElement.Play()</a>.</p>
 
 </div>
 </div>
@@ -248,7 +252,7 @@ Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -262,6 +266,11 @@ Private Member Functions</h2></td></tr>
 </dl>
 
 <p>Implements <a class="el" href="../../d0/d83/class_juniper_1_1_haptics_1_1_abstract_haptic_device.html#ad1df5b0a4c54c750d6e716ba4cf8e669">Juniper.Haptics.AbstractHapticDevice</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00032">32</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            StartCoroutine(<a class="code" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#a825d03d731074b25d1c4adfdc331e4c1">PlayCoroutine</a>(points));</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_abstract_haptic_expressor_html_a825d03d731074b25d1c4adfdc331e4c1"><div class="ttname"><a href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#a825d03d731074b25d1c4adfdc331e4c1">Juniper.Haptics.AbstractHapticExpressor.PlayCoroutine</a></div><div class="ttdeci">virtual IEnumerator PlayCoroutine(long[] pattern)</div><div class="ttdoc">Play a patterned vibration with alternating amplitude modulation.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00097">AbstractHapticExpressor.cs:97</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00097">Juniper.Haptics.AbstractHapticExpressor.PlayCoroutine()</a>.</p>
 
 </div>
 </div>
@@ -284,7 +293,7 @@ Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -298,6 +307,11 @@ Private Member Functions</h2></td></tr>
 </dl>
 
 <p>Implements <a class="el" href="../../d0/d83/class_juniper_1_1_haptics_1_1_abstract_haptic_device.html#ae4e55ffc3f8d6e18e116714203917c38">Juniper.Haptics.AbstractHapticDevice</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00059">59</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            StartCoroutine(<a class="code" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#a825d03d731074b25d1c4adfdc331e4c1">PlayCoroutine</a>(pattern));</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_abstract_haptic_expressor_html_a825d03d731074b25d1c4adfdc331e4c1"><div class="ttname"><a href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#a825d03d731074b25d1c4adfdc331e4c1">Juniper.Haptics.AbstractHapticExpressor.PlayCoroutine</a></div><div class="ttdeci">virtual IEnumerator PlayCoroutine(long[] pattern)</div><div class="ttdoc">Play a patterned vibration with alternating amplitude modulation.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00097">AbstractHapticExpressor.cs:97</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00097">Juniper.Haptics.AbstractHapticExpressor.PlayCoroutine()</a>.</p>
 
 </div>
 </div>
@@ -330,7 +344,7 @@ Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -345,6 +359,11 @@ Private Member Functions</h2></td></tr>
 </dl>
 
 <p>Implements <a class="el" href="../../d0/d83/class_juniper_1_1_haptics_1_1_abstract_haptic_device.html#ae39afe3617ab49d7163a55c07c1ab550">Juniper.Haptics.AbstractHapticDevice</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00069">69</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        {</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            StartCoroutine(<a class="code" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#a825d03d731074b25d1c4adfdc331e4c1">PlayCoroutine</a>(pattern, amplitudes));</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_abstract_haptic_expressor_html_a825d03d731074b25d1c4adfdc331e4c1"><div class="ttname"><a href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#a825d03d731074b25d1c4adfdc331e4c1">Juniper.Haptics.AbstractHapticExpressor.PlayCoroutine</a></div><div class="ttdeci">virtual IEnumerator PlayCoroutine(long[] pattern)</div><div class="ttdoc">Play a patterned vibration with alternating amplitude modulation.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00097">AbstractHapticExpressor.cs:97</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00097">Juniper.Haptics.AbstractHapticExpressor.PlayCoroutine()</a>.</p>
 
 </div>
 </div>
@@ -382,10 +401,12 @@ Private Member Functions</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="../../d1/d35/class_juniper_1_1_haptics_1_1_android_a_p_i26_haptics.html#ab7cc84b10683492823aa81c80be6a9d0">Juniper.Haptics.AndroidAPI26Haptics</a>, and <a class="el" href="../../da/dca/class_juniper_1_1_haptics_1_1_abstract_android_a_p_i_haptics.html#a88e636c1e57148a1e2d015373c6a090f">Juniper.Haptics.AbstractAndroidAPIHaptics</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00081">81</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        {</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keywordtype">float</span> amplitude = 1;</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">for</span> (var i = 0; i &lt; pattern.Length; ++i)</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            {</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                yield <span class="keywordflow">return</span> <a class="code" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">VibrateCoroutine</a>(pattern[i], amplitude);</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                amplitude = 1 - amplitude;</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            }</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_abstract_haptic_expressor_html_ac3a6f9be9f6fbb7e340cf5602e481b28"><div class="ttname"><a href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine</a></div><div class="ttdeci">virtual IEnumerator VibrateCoroutine(long milliseconds)</div><div class="ttdoc">Play a single vibration for a set period of time at max amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00072">AbstractHapticExpressor.cs:72</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00097">97</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        {</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordtype">float</span> amplitude = 1;</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">for</span> (var i = 0; i &lt; pattern.Length; ++i)</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            {</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                yield <span class="keywordflow">return</span> <a class="code" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">VibrateCoroutine</a>(pattern[i], amplitude);</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                amplitude = 1 - amplitude;</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            }</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_abstract_haptic_expressor_html_ac3a6f9be9f6fbb7e340cf5602e481b28"><div class="ttname"><a href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine</a></div><div class="ttdeci">virtual IEnumerator VibrateCoroutine(long milliseconds)</div><div class="ttdoc">Play a single vibration for a set period of time at max amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00088">AbstractHapticExpressor.cs:88</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00072">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine()</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00088">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00032">Juniper.Haptics.AbstractHapticExpressor.Play()</a>.</p>
 
 </div>
 </div>
@@ -434,10 +455,10 @@ Private Member Functions</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="../../d1/d35/class_juniper_1_1_haptics_1_1_android_a_p_i26_haptics.html#a5c8d04855779f90007cbb659886d8d63">Juniper.Haptics.AndroidAPI26Haptics</a>, and <a class="el" href="../../d0/dc5/class_juniper_1_1_haptics_1_1_android_a_p_i1_haptics.html#a6eb92e22b166d220b9563773b4ab1c55">Juniper.Haptics.AndroidAPI1Haptics</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00096">96</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        {</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">for</span> (var i = 0; i &lt; pattern.Length; ++i)</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            {</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                yield <span class="keywordflow">return</span> <a class="code" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">VibrateCoroutine</a>(pattern[i], amplitudes[i]);</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            }</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_abstract_haptic_expressor_html_ac3a6f9be9f6fbb7e340cf5602e481b28"><div class="ttname"><a href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine</a></div><div class="ttdeci">virtual IEnumerator VibrateCoroutine(long milliseconds)</div><div class="ttdoc">Play a single vibration for a set period of time at max amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00072">AbstractHapticExpressor.cs:72</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00112">112</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        {</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">for</span> (var i = 0; i &lt; pattern.Length; ++i)</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            {</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                yield <span class="keywordflow">return</span> <a class="code" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">VibrateCoroutine</a>(pattern[i], amplitudes[i]);</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            }</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_abstract_haptic_expressor_html_ac3a6f9be9f6fbb7e340cf5602e481b28"><div class="ttname"><a href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine</a></div><div class="ttdeci">virtual IEnumerator VibrateCoroutine(long milliseconds)</div><div class="ttdoc">Play a single vibration for a set period of time at max amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00088">AbstractHapticExpressor.cs:88</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00072">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine()</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00088">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine()</a>.</p>
 
 </div>
 </div>
@@ -473,9 +494,9 @@ Private Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00055">55</a> of file <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html">DefaultHaptics.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#if UNITY_STANDALONE || UNITY_EDITOR</span></div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            GamePad.SetVibration(PlayerIndex.One, amplitude, amplitude);</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#elif UNITY_WSA</span></div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">if</span> (gp != <span class="keyword">null</span>)</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            {</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                gp.Vibration = <span class="keyword">new</span> GamepadVibration</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    LeftMotor = v,</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    RightMotor = v</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                };</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            }</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00075">Juniper.Haptics.DefaultHaptics.Cancel()</a>, and <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00086">Juniper.Haptics.DefaultHaptics.VibrateCoroutine()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00057">57</a> of file <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html">DefaultHaptics.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        {</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="preprocessor">#if UNITY_STANDALONE || UNITY_EDITOR</span></div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            GamePad.SetVibration(PlayerIndex.One, amplitude, amplitude);</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#elif UNITY_WSA</span></div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">if</span> (gp != <span class="keyword">null</span>)</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                gp.Vibration = <span class="keyword">new</span> GamepadVibration</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                {</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    LeftMotor = v,</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    RightMotor = v</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                };</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            }</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00077">Juniper.Haptics.DefaultHaptics.Cancel()</a>, and <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00088">Juniper.Haptics.DefaultHaptics.VibrateCoroutine()</a>.</p>
 
 </div>
 </div>
@@ -498,7 +519,7 @@ Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -512,6 +533,11 @@ Private Member Functions</h2></td></tr>
 </dl>
 
 <p>Implements <a class="el" href="../../d0/d83/class_juniper_1_1_haptics_1_1_abstract_haptic_device.html#a5a37a279cb84762d58b7ab813c42de2b">Juniper.Haptics.AbstractHapticDevice</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00041">41</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        {</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            StartCoroutine(<a class="code" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">VibrateCoroutine</a>(point));</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_abstract_haptic_expressor_html_ac3a6f9be9f6fbb7e340cf5602e481b28"><div class="ttname"><a href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine</a></div><div class="ttdeci">virtual IEnumerator VibrateCoroutine(long milliseconds)</div><div class="ttdoc">Play a single vibration for a set period of time at max amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00088">AbstractHapticExpressor.cs:88</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00088">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine()</a>.</p>
 
 </div>
 </div>
@@ -534,7 +560,7 @@ Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -548,6 +574,11 @@ Private Member Functions</h2></td></tr>
 </dl>
 
 <p>Implements <a class="el" href="../../d0/d83/class_juniper_1_1_haptics_1_1_abstract_haptic_device.html#a0776f0ebbf0ab17b8a8fd26231237992">Juniper.Haptics.AbstractHapticDevice</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00050">50</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        {</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            StartCoroutine(<a class="code" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">VibrateCoroutine</a>(milliseconds));</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_abstract_haptic_expressor_html_ac3a6f9be9f6fbb7e340cf5602e481b28"><div class="ttname"><a href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine</a></div><div class="ttdeci">virtual IEnumerator VibrateCoroutine(long milliseconds)</div><div class="ttdoc">Play a single vibration for a set period of time at max amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00088">AbstractHapticExpressor.cs:88</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00088">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine()</a>.</p>
 
 </div>
 </div>
@@ -580,7 +611,7 @@ Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -596,51 +627,15 @@ Private Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d0/d83/class_juniper_1_1_haptics_1_1_abstract_haptic_device.html#a226d1a6df14e54d539e0f1d95f1a0637">Juniper.Haptics.AbstractHapticDevice</a>.</p>
 
-</div>
-</div>
-<a id="ac3a6f9be9f6fbb7e340cf5602e481b28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3a6f9be9f6fbb7e340cf5602e481b28">&#9670;&nbsp;</a></span>VibrateCoroutine() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual IEnumerator Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine </td>
-          <td>(</td>
-          <td class="paramtype">long&#160;</td>
-          <td class="paramname"><em>milliseconds</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Play a single vibration for a set period of time at max amplitude. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">milliseconds</td><td>Milliseconds.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Reimplemented in <a class="el" href="../../d1/d35/class_juniper_1_1_haptics_1_1_android_a_p_i26_haptics.html#a0fe2e4c9d2728a8d7b27bdfed1c4cf3e">Juniper.Haptics.AndroidAPI26Haptics</a>, and <a class="el" href="../../da/dca/class_juniper_1_1_haptics_1_1_abstract_android_a_p_i_haptics.html#ac8569da1c59b6979f2c44dd021798377">Juniper.Haptics.AbstractAndroidAPIHaptics</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00072">72</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        {</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            yield <span class="keywordflow">return</span> <a class="code" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">VibrateCoroutine</a>(milliseconds, 1);</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_abstract_haptic_expressor_html_ac3a6f9be9f6fbb7e340cf5602e481b28"><div class="ttname"><a href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine</a></div><div class="ttdeci">virtual IEnumerator VibrateCoroutine(long milliseconds)</div><div class="ttdoc">Play a single vibration for a set period of time at max amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00072">AbstractHapticExpressor.cs:72</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00079">79</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            StartCoroutine(<a class="code" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">VibrateCoroutine</a>(milliseconds, amplitude));</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_abstract_haptic_expressor_html_ac3a6f9be9f6fbb7e340cf5602e481b28"><div class="ttname"><a href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine</a></div><div class="ttdeci">virtual IEnumerator VibrateCoroutine(long milliseconds)</div><div class="ttdoc">Play a single vibration for a set period of time at max amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00088">AbstractHapticExpressor.cs:88</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00081">Juniper.Haptics.AbstractHapticExpressor.PlayCoroutine()</a>, and <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00128">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine()</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00088">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine()</a>.</p>
 
 </div>
 </div>
 <a id="a29d55a500347c866d360e91474747b21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29d55a500347c866d360e91474747b21">&#9670;&nbsp;</a></span>VibrateCoroutine() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a29d55a500347c866d360e91474747b21">&#9670;&nbsp;</a></span>VibrateCoroutine() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -684,16 +679,57 @@ Private Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#a72f2fea80ef7c2a077d19ce5809969f5">Juniper.Haptics.AbstractHapticExpressor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00086">86</a> of file <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html">DefaultHaptics.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        {</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            var seconds = <a class="code" href="../../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794ae5771a362d88a71a657bfcd21ca54b3f">Units</a>.Milliseconds.Seconds(milliseconds);</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#if UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA</span></div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <a class="code" href="../../d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a90c61aebbfd08dd39f7be5612a152d5c">SetVibration</a>(amplitude);</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#elif HAS_HAPTICS</span></div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordflow">if</span> (amplitude &gt; 0.25f)</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            {</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                var now = Time.time;</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="keywordflow">while</span> (Time.time - now &lt; seconds)</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                {</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    Handheld.Vibrate();</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                    yield <span class="keywordflow">return</span> <span class="keyword">null</span>;</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                }</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            }</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            {</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            yield <span class="keywordflow">return</span> <span class="keyword">new</span> WaitForSeconds(seconds);</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#if !(UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA) &amp;&amp; HAS_HAPTICS</span></div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            }</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_default_haptics_html_a90c61aebbfd08dd39f7be5612a152d5c"><div class="ttname"><a href="../../d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a90c61aebbfd08dd39f7be5612a152d5c">Juniper.Haptics.DefaultHaptics.SetVibration</a></div><div class="ttdeci">void SetVibration(float amplitude)</div><div class="ttdoc">Set a haptic pulse playing at a set amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d15/_default_haptics_8cs_source.html#l00055">DefaultHaptics.cs:55</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00088">88</a> of file <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html">DefaultHaptics.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        {</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            var seconds = <a class="code" href="../../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794ae5771a362d88a71a657bfcd21ca54b3f">Units</a>.Milliseconds.Seconds(milliseconds);</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#if UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA</span></div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <a class="code" href="../../d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a90c61aebbfd08dd39f7be5612a152d5c">SetVibration</a>(amplitude);</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#elif HAS_HAPTICS</span></div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">if</span> (amplitude &gt; 0.25f)</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            {</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                var now = Time.time;</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="keywordflow">while</span> (Time.time - now &lt; seconds)</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                {</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                    Handheld.Vibrate();</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                    yield <span class="keywordflow">return</span> <span class="keyword">null</span>;</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                }</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            }</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            {</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            yield <span class="keywordflow">return</span> <span class="keyword">new</span> WaitForSeconds(seconds);</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#if !(UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA) &amp;&amp; HAS_HAPTICS</span></div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            }</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_default_haptics_html_a90c61aebbfd08dd39f7be5612a152d5c"><div class="ttname"><a href="../../d8/d2c/class_juniper_1_1_haptics_1_1_default_haptics.html#a90c61aebbfd08dd39f7be5612a152d5c">Juniper.Haptics.DefaultHaptics.SetVibration</a></div><div class="ttdeci">void SetVibration(float amplitude)</div><div class="ttdoc">Set a haptic pulse playing at a set amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d15/_default_haptics_8cs_source.html#l00057">DefaultHaptics.cs:57</a></div></div>
 <div class="ttc" id="namespace_juniper_html_a0bef6394d8ba675064f1cb513890f794ae5771a362d88a71a657bfcd21ca54b3f"><div class="ttname"><a href="../../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794ae5771a362d88a71a657bfcd21ca54b3f">Juniper.UnitOfMeasure.Units</a></div><div class="ttdoc">Counts of things.</div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../de/de1/_milliseconds_8cs_source.html#l00035">Juniper.Units.Milliseconds.Seconds()</a>, and <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00055">Juniper.Haptics.DefaultHaptics.SetVibration()</a>.</p>
+<p class="reference">References <a class="el" href="../../de/de1/_milliseconds_8cs_source.html#l00035">Juniper.Units.Milliseconds.Seconds()</a>, and <a class="el" href="../../d9/d15/_default_haptics_8cs_source.html#l00057">Juniper.Haptics.DefaultHaptics.SetVibration()</a>.</p>
+
+</div>
+</div>
+<a id="ac3a6f9be9f6fbb7e340cf5602e481b28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3a6f9be9f6fbb7e340cf5602e481b28">&#9670;&nbsp;</a></span>VibrateCoroutine() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual IEnumerator Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine </td>
+          <td>(</td>
+          <td class="paramtype">long&#160;</td>
+          <td class="paramname"><em>milliseconds</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Play a single vibration for a set period of time at max amplitude. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">milliseconds</td><td>Milliseconds.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="../../d1/d35/class_juniper_1_1_haptics_1_1_android_a_p_i26_haptics.html#a0fe2e4c9d2728a8d7b27bdfed1c4cf3e">Juniper.Haptics.AndroidAPI26Haptics</a>, and <a class="el" href="../../da/dca/class_juniper_1_1_haptics_1_1_abstract_android_a_p_i_haptics.html#ac8569da1c59b6979f2c44dd021798377">Juniper.Haptics.AbstractAndroidAPIHaptics</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00088">88</a> of file <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html">AbstractHapticExpressor.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        {</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            yield <span class="keywordflow">return</span> <a class="code" href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">VibrateCoroutine</a>(milliseconds, 1);</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_haptics_1_1_abstract_haptic_expressor_html_ac3a6f9be9f6fbb7e340cf5602e481b28"><div class="ttname"><a href="../../d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html#ac3a6f9be9f6fbb7e340cf5602e481b28">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine</a></div><div class="ttdeci">virtual IEnumerator VibrateCoroutine(long milliseconds)</div><div class="ttdoc">Play a single vibration for a set period of time at max amplitude.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00088">AbstractHapticExpressor.cs:88</a></div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00097">Juniper.Haptics.AbstractHapticExpressor.PlayCoroutine()</a>, <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00041">Juniper.Haptics.AbstractHapticExpressor.Vibrate()</a>, and <a class="el" href="../../dd/d6d/_abstract_haptic_expressor_8cs_source.html#l00144">Juniper.Haptics.AbstractHapticExpressor.VibrateCoroutine()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Haptics/<a class="el" href="../../d9/d15/_default_haptics_8cs_source.html">DefaultHaptics.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Haptics/<a class="el" href="../../d9/d15/_default_haptics_8cs_source.html">DefaultHaptics.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

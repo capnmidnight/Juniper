@@ -114,7 +114,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00010">10</a> of file <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html">PermissionHandler.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00011">11</a> of file <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html">PermissionHandler.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a4a585667ef0d54265280ffb8fc3430e5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4a585667ef0d54265280ffb8fc3430e5">&#9670;&nbsp;</a></span>Awake()</h2>
@@ -141,11 +141,11 @@ Public Member Functions</h2></td></tr>
 
 <p>Perform system-specific authorization requests, such as GPS on Android, or Microphone on iOS. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00015">15</a> of file <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html">PermissionHandler.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        {</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <a class="code" href="../../de/dcb/class_juniper_1_1_permission_handler.html#aaffa14c3e7b968c29ea8b06c039c476d">Install</a>(<span class="keyword">false</span>);</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#if UNITY_IOS</span></div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            <span class="keywordflow">if</span>(Application.isPlaying)</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                var auth = UserAuthorization.WebCam;</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                var speech = <a class="code" href="../../d3/d40/class_unity_engine_1_1_component_ext.html">ComponentExt</a>.FindAny&lt;Input.Speech.KeywordRecognizer&gt;();</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                <span class="keywordflow">if</span> (speech != <span class="keyword">null</span> &amp;&amp; speech.IsAvailable)</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                {</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                    auth |= UserAuthorization.Microphone;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                }</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                Application.RequestUserAuthorization(auth);</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            }</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_permission_handler_html_aaffa14c3e7b968c29ea8b06c039c476d"><div class="ttname"><a href="../../de/dcb/class_juniper_1_1_permission_handler.html#aaffa14c3e7b968c29ea8b06c039c476d">Juniper.PermissionHandler.Install</a></div><div class="ttdeci">void Install(bool reset)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d59/_permission_handler_8cs_source.html#l00040">PermissionHandler.cs:40</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00016">16</a> of file <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html">PermissionHandler.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        {</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <a class="code" href="../../de/dcb/class_juniper_1_1_permission_handler.html#aaffa14c3e7b968c29ea8b06c039c476d">Install</a>(<span class="keyword">false</span>);</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#if UNITY_IOS</span></div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="keywordflow">if</span>(Application.isPlaying)</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            {</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                var auth = UserAuthorization.WebCam;</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                var speech = <a class="code" href="../../d3/d40/class_unity_engine_1_1_component_ext.html">ComponentExt</a>.FindAny&lt;Input.Speech.KeywordRecognizer&gt;();</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                <span class="keywordflow">if</span> (speech != <span class="keyword">null</span> &amp;&amp; speech.IsAvailable)</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                    auth |= UserAuthorization.Microphone;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                }</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                Application.RequestUserAuthorization(auth);</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            }</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_permission_handler_html_aaffa14c3e7b968c29ea8b06c039c476d"><div class="ttname"><a href="../../de/dcb/class_juniper_1_1_permission_handler.html#aaffa14c3e7b968c29ea8b06c039c476d">Juniper.PermissionHandler.Install</a></div><div class="ttdeci">void Install(bool reset)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d59/_permission_handler_8cs_source.html#l00047">PermissionHandler.cs:47</a></div></div>
 <div class="ttc" id="class_unity_engine_1_1_component_ext_html"><div class="ttname"><a href="../../d3/d40/class_unity_engine_1_1_component_ext.html">UnityEngine.ComponentExt</a></div><div class="ttdoc">Extension methods for Unity's Component class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d68/_component_ext_8cs_source.html#l00012">ComponentExt.cs:12</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00040">Juniper.PermissionHandler.Install()</a>.</p>
+<p class="reference">References <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00047">Juniper.PermissionHandler.Install()</a>.</p>
 
 </div>
 </div>
@@ -175,9 +175,9 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="../../db/d28/interface_juniper_1_1_i_installable.html#a9a1f3a6308da4ac81aa4abb3d999d8a0">Juniper.IInstallable</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00040">40</a> of file <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html">PermissionHandler.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#if MAGIC_LEAP</span></div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            this.EnsureComponent&lt;PrivilegeRequester&gt;();</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00015">Juniper.PermissionHandler.Awake()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00047">47</a> of file <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html">PermissionHandler.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#if MAGIC_LEAP</span></div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            this.EnsureComponent&lt;PrivilegeRequester&gt;();</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00016">Juniper.PermissionHandler.Awake()</a>, and <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00033">Juniper.PermissionHandler.Reinstall()</a>.</p>
 
 </div>
 </div>
@@ -199,12 +199,19 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Implements <a class="el" href="../../db/d28/interface_juniper_1_1_i_installable.html#a97e17a09ac826d1b8ade1143961eb740">Juniper.IInstallable</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00033">33</a> of file <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html">PermissionHandler.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        {</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <a class="code" href="../../de/dcb/class_juniper_1_1_permission_handler.html#aaffa14c3e7b968c29ea8b06c039c476d">Install</a>(<span class="keyword">true</span>);</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_permission_handler_html_aaffa14c3e7b968c29ea8b06c039c476d"><div class="ttname"><a href="../../de/dcb/class_juniper_1_1_permission_handler.html#aaffa14c3e7b968c29ea8b06c039c476d">Juniper.PermissionHandler.Install</a></div><div class="ttdeci">void Install(bool reset)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d59/_permission_handler_8cs_source.html#l00047">PermissionHandler.cs:47</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00047">Juniper.PermissionHandler.Install()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00040">Juniper.PermissionHandler.Reset()</a>.</p>
 
 </div>
 </div>
@@ -213,6 +220,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Juniper.PermissionHandler.Reset </td>
@@ -221,7 +231,17 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00040">40</a> of file <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html">PermissionHandler.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <a class="code" href="../../de/dcb/class_juniper_1_1_permission_handler.html#a38500b36aeef443b6eb4b098217e7975">Reinstall</a>();</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_permission_handler_html_a38500b36aeef443b6eb4b098217e7975"><div class="ttname"><a href="../../de/dcb/class_juniper_1_1_permission_handler.html#a38500b36aeef443b6eb4b098217e7975">Juniper.PermissionHandler.Reinstall</a></div><div class="ttdeci">virtual void Reinstall()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d59/_permission_handler_8cs_source.html#l00033">PermissionHandler.cs:33</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00033">Juniper.PermissionHandler.Reinstall()</a>.</p>
 
 </div>
 </div>
@@ -250,12 +270,12 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="../../db/d28/interface_juniper_1_1_i_installable.html#a6b327e75973fcd0e3ce5d7bd34c54c38">Juniper.IInstallable</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00047">47</a> of file <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html">PermissionHandler.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#if MAGIC_LEAP</span></div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            this.RemoveComponent&lt;PrivilegeRequester&gt;();</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html#l00054">54</a> of file <a class="el" href="../../d3/d59/_permission_handler_8cs_source.html">PermissionHandler.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#if MAGIC_LEAP</span></div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            this.RemoveComponent&lt;PrivilegeRequester&gt;();</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/<a class="el" href="../../d3/d59/_permission_handler_8cs_source.html">PermissionHandler.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/<a class="el" href="../../d3/d59/_permission_handler_8cs_source.html">PermissionHandler.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

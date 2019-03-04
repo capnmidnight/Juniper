@@ -2,7 +2,6 @@ var searchData=
 [
   ['cameracontrol',['CameraControl',['../dc/dfb/class_juniper_1_1_input_1_1_camera_control.html',1,'Juniper::Input']]],
   ['cameraext',['CameraExt',['../d9/da8/class_unity_engine_1_1_camera_ext.html',1,'UnityEngine']]],
-  ['cameraextensions',['CameraExtensions',['../d8/df1/class_juniper_1_1_camera_extensions.html',1,'Juniper']]],
   ['celsius',['Celsius',['../de/d87/class_juniper_1_1_units_1_1_celsius.html',1,'Juniper::Units']]],
   ['centimeters',['Centimeters',['../da/d27/class_juniper_1_1_units_1_1_centimeters.html',1,'Juniper::Units']]],
   ['childswapanimator',['ChildSwapAnimator',['../da/df8/class_juniper_1_1_animation_1_1_child_swap_animator.html',1,'Juniper::Animation']]],

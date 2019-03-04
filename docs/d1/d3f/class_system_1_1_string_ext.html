@@ -133,7 +133,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -147,6 +147,9 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
+<p class="definition">Definition at line <a class="el" href="../../dc/d63/_string_ext_8cs_source.html#l00063">63</a> of file <a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d1/d3f/class_system_1_1_string_ext.html#aa42826e4cf4069adaf57ebdfed31d06c">Join</a>(parts, Path.DirectorySeparatorChar);</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div><div class="ttc" id="class_system_1_1_string_ext_html_aa42826e4cf4069adaf57ebdfed31d06c"><div class="ttname"><a href="../../d1/d3f/class_system_1_1_string_ext.html#aa42826e4cf4069adaf57ebdfed31d06c">System.StringExt.Join</a></div><div class="ttdeci">static string Join(this string[] parts)</div><div class="ttdoc">Join a collection of string path components by the system's standard directory part separator charact...</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d63/_string_ext_8cs_source.html#l00063">StringExt.cs:63</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a34643b018859ad0bd37801040fb8ef92"></a>
@@ -183,8 +186,8 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d63/_string_ext_8cs_source.html#l00064">64</a> of file <a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        {</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">if</span> (parts.Length == 0)</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            {</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="keywordflow">return</span> <span class="keywordtype">string</span>.Empty;</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            }</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            var sb = <span class="keyword">new</span> Text.StringBuilder(parts[0]);</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">for</span> (var i = 1; i &lt; parts.Length; ++i)</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            {</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                sb.AppendFormat(<span class="stringliteral">&quot;{0}{1}&quot;</span>, separator, parts[i]);</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            }</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordflow">return</span> sb.ToString();</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../dc/d63/_string_ext_8cs_source.html#l00068">68</a> of file <a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        {</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keywordflow">if</span> (parts.Length == 0)</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            {</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordflow">return</span> <span class="keywordtype">string</span>.Empty;</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            }</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            var sb = <span class="keyword">new</span> Text.StringBuilder(parts[0]);</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordflow">for</span> (var i = 1; i &lt; parts.Length; ++i)</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                sb.AppendFormat(<span class="stringliteral">&quot;{0}{1}&quot;</span>, separator, parts[i]);</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            }</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">return</span> sb.ToString();</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ab32e0d448db6099953f7bc2255b1ba14"></a>
@@ -221,8 +224,8 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d63/_string_ext_8cs_source.html#l00078">78</a> of file <a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        {</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="keywordflow">if</span> (parts.Length == 0)</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            {</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="keywordflow">return</span> <span class="keywordtype">string</span>.Empty;</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            }</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            var sb = <span class="keyword">new</span> Text.StringBuilder(parts[0]);</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="keywordflow">for</span> (var i = 1; i &lt; parts.Length; ++i)</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            {</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                sb.AppendFormat(<span class="stringliteral">&quot;{0}{1}&quot;</span>, separator, parts[i]);</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            }</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordflow">return</span> sb.ToString();</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../dc/d63/_string_ext_8cs_source.html#l00082">82</a> of file <a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        {</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">if</span> (parts.Length == 0)</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            {</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keywordflow">return</span> <span class="keywordtype">string</span>.Empty;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            }</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            var sb = <span class="keyword">new</span> Text.StringBuilder(parts[0]);</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordflow">for</span> (var i = 1; i &lt; parts.Length; ++i)</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                sb.AppendFormat(<span class="stringliteral">&quot;{0}{1}&quot;</span>, separator, parts[i]);</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            }</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keywordflow">return</span> sb.ToString();</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ac9c47e644871055417a5cfd89dcc7cc4"></a>
@@ -244,7 +247,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -258,6 +261,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p class="definition">Definition at line <a class="el" href="../../dc/d63/_string_ext_8cs_source.html#l00050">50</a> of file <a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        {</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">return</span> value</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                .Replace(<span class="charliteral">&#39;/&#39;</span>, Path.DirectorySeparatorChar)</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                .Replace(<span class="charliteral">&#39;\\&#39;</span>, Path.DirectorySeparatorChar);</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a783d879990c59f839797a581b4159905"></a>
@@ -335,7 +340,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/<a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/<a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

@@ -407,8 +407,10 @@ Static Private Member Functions</h2></td></tr>
 
 <p>Create a new hand pointer object for an interaction source that hasn't yet been seen. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d26/_hand_tracker_8cs_source.html#l00031">31</a> of file <a class="el" href="../../da/d26/_hand_tracker_8cs_source.html">HandTracker.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        {</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            var pointer = MakePointer(PointerConfig.MakePointerName(hand));</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            pointer.Hand = hand;</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keywordflow">return</span> pointer;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../da/d26/_hand_tracker_8cs_source.html#l00035">35</a> of file <a class="el" href="../../da/d26/_hand_tracker_8cs_source.html">HandTracker.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        {</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            var pointer = MakePointer(PointerConfig.MakePointerName(hand));</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            pointer.Hand = hand;</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">return</span> pointer;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../da/d26/_hand_tracker_8cs_source.html#l00024">Juniper.Input.Pointers.Motion.HandTracker.MakeHandTrackers()</a>.</p>
+
 </div>
 </div>
 <a id="a1a66a7d2224c411a5892f1c4d4ca4995"></a>
@@ -430,12 +432,18 @@ Static Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../df/da6/_stage_extensions_8cs_source.html#l00204">Juniper.StageExtensions.Install()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d26/_hand_tracker_8cs_source.html#l00024">24</a> of file <a class="el" href="../../da/d26/_hand_tracker_8cs_source.html">HandTracker.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span>[] {</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <a class="code" href="../../db/d04/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html#a31a692a5b55f1ed90901986e43c0db90">MakeHandTracker</a>(MakePointer, <a class="code" href="../../d7/de5/namespace_juniper_1_1_input.html#a9d9b054857f5466be9e4396eb85dea2a">Hands</a>.Left),</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                <a class="code" href="../../db/d04/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html#a31a692a5b55f1ed90901986e43c0db90">MakeHandTracker</a>(MakePointer, <a class="code" href="../../d7/de5/namespace_juniper_1_1_input.html#a9d9b054857f5466be9e4396eb85dea2a">Hands</a>.Right)</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            };</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker_html_a31a692a5b55f1ed90901986e43c0db90"><div class="ttname"><a href="../../db/d04/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html#a31a692a5b55f1ed90901986e43c0db90">Juniper.Input.Pointers.Motion.HandTracker.MakeHandTracker</a></div><div class="ttdeci">static HandTracker MakeHandTracker(Func&lt; string, HandTracker &gt; MakePointer, Hands hand)</div><div class="ttdoc">Create a new hand pointer object for an interaction source that hasn't yet been seen.</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d26/_hand_tracker_8cs_source.html#l00035">HandTracker.cs:35</a></div></div>
+<div class="ttc" id="namespace_juniper_1_1_input_html_a9d9b054857f5466be9e4396eb85dea2a"><div class="ttname"><a href="../../d7/de5/namespace_juniper_1_1_input.html#a9d9b054857f5466be9e4396eb85dea2a">Juniper.Input.Hands</a></div><div class="ttdeci">Hands</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd5/_hands_8cs_source.html#l00003">Hands.cs:3</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../da/d26/_hand_tracker_8cs_source.html#l00035">Juniper.Input.Pointers.Motion.HandTracker.MakeHandTracker()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../df/da6/_stage_extensions_8cs_source.html#l00213">Juniper.StageExtensions.Install()</a>.</p>
 
 </div>
 </div>
@@ -444,6 +452,9 @@ Static Private Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">override void Juniper.Input.Pointers.Motion.HandTracker.Reinstall </td>
@@ -452,8 +463,15 @@ Static Private Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../da/d26/_hand_tracker_8cs_source.html#l00019">19</a> of file <a class="el" href="../../da/d26/_hand_tracker_8cs_source.html">HandTracker.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            base.Reinstall();</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a2f3180510e4e286e4a2b4a34669c0fce"></a>
@@ -562,7 +580,7 @@ Static Private Member Functions</h2></td></tr>
 <div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand_html_a9a1d3fab57e0899b52766af8df8ed662"><div class="ttname"><a href="../../de/d21/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html#a9a1d3fab57e0899b52766af8df8ed662">Juniper.Input.Pointers.Motion.HoloLensHand.lastEndPoint</a></div><div class="ttdeci">Vector3 lastEndPoint</div><div class="ttdoc">The interaction end point from the last frame, used for interpolating the position and smoothing it o...</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/da0/_holo_lens_hand_8cs_source.html#l00040">HoloLensHand.cs:40</a></div></div>
 <div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand_html_a4b5d9a938b071352815b2b230f056c9e"><div class="ttname"><a href="../../de/d21/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html#a4b5d9a938b071352815b2b230f056c9e">Juniper.Input.Pointers.Motion.HoloLensHand.originVelocity</a></div><div class="ttdeci">Vector3 originVelocity</div><div class="ttdoc">How quickly the interaction origin is moving, and in what direction. Used to extrapolate the position...</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/da0/_holo_lens_hand_8cs_source.html#l00029">HoloLensHand.cs:29</a></div></div>
 <div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand_html_a24cd8004a8d36b5ba87e3c2ee5f45227"><div class="ttname"><a href="../../de/d21/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html#a24cd8004a8d36b5ba87e3c2ee5f45227">Juniper.Input.Pointers.Motion.HoloLensHand.lastOrigin</a></div><div class="ttdeci">Vector3 lastOrigin</div><div class="ttdoc">The interaction origin from the last frame, used for interpolating the position and smoothing it out ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/da0/_holo_lens_hand_8cs_source.html#l00023">HoloLensHand.cs:23</a></div></div>
-<div class="ttc" id="_abstract_motion_filter_8cs_html_af3326292fdd04d2b384b6d781d9594f6"><div class="ttname"><a href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a></div><div class="ttdeci">UnityEngine.Vector3 Vector3</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/df7/_abstract_motion_filter_8cs_source.html#l00003">AbstractMotionFilter.cs:3</a></div></div>
+<div class="ttc" id="_abstract_motion_filter_8cs_html_af3326292fdd04d2b384b6d781d9594f6"><div class="ttname"><a href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a></div><div class="ttdeci">UnityEngine.Vector3 Vector3</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/df7/_abstract_motion_filter_8cs_source.html#l00005">AbstractMotionFilter.cs:5</a></div></div>
 <div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand_html_a998059e5bb0d97b5524d6dd8432467f2"><div class="ttname"><a href="../../de/d21/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html#a998059e5bb0d97b5524d6dd8432467f2">Juniper.Input.Pointers.Motion.HoloLensHand.endPointVelocity</a></div><div class="ttdeci">Vector3 endPointVelocity</div><div class="ttdoc">How quickly the interaction end point is moving, and in what direction. Used to extrapolate the posit...</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/da0/_holo_lens_hand_8cs_source.html#l00047">HoloLensHand.cs:47</a></div></div>
 <div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand_html_a21237b939a01f40ad28ac35231576bcc"><div class="ttname"><a href="../../de/d21/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html#a21237b939a01f40ad28ac35231576bcc">Juniper.Input.Pointers.Motion.HoloLensHand.GetCurrentSide</a></div><div class="ttdeci">InteractionSourceHandedness GetCurrentSide(Vector3 forward)</div><div class="ttdoc">Figure out a side on which the</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/da0/_holo_lens_hand_8cs_source.html#l00128">HoloLensHand.cs:128</a></div></div>
 <div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand_html_a4f81955e8273df18b9adb19f5df1befa"><div class="ttname"><a href="../../de/d21/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html#a4f81955e8273df18b9adb19f5df1befa">Juniper.Input.Pointers.Motion.HoloLensHand.endPoint</a></div><div class="ttdeci">Vector3 endPoint</div><div class="ttdoc">The interaction end point, i.e. through where the rays fire for the raycaster.</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/da0/_holo_lens_hand_8cs_source.html#l00034">HoloLensHand.cs:34</a></div></div>
@@ -877,7 +895,7 @@ Static Private Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Motion/<a class="el" href="../../da/d26/_hand_tracker_8cs_source.html">HandTracker.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Motion/<a class="el" href="../../da/d26/_hand_tracker_8cs_source.html">HandTracker.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

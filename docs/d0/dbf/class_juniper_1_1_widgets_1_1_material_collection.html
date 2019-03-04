@@ -82,6 +82,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="../../d2/dbe/class_juniper_1_1_widgets_1_1_material_collection-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -111,10 +112,13 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aba4609e15fdb3861dc752beac93a6d60"><td class="memItemLeft" align="right" valign="top">Material []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#aba4609e15fdb3861dc752beac93a6d60">materials</a></td></tr>
 <tr class="memdesc:aba4609e15fdb3861dc752beac93a6d60"><td class="mdescLeft">&#160;</td><td class="mdescRight">The materials collected together.  <a href="#aba4609e15fdb3861dc752beac93a6d60">More...</a><br /></td></tr>
 <tr class="separator:aba4609e15fdb3861dc752beac93a6d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3e83cbf40d8341f3851f193675db2b1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#ab3e83cbf40d8341f3851f193675db2b1">Length</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:ab3e83cbf40d8341f3851f193675db2b1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#ab3e83cbf40d8341f3851f193675db2b1">Length</a><code> [get]</code></td></tr>
 <tr class="memdesc:ab3e83cbf40d8341f3851f193675db2b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of materials in the collection.  <a href="#ab3e83cbf40d8341f3851f193675db2b1">More...</a><br /></td></tr>
 <tr class="separator:ab3e83cbf40d8341f3851f193675db2b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cb2b4c58faf11782b9646a180d281b5"><td class="memItemLeft" align="right" valign="top">Material&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#a1cb2b4c58faf11782b9646a180d281b5">this[int index]</a></td></tr>
+<tr class="memitem:a1cb2b4c58faf11782b9646a180d281b5"><td class="memItemLeft" align="right" valign="top">Material&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#a1cb2b4c58faf11782b9646a180d281b5">this[int index]</a><code> [get]</code></td></tr>
 <tr class="memdesc:a1cb2b4c58faf11782b9646a180d281b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the Unity Material at the specified index.  <a href="#a1cb2b4c58faf11782b9646a180d281b5">More...</a><br /></td></tr>
 <tr class="separator:a1cb2b4c58faf11782b9646a180d281b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -134,6 +138,9 @@ Private Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">IEnumerator&lt;Material&gt; Juniper.Widgets.MaterialCollection.GetEnumerator </td>
@@ -142,10 +149,20 @@ Private Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Gets an enumerator over the materials. </p>
 <dl class="section return"><dt>Returns</dt><dd>The enumerator.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d7a/_material_collection_8cs_source.html#l00050">50</a> of file <a class="el" href="../../de/d7a/_material_collection_8cs_source.html">MaterialCollection.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        {</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#aba4609e15fdb3861dc752beac93a6d60">materials</a>.AsEnumerable().GetEnumerator();</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_material_collection_html_aba4609e15fdb3861dc752beac93a6d60"><div class="ttname"><a href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#aba4609e15fdb3861dc752beac93a6d60">Juniper.Widgets.MaterialCollection.materials</a></div><div class="ttdeci">Material [] materials</div><div class="ttdoc">The materials collected together.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d7a/_material_collection_8cs_source.html#l00020">MaterialCollection.cs:20</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../de/d7a/_material_collection_8cs_source.html#l00020">Juniper.Widgets.MaterialCollection.materials</a>.</p>
 
 </div>
 </div>
@@ -167,7 +184,7 @@ Private Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -175,28 +192,14 @@ Private Member Functions</h2></td></tr>
 <p>Gets an enumerator over the materials. </p>
 <dl class="section return"><dt>Returns</dt><dd>The enumerator.</dd></dl>
 
+<p class="definition">Definition at line <a class="el" href="../../de/d7a/_material_collection_8cs_source.html#l00059">59</a> of file <a class="el" href="../../de/d7a/_material_collection_8cs_source.html">MaterialCollection.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#aba4609e15fdb3861dc752beac93a6d60">materials</a>.GetEnumerator();</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_material_collection_html_aba4609e15fdb3861dc752beac93a6d60"><div class="ttname"><a href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#aba4609e15fdb3861dc752beac93a6d60">Juniper.Widgets.MaterialCollection.materials</a></div><div class="ttdeci">Material [] materials</div><div class="ttdoc">The materials collected together.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d7a/_material_collection_8cs_source.html#l00020">MaterialCollection.cs:20</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../de/d7a/_material_collection_8cs_source.html#l00020">Juniper.Widgets.MaterialCollection.materials</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ab3e83cbf40d8341f3851f193675db2b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3e83cbf40d8341f3851f193675db2b1">&#9670;&nbsp;</a></span>Length</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Juniper.Widgets.MaterialCollection.Length</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            <a class="code" href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#aba4609e15fdb3861dc752beac93a6d60">materials</a>.Length</div></div><!-- fragment -->
-<p>The number of materials in the collection. </p>
-<p>The length.</p>
-
-<p class="definition">Definition at line <a class="el" href="../../de/d7a/_material_collection_8cs_source.html#l00026">26</a> of file <a class="el" href="../../de/d7a/_material_collection_8cs_source.html">MaterialCollection.cs</a>.</p>
-
-</div>
-</div>
 <a id="aba4609e15fdb3861dc752beac93a6d60"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aba4609e15fdb3861dc752beac93a6d60">&#9670;&nbsp;</a></span>materials</h2>
 
@@ -213,6 +216,37 @@ Private Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../de/d7a/_material_collection_8cs_source.html#l00020">20</a> of file <a class="el" href="../../de/d7a/_material_collection_8cs_source.html">MaterialCollection.cs</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="../../de/d7a/_material_collection_8cs_source.html#l00050">Juniper.Widgets.MaterialCollection.GetEnumerator()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="ab3e83cbf40d8341f3851f193675db2b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3e83cbf40d8341f3851f193675db2b1">&#9670;&nbsp;</a></span>Length</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Juniper.Widgets.MaterialCollection.Length</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The number of materials in the collection. </p>
+<p>The length.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d7a/_material_collection_8cs_source.html#l00027">27</a> of file <a class="el" href="../../de/d7a/_material_collection_8cs_source.html">MaterialCollection.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        {</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            {</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#aba4609e15fdb3861dc752beac93a6d60">materials</a>.Length;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            }</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_material_collection_html_aba4609e15fdb3861dc752beac93a6d60"><div class="ttname"><a href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#aba4609e15fdb3861dc752beac93a6d60">Juniper.Widgets.MaterialCollection.materials</a></div><div class="ttdeci">Material [] materials</div><div class="ttdoc">The materials collected together.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d7a/_material_collection_8cs_source.html#l00020">MaterialCollection.cs:20</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a1cb2b4c58faf11782b9646a180d281b5"></a>
@@ -220,13 +254,21 @@ Private Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">Material Juniper.Widgets.MaterialCollection.this[int index]</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            <a class="code" href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#aba4609e15fdb3861dc752beac93a6d60">materials</a>[index]</div></div><!-- fragment -->
+
 <p>Gets the Unity Material at the specified index. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -235,12 +277,13 @@ Private Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d7a/_material_collection_8cs_source.html#l00033">33</a> of file <a class="el" href="../../de/d7a/_material_collection_8cs_source.html">MaterialCollection.cs</a>.</p>
-
+<p class="definition">Definition at line <a class="el" href="../../de/d7a/_material_collection_8cs_source.html#l00039">39</a> of file <a class="el" href="../../de/d7a/_material_collection_8cs_source.html">MaterialCollection.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        {</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            {</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#aba4609e15fdb3861dc752beac93a6d60">materials</a>[index];</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            }</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_widgets_1_1_material_collection_html_aba4609e15fdb3861dc752beac93a6d60"><div class="ttname"><a href="../../d0/dbf/class_juniper_1_1_widgets_1_1_material_collection.html#aba4609e15fdb3861dc752beac93a6d60">Juniper.Widgets.MaterialCollection.materials</a></div><div class="ttdeci">Material [] materials</div><div class="ttdoc">The materials collected together.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d7a/_material_collection_8cs_source.html#l00020">MaterialCollection.cs:20</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/<a class="el" href="../../de/d7a/_material_collection_8cs_source.html">MaterialCollection.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/<a class="el" href="../../de/d7a/_material_collection_8cs_source.html">MaterialCollection.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

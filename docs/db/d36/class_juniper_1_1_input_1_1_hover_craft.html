@@ -83,7 +83,7 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="../../d4/db8/class_juniper_1_1_input_1_1_hover_craft-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Juniper.Input.HoverCraft Class Reference</div>  </div>
@@ -126,16 +126,16 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:a5e05c602ad4f75480fc8740dcfc3ce2d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a5e05c602ad4f75480fc8740dcfc3ce2d">velocity</a></td></tr>
 <tr class="separator:a5e05c602ad4f75480fc8740dcfc3ce2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:af062755f10ee26324d7093f11ebd44a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#af062755f10ee26324d7093f11ebd44a4">ForwardPressed</a></td></tr>
-<tr class="separator:af062755f10ee26324d7093f11ebd44a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3356531e4ecc333d72898d81576973a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#ae3356531e4ecc333d72898d81576973a">BackPressed</a></td></tr>
-<tr class="separator:ae3356531e4ecc333d72898d81576973a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a3c926518a68704ee2c7dd3f25322a81e"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#a3c926518a68704ee2c7dd3f25322a81e">ForwardPressed</a><code> [get]</code></td></tr>
+<tr class="separator:a3c926518a68704ee2c7dd3f25322a81e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f260ff1564b15ed2f19bea75595a098"><td class="memItemLeft" align="right" valign="top">bool?&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#a8f260ff1564b15ed2f19bea75595a098">BackPressed</a><code> [get]</code></td></tr>
+<tr class="separator:a8f260ff1564b15ed2f19bea75595a098"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00012">12</a> of file <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00013">13</a> of file <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a1fe8d0e9e2f541f4904393f6eb03269c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1fe8d0e9e2f541f4904393f6eb03269c">&#9670;&nbsp;</a></span>Awake()</h2>
@@ -164,11 +164,11 @@ Private Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#aa4dd738663ff77edbf05ad56a6b27c29">Juniper.Input.AbstractVelocityLocomotion</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00019">19</a> of file <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            base.Awake();</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a> == <span class="keyword">null</span>)</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            {</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                enabled = <span class="keyword">false</span>;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                var mgr = <a class="code" href="../../d3/d40/class_unity_engine_1_1_component_ext.html">ComponentExt</a>.FindAny&lt;UnifiedInputModule&gt;();</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                mgr.WithPointer((pointer) =&gt;</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                {</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                    <a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a> = pointer;</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                    enabled = <span class="keyword">true</span>;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                });</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            }</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_hover_craft_html_aa3f3c1eec6a392680bf2ea11e45023c6"><div class="ttname"><a href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Juniper.Input.HoverCraft.Pointer</a></div><div class="ttdeci">IPointerDevice Pointer</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00014">HoverCraft.cs:14</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00020">20</a> of file <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        {</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            base.Awake();</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a> == <span class="keyword">null</span>)</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                enabled = <span class="keyword">false</span>;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                var mgr = <a class="code" href="../../d3/d40/class_unity_engine_1_1_component_ext.html">ComponentExt</a>.FindAny&lt;UnifiedInputModule&gt;();</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                mgr.WithPointer((pointer) =&gt;</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                {</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                    <a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a> = pointer;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                    enabled = <span class="keyword">true</span>;</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                });</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            }</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_hover_craft_html_aa3f3c1eec6a392680bf2ea11e45023c6"><div class="ttname"><a href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Juniper.Input.HoverCraft.Pointer</a></div><div class="ttdeci">IPointerDevice Pointer</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00015">HoverCraft.cs:15</a></div></div>
 <div class="ttc" id="class_unity_engine_1_1_component_ext_html"><div class="ttname"><a href="../../d3/d40/class_unity_engine_1_1_component_ext.html">UnityEngine.ComponentExt</a></div><div class="ttdoc">Extension methods for Unity's Component class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d68/_component_ext_8cs_source.html#l00012">ComponentExt.cs:12</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00014">Juniper.Input.HoverCraft.Pointer</a>, and <a class="el" href="../../d8/d54/_unified_input_module_8cs_source.html#l00041">Juniper.Input.UnifiedInputModule.WithPointer()</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00015">Juniper.Input.HoverCraft.Pointer</a>, and <a class="el" href="../../d8/d54/_unified_input_module_8cs_source.html#l00043">Juniper.Input.UnifiedInputModule.WithPointer()</a>.</p>
 
 </div>
 </div>
@@ -197,75 +197,23 @@ Private Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a2bbbe0026f960b5d04775b502b39ef14">Juniper.Input.AbstractVelocityLocomotion</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00041">41</a> of file <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        {</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a>.<a class="code" href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a17724aa17903db0f0d4ac80c409a57c7">IsDisabled</a>)</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a5e05c602ad4f75480fc8740dcfc3ce2d">velocity</a> = <a class="code" href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>.zero;</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            }</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keywordtype">float</span> thrust = 0;</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a>.<a class="code" href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a147068e6cf553e07e92cbce21f692e1b">EventTarget</a> == <span class="keyword">null</span>)</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                {</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                    <span class="keywordflow">if</span> (<a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#af062755f10ee26324d7093f11ebd44a4">ForwardPressed</a>)</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                    {</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                        thrust = <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#ae2b6ab3e476f13be12100dc31ffb4343">moveSpeed</a>;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                    }</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#ae3356531e4ecc333d72898d81576973a">BackPressed</a>)</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                    {</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                        thrust = -<a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#ae2b6ab3e476f13be12100dc31ffb4343">moveSpeed</a>;</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    }</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                }</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a5e05c602ad4f75480fc8740dcfc3ce2d">velocity</a> = thrust * <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a6d21b585821e8c42ff3d87b3f4ca7ed8">MOVEMENT_SCALE</a> * <a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a>.<a class="code" href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a615e06ad758c8d8c760c8cba63baf846">transform</a>.forward;</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            }</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            base.Update();</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_hover_craft_html_aa3f3c1eec6a392680bf2ea11e45023c6"><div class="ttname"><a href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Juniper.Input.HoverCraft.Pointer</a></div><div class="ttdeci">IPointerDevice Pointer</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00014">HoverCraft.cs:14</a></div></div>
-<div class="ttc" id="interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device_html_a615e06ad758c8d8c760c8cba63baf846"><div class="ttname"><a href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a615e06ad758c8d8c760c8cba63baf846">Juniper.Input.Pointers.IPointerDevice.transform</a></div><div class="ttdeci">Transform transform</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d20/_i_pointer_device_8cs_source.html#l00012">IPointerDevice.cs:12</a></div></div>
-<div class="ttc" id="class_juniper_1_1_input_1_1_hover_craft_html_af062755f10ee26324d7093f11ebd44a4"><div class="ttname"><a href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#af062755f10ee26324d7093f11ebd44a4">Juniper.Input.HoverCraft.ForwardPressed</a></div><div class="ttdeci">bool ForwardPressed</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00035">HoverCraft.cs:35</a></div></div>
-<div class="ttc" id="_abstract_motion_filter_8cs_html_af3326292fdd04d2b384b6d781d9594f6"><div class="ttname"><a href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a></div><div class="ttdeci">UnityEngine.Vector3 Vector3</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/df7/_abstract_motion_filter_8cs_source.html#l00003">AbstractMotionFilter.cs:3</a></div></div>
-<div class="ttc" id="interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device_html_a17724aa17903db0f0d4ac80c409a57c7"><div class="ttname"><a href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a17724aa17903db0f0d4ac80c409a57c7">Juniper.Input.Pointers.IPointerDevice.IsDisabled</a></div><div class="ttdeci">bool IsDisabled</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d20/_i_pointer_device_8cs_source.html#l00015">IPointerDevice.cs:15</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00052">52</a> of file <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        {</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a>.<a class="code" href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a17724aa17903db0f0d4ac80c409a57c7">IsDisabled</a>)</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            {</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a5e05c602ad4f75480fc8740dcfc3ce2d">velocity</a> = <a class="code" href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>.zero;</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            }</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            {</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                <span class="keywordtype">float</span> thrust = 0;</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a>.<a class="code" href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a147068e6cf553e07e92cbce21f692e1b">EventTarget</a> == <span class="keyword">null</span>)</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                {</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    <span class="keywordflow">if</span> (<a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#a3c926518a68704ee2c7dd3f25322a81e">ForwardPressed</a>)</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                    {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                        thrust = <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#ae2b6ab3e476f13be12100dc31ffb4343">moveSpeed</a>;</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    }</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#a8f260ff1564b15ed2f19bea75595a098">BackPressed</a>)</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                        thrust = -<a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#ae2b6ab3e476f13be12100dc31ffb4343">moveSpeed</a>;</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    }</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                }</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a5e05c602ad4f75480fc8740dcfc3ce2d">velocity</a> = thrust * <a class="code" href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a6d21b585821e8c42ff3d87b3f4ca7ed8">MOVEMENT_SCALE</a> * <a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a>.<a class="code" href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a615e06ad758c8d8c760c8cba63baf846">transform</a>.forward;</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            }</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            base.Update();</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_hover_craft_html_a3c926518a68704ee2c7dd3f25322a81e"><div class="ttname"><a href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#a3c926518a68704ee2c7dd3f25322a81e">Juniper.Input.HoverCraft.ForwardPressed</a></div><div class="ttdeci">bool? ForwardPressed</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00037">HoverCraft.cs:37</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_hover_craft_html_aa3f3c1eec6a392680bf2ea11e45023c6"><div class="ttname"><a href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Juniper.Input.HoverCraft.Pointer</a></div><div class="ttdeci">IPointerDevice Pointer</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00015">HoverCraft.cs:15</a></div></div>
+<div class="ttc" id="interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device_html_a615e06ad758c8d8c760c8cba63baf846"><div class="ttname"><a href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a615e06ad758c8d8c760c8cba63baf846">Juniper.Input.Pointers.IPointerDevice.transform</a></div><div class="ttdeci">Transform transform</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d20/_i_pointer_device_8cs_source.html#l00021">IPointerDevice.cs:21</a></div></div>
+<div class="ttc" id="class_juniper_1_1_input_1_1_hover_craft_html_a8f260ff1564b15ed2f19bea75595a098"><div class="ttname"><a href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#a8f260ff1564b15ed2f19bea75595a098">Juniper.Input.HoverCraft.BackPressed</a></div><div class="ttdeci">bool? BackPressed</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00045">HoverCraft.cs:45</a></div></div>
+<div class="ttc" id="_abstract_motion_filter_8cs_html_af3326292fdd04d2b384b6d781d9594f6"><div class="ttname"><a href="../../dd/df7/_abstract_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a></div><div class="ttdeci">UnityEngine.Vector3 Vector3</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/df7/_abstract_motion_filter_8cs_source.html#l00005">AbstractMotionFilter.cs:5</a></div></div>
+<div class="ttc" id="interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device_html_a17724aa17903db0f0d4ac80c409a57c7"><div class="ttname"><a href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a17724aa17903db0f0d4ac80c409a57c7">Juniper.Input.Pointers.IPointerDevice.IsDisabled</a></div><div class="ttdeci">bool IsDisabled</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d20/_i_pointer_device_8cs_source.html#l00031">IPointerDevice.cs:31</a></div></div>
 <div class="ttc" id="class_juniper_1_1_input_1_1_abstract_velocity_locomotion_html_a6d21b585821e8c42ff3d87b3f4ca7ed8"><div class="ttname"><a href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a6d21b585821e8c42ff3d87b3f4ca7ed8">Juniper.Input.AbstractVelocityLocomotion.MOVEMENT_SCALE</a></div><div class="ttdeci">const float MOVEMENT_SCALE</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00014">AbstractVelocityLocomotion.cs:14</a></div></div>
 <div class="ttc" id="class_juniper_1_1_input_1_1_abstract_velocity_locomotion_html_a5e05c602ad4f75480fc8740dcfc3ce2d"><div class="ttname"><a href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#a5e05c602ad4f75480fc8740dcfc3ce2d">Juniper.Input.AbstractVelocityLocomotion.velocity</a></div><div class="ttdeci">Vector3 velocity</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00015">AbstractVelocityLocomotion.cs:15</a></div></div>
-<div class="ttc" id="class_juniper_1_1_input_1_1_hover_craft_html_ae3356531e4ecc333d72898d81576973a"><div class="ttname"><a href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#ae3356531e4ecc333d72898d81576973a">Juniper.Input.HoverCraft.BackPressed</a></div><div class="ttdeci">bool BackPressed</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00038">HoverCraft.cs:38</a></div></div>
-<div class="ttc" id="interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device_html_a147068e6cf553e07e92cbce21f692e1b"><div class="ttname"><a href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a147068e6cf553e07e92cbce21f692e1b">Juniper.Input.Pointers.IPointerDevice.EventTarget</a></div><div class="ttdeci">IEventSystemHandler EventTarget</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d20/_i_pointer_device_8cs_source.html#l00023">IPointerDevice.cs:23</a></div></div>
+<div class="ttc" id="interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device_html_a147068e6cf553e07e92cbce21f692e1b"><div class="ttname"><a href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a147068e6cf553e07e92cbce21f692e1b">Juniper.Input.Pointers.IPointerDevice.EventTarget</a></div><div class="ttdeci">IEventSystemHandler EventTarget</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d20/_i_pointer_device_8cs_source.html#l00061">IPointerDevice.cs:61</a></div></div>
 <div class="ttc" id="class_juniper_1_1_input_1_1_abstract_velocity_locomotion_html_ae2b6ab3e476f13be12100dc31ffb4343"><div class="ttname"><a href="../../d0/dcb/class_juniper_1_1_input_1_1_abstract_velocity_locomotion.html#ae2b6ab3e476f13be12100dc31ffb4343">Juniper.Input.AbstractVelocityLocomotion.moveSpeed</a></div><div class="ttdeci">float moveSpeed</div><div class="ttdoc">Linear velocity for the user</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00010">AbstractVelocityLocomotion.cs:10</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00038">Juniper.Input.HoverCraft.BackPressed</a>, <a class="el" href="../../d0/d20/_i_pointer_device_8cs_source.html#l00023">Juniper.Input.Pointers.IPointerDevice.EventTarget</a>, <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00035">Juniper.Input.HoverCraft.ForwardPressed</a>, <a class="el" href="../../d0/d20/_i_pointer_device_8cs_source.html#l00015">Juniper.Input.Pointers.IPointerDevice.IsDisabled</a>, <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00014">Juniper.Input.AbstractVelocityLocomotion.MOVEMENT_SCALE</a>, <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00010">Juniper.Input.AbstractVelocityLocomotion.moveSpeed</a>, <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00014">Juniper.Input.HoverCraft.Pointer</a>, <a class="el" href="../../d0/d20/_i_pointer_device_8cs_source.html#l00012">Juniper.Input.Pointers.IPointerDevice.transform</a>, and <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00015">Juniper.Input.AbstractVelocityLocomotion.velocity</a>.</p>
+<p class="reference">References <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00045">Juniper.Input.HoverCraft.BackPressed</a>, <a class="el" href="../../d0/d20/_i_pointer_device_8cs_source.html#l00061">Juniper.Input.Pointers.IPointerDevice.EventTarget</a>, <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00037">Juniper.Input.HoverCraft.ForwardPressed</a>, <a class="el" href="../../d0/d20/_i_pointer_device_8cs_source.html#l00031">Juniper.Input.Pointers.IPointerDevice.IsDisabled</a>, <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00014">Juniper.Input.AbstractVelocityLocomotion.MOVEMENT_SCALE</a>, <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00010">Juniper.Input.AbstractVelocityLocomotion.moveSpeed</a>, <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00015">Juniper.Input.HoverCraft.Pointer</a>, <a class="el" href="../../d0/d20/_i_pointer_device_8cs_source.html#l00021">Juniper.Input.Pointers.IPointerDevice.transform</a>, and <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00015">Juniper.Input.AbstractVelocityLocomotion.velocity</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="ae3356531e4ecc333d72898d81576973a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3356531e4ecc333d72898d81576973a">&#9670;&nbsp;</a></span>BackPressed</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Juniper.Input.HoverCraft.BackPressed</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            <a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a>?.IsButtonPressed(<a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Right) == <span class="keyword">true</span></div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00038">38</a> of file <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00041">Juniper.Input.HoverCraft.Update()</a>.</p>
-
-</div>
-</div>
-<a id="af062755f10ee26324d7093f11ebd44a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af062755f10ee26324d7093f11ebd44a4">&#9670;&nbsp;</a></span>ForwardPressed</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Juniper.Input.HoverCraft.ForwardPressed</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">=&gt;</div><div class="line">            <a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a>?.IsButtonPressed(<a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Left) == <span class="keyword">true</span></div></div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00035">35</a> of file <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00041">Juniper.Input.HoverCraft.Update()</a>.</p>
-
-</div>
-</div>
 <a id="a9cdb658ca3de6d25eab2f005a9fecdf2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9cdb658ca3de6d25eab2f005a9fecdf2">&#9670;&nbsp;</a></span>jink</h2>
 
@@ -314,7 +262,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00014">14</a> of file <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html">AbstractVelocityLocomotion.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">Juniper.Input.RunningMovement.Update()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00041">Juniper.Input.HoverCraft.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">Juniper.Input.RunningMovement.Update()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00052">Juniper.Input.HoverCraft.Update()</a>.</p>
 
 </div>
 </div>
@@ -342,7 +290,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00010">10</a> of file <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html">AbstractVelocityLocomotion.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">Juniper.Input.RunningMovement.Update()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00041">Juniper.Input.HoverCraft.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">Juniper.Input.RunningMovement.Update()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00052">Juniper.Input.HoverCraft.Update()</a>.</p>
 
 </div>
 </div>
@@ -358,9 +306,9 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00014">14</a> of file <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00015">15</a> of file <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00019">Juniper.Input.HoverCraft.Awake()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00041">Juniper.Input.HoverCraft.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00020">Juniper.Input.HoverCraft.Awake()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00052">Juniper.Input.HoverCraft.Update()</a>.</p>
 
 </div>
 </div>
@@ -386,12 +334,71 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00015">15</a> of file <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html">AbstractVelocityLocomotion.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">Juniper.Input.RunningMovement.Update()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00041">Juniper.Input.HoverCraft.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dd3/_running_movement_8cs_source.html#l00011">Juniper.Input.RunningMovement.Update()</a>, <a class="el" href="../../d5/dd6/_abstract_velocity_locomotion_8cs_source.html#l00027">Juniper.Input.AbstractVelocityLocomotion.Update()</a>, and <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00052">Juniper.Input.HoverCraft.Update()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a8f260ff1564b15ed2f19bea75595a098"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f260ff1564b15ed2f19bea75595a098">&#9670;&nbsp;</a></span>BackPressed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool? Juniper.Input.HoverCraft.BackPressed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00045">45</a> of file <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        {</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a>?.<a class="code" href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a16358229b8b88b4e37e782dbeba65b35">IsButtonPressed</a>(<a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Right) == <span class="keyword">true</span>;</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            }</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_hover_craft_html_aa3f3c1eec6a392680bf2ea11e45023c6"><div class="ttname"><a href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Juniper.Input.HoverCraft.Pointer</a></div><div class="ttdeci">IPointerDevice Pointer</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00015">HoverCraft.cs:15</a></div></div>
+<div class="ttc" id="_hover_craft_8cs_html_a5c50200d19d49e922dc81f88da2bcbf9"><div class="ttname"><a href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a></div><div class="ttdeci">UnityEngine.EventSystems.PointerEventData.InputButton InputButton</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00005">HoverCraft.cs:5</a></div></div>
+<div class="ttc" id="interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device_html_a16358229b8b88b4e37e782dbeba65b35"><div class="ttname"><a href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a16358229b8b88b4e37e782dbeba65b35">Juniper.Input.Pointers.IPointerDevice.IsButtonPressed</a></div><div class="ttdeci">bool IsButtonPressed(PointerEventData.InputButton button)</div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00052">Juniper.Input.HoverCraft.Update()</a>.</p>
+
+</div>
+</div>
+<a id="a3c926518a68704ee2c7dd3f25322a81e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c926518a68704ee2c7dd3f25322a81e">&#9670;&nbsp;</a></span>ForwardPressed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool? Juniper.Input.HoverCraft.ForwardPressed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00037">37</a> of file <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            {</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keywordflow">return</span> <a class="code" href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Pointer</a>?.<a class="code" href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a16358229b8b88b4e37e782dbeba65b35">IsButtonPressed</a>(<a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Left) == <span class="keyword">true</span>;</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            }</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_hover_craft_html_aa3f3c1eec6a392680bf2ea11e45023c6"><div class="ttname"><a href="../../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#aa3f3c1eec6a392680bf2ea11e45023c6">Juniper.Input.HoverCraft.Pointer</a></div><div class="ttdeci">IPointerDevice Pointer</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00015">HoverCraft.cs:15</a></div></div>
+<div class="ttc" id="_hover_craft_8cs_html_a5c50200d19d49e922dc81f88da2bcbf9"><div class="ttname"><a href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a></div><div class="ttdeci">UnityEngine.EventSystems.PointerEventData.InputButton InputButton</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00005">HoverCraft.cs:5</a></div></div>
+<div class="ttc" id="interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device_html_a16358229b8b88b4e37e782dbeba65b35"><div class="ttname"><a href="../../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a16358229b8b88b4e37e782dbeba65b35">Juniper.Input.Pointers.IPointerDevice.IsButtonPressed</a></div><div class="ttdeci">bool IsButtonPressed(PointerEventData.InputButton button)</div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d1/db7/_hover_craft_8cs_source.html#l00052">Juniper.Input.HoverCraft.Update()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/<a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/<a class="el" href="../../d1/db7/_hover_craft_8cs_source.html">HoverCraft.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

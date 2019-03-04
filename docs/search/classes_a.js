@@ -1,21 +1,15 @@
 var searchData=
 [
-  ['label',['Label',['../de/dee/class_juniper_1_1_widgets_1_1_label.html',1,'Juniper::Widgets']]],
-  ['labelattribute',['LabelAttribute',['../dd/d7f/class_unity_engine_1_1_label_attribute.html',1,'UnityEngine']]],
-  ['labelattributedrawer',['LabelAttributeDrawer',['../d4/da8/class_unity_engine_1_1_label_attribute_drawer.html',1,'UnityEngine']]],
-  ['labeledinputfield',['LabeledInputField',['../db/d98/class_juniper_1_1_widgets_1_1_labeled_input_field.html',1,'Juniper::Widgets']]],
-  ['latlng',['LatLng',['../d3/d5d/class_juniper_1_1_units_1_1_lat_lng.html',1,'Juniper::Units']]],
-  ['latlngpoint',['LatLngPoint',['../d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html',1,'Juniper::World::GIS']]],
-  ['latlngpointeditor',['LatLngPointEditor',['../d7/d89/class_juniper_1_1_world_1_1_g_i_s_1_1_editor_1_1_lat_lng_point_editor.html',1,'Juniper::World::GIS::Editor']]],
-  ['latlngpointext',['LatLngPointExt',['../d2/d6e/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point_ext.html',1,'Juniper::World::GIS']]],
-  ['lerpmotionfilter',['LerpMotionFilter',['../d7/db7/class_juniper_1_1_statistics_1_1_lerp_motion_filter.html',1,'Juniper::Statistics']]],
-  ['lightmapset',['LightMapSet',['../df/d61/class_juniper_1_1_light_mapping_1_1_light_map_set.html',1,'Juniper::LightMapping']]],
-  ['lightmapswitcher',['LightMapSwitcher',['../dc/d8d/class_juniper_1_1_light_mapping_1_1_light_map_switcher.html',1,'Juniper::LightMapping']]],
-  ['lightmeasurement',['LightMeasurement',['../d2/dc4/class_juniper_1_1_world_1_1_light_estimation_1_1_light_measurement.html',1,'Juniper::World::LightEstimation']]],
-  ['listext',['ListExt',['../dc/da6/class_system_1_1_collections_1_1_generic_1_1_list_ext.html',1,'System::Collections::Generic']]],
-  ['listview',['ListView',['../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html',1,'Juniper::Widgets']]],
-  ['listviewitem',['ListViewItem',['../da/de9/class_juniper_1_1_widgets_1_1_list_view_item.html',1,'Juniper::Widgets']]],
-  ['loadingbar',['LoadingBar',['../d5/dae/class_juniper_1_1_widgets_1_1_loading_bar.html',1,'Juniper::Widgets']]],
-  ['longpressevents',['LongPressEvents',['../d6/d53/class_juniper_1_1_events_1_1_long_press_events.html',1,'Juniper::Events']]],
-  ['lumens',['Lumens',['../d8/d75/class_juniper_1_1_units_1_1_lumens.html',1,'Juniper::Units']]]
+  ['kalmanmotionfilter',['KalmanMotionFilter',['../da/d6a/class_juniper_1_1_statistics_1_1_kalman_motion_filter.html',1,'Juniper::Statistics']]],
+  ['kelvin',['Kelvin',['../d9/d59/class_juniper_1_1_units_1_1_kelvin.html',1,'Juniper::Units']]],
+  ['keyboardshortcut',['KeyboardShortcut',['../d7/de9/class_juniper_1_1_input_1_1_keyboard_shortcut.html',1,'Juniper::Input']]],
+  ['keywordable',['Keywordable',['../d7/d0d/class_juniper_1_1_input_1_1_speech_1_1_keywordable.html',1,'Juniper::Input::Speech']]],
+  ['keywordrecognizedeventargs',['KeywordRecognizedEventArgs',['../d7/d7e/class_juniper_1_1_input_1_1_speech_1_1_keyword_recognized_event_args.html',1,'Juniper::Input::Speech']]],
+  ['keywordrecognizer',['KeywordRecognizer',['../d1/d5c/class_juniper_1_1_input_1_1_speech_1_1_keyword_recognizer.html',1,'Juniper::Input::Speech']]],
+  ['kibibytes',['Kibibytes',['../d0/dd6/class_juniper_1_1_units_1_1_kibibytes.html',1,'Juniper::Units']]],
+  ['kilobytes',['Kilobytes',['../da/dff/class_juniper_1_1_units_1_1_kilobytes.html',1,'Juniper::Units']]],
+  ['kilograms',['Kilograms',['../dd/de1/class_juniper_1_1_units_1_1_kilograms.html',1,'Juniper::Units']]],
+  ['kilometers',['Kilometers',['../db/d11/class_juniper_1_1_units_1_1_kilometers.html',1,'Juniper::Units']]],
+  ['kilometersperhour',['KilometersPerHour',['../db/d90/class_juniper_1_1_units_1_1_kilometers_per_hour.html',1,'Juniper::Units']]],
+  ['kilopascals',['Kilopascals',['../db/d4e/class_juniper_1_1_units_1_1_kilopascals.html',1,'Juniper::Units']]]
 ];

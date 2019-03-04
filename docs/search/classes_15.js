@@ -1,9 +1,17 @@
 var searchData=
 [
-  ['weather',['Weather',['../d5/d64/class_juniper_1_1_world_1_1_climate_1_1_weather.html',1,'Juniper.World.Climate.Weather'],['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html',1,'Juniper.World.Climate.OpenWeatherMap.WeatherReport.Weather']]],
-  ['weatherreport',['WeatherReport',['../d8/dbe/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report.html',1,'Juniper::World::Climate::OpenWeatherMap']]],
-  ['wind',['Wind',['../d9/d50/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_wind.html',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport']]],
-  ['windowsmrmotioncontroller',['WindowsMRMotionController',['../d3/d9d/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html',1,'Juniper::Input::Pointers::Motion']]],
-  ['windowsmrprobeconfiguration',['WindowsMRProbeConfiguration',['../de/da2/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_probe_configuration.html',1,'Juniper::Input::Pointers::Motion']]],
-  ['workflowstep',['WorkflowStep',['../d0/d1d/class_juniper_1_1_animation_1_1_workflow_step.html',1,'Juniper::Animation']]]
+  ['valuechangedeventargs',['ValueChangedEventArgs',['../d0/d04/class_juniper_1_1_animation_1_1_abstract_transition_controller_1_1_value_changed_event_args.html',1,'Juniper::Animation::AbstractTransitionController']]],
+  ['valuedragger',['ValueDragger',['../dd/d32/class_juniper_1_1_widgets_1_1_value_dragger.html',1,'Juniper::Widgets']]],
+  ['vector2statistics',['Vector2Statistics',['../d0/d49/class_juniper_1_1_statistics_1_1_vector2_statistics.html',1,'Juniper::Statistics']]],
+  ['vector3event',['Vector3Event',['../d3/d7d/class_unity_engine_1_1_events_1_1_vector3_event.html',1,'UnityEngine::Events']]],
+  ['vector3statistics',['Vector3Statistics',['../d6/d1f/class_juniper_1_1_statistics_1_1_vector3_statistics.html',1,'Juniper::Statistics']]],
+  ['vector4statistics',['Vector4Statistics',['../da/d3a/class_juniper_1_1_statistics_1_1_vector4_statistics.html',1,'Juniper::Statistics']]],
+  ['vectorext',['VectorExt',['../d2/dd8/class_unity_engine_1_1_vector_ext.html',1,'UnityEngine']]],
+  ['videovader',['VideoVader',['../dd/d40/class_juniper_1_1_widgets_1_1_video_vader.html',1,'Juniper::Widgets']]],
+  ['volumefade',['VolumeFade',['../d4/d62/class_juniper_1_1_audio_1_1_volume_fade.html',1,'Juniper::Audio']]],
+  ['vuforiadisplaymanager',['VuforiaDisplayManager',['../d8/d9d/class_juniper_1_1_display_1_1_vuforia_display_manager.html',1,'Juniper::Display']]],
+  ['vuforiaimageanalyzer',['VuforiaImageAnalyzer',['../dd/d23/class_juniper_1_1_vuforia_1_1_vuforia_image_analyzer.html',1,'Juniper::Vuforia']]],
+  ['vuforialightmeasurement',['VuforiaLightMeasurement',['../d5/d84/class_juniper_1_1_world_1_1_light_estimation_1_1_vuforia_light_measurement.html',1,'Juniper::World::LightEstimation']]],
+  ['vuforiatrackerkeeper',['VuforiaTrackerKeeper',['../da/d57/class_juniper_1_1_image_tracking_1_1_vuforia_tracker_keeper.html',1,'Juniper::ImageTracking']]],
+  ['vuforiaunityext',['VuforiaUnityExt',['../d0/d23/class_vuforia_1_1_vuforia_unity_ext.html',1,'Vuforia']]]
 ];

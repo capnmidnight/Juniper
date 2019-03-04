@@ -7,7 +7,6 @@ var searchData=
   ['geocentriceclipticsphericalposition',['GeocentricEclipticSphericalPosition',['../dd/da2/struct_juniper_1_1_world_1_1_g_i_s_1_1_geocentric_ecliptic_spherical_position.html',1,'Juniper::World::GIS']]],
   ['gibibytes',['Gibibytes',['../dd/dd2/class_juniper_1_1_units_1_1_gibibytes.html',1,'Juniper::Units']]],
   ['gigabytes',['Gigabytes',['../d9/dfc/class_juniper_1_1_units_1_1_gigabytes.html',1,'Juniper::Units']]],
-  ['googlearcoregroundplanevisualizer',['GoogleARCoreGroundPlaneVisualizer',['../d0/dbf/class_juniper_1_1_ground_1_1_google_a_r_core_ground_plane_visualizer.html',1,'Juniper::Ground']]],
   ['gpslocation',['GPSLocation',['../d4/da2/class_juniper_1_1_world_1_1_g_p_s_location.html',1,'Juniper::World']]],
   ['gradians',['Gradians',['../d4/d54/class_juniper_1_1_units_1_1_gradians.html',1,'Juniper::Units']]],
   ['grams',['Grams',['../d3/d18/class_juniper_1_1_units_1_1_grams.html',1,'Juniper::Units']]],

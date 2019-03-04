@@ -2,7 +2,7 @@ var searchData=
 [
   ['sand',['SAND',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40add8b86e783c5b75c7c9224089b4f239b',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
   ['sand_5fdust_5fwhirls',['SAND_DUST_WHIRLS',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40a367b5c20a1134e8343a49b4559654b32',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
-  ['scannedobject',['ScannedObject',['../d2/d08/namespace_juniper_1_1_x_r.html#a8495b4fa473ca5483c6e13495d18274aa41de0f9e4763409b9e34eadbf5db4ed9',1,'Juniper::XR']]],
+  ['scannedobject',['ScannedObject',['../d1/dd9/namespace_juniper_1_1_image_tracking.html#ad98a7f0e97d2fa327382e52f7b61cb04a41de0f9e4763409b9e34eadbf5db4ed9',1,'Juniper::ImageTracking']]],
   ['scattered_5fclouds',['SCATTERED_CLOUDS',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40aa50a2458b10ecb52c1299906c29bb2fc',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
   ['scrolled',['Scrolled',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82add9f478d35dc202fac54b4de21062e2e',1,'Juniper::Input']]],
   ['seconds',['Seconds',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a8f19a8c7566af54ea8981029730e5465',1,'Juniper']]],

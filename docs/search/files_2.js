@@ -2,7 +2,6 @@ var searchData=
 [
   ['cameracontrol_2ecs',['CameraControl.cs',['../df/da6/_camera_control_8cs.html',1,'']]],
   ['cameraext_2ecs',['CameraExt.cs',['../d9/d0a/_camera_ext_8cs.html',1,'']]],
-  ['cameraextensions_2ecs',['CameraExtensions.cs',['../df/d46/_camera_extensions_8cs.html',1,'']]],
   ['cartesianaxis_2ecs',['CartesianAxis.cs',['../de/d6e/_cartesian_axis_8cs.html',1,'']]],
   ['celsius_2ecs',['Celsius.cs',['../de/d0e/_celsius_8cs.html',1,'']]],
   ['centimeters_2ecs',['Centimeters.cs',['../d3/d7d/_centimeters_8cs.html',1,'']]],

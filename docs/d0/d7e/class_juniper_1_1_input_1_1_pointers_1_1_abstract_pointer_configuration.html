@@ -160,11 +160,14 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html#l00022">22</a> of file <a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html">AbstractPointerDevice.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <a class="code" href="../../d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html#a8be1226eb6e327b089cb9d6a713539f2">nativeButtons</a>.Add(outButton, inButton);</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration_html_a8be1226eb6e327b089cb9d6a713539f2"><div class="ttname"><a href="../../d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html#a8be1226eb6e327b089cb9d6a713539f2">Juniper.Input.Pointers.AbstractPointerConfiguration.nativeButtons</a></div><div class="ttdeci">readonly Dictionary&lt; ButtonIDType, InputButton &gt; nativeButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d38/_abstract_pointer_device_8cs_source.html#l00020">AbstractPointerDevice.cs:20</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="ade34b512869aed286444931d818c38ac"></a>
@@ -172,6 +175,9 @@ Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void <a class="el" href="../../d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html">Juniper.Input.Pointers.AbstractPointerConfiguration</a>&lt; ButtonIDType &gt;.Install </td>
@@ -191,8 +197,16 @@ Private Attributes</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html#l00027">27</a> of file <a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html">AbstractPointerDevice.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        {</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            mapper.Install(eventParent, <a class="code" href="../../d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html#a8be1226eb6e327b089cb9d6a713539f2">nativeButtons</a>);</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration_html_a8be1226eb6e327b089cb9d6a713539f2"><div class="ttname"><a href="../../d0/d7e/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html#a8be1226eb6e327b089cb9d6a713539f2">Juniper.Input.Pointers.AbstractPointerConfiguration.nativeButtons</a></div><div class="ttdeci">readonly Dictionary&lt; ButtonIDType, InputButton &gt; nativeButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d38/_abstract_pointer_device_8cs_source.html#l00020">AbstractPointerDevice.cs:20</a></div></div>
+</div><!-- fragment -->
 </div>
 </div>
 <a id="a42ecf16306d175dc91bf40a6f9c99315"></a>
@@ -219,8 +233,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html#l00028">28</a> of file <a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html">AbstractPointerDevice.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        {</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <span class="keywordflow">foreach</span> (var evt <span class="keywordflow">in</span> eventParent.GetComponents&lt;<a class="code" href="../../df/d46/class_juniper_1_1_events_1_1_button_event.html">ButtonEvent</a>&gt;())</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            {</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                evt.Destroy();</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            }</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_events_1_1_button_event_html"><div class="ttname"><a href="../../df/d46/class_juniper_1_1_events_1_1_button_event.html">Juniper.Events.ButtonEvent</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d05/_button_event_8cs_source.html#l00013">ButtonEvent.cs:13</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html#l00032">32</a> of file <a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html">AbstractPointerDevice.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keywordflow">foreach</span> (var evt <span class="keywordflow">in</span> eventParent.GetComponents&lt;<a class="code" href="../../df/d46/class_juniper_1_1_events_1_1_button_event.html">ButtonEvent</a>&gt;())</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            {</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                evt.Destroy();</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            }</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_events_1_1_button_event_html"><div class="ttname"><a href="../../df/d46/class_juniper_1_1_events_1_1_button_event.html">Juniper.Events.ButtonEvent</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d05/_button_event_8cs_source.html#l00013">ButtonEvent.cs:13</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -247,10 +261,12 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html#l00020">20</a> of file <a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html">AbstractPointerDevice.cs</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html#l00022">Juniper.Input.Pointers.AbstractPointerConfiguration&lt; KeyCode &gt;.AddButton()</a>, and <a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html#l00027">Juniper.Input.Pointers.AbstractPointerConfiguration&lt; KeyCode &gt;.Install()</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/<a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html">AbstractPointerDevice.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/<a class="el" href="../../de/d38/_abstract_pointer_device_8cs_source.html">AbstractPointerDevice.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

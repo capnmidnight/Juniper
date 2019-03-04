@@ -1,8 +1,11 @@
 var searchData=
 [
   ['backgroundcolor',['BackgroundColor',['../da/de9/class_juniper_1_1_widgets_1_1_list_view_item.html#aa42312120a58c0f65e15f29beaa3baac',1,'Juniper::Widgets::ListViewItem']]],
-  ['buildprogress',['BuildProgress',['../d2/d00/class_juniper_1_1_x_r_1_1_custom_editors_1_1_x_r_system_editor.html#a941a6ce5088175ef12e4f15561fc2d29',1,'Juniper::XR::CustomEditors::XRSystemEditor']]],
-  ['buildstep',['BuildStep',['../d4/d7e/class_juniper_1_1_x_r_1_1_custom_editors_1_1_project_configuration.html#a023b38e427491b50370bfca783f187b3',1,'Juniper::XR::CustomEditors::ProjectConfiguration']]],
-  ['buildtarget',['BuildTarget',['../dd/db5/class_juniper_1_1_x_r_1_1_custom_editors_1_1_platform_configuration.html#aa8663a33c340ecea282f76b99275aa91',1,'Juniper::XR::CustomEditors::PlatformConfiguration']]],
-  ['buttontype',['ButtonType',['../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a94b4c3b0e979d9029af755d627b437b9',1,'Juniper::Input::Pointers::IPointerDevice']]]
+  ['backpressed',['BackPressed',['../db/d36/class_juniper_1_1_input_1_1_hover_craft.html#a8f260ff1564b15ed2f19bea75595a098',1,'Juniper::Input::HoverCraft']]],
+  ['buildinprogress',['BuildInProgress',['../db/d0c/class_juniper_1_1_configuration_management_1_1_juniper_configuration_manager.html#a619f0898be0fa05c1cb17545d94aa48b',1,'Juniper::ConfigurationManagement::JuniperConfigurationManager']]],
+  ['buildprogress',['BuildProgress',['../db/d0c/class_juniper_1_1_configuration_management_1_1_juniper_configuration_manager.html#a54869469719cb2b39f7902bcbbc50773',1,'Juniper::ConfigurationManagement::JuniperConfigurationManager']]],
+  ['buildstep',['BuildStep',['../dc/d39/class_juniper_1_1_configuration_management_1_1_project_configuration.html#a50175500e95a5532644d241e096c462b',1,'Juniper::ConfigurationManagement::ProjectConfiguration']]],
+  ['buildtarget',['BuildTarget',['../d5/d6b/class_juniper_1_1_configuration_management_1_1_platform_configuration.html#aabbc7ccfde2d331e47dce9bd99c71b50',1,'Juniper::ConfigurationManagement::PlatformConfiguration']]],
+  ['buttons',['Buttons',['../d8/d4d/class_juniper_1_1_input_1_1_pointers_1_1_button_mapper.html#a7879fc142385d4b39b4d959f7ca83624',1,'Juniper::Input::Pointers::ButtonMapper']]],
+  ['buttontype',['ButtonType',['../da/d81/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html#a51ce709b3f1ec82b4d6f3055671a510a',1,'Juniper.Input.Pointers.AbstractPointerDevice.ButtonType()'],['../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a94b4c3b0e979d9029af755d627b437b9',1,'Juniper.Input.Pointers.IPointerDevice.ButtonType()']]]
 ];

@@ -47,14 +47,12 @@ var searchData=
   ['onvaluechanged',['onValueChanged',['../d6/d38/class_juniper_1_1_animation_1_1_abstract_transition_controller.html#a7d1c792e760b665e70ce2deeafeb9847',1,'Juniper.Animation.AbstractTransitionController.onValueChanged()'],['../db/d98/class_juniper_1_1_widgets_1_1_labeled_input_field.html#af1cbcb31563224c33226512a7465bad8',1,'Juniper.Widgets.LabeledInputField.onValueChanged()'],['../dd/d32/class_juniper_1_1_widgets_1_1_value_dragger.html#a4fbbb025899706ebf72822fd318affcc',1,'Juniper.Widgets.ValueDragger.onValueChanged()']]],
   ['op',['op',['../d2/d9c/class_juniper_1_1_progress_1_1_unity_async_operation_progress.html#a4a93f94c66862719bcbf008793d5f372',1,'Juniper::Progress::UnityAsyncOperationProgress']]],
   ['open',['Open',['../dc/d25/class_juniper_1_1_widgets_1_1_openable.html#aafa01265f4af59477ae891f2e5b277ff',1,'Juniper::Widgets::Openable']]],
-  ['openchanged',['OpenChanged',['../dc/d25/class_juniper_1_1_widgets_1_1_openable.html#a8f63d9a15afe4686a5d72bd0d7f0be0a',1,'Juniper::Widgets::Openable']]],
-  ['opened',['Opened',['../dc/d25/class_juniper_1_1_widgets_1_1_openable.html#a1ccce0f48efe8856038737d779d7e202',1,'Juniper::Widgets::Openable']]],
   ['openweathermapapikey',['OpenWeatherMapAPIKey',['../d5/d64/class_juniper_1_1_world_1_1_climate_1_1_weather.html#a0756fe07087cef280c40fa5da5fde414',1,'Juniper::World::Climate::Weather']]],
   ['operation',['operation',['../d1/d22/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_a_p_i.html#a6cf0b6670b4839c8c3a5de01f7e80e21',1,'Juniper::World::Climate::OpenWeatherMap::API']]],
-  ['option',['Option',['../db/d97/class_juniper_1_1_x_r_system.html#a0c80ffc4e9fbf6876a2adf22c3ea3076',1,'Juniper::XRSystem']]],
+  ['option',['Option',['../d1/dea/class_juniper_1_1_juniper_platform.html#aee0f28b84f445ab97dc8b63f6bdfee18',1,'Juniper::JuniperPlatform']]],
   ['optionsinterface',['optionsInterface',['../d0/dde/class_juniper_1_1_master_scene_controller.html#a73cb89f90add8ff420e296460d1f31d1',1,'Juniper::MasterSceneController']]],
   ['orientation',['orientation',['../de/ddc/class_juniper_1_1_world_1_1_sun_position.html#a1c7e2d6a9413f6f93d72291edc1df0e0',1,'Juniper::World::SunPosition']]],
   ['originvelocity',['originVelocity',['../de/d21/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html#a4b5d9a938b071352815b2b230f056c9e',1,'Juniper::Input::Pointers::Motion::HoloLensHand']]],
-  ['other_5fmenu_5fname',['OTHER_MENU_NAME',['../d2/d00/class_juniper_1_1_x_r_1_1_custom_editors_1_1_x_r_system_editor.html#add86c678548204ef83e44cd962cbcf6d',1,'Juniper::XR::CustomEditors::XRSystemEditor']]],
+  ['other_5fmenu_5fname',['OTHER_MENU_NAME',['../db/d0c/class_juniper_1_1_configuration_management_1_1_juniper_configuration_manager.html#a4fc0dd031c545e10eecd85be1b55eaac',1,'Juniper::ConfigurationManagement::JuniperConfigurationManager']]],
   ['overhead',['overhead',['../d6/db7/class_juniper_1_1_world_1_1_indoor_light_estimate.html#a1a87ecb9196e9ce493e6cd7a2ab568fc',1,'Juniper::World::IndoorLightEstimate']]]
 ];

@@ -13,5 +13,6 @@ var searchData=
   ['dictionaryext',['DictionaryExt',['../de/dda/class_system_1_1_collections_1_1_generic_1_1_dictionary_ext.html',1,'System::Collections::Generic']]],
   ['directoryext',['DirectoryExt',['../dc/d88/class_system_1_1_i_o_1_1_directory_ext.html',1,'System::IO']]],
   ['directoryinfoext',['DirectoryInfoExt',['../da/df2/class_system_1_1_i_o_1_1_directory_info_ext.html',1,'System::IO']]],
+  ['displaymanager',['DisplayManager',['../de/dc1/class_juniper_1_1_display_1_1_display_manager.html',1,'Juniper::Display']]],
   ['draggable',['Draggable',['../d9/d93/class_juniper_1_1_widgets_1_1_draggable.html',1,'Juniper::Widgets']]]
 ];

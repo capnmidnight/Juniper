@@ -202,8 +202,8 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html#l00061">61</a> of file <a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html">IProgressReceiver.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        {</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">if</span> (length &gt; 0)</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                prog?.SetProgress(count / length, status);</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            }</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                prog?.SetProgress(1, status);</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            }</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html#l00065">65</a> of file <a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html">IProgressReceiver.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        {</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">if</span> (length &gt; 0)</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                prog?.SetProgress(count / length, status);</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            }</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            {</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                prog?.SetProgress(1, status);</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            }</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        }</div></div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">Juniper.Progress.IProgressReceiver.SetProgress()</a>.</p>
 
 </div>
@@ -248,8 +248,8 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html#l00049">49</a> of file <a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html">IProgressReceiver.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        {</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            var arr = <span class="keyword">new</span> IProgressReceiver[numParts];</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            var length = 1.0f / numParts;</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keywordflow">for</span> (var i = 0; i &lt; numParts; ++i)</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            {</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                arr[i] = parent?.Subdivide(i * length, length, prefix);</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            }</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">return</span> arr;</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html#l00053">53</a> of file <a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html">IProgressReceiver.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        {</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            var arr = <span class="keyword">new</span> IProgressReceiver[numParts];</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            var length = 1.0f / numParts;</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">for</span> (var i = 0; i &lt; numParts; ++i)</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            {</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                arr[i] = parent?.Subdivide(i * length, length, prefix);</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            }</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordflow">return</span> arr;</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="abd56edea5af4d2f9e8368a8b65b3f1ac"></a>
@@ -293,11 +293,13 @@ Static Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html#l00043">43</a> of file <a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html">IProgressReceiver.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> ProgressSubdivision(parent, start, length, prefix);</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aa6384f3d95c28b2aff020707e9fe7131"></a>
@@ -341,15 +343,17 @@ Static Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
+<p class="definition">Definition at line <a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html#l00048">48</a> of file <a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html">IProgressReceiver.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        {</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> ProgressSubdivision(parent, (<span class="keywordtype">float</span>)index / count, 1f / count, prefix);</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Progress/<a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html">IProgressReceiver.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Progress/<a class="el" href="../../d6/d75/_i_progress_receiver_8cs_source.html">IProgressReceiver.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

@@ -126,8 +126,10 @@ var menudata={children:[
 {text:"d",url:"functions_prop_d.html#index_d"},
 {text:"e",url:"functions_prop_e.html#index_e"},
 {text:"f",url:"functions_prop_f.html#index_f"},
+{text:"g",url:"functions_prop_g.html#index_g"},
 {text:"h",url:"functions_prop_h.html#index_h"},
 {text:"i",url:"functions_prop_i.html#index_i"},
+{text:"j",url:"functions_prop_j.html#index_j"},
 {text:"k",url:"functions_prop_k.html#index_k"},
 {text:"l",url:"functions_prop_l.html#index_l"},
 {text:"m",url:"functions_prop_m.html#index_m"},
@@ -140,7 +142,8 @@ var menudata={children:[
 {text:"t",url:"functions_prop_t.html#index_t"},
 {text:"u",url:"functions_prop_u.html#index_u"},
 {text:"v",url:"functions_prop_v.html#index_v"},
-{text:"w",url:"functions_prop_w.html#index_w"}]},
+{text:"w",url:"functions_prop_w.html#index_w"},
+{text:"x",url:"functions_prop_x.html#index_x"}]},
 {text:"Events",url:"functions_evnt.html",children:[
 {text:"a",url:"functions_evnt.html#index_a"},
 {text:"b",url:"functions_evnt.html#index_b"},
@@ -161,4 +164,5 @@ var menudata={children:[
 {text:"File List",url:"files.html"},
 {text:"File Members",url:"globals.html",children:[
 {text:"All",url:"globals.html"},
+{text:"Variables",url:"globals_vars.html"},
 {text:"Typedefs",url:"globals_type.html"}]}]}]}

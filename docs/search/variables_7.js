@@ -11,7 +11,5 @@ var searchData=
   ['graphics_5fquality_5fkey',['GRAPHICS_QUALITY_KEY',['../d2/d52/class_juniper_1_1_widgets_1_1_quality_degrader.html#af7f8ddcf81fa6bc767e3541e81139a43',1,'Juniper::Widgets::QualityDegrader']]],
   ['gravity',['GRAVITY',['../dc/d24/class_juniper_1_1_units_1_1_feet_per_second_squared.html#acefc81108ebe8347715e93ff3ca2fc58',1,'Juniper.Units.FeetPerSecondSquared.GRAVITY()'],['../d4/d41/class_juniper_1_1_units_1_1_meters_per_second_squared.html#a8c3ec44d8fd09e4c4db68c2c992118ff',1,'Juniper.Units.MetersPerSecondSquared.GRAVITY()']]],
   ['ground',['ground',['../d2/d52/class_juniper_1_1_widgets_1_1_quality_degrader.html#a6d19d188899c545d0f09133caad4147b',1,'Juniper::Widgets::QualityDegrader']]],
-  ['groundlayer',['GroundLayer',['../d9/d8c/class_juniper_1_1_ground_1_1_abstract_ground.html#a25d9de6e6893f23d52b64f917c3feb9c',1,'Juniper::Ground::AbstractGround']]],
-  ['groundrenderer',['groundRenderer',['../da/dde/class_juniper_1_1_ground_1_1_holo_lens_ground.html#a3346ab8a4a472941b83b2e360a9df79f',1,'Juniper::Ground::HoloLensGround']]],
-  ['groundvisualizers',['GroundVisualizers',['../d9/d8c/class_juniper_1_1_ground_1_1_abstract_ground.html#a83c59bf0eb4eaaf18a7d774d78f0a520',1,'Juniper::Ground::AbstractGround']]]
+  ['groundrenderer',['groundRenderer',['../da/dde/class_juniper_1_1_ground_1_1_holo_lens_ground.html#a3346ab8a4a472941b83b2e360a9df79f',1,'Juniper::Ground::HoloLensGround']]]
 ];

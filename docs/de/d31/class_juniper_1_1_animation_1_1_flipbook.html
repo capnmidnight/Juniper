@@ -143,6 +143,9 @@ Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Juniper.Animation.Flipbook.Awake </td>
@@ -151,9 +154,19 @@ Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Get the renderer for the flipbook images. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00025">25</a> of file <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        {</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a93d874f4eb2db2ca2e23a944fb63e535">img</a> = GetComponent&lt;SpriteRenderer&gt;();</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_animation_1_1_flipbook_html_a93d874f4eb2db2ca2e23a944fb63e535"><div class="ttname"><a href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a93d874f4eb2db2ca2e23a944fb63e535">Juniper.Animation.Flipbook.img</a></div><div class="ttdeci">SpriteRenderer img</div><div class="ttdoc">The renderer for all of the images.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc9/_flipbook_8cs_source.html#l00060">Flipbook.cs:60</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00060">Juniper.Animation.Flipbook.img</a>.</p>
 
 </div>
 </div>
@@ -162,6 +175,9 @@ Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void Juniper.Animation.Flipbook.OnEnable </td>
@@ -170,9 +186,20 @@ Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Update the lastT so the first frame has a full amount of time on screen. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00033">33</a> of file <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        {</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a70f1304a22436e66971611e7e1bc43d2">lastT</a> = Time.time - <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#ad3df53add8d0a01b4a22d0f5cbfec374">timeout</a>;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_animation_1_1_flipbook_html_ad3df53add8d0a01b4a22d0f5cbfec374"><div class="ttname"><a href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#ad3df53add8d0a01b4a22d0f5cbfec374">Juniper.Animation.Flipbook.timeout</a></div><div class="ttdeci">float timeout</div><div class="ttdoc">The time, in seconds, to wait between flipping pages of the flipbook.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc9/_flipbook_8cs_source.html#l00015">Flipbook.cs:15</a></div></div>
+<div class="ttc" id="class_juniper_1_1_animation_1_1_flipbook_html_a70f1304a22436e66971611e7e1bc43d2"><div class="ttname"><a href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a70f1304a22436e66971611e7e1bc43d2">Juniper.Animation.Flipbook.lastT</a></div><div class="ttdeci">float lastT</div><div class="ttdoc">The timestamp, in seconds, since the last image was flipped.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc9/_flipbook_8cs_source.html#l00065">Flipbook.cs:65</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00065">Juniper.Animation.Flipbook.lastT</a>, and <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00015">Juniper.Animation.Flipbook.timeout</a>.</p>
 
 </div>
 </div>
@@ -201,14 +228,14 @@ Private Attributes</h2></td></tr>
 
 <p>If the timeout has passed, update the current frame of the flipbook. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00037">37</a> of file <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a3920ae22d22f4ac1f97ae2345f823973">images</a> != <span class="keyword">null</span> &amp;&amp; <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a3920ae22d22f4ac1f97ae2345f823973">images</a>.Length &gt; 0 &amp;&amp; Time.time &gt; <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a70f1304a22436e66971611e7e1bc43d2">lastT</a> + <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#ad3df53add8d0a01b4a22d0f5cbfec374">timeout</a>)</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a7a9e26cc2873783b534c13be4df62e63">currentIndex</a> = (<a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a7a9e26cc2873783b534c13be4df62e63">currentIndex</a> + 1) % <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a3920ae22d22f4ac1f97ae2345f823973">images</a>.Length;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a70f1304a22436e66971611e7e1bc43d2">lastT</a> = Time.time;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a93d874f4eb2db2ca2e23a944fb63e535">img</a>.sprite = <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a3920ae22d22f4ac1f97ae2345f823973">images</a>[<a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a7a9e26cc2873783b534c13be4df62e63">currentIndex</a>];</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            }</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_animation_1_1_flipbook_html_ad3df53add8d0a01b4a22d0f5cbfec374"><div class="ttname"><a href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#ad3df53add8d0a01b4a22d0f5cbfec374">Juniper.Animation.Flipbook.timeout</a></div><div class="ttdeci">float timeout</div><div class="ttdoc">The time, in seconds, to wait between flipping pages of the flipbook.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc9/_flipbook_8cs_source.html#l00015">Flipbook.cs:15</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00041">41</a> of file <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        {</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a3920ae22d22f4ac1f97ae2345f823973">images</a> != <span class="keyword">null</span> &amp;&amp; <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a3920ae22d22f4ac1f97ae2345f823973">images</a>.Length &gt; 0 &amp;&amp; Time.time &gt; <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a70f1304a22436e66971611e7e1bc43d2">lastT</a> + <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#ad3df53add8d0a01b4a22d0f5cbfec374">timeout</a>)</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a7a9e26cc2873783b534c13be4df62e63">currentIndex</a> = (<a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a7a9e26cc2873783b534c13be4df62e63">currentIndex</a> + 1) % <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a3920ae22d22f4ac1f97ae2345f823973">images</a>.Length;</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a70f1304a22436e66971611e7e1bc43d2">lastT</a> = Time.time;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a93d874f4eb2db2ca2e23a944fb63e535">img</a>.sprite = <a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a3920ae22d22f4ac1f97ae2345f823973">images</a>[<a class="code" href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a7a9e26cc2873783b534c13be4df62e63">currentIndex</a>];</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            }</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_animation_1_1_flipbook_html_ad3df53add8d0a01b4a22d0f5cbfec374"><div class="ttname"><a href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#ad3df53add8d0a01b4a22d0f5cbfec374">Juniper.Animation.Flipbook.timeout</a></div><div class="ttdeci">float timeout</div><div class="ttdoc">The time, in seconds, to wait between flipping pages of the flipbook.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc9/_flipbook_8cs_source.html#l00015">Flipbook.cs:15</a></div></div>
 <div class="ttc" id="class_juniper_1_1_animation_1_1_flipbook_html_a3920ae22d22f4ac1f97ae2345f823973"><div class="ttname"><a href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a3920ae22d22f4ac1f97ae2345f823973">Juniper.Animation.Flipbook.images</a></div><div class="ttdeci">Sprite [] images</div><div class="ttdoc">The images to flip through in the flipbook.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc9/_flipbook_8cs_source.html#l00020">Flipbook.cs:20</a></div></div>
-<div class="ttc" id="class_juniper_1_1_animation_1_1_flipbook_html_a93d874f4eb2db2ca2e23a944fb63e535"><div class="ttname"><a href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a93d874f4eb2db2ca2e23a944fb63e535">Juniper.Animation.Flipbook.img</a></div><div class="ttdeci">SpriteRenderer img</div><div class="ttdoc">The renderer for all of the images.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc9/_flipbook_8cs_source.html#l00056">Flipbook.cs:56</a></div></div>
-<div class="ttc" id="class_juniper_1_1_animation_1_1_flipbook_html_a70f1304a22436e66971611e7e1bc43d2"><div class="ttname"><a href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a70f1304a22436e66971611e7e1bc43d2">Juniper.Animation.Flipbook.lastT</a></div><div class="ttdeci">float lastT</div><div class="ttdoc">The timestamp, in seconds, since the last image was flipped.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc9/_flipbook_8cs_source.html#l00061">Flipbook.cs:61</a></div></div>
-<div class="ttc" id="class_juniper_1_1_animation_1_1_flipbook_html_a7a9e26cc2873783b534c13be4df62e63"><div class="ttname"><a href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a7a9e26cc2873783b534c13be4df62e63">Juniper.Animation.Flipbook.currentIndex</a></div><div class="ttdeci">int currentIndex</div><div class="ttdoc">The current image we should be viewing.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc9/_flipbook_8cs_source.html#l00051">Flipbook.cs:51</a></div></div>
+<div class="ttc" id="class_juniper_1_1_animation_1_1_flipbook_html_a93d874f4eb2db2ca2e23a944fb63e535"><div class="ttname"><a href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a93d874f4eb2db2ca2e23a944fb63e535">Juniper.Animation.Flipbook.img</a></div><div class="ttdeci">SpriteRenderer img</div><div class="ttdoc">The renderer for all of the images.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc9/_flipbook_8cs_source.html#l00060">Flipbook.cs:60</a></div></div>
+<div class="ttc" id="class_juniper_1_1_animation_1_1_flipbook_html_a70f1304a22436e66971611e7e1bc43d2"><div class="ttname"><a href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a70f1304a22436e66971611e7e1bc43d2">Juniper.Animation.Flipbook.lastT</a></div><div class="ttdeci">float lastT</div><div class="ttdoc">The timestamp, in seconds, since the last image was flipped.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc9/_flipbook_8cs_source.html#l00065">Flipbook.cs:65</a></div></div>
+<div class="ttc" id="class_juniper_1_1_animation_1_1_flipbook_html_a7a9e26cc2873783b534c13be4df62e63"><div class="ttname"><a href="../../de/d31/class_juniper_1_1_animation_1_1_flipbook.html#a7a9e26cc2873783b534c13be4df62e63">Juniper.Animation.Flipbook.currentIndex</a></div><div class="ttdeci">int currentIndex</div><div class="ttdoc">The current image we should be viewing.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc9/_flipbook_8cs_source.html#l00055">Flipbook.cs:55</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00051">Juniper.Animation.Flipbook.currentIndex</a>, <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00020">Juniper.Animation.Flipbook.images</a>, <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00056">Juniper.Animation.Flipbook.img</a>, <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00061">Juniper.Animation.Flipbook.lastT</a>, and <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00015">Juniper.Animation.Flipbook.timeout</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00055">Juniper.Animation.Flipbook.currentIndex</a>, <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00020">Juniper.Animation.Flipbook.images</a>, <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00060">Juniper.Animation.Flipbook.img</a>, <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00065">Juniper.Animation.Flipbook.lastT</a>, and <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00015">Juniper.Animation.Flipbook.timeout</a>.</p>
 
 </div>
 </div>
@@ -235,9 +262,9 @@ Private Attributes</h2></td></tr>
 
 <p>The current image we should be viewing. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00051">51</a> of file <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00055">55</a> of file <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00037">Juniper.Animation.Flipbook.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00041">Juniper.Animation.Flipbook.Update()</a>.</p>
 
 </div>
 </div>
@@ -257,7 +284,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00020">20</a> of file <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00037">Juniper.Animation.Flipbook.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00041">Juniper.Animation.Flipbook.Update()</a>.</p>
 
 </div>
 </div>
@@ -283,9 +310,9 @@ Private Attributes</h2></td></tr>
 
 <p>The renderer for all of the images. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00056">56</a> of file <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00060">60</a> of file <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00037">Juniper.Animation.Flipbook.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00025">Juniper.Animation.Flipbook.Awake()</a>, and <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00041">Juniper.Animation.Flipbook.Update()</a>.</p>
 
 </div>
 </div>
@@ -311,9 +338,9 @@ Private Attributes</h2></td></tr>
 
 <p>The timestamp, in seconds, since the last image was flipped. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00061">61</a> of file <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00065">65</a> of file <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00037">Juniper.Animation.Flipbook.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00033">Juniper.Animation.Flipbook.OnEnable()</a>, and <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00041">Juniper.Animation.Flipbook.Update()</a>.</p>
 
 </div>
 </div>
@@ -333,12 +360,12 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00015">15</a> of file <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00037">Juniper.Animation.Flipbook.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00033">Juniper.Animation.Flipbook.OnEnable()</a>, and <a class="el" href="../../dd/dc9/_flipbook_8cs_source.html#l00041">Juniper.Animation.Flipbook.Update()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/<a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/<a class="el" href="../../dd/dc9/_flipbook_8cs_source.html">Flipbook.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

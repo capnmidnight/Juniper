@@ -167,10 +167,18 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00054">54</a> of file <a class="el" href="../../db/d10/_platform_enums_8cs_source.html">PlatformEnums.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">return</span> (<a class="code" href="../../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991">PlatformTypes</a>)((int)sys &lt;&lt; <a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a78229d222d42fee54560d1793a4e9a50">SYS_OFFSET</a> | (<span class="keywordtype">int</span>)display &lt;&lt; <a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a99497ee66b8b8cd8a663664d7a66350f">DISPLAY_OFFSET</a> | (int)ar &lt;&lt; <a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a41884fcc9e3229b1f751d05452dcae9a">AR_OFFSET</a> | (<span class="keywordtype">int</span>)opt);</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_platform_html_a99497ee66b8b8cd8a663664d7a66350f"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a99497ee66b8b8cd8a663664d7a66350f">Juniper.Platform.DISPLAY_OFFSET</a></div><div class="ttdeci">const int DISPLAY_OFFSET</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00050">PlatformEnums.cs:50</a></div></div>
+<div class="ttc" id="class_juniper_1_1_platform_html_a41884fcc9e3229b1f751d05452dcae9a"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a41884fcc9e3229b1f751d05452dcae9a">Juniper.Platform.AR_OFFSET</a></div><div class="ttdeci">const int AR_OFFSET</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00049">PlatformEnums.cs:49</a></div></div>
+<div class="ttc" id="class_juniper_1_1_platform_html_a78229d222d42fee54560d1793a4e9a50"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a78229d222d42fee54560d1793a4e9a50">Juniper.Platform.SYS_OFFSET</a></div><div class="ttdeci">const int SYS_OFFSET</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00051">PlatformEnums.cs:51</a></div></div>
+<div class="ttc" id="namespace_juniper_html_a5b19399c232b1bd2736a424de784a991"><div class="ttname"><a href="../../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991">Juniper.PlatformTypes</a></div><div class="ttdeci">PlatformTypes</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00086">PlatformEnums.cs:86</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00049">Juniper.Platform.AR_OFFSET</a>, <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00050">Juniper.Platform.DISPLAY_OFFSET</a>, and <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00051">Juniper.Platform.SYS_OFFSET</a>.</p>
 
 </div>
 </div>
@@ -209,10 +217,14 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00059">59</a> of file <a class="el" href="../../db/d10/_platform_enums_8cs_source.html">PlatformEnums.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">return</span> (((1 &lt;&lt; start) - 1) &amp; (<span class="keywordtype">int</span>)p) &gt;&gt; end;</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00069">Juniper.Platform.GetARType()</a>, <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00074">Juniper.Platform.GetDisplayType()</a>, <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00064">Juniper.Platform.GetOption()</a>, and <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00079">Juniper.Platform.GetSystem()</a>.</p>
 
 </div>
 </div>
@@ -235,12 +247,20 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d53/_x_r_system_8cs_source.html#l00332">Juniper.XRSystem.OnValidate()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00069">69</a> of file <a class="el" href="../../db/d10/_platform_enums_8cs_source.html">PlatformEnums.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        {</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">return</span> (<a class="code" href="../../de/d75/namespace_juniper.html#a42db9d24cad0f6fad0d73e41213a098d">AugmentedRealityTypes</a>)<a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a6a643635c9f38f193f33dd90be5d8497">Get</a>(p, <a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a99497ee66b8b8cd8a663664d7a66350f">DISPLAY_OFFSET</a>, <a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a41884fcc9e3229b1f751d05452dcae9a">AR_OFFSET</a>);</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_platform_html_a99497ee66b8b8cd8a663664d7a66350f"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a99497ee66b8b8cd8a663664d7a66350f">Juniper.Platform.DISPLAY_OFFSET</a></div><div class="ttdeci">const int DISPLAY_OFFSET</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00050">PlatformEnums.cs:50</a></div></div>
+<div class="ttc" id="class_juniper_1_1_platform_html_a41884fcc9e3229b1f751d05452dcae9a"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a41884fcc9e3229b1f751d05452dcae9a">Juniper.Platform.AR_OFFSET</a></div><div class="ttdeci">const int AR_OFFSET</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00049">PlatformEnums.cs:49</a></div></div>
+<div class="ttc" id="class_juniper_1_1_platform_html_a6a643635c9f38f193f33dd90be5d8497"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a6a643635c9f38f193f33dd90be5d8497">Juniper.Platform.Get</a></div><div class="ttdeci">static int Get(PlatformTypes p, int start, int end)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00059">PlatformEnums.cs:59</a></div></div>
+<div class="ttc" id="namespace_juniper_html_a42db9d24cad0f6fad0d73e41213a098d"><div class="ttname"><a href="../../de/d75/namespace_juniper.html#a42db9d24cad0f6fad0d73e41213a098d">Juniper.AugmentedRealityTypes</a></div><div class="ttdeci">AugmentedRealityTypes</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00027">PlatformEnums.cs:27</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00049">Juniper.Platform.AR_OFFSET</a>, <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00050">Juniper.Platform.DISPLAY_OFFSET</a>, and <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00059">Juniper.Platform.Get()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d7/d0f/_juniper_platform_8cs_source.html#l00171">Juniper.JuniperPlatform.OnValidate()</a>.</p>
 
 </div>
 </div>
@@ -263,12 +283,20 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d53/_x_r_system_8cs_source.html#l00332">Juniper.XRSystem.OnValidate()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00074">74</a> of file <a class="el" href="../../db/d10/_platform_enums_8cs_source.html">PlatformEnums.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        {</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">return</span> (<a class="code" href="../../de/d75/namespace_juniper.html#afdef876db6475e1e32fde7d9095d3626">DisplayTypes</a>)<a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a6a643635c9f38f193f33dd90be5d8497">Get</a>(p, <a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a78229d222d42fee54560d1793a4e9a50">SYS_OFFSET</a>, <a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a99497ee66b8b8cd8a663664d7a66350f">DISPLAY_OFFSET</a>);</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_platform_html_a99497ee66b8b8cd8a663664d7a66350f"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a99497ee66b8b8cd8a663664d7a66350f">Juniper.Platform.DISPLAY_OFFSET</a></div><div class="ttdeci">const int DISPLAY_OFFSET</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00050">PlatformEnums.cs:50</a></div></div>
+<div class="ttc" id="namespace_juniper_html_afdef876db6475e1e32fde7d9095d3626"><div class="ttname"><a href="../../de/d75/namespace_juniper.html#afdef876db6475e1e32fde7d9095d3626">Juniper.DisplayTypes</a></div><div class="ttdeci">DisplayTypes</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00018">PlatformEnums.cs:18</a></div></div>
+<div class="ttc" id="class_juniper_1_1_platform_html_a78229d222d42fee54560d1793a4e9a50"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a78229d222d42fee54560d1793a4e9a50">Juniper.Platform.SYS_OFFSET</a></div><div class="ttdeci">const int SYS_OFFSET</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00051">PlatformEnums.cs:51</a></div></div>
+<div class="ttc" id="class_juniper_1_1_platform_html_a6a643635c9f38f193f33dd90be5d8497"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a6a643635c9f38f193f33dd90be5d8497">Juniper.Platform.Get</a></div><div class="ttdeci">static int Get(PlatformTypes p, int start, int end)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00059">PlatformEnums.cs:59</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00050">Juniper.Platform.DISPLAY_OFFSET</a>, <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00059">Juniper.Platform.Get()</a>, and <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00051">Juniper.Platform.SYS_OFFSET</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d7/d0f/_juniper_platform_8cs_source.html#l00171">Juniper.JuniperPlatform.OnValidate()</a>.</p>
 
 </div>
 </div>
@@ -291,12 +319,19 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d53/_x_r_system_8cs_source.html#l00332">Juniper.XRSystem.OnValidate()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00064">64</a> of file <a class="el" href="../../db/d10/_platform_enums_8cs_source.html">PlatformEnums.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        {</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">return</span> (<a class="code" href="../../de/d75/namespace_juniper.html#aa0ae52a17511e7a52beae1e3dc428c13">Options</a>)<a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a6a643635c9f38f193f33dd90be5d8497">Get</a>(p, <a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a41884fcc9e3229b1f751d05452dcae9a">AR_OFFSET</a>, 0);</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_platform_html_a41884fcc9e3229b1f751d05452dcae9a"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a41884fcc9e3229b1f751d05452dcae9a">Juniper.Platform.AR_OFFSET</a></div><div class="ttdeci">const int AR_OFFSET</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00049">PlatformEnums.cs:49</a></div></div>
+<div class="ttc" id="class_juniper_1_1_platform_html_a6a643635c9f38f193f33dd90be5d8497"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a6a643635c9f38f193f33dd90be5d8497">Juniper.Platform.Get</a></div><div class="ttdeci">static int Get(PlatformTypes p, int start, int end)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00059">PlatformEnums.cs:59</a></div></div>
+<div class="ttc" id="namespace_juniper_html_aa0ae52a17511e7a52beae1e3dc428c13"><div class="ttname"><a href="../../de/d75/namespace_juniper.html#aa0ae52a17511e7a52beae1e3dc428c13">Juniper.Options</a></div><div class="ttdeci">Options</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00036">PlatformEnums.cs:36</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00049">Juniper.Platform.AR_OFFSET</a>, and <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00059">Juniper.Platform.Get()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d7/d0f/_juniper_platform_8cs_source.html#l00171">Juniper.JuniperPlatform.OnValidate()</a>.</p>
 
 </div>
 </div>
@@ -319,12 +354,20 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="../../dc/d53/_x_r_system_8cs_source.html#l00332">Juniper.XRSystem.OnValidate()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00079">79</a> of file <a class="el" href="../../db/d10/_platform_enums_8cs_source.html">PlatformEnums.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">return</span> (<a class="code" href="../../de/d75/namespace_juniper.html#a6e1ae745b610b801cab2beca6c1e8ea1">SystemTypes</a>)<a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a6a643635c9f38f193f33dd90be5d8497">Get</a>(p, <a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#ae2b1344654b6957355b3580b6e622d70">TOTAL_OFFSET</a>, <a class="code" href="../../d1/d76/class_juniper_1_1_platform.html#a78229d222d42fee54560d1793a4e9a50">SYS_OFFSET</a>);</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_platform_html_ae2b1344654b6957355b3580b6e622d70"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#ae2b1344654b6957355b3580b6e622d70">Juniper.Platform.TOTAL_OFFSET</a></div><div class="ttdeci">const int TOTAL_OFFSET</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00052">PlatformEnums.cs:52</a></div></div>
+<div class="ttc" id="class_juniper_1_1_platform_html_a78229d222d42fee54560d1793a4e9a50"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a78229d222d42fee54560d1793a4e9a50">Juniper.Platform.SYS_OFFSET</a></div><div class="ttdeci">const int SYS_OFFSET</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00051">PlatformEnums.cs:51</a></div></div>
+<div class="ttc" id="namespace_juniper_html_a6e1ae745b610b801cab2beca6c1e8ea1"><div class="ttname"><a href="../../de/d75/namespace_juniper.html#a6e1ae745b610b801cab2beca6c1e8ea1">Juniper.SystemTypes</a></div><div class="ttdeci">SystemTypes</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00006">PlatformEnums.cs:6</a></div></div>
+<div class="ttc" id="class_juniper_1_1_platform_html_a6a643635c9f38f193f33dd90be5d8497"><div class="ttname"><a href="../../d1/d76/class_juniper_1_1_platform.html#a6a643635c9f38f193f33dd90be5d8497">Juniper.Platform.Get</a></div><div class="ttdeci">static int Get(PlatformTypes p, int start, int end)</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d10/_platform_enums_8cs_source.html#l00059">PlatformEnums.cs:59</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00059">Juniper.Platform.Get()</a>, <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00051">Juniper.Platform.SYS_OFFSET</a>, and <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00052">Juniper.Platform.TOTAL_OFFSET</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d7/d0f/_juniper_platform_8cs_source.html#l00171">Juniper.JuniperPlatform.OnValidate()</a>.</p>
 
 </div>
 </div>
@@ -343,6 +386,8 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00049">49</a> of file <a class="el" href="../../db/d10/_platform_enums_8cs_source.html">PlatformEnums.cs</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00054">Juniper.Platform.Compose()</a>, <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00069">Juniper.Platform.GetARType()</a>, and <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00064">Juniper.Platform.GetOption()</a>.</p>
+
 </div>
 </div>
 <a id="a99497ee66b8b8cd8a663664d7a66350f"></a>
@@ -359,6 +404,8 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00050">50</a> of file <a class="el" href="../../db/d10/_platform_enums_8cs_source.html">PlatformEnums.cs</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00054">Juniper.Platform.Compose()</a>, <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00069">Juniper.Platform.GetARType()</a>, and <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00074">Juniper.Platform.GetDisplayType()</a>.</p>
+
 </div>
 </div>
 <a id="a78229d222d42fee54560d1793a4e9a50"></a>
@@ -374,6 +421,8 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00051">51</a> of file <a class="el" href="../../db/d10/_platform_enums_8cs_source.html">PlatformEnums.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00054">Juniper.Platform.Compose()</a>, <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00074">Juniper.Platform.GetDisplayType()</a>, and <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00079">Juniper.Platform.GetSystem()</a>.</p>
 
 </div>
 </div>
@@ -399,10 +448,12 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00052">52</a> of file <a class="el" href="../../db/d10/_platform_enums_8cs_source.html">PlatformEnums.cs</a>.</p>
 
+<p class="reference">Referenced by <a class="el" href="../../db/d10/_platform_enums_8cs_source.html#l00079">Juniper.Platform.GetSystem()</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/<a class="el" href="../../db/d10/_platform_enums_8cs_source.html">PlatformEnums.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/<a class="el" href="../../db/d10/_platform_enums_8cs_source.html">PlatformEnums.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['maincamera',['MainCamera',['../d8/df1/class_juniper_1_1_camera_extensions.html#ad24b6d95d1869166f0c7c65c5c9d06dc',1,'Juniper::CameraExtensions']]],
-  ['mainsfrequency',['MainsFrequency',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#a38de604737bf88622ce0e493496800cf',1,'Juniper::NeuroSky::MindWaveAdapter']]],
-  ['maximum',['Maximum',['../dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html#a4b2bbfe7a7f292da3cbf7703f3ff1473',1,'Juniper::Statistics::AbstractCollectionStatistics']]],
-  ['maximumpointerdistance',['MaximumPointerDistance',['../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a57d053b1bc485822125707d3e3defc93',1,'Juniper::Input::Pointers::IPointerDevice']]],
-  ['mean',['Mean',['../dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html#ae5ae9fa1e5df381014673680bb541cd4',1,'Juniper::Statistics::AbstractCollectionStatistics']]],
-  ['meantouchpointmovement',['MeanTouchPointMovement',['../dc/dfb/class_juniper_1_1_input_1_1_camera_control.html#a7f886b3f7e8567981279fdf9d0f1ec83',1,'Juniper::Input::CameraControl']]],
-  ['minimum',['Minimum',['../dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html#a23d9d0c821fc00fb54a8333ff925f880',1,'Juniper::Statistics::AbstractCollectionStatistics']]],
-  ['minimumpointerdistance',['MinimumPointerDistance',['../d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html#a9fcc2b4368ad41ce934c0b0b3dcb72e8',1,'Juniper::Input::Pointers::IPointerDevice']]]
+  ['kalman',['Kalman',['../da/d6a/class_juniper_1_1_statistics_1_1_kalman_motion_filter.html#a4ddab8a6f43e2ec796369bc0d8cda206',1,'Juniper::Statistics::KalmanMotionFilter']]],
+  ['key',['Key',['../df/d46/class_juniper_1_1_events_1_1_button_event.html#a27ec43ef9c49af8f5c5ca9872b490abf',1,'Juniper.Events.ButtonEvent.Key()'],['../da/de9/class_juniper_1_1_widgets_1_1_list_view_item.html#a037f0c21e3d5d9de7a793fd2f58da497',1,'Juniper.Widgets.ListViewItem.Key()']]],
+  ['keywords',['Keywords',['../da/d92/interface_juniper_1_1_input_1_1_speech_1_1_i_keyword_triggered.html#aff231af83288a66c9308714374241038',1,'Juniper.Input.Speech.IKeywordTriggered.Keywords()'],['../d7/d0d/class_juniper_1_1_input_1_1_speech_1_1_keywordable.html#ae8e1729fc1590304a18215b3c7f05e3b',1,'Juniper.Input.Speech.Keywordable.Keywords()']]]
 ];
