@@ -1,5 +1,3 @@
-using Juniper.XR;
-
 namespace Juniper.Input.Pointers.Motion
 {
     public interface IHandedPointer : IPointerDevice

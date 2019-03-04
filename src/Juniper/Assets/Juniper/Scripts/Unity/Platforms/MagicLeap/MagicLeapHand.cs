@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Juniper.XR;
-
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 

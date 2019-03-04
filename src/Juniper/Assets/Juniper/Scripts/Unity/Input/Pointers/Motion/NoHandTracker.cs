@@ -1,4 +1,3 @@
-using Juniper.XR;
 
 using UnityEngine;
 

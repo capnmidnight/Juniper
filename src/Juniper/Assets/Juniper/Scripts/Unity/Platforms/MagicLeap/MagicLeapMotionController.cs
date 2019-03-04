@@ -1,10 +1,9 @@
 #if MAGIC_LEAP
 
+using Juniper.Haptics;
+
 using System;
 using System.Collections.Generic;
-
-using Juniper.Haptics;
-using Juniper.XR;
 
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;

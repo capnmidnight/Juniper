@@ -1,10 +1,10 @@
-using System.Linq;
-
 using Juniper.Progress;
 
 using Newtonsoft.Json.Linq;
 
-namespace Juniper.XR.CustomEditors
+using System.Linq;
+
+namespace Juniper.ConfigurationManagement
 {
     internal sealed class UnityPackage : AbstractPackage
     {

@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
 using Juniper.Progress;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -14,19 +14,19 @@ using UnityEditor.SceneManagement;
 
 using UnityEngine;
 
-namespace Juniper.XR.CustomEditors
+namespace Juniper.ConfigurationManagement
 {
     /// <summary>
     /// An editor to respond to changes in XRSystem.
     /// </summary>
     [CustomEditor(typeof(XRSystem))]
-    public class XRSystemEditor : Editor
+    public class JuniperConfigurationManager : Editor
     {
         private const string MENU_NAME = "Juniper/";
 
         private static readonly ProjectConfiguration config;
 
-        static XRSystemEditor()
+        static JuniperConfigurationManager()
         {
             config = ProjectConfiguration.Load();
             config.PlatformChanged += Config_PlatformChanged;

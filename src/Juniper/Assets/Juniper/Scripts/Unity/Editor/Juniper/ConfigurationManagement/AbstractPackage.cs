@@ -2,9 +2,7 @@ using Juniper.Progress;
 
 using UnityEditor;
 
-using UnityEngine;
-
-namespace Juniper.XR.CustomEditors
+namespace Juniper.ConfigurationManagement
 {
     internal abstract class AbstractPackage
     {

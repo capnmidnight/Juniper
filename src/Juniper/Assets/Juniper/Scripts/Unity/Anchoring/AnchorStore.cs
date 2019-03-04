@@ -19,7 +19,7 @@ using AnchorType = UnityEngine.XR.WSA.Persistence.WorldAnchor;
 using UnityEngine.XR.MagicLeap;
 using AnchorType = UnityEngine.XR.MagicLeap.MLPersistentBehavior;
 #else
-using AnchorType = Juniper.XR.MockWorldAnchor;
+using AnchorType = Juniper.Anchoring.MockWorldAnchor;
 #endif
 
 namespace Juniper.Anchoring

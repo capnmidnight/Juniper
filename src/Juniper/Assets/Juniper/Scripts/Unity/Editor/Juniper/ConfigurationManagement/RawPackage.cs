@@ -1,16 +1,18 @@
+using Juniper.Data;
+using Juniper.Progress;
+
+using Newtonsoft.Json;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Juniper.Data;
-using Juniper.Progress;
-using Newtonsoft.Json;
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Juniper.XR.CustomEditors
+namespace Juniper.ConfigurationManagement
 {
     internal sealed class RawPackage : AbstractPackage
     {

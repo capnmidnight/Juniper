@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 
 using UnityEngine;
 
-namespace Juniper.XR.CustomEditors
+namespace Juniper.ConfigurationManagement
 {
     internal class Platforms
     {

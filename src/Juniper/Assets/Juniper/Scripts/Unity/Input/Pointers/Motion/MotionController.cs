@@ -1,5 +1,5 @@
 using System;
-using Juniper.XR;
+
 using UnityEngine;
 
 namespace Juniper.Input.Pointers.Motion

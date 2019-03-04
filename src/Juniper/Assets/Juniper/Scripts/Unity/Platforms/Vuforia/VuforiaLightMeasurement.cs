@@ -4,6 +4,7 @@ using System.Collections;
 using Juniper.XR;
 using Vuforia;
 using UnityEngine;
+using Juniper.Vuforia;
 
 namespace Juniper.World.LightEstimation
 {

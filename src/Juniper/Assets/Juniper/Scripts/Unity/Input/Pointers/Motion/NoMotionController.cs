@@ -36,5 +36,10 @@ namespace Juniper.Input.Pointers.Motion
         protected override bool TouchPadPressedDown => false;
 
         protected override bool TouchPadPressedUp => false;
+
+        public override float Trigger
+        {
+            get;
+        }
     }
 }

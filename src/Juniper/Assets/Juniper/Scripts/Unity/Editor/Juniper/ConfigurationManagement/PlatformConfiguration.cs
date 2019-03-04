@@ -12,7 +12,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Juniper.XR.CustomEditors
+namespace Juniper.ConfigurationManagement
 {
     internal sealed class PlatformConfiguration
     {

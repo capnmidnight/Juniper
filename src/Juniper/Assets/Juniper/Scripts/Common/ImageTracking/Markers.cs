@@ -1,4 +1,4 @@
-namespace Juniper.XR
+namespace Juniper.ImageTracking
 {
     /// <summary>
     /// Types of markers that are recognized in video streams.

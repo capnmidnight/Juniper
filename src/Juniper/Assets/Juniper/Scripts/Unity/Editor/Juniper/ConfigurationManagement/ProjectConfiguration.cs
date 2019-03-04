@@ -3,7 +3,7 @@ using System.IO;
 
 using Newtonsoft.Json;
 
-namespace Juniper.XR.CustomEditors
+namespace Juniper.ConfigurationManagement
 {
     public sealed class ProjectConfiguration
     {

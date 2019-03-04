@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Juniper.XR;
+
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -61,13 +61,13 @@ namespace Juniper.Animation
 
             aud.playOnAwake = false;
             aud.clip = fadeOutSound;
+            Exited += FadeTransition_Exited;
 #endif
 
             r = GetComponent<Renderer>();
             props = new MaterialPropertyBlock();
 
             Entered += FadeTransition_Entered;
-            Exited += FadeTransition_Exited;
 
             xr = ComponentExt.FindAny<XRSystem>();
         }

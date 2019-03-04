@@ -1,7 +1,6 @@
-using System;
-
 using Juniper.Haptics;
-using Juniper.XR;
+
+using System;
 
 using UnityEngine;
 
