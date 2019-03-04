@@ -1,5 +1,7 @@
 #if MAGIC_LEAP
 
+using Juniper.Display;
+
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -19,8 +21,7 @@ namespace Juniper.Ground
 
         public override void Install(bool reset)
         {
-            var stage = ComponentExt.FindAny<StageExtensions>();
-            var mapper = stage.EnsureComponent<MLSpatialMapper>().Value;
+            var mapper = DisplayManager.MainCamera.EnsureComponent<MLSpatialMapper>().Value;
             mapper.meshParent = transform;
             if (mapper.meshPrefab == null)
             {
