@@ -1,3 +1,4 @@
+using Juniper.Display;
 using UnityEngine;
 
 namespace Juniper.Widgets
@@ -29,7 +30,7 @@ namespace Juniper.Widgets
         /// Finds the main camera.
         /// </summary>
         public void Awake() =>
-            camT = CameraExtensions.MainCamera.transform;
+            camT = DisplayManager.MainCamera.transform;
 
         /// <summary>
         /// Moves the object into position above and behind the target, away from the user.

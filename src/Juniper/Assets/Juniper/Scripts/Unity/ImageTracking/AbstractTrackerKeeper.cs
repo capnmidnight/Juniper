@@ -1,3 +1,4 @@
+using Juniper.Display;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -111,7 +112,7 @@ namespace Juniper.ImageTracking
         /// </summary>
         public TransformEvent onTargetProximity = new TransformEvent();
 
-        private XRSystem xr;
+        private DisplayManager xr;
 
         protected virtual IEnumerable<TrackableFoundEventHandler> FirstTargets => ComponentExt.FindAll<TrackableFoundEventHandler>();
 
@@ -121,7 +122,7 @@ namespace Juniper.ImageTracking
         /// </summary>
         protected virtual void Start()
         {
-            xr = ComponentExt.FindAny<XRSystem>();
+            xr = ComponentExt.FindAny<DisplayManager>();
 
             foreach (var target in FirstTargets.Distinct())
             {

@@ -1,3 +1,4 @@
+using Juniper.Display;
 using UnityEngine;
 
 namespace Juniper.Widgets
@@ -11,7 +12,7 @@ namespace Juniper.Widgets
         {
             f = this.EnsureComponent<FollowObject>();
 
-            f.followObject = CameraExtensions.MainCamera.transform;
+            f.followObject = DisplayManager.MainCamera.transform;
             f.FollowPosition = CartesianAxisFlags.XYZ;
         }
 

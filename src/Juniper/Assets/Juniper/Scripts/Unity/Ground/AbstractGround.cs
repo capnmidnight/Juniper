@@ -111,7 +111,7 @@ namespace Juniper.Ground
         {
             gameObject.layer = LayerMask.NameToLayer("Ground");
 
-            var xr = ComponentExt.FindAny<XRSystem>();
+            var xr = ComponentExt.FindAny<JuniperPlatform>();
 
             if (xr.ARMode > 0)
             {
@@ -124,7 +124,7 @@ namespace Juniper.Ground
         /// Configures the right plane-finding system for any current AR subsystem, or configures
         /// terrain rendering for any current VR subsystem.
         /// </summary>
-        protected virtual void InternalStart(XRSystem xr) { }
+        protected virtual void InternalStart(JuniperPlatform xr) { }
 
         /// <summary>
         /// Updates plane visualizers for ARCore, or changes the ground rendering material on HoloLens.

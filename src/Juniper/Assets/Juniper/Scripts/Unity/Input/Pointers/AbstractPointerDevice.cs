@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Juniper.Audio;
+using Juniper.Display;
 using Juniper.Events;
 using Juniper.Haptics;
 using Juniper.Statistics;
@@ -63,12 +64,12 @@ namespace Juniper.Input.Pointers
         /// The minimum distance from the camera at which to place the pointer.
         /// </summary>
         public float MinimumPointerDistance =>
-            Mathf.Max(1.5f, 1.1f * CameraExtensions.MainCamera.nearClipPlane);
+            Mathf.Max(1.5f, 1.1f * DisplayManager.MainCamera.nearClipPlane);
 
         protected Vector3 pointerOffset;
 
         public float MaximumPointerDistance =>
-            Mathf.Min(10f, 0.9f * CameraExtensions.MainCamera.farClipPlane);
+            Mathf.Min(10f, 0.9f * DisplayManager.MainCamera.farClipPlane);
 
         public Material LaserPointerMaterial;
 

@@ -1,5 +1,5 @@
 using System;
-
+using Juniper.Display;
 using Juniper.Statistics;
 
 using UnityEngine;
@@ -51,9 +51,9 @@ namespace Juniper.World
         /// </summary>
         public void Awake()
         {
-            if (CameraExtensions.MainCamera != null)
+            if (DisplayManager.MainCamera != null)
             {
-                camT = CameraExtensions.MainCamera.transform;
+                camT = DisplayManager.MainCamera.transform;
             }
             samples = new SingleStatistics(averagingIterations);
         }

@@ -1,7 +1,7 @@
 using System;
 
 using Juniper.Anchoring;
-
+using Juniper.Display;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -195,7 +195,7 @@ namespace Juniper.Widgets
         {
             base.Awake();
 
-            camT = CameraExtensions.MainCamera.transform;
+            camT = DisplayManager.MainCamera.transform;
 
             if (Display == null)
             {

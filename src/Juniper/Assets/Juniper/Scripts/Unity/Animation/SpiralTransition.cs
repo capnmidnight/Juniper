@@ -1,3 +1,4 @@
+using Juniper.Display;
 using UnityEngine;
 
 namespace Juniper.Animation
@@ -45,7 +46,7 @@ namespace Juniper.Animation
         /// Finds the transform of the main camera.
         /// </summary>
         public void Awake() =>
-            camT = CameraExtensions.MainCamera.transform;
+            camT = DisplayManager.MainCamera.transform;
 
         /// <summary>
         /// Continuously update the location, rotation, and scale of the element.
@@ -56,8 +57,8 @@ namespace Juniper.Animation
 
             if (fullScreen)
             {
-                var mid = CameraExtensions.MainCamera.ViewportToWorldPoint(Vector3.forward);
-                var top = CameraExtensions.MainCamera.ViewportToWorldPoint(new Vector3(0, 1, 1));
+                var mid = DisplayManager.MainCamera.ViewportToWorldPoint(Vector3.forward);
+                var top = DisplayManager.MainCamera.ViewportToWorldPoint(new Vector3(0, 1, 1));
                 var delta = top - mid;
                 mid *= 0.5f / delta.magnitude;
                 distance = mid.magnitude * 0.975f;

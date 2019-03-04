@@ -17,6 +17,7 @@ using UnityEngine.UI;
 
 using Juniper.Audio;
 using Juniper.Input;
+using Juniper.Display;
 
 #if UNITY_EDITOR
 
@@ -274,11 +275,11 @@ namespace Juniper
             }
 #endif
 
-            var fader = FadeTransition.Ensure(CameraExtensions.MainCamera.transform);
+            var fader = FadeTransition.Ensure(DisplayManager.MainCamera.transform);
             if (fader.IsNew || reset)
             {
                 fader.Value.GetComponent<Renderer>().SetMaterial(sceneFaderMaterial);
-                fader.Value.transform.localPosition = Mathf.Max(0.5f, 1.2f * CameraExtensions.MainCamera.nearClipPlane) * Vector3.forward;
+                fader.Value.transform.localPosition = Mathf.Max(0.5f, 1.2f * DisplayManager.MainCamera.nearClipPlane) * Vector3.forward;
                 fader.Value.transform.localScale = 2 * Vector3.one;
             }
 

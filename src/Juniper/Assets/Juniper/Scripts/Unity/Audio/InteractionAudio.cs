@@ -6,6 +6,7 @@ using Juniper.Input;
 
 using UnityEngine;
 using Juniper.Widgets;
+using Juniper.Display;
 
 #if UNITY_MODULES_AUDIO
 using System.Collections.Generic;
@@ -203,7 +204,7 @@ namespace Juniper.Audio
             else
             {
                 instance = this;
-                camT = CameraExtensions.MainCamera.transform;
+                camT = DisplayManager.MainCamera.transform;
 
 #if UNITY_MODULES_AUDIO
                 startUp = new SingleAudioClipCollection(soundOnStartUp, false);

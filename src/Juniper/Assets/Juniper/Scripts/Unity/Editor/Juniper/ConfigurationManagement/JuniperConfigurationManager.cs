@@ -19,7 +19,7 @@ namespace Juniper.ConfigurationManagement
     /// <summary>
     /// An editor to respond to changes in XRSystem.
     /// </summary>
-    [CustomEditor(typeof(XRSystem))]
+    [CustomEditor(typeof(JuniperPlatform))]
     public class JuniperConfigurationManager : Editor
     {
         private const string MENU_NAME = "Juniper/";
@@ -48,7 +48,7 @@ namespace Juniper.ConfigurationManagement
         }
 
         private static PlatformTypes CurrentPlatform =>
-            XRSystem.CURRENT_PLATFORM;
+            JuniperPlatform.CURRENT_PLATFORM;
 
         private static PlatformTypes DesiredPlatform =>
             config.CurrentPlatform;
@@ -282,7 +282,7 @@ namespace Juniper.ConfigurationManagement
         private static void Install()
         {
             Uninstall();
-            XRSystem.Ensure();
+            JuniperPlatform.Ensure();
             Installable.InstallAll(GetInstallables);
         }
 
@@ -540,7 +540,7 @@ namespace Juniper.ConfigurationManagement
         public static void PrepareScene() =>
             WithProgress("Preparing scene", _ =>
             {
-                var xr = XRSystem.Ensure();
+                var xr = JuniperPlatform.Ensure();
                 var scene = xr.gameObject.scene;
 
                 config.Commit();

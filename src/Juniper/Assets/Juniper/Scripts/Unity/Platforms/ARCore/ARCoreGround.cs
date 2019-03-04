@@ -25,7 +25,7 @@ namespace Juniper.Ground
                 Session.GetTrackables(newPlanes, TrackableQueryFilter.New);
                 for (int i = 0; i < newPlanes.Count; i++)
                 {
-                    var planeVisualizer = GoogleARCoreGroundPlaneVisualizer.Initialize(newPlanes[i]);
+                    var planeVisualizer = ARCoreGroundPlaneVisualizer.Initialize(newPlanes[i]);
                     planeVisualizer.CurrentGroundMeshMaterial = CurrentMaterial;
                     planeVisualizer.gameObject.layer = GroundLayer;
                     planeVisualizer.transform.SetParent(transform, true);

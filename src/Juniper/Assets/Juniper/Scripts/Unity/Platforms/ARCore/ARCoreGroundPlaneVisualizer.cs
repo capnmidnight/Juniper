@@ -9,7 +9,7 @@ namespace Juniper.Ground
     /// <summary>
     /// Visualizes a TrackedPlane in the Unity scene.
     /// </summary>
-    internal class GoogleARCoreGroundPlaneVisualizer : MonoBehaviour, IInstallable
+    internal class ARCoreGroundPlaneVisualizer : MonoBehaviour, IInstallable
     {
         /// <summary>
         /// The number of ground planes that are currently being tracked.
@@ -20,10 +20,10 @@ namespace Juniper.Ground
         /// Initializes the TrackedPlaneVisualizer with a TrackedPlane.
         /// </summary>
         /// <param name="plane">The plane to vizualize.</param>
-        public static GoogleARCoreGroundPlaneVisualizer Initialize(TrackedPlane plane)
+        public static ARCoreGroundPlaneVisualizer Initialize(TrackedPlane plane)
         {
             var planeObject = new GameObject($"GroundPlane_{count++}");
-            var gpv = planeObject.AddComponent<GoogleARCoreGroundPlaneVisualizer>();
+            var gpv = planeObject.AddComponent<ARCoreGroundPlaneVisualizer>();
             gpv.trackedPlane = plane;
             //var planeVisualizer = planeObject.AddComponent<TrackedPlaneVisualizer>();
             //planeVisualizer.Initialize(plane);

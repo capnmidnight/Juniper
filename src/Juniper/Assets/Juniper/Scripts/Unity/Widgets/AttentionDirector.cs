@@ -5,6 +5,7 @@ using Juniper.Animation;
 using Juniper.Input;
 
 using UnityEngine;
+using Juniper.Display;
 
 #if UNITY_MODULES_AUDIO
 using Juniper.Audio;
@@ -221,7 +222,7 @@ namespace Juniper.Widgets
                 var point = up + right;
                 pointer.rotation = Quaternion.LookRotation(point, transform.forward);
 
-                var toTarget = CameraExtensions.MainCamera.WorldToViewportPoint(Target);
+                var toTarget = DisplayManager.MainCamera.WorldToViewportPoint(Target);
                 toTarget.z = 0;
                 var targetDistance = toTarget.magnitude / 2;
                 arrow.localPosition = Mathf.Clamp01(targetDistance) * tagRange;

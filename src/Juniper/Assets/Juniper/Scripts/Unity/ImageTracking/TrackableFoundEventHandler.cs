@@ -1,3 +1,4 @@
+using Juniper.Display;
 using System;
 using System.Linq;
 
@@ -194,7 +195,7 @@ namespace Juniper.ImageTracking
         {
             if (Found)
             {
-                var camT = CameraExtensions.MainCamera.transform;
+                var camT = DisplayManager.MainCamera.transform;
                 var delta = transform.position - camT.position;
                 // we only care about the over-ground distance.
                 delta.y = 0;

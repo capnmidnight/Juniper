@@ -1,3 +1,4 @@
+using Juniper.Display;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ namespace Juniper.Animation
     /// </summary>
     public class FadeTransition : AbstractTransitionController, IInstallable
     {
-        private XRSystem xr;
+        private JuniperPlatform xr;
 
 #if UNITY_MODULES_AUDIO
         public AudioClip fadeOutSound;
@@ -69,7 +70,7 @@ namespace Juniper.Animation
 
             Entered += FadeTransition_Entered;
 
-            xr = ComponentExt.FindAny<XRSystem>();
+            xr = ComponentExt.FindAny<JuniperPlatform>();
         }
 
         public virtual void Reinstall() =>
@@ -187,17 +188,17 @@ namespace Juniper.Animation
         {
             base.OnEntered();
 
-            lastColor = CameraExtensions.MainCamera.backgroundColor;
-            lastCullingMask = CameraExtensions.MainCamera.cullingMask;
+            lastColor = DisplayManager.MainCamera.backgroundColor;
+            lastCullingMask = DisplayManager.MainCamera.cullingMask;
             lastAmbientMode = RenderSettings.ambientMode;
 
             if (xr.ARMode == AugmentedRealityTypes.None)
             {
-                CameraExtensions.MainCamera.clearFlags = CameraClearFlags.Color;
-                CameraExtensions.MainCamera.backgroundColor = ColorExt.TransparentBlack;
+                DisplayManager.MainCamera.clearFlags = CameraClearFlags.Color;
+                DisplayManager.MainCamera.backgroundColor = ColorExt.TransparentBlack;
             }
 
-            CameraExtensions.MainCamera.cullingMask = LayerMask.GetMask("TransparentFX");
+            DisplayManager.MainCamera.cullingMask = LayerMask.GetMask("TransparentFX");
             RenderSettings.ambientMode = AmbientMode.Flat;
         }
 
@@ -207,11 +208,11 @@ namespace Juniper.Animation
 
             if (xr.ARMode == AugmentedRealityTypes.None)
             {
-                CameraExtensions.MainCamera.clearFlags = CameraClearFlags.Skybox;
-                CameraExtensions.MainCamera.backgroundColor = lastColor;
+                DisplayManager.MainCamera.clearFlags = CameraClearFlags.Skybox;
+                DisplayManager.MainCamera.backgroundColor = lastColor;
             }
 
-            CameraExtensions.MainCamera.cullingMask = lastCullingMask;
+            DisplayManager.MainCamera.cullingMask = lastCullingMask;
             RenderSettings.ambientMode = lastAmbientMode;
         }
     }

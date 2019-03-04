@@ -1,4 +1,5 @@
 using System.Linq;
+using Juniper.Display;
 using Juniper.Input.Pointers.Screen;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -228,7 +229,7 @@ namespace Juniper.Input.Pointers
             if (pointer != null)
             {
                 // Screen Devices need to use the Main Camera as the Event Camera.
-                Raycaster = CameraExtensions.MainCamera?.EnsureComponent<PhysicsRaycaster>();
+                Raycaster = DisplayManager.MainCamera?.EnsureComponent<PhysicsRaycaster>();
             }
             else
             {
@@ -236,15 +237,15 @@ namespace Juniper.Input.Pointers
                 Raycaster = this.EnsureComponent<PhysicsRaycaster>();
             }
 
-            if (EventCamera != CameraExtensions.MainCamera)
+            if (EventCamera != DisplayManager.MainCamera)
             {
                 EventCamera.clearFlags = CameraClearFlags.SolidColor;
                 EventCamera.backgroundColor = ColorExt.TransparentBlack;
-                EventCamera.nearClipPlane = CameraExtensions.MainCamera.nearClipPlane;
+                EventCamera.nearClipPlane = DisplayManager.MainCamera.nearClipPlane;
 #if !(GOOGLEVR || OCULUS || DAYDREAM || WAVEVR || WINDOWSMR || HOLOLENS || MAGIC_LEAP)
                 EventCamera.fieldOfView = CameraExtensions.MainCamera.fieldOfView;
 #endif
-                EventCamera.depth = CameraExtensions.MainCamera.depth - 1;
+                EventCamera.depth = DisplayManager.MainCamera.depth - 1;
                 EventCamera.allowHDR = false;
                 EventCamera.allowMSAA = false;
                 EventCamera.enabled = false;
@@ -256,7 +257,7 @@ namespace Juniper.Input.Pointers
         public void AlignProbe(Vector3 dir, Vector3 up, float maxDistance)
         {
             transform.rotation = Quaternion.LookRotation(dir, up);
-            if (EventCamera != CameraExtensions.MainCamera)
+            if (EventCamera != DisplayManager.MainCamera)
             {
                 EventCamera.farClipPlane = maxDistance;
             }

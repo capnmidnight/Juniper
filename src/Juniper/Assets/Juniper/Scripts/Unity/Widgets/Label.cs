@@ -1,3 +1,4 @@
+using Juniper.Display;
 using UnityEngine;
 
 namespace Juniper.Widgets
@@ -43,7 +44,7 @@ namespace Juniper.Widgets
                 line.positionCount = 2;
             }
 
-            camT = CameraExtensions.MainCamera.transform;
+            camT = DisplayManager.MainCamera.transform;
         }
 
         /// <summary>

@@ -1,3 +1,4 @@
+using Juniper.Display;
 using UnityEngine;
 
 namespace Juniper.Input
@@ -13,7 +14,7 @@ namespace Juniper.Input
         public void Start()
         {
             body = GetComponent<Rigidbody>();
-            camT = CameraExtensions.MainCamera.transform;
+            camT = DisplayManager.MainCamera.transform;
         }
 
         public void FixedUpdate()

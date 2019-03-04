@@ -1,3 +1,4 @@
+using Juniper.Display;
 using Juniper.Haptics;
 
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace Juniper.Input.Pointers.Screen
 
         protected override void InternalUpdate()
         {
-            var camT = CameraExtensions.MainCamera.transform;
+            var camT = DisplayManager.MainCamera.transform;
             var cameraRotation = Quaternion.LookRotation(InteractionDirection, camT.up) * CameraRotationOffset;
             transform.position = camT.position + (cameraRotation * CameraPositionOffset);
             transform.rotation = cameraRotation;
