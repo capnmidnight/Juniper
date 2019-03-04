@@ -24,8 +24,8 @@ namespace System
             RAW_TIMEZONE_OFFSET;
 #else
             0;
-#endif
 
+#endif
 
         /// <summary>
         /// Cache the TimeSpan so we don't have to recalculate it every time.

@@ -22,14 +22,18 @@ namespace Juniper.Animation
         /// <summary>
         /// Get the renderer for the flipbook images.
         /// </summary>
-        public void Awake() =>
+        public void Awake()
+        {
             img = GetComponent<SpriteRenderer>();
+        }
 
         /// <summary>
         /// Update the lastT so the first frame has a full amount of time on screen.
         /// </summary>
-        public void OnEnable() =>
+        public void OnEnable()
+        {
             lastT = Time.time - timeout;
+        }
 
         /// <summary>
         /// If the timeout has passed, update the current frame of the flipbook.

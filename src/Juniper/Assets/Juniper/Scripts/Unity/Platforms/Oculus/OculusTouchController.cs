@@ -15,14 +15,12 @@ namespace Juniper.Input.Pointers.Motion
             OVRInput.Controller.LTrackedRemote
 #endif
 
-
         private static OVRInput.Controller Right =
 #if UNITY_STANDALONE
             OVRInput.Controller.RTouch;
 #else
             OVRInput.Controller.RTrackedRemote;
 #endif
-
 
         public OculusTouchProbeConfiguration() : base(Left, Right) { }
     }
@@ -94,7 +92,6 @@ namespace Juniper.Input.Pointers.Motion
         protected override bool TouchPadTouchedUp =>
             OVRInput.GetUp(TOUCHPAD_TOUCH, NativeHandID);
 
-
         protected override bool TouchPadPressed =>
             OVRInput.Get(TOUCHPAD_BUTTON, NativeHandID);
 
@@ -104,13 +101,11 @@ namespace Juniper.Input.Pointers.Motion
         protected override bool TouchPadPressedUp =>
             OVRInput.GetUp(TOUCHPAD_BUTTON, NativeHandID);
 
-
         public override Vector2 SquareTouchPoint =>
             OVRInput.Get(TOUCHPAD_AXIS, NativeHandID);
 
         public override Vector2 RoundTouchPoint =>
             Square2Round(SquareTouchPoint);
-
 
         public override bool IsButtonPressed(OVRInput.Button button) =>
             OVRInput.Get(button, NativeHandID);
@@ -120,7 +115,6 @@ namespace Juniper.Input.Pointers.Motion
 
         public override bool IsButtonUp(OVRInput.Button button) =>
             OVRInput.GetUp(button, NativeHandID);
-
 
         public override bool? IsCharging =>
             OVRPlugin.batteryStatus == OVRPlugin.BatteryStatus.Charging;

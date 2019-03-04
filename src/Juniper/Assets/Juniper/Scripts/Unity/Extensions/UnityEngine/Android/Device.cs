@@ -20,7 +20,7 @@ namespace UnityEngine.Android
                 if (Application.isEditor)
                 {
 #endif
-                    return 0;
+                return 0;
 #if UNITY_ANDROID
                 }
                 else

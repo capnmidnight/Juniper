@@ -1,6 +1,6 @@
-using System.Collections.Generic;
-
 using Juniper.World.GIS;
+
+using System.Collections.Generic;
 
 namespace UnityEngine
 {
@@ -15,8 +15,10 @@ namespace UnityEngine
         /// <returns>The utm.</returns>
         /// <param name="value">Value.</param>
         /// <param name="donatedZone">Donated zone.</param>
-        public static UTMPoint ToUTM(this Vector3 value, int donatedZone, UTMPoint.GlobeHemisphere hemisphere) =>
-            new UTMPoint(value.x, value.y, value.z, donatedZone, hemisphere);
+        public static UTMPoint ToUTM(this Vector3 value, int donatedZone, UTMPoint.GlobeHemisphere hemisphere)
+        {
+            return new UTMPoint(value.x, value.y, value.z, donatedZone, hemisphere);
+        }
 
         /// <summary>
         /// Calculate the centroid of a cloud of points. The centroid is just a fancy name for the

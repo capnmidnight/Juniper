@@ -1,7 +1,8 @@
+using Juniper;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Juniper;
 
 namespace UnityEngine
 {
@@ -34,8 +35,10 @@ namespace UnityEngine
         }
 
         public static RectTransform SetRectangle<T>(this PooledComponent<T> parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax, float width, float height, Vector2 pivot)
-            where T : Component =>
-            parent.Value.SetRectangle(position, anchorMin, anchorMax, width, height, pivot);
+            where T : Component
+        {
+            return parent.Value.SetRectangle(position, anchorMin, anchorMax, width, height, pivot);
+        }
 
         public static RectTransform SetRectangle(this Component parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax, float width, float height)
         {
@@ -49,8 +52,10 @@ namespace UnityEngine
         }
 
         public static RectTransform SetRectangle<T>(this PooledComponent<T> parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax, float width, float height)
-            where T : Component =>
-            parent.Value.SetRectangle(position, anchorMin, anchorMax, width, height);
+            where T : Component
+        {
+            return parent.Value.SetRectangle(position, anchorMin, anchorMax, width, height);
+        }
 
         public static RectTransform SetRectangle(this Component parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax, Vector3 pivot)
         {
@@ -63,8 +68,10 @@ namespace UnityEngine
         }
 
         public static RectTransform SetRectangle<T>(this PooledComponent<T> parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot)
-            where T : Component =>
-            parent.Value.SetRectangle(position, anchorMin, anchorMax, pivot);
+            where T : Component
+        {
+            return parent.Value.SetRectangle(position, anchorMin, anchorMax, pivot);
+        }
 
         public static RectTransform SetRectangle(this Component parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax)
         {
@@ -76,8 +83,10 @@ namespace UnityEngine
         }
 
         public static RectTransform SetRectangle<T>(this PooledComponent<T> parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax)
-            where T : Component =>
-            parent.Value.SetRectangle(position, anchorMin, anchorMax);
+            where T : Component
+        {
+            return parent.Value.SetRectangle(position, anchorMin, anchorMax);
+        }
 
         /// <summary>
         /// Search through a series of Transforms and child transforms, defined as a set of
@@ -126,7 +135,7 @@ namespace UnityEngine
                         }
                         else if (part.Length > 0)
                         {
-                            foreach(var child in here.Children())
+                            foreach (var child in here.Children())
                             {
                                 if (child?.name == part)
                                 {
@@ -159,8 +168,10 @@ namespace UnityEngine
             }
         }
 
-        public static RectTransform Query(this RectTransform parent, string path) =>
-            parent.Query<RectTransform>(path);
+        public static RectTransform Query(this RectTransform parent, string path)
+        {
+            return parent.Query<RectTransform>(path);
+        }
 
         public static PooledComponent<RectTransform> EnsureRectTransform<T>(this T obj, string path, string creationPath = null)
             where T : Component
@@ -172,7 +183,7 @@ namespace UnityEngine
 
             var rect = obj.EnsureComponent<RectTransform>().Value;
             var trans = rect.Query(path);
-            bool isNew = trans == null;
+            var isNew = trans == null;
             if (isNew)
             {
                 var parts = creationPath.Split('/');
@@ -201,16 +212,22 @@ namespace UnityEngine
             return new PooledComponent<RectTransform>(trans, isNew);
         }
 
-        public static PooledComponent<RectTransform> EnsureRectTransform(this PooledComponent<RectTransform> obj, string path, string creationPath = null) =>
-            obj.Value.EnsureRectTransform(path, creationPath);
+        public static PooledComponent<RectTransform> EnsureRectTransform(this PooledComponent<RectTransform> obj, string path, string creationPath = null)
+        {
+            return obj.Value.EnsureRectTransform(path, creationPath);
+        }
 
         public static PooledComponent<T> EnsureComponent<T>(this RectTransform parent)
-            where T : Component =>
-            parent.gameObject.EnsureComponent<T>();
+            where T : Component
+        {
+            return parent.gameObject.EnsureComponent<T>();
+        }
 
         public static PooledComponent<T> EnsureComponent<T>(this PooledComponent<RectTransform> parent)
-            where T : Component =>
-            parent.Value.EnsureComponent<T>();
+            where T : Component
+        {
+            return parent.Value.EnsureComponent<T>();
+        }
 
         /// <summary>
         /// Returns true if a point is contained within the rectangle.

@@ -1,11 +1,11 @@
+using Juniper.Progress;
+
+using Newtonsoft.Json;
+
 using System;
 using System.IO;
 using System.Net;
 using System.Text;
-
-using Juniper.Progress;
-
-using Newtonsoft.Json;
 
 namespace Juniper
 {
@@ -14,7 +14,6 @@ namespace Juniper
     /// </summary>
     public class HTTP
     {
-
         /// <summary>
         /// Perform a GET request and return the results as a stream of bytes
         /// </summary>
@@ -58,8 +57,10 @@ namespace Juniper
         /// <param name="resolve">The callback to perform on success, with the byte array payload</param>
         /// <param name="reject">The callback to perform on error</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetByteStream(string url, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null) =>
+        public static void GetByteStream(string url, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        {
             GetStream(url, "application/octet-stream", resolve, reject, prog);
+        }
 
         /// <summary>
         /// Perform a GET request and return the results as an array of bytes
@@ -69,13 +70,15 @@ namespace Juniper
         /// <param name="resolve">The callback to perform on success, with the byte array payload</param>
         /// <param name="reject">The callback to perform on error</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetBytes(string url, string contentType, Action<byte[]> resolve, Action<Exception> reject, IProgressReceiver prog = null) =>
+        public static void GetBytes(string url, string contentType, Action<byte[]> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        {
             GetStream(
                 url,
                 contentType,
                 stream => resolve(stream.ReadBytes(prog)),
                 reject,
                 prog);
+        }
 
         /// <summary>
         /// Perform a GET request and return the results as an array of bytes, for the
@@ -85,8 +88,10 @@ namespace Juniper
         /// <param name="resolve">The callback to perform on success, with the byte array payload</param>
         /// <param name="reject">The callback to perform on error</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetBytes(string url, Action<byte[]> resolve, Action<Exception> reject, IProgressReceiver prog = null) =>
+        public static void GetBytes(string url, Action<byte[]> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        {
             GetBytes(url, "application/octet-stream", resolve, reject, prog);
+        }
 
         /// <summary>
         /// Perform a GET request and return the results as string
@@ -96,13 +101,15 @@ namespace Juniper
         /// <param name="resolve">The callback to perform on success, with the string payload</param>
         /// <param name="reject">The callback to perform on error</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetText(string url, string contentType, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null) =>
+        public static void GetText(string url, string contentType, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        {
             GetStream(
                 url,
                 contentType,
                 stream => resolve(stream.ReadString(prog)),
                 reject,
                 prog);
+        }
 
         /// <summary>
         /// Perform a GET request and return the results as string for the `application/unknown` MIME type
@@ -111,8 +118,10 @@ namespace Juniper
         /// <param name="resolve">The callback to perform on success, with the string payload</param>
         /// <param name="reject">The callback to perform on error</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetText(string url, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null) =>
+        public static void GetText(string url, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        {
             GetText(url, "text/plain", resolve, reject, prog);
+        }
 
         /// <summary>
         /// Perform a GET request and return the results as a stream of bytes, for the
@@ -122,8 +131,10 @@ namespace Juniper
         /// <param name="resolve">The callback to perform on success, with the stream payload</param>
         /// <param name="reject">The callback to perform on error</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetJSON(string url, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null) =>
+        public static void GetJSON(string url, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        {
             GetStream(url, "application/json", resolve, reject, prog);
+        }
 
         /// <summary>
         /// Perform a JSON GET request and return the results as a string.
@@ -132,9 +143,10 @@ namespace Juniper
         /// <param name="resolve">The callback to perform on success, with the JSON string payload</param>
         /// <param name="reject">The callback to perform on error</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetJSON(string url, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null) =>
+        public static void GetJSON(string url, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        {
             GetText(url, "application/json", resolve, reject, prog);
-
+        }
 
         /// <summary>
         /// Perform a POST request, writing the body through a stream, and return thet results as a stream.
@@ -267,7 +279,6 @@ namespace Juniper
         /// </summary>
         private readonly Action<Exception> reject;
 
-
         /// <summary>
         /// Initialize a byte stream request handler.
         /// </summary>
@@ -326,7 +337,9 @@ namespace Juniper
         /// A default error handler that does nothing.
         /// </summary>
         /// <param name="exp"></param>
-        private static void EmptyRejection(Exception exp) { }
+        private static void EmptyRejection(Exception exp)
+        {
+        }
 
         /// <summary>
         /// Create the basic request object.

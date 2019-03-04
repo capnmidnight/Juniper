@@ -1,4 +1,5 @@
 #if UNITY_MODULES_AUDIO
+
 using Juniper.Audio;
 
 using UnityEngine.Audio;
@@ -17,8 +18,10 @@ namespace UnityEngine
         /// <param name="audioSource"></param>
         /// <param name="group"></param>
         /// <returns></returns>
-        public static AudioSource Spatialize(this AudioSource audioSource, AudioMixerGroup group) =>
-            InteractionAudio.Spatialize(audioSource, false, group);
+        public static AudioSource Spatialize(this AudioSource audioSource, AudioMixerGroup group)
+        {
+            return InteractionAudio.Spatialize(audioSource, false, group);
+        }
 
         /// <summary>
         /// Set the common spatialization parameters for an AudioSource, including adding the
@@ -27,8 +30,10 @@ namespace UnityEngine
         /// <param name="audioSource"></param>
         /// <param name="loop"></param>
         /// <returns></returns>
-        public static AudioSource Spatialize(this AudioSource audioSource, bool loop) =>
-            InteractionAudio.Spatialize(audioSource, loop, null);
+        public static AudioSource Spatialize(this AudioSource audioSource, bool loop)
+        {
+            return InteractionAudio.Spatialize(audioSource, loop, null);
+        }
 
         /// <summary>
         /// Set the common spatialization parameters for an AudioSource, including adding the
@@ -36,8 +41,10 @@ namespace UnityEngine
         /// </summary>
         /// <param name="audioSource"></param>
         /// <returns></returns>
-        public static AudioSource Spatialize(this AudioSource audioSource) =>
-            InteractionAudio.Spatialize(audioSource, false, null);
+        public static AudioSource Spatialize(this AudioSource audioSource)
+        {
+            return InteractionAudio.Spatialize(audioSource, false, null);
+        }
     }
 }
 

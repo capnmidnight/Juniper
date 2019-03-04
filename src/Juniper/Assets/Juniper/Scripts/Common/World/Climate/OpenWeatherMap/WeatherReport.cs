@@ -1,7 +1,7 @@
+using Juniper.World.GIS;
+
 using System;
 using System.Linq;
-
-using Juniper.World.GIS;
 
 namespace Juniper.World.Climate.OpenWeatherMap
 {
@@ -79,12 +79,24 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// When not null, the error response from the server.
         /// </summary>
-        public string Error => error;
+        public string Error
+        {
+            get
+            {
+                return error;
+            }
+        }
 
         /// <summary>
         /// name of the city for which the report covers.
         /// </summary>
-        public string City => name;
+        public string City
+        {
+            get
+            {
+                return name;
+            }
+        }
 
         /// <summary>
         /// timestamp for the period of time the report covers.
@@ -111,7 +123,13 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// atmospheric visibility
         /// </summary>
-        public float? Visibility => visibility;
+        public float? Visibility
+        {
+            get
+            {
+                return visibility;
+            }
+        }
 
         /// <summary>
         /// A conversion of <see cref="Coord"/> to Juniper's own internal Lat/Lng type.
@@ -153,56 +171,110 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// If <see cref="main"/> is not null, returns the current temperature from it.
         /// </summary>
         /// <value>The temperature.</value>
-        public float? Temperature => main?.temp;
+        public float? Temperature
+        {
+            get
+            {
+                return main?.temp;
+            }
+        }
 
         /// <summary>
         /// If <see cref="main"/> is not null, returns the current atmospheric pressure from it.
         /// </summary>
         /// <value>The atmospheric pressure.</value>
-        public float? AtmosphericPressure => main?.pressure;
+        public float? AtmosphericPressure
+        {
+            get
+            {
+                return main?.pressure;
+            }
+        }
 
         /// <summary>
         /// If <see cref="main"/> is not null, returns the current humidity from it.
         /// </summary>
         /// <value>The humidity.</value>
-        public float? Humidity => main?.humidity / 100f;
+        public float? Humidity
+        {
+            get
+            {
+                return main?.humidity / 100f;
+            }
+        }
 
         /// <summary>
         /// If <see cref="wind"/> is not null, returns the direction from it.
         /// </summary>
         /// <value>The wind direction.</value>
-        public float? WindDirection => wind?.deg;
+        public float? WindDirection
+        {
+            get
+            {
+                return wind?.deg;
+            }
+        }
 
         /// <summary>
         /// if <see cref="wind"/> is not null, returns the speed from it.
         /// </summary>
         /// <value>The wind speed.</value>
-        public float? WindSpeed => wind?.speed;
+        public float? WindSpeed
+        {
+            get
+            {
+                return wind?.speed;
+            }
+        }
 
         /// <summary>
         /// If <see cref="clouds"/> is not null, returns the cloud cover value, scaled to the range
         /// [0, 1].
         /// </summary>
         /// <value>The cloud cover.</value>
-        public float? CloudCover => clouds?.all / 100f;
+        public float? CloudCover
+        {
+            get
+            {
+                return clouds?.all / 100f;
+            }
+        }
 
         /// <summary>
         /// If <see cref="sys"/> is not null, returns the country value from it.
         /// </summary>
         /// <value>The country.</value>
-        public string Country => sys?.country;
+        public string Country
+        {
+            get
+            {
+                return sys?.country;
+            }
+        }
 
         /// <summary>
         /// If <see cref="sys"/> is not null, returns the SunriseTime value from it.
         /// </summary>
         /// <value>The country.</value>
-        public DateTime? SunriseTime => sys?.SunriseTime;
+        public DateTime? SunriseTime
+        {
+            get
+            {
+                return sys?.SunriseTime;
+            }
+        }
 
         /// <summary>
         /// If <see cref="sys"/> is not null, returns the SunsetTime value from it.
         /// </summary>
         /// <value>The country.</value>
-        public DateTime? SunsetTime => sys?.SunsetTime;
+        public DateTime? SunsetTime
+        {
+            get
+            {
+                return sys?.SunsetTime;
+            }
+        }
 
         /// <summary>
         /// Latitude and longitude values for the OpenWeatherMap report.
@@ -623,8 +695,13 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// full URL to the <see cref="icon"/> on OpenWeatherMap's server.
             /// </summary>
             /// <value>The icon URL.</value>
-            public string IconURL =>
-                $"http://openweathermap.org/img/w/{icon}.png";
+            public string IconURL
+            {
+                get
+                {
+                    return $"http://openweathermap.org/img/w/{icon}.png";
+                }
+            }
 
             /// <summary>
             /// An enumeration of the current conditions.
@@ -635,8 +712,13 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// An enumeration of the current conditions.
             /// </summary>
             /// <value>The conditions.</value>
-            public WeatherConditions Conditions =>
-                cond ?? (cond = (WeatherConditions)id).Value;
+            public WeatherConditions Conditions
+            {
+                get
+                {
+                    return cond ?? (cond = (WeatherConditions)id).Value;
+                }
+            }
         }
 
         /// <summary>
@@ -762,16 +844,26 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// in <see cref="riseTime"/>, and returns that value.
             /// </summary>
             /// <value>The sunrise time.</value>
-            public DateTime SunriseTime =>
-                riseTime ?? (riseTime = sunrise.UnixTimestampToDateTime()).Value;
+            public DateTime SunriseTime
+            {
+                get
+                {
+                    return riseTime ?? (riseTime = sunrise.UnixTimestampToDateTime()).Value;
+                }
+            }
 
             /// <summary>
             /// Converts the Unix timestamp value of <see cref="sunset"/> to a DateTime value stored
             /// in <see cref="setTime"/>, and returns that value.
             /// </summary>
             /// <value>The sunset time.</value>
-            public DateTime SunsetTime =>
-                setTime ?? (setTime = sunset.UnixTimestampToDateTime()).Value;
+            public DateTime SunsetTime
+            {
+                get
+                {
+                    return setTime ?? (setTime = sunset.UnixTimestampToDateTime()).Value;
+                }
+            }
 
             /// <summary>
             /// The time sunrise should occur for the day.

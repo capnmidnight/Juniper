@@ -1,8 +1,8 @@
-using System;
-using System.Collections;
-
 using Juniper.Progress;
 using Juniper.World.GIS;
+
+using System;
+using System.Collections;
 
 using UnityEngine;
 
@@ -67,29 +67,49 @@ namespace Juniper.World.Climate
         /// If there is a valid <see cref="currentWeather"/> value, returns the SunsetTime from it.
         /// </summary>
         /// <value>The sunset.</value>
-        public DateTime? Sunset =>
-            currentWeather?.SunsetTime;
+        public DateTime? Sunset
+        {
+            get
+            {
+                return currentWeather?.SunsetTime;
+            }
+        }
 
         /// <summary>
         /// If there is a valid <see cref="currentWeather"/> value, returns the CloudCover from it.
         /// </summary>
         /// <value>The cloud cover.</value>
-        public float? CloudCover =>
-            currentWeather?.CloudCover;
+        public float? CloudCover
+        {
+            get
+            {
+                return currentWeather?.CloudCover;
+            }
+        }
 
         /// <summary>
         /// If there is a valid <see cref="currentWeather"/> value, returns the WindDirection from it.
         /// </summary>
         /// <value>The wind direction.</value>
-        public float? WindDirection =>
-            currentWeather?.WindDirection;
+        public float? WindDirection
+        {
+            get
+            {
+                return currentWeather?.WindDirection;
+            }
+        }
 
         /// <summary>
         /// If there is a valid <see cref="currentWeather"/> value, returns the WindSpeed from it.
         /// </summary>
         /// <value>The wind speed.</value>
-        public float? WindSpeed =>
-            currentWeather?.WindSpeed;
+        public float? WindSpeed
+        {
+            get
+            {
+                return currentWeather?.WindSpeed;
+            }
+        }
 
         /// <summary>
         /// Retrieves a new weather report, if one is <see cref="Ready"/> to retrieve reports.
@@ -178,8 +198,13 @@ namespace Juniper.World.Climate
         /// cref="location"/> value that has a value GPS coordinate.
         /// </summary>
         /// <value><c>true</c> if ready; otherwise, <c>false</c>.</value>
-        private bool Ready =>
-            location != null && location.HasCoord && weatherService != null;
+        private bool Ready
+        {
+            get
+            {
+                return location != null && location.HasCoord && weatherService != null;
+            }
+        }
 
         /// <summary>
         /// Retrieves a new weather report.

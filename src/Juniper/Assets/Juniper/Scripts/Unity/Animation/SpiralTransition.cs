@@ -1,4 +1,5 @@
 using Juniper.Display;
+
 using UnityEngine;
 
 namespace Juniper.Animation
@@ -40,13 +41,21 @@ namespace Juniper.Animation
         /// <summary>
         /// The amount of time, in seconds, that the transition should take.
         /// </summary>
-        public override float TransitionLength => length;
+        public override float TransitionLength
+        {
+            get
+            {
+                return length;
+            }
+        }
 
         /// <summary>
         /// Finds the transform of the main camera.
         /// </summary>
-        public void Awake() =>
+        public void Awake()
+        {
             camT = DisplayManager.MainCamera.transform;
+        }
 
         /// <summary>
         /// Continuously update the location, rotation, and scale of the element.
@@ -77,8 +86,10 @@ namespace Juniper.Animation
         /// Records the transition value so the <see cref="Update"/> function can use it.
         /// </summary>
         /// <param name="value">Value.</param>
-        protected override void RenderValue(float value) =>
+        protected override void RenderValue(float value)
+        {
             tweenValue = value;
+        }
 
         /// <summary>
         /// Records the starting values so the enter transition can LERP over the values correctly.

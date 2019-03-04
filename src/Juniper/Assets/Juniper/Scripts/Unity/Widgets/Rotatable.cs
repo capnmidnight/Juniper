@@ -26,8 +26,10 @@ namespace Juniper.Widgets
         /// <summary>
         /// When the gameObject gets enabled, restore the <see cref="endValue"/> of the control.
         /// </summary>
-        public void OnEnable() =>
+        public void OnEnable()
+        {
             SetValue(endValue);
+        }
 
         /// <summary>
         /// When the gameObject gets disabled, save the current value of the control to <see
@@ -93,7 +95,13 @@ namespace Juniper.Widgets
         /// To satisfy the needs of the parent Valued class, convert the angle of rotation to number
         /// of whole rotations.
         /// </summary>
-        protected override float ConstraintRange => 360f;
+        protected override float ConstraintRange
+        {
+            get
+            {
+                return 360f;
+            }
+        }
 
         /// <summary>
         /// Initialize the control, and set the current value as <see cref="startValue"/>.

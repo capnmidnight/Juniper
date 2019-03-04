@@ -62,8 +62,10 @@ namespace Juniper.Data
         /// </summary>
         /// <param name="onSuccess"></param>
         /// <param name="onError"></param>
-        private void OnReady(Action<T> onSuccess, Action<Exception> onError) =>
+        private void OnReady(Action<T> onSuccess, Action<Exception> onError)
+        {
             Ready?.Invoke(this, new ManagedRequestReadyEventArgs<T>(onSuccess, onError));
+        }
 
         /// <summary>
         /// Execute the Message event, if it has listeners attached to it.
@@ -105,38 +107,61 @@ namespace Juniper.Data
         /// <summary>
         /// The timestamp at which the next request will be performed.
         /// </summary>
-        public DateTime NextRequest { get; private set; }
+        public DateTime NextRequest
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// The timestamp (if any) at which the most recent request was performed.
         /// </summary>
-        public DateTime? LastRequest { get; private set; }
+        public DateTime? LastRequest
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// The timestamp (if any) at which the most recent response was received.
         /// </summary>
-        public DateTime? LastResponse { get; private set; }
+        public DateTime? LastResponse
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// The timestamp (if any) at which the most recent error was received.
         /// </summary>
-        public Exception LastError { get; private set; }
+        public Exception LastError
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// The current rate at which requests are considered timed out.
         /// </summary>
-        public float TimeoutRate { get; set; }
+        public float TimeoutRate
+        {
+            get; set;
+        }
 
         /// <summary>
         /// The current rate at which requests are issued.
         /// </summary>
-        public float PollRate { get; set; }
+        public float PollRate
+        {
+            get; set;
+        }
 
         /// <summary>
         /// The that that has passed since the last request (if any) was performed.
         /// </summary>
-        public TimeSpan? SinceRequest =>
-            DateTime.Now - LastRequest;
+        public TimeSpan? SinceRequest
+        {
+            get
+            {
+                return DateTime.Now - LastRequest;
+            }
+        }
 
         /// <summary>
         /// The number of seconds that have passed since the last request (if any) was performed.
@@ -159,27 +184,47 @@ namespace Juniper.Data
         /// <summary>
         /// The amount of time until the next request is performed.
         /// </summary>
-        public TimeSpan UntilNextRequest =>
-            NextRequest - DateTime.Now;
+        public TimeSpan UntilNextRequest
+        {
+            get
+            {
+                return NextRequest - DateTime.Now;
+            }
+        }
 
         /// <summary>
         /// The number of seconds until the next request is performed.
         /// </summary>
-        public float UntilNextRequestSeconds =>
-            (float)UntilNextRequest.TotalSeconds;
+        public float UntilNextRequestSeconds
+        {
+            get
+            {
+                return (float)UntilNextRequest.TotalSeconds;
+            }
+        }
 
         /// <summary>
         /// Returns true if there has been an error or timeout since the last request, before a
         /// response could occur.
         /// </summary>
-        public bool Errored =>
-            LastError != null || IsTimedOut;
+        public bool Errored
+        {
+            get
+            {
+                return LastError != null || IsTimedOut;
+            }
+        }
 
         /// <summary>
         /// The amount of time since the last response (if any).
         /// </summary>
-        public TimeSpan? SinceResponse =>
-            DateTime.Now - LastResponse;
+        public TimeSpan? SinceResponse
+        {
+            get
+            {
+                return DateTime.Now - LastResponse;
+            }
+        }
 
         /// <summary>
         /// The number of seconds since the last response (if any).
@@ -202,20 +247,35 @@ namespace Juniper.Data
         /// <summary>
         /// Returns true if there has been no response in a set amount of time since the last request.
         /// </summary>
-        public bool IsTimedOut =>
-            SinceResponse == null && SinceRequestSeconds > TimeoutRate;
+        public bool IsTimedOut
+        {
+            get
+            {
+                return SinceResponse == null && SinceRequestSeconds > TimeoutRate;
+            }
+        }
 
         /// <summary>
         /// The amount of time that passed between the last request (if any) and last response (if any)
         /// </summary>
-        public TimeSpan? ResponseTime =>
-            LastResponse - LastRequest;
+        public TimeSpan? ResponseTime
+        {
+            get
+            {
+                return LastResponse - LastRequest;
+            }
+        }
 
         /// <summary>
         /// The number of seconds that passed between the last request (if any) and last response (if any)
         /// </summary>
-        public float? ResponseTimeSeconds =>
-            (float?)ResponseTime?.TotalSeconds;
+        public float? ResponseTimeSeconds
+        {
+            get
+            {
+                return (float?)ResponseTime?.TotalSeconds;
+            }
+        }
 
         /// <summary>
         /// Clear out all errors and schedule a new request.

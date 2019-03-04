@@ -1,7 +1,8 @@
 #if UNITY_MODULES_AUDIO && UNITY_MODULES_VIDEO
-using System;
 
 using Juniper.Progress;
+
+using System;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -52,6 +53,7 @@ namespace Juniper.Video
         private Material skyboxMaterial;
 
 #if UNITY_EDITOR
+
         public void OnValidate()
         {
             if (videoClip?.Asset != null)
@@ -60,6 +62,7 @@ namespace Juniper.Video
                 height = videoClip.Asset.height;
             }
         }
+
 #endif
 
         public enum Mode
@@ -230,4 +233,5 @@ namespace Juniper.Video
         }
     }
 }
+
 #endif

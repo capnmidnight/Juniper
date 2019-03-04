@@ -1,7 +1,7 @@
+using NUnit.Framework;
+
 using System.Collections;
 using System.Collections.Generic;
-
-using NUnit.Framework;
 
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -330,8 +330,11 @@ namespace Juniper.Animation
             return Waiter();
         }
 
-        private WaitUntil Waiter() => new WaitUntil(() =>
-            trans.IsComplete);
+        private WaitUntil Waiter()
+        {
+            return new WaitUntil(() =>
+                trans.IsComplete);
+        }
 
         private IEnumerator Enter()
         {
@@ -349,16 +352,34 @@ namespace Juniper.Animation
         {
             public float Value = TRANS_START_VALUE;
             public List<float> ValueChanges = new List<float>();
-            public override float TransitionLength =>
-                TRANS_TIME;
 
-            public bool FiredEntering { get; private set; }
+            public override float TransitionLength
+            {
+                get
+                {
+                    return TRANS_TIME;
+                }
+            }
 
-            public bool FiredEntered { get; private set; }
+            public bool FiredEntering
+            {
+                get; private set;
+            }
 
-            public bool FiredExiting { get; private set; }
+            public bool FiredEntered
+            {
+                get; private set;
+            }
 
-            public bool FiredExited { get; private set; }
+            public bool FiredExiting
+            {
+                get; private set;
+            }
+
+            public bool FiredExited
+            {
+                get; private set;
+            }
 
             public void Awake()
             {
@@ -381,8 +402,10 @@ namespace Juniper.Animation
                 base.Exit();
             }
 
-            protected override void RenderValue(float value) =>
+            protected override void RenderValue(float value)
+            {
                 Value = value;
+            }
 
             protected override void OnEnabled()
             {

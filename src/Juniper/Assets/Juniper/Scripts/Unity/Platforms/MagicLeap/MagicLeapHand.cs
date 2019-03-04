@@ -1,4 +1,5 @@
 #if MAGIC_LEAP
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,11 +26,13 @@ namespace Juniper.Input.Pointers.Motion
                 switch (hand)
                 {
                     case Hands.Left:
-                        return MLHandType.Left;
+                    return MLHandType.Left;
+
                     case Hands.Right:
-                        return MLHandType.Right;
+                    return MLHandType.Right;
+
                     default:
-                        return null;
+                    return null;
                 }
             }
         }
@@ -41,11 +44,13 @@ namespace Juniper.Input.Pointers.Motion
                 switch (hand)
                 {
                     case MLHandType.Left:
-                        return MLHands.Left;
+                    return MLHands.Left;
+
                     case MLHandType.Right:
-                        return MLHands.Right;
+                    return MLHands.Right;
+
                     default:
-                        return null;
+                    return null;
                 }
             }
         }
@@ -76,8 +81,13 @@ namespace Juniper.Input.Pointers.Motion
             }
         }
 
-        public override bool IsDominantHand =>
-            Hand == Hands.Right;
+        public override bool IsDominantHand
+        {
+            get
+            {
+                return Hand == Hands.Right;
+            }
+        }
 
         private IEnumerable<MLKeyPoint> KeyPoints
         {
@@ -139,10 +149,12 @@ namespace Juniper.Input.Pointers.Motion
                 bones = KeyPoints.Select((point, i) =>
                     this.EnsureTransform(
                         $"Bone{i}",
-                        () => {
+                        () =>
+                        {
                             var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                             sphere.transform.localScale = 0.005f * Vector3.one;
-                            if (point.IsValid) {
+                            if (point.IsValid)
+                            {
                                 sphere.transform.localPosition = point.Position;
                             }
                             var collid = sphere.GetComponent<Collider>();
@@ -241,14 +253,21 @@ namespace Juniper.Input.Pointers.Motion
             }
         }
 
-        public override bool IsButtonPressed(MLHandKeyPose button) =>
-            button == currentPose;
+        public override bool IsButtonPressed(MLHandKeyPose button)
+        {
+            return button == currentPose;
+        }
 
-        public override bool IsButtonDown(MLHandKeyPose button) =>
-            button == currentPose && button != lastPose;
+        public override bool IsButtonDown(MLHandKeyPose button)
+        {
+            return button == currentPose && button != lastPose;
+        }
 
-        public override bool IsButtonUp(MLHandKeyPose button) =>
-            button != currentPose && button == lastPose;
+        public override bool IsButtonUp(MLHandKeyPose button)
+        {
+            return button != currentPose && button == lastPose;
+        }
     }
 }
+
 #endif

@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 using Juniper.Input.Speech;
 using Juniper.Progress;
 using Juniper.World;
 
 using Newtonsoft.Json;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using UnityEditor;
 
@@ -66,30 +66,62 @@ namespace Juniper.ConfigurationManagement
         }
 
         [JsonIgnore]
-        public BuildTargetGroup TargetGroup => BuildPipeline.GetBuildTargetGroup(BuildTarget);
+        public BuildTargetGroup TargetGroup
+        {
+            get
+            {
+                return BuildPipeline.GetBuildTargetGroup(BuildTarget);
+            }
+        }
 
         [JsonIgnore]
-        public bool IsSupported => BuildPipeline.IsBuildTargetSupported(TargetGroup, BuildTarget);
+        public bool IsSupported
+        {
+            get
+            {
+                return BuildPipeline.IsBuildTargetSupported(TargetGroup, BuildTarget);
+            }
+        }
 
         [JsonIgnore]
-        public IEnumerable<UnityXRPlatforms> XRPlatforms =>
-            from sys in vrSystems
-            select (UnityXRPlatforms)Enum.Parse(typeof(UnityXRPlatforms), sys);
+        public IEnumerable<UnityXRPlatforms> XRPlatforms
+        {
+            get
+            {
+                return from sys in vrSystems
+                       select (UnityXRPlatforms)Enum.Parse(typeof(UnityXRPlatforms), sys);
+            }
+        }
 
         [JsonIgnore]
-        public UnityPackage[] UninstallableUnityPackages { get; internal set; }
+        public UnityPackage[] UninstallableUnityPackages
+        {
+            get; internal set;
+        }
 
         [JsonIgnore]
-        public UnityPackage[] IncludedUnityPackages { get; internal set; }
+        public UnityPackage[] IncludedUnityPackages
+        {
+            get; internal set;
+        }
 
         [JsonIgnore]
-        public UnityPackage[] ExcludedUnityPackages { get; internal set; }
+        public UnityPackage[] ExcludedUnityPackages
+        {
+            get; internal set;
+        }
 
         [JsonIgnore]
-        public RawPackage[] UninstallableRawPackages { get; internal set; }
+        public RawPackage[] UninstallableRawPackages
+        {
+            get; internal set;
+        }
 
         [JsonIgnore]
-        public RawPackage[] RawPackages { get; internal set; }
+        public RawPackage[] RawPackages
+        {
+            get; internal set;
+        }
 
         public bool SwitchTarget()
         {
@@ -118,8 +150,10 @@ namespace Juniper.ConfigurationManagement
             Platforms.ForEachPackage(IncludedUnityPackages, progs[1], (pkg, p) => pkg.Install(p));
         }
 
-        public void InstallRawPackages(IProgressReceiver prog = null) =>
+        public void InstallRawPackages(IProgressReceiver prog = null)
+        {
             Platforms.ForEachPackage(RawPackages, prog, (pkg, p) => pkg.Install(p));
+        }
 
         public void Activate(IProgressReceiver prog)
         {
@@ -157,11 +191,15 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public void UninstallRawPackages(IProgressReceiver prog = null) =>
+        public void UninstallRawPackages(IProgressReceiver prog = null)
+        {
             Platforms.ForEachPackage(UninstallableRawPackages, prog, (pkg, p) => pkg.Uninstall(p));
+        }
 
-        public void UninstallUnityPackages(IProgressReceiver prog = null) =>
+        public void UninstallUnityPackages(IProgressReceiver prog = null)
+        {
             Platforms.ForEachPackage(UninstallableUnityPackages, prog, (pkg, p) => pkg.Uninstall(p));
+        }
 
         public List<string> CompilerDefines
         {

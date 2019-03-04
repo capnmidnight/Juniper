@@ -1,6 +1,6 @@
-using System;
-
 using Juniper.Input.Pointers;
+
+using System;
 
 namespace Juniper.Input
 {

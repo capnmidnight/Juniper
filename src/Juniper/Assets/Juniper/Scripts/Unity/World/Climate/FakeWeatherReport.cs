@@ -1,6 +1,6 @@
-using System;
-
 using Juniper.World.GIS;
+
+using System;
 
 using UnityEngine;
 
@@ -67,82 +67,170 @@ namespace Juniper.World.Climate
         /// <summary>
         /// timestamp for the period of time the report covers.
         /// </summary>
-        public DateTime ReportTime => reportTime;
+        public DateTime ReportTime
+        {
+            get
+            {
+                return reportTime;
+            }
+        }
 
         /// <summary>
         /// name of the city for which the report covers.
         /// </summary>
-        public string City => "Fakesburg";
+        public string City
+        {
+            get
+            {
+                return "Fakesburg";
+            }
+        }
 
         /// <summary>
         /// The country for which the report covers.
         /// </summary>
-        public string Country => "US";
+        public string Country
+        {
+            get
+            {
+                return "US";
+            }
+        }
 
         /// <summary>
         /// The latitude/longitude for which the report covers.
         /// </summary>
-        public LatLngPoint Location => location;
+        public LatLngPoint Location
+        {
+            get
+            {
+                return location;
+            }
+        }
 
         /// <summary>
         /// atmospheric visibility
         /// </summary>
-        public float? Visibility => visibility;
+        public float? Visibility
+        {
+            get
+            {
+                return visibility;
+            }
+        }
 
         /// <summary>
         /// The time at which sunrise occurs for the <see cref="ReportTime"/>
         /// </summary>
         /// <value>The sunrise time.</value>
-        public DateTime? SunriseTime =>
-            new DateTime(reportTime.Year, (int)reportTime.Month, reportTime.Day, 6, 30, 0);
+        public DateTime? SunriseTime
+        {
+            get
+            {
+                return new DateTime(reportTime.Year, (int)reportTime.Month, reportTime.Day, 6, 30, 0);
+            }
+        }
 
         /// <summary>
         /// The time at which sunset occurs for the <see cref="ReportTime"/>
         /// </summary>
         /// <value>The sunset time.</value>
-        public DateTime? SunsetTime =>
-            new DateTime(reportTime.Year, (int)reportTime.Month, reportTime.Day, 18, 30, 0);
+        public DateTime? SunsetTime
+        {
+            get
+            {
+                return new DateTime(reportTime.Year, (int)reportTime.Month, reportTime.Day, 18, 30, 0);
+            }
+        }
 
         /// <summary>
         /// An estimate, from 0 to 1, of the current proportion cloud cover.
         /// </summary>
-        public float? CloudCover => cloudCover;
+        public float? CloudCover
+        {
+            get
+            {
+                return cloudCover;
+            }
+        }
 
         /// <summary>
         /// The current direction of the wind, in degrees clockwise from north.
         /// </summary>
-        public float? WindDirection => windDirection;
+        public float? WindDirection
+        {
+            get
+            {
+                return windDirection;
+            }
+        }
 
         /// <summary>
         /// The current speed of the wind, in KMH.
         /// </summary>
-        public float? WindSpeed => windSpeed;
+        public float? WindSpeed
+        {
+            get
+            {
+                return windSpeed;
+            }
+        }
 
         /// <summary>
         /// An enumeration of the current conditions.
         /// </summary>
         /// <value>The conditions.</value>
-        public string Conditions => "fake weather report";
+        public string Conditions
+        {
+            get
+            {
+                return "fake weather report";
+            }
+        }
 
         /// <summary>
         /// The current temperature.
         /// </summary>
-        public float? Temperature => temperature;
+        public float? Temperature
+        {
+            get
+            {
+                return temperature;
+            }
+        }
 
         /// <summary>
         /// The air humidity.
         /// </summary>
-        public float? Humidity => humidity;
+        public float? Humidity
+        {
+            get
+            {
+                return humidity;
+            }
+        }
 
         /// <summary>
         /// The atmospheric pressure.
         /// </summary>
-        public float? AtmosphericPressure => atmosphericPressure;
+        public float? AtmosphericPressure
+        {
+            get
+            {
+                return atmosphericPressure;
+            }
+        }
 
         /// <summary>
         /// The error message, if a server error occurred.
         /// </summary>
         /// <value>The error.</value>
-        public string Error => null;
+        public string Error
+        {
+            get
+            {
+                return null;
+            }
+        }
     }
 }

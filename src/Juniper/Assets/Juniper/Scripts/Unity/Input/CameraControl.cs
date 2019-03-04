@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
+
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
@@ -9,8 +9,8 @@ namespace Juniper.Input
     [RequireComponent(typeof(Camera))]
     public class CameraControl : MonoBehaviour
     {
-        private static Quaternion NEUTRAL_POSITION_RESET = Quaternion.Euler (90f, 0f, 0f);
-        private static Quaternion FLIP_IMAGE = Quaternion.Euler (0f, 0f, 180f);
+        private static Quaternion NEUTRAL_POSITION_RESET = Quaternion.Euler(90f, 0f, 0f);
+        private static Quaternion FLIP_IMAGE = Quaternion.Euler(0f, 0f, 180f);
 
         public enum Mode
         {
@@ -189,20 +189,25 @@ namespace Juniper.Input
             {
                 case Mode.Mouse:
                 case Mode.Gamepad:
-                    return AxialMovement;
+                return AxialMovement;
 
                 case Mode.Touch:
-                    return MeanTouchPointMovement;
+                return MeanTouchPointMovement;
 
                 default:
-                    return Vector3.zero;
+                return Vector3.zero;
             }
         }
 
-        private Vector3 AxialMovement =>
-            MOUSE_SENSITIVITY_SCALE * new Vector3(
+        private Vector3 AxialMovement
+        {
+            get
+            {
+                return MOUSE_SENSITIVITY_SCALE * new Vector3(
                     -UnityInput.GetAxis("Mouse Y"),
                     UnityInput.GetAxis("Mouse X"));
+            }
+        }
 
         private Vector3 MeanTouchPointMovement
         {
@@ -218,8 +223,10 @@ namespace Juniper.Input
             }
         }
 
-        private bool DragRequired(Mode mode) =>
-            mode == Mode.Touch || (mode == Mode.Mouse && requiredMouseButton != MouseButton.None);
+        private bool DragRequired(Mode mode)
+        {
+            return mode == Mode.Touch || (mode == Mode.Mouse && requiredMouseButton != MouseButton.None);
+        }
 
         private bool DragSatisfied(Mode mode)
         {

@@ -1,8 +1,9 @@
+using Juniper.Animation;
+using Juniper.Progress;
+
 using System.Collections.Generic;
 using System.Linq;
 
-using Juniper.Animation;
-using Juniper.Progress;
 using UnityEngine;
 
 namespace Juniper
@@ -16,11 +17,15 @@ namespace Juniper
     /// </summary>
     public class SubSceneController : AbstractStateController
     {
-        public virtual void Awake() =>
+        public virtual void Awake()
+        {
             childTransitions = GetComponentsInChildren<AbstractTransitionController>(true);
+        }
 
-        public virtual void Load(IProgressReceiver prog = null) =>
+        public virtual void Load(IProgressReceiver prog = null)
+        {
             prog?.SetProgress(1);
+        }
 
         [ContextMenu("Enter")]
         public override void Enter()
@@ -100,28 +105,43 @@ namespace Juniper
         /// <see cref="childTransitions"/> that are not enabled, but exist on active game objects.
         /// </summary>
         /// <value>The enterable.</value>
-        private IEnumerable<AbstractTransitionController> Enterable =>
-            from trans in childTransitions
-            where !trans.enabled
-            select trans;
+        private IEnumerable<AbstractTransitionController> Enterable
+        {
+            get
+            {
+                return from trans in childTransitions
+                       where !trans.enabled
+                       select trans;
+            }
+        }
 
         /// <summary>
         /// Active and enabled <see cref="childTransitions"/>.
         /// </summary>
         /// <value>The exitable.</value>
-        private IEnumerable<AbstractTransitionController> Exitable =>
-            from trans in childTransitions
-            where trans.enabled
-            select trans;
+        private IEnumerable<AbstractTransitionController> Exitable
+        {
+            get
+            {
+                return from trans in childTransitions
+                       where trans.enabled
+                       select trans;
+            }
+        }
 
         /// <summary>
         /// Get all of the sub scenes that have been entered that are not the current sub scene.
         /// </summary>
         /// <value>The current sub scenes.</value>
-        private IEnumerable<SubSceneController> CurrentSubScenes =>
-            from scene in FindObjectsOfType<SubSceneController>()
-            where scene.enabled && scene != this
-            select scene;
+        private IEnumerable<SubSceneController> CurrentSubScenes
+        {
+            get
+            {
+                return from scene in FindObjectsOfType<SubSceneController>()
+                       where scene.enabled && scene != this
+                       select scene;
+            }
+        }
 
         /// <summary>
         /// Returns true when all of the parameter subScenes are <see cref="SubSceneController.IsComplete"/>.
@@ -141,11 +161,12 @@ namespace Juniper
         }
 
 #if UNITY_EDITOR
+
         [ContextMenu("Copy streaming assets")]
         public void CopyStreamingAssets()
         {
-
         }
+
 #endif
     }
 }

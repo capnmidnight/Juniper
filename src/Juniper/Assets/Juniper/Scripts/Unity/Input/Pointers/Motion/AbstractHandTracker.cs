@@ -1,6 +1,6 @@
-using System;
-
 using Juniper.Haptics;
+
+using System;
 
 namespace Juniper.Input.Pointers.Motion
 {
@@ -9,7 +9,13 @@ namespace Juniper.Input.Pointers.Motion
         where HandIDType : struct, IComparable
         where ButtonIDType : struct
     {
-        protected override string PointerNameStub => "Hand";
+        protected override string PointerNameStub
+        {
+            get
+            {
+                return "Hand";
+            }
+        }
     }
 
     public abstract class AbstractHandTracker<HandIDType, ButtonIDType, ConfigType> :

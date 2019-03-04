@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+
 using UnityEngine;
 
 namespace Juniper
@@ -31,7 +31,9 @@ namespace Juniper
             IsNew = isNew;
         }
 
-        public static implicit operator T(PooledComponent<T> obj) =>
-            obj.Value;
+        public static implicit operator T(PooledComponent<T> obj)
+        {
+            return obj.Value;
+        }
     }
 }

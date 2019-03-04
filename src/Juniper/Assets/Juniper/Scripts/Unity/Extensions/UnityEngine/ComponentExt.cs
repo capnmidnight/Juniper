@@ -1,8 +1,8 @@
+using Juniper;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Juniper;
 
 namespace UnityEngine
 {
@@ -29,8 +29,10 @@ namespace UnityEngine
         /// Check to see if a component is valid (not-null) and activated.
         /// </summary>
         /// <param name="parent">The component to check</param>
-        public static bool IsActivated(this Component parent) =>
-            parent.gameObject.IsActivated();
+        public static bool IsActivated(this Component parent)
+        {
+            return parent.gameObject.IsActivated();
+        }
 
         /// <summary>
         /// Set the active state for the whole hierarchy from an object on up through its parent
@@ -38,16 +40,20 @@ namespace UnityEngine
         /// </summary>
         /// <param name="parent">Parent.</param>
         /// <param name="active">If set to <c>true</c> active.</param>
-        public static void SetTreeActive(this Component parent, bool active) =>
+        public static void SetTreeActive(this Component parent, bool active)
+        {
             parent.gameObject.SetTreeActive(active);
+        }
 
         /// <summary>
         /// Set the active state for the GameObject of any particular Component. Just a useful shortcut.
         /// </summary>
         /// <param name="parent">Parent.</param>
         /// <param name="active">If set to <c>true</c> active.</param>
-        public static void SetActive(this Component parent, bool active) =>
+        public static void SetActive(this Component parent, bool active)
+        {
             parent.gameObject.SetActive(active);
+        }
 
         /// <summary>
         /// A shortcut for
@@ -57,8 +63,10 @@ namespace UnityEngine
         /// . Also useful for feeding to higher-order functions that expect parameterless functions.
         /// </summary>
         /// <param name="parent">Parent.</param>
-        public static void Activate(this Component parent) =>
+        public static void Activate(this Component parent)
+        {
             parent.gameObject.Activate();
+        }
 
         /// <summary>
         /// A shortcut for
@@ -82,11 +90,15 @@ namespace UnityEngine
         /// . Also useful for feeding to higher-order functions that expect parameterless functions.
         /// </summary>
         /// <param name="parent">Parent.</param>
-        public static void Deactivate(this Component parent) =>
+        public static void Deactivate(this Component parent)
+        {
             parent.gameObject.Deactivate();
+        }
 
-        public static void Destroy(this Component obj) =>
+        public static void Destroy(this Component obj)
+        {
             Object.DestroyImmediate(obj);
+        }
 
         /// <summary>
         /// Search through a series of Transforms and child transforms, defined as a set of
@@ -96,8 +108,10 @@ namespace UnityEngine
         /// <param name="parent"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static T Query<T>(this Component parent, string path) =>
-            parent.transform.Query<T>(path);
+        public static T Query<T>(this Component parent, string path)
+        {
+            return parent.transform.Query<T>(path);
+        }
 
         /// <summary>
         /// Search through a series of Transforms and child transforms, defined as a set of
@@ -107,8 +121,10 @@ namespace UnityEngine
         /// <param name="parent"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static Transform Query(this Component parent, string path) =>
-            parent.transform.Query(path);
+        public static Transform Query(this Component parent, string path)
+        {
+            return parent.transform.Query(path);
+        }
 
         /// <summary>
         /// Check to see if an object is associated with an active renderer.
@@ -152,11 +168,15 @@ namespace UnityEngine
         /// <returns>The component.</returns>
         /// <param name="obj">Object.</param>
         /// <typeparam name="T">A subclass of type <see cref="Component"/>.</typeparam>
-        public static PooledComponent<T> EnsureComponent<T>(this Component obj, Predicate<T> predicate = null, Action<T> onCreate = null) where T : Component =>
-            obj.gameObject.EnsureComponent(predicate, onCreate);
+        public static PooledComponent<T> EnsureComponent<T>(this Component obj, Predicate<T> predicate = null, Action<T> onCreate = null) where T : Component
+        {
+            return obj.gameObject.EnsureComponent(predicate, onCreate);
+        }
 
-        public static PooledComponent<T> EnsureComponent<T>(this Component obj, Action<T> onCreate) where T : Component =>
-            obj.gameObject.EnsureComponent(null, onCreate);
+        public static PooledComponent<T> EnsureComponent<T>(this Component obj, Action<T> onCreate) where T : Component
+        {
+            return obj.gameObject.EnsureComponent(null, onCreate);
+        }
 
         /// <summary>
         /// Checks to see if a gameObject has a particular component and, if it does, destroys it.
@@ -180,8 +200,10 @@ namespace UnityEngine
         /// <param name="path">Path.</param>
         /// <param name="create"></param>
         public static PooledComponent<Transform> EnsureTransform<T>(this T obj, string path, Func<GameObject> create)
-            where T : Component =>
-            obj.EnsureTransform(path, null, create);
+            where T : Component
+        {
+            return obj.EnsureTransform(path, null, create);
+        }
 
         /// <summary>
         /// Fill in a path of Transforms with other Transforms as necessary. Useful for creating
@@ -201,7 +223,7 @@ namespace UnityEngine
             }
 
             var trans = obj.transform.Query(path);
-            bool isNew = trans == null;
+            var isNew = trans == null;
             if (isNew)
             {
                 var parts = creationPath.Split('/');
@@ -243,8 +265,10 @@ namespace UnityEngine
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static T FindAny<T>(Func<T, bool> filter = null) where T : Component =>
-            FindAll(filter).FirstOrDefault();
+        public static T FindAny<T>(Func<T, bool> filter = null) where T : Component
+        {
+            return FindAll(filter).FirstOrDefault();
+        }
 
         public static IEnumerable<T> FindAll<T>(Func<T, bool> filter = null) where T : Component
         {

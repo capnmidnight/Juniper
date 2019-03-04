@@ -11,6 +11,9 @@ namespace Juniper.Input.Speech
         /// The keywords that will trigger a response in the implementor of this interface.
         /// </summary>
         /// <value>The keywords.</value>
-        IEnumerable<string> Keywords { get; }
+        IEnumerable<string> Keywords
+        {
+            get;
+        }
     }
 }

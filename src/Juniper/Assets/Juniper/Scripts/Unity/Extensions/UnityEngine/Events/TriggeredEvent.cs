@@ -1,4 +1,5 @@
 #if UNITY_MODULES_PHYSICS
+
 using System;
 using System.Runtime.InteropServices;
 
@@ -34,15 +35,20 @@ namespace UnityEngine.Events
         /// Trigger the onEnter event, if it's valid.
         /// </summary>
         /// <param name="other"></param>
-        private void OnTriggerEnter(Collider other) =>
+        private void OnTriggerEnter(Collider other)
+        {
             onEnter?.Invoke(other);
+        }
 
         /// <summary>
         /// Trigger the onExit event, if it's valid.
         /// </summary>
         /// <param name="other"></param>
-        private void OnTriggerExit(Collider other) =>
+        private void OnTriggerExit(Collider other)
+        {
             onExit?.Invoke(other);
+        }
     }
 }
+
 #endif

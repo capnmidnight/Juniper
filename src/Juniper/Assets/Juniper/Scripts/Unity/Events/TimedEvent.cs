@@ -1,4 +1,5 @@
 using System;
+
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -49,8 +50,10 @@ namespace Juniper.Events
         /// <summary>
         /// Stop the timer, if it's looping in a repeat.
         /// </summary>
-        public void Stop() =>
+        public void Stop()
+        {
             CancelInvoke();
+        }
 
         /// <summary>
         /// Starts the delay timer.

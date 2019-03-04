@@ -8,5 +8,6 @@ namespace Juniper.Input
 #else
         HoverCraft
 #endif
-    { }
+    {
+    }
 }

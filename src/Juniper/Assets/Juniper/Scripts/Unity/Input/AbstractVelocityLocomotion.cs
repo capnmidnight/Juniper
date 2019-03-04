@@ -19,10 +19,14 @@ namespace Juniper.Input
         /// <summary>
         /// Retrieves configuration values for the default height of the avatar.
         /// </summary>
-        public virtual void Awake() =>
+        public virtual void Awake()
+        {
             stage = ComponentExt.FindAny<StageExtensions>();
+        }
 
-        public virtual void Update() =>
+        public virtual void Update()
+        {
             stage.SetVelocity(velocity);
+        }
     }
 }

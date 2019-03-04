@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
 using Juniper.Progress;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 using UnityEngine;
 
@@ -22,18 +22,22 @@ namespace Juniper.ConfigurationManagement
         }
 
         public static void ForEachPackage<T>(IEnumerable<T> packages, IProgressReceiver prog, Action<T, IProgressReceiver> act)
-            where T : AbstractPackage =>
+            where T : AbstractPackage
+        {
             prog.ForEach(packages, (pkg, p) =>
                 act?.Invoke(pkg, p), Debug.LogException);
+        }
 
-        public static string[] GetCompilerDefines(UnityPackage[] unityPackages, RawPackage[] rawPackages) =>
-            (from pkg in unityPackages
-             where pkg.version != "exclude"
-             select pkg.CompilerDefine)
-            .Union(from pkg in rawPackages
-                   select pkg.CompilerDefine)
-            .Where(def => !string.IsNullOrEmpty(def))
-            .ToArray();
+        public static string[] GetCompilerDefines(UnityPackage[] unityPackages, RawPackage[] rawPackages)
+        {
+            return (from pkg in unityPackages
+                    where pkg.version != "exclude"
+                    select pkg.CompilerDefine)
+                .Union(from pkg in rawPackages
+                       select pkg.CompilerDefine)
+                .Where(def => !string.IsNullOrEmpty(def))
+                .ToArray();
+        }
 
         public readonly RawPackage[] allRawPackages;
         public readonly Dictionary<string, AbstractPackage> rawPackageDB;
@@ -41,11 +45,16 @@ namespace Juniper.ConfigurationManagement
         public readonly PlatformConfiguration[] AllPlatforms;
         public readonly Dictionary<PlatformTypes, PlatformConfiguration> PlatformDB;
 
-        public string[] AllCompilerDefines =>
-            AllPlatforms
-                .SelectMany(p => p.CompilerDefines)
-                .Distinct()
-                .ToArray();
+        public string[] AllCompilerDefines
+        {
+            get
+            {
+                return AllPlatforms
+                    .SelectMany(p => p.CompilerDefines)
+                    .Distinct()
+                    .ToArray();
+            }
+        }
 
         public Platforms()
         {
@@ -97,10 +106,12 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private AbstractPackage[] ParsePackages(string[] packages) =>
-            (from pkgName in packages
-             select rawPackageDB.Get(pkgName)
-             ?? new UnityPackage(pkgName))
-            .ToArray();
+        private AbstractPackage[] ParsePackages(string[] packages)
+        {
+            return (from pkgName in packages
+                    select rawPackageDB.Get(pkgName)
+                    ?? new UnityPackage(pkgName))
+                .ToArray();
+        }
     }
 }

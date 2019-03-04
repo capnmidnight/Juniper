@@ -1,17 +1,19 @@
-using Juniper.Progress;
+.0using Juniper.Progress;
+
 using UnityEngine;
 
 namespace Juniper.Widgets
 {
     public class LoadingBar : MonoBehaviour, IProgressReceiver
     {
-        public static PooledComponent<LoadingBar> Ensure(Transform parent) =>
-            parent.EnsureTransform("LoadingBar/Center/Indicator", () =>
-                {
-                    var indicator = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    indicator.layer = LayerMask.NameToLayer("TransparentFX");
-                    return indicator;
-                })
+        public static PooledComponent<LoadingBar> Ensure(Transform parent)
+        {
+            return parent.EnsureTransform("LoadingBar/Center/Indicator", () =>
+            {
+                var indicator = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                indicator.layer = LayerMask.NameToLayer("TransparentFX");
+                return indicator;
+            })
             .Value
             .parent
             .parent
@@ -26,12 +28,17 @@ namespace Juniper.Widgets
                 }
 #endif
             );
+        }
 
-        public void SetProgress(float progress, string status = null) =>
+        public void SetProgress(float progress, string status = null)
+        {
             TargetValue = progress;
+        }
 
-        public void Awake() =>
+        public void Awake()
+        {
             indicator = this.Query("Center/Indicator");
+        }
 
         public void Update()
         {
@@ -44,8 +51,15 @@ namespace Juniper.Widgets
 
         private Transform indicator;
 
-        public float Progress { get; private set; }
-        public float TargetValue { get; set; }
+        public float Progress
+        {
+            get; private set;
+        }
+
+        public float TargetValue
+        {
+            get; set;
+        }
 
         private WaitUntil _waiter;
 

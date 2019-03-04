@@ -1,7 +1,9 @@
+using Juniper.Input.Pointers;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Juniper.Input.Pointers;
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -56,7 +58,9 @@ namespace Juniper.Input
             }
         }
 
-        public class PointerFoundEvent : UnityEvent<IPointerDevice> { }
+        public class PointerFoundEvent : UnityEvent<IPointerDevice>
+        {
+        }
 
         protected StageExtensions stage;
 
@@ -81,19 +85,24 @@ namespace Juniper.Input
 #endif
         }
 
-        public virtual void Reinstall() =>
+        public virtual void Reinstall()
+        {
             Install(true);
+        }
 
 #if UNITY_EDITOR
+
         protected override void Reset()
         {
             base.Reset();
 
             Reinstall();
         }
+
 #endif
 
 #if UNITY_MODULES_UI
+
         protected override void Start()
         {
             base.Start();
@@ -103,8 +112,11 @@ namespace Juniper.Input
 
         private List<GraphicRaycaster> raycasters = new List<GraphicRaycaster>();
 
-        public void AddRaycaster(GraphicRaycaster graphicRaycaster) =>
+        public void AddRaycaster(GraphicRaycaster graphicRaycaster)
+        {
             raycasters.MaybeAdd(graphicRaycaster);
+        }
+
 #endif
 
         /// <summary>

@@ -54,7 +54,7 @@ namespace Juniper.ConfigurationManagement
             if (pkg != version)
             {
 #if !UNITY_2018_2_OR_NEWER
-                if(!Name.StartsWith(UNITY_SUBMODULE_PREFIX))
+                if (!Name.StartsWith(UNITY_SUBMODULE_PREFIX))
                 {
 #endif
                     Dependencies[Name] = version;

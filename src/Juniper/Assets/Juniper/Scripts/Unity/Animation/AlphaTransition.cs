@@ -26,13 +26,24 @@ namespace Juniper.Animation
         /// <summary>
         /// The amount of time it takes to complete the transition.
         /// </summary>
-        public override float TransitionLength => length;
+        public override float TransitionLength
+        {
+            get
+            {
+                return length;
+            }
+        }
 
         /// <summary>
         /// The scale range the transition has to traverse.
         /// </summary>
-        protected float DeltaAlpha =>
-            maxAlpha - minAlpha;
+        protected float DeltaAlpha
+        {
+            get
+            {
+                return maxAlpha - minAlpha;
+            }
+        }
 
         /// <summary>
         /// Updates the size of the transitioning object every frame the transition is active.

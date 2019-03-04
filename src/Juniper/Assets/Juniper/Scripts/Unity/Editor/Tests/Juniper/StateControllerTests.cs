@@ -1,6 +1,6 @@
-using System.Collections;
-
 using NUnit.Framework;
+
+using System.Collections;
 
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -367,10 +367,25 @@ namespace Juniper
 
         private class MockStateController : AbstractStateController
         {
-            public bool FiredEntering { get; private set; }
-            public bool FiredEntered { get; private set; }
-            public bool FiredExiting { get; private set; }
-            public bool FiredExited { get; private set; }
+            public bool FiredEntering
+            {
+                get; private set;
+            }
+
+            public bool FiredEntered
+            {
+                get; private set;
+            }
+
+            public bool FiredExiting
+            {
+                get; private set;
+            }
+
+            public bool FiredExited
+            {
+                get; private set;
+            }
 
             public void Awake()
             {
@@ -386,13 +401,26 @@ namespace Juniper
 
             private float startTime;
 
-            public bool IsTimedOut => Time.time - startTime > 1;
+            public bool IsTimedOut
+            {
+                get
+                {
+                    return Time.time - startTime > 1;
+                }
+            }
 
-            public override bool IsComplete =>
-                base.IsComplete || IsTimedOut;
+            public override bool IsComplete
+            {
+                get
+                {
+                    return base.IsComplete || IsTimedOut;
+                }
+            }
 
-            public void Complete() =>
+            public void Complete()
+            {
                 state = STOPPED;
+            }
 
             public override void Exit()
             {

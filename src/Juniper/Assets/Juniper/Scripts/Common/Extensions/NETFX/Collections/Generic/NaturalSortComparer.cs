@@ -79,8 +79,10 @@ namespace System.Collections.Generic
         /// <summary> Finish implementing the IComparer<T> interface. </summary> <returns>The
         /// collections. generic. IC omparer< system. string>. compare.</returns> <param name="x">The
         /// x coordinate.</param> <param name="y">The y coordinate.</param>
-        int IComparer<string>.Compare(string x, string y) =>
-            Compare(x, y);
+        int IComparer<string>.Compare(string x, string y)
+        {
+            return Compare(x, y);
+        }
 
         /// <summary>
         /// Whether or not to sort in ascending or descending order.

@@ -1,4 +1,5 @@
 #if UNITY_MODULES_AUDIO
+
 using Juniper.Audio;
 
 using UnityEngine;
@@ -70,8 +71,10 @@ namespace Juniper.Widgets
         /// Stop the JibberJabber timeout from decreasing, thereby stopping the JibberJabber. The
         /// currently playing audioClip will not be stopped.
         /// </summary>
-        public void Stop() =>
+        public void Stop()
+        {
             playing = false;
+        }
 
         /// <summary>
         /// The audioSource through which to play the audio clips.
@@ -89,4 +92,5 @@ namespace Juniper.Widgets
         private bool playing;
     }
 }
+
 #endif

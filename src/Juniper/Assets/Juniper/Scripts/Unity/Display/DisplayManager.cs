@@ -11,7 +11,7 @@ namespace Juniper.Display
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Camera))]
     public class DisplayManager :
-        #if ARCORE
+#if ARCORE
         ARCoreDisplayManager
 #elif ARKIT
         ARKitDisplayManager

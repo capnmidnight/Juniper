@@ -16,8 +16,13 @@ namespace Juniper.Data
         /// <summary>
         /// Returns true when the background thread is still running.
         /// </summary>
-        public virtual bool Running =>
-            running;
+        public virtual bool Running
+        {
+            get
+            {
+                return running;
+            }
+        }
 
         /// <summary>
         /// Trigger the <see cref="Error"/> event handler, if it has any listeners attached to it.
@@ -34,8 +39,10 @@ namespace Juniper.Data
         /// <summary>
         /// Create a background thread runner in a stopped state.
         /// </summary>
-        protected virtual void Awake() =>
+        protected virtual void Awake()
+        {
             running = false;
+        }
 
         /// <summary>
         /// Get the background thread up and running.
@@ -52,8 +59,10 @@ namespace Juniper.Data
         /// <summary>
         /// Respond to the thread starting.
         /// </summary>
-        protected virtual void OnBegin() =>
+        protected virtual void OnBegin()
+        {
             running = true;
+        }
 
         /// <summary>
         /// Override the Execute method in child classes to run functionality on the background thread.

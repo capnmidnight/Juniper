@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace Juniper.Collections
@@ -35,8 +36,10 @@ namespace Juniper.Collections
         /// <returns>The compare.</returns>
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
-        public int Compare(Texture2D x, Texture2D y) =>
-            nameComparer.Compare(x.name, y.name);
+        public int Compare(Texture2D x, Texture2D y)
+        {
+            return nameComparer.Compare(x.name, y.name);
+        }
 
         /// <summary>
         /// Compare two textures by name.
@@ -44,7 +47,9 @@ namespace Juniper.Collections
         /// <returns>The compare.</returns>
         /// <param name="x">The x coordinate.</param>
         /// <param name="y">The y coordinate.</param>
-        int IComparer<Texture2D>.Compare(Texture2D x, Texture2D y) =>
-            nameComparer.Compare(x.name, y.name);
+        int IComparer<Texture2D>.Compare(Texture2D x, Texture2D y)
+        {
+            return nameComparer.Compare(x.name, y.name);
+        }
     }
 }

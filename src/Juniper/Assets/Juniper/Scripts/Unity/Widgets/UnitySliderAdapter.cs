@@ -1,5 +1,5 @@
 using System;
-using UnityEngine;
+
 using UnityEngine.UI;
 
 namespace Juniper.Widgets
@@ -17,8 +17,14 @@ namespace Juniper.Widgets
 
         public float value
         {
-            get { return element.value; }
-            set { element.value = value; }
+            get
+            {
+                return element.value;
+            }
+            set
+            {
+                element.value = value;
+            }
         }
 
         public event EventHandler<float> ValueChange;

@@ -11,12 +11,23 @@ namespace Juniper.Input.Pointers.Motion
         where HandIDType : struct, IComparable
         where ButtonIDType : struct
     {
-        public Type HandType => typeof(HandIDType);
+        public Type HandType
+        {
+            get
+            {
+                return typeof(HandIDType);
+            }
+        }
 
-        public string MakePointerName(Hands hand) =>
-            $"{hand}{PointerNameStub}";
+        public string MakePointerName(Hands hand)
+        {
+            return $"{hand}{PointerNameStub}";
+        }
 
-        protected abstract string PointerNameStub { get; }
+        protected abstract string PointerNameStub
+        {
+            get;
+        }
 
         public abstract HandIDType? this[Hands hand] { get; }
     }
@@ -33,7 +44,10 @@ namespace Juniper.Input.Pointers.Motion
 
         public virtual Hands Hand
         {
-            get { return _hand; }
+            get
+            {
+                return _hand;
+            }
             set
             {
                 _hand = value;
@@ -46,21 +60,57 @@ namespace Juniper.Input.Pointers.Motion
             get; protected set;
         }
 
-        public bool IsLeftHand => Hand == Hands.Left;
+        public bool IsLeftHand
+        {
+            get
+            {
+                return Hand == Hands.Left;
+            }
+        }
 
-        public bool IsRightHand => Hand == Hands.Right;
+        public bool IsRightHand
+        {
+            get
+            {
+                return Hand == Hands.Right;
+            }
+        }
 
-        public abstract bool IsDominantHand { get; }
+        public abstract bool IsDominantHand
+        {
+            get;
+        }
 
-        public bool IsNonDominantHand => !IsDominantHand;
+        public bool IsNonDominantHand
+        {
+            get
+            {
+                return !IsDominantHand;
+            }
+        }
 
-        public override Vector3 WorldPoint =>
-            transform.position + (MinimumPointerDistance * transform.forward);
+        public override Vector3 WorldPoint
+        {
+            get
+            {
+                return transform.position + (MinimumPointerDistance * transform.forward);
+            }
+        }
 
-        public override Vector2 ScreenPoint =>
-            ScreenFromWorld(InteractionEndPoint);
+        public override Vector2 ScreenPoint
+        {
+            get
+            {
+                return ScreenFromWorld(InteractionEndPoint);
+            }
+        }
 
-        public override Vector2 ViewportPoint =>
-            ViewportFromWorld(InteractionEndPoint);
+        public override Vector2 ViewportPoint
+        {
+            get
+            {
+                return ViewportFromWorld(InteractionEndPoint);
+            }
+        }
     }
 }

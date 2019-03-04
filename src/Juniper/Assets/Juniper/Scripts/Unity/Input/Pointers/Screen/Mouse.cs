@@ -2,8 +2,8 @@ using Juniper.Haptics;
 
 using UnityEngine;
 
-using UnityInput = UnityEngine.Input;
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
+using UnityInput = UnityEngine.Input;
 
 namespace Juniper.Input.Pointers.Screen
 {
@@ -23,11 +23,21 @@ namespace Juniper.Input.Pointers.Screen
     public class Mouse : AbstractScreenDevice<KeyCode, NoHaptics, MouseConfiguration>
     {
         [ContextMenu("Reinstall")]
-        public override void Reinstall() =>
+        public override void Reinstall()
+        {
             base.Reinstall();
+        }
 
 #if MAGIC_LEAP
-        public override bool IsConnected => false;
+
+        public override bool IsConnected
+        {
+            get
+            {
+                return false;
+            }
+        }
+
 #else
         private bool mouseActive;
 
@@ -98,13 +108,19 @@ namespace Juniper.Input.Pointers.Screen
             base.InternalUpdate();
         }
 
-        public override bool IsButtonPressed(KeyCode button) =>
-            UnityInput.GetKey(button);
+        public override bool IsButtonPressed(KeyCode button)
+        {
+            return UnityInput.GetKey(button);
+        }
 
-        public override bool IsButtonDown(KeyCode button) =>
-            UnityInput.GetKeyDown(button);
+        public override bool IsButtonDown(KeyCode button)
+        {
+            return UnityInput.GetKeyDown(button);
+        }
 
-        public override bool IsButtonUp(KeyCode button) =>
-            UnityInput.GetKeyUp(button);
+        public override bool IsButtonUp(KeyCode button)
+        {
+            return UnityInput.GetKeyUp(button);
+        }
     }
 }

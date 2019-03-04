@@ -13,18 +13,23 @@ namespace Juniper.Data
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string Q(string value) => "'" + value.Replace("'", "''")
-                .Replace("\r\n", "\n")
-                .Replace("\r", "\n")
-                .Replace("\n", "\\n") + "'";
+        public static string Q(string value)
+        {
+            return "'" + value.Replace("'", "''")
+                            .Replace("\r\n", "\n")
+                            .Replace("\r", "\n")
+                            .Replace("\n", "\\n") + "'";
+        }
 
         /// <summary>
         /// Format a <see cref="DateTime"/> value as a string.
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string Q(DateTime value) =>
-            Q(value.ToString("yyyy-MM-dd HH:mm:ss.f"));
+        public static string Q(DateTime value)
+        {
+            return Q(value.ToString("yyyy-MM-dd HH:mm:ss.f"));
+        }
 
         /// <summary>
         /// Format a Nullable <see cref="DateTime"/> value as a string.
@@ -49,8 +54,10 @@ namespace Juniper.Data
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string Q(string name, string value) =>
-            $"{name}={value}";
+        public static string Q(string name, string value)
+        {
+            return $"{name}={value}";
+        }
 
         /// <summary>
         /// Format a key-value par for use as a query string parameter, where the value is a date.
@@ -58,8 +65,10 @@ namespace Juniper.Data
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string Q(string name, DateTime value) =>
-            Q(name, value.ToString("yyyy-MM-dd"));
+        public static string Q(string name, DateTime value)
+        {
+            return Q(name, value.ToString("yyyy-MM-dd"));
+        }
 
         /// <summary>
         /// Creates a reference to an HTTP endpoint service, with each of the relavent address parts

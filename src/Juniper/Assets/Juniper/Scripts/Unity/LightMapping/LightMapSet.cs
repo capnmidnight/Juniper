@@ -1,5 +1,7 @@
-using System;
 using Juniper.Collections;
+
+using System;
+
 using UnityEngine;
 
 namespace Juniper.LightMapping
@@ -42,7 +44,10 @@ namespace Juniper.LightMapping
         /// <summary>
         /// All of the lightMaps, packed up for use with <see cref="LightMapSwitcher"/>
         /// </summary>
-        public LightmapData[] LightMaps { get; private set; }
+        public LightmapData[] LightMaps
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// Sort the light maps and pack them up into the <see cref="LightMaps"/> property.

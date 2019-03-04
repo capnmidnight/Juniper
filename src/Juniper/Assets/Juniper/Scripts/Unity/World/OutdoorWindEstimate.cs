@@ -62,8 +62,13 @@ namespace Juniper.World
         /// is not available, or if the magnetic compass is not available.
         /// </summary>
         /// <value><c>true</c> if use fake intensity; otherwise, <c>false</c>.</value>
-        private bool UseFakeIntensity =>
-            FakeWind || weatherService == null || !UnityEngine.Input.compass.enabled;
+        private bool UseFakeIntensity
+        {
+            get
+            {
+                return FakeWind || weatherService == null || !UnityEngine.Input.compass.enabled;
+            }
+        }
 
         /// <summary>
         /// Find the weather service and the wind zone we'll be operating on.

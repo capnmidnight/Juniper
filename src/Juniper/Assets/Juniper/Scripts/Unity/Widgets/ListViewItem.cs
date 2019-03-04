@@ -59,8 +59,15 @@ namespace Juniper.Widgets
             }
         }
 
-        public string Key { get; set; }
-        public object DataItem { get; set; }
+        public string Key
+        {
+            get; set;
+        }
+
+        public object DataItem
+        {
+            get; set;
+        }
 
         public void Update()
         {
@@ -92,11 +99,15 @@ namespace Juniper.Widgets
             text.rectTransform.anchorMax = Vector2.one;
         }
 
-        public void RemoveAllListeners() =>
+        public void RemoveAllListeners()
+        {
             btn.onClick.RemoveAllListeners();
+        }
 
-        public void AddListener(UnityAction action) =>
+        public void AddListener(UnityAction action)
+        {
             btn.onClick.AddListener(action);
+        }
 
         private Image img;
         private Button btn;

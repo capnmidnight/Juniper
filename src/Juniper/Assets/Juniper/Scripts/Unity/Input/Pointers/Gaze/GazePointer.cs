@@ -2,6 +2,7 @@ using Juniper.Haptics;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Input.Pointers.Gaze
@@ -33,17 +34,28 @@ namespace Juniper.Input.Pointers.Gaze
 
         private float gazeTime;
 
-        public override bool IsConnected =>
-            true;
+        public override bool IsConnected
+        {
+            get
+            {
+                return true;
+            }
+        }
 
-        public override bool IsButtonPressed(Unary button) =>
-            gazed;
+        public override bool IsButtonPressed(Unary button)
+        {
+            return gazed;
+        }
 
-        public override bool IsButtonDown(Unary button) =>
-            gazed && !wasGazed;
+        public override bool IsButtonDown(Unary button)
+        {
+            return gazed && !wasGazed;
+        }
 
-        public override bool IsButtonUp(Unary button) =>
-            !gazed && wasGazed;
+        public override bool IsButtonUp(Unary button)
+        {
+            return !gazed && wasGazed;
+        }
 
         /// <summary>
         /// Disables gazing for the pointer.

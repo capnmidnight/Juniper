@@ -79,14 +79,19 @@ namespace Juniper.Input.Pointers.Motion
                 {
                     case GvrControllerBatteryLevel.Full:
                         return 1.0f;
+
                     case GvrControllerBatteryLevel.AlmostFull:
                         return 0.8f;
+
                     case GvrControllerBatteryLevel.Medium:
                         return 0.6f;
+
                     case GvrControllerBatteryLevel.Low:
                         return 0.4f;
+
                     case GvrControllerBatteryLevel.CriticalLow:
                         return 0.2f;
+
                     default:
                         return 0.0f;
                 }

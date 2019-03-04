@@ -16,8 +16,11 @@ using System.Linq;
 using UnityEngine.XR.WSA.Persistence;
 using AnchorType = UnityEngine.XR.WSA.Persistence.WorldAnchor;
 #elif MAGIC_LEAP
+
 using UnityEngine.XR.MagicLeap;
+
 using AnchorType = UnityEngine.XR.MagicLeap.MLPersistentBehavior;
+
 #else
 using AnchorType = Juniper.Anchoring.MockWorldAnchor;
 #endif
@@ -82,6 +85,7 @@ namespace Juniper.Anchoring
             anchorStore != null && anchorStore.GetAllIds().Contains(anchorID);
 #else
             anchorStore.ContainsKey(anchorID);
+
 #endif
 
         /// <summary>

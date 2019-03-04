@@ -30,30 +30,50 @@ namespace Juniper.Statistics
         {
         }
 
-        protected override Vector2 Abs(Vector2 value) => new Vector2(
+        protected override Vector2 Abs(Vector2 value)
+        {
+            return new Vector2(
                 Mathf.Abs(value.x),
                 Mathf.Abs(value.y));
+        }
 
-        protected override Vector2 Add(Vector2 a, Vector2 b) => a + b;
+        protected override Vector2 Add(Vector2 a, Vector2 b)
+        {
+            return a + b;
+        }
 
-        protected override Vector2 Divide(Vector2 a, float b) => a / b;
+        protected override Vector2 Divide(Vector2 a, float b)
+        {
+            return a / b;
+        }
 
-        protected override bool LessThan(Vector2 a, Vector2 b) =>
-            a.x < b.x
-                && a.y < b.y;
+        protected override bool LessThan(Vector2 a, Vector2 b)
+        {
+            return a.x < b.x && a.y < b.y;
+        }
 
-        protected override Vector2 Multiply(Vector2 a, Vector2 b) =>
-            new Vector2(
+        protected override Vector2 Multiply(Vector2 a, Vector2 b)
+        {
+            return new Vector2(
                 a.x * b.x,
                 a.y * b.y);
+        }
 
-        protected override Vector2 Scale(Vector2 a, float b) => a * b;
+        protected override Vector2 Scale(Vector2 a, float b)
+        {
+            return a * b;
+        }
 
-        protected override Vector2 Sqrt(Vector2 value) =>
-            new Vector2(
+        protected override Vector2 Sqrt(Vector2 value)
+        {
+            return new Vector2(
                 Mathf.Sqrt(value.x),
                 Mathf.Sqrt(value.y));
+        }
 
-        protected override Vector2 Subtract(Vector2 a, Vector2 b) => a - b;
+        protected override Vector2 Subtract(Vector2 a, Vector2 b)
+        {
+            return a - b;
+        }
     }
 }

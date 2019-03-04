@@ -1,5 +1,7 @@
 #if UNITY_MODULES_AUDIO
+
 using System.Collections.Generic;
+
 #endif
 
 using UnityEngine;
@@ -17,6 +19,7 @@ namespace Juniper.Audio
 #endif
     {
 #if UNITY_MODULES_AUDIO
+
         /// <summary>
         /// Get the number of clips in the collection.
         /// </summary>

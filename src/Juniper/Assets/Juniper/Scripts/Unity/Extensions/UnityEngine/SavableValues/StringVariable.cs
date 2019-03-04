@@ -11,7 +11,9 @@ namespace UnityEngine
     [CreateAssetMenu(fileName = "StringVar", menuName = "Variables/String")]
     public class StringVariable : AbstractVariable<string>
     {
-        public static implicit operator bool(StringVariable value) =>
-            value != null && !string.IsNullOrEmpty(value.Value);
+        public static implicit operator bool(StringVariable value)
+        {
+            return value != null && !string.IsNullOrEmpty(value.Value);
+        }
     }
 }

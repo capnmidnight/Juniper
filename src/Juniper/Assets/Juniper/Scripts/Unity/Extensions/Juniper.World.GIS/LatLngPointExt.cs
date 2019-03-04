@@ -31,7 +31,9 @@ namespace Juniper.World.GIS
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static Vector3 ToVector3(this LatLngPoint value) =>
-            value.ToUTM().ToVector3();
+        public static Vector3 ToVector3(this LatLngPoint value)
+        {
+            return value.ToUTM().ToVector3();
+        }
     }
 }

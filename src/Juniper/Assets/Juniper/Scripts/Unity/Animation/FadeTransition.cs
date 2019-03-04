@@ -1,4 +1,5 @@
 using Juniper.Display;
+
 using System;
 using System.Collections.Generic;
 
@@ -21,8 +22,13 @@ namespace Juniper.Animation
 
         private AudioSource aud;
 
-        public override float TransitionLength =>
-            aud?.clip?.length ?? 0;
+        public override float TransitionLength
+        {
+            get
+            {
+                return aud?.clip?.length ?? 0;
+            }
+        }
 
 #else
         public float fadeLength;
@@ -36,15 +42,17 @@ namespace Juniper.Animation
         /// Setup the necessary gameObjects and components to make a fader box appear in front of the camera.
         /// </summary>
         /// <returns></returns>
-        public static PooledComponent<FadeTransition> Ensure(Transform parent) =>
-            parent.EnsureTransform("Fader", () =>
+        public static PooledComponent<FadeTransition> Ensure(Transform parent)
+        {
+            return parent.EnsureTransform("Fader", () =>
                 GameObject.CreatePrimitive(PrimitiveType.Quad))
-                .Value
-                .EnsureComponent<FadeTransition>(
+                    .Value
+                    .EnsureComponent<FadeTransition>(
 #if UNITY_MODULES_PHYSICS
                     (fader) => fader.RemoveComponent<Collider>()
 #endif
-                );
+                    );
+        }
 
         /// <summary>
         /// When the object starts up, it looks for the master system object.
@@ -73,12 +81,18 @@ namespace Juniper.Animation
             xr = ComponentExt.FindAny<JuniperPlatform>();
         }
 
-        public virtual void Reinstall() =>
+        public virtual void Reinstall()
+        {
             Install(true);
+        }
 
 #if UNITY_EDITOR
-        public void Reset() =>
+
+        public void Reset()
+        {
             Reinstall();
+        }
+
 #endif
 
         public void Install(bool reset)
@@ -90,7 +104,9 @@ namespace Juniper.Animation
 #endif
         }
 
-        public void Uninstall() { }
+        public void Uninstall()
+        {
+        }
 
         public void Fader(Action act)
         {
@@ -155,8 +171,12 @@ namespace Juniper.Animation
         private readonly List<Action> actions = new List<Action>();
 
 #if UNITY_MODULES_AUDIO
-        private void FadeTransition_Exited(object sender, EventArgs e) =>
+
+        private void FadeTransition_Exited(object sender, EventArgs e)
+        {
             aud.clip = fadeOutSound;
+        }
+
 #endif
 
         private void FadeTransition_Entered(object sender, EventArgs e)

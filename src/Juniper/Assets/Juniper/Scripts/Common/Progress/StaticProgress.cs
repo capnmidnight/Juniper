@@ -14,9 +14,14 @@ namespace Juniper.Progress
             SetProgress(0);
         }
 
-        public float Progress { get; private set; }
+        public float Progress
+        {
+            get; private set;
+        }
 
-        public void SetProgress(float progress, string status = null) =>
+        public void SetProgress(float progress, string status = null)
+        {
             Progress = progress;
+        }
     }
 }

@@ -27,14 +27,24 @@ namespace System.Collections.Generic
         /// <summary>
         /// Returns true if there are no child nodes.
         /// </summary>
-        public bool IsLeaf =>
-            children.Count == 0;
+        public bool IsLeaf
+        {
+            get
+            {
+                return children.Count == 0;
+            }
+        }
 
         /// <summary>
         /// Returns true if this node has no parent node.
         /// </summary>
-        public bool IsRoot =>
-            parent == null;
+        public bool IsRoot
+        {
+            get
+            {
+                return parent == null;
+            }
+        }
 
         /// <summary>
         /// Add an element as a child of the node.
@@ -51,8 +61,10 @@ namespace System.Collections.Generic
         /// Create a new node out of a value and add it to the tree.
         /// </summary>
         /// <param name="value">The value to store.</param>
-        public void Add(T value) =>
+        public void Add(T value)
+        {
             Add(new NAryTree<T>(value));
+        }
 
         /// <summary>
         /// Print out a debugging string.
@@ -108,7 +120,9 @@ namespace System.Collections.Generic
         /// <summary>
         /// Increase the depth of this and any child nodes.
         /// </summary>
-        private void IncreaseDepth() =>
+        private void IncreaseDepth()
+        {
             Recurse(here => ++here.depth);
+        }
     }
 }

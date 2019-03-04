@@ -11,7 +11,9 @@ using HapticsType = Juniper.Haptics.iOS10Haptics;
 #elif IOS_VERSION_9
 using HapticsType = Juniper.Haptics.iOS9Haptics;
 #else
+
 using HapticsType = Juniper.Haptics.DefaultHaptics;
+
 #endif
 
 namespace Juniper.Input.Pointers.Screen
@@ -30,8 +32,10 @@ namespace Juniper.Input.Pointers.Screen
     public class TouchPoint : AbstractScreenDevice<KeyCode, HapticsType, TouchPointConfiguration>
     {
         [ContextMenu("Reinstall")]
-        public override void Reinstall() =>
+        public override void Reinstall()
+        {
             base.Reinstall();
+        }
 
         /// <summary>
         /// The state of the finger that this object is tracking, this frame.
@@ -42,10 +46,21 @@ namespace Juniper.Input.Pointers.Screen
         /// <summary>
         /// The latest Unity state object for the finger pressed onto the touch screen.
         /// </summary>
-        public Touch Finger { get; private set; }
+        public Touch Finger
+        {
+            get; private set;
+        }
 
 #if MAGIC_LEAP
-        public override bool IsConnected => false;
+
+        public override bool IsConnected
+        {
+            get
+            {
+                return false;
+            }
+        }
+
 #else
         /// <summary>
         /// Sometimes we lose the touch point but we don't receive a cancel or end event, so we need
@@ -69,20 +84,31 @@ namespace Juniper.Input.Pointers.Screen
             }
         }
 
-        public override bool IsButtonPressed(KeyCode button) =>
-            button == KeyCode.Mouse0 && Pressed;
+        public override bool IsButtonPressed(KeyCode button)
+        {
+            return button == KeyCode.Mouse0 && Pressed;
+        }
 
-        public override bool IsButtonUp(KeyCode button) =>
-            button == KeyCode.Mouse0 && !Pressed && wasPressed;
+        public override bool IsButtonUp(KeyCode button)
+        {
+            return button == KeyCode.Mouse0 && !Pressed && wasPressed;
+        }
 
-        public override bool IsButtonDown(KeyCode button) =>
-            button == KeyCode.Mouse0 && Pressed && !wasPressed;
+        public override bool IsButtonDown(KeyCode button)
+        {
+            return button == KeyCode.Mouse0 && Pressed && !wasPressed;
+        }
 
         /// <summary>
         /// Where on the screen the pointer represents.
         /// </summary>
-        public override Vector2 ScreenPoint =>
-            Finger.position;
+        public override Vector2 ScreenPoint
+        {
+            get
+            {
+                return Finger.position;
+            }
+        }
 
         protected override void InternalUpdate()
         {
@@ -108,8 +134,12 @@ namespace Juniper.Input.Pointers.Screen
 
         private bool wasPressed;
 
-        private bool Pressed =>
-            Finger.phase != TouchPhase.Ended
-                && Finger.phase != TouchPhase.Canceled;
+        private bool Pressed
+        {
+            get
+            {
+                return Finger.phase != TouchPhase.Ended && Finger.phase != TouchPhase.Canceled;
+            }
+        }
     }
 }

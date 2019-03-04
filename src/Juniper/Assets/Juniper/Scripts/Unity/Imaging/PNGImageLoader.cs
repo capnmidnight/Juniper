@@ -1,7 +1,7 @@
+using Juniper.Data;
+
 using System;
 using System.Collections;
-
-using Juniper.Data;
 
 namespace Juniper.Imaging
 {
@@ -16,7 +16,8 @@ namespace Juniper.Imaging
         /// </summary>
         /// <param name="pngBytes">Png bytes.</param>
         /// <param name="ImageComplete">Image complete.</param>
-        private static void DecodePNGTexture(byte[] pngBytes, OnRawImageComplete ImageComplete) =>
+        private static void DecodePNGTexture(byte[] pngBytes, OnRawImageComplete ImageComplete)
+        {
             OneShotThread.Run(() =>
             {
 #if NETFX_CORE
@@ -69,6 +70,7 @@ namespace Juniper.Imaging
                 }
 #endif
             });
+        }
 
 #if UNITY_5_3_OR_NEWER
         /// <summary>
@@ -112,6 +114,7 @@ namespace Juniper.Imaging
                 reject(exp);
             }
         }
+
 #endif
     }
 }

@@ -87,13 +87,19 @@ namespace Juniper.Haptics
         /// The amount of time, in milliseconds, to play the pulse.
         /// </summary>
         /// <value>The length.</value>
-        public long Length { get; set; }
+        public long Length
+        {
+            get; set;
+        }
 
         /// <summary>
         /// The strength of the vibration pulse, on the range [0, 1]
         /// </summary>
         /// <value>The amplitude.</value>
-        public float Amplitude { get; set; }
+        public float Amplitude
+        {
+            get; set;
+        }
 
         /// <summary>
         /// Retrieves an array of HapticPatternElements for a given HapticExpression instructs the

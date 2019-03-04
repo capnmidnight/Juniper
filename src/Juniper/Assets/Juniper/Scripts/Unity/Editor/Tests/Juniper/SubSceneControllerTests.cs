@@ -1,6 +1,6 @@
-using System.Collections;
-
 using NUnit.Framework;
+
+using System.Collections;
 
 using UnityEngine.TestTools;
 

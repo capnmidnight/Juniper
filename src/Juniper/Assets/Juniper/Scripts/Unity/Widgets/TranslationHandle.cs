@@ -11,8 +11,10 @@ namespace Juniper.Widgets
         /// Calculates the amount of change that occured, given the handle's current and previous location.
         /// </summary>
         /// <returns>The change.</returns>
-        protected override Vector3 GetChange() =>
-            transform.localPosition - lastPosition;
+        protected override Vector3 GetChange()
+        {
+            return transform.localPosition - lastPosition;
+        }
 
         /// <summary>
         /// Performs the necessary translation change, depending on the constrained return value of

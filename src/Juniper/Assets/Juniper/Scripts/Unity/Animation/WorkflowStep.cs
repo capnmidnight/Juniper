@@ -82,8 +82,13 @@ namespace Juniper.Animation
         /// Get the StateController from <see cref="step"/>, if one exists.
         /// </summary>
         /// <value>The transition.</value>
-        public AbstractTransitionController Transition =>
-            step?.GetComponent<AbstractTransitionController>();
+        public AbstractTransitionController Transition
+        {
+            get
+            {
+                return step?.GetComponent<AbstractTransitionController>();
+            }
+        }
 
         /// <summary>
         /// Enter the step, playing any optionals animations on the provided model and finally
@@ -153,13 +158,17 @@ namespace Juniper.Animation
         /// <summary>
         /// Sets all of the contained buttons to disabled.
         /// </summary>
-        private void DisableButtons() =>
+        private void DisableButtons()
+        {
             SetButtonsEnabled(false);
+        }
 
         /// <summary>
         /// Sets all of the contained buttons to enabled.
         /// </summary>
-        private void EnableButtons() =>
+        private void EnableButtons()
+        {
             SetButtonsEnabled(true);
+        }
     }
 }

@@ -19,6 +19,9 @@ namespace Juniper.Data
         /// <summary>
         /// The deserialzed return result from the request.
         /// </summary>
-        public T Value { get; private set; }
+        public T Value
+        {
+            get; private set;
+        }
     }
 }

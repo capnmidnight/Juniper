@@ -11,59 +11,75 @@ namespace Juniper.Haptics
         /// <summary>
         /// Cancel vibrationa
         /// </summary>
-        public override void Cancel() =>
+        public override void Cancel()
+        {
             StopAllCoroutines();
+        }
 
         /// <summary>
         /// Play a canned haptic pattern.
         /// </summary>
         /// <param name="expr"></param>
-        public override void Play(HapticExpression expr) =>
+        public override void Play(HapticExpression expr)
+        {
             HapticPatternElement.Play(this, expr);
+        }
 
         /// <summary>
         /// Play a haptic pattern.
         /// </summary>
         /// <param name="points"></param>
-        public override void Play(params HapticPatternElement[] points) =>
+        public override void Play(params HapticPatternElement[] points)
+        {
             StartCoroutine(PlayCoroutine(points));
+        }
 
         /// <summary>
         /// Play a single element of a haptic pattern.
         /// </summary>
         /// <param name="point"></param>
-        public override void Vibrate(HapticPatternElement point) =>
+        public override void Vibrate(HapticPatternElement point)
+        {
             StartCoroutine(VibrateCoroutine(point));
+        }
 
         /// <summary>
         /// Play a single vibration for a set period of time at max amplitude.
         /// </summary>
         /// <param name="milliseconds">Milliseconds.</param>
-        public override void Vibrate(long milliseconds) =>
+        public override void Vibrate(long milliseconds)
+        {
             StartCoroutine(VibrateCoroutine(milliseconds));
+        }
 
         /// <summary>
         /// Play a patterned vibration with alternating amplitude modulation.
         /// </summary>
         /// <param name="pattern">Pattern.</param>
-        public override void Play(long[] pattern) =>
+        public override void Play(long[] pattern)
+        {
             StartCoroutine(PlayCoroutine(pattern));
+        }
 
         /// <summary>
         /// Play a patterned vibration with amplitude modulation.
         /// </summary>
         /// <param name="pattern">Pattern.</param>
         /// <param name="amplitudes">Amplitudes.</param>
-        public override void Play(long[] pattern, float[] amplitudes) =>
+        public override void Play(long[] pattern, float[] amplitudes)
+        {
             StartCoroutine(PlayCoroutine(pattern, amplitudes));
+        }
 
         /// <summary>
         /// Play a patterned vibration with amplitude modulation.
         /// </summary>
         /// <param name="milliseconds">Pattern.</param>
         /// <param name="amplitude">Amplitudes.</param>
-        public override void Vibrate(long milliseconds, float amplitude) =>
+        public override void Vibrate(long milliseconds, float amplitude)
+        {
             StartCoroutine(VibrateCoroutine(milliseconds, amplitude));
+        }
 
         /// <summary>
         /// Play a single vibration for a set period of time at max amplitude.

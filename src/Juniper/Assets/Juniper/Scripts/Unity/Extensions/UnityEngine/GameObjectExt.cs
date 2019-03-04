@@ -1,9 +1,9 @@
+using Juniper;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
-using Juniper;
 
 namespace UnityEngine
 {
@@ -31,26 +31,34 @@ namespace UnityEngine
         /// Activate a game object and all of its parent objects in the scene graph.
         /// </summary>
         /// <param name="obj">Object.</param>
-        public static void Activate(this GameObject obj) =>
+        public static void Activate(this GameObject obj)
+        {
             obj.SetActive(true);
+        }
 
         /// <summary>
         /// Dectivate a game object and all of its parent objects in the scene graph.
         /// </summary>
         /// <param name="obj">Object.</param>
-        public static void Deactivate(this GameObject obj) =>
+        public static void Deactivate(this GameObject obj)
+        {
             obj.SetActive(false);
+        }
 
-        public static void Destroy(this GameObject obj) =>
+        public static void Destroy(this GameObject obj)
+        {
             Object.DestroyImmediate(obj);
+        }
 
         /// <summary>
         /// Check to see if a particular game object is active and in the scene.
         /// </summary>
         /// <returns><c>true</c>, if activated was ised, <c>false</c> otherwise.</returns>
         /// <param name="parent">Parent.</param>
-        public static bool IsActivated(this GameObject parent) =>
-            parent?.activeInHierarchy == true;
+        public static bool IsActivated(this GameObject parent)
+        {
+            return parent?.activeInHierarchy == true;
+        }
 
         /// <summary>
         /// Attempts to get a component of type <typeparamref name="T"/> from <paramref name="obj"/>.
@@ -59,11 +67,15 @@ namespace UnityEngine
         /// <returns>The component.</returns>
         /// <param name="obj">Object.</param>
         /// <typeparam name="T">A subclass of type <see cref="Component"/>.</typeparam>
-        public static PooledComponent<T> EnsureComponent<T>(this GameObject obj, Predicate<T> predicate = null, Action<T> onCreate = null) where T : Component =>
-            new PooledComponent<T>(obj, predicate, onCreate);
+        public static PooledComponent<T> EnsureComponent<T>(this GameObject obj, Predicate<T> predicate = null, Action<T> onCreate = null) where T : Component
+        {
+            return new PooledComponent<T>(obj, predicate, onCreate);
+        }
 
-        public static PooledComponent<T> EnsureComponent<T>(this GameObject obj, Action<T> onCreate) where T : Component =>
-            new PooledComponent<T>(obj, null, onCreate);
+        public static PooledComponent<T> EnsureComponent<T>(this GameObject obj, Action<T> onCreate) where T : Component
+        {
+            return new PooledComponent<T>(obj, null, onCreate);
+        }
 
         /// <summary>
         /// Concatenate the name of all of the objects in the scene graph hierarchy above this
@@ -145,8 +157,10 @@ namespace UnityEngine
         /// <param name="parent">Parent.</param>
         /// <param name="path">Path.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static T Query<T>(this GameObject parent, string path) =>
-            parent.transform.Query<T>(path);
+        public static T Query<T>(this GameObject parent, string path)
+        {
+            return parent.transform.Query<T>(path);
+        }
 
         /// <summary>
         /// Find a game object with a relative path from another game object.

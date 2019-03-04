@@ -19,6 +19,9 @@ namespace Juniper.Data
         /// <summary>
         /// The exception that occured.
         /// </summary>
-        public Exception Error { get; private set; }
+        public Exception Error
+        {
+            get; private set;
+        }
     }
 }

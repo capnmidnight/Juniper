@@ -1,5 +1,7 @@
 #if MAGIC_LEAP
+
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 

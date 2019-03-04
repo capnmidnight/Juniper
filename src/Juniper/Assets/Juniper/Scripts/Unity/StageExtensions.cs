@@ -10,7 +10,9 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 #if UNITY_MODULES_UI
+
 using UnityEngine.UI;
+
 #endif
 
 namespace Juniper
@@ -27,6 +29,7 @@ namespace Juniper
         public float defaultAvatarHeight = 1.75f;
 
 #if UNITY_MODULES_PHYSICS
+
         /// <summary>
         /// When set to true, colliders and rigid bodies will be added to the stage and camera to
         /// simulate a "body" that can be affected by gravity.
@@ -174,12 +177,18 @@ namespace Juniper
             PlayerPrefs.Save();
         }
 
-        public virtual void Reinstall() =>
+        public virtual void Reinstall()
+        {
             Install(true);
+        }
 
 #if UNITY_EDITOR
-        public void Reset() =>
+
+        public void Reset()
+        {
             Reinstall();
+        }
+
 #endif
 
         private static GameObject MakeShadowCaster(PrimitiveType type, Vector3? scale, Vector3? position = null)
@@ -274,7 +283,9 @@ namespace Juniper
             gameObject.AddComponent<DefaultLocomotion>();
         }
 
-        public void Uninstall() { }
+        public void Uninstall()
+        {
+        }
 
         public T MakePointer<T>(Transform parent, string path)
             where T : Component, IPointerDevice

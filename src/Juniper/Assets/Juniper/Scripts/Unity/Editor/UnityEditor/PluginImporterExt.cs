@@ -19,14 +19,20 @@ namespace UnityEditor
             {
                 private static readonly string PATH = PathExt.FixPath("Assets/Plugins/iOS/UnityARKit/NativeInterface/ARSessionNative.mm");
 
-                private static void SetCompileFlags(string flags) =>
+                private static void SetCompileFlags(string flags)
+                {
                     SetPlatformData(PATH, BuildTarget.iOS, "CompileFlags", flags);
+                }
 
-                public static void Enable() =>
+                public static void Enable()
+                {
                     SetCompileFlags("-DARKIT");
+                }
 
-                public static void Disable() =>
+                public static void Disable()
+                {
                     SetCompileFlags("");
+                }
             }
         }
     }

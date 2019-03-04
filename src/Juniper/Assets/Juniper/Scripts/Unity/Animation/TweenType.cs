@@ -71,7 +71,10 @@ namespace Juniper.Animation
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Linear(float p, float k, float d) => p;
+        public static float Linear(float p, float k, float d)
+        {
+            return p;
+        }
 
         /// <summary>
         /// Values increase in proportion to the square of time.
@@ -79,7 +82,10 @@ namespace Juniper.Animation
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Quadratic(float p, float k, float d) => p * p;
+        public static float Quadratic(float p, float k, float d)
+        {
+            return p * p;
+        }
 
         /// <summary>
         /// Values increase in proportion to the cube of time. This function is specifically scalled
@@ -101,8 +107,10 @@ namespace Juniper.Animation
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Sine(float p, float k, float d) =>
-            0.5f * (1 - Mathf.Cos(p * Mathf.PI));
+        public static float Sine(float p, float k, float d)
+        {
+            return 0.5f * (1 - Mathf.Cos(p * Mathf.PI));
+        }
 
         /// <summary>
         /// Similar to <see cref="Sine"/>, but values bump in the opposite direction slightly, before
@@ -111,8 +119,10 @@ namespace Juniper.Animation
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Bump(float p, float k, float d) =>
-            Sine(p, 0, d) - k * Mathf.Sin(p * Mathf.PI * 2);
+        public static float Bump(float p, float k, float d)
+        {
+            return Sine(p, 0, d) - k * Mathf.Sin(p * Mathf.PI * 2);
+        }
 
         /// <summary>
         /// An inverted curve that plays both in and out.
@@ -121,7 +131,9 @@ namespace Juniper.Animation
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float PingPong(float p, float k, float d) =>
-            2 * p - 4 * p * p;
+        public static float PingPong(float p, float k, float d)
+        {
+            return 2 * p - 4 * p * p;
+        }
     }
 }

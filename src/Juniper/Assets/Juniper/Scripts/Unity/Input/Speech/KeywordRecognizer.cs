@@ -70,22 +70,24 @@ namespace Juniper.Input.Speech
         /// with the speech recognition system.
         /// </summary>
         /// <returns>The active keywords.</returns>
-        public void RefreshKeywords() =>
+        public void RefreshKeywords()
+        {
             this.WithLock(() =>
             {
                 keywords = (from comp in Resources.FindObjectsOfTypeAll<MonoBehaviour>()
                             where (Application.isPlaying || comp.gameObject.scene.isLoaded)
-                                && comp is IKeywordTriggered
+                            && comp is IKeywordTriggered
                             let trigger = (IKeywordTriggered)comp
                             where trigger.Keywords != null
                             from keyword in trigger.Keywords
                             where !string.IsNullOrEmpty(keyword)
                             select keyword)
-                    .Distinct()
-                    .ToArray();
+                .Distinct()
+                .ToArray();
 
                 Array.Sort(keywords);
             });
+        }
 
         /// <summary>
         /// Initialize the speech recognition system.

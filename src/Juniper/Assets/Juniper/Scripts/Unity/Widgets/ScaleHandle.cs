@@ -11,8 +11,10 @@ namespace Juniper.Widgets
         /// Calculate the amount of scale for a given transform position.
         /// </summary>
         /// <returns>The change.</returns>
-        protected override Vector3 GetChange() =>
-            transform.localPosition - lastPosition;
+        protected override Vector3 GetChange()
+        {
+            return transform.localPosition - lastPosition;
+        }
 
         /// <summary>
         /// Scale the target object according to the provided vector.

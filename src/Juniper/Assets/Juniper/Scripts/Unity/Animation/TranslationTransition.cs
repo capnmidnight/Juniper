@@ -21,7 +21,13 @@ namespace Juniper.Animation
         /// <summary>
         /// The amount of time it takes to complete the transition.
         /// </summary>
-        public override float TransitionLength => length;
+        public override float TransitionLength
+        {
+            get
+            {
+                return length;
+            }
+        }
 
         /// <summary>
         /// The location of the object when the object is first awoken.
@@ -32,14 +38,21 @@ namespace Juniper.Animation
         /// The location of the object after the transition has completed.
         /// </summary>
         /// <value>The end position.</value>
-        private Vector3 EndPosition =>
-            startPosition = Delta;
+        private Vector3 EndPosition
+        {
+            get
+            {
+                return startPosition = Delta;
+            }
+        }
 
         /// <summary>
         /// Get the <see cref="startPosition"/>
         /// </summary>
-        protected virtual void Awake() =>
+        protected virtual void Awake()
+        {
             startPosition = transform.localPosition;
+        }
 
 #if UNITY_EDITOR
 
@@ -58,7 +71,9 @@ namespace Juniper.Animation
         /// Updates the localPosition of the transitioning object every frame the transition is active.
         /// </summary>
         /// <param name="value"></param>
-        protected override void RenderValue(float value) =>
+        protected override void RenderValue(float value)
+        {
             transform.localPosition = Vector3.Lerp(startPosition, EndPosition, value);
+        }
     }
 }

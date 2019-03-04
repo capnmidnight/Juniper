@@ -1,4 +1,3 @@
-
 using Juniper.Anchoring;
 using Juniper.Audio;
 using Juniper.Display;
@@ -15,6 +14,7 @@ namespace Juniper
         public static readonly PlatformTypes CURRENT_PLATFORM =
 #if MAGIC_LEAP
             PlatformTypes.MagicLeap;
+
 #elif UNITY_ANDROID
 #if ARCORE
             PlatformTypes.AndroidARCore;
@@ -162,6 +162,7 @@ namespace Juniper
         }
 
 #if UNITY_EDITOR
+
         public void Reset()
         {
             Reinstall();
@@ -177,6 +178,7 @@ namespace Juniper
             DisplayType = DisplayTypes.Monoscopic;
             ARMode = AugmentedRealityTypes.None;
         }
+
 #endif
 
         public void Install(bool reset)
@@ -203,4 +205,3 @@ namespace Juniper
         }
     }
 }
-

@@ -16,14 +16,18 @@ namespace Juniper.Input.Pointers.Motion
 #endif
     {
         [ContextMenu("Reinstall")]
-        public override void Reinstall() =>
+        public override void Reinstall()
+        {
             base.Reinstall();
+        }
 
-        public static HandTracker[] MakeHandTrackers(Func<string, HandTracker> MakePointer) =>
-            new[] {
+        public static HandTracker[] MakeHandTrackers(Func<string, HandTracker> MakePointer)
+        {
+            return new[] {
                 MakeHandTracker(MakePointer, Hands.Left),
                 MakeHandTracker(MakePointer, Hands.Right)
             };
+        }
 
         /// <summary>
         /// Create a new hand pointer object for an interaction source that hasn't yet been seen.

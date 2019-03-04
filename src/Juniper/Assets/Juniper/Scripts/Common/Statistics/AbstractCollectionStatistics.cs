@@ -108,7 +108,13 @@ namespace Juniper.Statistics
         /// <summary>
         /// Returns the number of items in the collection.
         /// </summary>
-        public int Count => collect.Count;
+        public int Count
+        {
+            get
+            {
+                return collect.Count;
+            }
+        }
 
         /// <summary>
         /// Returns true if the underlying collection is a RingBuffer and if that RingBuffer <see cref="RingBuffer{T}.IsSaturated"/>.
@@ -135,20 +141,35 @@ namespace Juniper.Statistics
         /// cref="T:Juniper.Statistics.AbstractCollectionStatistics`1"/> is read only.
         /// </summary>
         /// <value><c>true</c> if is read only; otherwise, <c>false</c>.</value>
-        public bool IsReadOnly =>
-            collect.IsReadOnly;
+        public bool IsReadOnly
+        {
+            get
+            {
+                return collect.IsReadOnly;
+            }
+        }
 
         /// <summary>
         /// The difference between the Maximum and Minimum
         /// </summary>
-        public T? Delta =>
-            Subtract(Maximum, Minimum);
+        public T? Delta
+        {
+            get
+            {
+                return Subtract(Maximum, Minimum);
+            }
+        }
 
         /// <summary>
         /// The midpoint between the Maximum and the Minimum
         /// </summary>
-        public T? Median =>
-            Add(Minimum, Divide(Delta, 2));
+        public T? Median
+        {
+            get
+            {
+                return Add(Minimum, Divide(Delta, 2));
+            }
+        }
 
         /// <summary>
         /// Gets or sets the element at the specified index.
@@ -174,8 +195,10 @@ namespace Juniper.Statistics
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<T> GetEnumerator() =>
-            collect.GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+        {
+            return collect.GetEnumerator();
+        }
 
         /// <summary>
         /// Adds an item to the collection, and recalculates the statistical values.
@@ -209,8 +232,10 @@ namespace Juniper.Statistics
         /// </summary>
         /// <param name="item">The item to search for.</param>
         /// <returns>True if the item is found. False if it is not.</returns>
-        public bool Contains(T item) =>
-            collect.Contains(item);
+        public bool Contains(T item)
+        {
+            return collect.Contains(item);
+        }
 
         /// <summary>
         /// Copies the elements of the collection to an Array, starting at a particular Array index.
@@ -228,8 +253,10 @@ namespace Juniper.Statistics
         /// available space from <paramref name="arrayIndex"/> to the end of the destination
         /// <paramref name="array"/>.
         /// </exception>
-        public void CopyTo(T[] array, int arrayIndex) =>
+        public void CopyTo(T[] array, int arrayIndex)
+        {
             collect.CopyTo(array, arrayIndex);
+        }
 
         /// <summary>
         /// Remove an item from the collection.
@@ -252,8 +279,10 @@ namespace Juniper.Statistics
         /// If an object occurs multiple times in the list, the IndexOf method always returns the
         /// first instance found.
         /// </remarks>
-        public int IndexOf(T item) =>
-            collect.IndexOf(item);
+        public int IndexOf(T item)
+        {
+            return collect.IndexOf(item);
+        }
 
         /// <summary>
         /// Insert an item at an arbitrary point in the collection.
@@ -313,8 +342,10 @@ namespace Juniper.Statistics
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns></returns>
-        IEnumerator IEnumerable.GetEnumerator() =>
-            collect.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return collect.GetEnumerator();
+        }
 
         /// <summary>
         /// Creates a new collection analyzer out of a generic collection.

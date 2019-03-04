@@ -1,9 +1,7 @@
-using System.Linq;
-
 using Juniper.Animation;
 using Juniper.Audio;
-using Juniper.Haptics;
-using Juniper.Input;
+
+using System.Linq;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -66,22 +64,37 @@ namespace Juniper.Widgets
         /// Returns true when the value of <see cref="IsDisabled"/> changes from one frame to the next.
         /// </summary>
         /// <value><c>true</c> if disabled changed; otherwise, <c>false</c>.</value>
-        private bool DisabledChanged =>
-            IsDisabled != wasDisabled;
+        private bool DisabledChanged
+        {
+            get
+            {
+                return IsDisabled != wasDisabled;
+            }
+        }
 
         /// <summary>
         /// Returns true when the value of <see cref="IsDisabled"/> goes from false to true.
         /// </summary>
         /// <value><c>true</c> if disabled down; otherwise, <c>false</c>.</value>
-        private bool DisabledDown =>
-            DisabledChanged && IsDisabled;
+        private bool DisabledDown
+        {
+            get
+            {
+                return DisabledChanged && IsDisabled;
+            }
+        }
 
         /// <summary>
         /// Returns true when the value of <see cref="IsDisabled"/> goes from true to false.
         /// </summary>
         /// <value><c>true</c> if disabled up; otherwise, <c>false</c>.</value>
-        private bool DisabledUp =>
-            DisabledChanged && !IsDisabled;
+        private bool DisabledUp
+        {
+            get
+            {
+                return DisabledChanged && !IsDisabled;
+            }
+        }
 
         /// <summary>
         /// Returns true if the gameObject is not active, if the MonoBehaviour is not enabled, or if
@@ -105,14 +118,18 @@ namespace Juniper.Widgets
         /// cref="IsDisabled"/> for more information.
         /// </summary>
         /// <param name="value"></param>
-        public void SetDisabled(bool value) =>
+        public void SetDisabled(bool value)
+        {
             IsDisabled = value;
+        }
 
         /// <summary>
         /// Toggles the boolean value of the `disabled` field.
         /// </summary>
-        public void ToggleEnabled() =>
+        public void ToggleEnabled()
+        {
             IsDisabled = !IsDisabled;
+        }
 
         /// <summary>
         /// The place near the control that the pointer was pointing.
@@ -129,15 +146,22 @@ namespace Juniper.Widgets
         /// Returns true when <see cref="pointerPosition"/> has changed since the last frame.
         /// </summary>
         /// <value><c>true</c> if pointer position changed; otherwise, <c>false</c>.</value>
-        protected bool PointerPositionChanged =>
-            pointerPosition != lastPointerPosition;
+        protected bool PointerPositionChanged
+        {
+            get
+            {
+                return pointerPosition != lastPointerPosition;
+            }
+        }
 
         /// <summary>
         /// Get the Rigidbody, <see cref="AbstractAnimator"/>, AudioSource, and <see
         /// cref="InteractionAudio"/> for this control.
         /// </summary>
-        protected virtual void Awake() =>
+        protected virtual void Awake()
+        {
             animator = AbstractAnimator.GetAnimator(gameObject, PART_NAMES);
+        }
 
         /// <summary>
         /// Update the physics state of the control, and enable/disable Disabled view on <see cref="DisabledChanged"/>.

@@ -5,13 +5,17 @@ using Juniper.Haptics;
 using Juniper.Input;
 
 using UnityEngine;
+
 using Juniper.Widgets;
 using Juniper.Display;
 
 #if UNITY_MODULES_AUDIO
+
 using System.Collections.Generic;
 using System.Linq;
+
 using UnityEngine.Audio;
+
 #endif
 
 #if WINDOWSMR || HOLOLENS
@@ -48,6 +52,7 @@ namespace Juniper.Audio
         /// The sound to play right before the app shuts down.
         /// </summary>
         public AudioClip soundOnShutDown;
+
 #endif
 
         /// <summary>
@@ -118,28 +123,28 @@ namespace Juniper.Audio
             switch (action)
             {
                 case Interaction.Closed:
-                    return HapticExpression.Heavy;
+                return HapticExpression.Heavy;
 
                 case Interaction.Disabled:
-                    return HapticExpression.Warning;
+                return HapticExpression.Warning;
 
                 case Interaction.Dragged:
-                    return HapticExpression.SelectionChange;
+                return HapticExpression.SelectionChange;
 
                 case Interaction.Error:
-                    return HapticExpression.Error;
+                return HapticExpression.Error;
 
                 case Interaction.Opened:
-                    return HapticExpression.Medium;
+                return HapticExpression.Medium;
 
                 case Interaction.Clicked:
-                    return HapticExpression.Light;
+                return HapticExpression.Light;
 
                 case Interaction.Success:
-                    return HapticExpression.Success;
+                return HapticExpression.Success;
 
                 default:
-                    return HapticExpression.None;
+                return HapticExpression.None;
             }
         }
 
@@ -149,8 +154,10 @@ namespace Juniper.Audio
         /// <returns>The play.</returns>
         /// <param name="action">Action.</param>
         /// <param name="haptics">Haptics.</param>
-        public static float Play(Interaction action, AbstractHapticDevice haptics) =>
-            instance?.Play_Internal(action, haptics) ?? 0;
+        public static float Play(Interaction action, AbstractHapticDevice haptics)
+        {
+            return instance?.Play_Internal(action, haptics) ?? 0;
+        }
 
         /// <summary>
         /// Play the specified action using the specified pose and haptic subsystem, with no callback.
@@ -159,8 +166,10 @@ namespace Juniper.Audio
         /// <param name="action">Action.</param>
         /// <param name="pose">Pose.</param>
         /// <param name="haptics">Haptics.</param>
-        public static float Play(Interaction action, Transform pose, AbstractHapticDevice haptics) =>
-            instance?.Play_Internal(action, pose, haptics) ?? 0;
+        public static float Play(Interaction action, Transform pose, AbstractHapticDevice haptics)
+        {
+            return instance?.Play_Internal(action, pose, haptics) ?? 0;
+        }
 
         /// <summary>
         /// Play the specified action at the camera position using the specified haptics, with a
@@ -170,8 +179,10 @@ namespace Juniper.Audio
         /// <param name="action">Action.</param>
         /// <param name="haptics">Haptics.</param>
         /// <param name="onComplete"></param>
-        public static float Play(Interaction action, AbstractHapticDevice haptics, Action onComplete) =>
-            instance?.Play_Internal(action, haptics, onComplete) ?? 0;
+        public static float Play(Interaction action, AbstractHapticDevice haptics, Action onComplete)
+        {
+            return instance?.Play_Internal(action, haptics, onComplete) ?? 0;
+        }
 
         /// <summary>
         /// Play the specified action using the specified pose and haptic subsystem, with a callback
@@ -182,12 +193,18 @@ namespace Juniper.Audio
         /// <param name="pose">Pose.</param>
         /// <param name="haptics">Haptics.</param>
         /// <param name="onComplete"></param>
-        public static float Play(Interaction action, Transform pose, AbstractHapticDevice haptics, Action onComplete) =>
-            instance?.Play_Internal(action, pose, haptics, onComplete) ?? 0;
+        public static float Play(Interaction action, Transform pose, AbstractHapticDevice haptics, Action onComplete)
+        {
+            return instance?.Play_Internal(action, pose, haptics, onComplete) ?? 0;
+        }
 
 #if UNITY_MODULES_AUDIO
-        public static AudioSource Spatialize(AudioSource audioSource, bool loop, AudioMixerGroup group) =>
-            instance?.InternalSpatialize(audioSource, loop, group);
+
+        public static AudioSource Spatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
+        {
+            return instance?.InternalSpatialize(audioSource, loop, group);
+        }
+
 #endif
 
         /// <summary>
@@ -218,12 +235,15 @@ namespace Juniper.Audio
             }
         }
 
-        private void Volume_ValueChange(object sender, float value) =>
+        private void Volume_ValueChange(object sender, float value)
+        {
             Volume = value;
+        }
 
         private static InteractionAudio instance;
 
 #if UNITY_MODULES_AUDIO
+
         /// <summary>
         /// The sound to play on application startup.
         /// </summary>
@@ -242,6 +262,7 @@ namespace Juniper.Audio
         /// applications don't have to grow the collection right away.
         /// </summary>
         private List<AudioSource> audioSources;
+
 #endif
 
         /// <summary>
@@ -259,48 +280,48 @@ namespace Juniper.Audio
             switch (action)
             {
                 case Interaction.Closed:
-                    return soundOnClosed;
+                return soundOnClosed;
 
                 case Interaction.Disabled:
-                    return soundOnDisabled;
+                return soundOnDisabled;
 
                 case Interaction.Dragged:
-                    return soundOnDragged;
+                return soundOnDragged;
 
                 case Interaction.Scrolled:
-                    return soundOnScrolled;
+                return soundOnScrolled;
 
                 case Interaction.Entered:
-                    return soundOnEntered;
+                return soundOnEntered;
 
                 case Interaction.Error:
-                    return soundOnError;
+                return soundOnError;
 
                 case Interaction.Exited:
-                    return soundOnExited;
+                return soundOnExited;
 
                 case Interaction.Opened:
-                    return soundOnOpened;
+                return soundOnOpened;
 
                 case Interaction.Released:
-                    return soundOnReleased;
+                return soundOnReleased;
 
                 case Interaction.Clicked:
-                    return soundOnSelected;
+                return soundOnSelected;
 
                 case Interaction.Success:
-                    return soundOnSuccess;
+                return soundOnSuccess;
 
 #if UNITY_MODULES_AUDIO
                 case Interaction.StartUp:
-                    return startUp;
+                return startUp;
 
                 case Interaction.ShutDown:
-                    return shutDown;
+                return shutDown;
 #endif
 
                 default:
-                    return null;
+                return null;
             }
         }
 
@@ -316,14 +337,20 @@ namespace Juniper.Audio
             onComplete();
         }
 
-        private float Play_Internal(Interaction action, AbstractHapticDevice haptics) =>
-            Play_Internal(action, camT, haptics, null);
+        private float Play_Internal(Interaction action, AbstractHapticDevice haptics)
+        {
+            return Play_Internal(action, camT, haptics, null);
+        }
 
-        private float Play_Internal(Interaction action, Transform pose, AbstractHapticDevice haptics) =>
-            Play_Internal(action, pose, haptics, null);
+        private float Play_Internal(Interaction action, Transform pose, AbstractHapticDevice haptics)
+        {
+            return Play_Internal(action, pose, haptics, null);
+        }
 
-        private float Play_Internal(Interaction action, AbstractHapticDevice haptics, Action onComplete) =>
-            Play_Internal(action, camT, haptics, onComplete);
+        private float Play_Internal(Interaction action, AbstractHapticDevice haptics, Action onComplete)
+        {
+            return Play_Internal(action, camT, haptics, onComplete);
+        }
 
         private float Play_Internal(Interaction action, Transform pose, AbstractHapticDevice haptics, Action onComplete)
         {
@@ -454,6 +481,7 @@ namespace Juniper.Audio
             audioSource.name = "AudioSource" + audioSources.Count.ToString("00");
             return audioSource;
         }
+
 #endif
 
         public float Volume
@@ -490,6 +518,7 @@ namespace Juniper.Audio
         }
 
 #if UNITY_MODULES_AUDIO
+
         /// <summary>
         /// Set the common spatialization parameters for an AudioSource, including adding the
         /// necessary spatialization component for the platforms spatialization plugin.
@@ -527,6 +556,7 @@ namespace Juniper.Audio
 
             return audioSource;
         }
+
 #endif
     }
 }

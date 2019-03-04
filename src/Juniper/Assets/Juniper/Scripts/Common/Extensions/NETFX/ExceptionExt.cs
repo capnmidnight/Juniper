@@ -41,7 +41,9 @@ namespace System
         /// <param name="e">The exception to serialize.</param>
         /// <param name="featureName">An arbitrary label to assist in tracking down bugs.</param>
         /// <returns>A single-line string describing the high-level details of the error.</returns>
-        public static string ToShortString(this Exception e, string featureName) =>
-            $"ERRR[{featureName} ({e.GetType().FullName})]: {e.Message}";
+        public static string ToShortString(this Exception e, string featureName)
+        {
+            return $"ERRR[{featureName} ({e.GetType().FullName})]: {e.Message}";
+        }
     }
 }

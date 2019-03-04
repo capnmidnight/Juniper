@@ -1,6 +1,7 @@
-using System;
 using Juniper.Display;
 using Juniper.Statistics;
+
+using System;
 
 using UnityEngine;
 
@@ -44,7 +45,10 @@ namespace Juniper.World
         /// Set to true when the <see cref="CameraHeading"/> value is valid.
         /// </summary>
         /// <value><c>true</c> if has heading; otherwise, <c>false</c>.</value>
-        public bool HasHeading { get; private set; }
+        public bool HasHeading
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// Setup the statistical analyzers and find the main camera.
@@ -103,23 +107,38 @@ namespace Juniper.World
         /// Gets the angle in the X-axis in which the compass needle is pointing.
         /// </summary>
         /// <value>The compass heading.</value>
-        private static float CompassHeading =>
-            UnityInput.compass.magneticHeading;
+        private static float CompassHeading
+        {
+            get
+            {
+                return UnityInput.compass.magneticHeading;
+            }
+        }
 
         /// <summary>
         /// Gets the angle in the Y-axis in which the camera is facing.
         /// </summary>
         /// <value>The camera heading.</value>
-        private float CameraHeading =>
-            camT.eulerAngles.y;
+        private float CameraHeading
+        {
+            get
+            {
+                return camT.eulerAngles.y;
+            }
+        }
 
         /// <summary>
         /// Returns true if the user requested a static heading, the magnetic compass has been
         /// disabled, or the app is running in the Unity Editor.
         /// </summary>
         /// <value><c>true</c> if use fake heading; otherwise, <c>false</c>.</value>
-        private bool UseFakeHeading =>
-            FakeHeading || !UnityInput.compass.enabled && Application.isEditor;
+        private bool UseFakeHeading
+        {
+            get
+            {
+                return FakeHeading || !UnityInput.compass.enabled && Application.isEditor;
+            }
+        }
 
         /// <summary>
         /// Returns true when the camera's forward vector is roughly pointing parrallel to the ground.
@@ -140,8 +159,13 @@ namespace Juniper.World
         /// Returns true when the camera's up vector is not pointing at the ground.
         /// </summary>
         /// <value><c>true</c> if is upside down; otherwise, <c>false</c>.</value>
-        private bool IsUpsideDown =>
-            Vector3.Dot(camT.up, Vector3.up) < 0;
+        private bool IsUpsideDown
+        {
+            get
+            {
+                return Vector3.Dot(camT.up, Vector3.up) < 0;
+            }
+        }
 
         /// <summary>
         /// Figures out the offset angle to apply to the gameObject to make it convincingly appear

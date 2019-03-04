@@ -6,36 +6,111 @@ namespace Juniper.Input.Pointers.Motion
 {
     public class NoMotionControllerConfiguration : AbstractMotionControllerConfiguration<Unary, KeyCode>
     {
-        public override Unary? this[Hands hand] => null;
+        public override Unary? this[Hands hand]
+        {
+            get
+            {
+                return null;
+            }
+        }
     }
 
     public abstract class NoMotionController : AbstractMotionController<Unary, KeyCode, NoMotionControllerConfiguration, NoHaptics>
     {
-        public override bool IsConnected => false;
+        public override bool IsConnected
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-        public override Vector2 SquareTouchPoint => Vector2.zero;
+        public override Vector2 SquareTouchPoint
+        {
+            get
+            {
+                return Vector2.zero;
+            }
+        }
 
-        public override Vector2 RoundTouchPoint => Vector2.zero;
+        public override Vector2 RoundTouchPoint
+        {
+            get
+            {
+                return Vector2.zero;
+            }
+        }
 
-        public override bool IsDominantHand => false;
+        public override bool IsDominantHand
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-        public override bool IsButtonDown(KeyCode button) => false;
+        public override bool IsButtonDown(KeyCode button)
+        {
+            return false;
+        }
 
-        public override bool IsButtonPressed(KeyCode button) => false;
+        public override bool IsButtonPressed(KeyCode button)
+        {
+            return false;
+        }
 
-        public override bool IsButtonUp(KeyCode button) => false;
+        public override bool IsButtonUp(KeyCode button)
+        {
+            return false;
+        }
 
-        protected override bool TouchPadTouched => false;
+        protected override bool TouchPadTouched
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-        protected override bool TouchPadTouchedDown => false;
+        protected override bool TouchPadTouchedDown
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-        protected override bool TouchPadTouchedUp => false;
+        protected override bool TouchPadTouchedUp
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-        protected override bool TouchPadPressed => false;
+        protected override bool TouchPadPressed
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-        protected override bool TouchPadPressedDown => false;
+        protected override bool TouchPadPressedDown
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-        protected override bool TouchPadPressedUp => false;
+        protected override bool TouchPadPressedUp
+        {
+            get
+            {
+                return false;
+            }
+        }
 
         public override float Trigger
         {

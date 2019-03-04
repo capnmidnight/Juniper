@@ -1,6 +1,8 @@
-using System.Linq;
 using Juniper.Display;
 using Juniper.Input.Pointers.Screen;
+
+using System.Linq;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -102,7 +104,10 @@ namespace Juniper.Input.Pointers
         /// </summary>
         private float timeLeft;
 
-        public Transform Cursor { get; private set; }
+        public Transform Cursor
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// The outer portion of the probe.
@@ -125,10 +130,18 @@ namespace Juniper.Input.Pointers
         private Material lastLaserPointerMaterial;
         private Transform touchpoint;
 
-        public PhysicsRaycaster Raycaster { get; private set; }
+        public PhysicsRaycaster Raycaster
+        {
+            get; private set;
+        }
 
-        public Camera EventCamera =>
-            Raycaster?.eventCamera;
+        public Camera EventCamera
+        {
+            get
+            {
+                return Raycaster?.eventCamera;
+            }
+        }
 
         public Vector2 TouchPoint
         {
@@ -188,12 +201,18 @@ namespace Juniper.Input.Pointers
             SetGaze(0);
         }
 
-        public virtual void Reinstall() =>
+        public virtual void Reinstall()
+        {
             Install(true);
+        }
 
 #if UNITY_EDITOR
-        public void Reset() =>
+
+        public void Reset()
+        {
             Reinstall();
+        }
+
 #endif
 
         public void Install(bool reset)
@@ -252,7 +271,9 @@ namespace Juniper.Input.Pointers
             }
         }
 
-        public void Uninstall() { }
+        public void Uninstall()
+        {
+        }
 
         public void AlignProbe(Vector3 dir, Vector3 up, float maxDistance)
         {
@@ -296,20 +317,20 @@ namespace Juniper.Input.Pointers
                 switch (State)
                 {
                     case Appearance.None:
-                        targetScale = SizeOnNone;
-                        break;
+                    targetScale = SizeOnNone;
+                    break;
 
                     case Appearance.HitObject:
-                        targetScale = SizeOnHit;
-                        break;
+                    targetScale = SizeOnHit;
+                    break;
 
                     case Appearance.Pressing:
-                        targetScale = SizeOnPress;
-                        break;
+                    targetScale = SizeOnPress;
+                    break;
 
                     default:
-                        targetScale = Vector3.one;
-                        break;
+                    targetScale = Vector3.one;
+                    break;
                 }
 
                 ringTargetScale = targetScale.x * ringStartScale;

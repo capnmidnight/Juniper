@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 #if UNITY_EDITOR
+
 using UnityEditor;
+
 #else
 using Juniper.Data;
 #endif
@@ -17,17 +19,24 @@ namespace Juniper
     {
         public string AssetPath;
 
-        public string CopyPath =>
-            AssetPath.Replace("Assets/", "Assets/StreamingAssets/");
+        public string CopyPath
+        {
+            get
+            {
+                return AssetPath.Replace("Assets/", "Assets/StreamingAssets/");
+            }
+        }
 
         public string LoadPath =>
 #if UNITY_EDITOR
             AssetPath;
+
 #else
             StreamingAssets.FormatPath(Application.dataPath, AssetPath.Replace("Assets/", ""));
 #endif
 
         public ExceptionEvent onLoadError;
+
         public event EventHandler<Exception> LoadError;
 
         protected void OnLoadError(Exception exp)
@@ -37,9 +46,13 @@ namespace Juniper
         }
 
 #if UNITY_EDITOR
+
         public abstract void Validate();
+
         public abstract void Export();
+
         public abstract void Import();
+
 #endif
     }
 
@@ -54,8 +67,11 @@ namespace Juniper
         public AssetType Asset;
 
 #if UNITY_EDITOR
-        public static implicit operator AssetType(StreamableAsset<AssetType> obj) =>
-            obj.Asset;
+
+        public static implicit operator AssetType(StreamableAsset<AssetType> obj)
+        {
+            return obj.Asset;
+        }
 
         public override void Validate()
         {
@@ -83,11 +99,16 @@ namespace Juniper
             exported = true;
         }
 
-        public override void Import() =>
+        public override void Import()
+        {
             Validate();
+        }
 
-        private void GetAsset() =>
+        private void GetAsset()
+        {
             Asset = AssetDatabase.LoadAssetAtPath<AssetType>(AssetPath);
+        }
+
 #endif
     }
 }

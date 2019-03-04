@@ -1,7 +1,7 @@
+using Juniper.Widgets;
+
 using System;
 using System.Collections.Generic;
-
-using Juniper.Widgets;
 
 using UnityEngine;
 
@@ -16,6 +16,7 @@ namespace Juniper.Anchoring
     public class Grounded : MonoBehaviour
     {
 #if UNITY_MODULES_PHYSICS
+
         /// <summary>
         /// If the object being grounded is also controlled by a draggable constraint handle, then we
         /// will need to check if the draggable is being held and disengage any attempts to ground
@@ -68,6 +69,7 @@ namespace Juniper.Anchoring
         public float horizontalnessThreshold = 0.85f;
 
 #if UNITY_MODULES_PHYSICS
+
         /// <summary>
         /// Get the physics components of the gameObject, find information about the ground mesh, and
         /// freeze the object in place until the ground is found.
@@ -131,6 +133,7 @@ namespace Juniper.Anchoring
 #if UNITY_EDITOR
         /// <summary>
 #endif
+
         /// Restore physics and draggable capabilities.
         /// </summary>
         private void Unfreeze()
@@ -165,11 +168,15 @@ namespace Juniper.Anchoring
         }
 
 #if UNITY_EDITOR
+
         /// <summary>
         /// Delete the saved ground point, starting the work of looking for the ground again.
         /// </summary>
-        public void Reset() =>
+        public void Reset()
+        {
             groundPoint = null;
+        }
+
 #endif
 
 #endif

@@ -1,8 +1,8 @@
+using Juniper;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Juniper;
 
 namespace UnityEngine
 {
@@ -27,8 +27,10 @@ namespace UnityEngine
             t.Reset(resetScale);
         }
 
-        public static void Reparent(this PooledComponent<Transform> t, Transform parent, bool resetScale = true) =>
+        public static void Reparent(this PooledComponent<Transform> t, Transform parent, bool resetScale = true)
+        {
             t.Value.Reparent(parent, resetScale);
+        }
 
         /// <summary>
         /// Resets the transform's localPosition, localRotation, and localScale to the origin state.
@@ -48,8 +50,10 @@ namespace UnityEngine
             }
         }
 
-        public static void Reset(this PooledComponent<Transform> t, bool resetScale = true) =>
+        public static void Reset(this PooledComponent<Transform> t, bool resetScale = true)
+        {
             t.Value.Reset(resetScale);
+        }
 
         /// <summary>
         /// Enumerate through all of the transform's children.
@@ -66,8 +70,10 @@ namespace UnityEngine
         }
 
         public static IEnumerable<T> Children<T>(this PooledComponent<T> parent)
-            where T : Transform =>
-            parent.Value.Children();
+            where T : Transform
+        {
+            return parent.Value.Children();
+        }
 
         /// <summary>
         /// Enumerate through a transform and all of its children, as if they were one collection.
@@ -85,8 +91,10 @@ namespace UnityEngine
         }
 
         public static IEnumerable<T> Family<T>(this PooledComponent<T> parent)
-            where T : Transform =>
-            parent.Value.Family();
+            where T : Transform
+        {
+            return parent.Value.Family();
+        }
 
         /// <summary>
         /// Remove all child transforms from a transform.
@@ -187,8 +195,10 @@ namespace UnityEngine
             }
         }
 
-        public static T Query<T>(this PooledComponent<Transform> parent, string path) =>
-            parent.Value.Query<T>(path);
+        public static T Query<T>(this PooledComponent<Transform> parent, string path)
+        {
+            return parent.Value.Query<T>(path);
+        }
 
         /// <summary>
         /// Search through a series of Transforms and child transforms, defined as a set of
@@ -198,11 +208,15 @@ namespace UnityEngine
         /// <param name="parent"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static Transform Query(this Transform parent, string path) =>
-            parent.Query<Transform>(path);
+        public static Transform Query(this Transform parent, string path)
+        {
+            return parent.Query<Transform>(path);
+        }
 
-        public static Transform Query(this PooledComponent<Transform> parent, string path) =>
-            parent.Value.Query<Transform>(path);
+        public static Transform Query(this PooledComponent<Transform> parent, string path)
+        {
+            return parent.Value.Query<Transform>(path);
+        }
 
         /// <summary>
         /// Search the given transform's children and their children's children recursively until we
@@ -238,8 +252,10 @@ namespace UnityEngine
             return child;
         }
 
-        public static Transform Search(this PooledComponent<Transform> parent, string name) =>
-            parent.Value.Search(name);
+        public static Transform Search(this PooledComponent<Transform> parent, string name)
+        {
+            return parent.Value.Search(name);
+        }
 
         /// <summary>
         /// Get a component from a transform, creating it if it doesn't exist.
@@ -248,12 +264,16 @@ namespace UnityEngine
         /// <param name="obj">Object.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
         public static PooledComponent<T> EnsureComponent<T>(this Transform obj)
-            where T : Component =>
-            obj.gameObject.EnsureComponent<T>();
+            where T : Component
+        {
+            return obj.gameObject.EnsureComponent<T>();
+        }
 
         public static PooledComponent<T> EnsureComponent<T>(this PooledComponent<Transform> obj)
-            where T : Component =>
-            obj.Value.gameObject.EnsureComponent<T>();
+            where T : Component
+        {
+            return obj.Value.gameObject.EnsureComponent<T>();
+        }
 
         public static T SetScale<T>(this T t, Vector3 s)
             where T : Transform

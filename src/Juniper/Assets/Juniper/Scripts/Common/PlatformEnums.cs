@@ -51,23 +51,35 @@ namespace Juniper
         public const int SYS_OFFSET = DISPLAY_OFFSET + 2;
         private const int TOTAL_OFFSET = SYS_OFFSET + 5;
 
-        public static PlatformTypes Compose(SystemTypes sys, DisplayTypes display, AugmentedRealityTypes ar, Options opt) =>
-            (PlatformTypes)((int)sys << SYS_OFFSET | (int)display << DISPLAY_OFFSET | (int)ar << AR_OFFSET | (int)opt);
+        public static PlatformTypes Compose(SystemTypes sys, DisplayTypes display, AugmentedRealityTypes ar, Options opt)
+        {
+            return (PlatformTypes)((int)sys << SYS_OFFSET | (int)display << DISPLAY_OFFSET | (int)ar << AR_OFFSET | (int)opt);
+        }
 
-        private static int Get(PlatformTypes p, int start, int end) =>
-            (((1 << start) - 1) & (int)p) >> end;
+        private static int Get(PlatformTypes p, int start, int end)
+        {
+            return (((1 << start) - 1) & (int)p) >> end;
+        }
 
-        public static Options GetOption(PlatformTypes p) =>
-            (Options)Get(p, AR_OFFSET, 0);
+        public static Options GetOption(PlatformTypes p)
+        {
+            return (Options)Get(p, AR_OFFSET, 0);
+        }
 
-        public static AugmentedRealityTypes GetARType(PlatformTypes p) =>
-            (AugmentedRealityTypes)Get(p, DISPLAY_OFFSET, AR_OFFSET);
+        public static AugmentedRealityTypes GetARType(PlatformTypes p)
+        {
+            return (AugmentedRealityTypes)Get(p, DISPLAY_OFFSET, AR_OFFSET);
+        }
 
-        public static DisplayTypes GetDisplayType(PlatformTypes p) =>
-            (DisplayTypes)Get(p, SYS_OFFSET, DISPLAY_OFFSET);
+        public static DisplayTypes GetDisplayType(PlatformTypes p)
+        {
+            return (DisplayTypes)Get(p, SYS_OFFSET, DISPLAY_OFFSET);
+        }
 
-        public static SystemTypes GetSystem(PlatformTypes p) =>
-            (SystemTypes)Get(p, TOTAL_OFFSET, SYS_OFFSET);
+        public static SystemTypes GetSystem(PlatformTypes p)
+        {
+            return (SystemTypes)Get(p, TOTAL_OFFSET, SYS_OFFSET);
+        }
     }
 
     [Flags]
@@ -75,24 +87,24 @@ namespace Juniper
     {
         None,
 
-        Android =          SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Monoscopic << Platform.DISPLAY_OFFSET,
-        AndroidARCore =    SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Monoscopic << Platform.DISPLAY_OFFSET | AugmentedRealityTypes.PassthroughCamera << Platform.AR_OFFSET,
+        Android = SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Monoscopic << Platform.DISPLAY_OFFSET,
+        AndroidARCore = SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Monoscopic << Platform.DISPLAY_OFFSET | AugmentedRealityTypes.PassthroughCamera << Platform.AR_OFFSET,
         AndroidCardboard = SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option1,
-        AndroidDaydream =  SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option2,
-        AndroidOculus =    SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option3,
+        AndroidDaydream = SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option2,
+        AndroidOculus = SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option3,
         AndroidViveFocus = SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option4,
 
-        IOS =          SystemTypes.IOS << Platform.SYS_OFFSET | DisplayTypes.Monoscopic << Platform.DISPLAY_OFFSET,
-        IOSARKit =     SystemTypes.IOS << Platform.SYS_OFFSET | DisplayTypes.Monoscopic << Platform.DISPLAY_OFFSET | AugmentedRealityTypes.PassthroughCamera << Platform.AR_OFFSET,
+        IOS = SystemTypes.IOS << Platform.SYS_OFFSET | DisplayTypes.Monoscopic << Platform.DISPLAY_OFFSET,
+        IOSARKit = SystemTypes.IOS << Platform.SYS_OFFSET | DisplayTypes.Monoscopic << Platform.DISPLAY_OFFSET | AugmentedRealityTypes.PassthroughCamera << Platform.AR_OFFSET,
         IOSCardboard = SystemTypes.IOS << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET,
 
-        Standalone =        SystemTypes.Standalone << Platform.SYS_OFFSET | DisplayTypes.Monoscopic << Platform.DISPLAY_OFFSET,
-        StandaloneOculus =  SystemTypes.Standalone << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option1,
+        Standalone = SystemTypes.Standalone << Platform.SYS_OFFSET | DisplayTypes.Monoscopic << Platform.DISPLAY_OFFSET,
+        StandaloneOculus = SystemTypes.Standalone << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option1,
         StandaloneSteamVR = SystemTypes.Standalone << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option2,
 
-        UWP =          SystemTypes.UWP << Platform.SYS_OFFSET | DisplayTypes.Monoscopic << Platform.DISPLAY_OFFSET,
+        UWP = SystemTypes.UWP << Platform.SYS_OFFSET | DisplayTypes.Monoscopic << Platform.DISPLAY_OFFSET,
         UWPWindowsMR = SystemTypes.UWP << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET,
-        UWPHoloLens =  SystemTypes.UWP << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | AugmentedRealityTypes.Holographic << Platform.AR_OFFSET,
+        UWPHoloLens = SystemTypes.UWP << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | AugmentedRealityTypes.Holographic << Platform.AR_OFFSET,
 
         MagicLeap = SystemTypes.LuminOS << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | AugmentedRealityTypes.Holographic << Platform.AR_OFFSET
     }

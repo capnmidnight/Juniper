@@ -16,8 +16,10 @@ namespace Juniper.Widgets
         public float delta = 1;
         public FloatEvent onValueChanged;
 
-        public void Awake() =>
+        public void Awake()
+        {
             field.onValueChanged.AddListener(OnTextChanged);
+        }
 
         public void OnTextChanged(string text)
         {
@@ -37,8 +39,10 @@ namespace Juniper.Widgets
             eventData.Use();
         }
 
-        public void OnPointerUp(PointerEventData eventData) =>
+        public void OnPointerUp(PointerEventData eventData)
+        {
             locked = false;
+        }
 
         public void Update()
         {

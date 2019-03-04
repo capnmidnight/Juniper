@@ -1,4 +1,5 @@
 #if UNITY_MODULES_ANIMATION
+
 using UnityEngine;
 
 namespace Juniper.Widgets
@@ -24,11 +25,14 @@ namespace Juniper.Widgets
             }
         }
 
-        public void Toggle() =>
+        public void Toggle()
+        {
             open = !open;
+        }
 
         private Animator animator;
         private bool wasOpen;
     }
 }
+
 #endif

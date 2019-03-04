@@ -1,14 +1,16 @@
-using System;
-
 using NUnit.Framework;
+
+using System;
 
 namespace Juniper.Statistics
 {
     public class SingleStatisticsTests
     {
         [Test]
-        public void MakeABuffer() => Assert.DoesNotThrow(() =>
-            new SingleStatistics(100));
+        public void MakeABuffer()
+        {
+            Assert.DoesNotThrow(() => new SingleStatistics(100));
+        }
 
         [Test]
         public void StartsEmpty()
@@ -18,8 +20,10 @@ namespace Juniper.Statistics
         }
 
         [Test]
-        public void ThrowsWithNoCapacity() => Assert.Throws(typeof(ArgumentOutOfRangeException), () =>
-            new SingleStatistics(0));
+        public void ThrowsWithNoCapacity()
+        {
+            Assert.Throws(typeof(ArgumentOutOfRangeException), () => new SingleStatistics(0));
+        }
 
         [Test]
         public void AddingIncreasesCount()

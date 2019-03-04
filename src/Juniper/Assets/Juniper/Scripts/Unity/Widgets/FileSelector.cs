@@ -26,7 +26,10 @@ namespace Juniper.Widgets
             Directory
         }
 
-        public string SelectedPath { get; private set; }
+        public string SelectedPath
+        {
+            get; private set;
+        }
 
         public void OK()
         {
@@ -44,8 +47,10 @@ namespace Juniper.Widgets
                 select(SelectedPath));
         }
 
-        public void Cancel() =>
+        public void Cancel()
+        {
             CallAndExit(onCancel);
+        }
 
         public void Show(string titleText, SelectionMode m, string filterPattern, Action<string> onFileSelected, Action onSelectionCanceled = null)
         {
@@ -174,9 +179,11 @@ namespace Juniper.Widgets
             }
         }
 
-        private bool FilePassesFilter(string filePath) =>
-            string.IsNullOrEmpty(filter)
+        private bool FilePassesFilter(string filePath)
+        {
+            return string.IsNullOrEmpty(filter)
                 || fileFilter.IsMatch(filePath);
+        }
 
         private void ShowPath(string fileOrDirPath)
         {

@@ -1,6 +1,7 @@
-using System;
 using Juniper.World.Climate;
 using Juniper.World.GIS;
+
+using System;
 
 using UnityEngine;
 
@@ -48,9 +49,15 @@ namespace Juniper.World
         /// that component is capable of calculating the sun position.
         /// </summary>
         /// <value><c>true</c> if has sun rotation; otherwise, <c>false</c>.</value>
-        protected override bool HasSunRotation => !IsNight
+        protected override bool HasSunRotation
+        {
+            get
+            {
+                return !IsNight
                     && sunPosition != null
                     && sunPosition.CanCalculateCurrentLocalPosition;
+            }
+        }
 
         /// <summary>
         /// Gets a rotation quaternion that will put the "sun dot" of Unity's defauilt skybox into
@@ -139,9 +146,15 @@ namespace Juniper.World
         /// component has a cloud cover value.
         /// </summary>
         /// <value><c>true</c> if has cloud cover; otherwise, <c>false</c>.</value>
-        private bool HasCloudCover => !IsNight
-                    && weather != null
-                    && weather.CloudCover != null;
+        private bool HasCloudCover
+        {
+            get
+            {
+                return !IsNight
+&& weather != null
+&& weather.CloudCover != null;
+            }
+        }
 
         /// <summary>
         /// If <see cref="IndoorLightEstimate.DebugReport"/> is true, prints a report that displays

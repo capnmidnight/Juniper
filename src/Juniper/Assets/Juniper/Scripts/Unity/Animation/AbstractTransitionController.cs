@@ -51,7 +51,10 @@ namespace Juniper.Animation
         /// <summary>
         /// The length of time, in seconds, the transition should take to complete.
         /// </summary>
-        public abstract float TransitionLength { get; }
+        public abstract float TransitionLength
+        {
+            get;
+        }
 
         [ContextMenu("Enter")]
         public override void Enter()

@@ -35,7 +35,13 @@ namespace Juniper.CustomEditors
             EditorGUI.EndProperty();
         }
 
-        public int callbackOrder => 0;
+        public int callbackOrder
+        {
+            get
+            {
+                return 0;
+            }
+        }
 
         public void OnPreprocessBuild(BuildReport report)
         {
@@ -47,8 +53,10 @@ namespace Juniper.CustomEditors
             });
         }
 
-        public void OnPostprocessBuild(BuildReport report) =>
+        public void OnPostprocessBuild(BuildReport report)
+        {
             ForEachStreamable(value => value.Import());
+        }
 
         private void ForEachStreamable(Action<StreamableAsset> act)
         {

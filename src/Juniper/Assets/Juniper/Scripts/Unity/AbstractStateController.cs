@@ -86,11 +86,26 @@ namespace Juniper
         /// </summary>
         public event EventHandler Exited;
 
-        public virtual bool IsComplete => state == STOPPED;
+        public virtual bool IsComplete
+        {
+            get
+            {
+                return state == STOPPED;
+            }
+        }
 
-        public bool IsRunning => !IsComplete;
+        public bool IsRunning
+        {
+            get
+            {
+                return !IsComplete;
+            }
+        }
 
-        public bool HasStopped() => IsComplete;
+        public bool HasStopped()
+        {
+            return IsComplete;
+        }
 
         /// <summary>
         /// Fire the OnEnable event and perform the Enter transition.
@@ -144,8 +159,10 @@ namespace Juniper
         /// in the Unity Editor, prefer <see cref="onEntering"/>. If you are waiting for this event
         /// in a subclass of StateController, prefer overriding the <see cref="OnEnable"/> method.
         /// </summary>
-        public void OnEnable() =>
+        public void OnEnable()
+        {
             OnEnabled();
+        }
 
         /// <summary>
         /// Called as the object goes from Active to Inactive. Prefer <see cref="Exited"/> if you are
@@ -153,8 +170,10 @@ namespace Juniper
         /// the Unity Editor, prefer <see cref="onExited"/>. If you are waiting for this event in a
         /// subclass of StateController, prefer overriding the <see cref="OnDisable"/> method.
         /// </summary>
-        public void OnDisable() =>
+        public void OnDisable()
+        {
             OnDisabled();
+        }
 
         public virtual void Update()
         {

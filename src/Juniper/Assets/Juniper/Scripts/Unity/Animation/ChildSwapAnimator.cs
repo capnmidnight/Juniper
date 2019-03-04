@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
 using UnityEngine;
 
 namespace Juniper.Animation
@@ -19,18 +20,22 @@ namespace Juniper.Animation
 
         private Dictionary<string, Vector3> scales;
 
-        public void Awake() =>
+        public void Awake()
+        {
             scales = stateNames.ToDictionary(
                 s => s,
                 s => this.Query(s)?.localScale ?? Vector3.one);
+        }
 
         /// <summary>
         /// Returns true if a transform named <paramref name="name"/> is a child of this transform.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public override bool HasState(string name) =>
-            transform.Find(name) != null;
+        public override bool HasState(string name)
+        {
+            return transform.Find(name) != null;
+        }
 
         /// <summary>
         /// Sets the child transform named in <paramref name="name"/> to Active, while all other

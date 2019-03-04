@@ -28,9 +28,14 @@ namespace Juniper.Input.Pointers.Motion
             {
                 switch (hand)
                 {
-                    case Hands.Left: return MLInput.Hand.Left;
-                    case Hands.Right: return MLInput.Hand.Right;
-                    default: return null;
+                    case Hands.Left:
+                    return MLInput.Hand.Left;
+
+                    case Hands.Right:
+                    return MLInput.Hand.Right;
+
+                    default:
+                    return null;
                 }
             }
         }
@@ -42,10 +47,18 @@ namespace Juniper.Input.Pointers.Motion
     public abstract class MagicLeapMotionController :
         AbstractMotionController<MLInput.Hand, MLInputControllerButton, MagicLeapMotionControllerConfiguration, MagicLeapHaptics>
     {
-        public override bool IsConnected =>
-            showProbe = Device?.Connected == true;
+        public override bool IsConnected
+        {
+            get
+            {
+                return showProbe = Device?.Connected == true;
+            }
+        }
 
-        private MLInputController Device { get; set; }
+        private MLInputController Device
+        {
+            get; set;
+        }
 
         private readonly Dictionary<MLInputControllerButton, bool> pressed = new Dictionary<MLInputControllerButton, bool>();
         private readonly Dictionary<MLInputControllerButton, bool> wasPressed = new Dictionary<MLInputControllerButton, bool>();
@@ -74,7 +87,10 @@ namespace Juniper.Input.Pointers.Motion
 
         public override Hands Hand
         {
-            get { return base.Hand; }
+            get
+            {
+                return base.Hand;
+            }
 
             set
             {
@@ -135,8 +151,10 @@ namespace Juniper.Input.Pointers.Motion
             }
         }
 
-        private bool IsCorrectHand(byte controllerID) =>
-            MLInput.GetHandFromControllerIndex(controllerID) == NativeHandID;
+        private bool IsCorrectHand(byte controllerID)
+        {
+            return MLInput.GetHandFromControllerIndex(controllerID) == NativeHandID;
+        }
 
         public void OnControllerConnected(byte controllerID)
         {
@@ -172,8 +190,13 @@ namespace Juniper.Input.Pointers.Motion
             }
         }
 
-        public override float Trigger =>
-            Device.TriggerValue;
+        public override float Trigger
+        {
+            get
+            {
+                return Device.TriggerValue;
+            }
+        }
 
         public void LateUpdate()
         {
@@ -221,41 +244,92 @@ namespace Juniper.Input.Pointers.Motion
             base.InternalUpdate();
         }
 
-        public override Vector2 RoundTouchPoint =>
-            Device.Touch1PosAndForce;
+        public override Vector2 RoundTouchPoint
+        {
+            get
+            {
+                return Device.Touch1PosAndForce;
+            }
+        }
 
-        public override Vector2 SquareTouchPoint =>
-            Round2Square(RoundTouchPoint);
+        public override Vector2 SquareTouchPoint
+        {
+            get
+            {
+                return Round2Square(RoundTouchPoint);
+            }
+        }
 
-        public override bool IsDominantHand =>
-            IsRightHand;
+        public override bool IsDominantHand
+        {
+            get
+            {
+                return IsRightHand;
+            }
+        }
 
-        protected override bool TouchPadTouched =>
-            touched;
+        protected override bool TouchPadTouched
+        {
+            get
+            {
+                return touched;
+            }
+        }
 
-        protected override bool TouchPadTouchedDown =>
-            touched && !wasTouched;
+        protected override bool TouchPadTouchedDown
+        {
+            get
+            {
+                return touched && !wasTouched;
+            }
+        }
 
-        protected override bool TouchPadTouchedUp =>
-            !touched && wasTouched;
+        protected override bool TouchPadTouchedUp
+        {
+            get
+            {
+                return !touched && wasTouched;
+            }
+        }
 
-        protected override bool TouchPadPressed =>
-            touchPressed;
+        protected override bool TouchPadPressed
+        {
+            get
+            {
+                return touchPressed;
+            }
+        }
 
-        protected override bool TouchPadPressedDown =>
-            touchPressed && !wasTouchPressed;
+        protected override bool TouchPadPressedDown
+        {
+            get
+            {
+                return touchPressed && !wasTouchPressed;
+            }
+        }
 
-        protected override bool TouchPadPressedUp =>
-            !touchPressed && wasTouchPressed;
+        protected override bool TouchPadPressedUp
+        {
+            get
+            {
+                return !touchPressed && wasTouchPressed;
+            }
+        }
 
-        public override bool IsButtonPressed(MLInputControllerButton button) =>
-            pressed[button];
+        public override bool IsButtonPressed(MLInputControllerButton button)
+        {
+            return pressed[button];
+        }
 
-        public override bool IsButtonDown(MLInputControllerButton button) =>
-            pressed[button] && !wasPressed[button];
+        public override bool IsButtonDown(MLInputControllerButton button)
+        {
+            return pressed[button] && !wasPressed[button];
+        }
 
-        public override bool IsButtonUp(MLInputControllerButton button) =>
-            !pressed[button] && wasPressed[button];
+        public override bool IsButtonUp(MLInputControllerButton button)
+        {
+            return !pressed[button] && wasPressed[button];
+        }
     }
 }
 

@@ -136,8 +136,6 @@ namespace Juniper.ImageTracking
                 numUpdates = 0;
         }
 
-
-
         /// <summary>
         /// Cancel tracking and disable Vuforia. This also forces the Lost event on all of the
         /// currently tracked targets.

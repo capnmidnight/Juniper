@@ -71,14 +71,18 @@ namespace UnityEngine
         /// Cast the value encapsulated in this reference out to its raw type.
         /// </summary>
         /// <param name="obj"></param>
-        public static implicit operator T(AbstractReference<T, U> obj) =>
-            obj.Value;
+        public static implicit operator T(AbstractReference<T, U> obj)
+        {
+            return obj.Value;
+        }
 
         /// <summary>
         /// Print the encapsulated value.
         /// </summary>
         /// <returns></returns>
-        public override string ToString() =>
-            Value.ToString();
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }

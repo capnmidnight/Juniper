@@ -1,8 +1,8 @@
+using Juniper.Events;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Juniper.Events;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,19 +25,31 @@ namespace Juniper.Input.Pointers
         private readonly Dictionary<InputButton, float> dragDistances = new Dictionary<InputButton, float>();
 
         public event Func<ButtonIDType, bool> ButtonDownNeeded;
+
         public event Func<ButtonIDType, bool> ButtonUpNeeded;
+
         public event Func<ButtonIDType, bool> ButtonPressedNeeded;
+
         public event Func<PointerEventData, ButtonIDType, PointerEventData> ClonedPointerEventNeeded;
+
         public event Action<Interaction> InteractionNeeded;
 
         public readonly Dictionary<ButtonIDType, ButtonEvent> buttonEvents = new Dictionary<ButtonIDType, ButtonEvent>();
 
         public readonly Dictionary<InputButton, ButtonEvent> inputButtonEvents = new Dictionary<InputButton, ButtonEvent>();
 
-        public IEnumerable<ButtonIDType> Buttons =>
-            toInputButton.Keys;
+        public IEnumerable<ButtonIDType> Buttons
+        {
+            get
+            {
+                return toInputButton.Keys;
+            }
+        }
 
-        public bool AnyDragging { get; private set; }
+        public bool AnyDragging
+        {
+            get; private set;
+        }
 
         public void Install(GameObject pointer, Dictionary<ButtonIDType, InputButton> buttons)
         {
@@ -93,20 +105,28 @@ namespace Juniper.Input.Pointers
             }
         }
 
-        public bool IsButtonDown(InputButton button) =>
-            fromInputButton.ContainsKey(button)
+        public bool IsButtonDown(InputButton button)
+        {
+            return fromInputButton.ContainsKey(button)
                 && ButtonDownNeeded?.Invoke(fromInputButton[button]) == true;
+        }
 
-        public bool IsButtonUp(InputButton button) =>
-            fromInputButton.ContainsKey(button)
+        public bool IsButtonUp(InputButton button)
+        {
+            return fromInputButton.ContainsKey(button)
                 && ButtonUpNeeded?.Invoke(fromInputButton[button]) == true;
+        }
 
-        public bool IsButtonPressed(InputButton button) =>
-            fromInputButton.ContainsKey(button)
+        public bool IsButtonPressed(InputButton button)
+        {
+            return fromInputButton.ContainsKey(button)
                 && ButtonPressedNeeded?.Invoke(fromInputButton[button]) == true;
+        }
 
-        public int ToInt32(ButtonIDType button) =>
-            toInteger.Get(button);
+        public int ToInt32(ButtonIDType button)
+        {
+            return toInteger.Get(button);
+        }
 
         public IEventSystemHandler Process(PointerEventData eventData, float pixelDragThresholdSquared)
         {
@@ -181,7 +201,7 @@ namespace Juniper.Input.Pointers
                 evtData.pointerPress = null;
                 evtData.rawPointerPress = null;
             }
-            else if(pressed
+            else if (pressed
                 && mayLongPress[button])
             {
                 if (deltaTime < THRESHOLD_LONG_PRESS)

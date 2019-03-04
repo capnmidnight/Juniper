@@ -26,22 +26,35 @@ namespace System
             }
         }
 
-        public bool Changed =>
-            IsDifferent(lastValue);
+        public bool Changed
+        {
+            get
+            {
+                return IsDifferent(lastValue);
+            }
+        }
 
-        public static implicit operator T(TrackedValue<T> wrapped) =>
-            wrapped.Value;
+        public static implicit operator T(TrackedValue<T> wrapped)
+        {
+            return wrapped.Value;
+        }
 
-        public T Commit() =>
-            lastValue = backer;
+        public T Commit()
+        {
+            return lastValue = backer;
+        }
 
-        public void Revert() =>
+        public void Revert()
+        {
             Value = lastValue;
+        }
 
         private T backer, lastValue;
 
-        private void OnValueChanged() =>
+        private void OnValueChanged()
+        {
             ValueChanged?.Invoke(this, EventArgs.Empty);
+        }
 
         private bool IsDifferent(T value)
         {

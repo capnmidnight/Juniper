@@ -45,7 +45,6 @@ namespace Juniper.ImageTracking
             }
         }
 
-
         /// <summary>
         /// Finds a target object by name and updates its state.
         /// </summary>

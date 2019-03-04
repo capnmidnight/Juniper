@@ -31,8 +31,13 @@ namespace Juniper.World.LightEstimation
         /// the Unity Editor.
         /// </summary>
         /// <value><c>true</c> if use fake intensity; otherwise, <c>false</c>.</value>
-        protected virtual bool UseFakeIntensity =>
-            useFake || Application.isEditor;
+        protected virtual bool UseFakeIntensity
+        {
+            get
+            {
+                return useFake || Application.isEditor;
+            }
+        }
 
         /// <summary>
         /// The fake intensity value to use if <see cref="UseFakeIntensity"/> is true.
@@ -54,16 +59,26 @@ namespace Juniper.World.LightEstimation
         /// light temperature. Otherwise, a default value is returned that matches a typical, sunny day.
         /// </summary>
         /// <returns>The light color estimate.</returns>
-        public Color ColorEstimate =>
-            lastColor;
+        public Color ColorEstimate
+        {
+            get
+            {
+                return lastColor;
+            }
+        }
 
         /// <summary>
         /// Subsystems with light estimation capability should override this method to return the
         /// estimation. Otherwise, a default value is returned that matches a typical, sunny day.
         /// </summary>
         /// <returns>The light intensity estimate.</returns>
-        public float IntensityEstimate =>
-            lastIntensity;
+        public float IntensityEstimate
+        {
+            get
+            {
+                return lastIntensity;
+            }
+        }
 
         /// <summary>
         /// Find the current XR system configuration, and setup the correct light estimation
@@ -76,18 +91,28 @@ namespace Juniper.World.LightEstimation
             SetFakeValues();
         }
 
-        public virtual void Reinstall() =>
+        public virtual void Reinstall()
+        {
             Install(true);
+        }
 
 #if UNITY_EDITOR
-        public void Reset() =>
+
+        public void Reset()
+        {
             Reinstall();
+        }
+
 #endif
 
-        public virtual void Install(bool reset) =>
+        public virtual void Install(bool reset)
+        {
             reset &= Application.isEditor;
+        }
 
-        public virtual void Uninstall() { }
+        public virtual void Uninstall()
+        {
+        }
 
         /// <summary>
         /// Sets the current Intensity and Color from the fake values set in the Unity Editor.
@@ -118,7 +143,9 @@ namespace Juniper.World.LightEstimation
             }
         }
 
-        protected virtual void UpdateMeasurement() { }
+        protected virtual void UpdateMeasurement()
+        {
+        }
 
         /// <summary>
         /// If <see cref="DebugReport"/> is set to true, prints a report that displays the status of

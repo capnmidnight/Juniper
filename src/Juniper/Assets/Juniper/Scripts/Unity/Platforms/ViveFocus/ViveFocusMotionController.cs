@@ -21,7 +21,6 @@ namespace Juniper.Input.Pointers.Motion
     /// </summary>
     public abstract class ViveFocusMotionController : AbstractMotionController<WVR_DeviceType, WVR_InputId, ViveFocusProbeConfiguration, ViveFocusHaptics>
     {
-
         public override bool IsConnected
         {
             get

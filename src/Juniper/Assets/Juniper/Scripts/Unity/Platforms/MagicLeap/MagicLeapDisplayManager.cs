@@ -1,4 +1,5 @@
 #if MAGIC_LEAP
+
 using MSA;
 
 using UnityEngine;
@@ -32,4 +33,5 @@ namespace Juniper.Display
         }
     }
 }
+
 #endif

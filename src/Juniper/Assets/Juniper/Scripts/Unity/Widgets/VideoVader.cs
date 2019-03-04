@@ -70,23 +70,31 @@ namespace Juniper.Widgets
 #endif
         }
 
-        protected override void OnExiting() =>
+        protected override void OnExiting()
+        {
             Invoke(nameof(RestartVideo), restartTimeout);
+        }
 
-        public void FireComplete() =>
+        public void FireComplete()
+        {
             Finish();
+        }
 
         /// <summary>
         /// Trigger the timeout for the finisher.
         /// </summary>
-        private void Finish() =>
+        private void Finish()
+        {
             Invoke(nameof(OnFinish), lingerTimeout);
+        }
 
         /// <summary>
         /// Finish out the video state.
         /// </summary>
-        private void OnFinish() =>
+        private void OnFinish()
+        {
             onComplete?.Invoke();
+        }
 
         protected override void RenderValue(float value)
         {

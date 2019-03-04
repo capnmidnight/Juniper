@@ -31,16 +31,20 @@ namespace Juniper
         /// expect angle values in degrees.
         /// </summary>
         /// <param name="a">An <c>Angle</c> object.</param>
-        public static implicit operator float(Angle a) =>
-            a.currentValue;
+        public static implicit operator float(Angle a)
+        {
+            return a.currentValue;
+        }
 
         /// <summary>
         /// Wrap an angle value in the Angle struct. Useful for using
         /// <c>System.Linq.Enumerable.Cast{T}</c> on a collection of Angles.
         /// </summary>
         /// <param name="f">An angle in degrees</param>
-        public static explicit operator Angle(float f) =>
-            new Angle(f);
+        public static explicit operator Angle(float f)
+        {
+            return new Angle(f);
+        }
 
         /// <summary>
         /// Create a new Angle struct that represents the smallest turn from the old Angle struct in
@@ -51,8 +55,10 @@ namespace Juniper
         /// <returns>
         /// The new Angle struct that minimizes the likelihood of spinning around in weird circles.
         /// </returns>
-        public static Angle operator ^(Angle a, float v) =>
-            a.Update(v);
+        public static Angle operator ^(Angle a, float v)
+        {
+            return a.Update(v);
+        }
 
         /// <summary>
         /// Whole-number divide the angle and save the remainder, and minimize rotation to the new value
@@ -60,8 +66,10 @@ namespace Juniper
         /// <param name="a">The angle to divide.</param>
         /// <param name="v">The scalar by which to divide.</param>
         /// <returns>The minimized value of clamp(a % v, 0, 360)</returns>
-        public static Angle operator %(Angle a, float v) =>
-            a.Update(a.currentValue % v);
+        public static Angle operator %(Angle a, float v)
+        {
+            return a.Update(a.currentValue % v);
+        }
 
         /// <summary>
         /// Add to the angle, and minimize rotation to the new value
@@ -69,8 +77,10 @@ namespace Juniper
         /// <param name="a">The angle to add to.</param>
         /// <param name="v">The scalar by which to add.</param>
         /// <returns>The minimized value of clamp(a + v, 0, 360)</returns>
-        public static Angle operator +(Angle a, float v) =>
-            a.Update(a.currentValue + v);
+        public static Angle operator +(Angle a, float v)
+        {
+            return a.Update(a.currentValue + v);
+        }
 
         /// <summary>
         /// Subtract from the angle, and minimize rotation to the new value
@@ -78,8 +88,10 @@ namespace Juniper
         /// <param name="a">The angle to subtract from.</param>
         /// <param name="v">The scalar by which to subtract.</param>
         /// <returns>The minimized value of clamp(a - v, 0, 360)</returns>
-        public static Angle operator -(Angle a, float v) =>
-            a.Update(a.currentValue - v);
+        public static Angle operator -(Angle a, float v)
+        {
+            return a.Update(a.currentValue - v);
+        }
 
         /// <summary>
         /// Multiply the angle, and minimize rotation to the new value
@@ -87,8 +99,10 @@ namespace Juniper
         /// <param name="a">The angle to multiply.</param>
         /// <param name="v">The scalar by which to multiply.</param>
         /// <returns>The minimized value of clamp(a * v, 0, 360)</returns>
-        public static Angle operator *(Angle a, float v) =>
-            a.Update(a.currentValue * v);
+        public static Angle operator *(Angle a, float v)
+        {
+            return a.Update(a.currentValue * v);
+        }
 
         /// <summary>
         /// Divide the angle, and minimize rotation to the new value
@@ -96,8 +110,10 @@ namespace Juniper
         /// <param name="a">The angle to divide.</param>
         /// <param name="v">The scalar by which to divide.</param>
         /// <returns>The minimized value of clamp(a / v, 0, 360)</returns>
-        public static Angle operator /(Angle a, float v) =>
-            a.Update(a.currentValue / v);
+        public static Angle operator /(Angle a, float v)
+        {
+            return a.Update(a.currentValue / v);
+        }
 
         /// <summary>
         /// Compares two angles to see if they represent the same position on a circle.
@@ -105,8 +121,10 @@ namespace Juniper
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator ==(Angle a, Angle b) =>
-            a.Equals(b);
+        public static bool operator ==(Angle a, Angle b)
+        {
+            return a.Equals(b);
+        }
 
         /// <summary>
         /// Compares two angles to see if they do not represent the same position on a circle.
@@ -114,7 +132,10 @@ namespace Juniper
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator !=(Angle a, Angle b) => !a.Equals(b);
+        public static bool operator !=(Angle a, Angle b)
+        {
+            return !a.Equals(b);
+        }
 
         private static float Repeat(float v)
         {
@@ -156,8 +177,10 @@ namespace Juniper
         /// A hash code for this instance that is suitable for use in hashing algorithms and data
         /// structures such as a hash table.
         /// </returns>
-        public override int GetHashCode() =>
-            Repeat(currentValue).GetHashCode();
+        public override int GetHashCode()
+        {
+            return Repeat(currentValue).GetHashCode();
+        }
 
         /// <summary>
         /// The current value of the angle,

@@ -38,14 +38,18 @@ namespace UnityEngine
         /// Cast the raw value encapsulated in this variable out to values of its own type.
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator T(AbstractVariable<T> value) =>
-            value.Value;
+        public static implicit operator T(AbstractVariable<T> value)
+        {
+            return value.Value;
+        }
 
         /// <summary>
         /// Print the encapsulated value, rather than a junky Object reference.
         /// </summary>
         /// <returns></returns>
-        public override string ToString() =>
-            Value.ToString();
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }

@@ -1,7 +1,8 @@
 #if UNITY_MODULES_VIDEO
-using System;
 
 using Juniper.Progress;
+
+using System;
 
 using UnityEngine.Video;
 
@@ -18,4 +19,5 @@ namespace Juniper.Video
         }
     }
 }
+
 #endif

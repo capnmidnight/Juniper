@@ -6,8 +6,10 @@ namespace Juniper.Widgets
     {
         public RectOffset padding;
 
-        public void Awake() =>
+        public void Awake()
+        {
             rect = GetComponent<RectTransform>();
+        }
 
         public void Update()
         {

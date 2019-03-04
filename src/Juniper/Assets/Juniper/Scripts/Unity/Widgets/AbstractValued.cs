@@ -1,7 +1,8 @@
-using System;
-
 using Juniper.Anchoring;
 using Juniper.Display;
+
+using System;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -65,16 +66,27 @@ namespace Juniper.Widgets
         /// </remarks>
         public float value
         {
-            get { return _value; }
-            set { _value = value; }
+            get
+            {
+                return _value;
+            }
+            set
+            {
+                _value = value;
+            }
         }
 
         /// <summary>
         /// The difference between <see cref="maxValue"/> and <see cref="minValue"/>
         /// </summary>
         /// <value>The delta.</value>
-        public float Delta =>
-            maxValue - minValue;
+        public float Delta
+        {
+            get
+            {
+                return maxValue - minValue;
+            }
+        }
 
         /// <summary>
         /// Is the control currently being dragged?
@@ -89,21 +101,36 @@ namespace Juniper.Widgets
         /// <summary>
         /// Did the <see cref="Dragged"/> flag change since the last frame?
         /// </summary>
-        private bool DraggedChanged =>
-            Dragged != wasDragged;
+        private bool DraggedChanged
+        {
+            get
+            {
+                return Dragged != wasDragged;
+            }
+        }
 
         /// <summary>
         /// Returns true if the control was <see cref="Pressed"/> during this frame (but not the last).
         /// </summary>
-        public bool DraggedDown =>
-            DraggedChanged && Dragged;
+        public bool DraggedDown
+        {
+            get
+            {
+                return DraggedChanged && Dragged;
+            }
+        }
 
         /// <summary>
         /// Returns true if the control was <see cref="Dragged"/> in the previous frame, but not the
         /// current one.
         /// </summary>
-        public bool DraggedUp =>
-            DraggedChanged && !Dragged;
+        public bool DraggedUp
+        {
+            get
+            {
+                return DraggedChanged && !Dragged;
+            }
+        }
 
         /// <summary>
         /// The point in 3D space where the user's selection occured. When transitioning from no
@@ -158,8 +185,13 @@ namespace Juniper.Widgets
         /// Returns true if <see cref="value"/> has changed more than 0.0001.
         /// </summary>
         /// <value><c>true</c> if value changed; otherwise, <c>false</c>.</value>
-        protected bool ValueChanged =>
-            !Mathf.Approximately(value, lastValue);
+        protected bool ValueChanged
+        {
+            get
+            {
+                return !Mathf.Approximately(value, lastValue);
+            }
+        }
 
         /// <summary>
         /// An event for detecting when the Draggable has changed.
@@ -176,7 +208,13 @@ namespace Juniper.Widgets
         /// The range of the input values, for reseting to a [0, 1] range so that the Valued class
         /// can rescale to the user's desired range.
         /// </summary>
-        protected virtual float ConstraintRange => 1;
+        protected virtual float ConstraintRange
+        {
+            get
+            {
+                return 1;
+            }
+        }
 
         /// <summary>
         /// Set the internal value of the control, and update its display.

@@ -1,8 +1,9 @@
 using UnityEngine;
-using System.Collections;
 
 #if MAGIC_LEAP
+
 using UnityEngine.XR.MagicLeap;
+
 #endif
 
 namespace Juniper
@@ -29,12 +30,18 @@ namespace Juniper
 #endif
         }
 
-        public virtual void Reinstall() =>
+        public virtual void Reinstall()
+        {
             Install(true);
+        }
 
 #if UNITY_EDITOR
-        public void Reset() =>
+
+        public void Reset()
+        {
             Reinstall();
+        }
+
 #endif
 
         public void Install(bool reset)

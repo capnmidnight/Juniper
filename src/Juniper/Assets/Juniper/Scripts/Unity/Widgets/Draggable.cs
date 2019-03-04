@@ -52,15 +52,25 @@ namespace Juniper.Widgets
         /// If <see cref="motionConstraintStart"/> is not null, returns its position. Otherwise,
         /// returns the Zero Vector.
         /// </summary>
-        private Vector3 TrackStart =>
-            motionConstraintStart ? motionConstraintStart.position : Vector3.zero;
+        private Vector3 TrackStart
+        {
+            get
+            {
+                return motionConstraintStart ? motionConstraintStart.position : Vector3.zero;
+            }
+        }
 
         /// <summary>
         /// If <see cref="motionConstraintEnd"/> is not null, returns its position. Otherwise,
         /// returns the Zero Vector.
         /// </summary>
-        private Vector3 TrackEnd =>
-            motionConstraintEnd ? motionConstraintEnd.position : Vector3.zero;
+        private Vector3 TrackEnd
+        {
+            get
+            {
+                return motionConstraintEnd ? motionConstraintEnd.position : Vector3.zero;
+            }
+        }
 
 #if UNITY_EDITOR
 

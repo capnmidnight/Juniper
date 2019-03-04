@@ -1,6 +1,6 @@
-using System;
-
 using Juniper.Statistics;
+
+using System;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -66,7 +66,10 @@ namespace Juniper.Widgets
         /// Gets the current user's status as active or inactive.
         /// </summary>
         /// <value><c>true</c> if is inactive; otherwise, <c>false</c>.</value>
-        public bool IsActive { get; private set; }
+        public bool IsActive
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// Triggers the statistical analyzer in 3 seconds, to wait for the device gyro to settle down.
@@ -135,35 +138,55 @@ namespace Juniper.Widgets
         /// of the expected <see cref="TorqueK"/> or <see cref="ForceK"/> range.
         /// </summary>
         /// <value><c>true</c> if has shaken; otherwise, <c>false</c>.</value>
-        private bool HasShaken =>
-            HasTorqued || HasAccelerated;
+        private bool HasShaken
+        {
+            get
+            {
+                return HasTorqued || HasAccelerated;
+            }
+        }
 
         /// <summary>
         /// Returns true when the torque values breach the torque threashold.
         /// </summary>
         /// <value><c>true</c> if has torqued; otherwise, <c>false</c>.</value>
-        private bool HasTorqued =>
-            torques?.IsSaturated == true
-                && torques.StandardDeviation > TorqueK;
+        private bool HasTorqued
+        {
+            get
+            {
+                return torques?.IsSaturated == true
+                    && torques.StandardDeviation > TorqueK;
+            }
+        }
 
         /// <summary>
         /// Returns true when the acceleration values breach the force threshold.
         /// </summary>
         /// <value><c>true</c> if has accelerated; otherwise, <c>false</c>.</value>
-        private bool HasAccelerated =>
-            accelerations?.IsSaturated == true
-                && accelerations.StandardDeviation > ForceK;
+        private bool HasAccelerated
+        {
+            get
+            {
+                return accelerations?.IsSaturated == true
+                    && accelerations.StandardDeviation > ForceK;
+            }
+        }
 
         /// <summary>
         /// Returns true if <see cref="includeMouseAndTouchDetection"/> has been set and the mouse
         /// has been moved or the touch screen touched.
         /// </summary>
         /// <value><c>true</c> if has pointer moved; otherwise, <c>false</c>.</value>
-        private bool HasPointerMoved =>
-            includeMouseAndTouchDetection
-                && (UnityInput.anyKeyDown
-                    || UnityInput.mousePosition != prevMousePosition
-                    || UnityInput.touchCount > 0);
+        private bool HasPointerMoved
+        {
+            get
+            {
+                return includeMouseAndTouchDetection
+                    && (UnityInput.anyKeyDown
+                        || UnityInput.mousePosition != prevMousePosition
+                        || UnityInput.touchCount > 0);
+            }
+        }
 
         /// <summary>
         /// Fires the <see cref="onShook"/> and <see cref="Shook"/> events.

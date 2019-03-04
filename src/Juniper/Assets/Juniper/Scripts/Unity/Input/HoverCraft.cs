@@ -7,6 +7,7 @@ using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 namespace Juniper.Input
 {
 #if UNITY_MODULES_PHYSICS
+
     [RequireComponent(typeof(Rigidbody))]
 #endif
     public class HoverCraft : AbstractVelocityLocomotion
@@ -32,11 +33,21 @@ namespace Juniper.Input
             }
         }
 
-        private bool ForwardPressed =>
-            Pointer?.IsButtonPressed(InputButton.Left) == true;
+        private bool ForwardPressed
+        {
+            get
+            {
+                return Pointer?.IsButtonPressed(InputButton.Left) == true;
+            }
+        }
 
-        private bool BackPressed =>
-            Pointer?.IsButtonPressed(InputButton.Right) == true;
+        private bool BackPressed
+        {
+            get
+            {
+                return Pointer?.IsButtonPressed(InputButton.Right) == true;
+            }
+        }
 
         public override void Update()
         {

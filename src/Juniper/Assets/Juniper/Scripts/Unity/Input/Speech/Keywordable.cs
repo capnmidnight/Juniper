@@ -39,13 +39,21 @@ namespace Juniper.Input.Speech
         /// The keywords that activate this event.
         /// </summary>
         /// <value>The keywords.</value>
-        public IEnumerable<string> Keywords => keywords;
+        public IEnumerable<string> Keywords
+        {
+            get
+            {
+                return keywords;
+            }
+        }
 
         /// <summary>
         /// Get the speech recognition manager.
         /// </summary>
-        public void Awake() =>
+        public void Awake()
+        {
             keyer = ComponentExt.FindAny<KeywordRecognizer>();
+        }
 
         /// <summary>
         /// Trigger updating the current recognizable keyword set.
@@ -93,8 +101,13 @@ namespace Juniper.Input.Speech
         /// find the speech recognition manager.
         /// </summary>
         /// <value><c>true</c> if has keywords; otherwise, <c>false</c>.</value>
-        private bool HasKeywords =>
-            keywords != null && keywords.Length > 0 && keyer != null;
+        private bool HasKeywords
+        {
+            get
+            {
+                return keywords != null && keywords.Length > 0 && keyer != null;
+            }
+        }
 
         /// <summary>
         /// Respond to a keyword detected event. If the keyword was one that we care about in this

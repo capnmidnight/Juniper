@@ -40,11 +40,15 @@ namespace Juniper.Progress
             prog?.SetProgress(1);
         }
 
-        public static IProgressReceiver Subdivide(this IProgressReceiver parent, float start, float length, string prefix = null) =>
-            new ProgressSubdivision(parent, start, length, prefix);
+        public static IProgressReceiver Subdivide(this IProgressReceiver parent, float start, float length, string prefix = null)
+        {
+            return new ProgressSubdivision(parent, start, length, prefix);
+        }
 
-        public static IProgressReceiver Subdivide(this IProgressReceiver parent, int index, int count, string prefix = null) =>
-            new ProgressSubdivision(parent, (float)index / count, 1f / count, prefix);
+        public static IProgressReceiver Subdivide(this IProgressReceiver parent, int index, int count, string prefix = null)
+        {
+            return new ProgressSubdivision(parent, (float)index / count, 1f / count, prefix);
+        }
 
         public static IProgressReceiver[] Split(this IProgressReceiver parent, long numParts, string prefix = null)
         {

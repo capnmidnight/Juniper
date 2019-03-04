@@ -22,11 +22,17 @@ namespace Juniper.Data
         /// <summary>
         /// The callback to use to pass to an asynchronous requester
         /// </summary>
-        public Action<T> OnSuccess { get; private set; }
+        public Action<T> OnSuccess
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// The error handling callback to use to pass to an asynchronous requester
         /// </summary>
-        public Action<Exception> OnError { get; private set; }
+        public Action<Exception> OnError
+        {
+            get; private set;
+        }
     }
 }

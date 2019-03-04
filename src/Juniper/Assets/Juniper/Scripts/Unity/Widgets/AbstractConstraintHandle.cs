@@ -49,8 +49,10 @@ namespace Juniper.Widgets
         /// <summary>
         /// Finds the <see cref="Draggable"/> handle that will be used to perform the transformation operation.
         /// </summary>
-        public void Awake() =>
+        public void Awake()
+        {
             handle = GetComponent<Draggable>();
+        }
 
         /// <summary>
         /// Reads the change in the location of the handle, constrains it to a specific axis, and

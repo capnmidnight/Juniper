@@ -1,4 +1,5 @@
 using System;
+
 using UnityEngine;
 
 namespace Juniper
@@ -83,8 +84,13 @@ namespace Juniper
         /// Gets the current system time, plus any <see cref="TestOffset"/>.
         /// </summary>
         /// <value>The now.</value>
-        public static DateTime Now =>
-            DateTime.Now + TestOffset;
+        public static DateTime Now
+        {
+            get
+            {
+                return DateTime.Now + TestOffset;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the underlying DateTime value.
@@ -127,8 +133,10 @@ namespace Juniper
         /// </summary>
         /// <returns>The unwrapped DateTime.</returns>
         /// <param name="val">Value.</param>
-        public static implicit operator DateTime(EditableDateTime val) =>
-            val.Value;
+        public static implicit operator DateTime(EditableDateTime val)
+        {
+            return val.Value;
+        }
 
         /// <summary>
         /// Automatically convert the DateTime to an EditableDateTime, meaning you can use an
@@ -136,8 +144,10 @@ namespace Juniper
         /// </summary>
         /// <returns>The DateTime, wrapped in an EditableDateTime</returns>
         /// <param name="val">Value.</param>
-        public static implicit operator EditableDateTime(DateTime val) =>
-            new EditableDateTime(val);
+        public static implicit operator EditableDateTime(DateTime val)
+        {
+            return new EditableDateTime(val);
+        }
 
         /// <summary>
         /// Determines whether a specified instance of <see cref="UnityEngine.EditableDateTime"/> is
@@ -146,8 +156,10 @@ namespace Juniper
         /// <param name="a">The first <see cref="UnityEngine.EditableDateTime"/> to compare.</param>
         /// <param name="b">The second <see cref="UnityEngine.EditableDateTime"/> to compare.</param>
         /// <returns><c>true</c> if <c>a</c> and <c>b</c> are equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(EditableDateTime a, EditableDateTime b) =>
-            a.Equals(b);
+        public static bool operator ==(EditableDateTime a, EditableDateTime b)
+        {
+            return a.Equals(b);
+        }
 
         /// <summary>
         /// Determines whether a specified instance of <see cref="UnityEngine.EditableDateTime"/> is
@@ -156,7 +168,10 @@ namespace Juniper
         /// <param name="a">The first <see cref="UnityEngine.EditableDateTime"/> to compare.</param>
         /// <param name="b">The second <see cref="UnityEngine.EditableDateTime"/> to compare.</param>
         /// <returns><c>true</c> if <c>a</c> and <c>b</c> are not equal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(EditableDateTime a, EditableDateTime b) => !a.Equals(b);
+        public static bool operator !=(EditableDateTime a, EditableDateTime b)
+        {
+            return !a.Equals(b);
+        }
 
         /// <summary>
         /// Determines whether a specified instance of <see cref="UnityEngine.EditableDateTime"/> is
@@ -165,8 +180,10 @@ namespace Juniper
         /// <param name="a">The first <see cref="UnityEngine.EditableDateTime"/> to compare.</param>
         /// <param name="b">The second <see cref="System.DateTime"/> to compare.</param>
         /// <returns><c>true</c> if <c>a</c> and <c>b</c> are equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(EditableDateTime a, DateTime b) =>
-            a.Equals(b);
+        public static bool operator ==(EditableDateTime a, DateTime b)
+        {
+            return a.Equals(b);
+        }
 
         /// <summary>
         /// Determines whether a specified instance of <see cref="UnityEngine.EditableDateTime"/> is
@@ -175,7 +192,10 @@ namespace Juniper
         /// <param name="a">The first <see cref="UnityEngine.EditableDateTime"/> to compare.</param>
         /// <param name="b">The second <see cref="System.DateTime"/> to compare.</param>
         /// <returns><c>true</c> if <c>a</c> and <c>b</c> are not equal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(EditableDateTime a, DateTime b) => !a.Equals(b);
+        public static bool operator !=(EditableDateTime a, DateTime b)
+        {
+            return !a.Equals(b);
+        }
 
         /// <summary>
         /// Determines whether a specified instance of <see cref="System.DateTime"/> is equal to
@@ -184,8 +204,10 @@ namespace Juniper
         /// <param name="a">The first <see cref="System.DateTime"/> to compare.</param>
         /// <param name="b">The second <see cref="UnityEngine.EditableDateTime"/> to compare.</param>
         /// <returns><c>true</c> if <c>a</c> and <c>b</c> are equal; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(DateTime a, EditableDateTime b) =>
-            a.Equals(b);
+        public static bool operator ==(DateTime a, EditableDateTime b)
+        {
+            return a.Equals(b);
+        }
 
         /// <summary>
         /// Determines whether a specified instance of <see cref="System.DateTime"/> is not equal to
@@ -194,7 +216,10 @@ namespace Juniper
         /// <param name="a">The first <see cref="System.DateTime"/> to compare.</param>
         /// <param name="b">The second <see cref="UnityEngine.EditableDateTime"/> to compare.</param>
         /// <returns><c>true</c> if <c>a</c> and <c>b</c> are not equal; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(DateTime a, EditableDateTime b) => !a.Equals(b);
+        public static bool operator !=(DateTime a, EditableDateTime b)
+        {
+            return !a.Equals(b);
+        }
 
         /// <summary>
         /// Determines whether the specified <see cref="object"/> is equal to the current <see cref="T:UnityEngine.EditableDateTime"/>.
@@ -229,8 +254,10 @@ namespace Juniper
         /// A hash code for this instance that is suitable for use in hashing algorithms and data
         /// structures such as a hash table.
         /// </returns>
-        public override int GetHashCode() =>
-            Value.GetHashCode();
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
 
         /// <summary>
         /// The underlying DateTime value.
@@ -241,14 +268,19 @@ namespace Juniper
         /// Check to see if the input date values are different from the saved DateTime values.
         /// </summary>
         /// <value><c>true</c> if any of the values are different, <c>false</c> otherwise.</value>
-        private bool Changed =>
-            Year != lastValue.Year
-            || Month != (Month)lastValue.Month
-            || Day != lastValue.Day
-            || Hour != lastValue.Hour
-            || Minute != lastValue.Minute
-            || Second != lastValue.Second
-            || Millisecond != lastValue.Millisecond
-            || Kind != lastValue.Kind;
+        private bool Changed
+        {
+            get
+            {
+                return Year != lastValue.Year
+                    || Month != (Month)lastValue.Month
+                    || Day != lastValue.Day
+                    || Hour != lastValue.Hour
+                    || Minute != lastValue.Minute
+                    || Second != lastValue.Second
+                    || Millisecond != lastValue.Millisecond
+                    || Kind != lastValue.Kind;
+            }
+        }
     }
 }

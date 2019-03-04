@@ -1,4 +1,5 @@
 #if UNITY_MODULES_UNITYWEBREQUEST
+
 using UnityEngine.Networking;
 
 namespace Juniper.Progress
@@ -12,8 +13,14 @@ namespace Juniper.Progress
             this.request = request;
         }
 
-        public float Progress =>
-            request.downloadProgress;
+        public float Progress
+        {
+            get
+            {
+                return request.downloadProgress;
+            }
+        }
     }
 }
+
 #endif

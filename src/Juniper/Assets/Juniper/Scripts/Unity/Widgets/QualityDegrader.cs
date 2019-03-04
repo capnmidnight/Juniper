@@ -1,6 +1,6 @@
-using System;
-
 using Juniper.Statistics;
+
+using System;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -76,15 +76,25 @@ namespace Juniper.Widgets
         /// Get the name of the current graphics quality level.
         /// </summary>
         /// <value>The name of the quality.</value>
-        private string QualityName =>
-            QualitySettings.names[QualityLevel];
+        private string QualityName
+        {
+            get
+            {
+                return QualitySettings.names[QualityLevel];
+            }
+        }
 
         /// <summary>
         /// Returns true when the frame rate drops below 30FPS.
         /// </summary>
         /// <value><c>true</c> if is bad; otherwise, <c>false</c>.</value>
-        private bool IsBad =>
-            frameStats.Mean / 30f < 1f;
+        private bool IsBad
+        {
+            get
+            {
+                return frameStats.Mean / 30f < 1f;
+            }
+        }
 
         public Button[] qualityButtons;
 
@@ -112,7 +122,7 @@ namespace Juniper.Widgets
 
             if (qualityButtons != null)
             {
-                for (int i = 0; i < qualityButtons.Length; ++i)
+                for (var i = 0; i < qualityButtons.Length; ++i)
                 {
                     qualityButtons[i].onClick.AddListener(QualityChanger(i));
                 }
@@ -122,8 +132,10 @@ namespace Juniper.Widgets
             UpdateButtons();
         }
 
-        private UnityAction QualityChanger(int i) =>
-            () => QualityLevel = i;
+        private UnityAction QualityChanger(int i)
+        {
+            return () => QualityLevel = i;
+        }
 
         /// <summary>
         /// Check to see if the average frame delta time (minus outliers) has dropped below 30FPS.

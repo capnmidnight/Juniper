@@ -1,9 +1,9 @@
-using System;
-using System.Collections;
-
 using Juniper.Progress;
 using Juniper.World.GIS;
+
 using Newtonsoft.Json;
+
+using System;
 
 namespace Juniper.World.Climate.OpenWeatherMap
 {
@@ -40,24 +40,33 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// Get the last weather report that was retreived for the server.
         /// </summary>
-        public IWeatherReport LastReport { get; private set; }
+        public IWeatherReport LastReport
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// The server response from the last report, to be used to compare with the next report and
         /// quickly determine if the report has changed.
         /// </summary>
-        private string lastReportJSON;
+        private readonly string lastReportJSON;
 
         /// <summary>
         /// The amount of time, in minutes, to allow to pass between requesting reports.
         /// </summary>
-        public float ReportTTLMinutes { get; set; }
+        public float ReportTTLMinutes
+        {
+            get; set;
+        }
 
         /// <summary>
         /// The radius, in meters, to allow the user to travel before we request a new reportt
         /// outside of the normal <see cref="ReportTTLMinutes"/> time frame.
         /// </summary>
-        public float ReportRadiusMeters { get; set; }
+        public float ReportRadiusMeters
+        {
+            get; set;
+        }
 
         /// <summary>
         /// Initialize a new API requester object with the given authenticationi API kye.

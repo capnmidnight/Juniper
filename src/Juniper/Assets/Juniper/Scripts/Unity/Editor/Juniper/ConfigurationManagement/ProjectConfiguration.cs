@@ -1,7 +1,7 @@
+using Newtonsoft.Json;
+
 using System;
 using System.IO;
-
-using Newtonsoft.Json;
 
 namespace Juniper.ConfigurationManagement
 {
@@ -35,6 +35,7 @@ namespace Juniper.ConfigurationManagement
         private PlatformTypes nextPlatform;
 
         public event Func<bool> PlatformChanged;
+
         public event Action PlatformChangeConfirmed;
 
         public void Commit()
@@ -45,13 +46,18 @@ namespace Juniper.ConfigurationManagement
             Save();
         }
 
-        private void Save() =>
+        private void Save()
+        {
             FileExt.WriteAllText(CONFIG_FILE_NAME, JsonConvert.SerializeObject(this));
+        }
 
         [JsonIgnore]
         public int BuildStep
         {
-            get { return buildStep - 1; }
+            get
+            {
+                return buildStep - 1;
+            }
 
             set
             {
@@ -61,12 +67,21 @@ namespace Juniper.ConfigurationManagement
         }
 
         [JsonIgnore]
-        public PlatformTypes CurrentPlatform => currentPlatform;
+        public PlatformTypes CurrentPlatform
+        {
+            get
+            {
+                return currentPlatform;
+            }
+        }
 
         [JsonIgnore]
         public PlatformTypes NextPlatform
         {
-            get { return nextPlatform; }
+            get
+            {
+                return nextPlatform;
+            }
 
             set
             {

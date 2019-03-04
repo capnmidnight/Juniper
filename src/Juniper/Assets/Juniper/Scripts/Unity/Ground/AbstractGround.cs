@@ -83,28 +83,46 @@ namespace Juniper.Ground
         /// The numeric layer identifier in which the Ground object exists.
         /// </summary>
         /// <value>The ground layer.</value>
-        public int GroundLayer =>
-            gameObject.layer;
+        public int GroundLayer
+        {
+            get
+            {
+                return gameObject.layer;
+            }
+        }
 
         /// <summary>
         /// Renderers that exist in the direct ancestery of the Ground object, including itself.
         /// </summary>
         /// <value>The ground visualizers.</value>
-        public IEnumerable<Renderer> GroundVisualizers =>
-            from child in transform.Family()
-            let rend = child.GetComponent<Renderer>()
-            where rend != null
-            select rend;
+        public IEnumerable<Renderer> GroundVisualizers
+        {
+            get
+            {
+                return from child in transform.Family()
+                       let rend = child.GetComponent<Renderer>()
+                       where rend != null
+                       select rend;
+            }
+        }
 
-        public virtual void Awake() =>
+        public virtual void Awake()
+        {
             Install(false);
+        }
 
-        public virtual void Reinstall() =>
+        public virtual void Reinstall()
+        {
             Install(true);
+        }
 
 #if UNITY_EDITOR
-        public void Reset() =>
+
+        public void Reset()
+        {
             Reinstall();
+        }
+
 #endif
 
         public void Start()
@@ -124,7 +142,9 @@ namespace Juniper.Ground
         /// Configures the right plane-finding system for any current AR subsystem, or configures
         /// terrain rendering for any current VR subsystem.
         /// </summary>
-        protected virtual void InternalStart(JuniperPlatform xr) { }
+        protected virtual void InternalStart(JuniperPlatform xr)
+        {
+        }
 
         /// <summary>
         /// Updates plane visualizers for ARCore, or changes the ground rendering material on HoloLens.
@@ -146,8 +166,12 @@ namespace Juniper.Ground
             }
         }
 
-        public virtual void Install(bool reset) { }
+        public virtual void Install(bool reset)
+        {
+        }
 
-        public virtual void Uninstall() { }
+        public virtual void Uninstall()
+        {
+        }
     }
 }

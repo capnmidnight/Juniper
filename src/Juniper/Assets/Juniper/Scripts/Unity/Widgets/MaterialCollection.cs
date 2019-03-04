@@ -23,28 +23,42 @@ namespace Juniper.Widgets
         /// The number of materials in the collection.
         /// </summary>
         /// <value>The length.</value>
-        public int Length =>
-            materials.Length;
+        public int Length
+        {
+            get
+            {
+                return materials.Length;
+            }
+        }
 
         /// <summary>
         /// Gets the Unity Material at the specified index.
         /// </summary>
         /// <param name="index">Index.</param>
-        public Material this[int index] =>
-            materials[index];
+        public Material this[int index]
+        {
+            get
+            {
+                return materials[index];
+            }
+        }
 
         /// <summary>
         /// Gets an enumerator over the materials.
         /// </summary>
         /// <returns>The enumerator.</returns>
-        public IEnumerator<Material> GetEnumerator() =>
-            materials.AsEnumerable().GetEnumerator();
+        public IEnumerator<Material> GetEnumerator()
+        {
+            return materials.AsEnumerable().GetEnumerator();
+        }
 
         /// <summary>
         /// Gets an enumerator over the materials.
         /// </summary>
         /// <returns>The enumerator.</returns>
-        IEnumerator IEnumerable.GetEnumerator() =>
-            materials.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return materials.GetEnumerator();
+        }
     }
 }

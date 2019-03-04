@@ -114,8 +114,10 @@ namespace System.Collections.Generic
         /// 3, 4 }; /// a.Matches(b); // --&gt; true a.Matches(c); // --&gt; false a.Matches(d); //
         /// --&gt; false a.Matches(e); // --&gt; false
         /// </example>
-        public static bool Matches<T>(this IEnumerable<T> a, IEnumerable b) =>
-            a.Matches(b.Cast<T>());
+        public static bool Matches<T>(this IEnumerable<T> a, IEnumerable b)
+        {
+            return a.Matches(b.Cast<T>());
+        }
 
         /// <summary>
         /// Checks two collections to see if they contain all the same items.
@@ -132,8 +134,10 @@ namespace System.Collections.Generic
         /// 3, 4 }; /// a.Matches(b); // --&gt; true a.Matches(c); // --&gt; false a.Matches(d); //
         /// --&gt; false a.Matches(e); // --&gt; false
         /// </example>
-        public static bool Matches<T>(this IEnumerable<T> a, IEnumerator b) =>
-            a.Matches(b.AsEnumerable().Cast<T>());
+        public static bool Matches<T>(this IEnumerable<T> a, IEnumerator b)
+        {
+            return a.Matches(b.AsEnumerable().Cast<T>());
+        }
 
         /// <summary>
         /// Check two collections of types to see if they contain all the same items.
@@ -230,7 +234,10 @@ namespace System.Collections.Generic
         /// <param name="enumer">Enumer.</param>
         /// <param name="predicate">Predicate.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static bool Empty<T>(this IEnumerable<T> enumer, Func<T, bool> predicate) => !enumer.Any(predicate);
+        public static bool Empty<T>(this IEnumerable<T> enumer, Func<T, bool> predicate)
+        {
+            return !enumer.Any(predicate);
+        }
 
         /// <summary>
         /// Evaluates a collection and checks to see if it has 0 items.
@@ -238,7 +245,10 @@ namespace System.Collections.Generic
         /// <returns>The empty.</returns>
         /// <param name="enumer">Enumer.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static bool Empty<T>(this IEnumerable<T> enumer) => !enumer.Any();
+        public static bool Empty<T>(this IEnumerable<T> enumer)
+        {
+            return !enumer.Any();
+        }
 
         /// <summary>
         /// Evaluates a collection and checks to see if it has 0 items.
@@ -246,8 +256,10 @@ namespace System.Collections.Generic
         /// <returns>The empty.</returns>
         /// <param name="enumer">Enumer.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static bool Empty(this IEnumerable enumer) =>
-            enumer.Cast<object>().Empty();
+        public static bool Empty(this IEnumerable enumer)
+        {
+            return enumer.Cast<object>().Empty();
+        }
 
         /// <summary>
         /// Convert an Enumerator collection to an Enumerable collection.
@@ -267,8 +279,10 @@ namespace System.Collections.Generic
         /// </summary>
         /// <param name="iters"></param>
         /// <returns></returns>
-        public static IEnumerator Interleave(this IEnumerable<IEnumerator> iters) =>
-            new InterleavedEnumerator(iters);
+        public static IEnumerator Interleave(this IEnumerable<IEnumerator> iters)
+        {
+            return new InterleavedEnumerator(iters);
+        }
 
         public static void AddRange<T>(this Queue<T> q, IEnumerable<T> e)
         {
@@ -278,7 +292,9 @@ namespace System.Collections.Generic
             }
         }
 
-        public static void Add<T>(this Queue<T> q, T value) =>
+        public static void Add<T>(this Queue<T> q, T value)
+        {
             q.Enqueue(value);
+        }
     }
 }

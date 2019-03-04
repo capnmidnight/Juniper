@@ -31,11 +31,18 @@ namespace Juniper.Widgets
         public List<ListViewItem> Items { get; } = new List<ListViewItem>();
         public List<ListViewItem> Selection { get; } = new List<ListViewItem>();
 
-        public ListViewItem FirstSelectedItem =>
-            Selection.FirstOrDefault();
+        public ListViewItem FirstSelectedItem
+        {
+            get
+            {
+                return Selection.FirstOrDefault();
+            }
+        }
 
-        public void Awake() =>
+        public void Awake()
+        {
             GetComponentsInChildren(true, Items);
+        }
 
         public void Clear()
         {
@@ -48,11 +55,15 @@ namespace Juniper.Widgets
             count = 0;
         }
 
-        public ListViewItem GetItem(string key) => Items.FirstOrDefault(i =>
-            i.Key == key);
+        public ListViewItem GetItem(string key)
+        {
+            return Items.FirstOrDefault(i => i.Key == key);
+        }
 
-        public bool ContainsItem(string key) =>
-            GetItem(key) != null;
+        public bool ContainsItem(string key)
+        {
+            return GetItem(key) != null;
+        }
 
         public void AddItems<T>(IEnumerable<T> items, Func<T, string> getKey, Func<T, string> getText)
         {
@@ -86,14 +97,20 @@ namespace Juniper.Widgets
             return item;
         }
 
-        public void ClearSelection() =>
+        public void ClearSelection()
+        {
             SetSelection(EMPTY_SELECTION);
+        }
 
-        public void SetSelection(IEnumerable<string> keys) =>
+        public void SetSelection(IEnumerable<string> keys)
+        {
             SetSelection(keys.Select(GetItem).ToList());
+        }
 
-        public void SetSelection(string key) =>
+        public void SetSelection(string key)
+        {
             SetSelection(new[] { GetItem(key) }.ToList());
+        }
 
         public void RemoveItem(string key)
         {
@@ -110,8 +127,13 @@ namespace Juniper.Widgets
         private static readonly List<ListViewItem> EMPTY_SELECTION = new List<ListViewItem>();
         private int count;
 
-        private ScrollRect Container =>
-            GetComponent<ScrollRect>();
+        private ScrollRect Container
+        {
+            get
+            {
+                return GetComponent<ScrollRect>();
+            }
+        }
 
         private void ChangeSelection(ListViewItem selected)
         {

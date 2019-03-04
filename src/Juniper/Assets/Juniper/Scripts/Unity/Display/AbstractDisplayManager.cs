@@ -9,9 +9,8 @@ using UnityEngine.XR;
 
 namespace Juniper.Display
 {
-    public abstract class AbstractDisplayManager: MonoBehaviour, IInstallable
+    public abstract class AbstractDisplayManager : MonoBehaviour, IInstallable
     {
-
 #if UNITY_MODULES_AUDIO
         protected AudioListener listener;
 
@@ -26,7 +25,6 @@ namespace Juniper.Display
         private DisplayTypes lastDisplayType;
         private AugmentedRealityTypes lastARMode;
         private Options lastOption;
-
 
 #if UNITY_MODULES_XR
 
@@ -234,10 +232,12 @@ namespace Juniper.Display
         }
 
 #if UNITY_EDITOR
+
         public void Reset()
         {
             Reinstall();
         }
+
 #endif
 
         public virtual void Install(bool reset)
@@ -316,7 +316,6 @@ namespace Juniper.Display
                 }
             }
         }
-
 
         /// <summary>
         /// Updates the camera FOV according to game window dimensions, and moves the camera into

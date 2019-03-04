@@ -1,4 +1,5 @@
 using Juniper.Display;
+
 using UnityEngine;
 
 namespace Juniper.Widgets
@@ -29,8 +30,10 @@ namespace Juniper.Widgets
         /// <summary>
         /// Finds the main camera.
         /// </summary>
-        public void Awake() =>
+        public void Awake()
+        {
             camT = DisplayManager.MainCamera.transform;
+        }
 
         /// <summary>
         /// Moves the object into position above and behind the target, away from the user.
@@ -55,7 +58,10 @@ namespace Juniper.Widgets
         /// Immediately updates the location of the object when it is enabled so that it doesn't look
         /// like it is snapping into place on the second frame.
         /// </summary>
-        public void OnEnable() => Update();
+        public void OnEnable()
+        {
+            Update();
+        }
 
         /// <summary>
         /// The main camera.

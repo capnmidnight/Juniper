@@ -15,8 +15,13 @@ namespace Juniper.Progress
             this.prefix = prefix;
         }
 
-        public float Progress =>
-            localProgress;
+        public float Progress
+        {
+            get
+            {
+                return localProgress;
+            }
+        }
 
         public void SetProgress(float progress, string status = null)
         {

@@ -12,8 +12,10 @@ namespace Juniper.Widgets
         /// previous position to its current position, as a set of Euler angles.
         /// </summary>
         /// <returns>The change.</returns>
-        protected override Vector3 GetChange() =>
-            Quaternion.FromToRotation(lastPosition, transform.localPosition).eulerAngles;
+        protected override Vector3 GetChange()
+        {
+            return Quaternion.FromToRotation(lastPosition, transform.localPosition).eulerAngles;
+        }
 
         /// <summary>
         /// Applies the constrained rotation from <see cref="GetChange"/> to the target object.

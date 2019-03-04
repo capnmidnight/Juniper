@@ -1,8 +1,10 @@
+using Juniper.World.GIS;
+
+using Newtonsoft.Json;
+
 using System;
 using System.Collections;
 
-using Juniper.World.GIS;
-using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -48,10 +50,15 @@ namespace Juniper.World
         /// Returns true if both the latitude and longitude or non-zero.
         /// </summary>
         /// <value><c>true</c> if has coordinate; otherwise, <c>false</c>.</value>
-        public bool HasCoord =>
-            Coord != null
-                && (Math.Abs(Coord.Latitude) > 0.00001f
-                    || Math.Abs(Coord.Longitude) > 0.00001f);
+        public bool HasCoord
+        {
+            get
+            {
+                return Coord != null
+                    && (Math.Abs(Coord.Latitude) > 0.00001f
+                      || Math.Abs(Coord.Longitude) > 0.00001f);
+            }
+        }
 
         /// <summary>
         /// If <see cref="FakeCoord"/> is true, this value is the input value used in place of a real
@@ -108,7 +115,13 @@ namespace Juniper.World
         /// set to true.
         /// </summary>
         /// <value><c>true</c> if use fake coordinate; otherwise, <c>false</c>.</value>
-        private bool UseFakeCoord => !Location.isEnabledByUser || FakeCoord || Application.isEditor;
+        private bool UseFakeCoord
+        {
+            get
+            {
+                return !Location.isEnabledByUser || FakeCoord || Application.isEditor;
+            }
+        }
 
         /// <summary>
         /// Enables the compass (which is necessary for GPS updates), and attempts to retrieve the
@@ -156,21 +169,34 @@ namespace Juniper.World
         /// <summary>
         /// Shuts down location services.
         /// </summary>
-        public void OnDisable() =>
+        public void OnDisable()
+        {
             Location.Stop();
+        }
 
         /// <summary>
         /// The location service that gets us live GPS values.
         /// </summary>
         /// <value>The location.</value>
-        private static LocationService Location =>
-            UnityInput.location;
+        private static LocationService Location
+        {
+            get
+            {
+                return UnityInput.location;
+            }
+        }
 
         /// <summary>
         /// The current tracking status of <see cref="Location"/>.
         /// </summary>
         /// <value>The status.</value>
-        public LocationServiceStatus Status => Location.status;
+        public LocationServiceStatus Status
+        {
+            get
+            {
+                return Location.status;
+            }
+        }
 
         /// <summary>
         /// A coroutine that startus up the GPS service and waits for it to either fail (in which

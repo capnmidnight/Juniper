@@ -1,6 +1,6 @@
-using System;
-
 using Juniper.World.GIS;
+
+using System;
 
 using UnityEngine;
 
@@ -45,10 +45,15 @@ namespace Juniper.World
         /// <see cref="compass"/> is not null and has a valid Heading.
         /// </summary>
         /// <value><c>true</c> if can calculate current local position; otherwise, <c>false</c>.</value>
-        public bool CanCalculateCurrentLocalPosition =>
-            compass != null
-                && compass.HasHeading
-                && location?.HasCoord == true;
+        public bool CanCalculateCurrentLocalPosition
+        {
+            get
+            {
+                return compass != null
+                    && compass.HasHeading
+                    && location?.HasCoord == true;
+            }
+        }
 
         /// <summary>
         /// Retrieves the current <see cref="location"/> and/or <see cref="compass"/>, if they are

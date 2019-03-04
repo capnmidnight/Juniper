@@ -32,7 +32,13 @@ namespace Juniper.ConfigurationManagement
         }
 
         [JsonIgnore]
-        public string InputZipFileName => Path.ChangeExtension(Path.Combine(ROOT_DIRECTORY, Name), "zip");
+        public string InputZipFileName
+        {
+            get
+            {
+                return Path.ChangeExtension(Path.Combine(ROOT_DIRECTORY, Name), "zip");
+            }
+        }
 
         public override void Install(IProgressReceiver prog = null)
         {

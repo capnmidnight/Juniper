@@ -5,10 +5,13 @@ using Juniper.Animation;
 using Juniper.Input;
 
 using UnityEngine;
+
 using Juniper.Display;
 
 #if UNITY_MODULES_AUDIO
+
 using Juniper.Audio;
+
 #endif
 
 namespace Juniper.Widgets
@@ -90,8 +93,10 @@ namespace Juniper.Widgets
         /// <summary>
         /// Executes an animation that tells the user that they should be searching for a target.
         /// </summary>
-        public void Scan(Action onFound = null) =>
+        public void Scan(Action onFound = null)
+        {
             StartCoroutine(ScanCoroutine(onFound));
+        }
 
         /// <summary>
         /// Executes an animation that tells the user that they should be searching for a target.
@@ -110,8 +115,10 @@ namespace Juniper.Widgets
         /// <summary>
         /// Executes an animation and a sound indicatingn to the user that the target has been found.
         /// </summary>
-        public void Found() =>
+        public void Found()
+        {
             StartCoroutine(FoundCoroutine());
+        }
 
         /// <summary>
         /// Executes an animation and a sound indicating to the user that the target has been found.
@@ -132,8 +139,10 @@ namespace Juniper.Widgets
         /// <summary>
         /// Executes an animation and a sound indicating to the user that the target has been lost.
         /// </summary>
-        public void Lost() =>
+        public void Lost()
+        {
             StartCoroutine(LostCoroutine());
+        }
 
         /// <summary>
         /// Executes an animation and a sound indicating to the user that the target has been lost.

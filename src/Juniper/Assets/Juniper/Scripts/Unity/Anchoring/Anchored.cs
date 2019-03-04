@@ -20,8 +20,13 @@ namespace Juniper.Anchoring
         /// Returns true when the anchor store is valid and contains the <see cref="anchorID"/>.
         /// </summary>
         /// <value><c>true</c> if has anchor; otherwise, <c>false</c>.</value>
-        public bool HasAnchor =>
-            nkar != null && nkar.HasAnchor(anchorID);
+        public bool HasAnchor
+        {
+            get
+            {
+                return nkar != null && nkar.HasAnchor(anchorID);
+            }
+        }
 
         /// <summary>
         /// Record the starting position, and construct an <see cref="anchorID"/> from the full path
@@ -181,7 +186,9 @@ namespace Juniper.Anchoring
         /// <summary>
         /// Finds the anchor store.
         /// </summary>
-        public void Start() =>
+        public void Start()
+        {
             nkar = ComponentExt.FindAny<AnchorStore>();
+        }
     }
 }

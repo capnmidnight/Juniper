@@ -7,7 +7,9 @@ using System.Collections;
 using UnityEngine;
 
 #if UNITY_STANDALONE || UNITY_EDITOR
+
 using XInputDotNetPure;
+
 #elif UNITY_WSA && !UNITY_EDITOR
 using System.Linq;
 using Windows.Gaming.Input;

@@ -1,5 +1,4 @@
 using Juniper.Animation;
-using Juniper.Input;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -26,22 +25,37 @@ namespace Juniper.Widgets
         /// <summary>
         /// Did the <see cref="Open"/> state change since the last frame?
         /// </summary>
-        public bool OpenChanged =>
-            Open != wasOpen;
+        public bool OpenChanged
+        {
+            get
+            {
+                return Open != wasOpen;
+            }
+        }
 
         /// <summary>
         /// Did the control <see cref="Open"/> on this frame?
         /// </summary>
         /// <value><c>true</c> if opened; otherwise, <c>false</c>.</value>
-        public bool Opened =>
-            OpenChanged && Open;
+        public bool Opened
+        {
+            get
+            {
+                return OpenChanged && Open;
+            }
+        }
 
         /// <summary>
         /// Did the value of <see cref="Open"/> become false on this frame?
         /// </summary>
         /// <value><c>true</c> if closed; otherwise, <c>false</c>.</value>
-        public bool Closed =>
-            OpenChanged && !Open;
+        public bool Closed
+        {
+            get
+            {
+                return OpenChanged && !Open;
+            }
+        }
 
         /// <summary>
         /// If the control is not disabled, sets the open state.
@@ -74,8 +88,10 @@ namespace Juniper.Widgets
         /// <summary>
         /// If the control is closed, open it. If it's open, close it.
         /// </summary>
-        public void ToggleOpen() =>
+        public void ToggleOpen()
+        {
             SetOpen(!Open);
+        }
 
         /// <summary>
         /// If the control is not disabled, toggles the open state.

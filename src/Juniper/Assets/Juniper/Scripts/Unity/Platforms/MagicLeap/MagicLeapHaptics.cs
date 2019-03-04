@@ -1,4 +1,5 @@
 #if MAGIC_LEAP
+
 using System.Collections;
 
 using UnityEngine;
@@ -10,11 +11,15 @@ namespace Juniper.Haptics
     {
         private MLInputController controller;
 
-        public void SetController(MLInputController ctrl) =>
+        public void SetController(MLInputController ctrl)
+        {
             controller = ctrl;
+        }
 
-        public override void Cancel() =>
+        public override void Cancel()
+        {
             controller?.StopFeedbackPatternVibe();
+        }
 
         private static MLInputControllerFeedbackPatternVibe MillisecondsToPattern(long milliseconds)
         {
@@ -92,4 +97,5 @@ namespace Juniper.Haptics
         }
     }
 }
+
 #endif

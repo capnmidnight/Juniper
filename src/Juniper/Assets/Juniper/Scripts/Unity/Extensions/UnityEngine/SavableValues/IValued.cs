@@ -10,6 +10,9 @@ namespace UnityEngine
         /// Gets the value.
         /// </summary>
         /// <value>The value.</value>
-        T Value { get; }
+        T Value
+        {
+            get;
+        }
     }
 }

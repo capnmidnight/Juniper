@@ -1,4 +1,5 @@
 using Juniper.Display;
+
 using System;
 using System.Linq;
 
@@ -152,8 +153,10 @@ namespace Juniper.ImageTracking
         /// When the trackable is found, we assume it's at a safe space, and then wait for the safety
         /// checker to kick in.
         /// </summary>
-        public void OnEnable() =>
+        public void OnEnable()
+        {
             wasSafe = Safe = true;
+        }
 
         /// <summary>
         /// Checks the tracking status of the target and fires any appropriate change/found/lost events.

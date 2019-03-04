@@ -23,6 +23,7 @@ namespace Juniper.Audio
         public bool randomizePitch = true;
 
 #if UNITY_MODULES_AUDIO
+
         /// <summary>
         /// All the clips that need to play
         /// </summary>
@@ -31,40 +32,64 @@ namespace Juniper.Audio
         /// <summary>
         /// Get the number of clips in the collection.
         /// </summary>
-        public int Length => clips.Length;
+        public int Length
+        {
+            get
+            {
+                return clips.Length;
+            }
+        }
 
         /// <summary>
         /// Tells the interaction engine to randomize the pitch of audio clips that are played in sequence.
         /// </summary>
-        public bool RandomizeClipPitch => randomizePitch;
+        public bool RandomizeClipPitch
+        {
+            get
+            {
+                return randomizePitch;
+            }
+        }
 
         /// <summary>
         /// Get a specific item out of the collection.
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public AudioClip this[int index] => clips[index];
+        public AudioClip this[int index]
+        {
+            get
+            {
+                return clips[index];
+            }
+        }
 
         /// <summary>
         /// Get a random item out of the collection.
         /// </summary>
         /// <returns></returns>
-        public AudioClip Random() =>
-            clips.Random();
+        public AudioClip Random()
+        {
+            return clips.Random();
+        }
 
         /// <summary>
         /// Get an enumerator over the collection.
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<AudioClip> GetEnumerator() =>
-            clips.AsEnumerable().GetEnumerator();
+        public IEnumerator<AudioClip> GetEnumerator()
+        {
+            return clips.AsEnumerable().GetEnumerator();
+        }
 
         /// <summary>
         /// Get a non-generic enumerator over the collection.
         /// </summary>
         /// <returns></returns>
-        IEnumerator IEnumerable.GetEnumerator() =>
-            clips.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return clips.GetEnumerator();
+        }
 
 #endif
     }

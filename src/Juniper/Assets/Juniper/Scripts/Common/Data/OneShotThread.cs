@@ -25,8 +25,10 @@ namespace Juniper.Data
         /// <summary>
         /// Peform the thread's desired operation.
         /// </summary>
-        protected override void Execute() =>
+        protected override void Execute()
+        {
             callback();
+        }
 
         /// <summary>
         /// The callback to run as the body of the thread.

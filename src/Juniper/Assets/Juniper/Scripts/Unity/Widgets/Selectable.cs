@@ -8,7 +8,9 @@ namespace Juniper.Widgets
     {
         public UnityEvent onSelected;
 
-        public void OnSelect(BaseEventData eventData) =>
+        public void OnSelect(BaseEventData eventData)
+        {
             onSelected?.Invoke();
+        }
     }
 }

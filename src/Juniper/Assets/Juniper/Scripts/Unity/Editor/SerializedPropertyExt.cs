@@ -20,7 +20,10 @@ namespace UnityEditor
             }
         }
 
-        public static T GetObject<T>(this SerializedProperty property) where T : new() => (T)GetObject(property);
+        public static T GetObject<T>(this SerializedProperty property) where T : new()
+        {
+            return (T)GetObject(property);
+        }
 
         public static T GetScriptableObject<T>(this SerializedProperty property) where T : ScriptableObject
         {

@@ -1,4 +1,5 @@
 using Juniper.Display;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,6 @@ namespace Juniper.ImageTracking
 {
     public class AbstractTrackerKeeper : MonoBehaviour
     {
-
         /// <summary>
         /// When true, indicates that targets where available and tracked on the previous frame. Used
         /// to detect when all targets have been lost.
@@ -25,7 +25,10 @@ namespace Juniper.ImageTracking
         /// <summary>
         /// Is set to true when the tracking system is initialized and running.
         /// </summary>
-        public bool Tracking { get; protected set; }
+        public bool Tracking
+        {
+            get; protected set;
+        }
 
         /// <summary>
         /// The value of <see cref="Tracking"/> from the previous frame, to detect changes.
@@ -114,7 +117,13 @@ namespace Juniper.ImageTracking
 
         private DisplayManager xr;
 
-        protected virtual IEnumerable<TrackableFoundEventHandler> FirstTargets => ComponentExt.FindAll<TrackableFoundEventHandler>();
+        protected virtual IEnumerable<TrackableFoundEventHandler> FirstTargets
+        {
+            get
+            {
+                return ComponentExt.FindAll<TrackableFoundEventHandler>();
+            }
+        }
 
         /// <summary>
         /// Finds all of the targetable objects and makes sure they all have <see
@@ -148,15 +157,29 @@ namespace Juniper.ImageTracking
             return target;
         }
 
-        protected virtual void OnTrackingStarting(string dataSetName, string targetName) => onTrackingStarting?.Invoke();
+        protected virtual void OnTrackingStarting(string dataSetName, string targetName)
+        {
+            onTrackingStarting?.Invoke();
+        }
 
-        protected virtual void OnTrackingStarted() => onTrackingStarted?.Invoke();
+        protected virtual void OnTrackingStarted()
+        {
+            onTrackingStarted?.Invoke();
+        }
 
-        protected virtual void OnTrackingStopping() => onTrackingStopping?.Invoke();
+        protected virtual void OnTrackingStopping()
+        {
+            onTrackingStopping?.Invoke();
+        }
 
-        protected virtual void OnTrackingStopped() => onTrackingStopped?.Invoke();
+        protected virtual void OnTrackingStopped()
+        {
+            onTrackingStopped?.Invoke();
+        }
 
-        protected virtual void PrintDebugReport() { }
+        protected virtual void PrintDebugReport()
+        {
+        }
 
         /// <summary>
         /// Checks the current tracking status and fires the events to indicate any change in the
@@ -204,17 +227,19 @@ namespace Juniper.ImageTracking
         /// <summary>
         /// Tears down the tracker keeper.
         /// </summary>
-        public void OnDestroy() =>
+        public void OnDestroy()
+        {
             done = true;
-
+        }
 
         /// <summary>
         /// Creates an event handler that can handle finding a given target.
         /// </summary>
         /// <returns>The finder.</returns>
         /// <param name="target">Target.</param>
-        private UnityAction TargetFinder(TrackableFoundEventHandler target) =>
-            () =>
+        private UnityAction TargetFinder(TrackableFoundEventHandler target)
+        {
+            return () =>
             {
                 CancelInvoke(nameof(OnAllTargetsLost));
 
@@ -235,22 +260,27 @@ namespace Juniper.ImageTracking
 
                 hadAnyTargets = HasTargets;
             };
+        }
 
         /// <summary>
         /// Creates an event handler that can handle finding a given target.
         /// </summary>
         /// <returns>The finder.</returns>
         /// <param name="target">Target.</param>
-        private UnityAction TargetProximity(TrackableFoundEventHandler target) => () =>
-            onTargetProximity.Invoke(target.transform);
+        private UnityAction TargetProximity(TrackableFoundEventHandler target)
+        {
+            return () => onTargetProximity.Invoke(target.transform);
+        }
 
         /// <summary>
         /// Creates an event handler that can handle finding a given target.
         /// </summary>
         /// <returns>The finder.</returns>
         /// <param name="target">Target.</param>
-        private UnityAction TargetSafe(TrackableFoundEventHandler target) => () =>
-            onTargetSafe.Invoke(target.transform);
+        private UnityAction TargetSafe(TrackableFoundEventHandler target)
+        {
+            return () => onTargetSafe.Invoke(target.transform);
+        }
 
         /// <summary>
         /// Creates an event handler that can handle losing a given target. The event handler will
@@ -261,8 +291,9 @@ namespace Juniper.ImageTracking
         /// </summary>
         /// <returns>The loser.</returns>
         /// <param name="target">Target.</param>
-        private UnityAction TargetLoser(TrackableFoundEventHandler target) =>
-            () =>
+        private UnityAction TargetLoser(TrackableFoundEventHandler target)
+        {
+            return () =>
             {
                 onTargetLost?.Invoke(target.transform);
 
@@ -275,6 +306,7 @@ namespace Juniper.ImageTracking
                     }
                 }
             };
+        }
 
         /// <summary>
         /// Triggers the <see cref="onAllTargetsLost"/> event.
@@ -328,16 +360,20 @@ namespace Juniper.ImageTracking
         /// <summary>
         /// Starts the tracker without changing any dataset data that has already been configured.
         /// </summary>
-        public void StartTracker() =>
+        public void StartTracker()
+        {
             Invoke(nameof(StartTrackerDelayed), 1);
+        }
 
         /// <summary>
         /// Starts the tracker without changing any dataset data that has already been configured.
         /// This method is the target of <see cref="StartTracker"/> to start after a second of delay
         /// to allow the camera feed to catch up.
         /// </summary>
-        private void StartTrackerDelayed() =>
+        private void StartTrackerDelayed()
+        {
             StartTrackerWithDataSetForTarget(null, null);
+        }
 
         /// <summary>
         /// Initializes tracking of a set of targets.
@@ -361,6 +397,7 @@ namespace Juniper.ImageTracking
         }
 
 #if UNITY_EDITOR
+
         /// <summary>
         /// Stop object tracking while in picker
         /// </summary>
@@ -370,6 +407,7 @@ namespace Juniper.ImageTracking
             Tracking = false;
             Update();
         }
+
 #endif
     }
 }

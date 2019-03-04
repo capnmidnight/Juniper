@@ -31,35 +31,55 @@ namespace Juniper.Statistics
         {
         }
 
-        protected override Vector3 Abs(Vector3 value) =>
-            new Vector3(
+        protected override Vector3 Abs(Vector3 value)
+        {
+            return new Vector3(
                 Mathf.Abs(value.x),
                 Mathf.Abs(value.y),
                 Mathf.Abs(value.z));
+        }
 
-        protected override Vector3 Add(Vector3 a, Vector3 b) => a + b;
+        protected override Vector3 Add(Vector3 a, Vector3 b)
+        {
+            return a + b;
+        }
 
-        protected override Vector3 Divide(Vector3 a, float b) => a / b;
+        protected override Vector3 Divide(Vector3 a, float b)
+        {
+            return a / b;
+        }
 
-        protected override bool LessThan(Vector3 a, Vector3 b) =>
-            a.x < b.x
+        protected override bool LessThan(Vector3 a, Vector3 b)
+        {
+            return a.x < b.x
                 && a.y < b.y
                 && a.z < b.z;
+        }
 
-        protected override Vector3 Multiply(Vector3 a, Vector3 b) =>
-            new Vector3(
+        protected override Vector3 Multiply(Vector3 a, Vector3 b)
+        {
+            return new Vector3(
                 a.x * b.x,
                 a.y * b.y,
                 a.z * b.z);
+        }
 
-        protected override Vector3 Scale(Vector3 a, float b) => a * b;
+        protected override Vector3 Scale(Vector3 a, float b)
+        {
+            return a * b;
+        }
 
-        protected override Vector3 Sqrt(Vector3 value) =>
-            new Vector3(
+        protected override Vector3 Sqrt(Vector3 value)
+        {
+            return new Vector3(
                 Mathf.Sqrt(value.x),
                 Mathf.Sqrt(value.y),
                 Mathf.Sqrt(value.z));
+        }
 
-        protected override Vector3 Subtract(Vector3 a, Vector3 b) => a - b;
+        protected override Vector3 Subtract(Vector3 a, Vector3 b)
+        {
+            return a - b;
+        }
     }
 }

@@ -1,4 +1,5 @@
 using Juniper.Display;
+
 using UnityEngine;
 
 namespace Juniper.Input

@@ -77,8 +77,10 @@ namespace Juniper
             return StaticProgress.COMPLETE;
         }
 
-        private static string GetSceneNameFromPath(string path) =>
-            SceneNamePattern.Match(path).Groups[1].Value;
+        private static string GetSceneNameFromPath(string path)
+        {
+            return SceneNamePattern.Match(path).Groups[1].Value;
+        }
 
         public LoadingBar loadingBar;
 
@@ -139,18 +141,28 @@ namespace Juniper
         /// All of the <see cref="SubSceneController"/> references in the project.
         /// </summary>
         /// <value>The sub scenes.</value>
-        public IEnumerable<SubSceneController> SubScenes =>
-            ComponentExt.FindAll<SubSceneController>();
+        public IEnumerable<SubSceneController> SubScenes
+        {
+            get
+            {
+                return ComponentExt.FindAll<SubSceneController>();
+            }
+        }
 
         /// <summary>
         /// All of the active SubSceneControllers
         /// </summary>
         /// <value>The current sub scenes.</value>
-        public SubSceneController[] CurrentSubScenes =>
-            (from scene in SubScenes
-             where scene.isActiveAndEnabled
-             select scene)
-                .ToArray();
+        public SubSceneController[] CurrentSubScenes
+        {
+            get
+            {
+                return (from scene in SubScenes
+                        where scene.isActiveAndEnabled
+                        select scene)
+                    .ToArray();
+            }
+        }
 
         public void Update()
         {
@@ -171,8 +183,10 @@ namespace Juniper
         /// </summary>
         /// <param name="sceneName"></param>
         /// <returns></returns>
-        public void SwitchToSceneName(string sceneName, bool skipFadeOut = false) =>
+        public void SwitchToSceneName(string sceneName, bool skipFadeOut = false)
+        {
             StartCoroutine(SwitchToSceneNameCoroutine(sceneName, skipFadeOut));
+        }
 
         private void FadeOut(bool skipFadeOut)
         {
@@ -222,8 +236,10 @@ namespace Juniper
         /// Quit out of the application, making sure any exit transitions for the current scene are
         /// ran first.
         /// </summary>
-        public void Quit() =>
+        public void Quit()
+        {
             StartCoroutine(QuitCoroutine());
+        }
 
         /// <summary>
         /// Disable any subScenes that are alive in the main scene.
@@ -256,12 +272,18 @@ namespace Juniper
             }
         }
 
-        public virtual void Reinstall() =>
+        public virtual void Reinstall()
+        {
             Install(true);
+        }
 
 #if UNITY_EDITOR
-        public void Reset() =>
+
+        public void Reset()
+        {
             Reinstall();
+        }
+
 #endif
 
         public void Install(bool reset)
@@ -407,7 +429,9 @@ namespace Juniper
 #endif
         }
 
-        public void Uninstall() { }
+        public void Uninstall()
+        {
+        }
 
         /// <summary>
         /// Wait until the Start method to load the scenes so the MasterSceneController or any child
@@ -427,8 +451,10 @@ namespace Juniper
             }
         }
 
-        public void LoadAllScenes() =>
+        public void LoadAllScenes()
+        {
             StartCoroutine(LoadAllScenesCoroutine2());
+        }
 
         private IEnumerator LoadAllScenesCoroutine2()
         {
@@ -527,8 +553,10 @@ namespace Juniper
             EditorUtility.ClearProgressBar();
         }
 
-        public void OnValidate() =>
+        public void OnValidate()
+        {
             Invoke(nameof(SetBuildSettings), 100);
+        }
 
         private void SetBuildSettings()
         {

@@ -60,14 +60,18 @@ namespace Juniper.Widgets
         /// Triggers <see cref="OnVideoEnd"/> when the player has looped.
         /// </summary>
         /// <param name="source">Source.</param>
-        private void Player_LoopPointReached(VideoPlayer source) =>
+        private void Player_LoopPointReached(VideoPlayer source)
+        {
             OnVideoEnd();
+        }
 
         /// <summary>
         /// Resets the playing status to false.
         /// </summary>
-        public void OnEnable() =>
+        public void OnEnable()
+        {
             wasPlaying = false;
+        }
 
         /// <summary>
         /// Checks to see if the video has reached the last frame.

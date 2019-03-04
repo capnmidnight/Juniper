@@ -6,7 +6,9 @@ namespace Juniper
     public interface IInstallable
     {
         void Install(bool reset);
+
         void Reinstall();
+
         void Uninstall();
     }
 
@@ -16,7 +18,7 @@ namespace Juniper
         {
             var found = new List<IInstallable>();
             var keepFinding = true;
-            for (int i = 0; i < 10 && keepFinding; ++i)
+            for (var i = 0; i < 10 && keepFinding; ++i)
             {
                 keepFinding = false;
                 foreach (var installable in getInstallables())

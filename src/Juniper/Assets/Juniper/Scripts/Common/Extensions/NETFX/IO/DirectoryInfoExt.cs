@@ -6,7 +6,7 @@ namespace System.IO
     {
         public static IEnumerable<FileInfo> RecurseFiles(this DirectoryInfo dir)
         {
-            var q = new Queue<DirectoryInfo>{ dir };
+            var q = new Queue<DirectoryInfo> { dir };
             while (q.Count > 0)
             {
                 var here = q.Dequeue();
@@ -24,7 +24,7 @@ namespace System.IO
             while (q.Count > 0)
             {
                 var here = q.Dequeue();
-                foreach(var subDir in here.GetDirectories())
+                foreach (var subDir in here.GetDirectories())
                 {
                     q.Enqueue(subDir);
                     yield return subDir;

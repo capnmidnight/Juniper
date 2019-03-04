@@ -9,9 +9,15 @@ namespace Juniper.Widgets
         public StringEvent onValueChanged = new StringEvent();
         public UnityEvent onSelected = new UnityEvent();
 
-        public Text Label { get; private set; }
+        public Text Label
+        {
+            get; private set;
+        }
 
-        public InputField Field { get; private set; }
+        public InputField Field
+        {
+            get; private set;
+        }
 
         public string LabelText
         {
@@ -58,8 +64,14 @@ namespace Juniper.Widgets
 
         public bool Indicated
         {
-            get { return indicatedBacker; }
-            set { HighlightLabel(indicatedBacker = value); }
+            get
+            {
+                return indicatedBacker;
+            }
+            set
+            {
+                HighlightLabel(indicatedBacker = value);
+            }
         }
 
         public void Awake()

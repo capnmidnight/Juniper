@@ -29,20 +29,44 @@ namespace Juniper.Statistics
         {
         }
 
-        protected override float Abs(float value) => Math.Abs(value);
+        protected override float Abs(float value)
+        {
+            return Math.Abs(value);
+        }
 
-        protected override float Add(float a, float b) => a + b;
+        protected override float Add(float a, float b)
+        {
+            return a + b;
+        }
 
-        protected override float Divide(float a, float b) => a / b;
+        protected override float Divide(float a, float b)
+        {
+            return a / b;
+        }
 
-        protected override bool LessThan(float a, float b) => a < b;
+        protected override bool LessThan(float a, float b)
+        {
+            return a < b;
+        }
 
-        protected override float Multiply(float a, float b) => a * b;
+        protected override float Multiply(float a, float b)
+        {
+            return a * b;
+        }
 
-        protected override float Scale(float a, float b) => a * b;
+        protected override float Scale(float a, float b)
+        {
+            return a * b;
+        }
 
-        protected override float Sqrt(float value) => (float)Math.Sqrt(value);
+        protected override float Sqrt(float value)
+        {
+            return (float)Math.Sqrt(value);
+        }
 
-        protected override float Subtract(float a, float b) => a - b;
+        protected override float Subtract(float a, float b)
+        {
+            return a - b;
+        }
     }
 }

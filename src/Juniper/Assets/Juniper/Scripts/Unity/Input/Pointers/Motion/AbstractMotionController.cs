@@ -1,7 +1,7 @@
+using Juniper.Haptics;
+
 using System;
 using System.Collections.Generic;
-
-using Juniper.Haptics;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,22 +15,36 @@ namespace Juniper.Input.Pointers.Motion
         where HandIDType : struct, IComparable
         where ButtonIDType : struct
     {
-        protected override string PointerNameStub => "MotionController";
+        protected override string PointerNameStub
+        {
+            get
+            {
+                return "MotionController";
+            }
+        }
 
         private readonly Dictionary<VirtualTouchPadButton, InputButton> touchPadButtons = new Dictionary<VirtualTouchPadButton, InputButton>();
         private readonly Dictionary<VirtualTriggerButton, InputButton> triggerButtons = new Dictionary<VirtualTriggerButton, InputButton>();
 
-        protected void AddButton(VirtualTouchPadButton outButton, InputButton inButton) =>
+        protected void AddButton(VirtualTouchPadButton outButton, InputButton inButton)
+        {
             touchPadButtons.Add(outButton, inButton);
+        }
 
-        protected void AddButton(VirtualTriggerButton outButton, InputButton inButton) =>
+        protected void AddButton(VirtualTriggerButton outButton, InputButton inButton)
+        {
             triggerButtons.Add(outButton, inButton);
+        }
 
-        public void Install(ButtonMapper<VirtualTouchPadButton> mapper, GameObject eventParent) =>
+        public void Install(ButtonMapper<VirtualTouchPadButton> mapper, GameObject eventParent)
+        {
             mapper.Install(eventParent, touchPadButtons);
+        }
 
-        public void Install(ButtonMapper<VirtualTriggerButton> mapper, GameObject eventParent) =>
+        public void Install(ButtonMapper<VirtualTriggerButton> mapper, GameObject eventParent)
+        {
             mapper.Install(eventParent, triggerButtons);
+        }
     }
 
     public abstract class AbstractMotionController<HandIDType, ButtonIDType, ConfigType, HapticsType> :
@@ -104,59 +118,107 @@ namespace Juniper.Input.Pointers.Motion
 #endif
         }
 
-        private PointerEventData Clone(PointerEventData evtData, VirtualTouchPadButton button) =>
-            InputModule?.Clone(evtData, touchPadButtons.ToInt32(button) + 100);
+        private PointerEventData Clone(PointerEventData evtData, VirtualTouchPadButton button)
+        {
+            return InputModule?.Clone(evtData, touchPadButtons.ToInt32(button) + 100);
+        }
 
-        private PointerEventData Clone(PointerEventData evtData, VirtualTriggerButton button) =>
-            InputModule?.Clone(evtData, triggerButtons.ToInt32(button) + 200);
+        private PointerEventData Clone(PointerEventData evtData, VirtualTriggerButton button)
+        {
+            return InputModule?.Clone(evtData, triggerButtons.ToInt32(button) + 200);
+        }
 
-        public abstract float Trigger { get; }
+        public abstract float Trigger
+        {
+            get;
+        }
 
         private float lastTrigger;
 
-        public abstract Vector2 SquareTouchPoint { get; }
+        public abstract Vector2 SquareTouchPoint
+        {
+            get;
+        }
 
-        public abstract Vector2 RoundTouchPoint { get; }
+        public abstract Vector2 RoundTouchPoint
+        {
+            get;
+        }
 
         private Vector2? lastTouchPosition;
 
-        public bool IsButtonPressed(VirtualTouchPadButton button) =>
-            VirtualButtonInBounds(button) && TouchPadPressed;
+        public bool IsButtonPressed(VirtualTouchPadButton button)
+        {
+            return VirtualButtonInBounds(button) && TouchPadPressed;
+        }
 
-        public bool IsButtonDown(VirtualTouchPadButton button) =>
-            VirtualButtonInBounds(button) && TouchPadPressedDown;
+        public bool IsButtonDown(VirtualTouchPadButton button)
+        {
+            return VirtualButtonInBounds(button) && TouchPadPressedDown;
+        }
 
-        public bool IsButtonUp(VirtualTouchPadButton button) =>
-            VirtualButtonInBounds(button) && TouchPadPressedUp;
+        public bool IsButtonUp(VirtualTouchPadButton button)
+        {
+            return VirtualButtonInBounds(button) && TouchPadPressedUp;
+        }
 
-        public bool IsButtonPressed(VirtualTriggerButton button) =>
-            VirtualTriggerButtonThreshold(button, Trigger);
+        public bool IsButtonPressed(VirtualTriggerButton button)
+        {
+            return VirtualTriggerButtonThreshold(button, Trigger);
+        }
 
-        public bool IsButtonDown(VirtualTriggerButton button) =>
-            VirtualTriggerButtonThreshold(button, Trigger)
-            && !VirtualTriggerButtonThreshold(button, lastTrigger);
+        public bool IsButtonDown(VirtualTriggerButton button)
+        {
+            return VirtualTriggerButtonThreshold(button, Trigger)
+                && !VirtualTriggerButtonThreshold(button, lastTrigger);
+        }
 
-        public bool IsButtonUp(VirtualTriggerButton button) =>
-            !VirtualTriggerButtonThreshold(button, Trigger)
-            && VirtualTriggerButtonThreshold(button, lastTrigger);
+        public bool IsButtonUp(VirtualTriggerButton button)
+        {
+            return !VirtualTriggerButtonThreshold(button, Trigger)
+                && VirtualTriggerButtonThreshold(button, lastTrigger);
+        }
 
-        public override bool AnyButtonPressed =>
-            base.AnyButtonPressed
-            || IsButtonPressed(VirtualTouchPadButton.Any)
-            || IsButtonPressed(VirtualTriggerButton.On)
-            || IsButtonPressed(VirtualTriggerButton.Full);
+        public override bool AnyButtonPressed
+        {
+            get
+            {
+                return base.AnyButtonPressed
+                    || IsButtonPressed(VirtualTouchPadButton.Any)
+                    || IsButtonPressed(VirtualTriggerButton.On)
+                    || IsButtonPressed(VirtualTriggerButton.Full);
+            }
+        }
 
-        protected abstract bool TouchPadTouched { get; }
+        protected abstract bool TouchPadTouched
+        {
+            get;
+        }
 
-        protected abstract bool TouchPadTouchedDown { get; }
+        protected abstract bool TouchPadTouchedDown
+        {
+            get;
+        }
 
-        protected abstract bool TouchPadTouchedUp { get; }
+        protected abstract bool TouchPadTouchedUp
+        {
+            get;
+        }
 
-        protected abstract bool TouchPadPressed { get; }
+        protected abstract bool TouchPadPressed
+        {
+            get;
+        }
 
-        protected abstract bool TouchPadPressedDown { get; }
+        protected abstract bool TouchPadPressedDown
+        {
+            get;
+        }
 
-        protected abstract bool TouchPadPressedUp { get; }
+        protected abstract bool TouchPadPressedUp
+        {
+            get;
+        }
 
         protected static Vector2 Round2Square(Vector2 point)
         {
@@ -228,33 +290,48 @@ namespace Juniper.Input.Pointers.Motion
             return a ?? b ?? c;
         }
 
-        public override bool IsDragging =>
-            base.IsDragging
-            || touchPadButtons.AnyDragging
-            || triggerButtons.AnyDragging;
+        public override bool IsDragging
+        {
+            get
+            {
+                return base.IsDragging
+                    || touchPadButtons.AnyDragging
+                    || triggerButtons.AnyDragging;
+            }
+        }
 
-        public override bool IsButtonPressed(InputButton button) =>
-            base.IsButtonPressed(button)
-            || touchPadButtons.IsButtonPressed(button)
-            || triggerButtons.IsButtonPressed(button);
+        public override bool IsButtonPressed(InputButton button)
+        {
+            return base.IsButtonPressed(button)
+                || touchPadButtons.IsButtonPressed(button)
+                || triggerButtons.IsButtonPressed(button);
+        }
 
-        public override bool IsButtonUp(InputButton button) =>
-            base.IsButtonUp(button)
-            || touchPadButtons.IsButtonUp(button)
-            || triggerButtons.IsButtonUp(button);
+        public override bool IsButtonUp(InputButton button)
+        {
+            return base.IsButtonUp(button)
+                || touchPadButtons.IsButtonUp(button)
+                || triggerButtons.IsButtonUp(button);
+        }
 
-        public override bool IsButtonDown(InputButton button) =>
-            base.IsButtonDown(button)
-            || touchPadButtons.IsButtonDown(button)
-            || triggerButtons.IsButtonDown(button);
+        public override bool IsButtonDown(InputButton button)
+        {
+            return base.IsButtonDown(button)
+                || touchPadButtons.IsButtonDown(button)
+                || triggerButtons.IsButtonDown(button);
+        }
 
-        private bool VirtualButtonInBounds(VirtualTouchPadButton button) =>
-            button == VirtualTouchPadButton.Any
-            || (BUTTON_CENTERS.ContainsKey(button)
-                && (SquareTouchPoint - BUTTON_CENTERS[button]).magnitude <= BUTTON_RADIUS);
+        private bool VirtualButtonInBounds(VirtualTouchPadButton button)
+        {
+            return button == VirtualTouchPadButton.Any
+                || (BUTTON_CENTERS.ContainsKey(button)
+                    && (SquareTouchPoint - BUTTON_CENTERS[button]).magnitude <= BUTTON_RADIUS);
+        }
 
-        private bool VirtualTriggerButtonThreshold(VirtualTriggerButton button, float triggerValue) =>
-            TRIGGER_THRESHOLDS.ContainsKey(button)
-            && triggerValue > TRIGGER_THRESHOLDS[button];
+        private bool VirtualTriggerButtonThreshold(VirtualTriggerButton button, float triggerValue)
+        {
+            return TRIGGER_THRESHOLDS.ContainsKey(button)
+                && triggerValue > TRIGGER_THRESHOLDS[button];
+        }
     }
 }

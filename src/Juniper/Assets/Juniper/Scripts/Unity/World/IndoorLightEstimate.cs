@@ -1,5 +1,7 @@
-using System;
 using Juniper.World.LightEstimation;
+
+using System;
+
 using UnityEngine;
 
 namespace Juniper.World
@@ -76,7 +78,13 @@ namespace Juniper.World
         /// Gets the estimated cloud cover.
         /// </summary>
         /// <value>The cloud cover.</value>
-        protected virtual float CloudCover => 0.25f;
+        protected virtual float CloudCover
+        {
+            get
+            {
+                return 0.25f;
+            }
+        }
 
         /// <summary>
         /// Defaults to false. Overriding classes can indicate they have a rotation value to make the
@@ -84,14 +92,26 @@ namespace Juniper.World
         /// whatever the user set in the Unity Editor.
         /// </summary>
         /// <value><c>true</c> if has sun rotation; otherwise, <c>false</c>.</value>
-        protected virtual bool HasSunRotation => false;
+        protected virtual bool HasSunRotation
+        {
+            get
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// Gets a rotation quaternion that will put the "sun dot" of Unity's defauilt skybox into
         /// the correct position in the sky.
         /// </summary>
         /// <value>The sun rotation.</value>
-        protected virtual Vector3 SunRotation => overhead;
+        protected virtual Vector3 SunRotation
+        {
+            get
+            {
+                return overhead;
+            }
+        }
 
         /// <summary>
         /// Raw intensity values need to be ramped to make sense as a Unity scene light intensity value.
@@ -122,15 +142,23 @@ namespace Juniper.World
         /// Retrieves the light to which this component is attached, and makes sure there is a <see
         /// cref="LightMeasurement"/> component attached.
         /// </summary>
-        protected virtual void Awake() =>
+        protected virtual void Awake()
+        {
             Install(false);
+        }
 
-        public virtual void Reinstall() =>
+        public virtual void Reinstall()
+        {
             Install(true);
+        }
 
 #if UNITY_EDITOR
-        public void Reset() =>
+
+        public void Reset()
+        {
             Reinstall();
+        }
+
 #endif
 
         public virtual void Install(bool reset)
@@ -141,7 +169,9 @@ namespace Juniper.World
             sun = GetComponent<Light>();
         }
 
-        public void Uninstall() { }
+        public void Uninstall()
+        {
+        }
 
         /// <summary>
         /// Applies the light estimation process, and optionally prints a debug report.

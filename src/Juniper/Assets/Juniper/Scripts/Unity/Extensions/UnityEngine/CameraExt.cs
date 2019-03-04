@@ -14,7 +14,6 @@ namespace UnityEngine
                 && 0 < viewport.y && viewport.y < 1;
         }
 
-
 #if UNITY_MODULES_UI
         private static readonly Vector3[] corners = new Vector3[4];
 
@@ -52,6 +51,7 @@ namespace UnityEngine
                     && 0 <= d;
             }
         }
+
 #endif
     }
 }

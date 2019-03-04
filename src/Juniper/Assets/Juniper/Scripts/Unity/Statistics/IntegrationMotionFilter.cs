@@ -12,6 +12,7 @@ namespace Juniper.Statistics
     {
         [Range(0, 1)]
         public float interpolationFactor;
+
         private float IF, compIF;
 
         public uint componentCount;
@@ -28,7 +29,7 @@ namespace Juniper.Statistics
                 var deltaTime = Time.time - lastTime;
                 if (components.Length > 1 && deltaTime > 0)
                 {
-                    for (int i = components.Length - 2; i >= 0; --i)
+                    for (var i = components.Length - 2; i >= 0; --i)
                     {
                         components[i] += (components[i + 1] * deltaTime * IF) + (components[i] * compIF);
                     }
@@ -39,9 +40,16 @@ namespace Juniper.Statistics
             }
         }
 
-        public override Vector3 Position => components[0];
+        public override Vector3 Position
+        {
+            get
+            {
+                return components[0];
+            }
+        }
 
 #if UNITY_EDITOR
+
         public override void Copy(AbstractMotionFilter filter)
         {
             if (filter is IntegrationMotionFilter)
@@ -51,6 +59,7 @@ namespace Juniper.Statistics
                 interpolationFactor = f.interpolationFactor;
             }
         }
+
 #endif
 
         public override void UpdateState(Vector3 point)

@@ -9,13 +9,19 @@ namespace Juniper.ConfigurationManagement
         public string Name;
         public string CompilerDefine;
 
-        public virtual void Install(IProgressReceiver prog = null) =>
+        public virtual void Install(IProgressReceiver prog = null)
+        {
             prog?.SetProgress(0);
+        }
 
-        public virtual void Activate(BuildTargetGroup targetGroup, IProgressReceiver prog = null) =>
+        public virtual void Activate(BuildTargetGroup targetGroup, IProgressReceiver prog = null)
+        {
             prog?.SetProgress(0);
+        }
 
-        public virtual void Uninstall(IProgressReceiver prog = null) =>
+        public virtual void Uninstall(IProgressReceiver prog = null)
+        {
             prog?.SetProgress(0);
+        }
     }
 }

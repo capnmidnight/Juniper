@@ -34,40 +34,50 @@ namespace System
         /// </summary>
         /// <param name="exp">Exp.</param>
         /// <param name="label">Label.</param>
-        public static void PrintException(Exception exp, string label) =>
+        public static void PrintException(Exception exp, string label)
+        {
             Print(exp.ToShortString(label));
+        }
 
         /// <summary>
         /// Print a Vector with components to 3 significant figures.
         /// </summary>
         /// <param name="vector">Vector.</param>
         /// <param name="label">Label.</param>
-        public static void PrintVector(Vector2 vector, string label) =>
+        public static void PrintVector(Vector2 vector, string label)
+        {
             Print($"[{label}] <{vector.x.Label(UnitOfMeasure.Meters, 3)}, {vector.y.Label(UnitOfMeasure.Meters, 3)}>");
+        }
 
         /// <summary>
         /// Print a Vector with components to 3 significant figures.
         /// </summary>
         /// <param name="vector">Vector.</param>
         /// <param name="label">Label.</param>
-        public static void PrintVector(Vector3 vector, string label) =>
+        public static void PrintVector(Vector3 vector, string label)
+        {
             Print($"[{label}] <{vector.x.Label(UnitOfMeasure.Meters, 3)}, {vector.y.Label(UnitOfMeasure.Meters, 3)}, {vector.z.Label(UnitOfMeasure.Meters, 3)}>");
+        }
 
         /// <summary>
         /// Print a Vector with components to 3 significant figures.
         /// </summary>
         /// <param name="vector">Vector.</param>
         /// <param name="label">Label.</param>
-        public static void PrintVector(Vector4 vector, string label) =>
+        public static void PrintVector(Vector4 vector, string label)
+        {
             Print($"[{label}] <{vector.x.Label(UnitOfMeasure.Meters, 3)}, {vector.y.Label(UnitOfMeasure.Meters, 3)}, {vector.z.Label(UnitOfMeasure.Meters, 3)}, {vector.z.Label(UnitOfMeasure.Meters, 4)}>");
+        }
 
         /// <summary>
         /// Print a formatted string
         /// </summary>
         /// <param name="format">Format.</param>
         /// <param name="args">Arguments.</param>
-        public static void PrintFormat(string format, params object[] args) =>
+        public static void PrintFormat(string format, params object[] args)
+        {
             Print(string.Format(format, args));
+        }
 
         /// <summary>
         /// Print a simple message
@@ -98,8 +108,10 @@ namespace System
         /// <summary>
         /// Finds the text component to which the output will be rendered.
         /// </summary>
-        public void Awake() =>
+        public void Awake()
+        {
             text = GetComponent<TextElementType>();
+        }
 
         /// <summary>
         /// Renders all text in <see cref="lines"/> to the <see cref="text"/> output.

@@ -50,9 +50,11 @@ namespace System
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static IEnumerable<Type> Types(this object[] args) =>
-            from arg in args
-            select arg.GetType();
+        public static IEnumerable<Type> Types(this object[] args)
+        {
+            return from arg in args
+                   select arg.GetType();
+        }
 
         /// <summary>
         /// Perform the Linq IEnumerable Except function, but ignore null parameters.

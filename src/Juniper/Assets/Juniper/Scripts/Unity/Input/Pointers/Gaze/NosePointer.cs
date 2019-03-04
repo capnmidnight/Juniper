@@ -1,5 +1,6 @@
 using Juniper.Haptics;
 using Juniper.Input.Pointers.Screen;
+
 using UnityEngine;
 
 namespace Juniper.Input.Pointers.Gaze
@@ -10,7 +11,12 @@ namespace Juniper.Input.Pointers.Gaze
         where HapticsType : AbstractHapticDevice
         where ConfigType : AbstractPointerConfiguration<ButtonIDType>, new()
     {
-        public override Vector2 ScreenPoint =>
-            SCREEN_MIDPOINT;
+        public override Vector2 ScreenPoint
+        {
+            get
+            {
+                return SCREEN_MIDPOINT;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 #if UNITY_MODULES_ANIMATION
+
 using System.Collections;
 using System.Linq;
 
@@ -20,22 +21,28 @@ namespace Juniper.Animation
         /// <param name="animator"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static bool AnimatorHasState(Animator animator, string name) =>
-            animator?.runtimeAnimatorController?.animationClips.Any(clip => clip.name == name) == true;
+        public static bool AnimatorHasState(Animator animator, string name)
+        {
+            return animator?.runtimeAnimatorController?.animationClips.Any(clip => clip.name == name) == true;
+        }
 
         /// <summary>
         /// Get the <see cref="Animator"/> on the current gameObject.
         /// </summary>
-        public void Awake() =>
+        public void Awake()
+        {
             animator = GetComponent<Animator>();
+        }
 
         /// <summary>
         /// Returns true in child classes to indicate they support the given state message.
         /// </summary>
         /// <param name="name">The animation state to check for</param>
         /// <returns>True or False</returns>
-        public override bool HasState(string name) =>
-            AnimatorHasState(animator, name);
+        public override bool HasState(string name)
+        {
+            return AnimatorHasState(animator, name);
+        }
 
         /// <summary>
         /// Execute an animation and return an IEnumerator that can be used to yield in a coroutine
@@ -67,4 +74,5 @@ namespace Juniper.Animation
         private Animator animator;
     }
 }
+
 #endif

@@ -1,7 +1,7 @@
-using System;
-
 using Accord.Extensions.Statistics.Filters;
 using Accord.Math;
+
+using System;
 
 using UnityEngine;
 
@@ -14,7 +14,11 @@ namespace Juniper.Statistics
     public class KalmanMotionFilter : AbstractMotionFilter
     {
         public uint componentCount = 2;
-        private uint ComponentCount { get; set; }
+
+        private uint ComponentCount
+        {
+            get; set;
+        }
 
         public float measurementNoise = 10;
         private float mNoise;
@@ -29,15 +33,30 @@ namespace Juniper.Statistics
 
         private const uint VectorSize = 3;
 
-        private uint Dimension { get; set; }
+        private uint Dimension
+        {
+            get; set;
+        }
 
-        private DiscreteKalmanFilter<Vector3[], Vector3> Kalman { get; set; }
+        private DiscreteKalmanFilter<Vector3[], Vector3> Kalman
+        {
+            get; set;
+        }
 
-        private uint X(uint i) => i;
+        private uint X(uint i)
+        {
+            return i;
+        }
 
-        private uint Y(uint i) => i + ComponentCount;
+        private uint Y(uint i)
+        {
+            return i + ComponentCount;
+        }
 
-        private uint Z(uint i) => i + (2 * ComponentCount);
+        private uint Z(uint i)
+        {
+            return i + (2 * ComponentCount);
+        }
 
         public override Vector3 PredictedPosition
         {
@@ -48,10 +67,16 @@ namespace Juniper.Statistics
             }
         }
 
-        public override Vector3 Position =>
-            Kalman?.State[0] ?? Vector3.zero;
+        public override Vector3 Position
+        {
+            get
+            {
+                return Kalman?.State[0] ?? Vector3.zero;
+            }
+        }
 
 #if UNITY_EDITOR
+
         public override void Copy(AbstractMotionFilter filter)
         {
             if (filter is KalmanMotionFilter)
@@ -62,6 +87,7 @@ namespace Juniper.Statistics
                 processNoiseScale = f.processNoiseScale;
             }
         }
+
 #endif
 
         private Vector3? lastPoint;
@@ -175,7 +201,7 @@ namespace Juniper.Statistics
             var m = new double[Dimension, Dimension];
             for (uint y = 0; y < Dimension; ++y)
             {
-                uint chunkRow = y % ComponentCount;
+                var chunkRow = y % ComponentCount;
                 for (uint x = 0; x < ComponentCount - chunkRow; ++x)
                 {
                     m[y, y + x] = parts[x];

@@ -1,8 +1,8 @@
+using Juniper.Input.Pointers;
+
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-
-using Juniper.Input.Pointers;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,12 +12,16 @@ namespace Juniper.Events
     [RequireComponent(typeof(IPointerDevice))]
     public class ButtonEvent : MonoBehaviour
     {
-        public static string FormatKey(string type, string value) =>
-            $"{type}::{value}";
+        public static string FormatKey(string type, string value)
+        {
+            return $"{type}::{value}";
+        }
 
         public static string MakeKey<T>(T value)
-            where T : struct =>
-            FormatKey(typeof(T).FullName, value.ToString());
+            where T : struct
+        {
+            return FormatKey(typeof(T).FullName, value.ToString());
+        }
 
         private static readonly Regex KeyPattern =
             new Regex(FormatKey("(\\w+(?:(?:\\.|\\+)\\w+)*)", "(\\w+)"), RegexOptions.Compiled);
@@ -50,7 +54,10 @@ namespace Juniper.Events
 
         public string Key
         {
-            get { return FormatKey(buttonTypeName, buttonValueName); }
+            get
+            {
+                return FormatKey(buttonTypeName, buttonValueName);
+            }
 
             set
             {
@@ -73,21 +80,42 @@ namespace Juniper.Events
         public PointerEvent onDown;
 
         public event EventHandler<PointerEventData> Click;
+
         public event EventHandler<PointerEventData> DoubleClick;
+
         public event EventHandler<PointerEventData> LongPress;
+
         public event EventHandler<PointerEventData> Up;
+
         public event EventHandler<PointerEventData> Down;
 
         private bool wasPressed;
 
-        public bool IsPressed { get; private set; }
+        public bool IsPressed
+        {
+            get; private set;
+        }
 
-        public void LateUpdate() =>
+        public void LateUpdate()
+        {
             wasPressed = IsPressed;
+        }
 
-        public bool IsDown => IsPressed && !wasPressed;
+        public bool IsDown
+        {
+            get
+            {
+                return IsPressed && !wasPressed;
+            }
+        }
 
-        public bool IsUp => !IsPressed && wasPressed;
+        public bool IsUp
+        {
+            get
+            {
+                return !IsPressed && wasPressed;
+            }
+        }
 
         public void OnDown(PointerEventData evt)
         {

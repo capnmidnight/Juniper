@@ -1,5 +1,7 @@
 #if MAGIC_LEAP
+
 using Juniper.Haptics;
+
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 
@@ -13,8 +15,13 @@ namespace Juniper.Input.Pointers.Gaze
     {
         private MLResult startResult;
 
-        public override bool IsConnected =>
-            MLEyes.IsStarted && startResult.IsOk;
+        public override bool IsConnected
+        {
+            get
+            {
+                return MLEyes.IsStarted && startResult.IsOk;
+            }
+        }
 
         public override void Awake()
         {
@@ -62,11 +69,22 @@ namespace Juniper.Input.Pointers.Gaze
             }
         }
 
-        public override Vector2 ScreenPoint =>
-            ScreenFromWorld(InteractionEndPoint);
+        public override Vector2 ScreenPoint
+        {
+            get
+            {
+                return ScreenFromWorld(InteractionEndPoint);
+            }
+        }
 
-        public override Vector2 ViewportPoint =>
-            ViewportFromWorld(InteractionEndPoint);
+        public override Vector2 ViewportPoint
+        {
+            get
+            {
+                return ViewportFromWorld(InteractionEndPoint);
+            }
+        }
     }
 }
+
 #endif

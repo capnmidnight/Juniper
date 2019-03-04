@@ -5,7 +5,6 @@ namespace Juniper.Display
 {
     public class WindowsMRDisplayManager : AbstractDisplayManager
     {
-
         protected override float DEFAULT_FOV
         {
             get

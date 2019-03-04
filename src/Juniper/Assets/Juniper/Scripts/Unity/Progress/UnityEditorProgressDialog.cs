@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+
 using UnityEditor;
 
 namespace Juniper.Progress
@@ -14,7 +15,10 @@ namespace Juniper.Progress
             this.title = title;
         }
 
-        public float Progress { get; private set; }
+        public float Progress
+        {
+            get; private set;
+        }
 
         public void SetProgress(float progress, string status = null)
         {
@@ -40,4 +44,5 @@ namespace Juniper.Progress
         }
     }
 }
+
 #endif

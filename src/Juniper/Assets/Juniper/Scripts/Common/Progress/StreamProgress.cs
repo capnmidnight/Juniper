@@ -9,7 +9,9 @@ namespace Juniper.Progress
         private long length;
         private IProgressReceiver parent;
 
-        public StreamProgress() { }
+        public StreamProgress()
+        {
+        }
 
         public StreamProgress(Stream stream, IProgressReceiver parent = null)
         {
@@ -64,13 +66,37 @@ namespace Juniper.Progress
             }
         }
 
-        public override bool CanRead => stream.CanRead;
+        public override bool CanRead
+        {
+            get
+            {
+                return stream.CanRead;
+            }
+        }
 
-        public override bool CanSeek => stream.CanSeek;
+        public override bool CanSeek
+        {
+            get
+            {
+                return stream.CanSeek;
+            }
+        }
 
-        public override bool CanWrite => stream.CanWrite;
+        public override bool CanWrite
+        {
+            get
+            {
+                return stream.CanWrite;
+            }
+        }
 
-        public override long Length => stream.Length;
+        public override long Length
+        {
+            get
+            {
+                return stream.Length;
+            }
+        }
 
         public override long Position
         {
@@ -85,8 +111,10 @@ namespace Juniper.Progress
             }
         }
 
-        public override void Flush() =>
+        public override void Flush()
+        {
             stream.Flush();
+        }
 
         public override int Read(byte[] buffer, int offset, int count)
         {
@@ -95,10 +123,15 @@ namespace Juniper.Progress
             return read;
         }
 
-        public override long Seek(long offset, SeekOrigin origin) =>
-            TotalByteCount = stream.Seek(offset, origin);
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            return TotalByteCount = stream.Seek(offset, origin);
+        }
 
-        public override void SetLength(long value) => stream.SetLength(value);
+        public override void SetLength(long value)
+        {
+            stream.SetLength(value);
+        }
 
         public override void Write(byte[] buffer, int offset, int count)
         {

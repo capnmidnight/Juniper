@@ -11,7 +11,12 @@ namespace Juniper.Progress
             this.op = op;
         }
 
-        public float Progress =>
-            op.progress;
+        public float Progress
+        {
+            get
+            {
+                return op.progress;
+            }
+        }
     }
 }

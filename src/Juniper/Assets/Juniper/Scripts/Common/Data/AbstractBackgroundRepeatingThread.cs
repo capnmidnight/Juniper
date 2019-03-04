@@ -10,14 +10,21 @@ namespace Juniper.Data
         /// <summary>
         /// Returns true if the thread is still running and not in the middle of shutting down
         /// </summary>
-        public override bool Running =>
-            base.Running && !stopping;
+        public override bool Running
+        {
+            get
+            {
+                return base.Running && !stopping;
+            }
+        }
 
         /// <summary>
         /// Signal to the background thread that it should stop the repeatition process and shut down.
         /// </summary>
-        public void Stop() =>
+        public void Stop()
+        {
             stopping = true;
+        }
 
         /// <summary>
         /// Create a new background thread, initialized in a non-running, non-shutting down state.

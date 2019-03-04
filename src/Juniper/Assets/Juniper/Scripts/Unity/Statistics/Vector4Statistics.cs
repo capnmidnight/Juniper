@@ -31,43 +31,59 @@ namespace Juniper.Statistics
         {
         }
 
-        protected override Vector4 Abs(Vector4 value) =>
-            new Vector4(
+        protected override Vector4 Abs(Vector4 value)
+        {
+            return new Vector4(
                 Mathf.Abs(value.x),
                 Mathf.Abs(value.y),
                 Mathf.Abs(value.z),
                 Mathf.Abs(value.w));
+        }
 
-        protected override Vector4 Add(Vector4 a, Vector4 b) =>
-            a + b;
+        protected override Vector4 Add(Vector4 a, Vector4 b)
+        {
+            return a + b;
+        }
 
-        protected override Vector4 Divide(Vector4 a, float b) =>
-            a / b;
+        protected override Vector4 Divide(Vector4 a, float b)
+        {
+            return a / b;
+        }
 
-        protected override bool LessThan(Vector4 a, Vector4 b) =>
-            a.x < b.x
+        protected override bool LessThan(Vector4 a, Vector4 b)
+        {
+            return a.x < b.x
                 && a.y < b.y
                 && a.z < b.z
                 && a.w < b.w;
+        }
 
-        protected override Vector4 Multiply(Vector4 a, Vector4 b) =>
-            new Vector4(
+        protected override Vector4 Multiply(Vector4 a, Vector4 b)
+        {
+            return new Vector4(
                 a.x * b.x,
                 a.y * b.y,
                 a.z * b.z,
                 a.w * b.w);
+        }
 
-        protected override Vector4 Scale(Vector4 a, float b) =>
-            a * b;
+        protected override Vector4 Scale(Vector4 a, float b)
+        {
+            return a * b;
+        }
 
-        protected override Vector4 Sqrt(Vector4 value) =>
-            new Vector4(
+        protected override Vector4 Sqrt(Vector4 value)
+        {
+            return new Vector4(
                 Mathf.Sqrt(value.x),
                 Mathf.Sqrt(value.y),
                 Mathf.Sqrt(value.z),
                 Mathf.Sqrt(value.w));
+        }
 
-        protected override Vector4 Subtract(Vector4 a, Vector4 b) =>
-            a - b;
+        protected override Vector4 Subtract(Vector4 a, Vector4 b)
+        {
+            return a - b;
+        }
     }
 }

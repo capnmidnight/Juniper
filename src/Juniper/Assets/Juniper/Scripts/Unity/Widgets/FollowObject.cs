@@ -64,8 +64,10 @@ namespace Juniper.Widgets
         /// Change the follow target at runtime.
         /// </summary>
         /// <param name="target">Target.</param>
-        public void SetTarget(Transform target) =>
+        public void SetTarget(Transform target)
+        {
             followObject = target;
+        }
 
         /// <summary>
         /// Achieve the target following by reparenting this gameObject to the target object. The
@@ -167,8 +169,10 @@ namespace Juniper.Widgets
             }
         }
 
-        private Vector3 GetEndPosition() =>
-            followObject.position + (Distance * transform.forward);
+        private Vector3 GetEndPosition()
+        {
+            return followObject.position + (Distance * transform.forward);
+        }
 
         private Vector3 GetEndRotationEuler()
         {

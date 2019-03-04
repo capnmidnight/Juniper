@@ -29,6 +29,7 @@ namespace Juniper.Audio
         public float fadePower = 2;
 
 #if UNITY_MODULES_AUDIO
+
         /// <summary>
         /// Whether or not the fader is currently running.
         /// </summary>
@@ -128,6 +129,7 @@ namespace Juniper.Audio
 
             wasPlaying = audioSource.isPlaying;
         }
+
 #endif
     }
 }

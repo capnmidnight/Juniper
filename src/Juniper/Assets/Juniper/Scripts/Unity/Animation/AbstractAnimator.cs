@@ -57,8 +57,10 @@ namespace Juniper.Animation
         /// Play an animation immediately, with no chance to wait for its completion.
         /// </summary>
         /// <param name="name"></param>
-        public void Play(string name) =>
+        public void Play(string name)
+        {
             StartCoroutine(PlayCoroutine(name));
+        }
 
         /// <summary>
         /// Returns true in child classes to indicate they support the given state message.

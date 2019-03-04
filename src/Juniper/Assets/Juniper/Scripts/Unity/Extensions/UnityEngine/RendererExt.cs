@@ -10,8 +10,13 @@ namespace UnityEngine
         /// cases, we want to set sharedMaterials instead of materials on objects to avoid creating
         /// duplicate objects that will leak into memory.
         /// </summary>
-        public static bool UseShared =>
-            Application.isEditor && !Application.isPlaying;
+        public static bool UseShared
+        {
+            get
+            {
+                return Application.isEditor && !Application.isPlaying;
+            }
+        }
 
         /// <summary>
         /// If <see cref="UseShared"/> is true, returns the sharedMaterial from the renderer.

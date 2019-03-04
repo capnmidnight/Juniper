@@ -13,19 +13,36 @@ namespace Juniper.Statistics
         [Range(0, 1)]
         public float interpolationFactor;
 
-        private float IF { get; set; }
+        private float IF
+        {
+            get; set;
+        }
 
-        private float CompIF { get; set; }
+        private float CompIF
+        {
+            get; set;
+        }
 
         private Vector3 position;
 
-        public override Vector3 PredictedPosition =>
-            position;
+        public override Vector3 PredictedPosition
+        {
+            get
+            {
+                return position;
+            }
+        }
 
-        public override Vector3 Position =>
-            position;
+        public override Vector3 Position
+        {
+            get
+            {
+                return position;
+            }
+        }
 
 #if UNITY_EDITOR
+
         public override void Copy(AbstractMotionFilter filter)
         {
             if (filter is LerpMotionFilter)
@@ -34,6 +51,7 @@ namespace Juniper.Statistics
                 interpolationFactor = f.interpolationFactor;
             }
         }
+
 #endif
 
         public override void UpdateState(Vector3 point)

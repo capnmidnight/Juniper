@@ -8,7 +8,7 @@ namespace Juniper.World.LightEstimation
     /// </summary>
     [ExecuteInEditMode]
     public class LightMeasurement :
-        #if ARKIT
+#if ARKIT
         ARKitLightMeasurement
 #elif ARCORE
         ARCoreLightMeasurement

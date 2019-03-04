@@ -11,7 +11,9 @@ namespace UnityEditor
         /// Unity provides SetSpatializerPlugin, but it hides SetAmbisonicDecoderPlugin.
         /// </summary>
         /// <param name="name">Name.</param>
-        public static void SetAmbisonicDecoderPluginName(string name) =>
+        public static void SetAmbisonicDecoderPluginName(string name)
+        {
             CallHiddenStaticMethod<AudioSettings>("SetAmbisonicDecoderPluginName", name);
+        }
     }
 }

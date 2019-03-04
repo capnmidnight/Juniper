@@ -47,10 +47,12 @@ namespace System
         /// </summary>
         /// <returns>The path.</returns>
         /// <param name="value">Value.</param>
-        public static string NormalizePath(this string value) =>
-            value
+        public static string NormalizePath(this string value)
+        {
+            return value
                 .Replace('/', Path.DirectorySeparatorChar)
                 .Replace('\\', Path.DirectorySeparatorChar);
+        }
 
         /// <summary>
         /// Join a collection of string path components by the system's standard directory part
@@ -58,8 +60,10 @@ namespace System
         /// </summary>
         /// <param name="parts"></param>
         /// <returns></returns>
-        public static string Join(this string[] parts) =>
-            Join(parts, Path.DirectorySeparatorChar);
+        public static string Join(this string[] parts)
+        {
+            return Join(parts, Path.DirectorySeparatorChar);
+        }
 
         public static string Join(this string[] parts, string separator)
         {

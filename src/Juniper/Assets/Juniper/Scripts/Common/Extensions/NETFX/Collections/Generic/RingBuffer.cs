@@ -95,8 +95,13 @@ namespace System.Collections.Generic
         /// <summary>
         /// Returns true if all slots in the ring buffer have values.
         /// </summary>
-        public bool IsSaturated =>
-            Count == width - 1;
+        public bool IsSaturated
+        {
+            get
+            {
+                return Count == width - 1;
+            }
+        }
 
         /// <summary>
         /// Returns the number of items in the buffer, up to the buffer size.
@@ -125,7 +130,13 @@ namespace System.Collections.Generic
         /// <summary>
         /// Always returns false
         /// </summary>
-        public bool IsReadOnly => false;
+        public bool IsReadOnly
+        {
+            get
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the element at the specified index.
@@ -169,8 +180,10 @@ namespace System.Collections.Generic
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<T> GetEnumerator() =>
-            buffer.AsEnumerable().GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+        {
+            return buffer.AsEnumerable().GetEnumerator();
+        }
 
         /// <summary>
         /// Returns true if the give item is in the collection.
@@ -183,8 +196,10 @@ namespace System.Collections.Generic
         /// 4, 1, 5 } buffer.Add(9); // { 1, 4, 1, 5, 9 } buffer.Add(2); // { 4, 1, 5, 9, 2 }
         /// buffer.Contains(3); // --&gt; false buffer.Contains(1); // --&gt; true
         /// </example>
-        public bool Contains(T item) =>
-            IndexOf(item) != -1;
+        public bool Contains(T item)
+        {
+            return IndexOf(item) != -1;
+        }
 
         /// <summary>
         /// Copies the elements of the RingBuffer{T} to an Array, starting at a particular Array index.
@@ -276,8 +291,10 @@ namespace System.Collections.Generic
         /// 3, 1, 4 } buffer.CopyTo(arr, 1, 2); // arr -&gt; { 3, 3, 1 } buffer.CopyTo(arr, 1, 3); //
         /// throws ArgumentException
         /// </example>
-        public void CopyTo(T[] array, int destinationIndex, int count) =>
+        public void CopyTo(T[] array, int destinationIndex, int count)
+        {
             CopyTo(array, 0, destinationIndex, count);
+        }
 
         /// <summary>
         /// Copies the elements of the RingBuffer{T} to an Array, starting at a particular Array index.
@@ -300,8 +317,10 @@ namespace System.Collections.Generic
         /// int[] arr = new int[3]; // arr -&gt; { 0, 0, 0 } buffer.CopyTo(arr, 2); // arr -&gt; { 3,
         /// 1, 0 } buffer.CopyTo(arr, 3); // arr -&gt; { 3, 1, 4 } buffer.CopyTo(arr, 4); // throws ArgumentException
         /// </example>
-        public void CopyTo(T[] array, int destinationIndex) =>
+        public void CopyTo(T[] array, int destinationIndex)
+        {
             CopyTo(array, 0, destinationIndex, Count);
+        }
 
         /// <summary>
         /// Copies the elements of the RingBuffer{T} to an Array, starting at a particular Array index.
@@ -322,8 +341,10 @@ namespace System.Collections.Generic
         /// -&gt; { 3, 1, 4 } int[] arr = new int[2]; // arr -&gt; { 0, 0 } buffer.CopyTo(arr); //
         /// throws ArgumentException
         /// </example>
-        public void CopyTo(T[] array) =>
+        public void CopyTo(T[] array)
+        {
             CopyTo(array, 0, 0, Count);
+        }
 
         /// <summary>
         /// Remove an item from the buffer.
@@ -393,8 +414,10 @@ namespace System.Collections.Generic
         /// buffer.Add(4); // { 3, 1, 4 } buffer.Clear(); // { } buffer.Add(1); // { 1 }
         /// buffer.Add(5); // { 1, 5 }
         /// </example>
-        public virtual void Clear() =>
+        public virtual void Clear()
+        {
             start = end = 0;
+        }
 
         /// <summary>
         /// Add an item to the buffer, overwriting the oldest values if the buffer is full.
@@ -479,7 +502,9 @@ namespace System.Collections.Generic
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns></returns>
-        IEnumerator IEnumerable.GetEnumerator() =>
-            buffer.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return buffer.GetEnumerator();
+        }
     }
 }
