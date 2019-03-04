@@ -63,14 +63,14 @@ namespace Juniper.Ground
         public override void Uninstall()
         {
             base.Uninstall();
-
-            var stage = ComponentExt.FindAny<StageExtensions>();
-            var mapper = stage.GetComponent<MLSpatialMapper>();
-            mapper.transform.Find("Original")
+            
+            var mapper = DisplayManager.MainCamera.GetComponent<MLSpatialMapper>();
+            mapper?.transform
+                ?.Find("Original")
                 ?.gameObject
                 ?.Destroy();
 
-            mapper.Destroy();
+            mapper?.Destroy();
         }
     }
 }
