@@ -1,0 +1,11 @@
+<map id="Juniper.Unity.Haptics.AbstractHapticExpressor" name="Juniper.Unity.Haptics.AbstractHapticExpressor">
+<area shape="rect" id="node1" title="Non&#45;iOS systems do not have built&#45;in haptic patterns. This class replicates the functionality of the ..." alt="" coords="325,359,516,641"/>
+<area shape="rect" id="node4" href="$d0/db8/class_juniper_1_1_unity_1_1_haptics_1_1_abstract_android_a_p_i_haptics.html" title="Android has two APIs for haptic feedback, but they all pump through the Vibrator system service...." alt="" coords="113,689,304,825"/>
+<area shape="rect" id="node7" href="$d3/d8d/class_juniper_1_1_unity_1_1_haptics_1_1_default_haptics.html" title="When no specific haptic implementation is available, but we know the system supports haptics,..." alt="" coords="329,697,513,818"/>
+<area shape="rect" id="node8" href="$d0/d4c/class_juniper_1_1_unity_1_1_haptics_1_1i_o_s9_haptics.html" title="https://gist.github.com/kenshin03/6303582" alt="" coords="537,711,707,803"/>
+<area shape="rect" id="node2" href="$dd/d24/class_juniper_1_1_unity_1_1_haptics_1_1_abstract_haptic_device.html" title="An interface for all haptic device subsystems." alt="" coords="350,131,491,311"/>
+<area shape="rect" id="node3" title=" " alt="" coords="366,5,475,83"/>
+<area shape="rect" id="node5" href="$df/df6/class_juniper_1_1_unity_1_1_haptics_1_1_android_a_p_i1_haptics.html" title="Implements haptic feedback for Android API levels less than 26. Vibration amplitude is not available ..." alt="" coords="5,910,193,1017"/>
+<area shape="rect" id="node6" href="$d9/d56/class_juniper_1_1_unity_1_1_haptics_1_1_android_a_p_i26_haptics.html" title="Haptic system that implements the latest Android API version (26), which enables vibrations of differ..." alt="" coords="217,873,405,1053"/>
+<area shape="rect" id="node9" href="$de/d10/class_juniper_1_1_unity_1_1_haptics_1_1i_o_s10_haptics.html" title="iOS 10 Taptic Feedback. /// How to Generate Haptic Feedback with UIFeedbackGenerator" alt="" coords="533,903,711,1024"/>
+</map>

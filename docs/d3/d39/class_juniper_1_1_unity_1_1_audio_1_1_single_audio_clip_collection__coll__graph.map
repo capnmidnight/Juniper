@@ -1,0 +1,4 @@
+<map id="Juniper.Unity.Audio.SingleAudioClipCollection" name="Juniper.Unity.Audio.SingleAudioClipCollection">
+<area shape="rect" id="node1" title="Wraps around a single audio clip to make it interface with code that handles full collections of audi..." alt="" coords="5,131,176,223"/>
+<area shape="rect" id="node2" href="$da/d46/interface_juniper_1_1_unity_1_1_audio_1_1_i_audio_clip_collection.html" title="The IAudioClipCollection interface is implemented by two classes. One is a savable collection of audi..." alt="" coords="23,5,158,83"/>
+</map>

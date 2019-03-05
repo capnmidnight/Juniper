@@ -1,0 +1,7 @@
+<map id="Juniper.Data.AbstractBackgroundThread" name="Juniper.Data.AbstractBackgroundThread">
+<area shape="rect" id="node1" title="An abstract class for performing an operation on a background thread." alt="" coords="241,5,452,185"/>
+<area shape="rect" id="node2" href="$dd/dad/class_juniper_1_1_data_1_1_abstract_background_repeating_thread.html" title="Performs an operation in a loop on a background thread." alt="" coords="131,233,341,399"/>
+<area shape="rect" id="node5" href="$d0/dce/class_juniper_1_1_data_1_1_one_shot_thread.html" title="Run any System.Action in a background thread that starts right away." alt="" coords="365,263,552,369"/>
+<area shape="rect" id="node3" href="$d5/d6f/class_juniper_1_1_data_1_1_managed_request.html" title="A ManagedRequest is a AbstractBackgroundRepeatingThread that keeps a parameterized type value as its ..." alt="" coords="5,447,235,817"/>
+<area shape="rect" id="node4" href="$d6/da5/class_juniper_1_1_unity_1_1_vuforia_1_1_vuforia_image_analyzer.html" title="Basic scaffolding around performing image analysis on Vuforia&#39;s image feed. This typically only works..." alt="" coords="259,542,445,722"/>
+</map>

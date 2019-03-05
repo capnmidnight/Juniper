@@ -1,0 +1,13 @@
+<map id="Juniper.Unity.MasterSceneController" name="Juniper.Unity.MasterSceneController">
+<area shape="rect" id="node1" title="Manages loading SubSceneController components (scenes that are additively loaded into a &quot;main&quot; scene)..." alt="" coords="411,1603,628,2237"/>
+<area shape="rect" id="node2" title=" " alt="" coords="475,132,585,209"/>
+<area shape="rect" id="node6" href="$dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="31,259,186,717"/>
+<area shape="rect" id="node7" href="$d5/d97/class_juniper_1_1_unity_1_1_juniper_platform.html" title=" " alt="" coords="314,802,503,1085"/>
+<area shape="rect" id="node9" href="$d2/d95/class_juniper_1_1_unity_1_1_widgets_1_1_loading_bar.html" title=" " alt="" coords="696,398,908,578"/>
+<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="227,435,319,541"/>
+<area shape="rect" id="node4" href="$d3/d84/class_juniper_1_1_unity_1_1_animation_1_1_fade_transition.html" title="Performs a fade&#45;in/fade&#45;out animation on scene transitions." alt="" coords="277,1169,455,1540"/>
+<area shape="rect" id="node5" href="$de/d7d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="5,780,188,1107"/>
+<area shape="rect" id="node8" title=" " alt="" coords="504,449,556,527"/>
+<area shape="rect" id="node10" href="$d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html" title=" " alt="" coords="739,132,865,209"/>
+<area shape="rect" id="node11" href="$d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html" title=" " alt="" coords="760,5,844,83"/>
+</map>

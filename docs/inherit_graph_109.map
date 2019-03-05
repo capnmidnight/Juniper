@@ -1,0 +1,13 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" title=" " alt="" coords="5,307,87,334"/>
+<area shape="rect" id="node2" href="$d0/d0e/class_juniper_1_1_unity_1_1_events_1_1_pointer_event.html" title=" " alt="" coords="146,5,326,47"/>
+<area shape="rect" id="node3" href="$d1/dd9/class_juniper_1_1_unity_1_1_input_1_1_unified_input_module_1_1_pointer_found_event.html" title=" " alt="" coords="135,71,337,112"/>
+<area shape="rect" id="node4" href="$dc/d68/class_unity_engine_1_1_events_1_1_boolean_event.html" title="An event that passes a boolean value as an argument." alt="" coords="147,136,325,177"/>
+<area shape="rect" id="node5" href="$d2/d9d/class_unity_engine_1_1_events_1_1_exception_event.html" title="An event that passes a Transform value as an argument." alt="" coords="143,201,329,243"/>
+<area shape="rect" id="node6" href="$d2/db6/class_unity_engine_1_1_events_1_1_float_event.html" title="An event that passes a float value as an argument." alt="" coords="155,267,317,308"/>
+<area shape="rect" id="node7" href="$d6/d7f/class_unity_engine_1_1_events_1_1_game_object_event.html" title="An event that passes a GameObject value as an argument." alt="" coords="135,332,337,373"/>
+<area shape="rect" id="node8" href="$dc/d56/class_unity_engine_1_1_events_1_1_integer_event.html" title="An event that passes an integer value as an argument." alt="" coords="149,397,323,439"/>
+<area shape="rect" id="node9" href="$d9/d59/class_unity_engine_1_1_events_1_1_string_event.html" title="An event that passes a string value as an argument." alt="" coords="153,463,319,504"/>
+<area shape="rect" id="node10" href="$d1/d11/class_unity_engine_1_1_events_1_1_transform_event.html" title="An event that passes a Transform value as an argument." alt="" coords="139,528,333,569"/>
+<area shape="rect" id="node11" href="$d3/d7d/class_unity_engine_1_1_events_1_1_vector3_event.html" title="An event that passes an Vector3 value as an argument." alt="" coords="147,593,325,635"/>
+</map>

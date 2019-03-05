@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['magicleapanchorstore_2ecs',['MagicLeapAnchorStore.cs',['../d0/dcd/_magic_leap_anchor_store_8cs.html',1,'']]],
   ['magicleapdisplaymanager_2ecs',['MagicLeapDisplayManager.cs',['../d1/d92/_magic_leap_display_manager_8cs.html',1,'']]],
   ['magicleapgazepointer_2ecs',['MagicLeapGazePointer.cs',['../dc/dd1/_magic_leap_gaze_pointer_8cs.html',1,'']]],
   ['magicleapground_2ecs',['MagicLeapGround.cs',['../de/d66/_magic_leap_ground_8cs.html',1,'']]],
@@ -8,6 +9,7 @@ var searchData=
   ['magicleaplightmeasurement_2ecs',['MagicLeapLightMeasurement.cs',['../dc/d85/_magic_leap_light_measurement_8cs.html',1,'']]],
   ['magicleapmotioncontroller_2ecs',['MagicLeapMotionController.cs',['../da/db0/_magic_leap_motion_controller_8cs.html',1,'']]],
   ['magicleaptrackerkeeper_2ecs',['MagicLeapTrackerKeeper.cs',['../db/de6/_magic_leap_tracker_keeper_8cs.html',1,'']]],
+  ['magicwindowdisplaymanager_2ecs',['MagicWindowDisplayManager.cs',['../da/dd0/_magic_window_display_manager_8cs.html',1,'']]],
   ['managedrequest_2ecs',['ManagedRequest.cs',['../d0/d14/_managed_request_8cs.html',1,'']]],
   ['managedrequestmessage_2ecs',['ManagedRequestMessage.cs',['../d4/d56/_managed_request_message_8cs.html',1,'']]],
   ['managedrequestready_2ecs',['ManagedRequestReady.cs',['../de/d16/_managed_request_ready_8cs.html',1,'']]],
@@ -27,6 +29,7 @@ var searchData=
   ['milliseconds_2ecs',['Milliseconds.cs',['../de/de1/_milliseconds_8cs.html',1,'']]],
   ['mindwaveadapter_2ecs',['MindWaveAdapter.cs',['../d9/def/_mind_wave_adapter_8cs.html',1,'']]],
   ['minutes_2ecs',['Minutes.cs',['../dc/d63/_minutes_8cs.html',1,'']]],
+  ['mockanchorstore_2ecs',['MockAnchorStore.cs',['../d3/d80/_mock_anchor_store_8cs.html',1,'']]],
   ['mockworldanchor_2ecs',['MockWorldAnchor.cs',['../d0/d3a/_mock_world_anchor_8cs.html',1,'']]],
   ['months_2ecs',['Months.cs',['../df/d6e/_months_8cs.html',1,'']]],
   ['motioncontroller_2ecs',['MotionController.cs',['../df/d3f/_motion_controller_8cs.html',1,'']]],

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['qualitydegrader',['QualityDegrader',['../d2/d52/class_juniper_1_1_widgets_1_1_quality_degrader.html',1,'Juniper::Widgets']]]
+  ['qualitydegrader',['QualityDegrader',['../d1/de6/class_juniper_1_1_unity_1_1_widgets_1_1_quality_degrader.html',1,'Juniper::Unity::Widgets']]]
 ];

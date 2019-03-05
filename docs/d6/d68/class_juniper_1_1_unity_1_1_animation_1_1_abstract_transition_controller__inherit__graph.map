@@ -1,0 +1,11 @@
+<map id="Juniper.Unity.Animation.AbstractTransitionController" name="Juniper.Unity.Animation.AbstractTransitionController">
+<area shape="rect" id="node1" title="Child classes of this class are able to animate transitions between program states." alt="" coords="391,637,574,979"/>
+<area shape="rect" id="node4" href="$da/d20/class_juniper_1_1_unity_1_1_animation_1_1_alpha_transition.html" title="Performs a shrinking/growing animation on scene transitions." alt="" coords="16,1137,176,1302"/>
+<area shape="rect" id="node6" href="$d3/d84/class_juniper_1_1_unity_1_1_animation_1_1_fade_transition.html" title="Performs a fade&#45;in/fade&#45;out animation on scene transitions." alt="" coords="201,1027,378,1412"/>
+<area shape="rect" id="node7" href="$da/dc2/class_juniper_1_1_unity_1_1_animation_1_1_scale_transition.html" title="Performs a shrinking/growing animation on scene transitions." alt="" coords="403,1144,563,1295"/>
+<area shape="rect" id="node8" href="$d5/d56/class_juniper_1_1_unity_1_1_animation_1_1_spiral_transition.html" title="Take an object in world&#45;space and spiral it in to camera&#45;locked space (faux&#45;screen&#45;space)" alt="" coords="587,1063,747,1375"/>
+<area shape="rect" id="node9" href="$d4/d79/class_juniper_1_1_unity_1_1_animation_1_1_translation_transition.html" title="Performs a sliding animation on scene transitions. The object&#39;s localPosition is the value that is ch..." alt="" coords="771,1129,931,1309"/>
+<area shape="rect" id="node2" href="$dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="405,131,560,589"/>
+<area shape="rect" id="node3" title=" " alt="" coords="428,5,537,83"/>
+<area shape="rect" id="node5" href="$db/de8/class_juniper_1_1_unity_1_1_widgets_1_1_video_vader.html" title="Manages the life&#45;cycle of a video that can be faded out or faded in." alt="" coords="5,1460,187,1684"/>
+</map>

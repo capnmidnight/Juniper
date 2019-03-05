@@ -90,6 +90,14 @@ $(function() {
 
 <p>A grab-bag of features specific to <a class="el" href="../../de/d4f/namespace_unity_engine_1_1_android.html">Android</a> devices.  
  <a href="../../d8/d02/class_unity_engine_1_1_android_1_1_device.html#details">More...</a></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Collaboration diagram for UnityEngine.Android.Device:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../de/d03/class_unity_engine_1_1_android_1_1_device__coll__graph.svg" width="188" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -142,7 +150,7 @@ Properties</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../df/d53/_device_8cs_source.html#l00046">46</a> of file <a class="el" href="../../df/d53/_device_8cs_source.html">Device.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#if UNITY_ANDROID</span></div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            var unityPlayer = <span class="keyword">new</span> AndroidJavaClass(<span class="stringliteral">&quot;com.unity3d.player.UnityPlayer&quot;</span>);</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            var unityActivity = unityPlayer.GetStatic&lt;AndroidJavaObject&gt;(<span class="stringliteral">&quot;currentActivity&quot;</span>);</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">if</span> (unityActivity != <span class="keyword">null</span>)</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            {</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                var toastClass = <span class="keyword">new</span> AndroidJavaClass(<span class="stringliteral">&quot;android.widget.Toast&quot;</span>);</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                unityActivity.Call(<span class="stringliteral">&quot;runOnUiThread&quot;</span>, <span class="keyword">new</span> AndroidJavaRunnable(() =&gt;</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                    var toastObject = toastClass.CallStatic&lt;AndroidJavaObject&gt;(<span class="stringliteral">&quot;makeText&quot;</span>, unityActivity, message, 0);</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                    toastObject.Call(<span class="stringliteral">&quot;show&quot;</span>);</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                }));</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            }</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../dd/d0f/_a_r_core_display_manager_8cs_source.html#l00059">Juniper.Display.ARCoreDisplayManager.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../dd/d0f/_a_r_core_display_manager_8cs_source.html#l00059">Juniper.Unity.Display.ARCoreDisplayManager.Update()</a>.</p>
 
 </div>
 </div>

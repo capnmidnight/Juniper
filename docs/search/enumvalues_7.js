@@ -1,7 +1,7 @@
 var searchData=
 [
   ['haze',['HAZE',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40ab731ed2c9e5adcaf7dc95116bd0d03a3',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
-  ['heavy',['Heavy',['../dd/d0e/namespace_juniper_1_1_haptics.html#a033eb0472e5a7d12e4540107db61c90baf9ffe67a20da9cbff56b420fca4bd491',1,'Juniper::Haptics']]],
+  ['heavy',['Heavy',['../df/d94/namespace_juniper_1_1_unity_1_1_haptics.html#a26351fb58c31def710b2c395a49dbd63af9ffe67a20da9cbff56b420fca4bd491',1,'Juniper::Unity::Haptics']]],
   ['heavy_5fintensity_5fdrizzle',['HEAVY_INTENSITY_DRIZZLE',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40af3cbe37bacfde28a11d1d6f670b12f3a',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
   ['heavy_5fintensity_5fdrizzle_5frain',['HEAVY_INTENSITY_DRIZZLE_RAIN',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40a509f2fc592b96293b33bd4a60111aabd',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
   ['heavy_5fintensity_5frain',['HEAVY_INTENSITY_RAIN',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40a5765a0cbaabb16fc3a76124992d54203',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
@@ -14,7 +14,7 @@ var searchData=
   ['hertz',['Hertz',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794af373520f32c8e017a3a42344b5706960',1,'Juniper']]],
   ['high',['High',['../de/d75/namespace_juniper.html#a726d4e314bcbb83319c207b2b851358ba655d20c1ca69519ca647684edbb2db35',1,'Juniper']]],
   ['high_5fwind_5fnear_5fgale',['HIGH_WIND_NEAR_GALE',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40a8c9b01126002c628f9e18a527aa114fd',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
-  ['hitobject',['HitObject',['../da/dfc/class_juniper_1_1_input_1_1_pointers_1_1_probe.html#a539f893193628a41a1ee559a3414bf94a5e73d7babacace42682a9ceea1a3e8fb',1,'Juniper::Input::Pointers::Probe']]],
+  ['hitobject',['HitObject',['../d6/d3e/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_probe.html#a6c2cfffba98920e2c850b18220a0daf6a5e73d7babacace42682a9ceea1a3e8fb',1,'Juniper::Unity::Input::Pointers::Probe']]],
   ['holographic',['Holographic',['../de/d75/namespace_juniper.html#a42db9d24cad0f6fad0d73e41213a098da2de33b48acaeae4662afb601a4e87ed7',1,'Juniper']]],
   ['hours',['Hours',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a6a7e73161603d87b26a8eac49dab0a9c',1,'Juniper']]],
   ['hugefilesize',['HugeFileSize',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa82d5fd73d4f3995c5dd0db1ab78ffccd',1,'Juniper::Units']]],

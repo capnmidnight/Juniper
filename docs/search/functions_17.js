@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['x',['X',['../da/d6a/class_juniper_1_1_statistics_1_1_kalman_motion_filter.html#a8be856e13f2f63169ceeab9cbe79aaf0',1,'Juniper::Statistics::KalmanMotionFilter']]]
+  ['x',['X',['../d9/d39/class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter.html#a45773e39755a89fffc633f73937e0f6a',1,'Juniper::Unity::Statistics::KalmanMotionFilter']]]
 ];

@@ -1,0 +1,7 @@
+<map id="UnityEngine.StringVariable" name="UnityEngine.StringVariable">
+<area shape="rect" id="node1" title="A string value that can be saved to the Assets folder and used across projects" alt="" coords="42,457,215,535"/>
+<area shape="rect" id="node2" href="$d4/d88/class_unity_engine_1_1_abstract_variable.html" title=" " alt="" coords="41,301,216,408"/>
+<area shape="rect" id="node3" href="$d4/d88/class_unity_engine_1_1_abstract_variable.html" title="An abstraction of storing values on disk in the Assets folder. A sort of drag&#45;and&#45;drop means of setti..." alt="" coords="19,132,239,239"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,5,121,83"/>
+<area shape="rect" id="node5" href="$d8/d2c/interface_unity_engine_1_1_i_valued.html" title="An abstraction for Reference{T}s and Varabile{T}s to make them usuable in shared contexts." alt="" coords="146,5,245,83"/>
+</map>

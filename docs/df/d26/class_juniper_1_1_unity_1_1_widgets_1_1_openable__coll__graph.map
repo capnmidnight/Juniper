@@ -1,0 +1,18 @@
+<map id="Juniper.Unity.Widgets.Openable" name="Juniper.Unity.Widgets.Openable">
+<area shape="rect" id="node1" title="A control that is a container of other controls that are hidden until the control is clicked." alt="" coords="78,1599,281,1823"/>
+<area shape="rect" id="node2" href="$df/de4/class_juniper_1_1_unity_1_1_widgets_1_1_clickable.html" title="An object that can be Touched on a screen or Clicked with a mouse and fires an event in response." alt="" coords="215,1399,373,1549"/>
+<area shape="rect" id="node3" href="$dc/dad/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_touchable.html" title="The base class for all interactive, AR&#45;compatible, GUI controls /// This class is abstract to avoid i..." alt="" coords="831,683,999,1009"/>
+<area shape="rect" id="node4" title=" " alt="" coords="1165,5,1274,83"/>
+<area shape="rect" id="node9" href="$dd/d2d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_animator.html" title="An abstraction layer over different ways of showing UI state. Only one such component is allowed on a..." alt="" coords="1257,293,1417,429"/>
+<area shape="rect" id="node16" href="$dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="19,132,174,591"/>
+<area shape="rect" id="node5" title=" " alt="" coords="365,323,505,400"/>
+<area shape="rect" id="node6" title=" " alt="" coords="530,323,661,400"/>
+<area shape="rect" id="node7" title=" " alt="" coords="685,323,828,400"/>
+<area shape="rect" id="node8" title=" " alt="" coords="853,323,978,400"/>
+<area shape="rect" id="node10" title=" " alt="" coords="1002,323,1090,400"/>
+<area shape="rect" id="node11" title=" " alt="" coords="1115,323,1167,400"/>
+<area shape="rect" id="node12" title=" " alt="" coords="138,807,274,885"/>
+<area shape="rect" id="node13" href="$d8/d82/interface_juniper_1_1_unity_1_1_events_1_1_i_long_press_handler.html" title=" " alt="" coords="299,800,457,892"/>
+<area shape="rect" id="node14" title=" " alt="" coords="199,323,341,400"/>
+<area shape="rect" id="node15" href="$de/d7d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="5,1033,188,1375"/>
+</map>

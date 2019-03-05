@@ -1,0 +1,12 @@
+<map id="Juniper.Unity.Haptics.AbstractHapticDevice" name="Juniper.Unity.Haptics.AbstractHapticDevice">
+<area shape="rect" id="node1" title="An interface for all haptic device subsystems." alt="" coords="424,131,615,325"/>
+<area shape="rect" id="node3" href="$de/d85/class_juniper_1_1_unity_1_1_haptics_1_1_abstract_haptic_expressor.html" title="Non&#45;iOS systems do not have built&#45;in haptic patterns. This class replicates the functionality of the ..." alt="" coords="325,373,516,656"/>
+<area shape="rect" id="node10" href="$d4/de6/class_juniper_1_1_unity_1_1_haptics_1_1_no_haptics.html" title="When we are on a system that we know for a fact does not have haptics, we can initialize the haptic s..." alt="" coords="540,417,699,612"/>
+<area shape="rect" id="node2" title=" " alt="" coords="465,5,574,83"/>
+<area shape="rect" id="node4" href="$d0/db8/class_juniper_1_1_unity_1_1_haptics_1_1_abstract_android_a_p_i_haptics.html" title="Android has two APIs for haptic feedback, but they all pump through the Vibrator system service...." alt="" coords="113,704,304,840"/>
+<area shape="rect" id="node7" href="$d3/d8d/class_juniper_1_1_unity_1_1_haptics_1_1_default_haptics.html" title="When no specific haptic implementation is available, but we know the system supports haptics,..." alt="" coords="329,711,513,833"/>
+<area shape="rect" id="node8" href="$d0/d4c/class_juniper_1_1_unity_1_1_haptics_1_1i_o_s9_haptics.html" title="https://gist.github.com/kenshin03/6303582" alt="" coords="537,726,707,818"/>
+<area shape="rect" id="node5" href="$df/df6/class_juniper_1_1_unity_1_1_haptics_1_1_android_a_p_i1_haptics.html" title="Implements haptic feedback for Android API levels less than 26. Vibration amplitude is not available ..." alt="" coords="5,925,193,1031"/>
+<area shape="rect" id="node6" href="$d9/d56/class_juniper_1_1_unity_1_1_haptics_1_1_android_a_p_i26_haptics.html" title="Haptic system that implements the latest Android API version (26), which enables vibrations of differ..." alt="" coords="217,888,405,1068"/>
+<area shape="rect" id="node9" href="$de/d10/class_juniper_1_1_unity_1_1_haptics_1_1i_o_s10_haptics.html" title="iOS 10 Taptic Feedback. /// How to Generate Haptic Feedback with UIFeedbackGenerator" alt="" coords="533,917,711,1039"/>
+</map>

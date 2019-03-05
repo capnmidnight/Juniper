@@ -1,0 +1,6 @@
+<map id="Juniper.Unity.Anchoring.MockWorldAnchor" name="Juniper.Unity.Anchoring.MockWorldAnchor">
+<area shape="rect" id="node1" title="Anchors provide a means to restore the position of objects between sessions. In some AR systems,..." alt="" coords="31,300,191,392"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,153,115,230"/>
+<area shape="rect" id="node3" href="$df/d11/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_world_anchor_1_1_pose.html" title="A serializable set of position, rotation, and scale values." alt="" coords="139,145,299,237"/>
+<area shape="rect" id="node4" title=" " alt="" coords="175,5,263,83"/>
+</map>

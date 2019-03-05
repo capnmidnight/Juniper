@@ -1,0 +1,6 @@
+<map id="Juniper.Unity.Input.DefaultLocomotion" name="Juniper.Unity.Input.DefaultLocomotion">
+<area shape="rect" id="node1" title=" " alt="" coords="9,455,181,547"/>
+<area shape="rect" id="node2" href="$d1/df3/class_juniper_1_1_unity_1_1_input_1_1_no_locomotion.html" title="Controlling the camera from a desktop system. Very useful for quickly debugging things." alt="" coords="43,329,146,407"/>
+<area shape="rect" id="node3" href="$d5/d28/class_juniper_1_1_unity_1_1_input_1_1_abstract_velocity_locomotion.html" title=" " alt="" coords="5,131,184,281"/>
+<area shape="rect" id="node4" title=" " alt="" coords="40,5,149,83"/>
+</map>

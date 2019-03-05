@@ -1,0 +1,6 @@
+<map id="Juniper.Unity.SubSceneController" name="Juniper.Unity.SubSceneController">
+<area shape="rect" id="node1" title="SubSceneControllers are used by the MasterSceneController to manage workflow through an application...." alt="" coords="5,1044,217,1283"/>
+<area shape="rect" id="node2" href="$dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="7,132,162,591"/>
+<area shape="rect" id="node4" href="$de/d7d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="107,640,289,981"/>
+<area shape="rect" id="node3" title=" " alt="" coords="30,5,139,83"/>
+</map>

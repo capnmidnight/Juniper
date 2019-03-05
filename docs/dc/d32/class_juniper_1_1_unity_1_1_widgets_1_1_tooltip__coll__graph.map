@@ -1,0 +1,6 @@
+<map id="Juniper.Unity.Widgets.Tooltip" name="Juniper.Unity.Widgets.Tooltip">
+<area shape="rect" id="node1" title="A combination of a TextMesh object and a background label, where the text can resize to fill the back..." alt="" coords="18,491,206,685"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,248,115,325"/>
+<area shape="rect" id="node3" href="$de/d45/class_unity_engine_1_1_text_mesh_size.html" title="Calculates the width of a set of text that is rendered to a TextMesh object, for being able to resize..." alt="" coords="139,145,309,428"/>
+<area shape="rect" id="node4" title=" " alt="" coords="180,5,268,83"/>
+</map>

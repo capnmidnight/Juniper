@@ -1,7 +1,7 @@
 var searchData=
 [
   ['entered',['Entered',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82ada227d75216ac0ad2d08a1acebcfc18f',1,'Juniper::Input']]],
-  ['error',['Error',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a902b0d55fddef6f8d651fe1035b7d4bd',1,'Juniper.Input.Error()'],['../dd/d0e/namespace_juniper_1_1_haptics.html#a033eb0472e5a7d12e4540107db61c90ba902b0d55fddef6f8d651fe1035b7d4bd',1,'Juniper.Haptics.Error()']]],
+  ['error',['Error',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a902b0d55fddef6f8d651fe1035b7d4bd',1,'Juniper.Input.Error()'],['../df/d94/namespace_juniper_1_1_unity_1_1_haptics.html#a26351fb58c31def710b2c395a49dbd63a902b0d55fddef6f8d651fe1035b7d4bd',1,'Juniper.Unity.Haptics.Error()']]],
   ['exabytes',['Exabytes',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a1e7535056f489fc82f76fae19149b2ef',1,'Juniper']]],
   ['exbibytes',['Exbibytes',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794ae59204e6e3275f512172ae9645a916fe',1,'Juniper']]],
   ['exited',['Exited',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a268ce394e277db759f5d6ee76c59f0e7',1,'Juniper::Input']]],

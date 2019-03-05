@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['platformchangeconfirmed',['PlatformChangeConfirmed',['../dc/d39/class_juniper_1_1_configuration_management_1_1_project_configuration.html#a9501f8903047144ae5cc8236e153c4c5',1,'Juniper::ConfigurationManagement::ProjectConfiguration']]],
-  ['platformchanged',['PlatformChanged',['../dc/d39/class_juniper_1_1_configuration_management_1_1_project_configuration.html#a2a6727de8c95b02032bf677d00d13369',1,'Juniper::ConfigurationManagement::ProjectConfiguration']]],
-  ['pointerfound',['PointerFound',['../d7/d3d/class_juniper_1_1_input_1_1_unified_input_module.html#ac0f2d8f46b52c702ae2d11541545cbfe',1,'Juniper::Input::UnifiedInputModule']]],
-  ['positionupdated',['PositionUpdated',['../d4/da2/class_juniper_1_1_world_1_1_g_p_s_location.html#a9c3d4f139546964e489047bd558db244',1,'Juniper::World::GPSLocation']]]
+  ['platformchangeconfirmed',['PlatformChangeConfirmed',['../d2/d93/class_juniper_1_1_unity_1_1_configuration_management_1_1_project_configuration.html#a12223e4ba666f1cfe52228dcb11999a4',1,'Juniper::Unity::ConfigurationManagement::ProjectConfiguration']]],
+  ['platformchanged',['PlatformChanged',['../d2/d93/class_juniper_1_1_unity_1_1_configuration_management_1_1_project_configuration.html#a3fc2ebef276c33943b1aaf0d895c455d',1,'Juniper::Unity::ConfigurationManagement::ProjectConfiguration']]],
+  ['pointerfound',['PointerFound',['../d0/d5c/class_juniper_1_1_unity_1_1_input_1_1_unified_input_module.html#a28d430a24ef9c102b8b57120bb5bfc81',1,'Juniper::Unity::Input::UnifiedInputModule']]],
+  ['positionupdated',['PositionUpdated',['../db/d2e/class_juniper_1_1_unity_1_1_world_1_1_g_p_s_location.html#a6021e8d4a26c7b7ddd6f50d9d1b2bc13',1,'Juniper::Unity::World::GPSLocation']]]
 ];

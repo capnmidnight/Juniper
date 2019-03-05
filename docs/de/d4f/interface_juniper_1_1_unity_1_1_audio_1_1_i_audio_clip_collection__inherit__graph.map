@@ -1,0 +1,5 @@
+<map id="Juniper.Unity.Audio.IAudioClipCollection" name="Juniper.Unity.Audio.IAudioClipCollection">
+<area shape="rect" id="node1" title="The IAudioClipCollection interface is implemented by two classes. One is a savable collection of audi..." alt="" coords="99,5,270,97"/>
+<area shape="rect" id="node2" href="$d3/d6d/class_juniper_1_1_unity_1_1_audio_1_1_audio_clip_collection.html" title="A collection of related audio clips. For example, one might have many different gunshot sounds to hav..." alt="" coords="5,145,172,237"/>
+<area shape="rect" id="node3" href="$db/dd3/class_juniper_1_1_unity_1_1_audio_1_1_single_audio_clip_collection.html" title="Wraps around a single audio clip to make it interface with code that handles full collections of audi..." alt="" coords="197,145,367,237"/>
+</map>

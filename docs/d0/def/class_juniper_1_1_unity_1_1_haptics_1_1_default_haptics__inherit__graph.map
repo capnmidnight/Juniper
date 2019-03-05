@@ -1,0 +1,6 @@
+<map id="Juniper.Unity.Haptics.DefaultHaptics" name="Juniper.Unity.Haptics.DefaultHaptics">
+<area shape="rect" id="node1" title="When no specific haptic implementation is available, but we know the system supports haptics,..." alt="" coords="5,675,189,796"/>
+<area shape="rect" id="node2" href="$de/d85/class_juniper_1_1_unity_1_1_haptics_1_1_abstract_haptic_expressor.html" title="Non&#45;iOS systems do not have built&#45;in haptic patterns. This class replicates the functionality of the ..." alt="" coords="17,359,177,627"/>
+<area shape="rect" id="node3" href="$dd/d24/class_juniper_1_1_unity_1_1_haptics_1_1_abstract_haptic_device.html" title="An interface for all haptic device subsystems." alt="" coords="27,131,168,311"/>
+<area shape="rect" id="node4" title=" " alt="" coords="43,5,152,83"/>
+</map>

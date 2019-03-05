@@ -1,0 +1,4 @@
+<map id="Juniper.Unity.EditableDateTime" name="Juniper.Unity.EditableDateTime">
+<area shape="rect" id="node1" title="A wrapper around System.DateTime that makes it possible to edit values in the Unity Editor." alt="" coords="5,145,204,531"/>
+<area shape="rect" id="node2" title=" " alt="" coords="79,5,131,83"/>
+</map>

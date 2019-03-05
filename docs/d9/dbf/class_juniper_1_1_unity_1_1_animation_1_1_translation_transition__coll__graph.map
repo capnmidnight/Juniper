@@ -1,0 +1,7 @@
+<map id="Juniper.Unity.Animation.TranslationTransition" name="Juniper.Unity.Animation.TranslationTransition">
+<area shape="rect" id="node1" title="Performs a sliding animation on scene transitions. The object&#39;s localPosition is the value that is ch..." alt="" coords="137,1044,297,1195"/>
+<area shape="rect" id="node2" href="$de/d7d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="5,640,188,967"/>
+<area shape="rect" id="node3" href="$dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="19,132,174,591"/>
+<area shape="rect" id="node4" title=" " alt="" coords="42,5,151,83"/>
+<area shape="rect" id="node5" title=" " alt="" coords="213,765,301,842"/>
+</map>

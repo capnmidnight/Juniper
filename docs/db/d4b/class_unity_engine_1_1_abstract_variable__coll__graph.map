@@ -1,0 +1,5 @@
+<map id="UnityEngine.AbstractVariable&lt; T &gt;" name="UnityEngine.AbstractVariable&lt; T &gt;">
+<area shape="rect" id="node1" title="An abstraction of storing values on disk in the Assets folder. A sort of drag&#45;and&#45;drop means of setti..." alt="" coords="19,131,239,237"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,121,83"/>
+<area shape="rect" id="node3" href="$d8/d2c/interface_unity_engine_1_1_i_valued.html" title="An abstraction for Reference{T}s and Varabile{T}s to make them usuable in shared contexts." alt="" coords="146,5,245,83"/>
+</map>

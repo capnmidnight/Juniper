@@ -1,0 +1,5 @@
+<map id="Juniper.Unity.Widgets.ScaleHandle" name="Juniper.Unity.Widgets.ScaleHandle">
+<area shape="rect" id="node1" title="A constraint handle that is used to scale the size of a target object." alt="" coords="5,417,185,524"/>
+<area shape="rect" id="node2" href="$d6/d6a/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_constraint_handle.html" title="An abstract class that manages reading the movement of a control handle and constraining that movemen..." alt="" coords="12,131,179,369"/>
+<area shape="rect" id="node3" title=" " alt="" coords="41,5,150,83"/>
+</map>

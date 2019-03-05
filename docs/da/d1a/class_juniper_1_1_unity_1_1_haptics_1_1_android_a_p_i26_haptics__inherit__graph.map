@@ -1,0 +1,7 @@
+<map id="Juniper.Unity.Haptics.AndroidAPI26Haptics" name="Juniper.Unity.Haptics.AndroidAPI26Haptics">
+<area shape="rect" id="node1" title="Haptic system that implements the latest Android API version (26), which enables vibrations of differ..." alt="" coords="5,844,193,1024"/>
+<area shape="rect" id="node2" href="$d0/db8/class_juniper_1_1_unity_1_1_haptics_1_1_abstract_android_a_p_i_haptics.html" title="Android has two APIs for haptic feedback, but they all pump through the Vibrator system service...." alt="" coords="13,675,186,796"/>
+<area shape="rect" id="node3" href="$de/d85/class_juniper_1_1_unity_1_1_haptics_1_1_abstract_haptic_expressor.html" title="Non&#45;iOS systems do not have built&#45;in haptic patterns. This class replicates the functionality of the ..." alt="" coords="19,359,179,627"/>
+<area shape="rect" id="node4" href="$dd/d24/class_juniper_1_1_unity_1_1_haptics_1_1_abstract_haptic_device.html" title="An interface for all haptic device subsystems." alt="" coords="29,131,170,311"/>
+<area shape="rect" id="node5" title=" " alt="" coords="45,5,154,83"/>
+</map>

@@ -1,0 +1,3 @@
+<map id="Juniper.World.Climate.OpenWeatherMap.API.Error" name="Juniper.World.Climate.OpenWeatherMap.API.Error">
+<area shape="rect" id="node1" title="Encapsulates an error response from the API server. Objects of this type are Serializable." alt="" coords="5,5,188,112"/>
+</map>

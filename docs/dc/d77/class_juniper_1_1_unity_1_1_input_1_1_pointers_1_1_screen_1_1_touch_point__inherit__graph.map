@@ -1,0 +1,11 @@
+<map id="Juniper.Unity.Input.Pointers.Screen.TouchPoint" name="Juniper.Unity.Input.Pointers.Screen.TouchPoint">
+<area shape="rect" id="node1" title="Perform pointer events on touch screens." alt="" coords="391,1611,573,1879"/>
+<area shape="rect" id="node2" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="393,1411,571,1561"/>
+<area shape="rect" id="node3" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title="A ScreenDevice is a AbstractPointerDevice&lt;ButtonIDType, HapticsType&gt; that has its primary pointer int..." alt="" coords="386,1168,578,1333"/>
+<area shape="rect" id="node4" href="$d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="265,425,457,1119"/>
+<area shape="rect" id="node5" title=" " alt="" coords="122,152,231,229"/>
+<area shape="rect" id="node6" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="5,137,97,244"/>
+<area shape="rect" id="node7" href="$d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="490,5,655,376"/>
+<area shape="rect" id="node9" href="$df/dcd/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_i_screen_device.html" title=" " alt="" coords="483,726,643,818"/>
+<area shape="rect" id="node8" href="$dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html" title=" " alt="" coords="255,123,466,259"/>
+</map>

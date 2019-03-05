@@ -1,0 +1,6 @@
+<map id="Juniper.Unity.Statistics.Vector2Statistics" name="Juniper.Unity.Statistics.Vector2Statistics">
+<area shape="rect" id="node1" title="Computes statistics on UnityEngine.Vector2 values." alt="" coords="27,1924,182,2148"/>
+<area shape="rect" id="node2" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="5,1035,204,1875"/>
+<area shape="rect" id="node3" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="5,132,204,972"/>
+<area shape="rect" id="node4" title=" " alt="" coords="65,5,144,83"/>
+</map>

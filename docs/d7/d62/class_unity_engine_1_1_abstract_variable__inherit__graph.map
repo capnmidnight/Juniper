@@ -1,0 +1,11 @@
+<map id="UnityEngine.AbstractVariable&lt; T &gt;" name="UnityEngine.AbstractVariable&lt; T &gt;">
+<area shape="rect" id="node1" title="An abstraction of storing values on disk in the Assets folder. A sort of drag&#45;and&#45;drop means of setti..." alt="" coords="199,132,419,239"/>
+<area shape="rect" id="node4" href="$d4/d88/class_unity_engine_1_1_abstract_variable.html" title=" " alt="" coords="5,301,192,423"/>
+<area shape="rect" id="node6" href="$d4/d88/class_unity_engine_1_1_abstract_variable.html" title=" " alt="" coords="216,301,403,423"/>
+<area shape="rect" id="node8" href="$d4/d88/class_unity_engine_1_1_abstract_variable.html" title=" " alt="" coords="427,301,613,423"/>
+<area shape="rect" id="node2" title=" " alt="" coords="186,5,302,83"/>
+<area shape="rect" id="node3" href="$d8/d2c/interface_unity_engine_1_1_i_valued.html" title="An abstraction for Reference{T}s and Varabile{T}s to make them usuable in shared contexts." alt="" coords="327,5,425,83"/>
+<area shape="rect" id="node5" href="$d2/ddd/class_unity_engine_1_1_float_variable.html" title="A float value that can be saved to the Assets folder and used across projects" alt="" coords="15,472,182,549"/>
+<area shape="rect" id="node7" href="$da/d1d/class_unity_engine_1_1_integer_variable.html" title="An integer value that can be saved to the Assets folder and used across projects" alt="" coords="219,472,399,549"/>
+<area shape="rect" id="node9" href="$d5/dd2/class_unity_engine_1_1_string_variable.html" title="A string value that can be saved to the Assets folder and used across projects" alt="" coords="433,472,607,549"/>
+</map>

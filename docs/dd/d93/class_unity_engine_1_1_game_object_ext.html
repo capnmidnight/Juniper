@@ -89,6 +89,14 @@ $(function() {
 
 <p>Extensions to Unity's GameObject class.  
  <a href="../../dd/d93/class_unity_engine_1_1_game_object_ext.html#details">More...</a></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Collaboration diagram for UnityEngine.GameObjectExt:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d8/d5b/class_unity_engine_1_1_game_object_ext__coll__graph.svg" width="200" height="279"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -106,10 +114,10 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a7bb94765c2204a565029a05b31acdbaa"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d93/class_unity_engine_1_1_game_object_ext.html#a7bb94765c2204a565029a05b31acdbaa">IsActivated</a> (this GameObject parent)</td></tr>
 <tr class="memdesc:a7bb94765c2204a565029a05b31acdbaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check to see if a particular game object is active and in the scene.  <a href="#a7bb94765c2204a565029a05b31acdbaa">More...</a><br /></td></tr>
 <tr class="separator:a7bb94765c2204a565029a05b31acdbaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e6ebe6c57fc2794efa1b3bb6bb2082b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d7/d2a/struct_juniper_1_1_pooled_component.html">PooledComponent</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d93/class_unity_engine_1_1_game_object_ext.html#a4e6ebe6c57fc2794efa1b3bb6bb2082b">EnsureComponent&lt; T &gt;</a> (this GameObject obj, Predicate&lt; T &gt; predicate=null, Action&lt; T &gt; onCreate=null)</td></tr>
+<tr class="memitem:a4e6ebe6c57fc2794efa1b3bb6bb2082b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d93/class_unity_engine_1_1_game_object_ext.html#a4e6ebe6c57fc2794efa1b3bb6bb2082b">EnsureComponent&lt; T &gt;</a> (this GameObject obj, Predicate&lt; T &gt; predicate=null, Action&lt; T &gt; onCreate=null)</td></tr>
 <tr class="memdesc:a4e6ebe6c57fc2794efa1b3bb6bb2082b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to get a component of type <em>T</em>  from <em>obj</em> . If one is not available, this function creates one on the gameObject and returns that.  <a href="#a4e6ebe6c57fc2794efa1b3bb6bb2082b">More...</a><br /></td></tr>
 <tr class="separator:a4e6ebe6c57fc2794efa1b3bb6bb2082b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d613b819c623040209147811db4b82d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d7/d2a/struct_juniper_1_1_pooled_component.html">PooledComponent</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d93/class_unity_engine_1_1_game_object_ext.html#a3d613b819c623040209147811db4b82d">EnsureComponent&lt; T &gt;</a> (this GameObject obj, Action&lt; T &gt; onCreate)</td></tr>
+<tr class="memitem:a3d613b819c623040209147811db4b82d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d93/class_unity_engine_1_1_game_object_ext.html#a3d613b819c623040209147811db4b82d">EnsureComponent&lt; T &gt;</a> (this GameObject obj, Action&lt; T &gt; onCreate)</td></tr>
 <tr class="separator:a3d613b819c623040209147811db4b82d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42f9907580c45607284a57e087012d5d"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d93/class_unity_engine_1_1_game_object_ext.html#a42f9907580c45607284a57e087012d5d">FullName</a> (this GameObject obj)</td></tr>
 <tr class="memdesc:a42f9907580c45607284a57e087012d5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenate the name of all of the objects in the scene graph hierarchy above this object, to create a path-like view of where the object is located.  <a href="#a42f9907580c45607284a57e087012d5d">More...</a><br /></td></tr>
@@ -297,7 +305,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="../../d7/d2a/struct_juniper_1_1_pooled_component.html">PooledComponent</a>&lt;T&gt; UnityEngine.GameObjectExt.EnsureComponent&lt; T &gt; </td>
+          <td class="memname">static <a class="el" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent</a>&lt;T&gt; UnityEngine.GameObjectExt.EnsureComponent&lt; T &gt; </td>
           <td>(</td>
           <td class="paramtype">this GameObject&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
@@ -351,7 +359,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 <p class="definition">Definition at line <a class="el" href="../../de/d52/_game_object_ext_8cs_source.html#l00070">70</a> of file <a class="el" href="../../de/d52/_game_object_ext_8cs_source.html">GameObjectExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                                                                                                                                   : Component</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        {</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d7/d2a/struct_juniper_1_1_pooled_component.html">PooledComponent&lt;T&gt;</a>(obj, predicate, onCreate);</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        }</div><div class="ttc" id="struct_juniper_1_1_pooled_component_html"><div class="ttname"><a href="../../d7/d2a/struct_juniper_1_1_pooled_component.html">Juniper.PooledComponent</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/dc7/_pooled_component_8cs_source.html#l00007">PooledComponent.cs:7</a></div></div>
+<div class="fragment"><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                                                                                                                                   : Component</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        {</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent&lt;T&gt;</a>(obj, predicate, onCreate);</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        }</div><div class="ttc" id="struct_juniper_1_1_unity_1_1_pooled_component_html"><div class="ttname"><a href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">Juniper.Unity.PooledComponent</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/dc7/_pooled_component_8cs_source.html#l00007">PooledComponent.cs:7</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -365,7 +373,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="../../d7/d2a/struct_juniper_1_1_pooled_component.html">PooledComponent</a>&lt;T&gt; UnityEngine.GameObjectExt.EnsureComponent&lt; T &gt; </td>
+          <td class="memname">static <a class="el" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent</a>&lt;T&gt; UnityEngine.GameObjectExt.EnsureComponent&lt; T &gt; </td>
           <td>(</td>
           <td class="paramtype">this GameObject&#160;</td>
           <td class="paramname"><em>obj</em>, </td>
@@ -398,7 +406,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 
 <p class="definition">Definition at line <a class="el" href="../../de/d52/_game_object_ext_8cs_source.html#l00075">75</a> of file <a class="el" href="../../de/d52/_game_object_ext_8cs_source.html">GameObjectExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                                                                                             : Component</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d7/d2a/struct_juniper_1_1_pooled_component.html">PooledComponent&lt;T&gt;</a>(obj, <span class="keyword">null</span>, onCreate);</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div><div class="ttc" id="struct_juniper_1_1_pooled_component_html"><div class="ttname"><a href="../../d7/d2a/struct_juniper_1_1_pooled_component.html">Juniper.PooledComponent</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/dc7/_pooled_component_8cs_source.html#l00007">PooledComponent.cs:7</a></div></div>
+<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                                                                                             : Component</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent&lt;T&gt;</a>(obj, <span class="keyword">null</span>, onCreate);</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div><div class="ttc" id="struct_juniper_1_1_unity_1_1_pooled_component_html"><div class="ttname"><a href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">Juniper.Unity.PooledComponent</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/dc7/_pooled_component_8cs_source.html#l00007">PooledComponent.cs:7</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

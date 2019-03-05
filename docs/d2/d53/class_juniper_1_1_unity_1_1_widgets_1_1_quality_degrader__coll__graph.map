@@ -1,0 +1,9 @@
+<map id="Juniper.Unity.Widgets.QualityDegrader" name="Juniper.Unity.Widgets.QualityDegrader">
+<area shape="rect" id="node1" title="This component manages the quality settings on the fly, making sure the application never falls below..." alt="" coords="123,2211,311,2405"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,1997,115,2075"/>
+<area shape="rect" id="node3" href="$d5/d19/class_juniper_1_1_statistics_1_1_single_statistics.html" title="Computes statistics on System.Single values." alt="" coords="139,1924,296,2148"/>
+<area shape="rect" id="node4" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="118,1035,317,1875"/>
+<area shape="rect" id="node5" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="118,132,317,972"/>
+<area shape="rect" id="node6" title=" " alt="" coords="178,5,257,83"/>
+<area shape="rect" id="node7" title=" " alt="" coords="321,1997,383,2075"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Juniper.Unity.World.SunPosition" name="Juniper.Unity.World.SunPosition">
+<area shape="rect" id="node1" title="Calculates the position of the Sun in relation to the user&#39;s current position on spaceship Earth...." alt="" coords="5,131,208,355"/>
+<area shape="rect" id="node2" title=" " alt="" coords="52,5,161,83"/>
+</map>

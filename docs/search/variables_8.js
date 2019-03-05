@@ -1,20 +1,20 @@
 var searchData=
 [
-  ['h',['h',['../d0/dca/struct_juniper_1_1_h_s_v_color.html#a13d2d186387a362398e9265ae05ddf09',1,'Juniper::HSVColor']]],
-  ['hadanytargets',['hadAnyTargets',['../d0/d81/class_juniper_1_1_image_tracking_1_1_abstract_tracker_keeper.html#ad2dd5d3a91d3bf63839f6502dbf106f6',1,'Juniper::ImageTracking::AbstractTrackerKeeper']]],
-  ['hadtarget',['hadTarget',['../d3/d3f/class_juniper_1_1_widgets_1_1_abstract_constraint_handle.html#a89f84f379fa76192e47a3c86e0f31d8f',1,'Juniper::Widgets::AbstractConstraintHandle']]],
-  ['handle',['handle',['../d3/d3f/class_juniper_1_1_widgets_1_1_abstract_constraint_handle.html#a41491d74ee93193524c53c8229aabbb4',1,'Juniper::Widgets::AbstractConstraintHandle']]],
-  ['hands',['Hands',['../d4/d78/class_juniper_1_1_stage_extensions.html#ad68a24f73720032e9abbc141eb5f3a81',1,'Juniper::StageExtensions']]],
-  ['handtrackers',['handTrackers',['../d4/d78/class_juniper_1_1_stage_extensions.html#a89401df987d4319e13ab847fa66a675e',1,'Juniper::StageExtensions']]],
+  ['h',['h',['../dd/db0/struct_juniper_1_1_unity_1_1_h_s_v_color.html#adff607b144ccb57d78eb2aff1f6271b8',1,'Juniper::Unity::HSVColor']]],
+  ['hadanytargets',['hadAnyTargets',['../db/db9/class_juniper_1_1_unity_1_1_image_tracking_1_1_abstract_tracker_keeper.html#af3d163c4b1cc9aea5f6f2f2d422a5ab9',1,'Juniper::Unity::ImageTracking::AbstractTrackerKeeper']]],
+  ['hadtarget',['hadTarget',['../d6/d6a/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_constraint_handle.html#a8f11cc73985126158c229dad18c2e8ac',1,'Juniper::Unity::Widgets::AbstractConstraintHandle']]],
+  ['handle',['handle',['../d6/d6a/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_constraint_handle.html#af30e7e6f58f1c5012106760616c019f5',1,'Juniper::Unity::Widgets::AbstractConstraintHandle']]],
+  ['hands',['Hands',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#aaa0fe83bf2b778f296f7f9fb67008062',1,'Juniper::Unity::StageExtensions']]],
+  ['handtrackers',['handTrackers',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#af2990ef116fc7e8de84bed0e64292be3',1,'Juniper::Unity::StageExtensions']]],
   ['haslightestimation',['HasLightEstimation',['../d0/d23/class_vuforia_1_1_vuforia_unity_ext.html#a7769e307d1128ec7a10486acd5d56cab',1,'Vuforia::VuforiaUnityExt']]],
   ['haspet',['HasPET',['../d0/d23/class_vuforia_1_1_vuforia_unity_ext.html#a53785f3139cdccf3d4c288385e78c2a5',1,'Vuforia::VuforiaUnityExt']]],
-  ['head',['Head',['../d4/d78/class_juniper_1_1_stage_extensions.html#a09f812aa93fe338d3c57e49256d16a75',1,'Juniper::StageExtensions']]],
-  ['height',['height',['../da/d87/struct_juniper_1_1_imaging_1_1_raw_image.html#ab0d1bf0b2b1f97789da358af1d149c95',1,'Juniper.Imaging.RawImage.height()'],['../d3/d98/class_juniper_1_1_widgets_1_1_standoff.html#a4912988387956609c262a964aff43049',1,'Juniper.Widgets.Standoff.height()']]],
+  ['head',['Head',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#aec2a7931f3ac9edba69686836186b67c',1,'Juniper::Unity::StageExtensions']]],
+  ['height',['height',['../d3/dde/struct_juniper_1_1_unity_1_1_imaging_1_1_raw_image.html#a9ad76a45d36eb6c654a94412cd3fafb3',1,'Juniper.Unity.Imaging.RawImage.height()'],['../d8/d03/class_juniper_1_1_unity_1_1_widgets_1_1_standoff.html#a4b9f5ffbea9ae3cd9f8547ec1b13a0e4',1,'Juniper.Unity.Widgets.Standoff.height()']]],
   ['hemisphere',['Hemisphere',['../d0/da5/struct_juniper_1_1_world_1_1_g_i_s_1_1_u_t_m_point.html#aea73192df29e2f6b5754d9e9b1791d6c',1,'Juniper::World::GIS::UTMPoint']]],
   ['hidden_5fstatic',['HIDDEN_STATIC',['../d6/dcd/class_unity_editor_1_1_hidden_settings_accessor.html#aac70d66acaf61d3fee593017f3639f1f',1,'UnityEditor::HiddenSettingsAccessor']]],
-  ['highlightbackgroundcolor',['highlightBackgroundColor',['../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a35d54db3e1940cfcff5f335598e8ed98',1,'Juniper::Widgets::ListView']]],
-  ['highlightcolor',['highlightColor',['../d9/dd4/class_juniper_1_1_widgets_1_1_list_view.html#a2e78ae4d16669aed9bacade6e81fd7e2',1,'Juniper::Widgets::ListView']]],
-  ['horizontalnessthreshold',['horizontalnessThreshold',['../d7/d9d/class_juniper_1_1_anchoring_1_1_grounded.html#a9d2a5de4718871a18314816ec04da7e6',1,'Juniper::Anchoring::Grounded']]],
-  ['hour',['Hour',['../d0/d94/struct_juniper_1_1_editable_date_time.html#ad23c6cf6ac80d57775a882c05b2d16f1',1,'Juniper::EditableDateTime']]],
-  ['humidity',['humidity',['../de/d67/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_main.html#aa0e30492a0ccd93d9a1662190d24e89d',1,'Juniper.World.Climate.OpenWeatherMap.WeatherReport.Main.humidity()'],['../d3/d28/class_juniper_1_1_world_1_1_climate_1_1_fake_weather_report.html#a79b7c592de4aeec6b39da412bb72c523',1,'Juniper.World.Climate.FakeWeatherReport.humidity()']]]
+  ['highlightbackgroundcolor',['highlightBackgroundColor',['../de/d8e/class_juniper_1_1_unity_1_1_widgets_1_1_list_view.html#a2571c1b94c674f66767e4f61d7fb33da',1,'Juniper::Unity::Widgets::ListView']]],
+  ['highlightcolor',['highlightColor',['../de/d8e/class_juniper_1_1_unity_1_1_widgets_1_1_list_view.html#ab054558ab1f74cbe4c670d44e03da250',1,'Juniper::Unity::Widgets::ListView']]],
+  ['horizontalnessthreshold',['horizontalnessThreshold',['../d2/d22/class_juniper_1_1_unity_1_1_anchoring_1_1_grounded.html#a07424a8c30251fb17e57c12dc0672189',1,'Juniper::Unity::Anchoring::Grounded']]],
+  ['hour',['Hour',['../dd/d15/struct_juniper_1_1_unity_1_1_editable_date_time.html#a47349e5a63d9322856541049bf7d92b0',1,'Juniper::Unity::EditableDateTime']]],
+  ['humidity',['humidity',['../de/d67/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_main.html#aa0e30492a0ccd93d9a1662190d24e89d',1,'Juniper.World.Climate.OpenWeatherMap.WeatherReport.Main.humidity()'],['../db/de7/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_fake_weather_report.html#a09ce81bb3da67c46a343aa55391536b7',1,'Juniper.Unity.World.Climate.FakeWeatherReport.humidity()']]]
 ];

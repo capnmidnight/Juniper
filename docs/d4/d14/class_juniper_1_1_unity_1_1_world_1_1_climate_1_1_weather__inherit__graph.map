@@ -1,0 +1,4 @@
+<map id="Juniper.Unity.World.Climate.Weather" name="Juniper.Unity.World.Climate.Weather">
+<area shape="rect" id="node1" title="A component for managing access to weather reports. Only one of these components is allowed on a game..." alt="" coords="5,131,189,516"/>
+<area shape="rect" id="node2" title=" " alt="" coords="43,5,152,83"/>
+</map>
