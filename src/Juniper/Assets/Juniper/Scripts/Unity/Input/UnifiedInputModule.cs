@@ -298,6 +298,13 @@ namespace Juniper.Input
         {
             reset &= Application.isEditor;
 
+#if UNITY_EDITOR
+            if (pointerPrefab == null)
+            {
+                pointerPrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(System.IO.PathExt.FixPath("Assets/Juniper/Prefabs/DiskProbe.prefab"));
+            }
+#endif
+
 #if OCULUS
             this.EnsureComponent<OVRManager>();
 
@@ -310,13 +317,6 @@ namespace Juniper.Input
                 System.IO.PathExt.FixPath("Assets/GoogleVR/Prefabs/InstantPreview/GvrInstantPreviewMain.prefab"));
             UnityEditor.PrefabUtility.InstantiatePrefab(ip);
 #endif
-#endif
-
-#if UNITY_EDITOR
-            if (pointerPrefab == null)
-            {
-                pointerPrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(System.IO.PathExt.FixPath("Assets/Juniper/Prefabs/DiskProbe.prefab"));
-            }
 #endif
         }
 
