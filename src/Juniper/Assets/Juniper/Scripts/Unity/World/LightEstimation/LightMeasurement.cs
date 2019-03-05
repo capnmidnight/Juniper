@@ -17,7 +17,7 @@ namespace Juniper.Unity.World.LightEstimation
 #elif VUFORIA
         VuforiaLightMeasurement
 #else
-        NoLightMeasurement
+        AbstractLightMeasurement
 #endif
     {
     }

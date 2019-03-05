@@ -10,7 +10,7 @@ namespace Juniper.Unity.ImageTracking
 #elif VUFORIA
         VuforiaTrackerKeeper
 #else
-        NoTrackerKeeper
+        AbstractTrackerKeeper
 #endif
     {
     }
