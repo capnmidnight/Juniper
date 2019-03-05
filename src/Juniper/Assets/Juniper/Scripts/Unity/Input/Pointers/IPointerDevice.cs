@@ -62,9 +62,9 @@ namespace Juniper.Unity.Input.Pointers
             get; set;
         }
 
-        UnifiedInputModule InputModule
+        AbstractUnifiedInputModule InputModule
         {
-            get; set;
+            get;
         }
 
         Vector3 InteractionDirection

@@ -261,9 +261,6 @@ namespace Juniper.Unity.Input.Pointers
                 EventCamera.clearFlags = CameraClearFlags.SolidColor;
                 EventCamera.backgroundColor = ColorExt.TransparentBlack;
                 EventCamera.nearClipPlane = DisplayManager.MainCamera.nearClipPlane;
-#if !(GOOGLEVR || OCULUS || DAYDREAM || WAVEVR || WINDOWSMR || HOLOLENS || MAGIC_LEAP)
-                EventCamera.fieldOfView = CameraExtensions.MainCamera.fieldOfView;
-#endif
                 EventCamera.depth = DisplayManager.MainCamera.depth - 1;
                 EventCamera.allowHDR = false;
                 EventCamera.allowMSAA = false;

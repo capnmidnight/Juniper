@@ -416,14 +416,17 @@ namespace Juniper.Unity.Input.Pointers
             }
         }
 
-        protected UnifiedInputModule eventManager;
+        protected AbstractUnifiedInputModule eventManager;
+
+        public AbstractUnifiedInputModule InputModule
+        {
+            get
+            {
+                return eventManager;
+            }
+        }
 
         protected StageExtensions stage;
-
-        public UnifiedInputModule InputModule
-        {
-            get; set;
-        }
 
         public virtual bool IsDragging
         {
