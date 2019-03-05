@@ -1,3 +1,5 @@
+using Juniper.Unity.Events;
+
 using System;
 using System.Linq;
 
@@ -5,7 +7,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Events
+namespace Juniper.UnityEditor.Events
 {
     [CustomEditor(typeof(ButtonEvent))]
     public class ButtonEventEditor : Editor

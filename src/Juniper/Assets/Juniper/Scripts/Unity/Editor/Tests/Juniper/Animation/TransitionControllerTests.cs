@@ -1,3 +1,5 @@
+using Juniper.Unity.Animation;
+
 using NUnit.Framework;
 
 using System.Collections;
@@ -7,7 +9,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-namespace Juniper.Unity.Animation
+namespace Juniper.UnityEditor.Animation
 {
     public class TransitionControllerTests
     {

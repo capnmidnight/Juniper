@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 
-namespace Juniper.Unity.ConfigurationManagement
+namespace Juniper.UnityEditor.ConfigurationManagement
 {
     public sealed class ProjectConfiguration
     {

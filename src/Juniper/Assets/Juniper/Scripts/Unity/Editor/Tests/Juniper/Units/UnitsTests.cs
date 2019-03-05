@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 using UnityEngine;
 
-namespace Juniper.Unity
+namespace Juniper.UnityEditor
 {
     public class UnitsTests
     {

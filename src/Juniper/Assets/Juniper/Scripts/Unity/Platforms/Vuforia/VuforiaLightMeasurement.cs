@@ -2,9 +2,9 @@
 using System;
 using System.Collections;
 using Juniper.XR;
+using Juniper.Unity.Imaging;
 using Vuforia;
 using UnityEngine;
-using Juniper.Vuforia;
 
 namespace Juniper.Unity.World.LightEstimation
 {

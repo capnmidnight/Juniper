@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Juniper.Progress
 {
     public interface IProgress
@@ -14,7 +12,7 @@ namespace Juniper.Progress
     {
         public static bool IsComplete(this IProgress prog)
         {
-            return Mathf.Approximately(prog.Progress, 1);
+            return prog.Progress >= 1;
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Vuforia;
 
-namespace Juniper.Unity.Vuforia
+namespace Juniper.Unity.Imaging
 {
     /// <summary>
     /// Basic scaffolding around performing image analysis on Vuforia's image feed. This typically

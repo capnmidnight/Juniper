@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 using System;
 
-namespace Juniper.Unity.Statistics
+namespace Juniper.UnityEditor.Statistics
 {
     public class SingleStatisticsTests
     {

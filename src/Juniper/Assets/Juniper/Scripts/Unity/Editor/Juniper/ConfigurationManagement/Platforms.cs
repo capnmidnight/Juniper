@@ -10,7 +10,7 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace Juniper.Unity.ConfigurationManagement
+namespace Juniper.UnityEditor.ConfigurationManagement
 {
     internal class Platforms
     {

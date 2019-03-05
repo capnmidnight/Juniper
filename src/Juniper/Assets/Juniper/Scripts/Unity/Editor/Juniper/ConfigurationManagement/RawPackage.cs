@@ -1,6 +1,5 @@
 using Juniper.Data;
 using Juniper.Progress;
-using Juniper.UnityEditor;
 
 using Newtonsoft.Json;
 
@@ -13,7 +12,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Juniper.Unity.ConfigurationManagement
+namespace Juniper.UnityEditor.ConfigurationManagement
 {
     internal sealed class RawPackage : AbstractPackage
     {

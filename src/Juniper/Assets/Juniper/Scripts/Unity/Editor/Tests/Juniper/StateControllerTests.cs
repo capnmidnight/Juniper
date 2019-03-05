@@ -1,3 +1,5 @@
+using Juniper.Unity;
+
 using NUnit.Framework;
 
 using System.Collections;
@@ -6,7 +8,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-namespace Juniper.Unity
+namespace Juniper.UnityEditor
 {
     public class StateControllerTests
     {

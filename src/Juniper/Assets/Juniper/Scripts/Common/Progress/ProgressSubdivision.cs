@@ -10,7 +10,7 @@ namespace Juniper.Progress
         public ProgressSubdivision(IProgressReceiver parent, float start, float length, string prefix = null)
         {
             this.parent = parent;
-            this.start = UnityEngine.Mathf.Max(0, start);
+            this.start = System.Math.Max(0, start);
             this.length = length;
             this.prefix = prefix;
         }

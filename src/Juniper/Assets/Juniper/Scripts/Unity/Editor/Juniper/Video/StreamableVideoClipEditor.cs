@@ -1,12 +1,12 @@
 #if UNITY_MODULES_VIDEO
 
-using Juniper.UnityEditor;
+using Juniper.Unity.Video;
 
 using UnityEditor;
 
 using UnityEngine.Video;
 
-namespace Juniper.Unity.Video.CustomEditors
+namespace Juniper.UnityEditor.Video
 {
     [CustomPropertyDrawer(typeof(StreamableVideoClip))]
     public class StreamableVideoClipEditor : StreamableAssetEditor<VideoClip, StreamableVideoClip>

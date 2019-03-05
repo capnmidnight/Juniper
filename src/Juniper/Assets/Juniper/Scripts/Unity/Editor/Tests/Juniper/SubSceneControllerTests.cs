@@ -4,7 +4,7 @@ using System.Collections;
 
 using UnityEngine.TestTools;
 
-namespace Juniper.Unity
+namespace Juniper.UnityEditor
 {
     public class SubSceneControllerTests
     {

@@ -1,4 +1,5 @@
 using Juniper.Progress;
+using Juniper.Unity;
 using Juniper.Unity.Progress;
 
 using Newtonsoft.Json;
@@ -15,7 +16,7 @@ using UnityEditor.SceneManagement;
 
 using UnityEngine;
 
-namespace Juniper.Unity.ConfigurationManagement
+namespace Juniper.UnityEditor.ConfigurationManagement
 {
     /// <summary>
     /// An editor to respond to changes in XRSystem.
