@@ -1,6 +1,8 @@
 using System.IO;
 
-namespace UnityEditor
+using UnityEditor;
+
+namespace Juniper.UnityEditor
 {
     public static class PluginImporterExt
     {

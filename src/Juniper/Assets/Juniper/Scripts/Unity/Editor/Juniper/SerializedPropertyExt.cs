@@ -1,9 +1,9 @@
 using System.Reflection;
 using System.Text.RegularExpressions;
-
+using UnityEditor;
 using UnityEngine;
 
-namespace UnityEditor
+namespace Juniper.UnityEditor
 {
     public static class SerializedPropertyExt
     {

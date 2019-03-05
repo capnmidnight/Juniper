@@ -1,6 +1,8 @@
 using UnityEditor;
 
-namespace UnityEngine
+using UnityEngine;
+
+namespace Juniper.UnityEditor
 {
     [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
     public class ReadOnlyDrawer : PropertyDrawer

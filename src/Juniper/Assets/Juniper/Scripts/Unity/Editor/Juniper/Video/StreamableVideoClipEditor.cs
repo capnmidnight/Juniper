@@ -1,6 +1,6 @@
 #if UNITY_MODULES_VIDEO
 
-using Juniper.Unity.CustomEditors;
+using Juniper.UnityEditor;
 
 using UnityEditor;
 

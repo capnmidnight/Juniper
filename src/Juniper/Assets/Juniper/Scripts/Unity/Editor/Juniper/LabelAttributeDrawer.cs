@@ -1,6 +1,8 @@
 using UnityEditor;
 
-namespace UnityEngine
+using UnityEngine;
+
+namespace Juniper.UnityEditor
 {
     /// <summary>
     /// A custom property drawer for drawing customized labels on Unity component fields.

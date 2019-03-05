@@ -1,3 +1,4 @@
+using Juniper.Unity;
 using System;
 
 using UnityEditor;
@@ -7,7 +8,7 @@ using UnityEditor.Build.Reporting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Juniper.Unity.CustomEditors
+namespace Juniper.UnityEditor
 {
     public abstract class StreamableAssetEditor<T, U> : PropertyDrawer,
         IPreprocessBuildWithReport, IPostprocessBuildWithReport

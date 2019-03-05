@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace UnityEditor
+namespace Juniper.UnityEditor
 {
     /// <summary>
     /// A base class for all of the Settings extendor classes to gain access to helper methods that
