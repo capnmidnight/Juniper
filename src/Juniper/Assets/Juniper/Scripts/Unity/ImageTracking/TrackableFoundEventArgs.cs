@@ -10,7 +10,7 @@ namespace Juniper.Unity.ImageTracking
         /// <summary>
         /// The object that was found.
         /// </summary>
-        public readonly TrackableFoundEventHandler Source;
+        public readonly AbstractTrackableFoundEventHandler Source;
 
         /// <summary>
         /// The new state of tracking, either true (Tracking) or false (Lost).
@@ -23,7 +23,7 @@ namespace Juniper.Unity.ImageTracking
         /// </summary>
         /// <param name="src">Source.</param>
         /// <param name="tracking">If set to <c>true</c> tracking.</param>
-        public TrackingStateChangeEventArgs(TrackableFoundEventHandler src, bool tracking)
+        public TrackingStateChangeEventArgs(AbstractTrackableFoundEventHandler src, bool tracking)
         {
             Source = src;
             Tracking = tracking;

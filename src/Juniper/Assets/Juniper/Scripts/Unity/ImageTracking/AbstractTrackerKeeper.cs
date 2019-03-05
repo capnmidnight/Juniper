@@ -20,7 +20,7 @@ namespace Juniper.Unity.ImageTracking
         /// <summary>
         /// All of the targets in the system.
         /// </summary>
-        protected readonly List<TrackableFoundEventHandler> targets = new List<TrackableFoundEventHandler>();
+        protected readonly List<AbstractTrackableFoundEventHandler> targets = new List<AbstractTrackableFoundEventHandler>();
 
         /// <summary>
         /// Is set to true when the tracking system is initialized and running.
@@ -143,7 +143,7 @@ namespace Juniper.Unity.ImageTracking
         /// Register's a target and its events for the aggregated events issued by TrackerKeeper.
         /// </summary>
         /// <param name="target">Target.</param>
-        public TrackableFoundEventHandler Register(TrackableFoundEventHandler target)
+        public AbstractTrackableFoundEventHandler Register(AbstractTrackableFoundEventHandler target)
         {
             if (targets?.Contains(target) == false)
             {
@@ -237,7 +237,7 @@ namespace Juniper.Unity.ImageTracking
         /// </summary>
         /// <returns>The finder.</returns>
         /// <param name="target">Target.</param>
-        private UnityAction TargetFinder(TrackableFoundEventHandler target)
+        private UnityAction TargetFinder(AbstractTrackableFoundEventHandler target)
         {
             return () =>
             {
@@ -267,7 +267,7 @@ namespace Juniper.Unity.ImageTracking
         /// </summary>
         /// <returns>The finder.</returns>
         /// <param name="target">Target.</param>
-        private UnityAction TargetProximity(TrackableFoundEventHandler target)
+        private UnityAction TargetProximity(AbstractTrackableFoundEventHandler target)
         {
             return () => onTargetProximity.Invoke(target.transform);
         }
@@ -277,7 +277,7 @@ namespace Juniper.Unity.ImageTracking
         /// </summary>
         /// <returns>The finder.</returns>
         /// <param name="target">Target.</param>
-        private UnityAction TargetSafe(TrackableFoundEventHandler target)
+        private UnityAction TargetSafe(AbstractTrackableFoundEventHandler target)
         {
             return () => onTargetSafe.Invoke(target.transform);
         }
@@ -291,7 +291,7 @@ namespace Juniper.Unity.ImageTracking
         /// </summary>
         /// <returns>The loser.</returns>
         /// <param name="target">Target.</param>
-        private UnityAction TargetLoser(TrackableFoundEventHandler target)
+        private UnityAction TargetLoser(AbstractTrackableFoundEventHandler target)
         {
             return () =>
             {
