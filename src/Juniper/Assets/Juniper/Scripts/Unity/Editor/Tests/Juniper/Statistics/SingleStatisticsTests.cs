@@ -1,8 +1,9 @@
+using Juniper.Statistics;
 using NUnit.Framework;
 
 using System;
 
-namespace Juniper.Statistics
+namespace Juniper.Unity.Statistics
 {
     public class SingleStatisticsTests
     {

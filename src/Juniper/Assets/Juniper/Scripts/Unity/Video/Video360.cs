@@ -9,7 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Video;
 
-namespace Juniper.Video
+namespace Juniper.Unity.Video
 {
     public class Video360 : SubSceneController
     {

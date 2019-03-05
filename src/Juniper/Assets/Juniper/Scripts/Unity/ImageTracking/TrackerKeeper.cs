@@ -1,4 +1,4 @@
-namespace Juniper.ImageTracking
+namespace Juniper.Unity.ImageTracking
 {
     public class TrackerKeeper :
 #if ARCORE

@@ -1,4 +1,4 @@
-using Juniper.Input.Pointers;
+using Juniper.Unity.Input.Pointers;
 
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Juniper.Events
+namespace Juniper.Unity.Events
 {
     [RequireComponent(typeof(IPointerDevice))]
     public class ButtonEvent : MonoBehaviour

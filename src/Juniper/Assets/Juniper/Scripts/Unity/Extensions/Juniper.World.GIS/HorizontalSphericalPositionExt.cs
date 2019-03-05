@@ -1,6 +1,8 @@
+using Juniper.World.GIS;
+
 using UnityEngine;
 
-namespace Juniper.World.GIS
+namespace Juniper.Unity.World.GIS
 {
     /// <summary>
     /// Extension methods on <see cref="HorizontalSphericalPosition"/>. Making these methods into

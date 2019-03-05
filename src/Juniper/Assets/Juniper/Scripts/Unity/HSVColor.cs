@@ -4,7 +4,7 @@ using UnityEngine;
 
 #endif
 
-namespace Juniper
+namespace Juniper.Unity
 {
     /// <summary>
     /// The Hue/Saturation/Value color space.

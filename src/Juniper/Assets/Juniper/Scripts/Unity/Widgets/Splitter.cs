@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(Animator))]

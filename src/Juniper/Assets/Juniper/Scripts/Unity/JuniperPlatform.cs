@@ -1,12 +1,12 @@
-using Juniper.Anchoring;
-using Juniper.Audio;
-using Juniper.Display;
-using Juniper.Input;
+using Juniper.Unity.Anchoring;
+using Juniper.Unity.Audio;
+using Juniper.Unity.Display;
+using Juniper.Unity.Input;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Juniper
+namespace Juniper.Unity
 {
     [DisallowMultipleComponent]
     public class JuniperPlatform : MonoBehaviour, IInstallable

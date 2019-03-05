@@ -1,6 +1,7 @@
 #if MAGIC_LEAP
 
-using Juniper.Haptics;
+using Juniper.Input;
+using Juniper.Unity.Haptics;
 
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using UnityEngine.XR.MagicLeap;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Input.Pointers.Motion
+namespace Juniper.Unity.Input.Pointers.Motion
 {
     public class MagicLeapMotionControllerConfiguration : AbstractMotionControllerConfiguration<MLInput.Hand, MLInputControllerButton>
     {

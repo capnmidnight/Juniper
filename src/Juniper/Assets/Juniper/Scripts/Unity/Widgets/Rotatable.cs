@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     /// <summary>
     /// A control that is rotatable in a single axis at a time.

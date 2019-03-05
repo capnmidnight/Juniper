@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Animation
+namespace Juniper.Unity.Animation
 {
     /// <summary>
     /// Performs a sliding animation on scene transitions. The object's localPosition is the value

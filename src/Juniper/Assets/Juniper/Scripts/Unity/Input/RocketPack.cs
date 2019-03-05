@@ -1,8 +1,8 @@
-using Juniper.Display;
+using Juniper.Unity.Display;
 
 using UnityEngine;
 
-namespace Juniper.Input
+namespace Juniper.Unity.Input
 {
     public class RocketPack : MonoBehaviour
     {

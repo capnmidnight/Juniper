@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Vector3 = UnityEngine.Vector3;
 
-namespace Juniper.Statistics
+namespace Juniper.Unity.Statistics
 {
     [Serializable]
     public abstract class AbstractMotionFilter : ScriptableObject

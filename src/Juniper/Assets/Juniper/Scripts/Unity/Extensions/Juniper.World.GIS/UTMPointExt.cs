@@ -1,6 +1,8 @@
+using Juniper.World.GIS;
+
 using UnityEngine;
 
-namespace Juniper.World.GIS
+namespace Juniper.Unity.World.GIS
 {
     /// <summary>
     /// Extension methods on <see cref="UTMPoint"/>. Making these methods into extension methods

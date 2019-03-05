@@ -1,9 +1,11 @@
+using Juniper.Ground;
+
 using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
 
-namespace Juniper.Ground
+namespace Juniper.Unity.Ground
 {
     public abstract class AbstractGround :
         MonoBehaviour,

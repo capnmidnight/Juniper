@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Animation
+namespace Juniper.Unity.Animation
 {
     /// <summary>
     /// A flipbook-style animation. There's probably a more Unity-ish way of doing this, but I was

@@ -1,4 +1,5 @@
 using Juniper.Progress;
+using Juniper.World.Climate;
 using Juniper.World.GIS;
 
 using System;
@@ -6,7 +7,7 @@ using System.Collections;
 
 using UnityEngine;
 
-namespace Juniper.World.Climate
+namespace Juniper.Unity.World.Climate
 {
     /// <summary>
     /// A component for managing access to weather reports. Only one of these components is allowed
@@ -139,7 +140,7 @@ namespace Juniper.World.Climate
                 {
                     lastReportJSON = PlayerPrefs.GetString(REPORT_KEY);
                 }
-                weatherService = new OpenWeatherMap.API(OpenWeatherMapAPIKey.Value, lastReportJSON);
+                weatherService = new Juniper.World.Climate.OpenWeatherMap.API(OpenWeatherMapAPIKey.Value, lastReportJSON);
             }
 
             if (FakeWeather)

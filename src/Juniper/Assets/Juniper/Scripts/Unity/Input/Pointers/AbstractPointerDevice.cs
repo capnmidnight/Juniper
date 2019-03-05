@@ -1,8 +1,10 @@
-using Juniper.Audio;
-using Juniper.Display;
-using Juniper.Events;
-using Juniper.Haptics;
-using Juniper.Statistics;
+using Juniper.Input;
+using Juniper.Input.Pointers;
+using Juniper.Unity.Audio;
+using Juniper.Unity.Display;
+using Juniper.Unity.Events;
+using Juniper.Unity.Haptics;
+using Juniper.Unity.Statistics;
 
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,7 @@ using UnityEngine.EventSystems;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Input.Pointers
+namespace Juniper.Unity.Input.Pointers
 {
     public abstract class AbstractPointerConfiguration<ButtonIDType>
         where ButtonIDType : struct

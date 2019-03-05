@@ -2,22 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text.RegularExpressions;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using System.IO;
 
-using Juniper.Animation;
-using Juniper.Widgets;
+using Juniper.Unity.Animation;
+using Juniper.Unity.Audio;
+using Juniper.Unity.Input;
+using Juniper.Unity.Display;
+using Juniper.Unity.Widgets;
+using Juniper.Unity.Progress;
 using Juniper.Progress;
 
 using UnityEngine.UI;
 
-using Juniper.Audio;
-using Juniper.Input;
-using Juniper.Display;
 
 #if UNITY_EDITOR
 
@@ -26,7 +27,7 @@ using UnityEditor.SceneManagement;
 
 #endif
 
-namespace Juniper
+namespace Juniper.Unity
 {
     /// <summary>
     /// Manages loading <see cref="SubSceneController"/> components (scenes that are additively

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Juniper.Anchoring
+namespace Juniper.Unity.Anchoring
 {
     /// <summary>
     /// Creates a fixed point of reference in space. Some AR subsystems are able to prioritize the

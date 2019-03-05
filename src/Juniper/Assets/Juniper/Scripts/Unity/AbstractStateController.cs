@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Juniper
+namespace Juniper.Unity
 {
     /// <summary>
     /// A subscene is a game object loaded from another scene. The scenes all get loaded at runtime

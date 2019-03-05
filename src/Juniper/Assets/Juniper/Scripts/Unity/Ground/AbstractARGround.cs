@@ -1,4 +1,4 @@
-namespace Juniper.Ground
+namespace Juniper.Unity.Ground
 {
     public abstract class AbstractARGround : AbstractGround
     {

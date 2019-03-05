@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Input
+namespace Juniper.Unity.Input
 {
     /// <summary>
     /// Controlling the camera from a desktop system. Very useful for quickly debugging things.

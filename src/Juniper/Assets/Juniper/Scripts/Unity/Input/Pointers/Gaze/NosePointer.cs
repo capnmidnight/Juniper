@@ -1,9 +1,9 @@
-using Juniper.Haptics;
-using Juniper.Input.Pointers.Screen;
+using Juniper.Unity.Haptics;
+using Juniper.Unity.Input.Pointers.Screen;
 
 using UnityEngine;
 
-namespace Juniper.Input.Pointers.Gaze
+namespace Juniper.Unity.Input.Pointers.Gaze
 {
     public abstract class NosePointer<ButtonIDType, HapticsType, ConfigType> :
         AbstractScreenDevice<ButtonIDType, HapticsType, ConfigType>

@@ -1,6 +1,7 @@
+using Juniper.Progress;
 using UnityEngine;
 
-namespace Juniper.Progress
+namespace Juniper.Unity.Progress
 {
     public class UnityAsyncOperationProgress : IProgress
     {

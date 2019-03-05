@@ -1,3 +1,5 @@
+using Juniper.Input.Speech;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace Juniper.Input.Speech
+namespace Juniper.Unity.Input.Speech
 {
     /// <summary>
     /// An object that can be fires an event when a particular keyword is uttered.

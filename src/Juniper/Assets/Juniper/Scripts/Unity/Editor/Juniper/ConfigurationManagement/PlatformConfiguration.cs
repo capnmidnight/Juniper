@@ -1,6 +1,6 @@
-using Juniper.Input.Speech;
 using Juniper.Progress;
-using Juniper.World;
+using Juniper.Unity.Input.Speech;
+using Juniper.Unity.World;
 
 using Newtonsoft.Json;
 
@@ -12,7 +12,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Juniper.ConfigurationManagement
+namespace Juniper.Unity.ConfigurationManagement
 {
     internal sealed class PlatformConfiguration
     {

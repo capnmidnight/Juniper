@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-namespace Juniper
+namespace Juniper.Unity
 {
     /// <summary>
     /// A wrapper around System.DateTime that makes it possible to edit values in the Unity Editor.

@@ -1,4 +1,4 @@
-using Juniper.Animation;
+using Juniper.Unity.Animation;
 using Juniper.Progress;
 
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace Juniper
+namespace Juniper.Unity
 {
     /// <summary>
     /// SubSceneControllers are used by the <see cref="MasterSceneController"/> to manage workflow

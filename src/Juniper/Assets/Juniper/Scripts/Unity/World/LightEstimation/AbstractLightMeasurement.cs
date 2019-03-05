@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-namespace Juniper.World.LightEstimation
+namespace Juniper.Unity.World.LightEstimation
 {
     public abstract class AbstractLightMeasurement :
         MonoBehaviour,

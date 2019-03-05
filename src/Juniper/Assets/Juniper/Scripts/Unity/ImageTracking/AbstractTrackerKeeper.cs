@@ -1,4 +1,4 @@
-using Juniper.Display;
+using Juniper.Unity.Display;
 
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Juniper.ImageTracking
+namespace Juniper.Unity.ImageTracking
 {
     public class AbstractTrackerKeeper : MonoBehaviour
     {

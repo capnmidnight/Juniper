@@ -1,13 +1,13 @@
 #if MAGIC_LEAP
 
-using Juniper.Display;
+using Juniper.Unity.Display;
 
 using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 
-namespace Juniper.Ground
+namespace Juniper.Unity.Ground
 {
     public class MagicLeapGround :
         AbstractARGround

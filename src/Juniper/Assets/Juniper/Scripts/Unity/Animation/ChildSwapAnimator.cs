@@ -4,7 +4,7 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace Juniper.Animation
+namespace Juniper.Unity.Animation
 {
     /// <summary>
     /// An animator for UIs that swap out child components as visible/invisible. Only one such

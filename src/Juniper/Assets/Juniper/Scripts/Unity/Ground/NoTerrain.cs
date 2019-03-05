@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Ground
+namespace Juniper.Unity.Ground
 {
     public class NoTerrain : AbstractGround
     {

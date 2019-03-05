@@ -1,4 +1,4 @@
-using Juniper.Display;
+using Juniper.Unity.Display;
 
 using System;
 using System.Linq;
@@ -10,7 +10,7 @@ using UnityEngine.Events;
 using Vuforia;
 #endif
 
-namespace Juniper.ImageTracking
+namespace Juniper.Unity.ImageTracking
 {
     /// <summary>
     /// Trackable object--like images, scanned objects, and model generated targets-- come and go out

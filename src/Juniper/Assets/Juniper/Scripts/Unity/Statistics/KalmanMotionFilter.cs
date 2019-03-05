@@ -7,7 +7,7 @@ using UnityEngine;
 
 using Vector3 = UnityEngine.Vector3;
 
-namespace Juniper.Statistics
+namespace Juniper.Unity.Statistics
 {
     [Serializable]
     [CreateAssetMenu(fileName = "kalmanMotionFilter", menuName = "Motion Filters/Kalman")]

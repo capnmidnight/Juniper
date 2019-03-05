@@ -1,10 +1,11 @@
+using Juniper.World.Climate;
 using Juniper.World.GIS;
 
 using System;
 
 using UnityEngine;
 
-namespace Juniper.World.Climate
+namespace Juniper.Unity.World.Climate
 {
     /// <summary>
     /// An API-compatible, editable object for making static weather reports.

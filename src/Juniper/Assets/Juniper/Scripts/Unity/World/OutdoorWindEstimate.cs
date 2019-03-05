@@ -1,8 +1,8 @@
-using Juniper.World.Climate;
+using Juniper.Unity.World.Climate;
 
 using UnityEngine;
 
-namespace Juniper.World
+namespace Juniper.Unity.World
 {
     /// <summary>
     /// Receives a wind speed and direction value from a wether reporting service and applies the

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.WSA;
 
-namespace Juniper.Ground
+namespace Juniper.Unity.Ground
 {
     public abstract class HoloLensGround : AbstractARGround
     {

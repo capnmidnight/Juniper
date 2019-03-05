@@ -1,20 +1,22 @@
 using System;
 using System.Collections;
 
-using Juniper.Animation;
+using Juniper.Unity.Animation;
+using Juniper.Unity.Display;
 using Juniper.Input;
 
 using UnityEngine;
 
-using Juniper.Display;
+using Juniper.Unity.Input;
+
 
 #if UNITY_MODULES_AUDIO
 
-using Juniper.Audio;
+using Juniper.Unity.Audio;
 
 #endif
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     /// <summary>
     /// Shows a pointer that directs the user to where to look next.

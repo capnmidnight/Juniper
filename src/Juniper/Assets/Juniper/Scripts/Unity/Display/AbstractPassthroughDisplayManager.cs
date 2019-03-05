@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Display
+namespace Juniper.Unity.Display
 {
     public abstract class AbstractPassthroughDisplayManager : AbstractDisplayManager
     {

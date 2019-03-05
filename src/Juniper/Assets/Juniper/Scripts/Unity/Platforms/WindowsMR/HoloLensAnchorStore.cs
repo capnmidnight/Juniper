@@ -10,7 +10,7 @@ using UnityEngine.XR.WSA.Persistence;
 using AnchorType = UnityEngine.XR.WSA.Persistence.WorldAnchor;
 using UnityEngine;
 
-namespace Juniper.Anchoring
+namespace Juniper.Unity.Anchoring
 {
     public abstract class HoloLensAnchorStore : AbstractAnchorStore<AnchorType>
     {

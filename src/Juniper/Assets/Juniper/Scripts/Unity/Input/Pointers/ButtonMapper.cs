@@ -1,4 +1,5 @@
-using Juniper.Events;
+using Juniper.Input;
+using Juniper.Unity.Events;
 
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using UnityEngine.EventSystems;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Input.Pointers
+namespace Juniper.Unity.Input.Pointers
 {
     public class ButtonMapper<ButtonIDType>
         where ButtonIDType : struct

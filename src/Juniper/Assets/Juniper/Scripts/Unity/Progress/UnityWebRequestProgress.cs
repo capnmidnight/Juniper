@@ -1,8 +1,10 @@
 #if UNITY_MODULES_UNITYWEBREQUEST
 
+using Juniper.Progress;
+
 using UnityEngine.Networking;
 
-namespace Juniper.Progress
+namespace Juniper.Unity.Progress
 {
     public class UnityWebRequestProgress : IProgress
     {

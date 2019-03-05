@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine;
 using wvr;
 
-namespace Juniper.Haptics
+namespace Juniper.Unity.Haptics
 {
     public class ViveFocusHaptics : AbstractHapticExpressor
     {

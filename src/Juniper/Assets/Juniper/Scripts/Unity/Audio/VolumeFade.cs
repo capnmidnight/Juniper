@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Audio
+namespace Juniper.Unity.Audio
 {
     /// <summary>
     /// An audio-filter that fades a sound out over time. An <see cref="AudioSource"/> component is

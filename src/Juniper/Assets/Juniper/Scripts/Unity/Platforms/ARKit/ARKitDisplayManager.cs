@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.XR.iOS;
 
-namespace Juniper.Display
+namespace Juniper.Unity.Display
 {
     public class ARKitDisplayManager : AbstractPassthroughDisplayManager
     {

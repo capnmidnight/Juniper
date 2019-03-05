@@ -6,7 +6,7 @@ using UnityEngine.XR.MagicLeap;
 
 #endif
 
-namespace Juniper
+namespace Juniper.Unity
 {
     public class PermissionHandler : MonoBehaviour, IInstallable
     {

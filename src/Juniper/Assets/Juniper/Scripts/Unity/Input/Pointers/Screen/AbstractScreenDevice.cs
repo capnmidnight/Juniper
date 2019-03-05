@@ -1,9 +1,9 @@
-using Juniper.Display;
-using Juniper.Haptics;
+using Juniper.Unity.Display;
+using Juniper.Unity.Haptics;
 
 using UnityEngine;
 
-namespace Juniper.Input.Pointers.Screen
+namespace Juniper.Unity.Input.Pointers.Screen
 {
     /// <summary>
     /// A ScreenDevice is a <see cref="AbstractPointerDevice{ButtonIDType, HapticsType}"/> that has its primary

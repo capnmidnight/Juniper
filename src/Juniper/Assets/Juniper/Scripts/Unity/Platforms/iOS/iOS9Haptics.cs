@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Juniper.Haptics
+namespace Juniper.Unity.Haptics
 {
     /// <summary>
     /// https://gist.github.com/kenshin03/6303582

@@ -2,7 +2,7 @@
 using UnityEngine;
 using Vuforia;
 
-namespace Juniper.Display
+namespace Juniper.Unity.Display
 {
     public class VuforiaDisplayManager : AbstractDisplayManager
     {

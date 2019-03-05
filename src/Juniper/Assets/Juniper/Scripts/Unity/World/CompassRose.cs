@@ -1,5 +1,5 @@
-using Juniper.Display;
 using Juniper.Statistics;
+using Juniper.Unity.Display;
 
 using System;
 
@@ -7,7 +7,7 @@ using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
 
-namespace Juniper.World
+namespace Juniper.Unity.World
 {
     /// <summary>
     /// A component for managing orientation to Earth's magnetic field (or any sufficiently large

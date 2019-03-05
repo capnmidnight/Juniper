@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-namespace Juniper.Animation
+namespace Juniper.Unity.Animation
 {
     public class TransitionControllerTests
     {

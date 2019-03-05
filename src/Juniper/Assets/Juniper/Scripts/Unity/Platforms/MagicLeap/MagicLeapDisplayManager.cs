@@ -4,7 +4,7 @@ using MSA;
 
 using UnityEngine;
 
-namespace Juniper.Display
+namespace Juniper.Unity.Display
 {
     public class MagicLeapDisplayManager : AbstractDisplayManager
     {

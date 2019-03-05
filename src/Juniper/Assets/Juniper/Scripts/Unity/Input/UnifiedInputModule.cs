@@ -1,4 +1,4 @@
-using Juniper.Input.Pointers;
+using Juniper.Unity.Input.Pointers;
 
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Juniper.Input
+namespace Juniper.Unity.Input
 {
     /// <summary>
     /// Finds all of the <see cref="IPointerDevice"/> s and fires raycaster events for all

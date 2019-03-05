@@ -1,6 +1,6 @@
 #if UNITY_MODULES_AUDIO
 
-using Juniper.Audio;
+using Juniper.Unity.Audio;
 
 using UnityEngine.Audio;
 

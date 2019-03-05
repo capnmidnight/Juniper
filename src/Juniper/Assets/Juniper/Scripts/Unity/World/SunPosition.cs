@@ -4,7 +4,7 @@ using System;
 
 using UnityEngine;
 
-namespace Juniper.World
+namespace Juniper.Unity.World
 {
     /// <summary>
     /// Calculates the position of the Sun in relation to the user's current position on spaceship

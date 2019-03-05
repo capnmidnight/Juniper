@@ -1,8 +1,8 @@
-using Juniper.Display;
+using Juniper.Unity.Display;
 
 using UnityEngine;
 
-namespace Juniper.Animation
+namespace Juniper.Unity.Animation
 {
     /// <summary>
     /// Take an object in world-space and spiral it in to camera-locked space (faux-screen-space)

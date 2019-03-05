@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper
+namespace Juniper.Unity
 {
     /// <summary>
     /// Attach this component to gameObjects solely for the purpose of leaving a comment in the Unity

@@ -1,9 +1,11 @@
 #if MAGIC_LEAP
 using System.Collections.Generic;
+
 using UnityEngine;
+
 using AnchorType = UnityEngine.XR.MagicLeap.MLPersistentBehavior;
 
-namespace Juniper.Anchoring
+namespace Juniper.Unity.Anchoring
 {
     public abstract class MagicLeapAnchorStore : AbstractAnchorStore<AnchorType>
     {

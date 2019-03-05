@@ -12,7 +12,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Juniper.ConfigurationManagement
+namespace Juniper.Unity.ConfigurationManagement
 {
     internal sealed class RawPackage : AbstractPackage
     {

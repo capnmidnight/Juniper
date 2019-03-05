@@ -10,7 +10,7 @@ using UnityEngine.Events;
 
 using UnityInput = UnityEngine.Input;
 
-namespace Juniper.World
+namespace Juniper.Unity.World
 {
     /// <summary>
     /// Retrieves the user's latitude, longitude, and altitude from satellites orbiting Spaceship

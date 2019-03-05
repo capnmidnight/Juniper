@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     public class FileSelector : MonoBehaviour
     {

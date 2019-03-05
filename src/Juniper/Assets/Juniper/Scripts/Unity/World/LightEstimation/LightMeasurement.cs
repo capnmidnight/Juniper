@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.World.LightEstimation
+namespace Juniper.Unity.World.LightEstimation
 {
     /// <summary>
     /// Abstracts the measurement of light intensity from camera frames for Augmented Reality Light

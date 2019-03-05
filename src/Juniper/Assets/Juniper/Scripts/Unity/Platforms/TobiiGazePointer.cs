@@ -6,7 +6,7 @@ using Tobii.Gaming;
 
 using UnityEngine;
 
-namespace Juniper.Input.Pointers.Gaze
+namespace Juniper.Unity.Input.Pointers.Gaze
 {
     public abstract class TobiiGazePointer<ButtonIDType, HapticsType, ConfigType> :
         AbstractScreenDevice<ButtonIDType, HapticsType, ConfigType>

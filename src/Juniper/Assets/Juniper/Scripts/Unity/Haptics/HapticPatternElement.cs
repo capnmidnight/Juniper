@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Juniper.Haptics
+namespace Juniper.Unity.Haptics
 {
     /// <summary>
     /// Pre-canned feedback patterns. These are defined by iOS's Taptic feedback system, which is the

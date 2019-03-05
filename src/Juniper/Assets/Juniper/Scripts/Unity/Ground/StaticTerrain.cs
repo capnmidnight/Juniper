@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Juniper.Ground
+namespace Juniper.Unity.Ground
 {
     public class StaticTerrain : AbstractGround
     {

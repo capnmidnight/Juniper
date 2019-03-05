@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using GoogleARCore;
 
-namespace Juniper.Ground
+namespace Juniper.Unity.Ground
 {
     /// <summary>
     /// Visualizes a TrackedPlane in the Unity scene.

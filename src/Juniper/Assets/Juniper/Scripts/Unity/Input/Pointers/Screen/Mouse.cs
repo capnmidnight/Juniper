@@ -1,11 +1,11 @@
-using Juniper.Haptics;
+using Juniper.Unity.Haptics;
 
 using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 using UnityInput = UnityEngine.Input;
 
-namespace Juniper.Input.Pointers.Screen
+namespace Juniper.Unity.Input.Pointers.Screen
 {
     public class MouseConfiguration : AbstractPointerConfiguration<KeyCode>
     {

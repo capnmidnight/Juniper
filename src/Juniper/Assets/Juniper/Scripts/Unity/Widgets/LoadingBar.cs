@@ -2,7 +2,7 @@ using Juniper.Progress;
 
 using UnityEngine;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     public class LoadingBar : MonoBehaviour, IProgressReceiver
     {

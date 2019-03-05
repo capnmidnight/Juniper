@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Juniper.Audio
+namespace Juniper.Unity.Audio
 {
     /// <summary>
     /// The IAudioClipCollection interface is implemented by two classes. One is a savable collection

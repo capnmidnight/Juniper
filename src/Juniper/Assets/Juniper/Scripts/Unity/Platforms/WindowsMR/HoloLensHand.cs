@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.XR.WSA.Input;
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Input.Pointers.Motion
+namespace Juniper.Unity.Input.Pointers.Motion
 {
     public class HoloLensProbeConfiguration : AbstractHandTrackerConfiguration<InteractionSourceHandedness>
     {

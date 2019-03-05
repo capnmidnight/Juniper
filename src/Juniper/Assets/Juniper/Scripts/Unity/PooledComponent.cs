@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-namespace Juniper
+namespace Juniper.Unity
 {
     public struct PooledComponent<T> where T : Component
     {

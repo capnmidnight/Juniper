@@ -1,9 +1,11 @@
+using Juniper.Statistics;
+
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 using UnityEngine;
 
-namespace Juniper.Statistics
+namespace Juniper.Unity.Statistics
 {
     /// <summary>
     /// Computes statistics on UnityEngine.Vector2 values.

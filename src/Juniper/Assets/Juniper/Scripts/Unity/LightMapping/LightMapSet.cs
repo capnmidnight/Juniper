@@ -1,10 +1,10 @@
-using Juniper.Collections;
+using Juniper.Unity.Collections;
 
 using System;
 
 using UnityEngine;
 
-namespace Juniper.LightMapping
+namespace Juniper.Unity.LightMapping
 {
     /// <summary>
     /// A set of Directional, Light, and Shadow maps, for being able to switch between light maps at

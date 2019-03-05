@@ -1,9 +1,11 @@
+using Juniper.Statistics;
+
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 using UnityEngine;
 
-namespace Juniper.Statistics
+namespace Juniper.Unity.Statistics
 {
     /// <summary>
     /// A RingBuffer of UnityEngine.Vector4 values that also calculates some basic statistics along

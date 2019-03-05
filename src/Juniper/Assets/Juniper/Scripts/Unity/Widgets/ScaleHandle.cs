@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     /// <summary>
     /// A constraint handle that is used to scale the size of a target object.

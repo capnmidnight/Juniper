@@ -1,4 +1,4 @@
-namespace Juniper.Input
+namespace Juniper.Unity.Input
 {
     public enum VirtualTriggerButton
     {

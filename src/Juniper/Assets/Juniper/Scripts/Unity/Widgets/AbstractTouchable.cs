@@ -1,5 +1,5 @@
-using Juniper.Animation;
-using Juniper.Audio;
+using Juniper.Unity.Animation;
+using Juniper.Unity.Audio;
 
 using System.Linq;
 
@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     /// <summary>
     /// The base class for all interactive, AR-compatible, GUI controls /// This class is abstract to

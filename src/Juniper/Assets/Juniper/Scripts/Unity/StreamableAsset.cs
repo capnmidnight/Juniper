@@ -12,7 +12,7 @@ using UnityEditor;
 using Juniper.Data;
 #endif
 
-namespace Juniper
+namespace Juniper.Unity
 {
     [Serializable]
     public abstract class StreamableAsset

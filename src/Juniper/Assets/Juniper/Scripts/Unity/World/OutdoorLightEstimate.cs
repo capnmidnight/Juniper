@@ -1,11 +1,11 @@
-using Juniper.World.Climate;
-using Juniper.World.GIS;
+using Juniper.Unity.World.Climate;
+using Juniper.Unity.World.GIS;
 
 using System;
 
 using UnityEngine;
 
-namespace Juniper.World
+namespace Juniper.Unity.World
 {
     /// <summary>
     /// Modifies the base light estimate to include cloud cover values retrieved from a weather

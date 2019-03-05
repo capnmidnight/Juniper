@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Juniper.Haptics
+namespace Juniper.Unity.Haptics
 {
     /// <summary>
     /// Implements haptic feedback for Android API levels less than 26. Vibration amplitude is not

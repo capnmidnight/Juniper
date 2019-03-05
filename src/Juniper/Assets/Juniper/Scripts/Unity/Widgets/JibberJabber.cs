@@ -1,10 +1,10 @@
 #if UNITY_MODULES_AUDIO
 
-using Juniper.Audio;
+using Juniper.Unity.Audio;
 
 using UnityEngine;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     /// <summary>
     /// Plays clips out of an AudioClipCollection at set intervals, making for a point source of

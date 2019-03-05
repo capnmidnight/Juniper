@@ -1,11 +1,11 @@
-using Juniper.Widgets;
+using Juniper.Unity.Widgets;
 
 using System;
 using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Juniper.Anchoring
+namespace Juniper.Unity.Anchoring
 {
     /// <summary>
     /// This component searches for the ground above or below the gameObject it's attached to. When a

@@ -5,7 +5,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 
-namespace Juniper.Haptics
+namespace Juniper.Unity.Haptics
 {
     public class MagicLeapHaptics : AbstractHapticExpressor
     {

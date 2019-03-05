@@ -9,7 +9,7 @@ using HapticsType = Juniper.Haptics.NoHaptics;
 using HapticsType = Juniper.Haptics.WindowsMRHaptics;
 #endif
 
-namespace Juniper.Input.Pointers.Motion
+namespace Juniper.Unity.Input.Pointers.Motion
 {
     public class WindowsMRProbeConfiguration : AbstractProbeNameConfiguration<InteractionSourceHandedness>
     {

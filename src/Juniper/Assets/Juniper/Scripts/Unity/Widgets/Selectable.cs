@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     public class Selectable : MonoBehaviour, ISelectHandler
     {

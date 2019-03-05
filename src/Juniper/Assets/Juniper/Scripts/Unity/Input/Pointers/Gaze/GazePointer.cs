@@ -1,11 +1,11 @@
-using Juniper.Haptics;
+using Juniper.Unity.Haptics;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Input.Pointers.Gaze
+namespace Juniper.Unity.Input.Pointers.Gaze
 {
     public class GazePointerConfiguration : AbstractPointerConfiguration<Unary>
     {

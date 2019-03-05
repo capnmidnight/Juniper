@@ -1,10 +1,10 @@
-using Juniper.Animation;
+using Juniper.Unity.Animation;
 
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Video;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     /// <summary>
     /// Manages the life-cycle of a video that can be faded out or faded in.

@@ -2,7 +2,7 @@
 using UnityEngine;
 using wvr;
 
-namespace Juniper.Display
+namespace Juniper.Unity.Display
 {
     public class ViveFocusDisplayManager : AbstractDisplayManager
     {

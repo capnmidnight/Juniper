@@ -6,7 +6,7 @@ using System;
 
 using UnityEngine.Video;
 
-namespace Juniper.Video
+namespace Juniper.Unity.Video
 {
     [Serializable]
     public class StreamableVideoClip : StreamableAsset<VideoClip>

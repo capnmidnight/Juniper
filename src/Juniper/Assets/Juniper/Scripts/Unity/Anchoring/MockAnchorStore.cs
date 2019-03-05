@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-using AnchorType = Juniper.Anchoring.MockWorldAnchor;
+using AnchorType = Juniper.Unity.Anchoring.MockWorldAnchor;
 
-namespace Juniper.Anchoring
+namespace Juniper.Unity.Anchoring
 {
     public abstract class MockAnchorStore : AbstractAnchorStore<AnchorType>
     {

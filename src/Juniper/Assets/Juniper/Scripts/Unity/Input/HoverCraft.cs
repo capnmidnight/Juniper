@@ -1,10 +1,10 @@
-using Juniper.Input.Pointers;
+using Juniper.Unity.Input.Pointers;
 
 using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Input
+namespace Juniper.Unity.Input
 {
 #if UNITY_MODULES_PHYSICS
 

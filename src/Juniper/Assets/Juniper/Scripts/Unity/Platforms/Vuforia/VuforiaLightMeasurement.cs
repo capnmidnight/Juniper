@@ -6,7 +6,7 @@ using Vuforia;
 using UnityEngine;
 using Juniper.Vuforia;
 
-namespace Juniper.World.LightEstimation
+namespace Juniper.Unity.World.LightEstimation
 {
     public abstract class VuforiaLightMeasurement : AbstractLightMeasurement
     {

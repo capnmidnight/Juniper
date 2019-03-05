@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Juniper.ImageTracking
+namespace Juniper.Unity.ImageTracking
 {
     public class ARCoreTrackerKeeper : AbstractTrackerKeeper
     {

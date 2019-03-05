@@ -1,8 +1,8 @@
-using Juniper.Haptics;
+using Juniper.Unity.Haptics;
 
 using System;
 
-namespace Juniper.Input.Pointers.Motion
+namespace Juniper.Unity.Input.Pointers.Motion
 {
     public abstract class AbstractHandTrackerConfiguration<HandIDType, ButtonIDType>
         : AbstractHandedPointerConfiguration<HandIDType, ButtonIDType>

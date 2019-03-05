@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
 #endif
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     /// <summary>
     /// This component manages the quality settings on the fly, making sure the application never

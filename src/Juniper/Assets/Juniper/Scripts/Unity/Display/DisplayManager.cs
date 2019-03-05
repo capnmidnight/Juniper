@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Display
+namespace Juniper.Unity.Display
 {
     /// <summary>
     /// Manages the camera FOV in the editor so that it matches the target system, or on desktop

@@ -3,20 +3,20 @@ using UnityEngine;
 using UnityInput = UnityEngine.Input;
 
 #if ANDROID_API_26_OR_GREATER
-using HapticsType = Juniper.Haptics.AndroidAPI26Haptics;
+using HapticsType = Juniper.Unity.Haptics.AndroidAPI26Haptics;
 #elif ANDROID_API_1_OR_GREATER
-using HapticsType = Juniper.Haptics.AndroidAPI1Haptics;
+using HapticsType = Juniper.Unity.Haptics.AndroidAPI1Haptics;
 #elif IOS_VERSION_10_OR_GREATER
-using HapticsType = Juniper.Haptics.iOS10Haptics;
+using HapticsType = Juniper.Unity.Haptics.iOS10Haptics;
 #elif IOS_VERSION_9
-using HapticsType = Juniper.Haptics.iOS9Haptics;
+using HapticsType = Juniper.Unity.Haptics.iOS9Haptics;
 #else
 
-using HapticsType = Juniper.Haptics.DefaultHaptics;
+using HapticsType = Juniper.Unity.Haptics.DefaultHaptics;
 
 #endif
 
-namespace Juniper.Input.Pointers.Screen
+namespace Juniper.Unity.Input.Pointers.Screen
 {
     public class TouchPointConfiguration : AbstractPointerConfiguration<KeyCode>
     {

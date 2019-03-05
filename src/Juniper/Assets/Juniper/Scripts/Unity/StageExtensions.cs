@@ -1,10 +1,10 @@
-using Juniper.Anchoring;
-using Juniper.Input;
-using Juniper.Input.Pointers;
-using Juniper.Input.Pointers.Gaze;
-using Juniper.Input.Pointers.Motion;
-using Juniper.Input.Pointers.Screen;
-using Juniper.Widgets;
+using Juniper.Unity.Anchoring;
+using Juniper.Unity.Input;
+using Juniper.Unity.Input.Pointers;
+using Juniper.Unity.Input.Pointers.Gaze;
+using Juniper.Unity.Input.Pointers.Motion;
+using Juniper.Unity.Input.Pointers.Screen;
+using Juniper.Unity.Widgets;
 
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 #endif
 
-namespace Juniper
+namespace Juniper.Unity
 {
     [DisallowMultipleComponent]
     public class StageExtensions : MonoBehaviour, IInstallable

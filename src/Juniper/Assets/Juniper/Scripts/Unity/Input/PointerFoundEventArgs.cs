@@ -1,8 +1,8 @@
-using Juniper.Input.Pointers;
+using Juniper.Unity.Input.Pointers;
 
 using System;
 
-namespace Juniper.Input
+namespace Juniper.Unity.Input
 {
     /// <summary>
     /// An event argument type for passing on the pointer that was found.

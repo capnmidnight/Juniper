@@ -1,8 +1,10 @@
+using Juniper.Input;
+
 using System;
 
 using UnityEngine;
 
-namespace Juniper.Input.Pointers.Motion
+namespace Juniper.Unity.Input.Pointers.Motion
 {
     public class HandTracker :
 #if HOLOLENS

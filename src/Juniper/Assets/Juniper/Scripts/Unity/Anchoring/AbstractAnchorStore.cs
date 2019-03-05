@@ -4,7 +4,7 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace Juniper.Anchoring
+namespace Juniper.Unity.Anchoring
 {
     /// <summary>
     /// A store for points in space that the system will restore on second-run.

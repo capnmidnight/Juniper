@@ -1,7 +1,7 @@
 #if ARCORE
 using System.Collections.Generic;
 
-namespace Juniper.Ground
+namespace Juniper.Unity.Ground
 {
     public class ARCoreGround : AbstractARGround
     {

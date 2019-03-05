@@ -1,4 +1,4 @@
-using Juniper.Haptics;
+using Juniper.Unity.Haptics;
 
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Input.Pointers.Motion
+namespace Juniper.Unity.Input.Pointers.Motion
 {
     public abstract class AbstractMotionControllerConfiguration<HandIDType, ButtonIDType>
         : AbstractHandedPointerConfiguration<HandIDType, ButtonIDType>

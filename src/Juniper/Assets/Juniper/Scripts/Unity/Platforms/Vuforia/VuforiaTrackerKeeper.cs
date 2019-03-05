@@ -10,7 +10,7 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 
-namespace Juniper.ImageTracking
+namespace Juniper.Unity.ImageTracking
 {
     public class VuforiaTrackerKeeper : AbstractTrackerKeeper
     {

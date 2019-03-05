@@ -10,7 +10,7 @@ using Juniper.Haptics;
 using UnityEngine;
 using UnityEngine.XR.WSA.Input;
 
-namespace Juniper.Input.Pointers.Motion
+namespace Juniper.Unity.Input.Pointers.Motion
 {
     public enum WindowsMRButtons
     {

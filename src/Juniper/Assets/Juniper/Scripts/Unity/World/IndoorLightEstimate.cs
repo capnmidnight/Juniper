@@ -1,10 +1,10 @@
-using Juniper.World.LightEstimation;
+using Juniper.Unity.World.LightEstimation;
 
 using System;
 
 using UnityEngine;
 
-namespace Juniper.World
+namespace Juniper.Unity.World
 {
     /// <summary>
     /// Uses the AR subsystem's light estimation values to modify the current ambient and directional

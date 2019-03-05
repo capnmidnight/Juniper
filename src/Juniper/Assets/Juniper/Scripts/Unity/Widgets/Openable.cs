@@ -1,9 +1,9 @@
-using Juniper.Animation;
+using Juniper.Unity.Animation;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     /// <summary>
     /// A control that is a container of other controls that are hidden until the control is clicked.

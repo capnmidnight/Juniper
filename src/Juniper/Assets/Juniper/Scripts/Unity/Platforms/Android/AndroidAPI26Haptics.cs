@@ -5,7 +5,7 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace Juniper.Haptics
+namespace Juniper.Unity.Haptics
 {
     /// <summary>
     /// Haptic system that implements the latest Android API version (26), which enables vibrations

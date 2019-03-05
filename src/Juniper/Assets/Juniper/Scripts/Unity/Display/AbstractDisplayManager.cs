@@ -1,5 +1,5 @@
-using Juniper.Input;
-using Juniper.Widgets;
+using Juniper.Unity.Input;
+using Juniper.Unity.Widgets;
 
 using System;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.XR;
 
-namespace Juniper.Display
+namespace Juniper.Unity.Display
 {
     public abstract class AbstractDisplayManager : MonoBehaviour, IInstallable
     {

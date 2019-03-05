@@ -1,4 +1,5 @@
 using Juniper;
+using Juniper.Unity;
 
 namespace UnityEngine
 {

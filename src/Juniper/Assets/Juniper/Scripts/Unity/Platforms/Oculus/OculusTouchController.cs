@@ -4,7 +4,7 @@ using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Input.Pointers.Motion
+namespace Juniper.Unity.Input.Pointers.Motion
 {
     public class OculusTouchProbeConfiguration : AbstractProbeNameConfiguration<OVRInput.Controller>
     {

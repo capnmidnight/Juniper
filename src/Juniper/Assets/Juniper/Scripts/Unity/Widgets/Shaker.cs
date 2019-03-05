@@ -7,7 +7,7 @@ using UnityEngine.Events;
 
 using UnityInput = UnityEngine.Input;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     /// <summary>
     /// This component manages the activity of the user picking up a mobile device and holding it,

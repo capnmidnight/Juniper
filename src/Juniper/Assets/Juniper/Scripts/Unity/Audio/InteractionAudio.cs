@@ -1,13 +1,13 @@
 using System;
 using System.Collections;
 
-using Juniper.Haptics;
+using Juniper.Unity.Haptics;
+using Juniper.Unity.Widgets;
+using Juniper.Unity.Display;
 using Juniper.Input;
 
 using UnityEngine;
 
-using Juniper.Widgets;
-using Juniper.Display;
 
 #if UNITY_MODULES_AUDIO
 
@@ -22,7 +22,7 @@ using UnityEngine.Audio;
 using UnityEngine.WSA;
 #endif
 
-namespace Juniper.Audio
+namespace Juniper.Unity.Audio
 {
     /// <summary>
     /// The audio portion of the interaction system.

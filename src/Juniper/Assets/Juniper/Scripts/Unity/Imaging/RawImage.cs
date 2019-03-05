@@ -1,4 +1,4 @@
-namespace Juniper.Imaging
+namespace Juniper.Unity.Imaging
 {
     /// <summary>
     /// A callback signature for receiving loaded images.

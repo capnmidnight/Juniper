@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.LightMapping
+namespace Juniper.Unity.LightMapping
 {
     /// <summary>
     /// The LightMapSwitcher takes different sets of static light map sets and switches between them

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Input.Pointers.Motion
+namespace Juniper.Unity.Input.Pointers.Motion
 {
     public interface IMotionController : IHandedPointer
     {

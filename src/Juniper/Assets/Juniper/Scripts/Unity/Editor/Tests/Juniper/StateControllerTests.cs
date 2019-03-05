@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-namespace Juniper
+namespace Juniper.Unity
 {
     public class StateControllerTests
     {

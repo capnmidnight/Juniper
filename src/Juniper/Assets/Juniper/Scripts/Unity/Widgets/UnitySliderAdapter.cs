@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine.UI;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     public sealed class UnitySliderAdapter : IValuedControl<float>
     {

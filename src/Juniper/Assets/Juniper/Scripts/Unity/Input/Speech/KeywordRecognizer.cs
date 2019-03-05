@@ -1,10 +1,12 @@
+using Juniper.Input.Speech;
+
 using System;
 using System.Linq;
 
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Juniper.Input.Speech
+namespace Juniper.Unity.Input.Speech
 {
     /// <summary>
     /// A class that implements basic functionality for systems that manage speech recognition and

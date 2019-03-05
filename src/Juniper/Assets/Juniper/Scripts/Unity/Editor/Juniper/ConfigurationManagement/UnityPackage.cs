@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 using System.Linq;
 
-namespace Juniper.ConfigurationManagement
+namespace Juniper.Unity.ConfigurationManagement
 {
     internal sealed class UnityPackage : AbstractPackage
     {

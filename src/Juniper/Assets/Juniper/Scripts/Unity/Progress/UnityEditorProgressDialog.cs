@@ -1,8 +1,10 @@
 #if UNITY_EDITOR
 
+using Juniper.Progress;
+
 using UnityEditor;
 
-namespace Juniper.Progress
+namespace Juniper.Unity.Progress
 {
     public class UnityEditorProgressDialog : IProgressReceiver
     {

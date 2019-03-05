@@ -5,7 +5,7 @@ using GoogleARCore;
 using UnityEngine.SpatialTracking;
 using UnityEngine.Android;
 
-namespace Juniper.Display
+namespace Juniper.Unity.Display
 {
     public class ARCoreDisplayManager : AbstractPassthroughDisplayManager
     {

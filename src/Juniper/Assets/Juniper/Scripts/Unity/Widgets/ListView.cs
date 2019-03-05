@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     public class ListView : MonoBehaviour
     {

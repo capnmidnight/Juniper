@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Juniper.Collections
+namespace Juniper.Unity.Collections
 {
     /// <summary>
     /// Sorts textures according to their names.

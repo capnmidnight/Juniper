@@ -1,5 +1,7 @@
 #if MAGIC_LEAP
 
+using Juniper.Input;
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +10,7 @@ using UnityEngine.XR.MagicLeap;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Input.Pointers.Motion
+namespace Juniper.Unity.Input.Pointers.Motion
 {
     public class MagicLeapHandConfiguration : AbstractHandTrackerConfiguration<MLHandType, MLHandKeyPose>
     {

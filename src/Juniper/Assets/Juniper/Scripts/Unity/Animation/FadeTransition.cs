@@ -1,4 +1,4 @@
-using Juniper.Display;
+using Juniper.Unity.Display;
 
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace Juniper.Animation
+namespace Juniper.Unity.Animation
 {
     /// <summary>
     /// Performs a fade-in/fade-out animation on scene transitions.

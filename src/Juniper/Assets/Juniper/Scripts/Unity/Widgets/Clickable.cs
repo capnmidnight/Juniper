@@ -1,4 +1,4 @@
-using Juniper.Events;
+using Juniper.Unity.Events;
 
 using System;
 
@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace Juniper.Widgets
+namespace Juniper.Unity.Widgets
 {
     /// <summary>
     /// An object that can be Touched on a screen or Clicked with a mouse and fires an event in response.

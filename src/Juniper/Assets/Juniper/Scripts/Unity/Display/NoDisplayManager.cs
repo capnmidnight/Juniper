@@ -1,4 +1,4 @@
-namespace Juniper.Display
+namespace Juniper.Unity.Display
 {
     public abstract class NoDisplayManager : AbstractDisplayManager
     {
