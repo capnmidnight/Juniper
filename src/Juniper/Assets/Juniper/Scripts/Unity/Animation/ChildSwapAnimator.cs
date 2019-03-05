@@ -18,15 +18,6 @@ namespace Juniper.Unity.Animation
         /// </summary>
         public string[] stateNames;
 
-        private Dictionary<string, Vector3> scales;
-
-        public void Awake()
-        {
-            scales = stateNames.ToDictionary(
-                s => s,
-                s => this.Query(s)?.localScale ?? Vector3.one);
-        }
-
         /// <summary>
         /// Returns true if a transform named <paramref name="name"/> is a child of this transform.
         /// </summary>
@@ -51,10 +42,6 @@ namespace Juniper.Unity.Animation
                 if (obj != null)
                 {
                     obj.SetActive(key == name);
-                    if (Application.isPlaying)
-                    {
-                        obj.localScale = scales.Get(key, Vector3.one);
-                    }
                 }
             }
             yield return null;

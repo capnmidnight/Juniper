@@ -130,10 +130,7 @@ namespace Juniper.Unity.Anchoring
             return null;
         }
 
-#if UNITY_EDITOR
         /// <summary>
-#endif
-
         /// Restore physics and draggable capabilities.
         /// </summary>
         private void Unfreeze()

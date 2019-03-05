@@ -56,6 +56,9 @@ namespace Juniper.Unity.Animation
             get;
         }
 
+        /// <summary>
+        /// Start the transition animation in the forward direction.
+        /// </summary>
         [ContextMenu("Enter")]
         public override void Enter()
         {
@@ -63,6 +66,10 @@ namespace Juniper.Unity.Animation
             base.Enter();
         }
 
+        /// <summary>
+        /// Jump the transition to the ENTERED state, without animating through
+        /// the ENTERING state.
+        /// </summary>
         public override void SkipEnter()
         {
             StartTransition(ENTERING);
@@ -70,6 +77,9 @@ namespace Juniper.Unity.Animation
             SetProgress(0);
         }
 
+        /// <summary>
+        /// Start the transition animation in the outward direction.
+        /// </summary>
         [ContextMenu("Exit")]
         public override void Exit()
         {

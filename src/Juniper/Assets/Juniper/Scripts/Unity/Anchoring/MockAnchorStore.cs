@@ -1,42 +1,44 @@
-using System.Collections.Generic;
-
 using UnityEngine;
-
-using AnchorType = Juniper.Unity.Anchoring.MockWorldAnchor;
 
 namespace Juniper.Unity.Anchoring
 {
-    public abstract class MockAnchorStore : AbstractAnchorStore<AnchorType>
+    /// <summary>
+    /// An anchor store that stores all anchors in the default data store for AbstractAnchorStore.
+    /// </summary>
+    public abstract class MockAnchorStore : AbstractAnchorStore<MockWorldAnchor>
     {
-        private Dictionary<string, AnchorType> anchorStore = new Dictionary<string, AnchorType>();
-
-        public override bool HasAnchor(string anchorID)
+        /// <summary>
+        /// Returns true if the anchorID is already in the anchor store.
+        /// </summary>
+        /// <param name="ID">The anchor ID to search for.</param>
+        /// <returns>True if the anchor exists in the anchor store, false otherwise.</returns>
+        public override bool HasAnchor(string ID)
         {
-            return anchorStore.ContainsKey(anchorID);
+            return HasValue(ID);
         }
 
         /// <summary>
-        /// Delete saved anchors, if there are any.
+        /// Loads an anchor out of the default data store.
         /// </summary>
-        public override void ResetData()
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        protected override MockWorldAnchor LoadAnchor(string ID)
         {
-            base.ResetData();
-
-            anchorStore.Clear();
-        }
-
-        protected override AnchorType LoadAnchor(string ID)
-        {
-            var anchor = gameObject.AddComponent<MockWorldAnchor>();
+            var anchor = gameObject.EnsureComponent<MockWorldAnchor>().Value;
             anchor.state = LoadValue<MockWorldAnchor.Pose>(ID);
             return anchor;
         }
 
-
-        protected override AnchorType CreateAnchor(string ID, GameObject gameObject)
+        /// <summary>
+        /// Creates an anchor and saves it in the default anchor store.
+        /// </summary>
+        /// <param name="ID">The name of the anchor to create and save</param>
+        /// <param name="gameObject">The object to be anchored</param>
+        /// <returns>The new anchor</returns>
+        protected override MockWorldAnchor CreateAnchor(string ID, GameObject gameObject)
         {
             var t = gameObject.transform;
-            var anchor = gameObject.AddComponent<MockWorldAnchor>();
+            var anchor = gameObject.EnsureComponent<MockWorldAnchor>().Value;
             anchor.state = new MockWorldAnchor.Pose
             {
                 position = t.position,

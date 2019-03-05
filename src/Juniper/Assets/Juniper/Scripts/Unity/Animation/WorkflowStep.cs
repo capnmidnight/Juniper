@@ -63,7 +63,7 @@ namespace Juniper.Unity.Animation
         public WorkflowStep(Transform view, string animationClip, Action action)
         {
             step = view;
-#if UNITY_ANIMATOR
+#if UNITY_MODULES_ANIMATION
             animationClipName = animationClip;
 #endif
             act = action;
@@ -108,7 +108,7 @@ namespace Juniper.Unity.Animation
                 step?.Activate();
             }
 
-#if UNITY_ANIMATOR
+#if UNITY_MODULES_ANIMATION
             if (animationClipName != null)
             {
                 model.Play(animationClipName);
@@ -128,7 +128,7 @@ namespace Juniper.Unity.Animation
         /// </summary>
         private readonly Button[] buttons;
 
-#if UNITY_ANIMATOR
+#if UNITY_MODULES_ANIMATION
         /// <summary>
         /// The (optional) animation to play on a 3D model when the step is entered.
         /// </summary>

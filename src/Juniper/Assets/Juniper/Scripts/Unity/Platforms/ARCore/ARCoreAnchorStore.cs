@@ -38,9 +38,9 @@ namespace Juniper.Unity.Anchoring
             return anchorStore[ID];
         }
 
-        protected override AnchorType SaveAnchor(string ID, GameObject gameObject)
+        protected override AnchorType SynchronizeAnchor(string ID, GameObject gameObject)
         {
-            var anchor = base.SaveAnchor(ID, gameObject);
+            var anchor = base.SynchronizeAnchor(ID, gameObject);
             if (anchor != null)
             {
                 gameObject.transform.SetParent(anchor.transform, true);
