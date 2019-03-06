@@ -481,7 +481,7 @@ namespace Juniper.Unity.Input.Pointers
                 evtData.pointerCurrentRaycast.gameObject != null,
                 AnyButtonPressed,
                 LastWorldPoint,
-                Quaternion.LookRotation(evtData.pointerCurrentRaycast.worldNormal));
+                evtData.pointerCurrentRaycast.worldNormal);
         }
 
         protected virtual IEventSystemHandler ProcessButtons(PointerEventData evtData, float pixelDragThresholdSquared)

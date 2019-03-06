@@ -1,8 +1,6 @@
+using System.Linq;
 using Juniper.Unity.Display;
 using Juniper.Unity.Input.Pointers.Screen;
-
-using System.Linq;
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -287,11 +285,15 @@ namespace Juniper.Unity.Input.Pointers
         /// <param name="targeted">whether or not we are pointing at a valid target</param>
         /// <param name="pressed">whether or not the primary selection button has been pressed</param>
         /// <param name="targetPosition">the location at which the pointer found a target</param>
-        /// <param name="targetRotation">the surface normal rotation for the pointer's target</param>
-        public void SetCursor(bool targeted, bool pressed, Vector3 targetPosition, Quaternion targetRotation)
+        /// <param name="targetForward">the surface normal rotation for the pointer's target</param>
+        public void SetCursor(bool targeted, bool pressed, Vector3 targetPosition, Vector3 targetForward)
         {
             Cursor.position = targetPosition;
-            Cursor.rotation = targetRotation;
+
+            if (!Mathf.Approximately(targetForward.sqrMagnitude, 0))
+            {
+                Cursor.rotation = Quaternion.LookRotation(targetForward);
+            }
 
             var distance = Mathf.Max(0.1f, Vector3.Distance(Cursor.position, transform.position));
             Cursor.localScale = distance * Vector3.one;
