@@ -184,7 +184,11 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         [MenuItem(ANDROID_MENU_NAME + "ARCore", true)]
         public static bool SetAndroid_ARCore_MenuItem_Validate()
         {
+#if UNITY_2018_2_OR_NEWER
             return MenuCheck(PlatformTypes.AndroidARCore);
+#else
+            return false;
+#endif
         }
 
         [MenuItem(ANDROID_MENU_NAME + "ARCore", false)]
