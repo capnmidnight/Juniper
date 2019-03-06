@@ -165,7 +165,7 @@ namespace Juniper.Unity.Display
             }
             catch (Exception exp)
             {
-                Debug.LogError($"Could not AR mode from {lastARMode} to {jp.ARMode}. Reason: {exp.Message}");
+                Debug.LogError($"Could not change AR mode from {lastARMode} to {jp.ARMode}. Reason: {exp.Message}");
                 jp.ARMode = lastARMode;
             }
         }
@@ -325,36 +325,37 @@ namespace Juniper.Unity.Display
         {
             if (jp.CurrentPlatform != JuniperPlatform.CURRENT_PLATFORM)
             {
-                Debug.LogWarning($"Cannot change {nameof(Platform)} directly. Use the Juniper menu in the Unity Editor.");
+                Debug.LogWarning($"Cannot change {nameof(Platform)} directly. Use the Juniper menu in the Unity Editor. ({JuniperPlatform.CURRENT_PLATFORM} => {jp.CurrentPlatform})");
                 jp.CurrentPlatform = JuniperPlatform.CURRENT_PLATFORM;
             }
 
             if (jp.System != lastSystem)
             {
-                Debug.LogWarning($"Cannot change {nameof(jp.System)} directly. Use the Juniper menu in the Unity Editor.");
+                Debug.LogWarning($"Cannot change {nameof(jp.System)} directly. Use the Juniper menu in the Unity Editor. ({lastSystem} => {jp.System})");
                 jp.System = lastSystem;
+            }
+
+            if (jp.Option != lastOption)
+            {
+                Debug.LogWarning($"Cannot change {nameof(jp.Option)} directly. Use the Juniper menu in the Unity Editor. ({lastOption} => {jp.Option})");
+                jp.Option = lastOption;
             }
 
             if (jp.DisplayType != lastDisplayType)
             {
-                Debug.LogWarning($"Cannot change {nameof(jp.DisplayType)} directly. Use the {nameof(StartXRDisplay)} method.");
+                Debug.LogWarning($"Cannot change {nameof(jp.DisplayType)} directly. Use the {nameof(StartXRDisplay)} method. ({lastDisplayType} => {jp.DisplayType})");
                 jp.DisplayType = lastDisplayType;
             }
 
             if (jp.ARMode != lastARMode)
             {
-                Debug.LogWarning($"Cannot change {nameof(jp.ARMode)} directly. Use the {nameof(StartAR)} method.");
+                Debug.LogWarning($"Cannot change {nameof(jp.ARMode)} directly. Use the {nameof(StartAR)} method. ({lastARMode} => {jp.ARMode})");
                 jp.ARMode = lastARMode;
-            }
-
-            if (jp.Option != lastOption)
-            {
-                Debug.LogWarning($"Cannot change {nameof(jp.Option)} directly. Use the Juniper menu in the Unity Editor.");
-                jp.Option = lastOption;
             }
 
             if (!Mathf.Approximately(MainCamera.fieldOfView, VerticalFieldOfView))
             {
+                print($"{MainCamera.fieldOfView.Label(UnitOfMeasure.Degrees)} => {VerticalFieldOfView.Label(UnitOfMeasure.Degrees)}");
                 MainCamera.fieldOfView = VerticalFieldOfView;
             }
         }

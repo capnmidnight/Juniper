@@ -12,7 +12,11 @@ namespace Juniper.Unity.Display
         {
             get
             {
+#if UNITY_EDITOR
+                return 80;
+#else
                 return 30;
+#endif
             }
         }
 

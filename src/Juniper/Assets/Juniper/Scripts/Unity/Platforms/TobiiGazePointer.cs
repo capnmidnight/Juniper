@@ -1,7 +1,7 @@
 #if TOBII
 
-using Juniper.Haptics;
-using Juniper.Input.Pointers.Screen;
+using Juniper.Unity.Haptics;
+using Juniper.Unity.Input.Pointers.Screen;
 using Tobii.Gaming;
 
 using UnityEngine;

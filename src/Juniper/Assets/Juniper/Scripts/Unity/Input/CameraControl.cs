@@ -1,8 +1,11 @@
 using System.Collections.Generic;
-
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
+
+#if !MAGIC_WINDOW && !MAGIC_LEAP
+using System.Linq;
+#endif
 
 namespace Juniper.Unity.Input
 {

@@ -186,7 +186,10 @@ namespace Juniper.Unity
             reset &= Application.isEditor;
 
 #if UNITY_EDITOR
-            OnValidate();
+            if (!Application.isPlaying)
+            {
+                OnValidate();
+            }
 #endif
 
             this.EnsureComponent<EventSystem>();
