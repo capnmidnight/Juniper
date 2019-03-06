@@ -12,7 +12,7 @@ namespace Juniper
     /// <summary>
     /// Perform HTTP queries
     /// </summary>
-    public class HTTP
+    public sealed class HTTP
     {
         /// <summary>
         /// Perform a GET request and return the results as a stream of bytes

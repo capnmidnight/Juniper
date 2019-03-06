@@ -11,6 +11,20 @@ namespace Juniper.Statistics
     /// </summary>
     public abstract class AbstractCollectionStatistics<T> : IList<T> where T : struct
     {
+        private readonly T Zero;
+        private readonly T One;
+
+        /// <summary>
+        /// The collection being wrapped.
+        /// </summary>
+        private readonly IList<T> collect;
+
+        private T? max;
+        private T? min;
+        private T? mean;
+        private T? variance;
+        private T? standardDev;
+
         /// <summary>
         /// The maximum value in the collection (calculated during collection modification)
         /// </summary>
@@ -212,6 +226,10 @@ namespace Juniper.Statistics
             UpdateStatistics(item);
         }
 
+        /// <summary>
+        /// Add a collection of items to the current collection.
+        /// </summary>
+        /// <param name="collect"></param>
         public void AddRange(IEnumerable<T> collect)
         {
             foreach (var v in collect)
@@ -405,6 +423,10 @@ namespace Juniper.Statistics
             }
         }
 
+        /// <summary>
+        /// Recalculate statistics that don't need to perform a full collection scan.
+        /// </summary>
+        /// <param name="value"></param>
         protected void UpdateStatistics(T value)
         {
             Minimum = Min(Minimum, value);
@@ -443,19 +465,6 @@ namespace Juniper.Statistics
         protected abstract T Abs(T value);
 
         protected abstract bool LessThan(T a, T b);
-
-        private readonly T Zero, One;
-
-        /// <summary>
-        /// The collection being wrapped.
-        /// </summary>
-        private IList<T> collect;
-
-        private T? max;
-        private T? min;
-        private T? mean;
-        private T? variance;
-        private T? standardDev;
 
         private T? Add(T? a, T? b)
         {

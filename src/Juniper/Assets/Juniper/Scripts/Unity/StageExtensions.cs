@@ -51,6 +51,7 @@ namespace Juniper.Unity
 
         public bool useGravity = true;
 #endif
+
         private const string ENABLE_GAZE_KEY = "GazePointer";
         private const string ENABLE_MOUSE_KEY = "MousePointer";
         private const string ENABLE_TOUCH_KEY = "TouchPointers";
