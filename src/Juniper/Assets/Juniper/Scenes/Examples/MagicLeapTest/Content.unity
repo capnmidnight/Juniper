@@ -1175,7 +1175,6 @@ GameObject:
   - component: {fileID: 1166551424}
   - component: {fileID: 1166551428}
   - component: {fileID: 1166551427}
-  - component: {fileID: 1166551426}
   - component: {fileID: 1166551425}
   m_Layer: 0
   m_Name: SliderControl
@@ -1219,18 +1218,6 @@ MonoBehaviour:
   - Pressed
   - Opened
   - Disabled
---- !u!114 &1166551426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114971385768566032, guid: f39aa28e314a8b644a137188804840ce,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1166551423}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1166551427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1240,9 +1227,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1166551423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 083287cff9789d641a766167c2c43426, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickButton: 0
+  disabled: 0
+  pointerPosition: {x: 0, y: 0, z: 0}
+  Display: {fileID: 0}
+  SigFigs: 3
+  minValue: 0
+  maxValue: 1
+  _value: 0
+  Dragged: 0
+  constrainMotion: 0
+  rotateWhileDragging: 0
 --- !u!135 &1166551428
 SphereCollider:
   m_ObjectHideFlags: 0
