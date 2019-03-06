@@ -7,7 +7,7 @@ namespace System.Collections.Generic
     /// </summary>
     public static class IEnumerableExt
     {
-        public static void MaybeAdd<T>(this ICollection<T> collect, T value)
+        public static void MaybeAdd<T>(this List<T> collect, T value)
         {
             if (!collect.Contains(value))
             {
@@ -15,7 +15,7 @@ namespace System.Collections.Generic
             }
         }
 
-        public static void MaybeAddRange<T>(this ICollection<T> collect, IEnumerable<T> values)
+        public static void MaybeAddRange<T>(this List<T> collect, IEnumerable<T> values)
         {
             if (values != null)
             {
