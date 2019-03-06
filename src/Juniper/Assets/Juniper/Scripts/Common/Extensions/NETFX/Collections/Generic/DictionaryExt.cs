@@ -26,13 +26,5 @@ namespace System.Collections.Generic
                 return defaultValue;
             }
         }
-
-        public static void MaybeAdd<T, U>(this IDictionary<T, U> collect, T key, U value = default(U))
-        {
-            if (!collect.ContainsKey(key))
-            {
-                collect.Add(key, value);
-            }
-        }
     }
 }

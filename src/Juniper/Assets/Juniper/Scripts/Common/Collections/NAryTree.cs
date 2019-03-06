@@ -1,6 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Text;
 
-namespace System.Collections.Generic
+namespace Juniper.Collections
 {
     /// <summary>
     /// A node in an N-ary tree.

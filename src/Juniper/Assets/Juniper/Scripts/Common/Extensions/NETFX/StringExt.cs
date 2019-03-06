@@ -65,11 +65,23 @@ namespace System
             return Join(parts, Path.DirectorySeparatorChar);
         }
 
-        public static string Join(this string[] parts, string separator)
+        /// <summary>
+        /// An extension method to join an array of strings with a separator. Sort of a fluent
+        /// interface for System.String.Join.
+        /// </summary>
+        /// <param name="parts">The strings to join.</param>
+        /// <param name="separator">The separator to insert between each string value. Defaults to the empty string.</param>
+        /// <returns>The joined string.</returns>
+        public static string Join(this string[] parts, string separator = null)
         {
             if (parts.Length == 0)
             {
                 return string.Empty;
+            }
+
+            if (separator == null)
+            {
+                separator = string.Empty;
             }
             var sb = new Text.StringBuilder(parts[0]);
             for (var i = 1; i < parts.Length; ++i)
@@ -79,6 +91,13 @@ namespace System
             return sb.ToString();
         }
 
+        /// <summary>
+        /// An extension method to join an array of strings with a separator. Sort of a fluent
+        /// interface for System.String.Join.
+        /// </summary>
+        /// <param name="parts">The strings to join.</param>
+        /// <param name="separator">The separator to insert between each string value. Defaults to the empty string.</param>
+        /// <returns>The joined string.</returns>
         public static string Join(this string[] parts, char separator)
         {
             if (parts.Length == 0)

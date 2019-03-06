@@ -94,15 +94,18 @@ namespace System.Collections.Generic
         /// </summary>
         private Dictionary<string, string[]> table = new Dictionary<string, string[]>();
 
+        /// <summary>
+        /// Compares two subparts of a string to see if they are numbers.
+        /// </summary>
+        /// <param name="left">The subpart of the first string.</param>
+        /// <param name="right">The subpart of the second string.</param>
+        /// <returns>A comparison shift amount, usable for sorting algorithms.</returns>
         private static int PartCompare(string left, string right)
         {
             int x, y;
 
-            if (!int.TryParse(left, out x))
-            {
-                return string.Compare(left, right, StringComparison.Ordinal);
-            }
-            else if (!int.TryParse(right, out y))
+            if (!int.TryParse(left, out x)
+                || !int.TryParse(right, out y))
             {
                 return string.Compare(left, right, StringComparison.Ordinal);
             }

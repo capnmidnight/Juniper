@@ -7,15 +7,25 @@ namespace System.IO
     /// </summary>
     public static class PathExt
     {
+        /// <summary>
+        /// Converts paths specified in any combination of forward- or back-slashes to the correct
+        /// slash for the current system.
+        /// </summary>
+        /// <param name="path">The path to fix.</param>
+        /// <returns>The same path, but with the wrong slashes replaced with the right slashes.</returns>
+        /// <example>On Windows, if a path is specified with forward slashes, a value with backslashes is returned.</example>
         public static string FixPath(string path)
         {
             var prefix = string.Empty;
             var parts = path.Split('\\', '/').ToList();
+
+            // Handle Windows drive letters:
             if (parts.Count > 0 && parts[0].EndsWith(":"))
             {
                 prefix = parts[0] + Path.DirectorySeparatorChar;
                 parts.RemoveAt(0);
             }
+
             return prefix + Path.Combine(parts.ToArray());
         }
 
@@ -109,12 +119,14 @@ namespace System.IO
                     var parts = partsA
                         .Concat(partsB)
                         .ToArray();
-#if UNITY_EDITOR_WIN
-                    if (parts[0].EndsWith(":"))
+
+                    // Handle Windows drive letters
+                    if (Path.VolumeSeparatorChar == ':' && parts[0].Last() == Path.VolumeSeparatorChar)
                     {
-                        parts[0] += "\\";
+                        parts[0] += Path.DirectorySeparatorChar;
+                        parts[0] += Path.DirectorySeparatorChar;
                     }
-#endif
+
                     return Path.Combine(parts);
                 }
             }

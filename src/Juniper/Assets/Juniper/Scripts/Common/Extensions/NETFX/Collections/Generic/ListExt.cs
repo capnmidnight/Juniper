@@ -5,6 +5,11 @@ namespace System.Collections.Generic
     /// </summary>
     public static class ListExt
     {
+        /// <summary>
+        /// A random number generator to use with the following methods.
+        /// </summary>
+        private readonly static Random r = new Random();
+
         /// <summary> Removes a random item from the given collection. Kind of like dealing cards out
         /// of a deck. </summary> <typeparam name="T">Any type</typeparam> <param name="items">The
         /// collection from which to remove the item.</param> <exception
@@ -49,10 +54,5 @@ namespace System.Collections.Generic
             list.RemoveRange(index, count);
             return output;
         }
-
-        /// <summary>
-        /// A random number generator to use with the following methods.
-        /// </summary>
-        private static Random r = new Random();
     }
 }

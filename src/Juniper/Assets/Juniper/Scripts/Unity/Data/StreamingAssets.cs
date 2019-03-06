@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Juniper.Data
+namespace Juniper.Unity.Data
 {
     /// <summary>
     /// Get files out of the Unity StreamingAssets folder.

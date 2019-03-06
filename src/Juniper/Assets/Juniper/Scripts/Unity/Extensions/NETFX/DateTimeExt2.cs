@@ -40,11 +40,7 @@ namespace System
         {
             get
             {
-                if (cachedOffset == null)
-                {
-                    cachedOffset = new TimeSpan(0, 0, 0, 0, MillisecondsOffset);
-                }
-                return cachedOffset.Value;
+                return cachedOffset ?? (cachedOffset = new TimeSpan(0, 0, 0, 0, MillisecondsOffset)).Value;
             }
         }
 

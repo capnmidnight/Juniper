@@ -7,18 +7,6 @@ namespace System.Collections.Generic
     /// </summary>
     public static class IEnumerableExt
     {
-        public static void MaybeSet<T, U>(this IDictionary<T, U> collect, T key, U value)
-        {
-            if (collect.ContainsKey(key))
-            {
-                collect[key] = value;
-            }
-            else
-            {
-                collect.Add(key, value);
-            }
-        }
-
         public static void MaybeAdd<T>(this ICollection<T> collect, T value)
         {
             if (!collect.Contains(value))
@@ -277,13 +265,19 @@ namespace System.Collections.Generic
         /// <summary>
         /// Create an <see cref="InterleavedEnumerator"/> out of a sequence of enumerators.
         /// </summary>
-        /// <param name="iters"></param>
-        /// <returns></returns>
+        /// <param name="iters">The enumerators to interleave</param>
+        /// <returns>The interleaved enumerator</returns>
         public static IEnumerator Interleave(this IEnumerable<IEnumerator> iters)
         {
             return new InterleavedEnumerator(iters);
         }
 
+        /// <summary>
+        /// Add an entire collection to a queue.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the queue.</typeparam>
+        /// <param name="q">The queue to which to add items.</param>
+        /// <param name="e">The items to add to the queue, in order.</param>
         public static void AddRange<T>(this Queue<T> q, IEnumerable<T> e)
         {
             foreach (var o in e)
@@ -292,6 +286,12 @@ namespace System.Collections.Generic
             }
         }
 
+        /// <summary>
+        /// Make Queues usable with collection initializer sytnax.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of the queue</typeparam>
+        /// <param name="q">The queue to which to add the item.</param>
+        /// <param name="value">The item to add to the queue.</param>
         public static void Add<T>(this Queue<T> q, T value)
         {
             q.Enqueue(value);

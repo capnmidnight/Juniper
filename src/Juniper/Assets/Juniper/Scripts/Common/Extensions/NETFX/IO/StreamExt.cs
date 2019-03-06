@@ -4,10 +4,22 @@ using Newtonsoft.Json;
 
 namespace System.IO
 {
+    /// <summary>
+    /// Extension methods for reading Streams with progress tracking.
+    /// </summary>
     public static class StreamExt
     {
+        /// <summary>
+        /// Default read buffer size.
+        /// </summary>
         private const int BLOCK_SIZE = 4096;
 
+        /// <summary>
+        /// Pipe the output of one stream into the input of another.
+        /// </summary>
+        /// <param name="inStream">The stream to pipe out of.</param>
+        /// <param name="outStream">The stream to pipe into.</param>
+        /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
         public static void Pipe(this Stream inStream, Stream outStream, IProgressReceiver prog = null)
         {
             prog?.SetProgress(0);
@@ -26,6 +38,12 @@ namespace System.IO
             prog?.SetProgress(1);
         }
 
+        /// <summary>
+        /// Reads all of the bytes out of a given stream.
+        /// </summary>
+        /// <param name="stream">The stream to read.</param>
+        /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
+        /// <returns>The bytes read out of the stream.</returns>
         public static byte[] ReadBytes(this Stream stream, IProgressReceiver prog = null)
         {
             prog?.SetProgress(0);
@@ -34,11 +52,18 @@ namespace System.IO
             for (var i = 0; i < buf.Length; i += BLOCK_SIZE)
             {
                 streamProg.Read(buf, i, BLOCK_SIZE);
+                prog?.SetProgress(i, stream.Length);
             }
             prog?.SetProgress(1);
             return buf;
         }
 
+        /// <summary>
+        /// Reads all of the text out of a given stream.
+        /// </summary>
+        /// <param name="stream">The stream to read.</param>
+        /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
+        /// <returns>The string read out of the stream.</returns>
         public static string ReadString(this Stream stream, IProgressReceiver prog = null)
         {
             var streamProg = new StreamProgress(stream, prog);
@@ -48,6 +73,13 @@ namespace System.IO
             }
         }
 
+        /// <summary>
+        /// Reads all of the text out of a stream, and interprets it as a JSON serialized object.
+        /// </summary>
+        /// <typeparam name="T">The type of the serialized object.</typeparam>
+        /// <param name="stream">The stream to read.</param>
+        /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
+        /// <returns>The value deserialized out of the stream.</returns>
         public static T ReadObject<T>(this Stream stream, IProgressReceiver prog = null)
         {
             using (var streamProg = new StreamProgress(stream, prog))

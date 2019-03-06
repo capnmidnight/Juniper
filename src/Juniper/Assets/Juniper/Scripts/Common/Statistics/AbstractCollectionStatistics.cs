@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using Juniper.Collections;
+
 namespace Juniper.Statistics
 {
     /// <summary>

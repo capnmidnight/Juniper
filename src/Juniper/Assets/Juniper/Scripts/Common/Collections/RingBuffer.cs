@@ -1,6 +1,9 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace System.Collections.Generic
+namespace Juniper.Collections
 {
     /// <summary>
     /// A collection of fixed size that overwrites the oldest items when the collection is full.
