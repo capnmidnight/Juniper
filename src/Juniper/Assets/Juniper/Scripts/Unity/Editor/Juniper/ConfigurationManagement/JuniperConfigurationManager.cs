@@ -431,13 +431,6 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             ResumeBuild();
         }
 
-        [MenuItem(OTHER_MENU_NAME + "Recompile", false, 205)]
-        public static void Other_Recompile_Menu()
-        {
-            WithProgress("Recompiling platform " + NextPlatform, _ =>
-                RecompilePlatformInternal());
-        }
-
         #endregion Menu/Other
 
         #endregion Menu
@@ -578,14 +571,6 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
             PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, nextDefinesString);
             DelayedUpdate(prog, 30, () => Debug.LogWarning("Timeout!!!"));
-        }
-
-        private static void RecompilePlatformInternal()
-        {
-            var newDefinesString = ThirdPartyDefines(NextConfiguration.TargetGroup);
-            var newDefines = newDefinesString.Split(';').ToList();
-            newDefines.MaybeAddRange(NextConfiguration.CompilerDefines);
-            Recompile(false, string.Join(";", newDefines));
         }
 
         private static IEnumerable<IInstallable> GetInstallables()
