@@ -1,9 +1,6 @@
-using Juniper.Unity.Input.Pointers;
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
-
+using Juniper.Unity.Input.Pointers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -83,24 +80,6 @@ namespace Juniper.Unity.Input
             base.Reset();
 
             Reinstall();
-        }
-
-#endif
-
-#if UNITY_MODULES_UI
-
-        protected override void Start()
-        {
-            base.Start();
-
-            raycasters = FindObjectsOfType<GraphicRaycaster>().ToList();
-        }
-
-        private List<GraphicRaycaster> raycasters = new List<GraphicRaycaster>();
-
-        public void AddRaycaster(GraphicRaycaster graphicRaycaster)
-        {
-            raycasters.MaybeAdd(graphicRaycaster);
         }
 
 #endif
@@ -246,36 +225,27 @@ namespace Juniper.Unity.Input
         {
             m_RaycastResultCache.Clear();
 
-#if UNITY_MODULES_PHYSICS
-            pointer.Raycaster?.Raycast(eventData, m_RaycastResultCache);
-#endif
+            eventSystem.RaycastAll(eventData, m_RaycastResultCache);
 
-#if UNITY_MODULES_UI
-            foreach (var raycaster in raycasters)
+            for (var i = 0; i < m_RaycastResultCache.Count; ++i)
             {
-                if (raycaster.isActiveAndEnabled)
+                var ray = m_RaycastResultCache[i];
+                if (ray.module is GraphicRaycaster)
                 {
-                    var canv = raycaster.GetComponent<Canvas>();
-                    if (pointer.EventCamera.IsInView(canv))
+                    var gfr = (GraphicRaycaster)ray.module;
+                    var canv = gfr.GetComponent<Canvas>();
+                    ray.worldNormal = canv.transform.forward;
+
+                    var pos = (Vector3)ray.screenPosition;
+                    if (canv.renderMode == RenderMode.WorldSpace)
                     {
-                        canv.worldCamera = pointer.EventCamera;
-                        var start = m_RaycastResultCache.Count;
-                        raycaster.Raycast(eventData, m_RaycastResultCache);
-                        for (var i = start; i < m_RaycastResultCache.Count; ++i)
-                        {
-                            var ray = m_RaycastResultCache[i];
-                            ray.worldNormal = canv.transform.forward;
-
-                            var pos = (Vector3)ray.screenPosition;
-                            pos.z = ray.distance + 0.35f;
-                            ray.worldPosition = pointer.EventCamera.ScreenToWorldPoint(pos);
-
-                            m_RaycastResultCache[i] = ray;
-                        }
+                        pos.z = ray.distance + 0.35f;
                     }
+                    ray.worldPosition = pointer.EventCamera.ScreenToWorldPoint(pos);
+
+                    m_RaycastResultCache[i] = ray;
                 }
             }
-#endif
 
             m_RaycastResultCache.Sort(RaycastComparer);
         }

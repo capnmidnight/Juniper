@@ -11,7 +11,6 @@ using UnityEngine.SceneManagement;
 
 using Juniper.Unity.Animation;
 using Juniper.Unity.Audio;
-using Juniper.Unity.Input;
 using Juniper.Unity.Display;
 using Juniper.Unity.Widgets;
 using Juniper.Unity.Progress;
@@ -332,9 +331,6 @@ namespace Juniper.Unity
 
                     c.SetRectangle(Vector3.zero, 0.5f * Vector2.one, 0.5f * Vector2.one, 1000, 1000, 0.5f * Vector2.one)
                         .SetScale(new Vector3(0.001f, 0.001f, 1));
-
-                    var io = ComponentExt.FindAny<UnifiedInputModule>();
-                    io?.AddRaycaster(c.GetComponent<GraphicRaycaster>());
 
                     var debugText = c
                         .EnsureRectTransform("DebugText")
