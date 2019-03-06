@@ -55,7 +55,7 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// A lookup for the tween functions, so we don't have to use reflection every time we want one.
         /// </summary>
-        public static readonly Dictionary<TweenType, Func<float, float, float, float>> Functions = new Dictionary<TweenType, Func<float, float, float, float>>
+        public static readonly Dictionary<TweenType, Func<float, float, Direction, float>> Functions = new Dictionary<TweenType, Func<float, float, Direction, float>>
         {
             { TweenType.Linear, Linear },
             { TweenType.Quadratic, Quadratic },
@@ -71,7 +71,7 @@ namespace Juniper.Unity.Animation
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Linear(float p, float k, float d)
+        public static float Linear(float p, float k, Direction d)
         {
             return p;
         }
@@ -82,7 +82,7 @@ namespace Juniper.Unity.Animation
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Quadratic(float p, float k, float d)
+        public static float Quadratic(float p, float k, Direction d)
         {
             return p * p;
         }
@@ -94,7 +94,7 @@ namespace Juniper.Unity.Animation
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Cubic(float p, float k, float d)
+        public static float Cubic(float p, float k, Direction d)
         {
             var c = 2 * p - 1;
             return 0.5f * (1 + c * c * c);
@@ -107,7 +107,7 @@ namespace Juniper.Unity.Animation
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Sine(float p, float k, float d)
+        public static float Sine(float p, float k, Direction d)
         {
             return 0.5f * (1 - Mathf.Cos(p * Mathf.PI));
         }
@@ -119,7 +119,7 @@ namespace Juniper.Unity.Animation
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Bump(float p, float k, float d)
+        public static float Bump(float p, float k, Direction d)
         {
             return Sine(p, 0, d) - k * Mathf.Sin(p * Mathf.PI * 2);
         }
@@ -131,7 +131,7 @@ namespace Juniper.Unity.Animation
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float PingPong(float p, float k, float d)
+        public static float PingPong(float p, float k, Direction d)
         {
             return 2 * p - 4 * p * p;
         }

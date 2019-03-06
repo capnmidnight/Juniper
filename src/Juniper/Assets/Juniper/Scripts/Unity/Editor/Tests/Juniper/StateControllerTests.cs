@@ -421,7 +421,7 @@ namespace Juniper.UnityEditor
 
             public void Complete()
             {
-                state = STOPPED;
+                state = Direction.Stopped;
             }
 
             public override void Exit()

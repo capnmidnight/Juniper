@@ -62,7 +62,7 @@ namespace Juniper.Unity.Animation
         [ContextMenu("Enter")]
         public override void Enter()
         {
-            StartTransition(ENTERING);
+            StartTransition(Direction.Forward);
             base.Enter();
         }
 
@@ -72,7 +72,7 @@ namespace Juniper.Unity.Animation
         /// </summary>
         public override void SkipEnter()
         {
-            StartTransition(ENTERING);
+            StartTransition(Direction.Forward);
             base.SkipEnter();
             SetProgress(0);
         }
@@ -83,7 +83,7 @@ namespace Juniper.Unity.Animation
         [ContextMenu("Exit")]
         public override void Exit()
         {
-            StartTransition(EXITING);
+            StartTransition(Direction.Reverse);
             base.Exit();
         }
 
@@ -111,7 +111,7 @@ namespace Juniper.Unity.Animation
                 else
                 {
                     SetProgress(0);
-                    state = STOPPED;
+                    state = Direction.Stopped;
                 }
             }
 
@@ -157,7 +157,7 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// The function that performs the 'tweening.
         /// </summary>
-        private Func<float, float, float, float> tweenFunc;
+        private Func<float, float, Direction, float> tweenFunc;
 
         /// <summary>
         /// The amount of time to delay before starting a transition.
@@ -201,7 +201,7 @@ namespace Juniper.Unity.Animation
             progress = nextProgress;
 
             var oldTweenedValue = tweenedValue;
-            var value = state == EXITING ? progress : (1 - progress);
+            var value = state == Direction.Reverse ? progress : (1 - progress);
             tweenedValue = tweenFunc(value, tweenK, state);
 
             OnValueChanged(tweenedValue, oldTweenedValue);
@@ -214,11 +214,11 @@ namespace Juniper.Unity.Animation
         /// <param name="nextState">
         /// True, if this is an Enter transition. False, if this is an Exit transition.
         /// </param>
-        private void StartTransition(int nextState)
+        private void StartTransition(Direction nextState)
         {
             state = nextState;
-            attack = state == ENTERING ? attackTime : releaseTime;
-            release = (state == ENTERING ? releaseTime : attackTime);
+            attack = state == Direction.Forward ? attackTime : releaseTime;
+            release = (state == Direction.Forward ? releaseTime : attackTime);
             tweenFunc = Tween.Functions[tween];
             SetProgress(1);
         }

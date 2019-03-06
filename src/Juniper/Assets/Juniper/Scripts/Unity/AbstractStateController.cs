@@ -86,11 +86,22 @@ namespace Juniper.Unity
         /// </summary>
         public event EventHandler Exited;
 
+        /// <summary>
+        /// Whether or not the transition is running in the forward or backward direction (which is
+        /// important for Fade(in|out) and Shrink(in|out) transitions).
+        /// </summary>
+        [ReadOnly]
+        public Direction state;
+
+        private Direction lastState;
+
+        private bool skipEvent;
+
         public virtual bool IsComplete
         {
             get
             {
-                return state == STOPPED;
+                return state == Direction.Stopped;
             }
         }
 
@@ -112,7 +123,7 @@ namespace Juniper.Unity
         /// </summary>
         public virtual void Enter()
         {
-            state = ENTERING;
+            state = Direction.Forward;
             if (!isActiveAndEnabled)
             {
                 enabled = true;
@@ -129,7 +140,7 @@ namespace Juniper.Unity
             skipEvent = true;
             Enter();
             Update();
-            state = STOPPED;
+            state = Direction.Stopped;
             Update();
             skipEvent = false;
         }
@@ -139,7 +150,7 @@ namespace Juniper.Unity
         /// </summary>
         public virtual void Exit()
         {
-            state = EXITING;
+            state = Direction.Reverse;
             OnExiting();
         }
 
@@ -148,7 +159,7 @@ namespace Juniper.Unity
             skipEvent = true;
             Exit();
             Update();
-            state = STOPPED;
+            state = Direction.Stopped;
             Update();
             skipEvent = false;
         }
@@ -179,11 +190,11 @@ namespace Juniper.Unity
         {
             if (IsComplete && state != lastState)
             {
-                if (lastState == ENTERING)
+                if (lastState == Direction.Forward)
                 {
                     OnEntered();
                 }
-                else if (lastState == EXITING)
+                else if (lastState == Direction.Reverse)
                 {
                     enabled = false;
                 }
@@ -191,12 +202,6 @@ namespace Juniper.Unity
 
             lastState = state;
         }
-
-        protected const int ENTERING = 1;
-
-        protected const int STOPPED = 0;
-
-        protected const int EXITING = -1;
 
         private WaitUntil _waiter;
 
@@ -215,12 +220,6 @@ namespace Juniper.Unity
                 return _waiter;
             }
         }
-
-        /// <summary>
-        /// Whether or not the transition is running in the forward or backward direction (which is
-        /// important for Fade(in|out) and Shrink(in|out) transitions).
-        /// </summary>
-        protected int state;
 
         protected virtual void OnEnabled()
         {
@@ -288,8 +287,5 @@ namespace Juniper.Unity
             onExited?.Invoke();
             Exited?.Invoke(this, EventArgs.Empty);
         }
-
-        private int lastState;
-        private bool skipEvent;
     }
 }

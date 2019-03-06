@@ -142,7 +142,6 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// Start the fade in transition.
         /// </summary>
-        /// <returns></returns>
         public override void Enter()
         {
 #if UNITY_MODULES_AUDIO
@@ -154,7 +153,6 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// Start the fade out transition.
         /// </summary>
-        /// <returns></returns>
         public override void Exit()
         {
 #if UNITY_MODULES_AUDIO
@@ -187,7 +185,8 @@ namespace Juniper.Unity.Animation
         private MaterialPropertyBlock props;
 
         /// <summary>
-        /// 
+        /// A queue of actions to perform when the fader has finished fading out, before
+        /// it fades back in.
         /// </summary>
         private readonly List<Action> actions = new List<Action>();
 

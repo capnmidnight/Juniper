@@ -59,12 +59,12 @@ namespace Juniper.Unity
         {
             if (IsRunning)
             {
-                if (state == ENTERING && !isExitingPreviousScene && AllComplete(Enterable)
-                    || state == EXITING && AllComplete(Exitable))
+                if (state == Direction.Forward && !isExitingPreviousScene && AllComplete(Enterable)
+                    || state == Direction.Reverse && AllComplete(Exitable))
                 {
-                    state = STOPPED;
+                    state = Direction.Stopped;
                 }
-                else if (state == ENTERING && isExitingPreviousScene && AllComplete(CurrentSubScenes))
+                else if (state == Direction.Forward && isExitingPreviousScene && AllComplete(CurrentSubScenes))
                 {
                     isExitingPreviousScene = false;
                     foreach (var child in Enterable)

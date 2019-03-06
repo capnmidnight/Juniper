@@ -1239,7 +1239,7 @@ MonoBehaviour:
   maxValue: 1
   _value: 0
   Dragged: 0
-  constrainMotion: 0
+  constrainMotion: 1
   rotateWhileDragging: 0
 --- !u!135 &1166551428
 SphereCollider:
