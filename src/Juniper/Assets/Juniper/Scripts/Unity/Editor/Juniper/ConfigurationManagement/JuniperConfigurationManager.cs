@@ -1,14 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
 using Juniper.Progress;
 using Juniper.Unity;
 using Juniper.Unity.Progress;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -148,14 +148,6 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             {
                 return Platforms.Instance.AllCompilerDefines;
             }
-        }
-
-        private static string ThirdPartyDefines(BuildTargetGroup targetGroup)
-        {
-            var oldDefinesString = PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-            var oldDefines = oldDefinesString.Split(';');
-            var newDefines = oldDefines.Exclude(JUNIPER_DEFINES);
-            return string.Join(";", newDefines);
         }
 
         #region Menu
@@ -496,9 +488,10 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             });
         }
 
-        private static List<string> FormatDefines(ref string definesString)
+        private static List<string> CleanupDefines(IEnumerable<string> defs)
         {
-            var defines = definesString?.Split(';')?.ToList() ?? new List<string>();
+            var defines = defs.ToList();
+            defines.RemoveAll(string.IsNullOrWhiteSpace);
             defines.Sort();
 
             // move the slug to the end, if it exists
@@ -508,7 +501,6 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 defines.Add(RECOMPILE_SLUG);
             }
 
-            definesString = string.Join(";", defines);
             return defines;
         }
 
@@ -541,17 +533,27 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             }
         }
 
-        private static void Recompile(bool advanceBuildStep, string nextDefinesString = null)
+        private static void Recompile(bool advanceBuildStep, params PlatformConfiguration[] platforms)
         {
             if (advanceBuildStep)
             {
                 ++BuildProgress;
             }
-            var targetGroup = BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
+
             var prog = PrepareBuildStep(1);
-            var currentDefinesString = PlayerSettings.GetScriptingDefineSymbolsForGroup(targetGroup);
-            var currentDefines = FormatDefines(ref currentDefinesString);
-            var nextDefines = FormatDefines(ref nextDefinesString);
+
+            var commonDefines = (IEnumerable<string>)platforms[0].CompilerDefines;
+            for (var i = 1; i < platforms.Length; ++i)
+            {
+                commonDefines = commonDefines.Intersect(platforms[i].CompilerDefines);
+            }
+
+            var currentDefines = CleanupDefines(PlayerSettings
+                .GetScriptingDefineSymbolsForGroup(platforms[0].TargetGroup)
+                .Split(';'));
+            var nextDefines = CleanupDefines(currentDefines
+                .Exclude(JUNIPER_DEFINES)
+                .Union(commonDefines));
 
             if (nextDefines.Matches(currentDefines))
             {
@@ -565,11 +567,13 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 }
             }
 
-            nextDefines.RemoveAll(string.IsNullOrWhiteSpace);
+            var nextDefinesString = string.Join(";", nextDefines);
 
-            nextDefinesString = string.Join(";", nextDefines);
+            for (var i = platforms.Length - 1; i >= 0; ++i)
+            {
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(platforms[i].TargetGroup, nextDefinesString);
+            }
 
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, nextDefinesString);
             DelayedUpdate(prog, 30, () => Debug.LogWarning("Timeout!!!"));
         }
 
@@ -610,8 +614,8 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             WithProgress("Resetting to base configuration", _ =>
             {
                 Installable.UninstallAll(GetInstallables);
-                LastConfiguration.Deactivate(NextConfiguration, ThirdPartyDefines(NextConfiguration.TargetGroup));
-                Recompile(true, ThirdPartyDefines(LastConfiguration.TargetGroup));
+                LastConfiguration.Deactivate(NextConfiguration);
+                Recompile(true, LastConfiguration, NextConfiguration);
             });
         }
 
@@ -656,10 +660,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             WithProgress("Activating Platform " + NextPlatform, _ =>
             {
-                var newDefinesString = ThirdPartyDefines(NextConfiguration.TargetGroup);
-                var newDefines = newDefinesString.Split(';').ToList();
-                newDefines.MaybeAddRange(NextConfiguration.CompilerDefines);
-                Recompile(true, string.Join(";", newDefines));
+                Recompile(true, NextConfiguration);
             });
         }
 

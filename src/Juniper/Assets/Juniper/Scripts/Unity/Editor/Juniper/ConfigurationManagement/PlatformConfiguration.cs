@@ -236,7 +236,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             }
         }
 
-        internal void Deactivate(PlatformConfiguration nextConfiguration, string thirdPartyDefines)
+        internal void Deactivate(PlatformConfiguration nextConfiguration)
         {
             AudioSettings.SetSpatializerPluginName(null);
             AudioSettingsExt.SetAmbisonicDecoderPluginName(null);
@@ -250,7 +250,6 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             if (nextConfiguration.TargetGroup != TargetGroup)
             {
                 PlayerSettings.SetPlatformVuforiaEnabled(TargetGroup, false);
-                PlayerSettings.SetScriptingDefineSymbolsForGroup(TargetGroup, thirdPartyDefines);
             }
         }
     }
