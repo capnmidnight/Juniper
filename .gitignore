@@ -4,6 +4,7 @@
 [Bb]uild/
 [Bb]uilds/
 [Ll]ibrary/
+[Ll]ogs/
 
 Assets/AssetStoreTools*
 
@@ -28,11 +29,12 @@ ExportedObj/
 
 \.DS_Store
 
-Tools/Todour-v2.16/
-
 **/.gradle/
 **/.out
 **/usb_dev_info.txt
+
+examples/*/Assets/Juniper/
+examples/*/Assets/Juniper.meta
 
 **/Assets/_TerrainAutoUpgrade.meta
 **/Assets/_TerrainAutoUpgrade/

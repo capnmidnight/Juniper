@@ -1,0 +1,16 @@
+mklink /J "Juniper - Android\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - AndroidARCore\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - AndroidCardboard\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - AndroidDaydream\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - AndroidOculus\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - AndroidViveFocus\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - IOS\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - IOSARKit\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - IOSCardboard\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - Standalone\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - StandaloneOculus\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - StandaloneSteamVR\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - UWP\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - UWPWindowsMR\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - UWPHoloLens\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - MagicLeap\Assets\Juniper" ..\src\Juniper\Assets\Juniper
