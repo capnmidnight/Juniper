@@ -36,17 +36,16 @@ namespace Juniper.Unity.Animation
         private AudioSource aud;
 
 #endif
+
         /// <summary>
-        /// If Unity's audio subsystem is not available, or the fade-in/fade-out sounds
-        /// are not configured, this is the default length of time to run the fade-in/fade-out
-        /// transition.
+        /// If Unity's audio subsystem is not available, or the fade-in/fade-out sounds are not
+        /// configured, this is the default length of time to run the fade-in/fade-out transition.
         /// </summary>
         public float fadeLength = 0.25f;
 
         /// <summary>
-        /// The amount of time the fade transition takes to complete. If a fade sound
-        /// is provided, this will be based on the length of the sound clip. Otherwise,
-        /// it's 1/4th of a second.
+        /// The amount of time the fade transition takes to complete. If a fade sound is provided,
+        /// this will be based on the length of the sound clip. Otherwise, it's 1/4th of a second.
         /// </summary>
         public override float TransitionLength
         {
@@ -61,7 +60,8 @@ namespace Juniper.Unity.Animation
         }
 
         /// <summary>
-        /// Setup the necessary gameObjects and components to make a fader box appears in front of the camera.
+        /// Setup the necessary gameObjects and components to make a fader box appears in front of
+        /// the camera.
         /// </summary>
         /// <returns></returns>
         public static PooledComponent<FadeTransition> Ensure(Transform parent)
@@ -83,8 +83,8 @@ namespace Juniper.Unity.Animation
         {
             Install(false);
 
-            Entered += FadeTransition_Entered;
-            Exited += FadeTransition_Exited;
+            Entering += FadeTransition_Enter_Exiting;
+            Exiting += FadeTransition_Enter_Exiting;
 
             r = GetComponent<Renderer>();
             props = new MaterialPropertyBlock();
@@ -121,10 +121,11 @@ namespace Juniper.Unity.Animation
 
 #if UNITY_MODULES_AUDIO
 
-#if UNITY_EDITOR
-            fadeOutSound = Audio.InteractionAudio.EditorLoadClip("Assets/Juniper/Audio/Star Trek/hologram_off_2.mp3");
-            fadeInSound = Audio.InteractionAudio.EditorLoadClip("Assets/Juniper/Audio/Star Trek/hologrid_online.mp3");
-#endif
+            if (reset)
+            {
+                fadeOutSound = Audio.InteractionAudio.EditorLoadClip("Assets/Juniper/Audio/Star Trek/hologram_off_2.mp3");
+                fadeInSound = Audio.InteractionAudio.EditorLoadClip("Assets/Juniper/Audio/Star Trek/hologrid_online.mp3");
+            }
 
             aud = this.EnsureComponent<AudioSource>();
             aud.playOnAwake = false;
@@ -137,28 +138,6 @@ namespace Juniper.Unity.Animation
         /// </summary>
         public void Uninstall()
         {
-        }
-
-        /// <summary>
-        /// Start the fade in transition.
-        /// </summary>
-        public override void Enter()
-        {
-#if UNITY_MODULES_AUDIO
-            aud.Play();
-#endif
-            base.Enter();
-        }
-
-        /// <summary>
-        /// Start the fade out transition.
-        /// </summary>
-        public override void Exit()
-        {
-#if UNITY_MODULES_AUDIO
-            aud.Play();
-#endif
-            base.Exit();
         }
 
         /// <summary>
@@ -185,15 +164,15 @@ namespace Juniper.Unity.Animation
         private MaterialPropertyBlock props;
 
         /// <summary>
-        /// A queue of actions to perform when the fader has finished fading out, before
-        /// it fades back in.
+        /// A queue of actions to perform when the fader has finished fading out, before it fades
+        /// back in.
         /// </summary>
         private readonly List<Action> actions = new List<Action>();
 
         /// <summary>
-        /// Adds the provided action to a queue of actions that will be executed
-        /// in between a fade-out and fade-in cycle. This is useful for hiding long
-        /// processing actions that would cause the VR view to stutter.
+        /// Adds the provided action to a queue of actions that will be executed in between a
+        /// fade-out and fade-in cycle. This is useful for hiding long processing actions that would
+        /// cause the VR view to stutter.
         /// </summary>
         /// <param name="act">The action lambda expression to run</param>
         public void Fader(Action act)
@@ -214,27 +193,55 @@ namespace Juniper.Unity.Animation
         }
 
         /// <summary>
-        /// If Unity's audio subsystem is available, switches the audio source
-        /// to use the fade-out sound for the next transition.
+        /// The clear-color that was used before the fade-out transition started.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FadeTransition_Exited(object sender, EventArgs e)
+        private Color lastColor;
+
+        /// <summary>
+        /// The culling-mask that was used before the fade-out transition started.
+        /// </summary>
+        private int lastCullingMask;
+
+        /// <summary>
+        /// The ambient light mode that was used before the fade-out transition was started.
+        /// </summary>
+        private AmbientMode lastAmbientMode;
+
+        /// <summary>
+        /// Play the fade-in/fade-out sound
+        /// </summary>
+        private void FadeTransition_Enter_Exiting(object sender, EventArgs e)
         {
 #if UNITY_MODULES_AUDIO
-            aud.clip = fadeOutSound;
+            aud.Play();
 #endif
         }
 
         /// <summary>
-        /// If Unity's audio subsystem is available, switches the audio source
-        /// to use the fade-in sound for the next transition. Also, executes
-        /// and queued actions that are waiting for the fade transition to complete.
+        /// Saves the last clear color, culling mask, and ambient light mode, then prepares the
+        /// camera to render the special "faded out" view, which allows TransparentFX objects to
+        /// still be visible, so we can have simple UI elements still visible while the view is faded
+        /// out. If Unity's audio subsystem is available, switches the audio source to use the
+        /// fade-in sound for the next transition. Also, executes and queued actions that are waiting
+        /// for the fade transition to complete.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FadeTransition_Entered(object sender, EventArgs e)
+        protected override void OnEntered()
         {
+            base.OnEntered();
+
+            lastColor = DisplayManager.MainCamera.backgroundColor;
+            lastCullingMask = DisplayManager.MainCamera.cullingMask;
+            lastAmbientMode = RenderSettings.ambientMode;
+
+            if (jp.ARMode == AugmentedRealityTypes.None)
+            {
+                DisplayManager.MainCamera.clearFlags = CameraClearFlags.Color;
+                DisplayManager.MainCamera.backgroundColor = ColorExt.TransparentBlack;
+            }
+
+            DisplayManager.MainCamera.cullingMask = LayerMask.GetMask("TransparentFX");
+            RenderSettings.ambientMode = AmbientMode.Flat;
+
 #if UNITY_MODULES_AUDIO
             aud.clip = fadeInSound;
 #endif
@@ -255,45 +262,6 @@ namespace Juniper.Unity.Animation
         }
 
         /// <summary>
-        /// The clear-color that was used before the fade-out transition started.
-        /// </summary>
-        private Color lastColor;
-
-        /// <summary>
-        /// The culling-mask that was used before the fade-out transition started.
-        /// </summary>
-        private int lastCullingMask;
-
-        /// <summary>
-        /// The ambient light mode that was used before the fade-out transition was started.
-        /// </summary>
-        private AmbientMode lastAmbientMode;
-
-        /// <summary>
-        /// Saves the last clear color, culling mask, and ambient light mode, then prepares
-        /// the camera to render the special "faded out" view, which allows TransparentFX objects
-        /// to still be visible, so we can have simple UI elements still visible while the
-        /// view is faded out.
-        /// </summary>
-        protected override void OnEntered()
-        {
-            base.OnEntered();
-
-            lastColor = DisplayManager.MainCamera.backgroundColor;
-            lastCullingMask = DisplayManager.MainCamera.cullingMask;
-            lastAmbientMode = RenderSettings.ambientMode;
-
-            if (jp.ARMode == AugmentedRealityTypes.None)
-            {
-                DisplayManager.MainCamera.clearFlags = CameraClearFlags.Color;
-                DisplayManager.MainCamera.backgroundColor = ColorExt.TransparentBlack;
-            }
-
-            DisplayManager.MainCamera.cullingMask = LayerMask.GetMask("TransparentFX");
-            RenderSettings.ambientMode = AmbientMode.Flat;
-        }
-
-        /// <summary>
         /// Restores the camera's rendering and lighting modes to what it was before the fade-out.
         /// </summary>
         protected override void OnExiting()
@@ -308,6 +276,17 @@ namespace Juniper.Unity.Animation
 
             DisplayManager.MainCamera.cullingMask = lastCullingMask;
             RenderSettings.ambientMode = lastAmbientMode;
+        }
+
+        /// <summary>
+        /// If Unity's audio subsystem is available, switches the audio source to use the fade-out
+        /// sound for the next transition.
+        /// </summary>
+        protected override void OnExited()
+        {
+#if UNITY_MODULES_AUDIO
+            aud.clip = fadeOutSound;
+#endif
         }
     }
 }

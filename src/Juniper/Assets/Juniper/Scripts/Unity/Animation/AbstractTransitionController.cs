@@ -218,7 +218,7 @@ namespace Juniper.Unity.Animation
         {
             state = nextState;
             attack = state == Direction.Forward ? attackTime : releaseTime;
-            release = (state == Direction.Forward ? releaseTime : attackTime);
+            release = state == Direction.Forward ? releaseTime : attackTime;
             tweenFunc = Tween.Functions[tween];
             SetProgress(1);
         }

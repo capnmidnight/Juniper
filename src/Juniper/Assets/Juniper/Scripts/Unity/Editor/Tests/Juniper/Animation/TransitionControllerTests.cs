@@ -409,11 +409,11 @@ namespace Juniper.UnityEditor.Animation
                 Value = value;
             }
 
-            protected override void OnEnabled()
+            protected override void OnEntering()
             {
                 FiredEntering = FiredEntered = FiredExiting = FiredExited = false;
                 ValueChanges.Clear();
-                base.OnEnabled();
+                base.OnEntering();
             }
         }
     }

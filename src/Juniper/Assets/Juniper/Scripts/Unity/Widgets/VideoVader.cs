@@ -60,9 +60,9 @@ namespace Juniper.Unity.Widgets
 #endif
         }
 
-        protected override void OnEnabled()
+        protected override void OnEntering()
         {
-            base.OnEnabled();
+            base.OnEntering();
             CancelInvoke(nameof(RestartVideo));
 #if UNITY_MODULES_VIDEO
             player.Stop();

@@ -93,10 +93,19 @@ namespace Juniper.Unity
         [ReadOnly]
         public Direction state;
 
+        /// <summary>
+        /// The value of <see cref="state"/> from the last frame, to check for changes in the value.
+        /// </summary>
         private Direction lastState;
 
-        private bool skipEvent;
+        /// <summary>
+        /// Used to avoid firing the status update events for the SkipEnter/SkipExit functions.
+        /// </summary>
+        private bool skipEvents;
 
+        /// <summary>
+        /// Returns true when <see cref="state"/> is <see cref="Direction.Stopped"/>
+        /// </summary>
         public virtual bool IsComplete
         {
             get
@@ -105,6 +114,18 @@ namespace Juniper.Unity
             }
         }
 
+        /// <summary>
+        /// A method for the IsComplete property to be used with the <see cref="Waiter"/> object.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasCompleted()
+        {
+            return IsComplete;
+        }
+
+        /// <summary>
+        /// Returns true when <see cref="state"/> is not <see cref="Direction.Stopped"/>
+        /// </summary>
         public bool IsRunning
         {
             get
@@ -113,9 +134,41 @@ namespace Juniper.Unity
             }
         }
 
-        public bool HasStopped()
+        /// <summary>
+        /// Returns true when the state controller is in the "Entered" state.
+        /// </summary>
+        public bool IsEntered
         {
-            return IsComplete;
+            get
+            {
+                return enabled;
+            }
+        }
+
+        /// <summary>
+        /// Returns true when the state controller is in the "Exited" state.
+        /// </summary>
+        public bool IsExited
+        {
+            get
+            {
+                return !enabled;
+            }
+        }
+
+        /// <summary>
+        /// Jump to the fully entered state without firing any events.
+        /// </summary>
+        public virtual void SkipEnter()
+        {
+            skipEvents = true;
+            lastState = Direction.Stopped;
+            state = Direction.Forward;
+            OnEnable();
+            lastState = Direction.Forward;
+            state = Direction.Stopped;
+            Update();
+            skipEvents = false;
         }
 
         /// <summary>
@@ -123,45 +176,23 @@ namespace Juniper.Unity
         /// </summary>
         public virtual void Enter()
         {
-            state = Direction.Forward;
-            if (!isActiveAndEnabled)
+            if (IsExited)
             {
+                state = Direction.Forward;
                 enabled = true;
                 this.SetTreeActive(true);
             }
-            else
-            {
-                OnEnable();
-            }
-        }
-
-        public virtual void SkipEnter()
-        {
-            skipEvent = true;
-            Enter();
-            Update();
-            state = Direction.Stopped;
-            Update();
-            skipEvent = false;
         }
 
         /// <summary>
-        /// Fire the OnExiting event and perform the Exit transition.
+        /// Called as the object goes from Inactive to Active. Prefer <see cref="Entering"/> if you
+        /// are programmatically adding event handlers at runtime. If you are adding event handlers
+        /// in the Unity Editor, prefer <see cref="onEntering"/>. If you are waiting for this event
+        /// in a subclass of StateController, prefer overriding the <see cref="OnEntering"/> method.
         /// </summary>
-        public virtual void Exit()
+        public void OnEnable()
         {
-            state = Direction.Reverse;
-            OnExiting();
-        }
-
-        public virtual void SkipExit()
-        {
-            skipEvent = true;
-            Exit();
-            Update();
-            state = Direction.Stopped;
-            Update();
-            skipEvent = false;
+            OnEntering();
         }
 
         /// <summary>
@@ -170,22 +201,18 @@ namespace Juniper.Unity
         /// in the Unity Editor, prefer <see cref="onEntering"/>. If you are waiting for this event
         /// in a subclass of StateController, prefer overriding the <see cref="OnEnable"/> method.
         /// </summary>
-        public void OnEnable()
+        protected virtual void OnEntering()
         {
-            OnEnabled();
+            if (!skipEvents)
+            {
+                onEntering?.Invoke();
+                Entering?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         /// <summary>
-        /// Called as the object goes from Active to Inactive. Prefer <see cref="Exited"/> if you are
-        /// programmatically adding event handlers at runtime. If you are adding event handlers in
-        /// the Unity Editor, prefer <see cref="onExited"/>. If you are waiting for this event in a
-        /// subclass of StateController, prefer overriding the <see cref="OnDisable"/> method.
+        /// Checks to see if the state has changed and fires the right event for it.
         /// </summary>
-        public void OnDisable()
-        {
-            OnDisabled();
-        }
-
         public virtual void Update()
         {
             if (IsComplete && state != lastState)
@@ -203,52 +230,6 @@ namespace Juniper.Unity
             lastState = state;
         }
 
-        private WaitUntil _waiter;
-
-        public WaitUntil Waiter
-        {
-            get
-            {
-                if (_waiter == null)
-                {
-                    _waiter = new WaitUntil(() => IsComplete);
-                }
-                else
-                {
-                    _waiter.Reset();
-                }
-                return _waiter;
-            }
-        }
-
-        protected virtual void OnEnabled()
-        {
-            if (!skipEvent)
-            {
-                OnEntering();
-            }
-        }
-
-        protected virtual void OnDisabled()
-        {
-            if (!skipEvent)
-            {
-                OnExited();
-            }
-        }
-
-        /// <summary>
-        /// Called as the object goes from Inactive to Active. Prefer <see cref="Entering"/> if you
-        /// are programmatically adding event handlers at runtime. If you are adding event handlers
-        /// in the Unity Editor, prefer <see cref="onEntering"/>. If you are waiting for this event
-        /// in a subclass of StateController, prefer overriding the <see cref="OnEnable"/> method.
-        /// </summary>
-        protected virtual void OnEntering()
-        {
-            onEntering?.Invoke();
-            Entering?.Invoke(this, EventArgs.Empty);
-        }
-
         /// <summary>
         /// Calls the <see cref="onEntered"/> and <see cref="Entered"/> events, if they are valid.
         /// Prefer <see cref="Entered"/> if you are programmatically adding event handlers at
@@ -258,8 +239,38 @@ namespace Juniper.Unity
         /// </summary>
         protected virtual void OnEntered()
         {
-            onEntered?.Invoke();
-            Entered?.Invoke(this, EventArgs.Empty);
+            if (!skipEvents)
+            {
+                onEntered?.Invoke();
+                Entered?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Jump to the fully entered state without firing any events.
+        /// </summary>
+        public virtual void SkipExit()
+        {
+            skipEvents = true;
+            lastState = Direction.Stopped;
+            state = Direction.Reverse;
+            OnExiting();
+            lastState = Direction.Reverse;
+            state = Direction.Stopped;
+            Update();
+            skipEvents = false;
+        }
+
+        /// <summary>
+        /// Fire the OnExiting event and perform the Exit transition.
+        /// </summary>
+        public virtual void Exit()
+        {
+            if (IsEntered)
+            {
+                state = Direction.Reverse;
+                OnExiting();
+            }
         }
 
         /// <summary>
@@ -271,8 +282,22 @@ namespace Juniper.Unity
         /// </summary>
         protected virtual void OnExiting()
         {
-            onExiting?.Invoke();
-            Exiting?.Invoke(this, EventArgs.Empty);
+            if (!skipEvents)
+            {
+                onExiting?.Invoke();
+                Exiting?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Called as the object goes from Active to Inactive. Prefer <see cref="Exited"/> if you are
+        /// programmatically adding event handlers at runtime. If you are adding event handlers in
+        /// the Unity Editor, prefer <see cref="onExited"/>. If you are waiting for this event in a
+        /// subclass of StateController, prefer overriding the <see cref="OnExited"/> method.
+        /// </summary>
+        public void OnDisable()
+        {
+            OnExited();
         }
 
         /// <summary>
@@ -284,8 +309,36 @@ namespace Juniper.Unity
         /// </summary>
         protected virtual void OnExited()
         {
-            onExited?.Invoke();
-            Exited?.Invoke(this, EventArgs.Empty);
+            if (!skipEvents)
+            {
+                onExited?.Invoke();
+                Exited?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Cached wait object, so we don't cause GC pressure recreating it all the time.
+        /// </summary>
+        private WaitUntil _waiter;
+
+        /// <summary>
+        /// Retrieves a cached waiter object. The object is cached so we don't cause unnecessary
+        /// GC pressure. Use it to wait for the transition to run to completion.
+        /// </summary>
+        public WaitUntil Waiter
+        {
+            get
+            {
+                if (_waiter == null)
+                {
+                    _waiter = new WaitUntil(HasCompleted);
+                }
+                else
+                {
+                    _waiter.Reset();
+                }
+                return _waiter;
+            }
         }
     }
 }

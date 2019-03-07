@@ -94,14 +94,14 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// Records the starting values so the enter transition can LERP over the values correctly.
         /// </summary>
-        protected override void OnEnabled()
+        protected override void OnEntering()
         {
             startParent = transform.parent;
             startPosition = transform.position;
             endScale = transform.localScale;
             transform.parent = null;
             startScale = transform.localScale;
-            base.OnEnabled();
+            base.OnEntering();
         }
 
         /// <summary>

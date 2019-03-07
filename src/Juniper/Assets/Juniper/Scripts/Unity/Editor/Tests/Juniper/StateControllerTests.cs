@@ -431,11 +431,11 @@ namespace Juniper.UnityEditor
                 base.Exit();
             }
 
-            protected override void OnEnabled()
+            protected override void OnEntering()
             {
                 startTime = Time.time;
                 FiredEntering = FiredEntered = FiredExiting = FiredExited = false;
-                base.OnEnabled();
+                base.OnEntering();
             }
         }
     }

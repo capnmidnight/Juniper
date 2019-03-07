@@ -10,9 +10,10 @@ namespace Juniper.Progress
 
     public static class IProgressExt
     {
+        const float ALPHA = 1e-3f;
         public static bool IsComplete(this IProgress prog)
         {
-            return prog.Progress >= 1;
+            return System.Math.Abs(prog.Progress - 1) < ALPHA;
         }
     }
 }

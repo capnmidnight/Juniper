@@ -82,9 +82,9 @@ namespace Juniper.Unity
         /// </summary>
         protected bool deactivateOnExit = true;
 
-        protected override void OnDisabled()
+        protected override void OnExited()
         {
-            base.OnDisabled();
+            base.OnExited();
 
             if (deactivateOnExit)
             {
