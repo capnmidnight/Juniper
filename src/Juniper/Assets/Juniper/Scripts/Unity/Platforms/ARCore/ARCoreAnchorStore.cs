@@ -1,6 +1,7 @@
 #if UNITY_XR_ARCORE
 using System.Collections.Generic;
 using GoogleARCore;
+using UnityEngine;
 using AnchorType = GoogleARCore.Anchor;
 
 namespace Juniper.Unity.Anchoring
