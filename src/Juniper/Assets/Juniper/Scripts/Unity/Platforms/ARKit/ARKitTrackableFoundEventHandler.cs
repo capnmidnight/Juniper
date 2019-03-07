@@ -1,4 +1,4 @@
-#if ARKIT
+#if UNITY_XR_ARKIT
 
 namespace Juniper.Unity.ImageTracking
 {

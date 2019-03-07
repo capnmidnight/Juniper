@@ -1,4 +1,4 @@
-#if ARCORE
+#if UNITY_XR_ARCORE
 using System.Collections.Generic;
 using GoogleARCore;
 using AnchorType = GoogleARCore.Anchor;

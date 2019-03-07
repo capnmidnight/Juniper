@@ -12,11 +12,11 @@ namespace Juniper.Unity
     public class JuniperPlatform : MonoBehaviour, IInstallable
     {
         public static readonly PlatformTypes CURRENT_PLATFORM =
-#if MAGIC_LEAP
+#if UNITY_XR_MAGICLEAP
             PlatformTypes.MagicLeap;
 
 #elif UNITY_ANDROID
-#if ARCORE
+#if UNITY_XR_ARCORE
             PlatformTypes.AndroidARCore;
 #elif GOOGLEVR
             PlatformTypes.AndroidDaydream;
@@ -24,17 +24,17 @@ namespace Juniper.Unity
             PlatformTypes.AndroidOculus;
 #elif WAVEVR
             PlatformTypes.AndroidViveFocus;
-#elif NO_XR
+#elif STANDARD_DISPLAY
             PlatformTypes.Android;
 #else
             PlatformTypes.None;
 #endif
 #elif UNITY_IOS
-#if ARKIT
+#if UNITY_XR_ARKIT
             PlatformTypes.IOSARKit;
 #elif CARDBOARD
             PlatformTypes.IOSCardboard;
-#elif NO_XR
+#elif STANDARD_DISPLAY
             PlatformTypes.IOS;
 #else
             PlatformTypes.None;
@@ -44,17 +44,17 @@ namespace Juniper.Unity
             PlatformTypes.StandaloneOculus;
 #elif STEAMVR
             PlatformTypes.StandaloneSteamVR;
-#elif NO_XR
+#elif STANDARD_DISPLAY
             PlatformTypes.Standalone;
 #else
             PlatformTypes.None;
 #endif
 #elif UNITY_WSA
-#if WINDOWSMR
+#if UNITY_XR_WINDOWSMR_METRO && WINDOWSMR
             PlatformTypes.UWPWindowsMR;
-#elif HOLOLENS
+#elif UNITY_XR_WINDOWSMR_METRO && HOLOLENS
             PlatformTypes.UWPHoloLens;
-#elif NO_XR
+#elif STANDARD_DISPLAY
             PlatformTypes.UWP;
 #else
             PlatformTypes.None;

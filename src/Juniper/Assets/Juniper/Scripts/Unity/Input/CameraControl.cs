@@ -3,7 +3,7 @@ using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
 
-#if !MAGIC_WINDOW && !MAGIC_LEAP
+#if !MAGIC_WINDOW && !UNITY_XR_MAGICLEAP
 using System.Linq;
 #endif
 
@@ -99,7 +99,7 @@ namespace Juniper.Unity.Input
                 compensateSensors = true;
                 mode = Mode.MagicWindow;
 
-#elif MAGIC_LEAP
+#elif UNITY_XR_MAGICLEAP
                 mode = Mode.None;
                 setMouseLock = false;
 

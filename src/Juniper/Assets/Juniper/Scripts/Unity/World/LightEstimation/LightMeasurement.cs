@@ -8,11 +8,11 @@ namespace Juniper.Unity.World.LightEstimation
     /// </summary>
     [ExecuteInEditMode]
     public class LightMeasurement :
-#if ARKIT
+#if UNITY_XR_ARKIT
         ARKitLightMeasurement
-#elif ARCORE
+#elif UNITY_XR_ARCORE
         ARCoreLightMeasurement
-#elif MAGIC_LEAP
+#elif UNITY_XR_MAGICLEAP
         MagicLeapLightMeasurement
 #elif VUFORIA
         VuforiaLightMeasurement

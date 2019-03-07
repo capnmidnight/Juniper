@@ -9,7 +9,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
     public class HandTracker :
 #if HOLOLENS
         HoloLensHand
-#elif MAGIC_LEAP
+#elif UNITY_XR_MAGICLEAP
         MagicLeapHand
 #elif LEAP_MOTION
         LeapMotionHand

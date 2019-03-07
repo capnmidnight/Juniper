@@ -18,7 +18,7 @@ namespace Juniper.Unity.Input.Pointers.Gaze
     public class GazePointer :
 #if TOBII
         TobiiGazePointer
-#elif MAGIC_LEAP
+#elif UNITY_XR_MAGICLEAP
         MagicLeapGazePointer
 #else
         NosePointer

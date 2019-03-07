@@ -15,11 +15,11 @@ namespace Juniper.Unity.Anchoring
     /// </summary>
     [DisallowMultipleComponent]
     public class AnchorStore :
-#if ARCORE
+#if UNITY_XR_ARCORE
         ARCoreAnchorStore
-#elif ARKit
+#elif UNITY_XR_ARKIT
         ARKitAnchorStore
-#elif MAGIC_LEAP
+#elif UNITY_XR_MAGICLEAP
         MagicLeapAnchorStore
 #elif HOLOLENS
         HoloLensAnchorStore

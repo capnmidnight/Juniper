@@ -1,11 +1,11 @@
 namespace Juniper.Unity.ImageTracking
 {
     public class TrackerKeeper :
-#if ARCORE
+#if UNITY_XR_ARCORE
         ARCoreTrackerKeeper
-#elif ARKIT
+#elif UNITY_XR_ARKIT
         ARKitTrackerKeeper
-#elif MAGIC_LEAP
+#elif UNITY_XR_MAGICLEAP
         MagicLeapTrackerKeeper
 #elif VUFORIA
         VuforiaTrackerKeeper

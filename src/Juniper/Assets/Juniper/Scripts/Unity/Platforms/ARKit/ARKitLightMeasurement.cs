@@ -1,4 +1,4 @@
-#if ARKIT
+#if UNITY_XR_ARKIT
 using UnityEngine.XR.iOS;
 using UnityEngine.UI;
 using UnityEngine;

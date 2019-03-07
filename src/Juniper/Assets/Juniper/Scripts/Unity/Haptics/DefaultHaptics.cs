@@ -10,7 +10,7 @@ using UnityEngine;
 
 using XInputDotNetPure;
 
-#elif UNITY_WSA && !UNITY_EDITOR
+#elif UNITY_XR_WINDOWSMR_METRO && !UNITY_EDITOR
 using System.Linq;
 using Windows.Gaming.Input;
 #endif
@@ -23,7 +23,7 @@ namespace Juniper.Unity.Haptics
     /// </summary>
     public class DefaultHaptics : AbstractHapticExpressor
     {
-#if UNITY_WSA && !UNITY_EDITOR
+#if UNITY_XR_WINDOWSMR_METRO && !UNITY_EDITOR
         Gamepad gp;
         public void Awake()
         {
@@ -59,7 +59,7 @@ namespace Juniper.Unity.Haptics
 #if UNITY_STANDALONE || UNITY_EDITOR
             GamePad.SetVibration(PlayerIndex.One, amplitude, amplitude);
 
-#elif UNITY_WSA
+#elif UNITY_XR_WINDOWSMR_METRO
             if (gp != null)
             {
                 gp.Vibration = new GamepadVibration
@@ -88,7 +88,7 @@ namespace Juniper.Unity.Haptics
         protected override IEnumerator VibrateCoroutine(long milliseconds, float amplitude)
         {
             var seconds = Units.Milliseconds.Seconds(milliseconds);
-#if UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA
+#if UNITY_STANDALONE || UNITY_EDITOR || UNITY_XR_WINDOWSMR_METRO
             SetVibration(amplitude);
 #elif HAS_HAPTICS
             if (amplitude > 0.25f)
@@ -104,7 +104,7 @@ namespace Juniper.Unity.Haptics
             {
 #endif
             yield return new WaitForSeconds(seconds);
-#if !(UNITY_STANDALONE || UNITY_EDITOR || UNITY_WSA) && HAS_HAPTICS
+#if !UNITY_STANDALONE && !UNITY_EDITOR && !UNITY_XR_WINDOWSMR_METRO && HAS_HAPTICS
             }
 #endif
         }

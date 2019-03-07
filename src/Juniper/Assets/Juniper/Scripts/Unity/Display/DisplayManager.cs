@@ -11,19 +11,19 @@ namespace Juniper.Unity.Display
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Camera))]
     public class DisplayManager :
-#if ARCORE
+#if UNITY_XR_ARCORE
         ARCoreDisplayManager
-#elif ARKIT
+#elif UNITY_XR_ARKIT
         ARKitDisplayManager
 #elif GOOGLEVR
         DaydreamDisplayManager
-#elif MAGIC_LEAP
+#elif UNITY_XR_MAGICLEAP
         MagicLeapDisplayManager
 #elif WAVEVR
         ViveFocusDisplayManager
 #elif VUFORIA
         VuforiaDisplayManager
-#elif HOLOLENS || WINDOWSMR
+#elif UNITY_XR_WINDOWSMR_METRO
         WindowsMRDisplayManager
 #else
         NoDisplayManager

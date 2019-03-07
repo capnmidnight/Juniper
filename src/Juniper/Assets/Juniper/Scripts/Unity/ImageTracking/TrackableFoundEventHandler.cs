@@ -9,7 +9,7 @@ namespace Juniper.Unity.ImageTracking
     /// </summary>
     [DisallowMultipleComponent]
     public class TrackableFoundEventHandler :
-#if ARKIT
+#if UNITY_XR_ARKIT
         ARKitTrackableFoundEventHandler
 #elif VUFORIA
         VuforiatTrackableFoundEventHandler

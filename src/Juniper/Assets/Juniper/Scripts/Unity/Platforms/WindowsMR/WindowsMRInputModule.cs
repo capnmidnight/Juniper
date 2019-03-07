@@ -1,4 +1,4 @@
-#if UNITY_WSA && (HOLOLENS || WINDOWSMR)
+#if UNITY_XR_WINDOWSMR_METRO
 using System;
 using System.Collections.Generic;
 using System.Linq;

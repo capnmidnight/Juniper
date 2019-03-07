@@ -147,7 +147,20 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 pkg.Install(p)
 #endif
             );
-            Platforms.ForEachPackage(IncludedUnityPackages, progs[1], (pkg, p) => pkg.Install(p));
+            Platforms.ForEachPackage(IncludedUnityPackages, progs[1], (pkg, p) =>
+            {
+#if UNITY_2018_2_OR_NEWER
+                if (pkg.Name != "com.unity.xr.magicleap")
+                {
+                    pkg.Install(p);
+                }
+#else
+                if (pkg.Name != "com.unity.xr.magicleap" && !pkg.Name.StartsWith("com.unity.modules."))
+                {
+                    pkg.Install(p);
+                }
+#endif
+            });
         }
 
         public void InstallRawPackages(IProgressReceiver prog = null)

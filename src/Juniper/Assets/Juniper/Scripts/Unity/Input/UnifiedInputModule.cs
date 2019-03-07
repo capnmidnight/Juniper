@@ -8,7 +8,7 @@ namespace Juniper.Unity.Input
         DaydreamInputModule
 #elif OCULUS
         OculusInputModule
-#elif UNITY_WSA && (WINDOWSMR || HOLOLENS)
+#elif UNITY_XR_WINDOWSMR_METRO
         WindowsMRInputModule
 #else
         AbstractUnifiedInputModule

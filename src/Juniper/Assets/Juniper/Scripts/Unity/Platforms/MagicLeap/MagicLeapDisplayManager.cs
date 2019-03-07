@@ -1,4 +1,4 @@
-#if MAGIC_LEAP
+#if UNITY_XR_MAGICLEAP
 
 using MSA;
 

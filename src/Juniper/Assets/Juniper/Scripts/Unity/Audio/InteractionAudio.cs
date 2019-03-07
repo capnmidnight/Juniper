@@ -549,7 +549,7 @@ namespace Juniper.Unity.Audio
             audioSource.spatialize = true;
             audioSource.spatializePostEffects = true;
 
-#if UNITY_WSA && (HOLOLENS || WINDOWSMR)
+#if UNITY_XR_WINDOWSMR_METRO
             var ms = audioSource.EnsureComponent<AudioSpatializerMicrosoft>();
             ms.Value.roomSize = AudioSpatializerMicrosoft.RoomSize.Medium;
 
@@ -557,7 +557,7 @@ namespace Juniper.Unity.Audio
             var goog = audioSource.EnsureComponent<ResonanceAudioSource>().Value;
             goog.quality = ResonanceAudioSource.Quality.High;
 
-#elif MAGIC_LEAP
+#elif UNITY_XR_MAGICLEAP
             audioSource.EnsureComponent<MSA.MSASource>(null, (msa) =>
                 msa.Override3DProperties = true);
 

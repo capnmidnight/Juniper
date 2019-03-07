@@ -1,4 +1,4 @@
-#if UNITY_WSA && HOLOLENS
+#if UNITY_XR_WINDOWSMR_METRO && HOLOLENS
 using UnityEngine;
 using UnityEngine.XR.WSA.Input;
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;

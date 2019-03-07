@@ -1,19 +1,15 @@
+using Juniper.Progress;
+using Juniper.Unity;
+using Juniper.Unity.Progress;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
-using Juniper.Progress;
-using Juniper.Unity;
-using Juniper.Unity.Progress;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.SceneManagement;
-
 using UnityEngine;
 
 namespace Juniper.UnityEditor.ConfigurationManagement
@@ -146,20 +142,22 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             get
             {
-                return Platforms.Instance.AllCompilerDefines;
+                return Platforms.Instance.AllCompilerDefines
+                    .Append(RECOMPILE_SLUG)
+                    .ToArray();
             }
         }
 
         #region Menu
 
-        #region Menu/Android
-
-        private const string ANDROID_MENU_NAME = MENU_NAME + "Android/";
-
         private static bool MenuCheck(PlatformTypes p)
         {
             return CurrentPlatform != p && Platforms.Instance.PlatformDB[p].IsSupported;
         }
+
+        #region Menu/Android
+
+        private const string ANDROID_MENU_NAME = MENU_NAME + "Android/";
 
         [MenuItem(ANDROID_MENU_NAME + "None", true)]
         public static bool SetAndroid_MenuItem_Validate()
@@ -490,7 +488,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
         private static List<string> CleanupDefines(IEnumerable<string> defs)
         {
-            var defines = defs.ToList();
+            var defines = defs.Distinct().ToList();
             defines.RemoveAll(string.IsNullOrWhiteSpace);
             defines.Sort();
 
@@ -542,18 +540,30 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
             var prog = PrepareBuildStep(1);
 
-            var commonDefines = (IEnumerable<string>)platforms[0].CompilerDefines;
-            for (var i = 1; i < platforms.Length; ++i)
-            {
-                commonDefines = commonDefines.Intersect(platforms[i].CompilerDefines);
-            }
+            var commonDefines = platforms
+                .SelectMany(p => p.CompilerDefines)
+                .GroupBy(d => d)
+                .Where(defs => defs.Count() == platforms.Length)
+                .SelectMany(defs => defs)
+                .Distinct()
+                .ToList();
 
             var currentDefines = CleanupDefines(PlayerSettings
                 .GetScriptingDefineSymbolsForGroup(platforms[0].TargetGroup)
-                .Split(';'));
-            var nextDefines = CleanupDefines(currentDefines
+                .Split(';'))
+                .ToList();
+
+            var nonJuniper = currentDefines
                 .Exclude(JUNIPER_DEFINES)
-                .Union(commonDefines));
+                .Where(def => !def.StartsWith("NO_UNITY"))
+                .Distinct()
+                .ToList();
+
+            var nextDefines = nonJuniper
+                .Union(commonDefines)
+                .ToList();
+
+            nextDefines = CleanupDefines(nextDefines);
 
             if (nextDefines.Matches(currentDefines))
             {
@@ -569,7 +579,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
             var nextDefinesString = string.Join(";", nextDefines);
 
-            for (var i = platforms.Length - 1; i >= 0; ++i)
+            for (var i = platforms.Length - 1; i >= 0; --i)
             {
                 PlayerSettings.SetScriptingDefineSymbolsForGroup(platforms[i].TargetGroup, nextDefinesString);
             }

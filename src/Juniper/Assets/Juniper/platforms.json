@@ -33,7 +33,7 @@
   {
     "Name": "Android",
     "buildTarget": "Android",
-    "CompilerDefine": "NO_XR",
+    "CompilerDefine": "STANDARD_DISPLAY",
     "vrSystems": [
       "None"
     ],
@@ -47,7 +47,8 @@
     ],
     "packages": [
       "com.unity.modules.jsonserialize@1.0.0",
-      "GoogleARCore"
+      "com.unity.xr.arfoundation@1.0.0",
+      "com.unity.xr.arcore@1.0.0"
     ]
   },
   {
@@ -81,13 +82,14 @@
   {
     "Name": "AndroidOculus",
     "buildTarget": "Android",
+    "CompilerDefine": "OCULUS",
     "vrSystems": [
       "Oculus"
     ],
     "packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
-      "Oculus"
+      "com.unity.xr.oculus.android@1.29.1"
     ]
   },
   {
@@ -106,7 +108,7 @@
   {
     "Name": "IOS",
     "buildTarget": "iOS",
-    "CompilerDefine": "NO_XR",
+    "CompilerDefine": "STANDARD_DISPLAY",
     "vrSystems": [
       "None"
     ],
@@ -119,7 +121,8 @@
       "None"
     ],
     "packages": [
-      "UnityARKitPlugin"
+      "com.unity.xr.arfoundation@1.0.0",
+      "com.unity.xr.arkit@1.0.0"
     ]
   },
   {
@@ -139,7 +142,7 @@
   {
     "Name": "Standalone",
     "buildTarget": "Standalone",
-    "CompilerDefine": "NO_XR",
+    "CompilerDefine": "STANDARD_DISPLAY",
     "vrSystems": [
       "None"
     ],
@@ -150,6 +153,7 @@
   {
     "Name": "StandaloneOculus",
     "buildTarget": "Standalone",
+    "CompilerDefine": "OCULUS",
     "vrSystems": [
       "Oculus",
       "None"
@@ -157,7 +161,7 @@
     "packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
-      "Oculus"
+      "com.unity.xr.oculus.standalone@1.29.1"
     ]
   },
   {
@@ -170,20 +174,19 @@
     "packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
-      "SteamVR",
+      "com.unity.xr.openvr.standalone@1.0.3",
       "ResonanceAudio"
     ]
   },
   {
     "Name": "UWP",
     "buildTarget": "WSAPlayer",
-    "CompilerDefine": "NO_XR",
+    "CompilerDefine": "STANDARD_DISPLAY",
     "vrSystems": [
       "None"
     ],
     "packages": [
-      "Tobii",
-      "UWP"
+      "Tobii"
     ]
   },
   {
@@ -222,6 +225,7 @@
     "packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
+      "com.unity.xr.magicleap@1.0.0",
       "MagicLeap"
     ]
   }

@@ -1,9 +1,9 @@
 namespace Juniper.Unity.Input
 {
     public class DefaultLocomotion :
-#if ARKIT || ARCORE || HOLOLENS || MAGIC_LEAP
+#if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
         AbstractVelocityLocomotion
-#elif NO_XR || (UNITY_EDITOR && !WAVEVR)
+#elif STANDARD_DISPLAY || (UNITY_EDITOR && !WAVEVR)
         RunningMovement
 #else
         HoverCraft

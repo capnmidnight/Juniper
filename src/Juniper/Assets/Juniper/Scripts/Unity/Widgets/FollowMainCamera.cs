@@ -24,7 +24,7 @@ namespace Juniper.Unity.Widgets
             // in the Editor and on Daydream, but may not be suitable
             // for other modalities.
 
-#if ARCORE || ARKIT || NO_XR && (ANDROID || IOS)
+#if UNITY_XR_ARCORE || UNITY_XR_ARKIT || STANDARD_DISPLAY && (ANDROID || IOS)
             f.interpolate = false;
             f.FollowThreshold = 0f;
             f.FollowRotation = CartesianAxisFlags.XY;

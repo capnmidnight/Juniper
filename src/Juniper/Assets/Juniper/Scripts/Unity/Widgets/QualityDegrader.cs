@@ -19,7 +19,7 @@ namespace Juniper.Unity.Widgets
     [DisallowMultipleComponent]
     public class QualityDegrader : MonoBehaviour
     {
-#if ARKIT || ARCORE || HOLOLENS || MAGIC_LEAP
+#if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
         private Ground.Ground ground;
 #endif
 
@@ -53,7 +53,7 @@ namespace Juniper.Unity.Widgets
                         QualitySettings.DecreaseLevel(true);
                     }
 
-#if ARKIT || ARCORE || HOLOLENS || MAGIC_LEAP
+#if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
                     if (ground != null)
                     {
                         ground.spatialMappingFidelity = (Level)(QualityLevel / 2);
@@ -112,7 +112,7 @@ namespace Juniper.Unity.Widgets
         /// </summary>
         public void Awake()
         {
-#if ARKIT || ARCORE || HOLOLENS || MAGIC_LEAP
+#if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
             ground = ComponentExt.FindAny<Ground.Ground>();
 #endif
 

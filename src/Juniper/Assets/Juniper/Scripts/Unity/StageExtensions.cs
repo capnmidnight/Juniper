@@ -10,9 +10,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 #if UNITY_MODULES_UI
-
 using UnityEngine.UI;
-
 #endif
 
 namespace Juniper.Unity
@@ -29,7 +27,6 @@ namespace Juniper.Unity
         public float defaultAvatarHeight = 1.75f;
 
 #if UNITY_MODULES_PHYSICS
-
         /// <summary>
         /// When set to true, colliders and rigid bodies will be added to the stage and camera to
         /// simulate a "body" that can be affected by gravity.
@@ -125,7 +122,7 @@ namespace Juniper.Unity
             }
 #endif
 
-#if ARKIT || ARCORE || HOLOLENS || MAGIC_LEAP
+#if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
             usePhysicsBasedMovement = false;
 #endif
 
@@ -362,7 +359,7 @@ namespace Juniper.Unity
             Body.position = userCenter;
 #endif
 
-#if !MAGIC_LEAP
+#if !UNITY_XR_MAGICLEAP
             Hands.position = Body.position;
 #endif
         }

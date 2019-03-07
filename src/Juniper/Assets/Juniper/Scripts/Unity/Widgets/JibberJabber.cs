@@ -1,5 +1,3 @@
-#if UNITY_MODULES_AUDIO
-
 using Juniper.Unity.Audio;
 
 using UnityEngine;
@@ -26,6 +24,22 @@ namespace Juniper.Unity.Widgets
         public float timeBetweenClips = 1;
 
         /// <summary>
+        /// The number of seconds before the next audioClip should be played.
+        /// </summary>
+        private float time;
+
+        /// <summary>
+        /// Whether or not to keep playing.
+        /// </summary>
+        private bool playing;
+
+#if UNITY_MODULES_AUDIO
+        /// <summary>
+        /// The audioSource through which to play the audio clips.
+        /// </summary>
+        private AudioSource audioSource;
+
+        /// <summary>
         /// Get the audioSource, and if it's set to playOnAwake, start the JibberJabber.
         /// </summary>
         public void Awake()
@@ -38,6 +52,7 @@ namespace Juniper.Unity.Widgets
                 Play();
             }
         }
+#endif
 
         /// <summary>
         /// Check to see if the timeout has expired, and play a new, random audioClip if it has,
@@ -47,12 +62,14 @@ namespace Juniper.Unity.Widgets
         {
             if (playing)
             {
+#if UNITY_MODULES_AUDIO
                 if (time <= 0)
                 {
                     audioSource.clip = clips.Random();
                     audioSource.Play();
                     time += timeBetweenClips + audioSource.clip.length;
                 }
+#endif
 
                 time -= Time.deltaTime;
             }
@@ -75,22 +92,5 @@ namespace Juniper.Unity.Widgets
         {
             playing = false;
         }
-
-        /// <summary>
-        /// The audioSource through which to play the audio clips.
-        /// </summary>
-        private AudioSource audioSource;
-
-        /// <summary>
-        /// The number of seconds before the next audioClip should be played.
-        /// </summary>
-        private float time;
-
-        /// <summary>
-        /// Whether or not to keep playing.
-        /// </summary>
-        private bool playing;
     }
 }
-
-#endif

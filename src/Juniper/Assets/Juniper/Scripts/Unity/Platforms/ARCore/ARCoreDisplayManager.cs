@@ -1,4 +1,4 @@
-#if ARCORE
+#if UNITY_XR_ARCORE
 using UnityEngine;
 
 using GoogleARCore;

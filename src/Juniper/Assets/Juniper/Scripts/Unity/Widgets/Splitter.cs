@@ -1,5 +1,3 @@
-#if UNITY_MODULES_ANIMATION
-
 using UnityEngine;
 
 namespace Juniper.Unity.Widgets
@@ -9,10 +7,17 @@ namespace Juniper.Unity.Widgets
     public class Splitter : MonoBehaviour
     {
         public bool open;
+        private bool wasOpen;
+
+#if UNITY_MODULES_ANIMATION
+        private Animator animator;
+#endif
 
         public void Awake()
         {
+#if UNITY_MODULES_ANIMATION
             animator = GetComponent<Animator>();
+#endif
             wasOpen = open;
         }
 
@@ -21,7 +26,9 @@ namespace Juniper.Unity.Widgets
             if (open != wasOpen)
             {
                 wasOpen = open;
+#if UNITY_MODULES_ANIMATION
                 animator.Play(open ? "Open" : "Closed");
+#endif
             }
         }
 
@@ -29,10 +36,5 @@ namespace Juniper.Unity.Widgets
         {
             open = !open;
         }
-
-        private Animator animator;
-        private bool wasOpen;
     }
 }
-
-#endif

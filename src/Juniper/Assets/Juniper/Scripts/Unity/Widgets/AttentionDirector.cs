@@ -11,9 +11,7 @@ using Juniper.Unity.Input;
 
 
 #if UNITY_MODULES_AUDIO
-
 using Juniper.Unity.Audio;
-
 #endif
 
 namespace Juniper.Unity.Widgets

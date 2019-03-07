@@ -7,11 +7,11 @@ namespace Juniper.Unity.Ground
     public class Ground :
 #if HOLOLENS
         HoloLensGround
-#elif ARKIT
+#elif UNITY_XR_ARKIT
         ARKitGround
-#elif MAGIC_LEAP
+#elif UNITY_XR_MAGICLEAP
         MagicLeapGround
-#elif ARCORE
+#elif UNITY_XR_ARCORE
         ARCoreGround
 #elif UNITY_MODULES_TERRAIN
         StaticTerrain

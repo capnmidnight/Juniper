@@ -1,3 +1,4 @@
+#if UNITY_XR_MAGICLEAP
 using UnityEngine.XR.MagicLeap;
 
 namespace Juniper.Unity.World.LightEstimation
@@ -32,3 +33,4 @@ namespace Juniper.Unity.World.LightEstimation
         }
     }
 }
+#endif

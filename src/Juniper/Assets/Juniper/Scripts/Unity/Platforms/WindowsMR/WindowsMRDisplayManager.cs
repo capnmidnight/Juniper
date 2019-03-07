@@ -1,4 +1,4 @@
-#if UNITY_WSA && WINDOWSMR
+#if UNITY_XR_WINDOWSMR_METRO && WINDOWSMR
 using UnityEngine;
 
 namespace Juniper.Unity.Display

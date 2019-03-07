@@ -1,4 +1,4 @@
-#if ARKIT
+#if UNITY_XR_ARKIT
 using System;
 using System.Collections.Generic;
 using System.Linq;

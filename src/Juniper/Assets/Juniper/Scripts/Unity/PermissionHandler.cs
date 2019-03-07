@@ -1,6 +1,6 @@
 using UnityEngine;
 
-#if MAGIC_LEAP
+#if UNITY_XR_MAGICLEAP
 
 using UnityEngine.XR.MagicLeap;
 
@@ -46,14 +46,14 @@ namespace Juniper.Unity
 
         public void Install(bool reset)
         {
-#if MAGIC_LEAP
+#if UNITY_XR_MAGICLEAP
             this.EnsureComponent<PrivilegeRequester>();
 #endif
         }
 
         public void Uninstall()
         {
-#if MAGIC_LEAP
+#if UNITY_XR_MAGICLEAP
             this.RemoveComponent<PrivilegeRequester>();
 #endif
         }

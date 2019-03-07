@@ -51,7 +51,7 @@ namespace Juniper.Unity.Input.Pointers.Screen
             get; private set;
         }
 
-#if MAGIC_LEAP
+#if UNITY_XR_MAGICLEAP
 
         public override bool IsConnected
         {

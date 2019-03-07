@@ -1,4 +1,4 @@
-#if UNITY_WSA && WINDOWSMR
+#if UNITY_XR_WINDOWSMR_METRO && WINDOWSMR
 using UnityEngine.XR.WSA.Input;
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 using System.Linq;
