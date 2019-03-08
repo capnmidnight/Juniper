@@ -1,5 +1,7 @@
 #if UNITY_XR_ARCORE
 using System.Collections.Generic;
+using GoogleARCore;
+using UnityEngine;
 
 namespace Juniper.Unity.Ground
 {
@@ -8,13 +10,13 @@ namespace Juniper.Unity.Ground
         /// <summary>
         /// When running on ARCore, a collection of all the planes that ARCore is tracking.
         /// </summary>
-        List<TrackedPlane> newPlanes;
+        List<DetectedPlane> newPlanes;
 
-        protected override void InternalStart(XRSystem xr)
+        protected override void InternalStart(JuniperPlatform xr)
         {
             var arCoreSession = ComponentExt.FindAny<ARCoreSession>();
-            arCoreSession.SessionConfig.EnablePlaneFinding = true;
-            newPlanes = new List<TrackedPlane>();
+            arCoreSession.SessionConfig.PlaneFindingMode = DetectedPlaneFindingMode.HorizontalAndVertical;
+            newPlanes = new List<DetectedPlane>();
         }
 
         public override void Update()

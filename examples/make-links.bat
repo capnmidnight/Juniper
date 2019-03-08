@@ -1,3 +1,20 @@
+mkdir "Juniper - Android\Assets"
+mkdir "Juniper - AndroidARCore\Assets"
+mkdir "Juniper - AndroidCardboard\Assets"
+mkdir "Juniper - AndroidDaydream\Assets"
+mkdir "Juniper - AndroidOculus\Assets"
+mkdir "Juniper - AndroidViveFocus\Assets"
+mkdir "Juniper - IOS\Assets"
+mkdir "Juniper - IOSARKit\Assets"
+mkdir "Juniper - IOSCardboard\Assets"
+mkdir "Juniper - Standalone\Assets"
+mkdir "Juniper - StandaloneOculus\Assets"
+mkdir "Juniper - StandaloneSteamVR\Assets"
+mkdir "Juniper - UWP\Assets"
+mkdir "Juniper - UWPWindowsMR\Assets"
+mkdir "Juniper - UWPHoloLens\Assets"
+mkdir "Juniper - MagicLeap\Assets"
+
 mklink /J "Juniper - Android\Assets\Juniper" ..\src\Juniper\Assets\Juniper
 mklink /J "Juniper - AndroidARCore\Assets\Juniper" ..\src\Juniper\Assets\Juniper
 mklink /J "Juniper - AndroidCardboard\Assets\Juniper" ..\src\Juniper\Assets\Juniper

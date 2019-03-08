@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using GoogleARCore;
 using UnityEngine;
-using AnchorType = GoogleARCore.Anchor;
 
 namespace Juniper.Unity.Anchoring
 {
-    public abstract class ARCoreAnchorStore : AbstractAnchorStore<AnchorType>
+    public class ARCoreAnchorStore : AbstractAnchorStore<Anchor>
     {
         /// <summary>
         /// The collection in which anchors are stored. This value's type changes depending on
         /// certain compliation flags.
         /// </summary>
-        private readonly Dictionary<string, AnchorType> anchorStore = new Dictionary<string, AnchorType>();
+        private readonly Dictionary<string, Anchor> anchorStore = new Dictionary<string, Anchor>();
+
+        private ARCoreSession session;
+
+        public void Start()
+        {
+            session = ComponentExt.FindAny<ARCoreSession>();
+        }
 
         public override bool HasAnchor(string anchorID)
         {
@@ -29,17 +35,30 @@ namespace Juniper.Unity.Anchoring
             anchorStore.Clear();
         }
 
-        protected override AnchorType GetAnchor(GameObject gameObject)
+        protected override Anchor FindAnchor(GameObject gameObject)
         {
-            return base.GetAnchor(gameObject?.transform?.parent?.gameObject);
+            return base.FindAnchor(gameObject?.transform?.parent?.gameObject);
         }
 
-        protected override AnchorType LoadAnchor(string ID)
+        protected override Anchor LoadAnchor(string ID)
         {
             return anchorStore[ID];
         }
 
-        protected override AnchorType SynchronizeAnchor(string ID, GameObject gameObject)
+        protected override Anchor CreateAnchor(string ID, GameObject gameObject)
+        {
+            var trackable = gameObject.GetComponent<Trackable>();
+            var pose = new Pose(
+                gameObject.transform.position,
+                gameObject.transform.rotation);
+            var anchor = Session.CreateAnchor(pose, trackable);
+
+            anchorStore[ID] = anchor;
+
+            return anchor;
+        }
+
+        protected override Anchor SynchronizeAnchor(string ID, GameObject gameObject)
         {
             var anchor = base.SynchronizeAnchor(ID, gameObject);
             if (anchor != null)
@@ -49,7 +68,7 @@ namespace Juniper.Unity.Anchoring
             return anchor;
         }
 
-        protected override void DeleteAnchor(string ID, GameObject gameObject, AnchorType anchor)
+        protected override void DeleteAnchor(string ID, GameObject gameObject, Anchor anchor)
         {
             gameObject.transform.SetParent(anchor.transform.parent, true);
             if (anchor.transform.childCount == 0)

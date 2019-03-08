@@ -62,8 +62,8 @@ namespace Juniper.Unity.Input.Pointers
                 MakeEventHandler(pointer, pair.Key);
                 MakeEventHandler(pointer, pair.Value);
 
-                toInputButton.Add(pair.Key, pair.Value);
-                toInteger.Add(pair.Key, Convert.ToInt32(pair.Key));
+                toInputButton[pair.Key] = pair.Value;
+                toInteger[pair.Key] = Convert.ToInt32(pair.Key);
             }
 
             foreach (var evt in pointer.GetComponents<ButtonEvent>())

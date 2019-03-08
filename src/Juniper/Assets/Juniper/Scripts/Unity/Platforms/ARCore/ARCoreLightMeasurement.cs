@@ -15,9 +15,9 @@ namespace Juniper.Unity.World.LightEstimation
             arCoreSession.SessionConfig.EnableLightEstimation = true;
         }
 
-        protected override void InternalUpdate()
+        protected override void UpdateMeasurement()
         {
-            base.InternalUpdate();
+            base.UpdateMeasurement();
 
             if (Frame.LightEstimate.State == LightEstimateState.Valid)
             {

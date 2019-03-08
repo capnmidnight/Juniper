@@ -1,8 +1,7 @@
 #if UNITY_XR_ARCORE
-using UnityEngine;
-
 using System.Collections.Generic;
 using GoogleARCore;
+using UnityEngine;
 
 namespace Juniper.Unity.Ground
 {
@@ -14,41 +13,39 @@ namespace Juniper.Unity.Ground
         /// <summary>
         /// The number of ground planes that are currently being tracked.
         /// </summary>
-        static int count = 0;
+        private static int count = 0;
 
         /// <summary>
         /// Initializes the TrackedPlaneVisualizer with a TrackedPlane.
         /// </summary>
         /// <param name="plane">The plane to vizualize.</param>
-        public static ARCoreGroundPlaneVisualizer Initialize(TrackedPlane plane)
+        public static ARCoreGroundPlaneVisualizer Initialize(DetectedPlane plane)
         {
             var planeObject = new GameObject($"GroundPlane_{count++}");
             var gpv = planeObject.AddComponent<ARCoreGroundPlaneVisualizer>();
             gpv.trackedPlane = plane;
-            //var planeVisualizer = planeObject.AddComponent<TrackedPlaneVisualizer>();
-            //planeVisualizer.Initialize(plane);
             return gpv;
         }
 
         /// <summary>
         /// The ARCore tracked plane object.
         /// </summary>
-        TrackedPlane trackedPlane;
+        private DetectedPlane trackedPlane;
 
         /// <summary>
         /// Keeps the previous frame's mesh polygon to avoid mesh update every frame.
         /// </summary>
-        List<Vector3> previousFrameMeshVertices = new List<Vector3>();
+        private readonly List<Vector3> previousFrameMeshVertices = new List<Vector3>();
 
         /// <summary>
         /// The mesh polygon for the current frame.
         /// </summary>
-        List<Vector3> meshVertices = new List<Vector3>();
+        private readonly List<Vector3> meshVertices = new List<Vector3>();
 
         /// <summary>
         /// The ordering of vertices in the polygon.
         /// </summary>
-        int[] meshIndices;
+        private int[] meshIndices;
 
         /// <summary>
         /// A mesh object for rendering the polygon.
@@ -58,22 +55,33 @@ namespace Juniper.Unity.Ground
         /// <summary>
         /// The renderer for <see cref="mesh"/>.
         /// </summary>
-        MeshRenderer meshRenderer;
+        private MeshRenderer meshRenderer;
 
         /// <summary>
         /// A collider for <see cref="mesh"/>.
         /// </summary>
-        MeshCollider meshCollider;
+        private MeshCollider meshCollider;
 
         /// <summary>
         /// Creates the mesh, mesh renderer, and mesh collider.
         /// </summary>
-        public void Awake() =>
+        public void Awake()
+        {
             Install(false);
+        }
+
+        public void Reinstall()
+        {
+            Install(true);
+        }
 
 #if UNITY_EDITOR
-        public void Reset() =>
-            Install(true);
+
+        public void Reset()
+        {
+            Reinstall();
+        }
+
 #endif
 
         public void Install(bool reset)
@@ -83,12 +91,14 @@ namespace Juniper.Unity.Ground
             meshCollider = this.EnsureComponent<MeshCollider>();
         }
 
-        public void Uninstall() { }
+        public void Uninstall()
+        {
+        }
 
         /// <summary>
         /// Looks for new tracked planes and creates meshes for them.
         /// </summary>
-        void Update()
+        private void Update()
         {
             if (trackedPlane != null)
             {
@@ -110,14 +120,20 @@ namespace Juniper.Unity.Ground
 
         public Material CurrentGroundMeshMaterial
         {
-            get { return meshRenderer.GetMaterial(); }
-            set { meshRenderer.SetMaterial(value); }
+            get
+            {
+                return meshRenderer.GetMaterial();
+            }
+            set
+            {
+                meshRenderer.SetMaterial(value);
+            }
         }
 
         /// <summary>
         /// Update mesh with a list of Vector3 and plane's center position.
         /// </summary>
-        void UpdateMeshIfNeeded()
+        private void UpdateMeshIfNeeded()
         {
             trackedPlane.GetBoundaryPolygon(meshVertices);
 
@@ -128,16 +144,16 @@ namespace Juniper.Unity.Ground
 
                 // A_______B |\ | | \ | | \ | | \ | | \| D-------C
 
-                int planePolygonCount = meshVertices.Count - 2;
+                var planePolygonCount = meshVertices.Count - 2;
                 meshIndices = new int[planePolygonCount * 3];
 
-                for (int i = 1; i < planePolygonCount - 1; ++i)
+                for (var i = 1; i < planePolygonCount - 1; ++i)
                 {
-                    int A = 0;
-                    int B = i;
-                    int C = i + 1;
+                    var A = 0;
+                    var B = i;
+                    var C = i + 1;
 
-                    int n = i * 3;
+                    var n = i * 3;
                     meshIndices[n] = A;
                     meshIndices[n + 1] = B;
                     meshIndices[n + 2] = C;
@@ -149,7 +165,7 @@ namespace Juniper.Unity.Ground
                     minZ = float.MaxValue,
                     maxZ = float.MinValue;
 
-                for (int i = 0; i < meshVertices.Count; ++i)
+                for (var i = 0; i < meshVertices.Count; ++i)
                 {
                     var v = meshVertices[i];
                     minY = Mathf.Min(minY, v.y);
@@ -164,7 +180,7 @@ namespace Juniper.Unity.Ground
 
                 var loc = new Vector3(midX, minY, midZ);
 
-                for (int i = 0; i < meshVertices.Count; ++i)
+                for (var i = 0; i < meshVertices.Count; ++i)
                 {
                     meshVertices[i] -= loc;
                 }
