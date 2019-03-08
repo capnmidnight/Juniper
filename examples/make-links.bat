@@ -14,3 +14,20 @@ mklink /J "Juniper - UWP\Assets\Juniper" ..\src\Juniper\Assets\Juniper
 mklink /J "Juniper - UWPWindowsMR\Assets\Juniper" ..\src\Juniper\Assets\Juniper
 mklink /J "Juniper - UWPHoloLens\Assets\Juniper" ..\src\Juniper\Assets\Juniper
 mklink /J "Juniper - MagicLeap\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+
+mklink /J "Juniper - Android\ProjectSettings" ProjectSettings
+mklink /J "Juniper - AndroidARCore\ProjectSettings" ProjectSettings
+mklink /J "Juniper - AndroidCardboard\ProjectSettings" ProjectSettings
+mklink /J "Juniper - AndroidDaydream\ProjectSettings" ProjectSettings
+mklink /J "Juniper - AndroidOculus\ProjectSettings" ProjectSettings
+mklink /J "Juniper - AndroidViveFocus\ProjectSettings" ProjectSettings
+mklink /J "Juniper - IOS\ProjectSettings" ProjectSettings
+mklink /J "Juniper - IOSARKit\ProjectSettings" ProjectSettings
+mklink /J "Juniper - IOSCardboard\ProjectSettings" ProjectSettings
+mklink /J "Juniper - Standalone\ProjectSettings" ProjectSettings
+mklink /J "Juniper - StandaloneOculus\ProjectSettings" ProjectSettings
+mklink /J "Juniper - StandaloneSteamVR\ProjectSettings" ProjectSettings
+mklink /J "Juniper - UWP\ProjectSettings" ProjectSettings
+mklink /J "Juniper - UWPWindowsMR\ProjectSettings" ProjectSettings
+mklink /J "Juniper - UWPHoloLens\ProjectSettings" ProjectSettings
+mklink /J "Juniper - MagicLeap\ProjectSettings" ProjectSettings
