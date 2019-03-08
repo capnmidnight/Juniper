@@ -18,19 +18,6 @@ namespace Juniper.UnityEditor.ConfigurationManagement
     {
         public static string ROOT_DIRECTORY = PathExt.FixPath("Assets/Juniper/ThirdParty/Optional");
 
-        public string spatializer;
-        public string androidSdkVersion;
-        public string iOSVersion;
-        public string wsaSubtarget;
-
-        public RawPackage()
-        {
-            spatializer = null;
-            androidSdkVersion = null;
-            iOSVersion = null;
-            wsaSubtarget = null;
-        }
-
         [JsonIgnore]
         public string InputZipFileName
         {
@@ -56,19 +43,6 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             base.Activate(targetGroup, prog);
 
-            if (!string.IsNullOrEmpty(spatializer))
-            {
-                var hasSpatializer = AudioSettings
-                    .GetSpatializerPluginNames()
-                    .Contains(spatializer);
-
-                if (hasSpatializer)
-                {
-                    AudioSettings.SetSpatializerPluginName(spatializer);
-                    AudioSettingsExt.SetAmbisonicDecoderPluginName(spatializer);
-                }
-            }
-
             if (Name == "Vuforia")
             {
                 PlayerSettings.SetPlatformVuforiaEnabled(targetGroup, true);
@@ -89,24 +63,9 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                         PathExt.FixPath("Assets/Plugins/Android/AndroidManifest.xml"),
                         true);
                 }
-
-                AndroidSdkVersions sdkVersion;
-                if (Enum.TryParse(androidSdkVersion, out sdkVersion))
-                {
-                    PlayerSettings.Android.minSdkVersion = (AndroidSdkVersions)Math.Max(
-                        (int)PlayerSettings.Android.minSdkVersion,
-                        (int)sdkVersion);
-                }
             }
             else if (targetGroup == BuildTargetGroup.iOS)
             {
-                Version v;
-                if (Version.TryParse(iOSVersion, out v)
-                    && PlayerSettingsExt.iOS.TargetOSVersion < v)
-                {
-                    PlayerSettingsExt.iOS.TargetOSVersion = v;
-                }
-
                 if (Name == "UnityARKitPlugin")
                 {
                     PlayerSettingsExt.iOS.RequiresARKitSupport = true;
@@ -115,15 +74,6 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                     {
                         PlayerSettings.iOS.cameraUsageDescription = "Augmented reality camera view";
                     }
-                }
-            }
-            else if (targetGroup == BuildTargetGroup.WSA)
-            {
-                WSASubtarget sub;
-                if (Enum.TryParse(wsaSubtarget, out sub))
-                {
-                    EditorUserBuildSettings.wsaSubtarget = sub;
-                    PlayerSettings.WSA.SetCapability(PlayerSettings.WSACapability.SpatialPerception, sub == WSASubtarget.HoloLens);
                 }
             }
         }

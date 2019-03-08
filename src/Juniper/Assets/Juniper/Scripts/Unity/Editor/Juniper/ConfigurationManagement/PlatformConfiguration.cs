@@ -19,6 +19,10 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         public string Name;
         public string CompilerDefine;
         public string buildTarget;
+        public string spatializer;
+        public string androidSdkVersion;
+        public string iOSVersion;
+        public string wsaSubtarget;
         public string[] vrSystems;
         public string[] packages;
 
@@ -29,6 +33,10 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             buildTarget = null;
             vrSystems = null;
             packages = null;
+            spatializer = null;
+            androidSdkVersion = null;
+            iOSVersion = null;
+            wsaSubtarget = null;
         }
 
         [JsonIgnore]
@@ -174,6 +182,19 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             Platforms.ForEachPackage(IncludedUnityPackages, progs[0], (pkg, p) => pkg.Activate(TargetGroup, p));
             Platforms.ForEachPackage(RawPackages, progs[1], (pkg, p) => pkg.Activate(TargetGroup, p));
 
+            if (!string.IsNullOrEmpty(spatializer))
+            {
+                var hasSpatializer = AudioSettings
+                    .GetSpatializerPluginNames()
+                    .Contains(spatializer);
+
+                if (hasSpatializer)
+                {
+                    AudioSettings.SetSpatializerPluginName(spatializer);
+                    AudioSettingsExt.SetAmbisonicDecoderPluginName(spatializer);
+                }
+            }
+
             var supportedVRSDKs = PlayerSettings.GetAvailableVirtualRealitySDKs(TargetGroup);
             var vrSDKs = XRPlatforms
                 .Distinct()
@@ -191,7 +212,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 }
             }
 
-            if (BuildTarget == BuildTarget.WSAPlayer)
+            if (TargetGroup == BuildTargetGroup.WSA)
             {
                 EditorUserBuildSettings.wsaBuildAndRunDeployTarget = WSABuildAndRunDeployTarget.LocalMachine;
                 EditorUserBuildSettings.wsaUWPBuildType = WSAUWPBuildType.D3D;
@@ -201,6 +222,31 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 PlayerSettings.WSA.SetCapability(PlayerSettings.WSACapability.Bluetooth, true);
                 PlayerSettings.WSA.SetCapability(PlayerSettings.WSACapability.Microphone, ComponentExt.FindAny<KeywordRecognizer>() != null);
                 PlayerSettings.WSA.SetCapability(PlayerSettings.WSACapability.Location, ComponentExt.FindAny<GPSLocation>() != null);
+                WSASubtarget sub;
+                if (Enum.TryParse(wsaSubtarget, out sub))
+                {
+                    EditorUserBuildSettings.wsaSubtarget = sub;
+                    PlayerSettings.WSA.SetCapability(PlayerSettings.WSACapability.SpatialPerception, sub == WSASubtarget.HoloLens);
+                }
+            }
+            else if (TargetGroup == BuildTargetGroup.Android)
+            {
+                AndroidSdkVersions sdkVersion;
+                if (Enum.TryParse(androidSdkVersion, out sdkVersion))
+                {
+                    PlayerSettings.Android.minSdkVersion = (AndroidSdkVersions)Math.Max(
+                        (int)PlayerSettings.Android.minSdkVersion,
+                        (int)sdkVersion);
+                }
+            }
+            else if (TargetGroup == BuildTargetGroup.iOS)
+            {
+                Version v;
+                if (Version.TryParse(iOSVersion, out v)
+                    && PlayerSettingsExt.iOS.TargetOSVersion < v)
+                {
+                    PlayerSettingsExt.iOS.TargetOSVersion = v;
+                }
             }
         }
 

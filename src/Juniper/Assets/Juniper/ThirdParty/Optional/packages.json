@@ -9,31 +9,26 @@
   },
   {
     "Name": "MagicLeap",
-    "spatializer": "MSA Spatializer"
+    "CompilerDefine": "UNITY_XR_MAGIC_LEAP"
   },
   {
     "Name": "ResonanceAudio",
-    "CompilerDefine": "RESONANCEAUDIO",
-    "spatializer": "Resonance Audio"
+    "CompilerDefine": "RESONANCEAUDIO"
   },
   {
     "Name": "GoogleVR",
-    "CompilerDefine": "GOOGLEVR",
-    "androidSdkVersion": "AndroidApiLevel24"
+    "CompilerDefine": "GOOGLEVR"
   },
   {
     "Name": "WaveVR",
-    "CompilerDefine": "WAVEVR",
-    "androidSdkVersion": "AndroidApiLevel25"
+    "CompilerDefine": "WAVEVR"
   },
   {
-    "Name": "GoogleARCore",
-    "CompilerDefine": "ARCORE"
+    "Name": "GoogleARCore"
   },
   {
     "Name": "UnityARKitPlugin",
-    "CompilerDefine": "ARKIT",
-    "iOSVersion": "11.0"
+    "CompilerDefine": "ARKIT"
   },
   {
     "Name": "Tobii",
