@@ -48,7 +48,8 @@
     "packages": [
       "com.unity.modules.jsonserialize@1.0.0",
       "com.unity.xr.arfoundation@1.0.0-preview.22",
-      "com.unity.xr.arcore@1.0.0-preview.24"
+      "com.unity.xr.arcore@1.0.0-preview.24",
+      "GoogleARCore"
     ]
   },
   {
@@ -122,7 +123,8 @@
     ],
     "packages": [
       "com.unity.xr.arfoundation@1.0.0-preview.22",
-      "com.unity.xr.arkit@1.0.0-preview.23"
+      "com.unity.xr.arkit@1.0.0-preview.23",
+      "UnityARKitPlugin"
     ]
   },
   {
@@ -225,7 +227,6 @@
     "packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
-      "com.unity.xr.magicleap@1.0.0",
       "MagicLeap"
     ]
   }
