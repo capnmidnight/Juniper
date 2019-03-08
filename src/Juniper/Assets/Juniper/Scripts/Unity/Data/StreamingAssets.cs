@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
-#if PLATFORM_ANDROID
+#if UNITY_ANDROID
 using Juniper.Data;
 #endif
 
@@ -27,10 +27,10 @@ namespace Juniper.Unity.Data
 #if UNITY_EDITOR || PLATFORM_WSA || PLATFORM_STANDALONE
                 parts.Add(dataPath);
                 parts.Add("StreamingAssets");
-#elif PLATFORM_IOS
+#elif UNITY_IOS
                 parts.Add(dataPath);
                 parts.Add("Raw");
-#elif PLATFORM_ANDROID
+#elif UNITY_ANDROID
                 parts.Add("jar:file:/");
                 parts.Add(dataPath + "!");
                 parts.Add("assets");
@@ -83,7 +83,7 @@ namespace Juniper.Unity.Data
                         progResolve,
                         prog);
                 }
-#if PLATFORM_ANDROID
+#if UNITY_ANDROID
                 else if (AndroidJarPattern.IsMatch(path))
                 {
                     var match = AndroidJarPattern.Match(path);
@@ -243,7 +243,7 @@ namespace Juniper.Unity.Data
         /// </summary>
         private static readonly Regex NetworkPathPattern = new Regex(NetworkPathPatternStr, RegexOptions.Compiled);
 
-#if PLATFORM_ANDROID
+#if UNITY_ANDROID
 
         /// <summary>
         /// The pattern to parse out the APK sub-file reference.

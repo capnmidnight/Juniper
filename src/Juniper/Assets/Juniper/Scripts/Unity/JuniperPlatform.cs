@@ -24,6 +24,8 @@ namespace Juniper.Unity
             PlatformTypes.AndroidOculus;
 #elif WAVEVR
             PlatformTypes.AndroidViveFocus;
+#elif CARDBOARD
+            PlatformTypes.AndroidCardboard;
 #elif STANDARD_DISPLAY
             PlatformTypes.Android;
 #else

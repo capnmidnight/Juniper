@@ -35,7 +35,6 @@ ExportedObj/
 
 examples/*/Assets/Juniper/
 examples/*/Assets/Juniper.meta
-examples/*/ProjectSettings/
 
 **/Assets/_TerrainAutoUpgrade.meta
 **/Assets/_TerrainAutoUpgrade/
