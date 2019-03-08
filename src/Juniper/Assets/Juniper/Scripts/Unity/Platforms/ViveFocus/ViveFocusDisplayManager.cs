@@ -6,16 +6,17 @@ namespace Juniper.Unity.Display
 {
     public class ViveFocusDisplayManager : AbstractDisplayManager
     {
-        public override void Install(bool reset)
+        public override bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
-            base.Install(reset);
+            var baseInstall = base.Install(reset);
 
             this.WithLock(() =>
             {
 #if UNITY_MODULES_AUDIO
 #if RESONANCEAUDIO
+                var wasStereo = goog.stereoSpeakerModeEnabled;
                 this.RemoveComponent<ResonanceAudioListener>();
 #endif
 
@@ -24,7 +25,7 @@ namespace Juniper.Unity.Display
 
 #if RESONANCEAUDIO
                 goog = listener.EnsureComponent<ResonanceAudioListener>();
-                goog.stereoSpeakerModeEnabled = Application.isEditor;
+                goog.stereoSpeakerModeEnabled = wasStereo;
 #endif
 #endif
 
@@ -48,6 +49,8 @@ namespace Juniper.Unity.Display
                 tracker.trackRotation = true;
                 tracker.timing = WVR_TrackTiming.WhenNewPoses;
             });
+
+            return baseInstall;
         }
 
         public override void Uninstall()

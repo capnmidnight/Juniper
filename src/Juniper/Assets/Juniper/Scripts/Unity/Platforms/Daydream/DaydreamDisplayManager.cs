@@ -5,17 +5,13 @@ namespace Juniper.Unity.Display
 {
     public class DaydreamDisplayManager : AbstractDisplayManager
     {
-        public override void Install(bool reset)
+        public override bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
-            base.Install(reset);
+            var baseInstall = base.Install(reset);
 
             this.EnsureComponent<GvrHeadset>();
-
-#if UNITY_MODULES_AUDIO && RESONANCE
-            goog.stereoSpeakerModeEnabled = Application.isEditor;
-#endif
         }
 
         public override void Uninstall()

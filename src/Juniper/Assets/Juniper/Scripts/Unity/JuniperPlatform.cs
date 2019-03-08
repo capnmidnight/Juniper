@@ -183,7 +183,7 @@ namespace Juniper.Unity
 
 #endif
 
-        public void Install(bool reset)
+        public bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
@@ -201,8 +201,10 @@ namespace Juniper.Unity
             this.EnsureComponent<MasterSceneController>();
             this.EnsureComponent<PermissionHandler>();
 
-            DisplayManager.MainCamera.transform.parent.EnsureComponent<StageExtensions>();
+            StageExtensions.Ensure(transform, DisplayManager.MainCamera);
             DisplayManager.MainCamera.EnsureComponent<DisplayManager>();
+
+            return true;
         }
 
         public void Uninstall()

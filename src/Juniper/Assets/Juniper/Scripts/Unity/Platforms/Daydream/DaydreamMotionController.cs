@@ -33,16 +33,18 @@ namespace Juniper.Unity.Input.Pointers.Motion
             AddButton(GvrControllerButton.App, InputButton.Middle);
         }
 
-        public override void Install(bool reset)
+        public override bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
-            base.Install(reset);
+            var baseInstall = base.Install(reset);
 
             var arm = this.EnsureComponent<GvrArmModel>().Value;
             controller = this.EnsureComponent<GvrTrackedController>();
             controller.ControllerHand = NativeHandID;
             controller.ArmModel = arm;
+
+            return baseInstall;
         }
 
         public override void Uninstall()

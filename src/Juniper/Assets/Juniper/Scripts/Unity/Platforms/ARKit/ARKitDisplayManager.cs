@@ -7,11 +7,11 @@ namespace Juniper.Unity.Display
     public class ARKitDisplayManager : AbstractPassthroughDisplayManager
     {
 #if !UNITY_EDITOR
-        public override void Install(bool reset)
+        public override bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
-            base.Install(reset);
+            var baseInstall = base.Install(reset);
 
             this.WithLock(() =>
             {
@@ -26,6 +26,8 @@ namespace Juniper.Unity.Display
                 camMgr.getPointCloud = enablePointCloud;
                 camMgr.enableAutoFocus = true;
             });
+
+            return baseInstall;
         }
 
         public override void Uninstall()

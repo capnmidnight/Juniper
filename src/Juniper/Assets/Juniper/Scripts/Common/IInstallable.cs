@@ -5,7 +5,7 @@ namespace Juniper
 {
     public interface IInstallable
     {
-        void Install(bool reset);
+        bool Install(bool reset);
 
         void Reinstall();
 
@@ -26,8 +26,10 @@ namespace Juniper
                     if (!found.Contains(installable))
                     {
                         keepFinding = true;
-                        installable.Install(true);
-                        found.Add(installable);
+                        if (installable.Install(true))
+                        {
+                            found.Add(installable);
+                        }
                     }
                 }
             }

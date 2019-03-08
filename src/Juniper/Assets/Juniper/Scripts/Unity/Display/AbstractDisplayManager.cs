@@ -240,11 +240,15 @@ namespace Juniper.Unity.Display
 
 #endif
 
-        public virtual void Install(bool reset)
+        public virtual bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
             jp = ComponentExt.FindAny<JuniperPlatform>();
+            if (jp == null)
+            {
+                return false;
+            }
 
             this.EnsureComponent<QualityDegrader>();
             this.EnsureComponent<CameraControl>();
@@ -254,9 +258,10 @@ namespace Juniper.Unity.Display
 
 #if RESONANCE
             goog = listener.EnsureComponent<ResonanceAudioListener>().Value;
-            goog.stereoSpeakerModeEnabled = true;
+            goog.stereoSpeakerModeEnabled = Application.isEditor || jp.DisplayType != DisplayTypes.Stereo;
 #endif
 #endif
+            return true;
         }
 
         public virtual void Uninstall()

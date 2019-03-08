@@ -9,11 +9,13 @@ namespace Juniper.Unity.Input
 {
     public abstract class OculusInputModule : AbstractUnifiedInputModule
     {
-        public override void Install(bool reset)
+        public override bool Install(bool reset)
         {
-            base.Install(reset);
+            var baseInstall = base.Install(reset);
 
             this.EnsureComponent<OVRManager>();
+
+            return baseInstall;
         }
 
         public override void Uninstall()

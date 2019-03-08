@@ -115,12 +115,11 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// Installs necessary components and initializes their default values.
         /// </summary>
-        public void Install(bool reset)
+        public bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
 #if UNITY_MODULES_AUDIO
-
             if (reset)
             {
                 fadeOutSound = Audio.InteractionAudio.EditorLoadClip("Assets/Juniper/Audio/Star Trek/hologram_off_2.mp3");
@@ -131,6 +130,8 @@ namespace Juniper.Unity.Animation
             aud.playOnAwake = false;
             aud.clip = fadeOutSound;
 #endif
+
+            return true;
         }
 
         /// <summary>

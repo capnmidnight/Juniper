@@ -10,7 +10,7 @@ namespace Juniper.Unity.Display
         {
             reset &= Application.isEditor;
 
-            base.Install(reset);
+            var baseInstall = base.Install(reset);
 
             var mgr = this.EnsureComponent<OVRManager>();
             if (mgr.IsNew)
@@ -37,6 +37,8 @@ namespace Juniper.Unity.Display
                     OVRManager.display.displayFrequency = OVRManager.display.displayFrequenciesAvailable.Max();
                 }
             }
+
+            return baseInstall;
         }
 
         public override void Uninstall()

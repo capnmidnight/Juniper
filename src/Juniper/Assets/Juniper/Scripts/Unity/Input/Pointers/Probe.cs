@@ -213,7 +213,7 @@ namespace Juniper.Unity.Input.Pointers
 
 #endif
 
-        public void Install(bool reset)
+        public bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
@@ -238,6 +238,8 @@ namespace Juniper.Unity.Input.Pointers
             }
 
             touchpoint = this.EnsureTransform("touchpad/touchpointTrack/touchpoint");
+
+            return true;
         }
 
         public void Start()

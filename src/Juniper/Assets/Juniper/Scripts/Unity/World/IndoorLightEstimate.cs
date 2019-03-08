@@ -161,12 +161,14 @@ namespace Juniper.Unity.World
 
 #endif
 
-        public virtual void Install(bool reset)
+        public virtual bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
             measurement = this.EnsureComponent<LightMeasurement>();
             sun = GetComponent<Light>();
+
+            return sun != null;
         }
 
         public void Uninstall()

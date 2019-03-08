@@ -1,4 +1,6 @@
+using System;
 using Juniper.Unity.Anchoring;
+using Juniper.Unity.Display;
 using Juniper.Unity.Input;
 using Juniper.Unity.Input.Pointers;
 using Juniper.Unity.Input.Pointers.Gaze;
@@ -180,6 +182,28 @@ namespace Juniper.Unity
             Install(true);
         }
 
+        public static StageExtensions Ensure(Transform parent, Camera mainCamera)
+        {
+            if (mainCamera == null)
+            {
+                mainCamera = new GameObject().AddComponent<Camera>();
+                mainCamera.tag = "MainCamera";
+            }
+
+            mainCamera.name = "Head (Camera)";
+            var stage = mainCamera.transform.parent;
+            if (stage == null)
+            {
+                stage = new GameObject().transform;
+            }
+
+            stage.name = "Stage";
+            mainCamera.transform.SetParent(stage, false);
+            stage.SetParent(parent, false);
+
+            return stage.EnsureComponent<StageExtensions>();
+        }
+
 #if UNITY_EDITOR
 
         public void Reset()
@@ -208,13 +232,17 @@ namespace Juniper.Unity
             return caster;
         }
 
-        public void Install(bool reset)
+        public bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
-            Head = this.EnsureTransform("Head (Camera)");
+            Head = DisplayManager.MainCamera?.transform;
+            if (Head == null)
+            {
+                return false;
+            }
 
             var headShadow = Head.EnsureTransform("HeadShadow", () =>
                 MakeShadowCaster(
@@ -279,6 +307,8 @@ namespace Juniper.Unity
 
             this.RemoveComponent<AbstractVelocityLocomotion>();
             gameObject.AddComponent<DefaultLocomotion>();
+
+            return true;
         }
 
         public void Uninstall()

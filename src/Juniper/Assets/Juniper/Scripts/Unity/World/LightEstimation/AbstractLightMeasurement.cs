@@ -105,9 +105,10 @@ namespace Juniper.Unity.World.LightEstimation
 
 #endif
 
-        public virtual void Install(bool reset)
+        public virtual bool Install(bool reset)
         {
             reset &= Application.isEditor;
+            return true;
         }
 
         public virtual void Uninstall()

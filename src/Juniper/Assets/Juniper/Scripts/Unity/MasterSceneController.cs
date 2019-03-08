@@ -286,7 +286,7 @@ namespace Juniper.Unity
 
 #endif
 
-        public void Install(bool reset)
+        public bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
@@ -424,6 +424,8 @@ namespace Juniper.Unity
                 }
             }
 #endif
+
+            return true;
         }
 
         public void Uninstall()

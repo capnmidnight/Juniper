@@ -89,13 +89,15 @@ namespace Juniper.Unity.World
             weather = ComponentExt.FindAny<Weather>();
         }
 
-        public override void Install(bool reset)
+        public override bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
-            base.Install(reset);
+            var baseInstall = base.Install(reset);
 
             sunPosition = this.EnsureComponent<SunPosition>();
+
+            return baseInstall;
         }
 
         /// <summary>

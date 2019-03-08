@@ -100,7 +100,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
             triggerButtons.InteractionNeeded += PlayInteraction;
         }
 
-        public override void Install(bool reset)
+        public override bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
@@ -116,6 +116,8 @@ namespace Juniper.Unity.Input.Pointers.Motion
                     System.IO.PathExt.FixPath("Assets/Juniper/Materials/LaserPointer.mat"));
             }
 #endif
+
+            return true;
         }
 
         private PointerEventData Clone(PointerEventData evtData, VirtualTouchPadButton button)

@@ -250,7 +250,7 @@ namespace Juniper.Unity.Input
             m_RaycastResultCache.Sort(RaycastComparer);
         }
 
-        public virtual void Install(bool reset)
+        public virtual bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
@@ -260,6 +260,8 @@ namespace Juniper.Unity.Input
                 pointerPrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(System.IO.PathExt.FixPath("Assets/Juniper/Prefabs/DiskProbe.prefab"));
             }
 #endif
+
+            return true;
         }
 
         public virtual void Uninstall()

@@ -15,11 +15,11 @@ namespace Juniper.Unity.Display
         /// </summary>
         bool isQuitting;
 
-        public override void Install(bool reset)
+        public override bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
-            base.Install(reset);
+            var baseInstall = base.Install(reset);
 
             this.WithLock(() =>
             {
@@ -45,6 +45,8 @@ namespace Juniper.Unity.Display
 #endif
                 bgRenderer.BackgroundMaterial = ARBackgroundMaterial;
             });
+
+            return baseInstall;
         }
 
         public override void Uninstall()

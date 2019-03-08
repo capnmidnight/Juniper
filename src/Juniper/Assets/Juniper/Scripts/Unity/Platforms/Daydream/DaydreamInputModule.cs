@@ -20,11 +20,11 @@ namespace Juniper.Unity.Input
             gci.enabled = gee.enabled = AnyActiveGoogleInstantPreview;
         }
 
-        public override void Install(bool reset)
+        public override bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
-            base.Install(reset);
+            var baseInstall = base.Install(reset);
 
             this.EnsureComponent<GvrControllerInput>();
             this.EnsureComponent<GvrEditorEmulator>();
@@ -32,8 +32,13 @@ namespace Juniper.Unity.Input
 #if UNITY_EDITOR
             var ip = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(
                 System.IO.PathExt.FixPath("Assets/GoogleVR/Prefabs/InstantPreview/GvrInstantPreviewMain.prefab"));
-            UnityEditor.PrefabUtility.InstantiatePrefab(ip);
+            if(ip != null)
+            {
+                UnityEditor.PrefabUtility.InstantiatePrefab(ip);
+            }
 #endif
+
+            return baseInstall;
         }
 
         public override void Uninstall()

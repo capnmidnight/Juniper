@@ -168,8 +168,9 @@ namespace Juniper.Unity.Ground
             }
         }
 
-        public virtual void Install(bool reset)
+        public virtual bool Install(bool reset)
         {
+            return true;
         }
 
         public virtual void Uninstall()
