@@ -142,9 +142,9 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             get
             {
-                return Platforms.Instance.AllCompilerDefines
-                    .Append(RECOMPILE_SLUG)
-                    .ToArray();
+                var d = Platforms.Instance.AllCompilerDefines.ToList();
+                d.Add(RECOMPILE_SLUG);
+                return d.ToArray();
             }
         }
 
@@ -620,7 +620,13 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             }
         }
 
-        private static readonly string MANIFEST_FILE = PathExt.FixPath("Packages/manifest.json");
+        private static readonly string MANIFEST_FILE = PathExt.FixPath(
+#if UNITY_2018_1_OR_NEWER
+            "Packages/manifest.json"
+#else
+            "UnityPackageManager/manifest.json"
+#endif
+        );
 
         private static void StartBuild()
         {

@@ -16,7 +16,7 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// Used to check the current ARMode to determine how to restore the camera clear mode.
         /// </summary>
-        private JuniperPlatform jp;
+        private DisplayManager display;
 
 #if UNITY_MODULES_AUDIO
 
@@ -89,7 +89,7 @@ namespace Juniper.Unity.Animation
             r = GetComponent<Renderer>();
             props = new MaterialPropertyBlock();
 
-            jp = ComponentExt.FindAny<JuniperPlatform>();
+            display = ComponentExt.FindAny<DisplayManager>();
         }
 
         /// <summary>
@@ -236,7 +236,7 @@ namespace Juniper.Unity.Animation
             lastCullingMask = DisplayManager.MainCamera.cullingMask;
             lastAmbientMode = RenderSettings.ambientMode;
 
-            if (jp.ARMode == AugmentedRealityTypes.None)
+            if (display.ARMode == AugmentedRealityTypes.None)
             {
                 DisplayManager.MainCamera.clearFlags = CameraClearFlags.Color;
                 DisplayManager.MainCamera.backgroundColor = ColorExt.TransparentBlack;
@@ -271,7 +271,7 @@ namespace Juniper.Unity.Animation
         {
             base.OnExiting();
 
-            if (jp.ARMode == AugmentedRealityTypes.None)
+            if (display.ARMode == AugmentedRealityTypes.None)
             {
                 DisplayManager.MainCamera.clearFlags = CameraClearFlags.Skybox;
                 DisplayManager.MainCamera.backgroundColor = lastColor;

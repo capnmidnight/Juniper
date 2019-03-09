@@ -57,7 +57,9 @@ namespace Juniper.Unity.Anchoring
             var names = NameList;
             if (!names.Contains(name))
             {
-                NameList = names.Append(name).ToArray();
+                var n = names.ToList();
+                n.Add(name);
+                NameList = n.ToArray();
             }
 
             PlayerPrefs.Save();

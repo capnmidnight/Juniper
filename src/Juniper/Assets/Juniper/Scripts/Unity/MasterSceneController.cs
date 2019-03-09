@@ -561,11 +561,12 @@ namespace Juniper.Unity
         {
             if (!Application.isPlaying && !string.IsNullOrEmpty(gameObject?.scene.path))
             {
-                EditorBuildSettings.scenes = (from path in subSceneNames
-                                              where File.Exists(path)
-                                              select new EditorBuildSettingsScene(path, true))
-                   .Prepend(new EditorBuildSettingsScene(gameObject.scene.path, true))
-                   .ToArray();
+                var s = (from path in subSceneNames
+                         where File.Exists(path)
+                         select new EditorBuildSettingsScene(path, true))
+                    .ToList();
+                s.Insert(0, new EditorBuildSettingsScene(gameObject.scene.path, true));
+                EditorBuildSettings.scenes = s.ToArray();
             }
         }
 

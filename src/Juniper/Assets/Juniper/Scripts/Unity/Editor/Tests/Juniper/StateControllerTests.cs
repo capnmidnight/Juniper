@@ -1,3 +1,4 @@
+#if UNITY_2018_1_OR_NEWER
 using Juniper.Unity;
 
 using NUnit.Framework;
@@ -440,3 +441,4 @@ namespace Juniper.UnityEditor
         }
     }
 }
+#endif

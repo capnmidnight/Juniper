@@ -3,6 +3,7 @@ using System.Collections;
 
 using Juniper.Data;
 using Juniper.Unity.Data;
+using UnityEngine;
 
 namespace Juniper.Unity.Imaging
 {
@@ -78,9 +79,9 @@ namespace Juniper.Unity.Imaging
         /// The texture format to use for decoding PNGs on the current system.
         /// </summary>
 #if UNITY_WSA
-        private const UnityEngine.TextureFormat DecodedPNGFormat = UnityEngine.TextureFormat.BGRA32;
+        private const TextureFormat DecodedPNGFormat = TextureFormat.BGRA32;
 #else
-        private const UnityEngine.TextureFormat DecodedPNGFormat = UnityEngine.TextureFormat.RGBA32;
+        private const TextureFormat DecodedPNGFormat = TextureFormat.RGBA32;
 #endif
 
         /// <summary>
@@ -91,21 +92,21 @@ namespace Juniper.Unity.Imaging
         /// <param name="imagePath">Image path.</param>
         /// <param name="resolve">Resolve.</param>
         /// <param name="reject">Reject.</param>
-        public static IEnumerator StreamTexture(string imagePath, Action<UnityEngine.Texture> resolve, Action<Exception> reject)
+        public static IEnumerator StreamTexture(string imagePath, Action<Texture> resolve, Action<Exception> reject)
         {
             RawImage? image = null;
 
             StreamingAssets.GetBytes(
-                StreamingAssets.FormatPath(UnityEngine.Application.dataPath, imagePath),
+                StreamingAssets.FormatPath(Application.dataPath, imagePath),
                 "image/png",
                 bytes => DecodePNGTexture(bytes, img => image = img),
                 reject);
 
-            yield return new UnityEngine.WaitUntil(() => image != null);
+            yield return new WaitUntil(() => image != null);
 
             try
             {
-                var texture = new UnityEngine.Texture2D(image.Value.width, image.Value.height, DecodedPNGFormat, false);
+                var texture = new Texture2D(image.Value.width, image.Value.height, DecodedPNGFormat, false);
                 texture.LoadRawTextureData(image.Value.data);
                 texture.Apply(false, true);
                 resolve(texture);
