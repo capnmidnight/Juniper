@@ -364,7 +364,7 @@ namespace Juniper.Unity
                     .EnsureComponent<Image>((splashImg) =>
                     {
 #if UNITY_EDITOR
-                        splashImg.sprite = ComponentExt.EditorLoadAsset<Sprite>("Assets/Juniper/Textures/gear.png");
+                        splashImg.sprite = ComponentExt.EditorLoadAsset<Sprite>("Assets/Juniper/Textures/logo-large.png");
 #endif
 
                         splashImg.SetRectangle(Vector3.zero, Vector2.zero, Vector2.one, 0.5f * Vector2.one);
