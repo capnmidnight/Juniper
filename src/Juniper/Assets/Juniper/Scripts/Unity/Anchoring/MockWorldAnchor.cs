@@ -1,5 +1,3 @@
-using System;
-
 using UnityEngine;
 
 namespace Juniper.Unity.Anchoring
@@ -24,23 +22,6 @@ namespace Juniper.Unity.Anchoring
         {
             transform.position = state.position;
             transform.rotation = state.rotation;
-        }
-
-        /// <summary>
-        /// A serializable set of position, rotation, and scale values.
-        /// </summary>
-        [Serializable]
-        public class Pose
-        {
-            /// <summary>
-            /// The cartesion position of the pose.
-            /// </summary>
-            public Vector3 position;
-
-            /// <summary>
-            /// The orientation of the pose.
-            /// </summary>
-            public Quaternion rotation;
         }
     }
 }

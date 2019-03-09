@@ -74,12 +74,17 @@ namespace Juniper.Unity.Anchoring
             var key = MakeID(name);
             if (PlayerPrefs.HasKey(key))
             {
-                return JsonConvert.DeserializeObject<T>(PlayerPrefs.GetString(key));
+                try
+                {
+                    return JsonConvert.DeserializeObject<T>(PlayerPrefs.GetString(key));
+                }
+                catch
+                {
+                    DeleteValue(name);
+                }
             }
-            else
-            {
-                return default(T);
-            }
+
+            return default(T);
         }
 
         /// <summary>
@@ -134,7 +139,7 @@ namespace Juniper.Unity.Anchoring
                 }
                 else
                 {
-                    SaveValue(KEY_LIST_KEY, JsonConvert.SerializeObject(value));
+                    SaveValue(KEY_LIST_KEY, value);
                 }
             }
         }
@@ -196,13 +201,18 @@ namespace Juniper.Unity.Anchoring
                 anchor = LoadAnchor(ID);
                 if (HasValue(scaleID))
                 {
-                    gameObject.transform.localScale = LoadValue<Vector3>(scaleID);
+                    var arr = LoadValue<float[]>(scaleID);
+                    gameObject.transform.localScale = new Vector3(arr[0], arr[1], arr[2]);
                 }
             }
             else
             {
                 anchor = CreateAnchor(ID, gameObject);
-                SaveValue(scaleID, gameObject.transform.localScale);
+                var arr = new float[]
+                {
+                    gameObject.transform.localScale.x, gameObject.transform.localScale.y, gameObject.transform.localScale.z
+                };
+                SaveValue(scaleID, arr);
             }
 
             return anchor;
