@@ -191,9 +191,9 @@ namespace Juniper.Unity.Input
 
         public void Update()
         {
-            if (UnityInput.mousePresent && setMouseLock)
+            if (setMouseLock)
             {
-                if (UnityInput.GetMouseButtonDown(0))
+                if (UnityInput.mousePresent && UnityInput.GetMouseButtonDown(0))
                 {
                     Cursor.lockState = CursorLockMode.Locked;
                 }
@@ -206,6 +206,11 @@ namespace Juniper.Unity.Input
 
                 Cursor.visible = Cursor.lockState == CursorLockMode.None
                     || Cursor.lockState == CursorLockMode.Confined;
+            }
+            else if (Cursor.lockState != CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
             }
 
             CheckMode(mode, disableVertical);
