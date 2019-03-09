@@ -1,14 +1,22 @@
 #if UNITY_XR_ARCORE
-using UnityEngine;
-
 using GoogleARCore;
-using UnityEngine.SpatialTracking;
+
+using Juniper.Unity.Input;
+
+using System.Linq;
+
+using UnityEngine;
 using UnityEngine.Android;
+using UnityEngine.SpatialTracking;
 
 namespace Juniper.Unity.Display
 {
     public class ARCoreDisplayManager : AbstractPassthroughDisplayManager
     {
+        public static bool AnyActiveGoogleInstantPreview =>
+            ComponentExt.FindAll<InstantPreviewTrackedPoseDriver>()
+                .Any(ComponentExt.IsActivated);
+
         /// <summary>
         /// On ARCore, this value is used to flag when the app is shutting down so we don't capture
         /// multiple errors that would cause multiple Toast messages to appear.
@@ -45,6 +53,13 @@ namespace Juniper.Unity.Display
             });
 
             return baseInstall;
+        }
+
+        public override void Start()
+        {
+            base.Start();
+
+            cameraCtrl.setMouseLock &= Application.isEditor && AnyActiveGoogleInstantPreview;
         }
 
         public override void Uninstall()

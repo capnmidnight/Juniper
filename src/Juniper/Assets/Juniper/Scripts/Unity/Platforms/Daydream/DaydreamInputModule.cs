@@ -7,17 +7,13 @@ namespace Juniper.Unity.Input
 {
     public abstract class DaydreamInputModule : AbstractUnifiedInputModule
     {
-        public static bool AnyActiveGoogleInstantPreview =>
-            ComponentExt.FindAll<Gvr.Internal.InstantPreview>()
-                .Any(ComponentExt.IsActivated);
-
         protected override void Awake()
         {
             base.Awake();
 
             var gci = GetComponent<GvrControllerInput>();
             var gee = GetComponent<GvrEditorEmulator>();
-            gci.enabled = gee.enabled = AnyActiveGoogleInstantPreview;
+            gci.enabled = gee.enabled = DisplayManager.AnyActiveGoogleInstantPreview;
         }
 
         public override bool Install(bool reset)

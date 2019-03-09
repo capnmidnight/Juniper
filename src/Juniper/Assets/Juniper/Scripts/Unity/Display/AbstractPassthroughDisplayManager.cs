@@ -1,4 +1,8 @@
+using Juniper.Unity.Input;
+using System.Linq;
 using UnityEngine;
+
+using UnityInput = UnityEngine.Input;
 
 namespace Juniper.Unity.Display
 {
@@ -16,5 +20,35 @@ namespace Juniper.Unity.Display
         /// feature points.
         /// </summary>
         public bool enablePointCloud = true;
+
+        public virtual void Start()
+        {
+            if (cameraCtrl.mode == CameraControl.Mode.Auto)
+            {
+                var joystick = UnityInput.GetJoystickNames().FirstOrDefault();
+                if (UnityInput.touchSupported)
+                {
+                    cameraCtrl.mode = CameraControl.Mode.Touch;
+                }
+                else if (UnityInput.mousePresent)
+                {
+                    cameraCtrl.mode = CameraControl.Mode.Mouse;
+                }
+                else if (!string.IsNullOrEmpty(joystick))
+                {
+                    cameraCtrl.mode = CameraControl.Mode.Gamepad;
+                }
+            }
+        }
+
+        protected override void OnARModeChange()
+        {
+            base.OnARModeChange();
+            if (ARMode == AugmentedRealityTypes.PassthroughCamera)
+            {
+                cameraCtrl.mode = CameraControl.Mode.None;
+                cameraCtrl.setMouseLock = false;
+            }
+        }
     }
 }

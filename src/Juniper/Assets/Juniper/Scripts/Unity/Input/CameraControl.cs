@@ -92,68 +92,6 @@ namespace Juniper.Unity.Input
         {
             stage = ComponentExt.FindAny<StageExtensions>();
 
-            if (mode == Mode.Auto)
-            {
-#if MAGIC_WINDOW
-                gyro.enabled = true;
-                compensateSensors = true;
-                mode = Mode.MagicWindow;
-
-#elif UNITY_XR_MAGICLEAP
-                mode = Mode.None;
-                setMouseLock = false;
-
-#elif GOOGLEVR
-
-                if (setMouseLock && Application.isEditor && UnifiedInputModule.AnyActiveGoogleInstantPreview)
-                {
-                    setMouseLock = false;
-                }
-
-                var joystick = UnityInput.GetJoystickNames().FirstOrDefault();
-                if (UnifiedInputModule.AnyActiveGoogleInstantPreview)
-                {
-                    mode = Mode.None;
-                }
-                else if (UnityInput.mousePresent)
-                {
-                    mode = Mode.Mouse;
-                }
-                else if (!string.IsNullOrEmpty(joystick))
-                {
-                    mode = Mode.Gamepad;
-                }
-
-#elif !UNITY_EDITOR && (UNITY_ANDROID || UNITY_IOS)
-                var joystick = GetJoystickNames().FirstOrDefault();
-                if (touchSupported)
-                {
-                    mode = Mode.Touch;
-                }
-                else if (mousePresent)
-                {
-                    mode = Mode.Mouse;
-                }
-                else if (!string.IsNullOrEmpty(joystick))
-                {
-                    mode = Mode.Gamepad;
-                }
-#else
-                var joystick = UnityInput.GetJoystickNames().FirstOrDefault();
-                if (!string.IsNullOrEmpty(joystick))
-                {
-                    mode = Mode.Gamepad;
-                }
-                else if (UnityInput.mousePresent)
-                {
-                    mode = Mode.Mouse;
-                }
-                else if (UnityInput.touchSupported)
-                {
-                    mode = Mode.Touch;
-                }
-#endif
-            }
 
             if (setMouseLock)
             {
