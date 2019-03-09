@@ -293,7 +293,7 @@ namespace Juniper.Unity
 #if UNITY_EDITOR
             if (sceneFaderMaterial == null || reset)
             {
-                sceneFaderMaterial = AssetDatabase.LoadAssetAtPath<Material>(PathExt.FixPath("Assets/Juniper/Materials/FaderMaterial.mat"));
+                sceneFaderMaterial = ComponentExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/FaderMaterial.mat");
             }
 #endif
 
@@ -364,7 +364,7 @@ namespace Juniper.Unity
                     .EnsureComponent<Image>((splashImg) =>
                     {
 #if UNITY_EDITOR
-                        splashImg.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(PathExt.FixPath("Assets/Juniper/Textures/gear.png"));
+                        splashImg.sprite = ComponentExt.EditorLoadAsset<Sprite>("Assets/Juniper/Textures/gear.png");
 #endif
 
                         splashImg.SetRectangle(Vector3.zero, Vector2.zero, Vector2.one, 0.5f * Vector2.one);
@@ -383,7 +383,7 @@ namespace Juniper.Unity
                         .EnsureRectTransform("Image")
                         .EnsureComponent<Image>().Value;
 #if UNITY_EDITOR
-                    icon.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(PathExt.FixPath("Assets/Juniper/Textures/gear.png"));
+                    icon.sprite = ComponentExt.EditorLoadAsset<Sprite>("Assets/Juniper/Textures/gear.png");
 #endif
 
                     icon.SetRectangle(Vector3.zero, Vector2.zero, Vector2.zero, 100, 100, Vector2.zero);

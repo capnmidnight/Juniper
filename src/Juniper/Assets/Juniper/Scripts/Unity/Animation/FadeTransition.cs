@@ -120,11 +120,13 @@ namespace Juniper.Unity.Animation
             reset &= Application.isEditor;
 
 #if UNITY_MODULES_AUDIO
+#if UNITY_EDITOR
             if (reset)
             {
-                fadeOutSound = Audio.InteractionAudio.EditorLoadClip("Assets/Juniper/Audio/Star Trek/hologram_off_2.mp3");
-                fadeInSound = Audio.InteractionAudio.EditorLoadClip("Assets/Juniper/Audio/Star Trek/hologrid_online.mp3");
+                fadeOutSound = ComponentExt.EditorLoadAsset<AudioClip>("Assets/Juniper/Audio/Star Trek/hologram_off_2.mp3");
+                fadeInSound = ComponentExt.EditorLoadAsset<AudioClip>("Assets/Juniper/Audio/Star Trek/hologrid_online.mp3");
             }
+#endif
 
             aud = this.EnsureComponent<AudioSource>();
             aud.playOnAwake = false;

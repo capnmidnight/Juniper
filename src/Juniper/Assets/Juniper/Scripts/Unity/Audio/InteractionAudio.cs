@@ -29,20 +29,6 @@ namespace Juniper.Unity.Audio
     /// </summary>
     public class InteractionAudio : MonoBehaviour
     {
-
-#if UNITY_EDITOR
-        /// <summary>
-        /// When called from the Unity Editor, loads an audio clip from disk to use as
-        /// a property in a Unity component.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static AudioClip EditorLoadClip(string path)
-        {
-            return UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>(System.IO.PathExt.FixPath(path));
-        }
-#endif
-
         public GameObject volumeSlider;
 
 #if UNITY_MODULES_AUDIO

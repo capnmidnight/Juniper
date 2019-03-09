@@ -283,5 +283,18 @@ namespace UnityEngine
                 }
             }
         }
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// When called from the Unity Editor, loads an audio clip from disk to use as
+        /// a property in a Unity component.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static T EditorLoadAsset<T>(string path) where T : Object
+        {
+            return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(System.IO.PathExt.FixPath(path));
+        }
+#endif
     }
 }

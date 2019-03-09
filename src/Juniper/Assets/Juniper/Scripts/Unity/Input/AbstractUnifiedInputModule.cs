@@ -257,7 +257,7 @@ namespace Juniper.Unity.Input
 #if UNITY_EDITOR
             if (pointerPrefab == null)
             {
-                pointerPrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(System.IO.PathExt.FixPath("Assets/Juniper/Prefabs/DiskProbe.prefab"));
+                pointerPrefab = ComponentExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/DiskProbe.prefab");
             }
 #endif
 
