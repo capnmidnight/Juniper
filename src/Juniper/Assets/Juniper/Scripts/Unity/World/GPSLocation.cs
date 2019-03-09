@@ -133,7 +133,6 @@ namespace Juniper.Unity.World
 
             if (!UseFakeCoord)
             {
-                UnityInput.compass.enabled = true;
                 if (PlayerPrefs.HasKey(COORD_KEY))
                 {
                     Coord = JsonConvert.DeserializeObject<LatLngPoint>(PlayerPrefs.GetString(COORD_KEY));
@@ -146,6 +145,14 @@ namespace Juniper.Unity.World
             else if (!HasCoord)
             {
                 Coord = new LatLngPoint(38.881621f, -77.072478f, 0);
+            }
+        }
+
+        public void Start()
+        {
+            if (!UseFakeCoord)
+            {
+                UnityInput.compass.enabled = true;
             }
         }
 

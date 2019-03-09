@@ -201,7 +201,10 @@ namespace Juniper.Unity.Input.Pointers
             nativeButtons.ButtonPressedNeeded += IsButtonPressed;
             nativeButtons.ClonedPointerEventNeeded += Clone;
             nativeButtons.InteractionNeeded += PlayInteraction;
+        }
 
+        public void Start()
+        {
             eventManager.AddPointer(this);
         }
 

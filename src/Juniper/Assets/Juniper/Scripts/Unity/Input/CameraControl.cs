@@ -91,8 +91,10 @@ namespace Juniper.Unity.Input
         public void Awake()
         {
             stage = ComponentExt.FindAny<StageExtensions>();
+        }
 
-
+        public void Start()
+        {
             if (setMouseLock)
             {
                 Cursor.lockState = CursorLockMode.Locked;

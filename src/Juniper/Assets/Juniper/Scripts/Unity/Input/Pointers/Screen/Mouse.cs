@@ -41,11 +41,19 @@ namespace Juniper.Unity.Input.Pointers.Screen
 #else
         private bool mouseActive;
 
-        private Vector2 MoveDelta =>
-            new Vector2(UnityInput.GetAxis("Mouse X"), UnityInput.GetAxis("Mouse Y"));
+        private Vector2 MoveDelta
+        {
+            get
+            {
+                return new Vector2(UnityInput.GetAxis("Mouse X"), UnityInput.GetAxis("Mouse Y"));
+            }
+        }
 
-        public override bool IsConnected =>
-            UnityInput.mousePresent && (mouseActive = mouseActive
+        public override bool IsConnected
+        {
+            get
+            {
+                return UnityInput.mousePresent && (mouseActive = mouseActive
                     || IsButtonPressed(KeyCode.Mouse0)
                     || IsButtonPressed(KeyCode.Mouse1)
                     || IsButtonPressed(KeyCode.Mouse2)
@@ -55,6 +63,8 @@ namespace Juniper.Unity.Input.Pointers.Screen
                     || IsButtonPressed(KeyCode.Mouse6)
                     || ScrollDelta.magnitude > 0
                     || MoveDelta.magnitude > 0);
+            }
+        }
 #endif
 
         /// <summary>
