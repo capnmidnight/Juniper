@@ -113,7 +113,7 @@ namespace Juniper.Unity
 
         public static JuniperPlatform Ensure()
         {
-            var head = DisplayManager.MainCamera?.transform;
+            var head = DisplayManager.MainCamera.transform;
             if (head == null)
             {
                 head = new GameObject().AddComponent<Camera>().transform;
@@ -201,7 +201,7 @@ namespace Juniper.Unity
             this.EnsureComponent<MasterSceneController>();
             this.EnsureComponent<PermissionHandler>();
 
-            StageExtensions.Ensure(transform, DisplayManager.MainCamera);
+            StageExtensions.Ensure(transform);
             DisplayManager.MainCamera.EnsureComponent<DisplayManager>();
 
             return true;

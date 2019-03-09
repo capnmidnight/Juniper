@@ -182,23 +182,17 @@ namespace Juniper.Unity
             Install(true);
         }
 
-        public static StageExtensions Ensure(Transform parent, Camera mainCamera)
+        public static StageExtensions Ensure(Transform parent)
         {
-            if (mainCamera == null)
-            {
-                mainCamera = new GameObject().AddComponent<Camera>();
-                mainCamera.tag = "MainCamera";
-            }
-
-            mainCamera.name = "Head (Camera)";
-            var stage = mainCamera.transform.parent;
+            DisplayManager.MainCamera.name = "Head (Camera)";
+            var stage = DisplayManager.MainCamera.transform.parent;
             if (stage == null)
             {
                 stage = new GameObject().transform;
             }
 
             stage.name = "Stage";
-            mainCamera.transform.SetParent(stage, false);
+            DisplayManager.MainCamera.transform.SetParent(stage, false);
             stage.SetParent(parent, false);
 
             return stage.EnsureComponent<StageExtensions>();
@@ -238,11 +232,7 @@ namespace Juniper.Unity
 
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
-            Head = DisplayManager.MainCamera?.transform;
-            if (Head == null)
-            {
-                return false;
-            }
+            Head = DisplayManager.MainCamera.transform;
 
             var headShadow = Head.EnsureTransform("HeadShadow", () =>
                 MakeShadowCaster(

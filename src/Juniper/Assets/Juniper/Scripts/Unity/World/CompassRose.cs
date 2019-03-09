@@ -55,10 +55,7 @@ namespace Juniper.Unity.World
         /// </summary>
         public void Awake()
         {
-            if (DisplayManager.MainCamera != null)
-            {
-                camT = DisplayManager.MainCamera.transform;
-            }
+            camT = DisplayManager.MainCamera.transform;
             samples = new SingleStatistics(averagingIterations);
         }
 

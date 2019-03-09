@@ -248,7 +248,7 @@ namespace Juniper.Unity.Input.Pointers
             if (pointer != null)
             {
                 // Screen Devices need to use the Main Camera as the Event Camera.
-                Raycaster = DisplayManager.MainCamera?.EnsureComponent<PhysicsRaycaster>();
+                Raycaster = DisplayManager.MainCamera.EnsureComponent<PhysicsRaycaster>();
             }
             else
             {
