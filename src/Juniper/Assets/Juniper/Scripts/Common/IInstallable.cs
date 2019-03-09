@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Juniper
 {
@@ -14,25 +15,27 @@ namespace Juniper
 
     public static class Installable
     {
-        public static void InstallAll(Func<IEnumerable<IInstallable>> getInstallables)
+        public static int InstallAll(Func<IEnumerable<IInstallable>> getInstallables)
         {
-            var found = new List<IInstallable>();
+            var installed = new List<IInstallable>();
             var keepFinding = true;
             for (var i = 0; i < 10 && keepFinding; ++i)
             {
                 keepFinding = false;
                 foreach (var installable in getInstallables())
                 {
-                    if (!found.Contains(installable))
+                    if (!installed.Contains(installable))
                     {
                         keepFinding = true;
                         if (installable.Install(true))
                         {
-                            found.Add(installable);
+                            installed.Add(installable);
                         }
                     }
                 }
             }
+
+            return getInstallables().Count() - installed.Count;
         }
 
         public static void UninstallAll(Func<IEnumerable<IInstallable>> getInstallables)

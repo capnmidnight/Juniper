@@ -394,7 +394,16 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             Uninstall();
             JuniperPlatform.Ensure();
-            Installable.InstallAll(GetInstallables);
+            InternalInstall();
+        }
+
+        private static void InternalInstall()
+        {
+            var notInstalled = Installable.InstallAll(GetInstallables);
+            if (notInstalled > 0)
+            {
+                Debug.LogError($"Juniper: ERROR: {0} components were not installed correctly.");
+            }
         }
 
         [MenuItem(OTHER_MENU_NAME + "Clear Errant Progress Dialogs", false, 202)]
@@ -684,7 +693,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 config.Commit();
                 OnCancel(false);
 
-                Installable.InstallAll(GetInstallables);
+                InternalInstall();
 
                 EditorSceneManager.MarkSceneDirty(scene);
                 if (EditorUtility.DisplayDialog("Juniper", "Done! Save scene?", "Save", "Cancel"))
