@@ -42,8 +42,9 @@ namespace Juniper.Unity.Ground
         /// </summary>
         private SpatialMappingRenderer groundRenderer;
 
-        protected override void InternalStart(XRSystem xr)
+        protected override void Awake()
         {
+            base.Awake();
             transform.ClearChildren();
 
             var gr = this.EnsureComponent<SpatialMappingRenderer>();

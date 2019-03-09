@@ -1,6 +1,7 @@
 #if UNITY_XR_ARCORE
-using System.Collections.Generic;
 using GoogleARCore;
+using Juniper.Unity.Display;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Juniper.Unity.Ground
@@ -10,22 +11,33 @@ namespace Juniper.Unity.Ground
         /// <summary>
         /// When running on ARCore, a collection of all the planes that ARCore is tracking.
         /// </summary>
-        List<DetectedPlane> newPlanes;
+        private readonly List<DetectedPlane> newPlanes = new List<DetectedPlane>();
+        private DisplayManager display;
 
-        protected override void InternalStart(JuniperPlatform xr)
+        protected override void Awake()
         {
-            var arCoreSession = ComponentExt.FindAny<ARCoreSession>();
-            arCoreSession.SessionConfig.PlaneFindingMode = DetectedPlaneFindingMode.HorizontalAndVertical;
-            newPlanes = new List<DetectedPlane>();
+            base.Awake();
+
+            display = ComponentExt.FindAny<DisplayManager>();
+            display.ARModeChange += Display_ARModeChange;
+
+        }
+
+        private void Display_ARModeChange(object sender, AugmentedRealityTypes e)
+        {
+            if (e == AugmentedRealityTypes.PassthroughCamera)
+            {
+                var arCoreSession = ComponentExt.FindAny<ARCoreSession>();
+                arCoreSession.SessionConfig.PlaneFindingMode = DetectedPlaneFindingMode.HorizontalAndVertical;
+            }
         }
 
         public override void Update()
         {
-            bool isTracking = Session.Status == SessionStatus.Tracking;
-            if (isTracking)
+            if (display.ARMode == AugmentedRealityTypes.PassthroughCamera && Session.Status == SessionStatus.Tracking)
             {
                 Session.GetTrackables(newPlanes, TrackableQueryFilter.New);
-                for (int i = 0; i < newPlanes.Count; i++)
+                for (var i = 0; i < newPlanes.Count; i++)
                 {
                     var planeVisualizer = ARCoreGroundPlaneVisualizer.Initialize(newPlanes[i]);
                     planeVisualizer.CurrentGroundMeshMaterial = CurrentMaterial;

@@ -16,8 +16,9 @@ namespace Juniper.Unity.Ground
         /// </summary>
         UnityARGeneratePlane generatePlanes;
 
-        protected override void InternalStart(XRSystem xr)
+        protected override void Awake()
         {
+            base.Awake();
             var camMgr = ComponentExt.FindAny<UnityARCameraManager>();
             camMgr.planeDetection = UnityARPlaneDetection.HorizontalAndVertical;
             generatePlanes = this.EnsureComponent<UnityARGeneratePlane>();

@@ -4,7 +4,7 @@ namespace Juniper.Unity.Ground
 {
     public class NoTerrain : AbstractGround
     {
-        protected override void InternalStart(JuniperPlatform xr)
+        protected override void Awake()
         {
             Debug.Log("Juniper: no terrain enabled.");
         }

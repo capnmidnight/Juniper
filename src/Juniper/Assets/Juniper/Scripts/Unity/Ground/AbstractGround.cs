@@ -108,7 +108,7 @@ namespace Juniper.Unity.Ground
             }
         }
 
-        public virtual void Awake()
+        protected virtual void Awake()
         {
             Install(false);
         }
@@ -126,27 +126,6 @@ namespace Juniper.Unity.Ground
         }
 
 #endif
-
-        public void Start()
-        {
-            gameObject.layer = LayerMask.NameToLayer("Ground");
-
-            var xr = ComponentExt.FindAny<JuniperPlatform>();
-
-            if (xr.ARMode > 0)
-            {
-                this.WithLock(() =>
-                    InternalStart(xr));
-            }
-        }
-
-        /// <summary>
-        /// Configures the right plane-finding system for any current AR subsystem, or configures
-        /// terrain rendering for any current VR subsystem.
-        /// </summary>
-        protected virtual void InternalStart(JuniperPlatform xr)
-        {
-        }
 
         /// <summary>
         /// Updates plane visualizers for ARCore, or changes the ground rendering material on HoloLens.
@@ -170,6 +149,10 @@ namespace Juniper.Unity.Ground
 
         public virtual bool Install(bool reset)
         {
+            if (reset)
+            {
+                gameObject.layer = LayerMask.NameToLayer("Ground");
+            }
             return true;
         }
 

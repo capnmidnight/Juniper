@@ -25,7 +25,7 @@ namespace Juniper.Unity.Ground
         /// </summary>
         private bool preexistingTerrain;
 
-        protected override void InternalStart(JuniperPlatform xr)
+        protected override void Awake()
         {
             if (GroundVisualizers.Empty())
             {
