@@ -47,11 +47,10 @@ namespace Juniper.Unity.Anchoring
 
         protected override Anchor CreateAnchor(string ID, GameObject gameObject)
         {
-            var trackable = gameObject.GetComponent<Trackable>();
             var pose = new Pose(
                 gameObject.transform.position,
                 gameObject.transform.rotation);
-            var anchor = Session.CreateAnchor(pose, trackable);
+            var anchor = Session.CreateAnchor(pose);
 
             anchorStore[ID] = anchor;
 

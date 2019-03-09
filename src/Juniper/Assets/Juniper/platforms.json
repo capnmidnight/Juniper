@@ -42,13 +42,12 @@
   {
     "Name": "AndroidARCore",
     "buildTarget": "Android",
+    "androidSdkVersion": "AndroidApiLevel24",
     "vrSystems": [
       "None"
     ],
     "packages": [
       "com.unity.modules.jsonserialize@1.0.0",
-      "com.unity.xr.arfoundation@1.0.0-preview.22",
-      "com.unity.xr.arcore@1.0.0-preview.24",
       "GoogleARCore"
     ]
   },
