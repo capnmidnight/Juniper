@@ -83,16 +83,19 @@ namespace Juniper.UnityEditor
                 {
                     foreach (var obj in root.GetComponentsInChildren<Component>(true))
                     {
-                        var t = obj.GetType();
-                        foreach (var field in t.GetFields())
+                        if (obj != null)
                         {
-                            var val = field.GetValue(obj);
-                            if (val is StreamableAsset)
+                            var t = obj.GetType();
+                            foreach (var field in t.GetFields())
                             {
-                                var value = (StreamableAsset)val;
-                                if (!string.IsNullOrEmpty(value.AssetPath))
+                                var val = field.GetValue(obj);
+                                if (val is StreamableAsset)
                                 {
-                                    act(value);
+                                    var value = (StreamableAsset)val;
+                                    if (!string.IsNullOrEmpty(value.AssetPath))
+                                    {
+                                        act(value);
+                                    }
                                 }
                             }
                         }

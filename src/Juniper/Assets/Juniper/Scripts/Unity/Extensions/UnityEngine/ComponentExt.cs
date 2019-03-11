@@ -274,7 +274,9 @@ namespace UnityEngine
         {
             foreach (var o in Resources.FindObjectsOfTypeAll<T>())
             {
-                if (o?.gameObject?.scene.name != null
+                if (o != null
+                    && o.gameObject != null
+                    && o.gameObject.scene.name != null
                     && filter?.Invoke(o) != false)
                 {
                     yield return o;
