@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
 
 #if !MAGIC_WINDOW && !UNITY_XR_MAGICLEAP
-using System.Linq;
 #endif
 
 namespace Juniper.Unity.Input
@@ -52,13 +52,13 @@ namespace Juniper.Unity.Input
         /// The mouse is not as sensitive as the motion controllers, so we have to bump up the
         /// sensitivity quite a bit.
         /// </summary>
-        private const float MOUSE_SENSITIVITY_SCALE = 100;
+        private const float MOUSE_SENSITIVITY_SCALE = 50;
 
         /// <summary>
         /// The mouse is not as sensitive as the motion controllers, so we have to bump up the
         /// sensitivity quite a bit.
         /// </summary>
-        private const float TOUCH_SENSITIVITY_SCALE = 5;
+        private const float TOUCH_SENSITIVITY_SCALE = 1;
 
         /// <summary>
         /// How quickly the mouse moves horizontally
@@ -91,6 +91,11 @@ namespace Juniper.Unity.Input
         public void Awake()
         {
             stage = ComponentExt.FindAny<StageExtensions>();
+
+            foreach (var mode in Enum.GetValues(typeof(Mode)))
+            {
+                wasGestureSatisfied[(Mode)mode] = false;
+            }
         }
 
         public void Start()
@@ -117,12 +122,23 @@ namespace Juniper.Unity.Input
             }
             else if (mode == Mode.Touch)
             {
-                return UnityInput.touchCount == requiredTouchCount;
+                if (UnityInput.touchCount != requiredTouchCount)
+                {
+                    return false;
+                }
+                else
+                {
+                    var touchPhase = UnityInput.GetTouch(requiredTouchCount - 1).phase;
+                    return touchPhase == TouchPhase.Moved
+                        || touchPhase == TouchPhase.Stationary;
+                }
             }
             else
             {
-                var pressed = requiredMouseButton == MouseButton.None || UnityInput.GetMouseButton((int)requiredMouseButton);
-                return pressed && (!setMouseLock || Cursor.lockState == CursorLockMode.Locked);
+                var btn = (int)requiredMouseButton;
+                var pressed = requiredMouseButton == MouseButton.None || UnityInput.GetMouseButton(btn);
+                var down = requiredMouseButton != MouseButton.None && UnityInput.GetMouseButtonDown(btn);
+                return pressed && !down && (!setMouseLock || Cursor.lockState == CursorLockMode.Locked);
             }
         }
 
@@ -168,7 +184,8 @@ namespace Juniper.Unity.Input
 
         private bool DragRequired(Mode mode)
         {
-            return mode == Mode.Touch || (mode == Mode.Mouse && requiredMouseButton != MouseButton.None);
+            return mode == Mode.Touch
+                || (mode == Mode.Mouse && requiredMouseButton != MouseButton.None);
         }
 
         private bool DragSatisfied(Mode mode)
@@ -222,17 +239,26 @@ namespace Juniper.Unity.Input
 
         private void CheckMode(Mode mode, bool disableVertical)
         {
-            if (!GestureSatisfied(mode))
+            ScreenDebugger.Print($"Checking mode {mode}");
+            var gest = GestureSatisfied(mode);
+            var wasGest = wasGestureSatisfied[mode];
+            if (gest)
             {
-                dragged[mode] = false;
-                dragDistance[mode] = 0;
-            }
-            else if (wasGestureSatisfied.Get(mode, false) && DragSatisfied(mode))
-            {
-                stage.RotateView(OrientationDelta(mode, disableVertical), minimumY, maximumY);
+                if (!wasGest)
+                {
+                    dragged[mode] = false;
+                    dragDistance[mode] = 0;
+                }
+
+                if (DragSatisfied(mode))
+                {
+                    var delta = OrientationDelta(mode, disableVertical);
+                    ScreenDebugger.Print($"{delta.Label()}");
+                    stage.RotateView(delta, minimumY, maximumY);
+                }
             }
 
-            wasGestureSatisfied[mode] = GestureSatisfied(mode);
+            wasGestureSatisfied[mode] = gest;
         }
 
         private Quaternion lastGyro = Quaternion.identity;
