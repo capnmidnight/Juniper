@@ -1,3 +1,4 @@
+using Juniper;
 using Juniper.World.GIS;
 
 using System.Collections.Generic;
@@ -54,6 +55,11 @@ namespace UnityEngine
                 dz = Mathf.DeltaAngle(initial.z, final.z);
 
             return new Vector3(dx, dy, dz);
+        }
+
+        public static string Label(this Vector3 v, UnitOfMeasure unit, int? sigFigs = null)
+        {
+            return $"({v.x.Label(unit, sigFigs)}, {v.y.Label(unit, sigFigs)}, {v.z.Label(unit, sigFigs)})";
         }
     }
 }
