@@ -97,21 +97,5 @@ namespace Juniper.Unity.Input.Pointers.Motion
                 return transform.position + (MinimumPointerDistance * transform.forward);
             }
         }
-
-        public override Vector2 ScreenPoint
-        {
-            get
-            {
-                return ScreenFromWorld(InteractionEndPoint);
-            }
-        }
-
-        public override Vector2 ViewportPoint
-        {
-            get
-            {
-                return ViewportFromWorld(InteractionEndPoint);
-            }
-        }
     }
 }

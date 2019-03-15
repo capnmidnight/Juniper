@@ -16,22 +16,6 @@ namespace Juniper.Unity.Input.Pointers.Screen
         where HapticsType : AbstractHapticDevice
         where ConfigType : AbstractPointerConfiguration<ButtonIDType>, new()
     {
-        public override Vector3 WorldPoint
-        {
-            get
-            {
-                return WorldFromScreen(ScreenPoint);
-            }
-        }
-
-        public override Vector2 ViewportPoint
-        {
-            get
-            {
-                return ViewportFromScreen(ScreenPoint);
-            }
-        }
-
         public virtual Vector3 CameraPositionOffset
         {
             get
@@ -51,7 +35,7 @@ namespace Juniper.Unity.Input.Pointers.Screen
         protected override void InternalUpdate()
         {
             var camT = DisplayManager.MainCamera.transform;
-            var cameraRotation = Quaternion.LookRotation(InteractionDirection, camT.up) * CameraRotationOffset;
+            var cameraRotation = Quaternion.LookRotation(Direction, camT.up) * CameraRotationOffset;
             transform.position = camT.position + (cameraRotation * CameraPositionOffset);
             transform.rotation = cameraRotation;
         }

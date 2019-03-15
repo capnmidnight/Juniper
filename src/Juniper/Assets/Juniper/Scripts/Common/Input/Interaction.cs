@@ -26,9 +26,19 @@ namespace Juniper.Input
         Clicked,
 
         /// <summary>
+        /// The first time dragging occured.
+        /// </summary>
+        DraggingStarted,
+
+        /// <summary>
         /// A pointer pressing down and moving on a control.
         /// </summary>
         Dragged,
+
+        /// <summary>
+        /// The last time dragging occured.
+        /// </summary>
+        DraggingEnded,
 
         /// <summary>
         /// A pointer no longer being pressed on a control.

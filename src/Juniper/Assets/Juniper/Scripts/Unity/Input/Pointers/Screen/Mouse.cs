@@ -82,17 +82,17 @@ namespace Juniper.Unity.Input.Pointers.Screen
         /// <summary>
         /// The screen-space position of the mouse cursor.
         /// </summary>
-        public override Vector2 ScreenPoint
+        public override Vector3 WorldPoint
         {
             get
             {
                 if (Cursor.lockState == CursorLockMode.Locked)
                 {
-                    return SCREEN_MIDPOINT;
+                    return WorldFromViewport(VIEWPORT_MIDPOINT);
                 }
                 else
                 {
-                    return UnityInput.mousePosition;
+                    return WorldFromScreen(UnityInput.mousePosition);
                 }
             }
         }

@@ -69,7 +69,7 @@ namespace Juniper.Unity.Input
                     }
                 }
 
-                velocity = thrust * MOVEMENT_SCALE * Pointer.transform.forward;
+                velocity = thrust * MOVEMENT_SCALE * Pointer.Direction;
             }
 
             base.Update();

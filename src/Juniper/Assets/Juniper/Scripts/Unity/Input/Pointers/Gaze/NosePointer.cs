@@ -11,11 +11,11 @@ namespace Juniper.Unity.Input.Pointers.Gaze
         where HapticsType : AbstractHapticDevice
         where ConfigType : AbstractPointerConfiguration<ButtonIDType>, new()
     {
-        public override Vector2 ScreenPoint
+        public override Vector3 WorldPoint
         {
             get
             {
-                return SCREEN_MIDPOINT;
+                return WorldFromViewport(VIEWPORT_MIDPOINT);
             }
         }
     }

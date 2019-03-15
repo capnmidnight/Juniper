@@ -49,14 +49,6 @@ namespace Juniper.Unity.Input.Pointers
         where HapticsType : AbstractHapticDevice
         where ConfigType : AbstractPointerConfiguration<ButtonIDType>, new()
     {
-        protected static Vector2 SCREEN_MIDPOINT
-        {
-            get
-            {
-                return new Vector2(UnityEngine.Screen.width / 2, UnityEngine.Screen.height / 2);
-            }
-        }
-
         protected static readonly Vector2 VIEWPORT_MIDPOINT =
             0.5f * Vector2.one;
 
@@ -107,15 +99,6 @@ namespace Juniper.Unity.Input.Pointers
         public IEventSystemHandler EventTarget
         {
             get; set;
-        }
-
-        /// <summary>
-        /// Mouse wheel and touch-pad scroll. This is a 2-dimensional value, as even with a
-        /// single-wheel scroll mouse, you can hold the SHIFT key to scroll in the horizontal direction.
-        /// </summary>
-        public Vector2 ScrollDelta
-        {
-            get; protected set;
         }
 
         public abstract bool IsConnected
@@ -201,6 +184,12 @@ namespace Juniper.Unity.Input.Pointers
             nativeButtons.ButtonPressedNeeded += IsButtonPressed;
             nativeButtons.ClonedPointerEventNeeded += Clone;
             nativeButtons.InteractionNeeded += PlayInteraction;
+            nativeButtons.DraggableChanged += DraggableChanged;
+        }
+
+        protected void DraggableChanged(bool dragging)
+        {
+            IsDragging = dragging;
         }
 
         public void Start()
@@ -297,22 +286,147 @@ namespace Juniper.Unity.Input.Pointers
             }
         }
 
+        public Vector3 Origin
+        {
+            get
+            {
+                return transform.position;
+            }
+        }
+
+        public Vector3 LastOrigin
+        {
+            get;
+            private set;
+        }
+
+        public Vector3 OriginDelta
+        {
+            get
+            {
+                return Origin - LastOrigin;
+            }
+        }
+
+        public abstract Vector3 WorldPoint
+        {
+            get;
+        }
+
         public Vector3 LastWorldPoint
         {
             get; private set;
+        }
+
+        public Vector3 WorldDelta
+        {
+            get
+            {
+                return WorldPoint - LastWorldPoint;
+            }
+        }
+
+        /// <summary>
+        /// The target at and through which the pointer rays fire.
+        /// </summary>
+        /// <value>The interaction end point.</value>
+        public Vector3 SmoothedWorldPoint
+        {
+            get
+            {
+                return motionFilter?.PredictedPosition ?? WorldPoint;
+            }
+        }
+
+        public Vector3 LastSmoothedWorldPoint
+        {
+            get;
+            private set;
+        }
+
+        public Vector3 SmoothedWorldPointDelta
+        {
+            get
+            {
+                return SmoothedWorldPoint - LastSmoothedWorldPoint;
+            }
+        }
+
+        /// <summary>
+        /// The direction the pointer is pointing, from <see cref="InteractionOrigin"/> to <see cref="SmoothedWorldPoint"/>.
+        /// </summary>
+        /// <value>The interaction direction.</value>
+        public Vector3 Direction
+        {
+            get
+            {
+                return (SmoothedWorldPoint - Origin).normalized;
+            }
+        }
+
+        public Vector3 LastDirection
+        {
+            get
+            {
+                return (LastSmoothedWorldPoint - LastOrigin).normalized;
+            }
+        }
+
+        public Vector2 ScreenPoint
+        {
+            get
+            {
+                return ScreenFromWorld(SmoothedWorldPoint);
+            }
+        }
+
+        public Vector2 LastScreenPoint
+        {
+            get
+            {
+                return ScreenFromWorld(LastSmoothedWorldPoint);
+            }
         }
 
         public Vector2 ScreenDelta
         {
             get
             {
-                return ScreenPoint - ScreenFromWorld(LastWorldPoint);
+                return ScreenPoint - LastScreenPoint;
             }
         }
 
-        public abstract Vector2 ScreenPoint
+        public Vector2 ViewportPoint
         {
-            get;
+            get
+            {
+                return ViewportFromWorld(SmoothedWorldPoint);
+            }
+        }
+
+        public Vector2 LastViewportPoint
+        {
+            get
+            {
+                return ViewportFromWorld(LastSmoothedWorldPoint);
+            }
+        }
+
+        public Vector2 ViewportDelta
+        {
+            get
+            {
+                return ViewportPoint - LastViewportPoint;
+            }
+        }
+
+        /// <summary>
+        /// Mouse wheel and touch-pad scroll. This is a 2-dimensional value, as even with a
+        /// single-wheel scroll mouse, you can hold the SHIFT key to scroll in the horizontal direction.
+        /// </summary>
+        public Vector2 ScrollDelta
+        {
+            get; protected set;
         }
 
         public Vector2 ScreenFromWorld(Vector3 worldPoint)
@@ -325,11 +439,6 @@ namespace Juniper.Unity.Input.Pointers
             return EventCamera.ViewportToScreenPoint(viewportPoint);
         }
 
-        public abstract Vector2 ViewportPoint
-        {
-            get;
-        }
-
         public Vector2 ViewportFromWorld(Vector3 worldPoint)
         {
             return EventCamera.WorldToViewportPoint(worldPoint);
@@ -338,11 +447,6 @@ namespace Juniper.Unity.Input.Pointers
         public Vector2 ViewportFromScreen(Vector2 screenPoint)
         {
             return EventCamera.ScreenToViewportPoint(screenPoint);
-        }
-
-        public abstract Vector3 WorldPoint
-        {
-            get;
         }
 
         public Vector3 WorldFromScreen(Vector2 screenPoint)
@@ -363,34 +467,10 @@ namespace Juniper.Unity.Input.Pointers
         public AbstractMotionFilter motionFilter;
 
         /// <summary>
-        /// The target at and through which the pointer rays fire.
-        /// </summary>
-        /// <value>The interaction end point.</value>
-        public Vector3 InteractionEndPoint
-        {
-            get
-            {
-                return motionFilter?.PredictedPosition ?? WorldPoint;
-            }
-        }
-
-        /// <summary>
-        /// The direction the pointer is pointing, from <see cref="InteractionOrigin"/> to <see cref="InteractionEndPoint"/>.
-        /// </summary>
-        /// <value>The interaction direction.</value>
-        public Vector3 InteractionDirection
-        {
-            get
-            {
-                return (InteractionEndPoint - transform.position).normalized;
-            }
-        }
-
-        /// <summary>
         /// Update the position of the pointer and the pointer probe. Also check to see if the
         /// configuration has been changed to hide the pointer probe.
         /// </summary>
-        public void Update()
+        public virtual void Update()
         {
             if (motionFilter != lastMotionFilter)
             {
@@ -417,7 +497,7 @@ namespace Juniper.Unity.Input.Pointers
             {
                 motionFilter?.UpdateState(WorldPoint);
                 InternalUpdate();
-                probe?.AlignProbe(InteractionDirection, transform.up, MaximumPointerDistance);
+                probe?.AlignProbe(Direction, transform.up, MaximumPointerDistance);
             }
         }
 
@@ -433,12 +513,10 @@ namespace Juniper.Unity.Input.Pointers
 
         protected StageExtensions stage;
 
-        public virtual bool IsDragging
+        public bool IsDragging
         {
-            get
-            {
-                return nativeButtons.AnyDragging;
-            }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -452,11 +530,13 @@ namespace Juniper.Unity.Input.Pointers
         }
 
         private float finishTime;
+        private Interaction lastAction;
 
         public virtual void PlayInteraction(Interaction action)
         {
-            if (Time.time > finishTime)
+            if (Time.time > finishTime || action != lastAction)
             {
+                lastAction = action;
                 finishTime = Time.time + InteractionAudio.Play(action, probe.Cursor, Haptics);
             }
         }
@@ -481,6 +561,8 @@ namespace Juniper.Unity.Input.Pointers
             }
 
             LastWorldPoint = evtData.pointerCurrentRaycast.worldPosition;
+            LastSmoothedWorldPoint = SmoothedWorldPoint;
+            LastOrigin = Origin;
 
             probe?.SetCursor(
                 evtData.pointerCurrentRaycast.gameObject != null,

@@ -128,7 +128,9 @@ namespace Juniper.Unity.Audio
                 case Interaction.Disabled:
                 return HapticExpression.Warning;
 
+                case Interaction.DraggingStarted:
                 case Interaction.Dragged:
+                case Interaction.DraggingEnded:
                 return HapticExpression.SelectionChange;
 
                 case Interaction.Error:
@@ -285,7 +287,9 @@ namespace Juniper.Unity.Audio
                 case Interaction.Disabled:
                 return soundOnDisabled;
 
+                case Interaction.DraggingStarted:
                 case Interaction.Dragged:
+                case Interaction.DraggingEnded:
                 return soundOnDragged;
 
                 case Interaction.Scrolled:

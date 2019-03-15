@@ -102,11 +102,11 @@ namespace Juniper.Unity.Input.Pointers.Screen
         /// <summary>
         /// Where on the screen the pointer represents.
         /// </summary>
-        public override Vector2 ScreenPoint
+        public override Vector3 WorldPoint
         {
             get
             {
-                return Finger.position;
+                return WorldFromScreen(Finger.position);
             }
         }
 

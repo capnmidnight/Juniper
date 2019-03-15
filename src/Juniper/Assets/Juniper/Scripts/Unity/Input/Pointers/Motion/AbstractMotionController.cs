@@ -92,12 +92,14 @@ namespace Juniper.Unity.Input.Pointers.Motion
             touchPadButtons.ButtonPressedNeeded += IsButtonPressed;
             touchPadButtons.ClonedPointerEventNeeded += Clone;
             touchPadButtons.InteractionNeeded += PlayInteraction;
+            touchPadButtons.DraggableChanged += DraggableChanged;
 
             triggerButtons.ButtonDownNeeded += IsButtonDown;
             triggerButtons.ButtonUpNeeded += IsButtonUp;
             triggerButtons.ButtonPressedNeeded += IsButtonPressed;
             triggerButtons.ClonedPointerEventNeeded += Clone;
             triggerButtons.InteractionNeeded += PlayInteraction;
+            triggerButtons.DraggableChanged += DraggableChanged;
         }
 
         public override bool Install(bool reset)
@@ -289,16 +291,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
             var c = triggerButtons.Process(evtData, pixelDragThresholdSquared);
 
             return a ?? b ?? c;
-        }
-
-        public override bool IsDragging
-        {
-            get
-            {
-                return base.IsDragging
-                    || touchPadButtons.AnyDragging
-                    || triggerButtons.AnyDragging;
-            }
         }
 
         public override bool IsButtonPressed(InputButton button)

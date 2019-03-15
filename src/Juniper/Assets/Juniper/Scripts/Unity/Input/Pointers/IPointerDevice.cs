@@ -7,17 +7,37 @@ namespace Juniper.Unity.Input.Pointers
 {
     public interface IPointerDevice
     {
+        IEventSystemHandler EventTarget
+        {
+            get; set;
+        }
+
+        AbstractUnifiedInputModule InputModule
+        {
+            get;
+        }
+
+        int PointerID
+        {
+            get; set;
+        }
+
         string name
         {
             get;
         }
 
-        bool isActiveAndEnabled
+        string ProbeName
         {
             get;
         }
 
-        Transform transform
+        Type ButtonType
+        {
+            get;
+        }
+
+        bool isActiveAndEnabled
         {
             get;
         }
@@ -37,12 +57,7 @@ namespace Juniper.Unity.Input.Pointers
             get;
         }
 
-        bool LockedOnTarget
-        {
-            get; set;
-        }
-
-        Type ButtonType
+        bool IsDragging
         {
             get;
         }
@@ -57,31 +72,6 @@ namespace Juniper.Unity.Input.Pointers
             get;
         }
 
-        IEventSystemHandler EventTarget
-        {
-            get; set;
-        }
-
-        AbstractUnifiedInputModule InputModule
-        {
-            get;
-        }
-
-        Vector3 InteractionDirection
-        {
-            get;
-        }
-
-        Vector3 InteractionEndPoint
-        {
-            get;
-        }
-
-        bool IsDragging
-        {
-            get;
-        }
-
         float MaximumPointerDistance
         {
             get;
@@ -92,17 +82,17 @@ namespace Juniper.Unity.Input.Pointers
             get;
         }
 
-        int PointerID
-        {
-            get; set;
-        }
-
-        string ProbeName
+        Vector3 Origin
         {
             get;
         }
 
-        Vector2 ScrollDelta
+        Vector3 LastOrigin
+        {
+            get;
+        }
+
+        Vector3 OriginDelta
         {
             get;
         }
@@ -112,7 +102,52 @@ namespace Juniper.Unity.Input.Pointers
             get;
         }
 
+        Vector3 LastWorldPoint
+        {
+            get;
+        }
+
+        Vector3 WorldDelta
+        {
+            get;
+        }
+
+        Vector3 SmoothedWorldPoint
+        {
+            get;
+        }
+
+        Vector3 LastSmoothedWorldPoint
+        {
+            get;
+        }
+
+        Vector3 SmoothedWorldPointDelta
+        {
+            get;
+        }
+
+        Vector3 Direction
+        {
+            get;
+        }
+
+        Vector3 LastDirection
+        {
+            get;
+        }
+
         Vector2 ViewportPoint
+        {
+            get;
+        }
+
+        Vector2 LastViewportPoint
+        {
+            get;
+        }
+
+        Vector2 ViewportDelta
         {
             get;
         }
@@ -122,7 +157,17 @@ namespace Juniper.Unity.Input.Pointers
             get;
         }
 
+        Vector2 LastScreenPoint
+        {
+            get;
+        }
+
         Vector2 ScreenDelta
+        {
+            get;
+        }
+
+        Vector2 ScrollDelta
         {
             get;
         }

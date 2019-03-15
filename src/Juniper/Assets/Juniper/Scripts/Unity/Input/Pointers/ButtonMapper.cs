@@ -18,12 +18,16 @@ namespace Juniper.Unity.Input.Pointers
         private const float THRESHOLD_CLICK = 0.4f;
         private const float THRESHOLD_LONG_PRESS = 2f;
 
+        public event Action<Interaction> InteractionNeeded;
+
+        public event Action<bool> DraggableChanged;
+
         private readonly Dictionary<ButtonIDType, InputButton> toInputButton = new Dictionary<ButtonIDType, InputButton>();
         private readonly Dictionary<InputButton, ButtonIDType> fromInputButton = new Dictionary<InputButton, ButtonIDType>();
         private readonly Dictionary<ButtonIDType, int> toInteger = new Dictionary<ButtonIDType, int>();
         private readonly Dictionary<ButtonIDType, float> buttonDownTime = new Dictionary<ButtonIDType, float>();
         private readonly Dictionary<ButtonIDType, bool> mayLongPress = new Dictionary<ButtonIDType, bool>();
-        private readonly Dictionary<InputButton, float> dragDistances = new Dictionary<InputButton, float>();
+        private readonly Dictionary<ButtonIDType, float> dragDistances = new Dictionary<ButtonIDType, float>();
 
         public event Func<ButtonIDType, bool> ButtonDownNeeded;
 
@@ -32,8 +36,6 @@ namespace Juniper.Unity.Input.Pointers
         public event Func<ButtonIDType, bool> ButtonPressedNeeded;
 
         public event Func<PointerEventData, ButtonIDType, PointerEventData> ClonedPointerEventNeeded;
-
-        public event Action<Interaction> InteractionNeeded;
 
         public readonly Dictionary<ButtonIDType, ButtonEvent> buttonEvents = new Dictionary<ButtonIDType, ButtonEvent>();
 
@@ -47,9 +49,14 @@ namespace Juniper.Unity.Input.Pointers
             }
         }
 
-        public bool AnyDragging
+        public ButtonMapper()
         {
-            get; private set;
+            foreach (ButtonIDType button in Enum.GetValues(typeof(ButtonIDType)))
+            {
+                buttonDownTime[button] = 0;
+                mayLongPress[button] = false;
+                dragDistances[button] = 0;
+            }
         }
 
         public void Install(GameObject pointer, Dictionary<ButtonIDType, InputButton> buttons)
@@ -132,7 +139,6 @@ namespace Juniper.Unity.Input.Pointers
         public IEventSystemHandler Process(PointerEventData eventData, float pixelDragThresholdSquared)
         {
             IEventSystemHandler eventTarget = null;
-            AnyDragging = false;
             foreach (var button in Buttons)
             {
                 var pressed = ButtonPressedNeeded?.Invoke(button) == true;
@@ -140,7 +146,7 @@ namespace Juniper.Unity.Input.Pointers
                 evtData.button = toInputButton[button];
 
                 TestUpDown(evtData, button, pressed);
-                TestDrag(evtData, pressed, pixelDragThresholdSquared);
+                TestDrag(evtData, button, pressed, pixelDragThresholdSquared);
 
                 eventTarget = evtData.pointerEnter?.GetComponent<IEventSystemHandler>() ?? eventTarget;
             }
@@ -156,7 +162,7 @@ namespace Juniper.Unity.Input.Pointers
             {
                 mayLongPress[button] = true;
                 buttonDownTime[button] = Time.time;
-                dragDistances[evtData.button] = 0;
+                dragDistances[button] = 0;
                 evtData.rawPointerPress = evtData.pointerEnter;
                 evtData.pressPosition = evtData.position;
                 evtData.pointerPressRaycast = evtData.pointerCurrentRaycast;
@@ -166,7 +172,10 @@ namespace Juniper.Unity.Input.Pointers
                 evtData.pointerPress = ExecuteEvents.ExecuteHierarchy(evtData.pointerEnter, evtData, ExecuteEvents.pointerDownHandler);
                 buttonEvents[button].OnDown(evtData);
                 inputButtonEvents[evtData.button]?.OnDown(evtData);
-                InteractionNeeded?.Invoke(Interaction.Pressed);
+                if (evtData.pointerPress != null)
+                {
+                    InteractionNeeded?.Invoke(Interaction.Pressed);
+                }
             }
 
             var deltaTime = buttonDownTime.ContainsKey(button)
@@ -181,7 +190,10 @@ namespace Juniper.Unity.Input.Pointers
                 ExecuteEvents.ExecuteHierarchy(evtData.pointerPress, evtData, ExecuteEvents.pointerUpHandler);
                 buttonEvents[button].OnUp(evtData);
                 inputButtonEvents[evtData.button]?.OnUp(evtData);
-                InteractionNeeded?.Invoke(Interaction.Released);
+                if (evtData.pointerPress != null)
+                {
+                    InteractionNeeded?.Invoke(Interaction.Released);
+                }
 
                 var target = evtData.pointerCurrentRaycast.gameObject;
                 if (evtData.eligibleForClick)
@@ -192,7 +204,10 @@ namespace Juniper.Unity.Input.Pointers
                     evtData.selectedObject = ExecuteEvents.ExecuteHierarchy(evtData.pointerPress, evtData, ExecuteEvents.pointerClickHandler);
                     buttonEvents[button].OnClick(evtData);
                     inputButtonEvents[evtData.button]?.OnClick(evtData);
-                    InteractionNeeded?.Invoke(Interaction.Clicked);
+                    if (evtData.pointerPress != null)
+                    {
+                        InteractionNeeded?.Invoke(Interaction.Clicked);
+                    }
                 }
                 else if (evtData.pointerDrag != null)
                 {
@@ -202,8 +217,7 @@ namespace Juniper.Unity.Input.Pointers
                 evtData.pointerPress = null;
                 evtData.rawPointerPress = null;
             }
-            else if (pressed
-                && mayLongPress[button])
+            else if (pressed && mayLongPress[button])
             {
                 if (deltaTime < THRESHOLD_LONG_PRESS)
                 {
@@ -215,14 +229,16 @@ namespace Juniper.Unity.Input.Pointers
                     ExecuteEvents.ExecuteHierarchy(evtData.pointerPress, evtData, LongPressEvents.longPressHandler);
                     buttonEvents[button].OnLongPress(evtData);
                     inputButtonEvents[evtData.button]?.OnLongPress(evtData);
-                    InteractionNeeded?.Invoke(Interaction.Clicked);
+                    if (evtData.pointerPress != null)
+                    {
+                        InteractionNeeded?.Invoke(Interaction.Clicked);
+                    }
                 }
             }
         }
 
-        private void TestDrag(PointerEventData evtData, bool pressed, float pixelDragThresholdSquared)
+        private void TestDrag(PointerEventData evtData, ButtonIDType button, bool pressed, float pixelDragThresholdSquared)
         {
-            AnyDragging |= evtData.pointerDrag != null;
             if (evtData.pointerDrag != null && evtData.IsPointerMoving())
             {
                 var wasDragging = evtData.dragging;
@@ -236,8 +252,8 @@ namespace Juniper.Unity.Input.Pointers
                 }
                 else
                 {
-                    dragDistances[evtData.button] += evtData.delta.sqrMagnitude;
-                    evtData.dragging = dragDistances[evtData.button] > pixelDragThresholdSquared;
+                    dragDistances[button] += evtData.delta.sqrMagnitude;
+                    evtData.dragging = dragDistances[button] > pixelDragThresholdSquared;
                 }
 
                 if (evtData.dragging)
@@ -254,8 +270,10 @@ namespace Juniper.Unity.Input.Pointers
 
                     if (!wasDragging)
                     {
+                        mayLongPress[button] = false;
                         ExecuteEvents.ExecuteHierarchy(evtData.pointerDrag, evtData, ExecuteEvents.beginDragHandler);
-                        InteractionNeeded?.Invoke(Interaction.Dragged);
+                        InteractionNeeded?.Invoke(Interaction.DraggingStarted);
+                        DraggableChanged?.Invoke(true);
                     }
 
                     evtData.pointerDrag = ExecuteEvents.ExecuteHierarchy(evtData.pointerDrag ?? evtData.pointerPress, evtData, ExecuteEvents.dragHandler);
@@ -264,8 +282,9 @@ namespace Juniper.Unity.Input.Pointers
                 else if (wasDragging)
                 {
                     ExecuteEvents.ExecuteHierarchy(evtData.pointerDrag, evtData, ExecuteEvents.endDragHandler);
-                    InteractionNeeded?.Invoke(Interaction.Dragged);
+                    InteractionNeeded?.Invoke(Interaction.DraggingEnded);
                     evtData.pointerDrag = null;
+                    DraggableChanged?.Invoke(false);
                 }
             }
         }

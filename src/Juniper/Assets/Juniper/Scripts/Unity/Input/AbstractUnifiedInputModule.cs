@@ -17,6 +17,22 @@ namespace Juniper.Unity.Input
         private readonly List<IPointerDevice> newDevices = new List<IPointerDevice>();
         public readonly List<IPointerDevice> Devices = new List<IPointerDevice>();
 
+        public bool AnyPointerDragging
+        {
+            get
+            {
+                foreach (var device in Devices)
+                {
+                    if (device.IsDragging)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
         /// <summary>
         /// Set to the clonable object that should be used for the pointer probe.
         /// </summary>
@@ -148,7 +164,7 @@ namespace Juniper.Unity.Input
                     evtData.position = pointer.ScreenPoint;
                     evtData.scrollDelta = pointer.ScrollDelta;
                     evtData.useDragThreshold = eventSystem.pixelDragThreshold > 0;
-                    evtData.pointerCurrentRaycast = UpdateRay(pointer, pointer.transform.position, evtData);
+                    evtData.pointerCurrentRaycast = UpdateRay(pointer, evtData);
 
                     pointer.Process(evtData, eventSystem.pixelDragThreshold * eventSystem.pixelDragThreshold);
                 }
@@ -175,20 +191,18 @@ namespace Juniper.Unity.Input
             return clone;
         }
 
-        private RaycastResult UpdateRay(IPointerDevice pointer, Vector3 lastPointerPosition, PointerEventData evtData)
+        private RaycastResult UpdateRay(IPointerDevice pointer, PointerEventData evtData)
         {
             var ray = evtData.pointerCurrentRaycast;
-            if (pointer.LockedOnTarget)
+
+            if (pointer.IsDragging)
             {
-                var from = ray.worldPosition - lastPointerPosition;
-                var to = ray.distance * (pointer.InteractionEndPoint - pointer.transform.position);
-                var delta = to - from;
-                var rot = Quaternion.FromToRotation(from.normalized, to.normalized);
+                var rot = Quaternion.FromToRotation(pointer.LastDirection, pointer.Direction);
 
                 ray.gameObject = evtData.pointerPress;
-                ray.worldPosition = (rot * ray.worldPosition) + delta;
+                ray.worldPosition = pointer.Origin + ray.distance * pointer.Direction;
                 ray.worldNormal = rot * ray.worldNormal;
-                ray.screenPosition = evtData.position;
+                ray.screenPosition = pointer.ScreenPoint;
             }
             else
             {
@@ -205,10 +219,10 @@ namespace Juniper.Unity.Input
                 else
                 {
                     ray.Clear();
-                    ray.worldPosition = pointer.InteractionEndPoint;
+                    ray.worldPosition = pointer.SmoothedWorldPoint;
                     ray.distance = pointer.MinimumPointerDistance;
-                    ray.worldNormal = -pointer.InteractionDirection;
-                    ray.screenPosition = evtData.position;
+                    ray.worldNormal = -pointer.Direction;
+                    ray.screenPosition = pointer.ScreenPoint;
                 }
             }
 

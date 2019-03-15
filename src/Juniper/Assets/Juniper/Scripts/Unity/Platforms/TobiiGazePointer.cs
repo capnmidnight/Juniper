@@ -19,7 +19,7 @@ namespace Juniper.Unity.Input.Pointers.Gaze
 
         private GazePoint lastGaze;
 
-        public override Vector2 ScreenPoint
+        public override Vector3 WorldPoint
         {
             get
             {
@@ -44,11 +44,11 @@ namespace Juniper.Unity.Input.Pointers.Gaze
 
                 if (lastGaze.IsValid)
                 {
-                    return lastGaze.Screen;
+                    return WorldFromScreen(lastGaze.Screen);
                 }
                 else
                 {
-                    return SCREEN_MIDPOINT;
+                    return WorldFromViewport(VIEWPORT_MIDPOINT);
                 }
             }
         }
