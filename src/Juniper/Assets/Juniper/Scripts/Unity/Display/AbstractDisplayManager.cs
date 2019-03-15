@@ -258,7 +258,7 @@ namespace Juniper.Unity.Display
 #if UNITY_MODULES_XR
                 return ChangeDevice(SupportedXRDevice(DisplayType));
 #else
-                return JuniperPlatform.IsARCapablePlatform && DisplayType == DisplayTypes.Monoscopic;
+                return DisplayType != DisplayTypes.Stereo;
 #endif
             }
         }
