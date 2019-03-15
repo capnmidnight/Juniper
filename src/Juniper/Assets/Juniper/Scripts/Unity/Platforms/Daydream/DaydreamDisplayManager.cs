@@ -20,8 +20,10 @@ namespace Juniper.Unity.Display
             return baseInstall;
         }
 
-        public void Start()
+        public override void Start()
         {
+            base.Start();
+
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
                 if (setMouseLock && Application.isEditor && AnyActiveGoogleInstantPreview)

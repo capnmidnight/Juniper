@@ -21,8 +21,9 @@ namespace Juniper.Unity.Display
         /// </summary>
         public bool enablePointCloud = true;
 
-        public virtual void Start()
+        public override void Start()
         {
+            base.Start();
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
                 var joystick = UnityInput.GetJoystickNames().FirstOrDefault();
@@ -46,8 +47,7 @@ namespace Juniper.Unity.Display
             base.OnARModeChange();
             if (ARMode == AugmentedRealityTypes.PassthroughCamera)
             {
-                cameraCtrl.mode = CameraControl.Mode.None;
-                cameraCtrl.setMouseLock = false;
+                cameraCtrl.mode = CameraControl.Mode.Touch;
             }
         }
     }

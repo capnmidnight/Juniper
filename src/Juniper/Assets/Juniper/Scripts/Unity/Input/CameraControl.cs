@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 using UnityEngine;
-
+using UnityEngine.Events;
 using UnityInput = UnityEngine.Input;
 
 namespace Juniper.Unity.Input
@@ -26,12 +26,21 @@ namespace Juniper.Unity.Input
         }
 
         public Mode mode = Mode.Auto;
+        private Mode lastMode = Mode.None;
 
         /// <summary>
         /// If we are running on a desktop system, set this value to true to lock the mouse cursor to
         /// the application window.
         /// </summary>
         public bool setMouseLock = true;
+
+        public bool MouseLockingEnabled
+        {
+            get
+            {
+                return setMouseLock && mode == Mode.Mouse;
+            }
+        }
 
         public enum MouseButton
         {
@@ -82,6 +91,17 @@ namespace Juniper.Unity.Input
         /// </summary>
         public float maximumY = 85F;
 
+        public UnityEvent onModeChange;
+        public event Action<Mode> ModeChange;
+
+        private void OnModeChange()
+        {
+            onModeChange?.Invoke();
+            ModeChange?.Invoke(mode);
+        }
+
+        private bool firstTime = true;
+
         private Quaternion lastGyro = Quaternion.identity;
 
         private StageExtensions stage;
@@ -105,15 +125,6 @@ namespace Juniper.Unity.Input
         public void Start()
         {
             input = ComponentExt.FindAny<UnifiedInputModule>();
-
-            if (setMouseLock)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.None;
-            }
         }
 
         private bool GestureSatisfied(Mode mode)
@@ -144,7 +155,7 @@ namespace Juniper.Unity.Input
                 var btn = (int)requiredMouseButton;
                 var pressed = requiredMouseButton == MouseButton.None || UnityInput.GetMouseButton(btn);
                 var down = requiredMouseButton != MouseButton.None && UnityInput.GetMouseButtonDown(btn);
-                return pressed && !down && (!setMouseLock || Cursor.lockState == CursorLockMode.Locked);
+                return pressed && !down && (!MouseLockingEnabled || Cursor.lockState == CursorLockMode.Locked);
             }
         }
 
@@ -253,10 +264,11 @@ namespace Juniper.Unity.Input
 
         private void CheckMouseLock()
         {
-            if (mode == Mode.Mouse && setMouseLock)
+            if (MouseLockingEnabled)
             {
-                if (UnityInput.mousePresent && UnityInput.GetMouseButtonDown(0))
+                if (UnityInput.mousePresent && (firstTime || UnityInput.GetMouseButtonDown(0)))
                 {
+                    firstTime = false;
                     Cursor.lockState = CursorLockMode.Locked;
                 }
 #if UNITY_2018_1_OR_NEWER
@@ -278,7 +290,14 @@ namespace Juniper.Unity.Input
 
         public void Update()
         {
+            if (mode != lastMode)
+            {
+                OnModeChange();
+                lastMode = mode;
+            }
+
             CheckMouseLock();
+
             if (!input.AnyPointerDragging || Cursor.lockState == CursorLockMode.Locked)
             {
                 CheckMode(mode, disableVertical);

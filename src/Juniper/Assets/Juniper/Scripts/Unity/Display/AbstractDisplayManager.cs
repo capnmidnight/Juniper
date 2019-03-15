@@ -193,6 +193,10 @@ namespace Juniper.Unity.Display
 #endif
         }
 
+        public virtual void Start()
+        {
+        }
+
 #if UNITY_MODULES_XR
 
         private static bool ChangeDevice(string xrDevice)
@@ -301,6 +305,7 @@ namespace Juniper.Unity.Display
 
         public DisplayTypeEvent onDisplayTypeChange;
         public event EventHandler<DisplayTypes> DisplayTypeChange;
+
         protected virtual void OnDisplayTypeChange()
         {
             onDisplayTypeChange?.Invoke(DisplayType);

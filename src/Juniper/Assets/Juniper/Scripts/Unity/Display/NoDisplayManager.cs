@@ -16,8 +16,10 @@ namespace Juniper.Unity.Display
             }
         }
 
-        public void Start()
+        public override void Start()
         {
+            base.Start();
+
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
                 var joystick = UnityInput.GetJoystickNames().FirstOrDefault();

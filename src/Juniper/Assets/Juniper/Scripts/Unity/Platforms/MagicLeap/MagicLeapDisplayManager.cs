@@ -31,10 +31,11 @@ namespace Juniper.Unity.Display
             return baseInstall;
         }
 
-        public void Start()
+        public override void Start()
         {
+            base.Start();
+
             cameraCtrl.mode = CameraControl.Mode.None;
-            cameraCtrl.setMouseLock = false;
         }
 
         public override void Uninstall()
