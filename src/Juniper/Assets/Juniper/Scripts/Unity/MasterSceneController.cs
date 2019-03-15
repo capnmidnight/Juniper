@@ -17,6 +17,8 @@ using Juniper.Unity.Progress;
 using Juniper.Progress;
 
 using UnityEngine.UI;
+using Juniper.Unity.World;
+using Juniper.Unity.World.LightEstimation;
 
 
 #if UNITY_EDITOR
@@ -313,7 +315,9 @@ namespace Juniper.Unity
                 follow.followDistance = 1.5f;
             }
 
-            var bar = LoadingBar.Ensure(sys);
+            var transparentLayer = LayerMask.NameToLayer("TransparentFX");
+
+            var bar = LoadingBar.Ensure(sys, transparentLayer);
             if (bar.IsNew)
             {
                 bar.Value.transform.localPosition = (2f / 3f) * Vector3.down;
@@ -337,7 +341,7 @@ namespace Juniper.Unity
                         .Value
                         .EnsureComponent<Text>((d) =>
                         {
-                            d.gameObject.layer = LayerMask.NameToLayer("TransparentFX");
+                            d.gameObject.layer = transparentLayer;
                             d.raycastTarget = false;
                             d.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
                             d.supportRichText = false;
@@ -354,6 +358,7 @@ namespace Juniper.Unity
                 });
 
             canv.Value.EnsureComponent<GraphicRaycaster>();
+            canv.Value.gameObject.layer = transparentLayer;
 
             if (splash == null)
             {
@@ -367,6 +372,7 @@ namespace Juniper.Unity
                         splashImg.sprite = ComponentExt.EditorLoadAsset<Sprite>("Assets/Juniper/Textures/logo-large.png");
 #endif
 
+                        splashImg.gameObject.layer = transparentLayer;
                         splashImg.SetRectangle(Vector3.zero, Vector2.zero, Vector2.one, 0.5f * Vector2.one);
                     });
             }
