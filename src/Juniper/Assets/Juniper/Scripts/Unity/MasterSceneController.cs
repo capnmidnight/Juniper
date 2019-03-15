@@ -425,6 +425,47 @@ namespace Juniper.Unity
             }
 #endif
 
+#if UNITY_EDITOR
+            var sun = RenderSettings.sun;
+            if (sun?.gameObject?.scene.name != gameObject.scene.name)
+            {
+                sun = (from light in ComponentExt.FindAll<Light>()
+                       where light.type == LightType.Directional
+                           && light.gameObject?.scene.name == gameObject.scene.name
+                       orderby light.intensity descending
+                       select light).FirstOrDefault();
+
+                if (sun == null)
+                {
+                    sun = new GameObject("Sun").AddComponent<Light>();
+                    sun.type = LightType.Directional;
+                    sun.shadows = LightShadows.Soft;
+                }
+
+                RenderSettings.sun = sun;
+            }
+
+            sun.EnsureComponent<GPSLocation>();
+            sun.EnsureComponent<SunPosition>();
+            sun.EnsureComponent<LightMeasurement>();
+
+            var estimator = sun.GetComponent<AbstractLightEstimate>();
+            if (estimator == null)
+            {
+                estimator = sun.gameObject.AddComponent<IndoorLightEstimate>();
+            }
+
+            var sunRig = sun.transform.parent;
+            if (sunRig == null)
+            {
+                sunRig = new GameObject().transform;
+                sun.transform.SetParent(sunRig, false);
+            }
+
+            sunRig.name = "SunRig";
+            sunRig.EnsureComponent<CompassRose>();
+#endif
+
             return true;
         }
 
