@@ -1,26 +1,14 @@
-using Juniper.Unity.World.LightEstimation;
-
 using System;
 
 using UnityEngine;
 
-namespace Juniper.Unity.World
+namespace Juniper.Unity.World.LightEstimation
 {
-    /// <summary>
-    /// Uses the AR subsystem's light estimation values to modify the current ambient and directional
-    /// light settings to make for a more convincing indoor scene. Only one of these components may
-    /// be included on a gameObject. This component requires a Unity Light component. This component
-    /// runs in the editor during edit mode.
-    /// </summary>
-    [ExecuteInEditMode]
-    [DisallowMultipleComponent]
-    [RequireComponent(typeof(Light))]
-    public class IndoorLightEstimate : MonoBehaviour, IInstallable
-    {
-        /// <summary>
-        /// When set to true, the lighting estimate will modify the global ambient light setting for
-        /// the scene.
-        /// </summary>
+    public abstract class AbstractLightEstimate : MonoBehaviour, IInstallable
+    {/// <summary>
+     /// When set to true, the lighting estimate will modify the global ambient light setting for
+     /// the scene.
+     /// </summary>
         public bool SetAmbientLight = true;
 
         /// <summary>
@@ -78,12 +66,9 @@ namespace Juniper.Unity.World
         /// Gets the estimated cloud cover.
         /// </summary>
         /// <value>The cloud cover.</value>
-        protected virtual float CloudCover
+        protected abstract float CloudCover
         {
-            get
-            {
-                return 0.25f;
-            }
+            get;
         }
 
         /// <summary>
@@ -92,12 +77,9 @@ namespace Juniper.Unity.World
         /// whatever the user set in the Unity Editor.
         /// </summary>
         /// <value><c>true</c> if has sun rotation; otherwise, <c>false</c>.</value>
-        protected virtual bool HasSunRotation
+        protected abstract bool HasSunRotation
         {
-            get
-            {
-                return false;
-            }
+            get;
         }
 
         /// <summary>
@@ -105,12 +87,9 @@ namespace Juniper.Unity.World
         /// the correct position in the sky.
         /// </summary>
         /// <value>The sun rotation.</value>
-        protected virtual Vector3 SunRotation
+        protected abstract Vector3 SunRotation
         {
-            get
-            {
-                return overhead;
-            }
+            get;
         }
 
         /// <summary>

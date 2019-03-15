@@ -5,7 +5,7 @@ using System;
 
 using UnityEngine;
 
-namespace Juniper.Unity.World
+namespace Juniper.Unity.World.LightEstimation
 {
     /// <summary>
     /// Modifies the base light estimate to include cloud cover values retrieved from a weather
@@ -16,7 +16,7 @@ namespace Juniper.Unity.World
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Light))]
-    public class OutdoorLightEstimate : IndoorLightEstimate
+    public class OutdoorLightEstimate : AbstractLightEstimate
     {
         /// <summary>
         /// The weather service used to retrieve the cloud cover, sunrise, and sunset values. Cloud
@@ -39,7 +39,7 @@ namespace Juniper.Unity.World
                 }
                 else
                 {
-                    return base.CloudCover;
+                    return 0.25f;
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace Juniper.Unity.World
                 }
                 else
                 {
-                    return base.SunRotation;
+                    return overhead;
                 }
             }
         }
@@ -153,8 +153,8 @@ namespace Juniper.Unity.World
             get
             {
                 return !IsNight
-&& weather != null
-&& weather.CloudCover != null;
+                    && weather != null
+                    && weather.CloudCover != null;
             }
         }
 
