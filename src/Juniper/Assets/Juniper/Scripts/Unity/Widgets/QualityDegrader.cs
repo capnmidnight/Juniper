@@ -44,19 +44,13 @@ namespace Juniper.Unity.Widgets
             {
                 if (value != QualityLevel)
                 {
-                    while (QualityLevel < value)
-                    {
-                        QualitySettings.IncreaseLevel(true);
-                    }
-                    while (QualityLevel > value)
-                    {
-                        QualitySettings.DecreaseLevel(true);
-                    }
+                    ChangeQuality(QualitySettings.IncreaseLevel, (a, b) => a < b, value);
+                    ChangeQuality(QualitySettings.DecreaseLevel, (a, b) => a > b, value);
 
 #if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
                     if (ground != null)
                     {
-                        ground.spatialMappingFidelity = (Level)(QualityLevel / 2);
+                        ground.spatialMappingFidelity = (Level)(value / 2);
                     }
 #endif
 
@@ -64,11 +58,29 @@ namespace Juniper.Unity.Widgets
                     prost.enabled = QualityLevel >= 4;
 #endif
 
-                    PlayerPrefs.SetInt(GRAPHICS_QUALITY_KEY, QualityLevel);
+                    PlayerPrefs.SetInt(GRAPHICS_QUALITY_KEY, value);
                     PlayerPrefs.Save();
                 }
 
-                UpdateButtons();
+                UpdateSlider(value);
+            }
+        }
+
+        private void ChangeQuality(Action<bool> changer, Func<int, int, bool> checker, int value)
+        {
+            var lastValue = QualityLevel;
+            while (checker(lastValue, value))
+            {
+                changer(true);
+                var newValue = QualityLevel;
+                if (newValue == lastValue)
+                {
+                    throw new Exception("Could not change quality level");
+                }
+                else
+                {
+                    lastValue = newValue;
+                }
             }
         }
 
@@ -96,7 +108,7 @@ namespace Juniper.Unity.Widgets
             }
         }
 
-        public Button[] qualityButtons;
+        public Slider qualitySlider;
 
 #if UNITY_POSTPROCESSING
         /// <summary>
@@ -120,21 +132,18 @@ namespace Juniper.Unity.Widgets
             prost = GetComponent<PostProcessLayer>();
 #endif
 
-            if (qualityButtons != null)
+            if (qualitySlider != null)
             {
-                for (var i = 0; i < qualityButtons.Length; ++i)
-                {
-                    qualityButtons[i].onClick.AddListener(QualityChanger(i));
-                }
+                qualitySlider.onValueChanged.AddListener(QualityValueChange);
             }
 
             QualityLevel = PlayerPrefs.GetInt(GRAPHICS_QUALITY_KEY, QualityLevel);
-            UpdateButtons();
+            UpdateSlider(QualityLevel);
         }
 
-        private UnityAction QualityChanger(int i)
+        private void QualityValueChange(float i)
         {
-            return () => QualityLevel = i;
+            QualityLevel = (int)i;
         }
 
         /// <summary>
@@ -154,15 +163,11 @@ namespace Juniper.Unity.Widgets
             }
         }
 
-        private void UpdateButtons()
+        private void UpdateSlider(int value)
         {
-            if (qualityButtons != null)
+            if (qualitySlider != null && !Mathf.Approximately(qualitySlider.value, value))
             {
-                var cur = QualityLevel;
-                for (var i = 0; i < qualityButtons.Length; ++i)
-                {
-                    qualityButtons[i].interactable = i != cur;
-                }
+                qualitySlider.value = value;
             }
         }
     }
