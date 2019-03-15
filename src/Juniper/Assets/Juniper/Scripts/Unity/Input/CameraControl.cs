@@ -1,11 +1,11 @@
+using Juniper.Unity.Input.Pointers;
+
 using System;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
-
-#if !MAGIC_WINDOW && !UNITY_XR_MAGICLEAP
-#endif
 
 namespace Juniper.Unity.Input
 {
@@ -82,11 +82,15 @@ namespace Juniper.Unity.Input
         /// </summary>
         public float maximumY = 85F;
 
+        private Quaternion lastGyro = Quaternion.identity;
+
         private StageExtensions stage;
 
         private readonly Dictionary<Mode, bool> dragged = new Dictionary<Mode, bool>();
         private readonly Dictionary<Mode, bool> wasGestureSatisfied = new Dictionary<Mode, bool>();
         private readonly Dictionary<Mode, float> dragDistance = new Dictionary<Mode, float>();
+
+        private UnifiedInputModule input;
 
         public void Awake()
         {
@@ -100,6 +104,8 @@ namespace Juniper.Unity.Input
 
         public void Start()
         {
+            input = ComponentExt.FindAny<UnifiedInputModule>();
+
             if (setMouseLock)
             {
                 Cursor.lockState = CursorLockMode.Locked;
@@ -182,87 +188,6 @@ namespace Juniper.Unity.Input
             }
         }
 
-        private bool DragRequired(Mode mode)
-        {
-            return mode == Mode.Touch
-                || (mode == Mode.Mouse && requiredMouseButton != MouseButton.None);
-        }
-
-        private bool DragSatisfied(Mode mode)
-        {
-            if (!DragRequired(mode))
-            {
-                return true;
-            }
-            else
-            {
-                var move = PointerMovement(mode);
-                if (DragRequired(mode) && !dragged.Get(mode, false))
-                {
-                    dragDistance[mode] = dragDistance.Get(mode, 0) + (move.magnitude / Screen.dpi);
-                    dragged[mode] = Units.Inches.Millimeters(dragDistance[mode]) > dragThreshold;
-                }
-                return dragged[mode];
-            }
-        }
-
-        public void Update()
-        {
-            if (setMouseLock)
-            {
-                if (UnityInput.mousePresent && UnityInput.GetMouseButtonDown(0))
-                {
-                    Cursor.lockState = CursorLockMode.Locked;
-                }
-#if UNITY_2018_1_OR_NEWER
-                else if (UnityInput.GetKeyDown(KeyCode.Escape))
-                {
-                    Cursor.lockState = CursorLockMode.None;
-                }
-#endif
-
-                Cursor.visible = Cursor.lockState == CursorLockMode.None
-                    || Cursor.lockState == CursorLockMode.Confined;
-            }
-            else if (Cursor.lockState != CursorLockMode.None)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-
-            CheckMode(mode, disableVertical);
-            if (mode == Mode.MagicWindow)
-            {
-                CheckMode(Mode.Touch, true);
-            }
-        }
-
-        private void CheckMode(Mode mode, bool disableVertical)
-        {
-            ScreenDebugger.Print($"Checking mode {mode}");
-            var gest = GestureSatisfied(mode);
-            var wasGest = wasGestureSatisfied[mode];
-            if (gest)
-            {
-                if (!wasGest)
-                {
-                    dragged[mode] = false;
-                    dragDistance[mode] = 0;
-                }
-
-                if (DragSatisfied(mode))
-                {
-                    var delta = OrientationDelta(mode, disableVertical);
-                    ScreenDebugger.Print($"{delta.Label()}");
-                    stage.RotateView(delta, minimumY, maximumY);
-                }
-            }
-
-            wasGestureSatisfied[mode] = gest;
-        }
-
-        private Quaternion lastGyro = Quaternion.identity;
-
         private Quaternion OrientationDelta(Mode mode, bool disableVertical)
         {
             if (mode == Mode.MagicWindow)
@@ -299,6 +224,104 @@ namespace Juniper.Unity.Input
 
                 return Quaternion.Euler(move);
             }
+        }
+
+        private bool DragRequired(Mode mode)
+        {
+            return mode == Mode.Touch
+                || (mode == Mode.Mouse
+                    && requiredMouseButton != MouseButton.None);
+        }
+
+        private bool DragSatisfied(Mode mode)
+        {
+            if (!DragRequired(mode))
+            {
+                return true;
+            }
+            else
+            {
+                var move = PointerMovement(mode);
+                if (DragRequired(mode) && !dragged.Get(mode, false))
+                {
+                    dragDistance[mode] = dragDistance.Get(mode, 0) + (move.magnitude / Screen.dpi);
+                    dragged[mode] = Units.Inches.Millimeters(dragDistance[mode]) > dragThreshold;
+                }
+                return dragged[mode];
+            }
+        }
+
+        private void CheckMouseLock()
+        {
+            if (setMouseLock)
+            {
+                if (UnityInput.mousePresent && UnityInput.GetMouseButtonDown(0))
+                {
+                    Cursor.lockState = CursorLockMode.Locked;
+                }
+#if UNITY_2018_1_OR_NEWER
+                else if (UnityInput.GetKeyDown(KeyCode.Escape))
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                }
+#endif
+
+                Cursor.visible = Cursor.lockState == CursorLockMode.None
+                    || Cursor.lockState == CursorLockMode.Confined;
+            }
+            else if (Cursor.lockState != CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+        }
+
+        public void Update()
+        {
+            CheckMouseLock();
+            if (!input.AnyPointerDragging)
+            {
+                CheckMode(mode, disableVertical);
+                if (mode == Mode.MagicWindow)
+                {
+                    CheckMode(Mode.Touch, true);
+                }
+                else if (mode == Mode.Gamepad)
+                {
+                    if (Application.isMobilePlatform)
+                    {
+                        CheckMode(Mode.Touch, disableVertical);
+                    }
+                    else
+                    {
+                        CheckMode(Mode.Mouse, disableVertical);
+                    }
+                }
+            }
+        }
+
+        private void CheckMode(Mode mode, bool disableVertical)
+        {
+            ScreenDebugger.Print($"Checking mode {mode}");
+            var gest = GestureSatisfied(mode);
+            var wasGest = wasGestureSatisfied[mode];
+            if (gest)
+            {
+                if (!wasGest)
+                {
+                    dragged[mode] = false;
+                    dragDistance[mode] = 0;
+                }
+
+                if (DragSatisfied(mode))
+                {
+                    var delta = OrientationDelta(mode, disableVertical);
+                    ScreenDebugger.Print($"{delta.Label()}");
+                    stage.RotateView(delta, minimumY, maximumY);
+                }
+            }
+
+            wasGestureSatisfied[mode] = gest;
         }
     }
 }
