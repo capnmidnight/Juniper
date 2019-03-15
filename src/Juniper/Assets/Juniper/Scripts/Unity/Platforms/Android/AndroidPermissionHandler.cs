@@ -16,14 +16,8 @@ namespace Juniper.Unity
                 Permission.Microphone
             })
             {
-                print($"Checking permission {permission}");
-                if (Permission.HasUserAuthorizedPermission(permission))
+                if (!Permission.HasUserAuthorizedPermission(permission))
                 {
-                    print($"Already had permission {permission}");
-                }
-                else
-                {
-                    print($"Requesting permission {permission}");
                     Permission.RequestUserPermission(permission);
 
                     if (Permission.HasUserAuthorizedPermission(permission))
