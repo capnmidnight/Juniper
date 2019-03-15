@@ -1,5 +1,5 @@
 using Juniper.Unity.Haptics;
-
+using System.Linq;
 using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
@@ -38,8 +38,15 @@ namespace Juniper.Unity.Input.Pointers.Screen
             }
         }
 
+        public bool ActiveThisFrame
+        {
+            get
+            {
+                return false;
+            }
+        }
+
 #else
-        private bool mouseActive;
 
         private Vector2 MoveDelta
         {
@@ -49,12 +56,20 @@ namespace Juniper.Unity.Input.Pointers.Screen
             }
         }
 
+        private bool mouseActive;
         public override bool IsConnected
         {
             get
             {
-                return UnityInput.mousePresent && (mouseActive = mouseActive
-                    || IsButtonPressed(KeyCode.Mouse0)
+                return UnityInput.mousePresent && (mouseActive = mouseActive || ActiveThisFrame);
+            }
+        }
+
+        public bool ActiveThisFrame
+        {
+            get
+            {
+                return IsButtonPressed(KeyCode.Mouse0)
                     || IsButtonPressed(KeyCode.Mouse1)
                     || IsButtonPressed(KeyCode.Mouse2)
                     || IsButtonPressed(KeyCode.Mouse3)
@@ -62,7 +77,7 @@ namespace Juniper.Unity.Input.Pointers.Screen
                     || IsButtonPressed(KeyCode.Mouse5)
                     || IsButtonPressed(KeyCode.Mouse6)
                     || ScrollDelta.magnitude > 0
-                    || MoveDelta.magnitude > 0);
+                    || MoveDelta.magnitude > 0;
             }
         }
 #endif
