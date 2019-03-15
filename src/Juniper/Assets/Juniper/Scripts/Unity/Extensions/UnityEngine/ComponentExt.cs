@@ -293,7 +293,15 @@ namespace UnityEngine
         /// <returns></returns>
         public static T EditorLoadAsset<T>(string path) where T : Object
         {
-            return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(System.IO.PathExt.FixPath(path));
+            var fixedPath = System.IO.PathExt.FixPath(path);
+            if (System.IO.File.Exists(fixedPath))
+            {
+                return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(fixedPath);
+            }
+            else
+            {
+                return UnityEditor.AssetDatabase.GetBuiltinExtraResource<T>(path);
+            }
         }
 #endif
     }
