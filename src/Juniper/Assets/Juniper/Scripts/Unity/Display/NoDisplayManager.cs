@@ -1,7 +1,7 @@
 using Juniper.Unity.Input;
 
 using System.Linq;
-
+using UnityEngine;
 using UnityInput = UnityEngine.Input;
 
 namespace Juniper.Unity.Display
@@ -21,32 +21,23 @@ namespace Juniper.Unity.Display
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
                 var joystick = UnityInput.GetJoystickNames().FirstOrDefault();
-                
-#if UNITY_STANDALONE || UNITY_WSA
-                if (!string.IsNullOrEmpty(joystick))
+
+                if (Application.isMobilePlatform)
                 {
-                    cameraCtrl.mode = CameraControl.Mode.Gamepad;
+                    cameraCtrl.mode = CameraControl.Mode.Touch;
                 }
                 else if (UnityInput.mousePresent)
                 {
                     cameraCtrl.mode = CameraControl.Mode.Mouse;
                 }
-                else
-#endif
-                if (UnityInput.touchSupported)
-                {
-                    cameraCtrl.mode = CameraControl.Mode.Touch;
-                }
-#if !(UNITY_STANDALONE || UNITY_WSA)
                 else if (!string.IsNullOrEmpty(joystick))
                 {
                     cameraCtrl.mode = CameraControl.Mode.Gamepad;
                 }
-                else if (UnityInput.mousePresent)
+                else
                 {
-                    cameraCtrl.mode = CameraControl.Mode.Mouse;
+                    cameraCtrl.mode = CameraControl.Mode.None;
                 }
-#endif
             }
             else if (cameraCtrl.mode == CameraControl.Mode.MagicWindow)
             {
