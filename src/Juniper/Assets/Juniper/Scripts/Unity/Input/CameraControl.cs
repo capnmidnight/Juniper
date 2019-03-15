@@ -253,7 +253,7 @@ namespace Juniper.Unity.Input
 
         private void CheckMouseLock()
         {
-            if (setMouseLock)
+            if (mode == Mode.Mouse && setMouseLock)
             {
                 if (UnityInput.mousePresent && UnityInput.GetMouseButtonDown(0))
                 {
@@ -279,7 +279,7 @@ namespace Juniper.Unity.Input
         public void Update()
         {
             CheckMouseLock();
-            if (!input.AnyPointerDragging)
+            if (!input.AnyPointerDragging || Cursor.lockState == CursorLockMode.Locked)
             {
                 CheckMode(mode, disableVertical);
                 if (mode == Mode.MagicWindow)
