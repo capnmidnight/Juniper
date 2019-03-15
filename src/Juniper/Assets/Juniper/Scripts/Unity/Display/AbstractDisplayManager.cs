@@ -408,19 +408,7 @@ namespace Juniper.Unity.Display
                 if (Screen.width < Screen.height)
                 {
                     var tan = Mathf.Tan(Units.Degrees.Radians(DEFAULT_FOV / 2));
-                    var max = Mathf.Max(Screen.width, Screen.height);
-                    var min = Mathf.Min(Screen.width, Screen.height);
-
-                    float aspect;
-                    if (Screen.height < Screen.width)
-                    {
-                        aspect = min / max;
-                    }
-                    else
-                    {
-                        aspect = max / min;
-                    }
-
+                    var aspect = (float)Screen.height / Screen.width;
                     return 2 * Units.Radians.Degrees(Mathf.Atan(tan * aspect));
                 }
                 else
