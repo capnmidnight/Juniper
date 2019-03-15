@@ -68,7 +68,6 @@ namespace Juniper.Unity.Animation
         {
             return parent.EnsureTransform("Fader", () =>
                 GameObject.CreatePrimitive(PrimitiveType.Quad))
-                    .Value
                     .EnsureComponent<FadeTransition>(
 #if UNITY_MODULES_PHYSICS
                     (fader) => fader.RemoveComponent<Collider>()

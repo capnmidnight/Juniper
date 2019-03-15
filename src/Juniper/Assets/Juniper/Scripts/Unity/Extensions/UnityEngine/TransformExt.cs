@@ -27,11 +27,6 @@ namespace UnityEngine
             t.Reset(resetScale);
         }
 
-        public static void Reparent(this PooledComponent<Transform> t, Transform parent, bool resetScale = true)
-        {
-            t.Value.Reparent(parent, resetScale);
-        }
-
         /// <summary>
         /// Resets the transform's localPosition, localRotation, and localScale to the origin state.
         /// </summary>
@@ -50,11 +45,6 @@ namespace UnityEngine
             }
         }
 
-        public static void Reset(this PooledComponent<Transform> t, bool resetScale = true)
-        {
-            t.Value.Reset(resetScale);
-        }
-
         /// <summary>
         /// Enumerate through all of the transform's children.
         /// </summary>
@@ -67,12 +57,6 @@ namespace UnityEngine
             {
                 yield return parent.GetChild(i).GetComponent<T>();
             }
-        }
-
-        public static IEnumerable<T> Children<T>(this PooledComponent<T> parent)
-            where T : Transform
-        {
-            return parent.Value.Children();
         }
 
         /// <summary>
@@ -90,12 +74,6 @@ namespace UnityEngine
             }
         }
 
-        public static IEnumerable<T> Family<T>(this PooledComponent<T> parent)
-            where T : Transform
-        {
-            return parent.Value.Family();
-        }
-
         /// <summary>
         /// Remove all child transforms from a transform.
         /// </summary>
@@ -107,12 +85,6 @@ namespace UnityEngine
             {
                 parent.GetChild(i).gameObject.Destroy();
             }
-            return parent;
-        }
-
-        public static PooledComponent<Transform> ClearChildren(this PooledComponent<Transform> parent, int startIndex = 0)
-        {
-            parent.Value.ClearChildren(startIndex);
             return parent;
         }
 
@@ -195,11 +167,6 @@ namespace UnityEngine
             }
         }
 
-        public static T Query<T>(this PooledComponent<Transform> parent, string path)
-        {
-            return parent.Value.Query<T>(path);
-        }
-
         /// <summary>
         /// Search through a series of Transforms and child transforms, defined as a set of
         /// forward-slash delimited names. Use ".." to select the parent transform.
@@ -211,11 +178,6 @@ namespace UnityEngine
         public static Transform Query(this Transform parent, string path)
         {
             return parent.Query<Transform>(path);
-        }
-
-        public static Transform Query(this PooledComponent<Transform> parent, string path)
-        {
-            return parent.Value.Query<Transform>(path);
         }
 
         /// <summary>
@@ -252,11 +214,6 @@ namespace UnityEngine
             return child;
         }
 
-        public static Transform Search(this PooledComponent<Transform> parent, string name)
-        {
-            return parent.Value.Search(name);
-        }
-
         /// <summary>
         /// Get a component from a transform, creating it if it doesn't exist.
         /// </summary>
@@ -269,25 +226,13 @@ namespace UnityEngine
             return obj.gameObject.EnsureComponent<T>();
         }
 
-        public static PooledComponent<T> EnsureComponent<T>(this PooledComponent<Transform> obj)
-            where T : Component
-        {
-            return obj.Value.gameObject.EnsureComponent<T>();
-        }
-
         public static T SetScale<T>(this T t, Vector3 s)
-            where T : Transform
+            where T : Component
         {
             if (t != null)
             {
-                t.localScale = s;
+                t.transform.localScale = s;
             }
-            return t;
-        }
-
-        public static PooledComponent<Transform> SetScale(this PooledComponent<Transform> t, Vector3 s)
-        {
-            t.Value.SetScale(s);
             return t;
         }
     }

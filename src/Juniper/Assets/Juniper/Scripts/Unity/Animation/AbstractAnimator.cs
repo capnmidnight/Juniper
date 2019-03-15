@@ -30,14 +30,14 @@ namespace Juniper.Unity.Animation
                 var anim = parent.GetComponent<Animator>();
                 if (anim != null && UnityAnimator.AnimatorHasState(anim, defaultState))
                 {
-                    animator = parent.EnsureComponent<UnityAnimator>().Value;
+                    animator = parent.EnsureComponent<UnityAnimator>();
                 }
                 else
 #endif
                 if (parent.transform.childCount > 0 && parent.transform.Find(defaultState))
                 {
-                    var swapper = parent.EnsureComponent<ChildSwapAnimator>().Value;
-                    swapper.stateNames = parts;
+                    var swapper = parent.EnsureComponent<ChildSwapAnimator>();
+                    swapper.Value.stateNames = parts;
                     animator = swapper;
                 }
             }

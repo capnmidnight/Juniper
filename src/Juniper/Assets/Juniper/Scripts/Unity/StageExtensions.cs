@@ -239,7 +239,7 @@ namespace Juniper.Unity
                     PrimitiveType.Sphere,
                     new Vector3(0.384284f, 0.3163f, 0.3831071f)));
 
-            headShadow.Value.EnsureTransform("Goggles", () =>
+            headShadow.EnsureTransform("Goggles", () =>
                 MakeShadowCaster(
                     PrimitiveType.Cube,
                     new Vector3(0.85f, 0.5f, 0.5f),
@@ -268,8 +268,8 @@ namespace Juniper.Unity
             });
 
             BodyPhysics.useGravity = false;
-            var grounder = BodyPhysics.EnsureComponent<Grounded>().Value;
-            grounder.WhenGrounded(() =>
+            var grounder = BodyPhysics.EnsureComponent<Grounded>();
+            grounder.Value.WhenGrounded(() =>
             {
                 BodyPhysics.useGravity = useGravity;
                 grounder.Destroy();
@@ -308,8 +308,8 @@ namespace Juniper.Unity
         public T MakePointer<T>(Transform parent, string path)
             where T : Component, IPointerDevice
         {
-            var trans = parent.EnsureTransform(path).Value;
-            return trans.EnsureComponent<T>().Value;
+            return parent.EnsureTransform(path)
+                .EnsureComponent<T>();
         }
 
         public void RotateView(Quaternion dQuat, float minX, float maxX)

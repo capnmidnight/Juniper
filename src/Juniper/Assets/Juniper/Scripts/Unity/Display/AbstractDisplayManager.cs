@@ -171,7 +171,7 @@ namespace Juniper.Unity.Display
             cameraCtrl = this.EnsureComponent<CameraControl>();
 
 #if UNITY_MODULES_AUDIO
-            listener = this.EnsureComponent<AudioListener>().Value;
+            listener = this.EnsureComponent<AudioListener>();
 
 #if RESONANCE
             goog = listener.EnsureComponent<ResonanceAudioListener>().Value;

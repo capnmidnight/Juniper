@@ -22,71 +22,62 @@ namespace UnityEngine
             contentPanel.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, -lastChild.anchoredPosition.y);
         }
 
-        public static RectTransform SetRectangle(this Component parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax, float width, float height, Vector2 pivot)
+        public static T SetAnchors<T>(this T parent, Vector2 anchorMin, Vector2 anchorMax)
+            where T : Component
         {
             var rect = parent.GetComponent<RectTransform>();
-            rect.localPosition = position;
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
-            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
-            rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+            return parent;
+        }
+
+        public static T SetPivot<T>(this T parent, Vector2 pivot)
+            where T : Component
+        {
+            var rect = parent.GetComponent<RectTransform>();
             rect.pivot = pivot;
-            return rect;
+            return parent;
         }
 
-        public static RectTransform SetRectangle<T>(this PooledComponent<T> parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax, float width, float height, Vector2 pivot)
+        public static T SetPosition<T>(this T parent, Vector3 position)
             where T : Component
         {
-            return parent.Value.SetRectangle(position, anchorMin, anchorMax, width, height, pivot);
+            var rect = parent.GetComponent<RectTransform>();
+            rect.anchoredPosition = position;
+            return parent;
         }
 
-        public static RectTransform SetRectangle(this Component parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax, float width, float height)
+        public static T SetWidth<T>(this T parent, float width)
+            where T : Component
         {
             var rect = parent.GetComponent<RectTransform>();
-            rect.localPosition = position;
-            rect.anchorMin = anchorMin;
-            rect.anchorMax = anchorMax;
             rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+            return parent;
+        }
+
+        public static T SetHeight<T>(this T parent, float height)
+            where T : Component
+        {
+            var rect = parent.GetComponent<RectTransform>();
             rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
-            return rect;
+            return parent;
         }
 
-        public static RectTransform SetRectangle<T>(this PooledComponent<T> parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax, float width, float height)
+        public static T SetSize<T>(this T parent, float width, float height)
             where T : Component
         {
-            return parent.Value.SetRectangle(position, anchorMin, anchorMax, width, height);
+            return parent.SetWidth(width)
+                .SetHeight(height);
         }
 
-        public static RectTransform SetRectangle(this Component parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax, Vector3 pivot)
+        public static T SetSize<T>(this T parent, Vector2 sizeDelta)
+            where T : Component
         {
             var rect = parent.GetComponent<RectTransform>();
-            rect.localPosition = position;
-            rect.anchorMin = anchorMin;
-            rect.anchorMax = anchorMax;
-            rect.pivot = pivot;
-            return rect;
+            rect.sizeDelta = sizeDelta;
+            return parent;
         }
 
-        public static RectTransform SetRectangle<T>(this PooledComponent<T> parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax, Vector2 pivot)
-            where T : Component
-        {
-            return parent.Value.SetRectangle(position, anchorMin, anchorMax, pivot);
-        }
-
-        public static RectTransform SetRectangle(this Component parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax)
-        {
-            var rect = parent.GetComponent<RectTransform>();
-            rect.localPosition = position;
-            rect.anchorMin = anchorMin;
-            rect.anchorMax = anchorMax;
-            return rect;
-        }
-
-        public static RectTransform SetRectangle<T>(this PooledComponent<T> parent, Vector3 position, Vector2 anchorMin, Vector2 anchorMax)
-            where T : Component
-        {
-            return parent.Value.SetRectangle(position, anchorMin, anchorMax);
-        }
 
         /// <summary>
         /// Search through a series of Transforms and child transforms, defined as a set of
@@ -168,7 +159,8 @@ namespace UnityEngine
             }
         }
 
-        public static RectTransform Query(this RectTransform parent, string path)
+        public static RectTransform RectQuery<T>(this T parent, string path)
+            where T : Component
         {
             return parent.Query<RectTransform>(path);
         }
@@ -181,14 +173,14 @@ namespace UnityEngine
                 creationPath = path;
             }
 
-            var rect = obj.EnsureComponent<RectTransform>().Value;
-            var trans = rect.Query(path);
+            var rect = obj.EnsureComponent<RectTransform>();
+            var trans = rect.RectQuery(path);
             var isNew = trans == null;
             if (isNew)
             {
                 var parts = creationPath.Split('/');
                 var name = parts.LastOrDefault();
-                trans = new GameObject(name).EnsureComponent<RectTransform>().Value;
+                trans = new GameObject(name).EnsureComponent<RectTransform>();
                 RectTransform parent;
                 if (parts.Length == 1)
                 {
@@ -210,23 +202,6 @@ namespace UnityEngine
             }
 
             return new PooledComponent<RectTransform>(trans, isNew);
-        }
-
-        public static PooledComponent<RectTransform> EnsureRectTransform(this PooledComponent<RectTransform> obj, string path, string creationPath = null)
-        {
-            return obj.Value.EnsureRectTransform(path, creationPath);
-        }
-
-        public static PooledComponent<T> EnsureComponent<T>(this RectTransform parent)
-            where T : Component
-        {
-            return parent.gameObject.EnsureComponent<T>();
-        }
-
-        public static PooledComponent<T> EnsureComponent<T>(this PooledComponent<RectTransform> parent)
-            where T : Component
-        {
-            return parent.Value.EnsureComponent<T>();
         }
 
         /// <summary>

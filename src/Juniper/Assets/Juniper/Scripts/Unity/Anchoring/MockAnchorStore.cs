@@ -24,9 +24,9 @@ namespace Juniper.Unity.Anchoring
         /// <returns></returns>
         protected override MockWorldAnchor LoadAnchor(string ID)
         {
-            var anchor = gameObject.EnsureComponent<MockWorldAnchor>().Value;
+            var anchor = gameObject.EnsureComponent<MockWorldAnchor>();
             var arr = LoadValue<float[]>(ID);
-            anchor.state = new Pose(
+            anchor.Value.state = new Pose(
                 new Vector3(arr[0], arr[1], arr[2]),
                 new Quaternion(arr[4], arr[5], arr[6], arr[7]));
             return anchor;
@@ -41,8 +41,8 @@ namespace Juniper.Unity.Anchoring
         protected override MockWorldAnchor CreateAnchor(string ID, GameObject gameObject)
         {
             var t = gameObject.transform;
-            var anchor = gameObject.EnsureComponent<MockWorldAnchor>().Value;
-            anchor.state = new Pose
+            var anchor = gameObject.EnsureComponent<MockWorldAnchor>();
+            anchor.Value.state = new Pose
             {
                 position = t.position,
                 rotation = t.rotation
