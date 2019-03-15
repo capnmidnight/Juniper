@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 4931753678238096}
   - component: {fileID: 114020312503448820}
   m_Layer: 2
-  m_Name: DiskProbe
+  m_Name: DiskProbe2018.1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
