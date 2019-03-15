@@ -20,15 +20,18 @@ namespace Juniper.Unity.Display
         {
             get
             {
-                if (cam != null)
+                if (cam == null)
                 {
-                    return cam;
+                    cam = ComponentExt.FindAny<Camera>(camera => camera.tag == "MainCamera");
+                    if (cam == null)
+                    {
+                        cam = new GameObject().AddComponent<Camera>();
+                        cam.name = "Head (Camera)";
+                        cam.tag = "MainCamera";
+                    }
                 }
-                else
-                {
-                    return cam = ComponentExt.FindAny<Camera>(camera => camera.tag == "MainCamera")
-                        ?? new GameObject().AddComponent<Camera>();
-                }
+
+                return cam;
             }
         }
 
