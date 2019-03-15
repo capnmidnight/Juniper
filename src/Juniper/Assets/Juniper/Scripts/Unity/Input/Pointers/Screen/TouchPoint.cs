@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
+using System;
 
 #if ANDROID_API_26_OR_GREATER
 using HapticsType = Juniper.Unity.Haptics.AndroidAPI26Haptics;
@@ -18,18 +19,18 @@ using HapticsType = Juniper.Unity.Haptics.DefaultHaptics;
 
 namespace Juniper.Unity.Input.Pointers.Screen
 {
-    public class TouchPointConfiguration : AbstractPointerConfiguration<KeyCode>
+    public class TouchPointConfiguration : AbstractPointerConfiguration<Unary>
     {
         public TouchPointConfiguration()
         {
-            AddButton(KeyCode.Mouse0, UnityEngine.EventSystems.PointerEventData.InputButton.Left);
+            AddButton(Unary.None, UnityEngine.EventSystems.PointerEventData.InputButton.Left);
         }
     }
 
     /// <summary>
     /// Perform pointer events on touch screens.
     /// </summary>
-    public class TouchPoint : AbstractScreenDevice<KeyCode, HapticsType, TouchPointConfiguration>
+    public class TouchPoint : AbstractScreenDevice<Unary, HapticsType, TouchPointConfiguration>
     {
         [ContextMenu("Reinstall")]
         public override void Reinstall()
@@ -40,7 +41,7 @@ namespace Juniper.Unity.Input.Pointers.Screen
         /// <summary>
         /// The state of the finger that this object is tracking, this frame.
         /// </summary>
-        [Range(0, 9)]
+        [ReadOnly]
         public int fingerID;
 
         /// <summary>
@@ -50,6 +51,8 @@ namespace Juniper.Unity.Input.Pointers.Screen
         {
             get; private set;
         }
+
+        private static readonly Touch DEAD_FINGER = new Touch { phase = TouchPhase.Ended };
 
 #if UNITY_XR_MAGICLEAP
 
@@ -66,8 +69,30 @@ namespace Juniper.Unity.Input.Pointers.Screen
         /// Sometimes we lose the touch point but we don't receive a cancel or end event, so we need
         /// to include a timeout from the last update time as well.
         /// </summary>
-        public override bool IsConnected => (Pressed || wasPressed) && touchActive;
+        public override bool IsConnected
+        {
+            get
+            {
+                return ActiveThisFrame || wasPressed;
+            }
+        }
 #endif
+
+        public bool ActiveThisFrame
+        {
+            get;
+            private set;
+        }
+
+        private bool wasPressed;
+
+        private bool Pressed
+        {
+            get
+            {
+                return Finger.phase != TouchPhase.Ended && Finger.phase != TouchPhase.Canceled;
+            }
+        }
 
         public override void Awake()
         {
@@ -76,27 +101,19 @@ namespace Juniper.Unity.Input.Pointers.Screen
             showProbe = false;
         }
 
-        public void LateUpdate()
+        public override bool IsButtonPressed(Unary button)
         {
-            if (!touchActive)
-            {
-                touchActive = 0 <= fingerID && fingerID < UnityInput.touchCount;
-            }
+            return Pressed;
         }
 
-        public override bool IsButtonPressed(KeyCode button)
+        public override bool IsButtonUp(Unary button)
         {
-            return button == KeyCode.Mouse0 && Pressed;
+            return !Pressed && wasPressed;
         }
 
-        public override bool IsButtonUp(KeyCode button)
+        public override bool IsButtonDown(Unary button)
         {
-            return button == KeyCode.Mouse0 && !Pressed && wasPressed;
-        }
-
-        public override bool IsButtonDown(KeyCode button)
-        {
-            return button == KeyCode.Mouse0 && Pressed && !wasPressed;
+            return Pressed && !wasPressed;
         }
 
         /// <summary>
@@ -110,36 +127,21 @@ namespace Juniper.Unity.Input.Pointers.Screen
             }
         }
 
-        protected override void InternalUpdate()
+        public override void Update()
         {
             wasPressed = Pressed;
 
-            if (0 <= fingerID && fingerID < UnityInput.touchCount)
+            ActiveThisFrame = 0 <= fingerID && fingerID < UnityInput.touchCount;
+            if (ActiveThisFrame)
             {
                 Finger = UnityInput.GetTouch(fingerID);
             }
             else
             {
-                Finger = new Touch
-                {
-                    fingerId = fingerID,
-                    phase = TouchPhase.Ended
-                };
+                Finger = DEAD_FINGER;
             }
 
-            base.InternalUpdate();
-        }
-
-        private bool touchActive;
-
-        private bool wasPressed;
-
-        private bool Pressed
-        {
-            get
-            {
-                return Finger.phase != TouchPhase.Ended && Finger.phase != TouchPhase.Canceled;
-            }
+            base.Update();
         }
     }
 }
