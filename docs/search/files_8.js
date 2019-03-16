@@ -17,6 +17,7 @@ var searchData=
   ['interleavedenumerator_2ecs',['InterleavedEnumerator.cs',['../d2/dd3/_interleaved_enumerator_8cs.html',1,'']]],
   ['ios10haptics_2ecs',['iOS10Haptics.cs',['../d8/dac/i_o_s10_haptics_8cs.html',1,'']]],
   ['ios9haptics_2ecs',['iOS9Haptics.cs',['../d9/dec/i_o_s9_haptics_8cs.html',1,'']]],
+  ['iospermissionhandler_2ecs',['iOSPermissionHandler.cs',['../dd/db9/i_o_s_permission_handler_8cs.html',1,'']]],
   ['ipointerbuttons_2ecs',['IPointerButtons.cs',['../d4/dd5/_i_pointer_buttons_8cs.html',1,'']]],
   ['ipointerdevice_2ecs',['IPointerDevice.cs',['../d0/d20/_i_pointer_device_8cs.html',1,'']]],
   ['iprogress_2ecs',['IProgress.cs',['../d4/d3c/_i_progress_8cs.html',1,'']]],

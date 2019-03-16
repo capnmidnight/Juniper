@@ -84,6 +84,7 @@ $(function() {
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="../../d2/d33/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -91,7 +92,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>A store for points in space that the system will restore on second-run.  
+<p>A store for points in space that the system will restore on second-run. By default, <a class="el" href="../../d6/d76/namespace_juniper_1_1_unity.html">Unity</a>'s PlayerPrefs KV store is used.  
  <a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#details">More...</a></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Inheritance diagram for Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;:</div>
@@ -106,14 +107,14 @@ $(function() {
 <div id="dynsection-1-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/d8c/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store__coll__graph.svg" width="316" height="492"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/d8c/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store__coll__graph.svg" width="315" height="492"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ae12313bfc0f3417f8ac91de5816df2ab"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ae12313bfc0f3417f8ac91de5816df2ab">ResetData</a> ()</td></tr>
-<tr class="memdesc:ae12313bfc0f3417f8ac91de5816df2ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete saved anchors, if there are any.  <a href="#ae12313bfc0f3417f8ac91de5816df2ab">More...</a><br /></td></tr>
+<tr class="memdesc:ae12313bfc0f3417f8ac91de5816df2ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete all saved anchors, if there are any.  <a href="#ae12313bfc0f3417f8ac91de5816df2ab">More...</a><br /></td></tr>
 <tr class="separator:ae12313bfc0f3417f8ac91de5816df2ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf4f46be5db7765c8cb0bccb802de3ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#acf4f46be5db7765c8cb0bccb802de3ea">DropAnchor</a> (string ID, GameObject gameObject)</td></tr>
 <tr class="memdesc:acf4f46be5db7765c8cb0bccb802de3ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Anchors provide a means to restore the position of objects between sessions. In some AR systems, they also provide a means of prioritizing the stability of the location of specific objects. This method creates the native anchor type for any given subsystem, and save it to its native anchor store.  <a href="#acf4f46be5db7765c8cb0bccb802de3ea">More...</a><br /></td></tr>
@@ -122,63 +123,74 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac1874a46529ab8d73ef09ef340f58195"><td class="mdescLeft">&#160;</td><td class="mdescRight">Anchors provide a means to restore the position of objects between sessions. In some AR systems, they also provide a means of prioritizing the stability of the location of specific objects. This method removes the anchor from the gameObject and delete it out of their native anchor store.  <a href="#ac1874a46529ab8d73ef09ef340f58195">More...</a><br /></td></tr>
 <tr class="separator:ac1874a46529ab8d73ef09ef340f58195"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7502e81a46449c59ceb85f06a7c618ca"><td class="memItemLeft" align="right" valign="top">abstract bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a7502e81a46449c59ceb85f06a7c618ca">HasAnchor</a> (string anchorID)</td></tr>
-<tr class="memdesc:a7502e81a46449c59ceb85f06a7c618ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Anchors provide a means to restore the position of objects between sessions. In some AR systems, they also provide a means of prioritizing the stability of the location of specific objects. This method checks to see if a given anchor exists in the anchor data store. By default, <a class="el" href="../../d6/d76/namespace_juniper_1_1_unity.html">Unity</a>'s PlayerPrefs KV store is used.  <a href="#a7502e81a46449c59ceb85f06a7c618ca">More...</a><br /></td></tr>
+<tr class="memdesc:a7502e81a46449c59ceb85f06a7c618ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Anchors provide a means to restore the position of objects between sessions. In some AR systems, they also provide a means of prioritizing the stability of the location of specific objects. This method checks to see if a given anchor exists in the anchor data store.  <a href="#a7502e81a46449c59ceb85f06a7c618ca">More...</a><br /></td></tr>
 <tr class="separator:a7502e81a46449c59ceb85f06a7c618ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a5935c929ea2b20f1646b47604bbded7a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a5935c929ea2b20f1646b47604bbded7a">SaveAnchor</a> (string ID, GameObject gameObject)</td></tr>
-<tr class="separator:a5935c929ea2b20f1646b47604bbded7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd485b690f0471a1ef87679a5d45e17c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#acd485b690f0471a1ef87679a5d45e17c">IsGood</a> (<a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> anchor)</td></tr>
+<tr class="memitem:a5e79f6b85c145fcf11c5168c99e37fef"><td class="memItemLeft" align="right" valign="top">virtual AnchorType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a5e79f6b85c145fcf11c5168c99e37fef">SynchronizeAnchor</a> (string ID, GameObject gameObject)</td></tr>
+<tr class="memdesc:a5e79f6b85c145fcf11c5168c99e37fef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks to see if the anchor was already in the data store, then loads it along with the objects scale if it was, or creates it and saves the scale if it wasn't.  <a href="#a5e79f6b85c145fcf11c5168c99e37fef">More...</a><br /></td></tr>
+<tr class="separator:a5e79f6b85c145fcf11c5168c99e37fef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd485b690f0471a1ef87679a5d45e17c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#acd485b690f0471a1ef87679a5d45e17c">IsGood</a> (AnchorType anchor)</td></tr>
+<tr class="memdesc:acd485b690f0471a1ef87679a5d45e17c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks to see if an anchor is valid.  <a href="#acd485b690f0471a1ef87679a5d45e17c">More...</a><br /></td></tr>
 <tr class="separator:acd485b690f0471a1ef87679a5d45e17c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a023b0cc4ca7a5ef08c06cbe3238efdc7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a023b0cc4ca7a5ef08c06cbe3238efdc7">DeleteAnchor</a> (string ID, GameObject gameObject, <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> anchor)</td></tr>
+<tr class="memitem:a023b0cc4ca7a5ef08c06cbe3238efdc7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a023b0cc4ca7a5ef08c06cbe3238efdc7">DeleteAnchor</a> (string ID, GameObject gameObject, AnchorType anchor)</td></tr>
+<tr class="memdesc:a023b0cc4ca7a5ef08c06cbe3238efdc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes an anchor along with its scale from the data store.  <a href="#a023b0cc4ca7a5ef08c06cbe3238efdc7">More...</a><br /></td></tr>
 <tr class="separator:a023b0cc4ca7a5ef08c06cbe3238efdc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5fe82600faedac0bac53d539e2c5c27"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#af5fe82600faedac0bac53d539e2c5c27">FindAnchor</a> (GameObject gameObject)</td></tr>
+<tr class="memitem:af5fe82600faedac0bac53d539e2c5c27"><td class="memItemLeft" align="right" valign="top">virtual AnchorType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#af5fe82600faedac0bac53d539e2c5c27">FindAnchor</a> (GameObject gameObject)</td></tr>
+<tr class="memdesc:af5fe82600faedac0bac53d539e2c5c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds any anchor components on the given object  <a href="#af5fe82600faedac0bac53d539e2c5c27">More...</a><br /></td></tr>
 <tr class="separator:af5fe82600faedac0bac53d539e2c5c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaecdf3208801125023878b6f272e5b7f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#aaecdf3208801125023878b6f272e5b7f">IsSaved</a> (<a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> anchor)</td></tr>
+<tr class="memitem:aaecdf3208801125023878b6f272e5b7f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#aaecdf3208801125023878b6f272e5b7f">IsSaved</a> (AnchorType anchor)</td></tr>
+<tr class="memdesc:aaecdf3208801125023878b6f272e5b7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks to see if an anchor has been saved in the data store.  <a href="#aaecdf3208801125023878b6f272e5b7f">More...</a><br /></td></tr>
 <tr class="separator:aaecdf3208801125023878b6f272e5b7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae083e7bbc6129155fa85405c961017ec"><td class="memItemLeft" align="right" valign="top">abstract <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ae083e7bbc6129155fa85405c961017ec">CreateAnchor</a> (string ID, GameObject gameObject)</td></tr>
+<tr class="memitem:ae083e7bbc6129155fa85405c961017ec"><td class="memItemLeft" align="right" valign="top">abstract AnchorType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ae083e7bbc6129155fa85405c961017ec">CreateAnchor</a> (string ID, GameObject gameObject)</td></tr>
+<tr class="memdesc:ae083e7bbc6129155fa85405c961017ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new anchor.  <a href="#ae083e7bbc6129155fa85405c961017ec">More...</a><br /></td></tr>
 <tr class="separator:ae083e7bbc6129155fa85405c961017ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59ee32c316aead90b66f0059e29ac689"><td class="memItemLeft" align="right" valign="top">abstract <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a59ee32c316aead90b66f0059e29ac689">LoadAnchor</a> (string ID)</td></tr>
+<tr class="memitem:a59ee32c316aead90b66f0059e29ac689"><td class="memItemLeft" align="right" valign="top">abstract AnchorType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a59ee32c316aead90b66f0059e29ac689">LoadAnchor</a> (string ID)</td></tr>
+<tr class="memdesc:a59ee32c316aead90b66f0059e29ac689"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads an anchor out of a platform-specific anchor data store.  <a href="#a59ee32c316aead90b66f0059e29ac689">More...</a><br /></td></tr>
 <tr class="separator:a59ee32c316aead90b66f0059e29ac689"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
 <tr class="memitem:a0229b0662477fc288ee7d1389d6e1a4d"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">MakeID</a> (string name)</td></tr>
-<tr class="memdesc:a0229b0662477fc288ee7d1389d6e1a4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes an identifier for storing values in that are unique to <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run.">AbstractAnchorStore</a> so that <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run.">AbstractAnchorStore</a> can delete them later, when the user requests all anchors be deleted.  <a href="#a0229b0662477fc288ee7d1389d6e1a4d">More...</a><br /></td></tr>
+<tr class="memdesc:a0229b0662477fc288ee7d1389d6e1a4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes an identifier for storing values in that are unique to <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run. By default,...">AbstractAnchorStore</a> so that <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run. By default,...">AbstractAnchorStore</a> can delete them later, when the user requests all anchors be deleted.  <a href="#a0229b0662477fc288ee7d1389d6e1a4d">More...</a><br /></td></tr>
 <tr class="separator:a0229b0662477fc288ee7d1389d6e1a4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96485612c6fa81945a3565c34b59433c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a96485612c6fa81945a3565c34b59433c">HasValue</a> (string name)</td></tr>
+<tr class="memdesc:a96485612c6fa81945a3565c34b59433c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check to see if a given name exists in the data store.  <a href="#a96485612c6fa81945a3565c34b59433c">More...</a><br /></td></tr>
 <tr class="separator:a96485612c6fa81945a3565c34b59433c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c0a087e01d889336523689f8bb61067"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a2c0a087e01d889336523689f8bb61067">SaveValue</a> (string name, object value)</td></tr>
-<tr class="memdesc:a2c0a087e01d889336523689f8bb61067"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves a value to PlayerPrefs.  <a href="#a2c0a087e01d889336523689f8bb61067">More...</a><br /></td></tr>
+<tr class="memdesc:a2c0a087e01d889336523689f8bb61067"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves a value to the data store.  <a href="#a2c0a087e01d889336523689f8bb61067">More...</a><br /></td></tr>
 <tr class="separator:a2c0a087e01d889336523689f8bb61067"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad18252e3133243b67a2ffcfa2ff3b66"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#aad18252e3133243b67a2ffcfa2ff3b66">LoadValue&lt; T &gt;</a> (string name)</td></tr>
-<tr class="memdesc:aad18252e3133243b67a2ffcfa2ff3b66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a value back out of PlayerPrefs.  <a href="#aad18252e3133243b67a2ffcfa2ff3b66">More...</a><br /></td></tr>
+<tr class="memdesc:aad18252e3133243b67a2ffcfa2ff3b66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a value back out of data store.  <a href="#aad18252e3133243b67a2ffcfa2ff3b66">More...</a><br /></td></tr>
 <tr class="separator:aad18252e3133243b67a2ffcfa2ff3b66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ec57a26d83ab39bfdaeac5a4573a99b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">DeleteValue</a> (string name)</td></tr>
-<tr class="memdesc:a3ec57a26d83ab39bfdaeac5a4573a99b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a value from the PlayerPrefs.  <a href="#a3ec57a26d83ab39bfdaeac5a4573a99b">More...</a><br /></td></tr>
+<tr class="memdesc:a3ec57a26d83ab39bfdaeac5a4573a99b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a value from the data store.  <a href="#a3ec57a26d83ab39bfdaeac5a4573a99b">More...</a><br /></td></tr>
 <tr class="separator:a3ec57a26d83ab39bfdaeac5a4573a99b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
 <tr class="memitem:a1bb6481854f78653898316b9daae50ab"><td class="memItemLeft" align="right" valign="top">static string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a><code> [get, set]</code></td></tr>
-<tr class="memdesc:a1bb6481854f78653898316b9daae50ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of all keys for all objects stored in PlayerPrefs along with the anchor store.  <a href="#a1bb6481854f78653898316b9daae50ab">More...</a><br /></td></tr>
+<tr class="memdesc:a1bb6481854f78653898316b9daae50ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of all keys for all objects stored in the data store along with the anchor store.  <a href="#a1bb6481854f78653898316b9daae50ab">More...</a><br /></td></tr>
 <tr class="separator:a1bb6481854f78653898316b9daae50ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ad9bd01c55dd49e5a25c0ab76a38703c6"><td class="memItemLeft" align="right" valign="top">const string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ad9bd01c55dd49e5a25c0ab76a38703c6">KEY_LIST_KEY</a> = &quot;KEY_LIST&quot;</td></tr>
+<tr class="memdesc:ad9bd01c55dd49e5a25c0ab76a38703c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The place where the names of all of the saved values are stored.  <a href="#ad9bd01c55dd49e5a25c0ab76a38703c6">More...</a><br /></td></tr>
+<tr class="separator:ad9bd01c55dd49e5a25c0ab76a38703c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:aa9b37eea3c70d5029e5ef3473802c4a7"><td class="memItemLeft" align="right" valign="top">static readonly string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#aa9b37eea3c70d5029e5ef3473802c4a7">ID_PREFIX</a> = typeof(<a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">AbstractAnchorStore</a>&lt;<a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a>&gt;).FullName + &quot;::&quot;</td></tr>
-<tr class="memdesc:aa9b37eea3c70d5029e5ef3473802c4a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A prefix to add to names to make IDs unique to <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run.">AbstractAnchorStore</a>.  <a href="#aa9b37eea3c70d5029e5ef3473802c4a7">More...</a><br /></td></tr>
+<tr class="memitem:aa9b37eea3c70d5029e5ef3473802c4a7"><td class="memItemLeft" align="right" valign="top">static readonly string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#aa9b37eea3c70d5029e5ef3473802c4a7">ID_PREFIX</a> = typeof(<a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">AbstractAnchorStore</a>&lt;AnchorType&gt;).FullName + &quot;::&quot;</td></tr>
+<tr class="memdesc:aa9b37eea3c70d5029e5ef3473802c4a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">A prefix to add to names to make IDs unique to <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run. By default,...">AbstractAnchorStore</a>.  <a href="#aa9b37eea3c70d5029e5ef3473802c4a7">More...</a><br /></td></tr>
 <tr class="separator:aa9b37eea3c70d5029e5ef3473802c4a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60eae70d7d968886e21714a30ef6d640"><td class="memItemLeft" align="right" valign="top">static readonly string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a60eae70d7d968886e21714a30ef6d640">KEY_LIST_KEY</a> = <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">MakeID</a>(&quot;KEY_LIST&quot;)</td></tr>
-<tr class="memdesc:a60eae70d7d968886e21714a30ef6d640"><td class="mdescLeft">&#160;</td><td class="mdescRight">The place where the names of all of the saved values are stored.  <a href="#a60eae70d7d968886e21714a30ef6d640">More...</a><br /></td></tr>
-<tr class="separator:a60eae70d7d968886e21714a30ef6d640"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac896e4d7eb87168dab53b7c244e3379f"><td class="memItemLeft" align="right" valign="top">static readonly string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ac896e4d7eb87168dab53b7c244e3379f">EMPTY_STRING_ARRAY</a> = new string[0]</td></tr>
 <tr class="memdesc:ac896e4d7eb87168dab53b7c244e3379f"><td class="mdescLeft">&#160;</td><td class="mdescRight">An empty array for returning without creating the empty array all the time.  <a href="#ac896e4d7eb87168dab53b7c244e3379f">More...</a><br /></td></tr>
 <tr class="separator:ac896e4d7eb87168dab53b7c244e3379f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A store for points in space that the system will restore on second-run. </p>
+<div class="textblock"><p>A store for points in space that the system will restore on second-run. By default, <a class="el" href="../../d6/d76/namespace_juniper_1_1_unity.html">Unity</a>'s PlayerPrefs KV store is used. </p>
 <div class="typeconstraint">
 <dl><dt><b>Type Constraints</b></dt><dd>
 <table border="0" cellspacing="2" cellpadding="0">
@@ -200,7 +212,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">abstract <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.CreateAnchor </td>
+          <td class="memname">abstract AnchorType <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.CreateAnchor </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>ID</em>, </td>
@@ -224,9 +236,19 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../de/d3f/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_kit_anchor_store.html#ac9cb81f5aa6b79becbeec6043c7e4683">Juniper.Unity.Anchoring.ARKitAnchorStore</a>, and <a class="el" href="../../d9/d0e/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_anchor_store.html#abc25415b93f473482d60457d4a6333fb">Juniper.Unity.Anchoring.MockAnchorStore</a>.</p>
+<p>Creates a new anchor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ID</td><td>The name of the anchor to create.</td></tr>
+    <tr><td class="paramname">gameObject</td><td>The object to be anchored.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The new anchor.</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00181">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.SaveAnchor()</a>.</p>
+<p>Implemented in <a class="el" href="../../d9/d0e/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_anchor_store.html#a1eb3bb7bddd6f1a9a2c7a6c98ef3c9ce">Juniper.Unity.Anchoring.MockAnchorStore</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00197">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.SynchronizeAnchor()</a>.</p>
 
 </div>
 </div>
@@ -240,7 +262,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.DeleteAnchor </td>
+          <td class="memname">virtual void <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.DeleteAnchor </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>ID</em>, </td>
@@ -254,7 +276,7 @@ Static Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a>&#160;</td>
+          <td class="paramtype">AnchorType&#160;</td>
           <td class="paramname"><em>anchor</em>&#160;</td>
         </tr>
         <tr>
@@ -270,14 +292,20 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="../../de/d3f/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_kit_anchor_store.html#a9d52ead1ccdbdc99cffe8f8f4c471be8">Juniper.Unity.Anchoring.ARKitAnchorStore</a>, and <a class="el" href="../../d6/d3e/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_core_anchor_store.html#a8d3c8f49f51757400a236e3ff034302a">Juniper.Unity.Anchoring.ARCoreAnchorStore</a>.</p>
+<p>Removes an anchor along with its scale from the data store. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ID</td><td>The name of the anchor to remove</td></tr>
+    <tr><td class="paramname">gameObject</td><td>The object that was anchored</td></tr>
+    <tr><td class="paramname">anchor</td><td>The anchor to destory</td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00225">225</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        {</div><div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">DeleteValue</a>(ID);</div><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            anchor.Destroy();</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a3ec57a26d83ab39bfdaeac5a4573a99b"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">Juniper.Unity.Anchoring.AbstractAnchorStore.DeleteValue</a></div><div class="ttdeci">static bool DeleteValue(string name)</div><div class="ttdoc">Removes a value from the PlayerPrefs.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00125">AbstractAnchorStore.cs:125</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00257">257</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        {</div><div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">DeleteValue</a>(ID);</div><div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            anchor.Destroy();</div><div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a3ec57a26d83ab39bfdaeac5a4573a99b"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">Juniper.Unity.Anchoring.AbstractAnchorStore.DeleteValue</a></div><div class="ttdeci">static bool DeleteValue(string name)</div><div class="ttdoc">Removes a value from the data store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00097">AbstractAnchorStore.cs:97</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00125">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.DeleteValue()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00215">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.WeighAnchor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00241">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.WeighAnchor()</a>.</p>
 
 </div>
 </div>
@@ -291,7 +319,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.DeleteValue </td>
+          <td class="memname">static bool <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.DeleteValue </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -305,7 +333,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Removes a value from the PlayerPrefs. </p>
+<p>Removes a value from the data store. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td></td></tr>
@@ -314,13 +342,11 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00125">125</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        {</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            var key = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">MakeID</a>(name);</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">if</span> (PlayerPrefs.HasKey(key))</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            {</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                PlayerPrefs.DeleteKey(key);</div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a> = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a>.Where(k =&gt; k != name).ToArray();</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            }</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            {</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            }</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a1bb6481854f78653898316b9daae50ab"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">Juniper.Unity.Anchoring.AbstractAnchorStore.NameList</a></div><div class="ttdeci">static string [] NameList</div><div class="ttdoc">A list of all keys for all objects stored in PlayerPrefs along with the anchor store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00047">AbstractAnchorStore.cs:47</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00097">97</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        {</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            var key = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">MakeID</a>(name);</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">if</span> (PlayerPrefs.HasKey(key))</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            {</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                PlayerPrefs.DeleteKey(key);</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a> = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a>.Where(k =&gt; k != name).ToArray();</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                PlayerPrefs.Save();</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            }</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            {</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            }</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a1bb6481854f78653898316b9daae50ab"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">Juniper.Unity.Anchoring.AbstractAnchorStore.NameList</a></div><div class="ttdeci">static string [] NameList</div><div class="ttdoc">A list of all keys for all objects stored in the data store along with the anchor store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00122">AbstractAnchorStore.cs:122</a></div></div>
 <div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a0229b0662477fc288ee7d1389d6e1a4d"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">Juniper.Unity.Anchoring.AbstractAnchorStore.MakeID</a></div><div class="ttdeci">static string MakeID(string name)</div><div class="ttdoc">Makes an identifier for storing values in that are unique to AbstractAnchorStore so that AbstractAnch...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">AbstractAnchorStore.cs:28</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.MakeID()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00047">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.NameList</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00225">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.DeleteAnchor()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00143">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.ResetData()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00215">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.WeighAnchor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00257">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.DeleteAnchor()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00074">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.LoadValue&lt; T &gt;()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00152">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.ResetData()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00241">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.WeighAnchor()</a>.</p>
 
 </div>
 </div>
@@ -334,7 +360,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.DropAnchor </td>
+          <td class="memname">bool <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.DropAnchor </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>ID</em>, </td>
@@ -368,16 +394,12 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00165">165</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        {</div><div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <span class="keywordflow">if</span> (<span class="keywordtype">string</span>.IsNullOrEmpty(ID))</div><div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            {</div><div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;Parameter must have a value.&quot;</span>, nameof(ID));</div><div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            }</div><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            var anchor = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#af5fe82600faedac0bac53d539e2c5c27">FindAnchor</a>(gameObject);</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#aaecdf3208801125023878b6f272e5b7f">IsSaved</a>(anchor))</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            {</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                anchor = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a5935c929ea2b20f1646b47604bbded7a">SaveAnchor</a>(ID, gameObject);</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            }</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#acd485b690f0471a1ef87679a5d45e17c">IsGood</a>(anchor);</div><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_aaecdf3208801125023878b6f272e5b7f"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#aaecdf3208801125023878b6f272e5b7f">Juniper.Unity.Anchoring.AbstractAnchorStore.IsSaved</a></div><div class="ttdeci">virtual bool IsSaved(AnchorType anchor)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00236">AbstractAnchorStore.cs:236</a></div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_af5fe82600faedac0bac53d539e2c5c27"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#af5fe82600faedac0bac53d539e2c5c27">Juniper.Unity.Anchoring.AbstractAnchorStore.FindAnchor</a></div><div class="ttdeci">virtual AnchorType FindAnchor(GameObject gameObject)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00231">AbstractAnchorStore.cs:231</a></div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_acd485b690f0471a1ef87679a5d45e17c"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#acd485b690f0471a1ef87679a5d45e17c">Juniper.Unity.Anchoring.AbstractAnchorStore.IsGood</a></div><div class="ttdeci">virtual bool IsGood(AnchorType anchor)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00202">AbstractAnchorStore.cs:202</a></div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a5935c929ea2b20f1646b47604bbded7a"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a5935c929ea2b20f1646b47604bbded7a">Juniper.Unity.Anchoring.AbstractAnchorStore.SaveAnchor</a></div><div class="ttdeci">virtual AnchorType SaveAnchor(string ID, GameObject gameObject)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00181">AbstractAnchorStore.cs:181</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00174">174</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        {</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            <span class="keywordflow">if</span> (<span class="keywordtype">string</span>.IsNullOrEmpty(ID))</div><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            {</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentException(<span class="stringliteral">&quot;Parameter must have a value.&quot;</span>, nameof(ID));</div><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            }</div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div><div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            var anchor = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#af5fe82600faedac0bac53d539e2c5c27">FindAnchor</a>(gameObject);</div><div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#aaecdf3208801125023878b6f272e5b7f">IsSaved</a>(anchor))</div><div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            {</div><div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                anchor = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a5e79f6b85c145fcf11c5168c99e37fef">SynchronizeAnchor</a>(ID, gameObject);</div><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            }</div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#acd485b690f0471a1ef87679a5d45e17c">IsGood</a>(anchor);</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_aaecdf3208801125023878b6f272e5b7f"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#aaecdf3208801125023878b6f272e5b7f">Juniper.Unity.Anchoring.AbstractAnchorStore.IsSaved</a></div><div class="ttdeci">virtual bool IsSaved(AnchorType anchor)</div><div class="ttdoc">Checks to see if an anchor has been saved in the data store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00278">AbstractAnchorStore.cs:278</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_af5fe82600faedac0bac53d539e2c5c27"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#af5fe82600faedac0bac53d539e2c5c27">Juniper.Unity.Anchoring.AbstractAnchorStore.FindAnchor</a></div><div class="ttdeci">virtual AnchorType FindAnchor(GameObject gameObject)</div><div class="ttdoc">Finds any anchor components on the given object</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00268">AbstractAnchorStore.cs:268</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a5e79f6b85c145fcf11c5168c99e37fef"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a5e79f6b85c145fcf11c5168c99e37fef">Juniper.Unity.Anchoring.AbstractAnchorStore.SynchronizeAnchor</a></div><div class="ttdeci">virtual AnchorType SynchronizeAnchor(string ID, GameObject gameObject)</div><div class="ttdoc">Looks to see if the anchor was already in the data store, then loads it along with the objects scale ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00197">AbstractAnchorStore.cs:197</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_acd485b690f0471a1ef87679a5d45e17c"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#acd485b690f0471a1ef87679a5d45e17c">Juniper.Unity.Anchoring.AbstractAnchorStore.IsGood</a></div><div class="ttdeci">virtual bool IsGood(AnchorType anchor)</div><div class="ttdoc">Checks to see if an anchor is valid.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00228">AbstractAnchorStore.cs:228</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00231">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.FindAnchor()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00202">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.IsGood()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00236">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.IsSaved()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00181">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.SaveAnchor()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d4/d5a/_anchored_8cs_source.html#l00134">Juniper.Unity.Anchoring.Anchored.DropAnchor()</a>.</p>
-
 </div>
 </div>
 <a id="af5fe82600faedac0bac53d539e2c5c27"></a>
@@ -390,7 +412,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.FindAnchor </td>
+          <td class="memname">virtual AnchorType <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.FindAnchor </td>
           <td>(</td>
           <td class="paramtype">GameObject&#160;</td>
           <td class="paramname"><em>gameObject</em></td><td>)</td>
@@ -404,12 +426,18 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="../../de/d3f/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_kit_anchor_store.html#a25af282eb971849bf784250d659b61dd">Juniper.Unity.Anchoring.ARKitAnchorStore</a>.</p>
+<p>Finds any anchor components on the given object </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">gameObject</td><td>The object that might have an anchor on it</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00231">231</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        {</div><div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            <span class="keywordflow">return</span> gameObject?.GetComponent&lt;<a class="code" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a>&gt;();</div><div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        }</div><div class="ttc" id="_mock_anchor_store_8cs_html_a7861950c85ed9fb400811b8d9d407de8"><div class="ttname"><a href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a></div><div class="ttdeci">Juniper.Unity.Anchoring.MockWorldAnchor AnchorType</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d80/_mock_anchor_store_8cs_source.html#l00005">MockAnchorStore.cs:5</a></div></div>
-</div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00165">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.DropAnchor()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00215">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.WeighAnchor()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00268">268</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        {</div><div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;            <span class="keywordflow">return</span> gameObject?.GetComponent&lt;AnchorType&gt;();</div><div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00174">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.DropAnchor()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00241">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.WeighAnchor()</a>.</p>
 
 </div>
 </div>
@@ -423,7 +451,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">abstract bool <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.HasAnchor </td>
+          <td class="memname">abstract bool <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.HasAnchor </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>anchorID</em></td><td>)</td>
@@ -437,7 +465,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Anchors provide a means to restore the position of objects between sessions. In some AR systems, they also provide a means of prioritizing the stability of the location of specific objects. This method checks to see if a given anchor exists in the anchor data store. By default, <a class="el" href="../../d6/d76/namespace_juniper_1_1_unity.html">Unity</a>'s PlayerPrefs KV store is used. </p>
+<p>Anchors provide a means to restore the position of objects between sessions. In some AR systems, they also provide a means of prioritizing the stability of the location of specific objects. This method checks to see if a given anchor exists in the anchor data store. </p>
 <dl class="section return"><dt>Returns</dt><dd><code>true</code>, if anchor exists, <code>false</code> otherwise.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -446,9 +474,9 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="../../de/d3f/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_kit_anchor_store.html#a6578551ee0efca247e900767fac6d649">Juniper.Unity.Anchoring.ARKitAnchorStore</a>, <a class="el" href="../../d6/d3e/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_core_anchor_store.html#af9a3c4cad7b354081579a0c4d42f5851">Juniper.Unity.Anchoring.ARCoreAnchorStore</a>, and <a class="el" href="../../d9/d0e/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_anchor_store.html#aa4f3b47d2a38e5ae20409b26a863c49d">Juniper.Unity.Anchoring.MockAnchorStore</a>.</p>
+<p>Implemented in <a class="el" href="../../d9/d0e/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_anchor_store.html#a75fb3bc62041c1bc3f47c68ce2aca834">Juniper.Unity.Anchoring.MockAnchorStore</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00181">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.SaveAnchor()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00197">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.SynchronizeAnchor()</a>.</p>
 
 </div>
 </div>
@@ -462,7 +490,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static bool <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.HasValue </td>
+          <td class="memname">static bool <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.HasValue </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -476,12 +504,19 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00076">76</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        {</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">return</span> PlayerPrefs.HasKey(<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">MakeID</a>(name));</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a0229b0662477fc288ee7d1389d6e1a4d"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">Juniper.Unity.Anchoring.AbstractAnchorStore.MakeID</a></div><div class="ttdeci">static string MakeID(string name)</div><div class="ttdoc">Makes an identifier for storing values in that are unique to AbstractAnchorStore so that AbstractAnch...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">AbstractAnchorStore.cs:28</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.MakeID()</a>.</p>
+<p>Check to see if a given name exists in the data store. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00181">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.SaveAnchor()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00043">43</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">return</span> PlayerPrefs.HasKey(<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">MakeID</a>(name));</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a0229b0662477fc288ee7d1389d6e1a4d"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">Juniper.Unity.Anchoring.AbstractAnchorStore.MakeID</a></div><div class="ttdeci">static string MakeID(string name)</div><div class="ttdoc">Makes an identifier for storing values in that are unique to AbstractAnchorStore so that AbstractAnch...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">AbstractAnchorStore.cs:28</a></div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00197">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.SynchronizeAnchor()</a>.</p>
 
 </div>
 </div>
@@ -495,9 +530,9 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.IsGood </td>
+          <td class="memname">virtual bool <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.IsGood </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a>&#160;</td>
+          <td class="paramtype">AnchorType&#160;</td>
           <td class="paramname"><em>anchor</em></td><td>)</td>
           <td></td>
         </tr>
@@ -509,9 +544,18 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00202">202</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        {</div><div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            <span class="keywordflow">return</span> anchor != <span class="keyword">null</span>;</div><div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00165">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.DropAnchor()</a>.</p>
+<p>Checks to see if an anchor is valid. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">anchor</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00228">228</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        {</div><div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            <span class="keywordflow">return</span> anchor != <span class="keyword">null</span>;</div><div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00174">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.DropAnchor()</a>.</p>
 
 </div>
 </div>
@@ -525,9 +569,9 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.IsSaved </td>
+          <td class="memname">virtual bool <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.IsSaved </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a>&#160;</td>
+          <td class="paramtype">AnchorType&#160;</td>
           <td class="paramname"><em>anchor</em></td><td>)</td>
           <td></td>
         </tr>
@@ -539,9 +583,18 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00236">236</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        {</div><div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            <span class="keywordflow">return</span> anchor != <span class="keyword">null</span>;</div><div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00165">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.DropAnchor()</a>.</p>
+<p>Checks to see if an anchor has been saved in the data store. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">anchor</td><td>The anchor to check against the data store</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True, if the anchor has already been saved, false otherwise</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00278">278</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        {</div><div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            <span class="keywordflow">return</span> anchor != <span class="keyword">null</span>;</div><div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00174">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.DropAnchor()</a>.</p>
 
 </div>
 </div>
@@ -555,7 +608,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">abstract <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.LoadAnchor </td>
+          <td class="memname">abstract AnchorType <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.LoadAnchor </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>ID</em></td><td>)</td>
@@ -569,9 +622,18 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../de/d3f/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_kit_anchor_store.html#a61d5843ea07aa16aa19bebde769ce607">Juniper.Unity.Anchoring.ARKitAnchorStore</a>, <a class="el" href="../../d6/d3e/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_core_anchor_store.html#ad6bf63129572fe47250b42da6ef25a3c">Juniper.Unity.Anchoring.ARCoreAnchorStore</a>, and <a class="el" href="../../d9/d0e/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_anchor_store.html#a4b0a66011f3cdc26b0774bd533ff36e2">Juniper.Unity.Anchoring.MockAnchorStore</a>.</p>
+<p>Loads an anchor out of a platform-specific anchor data store. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ID</td><td>The name of the anchor to load.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The persisted anchor.</dd></dl>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00181">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.SaveAnchor()</a>.</p>
+<p>Implemented in <a class="el" href="../../d9/d0e/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_anchor_store.html#af505237e28cd83dcc6b42ad0f6b8da7f">Juniper.Unity.Anchoring.MockAnchorStore</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00197">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.SynchronizeAnchor()</a>.</p>
 
 </div>
 </div>
@@ -585,7 +647,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static T <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.LoadValue&lt; T &gt; </td>
+          <td class="memname">static T <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.LoadValue&lt; T &gt; </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -599,7 +661,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Gets a value back out of PlayerPrefs. </p>
+<p>Gets a value back out of data store. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td></td></tr>
@@ -614,11 +676,10 @@ Static Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00107">107</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        {</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            var key = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">MakeID</a>(name);</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordflow">if</span> (PlayerPrefs.HasKey(key))</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            {</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="keywordflow">return</span> JsonConvert.DeserializeObject&lt;T&gt;(PlayerPrefs.GetString(key));</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            }</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            {</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="keywordflow">return</span> <span class="keywordflow">default</span>(T);</div><div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            }</div><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a0229b0662477fc288ee7d1389d6e1a4d"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">Juniper.Unity.Anchoring.AbstractAnchorStore.MakeID</a></div><div class="ttdeci">static string MakeID(string name)</div><div class="ttdoc">Makes an identifier for storing values in that are unique to AbstractAnchorStore so that AbstractAnch...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">AbstractAnchorStore.cs:28</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00074">74</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        {</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            var key = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">MakeID</a>(name);</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">if</span> (PlayerPrefs.HasKey(key))</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">try</span></div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                    <span class="keywordflow">return</span> JsonConvert.DeserializeObject&lt;T&gt;(PlayerPrefs.GetString(key));</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                }</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="keywordflow">catch</span></div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                {</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">DeleteValue</a>(name);</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                }</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            }</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordflow">return</span> <span class="keywordflow">default</span>(T);</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a0229b0662477fc288ee7d1389d6e1a4d"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">Juniper.Unity.Anchoring.AbstractAnchorStore.MakeID</a></div><div class="ttdeci">static string MakeID(string name)</div><div class="ttdoc">Makes an identifier for storing values in that are unique to AbstractAnchorStore so that AbstractAnch...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">AbstractAnchorStore.cs:28</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a3ec57a26d83ab39bfdaeac5a4573a99b"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">Juniper.Unity.Anchoring.AbstractAnchorStore.DeleteValue</a></div><div class="ttdeci">static bool DeleteValue(string name)</div><div class="ttdoc">Removes a value from the data store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00097">AbstractAnchorStore.cs:97</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.MakeID()</a>.</p>
-
 </div>
 </div>
 <a id="a0229b0662477fc288ee7d1389d6e1a4d"></a>
@@ -631,7 +692,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static string <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.MakeID </td>
+          <td class="memname">static string <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.MakeID </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -645,21 +706,19 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Makes an identifier for storing values in that are unique to <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run.">AbstractAnchorStore</a> so that <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run.">AbstractAnchorStore</a> can delete them later, when the user requests all anchors be deleted. </p>
+<p>Makes an identifier for storing values in that are unique to <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run. By default,...">AbstractAnchorStore</a> so that <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run. By default,...">AbstractAnchorStore</a> can delete them later, when the user requests all anchors be deleted. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">name</td><td>A controllable part of the name, to be modified to be unique in PlayerPrefs.</td></tr>
+    <tr><td class="paramname">name</td><td>A controllable part of the name, to be modified to be unique in the data store.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A name in PlayerPrefs unique to <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run.">AbstractAnchorStore</a>.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A name in the data store unique to <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run. By default,...">AbstractAnchorStore</a>.</dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">28</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        {</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#aa9b37eea3c70d5029e5ef3473802c4a7">ID_PREFIX</a> + name;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_aa9b37eea3c70d5029e5ef3473802c4a7"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#aa9b37eea3c70d5029e5ef3473802c4a7">Juniper.Unity.Anchoring.AbstractAnchorStore.ID_PREFIX</a></div><div class="ttdeci">static readonly string ID_PREFIX</div><div class="ttdoc">A prefix to add to names to make IDs unique to AbstractAnchorStore.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00019">AbstractAnchorStore.cs:19</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00019">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.ID_PREFIX</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00125">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.DeleteValue()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00076">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.HasValue()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00107">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.LoadValue&lt; T &gt;()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00086">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.SaveValue()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00097">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.DeleteValue()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00043">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.HasValue()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00074">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.LoadValue&lt; T &gt;()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00053">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.SaveValue()</a>.</p>
 
 </div>
 </div>
@@ -673,7 +732,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.ResetData </td>
+          <td class="memname">virtual void <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.ResetData </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -686,66 +745,12 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Delete saved anchors, if there are any. </p>
+<p>Delete all saved anchors, if there are any. </p>
 
-<p>Reimplemented in <a class="el" href="../../de/d3f/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_kit_anchor_store.html#a4754794eb225a9bdfe90fa2506d6dd30">Juniper.Unity.Anchoring.ARKitAnchorStore</a>, <a class="el" href="../../d6/d3e/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_core_anchor_store.html#ae7098e4bdc2884aaa9f5e934d4946bf4">Juniper.Unity.Anchoring.ARCoreAnchorStore</a>, and <a class="el" href="../../d9/d0e/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_anchor_store.html#a7382d7ad6bc91059b8109863c4236b44">Juniper.Unity.Anchoring.MockAnchorStore</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00143">143</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        {</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            <span class="keywordflow">foreach</span> (var name <span class="keywordflow">in</span> <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a>)</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            {</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">DeleteValue</a>(name);</div><div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            }</div><div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a> = <span class="keyword">null</span>;</div><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a1bb6481854f78653898316b9daae50ab"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">Juniper.Unity.Anchoring.AbstractAnchorStore.NameList</a></div><div class="ttdeci">static string [] NameList</div><div class="ttdoc">A list of all keys for all objects stored in PlayerPrefs along with the anchor store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00047">AbstractAnchorStore.cs:47</a></div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a3ec57a26d83ab39bfdaeac5a4573a99b"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">Juniper.Unity.Anchoring.AbstractAnchorStore.DeleteValue</a></div><div class="ttdeci">static bool DeleteValue(string name)</div><div class="ttdoc">Removes a value from the PlayerPrefs.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00125">AbstractAnchorStore.cs:125</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00152">152</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        {</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <span class="keywordflow">foreach</span> (var name <span class="keywordflow">in</span> <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a>)</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            {</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">DeleteValue</a>(name);</div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            }</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a> = <span class="keyword">null</span>;</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a1bb6481854f78653898316b9daae50ab"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">Juniper.Unity.Anchoring.AbstractAnchorStore.NameList</a></div><div class="ttdeci">static string [] NameList</div><div class="ttdoc">A list of all keys for all objects stored in the data store along with the anchor store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00122">AbstractAnchorStore.cs:122</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a3ec57a26d83ab39bfdaeac5a4573a99b"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">Juniper.Unity.Anchoring.AbstractAnchorStore.DeleteValue</a></div><div class="ttdeci">static bool DeleteValue(string name)</div><div class="ttdoc">Removes a value from the data store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00097">AbstractAnchorStore.cs:97</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00125">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.DeleteValue()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00047">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.NameList</a>.</p>
-
-</div>
-</div>
-<a id="a5935c929ea2b20f1646b47604bbded7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5935c929ea2b20f1646b47604bbded7a">&#9670;&nbsp;</a></span>SaveAnchor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.SaveAnchor </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>ID</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">GameObject&#160;</td>
-          <td class="paramname"><em>gameObject</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Reimplemented in <a class="el" href="../../de/d3f/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_kit_anchor_store.html#a0bc0842925bc375b6ec29d8c62e08a47">Juniper.Unity.Anchoring.ARKitAnchorStore</a>, and <a class="el" href="../../d6/d3e/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_core_anchor_store.html#aa9cb935027ac466e2a4ddd33e55ed5d7">Juniper.Unity.Anchoring.ARCoreAnchorStore</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00181">181</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        {</div><div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            var scaleID = ID + <span class="stringliteral">&quot;-scale&quot;</span>;</div><div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            <a class="code" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> anchor;</div><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a7502e81a46449c59ceb85f06a7c618ca">HasAnchor</a>(ID))</div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            {</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                anchor = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a59ee32c316aead90b66f0059e29ac689">LoadAnchor</a>(ID);</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a96485612c6fa81945a3565c34b59433c">HasValue</a>(scaleID))</div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                {</div><div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                    gameObject.transform.localScale = LoadValue&lt;Vector3&gt;(scaleID);</div><div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                }</div><div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            }</div><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            {</div><div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                anchor = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ae083e7bbc6129155fa85405c961017ec">CreateAnchor</a>(ID, gameObject);</div><div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a2c0a087e01d889336523689f8bb61067">SaveValue</a>(scaleID, gameObject.transform.localScale);</div><div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            }</div><div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div><div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            <span class="keywordflow">return</span> anchor;</div><div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a59ee32c316aead90b66f0059e29ac689"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a59ee32c316aead90b66f0059e29ac689">Juniper.Unity.Anchoring.AbstractAnchorStore.LoadAnchor</a></div><div class="ttdeci">abstract AnchorType LoadAnchor(string ID)</div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a7502e81a46449c59ceb85f06a7c618ca"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a7502e81a46449c59ceb85f06a7c618ca">Juniper.Unity.Anchoring.AbstractAnchorStore.HasAnchor</a></div><div class="ttdeci">abstract bool HasAnchor(string anchorID)</div><div class="ttdoc">Anchors provide a means to restore the position of objects between sessions. In some AR systems,...</div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a96485612c6fa81945a3565c34b59433c"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a96485612c6fa81945a3565c34b59433c">Juniper.Unity.Anchoring.AbstractAnchorStore.HasValue</a></div><div class="ttdeci">static bool HasValue(string name)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00076">AbstractAnchorStore.cs:76</a></div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a2c0a087e01d889336523689f8bb61067"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a2c0a087e01d889336523689f8bb61067">Juniper.Unity.Anchoring.AbstractAnchorStore.SaveValue</a></div><div class="ttdeci">static void SaveValue(string name, object value)</div><div class="ttdoc">Saves a value to PlayerPrefs.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00086">AbstractAnchorStore.cs:86</a></div></div>
-<div class="ttc" id="_mock_anchor_store_8cs_html_a7861950c85ed9fb400811b8d9d407de8"><div class="ttname"><a href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a></div><div class="ttdeci">Juniper.Unity.Anchoring.MockWorldAnchor AnchorType</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d80/_mock_anchor_store_8cs_source.html#l00005">MockAnchorStore.cs:5</a></div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_ae083e7bbc6129155fa85405c961017ec"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ae083e7bbc6129155fa85405c961017ec">Juniper.Unity.Anchoring.AbstractAnchorStore.CreateAnchor</a></div><div class="ttdeci">abstract AnchorType CreateAnchor(string ID, GameObject gameObject)</div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ae083e7bbc6129155fa85405c961017ec">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.CreateAnchor()</a>, <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a7502e81a46449c59ceb85f06a7c618ca">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.HasAnchor()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00076">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.HasValue()</a>, <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a59ee32c316aead90b66f0059e29ac689">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.LoadAnchor()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00086">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.SaveValue()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00165">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.DropAnchor()</a>.</p>
-
 </div>
 </div>
 <a id="a2c0a087e01d889336523689f8bb61067"></a>
@@ -758,7 +763,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.SaveValue </td>
+          <td class="memname">static void <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.SaveValue </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>name</em>, </td>
@@ -782,7 +787,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Saves a value to PlayerPrefs. </p>
+<p>Saves a value to the data store. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>The name of the object to save.</td></tr>
@@ -791,13 +796,67 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00086">86</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        {</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            PlayerPrefs.SetString(<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">MakeID</a>(name), JsonConvert.SerializeObject(value));</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            var names = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a>;</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">if</span> (names.Contains(name))</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            {</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                PlayerPrefs.Save();</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            }</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            {</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a> = names.Append(name).ToArray();</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            }</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a1bb6481854f78653898316b9daae50ab"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">Juniper.Unity.Anchoring.AbstractAnchorStore.NameList</a></div><div class="ttdeci">static string [] NameList</div><div class="ttdoc">A list of all keys for all objects stored in PlayerPrefs along with the anchor store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00047">AbstractAnchorStore.cs:47</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00053">53</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        {</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            PlayerPrefs.SetString(<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">MakeID</a>(name), JsonConvert.SerializeObject(value));</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            var names = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a>;</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">if</span> (!names.Contains(name))</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            {</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                var n = names.ToList();</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                n.Add(name);</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">NameList</a> = n.ToArray();</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            }</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            PlayerPrefs.Save();</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a1bb6481854f78653898316b9daae50ab"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a1bb6481854f78653898316b9daae50ab">Juniper.Unity.Anchoring.AbstractAnchorStore.NameList</a></div><div class="ttdeci">static string [] NameList</div><div class="ttdoc">A list of all keys for all objects stored in the data store along with the anchor store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00122">AbstractAnchorStore.cs:122</a></div></div>
 <div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a0229b0662477fc288ee7d1389d6e1a4d"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">Juniper.Unity.Anchoring.AbstractAnchorStore.MakeID</a></div><div class="ttdeci">static string MakeID(string name)</div><div class="ttdoc">Makes an identifier for storing values in that are unique to AbstractAnchorStore so that AbstractAnch...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">AbstractAnchorStore.cs:28</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.MakeID()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00047">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.NameList</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00197">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.SynchronizeAnchor()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d80/_mock_anchor_store_8cs_source.html#l00036">Juniper.Unity.Anchoring.MockAnchorStore.CreateAnchor()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00181">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.SaveAnchor()</a>.</p>
+</div>
+</div>
+<a id="a5e79f6b85c145fcf11c5168c99e37fef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e79f6b85c145fcf11c5168c99e37fef">&#9670;&nbsp;</a></span>SynchronizeAnchor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual AnchorType <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.SynchronizeAnchor </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>ID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GameObject&#160;</td>
+          <td class="paramname"><em>gameObject</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks to see if the anchor was already in the data store, then loads it along with the objects scale if it was, or creates it and saves the scale if it wasn't. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ID</td><td>The name of the object to serialize</td></tr>
+    <tr><td class="paramname">gameObject</td><td>The object that is being anchored</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The synchronized anchor</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00197">197</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        {</div><div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            var scaleID = ID + <span class="stringliteral">&quot;-scale&quot;</span>;</div><div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            AnchorType anchor;</div><div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a7502e81a46449c59ceb85f06a7c618ca">HasAnchor</a>(ID))</div><div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            {</div><div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                anchor = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a59ee32c316aead90b66f0059e29ac689">LoadAnchor</a>(ID);</div><div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a96485612c6fa81945a3565c34b59433c">HasValue</a>(scaleID))</div><div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                {</div><div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                    var arr = LoadValue&lt;float[]&gt;(scaleID);</div><div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                    gameObject.transform.localScale = <span class="keyword">new</span> <a class="code" href="../../df/dae/_integration_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a>(arr[0], arr[1], arr[2]);</div><div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;                }</div><div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            }</div><div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            {</div><div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                anchor = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ae083e7bbc6129155fa85405c961017ec">CreateAnchor</a>(ID, gameObject);</div><div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                var arr = <span class="keyword">new</span> <span class="keywordtype">float</span>[]</div><div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                {</div><div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                    gameObject.transform.localScale.x, gameObject.transform.localScale.y, gameObject.transform.localScale.z</div><div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                };</div><div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a2c0a087e01d889336523689f8bb61067">SaveValue</a>(scaleID, arr);</div><div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            }</div><div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div><div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            <span class="keywordflow">return</span> anchor;</div><div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a59ee32c316aead90b66f0059e29ac689"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a59ee32c316aead90b66f0059e29ac689">Juniper.Unity.Anchoring.AbstractAnchorStore.LoadAnchor</a></div><div class="ttdeci">abstract AnchorType LoadAnchor(string ID)</div><div class="ttdoc">Loads an anchor out of a platform-specific anchor data store.</div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a7502e81a46449c59ceb85f06a7c618ca"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a7502e81a46449c59ceb85f06a7c618ca">Juniper.Unity.Anchoring.AbstractAnchorStore.HasAnchor</a></div><div class="ttdeci">abstract bool HasAnchor(string anchorID)</div><div class="ttdoc">Anchors provide a means to restore the position of objects between sessions. In some AR systems,...</div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a96485612c6fa81945a3565c34b59433c"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a96485612c6fa81945a3565c34b59433c">Juniper.Unity.Anchoring.AbstractAnchorStore.HasValue</a></div><div class="ttdeci">static bool HasValue(string name)</div><div class="ttdoc">Check to see if a given name exists in the data store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00043">AbstractAnchorStore.cs:43</a></div></div>
+<div class="ttc" id="_integration_motion_filter_8cs_html_af3326292fdd04d2b384b6d781d9594f6"><div class="ttname"><a href="../../df/dae/_integration_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a></div><div class="ttdeci">UnityEngine.Vector3 Vector3</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dae/_integration_motion_filter_8cs_source.html#l00005">IntegrationMotionFilter.cs:5</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a2c0a087e01d889336523689f8bb61067"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a2c0a087e01d889336523689f8bb61067">Juniper.Unity.Anchoring.AbstractAnchorStore.SaveValue</a></div><div class="ttdeci">static void SaveValue(string name, object value)</div><div class="ttdoc">Saves a value to the data store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00053">AbstractAnchorStore.cs:53</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_ae083e7bbc6129155fa85405c961017ec"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ae083e7bbc6129155fa85405c961017ec">Juniper.Unity.Anchoring.AbstractAnchorStore.CreateAnchor</a></div><div class="ttdeci">abstract AnchorType CreateAnchor(string ID, GameObject gameObject)</div><div class="ttdoc">Creates a new anchor.</div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00174">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.DropAnchor()</a>.</p>
 
 </div>
 </div>
@@ -811,7 +870,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.WeighAnchor </td>
+          <td class="memname">void <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.WeighAnchor </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>ID</em>, </td>
@@ -844,15 +903,11 @@ Static Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00215">215</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        {</div><div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            var anchor = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#af5fe82600faedac0bac53d539e2c5c27">FindAnchor</a>(gameObject);</div><div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <span class="keywordflow">if</span> (anchor != <span class="keyword">null</span>)</div><div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;            {</div><div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a023b0cc4ca7a5ef08c06cbe3238efdc7">DeleteAnchor</a>(ID, gameObject, anchor);</div><div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">DeleteValue</a>(ID + <span class="stringliteral">&quot;-scale&quot;</span>);</div><div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            }</div><div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_af5fe82600faedac0bac53d539e2c5c27"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#af5fe82600faedac0bac53d539e2c5c27">Juniper.Unity.Anchoring.AbstractAnchorStore.FindAnchor</a></div><div class="ttdeci">virtual AnchorType FindAnchor(GameObject gameObject)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00231">AbstractAnchorStore.cs:231</a></div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a023b0cc4ca7a5ef08c06cbe3238efdc7"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a023b0cc4ca7a5ef08c06cbe3238efdc7">Juniper.Unity.Anchoring.AbstractAnchorStore.DeleteAnchor</a></div><div class="ttdeci">virtual void DeleteAnchor(string ID, GameObject gameObject, AnchorType anchor)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00225">AbstractAnchorStore.cs:225</a></div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a3ec57a26d83ab39bfdaeac5a4573a99b"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">Juniper.Unity.Anchoring.AbstractAnchorStore.DeleteValue</a></div><div class="ttdeci">static bool DeleteValue(string name)</div><div class="ttdoc">Removes a value from the PlayerPrefs.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00125">AbstractAnchorStore.cs:125</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00241">241</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        {</div><div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            var anchor = <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#af5fe82600faedac0bac53d539e2c5c27">FindAnchor</a>(gameObject);</div><div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            <span class="keywordflow">if</span> (anchor != <span class="keyword">null</span>)</div><div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            {</div><div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a023b0cc4ca7a5ef08c06cbe3238efdc7">DeleteAnchor</a>(ID, gameObject, anchor);</div><div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">DeleteValue</a>(ID + <span class="stringliteral">&quot;-scale&quot;</span>);</div><div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            }</div><div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_af5fe82600faedac0bac53d539e2c5c27"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#af5fe82600faedac0bac53d539e2c5c27">Juniper.Unity.Anchoring.AbstractAnchorStore.FindAnchor</a></div><div class="ttdeci">virtual AnchorType FindAnchor(GameObject gameObject)</div><div class="ttdoc">Finds any anchor components on the given object</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00268">AbstractAnchorStore.cs:268</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a023b0cc4ca7a5ef08c06cbe3238efdc7"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a023b0cc4ca7a5ef08c06cbe3238efdc7">Juniper.Unity.Anchoring.AbstractAnchorStore.DeleteAnchor</a></div><div class="ttdeci">virtual void DeleteAnchor(string ID, GameObject gameObject, AnchorType anchor)</div><div class="ttdoc">Removes an anchor along with its scale from the data store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00257">AbstractAnchorStore.cs:257</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a3ec57a26d83ab39bfdaeac5a4573a99b"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">Juniper.Unity.Anchoring.AbstractAnchorStore.DeleteValue</a></div><div class="ttdeci">static bool DeleteValue(string name)</div><div class="ttdoc">Removes a value from the data store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00097">AbstractAnchorStore.cs:97</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00225">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.DeleteAnchor()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00125">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.DeleteValue()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00231">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.FindAnchor()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="../../d4/d5a/_anchored_8cs_source.html#l00121">Juniper.Unity.Anchoring.Anchored.WeighAnchor()</a>.</p>
-
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -866,7 +921,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly string [] <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.EMPTY_STRING_ARRAY = new string[0]</td>
+          <td class="memname">readonly string [] <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.EMPTY_STRING_ARRAY = new string[0]</td>
         </tr>
       </table>
   </td>
@@ -878,7 +933,7 @@ Static Private Attributes</h2></td></tr>
 
 <p>An empty array for returning without creating the empty array all the time. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00041">41</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00116">116</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
 
 </div>
 </div>
@@ -892,7 +947,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly string <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.ID_PREFIX = typeof(<a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">AbstractAnchorStore</a>&lt;<a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a>&gt;).FullName + &quot;::&quot;</td>
+          <td class="memname">readonly string <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.ID_PREFIX = typeof(<a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">AbstractAnchorStore</a>&lt;AnchorType&gt;).FullName + &quot;::&quot;</td>
         </tr>
       </table>
   </td>
@@ -902,16 +957,16 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>A prefix to add to names to make IDs unique to <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run.">AbstractAnchorStore</a>. </p>
+<p>A prefix to add to names to make IDs unique to <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second-run. By default,...">AbstractAnchorStore</a>. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00019">19</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.MakeID()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00028">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.MakeID()</a>.</p>
 
 </div>
 </div>
-<a id="a60eae70d7d968886e21714a30ef6d640"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60eae70d7d968886e21714a30ef6d640">&#9670;&nbsp;</a></span>KEY_LIST_KEY</h2>
+<a id="ad9bd01c55dd49e5a25c0ab76a38703c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9bd01c55dd49e5a25c0ab76a38703c6">&#9670;&nbsp;</a></span>KEY_LIST_KEY</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -920,12 +975,12 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly string <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.KEY_LIST_KEY = <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d">MakeID</a>(&quot;KEY_LIST&quot;)</td>
+          <td class="memname">const string <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.KEY_LIST_KEY = &quot;KEY_LIST&quot;</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -947,7 +1002,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string [] <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; <a class="el" href="../../d3/d80/_mock_anchor_store_8cs.html#a7861950c85ed9fb400811b8d9d407de8">AnchorType</a> &gt;.NameList</td>
+          <td class="memname">string [] <a class="el" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html">Juniper.Unity.Anchoring.AbstractAnchorStore</a>&lt; AnchorType &gt;.NameList</td>
         </tr>
       </table>
   </td>
@@ -957,18 +1012,21 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>A list of all keys for all objects stored in PlayerPrefs along with the anchor store. </p>
+<p>A list of all keys for all objects stored in the data store along with the anchor store. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00047">47</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            {</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                <span class="keywordflow">if</span> (PlayerPrefs.HasKey(<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a60eae70d7d968886e21714a30ef6d640">KEY_LIST_KEY</a>))</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                {</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                    <span class="keywordflow">return</span> JsonConvert.DeserializeObject&lt;<span class="keywordtype">string</span>[]&gt;(PlayerPrefs.GetString(<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a60eae70d7d968886e21714a30ef6d640">KEY_LIST_KEY</a>));</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                }</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="keywordflow">else</span></div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                    <span class="keywordflow">return</span> <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ac896e4d7eb87168dab53b7c244e3379f">EMPTY_STRING_ARRAY</a>;</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                }</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            }</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keyword">set</span></div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            {</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keywordflow">if</span> (value == <span class="keyword">null</span>)</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                {</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    PlayerPrefs.DeleteKey(<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a60eae70d7d968886e21714a30ef6d640">KEY_LIST_KEY</a>);</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                }</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                <span class="keywordflow">else</span></div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                    PlayerPrefs.SetString(<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a60eae70d7d968886e21714a30ef6d640">KEY_LIST_KEY</a>, JsonConvert.SerializeObject(value));</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                }</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                PlayerPrefs.Save();</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            }</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_ac896e4d7eb87168dab53b7c244e3379f"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ac896e4d7eb87168dab53b7c244e3379f">Juniper.Unity.Anchoring.AbstractAnchorStore.EMPTY_STRING_ARRAY</a></div><div class="ttdeci">static readonly string [] EMPTY_STRING_ARRAY</div><div class="ttdoc">An empty array for returning without creating the empty array all the time.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00041">AbstractAnchorStore.cs:41</a></div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a60eae70d7d968886e21714a30ef6d640"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a60eae70d7d968886e21714a30ef6d640">Juniper.Unity.Anchoring.AbstractAnchorStore.KEY_LIST_KEY</a></div><div class="ttdeci">static readonly string KEY_LIST_KEY</div><div class="ttdoc">The place where the names of all of the saved values are stored.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00036">AbstractAnchorStore.cs:36</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00122">122</a> of file <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        {</div><div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            {</div><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a96485612c6fa81945a3565c34b59433c">HasValue</a>(<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ad9bd01c55dd49e5a25c0ab76a38703c6">KEY_LIST_KEY</a>))</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                {</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                    <span class="keywordflow">return</span> LoadValue&lt;string[]&gt;(<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ad9bd01c55dd49e5a25c0ab76a38703c6">KEY_LIST_KEY</a>);</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                }</div><div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                <span class="keywordflow">else</span></div><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                {</div><div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                    <span class="keywordflow">return</span> <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ac896e4d7eb87168dab53b7c244e3379f">EMPTY_STRING_ARRAY</a>;</div><div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                }</div><div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            }</div><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div><div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            <span class="keyword">set</span></div><div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            {</div><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                <span class="keywordflow">if</span> (value == <span class="keyword">null</span>)</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                {</div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                    <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">DeleteValue</a>(<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ad9bd01c55dd49e5a25c0ab76a38703c6">KEY_LIST_KEY</a>);</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                }</div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                <span class="keywordflow">else</span></div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                {</div><div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                    <a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a2c0a087e01d889336523689f8bb61067">SaveValue</a>(<a class="code" href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ad9bd01c55dd49e5a25c0ab76a38703c6">KEY_LIST_KEY</a>, value);</div><div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                }</div><div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            }</div><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_ac896e4d7eb87168dab53b7c244e3379f"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ac896e4d7eb87168dab53b7c244e3379f">Juniper.Unity.Anchoring.AbstractAnchorStore.EMPTY_STRING_ARRAY</a></div><div class="ttdeci">static readonly string [] EMPTY_STRING_ARRAY</div><div class="ttdoc">An empty array for returning without creating the empty array all the time.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00116">AbstractAnchorStore.cs:116</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_ad9bd01c55dd49e5a25c0ab76a38703c6"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#ad9bd01c55dd49e5a25c0ab76a38703c6">Juniper.Unity.Anchoring.AbstractAnchorStore.KEY_LIST_KEY</a></div><div class="ttdeci">const string KEY_LIST_KEY</div><div class="ttdoc">The place where the names of all of the saved values are stored.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00036">AbstractAnchorStore.cs:36</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a96485612c6fa81945a3565c34b59433c"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a96485612c6fa81945a3565c34b59433c">Juniper.Unity.Anchoring.AbstractAnchorStore.HasValue</a></div><div class="ttdeci">static bool HasValue(string name)</div><div class="ttdoc">Check to see if a given name exists in the data store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00043">AbstractAnchorStore.cs:43</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a2c0a087e01d889336523689f8bb61067"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a2c0a087e01d889336523689f8bb61067">Juniper.Unity.Anchoring.AbstractAnchorStore.SaveValue</a></div><div class="ttdeci">static void SaveValue(string name, object value)</div><div class="ttdoc">Saves a value to the data store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00053">AbstractAnchorStore.cs:53</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store_html_a3ec57a26d83ab39bfdaeac5a4573a99b"><div class="ttname"><a href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a3ec57a26d83ab39bfdaeac5a4573a99b">Juniper.Unity.Anchoring.AbstractAnchorStore.DeleteValue</a></div><div class="ttdeci">static bool DeleteValue(string name)</div><div class="ttdoc">Removes a value from the data store.</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00097">AbstractAnchorStore.cs:97</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00125">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.DeleteValue()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00143">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.ResetData()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00086">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;.SaveValue()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00097">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.DeleteValue()</a>, <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00152">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.ResetData()</a>, and <a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html#l00053">Juniper.Unity.Anchoring.AbstractAnchorStore&lt; MockWorldAnchor &gt;.SaveValue()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Anchoring/<a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a></li>
+<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Anchoring/<a class="el" href="../../d2/da8/_abstract_anchor_store_8cs_source.html">AbstractAnchorStore.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

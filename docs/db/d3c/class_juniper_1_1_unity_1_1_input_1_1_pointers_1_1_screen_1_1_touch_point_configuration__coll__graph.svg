@@ -27,7 +27,7 @@
 <g id="a_node2"><a xlink:href="../../db/d8b/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="7.5,-106.5 7.5,-196.5 146.5,-196.5 146.5,-106.5 7.5,-106.5"/>
 <text text-anchor="start" x="15.5" y="-184.5" font-family="SegoeUI" font-size="10.00">AbstractPointerConfiguration</text>
-<text text-anchor="middle" x="77" y="-173.5" font-family="SegoeUI" font-size="10.00">&lt; KeyCode &gt;</text>
+<text text-anchor="middle" x="77" y="-173.5" font-family="SegoeUI" font-size="10.00">&lt; Unary &gt;</text>
 <polyline fill="none" stroke="black" points="7.5,-166.5 146.5,-166.5 "/>
 <text text-anchor="start" x="15.5" y="-154.5" font-family="SegoeUI" font-size="10.00">&#45; nativeButtons</text>
 <polyline fill="none" stroke="black" points="7.5,-147.5 146.5,-147.5 "/>
@@ -62,7 +62,7 @@
 <g id="edge2" class="edge"><title>Node5&#45;&gt;Node4</title>
 <path fill="none" stroke="orange" d="M77,-233.808C77,-221.376 77,-208.498 77,-196.758"/>
 <polygon fill="orange" stroke="orange" points="73.5001,-234.112 77,-244.112 80.5001,-234.112 73.5001,-234.112"/>
-<text text-anchor="middle" x="107" y="-218" font-family="SegoeUI" font-size="10.00"> &lt; KeyCode &gt;</text>
+<text text-anchor="middle" x="101" y="-218" font-family="SegoeUI" font-size="10.00"> &lt; Unary &gt;</text>
 </g>
 </g>
 </svg>

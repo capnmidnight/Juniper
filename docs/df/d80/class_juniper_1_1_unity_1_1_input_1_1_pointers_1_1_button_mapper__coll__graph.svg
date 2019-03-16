@@ -19,16 +19,16 @@
 <text text-anchor="start" x="8" y="-246.5" font-family="SegoeUI" font-size="10.00">+ buttonEvents</text>
 <text text-anchor="start" x="8" y="-235.5" font-family="SegoeUI" font-size="10.00">+ inputButtonEvents</text>
 <text text-anchor="start" x="8" y="-224.5" font-family="SegoeUI" font-size="10.00">+ Buttons</text>
-<text text-anchor="start" x="8" y="-213.5" font-family="SegoeUI" font-size="10.00">+ AnyDragging</text>
-<text text-anchor="start" x="8" y="-202.5" font-family="SegoeUI" font-size="10.00">&#45; THRESHOLD_CLICK</text>
-<text text-anchor="start" x="8" y="-191.5" font-family="SegoeUI" font-size="10.00">&#45; THRESHOLD_LONG_PRESS</text>
-<text text-anchor="start" x="8" y="-180.5" font-family="SegoeUI" font-size="10.00">&#45; toInputButton</text>
-<text text-anchor="start" x="8" y="-169.5" font-family="SegoeUI" font-size="10.00">&#45; fromInputButton</text>
-<text text-anchor="start" x="8" y="-158.5" font-family="SegoeUI" font-size="10.00">&#45; toInteger</text>
-<text text-anchor="start" x="8" y="-147.5" font-family="SegoeUI" font-size="10.00">&#45; buttonDownTime</text>
-<text text-anchor="start" x="8" y="-136.5" font-family="SegoeUI" font-size="10.00">&#45; mayLongPress</text>
-<text text-anchor="start" x="8" y="-125.5" font-family="SegoeUI" font-size="10.00">&#45; dragDistances</text>
-<polyline fill="none" stroke="black" points="0,-118.5 152,-118.5 "/>
+<text text-anchor="start" x="8" y="-213.5" font-family="SegoeUI" font-size="10.00">&#45; THRESHOLD_CLICK</text>
+<text text-anchor="start" x="8" y="-202.5" font-family="SegoeUI" font-size="10.00">&#45; THRESHOLD_LONG_PRESS</text>
+<text text-anchor="start" x="8" y="-191.5" font-family="SegoeUI" font-size="10.00">&#45; toInputButton</text>
+<text text-anchor="start" x="8" y="-180.5" font-family="SegoeUI" font-size="10.00">&#45; fromInputButton</text>
+<text text-anchor="start" x="8" y="-169.5" font-family="SegoeUI" font-size="10.00">&#45; toInteger</text>
+<text text-anchor="start" x="8" y="-158.5" font-family="SegoeUI" font-size="10.00">&#45; buttonDownTime</text>
+<text text-anchor="start" x="8" y="-147.5" font-family="SegoeUI" font-size="10.00">&#45; mayLongPress</text>
+<text text-anchor="start" x="8" y="-136.5" font-family="SegoeUI" font-size="10.00">&#45; dragDistances</text>
+<polyline fill="none" stroke="black" points="0,-129.5 152,-129.5 "/>
+<text text-anchor="start" x="8" y="-117.5" font-family="SegoeUI" font-size="10.00">+ ButtonMapper()</text>
 <text text-anchor="start" x="8" y="-106.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
 <text text-anchor="start" x="8" y="-95.5" font-family="SegoeUI" font-size="10.00">+ IsButtonDown()</text>
 <text text-anchor="start" x="8" y="-84.5" font-family="SegoeUI" font-size="10.00">+ IsButtonUp()</text>

@@ -1,8 +1,7 @@
 <map id="Juniper.Unity.Input.AbstractVelocityLocomotion" name="Juniper.Unity.Input.AbstractVelocityLocomotion">
-<area shape="rect" id="node1" title=" " alt="" coords="212,131,391,296"/>
-<area shape="rect" id="node3" href="$db/dbe/class_juniper_1_1_unity_1_1_input_1_1_hover_craft.html" title=" " alt="" coords="5,344,171,480"/>
-<area shape="rect" id="node4" href="$d1/df3/class_juniper_1_1_unity_1_1_input_1_1_no_locomotion.html" title="Controlling the camera from a desktop system. Very useful for quickly debugging things." alt="" coords="195,373,407,451"/>
-<area shape="rect" id="node6" href="$db/def/class_juniper_1_1_unity_1_1_input_1_1_running_movement.html" title="Controlling the camera from a desktop system. Very useful for quickly debugging things." alt="" coords="432,366,611,458"/>
-<area shape="rect" id="node2" title=" " alt="" coords="247,5,356,83"/>
-<area shape="rect" id="node5" href="$d7/d1a/class_juniper_1_1_unity_1_1_input_1_1_default_locomotion.html" title=" " alt="" coords="215,528,387,620"/>
+<area shape="rect" id="node1" title=" " alt="" coords="195,131,374,296"/>
+<area shape="rect" id="node3" href="$d7/d1a/class_juniper_1_1_unity_1_1_input_1_1_default_locomotion.html" title=" " alt="" coords="5,366,177,458"/>
+<area shape="rect" id="node4" href="$db/dbe/class_juniper_1_1_unity_1_1_input_1_1_hover_craft.html" title=" " alt="" coords="202,344,367,480"/>
+<area shape="rect" id="node5" href="$db/def/class_juniper_1_1_unity_1_1_input_1_1_running_movement.html" title="Controlling the camera from a desktop system. Very useful for quickly debugging things." alt="" coords="391,366,570,458"/>
+<area shape="rect" id="node2" title=" " alt="" coords="230,5,339,83"/>
 </map>

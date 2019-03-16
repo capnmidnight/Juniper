@@ -1,7 +1,7 @@
 <map id="Juniper.Unity.Widgets.VideoVader" name="Juniper.Unity.Widgets.VideoVader">
-<area shape="rect" id="node1" title="Manages the life&#45;cycle of a video that can be faded out or faded in." alt="" coords="6,1211,187,1435"/>
-<area shape="rect" id="node2" href="$da/d20/class_juniper_1_1_unity_1_1_animation_1_1_alpha_transition.html" title="Performs a shrinking/growing animation on scene transitions." alt="" coords="31,1012,162,1163"/>
-<area shape="rect" id="node3" href="$de/d7d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="5,637,188,964"/>
-<area shape="rect" id="node4" href="$dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="19,131,174,589"/>
+<area shape="rect" id="node1" title="Manages the life&#45;cycle of a video that can be faded out or faded in." alt="" coords="6,1167,187,1391"/>
+<area shape="rect" id="node2" href="$da/d20/class_juniper_1_1_unity_1_1_animation_1_1_alpha_transition.html" title="Performs a shrinking/growing animation on scene transitions." alt="" coords="31,968,162,1119"/>
+<area shape="rect" id="node3" href="$de/d7d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="5,593,188,920"/>
+<area shape="rect" id="node4" href="$dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="19,131,174,545"/>
 <area shape="rect" id="node5" title=" " alt="" coords="42,5,151,83"/>
 </map>

@@ -14,5 +14,6 @@ var searchData=
   ['directoryext',['DirectoryExt',['../dc/d88/class_system_1_1_i_o_1_1_directory_ext.html',1,'System::IO']]],
   ['directoryinfoext',['DirectoryInfoExt',['../da/df2/class_system_1_1_i_o_1_1_directory_info_ext.html',1,'System::IO']]],
   ['displaymanager',['DisplayManager',['../d9/de4/class_juniper_1_1_unity_1_1_display_1_1_display_manager.html',1,'Juniper::Unity::Display']]],
+  ['displaytypeevent',['DisplayTypeEvent',['../df/dc4/class_juniper_1_1_unity_1_1_display_1_1_abstract_display_manager_1_1_display_type_event.html',1,'Juniper::Unity::Display::AbstractDisplayManager']]],
   ['draggable',['Draggable',['../dc/da5/class_juniper_1_1_unity_1_1_widgets_1_1_draggable.html',1,'Juniper::Unity::Widgets']]]
 ];

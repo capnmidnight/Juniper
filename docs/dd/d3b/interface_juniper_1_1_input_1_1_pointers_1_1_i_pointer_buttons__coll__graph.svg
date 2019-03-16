@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 117)">
 <title>Juniper.Input.Pointers.IPointerButtons&lt; ButtonIDType &gt;</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-117 150,-117 150,4 -4,4"/>
-<!-- Node28 -->
-<g id="node1" class="node"><title>Node28</title>
+<!-- Node21 -->
+<g id="node1" class="node"><title>Node21</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-112.5 146,-112.5 146,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-100.5" font-family="SegoeUI" font-size="10.00">Juniper.Input.Pointers.IPointer</text>

@@ -1,12 +1,10 @@
 <map id="Juniper.Unity.Input.Pointers.Motion.AbstractHandedPointerConfiguration&lt; HandIDType, ButtonIDType &gt;" name="Juniper.Unity.Input.Pointers.Motion.AbstractHandedPointerConfiguration&lt; HandIDType, ButtonIDType &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="348,176,619,312"/>
-<area shape="rect" id="node3" href="$da/dee/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker_configuration.html" title=" " alt="" coords="319,398,520,519"/>
-<area shape="rect" id="node8" href="$d6/d27/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="579,361,780,556"/>
-<area shape="rect" id="node2" href="$db/d8b/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" title=" " alt="" coords="391,5,576,127"/>
+<area shape="rect" id="node1" title=" " alt="" coords="85,176,356,312"/>
+<area shape="rect" id="node3" href="$da/dee/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker_configuration.html" title=" " alt="" coords="56,398,257,519"/>
+<area shape="rect" id="node6" href="$d6/d27/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="316,361,517,556"/>
+<area shape="rect" id="node2" href="$db/d8b/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" title=" " alt="" coords="128,5,313,127"/>
 <area shape="rect" id="node4" href="$da/dee/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker_configuration.html" title=" " alt="" coords="5,655,265,762"/>
-<area shape="rect" id="node6" href="$da/dee/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker_configuration.html" title=" " alt="" coords="289,655,549,762"/>
-<area shape="rect" id="node5" href="$d9/dfa/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_probe_configuration.html" title=" " alt="" coords="23,848,247,940"/>
-<area shape="rect" id="node7" href="$db/d79/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_no_hand_tracker_configuration.html" title=" " alt="" coords="305,848,533,940"/>
-<area shape="rect" id="node9" href="$d6/d27/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="573,619,855,799"/>
-<area shape="rect" id="node10" href="$d8/d2e/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_no_motion_controller_configuration.html" title=" " alt="" coords="589,848,839,940"/>
+<area shape="rect" id="node5" href="$db/d79/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_no_hand_tracker_configuration.html" title=" " alt="" coords="21,848,249,940"/>
+<area shape="rect" id="node7" href="$d6/d27/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller_configuration.html" title=" " alt="" coords="289,619,571,799"/>
+<area shape="rect" id="node8" href="$d8/d2e/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_no_motion_controller_configuration.html" title=" " alt="" coords="305,848,555,940"/>
 </map>

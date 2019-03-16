@@ -1,6 +1,10 @@
 <map id="Juniper.Unity.World.LightEstimation.VuforiaLightMeasurement" name="Juniper.Unity.World.LightEstimation.VuforiaLightMeasurement">
-<area shape="rect" id="node1" title=" " alt="" coords="7,520,238,773"/>
-<area shape="rect" id="node2" href="$df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html" title=" " alt="" coords="35,160,210,472"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,20,115,97"/>
-<area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="139,5,231,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="173,837,403,1076"/>
+<area shape="rect" id="node2" href="$df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html" title=" " alt="" coords="78,463,253,775"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,264,115,341"/>
+<area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="139,249,231,356"/>
+<area shape="rect" id="node5" href="$dc/dc0/class_juniper_1_1_unity_1_1_imaging_1_1_vuforia_image_analyzer.html" title="Basic scaffolding around performing image analysis on Vuforia&#39;s image feed. This typically only works..." alt="" coords="277,543,467,694"/>
+<area shape="rect" id="node6" href="$dd/dad/class_juniper_1_1_data_1_1_abstract_background_repeating_thread.html" title="Performs an operation in a loop on a background thread." alt="" coords="265,220,457,385"/>
+<area shape="rect" id="node7" href="$dd/da7/class_juniper_1_1_data_1_1_abstract_background_thread.html" title="An abstract class for performing an operation on a background thread." alt="" coords="273,5,449,171"/>
+<area shape="rect" id="node8" title=" " alt="" coords="482,264,534,341"/>
 </map>

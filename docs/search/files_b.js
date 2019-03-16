@@ -11,6 +11,7 @@ var searchData=
   ['leapmotionhand_2ecs',['LeapMotionHand.cs',['../d3/d61/_leap_motion_hand_8cs.html',1,'']]],
   ['lerpmotionfilter_2ecs',['LerpMotionFilter.cs',['../d3/d51/_lerp_motion_filter_8cs.html',1,'']]],
   ['level_2ecs',['Level.cs',['../d7/da2/_level_8cs.html',1,'']]],
+  ['license_2emd',['LICENSE.md',['../dd/d79/_l_i_c_e_n_s_e_8md.html',1,'']]],
   ['light_2destimation_2emd',['light-estimation.md',['../d5/d98/light-estimation_8md.html',1,'']]],
   ['lightmapset_2ecs',['LightMapSet.cs',['../db/d01/_light_map_set_8cs.html',1,'']]],
   ['lightmapswitcher_2ecs',['LightMapSwitcher.cs',['../d1/d97/_light_map_switcher_8cs.html',1,'']]],

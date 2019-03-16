@@ -1,0 +1,8 @@
+<map id="Juniper.Unity.AbstractPermissionHandler" name="Juniper.Unity.AbstractPermissionHandler">
+<area shape="rect" id="node1" title="Perform system&#45;specific authorization requests, such as GPS on Android, or Microphone on iOS." alt="" coords="112,160,320,311"/>
+<area shape="rect" id="node4" href="$d0/d93/class_juniper_1_1_unity_1_1_android_permission_handler.html" title=" " alt="" coords="5,359,211,451"/>
+<area shape="rect" id="node5" href="$d3/d97/class_juniper_1_1_unity_1_1i_o_s_permission_handler.html" title=" " alt="" coords="235,359,416,451"/>
+<area shape="rect" id="node2" title=" " alt="" coords="99,20,208,97"/>
+<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="233,5,325,112"/>
+<area shape="rect" id="node6" href="$db/ddd/class_juniper_1_1_unity_1_1_permission_handler.html" title=" " alt="" coords="245,499,406,591"/>
+</map>

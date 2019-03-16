@@ -105,6 +105,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:aed66cd85fe6740d9a1f4dd999c7c9ce7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a random item out of an array.  <a href="#aed66cd85fe6740d9a1f4dd999c7c9ce7">More...</a><br /></td></tr>
 <tr class="separator:aed66cd85fe6740d9a1f4dd999c7c9ce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afdc33349a2ca96c565ddd7a5d1e41ca5"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d4a/class_system_1_1_array_ext.html#afdc33349a2ca96c565ddd7a5d1e41ca5">MaybeGet&lt; T &gt;</a> (this T[] items, int index)</td></tr>
+<tr class="memdesc:afdc33349a2ca96c565ddd7a5d1e41ca5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to retrieve a value from an array.  <a href="#afdc33349a2ca96c565ddd7a5d1e41ca5">More...</a><br /></td></tr>
 <tr class="separator:afdc33349a2ca96c565ddd7a5d1e41ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b3825176a84bb7000b4a6e0f04bbc55"><td class="memItemLeft" align="right" valign="top">static IEnumerable&lt; Type &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d4a/class_system_1_1_array_ext.html#a8b3825176a84bb7000b4a6e0f04bbc55">Types</a> (this object[] args)</td></tr>
 <tr class="memdesc:a8b3825176a84bb7000b4a6e0f04bbc55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the types for the objects in a generic array.  <a href="#a8b3825176a84bb7000b4a6e0f04bbc55">More...</a><br /></td></tr>
@@ -161,21 +162,21 @@ Static Private Attributes</h2></td></tr>
 <p>Perform the Linq IEnumerable Except function, but ignore null parameters. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td></td></tr>
+    <tr><td class="paramname">T</td><td>The type of the items in the collection.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">first</td><td></td></tr>
-    <tr><td class="paramname">second</td><td></td></tr>
+    <tr><td class="paramname">first</td><td>The collection to filter.</td></tr>
+    <tr><td class="paramname">second</td><td>A collection of items to filter out of the <em>first</em>  collection.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>If <em>second</em>  is null, returns <em>first</em> . If <em>first</em>  is null, returns null. Otherwise, returns all of the elements of <em>first</em>  that are not also in <em>second</em> . </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/_array_ext_8cs_source.html#l00066">66</a> of file <a class="el" href="../../df/d32/_array_ext_8cs_source.html">ArrayExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        {</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordflow">if</span> (second == <span class="keyword">null</span>)</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            {</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <span class="keywordflow">return</span> first;</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            }</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (first == <span class="keyword">null</span>)</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            {</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            }</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            {</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                <span class="keywordflow">return</span> first.Except(second);</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            }</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../df/d32/_array_ext_8cs_source.html#l00081">81</a> of file <a class="el" href="../../df/d32/_array_ext_8cs_source.html">ArrayExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        {</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keywordflow">if</span> (second == <span class="keyword">null</span>)</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            {</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="keywordflow">return</span> first;</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            }</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (first == <span class="keyword">null</span>)</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">null</span>;</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            }</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            {</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="keywordflow">return</span> first.Except(second);</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            }</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="afdc33349a2ca96c565ddd7a5d1e41ca5"></a>
@@ -212,8 +213,24 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/_array_ext_8cs_source.html#l00036">36</a> of file <a class="el" href="../../df/d32/_array_ext_8cs_source.html">ArrayExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        {</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">if</span> (0 &lt;= index &amp;&amp; index &lt; items.Length)</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            {</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                <span class="keywordflow">return</span> items[index];</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            }</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                <span class="keywordflow">return</span> <span class="keywordflow">default</span>(T);</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            }</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div></div><!-- fragment -->
+<p>Attempt to retrieve a value from an array. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of items in the array</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">items</td><td>The array to retrieve from</td></tr>
+    <tr><td class="paramname">index</td><td>The index of the item to retrieve</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>If <em>index</em>  is in bounds for <em>items</em> , returns the indexed item in the array. Otherwise, returns the default value of <em>T</em> . </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/_array_ext_8cs_source.html#l00046">46</a> of file <a class="el" href="../../df/d32/_array_ext_8cs_source.html">ArrayExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">if</span> (0 &lt;= index &amp;&amp; index &lt; items.Length)</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            {</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                <span class="keywordflow">return</span> items[index];</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            }</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            {</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <span class="keywordflow">return</span> <span class="keywordflow">default</span>(T);</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            }</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aed66cd85fe6740d9a1f4dd999c7c9ce7"></a>
@@ -263,9 +280,9 @@ Static Private Attributes</h2></td></tr>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="../../df/d32/_array_ext_8cs_source.html#l00019">19</a> of file <a class="el" href="../../df/d32/_array_ext_8cs_source.html">ArrayExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            <span class="keywordflow">if</span> (items == <span class="keyword">null</span>)</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            {</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(<span class="stringliteral">&quot;items&quot;</span>);</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            }</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (items.Length == 0)</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            {</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(<span class="stringliteral">&quot;items&quot;</span>, <span class="stringliteral">&quot;items array must have at least one item&quot;</span>);</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            }</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            {</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                var index = <a class="code" href="../../da/d4a/class_system_1_1_array_ext.html#a6de821f2909a58f43878ed4c99924cd2">r</a>.Next(0, items.Length);</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keywordflow">return</span> items[index];</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            }</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div><div class="ttc" id="class_system_1_1_array_ext_html_a6de821f2909a58f43878ed4c99924cd2"><div class="ttname"><a href="../../da/d4a/class_system_1_1_array_ext.html#a6de821f2909a58f43878ed4c99924cd2">System.ArrayExt.r</a></div><div class="ttdeci">static Random r</div><div class="ttdoc">A random number generator to use with the following methods.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d32/_array_ext_8cs_source.html#l00085">ArrayExt.cs:85</a></div></div>
+<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            <span class="keywordflow">if</span> (items == <span class="keyword">null</span>)</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            {</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentNullException(<span class="stringliteral">&quot;items&quot;</span>);</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            }</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (items.Length == 0)</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            {</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> ArgumentOutOfRangeException(<span class="stringliteral">&quot;items&quot;</span>, <span class="stringliteral">&quot;items array must have at least one item&quot;</span>);</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            }</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            {</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                var index = <a class="code" href="../../da/d4a/class_system_1_1_array_ext.html#a6de821f2909a58f43878ed4c99924cd2">r</a>.Next(0, items.Length);</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keywordflow">return</span> items[index];</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            }</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div><div class="ttc" id="class_system_1_1_array_ext_html_a6de821f2909a58f43878ed4c99924cd2"><div class="ttname"><a href="../../da/d4a/class_system_1_1_array_ext.html#a6de821f2909a58f43878ed4c99924cd2">System.ArrayExt.r</a></div><div class="ttdeci">static Random r</div><div class="ttdoc">A random number generator to use with the following methods.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d32/_array_ext_8cs_source.html#l00100">ArrayExt.cs:100</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../df/d32/_array_ext_8cs_source.html#l00085">System.ArrayExt.r</a>.</p>
+<p class="reference">References <a class="el" href="../../df/d32/_array_ext_8cs_source.html#l00100">System.ArrayExt.r</a>.</p>
 
 </div>
 </div>
@@ -296,14 +313,14 @@ Static Private Attributes</h2></td></tr>
 <p>Get all the types for the objects in a generic array. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">args</td><td></td></tr>
+    <tr><td class="paramname">args</td><td>The array of items to query.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A lazy collection of System.Type-s for each item in the array. If any particular item is null, returns null for that item.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/_array_ext_8cs_source.html#l00053">53</a> of file <a class="el" href="../../df/d32/_array_ext_8cs_source.html">ArrayExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        {</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">return</span> from arg in args</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                   select arg.GetType();</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../df/d32/_array_ext_8cs_source.html#l00064">64</a> of file <a class="el" href="../../df/d32/_array_ext_8cs_source.html">ArrayExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        {</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">return</span> from arg in args</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                   select arg?.GetType();</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -329,14 +346,14 @@ Static Private Attributes</h2></td></tr>
 
 <p>A random number generator to use with the following methods. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/_array_ext_8cs_source.html#l00085">85</a> of file <a class="el" href="../../df/d32/_array_ext_8cs_source.html">ArrayExt.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d32/_array_ext_8cs_source.html#l00100">100</a> of file <a class="el" href="../../df/d32/_array_ext_8cs_source.html">ArrayExt.cs</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="../../df/d32/_array_ext_8cs_source.html#l00019">System.ArrayExt.RandomItem&lt; T &gt;()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/<a class="el" href="../../df/d32/_array_ext_8cs_source.html">ArrayExt.cs</a></li>
+<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/<a class="el" href="../../df/d32/_array_ext_8cs_source.html">ArrayExt.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

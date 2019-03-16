@@ -1,7 +1,7 @@
 <map id="Juniper.Unity.World.Climate.Weather" name="Juniper.Unity.World.Climate.Weather">
 <area shape="rect" id="node1" title="A component for managing access to weather reports. Only one of these components is allowed on a game..." alt="" coords="470,1212,654,1524"/>
 <area shape="rect" id="node2" title=" " alt="" coords="6,455,115,533"/>
-<area shape="rect" id="node15" href="$db/d2e/class_juniper_1_1_unity_1_1_world_1_1_g_p_s_location.html" title="Retrieves the user&#39;s latitude, longitude, and altitude from satellites orbiting Spaceship Earth...." alt="" coords="97,779,304,1120"/>
+<area shape="rect" id="node15" href="$db/d2e/class_juniper_1_1_unity_1_1_world_1_1_g_p_s_location.html" title="Retrieves the user&#39;s latitude, longitude, and altitude from satellites orbiting Spaceship Earth...." alt="" coords="97,771,304,1127"/>
 <area shape="rect" id="node3" href="$d8/d7d/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_report.html" title=" " alt="" coords="536,801,742,1098"/>
 <area shape="rect" id="node4" href="$d9/d1c/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_a_p_i.html" title=" " alt="" coords="766,896,990,1003"/>
 <area shape="rect" id="node5" href="$db/de7/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_fake_weather_report.html" title="An API&#45;compatible, editable object for making static weather reports." alt="" coords="328,749,512,1149"/>

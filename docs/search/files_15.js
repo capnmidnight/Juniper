@@ -17,6 +17,7 @@ var searchData=
   ['vuforiadisplaymanager_2ecs',['VuforiaDisplayManager.cs',['../d5/d70/_vuforia_display_manager_8cs.html',1,'']]],
   ['vuforiaimageanalyzer_2ecs',['VuforiaImageAnalyzer.cs',['../d3/d31/_vuforia_image_analyzer_8cs.html',1,'']]],
   ['vuforialightmeasurement_2ecs',['VuforiaLightMeasurement.cs',['../d8/dcd/_vuforia_light_measurement_8cs.html',1,'']]],
+  ['vuforiatrackablefoundeventhandler_2ecs',['VuforiaTrackableFoundEventHandler.cs',['../d5/d22/_vuforia_trackable_found_event_handler_8cs.html',1,'']]],
   ['vuforiatrackerkeeper_2ecs',['VuforiaTrackerKeeper.cs',['../d1/dea/_vuforia_tracker_keeper_8cs.html',1,'']]],
   ['vuforiaunityext_2ecs',['VuforiaUnityExt.cs',['../dc/da0/_vuforia_unity_ext_8cs.html',1,'']]]
 ];

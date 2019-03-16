@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$de/d67/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_main.html" title="The main metrics portion of the weather forcast." alt="" coords="5,5,223,47"/>
+<area shape="rect" id="node1" href="$d9/d1c/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_a_p_i.html" title=" " alt="" coords="5,13,229,39"/>
+<area shape="rect" id="node2" href="$d1/d22/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_a_p_i.html" title="An implementation of OpenWeatherMap&#39;s REST API." alt="" coords="277,5,460,47"/>
 </map>

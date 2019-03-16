@@ -29,17 +29,17 @@
 <polygon fill="white" stroke="black" points="6.5,-116.5 6.5,-393.5 130.5,-393.5 130.5,-116.5 6.5,-116.5"/>
 <text text-anchor="middle" x="68.5" y="-381.5" font-family="SegoeUI" font-size="10.00">IPointerDevice</text>
 <polyline fill="none" stroke="black" points="6.5,-374.5 130.5,-374.5 "/>
-<text text-anchor="start" x="14.5" y="-362.5" font-family="SegoeUI" font-size="10.00">+ name</text>
-<text text-anchor="start" x="14.5" y="-351.5" font-family="SegoeUI" font-size="10.00">+ isActiveAndEnabled</text>
-<text text-anchor="start" x="14.5" y="-340.5" font-family="SegoeUI" font-size="10.00">+ transform</text>
-<text text-anchor="start" x="14.5" y="-329.5" font-family="SegoeUI" font-size="10.00">+ IsConnected</text>
-<text text-anchor="start" x="14.5" y="-318.5" font-family="SegoeUI" font-size="10.00">+ IsDisabled</text>
-<text text-anchor="start" x="14.5" y="-307.5" font-family="SegoeUI" font-size="10.00">+ IsEnabled</text>
-<text text-anchor="start" x="14.5" y="-296.5" font-family="SegoeUI" font-size="10.00">+ LockedOnTarget</text>
-<text text-anchor="start" x="14.5" y="-285.5" font-family="SegoeUI" font-size="10.00">+ ButtonType</text>
-<text text-anchor="start" x="14.5" y="-274.5" font-family="SegoeUI" font-size="10.00">+ Raycaster</text>
-<text text-anchor="start" x="14.5" y="-263.5" font-family="SegoeUI" font-size="10.00">+ EventCamera</text>
-<text text-anchor="start" x="14.5" y="-252.5" font-family="SegoeUI" font-size="10.00">and 14 more...</text>
+<text text-anchor="start" x="14.5" y="-362.5" font-family="SegoeUI" font-size="10.00">+ EventTarget</text>
+<text text-anchor="start" x="14.5" y="-351.5" font-family="SegoeUI" font-size="10.00">+ InputModule</text>
+<text text-anchor="start" x="14.5" y="-340.5" font-family="SegoeUI" font-size="10.00">+ PointerID</text>
+<text text-anchor="start" x="14.5" y="-329.5" font-family="SegoeUI" font-size="10.00">+ name</text>
+<text text-anchor="start" x="14.5" y="-318.5" font-family="SegoeUI" font-size="10.00">+ ProbeName</text>
+<text text-anchor="start" x="14.5" y="-307.5" font-family="SegoeUI" font-size="10.00">+ ButtonType</text>
+<text text-anchor="start" x="14.5" y="-296.5" font-family="SegoeUI" font-size="10.00">+ isActiveAndEnabled</text>
+<text text-anchor="start" x="14.5" y="-285.5" font-family="SegoeUI" font-size="10.00">+ IsConnected</text>
+<text text-anchor="start" x="14.5" y="-274.5" font-family="SegoeUI" font-size="10.00">+ IsDisabled</text>
+<text text-anchor="start" x="14.5" y="-263.5" font-family="SegoeUI" font-size="10.00">+ IsEnabled</text>
+<text text-anchor="start" x="14.5" y="-252.5" font-family="SegoeUI" font-size="10.00">and 23 more...</text>
 <polyline fill="none" stroke="black" points="6.5,-245.5 130.5,-245.5 "/>
 <text text-anchor="start" x="14.5" y="-233.5" font-family="SegoeUI" font-size="10.00">+ ViewportFromWorld()</text>
 <text text-anchor="start" x="14.5" y="-222.5" font-family="SegoeUI" font-size="10.00">+ ViewportFromScreen()</text>

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['b',['b',['../d6/de5/class_juniper_1_1_units_1_1_datum_w_g_s__84.html#a4fa010fa325d1041a46d3744965c8f11',1,'Juniper::Units::DatumWGS_84']]],
-  ['backer',['backer',['../d0/dfa/struct_system_1_1_tracked_value.html#a9944d37b3a51b628ae2cb5e08a9f60f9',1,'System::TrackedValue']]],
+  ['backer',['backer',['../d5/d55/class_system_1_1_tracked_value.html#a9944d37b3a51b628ae2cb5e08a9f60f9',1,'System::TrackedValue']]],
   ['bar',['bar',['../de/d16/class_juniper_1_1_unity_1_1_widgets_1_1_progress_bar.html#a30cc02d2c1767ba4edd20785cf09987b',1,'Juniper::Unity::Widgets::ProgressBar']]],
   ['battery',['Battery',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#a4543c21dc18d651fa45e9bcc572574aa',1,'Juniper::NeuroSky::MindWaveAdapter']]],
   ['batterylevel',['BatteryLevel',['../d4/d14/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_controller.html#a48052a0ebd5b45197665054dc5ebce43',1,'Juniper::Unity::Input::Pointers::Motion::OculusTouchController']]],
@@ -13,16 +13,16 @@ var searchData=
   ['body',['Body',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#aefa5cfeed73a0d09ec79eb0070731f1f',1,'Juniper::Unity::StageExtensions']]],
   ['boiling_5fpoint',['BOILING_POINT',['../de/d87/class_juniper_1_1_units_1_1_celsius.html#a7c55fa9d5a01795fbbd001a8939f259a',1,'Juniper.Units.Celsius.BOILING_POINT()'],['../d2/d75/class_juniper_1_1_units_1_1_farenheit.html#ad87c12ba8fc985a0649b80b61beac632',1,'Juniper.Units.Farenheit.BOILING_POINT()'],['../d9/d59/class_juniper_1_1_units_1_1_kelvin.html#a3f9a66cdff89fd0a6388eedc9bf1e711',1,'Juniper.Units.Kelvin.BOILING_POINT()']]],
   ['btn',['btn',['../da/d7b/class_juniper_1_1_unity_1_1_widgets_1_1_list_view_item.html#ab8d51a078613687851707635fb267037',1,'Juniper::Unity::Widgets::ListViewItem']]],
-  ['buffer',['buffer',['../d5/d75/class_system_1_1_collections_1_1_generic_1_1_ring_buffer.html#a6a1cf080cf245c461e3bacaa28131595',1,'System::Collections::Generic::RingBuffer']]],
-  ['buildstep',['buildStep',['../d2/d93/class_juniper_1_1_unity_1_1_configuration_management_1_1_project_configuration.html#a78656eb74601080328649dae72dec669',1,'Juniper::Unity::ConfigurationManagement::ProjectConfiguration']]],
-  ['buildtarget',['buildTarget',['../d5/d70/class_juniper_1_1_unity_1_1_configuration_management_1_1_platform_configuration.html#ae2ae979e73c8cbb1b40bbba12ed8a8e7',1,'Juniper::Unity::ConfigurationManagement::PlatformConfiguration']]],
+  ['buffer',['buffer',['../dc/d08/class_juniper_1_1_collections_1_1_ring_buffer.html#ae575fa71d1e56052f936aed7c200a92c',1,'Juniper::Collections::RingBuffer']]],
+  ['buildstep',['buildStep',['../df/dcf/class_juniper_1_1_unity_editor_1_1_configuration_management_1_1_project_configuration.html#a1e587384bdc8851f339a16ceba7b672a',1,'Juniper::UnityEditor::ConfigurationManagement::ProjectConfiguration']]],
+  ['buildtarget',['buildTarget',['../dc/dd8/class_juniper_1_1_unity_editor_1_1_configuration_management_1_1_platform_configuration.html#af5d56a3a8459f25704c723d31771bca2',1,'Juniper::UnityEditor::ConfigurationManagement::PlatformConfiguration']]],
   ['button_5fcenters',['BUTTON_CENTERS',['../d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a1bdbd535a350c1fe8d8383749c9d0246',1,'Juniper::Unity::Input::Pointers::Motion::AbstractMotionController']]],
   ['button_5fradius',['BUTTON_RADIUS',['../d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html#a8dd5476f3383911cebefeb8a7f00f293',1,'Juniper::Unity::Input::Pointers::Motion::AbstractMotionController']]],
   ['buttondowntime',['buttonDownTime',['../d4/da3/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_button_mapper.html#aaffa290ba2f1e8cef1aa38de2c1fe698',1,'Juniper::Unity::Input::Pointers::ButtonMapper']]],
   ['buttonevents',['buttonEvents',['../d4/da3/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_button_mapper.html#affd6f6dc7d0e64952be1a4d07d554df0',1,'Juniper::Unity::Input::Pointers::ButtonMapper']]],
-  ['buttons',['buttons',['../d1/d66/class_juniper_1_1_unity_1_1_animation_1_1_workflow_step.html#a23039bcf495390ef8da0cb871dfa6da1',1,'Juniper.Unity.Animation.WorkflowStep.buttons()'],['../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html#adadbd073dc64847bb58dd10c72d94d56',1,'Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice.BUTTONS()']]],
-  ['buttontypelabel',['ButtonTypeLabel',['../d9/dc7/class_juniper_1_1_unity_1_1_events_1_1_button_event_editor.html#abca7b871344838f5974ea2e84f6c217c',1,'Juniper::Unity::Events::ButtonEventEditor']]],
+  ['buttons',['buttons',['../d1/d66/class_juniper_1_1_unity_1_1_animation_1_1_workflow_step.html#a23039bcf495390ef8da0cb871dfa6da1',1,'Juniper::Unity::Animation::WorkflowStep']]],
+  ['buttontypelabel',['ButtonTypeLabel',['../d7/d6b/class_juniper_1_1_unity_editor_1_1_events_1_1_button_event_editor.html#af5b104928b148ca0864369b5d46a51cc',1,'Juniper::UnityEditor::Events::ButtonEventEditor']]],
   ['buttontypename',['buttonTypeName',['../db/d9a/class_juniper_1_1_unity_1_1_events_1_1_button_event.html#ac85b2d53c5c8092a629c001c0b68a406',1,'Juniper::Unity::Events::ButtonEvent']]],
-  ['buttonvaluelabel',['ButtonValueLabel',['../d9/dc7/class_juniper_1_1_unity_1_1_events_1_1_button_event_editor.html#aaa7d800166312a7a66fdbb1dd3c56102',1,'Juniper::Unity::Events::ButtonEventEditor']]],
+  ['buttonvaluelabel',['ButtonValueLabel',['../d7/d6b/class_juniper_1_1_unity_editor_1_1_events_1_1_button_event_editor.html#a830cd2a087dbc99c8a29b6240cf6f5f6',1,'Juniper::UnityEditor::Events::ButtonEventEditor']]],
   ['buttonvaluename',['buttonValueName',['../db/d9a/class_juniper_1_1_unity_1_1_events_1_1_button_event.html#afe1d53ec92848ae149e545d7b6169d7a',1,'Juniper::Unity::Events::ButtonEvent']]]
 ];

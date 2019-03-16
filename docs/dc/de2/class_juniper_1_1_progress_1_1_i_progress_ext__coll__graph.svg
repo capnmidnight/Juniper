@@ -15,7 +15,7 @@
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-57.5 144,-57.5 144,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="72" y="-45.5" font-family="SegoeUI" font-size="10.00">Juniper.Progress.IProgressExt</text>
 <polyline fill="none" stroke="black" points="0,-38.5 144,-38.5 "/>
-<text text-anchor="middle" x="72" y="-26.5" font-family="SegoeUI" font-size="10.00"> </text>
+<text text-anchor="start" x="8" y="-26.5" font-family="SegoeUI" font-size="10.00">&#45; ALPHA</text>
 <polyline fill="none" stroke="black" points="0,-19.5 144,-19.5 "/>
 <text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ IsComplete()</text>
 </a>

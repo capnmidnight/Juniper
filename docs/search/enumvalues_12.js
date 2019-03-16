@@ -6,7 +6,6 @@ var searchData=
   ['scattered_5fclouds',['SCATTERED_CLOUDS',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40aa50a2458b10ecb52c1299906c29bb2fc',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
   ['scrolled',['Scrolled',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82add9f478d35dc202fac54b4de21062e2e',1,'Juniper::Input']]],
   ['seconds',['Seconds',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a8f19a8c7566af54ea8981029730e5465',1,'Juniper']]],
-  ['select',['Select',['../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7ae0626222614bdee31951d84c64e5e9ff',1,'Juniper::Unity::Input::Pointers::Motion']]],
   ['selectionchange',['SelectionChange',['../df/d94/namespace_juniper_1_1_unity_1_1_haptics.html#a26351fb58c31def710b2c395a49dbd63a5f8cf541e0133c98e21d0c27510404a1',1,'Juniper::Unity::Haptics']]],
   ['september',['September',['../d8/dd0/namespace_system.html#a9948aa83f3da57bc2f9e436b6a08675bacc5d90569e1c8313c2b1c2aab1401174',1,'System']]],
   ['severe_5fgale',['SEVERE_GALE',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40a384e68990996a817f7ac494838625476',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
@@ -42,6 +41,7 @@ var searchData=
   ['standalonesteamvr',['StandaloneSteamVR',['../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991a0347cb1a49403a71d480a02dc34b85a8',1,'Juniper']]],
   ['startup',['StartUp',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a62697cf4b8d5f13a548430b5be1be665',1,'Juniper::Input']]],
   ['stereo',['Stereo',['../de/d75/namespace_juniper.html#afdef876db6475e1e32fde7d9095d3626abbc45d9b35436f5f0ed9e33499efcea9',1,'Juniper']]],
+  ['stopped',['Stopped',['../de/d75/namespace_juniper.html#a3c284057d15778066474a35a44716f10ac23e2b09ebe6bf4cb5e2a9abe85c0be2',1,'Juniper']]],
   ['storm',['STORM',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40a4cac25d28bea5e08ef731c6caa629e1d',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
   ['strong_5fbreeze',['STRONG_BREEZE',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40a392522bf60d5cf44cca7aa95ce134a0d',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
   ['success',['Success',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a505a83f220c02df2f85c3810cd9ceb38',1,'Juniper.Input.Success()'],['../df/d94/namespace_juniper_1_1_unity_1_1_haptics.html#a26351fb58c31def710b2c395a49dbd63a505a83f220c02df2f85c3810cd9ceb38',1,'Juniper.Unity.Haptics.Success()']]]

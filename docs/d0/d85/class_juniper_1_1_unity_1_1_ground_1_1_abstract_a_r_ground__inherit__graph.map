@@ -1,10 +1,8 @@
 <map id="Juniper.Unity.Ground.AbstractARGround" name="Juniper.Unity.Ground.AbstractARGround">
-<area shape="rect" id="node1" title=" " alt="" coords="209,535,399,627"/>
-<area shape="rect" id="node5" href="$d8/d8c/class_juniper_1_1_unity_1_1_ground_1_1_a_r_core_ground.html" title=" " alt="" coords="5,719,192,825"/>
-<area shape="rect" id="node6" href="$dd/dd1/class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground.html" title=" " alt="" coords="217,719,391,825"/>
-<area shape="rect" id="node7" href="$d1/d1e/class_juniper_1_1_unity_1_1_ground_1_1_holo_lens_ground.html" title=" " alt="" coords="416,675,632,869"/>
-<area shape="rect" id="node2" href="$d6/dcb/class_juniper_1_1_unity_1_1_ground_1_1_abstract_ground.html" title=" " alt="" coords="215,160,393,487"/>
-<area shape="rect" id="node3" title=" " alt="" coords="187,20,296,97"/>
-<area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="321,5,413,112"/>
-<area shape="rect" id="node8" href="$d1/d89/class_juniper_1_1_unity_1_1_ground_1_1_ground.html" title="Manages references to the ground, either 3D terrain in VR apps or detected planes and meshes in AR ap..." alt="" coords="431,917,617,995"/>
+<area shape="rect" id="node1" title=" " alt="" coords="27,505,218,597"/>
+<area shape="rect" id="node5" href="$d1/d1e/class_juniper_1_1_unity_1_1_ground_1_1_holo_lens_ground.html" title=" " alt="" coords="15,645,231,1060"/>
+<area shape="rect" id="node2" href="$d6/dcb/class_juniper_1_1_unity_1_1_ground_1_1_abstract_ground.html" title=" " alt="" coords="33,160,212,457"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,20,115,97"/>
+<area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="139,5,231,112"/>
+<area shape="rect" id="node6" href="$d1/d89/class_juniper_1_1_unity_1_1_ground_1_1_ground.html" title="Manages references to the ground, either 3D terrain in VR apps or detected planes and meshes in AR ap..." alt="" coords="30,1108,215,1185"/>
 </map>

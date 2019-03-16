@@ -1,5 +1,5 @@
 <map id="Juniper.Unity.Animation.ChildSwapAnimator" name="Juniper.Unity.Animation.ChildSwapAnimator">
-<area shape="rect" id="node1" title="An animator for UIs that swap out child components as visible/invisible. Only one such component is a..." alt="" coords="5,300,165,436"/>
+<area shape="rect" id="node1" title="An animator for UIs that swap out child components as visible/invisible. Only one such component is a..." alt="" coords="5,300,165,407"/>
 <area shape="rect" id="node2" href="$dd/d2d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_animator.html" title="An abstraction layer over different ways of showing UI state. Only one such component is allowed on a..." alt="" coords="24,131,147,252"/>
 <area shape="rect" id="node3" title=" " alt="" coords="31,5,140,83"/>
 </map>

@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 602)">
 <title>Juniper.Unity.Input.Pointers.Motion.IMotionController</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-602 141,-602 141,4 -4,4"/>
-<!-- Node16 -->
-<g id="node1" class="node"><title>Node16</title>
+<!-- Node9 -->
+<g id="node1" class="node"><title>Node9</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-145.5 137,-145.5 137,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-133.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
@@ -29,8 +29,8 @@
 </a>
 </g>
 </g>
-<!-- Node17 -->
-<g id="node2" class="node"><title>Node17</title>
+<!-- Node10 -->
+<g id="node2" class="node"><title>Node10</title>
 <g id="a_node2"><a xlink:href="../../dc/d7c/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="12.5,-182.5 12.5,-283.5 124.5,-283.5 124.5,-182.5 12.5,-182.5"/>
 <text text-anchor="middle" x="68.5" y="-271.5" font-family="SegoeUI" font-size="10.00">IHandedPointer</text>
@@ -45,28 +45,28 @@
 </a>
 </g>
 </g>
-<!-- Node17&#45;&gt;Node16 -->
-<g id="edge1" class="edge"><title>Node17&#45;&gt;Node16</title>
+<!-- Node10&#45;&gt;Node9 -->
+<g id="edge1" class="edge"><title>Node10&#45;&gt;Node9</title>
 <path fill="none" stroke="midnightblue" d="M68.5,-172.381C68.5,-163.656 68.5,-154.595 68.5,-145.66"/>
 <polygon fill="none" stroke="midnightblue" points="65.0001,-172.441 68.5,-182.441 72.0001,-172.441 65.0001,-172.441"/>
 </g>
-<!-- Node18 -->
-<g id="node3" class="node"><title>Node18</title>
+<!-- Node11 -->
+<g id="node3" class="node"><title>Node11</title>
 <g id="a_node3"><a xlink:href="../../d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="6.5,-320.5 6.5,-597.5 130.5,-597.5 130.5,-320.5 6.5,-320.5"/>
 <text text-anchor="middle" x="68.5" y="-585.5" font-family="SegoeUI" font-size="10.00">IPointerDevice</text>
 <polyline fill="none" stroke="black" points="6.5,-578.5 130.5,-578.5 "/>
-<text text-anchor="start" x="14.5" y="-566.5" font-family="SegoeUI" font-size="10.00">+ name</text>
-<text text-anchor="start" x="14.5" y="-555.5" font-family="SegoeUI" font-size="10.00">+ isActiveAndEnabled</text>
-<text text-anchor="start" x="14.5" y="-544.5" font-family="SegoeUI" font-size="10.00">+ transform</text>
-<text text-anchor="start" x="14.5" y="-533.5" font-family="SegoeUI" font-size="10.00">+ IsConnected</text>
-<text text-anchor="start" x="14.5" y="-522.5" font-family="SegoeUI" font-size="10.00">+ IsDisabled</text>
-<text text-anchor="start" x="14.5" y="-511.5" font-family="SegoeUI" font-size="10.00">+ IsEnabled</text>
-<text text-anchor="start" x="14.5" y="-500.5" font-family="SegoeUI" font-size="10.00">+ LockedOnTarget</text>
-<text text-anchor="start" x="14.5" y="-489.5" font-family="SegoeUI" font-size="10.00">+ ButtonType</text>
-<text text-anchor="start" x="14.5" y="-478.5" font-family="SegoeUI" font-size="10.00">+ Raycaster</text>
-<text text-anchor="start" x="14.5" y="-467.5" font-family="SegoeUI" font-size="10.00">+ EventCamera</text>
-<text text-anchor="start" x="14.5" y="-456.5" font-family="SegoeUI" font-size="10.00">and 14 more...</text>
+<text text-anchor="start" x="14.5" y="-566.5" font-family="SegoeUI" font-size="10.00">+ EventTarget</text>
+<text text-anchor="start" x="14.5" y="-555.5" font-family="SegoeUI" font-size="10.00">+ InputModule</text>
+<text text-anchor="start" x="14.5" y="-544.5" font-family="SegoeUI" font-size="10.00">+ PointerID</text>
+<text text-anchor="start" x="14.5" y="-533.5" font-family="SegoeUI" font-size="10.00">+ name</text>
+<text text-anchor="start" x="14.5" y="-522.5" font-family="SegoeUI" font-size="10.00">+ ProbeName</text>
+<text text-anchor="start" x="14.5" y="-511.5" font-family="SegoeUI" font-size="10.00">+ ButtonType</text>
+<text text-anchor="start" x="14.5" y="-500.5" font-family="SegoeUI" font-size="10.00">+ isActiveAndEnabled</text>
+<text text-anchor="start" x="14.5" y="-489.5" font-family="SegoeUI" font-size="10.00">+ IsConnected</text>
+<text text-anchor="start" x="14.5" y="-478.5" font-family="SegoeUI" font-size="10.00">+ IsDisabled</text>
+<text text-anchor="start" x="14.5" y="-467.5" font-family="SegoeUI" font-size="10.00">+ IsEnabled</text>
+<text text-anchor="start" x="14.5" y="-456.5" font-family="SegoeUI" font-size="10.00">and 23 more...</text>
 <polyline fill="none" stroke="black" points="6.5,-449.5 130.5,-449.5 "/>
 <text text-anchor="start" x="14.5" y="-437.5" font-family="SegoeUI" font-size="10.00">+ ViewportFromWorld()</text>
 <text text-anchor="start" x="14.5" y="-426.5" font-family="SegoeUI" font-size="10.00">+ ViewportFromScreen()</text>
@@ -82,8 +82,8 @@
 </a>
 </g>
 </g>
-<!-- Node18&#45;&gt;Node17 -->
-<g id="edge2" class="edge"><title>Node18&#45;&gt;Node17</title>
+<!-- Node11&#45;&gt;Node10 -->
+<g id="edge2" class="edge"><title>Node11&#45;&gt;Node10</title>
 <path fill="none" stroke="midnightblue" d="M68.5,-310.18C68.5,-300.987 68.5,-292.154 68.5,-283.966"/>
 <polygon fill="none" stroke="midnightblue" points="65.0001,-310.284 68.5,-320.284 72.0001,-310.284 65.0001,-310.284"/>
 </g>

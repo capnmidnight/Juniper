@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['xrplatforms',['XRPlatforms',['../d5/d70/class_juniper_1_1_unity_1_1_configuration_management_1_1_platform_configuration.html#a015e3fa4ed8ce56a4899b886e382a8b1',1,'Juniper::Unity::ConfigurationManagement::PlatformConfiguration']]]
+  ['xrplatforms',['XRPlatforms',['../dc/dd8/class_juniper_1_1_unity_editor_1_1_configuration_management_1_1_platform_configuration.html#ab867cbb863e6a7e0828c39f92883f953',1,'Juniper::UnityEditor::ConfigurationManagement::PlatformConfiguration']]]
 ];

@@ -1,0 +1,4 @@
+<map id="Juniper.Collections.RingBuffer&lt; T &gt;" name="Juniper.Collections.RingBuffer&lt; T &gt;">
+<area shape="rect" id="node1" title="A collection of fixed size that overwrites the oldest items when the collection is full." alt="" coords="5,131,163,545"/>
+<area shape="rect" id="node2" title=" " alt="" coords="45,5,123,83"/>
+</map>

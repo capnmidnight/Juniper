@@ -13,7 +13,7 @@ var searchData=
   ['touchpoint',['TouchPoint',['../dd/d87/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_touch_point.html',1,'Juniper::Unity::Input::Pointers::Screen']]],
   ['touchpointconfiguration',['TouchPointConfiguration',['../d9/d1f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_touch_point_configuration.html',1,'Juniper::Unity::Input::Pointers::Screen']]],
   ['trackablefoundeventhandler',['TrackableFoundEventHandler',['../de/d4e/class_juniper_1_1_unity_1_1_image_tracking_1_1_trackable_found_event_handler.html',1,'Juniper::Unity::ImageTracking']]],
-  ['trackedvalue',['TrackedValue',['../d0/dfa/struct_system_1_1_tracked_value.html',1,'System']]],
+  ['trackedvalue',['TrackedValue',['../d5/d55/class_system_1_1_tracked_value.html',1,'System']]],
   ['trackerkeeper',['TrackerKeeper',['../da/d84/class_juniper_1_1_unity_1_1_image_tracking_1_1_tracker_keeper.html',1,'Juniper::Unity::ImageTracking']]],
   ['trackingstatechangeeventargs',['TrackingStateChangeEventArgs',['../d6/dc9/class_juniper_1_1_unity_1_1_image_tracking_1_1_tracking_state_change_event_args.html',1,'Juniper::Unity::ImageTracking']]],
   ['transformevent',['TransformEvent',['../d1/d11/class_unity_engine_1_1_events_1_1_transform_event.html',1,'UnityEngine::Events']]],

@@ -112,9 +112,11 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aa42826e4cf4069adaf57ebdfed31d06c"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d3f/class_system_1_1_string_ext.html#aa42826e4cf4069adaf57ebdfed31d06c">Join</a> (this string[] parts)</td></tr>
 <tr class="memdesc:aa42826e4cf4069adaf57ebdfed31d06c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Join a collection of string path components by the system's standard directory part separator character  <a href="#aa42826e4cf4069adaf57ebdfed31d06c">More...</a><br /></td></tr>
 <tr class="separator:aa42826e4cf4069adaf57ebdfed31d06c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34643b018859ad0bd37801040fb8ef92"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d3f/class_system_1_1_string_ext.html#a34643b018859ad0bd37801040fb8ef92">Join</a> (this string[] parts, string separator)</td></tr>
-<tr class="separator:a34643b018859ad0bd37801040fb8ef92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84c0948c7ba4c97141d93e13992b24dc"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d3f/class_system_1_1_string_ext.html#a84c0948c7ba4c97141d93e13992b24dc">Join</a> (this string[] parts, string separator=null)</td></tr>
+<tr class="memdesc:a84c0948c7ba4c97141d93e13992b24dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">An extension method to join an array of strings with a separator. Sort of a fluent interface for System.String.Join.  <a href="#a84c0948c7ba4c97141d93e13992b24dc">More...</a><br /></td></tr>
+<tr class="separator:a84c0948c7ba4c97141d93e13992b24dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab32e0d448db6099953f7bc2255b1ba14"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d3f/class_system_1_1_string_ext.html#ab32e0d448db6099953f7bc2255b1ba14">Join</a> (this string[] parts, char separator)</td></tr>
+<tr class="memdesc:ab32e0d448db6099953f7bc2255b1ba14"><td class="mdescLeft">&#160;</td><td class="mdescRight">An extension method to join an array of strings with a separator. Sort of a fluent interface for System.String.Join.  <a href="#ab32e0d448db6099953f7bc2255b1ba14">More...</a><br /></td></tr>
 <tr class="separator:ab32e0d448db6099953f7bc2255b1ba14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -160,8 +162,8 @@ Static Public Member Functions</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
-<a id="a34643b018859ad0bd37801040fb8ef92"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34643b018859ad0bd37801040fb8ef92">&#9670;&nbsp;</a></span>Join() <span class="overload">[2/3]</span></h2>
+<a id="a84c0948c7ba4c97141d93e13992b24dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84c0948c7ba4c97141d93e13992b24dc">&#9670;&nbsp;</a></span>Join() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -179,7 +181,7 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>separator</em>&#160;</td>
+          <td class="paramname"><em>separator</em> = <code>null</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -194,8 +196,18 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d63/_string_ext_8cs_source.html#l00068">68</a> of file <a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        {</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keywordflow">if</span> (parts.Length == 0)</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            {</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordflow">return</span> <span class="keywordtype">string</span>.Empty;</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            }</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            var sb = <span class="keyword">new</span> Text.StringBuilder(parts[0]);</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordflow">for</span> (var i = 1; i &lt; parts.Length; ++i)</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                sb.AppendFormat(<span class="stringliteral">&quot;{0}{1}&quot;</span>, separator, parts[i]);</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            }</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">return</span> sb.ToString();</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div></div><!-- fragment -->
+<p>An extension method to join an array of strings with a separator. Sort of a fluent interface for System.String.Join. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parts</td><td>The strings to join.</td></tr>
+    <tr><td class="paramname">separator</td><td>The separator to insert between each string value. Defaults to the empty string.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The joined string.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../dc/d63/_string_ext_8cs_source.html#l00075">75</a> of file <a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        {</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">if</span> (parts.Length == 0)</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            {</div><div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">return</span> <span class="keywordtype">string</span>.Empty;</div><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            }</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">if</span> (separator == <span class="keyword">null</span>)</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            {</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                separator = <span class="keywordtype">string</span>.Empty;</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            }</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            var sb = <span class="keyword">new</span> Text.StringBuilder(parts[0]);</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            <span class="keywordflow">for</span> (var i = 1; i &lt; parts.Length; ++i)</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                sb.AppendFormat(<span class="stringliteral">&quot;{0}{1}&quot;</span>, separator, parts[i]);</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            }</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">return</span> sb.ToString();</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ab32e0d448db6099953f7bc2255b1ba14"></a>
@@ -232,8 +244,18 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d63/_string_ext_8cs_source.html#l00082">82</a> of file <a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        {</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">if</span> (parts.Length == 0)</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            {</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keywordflow">return</span> <span class="keywordtype">string</span>.Empty;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            }</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            var sb = <span class="keyword">new</span> Text.StringBuilder(parts[0]);</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordflow">for</span> (var i = 1; i &lt; parts.Length; ++i)</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            {</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                sb.AppendFormat(<span class="stringliteral">&quot;{0}{1}&quot;</span>, separator, parts[i]);</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            }</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keywordflow">return</span> sb.ToString();</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        }</div></div><!-- fragment -->
+<p>An extension method to join an array of strings with a separator. Sort of a fluent interface for System.String.Join. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parts</td><td>The strings to join.</td></tr>
+    <tr><td class="paramname">separator</td><td>The separator to insert between each string value. Defaults to the empty string.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The joined string.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../dc/d63/_string_ext_8cs_source.html#l00101">101</a> of file <a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        {</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <span class="keywordflow">if</span> (parts.Length == 0)</div><div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            {</div><div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                <span class="keywordflow">return</span> <span class="keywordtype">string</span>.Empty;</div><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            }</div><div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            var sb = <span class="keyword">new</span> Text.StringBuilder(parts[0]);</div><div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordflow">for</span> (var i = 1; i &lt; parts.Length; ++i)</div><div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            {</div><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                sb.AppendFormat(<span class="stringliteral">&quot;{0}{1}&quot;</span>, separator, parts[i]);</div><div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            }</div><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keywordflow">return</span> sb.ToString();</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ac9c47e644871055417a5cfd89dcc7cc4"></a>
@@ -348,7 +370,7 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/<a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a></li>
+<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/<a class="el" href="../../dc/d63/_string_ext_8cs_source.html">StringExt.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

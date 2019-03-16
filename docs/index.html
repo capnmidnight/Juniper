@@ -102,21 +102,45 @@ $(function() {
 Introduction</h1>
 <p><a class="el" href="de/d75/namespace_juniper.html">Juniper</a> is a framework within Unity 3D for managing and developing virtual, augmented, and mixed reality applications, within the context of a metaphor of the human body. It provides the following sub-modules:</p>
 <ul>
+<li><em>Data</em> - Managing HTTP requests and streaming assets, all from background threads that do not lock up the main UI thread.</li>
+<li><em>Ground</em> - Terrain rendering and AR surface reconstruction base code.</li>
+<li><em>ImageTracking</em> - Image-marker tracking base code.</li>
+<li><em>Input</em> - Base-code for handling user input.</li>
+<li><em>NeuroSky</em> - Wrapper code for handling <a href="https://store.neurosky.com/pages/mindwave">the NeuroSky MindWave device</a>.</li>
+<li><em>Progress</em> - Interfaces for representing progress meters.</li>
+<li><em>Statistics</em> - Collections that perform statistical analysis on their contents.</li>
+<li><em>Units</em> - Conversions between and formattings of values tagged with units of measure.</li>
+<li><em>Unity</em> - Components and implementations for the Unity platform.<ul>
+<li><em>Anchoring</em> - Components for fixing objects in space, with persistence on AR platforms.</li>
 <li><em>Animation</em> - Basic animations on specific, common object properties, without having to engage the full power of Mecanim.</li>
 <li><em>Audio</em> - Audio management and effects components.</li>
-<li><em>Data</em> - Managing HTTP requests and streaming assets, all from background threads that do not lock up the main UI thread.</li>
-<li><em>Editor</em> - Custom editors for <a class="el" href="de/d75/namespace_juniper.html">Juniper</a>'s Unity Components to make them easier to edit within the Unity Editor. Also includes the Unit Tests for all other code modules.</li>
-<li><em>Extensions</em> - Useful functions to add on top of Unity and .NET's existing classes.</li>
+<li><em>Collections</em> - Unity-specific collection manipulation code.</li>
+<li><em>Display</em> - Components for managing VR and AR display modes.</li>
+<li><em>Events</em> - Custom UnityEvent classes that pass a few primitive values as event arguments.</li>
+<li><em>Ground</em> - Concrete implementations of AR surface reconstruction and terrain rendering.</li>
 <li><em>Haptics</em> - Components for performing high-quality haptic feedback on systems that support it.</li>
+<li><em>ImageTracking</em> - Concrete implementations for platform-specific marker tracking.</li>
 <li><em>Imaging</em> - Loading and processing PNG and raw images.</li>
 <li><em>Input</em> - Handling user input: keyboard, mouse, touch, motion controllers, and speech.</li>
-<li><em>Light Mapping</em> - Swapping light map sets at runtime to have different, baked lighting conditions without switching scenes.</li>
-<li><em>Statistics</em> - Collections that perform statistical analysis on their contents.</li>
+<li><em>LightMapping</em> - Swapping light map sets at runtime to have different, baked lighting conditions without switching scenes.</li>
+<li><em>Progress</em> - Implementations of the IProgress interface for use in Unity experiences.</li>
+<li><em>Statistics</em> - Statistical analysis collections for Unity's Vector structures.</li>
 <li><em>Widgets</em> - Visual elements with which the user may interact.</li>
 <li><em>World</em> - Components for understanding and integrating with the real world: light estimation, global positioning, translating between spatial reference systems, receiving weather reports.</li>
-<li><em>Units</em> - Conversions between and formattings of values tagged with units of measure.</li>
-<li><em>XR</em> - Management of VR and AR hardware, specifically the detection of surfaces and the tracking of positional hardware.</li>
-<li><em>Other</em> - Scene and project management tools, for managing complex scene hierarchies in the Unity editor and at runtime. </li>
+</ul>
+</li>
+<li><em>UnityEditor</em> - Components that run in the UnityEditor itself, with custom editors for a few of <a class="el" href="de/d75/namespace_juniper.html">Juniper</a>'s components.<ul>
+<li><em>ConfigurationManagement</em> - Listings of VR and AR platforms, their dependencies, and a dependency manager for automatically converting Unity projects between different platforms.</li>
+</ul>
+</li>
+<li><em>World</em> - Physical world units and data.<ul>
+<li><em>Climate</em> - Code relating to weather reporting.<ul>
+<li><em>OpenWeatherMap</em> - Service integration for <a href="https://openweathermap.org/">OpenWeatherMap</a>'s API.</li>
+</ul>
+</li>
+<li><em>GIS</em> - Latitude/Longitude points and conversions to different coordinate frames. </li>
+</ul>
+</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md18"></a>
 Setup</h1>
@@ -219,13 +243,13 @@ Platform Notes</h2>
 Code Metrics</h1>
 <h2><a class="anchor" id="autotoc_md27"></a>
 Juniper</h2>
-<div class="fragment"><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Language                     Files       Lines      Code    Comments     Blanks</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">C#                             325       38543     25768        7867       4908</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Total                          325       38543     25768        7867       4908</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Estimated Cost to Develop $1,600,431</div><div class="line">Estimated Schedule Effort 14.220609 months</div><div class="line">Estimated People Required 6.821290</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div></div><!-- fragment --><h2><a class="anchor" id="autotoc_md28"></a>
+<div class="fragment"><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Language                     Files       Lines      Code    Comments     Blanks</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">C#                             335       40639     26897        8653       5089</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Total                          335       40639     26897        8653       5089</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Estimated Cost to Develop $1,674,138</div><div class="line">Estimated Schedule Effort 14.466012 months</div><div class="line">Estimated People Required 7.014394</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div></div><!-- fragment --><h2><a class="anchor" id="autotoc_md28"></a>
 Juniper.Units</h2>
 <p><a href="https://capnmidnight.github.io/Juniper.Units">project site</a></p>
 <div class="fragment"><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Language                     Files       Lines      Code    Comments     Blanks</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">C#                              85       10658      4293        5159       1206</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Total                           85       10658      4293        5159       1206</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Estimated Cost to Develop $243,781</div><div class="line">Estimated Schedule Effort 6.956144 months</div><div class="line">Estimated People Required 2.124126</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div></div><!-- fragment --><h2><a class="anchor" id="autotoc_md29"></a>
 Juniper.NeuroSky</h2>
 <p><a href="https://capnmidnight.github.io/Juniper.NeuroSky">project site</a></p>
-<div class="fragment"><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Language                     Files       Lines      Code    Comments     Blanks</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">C#                               5         669       524          34        111</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Total                            5         669       524          34        111</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Estimated Cost to Develop $26,785</div><div class="line">Estimated Schedule Effort 3.005455 months</div><div class="line">Estimated People Required 0.540179</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div></div><!-- fragment --> </div></div><!-- PageDoc -->
+<div class="fragment"><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Language                     Files       Lines      Code    Comments     Blanks</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">C#                              20         669       524          34        111</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Total                           20         669       524          34        111</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Estimated Cost to Develop $26,785</div><div class="line">Estimated Schedule Effort 3.005455 months</div><div class="line">Estimated People Required 0.540179</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div></div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->
 <!-- start footer part -->

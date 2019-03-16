@@ -81,6 +81,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="../../d1/d2f/class_juniper_1_1_progress_1_1_i_progress_ext-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Juniper.Progress.IProgressExt Class Reference</div>  </div>
@@ -99,10 +100,15 @@ $(function() {
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a97b2949766ed2ab17b56e24009b4e218"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da6/class_juniper_1_1_progress_1_1_i_progress_ext.html#a97b2949766ed2ab17b56e24009b4e218">IsComplete</a> (this <a class="el" href="../../d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html">IProgress</a> prog)</td></tr>
 <tr class="separator:a97b2949766ed2ab17b56e24009b4e218"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:af354caa2b59704029aa0f2004d94b396"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da6/class_juniper_1_1_progress_1_1_i_progress_ext.html#af354caa2b59704029aa0f2004d94b396">ALPHA</a> = 1e-3f</td></tr>
+<tr class="separator:af354caa2b59704029aa0f2004d94b396"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html#l00013">13</a> of file <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html">IProgress.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html#l00011">11</a> of file <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html">IProgress.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a97b2949766ed2ab17b56e24009b4e218"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a97b2949766ed2ab17b56e24009b4e218">&#9670;&nbsp;</a></span>IsComplete()</h2>
@@ -128,14 +134,43 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html#l00015">15</a> of file <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html">IProgress.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        {</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keywordflow">return</span> Mathf.Approximately(prog.Progress, 1);</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        }</div></div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html#l00008">Juniper.Progress.IProgress.Progress</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html#l00014">14</a> of file <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html">IProgress.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        {</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            <span class="keywordflow">return</span> <a class="code" href="../../d8/dd0/namespace_system.html">System</a>.Math.Abs(prog.Progress - 1) &lt; <a class="code" href="../../db/da6/class_juniper_1_1_progress_1_1_i_progress_ext.html#af354caa2b59704029aa0f2004d94b396">ALPHA</a>;</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        }</div><div class="ttc" id="namespace_system_html"><div class="ttname"><a href="../../d8/dd0/namespace_system.html">System</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d32/_array_ext_8cs_source.html#l00004">ArrayExt.cs:4</a></div></div>
+<div class="ttc" id="class_juniper_1_1_progress_1_1_i_progress_ext_html_af354caa2b59704029aa0f2004d94b396"><div class="ttname"><a href="../../db/da6/class_juniper_1_1_progress_1_1_i_progress_ext.html#af354caa2b59704029aa0f2004d94b396">Juniper.Progress.IProgressExt.ALPHA</a></div><div class="ttdeci">const float ALPHA</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d3c/_i_progress_8cs_source.html#l00013">IProgress.cs:13</a></div></div>
+</div><!-- fragment -->
+<p class="reference">References <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html#l00013">Juniper.Progress.IProgressExt.ALPHA</a>, and <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html#l00006">Juniper.Progress.IProgress.Progress</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="af354caa2b59704029aa0f2004d94b396"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af354caa2b59704029aa0f2004d94b396">&#9670;&nbsp;</a></span>ALPHA</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const float Juniper.Progress.IProgressExt.ALPHA = 1e-3f</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html#l00013">13</a> of file <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html">IProgress.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../d4/d3c/_i_progress_8cs_source.html#l00014">Juniper.Progress.IProgressExt.IsComplete()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Progress/<a class="el" href="../../d4/d3c/_i_progress_8cs_source.html">IProgress.cs</a></li>
+<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Progress/<a class="el" href="../../d4/d3c/_i_progress_8cs_source.html">IProgress.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

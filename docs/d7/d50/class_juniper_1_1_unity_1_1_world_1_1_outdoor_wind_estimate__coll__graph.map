@@ -2,7 +2,7 @@
 <area shape="rect" id="node1" title="Receives a wind speed and direction value from a wether reporting service and applies the values to a..." alt="" coords="103,1587,286,1752"/>
 <area shape="rect" id="node2" title=" " alt="" coords="512,455,621,533"/>
 <area shape="rect" id="node3" href="$d2/d88/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_weather.html" title="A component for managing access to weather reports. Only one of these components is allowed on a game..." alt="" coords="488,1212,672,1524"/>
-<area shape="rect" id="node16" href="$db/d2e/class_juniper_1_1_unity_1_1_world_1_1_g_p_s_location.html" title="Retrieves the user&#39;s latitude, longitude, and altitude from satellites orbiting Spaceship Earth...." alt="" coords="618,779,825,1120"/>
+<area shape="rect" id="node16" href="$db/d2e/class_juniper_1_1_unity_1_1_world_1_1_g_p_s_location.html" title="Retrieves the user&#39;s latitude, longitude, and altitude from satellites orbiting Spaceship Earth...." alt="" coords="618,771,825,1127"/>
 <area shape="rect" id="node4" href="$d8/d7d/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_report.html" title=" " alt="" coords="89,801,295,1098"/>
 <area shape="rect" id="node5" href="$d9/d1c/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_a_p_i.html" title=" " alt="" coords="319,896,543,1003"/>
 <area shape="rect" id="node6" href="$db/de7/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_fake_weather_report.html" title="An API&#45;compatible, editable object for making static weather reports." alt="" coords="849,749,1033,1149"/>

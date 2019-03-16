@@ -1,13 +1,13 @@
 <map id="Juniper.Unity.Input.Pointers.Motion.NoHandTracker" name="Juniper.Unity.Input.Pointers.Motion.NoHandTracker">
-<area shape="rect" id="node1" title=" " alt="" coords="389,2141,572,2292"/>
-<area shape="rect" id="node2" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="370,1985,591,2092"/>
-<area shape="rect" id="node3" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="385,1787,577,1908"/>
-<area shape="rect" id="node4" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="385,1499,577,1737"/>
-<area shape="rect" id="node5" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="383,1168,578,1421"/>
-<area shape="rect" id="node6" href="$d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="265,425,457,1119"/>
+<area shape="rect" id="node1" title=" " alt="" coords="389,2112,572,2263"/>
+<area shape="rect" id="node2" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="370,1956,591,2063"/>
+<area shape="rect" id="node3" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="385,1757,577,1879"/>
+<area shape="rect" id="node4" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="385,1499,577,1708"/>
+<area shape="rect" id="node5" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="383,1197,578,1421"/>
+<area shape="rect" id="node6" href="$d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="265,425,457,1148"/>
 <area shape="rect" id="node7" title=" " alt="" coords="122,152,231,229"/>
 <area shape="rect" id="node8" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="5,137,97,244"/>
 <area shape="rect" id="node9" href="$d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="490,5,655,376"/>
-<area shape="rect" id="node11" href="$dc/d7c/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html" title=" " alt="" coords="485,704,634,840"/>
+<area shape="rect" id="node11" href="$dc/d7c/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html" title=" " alt="" coords="485,719,634,855"/>
 <area shape="rect" id="node10" href="$dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html" title=" " alt="" coords="255,123,466,259"/>
 </map>

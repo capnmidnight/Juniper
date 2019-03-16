@@ -11,9 +11,9 @@
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 103,-24 103,4 -4,4"/>
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
-<g id="a_node1"><a xlink:href="d2/d62/class_juniper_1_1_units_1_1_hours.html" target="_top" xlink:title="Conversions from hours">
+<g id="a_node1"><a xlink:href="d9/d59/class_juniper_1_1_units_1_1_kelvin.html" target="_top" xlink:title="Conversions from kelvin">
 <polygon fill="white" stroke="black" points="0,-0.5 0,-19.5 99,-19.5 99,-0.5 0,-0.5"/>
-<text text-anchor="middle" x="49.5" y="-7.5" font-family="SegoeUI" font-size="10.00">Juniper.Units.Hours</text>
+<text text-anchor="middle" x="49.5" y="-7.5" font-family="SegoeUI" font-size="10.00">Juniper.Units.Kelvin</text>
 </a>
 </g>
 </g>

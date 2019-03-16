@@ -126,36 +126,37 @@ var sectionId = 'dynsection-1';
 <!-- Node17 -->
 <g id="node16" class="node"><title>Node17</title>
 <g id="a_node16"><a xlink:href="../../db/d2e/class_juniper_1_1_unity_1_1_world_1_1_g_p_s_location.html" target="_top" xlink:title="Retrieves the user&#39;s latitude, longitude, and altitude from satellites orbiting Spaceship Earth....">
-<polygon fill="white" stroke="black" points="459.481,-474.5 459.481,-729.5 614.481,-729.5 614.481,-474.5 459.481,-474.5"/>
-<text text-anchor="middle" x="536.981" y="-717.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.World.GPSLocation</text>
-<polyline fill="none" stroke="black" points="459.481,-710.5 614.481,-710.5 "/>
-<text text-anchor="start" x="467.481" y="-698.5" font-family="SegoeUI" font-size="10.00">+ timeBetweenUpdates</text>
-<text text-anchor="start" x="467.481" y="-687.5" font-family="SegoeUI" font-size="10.00">+ desiredAccuracy</text>
-<text text-anchor="start" x="467.481" y="-676.5" font-family="SegoeUI" font-size="10.00">+ updateDistance</text>
-<text text-anchor="start" x="467.481" y="-665.5" font-family="SegoeUI" font-size="10.00">+ FakeCoord</text>
-<text text-anchor="start" x="467.481" y="-654.5" font-family="SegoeUI" font-size="10.00">+ DebugReport</text>
-<text text-anchor="start" x="467.481" y="-643.5" font-family="SegoeUI" font-size="10.00">+ onPositionUpdated</text>
-<text text-anchor="start" x="467.481" y="-632.5" font-family="SegoeUI" font-size="10.00">+ HasCoord</text>
-<text text-anchor="start" x="467.481" y="-621.5" font-family="SegoeUI" font-size="10.00">+ UseFakeCoord</text>
-<text text-anchor="start" x="467.481" y="-610.5" font-family="SegoeUI" font-size="10.00">+ Location</text>
-<text text-anchor="start" x="467.481" y="-599.5" font-family="SegoeUI" font-size="10.00">+ Status</text>
-<text text-anchor="start" x="467.481" y="-588.5" font-family="SegoeUI" font-size="10.00">&#45; COORD_KEY</text>
-<text text-anchor="start" x="467.481" y="-577.5" font-family="SegoeUI" font-size="10.00">&#45; nextUpdateTime</text>
-<text text-anchor="start" x="467.481" y="-566.5" font-family="SegoeUI" font-size="10.00">&#45; lastLocation</text>
-<polyline fill="none" stroke="black" points="459.481,-559.5 614.481,-559.5 "/>
-<text text-anchor="start" x="467.481" y="-547.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
-<text text-anchor="start" x="467.481" y="-536.5" font-family="SegoeUI" font-size="10.00">+ OnEnable()</text>
-<text text-anchor="start" x="467.481" y="-525.5" font-family="SegoeUI" font-size="10.00">+ OnDisable()</text>
-<text text-anchor="start" x="467.481" y="-514.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
-<text text-anchor="start" x="467.481" y="-503.5" font-family="SegoeUI" font-size="10.00">&#45; OnPositionUpdated()</text>
-<text text-anchor="start" x="467.481" y="-492.5" font-family="SegoeUI" font-size="10.00">&#45; StartGPSTrackingCoroutine()</text>
-<text text-anchor="start" x="467.481" y="-481.5" font-family="SegoeUI" font-size="10.00">&#45; PrintDebugReport()</text>
+<polygon fill="white" stroke="black" points="459.481,-469 459.481,-735 614.481,-735 614.481,-469 459.481,-469"/>
+<text text-anchor="middle" x="536.981" y="-723" font-family="SegoeUI" font-size="10.00">Juniper.Unity.World.GPSLocation</text>
+<polyline fill="none" stroke="black" points="459.481,-716 614.481,-716 "/>
+<text text-anchor="start" x="467.481" y="-704" font-family="SegoeUI" font-size="10.00">+ timeBetweenUpdates</text>
+<text text-anchor="start" x="467.481" y="-693" font-family="SegoeUI" font-size="10.00">+ desiredAccuracy</text>
+<text text-anchor="start" x="467.481" y="-682" font-family="SegoeUI" font-size="10.00">+ updateDistance</text>
+<text text-anchor="start" x="467.481" y="-671" font-family="SegoeUI" font-size="10.00">+ FakeCoord</text>
+<text text-anchor="start" x="467.481" y="-660" font-family="SegoeUI" font-size="10.00">+ DebugReport</text>
+<text text-anchor="start" x="467.481" y="-649" font-family="SegoeUI" font-size="10.00">+ onPositionUpdated</text>
+<text text-anchor="start" x="467.481" y="-638" font-family="SegoeUI" font-size="10.00">+ HasCoord</text>
+<text text-anchor="start" x="467.481" y="-627" font-family="SegoeUI" font-size="10.00">+ UseFakeCoord</text>
+<text text-anchor="start" x="467.481" y="-616" font-family="SegoeUI" font-size="10.00">+ Location</text>
+<text text-anchor="start" x="467.481" y="-605" font-family="SegoeUI" font-size="10.00">+ Status</text>
+<text text-anchor="start" x="467.481" y="-594" font-family="SegoeUI" font-size="10.00">&#45; COORD_KEY</text>
+<text text-anchor="start" x="467.481" y="-583" font-family="SegoeUI" font-size="10.00">&#45; nextUpdateTime</text>
+<text text-anchor="start" x="467.481" y="-572" font-family="SegoeUI" font-size="10.00">&#45; lastLocation</text>
+<polyline fill="none" stroke="black" points="459.481,-565 614.481,-565 "/>
+<text text-anchor="start" x="467.481" y="-553" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
+<text text-anchor="start" x="467.481" y="-542" font-family="SegoeUI" font-size="10.00">+ Start()</text>
+<text text-anchor="start" x="467.481" y="-531" font-family="SegoeUI" font-size="10.00">+ OnEnable()</text>
+<text text-anchor="start" x="467.481" y="-520" font-family="SegoeUI" font-size="10.00">+ OnDisable()</text>
+<text text-anchor="start" x="467.481" y="-509" font-family="SegoeUI" font-size="10.00">+ Update()</text>
+<text text-anchor="start" x="467.481" y="-498" font-family="SegoeUI" font-size="10.00">&#45; OnPositionUpdated()</text>
+<text text-anchor="start" x="467.481" y="-487" font-family="SegoeUI" font-size="10.00">&#45; StartGPSTrackingCoroutine()</text>
+<text text-anchor="start" x="467.481" y="-476" font-family="SegoeUI" font-size="10.00">&#45; PrintDebugReport()</text>
 </a>
 </g>
 </g>
 <!-- Node3&#45;&gt;Node17 -->
 <g id="edge17" class="edge"><title>Node3&#45;&gt;Node17</title>
-<path fill="none" stroke="midnightblue" d="M433.742,-905.152C448.145,-863 472.353,-792.148 493.709,-729.645"/>
+<path fill="none" stroke="midnightblue" d="M433.736,-905.171C447.709,-864.274 470.92,-796.342 491.798,-735.237"/>
 <polygon fill="none" stroke="midnightblue" points="430.395,-904.123 430.474,-914.717 437.019,-906.386 430.395,-904.123"/>
 </g>
 <!-- Node4&#45;&gt;Node2 -->
@@ -323,8 +324,8 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node9&#45;&gt;Node17 -->
 <g id="edge18" class="edge"><title>Node9&#45;&gt;Node17</title>
-<path fill="none" stroke="#404040" d="M541.033,-832.274C540.525,-803.515 539.97,-772.146 539.439,-742.102"/>
-<polygon fill="none" stroke="#404040" points="539.434,-741.768 535.328,-735.84 539.221,-729.77 543.327,-735.698 539.434,-741.768"/>
+<path fill="none" stroke="#404040" d="M541.033,-832.274C540.554,-805.168 540.034,-775.743 539.531,-747.294"/>
+<polygon fill="none" stroke="#404040" points="539.529,-747.169 535.424,-741.241 539.317,-735.171 543.422,-741.099 539.529,-747.169"/>
 <text text-anchor="middle" x="557.481" y="-773" font-family="SegoeUI" font-size="10.00"> +Coord</text>
 </g>
 <!-- Node10 -->
@@ -477,7 +478,7 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node17&#45;&gt;Node4 -->
 <g id="edge16" class="edge"><title>Node17&#45;&gt;Node4</title>
-<path fill="none" stroke="#404040" d="M493.867,-474.098C487.381,-455.007 480.69,-435.314 474.202,-416.217"/>
+<path fill="none" stroke="#404040" d="M492.028,-468.684C486.159,-451.411 480.156,-433.742 474.315,-416.549"/>
 <polygon fill="none" stroke="#404040" points="474.161,-416.096 468.444,-411.702 470.301,-404.734 476.018,-409.128 474.161,-416.096"/>
 <text text-anchor="middle" x="497.981" y="-426" font-family="SegoeUI" font-size="10.00"> &#45;location</text>
 </g>

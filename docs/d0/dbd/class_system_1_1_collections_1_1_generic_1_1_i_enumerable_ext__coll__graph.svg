@@ -18,17 +18,17 @@
 <polyline fill="none" stroke="black" points="0,-148.5 135,-148.5 "/>
 <text text-anchor="middle" x="67.5" y="-136.5" font-family="SegoeUI" font-size="10.00"> </text>
 <polyline fill="none" stroke="black" points="0,-129.5 135,-129.5 "/>
-<text text-anchor="start" x="8" y="-117.5" font-family="SegoeUI" font-size="10.00">+ MaybeSet&lt; T, U &gt;()</text>
-<text text-anchor="start" x="8" y="-106.5" font-family="SegoeUI" font-size="10.00">+ MaybeAdd&lt; T &gt;()</text>
-<text text-anchor="start" x="8" y="-95.5" font-family="SegoeUI" font-size="10.00">+ MaybeAddRange&lt; T &gt;()</text>
-<text text-anchor="start" x="8" y="-84.5" font-family="SegoeUI" font-size="10.00">+ Random&lt; T &gt;()</text>
+<text text-anchor="start" x="8" y="-117.5" font-family="SegoeUI" font-size="10.00">+ MaybeAdd&lt; T &gt;()</text>
+<text text-anchor="start" x="8" y="-106.5" font-family="SegoeUI" font-size="10.00">+ MaybeAddRange&lt; T &gt;()</text>
+<text text-anchor="start" x="8" y="-95.5" font-family="SegoeUI" font-size="10.00">+ Random&lt; T &gt;()</text>
+<text text-anchor="start" x="8" y="-84.5" font-family="SegoeUI" font-size="10.00">+ Matches&lt; T &gt;()</text>
 <text text-anchor="start" x="8" y="-73.5" font-family="SegoeUI" font-size="10.00">+ Matches&lt; T &gt;()</text>
 <text text-anchor="start" x="8" y="-62.5" font-family="SegoeUI" font-size="10.00">+ Matches&lt; T &gt;()</text>
-<text text-anchor="start" x="8" y="-51.5" font-family="SegoeUI" font-size="10.00">+ Matches&lt; T &gt;()</text>
-<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ Matches()</text>
-<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ MoveNext()</text>
-<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ Current()</text>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">and 7 more...</text>
+<text text-anchor="start" x="8" y="-51.5" font-family="SegoeUI" font-size="10.00">+ Matches()</text>
+<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ MoveNext()</text>
+<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ Current()</text>
+<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ Empty&lt; T &gt;()</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">and 6 more...</text>
 </a>
 </g>
 </g>

@@ -87,6 +87,9 @@ $(function() {
 <div class="title">System.IO.StreamExt Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Extension methods for reading Streams with progress tracking.  
+ <a href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#details">More...</a></p>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="../../closed.png" alt="+"/> Collaboration diagram for System.IO.StreamExt:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -99,22 +102,28 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a96c15937125c2a2158f111dc8c4def1b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a96c15937125c2a2158f111dc8c4def1b">Pipe</a> (this Stream inStream, Stream outStream, <a class="el" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html">IProgressReceiver</a> prog=null)</td></tr>
+<tr class="memdesc:a96c15937125c2a2158f111dc8c4def1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pipe the output of one stream into the input of another.  <a href="#a96c15937125c2a2158f111dc8c4def1b">More...</a><br /></td></tr>
 <tr class="separator:a96c15937125c2a2158f111dc8c4def1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3246470b2ac2989266e2a5e95e91557e"><td class="memItemLeft" align="right" valign="top">static byte []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a3246470b2ac2989266e2a5e95e91557e">ReadBytes</a> (this Stream stream, <a class="el" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html">IProgressReceiver</a> prog=null)</td></tr>
+<tr class="memdesc:a3246470b2ac2989266e2a5e95e91557e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all of the bytes out of a given stream.  <a href="#a3246470b2ac2989266e2a5e95e91557e">More...</a><br /></td></tr>
 <tr class="separator:a3246470b2ac2989266e2a5e95e91557e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35c62fcc2bd4f728c116387e7425c8b2"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a35c62fcc2bd4f728c116387e7425c8b2">ReadString</a> (this Stream stream, <a class="el" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html">IProgressReceiver</a> prog=null)</td></tr>
+<tr class="memdesc:a35c62fcc2bd4f728c116387e7425c8b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all of the text out of a given stream.  <a href="#a35c62fcc2bd4f728c116387e7425c8b2">More...</a><br /></td></tr>
 <tr class="separator:a35c62fcc2bd4f728c116387e7425c8b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1898e6d731c80d795f082f816e0ef83"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#ac1898e6d731c80d795f082f816e0ef83">ReadObject&lt; T &gt;</a> (this Stream stream, <a class="el" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html">IProgressReceiver</a> prog=null)</td></tr>
+<tr class="memdesc:ac1898e6d731c80d795f082f816e0ef83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all of the text out of a stream, and interprets it as a JSON serialized object.  <a href="#ac1898e6d731c80d795f082f816e0ef83">More...</a><br /></td></tr>
 <tr class="separator:ac1898e6d731c80d795f082f816e0ef83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a943f97c5b9a760cf0817098fdfc14786"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">BLOCK_SIZE</a> = 4096</td></tr>
+<tr class="memdesc:a943f97c5b9a760cf0817098fdfc14786"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default read buffer size.  <a href="#a943f97c5b9a760cf0817098fdfc14786">More...</a><br /></td></tr>
 <tr class="separator:a943f97c5b9a760cf0817098fdfc14786"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00007">7</a> of file <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a>.</p>
+<div class="textblock"><p>Extension methods for reading Streams with progress tracking. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00010">10</a> of file <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a96c15937125c2a2158f111dc8c4def1b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a96c15937125c2a2158f111dc8c4def1b">&#9670;&nbsp;</a></span>Pipe()</h2>
@@ -156,12 +165,22 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00011">11</a> of file <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        {</div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            prog?.<a class="code" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">SetProgress</a>(0);</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            inStream = <span class="keyword">new</span> <a class="code" href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">StreamProgress</a>(inStream, prog);</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            var read = <span class="keywordtype">int</span>.MaxValue;</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            var buf = <span class="keyword">new</span> <span class="keywordtype">byte</span>[<a class="code" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">BLOCK_SIZE</a>];</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keywordflow">while</span> (read &gt; 0)</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                read = inStream.Read(buf, 0, <a class="code" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">BLOCK_SIZE</a>);</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                <span class="keywordflow">if</span> (read &gt; 0)</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                {</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                    outStream.Write(buf, 0, read);</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                }</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            }</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            outStream.Flush();</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            prog?.<a class="code" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">SetProgress</a>(1);</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        }</div><div class="ttc" id="interface_juniper_1_1_progress_1_1_i_progress_receiver_html_a93de32d2ffe73e313406490566e6c96c"><div class="ttname"><a href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">Juniper.Progress.IProgressReceiver.SetProgress</a></div><div class="ttdeci">void SetProgress(float progress, string status=null)</div></div>
+<p>Pipe the output of one stream into the input of another. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inStream</td><td>The stream to pipe out of.</td></tr>
+    <tr><td class="paramname">outStream</td><td>The stream to pipe into.</td></tr>
+    <tr><td class="paramname">prog</td><td>A progress tracker. Defaults to null (no progress tracking).</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00023">23</a> of file <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        {</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            prog?.<a class="code" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">SetProgress</a>(0);</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            inStream = <span class="keyword">new</span> <a class="code" href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">StreamProgress</a>(inStream, prog);</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            var read = <span class="keywordtype">int</span>.MaxValue;</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            var buf = <span class="keyword">new</span> <span class="keywordtype">byte</span>[<a class="code" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">BLOCK_SIZE</a>];</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keywordflow">while</span> (read &gt; 0)</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            {</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                read = inStream.Read(buf, 0, <a class="code" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">BLOCK_SIZE</a>);</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keywordflow">if</span> (read &gt; 0)</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                    outStream.Write(buf, 0, read);</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                }</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            }</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            outStream.Flush();</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            prog?.<a class="code" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">SetProgress</a>(1);</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        }</div><div class="ttc" id="interface_juniper_1_1_progress_1_1_i_progress_receiver_html_a93de32d2ffe73e313406490566e6c96c"><div class="ttname"><a href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">Juniper.Progress.IProgressReceiver.SetProgress</a></div><div class="ttdeci">void SetProgress(float progress, string status=null)</div></div>
 <div class="ttc" id="class_juniper_1_1_progress_1_1_stream_progress_html"><div class="ttname"><a href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">Juniper.Progress.StreamProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0a/_stream_progress_8cs_source.html#l00005">StreamProgress.cs:5</a></div></div>
-<div class="ttc" id="class_system_1_1_i_o_1_1_stream_ext_html_a943f97c5b9a760cf0817098fdfc14786"><div class="ttname"><a href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">System.IO.StreamExt.BLOCK_SIZE</a></div><div class="ttdeci">const int BLOCK_SIZE</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d67/_stream_ext_8cs_source.html#l00009">StreamExt.cs:9</a></div></div>
+<div class="ttc" id="class_system_1_1_i_o_1_1_stream_ext_html_a943f97c5b9a760cf0817098fdfc14786"><div class="ttname"><a href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">System.IO.StreamExt.BLOCK_SIZE</a></div><div class="ttdeci">const int BLOCK_SIZE</div><div class="ttdoc">Default read buffer size.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d67/_stream_ext_8cs_source.html#l00015">StreamExt.cs:15</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00009">System.IO.StreamExt.BLOCK_SIZE</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00015">System.IO.StreamExt.BLOCK_SIZE</a>.</p>
 
 </div>
 </div>
@@ -199,12 +218,22 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00029">29</a> of file <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        {</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            prog?.<a class="code" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">SetProgress</a>(0);</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            var streamProg = <span class="keyword">new</span> <a class="code" href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">StreamProgress</a>(stream, prog);</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            var buf = <span class="keyword">new</span> <span class="keywordtype">byte</span>[stream.Length];</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keywordflow">for</span> (var i = 0; i &lt; buf.Length; i += <a class="code" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">BLOCK_SIZE</a>)</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            {</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                streamProg.Read(buf, i, <a class="code" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">BLOCK_SIZE</a>);</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            }</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            prog?.<a class="code" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">SetProgress</a>(1);</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">return</span> buf;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        }</div><div class="ttc" id="interface_juniper_1_1_progress_1_1_i_progress_receiver_html_a93de32d2ffe73e313406490566e6c96c"><div class="ttname"><a href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">Juniper.Progress.IProgressReceiver.SetProgress</a></div><div class="ttdeci">void SetProgress(float progress, string status=null)</div></div>
+<p>Reads all of the bytes out of a given stream. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The stream to read.</td></tr>
+    <tr><td class="paramname">prog</td><td>A progress tracker. Defaults to null (no progress tracking).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The bytes read out of the stream.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00047">47</a> of file <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        {</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            prog?.<a class="code" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">SetProgress</a>(0);</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            var streamProg = <span class="keyword">new</span> <a class="code" href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">StreamProgress</a>(stream, prog);</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            var buf = <span class="keyword">new</span> <span class="keywordtype">byte</span>[stream.Length];</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">for</span> (var i = 0; i &lt; buf.Length; i += <a class="code" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">BLOCK_SIZE</a>)</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            {</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                streamProg.Read(buf, i, <a class="code" href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">BLOCK_SIZE</a>);</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                prog?.<a class="code" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">SetProgress</a>(i, stream.Length);</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            }</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            prog?.<a class="code" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">SetProgress</a>(1);</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">return</span> buf;</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div><div class="ttc" id="interface_juniper_1_1_progress_1_1_i_progress_receiver_html_a93de32d2ffe73e313406490566e6c96c"><div class="ttname"><a href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">Juniper.Progress.IProgressReceiver.SetProgress</a></div><div class="ttdeci">void SetProgress(float progress, string status=null)</div></div>
 <div class="ttc" id="class_juniper_1_1_progress_1_1_stream_progress_html"><div class="ttname"><a href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">Juniper.Progress.StreamProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0a/_stream_progress_8cs_source.html#l00005">StreamProgress.cs:5</a></div></div>
-<div class="ttc" id="class_system_1_1_i_o_1_1_stream_ext_html_a943f97c5b9a760cf0817098fdfc14786"><div class="ttname"><a href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">System.IO.StreamExt.BLOCK_SIZE</a></div><div class="ttdeci">const int BLOCK_SIZE</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d67/_stream_ext_8cs_source.html#l00009">StreamExt.cs:9</a></div></div>
+<div class="ttc" id="class_system_1_1_i_o_1_1_stream_ext_html_a943f97c5b9a760cf0817098fdfc14786"><div class="ttname"><a href="../../d5/d52/class_system_1_1_i_o_1_1_stream_ext.html#a943f97c5b9a760cf0817098fdfc14786">System.IO.StreamExt.BLOCK_SIZE</a></div><div class="ttdeci">const int BLOCK_SIZE</div><div class="ttdoc">Default read buffer size.</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d67/_stream_ext_8cs_source.html#l00015">StreamExt.cs:15</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00009">System.IO.StreamExt.BLOCK_SIZE</a>.</p>
+<p class="reference">References <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00015">System.IO.StreamExt.BLOCK_SIZE</a>.</p>
 
 </div>
 </div>
@@ -242,8 +271,24 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00051">51</a> of file <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        {</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keyword">using</span> (var streamProg = <span class="keyword">new</span> <a class="code" href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">StreamProgress</a>(stream, prog))</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            <span class="keyword">using</span> (var reader = <span class="keyword">new</span> StreamReader(streamProg))</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            {</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="keywordflow">return</span> JsonConvert.DeserializeObject&lt;T&gt;(reader.ReadToEnd());</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            }</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_progress_1_1_stream_progress_html"><div class="ttname"><a href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">Juniper.Progress.StreamProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0a/_stream_progress_8cs_source.html#l00005">StreamProgress.cs:5</a></div></div>
+<p>Reads all of the text out of a stream, and interprets it as a JSON serialized object. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of the serialized object.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The stream to read.</td></tr>
+    <tr><td class="paramname">prog</td><td>A progress tracker. Defaults to null (no progress tracking).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The value deserialized out of the stream.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00083">83</a> of file <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        {</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="keyword">using</span> (var streamProg = <span class="keyword">new</span> <a class="code" href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">StreamProgress</a>(stream, prog))</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="keyword">using</span> (var reader = <span class="keyword">new</span> StreamReader(streamProg))</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            {</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                <span class="keywordflow">return</span> JsonConvert.DeserializeObject&lt;T&gt;(reader.ReadToEnd());</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            }</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_progress_1_1_stream_progress_html"><div class="ttname"><a href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">Juniper.Progress.StreamProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0a/_stream_progress_8cs_source.html#l00005">StreamProgress.cs:5</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -281,8 +326,18 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00042">42</a> of file <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        {</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            var streamProg = <span class="keyword">new</span> <a class="code" href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">StreamProgress</a>(stream, prog);</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keyword">using</span> (var reader = <span class="keyword">new</span> StreamReader(streamProg))</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            {</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                <span class="keywordflow">return</span> reader.ReadToEnd();</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            }</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_progress_1_1_stream_progress_html"><div class="ttname"><a href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">Juniper.Progress.StreamProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0a/_stream_progress_8cs_source.html#l00005">StreamProgress.cs:5</a></div></div>
+<p>Reads all of the text out of a given stream. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The stream to read.</td></tr>
+    <tr><td class="paramname">prog</td><td>A progress tracker. Defaults to null (no progress tracking).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The string read out of the stream.</dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00067">67</a> of file <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        {</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            var streamProg = <span class="keyword">new</span> <a class="code" href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">StreamProgress</a>(stream, prog);</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keyword">using</span> (var reader = <span class="keyword">new</span> StreamReader(streamProg))</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            {</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordflow">return</span> reader.ReadToEnd();</div><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            }</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_progress_1_1_stream_progress_html"><div class="ttname"><a href="../../da/d5e/class_juniper_1_1_progress_1_1_stream_progress.html">Juniper.Progress.StreamProgress</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0a/_stream_progress_8cs_source.html#l00005">StreamProgress.cs:5</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -307,14 +362,16 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00009">9</a> of file <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a>.</p>
+<p>Default read buffer size. </p>
 
-<p class="reference">Referenced by <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00011">System.IO.StreamExt.Pipe()</a>, and <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00029">System.IO.StreamExt.ReadBytes()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00015">15</a> of file <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00023">System.IO.StreamExt.Pipe()</a>, and <a class="el" href="../../dd/d67/_stream_ext_8cs_source.html#l00047">System.IO.StreamExt.ReadBytes()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/IO/<a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a></li>
+<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/IO/<a class="el" href="../../dd/d67/_stream_ext_8cs_source.html">StreamExt.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

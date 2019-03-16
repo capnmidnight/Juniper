@@ -1,5 +1,5 @@
 <map id="Juniper.Unity.SubSceneController" name="Juniper.Unity.SubSceneController">
-<area shape="rect" id="node1" title="SubSceneControllers are used by the MasterSceneController to manage workflow through an application...." alt="" coords="5,637,217,891"/>
-<area shape="rect" id="node2" href="$dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="34,131,189,589"/>
+<area shape="rect" id="node1" title="SubSceneControllers are used by the MasterSceneController to manage workflow through an application...." alt="" coords="5,593,217,847"/>
+<area shape="rect" id="node2" href="$dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="34,131,189,545"/>
 <area shape="rect" id="node3" title=" " alt="" coords="57,5,166,83"/>
 </map>

@@ -11,7 +11,7 @@ var searchData=
   ['head',['Head',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#aec2a7931f3ac9edba69686836186b67c',1,'Juniper::Unity::StageExtensions']]],
   ['height',['height',['../d3/dde/struct_juniper_1_1_unity_1_1_imaging_1_1_raw_image.html#a9ad76a45d36eb6c654a94412cd3fafb3',1,'Juniper.Unity.Imaging.RawImage.height()'],['../d8/d03/class_juniper_1_1_unity_1_1_widgets_1_1_standoff.html#a4b9f5ffbea9ae3cd9f8547ec1b13a0e4',1,'Juniper.Unity.Widgets.Standoff.height()']]],
   ['hemisphere',['Hemisphere',['../d0/da5/struct_juniper_1_1_world_1_1_g_i_s_1_1_u_t_m_point.html#aea73192df29e2f6b5754d9e9b1791d6c',1,'Juniper::World::GIS::UTMPoint']]],
-  ['hidden_5fstatic',['HIDDEN_STATIC',['../d6/dcd/class_unity_editor_1_1_hidden_settings_accessor.html#aac70d66acaf61d3fee593017f3639f1f',1,'UnityEditor::HiddenSettingsAccessor']]],
+  ['hidden_5fstatic',['HIDDEN_STATIC',['../d7/d8a/class_juniper_1_1_unity_editor_1_1_hidden_settings_accessor.html#a4cafa00137c0235a490889d228d78363',1,'Juniper::UnityEditor::HiddenSettingsAccessor']]],
   ['highlightbackgroundcolor',['highlightBackgroundColor',['../de/d8e/class_juniper_1_1_unity_1_1_widgets_1_1_list_view.html#a2571c1b94c674f66767e4f61d7fb33da',1,'Juniper::Unity::Widgets::ListView']]],
   ['highlightcolor',['highlightColor',['../de/d8e/class_juniper_1_1_unity_1_1_widgets_1_1_list_view.html#ab054558ab1f74cbe4c670d44e03da250',1,'Juniper::Unity::Widgets::ListView']]],
   ['horizontalnessthreshold',['horizontalnessThreshold',['../d2/d22/class_juniper_1_1_unity_1_1_anchoring_1_1_grounded.html#a07424a8c30251fb17e57c12dc0672189',1,'Juniper::Unity::Anchoring::Grounded']]],
