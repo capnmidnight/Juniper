@@ -1,5 +1,5 @@
 using Juniper.Statistics;
-
+using Juniper.Unity.Display;
 using System;
 
 using UnityEngine;
@@ -44,8 +44,10 @@ namespace Juniper.Unity.Widgets
             {
                 if (value != QualityLevel)
                 {
+                    DisplayManager.MainCamera.enabled = false;
                     ChangeQuality(QualitySettings.IncreaseLevel, (a, b) => a < b, value);
                     ChangeQuality(QualitySettings.DecreaseLevel, (a, b) => a > b, value);
+                    DisplayManager.MainCamera.enabled = true;
 
 #if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
                     if (ground != null)
