@@ -1,0 +1,10 @@
+<map id="Juniper.Unity.Video.Video360" name="Juniper.Unity.Video.Video360">
+<area shape="rect" id="node1" title=" " alt="" coords="201,1300,389,1729"/>
+<area shape="rect" id="node2" href="$d7/d3c/class_juniper_1_1_unity_1_1_sub_scene_controller.html" title="SubSceneControllers are used by the MasterSceneController to manage workflow through an application...." alt="" coords="91,1013,251,1237"/>
+<area shape="rect" id="node3" href="$dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="5,132,160,547"/>
+<area shape="rect" id="node5" href="$de/d7d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="79,609,262,951"/>
+<area shape="rect" id="node4" title=" " alt="" coords="28,5,137,83"/>
+<area shape="rect" id="node6" href="$da/d67/class_juniper_1_1_unity_1_1_video_1_1_streamable_video_clip.html" title=" " alt="" coords="278,1079,479,1171"/>
+<area shape="rect" id="node7" href="$d5/d45/class_juniper_1_1_unity_1_1_streamable_asset.html" title=" " alt="" coords="286,741,485,819"/>
+<area shape="rect" id="node8" href="$d5/d45/class_juniper_1_1_unity_1_1_streamable_asset.html" title=" " alt="" coords="303,293,468,385"/>
+</map>

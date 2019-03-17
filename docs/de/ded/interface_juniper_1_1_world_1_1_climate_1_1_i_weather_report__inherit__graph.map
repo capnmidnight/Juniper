@@ -1,5 +1,5 @@
 <map id="Juniper.World.Climate.IWeatherReport" name="Juniper.World.Climate.IWeatherReport">
 <area shape="rect" id="node1" title=" " alt="" coords="99,5,304,303"/>
-<area shape="rect" id="node2" href="$db/de7/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_fake_weather_report.html" title="An API&#45;compatible, editable object for making static weather reports." alt="" coords="5,395,189,824"/>
-<area shape="rect" id="node3" href="$d8/dbe/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report.html" title="respone from the OpenWeatherMap API. http://openweathermap.org/current::current_JSON." alt="" coords="213,351,400,868"/>
+<area shape="rect" id="node2" href="$db/de7/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_fake_weather_report.html" title="An API&#45;compatible, editable object for making static weather reports." alt="" coords="5,402,189,831"/>
+<area shape="rect" id="node3" href="$d8/dbe/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report.html" title="respone from the OpenWeatherMap API. http://openweathermap.org/current::current_JSON." alt="" coords="213,351,400,883"/>
 </map>

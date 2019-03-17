@@ -1,10 +1,13 @@
 <map id="Juniper.Unity.Display.AbstractDisplayManager" name="Juniper.Unity.Display.AbstractDisplayManager">
-<area shape="rect" id="node1" title=" " alt="" coords="301,160,492,765"/>
-<area shape="rect" id="node4" href="$de/dad/class_juniper_1_1_unity_1_1_display_1_1_abstract_passthrough_display_manager.html" title=" " alt="" coords="5,813,196,935"/>
-<area shape="rect" id="node5" href="$de/de6/class_juniper_1_1_unity_1_1_display_1_1_no_display_manager.html" title=" " alt="" coords="220,828,379,920"/>
-<area shape="rect" id="node6" href="$d3/d15/class_juniper_1_1_unity_1_1_display_1_1_oculus_display_manager.html" title=" " alt="" coords="403,821,585,927"/>
-<area shape="rect" id="node7" href="$d6/d39/class_juniper_1_1_unity_1_1_display_1_1_vuforia_display_manager.html" title=" " alt="" coords="609,821,793,927"/>
-<area shape="rect" id="node2" title=" " alt="" coords="279,20,389,97"/>
-<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="413,5,505,112"/>
-<area shape="rect" id="node8" href="$d9/de4/class_juniper_1_1_unity_1_1_display_1_1_display_manager.html" title="Manages the camera FOV in the editor so that it matches the target system, or on desktop makes sure t..." alt="" coords="609,983,792,1075"/>
+<area shape="rect" id="node1" title=" " alt="" coords="537,160,728,795"/>
+<area shape="rect" id="node4" href="$de/dad/class_juniper_1_1_unity_1_1_display_1_1_abstract_passthrough_display_manager.html" title=" " alt="" coords="5,843,196,964"/>
+<area shape="rect" id="node7" href="$d1/dab/class_juniper_1_1_unity_1_1_display_1_1_daydream_display_manager.html" title=" " alt="" coords="220,843,432,964"/>
+<area shape="rect" id="node8" href="$de/de6/class_juniper_1_1_unity_1_1_display_1_1_no_display_manager.html" title=" " alt="" coords="456,857,615,949"/>
+<area shape="rect" id="node9" href="$d3/d15/class_juniper_1_1_unity_1_1_display_1_1_oculus_display_manager.html" title=" " alt="" coords="639,850,821,957"/>
+<area shape="rect" id="node10" href="$de/daa/class_juniper_1_1_unity_1_1_display_1_1_vive_focus_display_manager.html" title=" " alt="" coords="845,850,1012,957"/>
+<area shape="rect" id="node11" href="$d0/d34/class_juniper_1_1_unity_1_1_display_1_1_windows_m_r_display_manager.html" title=" " alt="" coords="1037,857,1231,949"/>
+<area shape="rect" id="node2" title=" " alt="" coords="515,20,625,97"/>
+<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="649,5,741,112"/>
+<area shape="rect" id="node5" href="$da/df4/class_juniper_1_1_unity_1_1_display_1_1_a_r_kit_display_manager.html" title=" " alt="" coords="14,1012,187,1119"/>
+<area shape="rect" id="node6" href="$d9/de4/class_juniper_1_1_unity_1_1_display_1_1_display_manager.html" title="Manages the camera FOV in the editor so that it matches the target system, or on desktop makes sure t..." alt="" coords="9,1167,192,1259"/>
 </map>

@@ -1,12 +1,13 @@
 <map id="Juniper.Unity.AbstractStateController" name="Juniper.Unity.AbstractStateController">
-<area shape="rect" id="node1" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="487,131,663,560"/>
-<area shape="rect" id="node3" href="$de/d7d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="373,608,555,949"/>
-<area shape="rect" id="node10" href="$d7/d3c/class_juniper_1_1_unity_1_1_sub_scene_controller.html" title="SubSceneControllers are used by the MasterSceneController to manage workflow through an application...." alt="" coords="579,652,791,905"/>
-<area shape="rect" id="node2" title=" " alt="" coords="520,5,629,83"/>
-<area shape="rect" id="node4" href="$da/d20/class_juniper_1_1_unity_1_1_animation_1_1_alpha_transition.html" title="Performs a shrinking/growing animation on scene transitions." alt="" coords="16,1107,176,1273"/>
-<area shape="rect" id="node6" href="$d3/d84/class_juniper_1_1_unity_1_1_animation_1_1_fade_transition.html" title="Performs a fade&#45;in/fade&#45;out animation on scene transitions." alt="" coords="200,997,360,1383"/>
-<area shape="rect" id="node7" href="$da/dc2/class_juniper_1_1_unity_1_1_animation_1_1_scale_transition.html" title="Performs a shrinking/growing animation on scene transitions." alt="" coords="384,1115,544,1265"/>
-<area shape="rect" id="node8" href="$d5/d56/class_juniper_1_1_unity_1_1_animation_1_1_spiral_transition.html" title="Take an object in world&#45;space and spiral it in to camera&#45;locked space (faux&#45;screen&#45;space)" alt="" coords="568,1034,728,1346"/>
-<area shape="rect" id="node9" href="$d4/d79/class_juniper_1_1_unity_1_1_animation_1_1_translation_transition.html" title="Performs a sliding animation on scene transitions. The object&#39;s localPosition is the value that is ch..." alt="" coords="752,1100,912,1280"/>
-<area shape="rect" id="node5" href="$db/de8/class_juniper_1_1_unity_1_1_widgets_1_1_video_vader.html" title="Manages the life&#45;cycle of a video that can be faded out or faded in." alt="" coords="5,1431,187,1655"/>
+<area shape="rect" id="node1" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="573,131,749,560"/>
+<area shape="rect" id="node3" href="$de/d7d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="459,608,642,949"/>
+<area shape="rect" id="node10" href="$d7/d3c/class_juniper_1_1_unity_1_1_sub_scene_controller.html" title="SubSceneControllers are used by the MasterSceneController to manage workflow through an application...." alt="" coords="838,659,1050,898"/>
+<area shape="rect" id="node2" title=" " alt="" coords="607,5,716,83"/>
+<area shape="rect" id="node4" href="$da/d20/class_juniper_1_1_unity_1_1_animation_1_1_alpha_transition.html" title="Performs a shrinking/growing animation on scene transitions." alt="" coords="16,1137,176,1302"/>
+<area shape="rect" id="node6" href="$d3/d84/class_juniper_1_1_unity_1_1_animation_1_1_fade_transition.html" title="Performs a fade&#45;in/fade&#45;out animation on scene transitions." alt="" coords="200,1012,360,1427"/>
+<area shape="rect" id="node7" href="$da/dc2/class_juniper_1_1_unity_1_1_animation_1_1_scale_transition.html" title="Performs a shrinking/growing animation on scene transitions." alt="" coords="384,1144,544,1295"/>
+<area shape="rect" id="node8" href="$d5/d56/class_juniper_1_1_unity_1_1_animation_1_1_spiral_transition.html" title="Take an object in world&#45;space and spiral it in to camera&#45;locked space (faux&#45;screen&#45;space)" alt="" coords="568,1063,728,1375"/>
+<area shape="rect" id="node9" href="$d4/d79/class_juniper_1_1_unity_1_1_animation_1_1_translation_transition.html" title="Performs a sliding animation on scene transitions. The object&#39;s localPosition is the value that is ch..." alt="" coords="752,1137,912,1302"/>
+<area shape="rect" id="node5" href="$db/de8/class_juniper_1_1_unity_1_1_widgets_1_1_video_vader.html" title="Manages the life&#45;cycle of a video that can be faded out or faded in." alt="" coords="5,1489,187,1728"/>
+<area shape="rect" id="node11" href="$d2/d0b/class_juniper_1_1_unity_1_1_video_1_1_video360.html" title=" " alt="" coords="937,997,1125,1441"/>
 </map>

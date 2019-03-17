@@ -140,8 +140,6 @@ Public Attributes</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a377748f278f40fd84185dad84b6d04ed"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#a377748f278f40fd84185dad84b6d04ed">Awake</a> ()</td></tr>
 <tr class="separator:a377748f278f40fd84185dad84b6d04ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afec7fd5ac396e9ff92142696749323c6"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#afec7fd5ac396e9ff92142696749323c6">Reset</a> ()</td></tr>
-<tr class="separator:afec7fd5ac396e9ff92142696749323c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -364,38 +362,6 @@ Events</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../db/d53/_abstract_unified_input_module_8cs_source.html#l00267">Juniper.Unity.Input.AbstractUnifiedInputModule.Install()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../db/d53/_abstract_unified_input_module_8cs_source.html#l00094">Juniper.Unity.Input.AbstractUnifiedInputModule.Reset()</a>.</p>
-
-</div>
-</div>
-<a id="afec7fd5ac396e9ff92142696749323c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afec7fd5ac396e9ff92142696749323c6">&#9670;&nbsp;</a></span>Reset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">override void Juniper.Unity.Input.AbstractUnifiedInputModule.Reset </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../db/d53/_abstract_unified_input_module_8cs_source.html#l00094">94</a> of file <a class="el" href="../../db/d53/_abstract_unified_input_module_8cs_source.html">AbstractUnifiedInputModule.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        {</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            base.Reset();</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <a class="code" href="../../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#ab1f3f8ef112d3d744f8cfd09877726fa">Reinstall</a>();</div><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module_html_ab1f3f8ef112d3d744f8cfd09877726fa"><div class="ttname"><a href="../../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#ab1f3f8ef112d3d744f8cfd09877726fa">Juniper.Unity.Input.AbstractUnifiedInputModule.Reinstall</a></div><div class="ttdeci">virtual void Reinstall()</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d53/_abstract_unified_input_module_8cs_source.html#l00087">AbstractUnifiedInputModule.cs:87</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../db/d53/_abstract_unified_input_module_8cs_source.html#l00087">Juniper.Unity.Input.AbstractUnifiedInputModule.Reinstall()</a>.</p>
-
 </div>
 </div>
 <a id="a13d2b6da1d0ee01d1568b6afe2f3d2df"></a>
@@ -592,7 +558,7 @@ Events</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="../../db/d53/_abstract_unified_input_module_8cs_source.html#l00021">21</a> of file <a class="el" href="../../db/d53/_abstract_unified_input_module_8cs_source.html">AbstractUnifiedInputModule.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        {</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                <span class="keywordflow">foreach</span> (var device <span class="keywordflow">in</span> <a class="code" href="../../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#a79e219e4f65ac4e5fca6f0434b71d350">Devices</a>)</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                {</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                    <span class="keywordflow">if</span> (device.IsDragging)</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                    {</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                    }</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                }</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            }</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module_html_a79e219e4f65ac4e5fca6f0434b71d350"><div class="ttname"><a href="../../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#a79e219e4f65ac4e5fca6f0434b71d350">Juniper.Unity.Input.AbstractUnifiedInputModule.Devices</a></div><div class="ttdeci">readonly List&lt; IPointerDevice &gt; Devices</div><div class="ttdef"><b>Definition:</b> <a href="../../db/d53/_abstract_unified_input_module_8cs_source.html#l00018">AbstractUnifiedInputModule.cs:18</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../df/da6/_camera_control_8cs_source.html#l00291">Juniper.Unity.Input.CameraControl.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../df/da6/_camera_control_8cs_source.html#l00292">Juniper.Unity.Input.CameraControl.Update()</a>.</p>
 
 </div>
 </div>

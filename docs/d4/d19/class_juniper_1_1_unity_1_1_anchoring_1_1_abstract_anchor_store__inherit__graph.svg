@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 196;
+var viewWidth = 502;
 var viewHeight = 823;
 var sectionId = 'dynsection-0';
 </script>
@@ -54,112 +54,179 @@ var sectionId = 'dynsection-0';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-819 192,-819 192,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-819 498,-819 498,4 -4,4"/>
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
 <g id="a_node1"><a xlink:title="A store for points in space that the system will restore on second&#45;run. By default,...">
-<polygon fill="#bfbfbf" stroke="black" points="0,-453.5 0,-719.5 176,-719.5 176,-453.5 0,-453.5"/>
-<text text-anchor="start" x="8" y="-707.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Anchoring.</text>
-<text text-anchor="middle" x="88" y="-696.5" font-family="SegoeUI" font-size="10.00">AbstractAnchorStore&lt; AnchorType &gt;</text>
-<polyline fill="none" stroke="black" points="0,-689.5 176,-689.5 "/>
-<text text-anchor="start" x="8" y="-677.5" font-family="SegoeUI" font-size="10.00">+ NameList</text>
-<text text-anchor="start" x="8" y="-666.5" font-family="SegoeUI" font-size="10.00">&#45; KEY_LIST_KEY</text>
-<text text-anchor="start" x="8" y="-655.5" font-family="SegoeUI" font-size="10.00">&#45; ID_PREFIX</text>
-<text text-anchor="start" x="8" y="-644.5" font-family="SegoeUI" font-size="10.00">&#45; EMPTY_STRING_ARRAY</text>
-<polyline fill="none" stroke="black" points="0,-637.5 176,-637.5 "/>
-<text text-anchor="start" x="8" y="-625.5" font-family="SegoeUI" font-size="10.00">+ ResetData()</text>
-<text text-anchor="start" x="8" y="-614.5" font-family="SegoeUI" font-size="10.00">+ DropAnchor()</text>
-<text text-anchor="start" x="8" y="-603.5" font-family="SegoeUI" font-size="10.00">+ WeighAnchor()</text>
-<text text-anchor="start" x="8" y="-592.5" font-family="SegoeUI" font-size="10.00">+ HasAnchor()</text>
-<text text-anchor="start" x="8" y="-581.5" font-family="SegoeUI" font-size="10.00"># SynchronizeAnchor()</text>
-<text text-anchor="start" x="8" y="-570.5" font-family="SegoeUI" font-size="10.00"># IsGood()</text>
-<text text-anchor="start" x="8" y="-559.5" font-family="SegoeUI" font-size="10.00"># DeleteAnchor()</text>
-<text text-anchor="start" x="8" y="-548.5" font-family="SegoeUI" font-size="10.00"># FindAnchor()</text>
-<text text-anchor="start" x="8" y="-537.5" font-family="SegoeUI" font-size="10.00"># IsSaved()</text>
-<text text-anchor="start" x="8" y="-526.5" font-family="SegoeUI" font-size="10.00"># CreateAnchor()</text>
-<text text-anchor="start" x="8" y="-515.5" font-family="SegoeUI" font-size="10.00"># LoadAnchor()</text>
-<text text-anchor="start" x="8" y="-504.5" font-family="SegoeUI" font-size="10.00"># MakeID()</text>
-<text text-anchor="start" x="8" y="-493.5" font-family="SegoeUI" font-size="10.00"># HasValue()</text>
-<text text-anchor="start" x="8" y="-482.5" font-family="SegoeUI" font-size="10.00"># SaveValue()</text>
-<text text-anchor="start" x="8" y="-471.5" font-family="SegoeUI" font-size="10.00"># LoadValue&lt; T &gt;()</text>
-<text text-anchor="start" x="8" y="-460.5" font-family="SegoeUI" font-size="10.00"># DeleteValue()</text>
+<polygon fill="#bfbfbf" stroke="black" points="163,-453.5 163,-719.5 339,-719.5 339,-453.5 163,-453.5"/>
+<text text-anchor="start" x="171" y="-707.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Anchoring.</text>
+<text text-anchor="middle" x="251" y="-696.5" font-family="SegoeUI" font-size="10.00">AbstractAnchorStore&lt; AnchorType &gt;</text>
+<polyline fill="none" stroke="black" points="163,-689.5 339,-689.5 "/>
+<text text-anchor="start" x="171" y="-677.5" font-family="SegoeUI" font-size="10.00">+ NameList</text>
+<text text-anchor="start" x="171" y="-666.5" font-family="SegoeUI" font-size="10.00">&#45; KEY_LIST_KEY</text>
+<text text-anchor="start" x="171" y="-655.5" font-family="SegoeUI" font-size="10.00">&#45; ID_PREFIX</text>
+<text text-anchor="start" x="171" y="-644.5" font-family="SegoeUI" font-size="10.00">&#45; EMPTY_STRING_ARRAY</text>
+<polyline fill="none" stroke="black" points="163,-637.5 339,-637.5 "/>
+<text text-anchor="start" x="171" y="-625.5" font-family="SegoeUI" font-size="10.00">+ ResetData()</text>
+<text text-anchor="start" x="171" y="-614.5" font-family="SegoeUI" font-size="10.00">+ DropAnchor()</text>
+<text text-anchor="start" x="171" y="-603.5" font-family="SegoeUI" font-size="10.00">+ WeighAnchor()</text>
+<text text-anchor="start" x="171" y="-592.5" font-family="SegoeUI" font-size="10.00">+ HasAnchor()</text>
+<text text-anchor="start" x="171" y="-581.5" font-family="SegoeUI" font-size="10.00"># SynchronizeAnchor()</text>
+<text text-anchor="start" x="171" y="-570.5" font-family="SegoeUI" font-size="10.00"># IsGood()</text>
+<text text-anchor="start" x="171" y="-559.5" font-family="SegoeUI" font-size="10.00"># DeleteAnchor()</text>
+<text text-anchor="start" x="171" y="-548.5" font-family="SegoeUI" font-size="10.00"># FindAnchor()</text>
+<text text-anchor="start" x="171" y="-537.5" font-family="SegoeUI" font-size="10.00"># IsSaved()</text>
+<text text-anchor="start" x="171" y="-526.5" font-family="SegoeUI" font-size="10.00"># CreateAnchor()</text>
+<text text-anchor="start" x="171" y="-515.5" font-family="SegoeUI" font-size="10.00"># LoadAnchor()</text>
+<text text-anchor="start" x="171" y="-504.5" font-family="SegoeUI" font-size="10.00"># MakeID()</text>
+<text text-anchor="start" x="171" y="-493.5" font-family="SegoeUI" font-size="10.00"># HasValue()</text>
+<text text-anchor="start" x="171" y="-482.5" font-family="SegoeUI" font-size="10.00"># SaveValue&lt; T &gt;()</text>
+<text text-anchor="start" x="171" y="-471.5" font-family="SegoeUI" font-size="10.00"># LoadValue&lt; T &gt;()</text>
+<text text-anchor="start" x="171" y="-460.5" font-family="SegoeUI" font-size="10.00"># DeleteValue()</text>
 </a>
 </g>
 </g>
 <!-- Node2 -->
 <g id="node3" class="node"><title>Node2</title>
-<g id="a_node3"><a xlink:href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="7,-128.5 7,-405.5 169,-405.5 169,-128.5 7,-128.5"/>
-<text text-anchor="start" x="15" y="-393.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Anchoring.</text>
-<text text-anchor="start" x="15" y="-382.5" font-family="SegoeUI" font-size="10.00">AbstractAnchorStore&lt; MockWorld</text>
-<text text-anchor="middle" x="88" y="-371.5" font-family="SegoeUI" font-size="10.00">Anchor &gt;</text>
-<polyline fill="none" stroke="black" points="7,-364.5 169,-364.5 "/>
-<text text-anchor="start" x="15" y="-352.5" font-family="SegoeUI" font-size="10.00">+ NameList</text>
-<text text-anchor="start" x="15" y="-341.5" font-family="SegoeUI" font-size="10.00">&#45; KEY_LIST_KEY</text>
-<text text-anchor="start" x="15" y="-330.5" font-family="SegoeUI" font-size="10.00">&#45; ID_PREFIX</text>
-<text text-anchor="start" x="15" y="-319.5" font-family="SegoeUI" font-size="10.00">&#45; EMPTY_STRING_ARRAY</text>
-<polyline fill="none" stroke="black" points="7,-312.5 169,-312.5 "/>
-<text text-anchor="start" x="15" y="-300.5" font-family="SegoeUI" font-size="10.00">+ ResetData()</text>
-<text text-anchor="start" x="15" y="-289.5" font-family="SegoeUI" font-size="10.00">+ DropAnchor()</text>
-<text text-anchor="start" x="15" y="-278.5" font-family="SegoeUI" font-size="10.00">+ WeighAnchor()</text>
-<text text-anchor="start" x="15" y="-267.5" font-family="SegoeUI" font-size="10.00">+ HasAnchor()</text>
-<text text-anchor="start" x="15" y="-256.5" font-family="SegoeUI" font-size="10.00"># SynchronizeAnchor()</text>
-<text text-anchor="start" x="15" y="-245.5" font-family="SegoeUI" font-size="10.00"># IsGood()</text>
-<text text-anchor="start" x="15" y="-234.5" font-family="SegoeUI" font-size="10.00"># DeleteAnchor()</text>
-<text text-anchor="start" x="15" y="-223.5" font-family="SegoeUI" font-size="10.00"># FindAnchor()</text>
-<text text-anchor="start" x="15" y="-212.5" font-family="SegoeUI" font-size="10.00"># IsSaved()</text>
-<text text-anchor="start" x="15" y="-201.5" font-family="SegoeUI" font-size="10.00"># CreateAnchor()</text>
-<text text-anchor="start" x="15" y="-190.5" font-family="SegoeUI" font-size="10.00"># LoadAnchor()</text>
-<text text-anchor="start" x="15" y="-179.5" font-family="SegoeUI" font-size="10.00"># MakeID()</text>
-<text text-anchor="start" x="15" y="-168.5" font-family="SegoeUI" font-size="10.00"># HasValue()</text>
-<text text-anchor="start" x="15" y="-157.5" font-family="SegoeUI" font-size="10.00"># SaveValue()</text>
-<text text-anchor="start" x="15" y="-146.5" font-family="SegoeUI" font-size="10.00"># LoadValue&lt; T &gt;()</text>
-<text text-anchor="start" x="15" y="-135.5" font-family="SegoeUI" font-size="10.00"># DeleteValue()</text>
+<g id="a_node3"><a xlink:href="../../de/d3f/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_kit_anchor_store.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="0,-194.5 0,-339.5 170,-339.5 170,-194.5 0,-194.5"/>
+<text text-anchor="start" x="8" y="-327.5" font-family="SegoeUI" font-size="10.00">Juniper::Unity::Anchoring</text>
+<text text-anchor="middle" x="85" y="-316.5" font-family="SegoeUI" font-size="10.00">::ARKitAnchorStore&lt; AnchorType &gt;</text>
+<polyline fill="none" stroke="black" points="0,-309.5 170,-309.5 "/>
+<text text-anchor="start" x="8" y="-297.5" font-family="SegoeUI" font-size="10.00">&#45; anchorStore</text>
+<polyline fill="none" stroke="black" points="0,-290.5 170,-290.5 "/>
+<text text-anchor="start" x="8" y="-278.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
+<text text-anchor="start" x="8" y="-267.5" font-family="SegoeUI" font-size="10.00">+ HasAnchor()</text>
+<text text-anchor="start" x="8" y="-256.5" font-family="SegoeUI" font-size="10.00">+ ResetData()</text>
+<text text-anchor="start" x="8" y="-245.5" font-family="SegoeUI" font-size="10.00"># FindAnchor()</text>
+<text text-anchor="start" x="8" y="-234.5" font-family="SegoeUI" font-size="10.00"># LoadAnchor()</text>
+<text text-anchor="start" x="8" y="-223.5" font-family="SegoeUI" font-size="10.00"># CreateAnchor()</text>
+<text text-anchor="start" x="8" y="-212.5" font-family="SegoeUI" font-size="10.00"># SynchronizeAnchor()</text>
+<text text-anchor="start" x="8" y="-201.5" font-family="SegoeUI" font-size="10.00"># DeleteAnchor()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node2 -->
 <g id="edge2" class="edge"><title>Node0&#45;&gt;Node2</title>
-<path fill="none" stroke="orange" d="M88,-443.149C88,-430.634 88,-417.981 88,-405.507"/>
-<polygon fill="orange" stroke="orange" points="84.5001,-443.15 88,-453.15 91.5001,-443.151 84.5001,-443.15"/>
-<text text-anchor="middle" x="138" y="-427" font-family="SegoeUI" font-size="10.00"> &lt; MockWorldAnchor &gt;</text>
+<path fill="none" stroke="midnightblue" d="M177.031,-444.023C158.197,-408.001 138.736,-370.779 122.589,-339.894"/>
+<polygon fill="none" stroke="midnightblue" points="174.068,-445.91 181.803,-453.15 180.271,-442.667 174.068,-445.91"/>
+</g>
+<!-- Node4 -->
+<g id="node5" class="node"><title>Node4</title>
+<g id="a_node5"><a xlink:href="../../de/d8a/class_juniper_1_1_unity_1_1_anchoring_1_1_holo_lens_anchor_store.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="188,-200 188,-334 314,-334 314,-200 188,-200"/>
+<text text-anchor="start" x="196" y="-322" font-family="SegoeUI" font-size="10.00">Juniper::Unity::Anchoring</text>
+<text text-anchor="start" x="196" y="-311" font-family="SegoeUI" font-size="10.00">::HoloLensAnchorStore&lt;</text>
+<text text-anchor="middle" x="251" y="-300" font-family="SegoeUI" font-size="10.00"> AnchorType &gt;</text>
+<polyline fill="none" stroke="black" points="188,-293 314,-293 "/>
+<text text-anchor="start" x="196" y="-281" font-family="SegoeUI" font-size="10.00">&#45; anchorStore</text>
+<polyline fill="none" stroke="black" points="188,-274 314,-274 "/>
+<text text-anchor="start" x="196" y="-262" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
+<text text-anchor="start" x="196" y="-251" font-family="SegoeUI" font-size="10.00">+ HasAnchor()</text>
+<text text-anchor="start" x="196" y="-240" font-family="SegoeUI" font-size="10.00"># IsSaved()</text>
+<text text-anchor="start" x="196" y="-229" font-family="SegoeUI" font-size="10.00"># LoadAnchor()</text>
+<text text-anchor="start" x="196" y="-218" font-family="SegoeUI" font-size="10.00"># IsGood()</text>
+<text text-anchor="start" x="196" y="-207" font-family="SegoeUI" font-size="10.00"># DeleteAnchor()</text>
+</a>
+</g>
+</g>
+<!-- Node0&#45;&gt;Node4 -->
+<g id="edge4" class="edge"><title>Node0&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M251,-443.016C251,-405.079 251,-365.89 251,-334.238"/>
+<polygon fill="none" stroke="midnightblue" points="247.5,-443.15 251,-453.15 254.5,-443.151 247.5,-443.15"/>
+</g>
+<!-- Node5 -->
+<g id="node6" class="node"><title>Node5</title>
+<g id="a_node6"><a xlink:href="../../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="332,-128.5 332,-405.5 494,-405.5 494,-128.5 332,-128.5"/>
+<text text-anchor="start" x="340" y="-393.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Anchoring.</text>
+<text text-anchor="start" x="340" y="-382.5" font-family="SegoeUI" font-size="10.00">AbstractAnchorStore&lt; MockWorld</text>
+<text text-anchor="middle" x="413" y="-371.5" font-family="SegoeUI" font-size="10.00">Anchor &gt;</text>
+<polyline fill="none" stroke="black" points="332,-364.5 494,-364.5 "/>
+<text text-anchor="start" x="340" y="-352.5" font-family="SegoeUI" font-size="10.00">+ NameList</text>
+<text text-anchor="start" x="340" y="-341.5" font-family="SegoeUI" font-size="10.00">&#45; KEY_LIST_KEY</text>
+<text text-anchor="start" x="340" y="-330.5" font-family="SegoeUI" font-size="10.00">&#45; ID_PREFIX</text>
+<text text-anchor="start" x="340" y="-319.5" font-family="SegoeUI" font-size="10.00">&#45; EMPTY_STRING_ARRAY</text>
+<polyline fill="none" stroke="black" points="332,-312.5 494,-312.5 "/>
+<text text-anchor="start" x="340" y="-300.5" font-family="SegoeUI" font-size="10.00">+ ResetData()</text>
+<text text-anchor="start" x="340" y="-289.5" font-family="SegoeUI" font-size="10.00">+ DropAnchor()</text>
+<text text-anchor="start" x="340" y="-278.5" font-family="SegoeUI" font-size="10.00">+ WeighAnchor()</text>
+<text text-anchor="start" x="340" y="-267.5" font-family="SegoeUI" font-size="10.00">+ HasAnchor()</text>
+<text text-anchor="start" x="340" y="-256.5" font-family="SegoeUI" font-size="10.00"># SynchronizeAnchor()</text>
+<text text-anchor="start" x="340" y="-245.5" font-family="SegoeUI" font-size="10.00"># IsGood()</text>
+<text text-anchor="start" x="340" y="-234.5" font-family="SegoeUI" font-size="10.00"># DeleteAnchor()</text>
+<text text-anchor="start" x="340" y="-223.5" font-family="SegoeUI" font-size="10.00"># FindAnchor()</text>
+<text text-anchor="start" x="340" y="-212.5" font-family="SegoeUI" font-size="10.00"># IsSaved()</text>
+<text text-anchor="start" x="340" y="-201.5" font-family="SegoeUI" font-size="10.00"># CreateAnchor()</text>
+<text text-anchor="start" x="340" y="-190.5" font-family="SegoeUI" font-size="10.00"># LoadAnchor()</text>
+<text text-anchor="start" x="340" y="-179.5" font-family="SegoeUI" font-size="10.00"># MakeID()</text>
+<text text-anchor="start" x="340" y="-168.5" font-family="SegoeUI" font-size="10.00"># HasValue()</text>
+<text text-anchor="start" x="340" y="-157.5" font-family="SegoeUI" font-size="10.00"># SaveValue&lt; T &gt;()</text>
+<text text-anchor="start" x="340" y="-146.5" font-family="SegoeUI" font-size="10.00"># LoadValue&lt; T &gt;()</text>
+<text text-anchor="start" x="340" y="-135.5" font-family="SegoeUI" font-size="10.00"># DeleteValue()</text>
+</a>
+</g>
+</g>
+<!-- Node0&#45;&gt;Node5 -->
+<g id="edge5" class="edge"><title>Node0&#45;&gt;Node5</title>
+<path fill="none" stroke="orange" d="M323.253,-443.892C329.763,-431.135 336.348,-418.228 342.839,-405.507"/>
+<polygon fill="orange" stroke="orange" points="319.957,-442.652 318.53,-453.15 326.192,-445.834 319.957,-442.652"/>
+<text text-anchor="middle" x="382" y="-427" font-family="SegoeUI" font-size="10.00"> &lt; MockWorldAnchor &gt;</text>
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
 <g id="a_node2"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="47,-757.5 47,-814.5 129,-814.5 129,-757.5 47,-757.5"/>
-<text text-anchor="middle" x="88" y="-802.5" font-family="SegoeUI" font-size="10.00">MonoBehaviour</text>
-<polyline fill="none" stroke="#bfbfbf" points="47,-795.5 129,-795.5 "/>
-<text text-anchor="middle" x="88" y="-783.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="47,-776.5 129,-776.5 "/>
-<text text-anchor="middle" x="88" y="-764.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="210,-757.5 210,-814.5 292,-814.5 292,-757.5 210,-757.5"/>
+<text text-anchor="middle" x="251" y="-802.5" font-family="SegoeUI" font-size="10.00">MonoBehaviour</text>
+<polyline fill="none" stroke="#bfbfbf" points="210,-795.5 292,-795.5 "/>
+<text text-anchor="middle" x="251" y="-783.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="210,-776.5 292,-776.5 "/>
+<text text-anchor="middle" x="251" y="-764.5" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node0 -->
 <g id="edge1" class="edge"><title>Node1&#45;&gt;Node0</title>
-<path fill="none" stroke="midnightblue" d="M88,-747.074C88,-738.711 88,-729.396 88,-719.583"/>
-<polygon fill="none" stroke="midnightblue" points="84.5001,-747.122 88,-757.122 91.5001,-747.122 84.5001,-747.122"/>
+<path fill="none" stroke="midnightblue" d="M251,-747.074C251,-738.711 251,-729.396 251,-719.583"/>
+<polygon fill="none" stroke="midnightblue" points="247.5,-747.122 251,-757.122 254.5,-747.122 247.5,-747.122"/>
 </g>
 <!-- Node3 -->
 <g id="node4" class="node"><title>Node3</title>
-<g id="a_node4"><a xlink:href="../../d9/d0e/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_anchor_store.html" target="_top" xlink:title="An anchor store that stores all anchors in the default data store for AbstractAnchorStore.">
-<polygon fill="white" stroke="black" points="28,-0.5 28,-90.5 148,-90.5 148,-0.5 28,-0.5"/>
-<text text-anchor="start" x="36" y="-78.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Anchoring.</text>
-<text text-anchor="middle" x="88" y="-67.5" font-family="SegoeUI" font-size="10.00">MockAnchorStore</text>
-<polyline fill="none" stroke="black" points="28,-60.5 148,-60.5 "/>
-<text text-anchor="middle" x="88" y="-48.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="28,-41.5 148,-41.5 "/>
-<text text-anchor="start" x="36" y="-29.5" font-family="SegoeUI" font-size="10.00">+ HasAnchor()</text>
-<text text-anchor="start" x="36" y="-18.5" font-family="SegoeUI" font-size="10.00"># LoadAnchor()</text>
-<text text-anchor="start" x="36" y="-7.5" font-family="SegoeUI" font-size="10.00"># CreateAnchor()</text>
+<g id="a_node4"><a xlink:href="../../dd/d26/class_juniper_1_1_unity_1_1_anchoring_1_1_anchor_store.html" target="_top" xlink:title="Anchors provide a means to restore the position of objects between sessions. In some AR systems,...">
+<polygon fill="white" stroke="black" points="25,-11.5 25,-79.5 145,-79.5 145,-11.5 25,-11.5"/>
+<text text-anchor="start" x="33" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Anchoring.</text>
+<text text-anchor="middle" x="85" y="-56.5" font-family="SegoeUI" font-size="10.00">AnchorStore</text>
+<polyline fill="none" stroke="black" points="25,-49.5 145,-49.5 "/>
+<text text-anchor="middle" x="85" y="-37.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="25,-30.5 145,-30.5 "/>
+<text text-anchor="middle" x="85" y="-18.5" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
 </g>
 </g>
 <!-- Node2&#45;&gt;Node3 -->
 <g id="edge3" class="edge"><title>Node2&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M88,-117.976C88,-108.276 88,-99.0328 88,-90.6056"/>
-<polygon fill="none" stroke="midnightblue" points="84.5001,-118.234 88,-128.234 91.5001,-118.234 84.5001,-118.234"/>
+<path fill="none" stroke="midnightblue" d="M85,-184.319C85,-148.003 85,-107.291 85,-79.593"/>
+<polygon fill="none" stroke="midnightblue" points="81.5001,-184.431 85,-194.431 88.5001,-184.431 81.5001,-184.431"/>
+</g>
+<!-- Node6 -->
+<g id="node7" class="node"><title>Node6</title>
+<g id="a_node7"><a xlink:href="../../d9/d0e/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_anchor_store.html" target="_top" xlink:title="An anchor store that stores all anchors in the default data store for AbstractAnchorStore.">
+<polygon fill="white" stroke="black" points="353,-0.5 353,-90.5 473,-90.5 473,-0.5 353,-0.5"/>
+<text text-anchor="start" x="361" y="-78.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Anchoring.</text>
+<text text-anchor="middle" x="413" y="-67.5" font-family="SegoeUI" font-size="10.00">MockAnchorStore</text>
+<polyline fill="none" stroke="black" points="353,-60.5 473,-60.5 "/>
+<text text-anchor="middle" x="413" y="-48.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="353,-41.5 473,-41.5 "/>
+<text text-anchor="start" x="361" y="-29.5" font-family="SegoeUI" font-size="10.00">+ HasAnchor()</text>
+<text text-anchor="start" x="361" y="-18.5" font-family="SegoeUI" font-size="10.00"># LoadAnchor()</text>
+<text text-anchor="start" x="361" y="-7.5" font-family="SegoeUI" font-size="10.00"># CreateAnchor()</text>
+</a>
+</g>
+</g>
+<!-- Node5&#45;&gt;Node6 -->
+<g id="edge6" class="edge"><title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M413,-117.976C413,-108.276 413,-99.0328 413,-90.6056"/>
+<polygon fill="none" stroke="midnightblue" points="409.5,-118.234 413,-128.234 416.5,-118.234 409.5,-118.234"/>
 </g>
 </g>
 </svg>

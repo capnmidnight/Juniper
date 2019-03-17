@@ -8,9 +8,9 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Input/Hands.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/AbstractService.cs - (7 of 7)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Editor/Juniper/HiddenSettingsAccessor.cs - (1 of 1)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Android/AbstractAndroidAPIHaptics.cs - (9 of 9)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Anchoring/MockWorldAnchor.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/DateTimeExt.cs - (1 of 1)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Audio/IAudioClipCollection.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/LightMapping/LightMapSet.cs - (7 of 7)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/AbstractTransitionController.cs - (3 of 3)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Time/Hours.cs - (8 of 8)
@@ -26,14 +26,13 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Tooltip.cs - (11 of 11)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Haptics/HapticPatternElement.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/SpiralTransition.cs - (46 of 46)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Vuforia/VuforiaTrackableFoundEventHandler.cs - (23 of 23)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/AbstractAnimator.cs - (3 of 3)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/ManagedRequest.cs - (39 of 39)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Editor/Juniper/PlayerSettingsExt.cs - (3 of 3)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Angles/Gradians.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Kibibytes.cs - (16 of 16)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/ManagedRequestReady.cs - (3 of 3)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Geo/EquitorialSphericalPosition.cs - (5 of 5)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Geo/EquitorialSphericalPosition.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Length/Feet.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Time/Milliseconds.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Anchoring/MockAnchorStore.cs - (11 of 11)
@@ -41,36 +40,33 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/OneShotThread.cs - (9 of 9)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Length/Miles.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Tebibytes.cs - (16 of 16)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Android/AndroidAPI26Haptics.cs - (9 of 9)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/AbstractBackgroundRepeatingThread.cs - (10 of 10)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Geo/HorizontalSphericalPosition.cs - (4 of 4)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Geo/GeocentricEclipticSphericalPosition.cs - (5 of 5)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Anchoring/Grounded.cs - (4 of 4)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/iOS/iOS9Haptics.cs - (6 of 6)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Geo/HorizontalSphericalPosition.cs - (5 of 5)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Geo/GeocentricEclipticSphericalPosition.cs - (6 of 6)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Anchoring/Grounded.cs - (16 of 16)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Collections/TextureSortComparer.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Mass/Pounds.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Length/Centimeters.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/MaterialCollection.cs - (5 of 5)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/ArrayExt.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/TextMeshSize.cs - (17 of 17)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/WeatherReport.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Area/SquareMeters.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/HSVColor.cs - (5 of 5)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Zebibytes.cs - (16 of 16)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Anchoring/Anchored.cs - (17 of 17)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Audio/AudioClipCollection.cs - (1 of 1)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Audio/AudioClipCollection.cs - (8 of 8)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Length/Meters.cs - (6 of 6)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Geo/UTMPoint.cs - (9 of 9)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Geo/UTMPoint.cs - (10 of 10)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Pressure/Hectopascals.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/ColorExt.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Pressure/Millibars.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Temperature/Farenheit.cs - (5 of 5)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/Climate/FakeWeatherReport.cs - (24 of 24)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/iOS/iOS10Haptics.cs - (3 of 3)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Area/SquareInches.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Area/SquareMillimeters.cs - (6 of 6)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/WorkflowStep.cs - (10 of 10)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Gigabytes.cs - (16 of 16)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/TranslationTransition.cs - (40 of 40)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/TranslationTransition.cs - (39 of 39)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Standoff.cs - (7 of 7)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/ScaleTransition.cs - (38 of 38)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/Climate/Weather.cs - (22 of 22)
@@ -78,11 +74,13 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/Collections/Generic/ListExt.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Units.cs - (5 of 5)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/ImageTracking/AbstractTrackableFoundEventHandler.cs - (27 of 27)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/DebugObject.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Pebibytes.cs - (16 of 16)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/TrackedValue.cs - (10 of 10)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/ErrorHandler.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/Android/Device.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Length/Inches.cs - (6 of 6)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/Events/TriggeredEvent.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Light/Lumens.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Light/Nits.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Angles/Degrees.cs - (4 of 4)
@@ -92,14 +90,15 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Light/Brightness.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/TweenType.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Mibibytes.cs - (16 of 16)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Haptics/DefaultHaptics.cs - (7 of 7)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Draggable.cs - (60 of 60)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Draggable.cs - (59 of 59)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Length/Millimeters.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Bytes.cs - (16 of 16)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/DetectVideoEnd.cs - (9 of 9)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Speed/MilesPerHour.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/ImageTracking/Markers.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Acceleration/FeetPerSecondSquared.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/IO/StreamExt.cs - (1 of 1)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/UnityAnimator.cs - (5 of 5)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Geo/Datum.cs - (11 of 11)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Exabytes.cs - (16 of 16)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/SavableValues/AbstractVariable.cs - (2 of 2)
@@ -110,7 +109,6 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Exbibytes.cs - (16 of 16)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/SavableValues/IValued.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Speech/Keywordable.cs - (13 of 13)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Vuforia/VuforiaUnityExt.cs - (5 of 5)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Speed/KilometersPerHour.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/AbstractStateController.cs - (29 of 29)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/EditableDateTime.cs - (16 of 16)
@@ -121,7 +119,7 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Angle.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Time/Seconds.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Input/Speech/IKeywordTriggered.cs - (1 of 1)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/FadeTransition.cs - (49 of 49)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/FadeTransition.cs - (51 of 51)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Megabytes.cs - (16 of 16)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Mass/Tons.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/AbstractBackgroundThread.cs - (9 of 9)
@@ -129,50 +127,49 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/Months.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Volume/CubicFeet.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Yobibytes.cs - (16 of 16)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/AttentionDirector.cs - (27 of 27)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/AttentionDirector.cs - (28 of 28)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Speed/MetersPerSecond.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/LightMapping/LightMapSwitcher.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Haptics/AbstractHapticDevice.cs - (3 of 3)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Volume/CubicCentimeters.cs - (6 of 6)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Geo/LatLngPoint.cs - (12 of 12)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Geo/LatLngPoint.cs - (13 of 13)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Mass/Kilograms.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/RotationHandle.cs - (10 of 10)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Mass/Grams.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/LabelAttribute.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Anchoring/AbstractAnchorStore.cs - (15 of 15)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/JibberJabber.cs - (7 of 7)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/JibberJabber.cs - (9 of 9)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Volume/CubicMeters.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/NETFX/DateTimeExt2.cs - (3 of 3)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Yotabytes.cs - (16 of 16)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Zettabytes.cs - (16 of 16)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Speech/KeywordRecognizer.cs - (10 of 10)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Speech/KeywordRecognizer.cs - (8 of 8)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Ground/GroundMeshVisualization.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Angles/Radians.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Speed/FeetPerSecond.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Speed/MillimetersPerSecond.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/AbstractValued.cs - (51 of 51)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/OutdoorWindEstimate.cs - (8 of 8)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/API.cs - (2 of 2)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/OutdoorWindEstimate.cs - (9 of 9)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ARKit/ARKitTrackableFoundEventHandler.cs - (20 of 20)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Mass/Ounces.cs - (4 of 4)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Vuforia/VuforiaImageAnalyzer.cs - (16 of 16)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Gibibytes.cs - (16 of 16)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Audio/SingleAudioClipCollection.cs - (8 of 8)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/FileSize/Terabytes.cs - (16 of 16)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/NumberExt.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/SavableValues/AbstractReference.cs - (5 of 5)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/ScaleHandle.cs - (10 of 10)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Events/TimedEvent.cs - (9 of 9)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Android/AndroidAPI1Haptics.cs - (9 of 9)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Haptics/NoHaptics.cs - (3 of 3)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Editor/Juniper/LabelAttributeDrawer.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Volume/CubicMillimeters.cs - (6 of 6)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/IWeatherReport.cs - (15 of 15)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/NumberExt.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Rotatable.cs - (56 of 56)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Time/Days.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/TranslationHandle.cs - (10 of 10)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Editor/Juniper/SerializedPropertyExt.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Collections/NAryTree.cs - (11 of 11)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Pressure/Kilopascals.cs - (4 of 4)
-100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Audio/VolumeFade.cs - (3 of 3)
+100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Audio/VolumeFade.cs - (11 of 11)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Time/Minutes.cs - (4 of 4)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/Flipbook.cs - (8 of 8)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Extensions/NETFX/Collections/Generic/IEnumerableExt.cs - (1 of 1)
@@ -183,31 +180,33 @@
 100% - C:/Users/sean/Projects/Juniper/src/Juniper.Units/src/Acceleration/MetersPerSecondSquared.cs - (2 of 2)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Comment.cs - (1 of 1)
 100% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/RendererExt.cs - (1 of 1)
- 97% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/VideoVader.cs - (45 of 46)
+ 97% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/VideoVader.cs - (46 of 47)
 	 void Juniper.Unity.Widgets.VideoVader.FireComplete
- 88% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Vuforia/VuforiaTrackerKeeper.cs - (40 of 45)
-	 override IEnumerable<TrackableFoundEventHandler> Juniper.Unity.ImageTracking.VuforiaTrackerKeeper.FirstTargets
-	 override void Juniper.Unity.ImageTracking.VuforiaTrackerKeeper.OnTrackingStarted
-	 override void Juniper.Unity.ImageTracking.VuforiaTrackerKeeper.OnTrackingStarting
-	 override void Juniper.Unity.ImageTracking.VuforiaTrackerKeeper.OnTrackingStopped
-	 override void Juniper.Unity.ImageTracking.VuforiaTrackerKeeper.OnTrackingStopping
- 88% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/SubSceneController.cs - (32 of 36)
+ 91% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/SubSceneController.cs - (32 of 35)
 	 bool Juniper.Unity.SubSceneController.isExitingPreviousScene
 	 virtual void Juniper.Unity.SubSceneController.Awake
 	 virtual void Juniper.Unity.SubSceneController.Load
-	 void Juniper.Unity.SubSceneController.CopyStreamingAssets
+ 88% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/LightEstimation/OutdoorLightEstimate.cs - (22 of 25)
+	 override bool Juniper.Unity.World.LightEstimation.OutdoorLightEstimate.Install
+	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Reinstall
+	 void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Uninstall
  86% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Openable.cs - (31 of 36)
 	 EventHandler Juniper.Unity.Widgets.Clickable.LongPress
 	 UnityEvent Juniper.Unity.Widgets.Clickable.onLongPress
 	 virtual void Juniper.Unity.Widgets.Clickable.OnLongPress
 	 void Juniper.Unity.Widgets.Clickable.OnLongPress
 	 void Juniper.Unity.Widgets.Clickable.OnLongPressUpdate
- 84% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/LightEstimation/OutdoorLightEstimate.cs - (22 of 26)
-	 override bool Juniper.Unity.World.LightEstimation.OutdoorLightEstimate.Install
+ 85% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ViveFocus/ViveFocusHaptics.cs - (6 of 7)
+	 WaveVR_Controller.Device Juniper.Unity.Haptics.ViveFocusHaptics.Controller
+ 85% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/LightEstimation/AbstractLightEstimate.cs - (17 of 20)
+	 virtual bool Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Install
 	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Reinstall
-	 void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Reset
 	 void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Uninstall
- 82% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/ImageTracking/AbstractTrackerKeeper.cs - (33 of 40)
+ 84% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/LightEstimation/IndoorLightEstimate.cs - (16 of 19)
+	 virtual bool Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Install
+	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Reinstall
+	 void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Uninstall
+ 82% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/ImageTracking/AbstractTrackerKeeper.cs - (32 of 39)
 	 DisplayManager Juniper.Unity.ImageTracking.AbstractTrackerKeeper.xr
 	 virtual IEnumerable<TrackableFoundEventHandler> Juniper.Unity.ImageTracking.AbstractTrackerKeeper.FirstTargets
 	 virtual void Juniper.Unity.ImageTracking.AbstractTrackerKeeper.OnTrackingStarted
@@ -221,44 +220,59 @@
 	 virtual void Juniper.Unity.Widgets.Clickable.OnLongPress
 	 void Juniper.Unity.Widgets.Clickable.OnLongPress
 	 void Juniper.Unity.Widgets.Clickable.OnLongPressUpdate
- 80% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/LightEstimation/AbstractLightEstimate.cs - (17 of 21)
-	 virtual bool Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Install
-	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Reinstall
-	 void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Reset
-	 void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Uninstall
- 80% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/LightEstimation/IndoorLightEstimate.cs - (16 of 20)
-	 virtual bool Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Install
-	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Reinstall
-	 void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Reset
-	 void Juniper.Unity.World.LightEstimation.AbstractLightEstimate.Uninstall
- 80% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs - (4 of 5)
-	 TimeSpan Juniper.Unity.Data.StreamingAssets.DEFAULT_TTL
- 77% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Audio/InteractionAudio.cs - (17 of 22)
-	 GameObject Juniper.Unity.Audio.InteractionAudio.volumeSlider
-	 InteractionAudio Juniper.Unity.Audio.InteractionAudio.instance
-	 float Juniper.Unity.Audio.InteractionAudio.Play_Internal
-	 float Juniper.Unity.Audio.InteractionAudio.Volume
-	 void Juniper.Unity.Audio.InteractionAudio.Volume_ValueChange
- 72% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/LightEstimation/AbstractLightMeasurement.cs - (13 of 18)
+ 79% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ARKit/ARKitTrackerKeeper.cs - (23 of 29)
+	 override void Juniper.Unity.ImageTracking.ARKitTrackerKeeper.OnTrackingStarting
+	 virtual IEnumerable<TrackableFoundEventHandler> Juniper.Unity.ImageTracking.AbstractTrackerKeeper.FirstTargets
+	 virtual void Juniper.Unity.ImageTracking.AbstractTrackerKeeper.OnTrackingStarted
+	 virtual void Juniper.Unity.ImageTracking.AbstractTrackerKeeper.OnTrackingStopped
+	 virtual void Juniper.Unity.ImageTracking.AbstractTrackerKeeper.OnTrackingStopping
+	 virtual void Juniper.Unity.ImageTracking.AbstractTrackerKeeper.PrintDebugReport
+ 77% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ARKit/ARKitLightMeasurement.cs - (14 of 18)
 	 virtual bool Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Install
 	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Reinstall
 	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Uninstall
 	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.UpdateMeasurement
-	 void Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Reset
- 72% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Vuforia/VuforiaLightMeasurement.cs - (18 of 25)
-	 override bool Juniper.Unity.World.LightEstimation.VuforiaLightMeasurement.Install
-	 override bool Juniper.Unity.World.LightEstimation.VuforiaLightMeasurement.UseFakeIntensity
-	 override void Juniper.Unity.World.LightEstimation.VuforiaLightMeasurement.InternalUpdate
-	 override void Juniper.Unity.World.LightEstimation.VuforiaLightMeasurement.Uninstall
+ 75% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/LightEstimation/AbstractLightMeasurement.cs - (12 of 16)
+	 virtual bool Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Install
 	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Reinstall
+	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Uninstall
 	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.UpdateMeasurement
-	 void Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Reset
  71% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs - (5 of 7)
 	 void Juniper.HTTP.SetReadResponse
 	 void Juniper.HTTP.SetWriteBody
- 68% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/TeleportPad.cs - (22 of 32)
+ 67% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Audio/InteractionAudio.cs - (25 of 37)
+	 AudioSource Juniper.Unity.Audio.InteractionAudio.CreateNewAudioSource
+	 GameObject Juniper.Unity.Audio.InteractionAudio.volumeSlider
+	 IValuedControl<float> Juniper.Unity.Audio.InteractionAudio.volume
+	 InteractionAudio Juniper.Unity.Audio.InteractionAudio.instance
+	 const float Juniper.Unity.Audio.InteractionAudio.E
+	 const string Juniper.Unity.Audio.InteractionAudio.DEFAULT_AUDIO_MIXER
+	 const string Juniper.Unity.Audio.InteractionAudio.MASTER_VOLUME_KEY
+	 float Juniper.Unity.Audio.InteractionAudio.Play_Internal
+	 float???? Juniper.Unity.Audio.InteractionAudio.Volume
+	 void Juniper.Unity.Audio.InteractionAudio.OnValidate
+	 void Juniper.Unity.Audio.InteractionAudio.Start
+	 void Juniper.Unity.Audio.InteractionAudio.Volume_ValueChange
+ 66% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Ground/StaticTerrain.cs - (12 of 18)
+	 override void Juniper.Unity.Ground.StaticTerrain.Awake
+	 override void Juniper.Unity.Ground.StaticTerrain.VisualizationChanged
+	 virtual bool Juniper.Unity.Ground.AbstractGround.Install
+	 virtual void Juniper.Unity.Ground.AbstractGround.Reinstall
+	 virtual void Juniper.Unity.Ground.AbstractGround.Uninstall
+	 void Juniper.Unity.Ground.AbstractGround.ToggleVisualization
+ 66% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs - (2 of 3)
+	 TimeSpan Juniper.Unity.Data.StreamingAssets.DEFAULT_TTL
+ 66% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ARKit/ARKitGround.cs - (12 of 18)
+	 override void Juniper.Unity.Ground.ARKitGround.Awake
+	 virtual bool Juniper.Unity.Ground.AbstractGround.Install
+	 virtual void Juniper.Unity.Ground.AbstractGround.Reinstall
+	 virtual void Juniper.Unity.Ground.AbstractGround.Uninstall
+	 virtual void Juniper.Unity.Ground.AbstractGround.VisualizationChanged
+	 void Juniper.Unity.Ground.AbstractGround.ToggleVisualization
+ 66% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/TeleportPad.cs - (22 of 33)
 	 EventHandler Juniper.Unity.Widgets.Clickable.LongPress
 	 FadeTransition Juniper.Unity.Widgets.TeleportPad.darth
+	 Rigidbody Juniper.Unity.Widgets.TeleportPad.user
 	 Transform Juniper.Unity.Widgets.TeleportPad.userT
 	 UnityEvent Juniper.Unity.Widgets.Clickable.onLongPress
 	 bool Juniper.Unity.Widgets.TeleportPad.running
@@ -267,6 +281,55 @@
 	 void Juniper.Unity.Widgets.Clickable.OnLongPressUpdate
 	 void Juniper.Unity.Widgets.TeleportPad.Darth_Entered
 	 void Juniper.Unity.Widgets.TeleportPad.Start
+ 66% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/API.cs - (2 of 3)
+	 void Juniper.World.Climate.OpenWeatherMap.API.Error.GetObjectData
+ 63% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Haptics/DefaultHaptics.cs - (7 of 11)
+	 Gamepad Juniper.Unity.Haptics.DefaultHaptics.gp
+	 void Juniper.Unity.Haptics.DefaultHaptics.Awake
+	 void Juniper.Unity.Haptics.DefaultHaptics.Gamepad_GamepadAdded
+	 void Juniper.Unity.Haptics.DefaultHaptics.Gamepad_GamepadRemoved
+ 62% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/WindowsMR/HoloLensGround.cs - (22 of 35)
+	 GameObject Juniper.Unity.Ground.HoloLensGround.surfaceParent
+	 SpatialMappingBase.LODType Juniper.Unity.Ground.HoloLensGround.LODType
+	 SpatialMappingBase.LODType Juniper.Unity.Ground.HoloLensGround.lastLODType
+	 SpatialMappingBase.VolumeType Juniper.Unity.Ground.HoloLensGround.lastVolumeType
+	 SpatialMappingBase.VolumeType Juniper.Unity.Ground.HoloLensGround.volumeType
+	 Vector3 Juniper.Unity.Ground.HoloLensGround.lastHalfBox
+	 bool Juniper.Unity.Ground.HoloLensGround.Check< T >
+	 override void Juniper.Unity.Ground.HoloLensGround.Awake
+	 virtual bool Juniper.Unity.Ground.AbstractGround.Install
+	 virtual void Juniper.Unity.Ground.AbstractGround.Reinstall
+	 virtual void Juniper.Unity.Ground.AbstractGround.Uninstall
+	 virtual void Juniper.Unity.Ground.AbstractGround.VisualizationChanged
+	 void Juniper.Unity.Ground.AbstractGround.ToggleVisualization
+ 62% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Ground/AbstractARGround.cs - (10 of 16)
+	 virtual bool Juniper.Unity.Ground.AbstractGround.Install
+	 virtual void Juniper.Unity.Ground.AbstractGround.Awake
+	 virtual void Juniper.Unity.Ground.AbstractGround.Reinstall
+	 virtual void Juniper.Unity.Ground.AbstractGround.Uninstall
+	 virtual void Juniper.Unity.Ground.AbstractGround.VisualizationChanged
+	 void Juniper.Unity.Ground.AbstractGround.ToggleVisualization
+ 62% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Ground/AbstractGround.cs - (10 of 16)
+	 virtual bool Juniper.Unity.Ground.AbstractGround.Install
+	 virtual void Juniper.Unity.Ground.AbstractGround.Awake
+	 virtual void Juniper.Unity.Ground.AbstractGround.Reinstall
+	 virtual void Juniper.Unity.Ground.AbstractGround.Uninstall
+	 virtual void Juniper.Unity.Ground.AbstractGround.VisualizationChanged
+	 void Juniper.Unity.Ground.AbstractGround.ToggleVisualization
+ 61% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Probe.cs - (21 of 34)
+	 Camera? Juniper.Unity.Input.Pointers.Probe.EventCamera
+	 LineRenderer Juniper.Unity.Input.Pointers.Probe.line
+	 Material Juniper.Unity.Input.Pointers.Probe.LaserPointerMaterial
+	 Material Juniper.Unity.Input.Pointers.Probe.lastLaserPointerMaterial
+	 PhysicsRaycaster Juniper.Unity.Input.Pointers.Probe.Raycaster
+	 Transform Juniper.Unity.Input.Pointers.Probe.Cursor
+	 Transform Juniper.Unity.Input.Pointers.Probe.touchpoint
+	 Vector2 Juniper.Unity.Input.Pointers.Probe.TouchPoint
+	 bool Juniper.Unity.Input.Pointers.Probe.Install
+	 virtual void Juniper.Unity.Input.Pointers.Probe.Reinstall
+	 void Juniper.Unity.Input.Pointers.Probe.AlignProbe
+	 void Juniper.Unity.Input.Pointers.Probe.Start
+	 void Juniper.Unity.Input.Pointers.Probe.Uninstall
  60% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Statistics/Vector3Statistics.cs - (25 of 41)
 	 abstract T Juniper.Statistics.AbstractCollectionStatistics< T >.Abs
 	 abstract T Juniper.Statistics.AbstractCollectionStatistics< T >.Add
@@ -335,60 +398,12 @@
 	 override Vector4 Juniper.Unity.Statistics.Vector4Statistics.Sqrt
 	 override Vector4 Juniper.Unity.Statistics.Vector4Statistics.Subtract
 	 override bool Juniper.Unity.Statistics.Vector4Statistics.LessThan
- 60% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Probe.cs - (21 of 35)
-	 Camera? Juniper.Unity.Input.Pointers.Probe.EventCamera
-	 LineRenderer Juniper.Unity.Input.Pointers.Probe.line
-	 Material Juniper.Unity.Input.Pointers.Probe.LaserPointerMaterial
-	 Material Juniper.Unity.Input.Pointers.Probe.lastLaserPointerMaterial
-	 PhysicsRaycaster Juniper.Unity.Input.Pointers.Probe.Raycaster
-	 Transform Juniper.Unity.Input.Pointers.Probe.Cursor
-	 Transform Juniper.Unity.Input.Pointers.Probe.touchpoint
-	 Vector2 Juniper.Unity.Input.Pointers.Probe.TouchPoint
-	 bool Juniper.Unity.Input.Pointers.Probe.Install
-	 virtual void Juniper.Unity.Input.Pointers.Probe.Reinstall
-	 void Juniper.Unity.Input.Pointers.Probe.AlignProbe
-	 void Juniper.Unity.Input.Pointers.Probe.Reset
-	 void Juniper.Unity.Input.Pointers.Probe.Start
-	 void Juniper.Unity.Input.Pointers.Probe.Uninstall
- 59% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/WindowsMR/HoloLensGround.cs - (22 of 37)
-	 GameObject Juniper.Unity.Ground.HoloLensGround.surfaceParent
-	 SpatialMappingBase.LODType Juniper.Unity.Ground.HoloLensGround.LODType
-	 SpatialMappingBase.LODType Juniper.Unity.Ground.HoloLensGround.lastLODType
-	 SpatialMappingBase.VolumeType Juniper.Unity.Ground.HoloLensGround.lastVolumeType
-	 SpatialMappingBase.VolumeType Juniper.Unity.Ground.HoloLensGround.volumeType
-	 Vector3 Juniper.Unity.Ground.HoloLensGround.lastHalfBox
-	 bool Juniper.Unity.Ground.HoloLensGround.Check< T >
-	 override void Juniper.Unity.Ground.HoloLensGround.Awake
-	 virtual bool Juniper.Unity.Ground.AbstractGround.Install
-	 virtual void Juniper.Unity.Ground.AbstractGround.Reinstall
-	 virtual void Juniper.Unity.Ground.AbstractGround.Uninstall
-	 virtual void Juniper.Unity.Ground.AbstractGround.VisualizationChanged
-	 void Juniper.Unity.Ground.AbstractGround.Reset
-	 void Juniper.Unity.Ground.AbstractGround.ToggleVisualization
-	 void Juniper.Unity.Ground.HoloLensGround.OnValidate
- 58% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Ground/AbstractARGround.cs - (10 of 17)
-	 virtual bool Juniper.Unity.Ground.AbstractGround.Install
-	 virtual void Juniper.Unity.Ground.AbstractGround.Awake
-	 virtual void Juniper.Unity.Ground.AbstractGround.Reinstall
-	 virtual void Juniper.Unity.Ground.AbstractGround.Uninstall
-	 virtual void Juniper.Unity.Ground.AbstractGround.VisualizationChanged
-	 void Juniper.Unity.Ground.AbstractGround.Reset
-	 void Juniper.Unity.Ground.AbstractGround.ToggleVisualization
- 58% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Ground/AbstractGround.cs - (10 of 17)
-	 virtual bool Juniper.Unity.Ground.AbstractGround.Install
-	 virtual void Juniper.Unity.Ground.AbstractGround.Awake
-	 virtual void Juniper.Unity.Ground.AbstractGround.Reinstall
-	 virtual void Juniper.Unity.Ground.AbstractGround.Uninstall
-	 virtual void Juniper.Unity.Ground.AbstractGround.VisualizationChanged
-	 void Juniper.Unity.Ground.AbstractGround.Reset
-	 void Juniper.Unity.Ground.AbstractGround.ToggleVisualization
- 56% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Ground/NoTerrain.cs - (9 of 16)
+ 60% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Ground/NoTerrain.cs - (9 of 15)
 	 override void Juniper.Unity.Ground.NoTerrain.Awake
 	 virtual bool Juniper.Unity.Ground.AbstractGround.Install
 	 virtual void Juniper.Unity.Ground.AbstractGround.Reinstall
 	 virtual void Juniper.Unity.Ground.AbstractGround.Uninstall
 	 virtual void Juniper.Unity.Ground.AbstractGround.VisualizationChanged
-	 void Juniper.Unity.Ground.AbstractGround.Reset
 	 void Juniper.Unity.Ground.AbstractGround.ToggleVisualization
  53% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/CartesianAxis.cs - (7 of 13)
 	 AugmentedRealityTypes
@@ -423,6 +438,9 @@
 	 bool Juniper.Statistics.AbstractCollectionStatistics< T >.LessThan
 	 readonly T Juniper.Statistics.AbstractCollectionStatistics< T >.One
 	 readonly T Juniper.Statistics.AbstractCollectionStatistics< T >.Zero
+ 50% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/WeatherReport.cs - (2 of 4)
+	 Juniper.World.Climate.OpenWeatherMap.WeatherReport.Wind.Wind
+	 void Juniper.World.Climate.OpenWeatherMap.WeatherReport.Wind.GetObjectData
  50% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/QualityDegrader.cs - (6 of 12)
 	 Ground.Ground Juniper.Unity.Widgets.QualityDegrader.ground
 	 Slider Juniper.Unity.Widgets.QualityDegrader.qualitySlider
@@ -430,6 +448,36 @@
 	 void Juniper.Unity.Widgets.QualityDegrader.ChangeQuality
 	 void Juniper.Unity.Widgets.QualityDegrader.QualityValueChange
 	 void Juniper.Unity.Widgets.QualityDegrader.UpdateSlider
+ 48% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Video/Video360.cs - (27 of 56)
+	 AudioSource [] Juniper.Unity.Video.Video360.audioTracks
+	 Color Juniper.Unity.Video.Video360.tint
+	 EventHandler Juniper.Unity.Video.Video360.Loop
+	 ImageType
+	 ImageType Juniper.Unity.Video.Video360.imageType
+	 Material Juniper.Unity.Video.Video360.skyboxMaterial
+	 Mode
+	 Mode Juniper.Unity.Video.Video360.layout
+	 RenderTexture Juniper.Unity.Video.Video360.renderTexture
+	 RenderTextureFormat Juniper.Unity.Video.Video360.textureFormat
+	 StereoLayout
+	 StereoLayout Juniper.Unity.Video.Video360.stereoLayout
+	 StreamableVideoClip Juniper.Unity.Video.Video360.videoClip
+	 UnityEvent Juniper.Unity.Video.Video360.onLoop
+	 VideoPlayer Juniper.Unity.Video.Video360.player
+	 bool Juniper.Unity.Video.Video360.mirror180OnBack
+	 bool Juniper.Unity.Video.Video360.useMipMap
+	 const string Juniper.Unity.Video.Video360.LAT_LON
+	 const string Juniper.Unity.Video.Video360.SIDES_6
+	 float Juniper.Unity.Video.Video360.exposure
+	 float Juniper.Unity.Video.Video360.rotation
+	 float Juniper.Unity.Video.Video360.secondsToCache
+	 override void Juniper.Unity.Video.Video360.Awake
+	 override void Juniper.Unity.Video.Video360.Load
+	 uint Juniper.Unity.Video.Video360.height
+	 uint Juniper.Unity.Video.Video360.width
+	 virtual void Juniper.Unity.Video.Video360.OnLoop
+	 void Juniper.Unity.Video.Video360.CreateAudioTracks
+	 void Juniper.Unity.Video.Video360.Play
  47% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/FollowObject.cs - (9 of 19)
 	 CartesianAxisFlags Juniper.Unity.Widgets.FollowObject.FollowPosition
 	 Vector3 Juniper.Unity.Widgets.FollowObject.GetEndPosition
@@ -441,15 +489,15 @@
 	 bool Juniper.Unity.Widgets.FollowObject.interpolate
 	 float Juniper.Unity.Widgets.FollowObject.maxRotationRate
 	 float Juniper.Unity.Widgets.FollowObject.maxSpeed
- 45% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/MasterSceneController.cs - (17 of 37)
+ 46% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/MasterSceneController.cs - (15 of 32)
 	 FadeTransition Juniper.Unity.MasterSceneController.darth
-	 GameObject Juniper.Unity.MasterSceneController.optionsInterface
 	 IEnumerator Juniper.Unity.MasterSceneController.LoadAllScenesCoroutine2
 	 IEnumerator Juniper.Unity.MasterSceneController.LoadScenePathCoroutine
 	 IEnumerator Juniper.Unity.MasterSceneController.LoadingCompleteCoroutine
 	 IEnumerator Juniper.Unity.MasterSceneController.SwitchToSceneNameCoroutine
 	 Image Juniper.Unity.MasterSceneController.splash
 	 LoadingBar Juniper.Unity.MasterSceneController.loadingBar
+	 Transform Juniper.Unity.MasterSceneController.optionsInterface
 	 bool Juniper.Unity.MasterSceneController.Install
 	 bool Juniper.Unity.MasterSceneController.exitOnEscape
 	 bool Juniper.Unity.MasterSceneController.loadAll
@@ -457,11 +505,18 @@
 	 void Juniper.Unity.MasterSceneController.FadeOut
 	 void Juniper.Unity.MasterSceneController.LoadAllScenes
 	 void Juniper.Unity.MasterSceneController.LoadFirstScene
-	 void Juniper.Unity.MasterSceneController.OnValidate
-	 void Juniper.Unity.MasterSceneController.Reset
-	 void Juniper.Unity.MasterSceneController.SetBuildSettings
 	 void Juniper.Unity.MasterSceneController.Uninstall
 	 void Juniper.Unity.MasterSceneController.Update
+ 43% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/WindowsMR/WindowsMRHaptics.cs - (7 of 16)
+	 Dictionary<ushort, SimpleHapticsControllerFeedback> Juniper.Unity.Haptics.WindowsMRHaptics.expressions
+	 SimpleHapticsController Juniper.Unity.Haptics.WindowsMRHaptics.controller
+	 SimpleHapticsControllerFeedback Juniper.Unity.Haptics.WindowsMRHaptics.buzz
+	 SimpleHapticsControllerFeedback Juniper.Unity.Haptics.WindowsMRHaptics.click
+	 SimpleHapticsControllerFeedback Juniper.Unity.Haptics.WindowsMRHaptics.press
+	 SimpleHapticsControllerFeedback Juniper.Unity.Haptics.WindowsMRHaptics.release
+	 async void Juniper.Unity.Haptics.WindowsMRHaptics.GetController
+	 uint Juniper.Unity.Haptics.WindowsMRHaptics.ControllerID
+	 uint Juniper.Unity.Haptics.WindowsMRHaptics._controllerID
  33% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/AbstractVelocityLocomotion.cs - (2 of 6)
 	 Vector3 Juniper.Unity.Input.AbstractVelocityLocomotion.velocity
 	 const float Juniper.Unity.Input.AbstractVelocityLocomotion.MOVEMENT_SCALE
@@ -472,7 +527,20 @@
 	 const float Juniper.Unity.Input.AbstractVelocityLocomotion.MOVEMENT_SCALE
 	 float Juniper.Unity.Input.AbstractVelocityLocomotion.jink
 	 override void Juniper.Unity.Input.RunningMovement.Update
- 15% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/AbstractUnifiedInputModule.cs - (3 of 19)
+ 20% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/WindowsMR/WindowsMRInputModule.cs - (3 of 15)
+	 EventHandler<PointerFoundEventArgs> Juniper.Unity.Input.AbstractUnifiedInputModule.PointerFound
+	 PointerEventData Juniper.Unity.Input.AbstractUnifiedInputModule.Clone
+	 PointerFoundEvent Juniper.Unity.Input.AbstractUnifiedInputModule.onPointerFound
+	 StageExtensions Juniper.Unity.Input.AbstractUnifiedInputModule.stage
+	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.AnyPointerDragging
+	 override void Juniper.Unity.Input.AbstractUnifiedInputModule.Awake
+	 readonly List<IPointerDevice> Juniper.Unity.Input.AbstractUnifiedInputModule.Devices
+	 virtual bool Juniper.Unity.Input.AbstractUnifiedInputModule.Install
+	 virtual void Juniper.Unity.Input.AbstractUnifiedInputModule.Reinstall
+	 virtual void Juniper.Unity.Input.AbstractUnifiedInputModule.Uninstall
+	 void Juniper.Unity.Input.AbstractUnifiedInputModule.AddPointer
+	 void Juniper.Unity.Input.AbstractUnifiedInputModule.WithPointer
+ 16% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/AbstractUnifiedInputModule.cs - (3 of 18)
 	 EventHandler<PointerFoundEventArgs> Juniper.Unity.Input.AbstractUnifiedInputModule.PointerFound
 	 PointerEventData Juniper.Unity.Input.AbstractUnifiedInputModule.Clone
 	 PointerFoundEvent Juniper.Unity.Input.AbstractUnifiedInputModule.onPointerFound
@@ -480,7 +548,6 @@
 	 StageExtensions Juniper.Unity.Input.AbstractUnifiedInputModule.stage
 	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.AnyPointerDragging
 	 override void Juniper.Unity.Input.AbstractUnifiedInputModule.Awake
-	 override void Juniper.Unity.Input.AbstractUnifiedInputModule.Reset
 	 readonly List<IPointerDevice> Juniper.Unity.Input.AbstractUnifiedInputModule.Devices
 	 readonly List<IPointerDevice> Juniper.Unity.Input.AbstractUnifiedInputModule.newDevices
 	 virtual bool Juniper.Unity.Input.AbstractUnifiedInputModule.Install
@@ -489,7 +556,48 @@
 	 void Juniper.Unity.Input.AbstractUnifiedInputModule.AddPointer
 	 void Juniper.Unity.Input.AbstractUnifiedInputModule.OnPointerFound
 	 void Juniper.Unity.Input.AbstractUnifiedInputModule.WithPointer
- 14% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Gaze/NosePointer.cs - (11 of 78)
+ 15% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ARKit/ARKitDisplayManager.cs - (5 of 32)
+	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
+	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
+	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
+	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedARMode
+	 Camera Juniper.Unity.Display.AbstractDisplayManager.MainCamera
+	 CameraControl Juniper.Unity.Display.AbstractDisplayManager.cameraCtrl
+	 DisplayTypeEvent Juniper.Unity.Display.AbstractDisplayManager.onDisplayTypeChange
+	 DisplayTypes Juniper.Unity.Display.AbstractDisplayManager.DisplayType
+	 DisplayTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedDisplayType
+	 EventHandler<AugmentedRealityTypes> Juniper.Unity.Display.AbstractDisplayManager.ARModeChange
+	 EventHandler<DisplayTypes> Juniper.Unity.Display.AbstractDisplayManager.DisplayTypeChange
+	 Options Juniper.Unity.Display.AbstractDisplayManager.Option
+	 PlatformTypes Juniper.Unity.Display.AbstractDisplayManager.CurrentPlatform
+	 SystemTypes Juniper.Unity.Display.AbstractDisplayManager.System
+	 override bool Juniper.Unity.Display.ARKitDisplayManager.Install
+	 override void Juniper.Unity.Display.ARKitDisplayManager.Uninstall
+	 override void Juniper.Unity.Display.AbstractPassthroughDisplayManager.OnARModeChange
+	 override void Juniper.Unity.Display.AbstractPassthroughDisplayManager.Start
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Awake
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnDisplayTypeChange
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Reinstall
+	 void Juniper.Unity.Display.AbstractDisplayManager.DisableDisplay
+	 void Juniper.Unity.Display.AbstractDisplayManager.StartAR
+	 void Juniper.Unity.Display.AbstractDisplayManager.StartXRDisplay
+	 void Juniper.Unity.Display.AbstractDisplayManager.StopAR
+	 void Juniper.Unity.Display.AbstractDisplayManager.StopXRDisplay
+	 void Juniper.Unity.Display.AbstractDisplayManager.ToggleAR
+ 14% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Daydream/DaydreamInputModule.cs - (2 of 14)
+	 EventHandler<PointerFoundEventArgs> Juniper.Unity.Input.AbstractUnifiedInputModule.PointerFound
+	 PointerEventData Juniper.Unity.Input.AbstractUnifiedInputModule.Clone
+	 PointerFoundEvent Juniper.Unity.Input.AbstractUnifiedInputModule.onPointerFound
+	 StageExtensions Juniper.Unity.Input.AbstractUnifiedInputModule.stage
+	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.AnyPointerDragging
+	 override bool Juniper.Unity.Input.DaydreamInputModule.Install
+	 override void Juniper.Unity.Input.DaydreamInputModule.Awake
+	 override void Juniper.Unity.Input.DaydreamInputModule.Uninstall
+	 readonly List<IPointerDevice> Juniper.Unity.Input.AbstractUnifiedInputModule.Devices
+	 virtual void Juniper.Unity.Input.AbstractUnifiedInputModule.Reinstall
+	 void Juniper.Unity.Input.AbstractUnifiedInputModule.AddPointer
+	 void Juniper.Unity.Input.AbstractUnifiedInputModule.WithPointer
+ 14% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Gaze/NosePointer.cs - (11 of 77)
 	 AbstractMotionFilter Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.motionFilter
 	 AbstractUnifiedInputModule Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.InputModule
 	 AbstractUnifiedInputModule Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.eventManager
@@ -555,9 +663,21 @@
 	 virtual void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.SetProbe
 	 virtual void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Uninstall
 	 void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.DraggableChanged
-	 void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Reset
 	 void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Start
- 14% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Screen/AbstractScreenDevice.cs - (11 of 78)
+ 14% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Oculus/OculusInputModule.cs - (2 of 14)
+	 EventHandler<PointerFoundEventArgs> Juniper.Unity.Input.AbstractUnifiedInputModule.PointerFound
+	 PointerEventData Juniper.Unity.Input.AbstractUnifiedInputModule.Clone
+	 PointerFoundEvent Juniper.Unity.Input.AbstractUnifiedInputModule.onPointerFound
+	 StageExtensions Juniper.Unity.Input.AbstractUnifiedInputModule.stage
+	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.AnyPointerDragging
+	 override bool Juniper.Unity.Input.OculusInputModule.Install
+	 override void Juniper.Unity.Input.AbstractUnifiedInputModule.Awake
+	 override void Juniper.Unity.Input.OculusInputModule.Uninstall
+	 readonly List<IPointerDevice> Juniper.Unity.Input.AbstractUnifiedInputModule.Devices
+	 virtual void Juniper.Unity.Input.AbstractUnifiedInputModule.Reinstall
+	 void Juniper.Unity.Input.AbstractUnifiedInputModule.AddPointer
+	 void Juniper.Unity.Input.AbstractUnifiedInputModule.WithPointer
+ 14% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Screen/AbstractScreenDevice.cs - (11 of 77)
 	 AbstractMotionFilter Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.motionFilter
 	 AbstractUnifiedInputModule Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.InputModule
 	 AbstractUnifiedInputModule Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.eventManager
@@ -623,24 +743,134 @@
 	 virtual void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.SetProbe
 	 virtual void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Uninstall
 	 void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.DraggableChanged
-	 void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Reset
 	 void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Start
- 13% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Oculus/OculusInputModule.cs - (2 of 15)
-	 EventHandler<PointerFoundEventArgs> Juniper.Unity.Input.AbstractUnifiedInputModule.PointerFound
-	 PointerEventData Juniper.Unity.Input.AbstractUnifiedInputModule.Clone
-	 PointerFoundEvent Juniper.Unity.Input.AbstractUnifiedInputModule.onPointerFound
-	 StageExtensions Juniper.Unity.Input.AbstractUnifiedInputModule.stage
-	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.AnyPointerDragging
-	 override bool Juniper.Unity.Input.OculusInputModule.Install
-	 override void Juniper.Unity.Input.AbstractUnifiedInputModule.Awake
-	 override void Juniper.Unity.Input.AbstractUnifiedInputModule.Reset
-	 override void Juniper.Unity.Input.OculusInputModule.Uninstall
-	 readonly List<IPointerDevice> Juniper.Unity.Input.AbstractUnifiedInputModule.Devices
-	 virtual void Juniper.Unity.Input.AbstractUnifiedInputModule.Reinstall
-	 void Juniper.Unity.Input.AbstractUnifiedInputModule.AddPointer
-	 void Juniper.Unity.Input.AbstractUnifiedInputModule.WithPointer
+ 13% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/TobiiGazePointer.cs - (11 of 79)
+	 AbstractMotionFilter Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.motionFilter
+	 AbstractUnifiedInputModule Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.InputModule
+	 AbstractUnifiedInputModule Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.eventManager
+	 GazePoint Juniper.Unity.Input.Pointers.Gaze.TobiiGazePointer< ButtonIDType, HapticsType, ConfigType >.lastGaze
+	 HeadPose Juniper.Unity.Input.Pointers.Gaze.TobiiGazePointer< ButtonIDType, HapticsType, ConfigType >.lastPose
+	 IEventSystemHandler Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.EventTarget
+	 Material Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.LaserPointerMaterial
+	 PhysicsRaycaster? Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Raycaster
+	 StageExtensions Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.stage
+	 Type Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.ButtonType
+	 Vector2 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.LastScreenPoint
+	 Vector2 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.LastViewportPoint
+	 Vector2 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.ScreenDelta
+	 Vector2 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.ScreenFromViewport
+	 Vector2 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.ScreenFromWorld
+	 Vector2 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.ScreenPoint
+	 Vector2 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.ViewportDelta
+	 Vector2 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.ViewportFromScreen
+	 Vector2 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.ViewportFromWorld
+	 Vector2 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.ViewportPoint
+	 Vector3 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.LastDirection
+	 Vector3 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.LastOrigin
+	 Vector3 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.LastSmoothedWorldPoint
+	 Vector3 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.LastWorldPoint
+	 Vector3 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Origin
+	 Vector3 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.OriginDelta
+	 Vector3 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.SmoothedWorldPointDelta
+	 Vector3 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.WorldDelta
+	 Vector3 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.WorldFromScreen
+	 Vector3 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.WorldFromViewport
+	 Vector3 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.pointerOffset
+	 abstract bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.IsButtonDown
+	 abstract bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.IsButtonPressed
+	 abstract bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.IsButtonUp
+	 bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Connected
+	 bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.IsDragging
+	 bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.IsEnabled
+	 bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.LockedOnTarget
+	 bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.showProbe
+	 bool Juniper.Unity.Input.Pointers.IPointerDevice.IsButtonDown
+	 bool Juniper.Unity.Input.Pointers.IPointerDevice.IsButtonPressed
+	 bool Juniper.Unity.Input.Pointers.IPointerDevice.IsButtonUp
+	 bool Juniper.Unity.Input.Pointers.IPointerDevice.isActiveAndEnabled
+	 float Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.MaximumPointerDistance
+	 override Vector3 Juniper.Unity.Input.Pointers.Gaze.TobiiGazePointer< ButtonIDType, HapticsType, ConfigType >.CameraPositionOffset
+	 override Vector3? Juniper.Unity.Input.Pointers.Gaze.TobiiGazePointer< ButtonIDType, HapticsType, ConfigType >.WorldPoint
+	 override bool Juniper.Unity.Input.Pointers.Gaze.TobiiGazePointer< ButtonIDType, HapticsType, ConfigType >.IsConnected
+	 override void Juniper.Unity.Input.Pointers.Screen.AbstractScreenDevice< ButtonIDType, HapticsType, ConfigType >.InternalUpdate
+	 readonly ButtonMapper<ButtonIDType> Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.nativeButtons
+	 readonly ConfigType Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.PointerConfig
+	 readonly Vector2 Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.VIEWPORT_MIDPOINT
+	 string Juniper.Input.Pointers.IPointerButtons< ButtonIDType >.name
+	 string Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.ProbeName
+	 string Juniper.Unity.Input.Pointers.IPointerDevice.name
+	 virtual IEventSystemHandler Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.ProcessButtons
+	 virtual Quaternion Juniper.Unity.Input.Pointers.Screen.AbstractScreenDevice< ButtonIDType, HapticsType, ConfigType >.CameraRotationOffset
+	 virtual bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.AnyButtonPressed
+	 virtual bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Install
+	 virtual bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.IsButtonDown
+	 virtual bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.IsButtonPressed
+	 virtual bool Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.IsButtonUp
+	 virtual void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.PlayInteraction
+	 virtual void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Process
+	 virtual void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Reinstall
+	 virtual void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.SetProbe
+	 virtual void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Uninstall
+	 void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.DraggableChanged
+	 void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Start
+ 13% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Motion/HandTracker.cs - (3 of 22)
+	 InteractionSourceState Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.lastInputState
+	 override Vector2 Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.RoundTouchPoint
+	 override Vector2 Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.SquareTouchPoint
+	 override bool Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.IsButtonDown
+	 override bool Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.IsButtonPressed
+	 override bool Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.IsButtonUp
+	 override bool Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.IsConnected
+	 override bool Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.IsDominantHand
+	 override bool Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.TouchPadPressed
+	 override bool Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.TouchPadPressedDown
+	 override bool Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.TouchPadPressedUp
+	 override bool Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.TouchPadTouched
+	 override bool Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.TouchPadTouchedDown
+	 override bool Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.TouchPadTouchedUp
+	 override bool Juniper.Unity.Input.Pointers.Motion.HoloLensHand.IsLeftHand
+	 override bool Juniper.Unity.Input.Pointers.Motion.HoloLensHand.IsRightHand
+	 override void Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.InternalUpdate
+	 override void Juniper.Unity.Input.Pointers.Motion.HandTracker.Reinstall
+	 override void Juniper.Unity.Input.Pointers.Motion.HoloLensHand.Awake
+ 10% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/StageExtensions.cs - (4 of 38)
+	 CapsuleCollider Juniper.Unity.StageExtensions.BodyShape
+	 GazePointer Juniper.Unity.StageExtensions.gazePointer
+	 HandTracker [] Juniper.Unity.StageExtensions.handTrackers
+	 MotionController [] Juniper.Unity.StageExtensions.motionControllers
+	 Mouse Juniper.Unity.StageExtensions.mouse
+	 T Juniper.Unity.StageExtensions.MakePointer< T >
+	 Toggle Juniper.Unity.StageExtensions.enableControllersToggle
+	 Toggle Juniper.Unity.StageExtensions.enableGazeToggle
+	 Toggle Juniper.Unity.StageExtensions.enableHandsToggle
+	 Toggle Juniper.Unity.StageExtensions.enableMouseToggle
+	 Toggle Juniper.Unity.StageExtensions.enableTouchToggle
+	 TouchPoint [] Juniper.Unity.StageExtensions.touches
+	 Transform Juniper.Unity.StageExtensions.Body
+	 Transform Juniper.Unity.StageExtensions.Hands
+	 Transform Juniper.Unity.StageExtensions.Head
+	 Vector3 Juniper.Unity.StageExtensions.velocity
+	 bool Juniper.Unity.StageExtensions.Install
+	 bool Juniper.Unity.StageExtensions.useGravity
+	 const string Juniper.Unity.StageExtensions.ENABLE_CONTROLLERS_KEY
+	 const string Juniper.Unity.StageExtensions.ENABLE_GAZE_KEY
+	 const string Juniper.Unity.StageExtensions.ENABLE_HANDS_KEY
+	 const string Juniper.Unity.StageExtensions.ENABLE_MOUSE_KEY
+	 const string Juniper.Unity.StageExtensions.ENABLE_TOUCH_KEY
+	 virtual void Juniper.Unity.StageExtensions.Awake
+	 virtual void Juniper.Unity.StageExtensions.Reinstall
+	 void Juniper.Unity.StageExtensions.EnableControllers
+	 void Juniper.Unity.StageExtensions.EnableGaze
+	 void Juniper.Unity.StageExtensions.EnableHands
+	 void Juniper.Unity.StageExtensions.EnableMouse
+	 void Juniper.Unity.StageExtensions.EnableTouch
+	 void Juniper.Unity.StageExtensions.FixedUpdate
+	 void Juniper.Unity.StageExtensions.RotateView
+	 void Juniper.Unity.StageExtensions.SetVelocity
+	 void Juniper.Unity.StageExtensions.Uninstall
  10% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Display/AbstractDisplayManager.cs - (4 of 39)
 	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
+	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
 	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
 	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedARMode
 	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.lastARMode
@@ -669,7 +899,34 @@
 	 void Juniper.Unity.Display.AbstractDisplayManager.ChangeARMode
 	 void Juniper.Unity.Display.AbstractDisplayManager.ChangeDisplayType
 	 void Juniper.Unity.Display.AbstractDisplayManager.DisableDisplay
-	 void Juniper.Unity.Display.AbstractDisplayManager.Reset
+	 void Juniper.Unity.Display.AbstractDisplayManager.StartAR
+	 void Juniper.Unity.Display.AbstractDisplayManager.StartXRDisplay
+	 void Juniper.Unity.Display.AbstractDisplayManager.StopAR
+	 void Juniper.Unity.Display.AbstractDisplayManager.StopXRDisplay
+	 void Juniper.Unity.Display.AbstractDisplayManager.ToggleAR
+ 10% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ViveFocus/ViveFocusDisplayManager.cs - (3 of 30)
+	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
+	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
+	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
+	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedARMode
+	 Camera Juniper.Unity.Display.AbstractDisplayManager.MainCamera
+	 CameraControl Juniper.Unity.Display.AbstractDisplayManager.cameraCtrl
+	 DisplayTypeEvent Juniper.Unity.Display.AbstractDisplayManager.onDisplayTypeChange
+	 DisplayTypes Juniper.Unity.Display.AbstractDisplayManager.DisplayType
+	 DisplayTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedDisplayType
+	 EventHandler<AugmentedRealityTypes> Juniper.Unity.Display.AbstractDisplayManager.ARModeChange
+	 EventHandler<DisplayTypes> Juniper.Unity.Display.AbstractDisplayManager.DisplayTypeChange
+	 Options Juniper.Unity.Display.AbstractDisplayManager.Option
+	 PlatformTypes Juniper.Unity.Display.AbstractDisplayManager.CurrentPlatform
+	 SystemTypes Juniper.Unity.Display.AbstractDisplayManager.System
+	 override bool Juniper.Unity.Display.ViveFocusDisplayManager.Install
+	 override void Juniper.Unity.Display.ViveFocusDisplayManager.Uninstall
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Awake
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnARModeChange
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnDisplayTypeChange
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Reinstall
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Start
+	 void Juniper.Unity.Display.AbstractDisplayManager.DisableDisplay
 	 void Juniper.Unity.Display.AbstractDisplayManager.StartAR
 	 void Juniper.Unity.Display.AbstractDisplayManager.StartXRDisplay
 	 void Juniper.Unity.Display.AbstractDisplayManager.StopAR
@@ -677,6 +934,7 @@
 	 void Juniper.Unity.Display.AbstractDisplayManager.ToggleAR
  10% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Oculus/OculusDisplayManager.cs - (3 of 30)
 	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
+	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
 	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
 	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedARMode
 	 Camera Juniper.Unity.Display.AbstractDisplayManager.MainCamera
@@ -697,14 +955,14 @@
 	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Reinstall
 	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Start
 	 void Juniper.Unity.Display.AbstractDisplayManager.DisableDisplay
-	 void Juniper.Unity.Display.AbstractDisplayManager.Reset
 	 void Juniper.Unity.Display.AbstractDisplayManager.StartAR
 	 void Juniper.Unity.Display.AbstractDisplayManager.StartXRDisplay
 	 void Juniper.Unity.Display.AbstractDisplayManager.StopAR
 	 void Juniper.Unity.Display.AbstractDisplayManager.StopXRDisplay
 	 void Juniper.Unity.Display.AbstractDisplayManager.ToggleAR
-  6% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Vuforia/VuforiaDisplayManager.cs - (2 of 30)
+  9% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Daydream/DaydreamDisplayManager.cs - (3 of 31)
 	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
+	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
 	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
 	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedARMode
 	 Camera Juniper.Unity.Display.AbstractDisplayManager.MainCamera
@@ -717,22 +975,21 @@
 	 Options Juniper.Unity.Display.AbstractDisplayManager.Option
 	 PlatformTypes Juniper.Unity.Display.AbstractDisplayManager.CurrentPlatform
 	 SystemTypes Juniper.Unity.Display.AbstractDisplayManager.System
-	 override bool Juniper.Unity.Display.VuforiaDisplayManager.Install
-	 override float Juniper.Unity.Display.VuforiaDisplayManager.DEFAULT_FOV
-	 override void Juniper.Unity.Display.VuforiaDisplayManager.Uninstall
+	 bool Juniper.Unity.Display.DaydreamDisplayManager.AnyActiveGoogleInstantPreview
+	 override bool Juniper.Unity.Display.DaydreamDisplayManager.Install
+	 override void Juniper.Unity.Display.DaydreamDisplayManager.Start
+	 override void Juniper.Unity.Display.DaydreamDisplayManager.Uninstall
 	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Awake
 	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnARModeChange
 	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnDisplayTypeChange
 	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Reinstall
-	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Start
 	 void Juniper.Unity.Display.AbstractDisplayManager.DisableDisplay
-	 void Juniper.Unity.Display.AbstractDisplayManager.Reset
 	 void Juniper.Unity.Display.AbstractDisplayManager.StartAR
 	 void Juniper.Unity.Display.AbstractDisplayManager.StartXRDisplay
 	 void Juniper.Unity.Display.AbstractDisplayManager.StopAR
 	 void Juniper.Unity.Display.AbstractDisplayManager.StopXRDisplay
 	 void Juniper.Unity.Display.AbstractDisplayManager.ToggleAR
-  6% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/JuniperPlatform.cs - (1 of 16)
+  7% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/JuniperPlatform.cs - (1 of 14)
 	 AugmentedRealityTypes Juniper.Unity.JuniperPlatform.ARMode
 	 AugmentedRealityTypes Juniper.Unity.JuniperPlatform.SupportedARMode
 	 DisplayTypes Juniper.Unity.JuniperPlatform.DisplayType
@@ -745,9 +1002,36 @@
 	 bool Juniper.Unity.JuniperPlatform.VRPlatformHasPassthrough
 	 readonly PlatformTypes Juniper.Unity.JuniperPlatform.CURRENT_PLATFORM
 	 virtual void Juniper.Unity.JuniperPlatform.Reinstall
-	 void Juniper.Unity.JuniperPlatform.OnValidate
-	 void Juniper.Unity.JuniperPlatform.Reset
 	 void Juniper.Unity.JuniperPlatform.Uninstall
+  6% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/WindowsMR/WindowsMRDisplayManager.cs - (2 of 30)
+	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
+	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
+	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
+	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedARMode
+	 Camera Juniper.Unity.Display.AbstractDisplayManager.MainCamera
+	 CameraControl Juniper.Unity.Display.AbstractDisplayManager.cameraCtrl
+	 DisplayTypeEvent Juniper.Unity.Display.AbstractDisplayManager.onDisplayTypeChange
+	 DisplayTypes Juniper.Unity.Display.AbstractDisplayManager.DisplayType
+	 DisplayTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedDisplayType
+	 EventHandler<AugmentedRealityTypes> Juniper.Unity.Display.AbstractDisplayManager.ARModeChange
+	 EventHandler<DisplayTypes> Juniper.Unity.Display.AbstractDisplayManager.DisplayTypeChange
+	 Options Juniper.Unity.Display.AbstractDisplayManager.Option
+	 PlatformTypes Juniper.Unity.Display.AbstractDisplayManager.CurrentPlatform
+	 SystemTypes Juniper.Unity.Display.AbstractDisplayManager.System
+	 override float Juniper.Unity.Display.WindowsMRDisplayManager.DEFAULT_FOV
+	 virtual bool Juniper.Unity.Display.AbstractDisplayManager.Install
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Awake
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnARModeChange
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnDisplayTypeChange
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Reinstall
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Start
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Uninstall
+	 void Juniper.Unity.Display.AbstractDisplayManager.DisableDisplay
+	 void Juniper.Unity.Display.AbstractDisplayManager.StartAR
+	 void Juniper.Unity.Display.AbstractDisplayManager.StartXRDisplay
+	 void Juniper.Unity.Display.AbstractDisplayManager.StopAR
+	 void Juniper.Unity.Display.AbstractDisplayManager.StopXRDisplay
+	 void Juniper.Unity.Display.AbstractDisplayManager.ToggleAR
   5% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Editor/Juniper/ConfigurationManagement/JuniperConfigurationManager.cs - (1 of 20)
 	 PlatformConfiguration Juniper.UnityEditor.ConfigurationManagement.JuniperConfigurationManager.LastConfiguration
 	 PlatformConfiguration Juniper.UnityEditor.ConfigurationManagement.JuniperConfigurationManager.NextConfiguration
@@ -768,36 +1052,8 @@
 	 readonly ProjectConfiguration Juniper.UnityEditor.ConfigurationManagement.JuniperConfigurationManager.config
 	 readonly string Juniper.UnityEditor.ConfigurationManagement.JuniperConfigurationManager.MANIFEST_FILE
 	 string Juniper.UnityEditor.ConfigurationManagement.JuniperConfigurationManager.LastPrefix
-  3% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/StageExtensions.cs - (1 of 29)
-	 GazePointer Juniper.Unity.StageExtensions.gazePointer
-	 HandTracker [] Juniper.Unity.StageExtensions.handTrackers
-	 MotionController [] Juniper.Unity.StageExtensions.motionControllers
-	 Mouse Juniper.Unity.StageExtensions.mouse
-	 T Juniper.Unity.StageExtensions.MakePointer< T >
-	 TouchPoint [] Juniper.Unity.StageExtensions.touches
-	 Transform Juniper.Unity.StageExtensions.Body
-	 Transform Juniper.Unity.StageExtensions.Hands
-	 Transform Juniper.Unity.StageExtensions.Head
-	 Vector3 Juniper.Unity.StageExtensions.velocity
-	 bool Juniper.Unity.StageExtensions.Install
-	 const string Juniper.Unity.StageExtensions.ENABLE_CONTROLLERS_KEY
-	 const string Juniper.Unity.StageExtensions.ENABLE_GAZE_KEY
-	 const string Juniper.Unity.StageExtensions.ENABLE_HANDS_KEY
-	 const string Juniper.Unity.StageExtensions.ENABLE_MOUSE_KEY
-	 const string Juniper.Unity.StageExtensions.ENABLE_TOUCH_KEY
-	 virtual void Juniper.Unity.StageExtensions.Awake
-	 virtual void Juniper.Unity.StageExtensions.Reinstall
-	 void Juniper.Unity.StageExtensions.EnableControllers
-	 void Juniper.Unity.StageExtensions.EnableGaze
-	 void Juniper.Unity.StageExtensions.EnableHands
-	 void Juniper.Unity.StageExtensions.EnableMouse
-	 void Juniper.Unity.StageExtensions.EnableTouch
-	 void Juniper.Unity.StageExtensions.FixedUpdate
-	 void Juniper.Unity.StageExtensions.Reset
-	 void Juniper.Unity.StageExtensions.RotateView
-	 void Juniper.Unity.StageExtensions.SetVelocity
-	 void Juniper.Unity.StageExtensions.Uninstall
-  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Splitter.cs - (0 of 5)
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Splitter.cs - (0 of 6)
+	 Animator Juniper.Unity.Widgets.Splitter.animator
 	 bool Juniper.Unity.Widgets.Splitter.open
 	 bool Juniper.Unity.Widgets.Splitter.wasOpen
 	 void Juniper.Unity.Widgets.Splitter.Awake
@@ -817,8 +1073,14 @@
 	 void Juniper.Unity.Widgets.LabeledInputField.HighlightLabel
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/GPSLocation.cs - (0 of 1)
 	 using UnityInput =  UnityEngine.Input
-  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/RocketPack.cs - (0 of 1)
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/RocketPack.cs - (0 of 5)
+	 Rigidbody Juniper.Unity.Input.RocketPack.body
+	 Transform Juniper.Unity.Input.RocketPack.camT
 	 float Juniper.Unity.Input.RocketPack.force
+	 void Juniper.Unity.Input.RocketPack.FixedUpdate
+	 void Juniper.Unity.Input.RocketPack.Start
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ARKit/ARKitAnchorStore.cs - (0 of 1)
+	 using AnchorType =  UnityEngine.XR.iOS.UnityARUserAnchorComponent
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Input/IPointerButtons.cs - (0 of 6)
 	 bool Juniper.Input.Pointers.IPointerButtons< ButtonIDType >.AnyButtonPressed
 	 bool Juniper.Input.Pointers.IPointerButtons< ButtonIDType >.IsButtonDown
@@ -855,12 +1117,6 @@
 	 float Juniper.Unity.Widgets.FollowMainCamera.followDistance
 	 void Juniper.Unity.Widgets.FollowMainCamera.Awake
 	 void Juniper.Unity.Widgets.FollowMainCamera.Start
-  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/iOS/iOSPermissionHandler.cs - (0 of 5)
-	 override bool Juniper.Unity.iOSPermissionHandler.Install
-	 virtual void Juniper.Unity.AbstractPermissionHandler.Reinstall
-	 virtual void Juniper.Unity.AbstractPermissionHandler.Uninstall
-	 void Juniper.Unity.AbstractPermissionHandler.Awake
-	 void Juniper.Unity.AbstractPermissionHandler.Reset
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Editor/Juniper/ConfigurationManagement/RawPackage.cs - (0 of 7)
 	 override void Juniper.UnityEditor.ConfigurationManagement.RawPackage.Activate
 	 override void Juniper.UnityEditor.ConfigurationManagement.RawPackage.Install
@@ -1022,12 +1278,14 @@
 	 override? Unary Juniper.Unity.Input.Pointers.Motion.NoHandTrackerConfiguration.this[Hands hand]
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Statistics/IntegrationMotionFilter.cs - (0 of 1)
 	 using Vector3 =  UnityEngine.Vector3
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/WindowsMR/WindowsMRMotionController.cs - (0 of 2)
+	 using HapticsType =  Juniper.Haptics.WindowsMRHaptics
+	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Oculus/OculusTouchController.cs - (0 of 1)
 	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
-  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Editor/Juniper/StreamableAssetEditor.cs - (0 of 5)
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Editor/Juniper/StreamableAssetEditor.cs - (0 of 4)
 	 int Juniper.UnityEditor.StreamableAssetEditor< T, U >.callbackOrder
 	 override void Juniper.UnityEditor.StreamableAssetEditor< T, U >.OnGUI
-	 void Juniper.UnityEditor.StreamableAssetEditor< T, U >.ForEachStreamable
 	 void Juniper.UnityEditor.StreamableAssetEditor< T, U >.OnPostprocessBuild
 	 void Juniper.UnityEditor.StreamableAssetEditor< T, U >.OnPreprocessBuild
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Progress/ProgressSubdivision.cs - (0 of 8)
@@ -1044,11 +1302,11 @@
 	 Juniper.Progress.StaticProgress.StaticProgress
 	 float Juniper.Progress.StaticProgress.Progress
 	 void Juniper.Progress.StaticProgress.SetProgress
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/WindowsMR/AbstractWindowsMRDevice.cs - (0 of 1)
+	 WindowsMRButtons
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/VirtualTouchPadButton.cs - (0 of 2)
 	 VirtualTouchPadButton
 	 VirtualTriggerButton
-  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Animation/WorkflowStep.cs - (0 of 1)
-	 using Animator =  UnityEngine.MonoBehaviour
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Widgets/Selectable.cs - (0 of 2)
 	 UnityEvent Juniper.Unity.Widgets.Selectable.onSelected
 	 void Juniper.Unity.Widgets.Selectable.OnSelect
@@ -1071,12 +1329,13 @@
 	 virtual void Juniper.UnityEditor.ConfigurationManagement.AbstractPackage.Uninstall
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Statistics/LerpMotionFilter.cs - (0 of 1)
 	 using Vector3 =  UnityEngine.Vector3
-  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/AbstractPermissionHandler.cs - (0 of 5)
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/AbstractPermissionHandler.cs - (0 of 4)
 	 virtual bool Juniper.Unity.AbstractPermissionHandler.Install
 	 virtual void Juniper.Unity.AbstractPermissionHandler.Reinstall
 	 virtual void Juniper.Unity.AbstractPermissionHandler.Uninstall
 	 void Juniper.Unity.AbstractPermissionHandler.Awake
-	 void Juniper.Unity.AbstractPermissionHandler.Reset
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Daydream/DaydreamMotionController.cs - (0 of 1)
+	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Editor/Juniper/PluginImporterExt.cs - (0 of 1)
 	 readonly string Juniper.UnityEditor.PluginImporterExt.iOS.ARKit.PATH
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Motion/IHandedPointer.cs - (0 of 49)
@@ -1200,6 +1459,17 @@
 	 const int Juniper.Platform.DISPLAY_OFFSET
 	 const int Juniper.Platform.SYS_OFFSET
 	 const int Juniper.Platform.TOTAL_OFFSET
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/StreamableAsset.cs - (0 of 8)
+	 AssetType Juniper.Unity.StreamableAsset< AssetType >.Asset
+	 EventHandler<Exception> Juniper.Unity.StreamableAsset< AssetType >.LoadError
+	 ExceptionEvent Juniper.Unity.StreamableAsset< AssetType >.onLoadError
+	 bool Juniper.Unity.StreamableAsset< AssetType >.exported
+	 string Juniper.Unity.StreamableAsset< AssetType >.AssetPath
+	 string Juniper.Unity.StreamableAsset< AssetType >.CopyPath
+	 string Juniper.Unity.StreamableAsset< AssetType >.LoadPath
+	 void Juniper.Unity.StreamableAsset< AssetType >.OnLoadError
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/CameraExt.cs - (0 of 1)
+	 readonly Vector3 [] UnityEngine.CameraExt.corners
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/HoverCraft.cs - (0 of 1)
 	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Motion/AbstractHandedPointer.cs - (0 of 8)
@@ -1257,15 +1527,14 @@
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/PointerFoundEventArgs.cs - (0 of 2)
 	 Juniper.Unity.Input.PointerFoundEventArgs.PointerFoundEventArgs
 	 readonly IPointerDevice Juniper.Unity.Input.PointerFoundEventArgs.device
-  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/Android/AndroidPermissionHandler.cs - (0 of 6)
-	 virtual bool Juniper.Unity.AbstractPermissionHandler.Install
-	 virtual void Juniper.Unity.AbstractPermissionHandler.Reinstall
-	 virtual void Juniper.Unity.AbstractPermissionHandler.Uninstall
-	 void Juniper.Unity.AbstractPermissionHandler.Awake
-	 void Juniper.Unity.AbstractPermissionHandler.Reset
-	 void Juniper.Unity.AndroidPermissionHandler.Start
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/WindowsMR/HoloLensHand.cs - (0 of 1)
+	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Progress/UnityWebRequestProgress.cs - (0 of 3)
+	 Juniper.Unity.Progress.UnityWebRequestProgress.UnityWebRequestProgress
+	 float Juniper.Unity.Progress.UnityWebRequestProgress.Progress
+	 readonly UnityWebRequest Juniper.Unity.Progress.UnityWebRequestProgress.request
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Screen/TouchPoint.cs - (0 of 2)
-	 using HapticsType =  Juniper.Unity.Haptics.DefaultHaptics
+	 using HapticsType =  Juniper.Unity.Haptics.iOS9Haptics
 	 using UnityInput =  UnityEngine.Input
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Events/LongPressHandler.cs - (0 of 2)
 	 ExecuteEvents.EventFunction<ILongPressHandler> Juniper.Unity.Events.LongPressEvents.longPressHandler
@@ -1312,8 +1581,6 @@
 	 void Juniper.Unity.Events.ButtonEvent.OnDown
 	 void Juniper.Unity.Events.ButtonEvent.OnLongPress
 	 void Juniper.Unity.Events.ButtonEvent.OnUp
-  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Motion/HandTracker.cs - (0 of 1)
-	 override void Juniper.Unity.Input.Pointers.Motion.HandTracker.Reinstall
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Editor/Juniper/ConfigurationManagement/ProjectConfiguration.cs - (0 of 11)
 	 Action Juniper.UnityEditor.ConfigurationManagement.ProjectConfiguration.PlatformChangeConfirmed
 	 Func<bool> Juniper.UnityEditor.ConfigurationManagement.ProjectConfiguration.PlatformChanged
@@ -1476,10 +1743,11 @@
 	 void Juniper.Unity.Input.Pointers.IPointerDevice.SetProbe
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Statistics/KalmanMotionFilter.cs - (0 of 1)
 	 using Vector3 =  UnityEngine.Vector3
-  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Statistics/AbstractMotionFilter.cs - (0 of 4)
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ViveFocus/ViveFocusMotionController.cs - (0 of 1)
+	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Statistics/AbstractMotionFilter.cs - (0 of 3)
 	 abstract Vector3 Juniper.Unity.Statistics.AbstractMotionFilter.Position
 	 abstract Vector3 Juniper.Unity.Statistics.AbstractMotionFilter.PredictedPosition
-	 abstract void Juniper.Unity.Statistics.AbstractMotionFilter.Copy
 	 abstract void Juniper.Unity.Statistics.AbstractMotionFilter.UpdateState
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/Motion/IMotionController.cs - (0 of 55)
 	 AbstractUnifiedInputModule Juniper.Unity.Input.Pointers.IPointerDevice.InputModule
@@ -1539,12 +1807,8 @@
 	 void Juniper.Unity.Input.Pointers.IPointerDevice.SetProbe
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Input/Pointers/ButtonMapper.cs - (0 of 1)
 	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
-  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Progress/UnityEditorProgressDialog.cs - (0 of 5)
-	 Juniper.Unity.Progress.UnityEditorProgressDialog.UnityEditorProgressDialog
-	 float Juniper.Unity.Progress.UnityEditorProgressDialog.Progress
-	 readonly string Juniper.Unity.Progress.UnityEditorProgressDialog.title
-	 string Juniper.Unity.Progress.UnityEditorProgressDialog.lastStatus
-	 void Juniper.Unity.Progress.UnityEditorProgressDialog.SetProgress
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/WindowsMR/HoloLensAnchorStore.cs - (0 of 1)
+	 using AnchorType =  UnityEngine.XR.WSA.Persistence.WorldAnchor
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Editor/Juniper/ConfigurationManagement/UnityPackage.cs - (0 of 9)
 	 const string Juniper.UnityEditor.ConfigurationManagement.UnityPackage.UNITY_SUBMODULE_PREFIX
 	 internal JObject Juniper.UnityEditor.ConfigurationManagement.UnityPackage.Dependencies
@@ -1562,6 +1826,8 @@
 	 void Juniper.Unity.Widgets.ProgressBar.Awake
 	 void Juniper.Unity.Widgets.ProgressBar.SetValue
 	 void Juniper.Unity.Widgets.ProgressBar.Update
+  0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Video/StreamableVideoClip.cs - (0 of 1)
+	 void Juniper.Unity.Video.StreamableVideoClip.Load
   0% - C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Editor/Juniper/Events/ButtonEventEditor.cs - (0 of 9)
 	 const string Juniper.UnityEditor.Events.ButtonEventEditor.FIELD_ONCLICK
 	 const string Juniper.UnityEditor.Events.ButtonEventEditor.FIELD_ONDOUBLECLICK
@@ -1573,5 +1839,85 @@
 	 readonly GUIContent Juniper.UnityEditor.Events.ButtonEventEditor.ButtonTypeLabel
 	 readonly GUIContent Juniper.UnityEditor.Events.ButtonEventEditor.ButtonValueLabel
 
-64% API documentation coverage
+60% API documentation coverage
+```
+
+#Doxygen Warnings
+
+```
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Statistics/AbstractCollectionStatistics.cs:387: warning: The following parameters of Juniper.Statistics.AbstractCollectionStatistics.AbstractCollectionStatistics(int capacity, T zero, T one) are not documented:
+  parameter 'zero'
+  parameter 'one'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/API.cs:76: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.API(string apiKey, string lastReportJSON=null) are not documented:
+  parameter 'lastReportJSON'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/API.cs:156: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.Request(LatLngPoint location, bool force, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/CameraExt.cs:10: warning: The following parameters of UnityEngine.CameraExt.IsInView(this Camera cam, Vector3 target) are not documented:
+  parameter 'cam'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/ComponentExt.cs:171: warning: The following parameters of UnityEngine.ComponentExt.EnsureComponent< T >(this Component obj, Predicate< T > predicate=null, Action< T > onCreate=null) are not documented:
+  parameter 'predicate'
+  parameter 'onCreate'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/GameObjectExt.cs:70: warning: The following parameters of UnityEngine.GameObjectExt.EnsureComponent< T >(this GameObject obj, Predicate< T > predicate=null, Action< T > onCreate=null) are not documented:
+  parameter 'predicate'
+  parameter 'onCreate'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:25: warning: The following parameters of Juniper.HTTP.GetStream(string url, string contentType, Action< Stream > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:60: warning: The following parameters of Juniper.HTTP.GetByteStream(string url, Action< Stream > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:73: warning: The following parameters of Juniper.HTTP.GetBytes(string url, string contentType, Action< byte[]> resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:91: warning: The following parameters of Juniper.HTTP.GetBytes(string url, Action< byte[]> resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:104: warning: The following parameters of Juniper.HTTP.GetText(string url, string contentType, Action< string > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:121: warning: The following parameters of Juniper.HTTP.GetText(string url, Action< string > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:134: warning: The following parameters of Juniper.HTTP.GetJSON(string url, Action< Stream > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:146: warning: The following parameters of Juniper.HTTP.GetJSON(string url, Action< string > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:160: warning: The following parameters of Juniper.HTTP.PostStream(string url, string mime, long bodyLength, Action< Stream > writeBody, Action< Stream > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'bodyLength'
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:183: warning: The following parameters of Juniper.HTTP.PostStream(string url, string mime, string body, Action< Stream > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:202: warning: The following parameters of Juniper.HTTP.GetObject< T >(string url, Action< T > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:229: warning: The following parameters of Juniper.HTTP.PostObject< T, U >(string url, U body, Action< T > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:288: warning: The following parameters of Juniper.HTTP.HTTP(HttpWebRequest request, Action< Stream > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:303: warning: The following parameters of Juniper.HTTP.HTTP(HttpWebRequest request, long bodyLength, Action< Stream > writeBody, Action< Stream > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'bodyLength'
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/IWeatherAPI.cs:39: warning: The following parameters of Juniper.World.Climate.IWeatherAPI.Request(LatLngPoint location, bool force, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/MasterSceneController.cs:57: warning: argument 'path' of command @param is not found in the argument list of Juniper.Unity.MasterSceneController::LoadScene(string scenePath, string sceneName)
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/MasterSceneController.cs:63: warning: The following parameters of Juniper.Unity.MasterSceneController.LoadScene(string scenePath, string sceneName) are not documented:
+  parameter 'scenePath'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/MasterSceneController.cs:188: warning: The following parameters of Juniper.Unity.MasterSceneController.SwitchToSceneName(string sceneName, bool skipFadeOut=false) are not documented:
+  parameter 'skipFadeOut'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:63: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, string mime, Action< string > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'cacheDirectory'
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:142: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, Action< Stream > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'cacheDirectory'
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:173: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, Action< byte[]> resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'cacheDirectory'
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:193: warning: argument 'mime' of command @param is not found in the argument list of Juniper.Unity.Data.StreamingAssets::GetText(string cacheDirectory, string path, TimeSpan ttl, Action< string > resolve, Action< Exception > reject, IProgressReceiver prog=null)
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:204: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetText(string cacheDirectory, string path, TimeSpan ttl, Action< string > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'cacheDirectory'
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:214: warning: argument 'mime' of command @param is not found in the argument list of Juniper.Unity.Data.StreamingAssets::GetJSONObject< T >(string cacheDirectory, string path, TimeSpan ttl, Action< T > resolve, Action< Exception > reject, IProgressReceiver prog=null)
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:226: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetJSONObject< T >(string cacheDirectory, string path, TimeSpan ttl, Action< T > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
+  parameter 'cacheDirectory'
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/VectorExt.cs:19: warning: The following parameters of UnityEngine.VectorExt.ToUTM(this Vector3 value, int donatedZone, UTMPoint.GlobeHemisphere hemisphere) are not documented:
+  parameter 'hemisphere'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/Climate/Weather.cs:242: warning: The following parameters of Juniper.Unity.World.Climate.Weather.RequestCoroutine(LatLngPoint location, bool force, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/Climate/Weather.cs:215: warning: The following parameters of Juniper.Unity.World.Climate.Weather.GetReportCoroutine(bool force, IProgressReceiver prog=null) are not documented:
+  parameter 'prog'
 ```

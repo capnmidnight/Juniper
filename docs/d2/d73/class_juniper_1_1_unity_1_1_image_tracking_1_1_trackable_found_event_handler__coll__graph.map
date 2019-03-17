@@ -1,4 +1,8 @@
 <map id="Juniper.Unity.ImageTracking.TrackableFoundEventHandler" name="Juniper.Unity.ImageTracking.TrackableFoundEventHandler">
-<area shape="rect" id="node1" title="Trackable object–like images, scanned objects, and model generated targets– come and go out of the us..." alt="" coords="6,145,194,237"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,195,97"/>
+<area shape="rect" id="node1" title="Trackable object–like images, scanned objects, and model generated targets– come and go out of the us..." alt="" coords="18,921,206,1013"/>
+<area shape="rect" id="node2" href="$d4/d2c/class_juniper_1_1_unity_1_1_image_tracking_1_1_a_r_kit_trackable_found_event_handler.html" title=" " alt="" coords="25,765,199,872"/>
+<area shape="rect" id="node3" href="$d9/d49/class_juniper_1_1_unity_1_1_image_tracking_1_1_abstract_trackable_found_event_handler.html" title=" " alt="" coords="17,287,207,716"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,139,115,217"/>
+<area shape="rect" id="node5" href="$dc/d68/class_unity_engine_1_1_events_1_1_boolean_event.html" title="An event that passes a boolean value as an argument." alt="" coords="139,132,317,224"/>
+<area shape="rect" id="node6" title=" " alt="" coords="163,5,293,83"/>
 </map>

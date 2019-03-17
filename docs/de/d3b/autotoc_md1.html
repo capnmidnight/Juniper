@@ -81,7 +81,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="autotoc_md2"></a>
 Introduction</h1>
-<p>Activations are combinations of parallel <a class="el" href="../../d4/d0f/namespace_vuforia.html">Vuforia</a> Image Marker Targets and series video clips that get displayed over top of the markers. Creating them requires a number of Unity GameObjects and Components to be configured and calibrated against each other.</p>
+<p>Activations are combinations of parallel Vuforia Image Marker Targets and series video clips that get displayed over top of the markers. Creating them requires a number of Unity GameObjects and Components to be configured and calibrated against each other.</p>
 <h2><a class="anchor" id="autotoc_md3"></a>
 Object Hierarchy</h2>
 <p>Each Activation must have the following structure (<code>[GO]</code> symbols denote GameObjects, <code>[CMP]</code> symbols denote Components, unmarked lines are notes on how to configure the preceding object):</p>
@@ -105,16 +105,16 @@ Object Hierarchy</h2>
 </ul>
 </li>
 <li>[GO] <b>Target (n)</b> - where <code>n</code> is a number.<ul>
-<li>[CMP] <em>Transform</em> - there is no need to set the transform. <a class="el" href="../../d4/d0f/namespace_vuforia.html">Vuforia</a> will automatically configure the scale and the position and rotation do not matter. If you create the target object using the <code>GameObject &gt; <a class="el" href="../../d4/d0f/namespace_vuforia.html">Vuforia</a> &gt; Image</code> menu option, then most of the following components will have most of their properties configured correctly.</li>
-<li>[CMP] <em>ImageTargetBehaviour</em> - this is <a class="el" href="../../d4/d0f/namespace_vuforia.html">Vuforia</a>'s target trackable component.<ul>
+<li>[CMP] <em>Transform</em> - there is no need to set the transform. Vuforia will automatically configure the scale and the position and rotation do not matter. If you create the target object using the <code>GameObject &gt; Vuforia &gt; Image</code> menu option, then most of the following components will have most of their properties configured correctly.</li>
+<li>[CMP] <em>ImageTargetBehaviour</em> - this is Vuforia's target trackable component.<ul>
 <li>Set <code>Type</code> to <code>Predefined</code>.</li>
 <li>Set <code>Database</code> to <code>Exelon</code>.</li>
 <li>Set <code>Image Target</code> to the target you desire.</li>
 <li>Open the <code>Advanced</code> group panel and set the <code>Extended Tracking</code> checkbox to filled.</li>
 </ul>
 </li>
-<li>[CMP] <em>MeshRenderer</em> - Used to visualize the target image. Allow <a class="el" href="../../d4/d0f/namespace_vuforia.html">Vuforia</a> to configure this component.</li>
-<li>[CMP] <em>ImageTargetMesh-(XXXX)</em> - Sets the aspect ratio of the target image. Allow <a class="el" href="../../d4/d0f/namespace_vuforia.html">Vuforia</a> to configure this component.</li>
+<li>[CMP] <em>MeshRenderer</em> - Used to visualize the target image. Allow Vuforia to configure this component.</li>
+<li>[CMP] <em>ImageTargetMesh-(XXXX)</em> - Sets the aspect ratio of the target image. Allow Vuforia to configure this component.</li>
 <li>[CMP] <em>TrackableFoundEventHandler</em> - This is a <a class="el" href="../../de/d75/namespace_juniper.html">Juniper</a> component that manages the understanding of the target&ndash;when it was found, whether or not we're standing a safe distance from it, firing events when it is found, etc.<ul>
 <li>After creating the <code>Attachment Point</code> object below, come back and set the <code>Attachment Point</code> property to point to it.</li>
 <li>Set the <code>Safe Distance</code> to a minimum distance in meters that the user should stand from the marker.</li>

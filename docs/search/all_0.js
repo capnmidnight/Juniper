@@ -1,6 +1,10 @@
 var searchData=
 [
   ['_5f',['_',['../d7/d6b/class_juniper_1_1_unity_editor_1_1_events_1_1_button_event_editor.html#a0566864f59b73395598fd1c2692ff4b1',1,'Juniper::UnityEditor::Events::ButtonEventEditor']]],
+  ['_5fcontroller',['_controller',['../de/dec/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller.html#aac7352321df615d2adbd0b2bf98d51e5',1,'Juniper::Unity::Input::Pointers::Motion::ViveFocusMotionController']]],
+  ['_5fcontrollerid',['_controllerID',['../d2/d06/class_juniper_1_1_unity_1_1_haptics_1_1_windows_m_r_haptics.html#a5ae620b11043b9f359529bef34cf0008',1,'Juniper::Unity::Haptics::WindowsMRHaptics']]],
+  ['_5fdevice',['_device',['../de/dec/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller.html#a53b66dea1e0dea02d5503a201e5e71da',1,'Juniper::Unity::Input::Pointers::Motion::ViveFocusMotionController']]],
+  ['_5fdevicestate',['_deviceState',['../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html#a18933453a7ff3299743ed4566a64bbb7',1,'Juniper::Unity::Input::Pointers::Motion::AbstractWindowsMRDevice']]],
   ['_5fhand',['_hand',['../d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html#a2eee61e4033727f5cec4a9df8d4f5bb6',1,'Juniper::Unity::Input::Pointers::Motion::AbstractHandedPointer']]],
   ['_5fprobename',['_probeName',['../d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html#ace0077d3243c120bc99d8886eb21845d',1,'Juniper::Unity::Input::Pointers::AbstractPointerDevice']]],
   ['_5fvalue',['_value',['../d4/d88/class_unity_engine_1_1_abstract_variable.html#ae94b8ebe552107ed48b5b82d395e54e8',1,'UnityEngine.AbstractVariable._value()'],['../d2/d57/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_valued.html#aafe1ea80af4858c2a19168912a44383b',1,'Juniper.Unity.Widgets.AbstractValued._value()']]],

@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 481)">
 <title>Juniper.Unity.Haptics.AbstractHapticExpressor</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-481 147,-481 147,4 -4,4"/>
-<!-- Node9 -->
-<g id="node1" class="node"><title>Node9</title>
+<!-- Node6 -->
+<g id="node1" class="node"><title>Node6</title>
 <g id="a_node1"><a xlink:title="Non&#45;iOS systems do not have built&#45;in haptic patterns. This class replicates the functionality of the ...">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-211.5 143,-211.5 143,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-199.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Haptics.Abstract</text>
@@ -35,8 +35,8 @@
 </a>
 </g>
 </g>
-<!-- Node10 -->
-<g id="node2" class="node"><title>Node10</title>
+<!-- Node7 -->
+<g id="node2" class="node"><title>Node7</title>
 <g id="a_node2"><a xlink:href="../../dd/d24/class_juniper_1_1_unity_1_1_haptics_1_1_abstract_haptic_device.html" target="_top" xlink:title="An interface for all haptic device subsystems.">
 <polygon fill="white" stroke="black" points="18.5,-248.5 18.5,-382.5 124.5,-382.5 124.5,-248.5 18.5,-248.5"/>
 <text text-anchor="middle" x="71.5" y="-370.5" font-family="SegoeUI" font-size="10.00">AbstractHapticDevice</text>
@@ -54,13 +54,13 @@
 </a>
 </g>
 </g>
-<!-- Node10&#45;&gt;Node9 -->
-<g id="edge1" class="edge"><title>Node10&#45;&gt;Node9</title>
+<!-- Node7&#45;&gt;Node6 -->
+<g id="edge1" class="edge"><title>Node7&#45;&gt;Node6</title>
 <path fill="none" stroke="midnightblue" d="M71.5,-238.208C71.5,-229.51 71.5,-220.535 71.5,-211.551"/>
 <polygon fill="none" stroke="midnightblue" points="68.0001,-238.275 71.5,-248.275 75.0001,-238.275 68.0001,-238.275"/>
 </g>
-<!-- Node11 -->
-<g id="node3" class="node"><title>Node11</title>
+<!-- Node8 -->
+<g id="node3" class="node"><title>Node8</title>
 <g id="a_node3"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="30.5,-419.5 30.5,-476.5 112.5,-476.5 112.5,-419.5 30.5,-419.5"/>
 <text text-anchor="middle" x="71.5" y="-464.5" font-family="SegoeUI" font-size="10.00">MonoBehaviour</text>
@@ -71,8 +71,8 @@
 </a>
 </g>
 </g>
-<!-- Node11&#45;&gt;Node10 -->
-<g id="edge2" class="edge"><title>Node11&#45;&gt;Node10</title>
+<!-- Node8&#45;&gt;Node7 -->
+<g id="edge2" class="edge"><title>Node8&#45;&gt;Node7</title>
 <path fill="none" stroke="midnightblue" d="M71.5,-409.16C71.5,-400.782 71.5,-391.668 71.5,-382.533"/>
 <polygon fill="none" stroke="midnightblue" points="68.0001,-409.324 71.5,-419.324 75.0001,-409.324 68.0001,-409.324"/>
 </g>

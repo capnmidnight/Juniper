@@ -77,39 +77,58 @@
 <!-- Node4 -->
 <g id="node3" class="node"><title>Node4</title>
 <g id="a_node3"><a xlink:href="../../d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html" target="_top" xlink:title="A point in geographic space on a radial coordinate system.">
-<polygon fill="white" stroke="black" points="134.5,-380.5 134.5,-602.5 259.5,-602.5 259.5,-380.5 134.5,-380.5"/>
-<text text-anchor="start" x="142.5" y="-590.5" font-family="SegoeUI" font-size="10.00">Juniper.World.GIS.LatLng</text>
-<text text-anchor="middle" x="197" y="-579.5" font-family="SegoeUI" font-size="10.00">Point</text>
-<polyline fill="none" stroke="black" points="134.5,-572.5 259.5,-572.5 "/>
-<text text-anchor="start" x="142.5" y="-560.5" font-family="SegoeUI" font-size="10.00">+ Altitude</text>
-<text text-anchor="start" x="142.5" y="-549.5" font-family="SegoeUI" font-size="10.00">+ Latitude</text>
-<text text-anchor="start" x="142.5" y="-538.5" font-family="SegoeUI" font-size="10.00">+ Longitude</text>
-<polyline fill="none" stroke="black" points="134.5,-531.5 259.5,-531.5 "/>
+<polygon fill="white" stroke="black" points="134.5,-369.5 134.5,-613.5 259.5,-613.5 259.5,-369.5 134.5,-369.5"/>
+<text text-anchor="start" x="142.5" y="-601.5" font-family="SegoeUI" font-size="10.00">Juniper.World.GIS.LatLng</text>
+<text text-anchor="middle" x="197" y="-590.5" font-family="SegoeUI" font-size="10.00">Point</text>
+<polyline fill="none" stroke="black" points="134.5,-583.5 259.5,-583.5 "/>
+<text text-anchor="start" x="142.5" y="-571.5" font-family="SegoeUI" font-size="10.00">+ Altitude</text>
+<text text-anchor="start" x="142.5" y="-560.5" font-family="SegoeUI" font-size="10.00">+ Latitude</text>
+<text text-anchor="start" x="142.5" y="-549.5" font-family="SegoeUI" font-size="10.00">+ Longitude</text>
+<polyline fill="none" stroke="black" points="134.5,-542.5 259.5,-542.5 "/>
+<text text-anchor="start" x="142.5" y="-530.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
 <text text-anchor="start" x="142.5" y="-519.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
 <text text-anchor="start" x="142.5" y="-508.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
-<text text-anchor="start" x="142.5" y="-497.5" font-family="SegoeUI" font-size="10.00">+ ToUTM()</text>
-<text text-anchor="start" x="142.5" y="-486.5" font-family="SegoeUI" font-size="10.00">+ ToSunPosition()</text>
-<text text-anchor="start" x="142.5" y="-475.5" font-family="SegoeUI" font-size="10.00">+ ToDMS()</text>
-<text text-anchor="start" x="142.5" y="-464.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
+<text text-anchor="start" x="142.5" y="-497.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
+<text text-anchor="start" x="142.5" y="-486.5" font-family="SegoeUI" font-size="10.00">+ ToUTM()</text>
+<text text-anchor="start" x="142.5" y="-475.5" font-family="SegoeUI" font-size="10.00">+ ToSunPosition()</text>
+<text text-anchor="start" x="142.5" y="-464.5" font-family="SegoeUI" font-size="10.00">+ ToDMS()</text>
 <text text-anchor="start" x="142.5" y="-453.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
 <text text-anchor="start" x="142.5" y="-442.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
-<text text-anchor="start" x="142.5" y="-431.5" font-family="SegoeUI" font-size="10.00">+ Equals()</text>
-<text text-anchor="start" x="142.5" y="-420.5" font-family="SegoeUI" font-size="10.00">+ GetHashCode()</text>
-<text text-anchor="start" x="142.5" y="-409.5" font-family="SegoeUI" font-size="10.00">+ Distance()</text>
-<text text-anchor="start" x="142.5" y="-398.5" font-family="SegoeUI" font-size="10.00">+ TryParseDMS()</text>
-<text text-anchor="start" x="142.5" y="-387.5" font-family="SegoeUI" font-size="10.00">&#45; ToDMS()</text>
+<text text-anchor="start" x="142.5" y="-431.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
+<text text-anchor="start" x="142.5" y="-420.5" font-family="SegoeUI" font-size="10.00">+ Equals()</text>
+<text text-anchor="start" x="142.5" y="-409.5" font-family="SegoeUI" font-size="10.00">+ GetHashCode()</text>
+<text text-anchor="start" x="142.5" y="-398.5" font-family="SegoeUI" font-size="10.00">+ Distance()</text>
+<text text-anchor="start" x="142.5" y="-387.5" font-family="SegoeUI" font-size="10.00">+ TryParseDMS()</text>
+<text text-anchor="start" x="142.5" y="-376.5" font-family="SegoeUI" font-size="10.00">&#45; ToDMS()</text>
 </a>
 </g>
 </g>
 <!-- Node4&#45;&gt;Node2 -->
 <g id="edge2" class="edge"><title>Node4&#45;&gt;Node2</title>
-<path fill="none" stroke="#404040" d="M197,-380.274C197,-358.345 197,-334.899 197,-311.68"/>
-<polygon fill="none" stroke="#404040" points="197,-311.568 193,-305.568 197,-299.568 201,-305.568 197,-311.568"/>
+<path fill="none" stroke="#404040" d="M197,-369.371C197,-350.683 197,-331.137 197,-311.749"/>
+<polygon fill="none" stroke="#404040" points="197,-311.706 193,-305.706 197,-299.706 201,-305.706 197,-311.706"/>
 <text text-anchor="middle" x="218.5" y="-321" font-family="SegoeUI" font-size="10.00"> +location</text>
 </g>
 <!-- Node5 -->
 <g id="node4" class="node"><title>Node5</title>
-<g id="a_node4"><a xlink:href="../../dd/d15/struct_juniper_1_1_unity_1_1_editable_date_time.html" target="_top" xlink:title="A wrapper around System.DateTime that makes it possible to edit values in the Unity Editor.">
+<g id="a_node4"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="162.5,-683.5 162.5,-740.5 231.5,-740.5 231.5,-683.5 162.5,-683.5"/>
+<text text-anchor="middle" x="197" y="-728.5" font-family="SegoeUI" font-size="10.00">ISerializable</text>
+<polyline fill="none" stroke="#bfbfbf" points="162.5,-721.5 231.5,-721.5 "/>
+<text text-anchor="middle" x="197" y="-709.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="162.5,-702.5 231.5,-702.5 "/>
+<text text-anchor="middle" x="197" y="-690.5" font-family="SegoeUI" font-size="10.00"> </text>
+</a>
+</g>
+</g>
+<!-- Node5&#45;&gt;Node4 -->
+<g id="edge3" class="edge"><title>Node5&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M197,-673.317C197,-656.337 197,-635.237 197,-613.51"/>
+<polygon fill="none" stroke="midnightblue" points="193.5,-673.327 197,-683.327 200.5,-673.327 193.5,-673.327"/>
+</g>
+<!-- Node6 -->
+<g id="node5" class="node"><title>Node6</title>
+<g id="a_node5"><a xlink:href="../../dd/d15/struct_juniper_1_1_unity_1_1_editable_date_time.html" target="_top" xlink:title="A wrapper around System.DateTime that makes it possible to edit values in the Unity Editor.">
 <polygon fill="white" stroke="black" points="277.5,-347.5 277.5,-635.5 426.5,-635.5 426.5,-347.5 277.5,-347.5"/>
 <text text-anchor="middle" x="352" y="-623.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.EditableDateTime</text>
 <polyline fill="none" stroke="black" points="277.5,-616.5 426.5,-616.5 "/>
@@ -140,15 +159,15 @@
 </a>
 </g>
 </g>
-<!-- Node5&#45;&gt;Node2 -->
-<g id="edge3" class="edge"><title>Node5&#45;&gt;Node2</title>
+<!-- Node6&#45;&gt;Node2 -->
+<g id="edge4" class="edge"><title>Node6&#45;&gt;Node2</title>
 <path fill="none" stroke="#404040" d="M286.491,-347.014C281.019,-335.028 275.465,-322.864 269.943,-310.768"/>
 <polygon fill="none" stroke="#404040" points="269.867,-310.601 263.736,-306.805 264.883,-299.685 271.013,-303.482 269.867,-310.601"/>
-<text text-anchor="middle" x="303" y="-321" font-family="SegoeUI" font-size="10.00"> +reportTime</text>
+<text text-anchor="middle" x="304" y="-321" font-family="SegoeUI" font-size="10.00"> +reportTime</text>
 </g>
-<!-- Node6 -->
-<g id="node5" class="node"><title>Node6</title>
-<g id="a_node5"><a xlink:title=" ">
+<!-- Node7 -->
+<g id="node6" class="node"><title>Node7</title>
+<g id="a_node6"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="332.5,-683.5 332.5,-740.5 371.5,-740.5 371.5,-683.5 332.5,-683.5"/>
 <text text-anchor="middle" x="352" y="-728.5" font-family="SegoeUI" font-size="10.00">static</text>
 <polyline fill="none" stroke="#bfbfbf" points="332.5,-721.5 371.5,-721.5 "/>
@@ -158,8 +177,8 @@
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node5 -->
-<g id="edge4" class="edge"><title>Node6&#45;&gt;Node5</title>
+<!-- Node7&#45;&gt;Node6 -->
+<g id="edge5" class="edge"><title>Node7&#45;&gt;Node6</title>
 <path fill="none" stroke="#404040" d="M352,-683.327C352,-673.392 352,-661.366 352,-648.239"/>
 <polygon fill="none" stroke="#404040" points="352,-647.903 348,-641.903 352,-635.903 356,-641.903 352,-647.903"/>
 <text text-anchor="middle" x="379" y="-657" font-family="SegoeUI" font-size="10.00"> +TestOffset</text>

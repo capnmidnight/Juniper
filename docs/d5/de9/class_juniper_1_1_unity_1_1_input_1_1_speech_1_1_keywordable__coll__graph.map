@@ -1,9 +1,8 @@
 <map id="Juniper.Unity.Input.Speech.Keywordable" name="Juniper.Unity.Input.Speech.Keywordable">
-<area shape="rect" id="node1" title="An object that can be fires an event when a particular keyword is uttered." alt="" coords="109,515,288,739"/>
+<area shape="rect" id="node1" title="An object that can be fires an event when a particular keyword is uttered." alt="" coords="97,500,276,724"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,139,115,217"/>
-<area shape="rect" id="node4" href="$da/d31/class_juniper_1_1_unity_1_1_input_1_1_speech_1_1_keyword_recognizer.html" title="A class that implements basic functionality for systems that manage speech recognition and route out ..." alt="" coords="83,287,314,452"/>
-<area shape="rect" id="node3" href="$da/d92/interface_juniper_1_1_input_1_1_speech_1_1_i_keyword_triggered.html" title="An interface for systems that respond to keyword utterances." alt="" coords="339,331,469,408"/>
-<area shape="rect" id="node5" title=" " alt="" coords="147,139,235,217"/>
-<area shape="rect" id="node6" href="$d9/d59/class_unity_engine_1_1_events_1_1_string_event.html" title="An event that passes a string value as an argument." alt="" coords="259,132,426,224"/>
-<area shape="rect" id="node7" title=" " alt="" coords="273,5,412,83"/>
+<area shape="rect" id="node4" href="$da/d31/class_juniper_1_1_unity_1_1_input_1_1_speech_1_1_keyword_recognizer.html" title="A class that implements basic functionality for systems that manage speech recognition and route out ..." alt="" coords="97,287,276,437"/>
+<area shape="rect" id="node3" href="$da/d92/interface_juniper_1_1_input_1_1_speech_1_1_i_keyword_triggered.html" title="An interface for systems that respond to keyword utterances." alt="" coords="300,323,431,401"/>
+<area shape="rect" id="node5" href="$d9/d59/class_unity_engine_1_1_events_1_1_string_event.html" title="An event that passes a string value as an argument." alt="" coords="139,132,306,224"/>
+<area shape="rect" id="node6" title=" " alt="" coords="153,5,292,83"/>
 </map>

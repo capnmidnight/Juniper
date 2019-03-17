@@ -1,16 +1,17 @@
 <map id="Juniper.Unity.Input.Pointers.Screen.AbstractScreenDevice&lt; ButtonIDType, HapticsType, ConfigType &gt;" name="Juniper.Unity.Input.Pointers.Screen.AbstractScreenDevice&lt; ButtonIDType, HapticsType, ConfigType &gt;">
-<area shape="rect" id="node1" title="A ScreenDevice is a AbstractPointerDevice&lt;ButtonIDType, HapticsType&gt; that has its primary pointer int..." alt="" coords="386,1197,578,1333"/>
-<area shape="rect" id="node8" href="$d0/d78/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_nose_pointer.html" title=" " alt="" coords="110,1411,305,1532"/>
-<area shape="rect" id="node11" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="329,1411,635,1532"/>
-<area shape="rect" id="node13" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="659,1411,942,1532"/>
-<area shape="rect" id="node2" href="$d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="265,425,457,1148"/>
-<area shape="rect" id="node3" title=" " alt="" coords="122,152,231,229"/>
-<area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="5,137,97,244"/>
-<area shape="rect" id="node5" href="$d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="490,5,655,376"/>
-<area shape="rect" id="node7" href="$df/dcd/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_i_screen_device.html" title=" " alt="" coords="483,741,643,833"/>
-<area shape="rect" id="node6" href="$dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html" title=" " alt="" coords="255,123,466,259"/>
-<area shape="rect" id="node9" href="$d0/d78/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_nose_pointer.html" title=" " alt="" coords="84,1690,331,1797"/>
-<area shape="rect" id="node10" href="$d3/d2b/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_gaze_pointer.html" title=" " alt="" coords="116,1927,299,2180"/>
-<area shape="rect" id="node12" href="$dd/d87/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_touch_point.html" title="Perform pointer events on touch screens." alt="" coords="391,1609,573,1877"/>
-<area shape="rect" id="node14" href="$d3/dfb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_mouse.html" title="A AbstractScreenDevice pointer for thet standard mouse connected to a desktop system." alt="" coords="709,1631,892,1855"/>
+<area shape="rect" id="node1" title="A ScreenDevice is a AbstractPointerDevice&lt;ButtonIDType, HapticsType&gt; that has its primary pointer int..." alt="" coords="391,1183,583,1319"/>
+<area shape="rect" id="node8" href="$d0/d78/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_nose_pointer.html" title=" " alt="" coords="5,1425,200,1547"/>
+<area shape="rect" id="node9" href="$d6/d1d/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_tobii_gaze_pointer.html" title=" " alt="" coords="224,1396,456,1576"/>
+<area shape="rect" id="node12" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="481,1425,786,1547"/>
+<area shape="rect" id="node14" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="811,1425,1093,1547"/>
+<area shape="rect" id="node2" href="$d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="269,425,461,1133"/>
+<area shape="rect" id="node3" title=" " alt="" coords="127,152,236,229"/>
+<area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="10,137,102,244"/>
+<area shape="rect" id="node5" href="$d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="495,5,660,376"/>
+<area shape="rect" id="node7" href="$df/dcd/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_i_screen_device.html" title=" " alt="" coords="488,733,648,825"/>
+<area shape="rect" id="node6" href="$dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html" title=" " alt="" coords="260,123,471,259"/>
+<area shape="rect" id="node10" href="$d6/d1d/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_tobii_gaze_pointer.html" title=" " alt="" coords="217,1705,463,1870"/>
+<area shape="rect" id="node11" href="$d3/d2b/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_gaze_pointer.html" title=" " alt="" coords="249,1971,431,2224"/>
+<area shape="rect" id="node13" href="$dd/d87/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_touch_point.html" title="Perform pointer events on touch screens." alt="" coords="542,1653,725,1921"/>
+<area shape="rect" id="node15" href="$d3/dfb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_mouse.html" title="A AbstractScreenDevice pointer for thet standard mouse connected to a desktop system." alt="" coords="861,1675,1043,1899"/>
 </map>

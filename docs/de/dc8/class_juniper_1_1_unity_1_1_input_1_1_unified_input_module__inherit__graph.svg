@@ -70,26 +70,27 @@ var sectionId = 'dynsection-0';
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
-<g id="a_node2"><a xlink:href="../../df/dcf/class_juniper_1_1_unity_1_1_input_1_1_oculus_input_module.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="51.5,-105.5 51.5,-173.5 149.5,-173.5 149.5,-105.5 51.5,-105.5"/>
-<text text-anchor="middle" x="100.5" y="-161.5" font-family="SegoeUI" font-size="10.00">OculusInputModule</text>
-<polyline fill="none" stroke="black" points="51.5,-154.5 149.5,-154.5 "/>
-<text text-anchor="middle" x="100.5" y="-142.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="51.5,-135.5 149.5,-135.5 "/>
-<text text-anchor="start" x="59.5" y="-123.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="59.5" y="-112.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<g id="a_node2"><a xlink:href="../../d7/d3e/class_juniper_1_1_unity_1_1_input_1_1_daydream_input_module.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="44,-105.5 44,-184.5 157,-184.5 157,-105.5 44,-105.5"/>
+<text text-anchor="middle" x="100.5" y="-172.5" font-family="SegoeUI" font-size="10.00">DaydreamInputModule</text>
+<polyline fill="none" stroke="black" points="44,-165.5 157,-165.5 "/>
+<text text-anchor="middle" x="100.5" y="-153.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="44,-146.5 157,-146.5 "/>
+<text text-anchor="start" x="52" y="-134.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="52" y="-123.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<text text-anchor="start" x="52" y="-112.5" font-family="SegoeUI" font-size="10.00"># Awake()</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node0 -->
 <g id="edge1" class="edge"><title>Node1&#45;&gt;Node0</title>
-<path fill="none" stroke="midnightblue" d="M100.5,-95.1362C100.5,-86.256 100.5,-77.0447 100.5,-68.5947"/>
-<polygon fill="none" stroke="midnightblue" points="97.0001,-95.3432 100.5,-105.343 104,-95.3432 97.0001,-95.3432"/>
+<path fill="none" stroke="midnightblue" d="M100.5,-95.3492C100.5,-86.2824 100.5,-77.0048 100.5,-68.5439"/>
+<polygon fill="none" stroke="midnightblue" points="97.0001,-95.4414 100.5,-105.441 104,-95.4415 97.0001,-95.4414"/>
 </g>
 <!-- Node2 -->
 <g id="node3" class="node"><title>Node2</title>
 <g id="a_node3"><a xlink:href="../../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html" target="_top" xlink:title="Finds all of the IPointerDevice s and fires raycaster events for all of them.">
-<polygon fill="white" stroke="black" points="33.5,-210.5 33.5,-454.5 167.5,-454.5 167.5,-210.5 33.5,-210.5"/>
+<polygon fill="white" stroke="black" points="33.5,-221.5 33.5,-454.5 167.5,-454.5 167.5,-221.5 33.5,-221.5"/>
 <text text-anchor="middle" x="100.5" y="-442.5" font-family="SegoeUI" font-size="10.00">AbstractUnifiedInputModule</text>
 <polyline fill="none" stroke="black" points="33.5,-435.5 167.5,-435.5 "/>
 <text text-anchor="start" x="41.5" y="-423.5" font-family="SegoeUI" font-size="10.00">+ Devices</text>
@@ -107,18 +108,17 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="41.5" y="-294.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
 <text text-anchor="start" x="41.5" y="-283.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
 <text text-anchor="start" x="41.5" y="-272.5" font-family="SegoeUI" font-size="10.00"># Awake()</text>
-<text text-anchor="start" x="41.5" y="-261.5" font-family="SegoeUI" font-size="10.00"># Reset()</text>
-<text text-anchor="start" x="41.5" y="-250.5" font-family="SegoeUI" font-size="10.00">&#45; OnPointerFound()</text>
-<text text-anchor="start" x="41.5" y="-239.5" font-family="SegoeUI" font-size="10.00">&#45; UpdateRay()</text>
-<text text-anchor="start" x="41.5" y="-228.5" font-family="SegoeUI" font-size="10.00">&#45; RaycastAll()</text>
-<text text-anchor="start" x="41.5" y="-217.5" font-family="SegoeUI" font-size="10.00">&#45; RaycastComparer()</text>
+<text text-anchor="start" x="41.5" y="-261.5" font-family="SegoeUI" font-size="10.00">&#45; OnPointerFound()</text>
+<text text-anchor="start" x="41.5" y="-250.5" font-family="SegoeUI" font-size="10.00">&#45; UpdateRay()</text>
+<text text-anchor="start" x="41.5" y="-239.5" font-family="SegoeUI" font-size="10.00">&#45; RaycastAll()</text>
+<text text-anchor="start" x="41.5" y="-228.5" font-family="SegoeUI" font-size="10.00">&#45; RaycastComparer()</text>
 </a>
 </g>
 </g>
 <!-- Node2&#45;&gt;Node1 -->
 <g id="edge2" class="edge"><title>Node2&#45;&gt;Node1</title>
-<path fill="none" stroke="midnightblue" d="M100.5,-200.154C100.5,-190.625 100.5,-181.653 100.5,-173.703"/>
-<polygon fill="none" stroke="midnightblue" points="97.0001,-200.266 100.5,-210.266 104,-200.266 97.0001,-200.266"/>
+<path fill="none" stroke="midnightblue" d="M100.5,-211.405C100.5,-201.866 100.5,-192.774 100.5,-184.565"/>
+<polygon fill="none" stroke="midnightblue" points="97.0001,-211.488 100.5,-221.488 104,-211.488 97.0001,-211.488"/>
 </g>
 <!-- Node3 -->
 <g id="node4" class="node"><title>Node3</title>
@@ -134,8 +134,8 @@ var sectionId = 'dynsection-0';
 </g>
 <!-- Node3&#45;&gt;Node2 -->
 <g id="edge3" class="edge"><title>Node3&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M59.2361,-492.487C62.1459,-481.276 65.5063,-468.329 69.0277,-454.761"/>
-<polygon fill="none" stroke="midnightblue" points="55.8234,-491.705 56.6989,-502.263 62.5989,-493.463 55.8234,-491.705"/>
+<path fill="none" stroke="midnightblue" d="M59.5291,-492.44C62.5243,-481.223 65.9774,-468.29 69.5819,-454.791"/>
+<polygon fill="none" stroke="midnightblue" points="56.1142,-491.663 56.9158,-502.227 62.8772,-493.468 56.1142,-491.663"/>
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
@@ -153,8 +153,8 @@ var sectionId = 'dynsection-0';
 </g>
 <!-- Node4&#45;&gt;Node2 -->
 <g id="edge4" class="edge"><title>Node4&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M138.86,-481.301C136.685,-472.918 134.34,-463.884 131.92,-454.559"/>
-<polygon fill="none" stroke="midnightblue" points="135.524,-482.378 141.424,-491.178 142.3,-480.619 135.524,-482.378"/>
+<path fill="none" stroke="midnightblue" d="M138.531,-481.429C136.284,-473.013 133.864,-463.95 131.372,-454.619"/>
+<polygon fill="none" stroke="midnightblue" points="135.218,-482.59 141.179,-491.348 141.981,-480.784 135.218,-482.59"/>
 </g>
 </g>
 </svg>

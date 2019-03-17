@@ -1,6 +1,0 @@
-<map id="Juniper.Unity.Imaging.VuforiaImageAnalyzer" name="Juniper.Unity.Imaging.VuforiaImageAnalyzer">
-<area shape="rect" id="node1" title="Basic scaffolding around performing image analysis on Vuforia&#39;s image feed. This typically only works..." alt="" coords="115,463,306,613"/>
-<area shape="rect" id="node2" href="$dd/dad/class_juniper_1_1_data_1_1_abstract_background_repeating_thread.html" title="Performs an operation in a loop on a background thread." alt="" coords="5,220,197,385"/>
-<area shape="rect" id="node3" href="$dd/da7/class_juniper_1_1_data_1_1_abstract_background_thread.html" title="An abstract class for performing an operation on a background thread." alt="" coords="13,5,189,171"/>
-<area shape="rect" id="node4" title=" " alt="" coords="222,264,274,341"/>
-</map>

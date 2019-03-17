@@ -8,5 +8,6 @@ var searchData=
   ['gigabytes',['Gigabytes',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794af6f7ad0fd5914138fb449b9011c8de7a',1,'Juniper']]],
   ['giganticfilesize',['GiganticFileSize',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aac806e1a961e5b0698a0a55ae2c015ea8',1,'Juniper::Units']]],
   ['gradians',['Gradians',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a4164baf5eba3429444ca482c58d93cf1',1,'Juniper']]],
-  ['grams',['Grams',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a9f688aa3a4a1282ea093c07dc643c163',1,'Juniper']]]
+  ['grams',['Grams',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a9f688aa3a4a1282ea093c07dc643c163',1,'Juniper']]],
+  ['grip',['Grip',['../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7ae6afa392888958511dd5c9e9b1d5a9db',1,'Juniper::Unity::Input::Pointers::Motion']]]
 ];

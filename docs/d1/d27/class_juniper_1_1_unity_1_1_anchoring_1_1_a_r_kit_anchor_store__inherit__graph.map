@@ -1,0 +1,6 @@
+<map id="Juniper.Unity.Anchoring.ARKitAnchorStore" name="Juniper.Unity.Anchoring.ARKitAnchorStore">
+<area shape="rect" id="node1" title=" " alt="" coords="9,535,169,729"/>
+<area shape="rect" id="node4" href="$dd/d26/class_juniper_1_1_unity_1_1_anchoring_1_1_anchor_store.html" title="Anchors provide a means to restore the position of objects between sessions. In some AR systems,..." alt="" coords="9,777,169,869"/>
+<area shape="rect" id="node2" href="$dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second&#45;run. By default,..." alt="" coords="5,131,172,487"/>
+<area shape="rect" id="node3" title=" " alt="" coords="34,5,143,83"/>
+</map>

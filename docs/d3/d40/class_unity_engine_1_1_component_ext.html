@@ -154,9 +154,6 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a975be095dd00a3e6ec0cd0678330ea6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af67c47570abcadcbb6e130cb0f04179a"><td class="memItemLeft" align="right" valign="top">static IEnumerable&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d40/class_unity_engine_1_1_component_ext.html#af67c47570abcadcbb6e130cb0f04179a">FindAll&lt; T &gt;</a> (Func&lt; T, bool &gt; filter=null)</td></tr>
 <tr class="separator:af67c47570abcadcbb6e130cb0f04179a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa43e8d68077bb152d9e348d5176dbff4"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d40/class_unity_engine_1_1_component_ext.html#aa43e8d68077bb152d9e348d5176dbff4">EditorLoadAsset&lt; T &gt;</a> (string path)</td></tr>
-<tr class="memdesc:aa43e8d68077bb152d9e348d5176dbff4"><td class="mdescLeft">&#160;</td><td class="mdescRight">When called from the Unity Editor, loads an audio clip from disk to use as a property in a Unity component.  <a href="#aa43e8d68077bb152d9e348d5176dbff4">More...</a><br /></td></tr>
-<tr class="separator:aa43e8d68077bb152d9e348d5176dbff4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Extension methods for Unity's Component class. </p>
@@ -300,56 +297,7 @@ Static Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00098">98</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        {</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            Object.DestroyImmediate(obj);</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        }</div></div><!-- fragment -->
-</div>
-</div>
-<a id="aa43e8d68077bb152d9e348d5176dbff4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa43e8d68077bb152d9e348d5176dbff4">&#9670;&nbsp;</a></span>EditorLoadAsset&lt; T &gt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static T UnityEngine.ComponentExt.EditorLoadAsset&lt; T &gt; </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>When called from the Unity Editor, loads an audio clip from disk to use as a property in a Unity component. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">path</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-<div class="typeconstraint">
-<dl><dt><b>Type Constraints</b></dt><dd>
-<table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>Object</em></td><td>&#160;</td></tr>
-</table>
-</dd>
-</dl>
-</div>
-
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00294">294</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                                                                : Object</div><div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        {</div><div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            var fixedPath = <a class="code" href="../../d8/dd0/namespace_system.html">System</a>.<a class="code" href="../../dc/d30/namespace_system_1_1_i_o.html">IO</a>.<a class="code" href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html">PathExt</a>.<a class="code" href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html#a9035d7dafebaf274171d5814827a03a3">FixPath</a>(path);</div><div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d8/dd0/namespace_system.html">System</a>.<a class="code" href="../../dc/d30/namespace_system_1_1_i_o.html">IO</a>.File.Exists(fixedPath))</div><div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;            {</div><div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                <span class="keywordflow">return</span> UnityEditor.AssetDatabase.LoadAssetAtPath&lt;T&gt;(fixedPath);</div><div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            }</div><div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            {</div><div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                <span class="keywordflow">return</span> UnityEditor.AssetDatabase.GetBuiltinExtraResource&lt;T&gt;(path);</div><div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;            }</div><div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        }</div><div class="ttc" id="class_system_1_1_i_o_1_1_path_ext_html_a9035d7dafebaf274171d5814827a03a3"><div class="ttname"><a href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html#a9035d7dafebaf274171d5814827a03a3">System.IO.PathExt.FixPath</a></div><div class="ttdeci">static string FixPath(string path)</div><div class="ttdoc">Converts paths specified in any combination of forward- or back-slashes to the correct slash for the ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d16/_path_ext_8cs_source.html#l00017">PathExt.cs:17</a></div></div>
-<div class="ttc" id="namespace_system_html"><div class="ttname"><a href="../../d8/dd0/namespace_system.html">System</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d32/_array_ext_8cs_source.html#l00004">ArrayExt.cs:4</a></div></div>
-<div class="ttc" id="namespace_system_1_1_i_o_html"><div class="ttname"><a href="../../dc/d30/namespace_system_1_1_i_o.html">System.IO</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dcd/_directory_ext_8cs_source.html#l00003">DirectoryExt.cs:3</a></div></div>
-<div class="ttc" id="class_system_1_1_i_o_1_1_path_ext_html"><div class="ttname"><a href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html">System.IO.PathExt</a></div><div class="ttdoc">A static class containing a few functions that the normal System.IO.Path class does not contain.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d16/_path_ext_8cs_source.html#l00008">PathExt.cs:8</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d16/_path_ext_8cs_source.html#l00017">System.IO.PathExt.FixPath()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d1/d04/_daydream_input_module_8cs_source.html#l00040">Juniper.Unity.Input.DaydreamInputModule.Uninstall()</a>.</p>
 
 </div>
 </div>

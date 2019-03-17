@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d7/d8a/class_juniper_1_1_unity_editor_1_1_hidden_settings_accessor.html" title="A base class for all of the Settings extendor classes to gain access to helper methods that do the ha..." alt="" coords="5,39,176,80"/>
-<area shape="rect" id="node2" href="$d7/d82/class_juniper_1_1_unity_editor_1_1_audio_settings_ext.html" title="A collection of extra settings that Unity doesn&#39;t expose natively." alt="" coords="225,5,389,47"/>
-<area shape="rect" id="node3" href="$d3/d83/class_juniper_1_1_unity_editor_1_1_player_settings_ext.html" title="A collection of extra settings that Unity doesn&#39;t expose natively." alt="" coords="224,71,391,112"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,46,60,73"/>
+<area shape="rect" id="node2" href="$df/daa/class_juniper_1_1_unity_editor_1_1_configuration_management_1_1_juniper_configuration_manager.html" title="An editor to respond to changes in XRSystem." alt="" coords="108,5,375,47"/>
+<area shape="rect" id="node3" href="$d7/d6b/class_juniper_1_1_unity_editor_1_1_events_1_1_button_event_editor.html" title=" " alt="" coords="155,71,328,112"/>
 </map>

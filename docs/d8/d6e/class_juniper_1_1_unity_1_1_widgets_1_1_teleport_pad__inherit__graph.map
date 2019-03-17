@@ -1,5 +1,5 @@
 <map id="Juniper.Unity.Widgets.TeleportPad" name="Juniper.Unity.Widgets.TeleportPad">
-<area shape="rect" id="node1" title=" " alt="" coords="484,777,703,913"/>
+<area shape="rect" id="node1" title=" " alt="" coords="484,777,703,928"/>
 <area shape="rect" id="node2" href="$df/de4/class_juniper_1_1_unity_1_1_widgets_1_1_clickable.html" title="An object that can be Touched on a screen or Clicked with a mouse and fires an event in response." alt="" coords="514,579,673,729"/>
 <area shape="rect" id="node3" href="$dc/dad/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_touchable.html" title="The base class for all interactive, AR&#45;compatible, GUI controls /// This class is abstract to avoid i..." alt="" coords="301,131,469,531"/>
 <area shape="rect" id="node4" title=" " alt="" coords="5,5,115,83"/>

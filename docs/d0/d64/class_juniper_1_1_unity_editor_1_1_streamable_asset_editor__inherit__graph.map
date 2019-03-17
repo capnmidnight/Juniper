@@ -1,6 +1,8 @@
 <map id="Juniper.UnityEditor.StreamableAssetEditor&lt; T, U &gt;" name="Juniper.UnityEditor.StreamableAssetEditor&lt; T, U &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="133,131,331,267"/>
+<area shape="rect" id="node1" title=" " alt="" coords="101,132,299,268"/>
+<area shape="rect" id="node5" href="$d3/d42/class_juniper_1_1_unity_editor_1_1_streamable_asset_editor.html" title=" " alt="" coords="87,345,313,496"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,5,117,83"/>
-<area shape="rect" id="node3" title=" " alt="" coords="142,5,322,83"/>
-<area shape="rect" id="node4" title=" " alt="" coords="346,5,531,83"/>
+<area shape="rect" id="node3" title=" " alt="" coords="142,5,258,83"/>
+<area shape="rect" id="node4" title=" " alt="" coords="282,5,403,83"/>
+<area shape="rect" id="node6" href="$d1/d48/class_juniper_1_1_unity_editor_1_1_video_1_1_streamable_video_clip_editor.html" title=" " alt="" coords="113,545,287,637"/>
 </map>

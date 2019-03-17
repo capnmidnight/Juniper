@@ -1,5 +1,6 @@
 <map id="Juniper.Unity.Widgets.AttentionDirector" name="Juniper.Unity.Widgets.AttentionDirector">
-<area shape="rect" id="node1" title="Shows a pointer that directs the user to where to look next." alt="" coords="21,175,221,589"/>
+<area shape="rect" id="node1" title="Shows a pointer that directs the user to where to look next." alt="" coords="40,360,240,775"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,5,115,83"/>
-<area shape="rect" id="node3" title=" " alt="" coords="139,5,227,83"/>
+<area shape="rect" id="node3" href="$dd/d2d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_animator.html" title="An abstraction layer over different ways of showing UI state. Only one such component is allowed on a..." alt="" coords="60,132,220,268"/>
+<area shape="rect" id="node4" title=" " alt="" coords="244,161,332,239"/>
 </map>

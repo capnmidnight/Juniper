@@ -1,7 +1,7 @@
 <map id="Juniper.Unity.Input.UnifiedInputModule" name="Juniper.Unity.Input.UnifiedInputModule">
 <area shape="rect" id="node1" title=" " alt="" coords="54,675,225,767"/>
-<area shape="rect" id="node2" href="$df/dcf/class_juniper_1_1_unity_1_1_input_1_1_oculus_input_module.html" title=" " alt="" coords="74,535,205,627"/>
-<area shape="rect" id="node3" href="$d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="50,160,229,487"/>
+<area shape="rect" id="node2" href="$d7/d3e/class_juniper_1_1_unity_1_1_input_1_1_daydream_input_module.html" title=" " alt="" coords="64,520,215,627"/>
+<area shape="rect" id="node3" href="$d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="50,160,229,472"/>
 <area shape="rect" id="node4" title=" " alt="" coords="5,20,137,97"/>
 <area shape="rect" id="node5" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="161,5,253,112"/>
 </map>

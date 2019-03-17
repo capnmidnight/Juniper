@@ -1,5 +1,5 @@
 <map id="Juniper.Unity.Widgets.Draggable" name="Juniper.Unity.Widgets.Draggable">
-<area shape="rect" id="node1" title="An object that can be picked up and put down in a new location." alt="" coords="749,1205,955,1473"/>
+<area shape="rect" id="node1" title="An object that can be picked up and put down in a new location." alt="" coords="749,1205,955,1459"/>
 <area shape="rect" id="node2" href="$d2/d57/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_valued.html" title="The Valued component adds a float field and range of valid values for that field to a Touchable objec..." alt="" coords="761,609,943,1156"/>
 <area shape="rect" id="node3" href="$dc/dad/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_touchable.html" title="The base class for all interactive, AR&#45;compatible, GUI controls /// This class is abstract to avoid i..." alt="" coords="285,160,453,560"/>
 <area shape="rect" id="node4" title=" " alt="" coords="5,13,115,90"/>

@@ -1,8 +1,8 @@
 <map id="Juniper.Unity.Ground.HoloLensGround" name="Juniper.Unity.Ground.HoloLensGround">
-<area shape="rect" id="node1" title=" " alt="" coords="15,631,231,1045"/>
-<area shape="rect" id="node6" href="$d1/d89/class_juniper_1_1_unity_1_1_ground_1_1_ground.html" title="Manages references to the ground, either 3D terrain in VR apps or detected planes and meshes in AR ap..." alt="" coords="30,1093,215,1171"/>
-<area shape="rect" id="node2" href="$da/d0a/class_juniper_1_1_unity_1_1_ground_1_1_abstract_a_r_ground.html" title=" " alt="" coords="43,505,202,583"/>
-<area shape="rect" id="node3" href="$d6/dcb/class_juniper_1_1_unity_1_1_ground_1_1_abstract_ground.html" title=" " alt="" coords="33,160,212,457"/>
+<area shape="rect" id="node1" title=" " alt="" coords="15,616,231,1016"/>
+<area shape="rect" id="node6" href="$d1/d89/class_juniper_1_1_unity_1_1_ground_1_1_ground.html" title="Manages references to the ground, either 3D terrain in VR apps or detected planes and meshes in AR ap..." alt="" coords="30,1064,215,1141"/>
+<area shape="rect" id="node2" href="$da/d0a/class_juniper_1_1_unity_1_1_ground_1_1_abstract_a_r_ground.html" title=" " alt="" coords="43,491,202,568"/>
+<area shape="rect" id="node3" href="$d6/dcb/class_juniper_1_1_unity_1_1_ground_1_1_abstract_ground.html" title=" " alt="" coords="33,160,212,443"/>
 <area shape="rect" id="node4" title=" " alt="" coords="5,20,115,97"/>
 <area shape="rect" id="node5" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="139,5,231,112"/>
 </map>

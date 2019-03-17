@@ -1,0 +1,6 @@
+<map id="UnityEngine.Events.TriggeredEvent" name="UnityEngine.Events.TriggeredEvent">
+<area shape="rect" id="node1" title="A component that can be used to trigger events after an object hits a collider. Useful for detecting ..." alt="" coords="20,301,209,408"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,139,115,217"/>
+<area shape="rect" id="node3" href="$d7/d95/class_unity_engine_1_1_events_1_1_triggered_event_1_1_triggered_event_delegate.html" title="Event callback arguments" alt="" coords="139,132,333,224"/>
+<area shape="rect" id="node4" title=" " alt="" coords="161,5,311,83"/>
+</map>

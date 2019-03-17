@@ -15,8 +15,5 @@ var searchData=
   ['nextupdatetime',['nextUpdateTime',['../db/d2e/class_juniper_1_1_unity_1_1_world_1_1_g_p_s_location.html#ad23f45bb1a0c04435f25d258c25d59c1',1,'Juniper::Unity::World::GPSLocation']]],
   ['nkar',['nkar',['../db/dee/class_juniper_1_1_unity_1_1_anchoring_1_1_anchored.html#ab2d16be19df30a2fac451052cf92bde4',1,'Juniper::Unity::Anchoring::Anchored']]],
   ['normalbackgroundcolor',['normalBackgroundColor',['../de/d8e/class_juniper_1_1_unity_1_1_widgets_1_1_list_view.html#a82db19d4c8517548f1ce0ce6dbe5a098',1,'Juniper::Unity::Widgets::ListView']]],
-  ['normalcolor',['normalColor',['../de/d8e/class_juniper_1_1_unity_1_1_widgets_1_1_list_view.html#a0598a22ea4af93bfc05d457a89100f99',1,'Juniper.Unity.Widgets.ListView.normalColor()'],['../da/d7b/class_juniper_1_1_unity_1_1_widgets_1_1_list_view_item.html#a3d18609ba279dcdf1a05b68faeb566a9',1,'Juniper.Unity.Widgets.ListViewItem.normalColor()']]],
-  ['numsamplerows',['NumSampleRows',['../d4/d97/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_vuforia_light_measurement.html#ac4fc7f726738c67a27d3c71756f57629',1,'Juniper::Unity::World::LightEstimation::VuforiaLightMeasurement']]],
-  ['numsamplesperrow',['NumSamplesPerRow',['../d4/d97/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_vuforia_light_measurement.html#a7654284f6bc44b0d5892799479c11d62',1,'Juniper::Unity::World::LightEstimation::VuforiaLightMeasurement']]],
-  ['numupdates',['numUpdates',['../df/d5e/class_juniper_1_1_unity_1_1_image_tracking_1_1_vuforia_tracker_keeper.html#a020254b8303a338529ca96ac9894557a',1,'Juniper::Unity::ImageTracking::VuforiaTrackerKeeper']]]
+  ['normalcolor',['normalColor',['../de/d8e/class_juniper_1_1_unity_1_1_widgets_1_1_list_view.html#a0598a22ea4af93bfc05d457a89100f99',1,'Juniper.Unity.Widgets.ListView.normalColor()'],['../da/d7b/class_juniper_1_1_unity_1_1_widgets_1_1_list_view_item.html#a3d18609ba279dcdf1a05b68faeb566a9',1,'Juniper.Unity.Widgets.ListViewItem.normalColor()']]]
 ];

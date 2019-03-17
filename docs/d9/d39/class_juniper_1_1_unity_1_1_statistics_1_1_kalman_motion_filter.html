@@ -109,8 +109,6 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aaa53bbb3ae4d5857055e9fe671c486cf"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d39/class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter.html#aaa53bbb3ae4d5857055e9fe671c486cf">Copy</a> (<a class="el" href="../../d8/dbf/class_juniper_1_1_unity_1_1_statistics_1_1_abstract_motion_filter.html">AbstractMotionFilter</a> filter)</td></tr>
-<tr class="separator:aaa53bbb3ae4d5857055e9fe671c486cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c304683e5a6aa5c4a77a49419adc126"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d39/class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter.html#a1c304683e5a6aa5c4a77a49419adc126">UpdateState</a> (<a class="el" href="../../df/dae/_integration_motion_filter_8cs.html#af3326292fdd04d2b384b6d781d9594f6">Vector3</a> point)</td></tr>
 <tr class="separator:a1c304683e5a6aa5c4a77a49419adc126"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -174,41 +172,6 @@ Private Attributes</h2></td></tr>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00014">14</a> of file <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html">KalmanMotionFilter.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="aaa53bbb3ae4d5857055e9fe671c486cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa53bbb3ae4d5857055e9fe671c486cf">&#9670;&nbsp;</a></span>Copy()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">override void Juniper.Unity.Statistics.KalmanMotionFilter.Copy </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d8/dbf/class_juniper_1_1_unity_1_1_statistics_1_1_abstract_motion_filter.html">AbstractMotionFilter</a>&#160;</td>
-          <td class="paramname"><em>filter</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="../../d8/dbf/class_juniper_1_1_unity_1_1_statistics_1_1_abstract_motion_filter.html#ae2beefbb414d5ab0f1089e0702bc6c8e">Juniper.Unity.Statistics.AbstractMotionFilter</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00080">80</a> of file <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html">KalmanMotionFilter.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        {</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">if</span> (filter is KalmanMotionFilter)</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            {</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                var f = (KalmanMotionFilter)filter;</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <a class="code" href="../../d9/d39/class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter.html#a76c583ad3288583f428d2c438eaf27c3">componentCount</a> = f.componentCount;</div><div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <a class="code" href="../../d9/d39/class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter.html#a5e8f01c8d5976902b191514d74f12cbd">measurementNoise</a> = f.measurementNoise;</div><div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                <a class="code" href="../../d9/d39/class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter.html#a1b708e9dd1b7aea0e75c9543e1c166f3">processNoiseScale</a> = f.processNoiseScale;</div><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            }</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter_html_a5e8f01c8d5976902b191514d74f12cbd"><div class="ttname"><a href="../../d9/d39/class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter.html#a5e8f01c8d5976902b191514d74f12cbd">Juniper.Unity.Statistics.KalmanMotionFilter.measurementNoise</a></div><div class="ttdeci">float measurementNoise</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00023">KalmanMotionFilter.cs:23</a></div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter_html_a1b708e9dd1b7aea0e75c9543e1c166f3"><div class="ttname"><a href="../../d9/d39/class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter.html#a1b708e9dd1b7aea0e75c9543e1c166f3">Juniper.Unity.Statistics.KalmanMotionFilter.processNoiseScale</a></div><div class="ttdeci">uint processNoiseScale</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00026">KalmanMotionFilter.cs:26</a></div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter_html_a76c583ad3288583f428d2c438eaf27c3"><div class="ttname"><a href="../../d9/d39/class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter.html#a76c583ad3288583f428d2c438eaf27c3">Juniper.Unity.Statistics.KalmanMotionFilter.componentCount</a></div><div class="ttdeci">uint componentCount</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00016">KalmanMotionFilter.cs:16</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00016">Juniper.Unity.Statistics.KalmanMotionFilter.componentCount</a>, <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00023">Juniper.Unity.Statistics.KalmanMotionFilter.measurementNoise</a>, and <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00026">Juniper.Unity.Statistics.KalmanMotionFilter.processNoiseScale</a>.</p>
-
-</div>
-</div>
 <a id="a38c1111fcff43e3c558a98684a8d4c52"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a38c1111fcff43e3c558a98684a8d4c52">&#9670;&nbsp;</a></span>FromArray()</h2>
 
@@ -544,7 +507,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00016">16</a> of file <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html">KalmanMotionFilter.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00080">Juniper.Unity.Statistics.KalmanMotionFilter.Copy()</a>, and <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00095">Juniper.Unity.Statistics.KalmanMotionFilter.UpdateState()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00095">Juniper.Unity.Statistics.KalmanMotionFilter.UpdateState()</a>.</p>
 
 </div>
 </div>
@@ -588,7 +551,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00023">23</a> of file <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html">KalmanMotionFilter.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00080">Juniper.Unity.Statistics.KalmanMotionFilter.Copy()</a>, and <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00095">Juniper.Unity.Statistics.KalmanMotionFilter.UpdateState()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00095">Juniper.Unity.Statistics.KalmanMotionFilter.UpdateState()</a>.</p>
 
 </div>
 </div>
@@ -650,7 +613,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00026">26</a> of file <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html">KalmanMotionFilter.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00080">Juniper.Unity.Statistics.KalmanMotionFilter.Copy()</a>, and <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00095">Juniper.Unity.Statistics.KalmanMotionFilter.UpdateState()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d7/dd8/_kalman_motion_filter_8cs_source.html#l00095">Juniper.Unity.Statistics.KalmanMotionFilter.UpdateState()</a>.</p>
 
 </div>
 </div>

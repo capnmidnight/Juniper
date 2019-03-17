@@ -55,8 +55,8 @@ var sectionId = 'dynsection-1';
 <g id="viewport">
 <title>Juniper.Unity.ImageTracking.AbstractTrackableFoundEventHandler</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-537 272,-537 272,4 -4,4"/>
-<!-- Node3 -->
-<g id="node1" class="node"><title>Node3</title>
+<!-- Node4 -->
+<g id="node1" class="node"><title>Node4</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-321.5 176,-321.5 176,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-309.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.ImageTracking.</text>
@@ -91,8 +91,8 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node4 -->
-<g id="node2" class="node"><title>Node4</title>
+<!-- Node5 -->
+<g id="node2" class="node"><title>Node5</title>
 <g id="a_node2"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="8,-375 8,-432 90,-432 90,-375 8,-375"/>
 <text text-anchor="middle" x="49" y="-420" font-family="SegoeUI" font-size="10.00">MonoBehaviour</text>
@@ -103,13 +103,13 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node4&#45;&gt;Node3 -->
-<g id="edge1" class="edge"><title>Node4&#45;&gt;Node3</title>
+<!-- Node5&#45;&gt;Node4 -->
+<g id="edge1" class="edge"><title>Node5&#45;&gt;Node4</title>
 <path fill="none" stroke="midnightblue" d="M55.0883,-364.956C57.1214,-352.418 59.5318,-337.554 62.1098,-321.656"/>
 <polygon fill="none" stroke="midnightblue" points="51.6197,-364.48 53.4738,-374.912 58.5295,-365.601 51.6197,-364.48"/>
 </g>
-<!-- Node5 -->
-<g id="node3" class="node"><title>Node5</title>
+<!-- Node6 -->
+<g id="node3" class="node"><title>Node6</title>
 <g id="a_node3"><a xlink:href="../../dc/d68/class_unity_engine_1_1_events_1_1_boolean_event.html" target="_top" xlink:title="An event that passes a boolean value as an argument.">
 <polygon fill="white" stroke="black" points="108,-369.5 108,-437.5 242,-437.5 242,-369.5 108,-369.5"/>
 <text text-anchor="start" x="116" y="-425.5" font-family="SegoeUI" font-size="10.00">UnityEngine.Events.Boolean</text>
@@ -121,14 +121,14 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node5&#45;&gt;Node3 -->
-<g id="edge2" class="edge"><title>Node5&#45;&gt;Node3</title>
+<!-- Node6&#45;&gt;Node4 -->
+<g id="edge2" class="edge"><title>Node6&#45;&gt;Node4</title>
 <path fill="none" stroke="#404040" d="M162.994,-369.312C159.207,-358.842 154.733,-346.475 149.886,-333.075"/>
 <polygon fill="none" stroke="#404040" points="149.815,-332.881 144.013,-328.599 145.733,-321.596 151.536,-325.878 149.815,-332.881"/>
 <text text-anchor="middle" x="212" y="-343" font-family="SegoeUI" font-size="10.00"> +onTrackingStateChange</text>
 </g>
-<!-- Node6 -->
-<g id="node4" class="node"><title>Node6</title>
+<!-- Node7 -->
+<g id="node4" class="node"><title>Node7</title>
 <g id="a_node4"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="126,-475.5 126,-532.5 224,-532.5 224,-475.5 126,-475.5"/>
 <text text-anchor="middle" x="175" y="-520.5" font-family="SegoeUI" font-size="10.00">UnityEvent&lt; bool &gt;</text>
@@ -139,8 +139,8 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node5 -->
-<g id="edge3" class="edge"><title>Node6&#45;&gt;Node5</title>
+<!-- Node7&#45;&gt;Node6 -->
+<g id="edge3" class="edge"><title>Node7&#45;&gt;Node6</title>
 <path fill="none" stroke="midnightblue" d="M175,-465.007C175,-455.962 175,-446.383 175,-437.578"/>
 <polygon fill="none" stroke="midnightblue" points="171.5,-465.3 175,-475.3 178.5,-465.3 171.5,-465.3"/>
 </g>

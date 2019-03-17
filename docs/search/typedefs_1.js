@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hapticstype',['HapticsType',['../d5/dae/_touch_point_8cs.html#a503d428fc32b0bd3d768a388d8cf79a4',1,'TouchPoint.cs']]]
+  ['hapticstype',['HapticsType',['../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5',1,'HapticsType():&#160;TouchPoint.cs'],['../d0/dcd/_windows_m_r_motion_controller_8cs.html#af7d0d3984b0c64c6483b2506bf0ed06e',1,'HapticsType():&#160;WindowsMRMotionController.cs']]]
 ];

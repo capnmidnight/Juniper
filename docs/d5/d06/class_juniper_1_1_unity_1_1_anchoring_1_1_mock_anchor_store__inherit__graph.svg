@@ -95,7 +95,7 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="33.5" y="-190.5" font-family="SegoeUI" font-size="10.00"># LoadAnchor()</text>
 <text text-anchor="start" x="33.5" y="-179.5" font-family="SegoeUI" font-size="10.00"># MakeID()</text>
 <text text-anchor="start" x="33.5" y="-168.5" font-family="SegoeUI" font-size="10.00"># HasValue()</text>
-<text text-anchor="start" x="33.5" y="-157.5" font-family="SegoeUI" font-size="10.00"># SaveValue()</text>
+<text text-anchor="start" x="33.5" y="-157.5" font-family="SegoeUI" font-size="10.00"># SaveValue&lt; T &gt;()</text>
 <text text-anchor="start" x="33.5" y="-146.5" font-family="SegoeUI" font-size="10.00"># LoadValue&lt; T &gt;()</text>
 <text text-anchor="start" x="33.5" y="-135.5" font-family="SegoeUI" font-size="10.00"># DeleteValue()</text>
 </a>
@@ -131,7 +131,7 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="8" y="-504.5" font-family="SegoeUI" font-size="10.00"># LoadAnchor()</text>
 <text text-anchor="start" x="8" y="-493.5" font-family="SegoeUI" font-size="10.00"># MakeID()</text>
 <text text-anchor="start" x="8" y="-482.5" font-family="SegoeUI" font-size="10.00"># HasValue()</text>
-<text text-anchor="start" x="8" y="-471.5" font-family="SegoeUI" font-size="10.00"># SaveValue()</text>
+<text text-anchor="start" x="8" y="-471.5" font-family="SegoeUI" font-size="10.00"># SaveValue&lt; T &gt;()</text>
 <text text-anchor="start" x="8" y="-460.5" font-family="SegoeUI" font-size="10.00"># LoadValue&lt; T &gt;()</text>
 <text text-anchor="start" x="8" y="-449.5" font-family="SegoeUI" font-size="10.00"># DeleteValue()</text>
 </a>

@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 194;
+var viewWidth = 454;
 var viewHeight = 601;
 var sectionId = 'dynsection-0';
 </script>
@@ -54,109 +54,146 @@ var sectionId = 'dynsection-0';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>Juniper.Unity.Input.AbstractUnifiedInputModule</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-597 190,-597 190,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-597 449.5,-597 449.5,4 -4,4"/>
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
 <g id="a_node1"><a xlink:title="Finds all of the IPointerDevice s and fires raycaster events for all of them.">
-<polygon fill="#bfbfbf" stroke="black" points="33.5,-221.5 33.5,-476.5 167.5,-476.5 167.5,-221.5 33.5,-221.5"/>
-<text text-anchor="start" x="41.5" y="-464.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Abstract</text>
-<text text-anchor="middle" x="100.5" y="-453.5" font-family="SegoeUI" font-size="10.00">UnifiedInputModule</text>
-<polyline fill="none" stroke="black" points="33.5,-446.5 167.5,-446.5 "/>
-<text text-anchor="start" x="41.5" y="-434.5" font-family="SegoeUI" font-size="10.00">+ Devices</text>
-<text text-anchor="start" x="41.5" y="-423.5" font-family="SegoeUI" font-size="10.00">+ pointerPrefab</text>
-<text text-anchor="start" x="41.5" y="-412.5" font-family="SegoeUI" font-size="10.00">+ onPointerFound</text>
-<text text-anchor="start" x="41.5" y="-401.5" font-family="SegoeUI" font-size="10.00">+ AnyPointerDragging</text>
-<text text-anchor="start" x="41.5" y="-390.5" font-family="SegoeUI" font-size="10.00"># stage</text>
-<text text-anchor="start" x="41.5" y="-379.5" font-family="SegoeUI" font-size="10.00">&#45; newDevices</text>
-<polyline fill="none" stroke="black" points="33.5,-372.5 167.5,-372.5 "/>
-<text text-anchor="start" x="41.5" y="-360.5" font-family="SegoeUI" font-size="10.00">+ AddPointer()</text>
-<text text-anchor="start" x="41.5" y="-349.5" font-family="SegoeUI" font-size="10.00">+ WithPointer()</text>
-<text text-anchor="start" x="41.5" y="-338.5" font-family="SegoeUI" font-size="10.00">+ Reinstall()</text>
-<text text-anchor="start" x="41.5" y="-327.5" font-family="SegoeUI" font-size="10.00">+ Process()</text>
-<text text-anchor="start" x="41.5" y="-316.5" font-family="SegoeUI" font-size="10.00">+ Clone()</text>
-<text text-anchor="start" x="41.5" y="-305.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="41.5" y="-294.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
-<text text-anchor="start" x="41.5" y="-283.5" font-family="SegoeUI" font-size="10.00"># Awake()</text>
-<text text-anchor="start" x="41.5" y="-272.5" font-family="SegoeUI" font-size="10.00"># Reset()</text>
-<text text-anchor="start" x="41.5" y="-261.5" font-family="SegoeUI" font-size="10.00">&#45; OnPointerFound()</text>
-<text text-anchor="start" x="41.5" y="-250.5" font-family="SegoeUI" font-size="10.00">&#45; UpdateRay()</text>
-<text text-anchor="start" x="41.5" y="-239.5" font-family="SegoeUI" font-size="10.00">&#45; RaycastAll()</text>
-<text text-anchor="start" x="41.5" y="-228.5" font-family="SegoeUI" font-size="10.00">&#45; RaycastComparer()</text>
+<polygon fill="#bfbfbf" stroke="black" points="158.5,-232.5 158.5,-476.5 292.5,-476.5 292.5,-232.5 158.5,-232.5"/>
+<text text-anchor="start" x="166.5" y="-464.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Abstract</text>
+<text text-anchor="middle" x="225.5" y="-453.5" font-family="SegoeUI" font-size="10.00">UnifiedInputModule</text>
+<polyline fill="none" stroke="black" points="158.5,-446.5 292.5,-446.5 "/>
+<text text-anchor="start" x="166.5" y="-434.5" font-family="SegoeUI" font-size="10.00">+ Devices</text>
+<text text-anchor="start" x="166.5" y="-423.5" font-family="SegoeUI" font-size="10.00">+ pointerPrefab</text>
+<text text-anchor="start" x="166.5" y="-412.5" font-family="SegoeUI" font-size="10.00">+ onPointerFound</text>
+<text text-anchor="start" x="166.5" y="-401.5" font-family="SegoeUI" font-size="10.00">+ AnyPointerDragging</text>
+<text text-anchor="start" x="166.5" y="-390.5" font-family="SegoeUI" font-size="10.00"># stage</text>
+<text text-anchor="start" x="166.5" y="-379.5" font-family="SegoeUI" font-size="10.00">&#45; newDevices</text>
+<polyline fill="none" stroke="black" points="158.5,-372.5 292.5,-372.5 "/>
+<text text-anchor="start" x="166.5" y="-360.5" font-family="SegoeUI" font-size="10.00">+ AddPointer()</text>
+<text text-anchor="start" x="166.5" y="-349.5" font-family="SegoeUI" font-size="10.00">+ WithPointer()</text>
+<text text-anchor="start" x="166.5" y="-338.5" font-family="SegoeUI" font-size="10.00">+ Reinstall()</text>
+<text text-anchor="start" x="166.5" y="-327.5" font-family="SegoeUI" font-size="10.00">+ Process()</text>
+<text text-anchor="start" x="166.5" y="-316.5" font-family="SegoeUI" font-size="10.00">+ Clone()</text>
+<text text-anchor="start" x="166.5" y="-305.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="166.5" y="-294.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<text text-anchor="start" x="166.5" y="-283.5" font-family="SegoeUI" font-size="10.00"># Awake()</text>
+<text text-anchor="start" x="166.5" y="-272.5" font-family="SegoeUI" font-size="10.00">&#45; OnPointerFound()</text>
+<text text-anchor="start" x="166.5" y="-261.5" font-family="SegoeUI" font-size="10.00">&#45; UpdateRay()</text>
+<text text-anchor="start" x="166.5" y="-250.5" font-family="SegoeUI" font-size="10.00">&#45; RaycastAll()</text>
+<text text-anchor="start" x="166.5" y="-239.5" font-family="SegoeUI" font-size="10.00">&#45; RaycastComparer()</text>
 </a>
 </g>
 </g>
 <!-- Node3 -->
 <g id="node4" class="node"><title>Node3</title>
-<g id="a_node4"><a xlink:href="../../df/dcf/class_juniper_1_1_unity_1_1_input_1_1_oculus_input_module.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="36.5,-105.5 36.5,-184.5 164.5,-184.5 164.5,-105.5 36.5,-105.5"/>
-<text text-anchor="start" x="44.5" y="-172.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Oculus</text>
-<text text-anchor="middle" x="100.5" y="-161.5" font-family="SegoeUI" font-size="10.00">InputModule</text>
-<polyline fill="none" stroke="black" points="36.5,-154.5 164.5,-154.5 "/>
-<text text-anchor="middle" x="100.5" y="-142.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="36.5,-135.5 164.5,-135.5 "/>
-<text text-anchor="start" x="44.5" y="-123.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="44.5" y="-112.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<g id="a_node4"><a xlink:href="../../d7/d3e/class_juniper_1_1_unity_1_1_input_1_1_daydream_input_module.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="0,-105.5 0,-195.5 143,-195.5 143,-105.5 0,-105.5"/>
+<text text-anchor="start" x="8" y="-183.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Daydream</text>
+<text text-anchor="middle" x="71.5" y="-172.5" font-family="SegoeUI" font-size="10.00">InputModule</text>
+<polyline fill="none" stroke="black" points="0,-165.5 143,-165.5 "/>
+<text text-anchor="middle" x="71.5" y="-153.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="0,-146.5 143,-146.5 "/>
+<text text-anchor="start" x="8" y="-134.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="8" y="-123.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<text text-anchor="start" x="8" y="-112.5" font-family="SegoeUI" font-size="10.00"># Awake()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node3 -->
 <g id="edge3" class="edge"><title>Node0&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M100.5,-211.182C100.5,-201.703 100.5,-192.709 100.5,-184.597"/>
-<polygon fill="none" stroke="midnightblue" points="97.0001,-211.217 100.5,-221.217 104,-211.217 97.0001,-211.217"/>
+<path fill="none" stroke="midnightblue" d="M152.125,-257.255C135.705,-235.717 119.064,-213.89 105.199,-195.703"/>
+<polygon fill="none" stroke="midnightblue" points="149.555,-259.657 158.401,-265.487 155.122,-255.413 149.555,-259.657"/>
+</g>
+<!-- Node5 -->
+<g id="node6" class="node"><title>Node5</title>
+<g id="a_node6"><a xlink:href="../../df/dcf/class_juniper_1_1_unity_1_1_input_1_1_oculus_input_module.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="161.5,-111 161.5,-190 289.5,-190 289.5,-111 161.5,-111"/>
+<text text-anchor="start" x="169.5" y="-178" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Oculus</text>
+<text text-anchor="middle" x="225.5" y="-167" font-family="SegoeUI" font-size="10.00">InputModule</text>
+<polyline fill="none" stroke="black" points="161.5,-160 289.5,-160 "/>
+<text text-anchor="middle" x="225.5" y="-148" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="161.5,-141 289.5,-141 "/>
+<text text-anchor="start" x="169.5" y="-129" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="169.5" y="-118" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+</a>
+</g>
+</g>
+<!-- Node0&#45;&gt;Node5 -->
+<g id="edge5" class="edge"><title>Node0&#45;&gt;Node5</title>
+<path fill="none" stroke="midnightblue" d="M225.5,-222.218C225.5,-210.673 225.5,-199.709 225.5,-190.011"/>
+<polygon fill="none" stroke="midnightblue" points="222,-222.497 225.5,-232.497 229,-222.497 222,-222.497"/>
+</g>
+<!-- Node6 -->
+<g id="node7" class="node"><title>Node6</title>
+<g id="a_node7"><a xlink:href="../../d1/d22/class_juniper_1_1_unity_1_1_input_1_1_windows_m_r_input_module.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="307.5,-116.5 307.5,-184.5 445.5,-184.5 445.5,-116.5 307.5,-116.5"/>
+<text text-anchor="start" x="315.5" y="-172.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Windows</text>
+<text text-anchor="middle" x="376.5" y="-161.5" font-family="SegoeUI" font-size="10.00">MRInputModule</text>
+<polyline fill="none" stroke="black" points="307.5,-154.5 445.5,-154.5 "/>
+<text text-anchor="middle" x="376.5" y="-142.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="307.5,-135.5 445.5,-135.5 "/>
+<text text-anchor="start" x="315.5" y="-123.5" font-family="SegoeUI" font-size="10.00">+ UpdateModule()</text>
+</a>
+</g>
+</g>
+<!-- Node0&#45;&gt;Node6 -->
+<g id="edge6" class="edge"><title>Node0&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M298.767,-255.487C317.77,-230.065 336.962,-204.392 351.522,-184.915"/>
+<polygon fill="none" stroke="midnightblue" points="295.794,-253.618 292.61,-263.723 301.401,-257.81 295.794,-253.618"/>
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
 <g id="a_node2"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="0,-524.5 0,-581.5 99,-581.5 99,-524.5 0,-524.5"/>
-<text text-anchor="middle" x="49.5" y="-569.5" font-family="SegoeUI" font-size="10.00">PointerInputModule</text>
-<polyline fill="none" stroke="#bfbfbf" points="0,-562.5 99,-562.5 "/>
-<text text-anchor="middle" x="49.5" y="-550.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="0,-543.5 99,-543.5 "/>
-<text text-anchor="middle" x="49.5" y="-531.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polygon fill="white" stroke="#bfbfbf" points="125,-524.5 125,-581.5 224,-581.5 224,-524.5 125,-524.5"/>
+<text text-anchor="middle" x="174.5" y="-569.5" font-family="SegoeUI" font-size="10.00">PointerInputModule</text>
+<polyline fill="none" stroke="#bfbfbf" points="125,-562.5 224,-562.5 "/>
+<text text-anchor="middle" x="174.5" y="-550.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="125,-543.5 224,-543.5 "/>
+<text text-anchor="middle" x="174.5" y="-531.5" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node0 -->
 <g id="edge1" class="edge"><title>Node1&#45;&gt;Node0</title>
-<path fill="none" stroke="midnightblue" d="M58.9455,-514.588C61.7695,-503.403 65.0363,-490.464 68.4727,-476.853"/>
-<polygon fill="none" stroke="midnightblue" points="55.5389,-513.784 56.4844,-524.336 62.3259,-515.497 55.5389,-513.784"/>
+<path fill="none" stroke="midnightblue" d="M184.236,-514.487C187.146,-503.276 190.506,-490.329 194.028,-476.761"/>
+<polygon fill="none" stroke="midnightblue" points="180.823,-513.705 181.699,-524.263 187.599,-515.463 180.823,-513.705"/>
 </g>
 <!-- Node2 -->
 <g id="node3" class="node"><title>Node2</title>
 <g id="a_node3"><a xlink:href="../../db/d28/interface_juniper_1_1_i_installable.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="117,-513.5 117,-592.5 186,-592.5 186,-513.5 117,-513.5"/>
-<text text-anchor="middle" x="151.5" y="-580.5" font-family="SegoeUI" font-size="10.00">IInstallable</text>
-<polyline fill="none" stroke="black" points="117,-573.5 186,-573.5 "/>
-<text text-anchor="middle" x="151.5" y="-561.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="117,-554.5 186,-554.5 "/>
-<text text-anchor="start" x="125" y="-542.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="125" y="-531.5" font-family="SegoeUI" font-size="10.00">+ Reinstall()</text>
-<text text-anchor="start" x="125" y="-520.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<polygon fill="white" stroke="black" points="242,-513.5 242,-592.5 311,-592.5 311,-513.5 242,-513.5"/>
+<text text-anchor="middle" x="276.5" y="-580.5" font-family="SegoeUI" font-size="10.00">IInstallable</text>
+<polyline fill="none" stroke="black" points="242,-573.5 311,-573.5 "/>
+<text text-anchor="middle" x="276.5" y="-561.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="242,-554.5 311,-554.5 "/>
+<text text-anchor="start" x="250" y="-542.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="250" y="-531.5" font-family="SegoeUI" font-size="10.00">+ Reinstall()</text>
+<text text-anchor="start" x="250" y="-520.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
 </a>
 </g>
 </g>
 <!-- Node2&#45;&gt;Node0 -->
 <g id="edge2" class="edge"><title>Node2&#45;&gt;Node0</title>
-<path fill="none" stroke="midnightblue" d="M139.188,-503.237C137.085,-494.904 134.816,-485.918 132.469,-476.621"/>
-<polygon fill="none" stroke="midnightblue" points="135.825,-504.213 141.667,-513.052 142.612,-502.5 135.825,-504.213"/>
+<path fill="none" stroke="midnightblue" d="M263.86,-503.301C261.685,-494.918 259.34,-485.884 256.92,-476.559"/>
+<polygon fill="none" stroke="midnightblue" points="260.524,-504.378 266.424,-513.178 267.3,-502.619 260.524,-504.378"/>
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
 <g id="a_node5"><a xlink:href="../../d0/d5c/class_juniper_1_1_unity_1_1_input_1_1_unified_input_module.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="36.5,-0.5 36.5,-68.5 164.5,-68.5 164.5,-0.5 36.5,-0.5"/>
-<text text-anchor="start" x="44.5" y="-56.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Unified</text>
-<text text-anchor="middle" x="100.5" y="-45.5" font-family="SegoeUI" font-size="10.00">InputModule</text>
-<polyline fill="none" stroke="black" points="36.5,-38.5 164.5,-38.5 "/>
-<text text-anchor="middle" x="100.5" y="-26.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="36.5,-19.5 164.5,-19.5 "/>
-<text text-anchor="middle" x="100.5" y="-7.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polygon fill="white" stroke="black" points="7.5,-0.5 7.5,-68.5 135.5,-68.5 135.5,-0.5 7.5,-0.5"/>
+<text text-anchor="start" x="15.5" y="-56.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Unified</text>
+<text text-anchor="middle" x="71.5" y="-45.5" font-family="SegoeUI" font-size="10.00">InputModule</text>
+<polyline fill="none" stroke="black" points="7.5,-38.5 135.5,-38.5 "/>
+<text text-anchor="middle" x="71.5" y="-26.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="7.5,-19.5 135.5,-19.5 "/>
+<text text-anchor="middle" x="71.5" y="-7.5" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
 </g>
 </g>
 <!-- Node3&#45;&gt;Node4 -->
 <g id="edge4" class="edge"><title>Node3&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M100.5,-95.3492C100.5,-86.2824 100.5,-77.0048 100.5,-68.5439"/>
-<polygon fill="none" stroke="midnightblue" points="97.0001,-95.4414 100.5,-105.441 104,-95.4415 97.0001,-95.4414"/>
+<path fill="none" stroke="midnightblue" d="M71.5,-95.3164C71.5,-86.2849 71.5,-77.1589 71.5,-68.8483"/>
+<polygon fill="none" stroke="midnightblue" points="68.0001,-95.4246 71.5,-105.425 75.0001,-95.4247 68.0001,-95.4246"/>
 </g>
 </g>
 </svg>

@@ -9,6 +9,7 @@ var searchData=
   ['click',['Click',['../df/d94/namespace_juniper_1_1_unity_1_1_haptics.html#a26351fb58c31def710b2c395a49dbd63a316853cc3718335f11c048e33b9be98a',1,'Juniper::Unity::Haptics']]],
   ['clicked',['Clicked',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82aaac77152dd6ab723d807092db6e0daf4',1,'Juniper::Input']]],
   ['closed',['Closed',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a03f4a47830f97377a35321051685071e',1,'Juniper::Input']]],
+  ['cube',['Cube',['../d2/d0b/class_juniper_1_1_unity_1_1_video_1_1_video360.html#a2c15386ae533567d0a904e66e1d2767faa296104f0c61a9cf39f4824d05315e12',1,'Juniper::Unity::Video::Video360']]],
   ['cubic',['Cubic',['../d3/d5d/namespace_juniper_1_1_unity_1_1_animation.html#af5f25026a06284cd3f612b6f62e69e24aec6b5414eb175379ff9efc9b3eef5814',1,'Juniper::Unity::Animation']]],
   ['cubiccentimeters',['CubicCentimeters',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a199efd374e386d33d9568413125d9722',1,'Juniper']]],
   ['cubicfeet',['CubicFeet',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a62346b3910eb6a7169e6b0eb949946c4',1,'Juniper']]],

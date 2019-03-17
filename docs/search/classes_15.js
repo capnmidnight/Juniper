@@ -7,12 +7,11 @@ var searchData=
   ['vector3statistics',['Vector3Statistics',['../d5/d8e/class_juniper_1_1_unity_1_1_statistics_1_1_vector3_statistics.html',1,'Juniper::Unity::Statistics']]],
   ['vector4statistics',['Vector4Statistics',['../d2/d93/class_juniper_1_1_unity_1_1_statistics_1_1_vector4_statistics.html',1,'Juniper::Unity::Statistics']]],
   ['vectorext',['VectorExt',['../d2/dd8/class_unity_engine_1_1_vector_ext.html',1,'UnityEngine']]],
+  ['video360',['Video360',['../d2/d0b/class_juniper_1_1_unity_1_1_video_1_1_video360.html',1,'Juniper::Unity::Video']]],
   ['videovader',['VideoVader',['../db/de8/class_juniper_1_1_unity_1_1_widgets_1_1_video_vader.html',1,'Juniper::Unity::Widgets']]],
-  ['volumefade',['VolumeFade',['../d3/db2/class_juniper_1_1_unity_1_1_audio_1_1_volume_fade.html',1,'Juniper::Unity::Audio']]],
-  ['vuforiadisplaymanager',['VuforiaDisplayManager',['../d6/d39/class_juniper_1_1_unity_1_1_display_1_1_vuforia_display_manager.html',1,'Juniper::Unity::Display']]],
-  ['vuforiaimageanalyzer',['VuforiaImageAnalyzer',['../dc/dc0/class_juniper_1_1_unity_1_1_imaging_1_1_vuforia_image_analyzer.html',1,'Juniper::Unity::Imaging']]],
-  ['vuforialightmeasurement',['VuforiaLightMeasurement',['../d4/d97/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_vuforia_light_measurement.html',1,'Juniper::Unity::World::LightEstimation']]],
-  ['vuforiatrackablefoundeventhandler',['VuforiaTrackableFoundEventHandler',['../dd/dce/class_juniper_1_1_unity_1_1_image_tracking_1_1_vuforia_trackable_found_event_handler.html',1,'Juniper::Unity::ImageTracking']]],
-  ['vuforiatrackerkeeper',['VuforiaTrackerKeeper',['../df/d5e/class_juniper_1_1_unity_1_1_image_tracking_1_1_vuforia_tracker_keeper.html',1,'Juniper::Unity::ImageTracking']]],
-  ['vuforiaunityext',['VuforiaUnityExt',['../d0/d23/class_vuforia_1_1_vuforia_unity_ext.html',1,'Vuforia']]]
+  ['vivefocusdisplaymanager',['ViveFocusDisplayManager',['../de/daa/class_juniper_1_1_unity_1_1_display_1_1_vive_focus_display_manager.html',1,'Juniper::Unity::Display']]],
+  ['vivefocushaptics',['ViveFocusHaptics',['../d0/ded/class_juniper_1_1_unity_1_1_haptics_1_1_vive_focus_haptics.html',1,'Juniper::Unity::Haptics']]],
+  ['vivefocusmotioncontroller',['ViveFocusMotionController',['../de/dec/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller.html',1,'Juniper::Unity::Input::Pointers::Motion']]],
+  ['vivefocusprobeconfiguration',['ViveFocusProbeConfiguration',['../de/d5a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_probe_configuration.html',1,'Juniper::Unity::Input::Pointers::Motion']]],
+  ['volumefade',['VolumeFade',['../d3/db2/class_juniper_1_1_unity_1_1_audio_1_1_volume_fade.html',1,'Juniper::Unity::Audio']]]
 ];

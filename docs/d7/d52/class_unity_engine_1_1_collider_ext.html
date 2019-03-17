@@ -79,6 +79,9 @@ $(function() {
 </div>
 </div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="../../d5/dfb/class_unity_engine_1_1_collider_ext-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">UnityEngine.ColliderExt Class Reference</div>  </div>
 </div><!--header-->
@@ -91,14 +94,108 @@ $(function() {
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dd4/class_unity_engine_1_1_collider_ext__coll__graph.svg" width="163" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/dd4/class_unity_engine_1_1_collider_ext__coll__graph.svg" width="163" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a346597181e4febd1b0d8ad3c9d558de5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d52/class_unity_engine_1_1_collider_ext.html#a346597181e4febd1b0d8ad3c9d558de5">SetMaterial</a> (this Collider collid, PhysicMaterial mat)</td></tr>
+<tr class="memdesc:a346597181e4febd1b0d8ad3c9d558de5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the physics material. If we are in the Editor and the editor is not playing, then we set the sharedMaterial. Otherwise, we set the material.  <a href="#a346597181e4febd1b0d8ad3c9d558de5">More...</a><br /></td></tr>
+<tr class="separator:a346597181e4febd1b0d8ad3c9d558de5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd321d7b61849d6fbd11beb3ab2b068d"><td class="memItemLeft" align="right" valign="top">static PhysicMaterial&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d52/class_unity_engine_1_1_collider_ext.html#acd321d7b61849d6fbd11beb3ab2b068d">GetMaterial</a> (this Collider collid)</td></tr>
+<tr class="memdesc:acd321d7b61849d6fbd11beb3ab2b068d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the physics material. If we are in the Editor and the editor is not playing, then we get the sharedMaterial. Otherwise, we get the material.  <a href="#acd321d7b61849d6fbd11beb3ab2b068d">More...</a><br /></td></tr>
+<tr class="separator:acd321d7b61849d6fbd11beb3ab2b068d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Extension methods for Unity's Collider classes. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../d1/df8/_collider_ext_8cs_source.html#l00006">6</a> of file <a class="el" href="../../d1/df8/_collider_ext_8cs_source.html">ColliderExt.cs</a>.</p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="acd321d7b61849d6fbd11beb3ab2b068d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd321d7b61849d6fbd11beb3ab2b068d">&#9670;&nbsp;</a></span>GetMaterial()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static PhysicMaterial UnityEngine.ColliderExt.GetMaterial </td>
+          <td>(</td>
+          <td class="paramtype">this Collider&#160;</td>
+          <td class="paramname"><em>collid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the physics material. If we are in the Editor and the editor is not playing, then we get the sharedMaterial. Otherwise, we get the material. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">collid</td><td>Collid.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/df8/_collider_ext_8cs_source.html#l00033">33</a> of file <a class="el" href="../../d1/df8/_collider_ext_8cs_source.html">ColliderExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        {</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keywordflow">if</span> (Application.isEditor &amp;&amp; !Application.isPlaying)</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            {</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">return</span> collid.sharedMaterial;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            }</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            {</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                <span class="keywordflow">return</span> collid.material;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            }</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a346597181e4febd1b0d8ad3c9d558de5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a346597181e4febd1b0d8ad3c9d558de5">&#9670;&nbsp;</a></span>SetMaterial()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void UnityEngine.ColliderExt.SetMaterial </td>
+          <td>(</td>
+          <td class="paramtype">this Collider&#160;</td>
+          <td class="paramname"><em>collid</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">PhysicMaterial&#160;</td>
+          <td class="paramname"><em>mat</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the physics material. If we are in the Editor and the editor is not playing, then we set the sharedMaterial. Otherwise, we set the material. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">collid</td><td>Collid.</td></tr>
+    <tr><td class="paramname">mat</td><td>Mat.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/df8/_collider_ext_8cs_source.html#l00016">16</a> of file <a class="el" href="../../d1/df8/_collider_ext_8cs_source.html">ColliderExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        {</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <span class="keywordflow">if</span> (Application.isEditor &amp;&amp; !Application.isPlaying)</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            {</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                collid.sharedMaterial = mat;</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            }</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            {</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                collid.material = mat;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            }</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/<a class="el" href="../../d1/df8/_collider_ext_8cs_source.html">ColliderExt.cs</a></li>
 </ul>
 </div><!-- contents -->

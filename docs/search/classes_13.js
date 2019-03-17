@@ -8,6 +8,8 @@ var searchData=
   ['textmeshsize',['TextMeshSize',['../de/d45/class_unity_engine_1_1_text_mesh_size.html',1,'UnityEngine']]],
   ['texturesortcomparer',['TextureSortComparer',['../de/db2/class_juniper_1_1_unity_1_1_collections_1_1_texture_sort_comparer.html',1,'Juniper::Unity::Collections']]],
   ['timedevent',['TimedEvent',['../d0/d9b/class_juniper_1_1_unity_1_1_events_1_1_timed_event.html',1,'Juniper::Unity::Events']]],
+  ['tobiigazepointer',['TobiiGazePointer',['../d6/d1d/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_tobii_gaze_pointer.html',1,'Juniper::Unity::Input::Pointers::Gaze']]],
+  ['tobiigazepointer_3c_20unary_2c_20nohaptics_2c_20gazepointerconfiguration_20_3e',['TobiiGazePointer&lt; Unary, NoHaptics, GazePointerConfiguration &gt;',['../d6/d1d/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_tobii_gaze_pointer.html',1,'Juniper::Unity::Input::Pointers::Gaze']]],
   ['tons',['Tons',['../d4/df0/class_juniper_1_1_units_1_1_tons.html',1,'Juniper::Units']]],
   ['tooltip',['Tooltip',['../d4/d97/class_juniper_1_1_unity_1_1_widgets_1_1_tooltip.html',1,'Juniper::Unity::Widgets']]],
   ['touchpoint',['TouchPoint',['../dd/d87/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_touch_point.html',1,'Juniper::Unity::Input::Pointers::Screen']]],
@@ -20,5 +22,7 @@ var searchData=
   ['transformext',['TransformExt',['../d0/d5e/class_unity_engine_1_1_transform_ext.html',1,'UnityEngine']]],
   ['translationhandle',['TranslationHandle',['../d8/db9/class_juniper_1_1_unity_1_1_widgets_1_1_translation_handle.html',1,'Juniper::Unity::Widgets']]],
   ['translationtransition',['TranslationTransition',['../d4/d79/class_juniper_1_1_unity_1_1_animation_1_1_translation_transition.html',1,'Juniper::Unity::Animation']]],
+  ['triggeredevent',['TriggeredEvent',['../d3/d32/class_unity_engine_1_1_events_1_1_triggered_event.html',1,'UnityEngine::Events']]],
+  ['triggeredeventdelegate',['TriggeredEventDelegate',['../d7/d95/class_unity_engine_1_1_events_1_1_triggered_event_1_1_triggered_event_delegate.html',1,'UnityEngine::Events::TriggeredEvent']]],
   ['tween',['Tween',['../d6/d86/class_juniper_1_1_unity_1_1_animation_1_1_tween.html',1,'Juniper::Unity::Animation']]]
 ];

@@ -1,5 +1,6 @@
 <map id="Juniper.Unity.Animation.AbstractAnimator" name="Juniper.Unity.Animation.AbstractAnimator">
-<area shape="rect" id="node1" title="An abstraction layer over different ways of showing UI state. Only one such component is allowed on a..." alt="" coords="5,131,165,267"/>
-<area shape="rect" id="node3" href="$dd/d1a/class_juniper_1_1_unity_1_1_animation_1_1_child_swap_animator.html" title="An animator for UIs that swap out child components as visible/invisible. Only one such component is a..." alt="" coords="5,315,165,421"/>
-<area shape="rect" id="node2" title=" " alt="" coords="31,5,140,83"/>
+<area shape="rect" id="node1" title="An abstraction layer over different ways of showing UI state. Only one such component is allowed on a..." alt="" coords="97,131,257,267"/>
+<area shape="rect" id="node3" href="$dd/d1a/class_juniper_1_1_unity_1_1_animation_1_1_child_swap_animator.html" title="An animator for UIs that swap out child components as visible/invisible. Only one such component is a..." alt="" coords="5,329,165,436"/>
+<area shape="rect" id="node4" href="$d5/d67/class_juniper_1_1_unity_1_1_animation_1_1_unity_animator.html" title="Abstract over Unity&#39;s Animator class for 3D models. Requires an Animator object on the current gameOb..." alt="" coords="189,315,349,451"/>
+<area shape="rect" id="node2" title=" " alt="" coords="123,5,232,83"/>
 </map>

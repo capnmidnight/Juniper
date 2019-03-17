@@ -1,6 +1,6 @@
 <map id="Juniper.Unity.World.LightEstimation.IndoorLightEstimate" name="Juniper.Unity.World.LightEstimation.IndoorLightEstimate">
-<area shape="rect" id="node1" title="Uses the AR subsystem&#39;s light estimation values to modify the current ambient and directional light s..." alt="" coords="23,564,222,685"/>
-<area shape="rect" id="node2" href="$db/d0d/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_estimate.html" title=" " alt="" coords="50,160,195,516"/>
+<area shape="rect" id="node1" title="Uses the AR subsystem&#39;s light estimation values to modify the current ambient and directional light s..." alt="" coords="23,549,222,671"/>
+<area shape="rect" id="node2" href="$db/d0d/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_estimate.html" title=" " alt="" coords="50,160,195,501"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,20,115,97"/>
 <area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="139,5,231,112"/>
 </map>

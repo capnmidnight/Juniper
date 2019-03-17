@@ -1,6 +1,8 @@
 <map id="Juniper.Unity.Display.AbstractPassthroughDisplayManager" name="Juniper.Unity.Display.AbstractPassthroughDisplayManager">
-<area shape="rect" id="node1" title=" " alt="" coords="27,799,218,920"/>
-<area shape="rect" id="node2" href="$da/da5/class_juniper_1_1_unity_1_1_display_1_1_abstract_display_manager.html" title=" " alt="" coords="37,160,209,751"/>
+<area shape="rect" id="node1" title=" " alt="" coords="27,828,218,949"/>
+<area shape="rect" id="node5" href="$da/df4/class_juniper_1_1_unity_1_1_display_1_1_a_r_kit_display_manager.html" title=" " alt="" coords="36,997,209,1104"/>
+<area shape="rect" id="node2" href="$da/da5/class_juniper_1_1_unity_1_1_display_1_1_abstract_display_manager.html" title=" " alt="" coords="37,160,209,780"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,20,115,97"/>
 <area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="139,5,231,112"/>
+<area shape="rect" id="node6" href="$d9/de4/class_juniper_1_1_unity_1_1_display_1_1_display_manager.html" title="Manages the camera FOV in the editor so that it matches the target system, or on desktop makes sure t..." alt="" coords="31,1152,214,1244"/>
 </map>

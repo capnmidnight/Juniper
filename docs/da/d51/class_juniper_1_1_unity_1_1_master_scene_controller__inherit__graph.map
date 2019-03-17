@@ -1,5 +1,5 @@
 <map id="Juniper.Unity.MasterSceneController" name="Juniper.Unity.MasterSceneController">
-<area shape="rect" id="node1" title="Manages loading SubSceneController components (scenes that are additively loaded into a &quot;main&quot; scene)..." alt="" coords="14,160,231,853"/>
+<area shape="rect" id="node1" title="Manages loading SubSceneController components (scenes that are additively loaded into a &quot;main&quot; scene)..." alt="" coords="14,160,231,795"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,20,115,97"/>
 <area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="139,5,231,112"/>
 </map>

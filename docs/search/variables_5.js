@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['e',['E',['../d9/d23/class_juniper_1_1_unity_1_1_audio_1_1_interaction_audio.html#a42c1f1028728f86aed2a1e603023262b',1,'Juniper::Unity::Audio::InteractionAudio']]],
   ['e2',['e2',['../d6/de5/class_juniper_1_1_units_1_1_datum_w_g_s__84.html#a6f72f6131aa1206b0192f317a77ae506',1,'Juniper::Units::DatumWGS_84']]],
   ['earthradius',['earthRadius',['../d6/de5/class_juniper_1_1_units_1_1_datum_w_g_s__84.html#a299e4eaaf6a04189f7658b62f79af4e1',1,'Juniper::Units::DatumWGS_84']]],
   ['element',['element',['../d3/d58/class_juniper_1_1_unity_1_1_widgets_1_1_unity_slider_adapter.html#abeebf4d5665e23c274af8e90761912b7',1,'Juniper::Unity::Widgets::UnitySliderAdapter']]],
@@ -10,9 +11,16 @@ var searchData=
   ['enable_5fhands_5fkey',['ENABLE_HANDS_KEY',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#a32d70435d323af6a0be20064dad8123f',1,'Juniper::Unity::StageExtensions']]],
   ['enable_5fmouse_5fkey',['ENABLE_MOUSE_KEY',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#ae37e2b2753efca81ef17dd76bc32201c',1,'Juniper::Unity::StageExtensions']]],
   ['enable_5ftouch_5fkey',['ENABLE_TOUCH_KEY',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#a066d9b72ee82035eb61080414002a02b',1,'Juniper::Unity::StageExtensions']]],
+  ['enablecontrollerstoggle',['enableControllersToggle',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#a81c608f9a6c3b23ccc937bed7700fac3',1,'Juniper::Unity::StageExtensions']]],
+  ['enablegazetoggle',['enableGazeToggle',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#ae94075a5be2bb54317ad8309cd959810',1,'Juniper::Unity::StageExtensions']]],
+  ['enablehandstoggle',['enableHandsToggle',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#a798de4a2829b1eb31dc30e1a7ccbc965',1,'Juniper::Unity::StageExtensions']]],
+  ['enablemousetoggle',['enableMouseToggle',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#a222a83e742815c5b9977bf192a33cca1',1,'Juniper::Unity::StageExtensions']]],
   ['enablepointcloud',['enablePointCloud',['../de/dad/class_juniper_1_1_unity_1_1_display_1_1_abstract_passthrough_display_manager.html#afe1cfc600108ae5694fa427cf036efdf',1,'Juniper::Unity::Display::AbstractPassthroughDisplayManager']]],
+  ['enabletouchtoggle',['enableTouchToggle',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#a1c924864bca8ee72b233221928aeb248',1,'Juniper::Unity::StageExtensions']]],
   ['end',['end',['../dc/d08/class_juniper_1_1_collections_1_1_ring_buffer.html#ac83326bd0dcbf8846e61ce5e0b5b7272',1,'Juniper::Collections::RingBuffer']]],
   ['endorientation',['endOrientation',['../d5/d56/class_juniper_1_1_unity_1_1_animation_1_1_spiral_transition.html#ac898faecffdd043a3a1825b35a3a9baa',1,'Juniper::Unity::Animation::SpiralTransition']]],
+  ['endpoint',['endPoint',['../de/db2/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html#abee3da6ad997e50b70ff2ab2d47b5939',1,'Juniper::Unity::Input::Pointers::Motion::HoloLensHand']]],
+  ['endpointvelocity',['endPointVelocity',['../de/db2/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html#acc89b79ecd4392de02b11d355553b58e',1,'Juniper::Unity::Input::Pointers::Motion::HoloLensHand']]],
   ['endscale',['endScale',['../d5/d56/class_juniper_1_1_unity_1_1_animation_1_1_spiral_transition.html#a0230ec08e2a2a1b84660bbf0c81a3a47',1,'Juniper::Unity::Animation::SpiralTransition']]],
   ['endvalue',['endValue',['../d3/d60/class_juniper_1_1_unity_1_1_widgets_1_1_rotatable.html#a7c7df830efba0ea981fb7834706cd676',1,'Juniper::Unity::Widgets::Rotatable']]],
   ['enums',['enums',['../d1/df7/class_system_1_1_collections_1_1_interleaved_enumerator.html#a73ec5c14aa98c8bf576c0ed8338a21cb',1,'System::Collections::InterleavedEnumerator']]],
@@ -24,6 +32,7 @@ var searchData=
   ['exception',['exception',['../de/d09/class_system_1_1_error_args.html#aa7ab91e9f381d192cc7a309a5836bc2e',1,'System::ErrorArgs']]],
   ['exitonescape',['exitOnEscape',['../d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html#a7e58da5a7f9f8531d88a6b9dcd32e49c',1,'Juniper::Unity::MasterSceneController']]],
   ['exported',['exported',['../d5/d45/class_juniper_1_1_unity_1_1_streamable_asset.html#abda3bcb65a8841edcc61e793a63352d0',1,'Juniper::Unity::StreamableAsset']]],
-  ['expressions',['expressions',['../df/d0c/struct_juniper_1_1_unity_1_1_haptics_1_1_haptic_pattern_element.html#aa29a4d79fbe4c35ecfd9c711d0f93f03',1,'Juniper::Unity::Haptics::HapticPatternElement']]],
+  ['exposure',['exposure',['../d2/d0b/class_juniper_1_1_unity_1_1_video_1_1_video360.html#a8a70f01b604b7754151bc328cdd0c807',1,'Juniper::Unity::Video::Video360']]],
+  ['expressions',['expressions',['../df/d0c/struct_juniper_1_1_unity_1_1_haptics_1_1_haptic_pattern_element.html#aa29a4d79fbe4c35ecfd9c711d0f93f03',1,'Juniper.Unity.Haptics.HapticPatternElement.expressions()'],['../d2/d06/class_juniper_1_1_unity_1_1_haptics_1_1_windows_m_r_haptics.html#af1db64fd7b104a920726eb14a57666d3',1,'Juniper.Unity.Haptics.WindowsMRHaptics.expressions()']]],
   ['extended',['Extended',['../d9/d49/class_juniper_1_1_unity_1_1_image_tracking_1_1_abstract_trackable_found_event_handler.html#a924380f282ab50475c4d8d5928560b33',1,'Juniper::Unity::ImageTracking::AbstractTrackableFoundEventHandler']]]
 ];

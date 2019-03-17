@@ -1,3 +1,4 @@
+C:/Users/sean/Projects/Juniper/etc/markdown/coverage.md:1845: warning: explicit link request to 'Doxygen' could not be resolved
 C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:288: warning: The following parameters of Juniper.HTTP.HTTP(HttpWebRequest request, Action< Stream > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
   parameter 'prog'
 C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:303: warning: The following parameters of Juniper.HTTP.HTTP(HttpWebRequest request, long bodyLength, Action< Stream > writeBody, Action< Stream > resolve, Action< Exception > reject, IProgressReceiver prog=null) are not documented:
@@ -59,9 +60,9 @@ C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/Cl
   parameter 'prog'
 C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/IWeatherAPI.cs:39: warning: The following parameters of Juniper.World.Climate.IWeatherAPI.Request(LatLngPoint location, bool force, IProgressReceiver prog=null) are not documented:
   parameter 'prog'
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/API.cs:75: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.API(string apiKey, string lastReportJSON=null) are not documented:
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/API.cs:76: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.API(string apiKey, string lastReportJSON=null) are not documented:
   parameter 'lastReportJSON'
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/API.cs:145: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.Request(LatLngPoint location, bool force, IProgressReceiver prog=null) are not documented:
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/API.cs:156: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.Request(LatLngPoint location, bool force, IProgressReceiver prog=null) are not documented:
   parameter 'prog'
 C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/CameraExt.cs:10: warning: The following parameters of UnityEngine.CameraExt.IsInView(this Camera cam, Vector3 target) are not documented:
   parameter 'cam'

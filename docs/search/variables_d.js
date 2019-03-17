@@ -2,8 +2,8 @@ var searchData=
 [
   ['main',['main',['../d8/dbe/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report.html#a98b587645cb388271ed380d3e3381e1c',1,'Juniper.World.Climate.OpenWeatherMap.WeatherReport.main()'],['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#ab518232401a5acd9a3921034753aa16c',1,'Juniper.World.Climate.OpenWeatherMap.WeatherReport.Weather.main()']]],
   ['mainsfilter',['mainsFilter',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#a2fe24ab4a756f5ef3a181ea8c21d2412',1,'Juniper::NeuroSky::MindWaveAdapter']]],
-  ['managevuforiaframerate',['manageVuforiaFrameRate',['../df/d5e/class_juniper_1_1_unity_1_1_image_tracking_1_1_vuforia_tracker_keeper.html#a1316f381b8d9b64d788fa793f672e54e',1,'Juniper::Unity::ImageTracking::VuforiaTrackerKeeper']]],
   ['manifest_5ffile',['MANIFEST_FILE',['../df/daa/class_juniper_1_1_unity_editor_1_1_configuration_management_1_1_juniper_configuration_manager.html#a33836267c3d2e2de4381c24faf211619',1,'Juniper::UnityEditor::ConfigurationManagement::JuniperConfigurationManager']]],
+  ['master_5fvolume_5fkey',['MASTER_VOLUME_KEY',['../d9/d23/class_juniper_1_1_unity_1_1_audio_1_1_interaction_audio.html#a7a031a8782f8a512d839a20282d8416d',1,'Juniper::Unity::Audio::InteractionAudio']]],
   ['materials',['materials',['../d7/dc2/class_juniper_1_1_unity_1_1_widgets_1_1_material_collection.html#a58747e4cf15b6b2c4fa65d4138bb6e33',1,'Juniper::Unity::Widgets::MaterialCollection']]],
   ['max',['max',['../dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html#ae62568fb4f5e1f6d0ae363d5a44f904c',1,'Juniper.Statistics.AbstractCollectionStatistics.max()'],['../da/de3/class_juniper_1_1_unity_1_1_widgets_1_1_value_dragger.html#a1c428cc1d6f73bebada2f31db3568818',1,'Juniper.Unity.Widgets.ValueDragger.max()']]],
   ['maxalpha',['maxAlpha',['../da/d20/class_juniper_1_1_unity_1_1_animation_1_1_alpha_transition.html#a48c0f912a7384b31ea5dd1beb57699f5',1,'Juniper::Unity::Animation::AlphaTransition']]],
@@ -31,6 +31,7 @@ var searchData=
   ['minute',['Minute',['../dd/d15/struct_juniper_1_1_unity_1_1_editable_date_time.html#aaf6b6494aa8c738652b64d955cf21576',1,'Juniper::Unity::EditableDateTime']]],
   ['minutesbetweenreports',['MinutesBetweenReports',['../d2/d88/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_weather.html#a1e8e8b81e69ac6f38300cb4099ea5241',1,'Juniper::Unity::World::Climate::Weather']]],
   ['minvalue',['minValue',['../d2/d57/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_valued.html#abb129c761d33683918ac9265a499de4e',1,'Juniper::Unity::Widgets::AbstractValued']]],
+  ['mirror180onback',['mirror180OnBack',['../d2/d0b/class_juniper_1_1_unity_1_1_video_1_1_video360.html#af8803b512368093d2b6d13ae69048eef',1,'Juniper::Unity::Video::Video360']]],
   ['mnoise',['mNoise',['../d9/d39/class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter.html#ae61dcf8bcfb5433bcf237c15a18c8de6',1,'Juniper::Unity::Statistics::KalmanMotionFilter']]],
   ['mode',['mode',['../d3/d64/class_juniper_1_1_unity_1_1_input_1_1_camera_control.html#a01a9fb9de1fe0b7a7901ef3cd804b9bc',1,'Juniper.Unity.Input.CameraControl.mode()'],['../d4/d3f/class_juniper_1_1_unity_1_1_widgets_1_1_file_selector.html#aef1ff56cd12e5b7881b375572730d336',1,'Juniper.Unity.Widgets.FileSelector.mode()']]],
   ['month',['Month',['../dd/d15/struct_juniper_1_1_unity_1_1_editable_date_time.html#aaf4480c7a81fe72893fdadd442180b67',1,'Juniper::Unity::EditableDateTime']]],

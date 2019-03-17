@@ -1,11 +1,13 @@
 var searchData=
 [
+  ['main',['Main',['../de/d67/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_main.html#af8cd61cf5cb6aae7a561585ad1af1a99',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Main']]],
   ['makeeventhandler_3c_20t_20_3e',['MakeEventHandler&lt; T &gt;',['../d4/da3/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_button_mapper.html#a671a80feb4dd135788e5a629705004ce',1,'Juniper::Unity::Input::Pointers::ButtonMapper']]],
   ['makehandtracker',['MakeHandTracker',['../d1/ddd/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html#a914d1d59abe8e3c631290a13f5904ccd',1,'Juniper::Unity::Input::Pointers::Motion::HandTracker']]],
   ['makehandtrackers',['MakeHandTrackers',['../d1/ddd/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html#a44ddd8bc021d8f0e0bec3ce6cc2909a3',1,'Juniper::Unity::Input::Pointers::Motion::HandTracker']]],
   ['makeid',['MakeID',['../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d',1,'Juniper::Unity::Anchoring::AbstractAnchorStore']]],
   ['makekey_3c_20t_20_3e',['MakeKey&lt; T &gt;',['../db/d9a/class_juniper_1_1_unity_1_1_events_1_1_button_event.html#abdb0cae1edd22eda0380ba847ce14360',1,'Juniper::Unity::Events::ButtonEvent']]],
-  ['makelabeledslider',['MakeLabeledSlider',['../d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html#aadd71f51c33bfec3fed5017658f4b8bf',1,'Juniper::Unity::MasterSceneController']]],
+  ['makelabeledpanel',['MakeLabeledPanel',['../d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html#a6344126d28ef47237945c9d2aef91859',1,'Juniper::Unity::MasterSceneController']]],
+  ['makelabeledslider',['MakeLabeledSlider',['../d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html#a0f8831f14bab2e865289081dac3cf441',1,'Juniper::Unity::MasterSceneController']]],
   ['makemotioncontroller',['MakeMotionController',['../d7/d8f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html#a12873d2085328a6aeffc0b6a88af2e16',1,'Juniper::Unity::Input::Pointers::Motion::MotionController']]],
   ['makemotioncontrollers',['MakeMotionControllers',['../d7/d8f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html#a70275bde4fa5aa3b0131210024450629',1,'Juniper::Unity::Input::Pointers::Motion::MotionController']]],
   ['makepointer_3c_20t_20_3e',['MakePointer&lt; T &gt;',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#a8e6fab8a0df139d36b8bd7caf26849f6',1,'Juniper::Unity::StageExtensions']]],

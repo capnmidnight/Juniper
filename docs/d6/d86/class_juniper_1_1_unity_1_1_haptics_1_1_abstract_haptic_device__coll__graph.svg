@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 244)">
 <title>Juniper.Unity.Haptics.AbstractHapticDevice</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-244 147,-244 147,4 -4,4"/>
-<!-- Node10 -->
-<g id="node1" class="node"><title>Node10</title>
+<!-- Node7 -->
+<g id="node1" class="node"><title>Node7</title>
 <g id="a_node1"><a xlink:title="An interface for all haptic device subsystems.">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-145.5 143,-145.5 143,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-133.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Haptics.Abstract</text>
@@ -29,8 +29,8 @@
 </a>
 </g>
 </g>
-<!-- Node11 -->
-<g id="node2" class="node"><title>Node11</title>
+<!-- Node8 -->
+<g id="node2" class="node"><title>Node8</title>
 <g id="a_node2"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="30.5,-182.5 30.5,-239.5 112.5,-239.5 112.5,-182.5 30.5,-182.5"/>
 <text text-anchor="middle" x="71.5" y="-227.5" font-family="SegoeUI" font-size="10.00">MonoBehaviour</text>
@@ -41,8 +41,8 @@
 </a>
 </g>
 </g>
-<!-- Node11&#45;&gt;Node10 -->
-<g id="edge1" class="edge"><title>Node11&#45;&gt;Node10</title>
+<!-- Node8&#45;&gt;Node7 -->
+<g id="edge1" class="edge"><title>Node8&#45;&gt;Node7</title>
 <path fill="none" stroke="midnightblue" d="M71.5,-172.356C71.5,-163.999 71.5,-154.872 71.5,-145.656"/>
 <polygon fill="none" stroke="midnightblue" points="68.0001,-172.478 71.5,-182.478 75.0001,-172.478 68.0001,-172.478"/>
 </g>

@@ -1,7 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$dd/da7/class_juniper_1_1_data_1_1_abstract_background_thread.html" title="An abstract class for performing an operation on a background thread." alt="" coords="5,57,216,98"/>
-<area shape="rect" id="node2" href="$dd/dad/class_juniper_1_1_data_1_1_abstract_background_repeating_thread.html" title="Performs an operation in a loop on a background thread." alt="" coords="264,27,475,69"/>
-<area shape="rect" id="node5" href="$d0/dce/class_juniper_1_1_data_1_1_one_shot_thread.html" title="Run any System.Action in a background thread that starts right away." alt="" coords="276,93,463,120"/>
-<area shape="rect" id="node3" href="$d5/d6f/class_juniper_1_1_data_1_1_managed_request.html" title="A ManagedRequest is a AbstractBackgroundRepeatingThread that keeps a parameterized type value as its ..." alt="" coords="523,5,752,32"/>
-<area shape="rect" id="node4" href="$dc/dc0/class_juniper_1_1_unity_1_1_imaging_1_1_vuforia_image_analyzer.html" title="Basic scaffolding around performing image analysis on Vuforia&#39;s image feed. This typically only works..." alt="" coords="542,57,733,98"/>
+<area shape="rect" id="node1" href="$dd/da7/class_juniper_1_1_data_1_1_abstract_background_thread.html" title="An abstract class for performing an operation on a background thread." alt="" coords="5,35,216,76"/>
+<area shape="rect" id="node2" href="$dd/dad/class_juniper_1_1_data_1_1_abstract_background_repeating_thread.html" title="Performs an operation in a loop on a background thread." alt="" coords="264,5,475,47"/>
+<area shape="rect" id="node4" href="$d0/dce/class_juniper_1_1_data_1_1_one_shot_thread.html" title="Run any System.Action in a background thread that starts right away." alt="" coords="276,71,463,98"/>
+<area shape="rect" id="node3" href="$d5/d6f/class_juniper_1_1_data_1_1_managed_request.html" title="A ManagedRequest is a AbstractBackgroundRepeatingThread that keeps a parameterized type value as its ..." alt="" coords="523,13,752,39"/>
 </map>
