@@ -2,6 +2,7 @@ using Juniper.World.GIS;
 
 using System;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Juniper.World.Climate.OpenWeatherMap
 {
@@ -9,7 +10,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
     /// respone from the OpenWeatherMap API. <seealso cref="http://openweathermap.org/current#current_JSON"/>.
     /// </summary>
     [Serializable]
-    public class WeatherReport : IWeatherReport
+    public class WeatherReport : IWeatherReport, ISerializable
     {
         /// <summary>
         /// When not null, the error response from the server.
@@ -76,6 +77,40 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// </summary>
         public Sys sys;
 
+        public WeatherReport(SerializationInfo info, StreamingContext context)
+        {
+            error = info.GetString(nameof(error));
+            id = info.GetInt32(nameof(id));
+            name = info.GetString(nameof(name));
+            dt = info.GetInt64(nameof(dt));
+            visibility = info.GetInt32(nameof(visibility));
+            coord = (Coord)info.GetValue(nameof(coord), typeof(Coord));
+            weather = (Weather[])info.GetValue(nameof(weather), typeof(Weather[]));
+            main = (Main)info.GetValue(nameof(main), typeof(Main));
+            wind = (Wind)info.GetValue(nameof(wind), typeof(Wind));
+            clouds = (Clouds)info.GetValue(nameof(clouds), typeof(Clouds));
+            rain = (Rain)info.GetValue(nameof(rain), typeof(Rain));
+            snow = (Snow)info.GetValue(nameof(snow), typeof(Snow));
+            sys = (Sys)info.GetValue(nameof(sys), typeof(Sys));
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(error), error);
+            info.AddValue(nameof(id), id);
+            info.AddValue(nameof(name), name);
+            info.AddValue(nameof(dt), dt);
+            info.AddValue(nameof(visibility), visibility);
+            info.AddValue(nameof(coord), coord);
+            info.AddValue(nameof(weather), weather);
+            info.AddValue(nameof(main), main);
+            info.AddValue(nameof(wind), wind);
+            info.AddValue(nameof(clouds), clouds);
+            info.AddValue(nameof(rain), rain);
+            info.AddValue(nameof(snow), snow);
+            info.AddValue(nameof(sys), sys);
+        }
+
         /// <summary>
         /// When not null, the error response from the server.
         /// </summary>
@@ -97,6 +132,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 return name;
             }
         }
+
+        /// <summary>
+        /// timestamp for the period of time the report covers.
+        /// </summary>
+        private DateTime? repTime;
 
         /// <summary>
         /// timestamp for the period of time the report covers.
@@ -130,6 +170,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 return visibility;
             }
         }
+
+        /// <summary>
+        /// A conversion of <see cref="Coord"/> to Juniper's own internal Lat/Lng type.
+        /// </summary>
+        private LatLngPoint loc;
 
         /// <summary>
         /// A conversion of <see cref="Coord"/> to Juniper's own internal Lat/Lng type.
@@ -280,7 +325,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// Latitude and longitude values for the OpenWeatherMap report.
         /// </summary>
         [Serializable]
-        public class Coord
+        public class Coord : ISerializable
         {
             /// <summary>
             /// Longitude
@@ -291,13 +336,25 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// Latitude
             /// </summary>
             public float lat;
+
+            public Coord(SerializationInfo info, StreamingContext context)
+            {
+                lon = info.GetSingle(nameof(lon));
+                lat = info.GetSingle(nameof(lat));
+            }
+
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+                info.AddValue(nameof(lon), lon);
+                info.AddValue(nameof(lat), lat);
+            }
         }
 
         /// <summary>
         /// nested portion of the OpenWeatherMap report that covers weather conditions.
         /// </summary>
         [Serializable]
-        public class Weather
+        public class Weather : ISerializable
         {
             /// <summary>
             /// main weather forecast.
@@ -318,6 +375,34 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// An enumeration of the current conditions.
             /// </summary>
             public int id;
+
+            public Weather(SerializationInfo info, StreamingContext context)
+            {
+                main = info.GetString(nameof(main));
+                description = info.GetString(nameof(description));
+                icon = info.GetString(nameof(icon));
+                id = info.GetInt32(nameof(id));
+            }
+
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+                info.AddValue(nameof(main), main);
+                info.AddValue(nameof(description), description);
+                info.AddValue(nameof(icon), icon);
+                info.AddValue(nameof(id), id);
+            }
+
+            /// <summary>
+            /// full URL to the <see cref="icon"/> on OpenWeatherMap's server.
+            /// </summary>
+            /// <value>The icon URL.</value>
+            public string IconURL
+            {
+                get
+                {
+                    return $"http://openweathermap.org/img/w/{icon}.png";
+                }
+            }
 
             /// <summary>
             /// weather conditions enumeration holds values that can be combined as flags to indicate
@@ -692,18 +777,6 @@ namespace Juniper.World.Climate.OpenWeatherMap
             }
 
             /// <summary>
-            /// full URL to the <see cref="icon"/> on OpenWeatherMap's server.
-            /// </summary>
-            /// <value>The icon URL.</value>
-            public string IconURL
-            {
-                get
-                {
-                    return $"http://openweathermap.org/img/w/{icon}.png";
-                }
-            }
-
-            /// <summary>
             /// An enumeration of the current conditions.
             /// </summary>
             private WeatherConditions? cond;
@@ -725,7 +798,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// The main metrics portion of the weather forcast.
         /// </summary>
         [Serializable]
-        public class Main
+        public class Main : ISerializable
         {
             /// <summary>
             /// The current temperature.
@@ -762,14 +835,36 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// The predicted pressure at ground level for the day (which may not agree with the
             /// current atmospheric pressure).
             /// </summary>
-            /// public float grnd_level;
+            public float grnd_level;
+
+            public Main(SerializationInfo info, StreamingContext context)
+            {
+                temp = info.GetSingle(nameof(temp));
+                pressure = info.GetSingle(nameof(pressure));
+                humidity = info.GetSingle(nameof(humidity));
+                temp_min = info.GetSingle(nameof(temp_min));
+                temp_max = info.GetSingle(nameof(temp_max));
+                sea_level = info.GetSingle(nameof(sea_level));
+                grnd_level = info.GetSingle(nameof(grnd_level));
+            }
+
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+                info.AddValue(nameof(temp), temp);
+                info.AddValue(nameof(pressure), pressure);
+                info.AddValue(nameof(humidity), humidity);
+                info.AddValue(nameof(temp_min), temp_min);
+                info.AddValue(nameof(temp_max), temp_max);
+                info.AddValue(nameof(sea_level), sea_level);
+                info.AddValue(nameof(grnd_level), grnd_level);
+            }
         }
 
         /// <summary>
         /// The current wind speed and direction.
         /// </summary>
         [Serializable]
-        public class Wind
+        public class Wind : ISerializable
         {
             /// <summary>
             /// The current speed of the wind, in KMH.
@@ -780,49 +875,91 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// The current direction of the wind, in degrees clockwise from north.
             /// </summary>
             public float deg;
+
+            public Wind(SerializationInfo info, StreamingContext context)
+            {
+                speed = info.GetSingle(nameof(speed));
+                deg = info.GetSingle(nameof(deg));
+            }
+
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+                info.AddValue(nameof(speed), speed);
+                info.AddValue(nameof(deg), deg);
+            }
         }
 
         /// <summary>
         /// The current cloud cover.
         /// </summary>
         [Serializable]
-        public class Clouds
+        public class Clouds : ISerializable
         {
             /// <summary>
             /// An estimate, from 0 to 100, of the current cloud cover.
             /// </summary>
             public int all;
+
+            public Clouds(SerializationInfo info, StreamingContext context)
+            {
+                all = info.GetInt32(nameof(all));
+            }
+
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+                info.AddValue(nameof(all), all);
+            }
         }
 
         /// <summary>
         /// The expected rainfall for the next three hours.
         /// </summary>
         [Serializable]
-        public class Rain
+        public class Rain : ISerializable
         {
             /// <summary>
             /// The expected rainfall for the next three hours.
             /// </summary>
             public int threeHour;
+
+            public Rain(SerializationInfo info, StreamingContext context)
+            {
+                threeHour = info.GetInt32("3h");
+            }
+
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+                info.AddValue("3h", threeHour);
+            }
         }
 
         /// <summary>
         /// The expected snowfall for the next three hours.
         /// </summary>
         [Serializable]
-        public class Snow
+        public class Snow : ISerializable
         {
             /// <summary>
             /// The expected snowfall for the next three hours.
             /// </summary>
             public int threeHour;
+
+            public Snow(SerializationInfo info, StreamingContext context)
+            {
+                threeHour = info.GetInt32("3h");
+            }
+
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+                info.AddValue("3h", threeHour);
+            }
         }
 
         /// <summary>
         /// Additional geographic information about the weather report.
         /// </summary>
         [Serializable]
-        public class Sys
+        public class Sys : ISerializable
         {
             /// <summary>
             /// The country in which the weather report covers.
@@ -839,6 +976,25 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             public long sunset;
 
+            public Sys(SerializationInfo info, StreamingContext context)
+            {
+                country = info.GetString(nameof(country));
+                sunrise = info.GetInt64(nameof(sunrise));
+                sunset = info.GetInt64(nameof(sunset));
+            }
+
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+                info.AddValue(nameof(country), country);
+                info.AddValue(nameof(sunrise), sunrise);
+                info.AddValue(nameof(sunset), sunset);
+            }
+
+            /// <summary>
+            /// The time sunrise should occur for the day.
+            /// </summary>
+            private DateTime? riseTime;
+
             /// <summary>
             /// Converts the Unix timestamp value of <see cref="sunrise"/> to a DateTime value stored
             /// in <see cref="riseTime"/>, and returns that value.
@@ -853,6 +1009,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
             }
 
             /// <summary>
+            /// The time sunset should occur for the day.
+            /// </summary>
+            private DateTime? setTime;
+
+            /// <summary>
             /// Converts the Unix timestamp value of <see cref="sunset"/> to a DateTime value stored
             /// in <see cref="setTime"/>, and returns that value.
             /// </summary>
@@ -864,26 +1025,6 @@ namespace Juniper.World.Climate.OpenWeatherMap
                     return setTime ?? (setTime = sunset.UnixTimestampToDateTime()).Value;
                 }
             }
-
-            /// <summary>
-            /// The time sunrise should occur for the day.
-            /// </summary>
-            private DateTime? riseTime;
-
-            /// <summary>
-            /// The time sunset should occur for the day.
-            /// </summary>
-            private DateTime? setTime;
         }
-
-        /// <summary>
-        /// timestamp for the period of time the report covers.
-        /// </summary>
-        private DateTime? repTime;
-
-        /// <summary>
-        /// A conversion of <see cref="Coord"/> to Juniper's own internal Lat/Lng type.
-        /// </summary>
-        private LatLngPoint loc;
     }
 }

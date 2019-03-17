@@ -44,9 +44,9 @@ x 2019-02-05 2019-02-01 pri:F Magic Leap - Meshing
 (T) 2019-02-01 Magic Window - UWP?
 (F) 2019-02-01 Tooltips
 (F) 2019-02-01 Confirmation Dialogs
-(A) 2019-02-01 Use Oculus Pacakges from Unity
-(A) 2019-02-01 Use ARKit Pacakges from Unity
-(A) 2019-02-01 Use ARCore Pacakges from Unity
+(A) 2019-02-01 Use Oculus Packages from Unity
+(A) 2019-02-01 Use ARKit Packages from Unity
+(A) 2019-02-01 Use ARCore Packages from Unity
 (Z) 2019-02-01 Configuration Management Tools
 x 2019-02-18 2019-02-01 pri:F Long Press
 (F) 2019-02-01 Double Clicks

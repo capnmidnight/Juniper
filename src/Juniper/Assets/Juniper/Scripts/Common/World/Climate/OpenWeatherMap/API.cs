@@ -4,6 +4,7 @@ using Juniper.World.GIS;
 using Newtonsoft.Json;
 
 using System;
+using System.Runtime.Serialization;
 
 namespace Juniper.World.Climate.OpenWeatherMap
 {
@@ -108,8 +109,13 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// Encapsulates an error response from the API server. Objects of this type are Serializable.
         /// </summary>
         [Serializable]
-        private class Error
+        private class Error : ISerializable
         {
+            public Error(SerializationInfo info, StreamingContext context)
+            {
+                error = info.GetString(nameof(error));
+            }
+
             /// <summary>
             /// An error message that is hopefully easier to read than a full stack trace.
             /// </summary>
@@ -133,6 +139,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
             public Error(string featureName, string message)
             {
                 error = $"ERROR [{featureName}]: {message}";
+            }
+
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+                info.AddValue(nameof(error), error);
             }
         }
 
