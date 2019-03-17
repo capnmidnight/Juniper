@@ -15,7 +15,7 @@ namespace Juniper
 
     public static class Installable
     {
-        public static int InstallAll(Func<IEnumerable<IInstallable>> getInstallables)
+        public static int InstallAll(Func<IEnumerable<IInstallable>> getInstallables, bool reset)
         {
             var installed = new List<IInstallable>();
             var keepFinding = true;
@@ -27,7 +27,7 @@ namespace Juniper
                     if (!installed.Contains(installable))
                     {
                         keepFinding = true;
-                        if (installable.Install(true))
+                        if (installable.Install(reset))
                         {
                             installed.Add(installable);
                         }

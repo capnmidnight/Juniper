@@ -248,7 +248,7 @@ namespace Juniper.Unity
         /// </summary>
         public virtual void Awake()
         {
-            Install(false);
+            Installable.InstallAll(JuniperPlatform.GetInstallables, false);
 
             // Unity hacks the sense of null, creating a value reference that compares to null,
             // but doesn't work with the null coallescing operator. So we make it actually,

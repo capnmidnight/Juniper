@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+
 using Juniper.Unity.Anchoring;
 using Juniper.Unity.Audio;
 using Juniper.Unity.Display;
@@ -11,6 +14,13 @@ namespace Juniper.Unity
     [DisallowMultipleComponent]
     public class JuniperPlatform : MonoBehaviour, IInstallable
     {
+        public static IEnumerable<IInstallable> GetInstallables()
+        {
+            return ComponentExt
+                .FindAll<Component>()
+                .OfType<IInstallable>();
+        }
+
         public static readonly PlatformTypes CURRENT_PLATFORM =
 #if UNITY_XR_MAGICLEAP
             PlatformTypes.MagicLeap;

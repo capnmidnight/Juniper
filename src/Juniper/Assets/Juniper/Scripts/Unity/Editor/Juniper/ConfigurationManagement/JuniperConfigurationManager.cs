@@ -386,7 +386,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         [MenuItem(OTHER_MENU_NAME + "Uninstall", false, 200)]
         private static void Uninstall()
         {
-            Installable.UninstallAll(GetInstallables);
+            Installable.UninstallAll(JuniperPlatform.GetInstallables);
         }
 
         [MenuItem(OTHER_MENU_NAME + "Install", false, 201)]
@@ -399,7 +399,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
         private static void InternalInstall()
         {
-            var notInstalled = Installable.InstallAll(GetInstallables);
+            var notInstalled = Installable.InstallAll(JuniperPlatform.GetInstallables, true);
             if (notInstalled > 0)
             {
                 Debug.LogError($"Juniper: ERROR: {0} components were not installed correctly.");
@@ -596,13 +596,6 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             DelayedUpdate(prog, 30, () => Debug.LogWarning("Timeout!!!"));
         }
 
-        private static IEnumerable<IInstallable> GetInstallables()
-        {
-            return ComponentExt
-                .FindAll<Component>()
-                .OfType<IInstallable>();
-        }
-
         private static readonly Action[] STAGES =
         {
             DeactivatePlatform,
@@ -638,7 +631,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             WithProgress("Resetting to base configuration", _ =>
             {
-                Installable.UninstallAll(GetInstallables);
+                Installable.UninstallAll(JuniperPlatform.GetInstallables);
                 LastConfiguration.Deactivate(NextConfiguration);
                 Recompile(true, LastConfiguration, NextConfiguration);
             });
