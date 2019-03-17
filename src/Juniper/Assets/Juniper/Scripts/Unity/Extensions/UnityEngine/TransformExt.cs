@@ -141,6 +141,10 @@ namespace UnityEngine
                                 next.Add(child);
                             }
                         }
+                        else
+                        {
+                            next.Add(null);
+                        }
                     }
 
                     if (next.Count == 0 && i < parts.Length - 1)
