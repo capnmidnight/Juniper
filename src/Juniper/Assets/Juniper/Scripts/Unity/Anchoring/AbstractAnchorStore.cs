@@ -50,7 +50,7 @@ namespace Juniper.Unity.Anchoring
         /// </summary>
         /// <param name="name">The name of the object to save.</param>
         /// <param name="value">The value to save.</param>
-        protected static void SaveValue(string name, object value)
+        protected static void SaveValue<T>(string name, T value)
         {
             PlayerPrefs.SetString(MakeID(name), JsonConvert.SerializeObject(value));
 
@@ -124,7 +124,6 @@ namespace Juniper.Unity.Anchoring
             {
                 if (HasValue(KEY_LIST_KEY))
                 {
-
                     return LoadValue<string[]>(KEY_LIST_KEY);
                 }
                 else
@@ -305,5 +304,4 @@ namespace Juniper.Unity.Anchoring
         /// <returns>The persisted anchor.</returns>
         protected abstract AnchorType LoadAnchor(string ID);
     }
-
 }

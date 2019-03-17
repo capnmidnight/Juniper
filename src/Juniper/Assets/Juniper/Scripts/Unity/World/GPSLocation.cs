@@ -98,7 +98,7 @@ namespace Juniper.Unity.World
         /// <summary>
         /// The location in PlayerPrefs where the last GPS report will be saved.
         /// </summary>
-        private const string COORD_KEY = "Juniper_GIS_SAVED_GPS_COORD";
+        private const string COORD_KEY = "JUNIPER_GIS_SAVED_GPS_COORD";
 
         /// <summary>
         /// The timestamp, in seconds, for when we should query the GPS location for an update.

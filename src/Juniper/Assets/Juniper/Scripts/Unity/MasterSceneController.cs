@@ -88,7 +88,7 @@ namespace Juniper.Unity
 
         public Image splash;
 
-        public GameObject optionsInterface;
+        public Transform optionsInterface;
 
         /// <summary>
         /// The material to apply to Darth Fader.
@@ -291,6 +291,12 @@ namespace Juniper.Unity
         public bool Install(bool reset)
         {
             reset &= Application.isEditor;
+            var qualityDegrader = ComponentExt.FindAny<QualityDegrader>();
+            var aud = ComponentExt.FindAny<InteractionAudio>();
+            if (qualityDegrader == null || aud == null)
+            {
+                return false;
+            }
 
 #if UNITY_EDITOR
             if (sceneFaderMaterial == null || reset)
@@ -308,19 +314,19 @@ namespace Juniper.Unity
                 fader.transform.localScale = 2 * Vector3.one;
             }
 
-            var sys = transform.EnsureTransform("SystemUserInterface");
-            if (sys.IsNew)
+            var sys = transform.Query("/SystemUserInterface");
+            if(sys == null)
             {
-                sys.transform.localPosition = 1.5f * Vector3.forward;
-                sys.EnsureComponent<FollowMainCamera>()
-                    .Value
-                    .followDistance = 1.5f;
+                sys = new GameObject("SystemUserInterface").transform;
+                sys.localPosition = 1.5f * Vector3.forward;
+                var follow = sys.EnsureComponent<FollowMainCamera>();
+                follow.Value.followDistance = 1.5f;
             }
 
             var transparentLayer = LayerMask.NameToLayer("TransparentFX");
 
             var bar = LoadingBar.Ensure(sys, transparentLayer);
-            if (bar.IsNew)
+            if (bar.IsNew || reset)
             {
                 bar.transform.localPosition = (2f / 3f) * Vector3.down;
                 bar.transform.localScale = new Vector3(1f, 0.1f, 0.1f);
@@ -329,67 +335,77 @@ namespace Juniper.Unity
             }
 
 #if UNITY_MODULES_UI
-            var canv = sys.EnsureTransform("Canvas")
-                .EnsureComponent<Canvas>((c) =>
-                {
-                    c.renderMode = RenderMode.WorldSpace;
+            var canv = sys.EnsureRectTransform("Canvas")
+                .EnsureComponent<Canvas>();
 
-                    c.SetAnchors(0.5f * Vector2.one, 0.5f * Vector2.one)
-                        .SetPivot(0.5f * Vector2.one)
-                        .SetSize(1000, 1000)
-                        .SetScale(new Vector3(0.001f, 0.001f, 1));
+            if (canv.IsNew || reset)
+            {
+                canv.Value.renderMode = RenderMode.WorldSpace;
 
-                    var debugText = c
-                        .EnsureRectTransform("DebugText")
-                        .EnsureComponent<Text>((d) =>
-                        {
-                            d.gameObject.layer = transparentLayer;
-                            d.raycastTarget = false;
-                            d.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
-                            d.supportRichText = false;
-                            d.alignment = TextAnchor.UpperLeft;
-                            d.horizontalOverflow = HorizontalWrapMode.Wrap;
-                            d.verticalOverflow = VerticalWrapMode.Truncate;
-                            d.color = Color.green;
-                            d.fontSize = 50;
-                            d.GetComponent<RectTransform>()
-                                .SetAnchors(Vector2.zero, Vector2.one)
-                                .SetPivot(Vector2.up)
-                                .SetPosition(Vector3.zero);
-                        });
-
-                    debugText.EnsureComponent<ScreenDebugger>();
-                });
+                canv.SetAnchors(0.5f * Vector2.one, 0.5f * Vector2.one)
+                    .SetPivot(0.5f * Vector2.one)
+                    .SetSize(1000, 1000)
+                    .SetScale(new Vector3(0.001f, 0.001f, 1));
+            }
 
             canv.EnsureComponent<GraphicRaycaster>();
             canv.gameObject.layer = transparentLayer;
 
-            if (splash == null)
+            var debugText = canv.Value
+                    .EnsureRectTransform("DebugText")
+                    .EnsureComponent<Text>();
+            if (debugText.IsNew || reset)
             {
-                splash = canv.EnsureRectTransform("SplashImage")
-                    .EnsureComponent<Image>((splashImg) =>
-                    {
-#if UNITY_EDITOR
-                        splashImg.sprite = ComponentExt.EditorLoadAsset<Sprite>("Assets/Juniper/Textures/logo-large.png");
-#endif
-                        splashImg
-                            .SetAnchors(Vector2.zero, Vector2.one)
-                            .SetPivot(0.5f * Vector2.one)
-                            .SetPosition(Vector3.zero)
-                            .gameObject.layer = transparentLayer;
-                    });
-            }
-
-            var opts = canv.EnsureRectTransform("Options");
-            optionsInterface = opts.gameObject;
-            if (opts.IsNew)
-            {
-                opts.SetAnchors(Vector2.zero, Vector2.one)
-                    .SetPivot(0.5f * Vector2.one)
+                debugText.Value.gameObject.layer = transparentLayer;
+                debugText.Value.raycastTarget = false;
+                debugText.Value.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+                debugText.Value.supportRichText = false;
+                debugText.Value.alignment = TextAnchor.UpperLeft;
+                debugText.Value.horizontalOverflow = HorizontalWrapMode.Wrap;
+                debugText.Value.verticalOverflow = VerticalWrapMode.Truncate;
+                debugText.Value.color = Color.green;
+                debugText.Value.fontSize = 50;
+                debugText.SetAnchors(Vector2.zero, Vector2.one)
+                    .SetPivot(Vector2.up)
                     .SetPosition(Vector3.zero);
             }
 
-            var icon = opts
+            debugText.EnsureComponent<ScreenDebugger>();
+
+            if (splash == null || reset)
+            {
+                var splashImg = canv.EnsureRectTransform("SplashImage")
+                    .EnsureComponent<Image>();
+
+                if (splashImg.IsNew || reset)
+                {
+#if UNITY_EDITOR
+                    splashImg.Value.sprite = ComponentExt.EditorLoadAsset<Sprite>("Assets/Juniper/Textures/logo-large.png");
+#endif
+                    splashImg
+                        .SetAnchors(Vector2.zero, Vector2.one)
+                        .SetPivot(0.5f * Vector2.one)
+                        .SetPosition(Vector3.zero)
+                        .gameObject.layer = transparentLayer;
+                }
+
+                splash = splashImg;
+            }
+
+            if (optionsInterface == null || reset)
+            {
+                var opts = canv.EnsureRectTransform("Options");
+                if (opts.IsNew || reset)
+                {
+                    opts.SetAnchors(Vector2.zero, Vector2.one)
+                        .SetPivot(0.5f * Vector2.one)
+                        .SetPosition(Vector3.zero);
+                }
+
+                optionsInterface = opts.transform;
+            }
+
+            var icon = optionsInterface
                 .EnsureRectTransform("Image")
                 .EnsureComponent<Image>();
             if (icon.IsNew)
@@ -404,8 +420,7 @@ namespace Juniper.Unity
             }
 
 #if UNITY_TEXTMESHPRO
-            var optionsPanel = opts
-                .EnsureRectTransform("OptionsPanel");
+            var optionsPanel = optionsInterface.EnsureRectTransform("OptionsPanel");
             if (optionsPanel.IsNew)
             {
                 optionsPanel
@@ -422,16 +437,12 @@ namespace Juniper.Unity
             qualitySlider.Value.wholeNumbers = true;
             qualitySlider.Value.minValue = 0;
             qualitySlider.Value.maxValue = 5;
-            var qualityDegrader = ComponentExt.FindAny<QualityDegrader>();
+
             qualityDegrader.qualitySlider = qualitySlider;
 
             var volumeSlider = MakeLabeledSlider(optionsPanel, "Volume", 350 * Vector2.down);
+            aud.volumeSlider = volumeSlider.gameObject;
 
-            var aud = ComponentExt.FindAny<InteractionAudio>();
-            if (aud != null)
-            {
-                aud.volumeSlider = volumeSlider.gameObject;
-            }
 #endif
 #endif
 
@@ -479,44 +490,59 @@ namespace Juniper.Unity
             return true;
         }
 
-        private static PooledComponent<Slider> MakeLabeledSlider(PooledComponent<RectTransform> optionsPanel, string name, Vector2 position)
+        private static RectTransform MakeLabeledPanel(RectTransform optionsPanel, string name, Vector2 position)
         {
-            var panel = optionsPanel
-                            .EnsureRectTransform(name);
+            var panelRect = optionsPanel.EnsureRectTransform(name).Value;
+            var panel = panelRect.EnsureComponent<HorizontalLayoutGroup>();
             if (panel.IsNew)
             {
-                panel
-                    .SetAnchors(0.5f * Vector2.up, new Vector2(1, 0.5f))
+                panel.Value.childAlignment = TextAnchor.MiddleLeft;
+                panel.Value.childControlWidth = false;
+                panel.Value.childControlHeight = true;
+                panel.Value.childForceExpandWidth = true;
+                panel.Value.childForceExpandHeight = true;
+                panel.SetAnchors(0.5f * Vector2.up, new Vector2(1, 0.5f))
                     .SetPivot(0.5f * Vector2.one)
                     .SetPosition(position)
                     .SetSize(new Vector2(0, 100));
             }
 
-            var label = panel
-                .EnsureRectTransform(name + "Label")
-                .EnsureComponent<TMPro.TextMeshProUGUI>();
+            var labelRect = panel.EnsureRectTransform(name + "Label").Value;
+            var label = labelRect.EnsureComponent<TMPro.TextMeshProUGUI>();
             if (label.IsNew)
             {
-                label
-                    .SetAnchors(0.5f * Vector2.right, new Vector2(0.5f, 1))
-                    .SetPivot(0.5f * Vector2.one)
-                    .SetPosition(370 * Vector2.left)
-                    .SetSize(260, panel.Value.rect.height);
+                label.SetPivot(0.5f * Vector2.one)
+                    .SetSize(260, panelRect.rect.height);
                 label.Value.text = name;
                 label.Value.alignment = TMPro.TextAlignmentOptions.MidlineRight;
             }
+
+            var content = panel.EnsureRectTransform(name + "Content");
+            if (content.IsNew)
+            {
+                content.SetPivot(new Vector2(1, 0.5f))
+                    .SetSize(panelRect.rect.width - labelRect.rect.width, panelRect.rect.height);
+            }
+
+            return content;
+        }
+
+        private static PooledComponent<Slider> MakeLabeledSlider(RectTransform optionsPanel, string name, Vector2 position)
+        {
+            var panel = MakeLabeledPanel(optionsPanel, name, position);
 
             var slider = panel
                 .EnsureRectTransform(name + "Slider")
                 .EnsureComponent<Slider>();
             if (slider.IsNew)
             {
+                var size = new Vector2(160, 20);
                 slider
-                    .SetAnchors(0.5f * Vector2.one, 0.5f * Vector2.one)
-                    .SetPivot(0.5f * Vector2.one)
-                    .SetPosition(new Vector3(140, 0))
-                    .SetSize(170, 20)
-                    .SetScale(4f * Vector3.one);
+                    .SetAnchors(Vector2.up, Vector2.up)
+                    .SetPivot(Vector2.zero)
+                    .SetScale(4f * Vector3.one)
+                    .SetSize(size)
+                    .SetPosition(new Vector3(0.5f * (panel.rect.width - size.x * 4), -0.5f * (panel.rect.height + size.y * 4)));
                 slider.Value.direction = Slider.Direction.LeftToRight;
             }
 
@@ -528,7 +554,9 @@ namespace Juniper.Unity
                 background.SetAnchors(0.25f * Vector2.up, new Vector2(1, 0.75f))
                     .SetPosition(Vector2.zero)
                     .SetSize(Vector2.zero);
+#if UNITY_EDITOR
                 background.Value.sprite = ComponentExt.EditorLoadAsset<Sprite>("UI/Skin/Background.psd");
+#endif
                 background.Value.type = Image.Type.Sliced;
             }
 
@@ -550,7 +578,9 @@ namespace Juniper.Unity
                 fill
                     .SetAnchors(Vector2.zero, Vector2.up)
                     .SetSize(new Vector2(10, 0));
+#if UNITY_EDITOR
                 fill.Value.sprite = ComponentExt.EditorLoadAsset<Sprite>("UI/Skin/UISprite.psd");
+#endif
                 fill.Value.type = Image.Type.Sliced;
             }
 
@@ -569,7 +599,9 @@ namespace Juniper.Unity
             if (handle.IsNew)
             {
                 handle.SetSize(20 * Vector2.right);
+#if UNITY_EDITOR
                 handle.Value.sprite = ComponentExt.EditorLoadAsset<Sprite>("UI/Skin/Knob.psd");
+#endif
             }
 
             slider.Value.fillRect = fill.GetComponent<RectTransform>();
@@ -579,285 +611,285 @@ namespace Juniper.Unity
         }
 
         public void Uninstall()
-{
-}
-
-/// <summary>
-/// Wait until the Start method to load the scenes so the MasterSceneController or any child
-/// class of it can be found by the newly loaded scenes more reliably.
-/// </summary>
-protected virtual void Start()
-{
-    FadeOut(true);
-
-    if (loadAll)
-    {
-        Invoke(nameof(LoadAllScenes), 0.5f);
-    }
-    else
-    {
-        Invoke(nameof(LoadFirstScene), 0.5f);
-    }
-}
-
-public void LoadAllScenes()
-{
-    StartCoroutine(LoadAllScenesCoroutine2());
-}
-
-private IEnumerator LoadAllScenesCoroutine2()
-{
-    loadingBar?.Activate();
-    yield return LoadAllScenesCoroutine(loadingBar);
-    yield return LoadingCompleteCoroutine();
-}
-
-/// <summary>
-/// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
-/// </summary>
-private IEnumerator LoadAllScenesCoroutine(IProgressReceiver prog = null)
-{
-    prog?.SetProgress(0);
-
-    if (subSceneNames?.Length > 0)
-    {
-        var split = prog.Split(subSceneNames.Length);
-        for (var i = 0; i < subSceneNames.Length; ++i)
         {
-            yield return LoadScenePathCoroutine(subSceneNames[i], split[i]);
         }
-    }
 
-    prog?.SetProgress(1);
-}
-
-private void LoadFirstScene()
-{
-    var path = subSceneNames.FirstOrDefault();
-    if (string.IsNullOrEmpty(path))
-    {
-        throw new InvalidOperationException("[Juniper.MasterSceneController::LoadFirstScene] No subscenes defined.");
-    }
-    else
-    {
-        var name = GetSceneNameFromPath(path);
-        if (string.IsNullOrEmpty(name))
+        /// <summary>
+        /// Wait until the Start method to load the scenes so the MasterSceneController or any child
+        /// class of it can be found by the newly loaded scenes more reliably.
+        /// </summary>
+        protected virtual void Start()
         {
-            throw new InvalidOperationException("[Juniper.MasterSceneController::LoadFirstScene] Could not find scene " + path);
+            FadeOut(true);
+
+            if (loadAll)
+            {
+                Invoke(nameof(LoadAllScenes), 0.5f);
+            }
+            else
+            {
+                Invoke(nameof(LoadFirstScene), 0.5f);
+            }
         }
-        else
+
+        public void LoadAllScenes()
         {
-            SwitchToSceneName(name, true);
+            StartCoroutine(LoadAllScenesCoroutine2());
         }
-    }
-}
 
-private static bool IsScenePathLoaded(string path)
-{
-    var scene = SceneManager.GetSceneByPath(path);
-    return scene.IsValid() && scene.isLoaded;
-}
+        private IEnumerator LoadAllScenesCoroutine2()
+        {
+            loadingBar?.Activate();
+            yield return LoadAllScenesCoroutine(loadingBar);
+            yield return LoadingCompleteCoroutine();
+        }
 
-/// <summary>
-/// Close the application.
-/// </summary>
-private static void Exit()
-{
-    if (Application.isPlaying)
-    {
+        /// <summary>
+        /// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
+        /// </summary>
+        private IEnumerator LoadAllScenesCoroutine(IProgressReceiver prog = null)
+        {
+            prog?.SetProgress(0);
+
+            if (subSceneNames?.Length > 0)
+            {
+                var split = prog.Split(subSceneNames.Length);
+                for (var i = 0; i < subSceneNames.Length; ++i)
+                {
+                    yield return LoadScenePathCoroutine(subSceneNames[i], split[i]);
+                }
+            }
+
+            prog?.SetProgress(1);
+        }
+
+        private void LoadFirstScene()
+        {
+            var path = subSceneNames.FirstOrDefault();
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new InvalidOperationException("[Juniper.MasterSceneController::LoadFirstScene] No subscenes defined.");
+            }
+            else
+            {
+                var name = GetSceneNameFromPath(path);
+                if (string.IsNullOrEmpty(name))
+                {
+                    throw new InvalidOperationException("[Juniper.MasterSceneController::LoadFirstScene] Could not find scene " + path);
+                }
+                else
+                {
+                    SwitchToSceneName(name, true);
+                }
+            }
+        }
+
+        private static bool IsScenePathLoaded(string path)
+        {
+            var scene = SceneManager.GetSceneByPath(path);
+            return scene.IsValid() && scene.isLoaded;
+        }
+
+        /// <summary>
+        /// Close the application.
+        /// </summary>
+        private static void Exit()
+        {
+            if (Application.isPlaying)
+            {
 #if UNITY_EDITOR
-        EditorApplication.isPlaying = false;
+                EditorApplication.isPlaying = false;
 #else
                 Application.Quit();
 #endif
-    }
-}
-
-#if UNITY_EDITOR
-
-/// <summary>
-/// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
-/// </summary>
-[ContextMenu("Load Scenes")]
-private void LoadScenes_MenuItem()
-{
-    var iter = LoadAllScenesCoroutine(new UnityEditorProgressDialog("Loading scenes"));
-    while (iter.MoveNext())
-    {
-        var obj = iter.Current;
-        if (obj is IEnumerator)
-        {
-            var subIter = (IEnumerator)obj;
-            while (subIter?.MoveNext() == true)
-            {
-                print(subIter.Current);
             }
         }
-        else
-        {
-            print(obj);
-        }
-    }
-
-    EditorUtility.ClearProgressBar();
-}
-
-public void OnValidate()
-{
-    Invoke(nameof(SetBuildSettings), 100);
-}
-
-private void SetBuildSettings()
-{
-    if (!Application.isPlaying && !string.IsNullOrEmpty(gameObject?.scene.path))
-    {
-        var s = (from path in subSceneNames
-                 where File.Exists(path)
-                 select new EditorBuildSettingsScene(path, true))
-            .ToList();
-        s.Insert(0, new EditorBuildSettingsScene(gameObject.scene.path, true));
-        EditorBuildSettings.scenes = s.ToArray();
-    }
-}
-
-#endif
-
-/// <summary>
-/// Get a scene by name (or path, if we're running in the editor).
-/// </summary>
-/// <returns>The scene.</returns>
-/// <param name="sceneName">Scene name.</param>
-/// <param name="path">Path.</param>
-private Scene? GetScene(string sceneName, string path)
-{
-    if (IsScenePathLoaded(path))
-    {
-        return SceneManager.GetSceneByPath(path);
-    }
-    else
-    {
-#if UNITY_EDITOR
-        if (Application.isPlaying)
-        {
-#endif
-            SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-            return SceneManager.GetSceneByPath(path);
-#if UNITY_EDITOR
-        }
-        else
-        {
-            return EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
-        }
-#endif
-    }
-}
-
-private IEnumerator LoadScenePathCoroutine(string path, IProgressReceiver prog)
-{
-    prog?.SetProgress(0);
-
-    var sceneName = GetSceneNameFromPath(path);
-
-    var split = prog.Split(2);
-    var sceneLoadProg = split[0];
-    var subSceneLoadProg = split[1];
-
-    if (IsScenePathLoaded(path))
-    {
-        sceneLoadProg?.SetProgress(1);
-        yield return sceneName + " already loaded.";
-    }
-    else
-    {
-        var op = LoadScene(path, sceneName);
-        while (!op.IsComplete())
-        {
-            sceneLoadProg?.SetProgress(op.Progress);
-            yield return sceneName + " " + (prog?.Progress)?.ToString("P1") ?? "N/A";
-        }
-    }
-
-    Scene? scene = null;
-    while (scene == null)
-    {
-        scene = GetScene(sceneName, path);
-        yield return sceneName + " " + (prog?.Progress)?.ToString("P1") ?? "N/A";
-    }
-
-    var toLoad = from root in scene.Value.GetRootGameObjects()
-                 from subScene in root.GetComponentsInChildren<SubSceneController>(true)
-                 select subScene;
-
-    subSceneLoadProg.ForEach(toLoad, (ss, p) => ss.Load(p), Debug.LogException);
-
-    while (prog?.IsComplete() == false)
-    {
-        yield return sceneName + " " + (prog?.Progress)?.ToString("P1") ?? "N/A";
-    }
-}
 
 #if UNITY_EDITOR
 
-/// <summary>
-/// Copy all of the root scene objects out of the sub scenes and into the master scene,
-/// removing the subscenes along the way. This can also be executed from the editor by
-/// accessing the component's context menu and selecting "Flatten".
-/// </summary>
-[ContextMenu("Flatten")]
-private void Flatten()
-{
-    var curScene = gameObject.scene;
-
-    if (subSceneNames.Length > 0)
-    {
-        var newPath = curScene.path.Replace(".unity", ".original.unity");
-        FileExt.Copy(curScene.path, newPath, true);
-
-        foreach (var path in subSceneNames)
+        /// <summary>
+        /// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
+        /// </summary>
+        [ContextMenu("Load Scenes")]
+        private void LoadScenes_MenuItem()
         {
-            var sceneName = SceneNamePattern.Match(path).Groups[1].Value;
-            var scene = SceneManager.GetSceneByPath(path);
-            if (!scene.IsValid())
+            var iter = LoadAllScenesCoroutine(new UnityEditorProgressDialog("Loading scenes"));
+            while (iter.MoveNext())
             {
-                scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
+                var obj = iter.Current;
+                if (obj is IEnumerator)
+                {
+                    var subIter = (IEnumerator)obj;
+                    while (subIter?.MoveNext() == true)
+                    {
+                        print(subIter.Current);
+                    }
+                }
+                else
+                {
+                    print(obj);
+                }
             }
-            SceneManager.MergeScenes(scene, curScene);
+
+            EditorUtility.ClearProgressBar();
         }
 
-        subSceneNames = new string[0];
-        EditorSceneManager.SaveScene(curScene);
-    }
+        public void OnValidate()
+        {
+            Invoke(nameof(SetBuildSettings), 100);
+        }
 
-    EditorBuildSettings.scenes = new[]
-    {
+        private void SetBuildSettings()
+        {
+            if (!Application.isPlaying && !string.IsNullOrEmpty(gameObject?.scene.path))
+            {
+                var s = (from path in subSceneNames
+                         where File.Exists(path)
+                         select new EditorBuildSettingsScene(path, true))
+                    .ToList();
+                s.Insert(0, new EditorBuildSettingsScene(gameObject.scene.path, true));
+                EditorBuildSettings.scenes = s.ToArray();
+            }
+        }
+
+#endif
+
+        /// <summary>
+        /// Get a scene by name (or path, if we're running in the editor).
+        /// </summary>
+        /// <returns>The scene.</returns>
+        /// <param name="sceneName">Scene name.</param>
+        /// <param name="path">Path.</param>
+        private Scene? GetScene(string sceneName, string path)
+        {
+            if (IsScenePathLoaded(path))
+            {
+                return SceneManager.GetSceneByPath(path);
+            }
+            else
+            {
+#if UNITY_EDITOR
+                if (Application.isPlaying)
+                {
+#endif
+                    SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+                    return SceneManager.GetSceneByPath(path);
+#if UNITY_EDITOR
+                }
+                else
+                {
+                    return EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
+                }
+#endif
+            }
+        }
+
+        private IEnumerator LoadScenePathCoroutine(string path, IProgressReceiver prog)
+        {
+            prog?.SetProgress(0);
+
+            var sceneName = GetSceneNameFromPath(path);
+
+            var split = prog.Split(2);
+            var sceneLoadProg = split[0];
+            var subSceneLoadProg = split[1];
+
+            if (IsScenePathLoaded(path))
+            {
+                sceneLoadProg?.SetProgress(1);
+                yield return sceneName + " already loaded.";
+            }
+            else
+            {
+                var op = LoadScene(path, sceneName);
+                while (!op.IsComplete())
+                {
+                    sceneLoadProg?.SetProgress(op.Progress);
+                    yield return sceneName + " " + (prog?.Progress)?.ToString("P1") ?? "N/A";
+                }
+            }
+
+            Scene? scene = null;
+            while (scene == null)
+            {
+                scene = GetScene(sceneName, path);
+                yield return sceneName + " " + (prog?.Progress)?.ToString("P1") ?? "N/A";
+            }
+
+            var toLoad = from root in scene.Value.GetRootGameObjects()
+                         from subScene in root.GetComponentsInChildren<SubSceneController>(true)
+                         select subScene;
+
+            subSceneLoadProg.ForEach(toLoad, (ss, p) => ss.Load(p), Debug.LogException);
+
+            while (prog?.IsComplete() == false)
+            {
+                yield return sceneName + " " + (prog?.Progress)?.ToString("P1") ?? "N/A";
+            }
+        }
+
+#if UNITY_EDITOR
+
+        /// <summary>
+        /// Copy all of the root scene objects out of the sub scenes and into the master scene,
+        /// removing the subscenes along the way. This can also be executed from the editor by
+        /// accessing the component's context menu and selecting "Flatten".
+        /// </summary>
+        [ContextMenu("Flatten")]
+        private void Flatten()
+        {
+            var curScene = gameObject.scene;
+
+            if (subSceneNames.Length > 0)
+            {
+                var newPath = curScene.path.Replace(".unity", ".original.unity");
+                FileExt.Copy(curScene.path, newPath, true);
+
+                foreach (var path in subSceneNames)
+                {
+                    var sceneName = SceneNamePattern.Match(path).Groups[1].Value;
+                    var scene = SceneManager.GetSceneByPath(path);
+                    if (!scene.IsValid())
+                    {
+                        scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
+                    }
+                    SceneManager.MergeScenes(scene, curScene);
+                }
+
+                subSceneNames = new string[0];
+                EditorSceneManager.SaveScene(curScene);
+            }
+
+            EditorBuildSettings.scenes = new[]
+            {
                 new EditorBuildSettingsScene(curScene.path, true)
             };
-}
+        }
 
 #endif
 
-/// <summary>
-/// Quit out of the application, making sure any exit transitions for the current scene are
-/// ran first.
-/// </summary>
-private IEnumerator QuitCoroutine()
-{
-    foreach (var subScene in CurrentSubScenes)
-    {
-        subScene.Exit();
-    }
+        /// <summary>
+        /// Quit out of the application, making sure any exit transitions for the current scene are
+        /// ran first.
+        /// </summary>
+        private IEnumerator QuitCoroutine()
+        {
+            foreach (var subScene in CurrentSubScenes)
+            {
+                subScene.Exit();
+            }
 
-    yield return new WaitUntil(() =>
-        CurrentSubScenes.All(subScene =>
-            subScene.IsComplete));
+            yield return new WaitUntil(() =>
+                CurrentSubScenes.All(subScene =>
+                    subScene.IsComplete));
 
-    if (darth != null)
-    {
-        darth.Enter();
-        yield return darth.Waiter;
-    }
+            if (darth != null)
+            {
+                darth.Enter();
+                yield return darth.Waiter;
+            }
 
-    Exit();
-}
+            Exit();
+        }
     }
 }

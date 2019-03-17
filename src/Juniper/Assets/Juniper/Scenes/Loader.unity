@@ -1701,7 +1701,7 @@ MonoBehaviour:
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_isInputParsingRequired: 0
-  m_inputSource: 3
+  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
@@ -1903,7 +1903,8 @@ MonoBehaviour:
   sceneFaderMaterial: {fileID: 2100000, guid: b97f6c6201241704f82d1a17ae6e0a1f, type: 2}
   loadAll: 1
   exitOnEscape: 1
-  subSceneNames: []
+  subSceneNames:
+  - Assets/Content.unity
 --- !u!114 &977850492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1971,7 +1972,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
-  m_DragThreshold: 10
+  m_DragThreshold: 0
 --- !u!114 &977850496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4397,11 +4398,11 @@ MonoBehaviour:
     Kind: 2
     Year: 2019
     Month: 3
-    Day: 15
-    Hour: 15
-    Minute: 22
+    Day: 16
+    Hour: 0
+    Minute: 21
     Second: 36
-    Millisecond: 721
+    Millisecond: 310
   DebugReport: 0
 --- !u!114 &1684733870
 MonoBehaviour:
@@ -5762,7 +5763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9299a5e0672f74b836fae0c62bce26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 1
+  mode: 5
   setMouseLock: 1
   requiredMouseButton: -1
   requiredTouchCount: 1
@@ -5773,6 +5774,11 @@ MonoBehaviour:
   sensitivityY: 0.5
   minimumY: -45
   maximumY: 85
+  onModeChange:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &2090462099
 MonoBehaviour:
   m_ObjectHideFlags: 0
