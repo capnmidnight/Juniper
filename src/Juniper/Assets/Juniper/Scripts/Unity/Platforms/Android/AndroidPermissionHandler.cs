@@ -1,4 +1,4 @@
-#if UNITY_ANDROID
+#if UNITY_ANDROID && ANDROID_API_23_OR_GREATER
 using UnityEngine.Android;
 
 namespace Juniper.Unity

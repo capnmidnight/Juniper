@@ -24,11 +24,12 @@
     "CompilerDefine": "WAVEVR"
   },
   {
-    "Name": "GoogleARCore"
+    "Name": "GoogleARCore",
+    "CompilerDefine": "UNITY_XR_ARCORE"
   },
   {
     "Name": "UnityARKitPlugin",
-    "CompilerDefine": "ARKIT"
+    "CompilerDefine": "UNITY_XR_ARKIT"
   },
   {
     "Name": "Tobii",
