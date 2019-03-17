@@ -52,7 +52,7 @@ namespace Juniper.Unity.Input
 
         public MouseButton requiredMouseButton = MouseButton.None;
         public int requiredTouchCount = 1;
-        public float dragThreshold = 10;
+        public float dragThreshold = 2;
 
         public bool disableHorizontal;
         public bool disableVertical;
@@ -146,7 +146,8 @@ namespace Juniper.Unity.Input
                 else
                 {
                     var touchPhase = UnityInput.GetTouch(requiredTouchCount - 1).phase;
-                    return touchPhase == TouchPhase.Moved
+                    return touchPhase == TouchPhase.Began
+                        || touchPhase == TouchPhase.Moved
                         || touchPhase == TouchPhase.Stationary;
                 }
             }
@@ -321,7 +322,6 @@ namespace Juniper.Unity.Input
 
         private void CheckMode(Mode mode, bool disableVertical)
         {
-            ScreenDebugger.Print($"Checking mode {mode}");
             var gest = GestureSatisfied(mode);
             var wasGest = wasGestureSatisfied[mode];
             if (gest)
@@ -334,9 +334,7 @@ namespace Juniper.Unity.Input
 
                 if (DragSatisfied(mode))
                 {
-                    var delta = OrientationDelta(mode, disableVertical);
-                    ScreenDebugger.Print($"{delta.Label()}");
-                    stage.RotateView(delta, minimumY, maximumY);
+                    stage.RotateView(OrientationDelta(mode, disableVertical), minimumY, maximumY);
                 }
             }
 
