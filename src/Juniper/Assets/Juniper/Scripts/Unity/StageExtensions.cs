@@ -51,78 +51,13 @@ namespace Juniper.Unity
         public bool useGravity = true;
 #endif
 
-        private const string ENABLE_GAZE_KEY = "GazePointer";
-        private const string ENABLE_MOUSE_KEY = "MousePointer";
-        private const string ENABLE_TOUCH_KEY = "TouchPointers";
-        private const string ENABLE_HANDS_KEY = "HandPointers";
-        private const string ENABLE_CONTROLLERS_KEY = "MotionControllers";
-
-#if UNITY_MODULES_UI
-        public Toggle enableControllersToggle;
-        public Toggle enableMouseToggle;
-        public Toggle enableTouchToggle;
-        public Toggle enableHandsToggle;
-        public Toggle enableGazeToggle;
-#endif
-
-        private GazePointer gazePointer;
-        private Mouse mouse;
-        private TouchPoint[] touches;
-        private MotionController[] motionControllers;
-        private HandTracker[] handTrackers;
-        private Transform Head;
-        private Transform Hands;
-        private Transform Body;
+        public Transform Head { get; private set; }
+        public Transform Hands { get; private set; }
+        public Transform Body { get; private set; }
 
         public virtual void Awake()
         {
             Install(false);
-
-#if UNITY_MODULES_UI
-            if (enableGazeToggle != null)
-            {
-                enableGazeToggle.onValueChanged.AddListener(EnableGaze);
-                enableGazeToggle.isOn = PlayerPrefs.GetInt(ENABLE_GAZE_KEY, 0) == 1;
-                gazePointer.SetActive(enableGazeToggle.isOn);
-            }
-
-            if (enableHandsToggle != null)
-            {
-                enableHandsToggle.onValueChanged.AddListener(EnableHands);
-                enableHandsToggle.isOn = PlayerPrefs.GetInt(ENABLE_HANDS_KEY, 0) == 1;
-                foreach (var handTracker in handTrackers)
-                {
-                    handTracker.SetActive(enableHandsToggle.isOn);
-                }
-            }
-
-            if (enableControllersToggle != null)
-            {
-                enableControllersToggle.onValueChanged.AddListener(EnableControllers);
-                enableControllersToggle.isOn = PlayerPrefs.GetInt(ENABLE_CONTROLLERS_KEY, 1) == 1;
-                foreach (var motionController in motionControllers)
-                {
-                    motionController.SetActive(enableControllersToggle.isOn);
-                }
-            }
-
-            if (enableMouseToggle != null)
-            {
-                enableMouseToggle.onValueChanged.AddListener(EnableMouse);
-                enableMouseToggle.isOn = PlayerPrefs.GetInt(ENABLE_MOUSE_KEY, 1) == 1;
-                mouse.SetActive(enableMouseToggle.isOn);
-            }
-
-            if (enableTouchToggle != null)
-            {
-                enableTouchToggle.onValueChanged.AddListener(EnableTouch);
-                enableTouchToggle.isOn = PlayerPrefs.GetInt(ENABLE_TOUCH_KEY, Application.isMobilePlatform ? 1 : 0) == 1;
-                foreach (var touch in touches)
-                {
-                    touch.SetActive(enableTouchToggle.isOn);
-                }
-            }
-#endif
 
 #if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
             usePhysicsBasedMovement = false;
@@ -131,50 +66,6 @@ namespace Juniper.Unity
 #if UNITY_MODULES_PHYSICS
             BodyShape.enabled = usePhysicsBasedMovement;
 #endif
-        }
-
-        private void EnableMouse(bool value)
-        {
-            mouse.SetActive(value);
-            PlayerPrefs.SetInt(ENABLE_MOUSE_KEY, value ? 1 : 0);
-            PlayerPrefs.Save();
-        }
-
-        private void EnableGaze(bool value)
-        {
-            gazePointer.SetActive(value);
-            PlayerPrefs.SetInt(ENABLE_GAZE_KEY, value ? 1 : 0);
-            PlayerPrefs.Save();
-        }
-
-        private void EnableTouch(bool value)
-        {
-            foreach (var touch in touches)
-            {
-                touch.SetActive(value);
-            }
-            PlayerPrefs.SetInt(ENABLE_TOUCH_KEY, value ? 1 : 0);
-            PlayerPrefs.Save();
-        }
-
-        private void EnableHands(bool value)
-        {
-            foreach (var handTracker in handTrackers)
-            {
-                handTracker.SetActive(value);
-            }
-            PlayerPrefs.SetInt(ENABLE_HANDS_KEY, value ? 1 : 0);
-            PlayerPrefs.Save();
-        }
-
-        private void EnableControllers(bool value)
-        {
-            foreach (var motionController in motionControllers)
-            {
-                motionController.SetActive(value);
-            }
-            PlayerPrefs.SetInt(ENABLE_CONTROLLERS_KEY, value ? 1 : 0);
-            PlayerPrefs.Save();
         }
 
         public virtual void Reinstall()
@@ -260,25 +151,6 @@ namespace Juniper.Unity
             });
 #endif
 
-            this.WithLock(() =>
-            {
-                gazePointer = MakePointer<GazePointer>(Head, "GazePointer");
-                mouse = MakePointer<Mouse>(Head, "Mouse");
-
-                touches = new TouchPoint[10];
-                for (var i = 0; i < touches.Length; ++i)
-                {
-                    touches[i] = MakePointer<TouchPoint>(Head, "Touches/TouchPoint" + i);
-                    touches[i].fingerID = i;
-                }
-
-                motionControllers = MotionController.MakeMotionControllers(name =>
-                    MakePointer<MotionController>(Hands, name));
-
-                handTrackers = HandTracker.MakeHandTrackers(name =>
-                    MakePointer<HandTracker>(Hands, name));
-            });
-
             this.RemoveComponent<AbstractVelocityLocomotion>();
             gameObject.AddComponent<DefaultLocomotion>();
 
@@ -287,13 +159,6 @@ namespace Juniper.Unity
 
         public void Uninstall()
         {
-        }
-
-        public T MakePointer<T>(Transform parent, string path)
-            where T : Component, IPointerDevice
-        {
-            return parent.EnsureTransform(path)
-                .EnsureComponent<T>();
         }
 
         public void RotateView(Quaternion dQuat, float minX, float maxX)

@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Juniper.Unity.Input.Pointers;
+using Juniper.Unity.Input.Pointers.Gaze;
+using Juniper.Unity.Input.Pointers.Motion;
+using Juniper.Unity.Input.Pointers.Screen;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -41,6 +44,25 @@ namespace Juniper.Unity.Input
         public PointerFoundEvent onPointerFound;
 
         public event EventHandler<PointerFoundEventArgs> PointerFound;
+        private const string ENABLE_GAZE_KEY = "GazePointer";
+        private const string ENABLE_MOUSE_KEY = "MousePointer";
+        private const string ENABLE_TOUCH_KEY = "TouchPointers";
+        private const string ENABLE_HANDS_KEY = "HandPointers";
+        private const string ENABLE_CONTROLLERS_KEY = "MotionControllers";
+
+#if UNITY_MODULES_UI
+        public Toggle enableControllersToggle;
+        public Toggle enableMouseToggle;
+        public Toggle enableTouchToggle;
+        public Toggle enableHandsToggle;
+        public Toggle enableGazeToggle;
+#endif
+
+        public GazePointer gazePointer;
+        public Mouse mouse;
+        public TouchPoint[] touches;
+        public MotionController[] motionControllers;
+        public HandTracker[] handTrackers;
 
         public void AddPointer(IPointerDevice pointer)
         {
@@ -80,12 +102,108 @@ namespace Juniper.Unity.Input
 
             Install(false);
 
-            stage = ComponentExt.FindAny<StageExtensions>();
+#if UNITY_MODULES_UI
+            if (enableGazeToggle != null)
+            {
+                enableGazeToggle.onValueChanged.AddListener(EnableGaze);
+                enableGazeToggle.isOn = PlayerPrefs.GetInt(ENABLE_GAZE_KEY, 0) == 1;
+                gazePointer.SetActive(enableGazeToggle.isOn);
+            }
+
+            if (enableHandsToggle != null)
+            {
+                enableHandsToggle.onValueChanged.AddListener(EnableHands);
+                enableHandsToggle.isOn = PlayerPrefs.GetInt(ENABLE_HANDS_KEY, 0) == 1;
+                foreach (var handTracker in handTrackers)
+                {
+                    handTracker.SetActive(enableHandsToggle.isOn);
+                }
+            }
+
+            if (enableControllersToggle != null)
+            {
+                enableControllersToggle.onValueChanged.AddListener(EnableControllers);
+                enableControllersToggle.isOn = PlayerPrefs.GetInt(ENABLE_CONTROLLERS_KEY, 1) == 1;
+                foreach (var motionController in motionControllers)
+                {
+                    motionController.SetActive(enableControllersToggle.isOn);
+                }
+            }
+
+            if (enableMouseToggle != null)
+            {
+                enableMouseToggle.onValueChanged.AddListener(EnableMouse);
+                enableMouseToggle.isOn = PlayerPrefs.GetInt(ENABLE_MOUSE_KEY, 1) == 1;
+                mouse.SetActive(enableMouseToggle.isOn);
+            }
+
+            if (enableTouchToggle != null)
+            {
+                enableTouchToggle.onValueChanged.AddListener(EnableTouch);
+                enableTouchToggle.isOn = PlayerPrefs.GetInt(ENABLE_TOUCH_KEY, Application.isMobilePlatform ? 1 : 0) == 1;
+                foreach (var touch in touches)
+                {
+                    touch.SetActive(enableTouchToggle.isOn);
+                }
+            }
+#endif
         }
 
         public virtual void Reinstall()
         {
             Install(true);
+        }
+
+        public virtual bool Install(bool reset)
+        {
+            reset &= Application.isEditor;
+
+#if UNITY_EDITOR
+            if (pointerPrefab == null)
+            {
+#if UNITY_2018_2_OR_NEWER
+                pointerPrefab = ComponentExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/Rigs/DiskProbe2018.2.prefab");
+#else
+                pointerPrefab = ComponentExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/Rigs/DiskProbe2018.1.prefab");
+#endif
+            }
+#endif
+
+            stage = ComponentExt.FindAny<StageExtensions>();
+
+            if(stage == null || stage.Head == null || stage.Hands == null)
+            {
+                return false;
+            }
+
+            gazePointer = MakePointer<GazePointer>(stage.Head, "GazePointer");
+            mouse = MakePointer<Mouse>(stage.Head, "Mouse");
+
+            touches = new TouchPoint[10];
+            for (var i = 0; i < touches.Length; ++i)
+            {
+                touches[i] = MakePointer<TouchPoint>(stage.Head, "Touches/TouchPoint" + i);
+                touches[i].fingerID = i;
+            }
+
+            motionControllers = MotionController.MakeMotionControllers(name =>
+                MakePointer<MotionController>(stage.Hands, name));
+
+            handTrackers = HandTracker.MakeHandTrackers(name =>
+                MakePointer<HandTracker>(stage.Hands, name));
+
+            return true;
+        }
+
+        public T MakePointer<T>(Transform parent, string path)
+            where T : Component, IPointerDevice
+        {
+            return parent.EnsureTransform(path)
+                .EnsureComponent<T>();
+        }
+
+        public virtual void Uninstall()
+        {
         }
 
 #if UNITY_EDITOR
@@ -263,26 +381,48 @@ namespace Juniper.Unity.Input
             m_RaycastResultCache.Sort(RaycastComparer);
         }
 
-        public virtual bool Install(bool reset)
+        private void EnableMouse(bool value)
         {
-            reset &= Application.isEditor;
-
-#if UNITY_EDITOR
-            if (pointerPrefab == null)
-            {
-#if UNITY_2018_2_OR_NEWER
-                pointerPrefab = ComponentExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/Rigs/DiskProbe2018.2.prefab");
-#else
-                pointerPrefab = ComponentExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/Rigs/DiskProbe2018.1.prefab");
-#endif
-            }
-#endif
-
-                return true;
+            mouse.SetActive(value);
+            PlayerPrefs.SetInt(ENABLE_MOUSE_KEY, value ? 1 : 0);
+            PlayerPrefs.Save();
         }
 
-        public virtual void Uninstall()
+        private void EnableGaze(bool value)
         {
+            gazePointer.SetActive(value);
+            PlayerPrefs.SetInt(ENABLE_GAZE_KEY, value ? 1 : 0);
+            PlayerPrefs.Save();
+        }
+
+        private void EnableTouch(bool value)
+        {
+            foreach (var touch in touches)
+            {
+                touch.SetActive(value);
+            }
+            PlayerPrefs.SetInt(ENABLE_TOUCH_KEY, value ? 1 : 0);
+            PlayerPrefs.Save();
+        }
+
+        private void EnableHands(bool value)
+        {
+            foreach (var handTracker in handTrackers)
+            {
+                handTracker.SetActive(value);
+            }
+            PlayerPrefs.SetInt(ENABLE_HANDS_KEY, value ? 1 : 0);
+            PlayerPrefs.Save();
+        }
+
+        private void EnableControllers(bool value)
+        {
+            foreach (var motionController in motionControllers)
+            {
+                motionController.SetActive(value);
+            }
+            PlayerPrefs.SetInt(ENABLE_CONTROLLERS_KEY, value ? 1 : 0);
+            PlayerPrefs.Save();
         }
     }
 }
