@@ -1,9 +1,7 @@
 #if UNITY_XR_ARCORE
-using GoogleARCore;
-
-using Juniper.Unity.Input;
-
 using System.Linq;
+
+using GoogleARCore;
 
 using UnityEngine;
 using UnityEngine.Android;

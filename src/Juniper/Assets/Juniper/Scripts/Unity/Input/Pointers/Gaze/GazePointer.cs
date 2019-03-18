@@ -11,7 +11,7 @@ namespace Juniper.Unity.Input.Pointers.Gaze
     {
         public GazePointerConfiguration()
         {
-            AddButton(Unary.None, InputButton.Left);
+            AddButton(Unary.One, InputButton.Left);
         }
     }
 

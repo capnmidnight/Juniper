@@ -19,11 +19,11 @@ namespace Juniper.Unity.Input.Pointers
     public abstract class AbstractPointerConfiguration<ButtonIDType>
         where ButtonIDType : struct
     {
-        private readonly Dictionary<ButtonIDType, InputButton> nativeButtons = new Dictionary<ButtonIDType, InputButton>();
+        private readonly Dictionary<ButtonIDType, InputEventButton> nativeButtons = new Dictionary<ButtonIDType, InputEventButton>();
 
-        protected void AddButton(ButtonIDType outButton, InputButton inButton)
+        protected void AddButton(ButtonIDType outButton, InputButton? inButton = null)
         {
-            nativeButtons.Add(outButton, inButton);
+            nativeButtons.Add(outButton, inButton == null ? InputEventButton.None : (InputEventButton)inButton.Value);
         }
 
         public void Install(ButtonMapper<ButtonIDType> mapper, GameObject eventParent)
@@ -41,7 +41,7 @@ namespace Juniper.Unity.Input.Pointers
     }
 
     public abstract class AbstractPointerDevice<ButtonIDType, HapticsType, ConfigType> :
-        MonoBehaviour,
+        PointerDataCreator,
         IInstallable,
         IPointerDevice,
         IPointerButtons<ButtonIDType>
@@ -145,15 +145,6 @@ namespace Juniper.Unity.Input.Pointers
             }
         }
 
-        /// <summary>
-        /// Unique pointer identifiers keep the pointer events cached in Unity's Event System.
-        /// </summary>
-        /// <value>The pointer identifier.</value>
-        public int PointerID
-        {
-            get; set;
-        }
-
         public virtual bool AnyButtonPressed
         {
             get
@@ -167,8 +158,10 @@ namespace Juniper.Unity.Input.Pointers
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Juniper.Input.PointerDevice"/> class.
         /// </summary>
-        public virtual void Awake()
+        public override void Awake()
         {
+            base.Awake();
+
             Install(false);
 
             eventManager = ComponentExt.FindAny<UnifiedInputModule>();
@@ -184,12 +177,6 @@ namespace Juniper.Unity.Input.Pointers
             nativeButtons.ButtonPressedNeeded += IsButtonPressed;
             nativeButtons.ClonedPointerEventNeeded += Clone;
             nativeButtons.InteractionNeeded += PlayInteraction;
-            nativeButtons.DraggableChanged += DraggableChanged;
-        }
-
-        protected void DraggableChanged(bool dragging)
-        {
-            IsDragging = dragging;
         }
 
         public void Start()
@@ -513,10 +500,9 @@ namespace Juniper.Unity.Input.Pointers
 
         protected StageExtensions stage;
 
-        public bool IsDragging
+        public virtual bool IsDragging
         {
-            get;
-            private set;
+            get { return nativeButtons.IsDragging; }
         }
 
         /// <summary>
@@ -541,9 +527,9 @@ namespace Juniper.Unity.Input.Pointers
             }
         }
 
-        private PointerEventData Clone(PointerEventData evtData, ButtonIDType button)
+        protected PointerEventData Clone(int pointerDataID, PointerEventData evtData)
         {
-            return InputModule?.Clone(evtData, nativeButtons.ToInt32(button));
+            return InputModule?.Clone(pointerDataID, evtData);
         }
 
         public virtual void Process(PointerEventData evtData, float pixelDragThresholdSquared)

@@ -1,3 +1,4 @@
+using Juniper.Input;
 using Juniper.Unity.Events;
 
 using System;
@@ -21,6 +22,7 @@ namespace Juniper.UnityEditor.Events
 
         private static readonly GUIContent ButtonTypeLabel = new GUIContent("Button Type");
         private static readonly GUIContent ButtonValueLabel = new GUIContent("Button Value");
+        private static readonly GUIContent InputButtonLabel = new GUIContent("Input Button");
 
         public override void OnInspectorGUI()
         {
@@ -54,6 +56,8 @@ namespace Juniper.UnityEditor.Events
                     if (matching <= 0)
                     {
                         value.buttonValueName = buttonValueName;
+
+                        value.inputButton = (InputEventButton)EditorGUILayout.EnumPopup(InputButtonLabel, value.inputButton);
                     }
                     else if (EditorUtility.DisplayDialog("Error", $"A ButtonEvent for {key} already exists. Do you want to delete this ButtonEvent? If you keep this ButtonEvent, its Button Value will be reverted to its previous value.", "Delete", "Keep"))
                     {

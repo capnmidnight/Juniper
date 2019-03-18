@@ -23,7 +23,7 @@ namespace Juniper.Unity.Input.Pointers.Screen
     {
         public TouchPointConfiguration()
         {
-            AddButton(Unary.None, UnityEngine.EventSystems.PointerEventData.InputButton.Left);
+            AddButton(Unary.One, UnityEngine.EventSystems.PointerEventData.InputButton.Left);
         }
     }
 

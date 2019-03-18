@@ -11,6 +11,6 @@ namespace Juniper
         /// <summary>
         /// The only value of the enumeration.
         /// </summary>
-        None
+        One
     }
 }

@@ -46,7 +46,6 @@ namespace Juniper.Unity.Input
         {
             if (!Devices.Contains(pointer) && !newDevices.Contains(pointer))
             {
-                pointer.PointerID = Devices.Count * 10000;
                 newDevices.Add(pointer);
             }
         }
@@ -159,7 +158,7 @@ namespace Juniper.Unity.Input
                 if (pointer.IsEnabled)
                 {
                     PointerEventData evtData;
-                    GetPointerData(pointer.PointerID, out evtData, true);
+                    GetPointerData(pointer.PointerDataID, out evtData, true);
                     evtData.delta = pointer.ScreenDelta;
                     evtData.position = pointer.ScreenPoint;
                     evtData.scrollDelta = pointer.ScrollDelta;
@@ -171,10 +170,10 @@ namespace Juniper.Unity.Input
             }
         }
 
-        public PointerEventData Clone(PointerEventData original, int offset)
+        public PointerEventData Clone(int pointerDataID, PointerEventData original)
         {
             PointerEventData clone;
-            GetPointerData(original.pointerId + offset, out clone, true);
+            GetPointerData(pointerDataID, out clone, true);
 
             clone.delta = original.delta;
             clone.position = original.position;

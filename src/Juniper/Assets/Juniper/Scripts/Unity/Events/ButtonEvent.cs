@@ -1,16 +1,18 @@
-using Juniper.Unity.Input.Pointers;
-
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Juniper.Input;
+using Juniper.Unity.Input.Pointers;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
+
 namespace Juniper.Unity.Events
 {
     [RequireComponent(typeof(IPointerDevice))]
-    public class ButtonEvent : MonoBehaviour
+    public class ButtonEvent : PointerDataCreator
     {
         public static string FormatKey(string type, string value)
         {
@@ -28,7 +30,6 @@ namespace Juniper.Unity.Events
 
         public IEnumerable<Type> GetSupportedButtonTypes()
         {
-            yield return typeof(PointerEventData.InputButton);
             yield return GetComponent<IPointerDevice>().ButtonType;
             yield return typeof(Input.VirtualTouchPadButton);
             yield return typeof(Input.VirtualTriggerButton);
@@ -36,6 +37,9 @@ namespace Juniper.Unity.Events
 
         public string buttonTypeName;
         public string buttonValueName;
+
+        public InputEventButton inputButton = InputEventButton.None;
+
 
         public T? GetButtonValue<T>()
             where T : struct

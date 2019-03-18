@@ -1,3 +1,4 @@
+using Juniper.Input;
 using Juniper.Unity.Haptics;
 
 using System;
@@ -23,17 +24,17 @@ namespace Juniper.Unity.Input.Pointers.Motion
             }
         }
 
-        private readonly Dictionary<VirtualTouchPadButton, InputButton> touchPadButtons = new Dictionary<VirtualTouchPadButton, InputButton>();
-        private readonly Dictionary<VirtualTriggerButton, InputButton> triggerButtons = new Dictionary<VirtualTriggerButton, InputButton>();
+        private readonly Dictionary<VirtualTouchPadButton, InputEventButton> touchPadButtons = new Dictionary<VirtualTouchPadButton, InputEventButton>();
+        private readonly Dictionary<VirtualTriggerButton, InputEventButton> triggerButtons = new Dictionary<VirtualTriggerButton, InputEventButton>();
 
-        protected void AddButton(VirtualTouchPadButton outButton, InputButton inButton)
+        protected void AddButton(VirtualTouchPadButton outButton, InputButton? inButton = null)
         {
-            touchPadButtons.Add(outButton, inButton);
+            touchPadButtons.Add(outButton, inButton == null ? InputEventButton.None : (InputEventButton)inButton.Value);
         }
 
-        protected void AddButton(VirtualTriggerButton outButton, InputButton inButton)
+        protected void AddButton(VirtualTriggerButton outButton, InputButton? inButton = null)
         {
-            triggerButtons.Add(outButton, inButton);
+            triggerButtons.Add(outButton, inButton == null ? InputEventButton.None : (InputEventButton)inButton.Value);
         }
 
         public void Install(ButtonMapper<VirtualTouchPadButton> mapper, GameObject eventParent)
@@ -83,6 +84,16 @@ namespace Juniper.Unity.Input.Pointers.Motion
         protected readonly ButtonMapper<VirtualTouchPadButton> touchPadButtons = new ButtonMapper<VirtualTouchPadButton>();
         protected readonly ButtonMapper<VirtualTriggerButton> triggerButtons = new ButtonMapper<VirtualTriggerButton>();
 
+        public override bool IsDragging
+        {
+            get
+            {
+                return base.IsDragging
+                    || touchPadButtons.IsDragging
+                    || triggerButtons.IsDragging;
+            }
+        }
+
         public override void Awake()
         {
             base.Awake();
@@ -92,14 +103,12 @@ namespace Juniper.Unity.Input.Pointers.Motion
             touchPadButtons.ButtonPressedNeeded += IsButtonPressed;
             touchPadButtons.ClonedPointerEventNeeded += Clone;
             touchPadButtons.InteractionNeeded += PlayInteraction;
-            touchPadButtons.DraggableChanged += DraggableChanged;
 
             triggerButtons.ButtonDownNeeded += IsButtonDown;
             triggerButtons.ButtonUpNeeded += IsButtonUp;
             triggerButtons.ButtonPressedNeeded += IsButtonPressed;
             triggerButtons.ClonedPointerEventNeeded += Clone;
             triggerButtons.InteractionNeeded += PlayInteraction;
-            triggerButtons.DraggableChanged += DraggableChanged;
         }
 
         public override bool Install(bool reset)
@@ -119,16 +128,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
 #endif
 
             return true;
-        }
-
-        private PointerEventData Clone(PointerEventData evtData, VirtualTouchPadButton button)
-        {
-            return InputModule?.Clone(evtData, touchPadButtons.ToInt32(button) + 100);
-        }
-
-        private PointerEventData Clone(PointerEventData evtData, VirtualTriggerButton button)
-        {
-            return InputModule?.Clone(evtData, triggerButtons.ToInt32(button) + 200);
         }
 
         public abstract float Trigger

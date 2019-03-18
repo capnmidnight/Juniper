@@ -17,9 +17,13 @@ namespace Juniper.Unity.Input.Pointers
             get;
         }
 
-        int PointerID
+        /// <summary>
+        /// Unique pointer identifiers keep the pointer events cached in Unity's Event System.
+        /// </summary>
+        /// <value>The pointer identifier.</value>
+        int PointerDataID
         {
-            get; set;
+            get;
         }
 
         string name
