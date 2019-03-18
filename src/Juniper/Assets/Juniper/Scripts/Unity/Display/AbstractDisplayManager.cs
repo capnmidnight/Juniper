@@ -91,6 +91,7 @@ namespace Juniper.Unity.Display
         }
 
         private DisplayTypes lastDisplayType;
+        private DisplayTypes resumeMode;
 
         public AugmentedRealityTypes ARMode
         {
@@ -287,7 +288,10 @@ namespace Juniper.Unity.Display
                         }
 
                         OnDisplayTypeChange();
-                        StartAR();
+                        if (DisplayType != DisplayTypes.None)
+                        {
+                            StartAR();
+                        }
                     }
                     else
                     {
@@ -319,18 +323,30 @@ namespace Juniper.Unity.Display
 
         public void StartXRDisplay()
         {
+            resumeMode = DisplayTypes.None;
             ChangeDisplayType(SupportedDisplayType);
         }
 
         public void StopXRDisplay()
         {
             StopAR();
+            resumeMode = DisplayType;
             ChangeDisplayType(DisplayTypes.Monoscopic);
         }
 
         public void DisableDisplay()
         {
+            StopAR();
+            resumeMode = DisplayType;
             ChangeDisplayType(DisplayTypes.None);
+        }
+
+        public void ResumeDisplay()
+        {
+            if (resumeMode != DisplayTypes.None)
+            {
+                ChangeDisplayType(resumeMode);
+            }
         }
 
         private void ChangeARMode(AugmentedRealityTypes nextARMode)
@@ -383,18 +399,6 @@ namespace Juniper.Unity.Display
         public void StopAR()
         {
             ChangeARMode(AugmentedRealityTypes.None);
-        }
-
-        public void ToggleAR()
-        {
-            if (ARMode == AugmentedRealityTypes.None)
-            {
-                StartAR();
-            }
-            else
-            {
-                StopAR();
-            }
         }
 
         /// <summary>

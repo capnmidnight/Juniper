@@ -11,46 +11,81 @@ namespace Juniper.Unity.Display
 {
     public class ARCoreDisplayManager : AbstractPassthroughDisplayManager
     {
-        public static bool AnyActiveGoogleInstantPreview =>
-            ComponentExt.FindAll<InstantPreviewTrackedPoseDriver>()
-                .Any(ComponentExt.IsActivated);
+        public static bool AnyActiveGoogleInstantPreview
+        {
+            get
+            {
+                return ComponentExt
+                    .FindAll<InstantPreviewTrackedPoseDriver>()
+                    .Any(ComponentExt.IsActivated);
+            }
+        }
 
         /// <summary>
         /// On ARCore, this value is used to flag when the app is shutting down so we don't capture
         /// multiple errors that would cause multiple Toast messages to appear.
         /// </summary>
-        bool isQuitting;
+        private bool isQuitting;
+
+        private ARCoreSession arCoreSession;
+        private ARCoreBackgroundRenderer bgRenderer;
+        private TrackedPoseDriver poseDriver;
 
         public override bool Install(bool reset)
         {
             reset &= Application.isEditor;
 
-            var baseInstall = base.Install(reset);
-
-            this.WithLock(() =>
+            if (!base.Install(reset))
             {
-                var arCoreSession = this.EnsureComponent<ARCoreSession>().Value;
+                return false;
+            }
+
+
+#if UNITY_EDITOR
+            if (ARBackgroundMaterial == null || reset)
+            {
+                ARBackgroundMaterial = ComponentExt.EditorLoadAsset<Material>("Assets/GoogleARCore/SDK/Materials/ARBackground.mat");
+            }
+#endif
+
+            if (arCoreSession == null)
+            {
+                arCoreSession = this.EnsureComponent<ARCoreSession>().Value;
                 arCoreSession.SessionConfig = ScriptableObject.CreateInstance<ARCoreSessionConfig>();
                 arCoreSession.SessionConfig.MatchCameraFramerate = true;
+            }
 
-                var poseDriver = this.EnsureComponent<TrackedPoseDriver>().Value;
+            if (arCoreSession == null)
+            {
+                return false;
+            }
+
+            if (bgRenderer == null)
+            {
+                bgRenderer = this.EnsureComponent<ARCoreBackgroundRenderer>().Value;
+                bgRenderer.BackgroundMaterial = ARBackgroundMaterial;
+            }
+
+            if (bgRenderer == null)
+            {
+                return false;
+            }
+
+            if (poseDriver == null)
+            {
+                poseDriver = this.EnsureComponent<TrackedPoseDriver>().Value;
                 poseDriver.SetPoseSource(TrackedPoseDriver.DeviceType.GenericXRDevice, TrackedPoseDriver.TrackedPose.ColorCamera);
                 poseDriver.trackingType = TrackedPoseDriver.TrackingType.RotationAndPosition;
                 poseDriver.updateType = TrackedPoseDriver.UpdateType.BeforeRender;
                 poseDriver.UseRelativeTransform = true;
+            }
 
-                var bgRenderer = this.EnsureComponent<ARCoreBackgroundRenderer>().Value;
+            if (poseDriver == null)
+            {
+                return false;
+            }
 
-#if UNITY_EDITOR
-                if (ARBackgroundMaterial == null || reset)
-                {
-                    ARBackgroundMaterial = ComponentExt.EditorLoadAsset<Material>("Assets/GoogleARCore/SDK/Materials/ARBackground.mat");
-                }
-#endif
-                bgRenderer.BackgroundMaterial = ARBackgroundMaterial;
-            });
-
-            return baseInstall;
+            return true;
         }
 
         public override void Start()
@@ -91,6 +126,14 @@ namespace Juniper.Unity.Display
                     MasterSceneController.QuitApp();
                 }
             }
+        }
+
+        protected override void OnARModeChange()
+        {
+            base.OnARModeChange();
+            var enable = ARMode == AugmentedRealityTypes.PassthroughCamera;
+            poseDriver.enabled = enable;
+            bgRenderer.enabled = enable;
         }
     }
 }

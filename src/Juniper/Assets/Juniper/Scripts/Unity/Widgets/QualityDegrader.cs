@@ -29,6 +29,8 @@ namespace Juniper.Unity.Widgets
         /// </summary>
         private readonly SingleStatistics frameStats = new SingleStatistics(30);
 
+        private DisplayManager display;
+
         /// <summary>
         /// Get the current graphics quality level.
         /// </summary>
@@ -44,10 +46,10 @@ namespace Juniper.Unity.Widgets
             {
                 if (value != QualityLevel)
                 {
-                    DisplayManager.MainCamera.enabled = false;
+                    display.DisableDisplay();
                     ChangeQuality(QualitySettings.IncreaseLevel, (a, b) => a < b, value);
                     ChangeQuality(QualitySettings.DecreaseLevel, (a, b) => a > b, value);
-                    DisplayManager.MainCamera.enabled = true;
+                    display.ResumeDisplay();
 
 #if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
                     if (ground != null)
@@ -133,6 +135,8 @@ namespace Juniper.Unity.Widgets
 #if UNITY_POSTPROCESSING
             prost = GetComponent<PostProcessLayer>();
 #endif
+
+            display = ComponentExt.FindAny<DisplayManager>();
 
             if (qualitySlider != null)
             {
