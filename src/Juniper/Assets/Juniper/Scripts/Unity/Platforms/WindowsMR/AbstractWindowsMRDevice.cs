@@ -147,7 +147,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
 
         public override Vector2 SquareTouchPoint { get { return InputState.touchpadPosition; } }
 
-        public override Vector2 RoundTouchPoint { get { return Square2Round(SquareTouchPoint); } }
+        public override Vector2 RoundTouchPoint { get { return SquareTouchPoint.Square2Round(); } }
 
         public override bool IsButtonPressed(WindowsMRButtons button)
         {

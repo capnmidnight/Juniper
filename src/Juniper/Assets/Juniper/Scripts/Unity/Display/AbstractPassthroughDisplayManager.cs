@@ -1,8 +1,6 @@
 using Juniper.Unity.Input;
-using System.Linq;
-using UnityEngine;
 
-using UnityInput = UnityEngine.Input;
+using UnityEngine;
 
 namespace Juniper.Unity.Display
 {
@@ -21,19 +19,16 @@ namespace Juniper.Unity.Display
         /// </summary>
         public bool enablePointCloud = true;
 
-        public override void Start()
-        {
-            base.Start();
-
-#if !UNITY_EDITOR
-            cameraCtrl.mode = CameraControl.Mode.None;
-#endif
-        }
-
         protected override void OnARModeChange()
         {
             base.OnARModeChange();
-            if (ARMode == AugmentedRealityTypes.PassthroughCamera)
+            if (ARMode == AugmentedRealityTypes.PassthroughCamera
+                && (cameraCtrl.mode == CameraControl.Mode.Auto || cameraCtrl.mode == CameraControl.Mode.Touch))
+            {
+                cameraCtrl.mode = CameraControl.Mode.None;
+            }
+            else if(ARMode == AugmentedRealityTypes.None
+                && (cameraCtrl.mode == CameraControl.Mode.Auto || cameraCtrl.mode == CameraControl.Mode.None))
             {
                 cameraCtrl.mode = CameraControl.Mode.Touch;
             }

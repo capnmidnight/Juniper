@@ -68,7 +68,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
             Device.TouchPos;
 
         public override Vector2 SquareTouchPoint =>
-            Round2Square(RoundTouchPoint);
+            RoundTouchPoint.Round2Square();
 
         public override bool? IsCharging =>
             Device.IsCharging;

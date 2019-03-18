@@ -49,7 +49,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
             Device.GetAxis(WVR_InputId.WVR_InputId_Alias1_Touchpad);
 
         public override Vector2 SquareTouchPoint =>
-            Round2Square(RoundTouchPoint);
+            RoundTouchPoint.Round2Square();
 
         public override bool? IsCharging =>
             Device.ChargeStatus == wvr.WVR_ChargeStatus.WVR_ChargeStatus_Charging;

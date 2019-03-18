@@ -26,24 +26,7 @@ namespace Juniper.Unity.Display
 
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
-                if (setMouseLock && Application.isEditor && AnyActiveGoogleInstantPreview)
-                {
-                    setMouseLock = false;
-                }
-
-                var joystick = UnityInput.GetJoystickNames().FirstOrDefault();
-                if (AnyActiveGoogleInstantPreview)
-                {
-                    mode = Mode.None;
-                }
-                else if (UnityInput.mousePresent)
-                {
-                    mode = Mode.Mouse;
-                }
-                else if (!string.IsNullOrEmpty(joystick))
-                {
-                    mode = Mode.Gamepad;
-                }
+                mode = Mode.None;
             }
         }
 

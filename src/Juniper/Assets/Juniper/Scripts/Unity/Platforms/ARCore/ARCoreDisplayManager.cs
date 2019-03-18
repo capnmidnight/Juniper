@@ -93,7 +93,10 @@ namespace Juniper.Unity.Display
             base.Start();
 
 #if UNITY_EDITOR
-            cameraCtrl.setMouseLock &= AnyActiveGoogleInstantPreview;
+            if (cameraCtrl.mode == Input.CameraControl.Mode.MouseLocked && AnyActiveGoogleInstantPreview)
+            {
+                cameraCtrl.mode = Input.CameraControl.Mode.MouseScreenEdge;
+            }
 #endif
         }
 

@@ -111,19 +111,11 @@ namespace UnityEngine
                     {
                         if (here == null)
                         {
-                            var root = (from scene in MasterSceneController.AllScenes
-                                        from gameObject in scene.GetRootGameObjects()
-                                        where gameObject.name == part
-                                        select gameObject.transform)
-                                .FirstOrDefault();
-                            if (root == null)
-                            {
-                                throw new ArgumentException("Root object " + root + " does not exist");
-                            }
-                            else
-                            {
-                                next.Add(root);
-                            }
+                            next.Add((from scene in MasterSceneController.AllScenes
+                                      from gameObject in scene.GetRootGameObjects()
+                                      where gameObject.name == part
+                                      select gameObject.transform)
+                                .FirstOrDefault());
                         }
                         else if (part == "*")
                         {

@@ -57,9 +57,56 @@ namespace UnityEngine
             return new Vector3(dx, dy, dz);
         }
 
+        public static string Label(this Vector2 v, UnitOfMeasure unit, int? sigFigs = null)
+        {
+            return $"({v.x.Label(unit, sigFigs)}, {v.y.Label(unit, sigFigs)})";
+        }
+
         public static string Label(this Vector3 v, UnitOfMeasure unit, int? sigFigs = null)
         {
             return $"({v.x.Label(unit, sigFigs)}, {v.y.Label(unit, sigFigs)}, {v.z.Label(unit, sigFigs)})";
+        }
+
+        public static string Label(this Vector4 v, UnitOfMeasure unit, int? sigFigs = null)
+        {
+            return $"({v.x.Label(unit, sigFigs)}, {v.y.Label(unit, sigFigs)}, {v.z.Label(unit, sigFigs)}, {v.w.Label(unit, sigFigs)})";
+        }
+
+
+        public static Vector2 Round2Square(this Vector2 point)
+        {
+            var pLen = point.magnitude;
+            if (pLen > 0)
+            {
+                var onUnitCircle = point / pLen;
+                float mx = Mathf.Abs(onUnitCircle.x),
+                    my = Mathf.Abs(onUnitCircle.y);
+
+                var onUnitSquare = onUnitCircle;
+                if (mx > my)
+                {
+                    onUnitSquare /= mx;
+                }
+                else if (my > 0)
+                {
+                    onUnitSquare /= my;
+                }
+
+                point *= onUnitSquare.magnitude;
+            }
+            return point;
+        }
+
+        public static Vector2 Square2Round(this Vector2 point)
+        {
+            var pLen = point.magnitude;
+            if (pLen > 0)
+            {
+                var onUnitCircle = point / pLen;
+                var onUnitSquare = onUnitCircle.Round2Square();
+                point /= onUnitSquare.magnitude;
+            }
+            return point;
         }
     }
 }

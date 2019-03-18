@@ -222,42 +222,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
             get;
         }
 
-        protected static Vector2 Round2Square(Vector2 point)
-        {
-            var pLen = point.magnitude;
-            if (pLen > 0)
-            {
-                var onUnitCircle = point / pLen;
-                float mx = Mathf.Abs(onUnitCircle.x),
-                    my = Mathf.Abs(onUnitCircle.y);
-
-                var onUnitSquare = onUnitCircle;
-                if (mx > my)
-                {
-                    onUnitSquare /= mx;
-                }
-                else if (my > 0)
-                {
-                    onUnitSquare /= my;
-                }
-
-                point *= onUnitSquare.magnitude;
-            }
-            return point;
-        }
-
-        protected static Vector2 Square2Round(Vector2 point)
-        {
-            var pLen = point.magnitude;
-            if (pLen > 0)
-            {
-                var onUnitCircle = point / pLen;
-                var onUnitSquare = Round2Square(onUnitCircle);
-                point /= onUnitSquare.magnitude;
-            }
-            return point;
-        }
-
         protected override void InternalUpdate()
         {
             if (TouchPadTouched)

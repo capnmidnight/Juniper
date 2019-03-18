@@ -257,7 +257,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
         {
             get
             {
-                return Round2Square(RoundTouchPoint);
+                return RoundTouchPoint.Round2Square();
             }
         }
 

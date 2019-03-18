@@ -30,7 +30,7 @@ namespace Juniper.Unity.Display
                 }
                 else if (UnityInput.mousePresent)
                 {
-                    cameraCtrl.mode = CameraControl.Mode.Mouse;
+                    cameraCtrl.mode = CameraControl.Mode.MouseLocked;
                 }
                 else if (!string.IsNullOrEmpty(joystick))
                 {

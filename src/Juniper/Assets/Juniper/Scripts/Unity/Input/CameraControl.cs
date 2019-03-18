@@ -1,10 +1,11 @@
-using Juniper.Unity.Input.Pointers;
-
 using System;
 using System.Collections.Generic;
 
+using Juniper.Input;
+
 using UnityEngine;
 using UnityEngine.Events;
+
 using UnityInput = UnityEngine.Input;
 
 namespace Juniper.Unity.Input
@@ -19,7 +20,8 @@ namespace Juniper.Unity.Input
         {
             None,
             Auto,
-            Mouse,
+            MouseLocked,
+            MouseScreenEdge,
             Gamepad,
             Touch,
             MagicWindow
@@ -27,30 +29,8 @@ namespace Juniper.Unity.Input
 
         public Mode mode = Mode.Auto;
         private Mode lastMode = Mode.None;
-
-        /// <summary>
-        /// If we are running on a desktop system, set this value to true to lock the mouse cursor to
-        /// the application window.
-        /// </summary>
-        public bool setMouseLock = true;
-
-        public bool MouseLockingEnabled
-        {
-            get
-            {
-                return setMouseLock && mode == Mode.Mouse;
-            }
-        }
-
-        public enum MouseButton
-        {
-            Left,
-            Right,
-            Middle,
-            None = ~0
-        }
-
-        public MouseButton requiredMouseButton = MouseButton.None;
+        
+        public InputEventButton requiredMouseButton = InputEventButton.None;
         public int requiredTouchCount = 1;
         public float dragThreshold = 2;
 
@@ -106,8 +86,8 @@ namespace Juniper.Unity.Input
 
         private StageExtensions stage;
 
-        private readonly Dictionary<Mode, bool> dragged = new Dictionary<Mode, bool>();
         private readonly Dictionary<Mode, bool> wasGestureSatisfied = new Dictionary<Mode, bool>();
+        private readonly Dictionary<Mode, bool> dragged = new Dictionary<Mode, bool>();
         private readonly Dictionary<Mode, float> dragDistance = new Dictionary<Mode, float>();
 
         private UnifiedInputModule input;
@@ -116,9 +96,12 @@ namespace Juniper.Unity.Input
         {
             stage = ComponentExt.FindAny<StageExtensions>();
 
-            foreach (var mode in Enum.GetValues(typeof(Mode)))
+            foreach (var m in Enum.GetValues(typeof(Mode)))
             {
-                wasGestureSatisfied[(Mode)mode] = false;
+                var mode = (Mode)m;
+                wasGestureSatisfied[mode] = false;
+                dragged[mode] = false;
+                dragDistance[mode] = 0;
             }
         }
 
@@ -153,9 +136,9 @@ namespace Juniper.Unity.Input
             else
             {
                 var btn = (int)requiredMouseButton;
-                var pressed = requiredMouseButton == MouseButton.None || UnityInput.GetMouseButton(btn);
-                var down = requiredMouseButton != MouseButton.None && UnityInput.GetMouseButtonDown(btn);
-                return pressed && !down && (!MouseLockingEnabled || Cursor.lockState == CursorLockMode.Locked);
+                var pressed = requiredMouseButton == InputEventButton.None || UnityInput.GetMouseButton(btn);
+                var down = requiredMouseButton != InputEventButton.None && UnityInput.GetMouseButtonDown(btn);
+                return pressed && !down && (mode != Mode.MouseLocked || Cursor.lockState == CursorLockMode.Locked);
             }
         }
 
@@ -163,9 +146,12 @@ namespace Juniper.Unity.Input
         {
             switch (mode)
             {
-                case Mode.Mouse:
+                case Mode.MouseLocked:
                 case Mode.Gamepad:
                 return AxialMovement;
+
+                case Mode.MouseScreenEdge:
+                return RadiusMovement;
 
                 case Mode.Touch:
                 return MeanTouchPointMovement;
@@ -175,17 +161,40 @@ namespace Juniper.Unity.Input
             }
         }
 
-        private Vector3 AxialMovement
+        private Vector2 AxialMovement
         {
             get
             {
-                return MOUSE_SENSITIVITY_SCALE * new Vector3(
+                return MOUSE_SENSITIVITY_SCALE * new Vector2(
                     -UnityInput.GetAxis("Mouse Y"),
                     UnityInput.GetAxis("Mouse X"));
             }
         }
 
-        private Vector3 MeanTouchPointMovement
+        private const float EDGE_FACTOR = 0.8f;
+
+        private Vector2 RadiusMovement
+        {
+            get
+            {
+                var viewport = 2 * new Vector2(
+                    UnityInput.mousePosition.y / Screen.height,
+                    UnityInput.mousePosition.x / Screen.width) - Vector2.one;
+                var square = viewport.Square2Round();
+                if (square.magnitude > EDGE_FACTOR)
+                {
+                    viewport.x = (int)(viewport.x / -EDGE_FACTOR);
+                    viewport.y = (int)(viewport.y / EDGE_FACTOR);
+                    return viewport;
+                }
+                else
+                {
+                    return Vector2.zero;
+                }
+            }
+        }
+
+        private Vector2 MeanTouchPointMovement
         {
             get
             {
@@ -240,8 +249,8 @@ namespace Juniper.Unity.Input
         private bool DragRequired(Mode mode)
         {
             return mode == Mode.Touch
-                || (mode == Mode.Mouse
-                    && requiredMouseButton != MouseButton.None);
+                || (mode == Mode.MouseLocked
+                    && requiredMouseButton != InputEventButton.None);
         }
 
         private bool DragSatisfied(Mode mode)
@@ -253,9 +262,9 @@ namespace Juniper.Unity.Input
             else
             {
                 var move = PointerMovement(mode);
-                if (DragRequired(mode) && !dragged.Get(mode, false))
+                if (!dragged[mode])
                 {
-                    dragDistance[mode] = dragDistance.Get(mode, 0) + (move.magnitude / Screen.dpi);
+                    dragDistance[mode] += move.magnitude / Screen.dpi;
                     dragged[mode] = Units.Inches.Millimeters(dragDistance[mode]) > dragThreshold;
                 }
                 return dragged[mode];
@@ -264,12 +273,19 @@ namespace Juniper.Unity.Input
 
         private void CheckMouseLock()
         {
-            if (MouseLockingEnabled)
+            if (mode == Mode.MouseLocked || mode == Mode.MouseScreenEdge)
             {
                 if (UnityInput.mousePresent && (firstTime || UnityInput.GetMouseButtonDown(0)))
                 {
                     firstTime = false;
-                    Cursor.lockState = CursorLockMode.Locked;
+                    if (mode == Mode.MouseLocked)
+                    {
+                        Cursor.lockState = CursorLockMode.Locked;
+                    }
+                    else
+                    {
+                        Cursor.lockState = CursorLockMode.Confined;
+                    }
                 }
 #if UNITY_2018_1_OR_NEWER
                 else if (UnityInput.GetKeyDown(KeyCode.Escape))
@@ -278,8 +294,7 @@ namespace Juniper.Unity.Input
                 }
 #endif
 
-                Cursor.visible = Cursor.lockState == CursorLockMode.None
-                    || Cursor.lockState == CursorLockMode.Confined;
+                Cursor.visible = Cursor.lockState != CursorLockMode.Locked;
             }
             else if (Cursor.lockState != CursorLockMode.None)
             {
@@ -298,7 +313,7 @@ namespace Juniper.Unity.Input
 
             CheckMouseLock();
 
-            if (!input.AnyPointerDragging || Cursor.lockState == CursorLockMode.Locked)
+            if (!input.AnyPointerDragging || Cursor.lockState != CursorLockMode.None)
             {
                 CheckMode(mode, disableVertical);
                 if (mode == Mode.MagicWindow)
@@ -313,7 +328,7 @@ namespace Juniper.Unity.Input
                     }
                     else
                     {
-                        CheckMode(Mode.Mouse, disableVertical);
+                        CheckMode(Mode.MouseLocked, disableVertical);
                     }
                 }
             }

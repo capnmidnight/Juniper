@@ -105,7 +105,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
             OVRInput.Get(TOUCHPAD_AXIS, NativeHandID);
 
         public override Vector2 RoundTouchPoint =>
-            Square2Round(SquareTouchPoint);
+            SquareTouchPoint.Square2Round();
 
         public override bool IsButtonPressed(OVRInput.Button button) =>
             OVRInput.Get(button, NativeHandID);
