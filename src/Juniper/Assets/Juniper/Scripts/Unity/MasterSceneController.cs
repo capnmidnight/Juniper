@@ -298,6 +298,16 @@ namespace Juniper.Unity
                 return false;
             }
 
+            SetupFader(reset);
+            SetupSystemInterface(reset, qualityDegrader, aud);
+            SetupLighting();
+            SetupGround();
+
+            return true;
+        }
+
+        private void SetupFader(bool reset)
+        {
 #if UNITY_EDITOR
             if (sceneFaderMaterial == null || reset)
             {
@@ -313,9 +323,12 @@ namespace Juniper.Unity
                 fader.transform.localPosition = Mathf.Max(0.5f, 1.2f * DisplayManager.MainCamera.nearClipPlane) * Vector3.forward;
                 fader.transform.localScale = 2 * Vector3.one;
             }
+        }
 
+        private void SetupSystemInterface(bool reset, QualityDegrader qualityDegrader, InteractionAudio aud)
+        {
             var sys = transform.Query("/SystemUserInterface");
-            if(sys == null)
+            if (sys == null)
             {
                 sys = new GameObject("SystemUserInterface").transform;
                 sys.localPosition = 1.5f * Vector3.forward;
@@ -445,7 +458,10 @@ namespace Juniper.Unity
 
 #endif
 #endif
+        }
 
+        private void SetupLighting()
+        {
             var sun = RenderSettings.sun;
 #if UNITY_EDITOR
             if (sun?.gameObject?.scene.name != gameObject.scene.name)
@@ -486,8 +502,16 @@ namespace Juniper.Unity
 
             sunRig.name = "SunRig";
             sunRig.EnsureComponent<CompassRose>();
+        }
 
-            return true;
+        private void SetupGround()
+        {
+            var ground = transform.Query("/Ground");
+            if (ground == null)
+            {
+                ground = new GameObject("Ground").transform;
+            }
+            ground.EnsureComponent<Ground.Ground>();
         }
 
         private static RectTransform MakeLabeledPanel(RectTransform optionsPanel, string name, Vector2 position)

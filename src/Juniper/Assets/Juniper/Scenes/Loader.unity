@@ -267,7 +267,6 @@ GameObject:
   m_Component:
   - component: {fileID: 100967509}
   - component: {fileID: 100967512}
-  - component: {fileID: 100967511}
   - component: {fileID: 100967510}
   m_Layer: 0
   m_Name: TouchPoint4
@@ -302,47 +301,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Left
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &100967511
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100967508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   buttonTypeName: Juniper.Unary
-  buttonValueName: None
+  buttonValueName: One
+  inputButton: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -395,7 +356,6 @@ GameObject:
   m_Component:
   - component: {fileID: 133942444}
   - component: {fileID: 133942447}
-  - component: {fileID: 133942446}
   - component: {fileID: 133942445}
   m_Layer: 0
   m_Name: TouchPoint8
@@ -430,47 +390,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Left
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &133942446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 133942443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   buttonTypeName: Juniper.Unary
-  buttonValueName: None
+  buttonValueName: One
+  inputButton: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -818,7 +740,6 @@ GameObject:
   m_Component:
   - component: {fileID: 305331137}
   - component: {fileID: 305331140}
-  - component: {fileID: 305331139}
   - component: {fileID: 305331138}
   m_Layer: 0
   m_Name: TouchPoint7
@@ -853,47 +774,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Left
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &305331139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 305331136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   buttonTypeName: Juniper.Unary
-  buttonValueName: None
+  buttonValueName: One
+  inputButton: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -1244,116 +1127,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 740, y: 0}
   m_Pivot: {x: 1, y: 0.5}
---- !u!1 &740631275
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 740631276}
-  - component: {fileID: 740631278}
-  - component: {fileID: 740631277}
-  m_Layer: 0
-  m_Name: Handle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &740631276
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740631275}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 740914211}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &740631277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740631275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
---- !u!222 &740631278
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740631275}
-  m_CullTransparentMesh: 0
---- !u!1 &740914210
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 740914211}
-  m_Layer: 0
-  m_Name: Handle Slide Area
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &740914211
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 740914210}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 740631276}
-  m_Father: {fileID: 1458155759}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &776015978
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,7 +1328,6 @@ GameObject:
   m_Component:
   - component: {fileID: 864784511}
   - component: {fileID: 864784514}
-  - component: {fileID: 864784513}
   - component: {fileID: 864784512}
   m_Layer: 0
   m_Name: TouchPoint1
@@ -1590,47 +1362,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Left
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &864784513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 864784510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   buttonTypeName: Juniper.Unary
-  buttonValueName: None
+  buttonValueName: One
+  inputButton: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -1683,7 +1417,6 @@ GameObject:
   m_Component:
   - component: {fileID: 957348376}
   - component: {fileID: 957348379}
-  - component: {fileID: 957348378}
   - component: {fileID: 957348377}
   m_Layer: 0
   m_Name: TouchPoint0
@@ -1718,47 +1451,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Left
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &957348378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 957348375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   buttonTypeName: Juniper.Unary
-  buttonValueName: None
+  buttonValueName: One
+  inputButton: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -1909,6 +1604,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointerPrefab: {fileID: 1272435953467130, guid: 3f97d6ffded255c4d9e3698b8ebe593d,
     type: 3}
+  enableControllersToggle: {fileID: 0}
+  enableMouseToggle: {fileID: 0}
+  enableTouchToggle: {fileID: 0}
+  enableHandsToggle: {fileID: 0}
+  enableGazeToggle: {fileID: 0}
+  gazePointer: {fileID: 1917455146}
+  mouse: {fileID: 1905163095}
+  touches:
+  - {fileID: 957348379}
+  - {fileID: 864784514}
+  - {fileID: 978054217}
+  - {fileID: 1266415981}
+  - {fileID: 100967512}
+  - {fileID: 1732342311}
+  - {fileID: 1809295032}
+  - {fileID: 305331140}
+  - {fileID: 133942447}
+  - {fileID: 1360680710}
+  motionControllers:
+  - {fileID: 1934661968}
+  - {fileID: 1493844778}
+  handTrackers:
+  - {fileID: 255031665}
+  - {fileID: 87397487}
 --- !u!114 &977850495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1968,7 +1687,6 @@ GameObject:
   m_Component:
   - component: {fileID: 978054214}
   - component: {fileID: 978054217}
-  - component: {fileID: 978054216}
   - component: {fileID: 978054215}
   m_Layer: 0
   m_Name: TouchPoint2
@@ -2003,47 +1721,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Left
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &978054216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978054213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   buttonTypeName: Juniper.Unary
-  buttonValueName: None
+  buttonValueName: One
+  inputButton: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -2160,80 +1840,6 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!1 &1020641925
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1020641926}
-  - component: {fileID: 1020641928}
-  - component: {fileID: 1020641927}
-  m_Layer: 0
-  m_Name: Fill
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1020641926
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1020641925}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1897922476}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1020641927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1020641925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
---- !u!222 &1020641928
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1020641925}
-  m_CullTransparentMesh: 0
 --- !u!1 &1047603019
 GameObject:
   m_ObjectHideFlags: 0
@@ -2563,7 +2169,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1266415978}
   - component: {fileID: 1266415981}
-  - component: {fileID: 1266415980}
   - component: {fileID: 1266415979}
   m_Layer: 0
   m_Name: TouchPoint3
@@ -2598,47 +2203,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Left
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1266415980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1266415977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   buttonTypeName: Juniper.Unary
-  buttonValueName: None
+  buttonValueName: One
+  inputButton: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -2681,80 +2248,6 @@ MonoBehaviour:
   showProbe: 1
   motionFilter: {fileID: 0}
   fingerID: 3
---- !u!1 &1315575557
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1315575558}
-  - component: {fileID: 1315575560}
-  - component: {fileID: 1315575559}
-  m_Layer: 0
-  m_Name: Background
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1315575558
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315575557}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1458155759}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.25}
-  m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1315575559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315575557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
---- !u!222 &1315575560
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1315575557}
-  m_CullTransparentMesh: 0
 --- !u!1 &1319633655
 GameObject:
   m_ObjectHideFlags: 0
@@ -2801,7 +2294,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1360680707}
   - component: {fileID: 1360680710}
-  - component: {fileID: 1360680709}
   - component: {fileID: 1360680708}
   m_Layer: 0
   m_Name: TouchPoint9
@@ -2836,47 +2328,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Left
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1360680709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360680706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   buttonTypeName: Juniper.Unary
-  buttonValueName: None
+  buttonValueName: One
+  inputButton: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -2919,94 +2373,6 @@ MonoBehaviour:
   showProbe: 1
   motionFilter: {fileID: 0}
   fingerID: 9
---- !u!1 &1458155758
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1458155759}
-  - component: {fileID: 1458155760}
-  m_Layer: 0
-  m_Name: VolumeSlider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1458155759
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458155758}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.5}
-  m_LocalScale: {x: 0.004, y: 0.004, z: 4}
-  m_Children:
-  - {fileID: 1315575558}
-  - {fileID: 1897922476}
-  - {fileID: 740914211}
-  m_Father: {fileID: 1687031354}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.42999268, y: -0.31000137}
-  m_SizeDelta: {x: 880, y: 20}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1458155760
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1458155758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 740631277}
-  m_FillRect: {fileID: 1020641926}
-  m_HandleRect: {fileID: 740631276}
-  m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0
-  m_OnValueChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1468407131
 GameObject:
   m_ObjectHideFlags: 0
@@ -3070,6 +2436,11 @@ GameObject:
   - component: {fileID: 1468407185}
   - component: {fileID: 1468407184}
   - component: {fileID: 1468407183}
+  - component: {fileID: 1468407188}
+  - component: {fileID: 1468407187}
+  - component: {fileID: 1468407190}
+  - component: {fileID: 1468407189}
+  - component: {fileID: 1468407191}
   m_Layer: 0
   m_Name: Fader
   m_TagString: Untagged
@@ -5527,6 +4898,231 @@ MonoBehaviour:
   fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
   fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
+--- !u!114 &1468407187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468407131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502f9955918de466a8596d5dce844c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEntering:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExiting:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExited:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  state: 0
+  attackTime: 0
+  releaseTime: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  tween: 0
+  tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
+  fadeLength: 0.25
+--- !u!114 &1468407188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468407131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502f9955918de466a8596d5dce844c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEntering:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExiting:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExited:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  state: 0
+  attackTime: 0
+  releaseTime: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  tween: 0
+  tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
+  fadeLength: 0.25
+--- !u!114 &1468407189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468407131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502f9955918de466a8596d5dce844c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEntering:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExiting:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExited:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  state: 0
+  attackTime: 0
+  releaseTime: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  tween: 0
+  tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
+  fadeLength: 0.25
+--- !u!114 &1468407190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468407131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502f9955918de466a8596d5dce844c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEntering:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExiting:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExited:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  state: 0
+  attackTime: 0
+  releaseTime: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  tween: 0
+  tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
+  fadeLength: 0.25
+--- !u!114 &1468407191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468407131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502f9955918de466a8596d5dce844c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEntering:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExiting:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExited:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  state: 0
+  attackTime: 0
+  releaseTime: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  tween: 0
+  tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
+  fadeLength: 0.25
 --- !u!1 &1475703866
 GameObject:
   m_ObjectHideFlags: 0
@@ -5921,25 +5517,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1648257271}
   m_CullTransparentMesh: 0
---- !u!114 &1669881858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53ac32fab2599402fb6d154adf4c1e40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MatchCameraFramerate: 1
-  PlaneFindingMode: 1
-  EnableLightEstimation: 1
-  EnableCloudAnchor: 0
-  AugmentedImageDatabase: {fileID: 0}
-  CameraFocusMode: 0
-  AugmentedFaceMode: 0
 --- !u!1 &1684733865
 GameObject:
   m_ObjectHideFlags: 0
@@ -5968,7 +5545,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684733865}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.1950002, y: 0.52127343, z: -0.12372799, w: 0.8215475}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -6028,11 +5605,11 @@ MonoBehaviour:
     Kind: 2
     Year: 2019
     Month: 3
-    Day: 17
-    Hour: 20
-    Minute: 28
-    Second: 0
-    Millisecond: 219
+    Day: 18
+    Hour: 16
+    Minute: 52
+    Second: 26
+    Millisecond: 166
   DebugReport: 0
 --- !u!114 &1684733870
 MonoBehaviour:
@@ -6142,7 +5719,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1684733866}
-  - {fileID: 1458155759}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6234,6 +5810,25 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &1720628623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53ac32fab2599402fb6d154adf4c1e40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MatchCameraFramerate: 1
+  PlaneFindingMode: 1
+  EnableLightEstimation: 1
+  EnableCloudAnchor: 0
+  AugmentedImageDatabase: {fileID: 0}
+  CameraFocusMode: 0
+  AugmentedFaceMode: 0
 --- !u!1 &1732342307
 GameObject:
   m_ObjectHideFlags: 0
@@ -6244,7 +5839,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1732342308}
   - component: {fileID: 1732342311}
-  - component: {fileID: 1732342310}
   - component: {fileID: 1732342309}
   m_Layer: 0
   m_Name: TouchPoint5
@@ -6279,47 +5873,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Left
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1732342310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1732342307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   buttonTypeName: Juniper.Unary
-  buttonValueName: None
+  buttonValueName: One
+  inputButton: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -6450,7 +6006,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1809295029}
   - component: {fileID: 1809295032}
-  - component: {fileID: 1809295031}
   - component: {fileID: 1809295030}
   m_Layer: 0
   m_Name: TouchPoint6
@@ -6485,47 +6040,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Left
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1809295031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809295028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   buttonTypeName: Juniper.Unary
-  buttonValueName: None
+  buttonValueName: One
+  inputButton: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -6681,11 +6198,6 @@ MonoBehaviour:
   shoes: {fileID: 0}
   BodyPhysics: {fileID: 1812567917}
   useGravity: 1
-  enableControllersToggle: {fileID: 0}
-  enableMouseToggle: {fileID: 0}
-  enableTouchToggle: {fileID: 0}
-  enableHandsToggle: {fileID: 0}
-  enableGazeToggle: {fileID: 0}
 --- !u!1 &1839475757
 GameObject:
   m_ObjectHideFlags: 0
@@ -6730,42 +6242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b067dc9e9788bb441be4506864c0087f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1897922475
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1897922476}
-  m_Layer: 0
-  m_Name: Fill Area
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1897922476
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1897922475}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1020641926}
-  m_Father: {fileID: 1458155759}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.25}
-  m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1905163087
 GameObject:
   m_ObjectHideFlags: 0
@@ -6776,9 +6252,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1905163088}
   - component: {fileID: 1905163095}
-  - component: {fileID: 1905163094}
-  - component: {fileID: 1905163093}
-  - component: {fileID: 1905163092}
   - component: {fileID: 1905163091}
   - component: {fileID: 1905163090}
   - component: {fileID: 1905163089}
@@ -6815,8 +6288,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Middle
+  buttonTypeName: UnityEngine.KeyCode
+  buttonValueName: Mouse2
+  inputButton: 2
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -6855,7 +6329,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonTypeName: UnityEngine.KeyCode
-  buttonValueName: Mouse2
+  buttonValueName: Mouse1
+  inputButton: 1
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -6893,125 +6368,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Right
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1905163092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1905163087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.KeyCode
-  buttonValueName: Mouse1
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1905163093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1905163087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Left
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1905163094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1905163087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   buttonTypeName: UnityEngine.KeyCode
   buttonValueName: Mouse0
+  inputButton: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -7140,7 +6499,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1917455143}
   - component: {fileID: 1917455146}
-  - component: {fileID: 1917455145}
   - component: {fileID: 1917455144}
   m_Layer: 0
   m_Name: GazePointer
@@ -7175,47 +6533,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.EventSystems.PointerEventData+InputButton
-  buttonValueName: Left
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1917455145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917455142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   buttonTypeName: Juniper.Unary
-  buttonValueName: None
+  buttonValueName: One
+  inputButton: 0
   onClick:
     m_PersistentCalls:
       m_Calls: []
@@ -7455,6 +6775,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977445765}
   m_CullTransparentMesh: 0
+--- !u!1 &1999866216
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1999866218}
+  - component: {fileID: 1999866217}
+  m_Layer: 8
+  m_Name: Ground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1999866217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999866216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5fd1b394f2f742bfb6f09c52eac14c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Roughness: {fileID: 13400000, guid: fdf1ac137c28a11469802e594cca9607, type: 2}
+  MeshVisualization: 1
+  OcclusionMaterial: {fileID: 15302, guid: 0000000000000000f000000000000000, type: 0}
+  OcclusionMaterialInEditor: {fileID: 2100000, guid: 75f3f0c5c40a25a4daf57a117f6f656f,
+    type: 2}
+  VisualizationMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  spatialMappingFidelity: 1
+--- !u!4 &1999866218
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999866216}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2015638824
 GameObject:
   m_ObjectHideFlags: 0
@@ -7693,7 +7063,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 1
-  setMouseLock: 1
   requiredMouseButton: -1
   requiredTouchCount: 1
   dragThreshold: 0
@@ -7797,19 +7166,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2090462095}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb172c260d42e4f62945afda50892c0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BackgroundMaterial: {fileID: 2100000, guid: 03ad0130a037647aeb60218f61aca114, type: 2}
---- !u!114 &2090462103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2090462095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 1742909100, guid: ed7343f30e3843b3afda8f8b02669cea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -7819,6 +7175,19 @@ MonoBehaviour:
   m_TrackingType: 0
   m_UpdateType: 2
   m_UseRelativeTransform: 1
+--- !u!114 &2090462103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2090462095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb172c260d42e4f62945afda50892c0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BackgroundMaterial: {fileID: 2100000, guid: 03ad0130a037647aeb60218f61aca114, type: 2}
 --- !u!114 &2090462104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7832,4 +7201,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeviceCameraDirection: 0
-  SessionConfig: {fileID: 1669881858}
+  SessionConfig: {fileID: 1720628623}
