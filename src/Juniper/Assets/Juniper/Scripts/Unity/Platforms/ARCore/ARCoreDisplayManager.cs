@@ -59,7 +59,9 @@ namespace Juniper.Unity.Display
         {
             base.Start();
 
-            cameraCtrl.setMouseLock &= Application.isEditor && AnyActiveGoogleInstantPreview;
+#if UNITY_EDITOR
+            cameraCtrl.setMouseLock &= AnyActiveGoogleInstantPreview;
+#endif
         }
 
         public override void Uninstall()

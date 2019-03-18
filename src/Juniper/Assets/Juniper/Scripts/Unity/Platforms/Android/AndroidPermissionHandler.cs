@@ -10,9 +10,6 @@ namespace Juniper.Unity
 #if UNITY_2018_1_OR_NEWER
             foreach (var permission in new string[]
             {
-                Permission.Camera,
-                Permission.ExternalStorageRead,
-                Permission.FineLocation,
                 Permission.Microphone
             })
             {

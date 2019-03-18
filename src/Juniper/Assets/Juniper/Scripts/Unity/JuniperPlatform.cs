@@ -123,29 +123,13 @@ namespace Juniper.Unity
 
         public static JuniperPlatform Ensure()
         {
-            var head = DisplayManager.MainCamera.transform;
-            if (head == null)
+            var platform = ComponentExt.FindAny<JuniperPlatform>();
+            if (platform == null)
             {
-                head = new GameObject().AddComponent<Camera>().transform;
-                head.gameObject.tag = "MainCamera";
-            }
-            head.gameObject.name = "Head (Camera)";
-
-            var stage = head.parent;
-            if (stage == null)
-            {
-                stage = new GameObject("Stage").transform;
-                head.Reparent(stage);
+                platform = new GameObject("UserRig").EnsureComponent<JuniperPlatform>();
             }
 
-            var userRig = stage.parent;
-            if (userRig == null)
-            {
-                userRig = new GameObject("UserRig").transform;
-                stage.Reparent(userRig);
-            }
-
-            return userRig.EnsureComponent<JuniperPlatform>();
+            return platform;
         }
 
         /// <summary>
@@ -197,12 +181,24 @@ namespace Juniper.Unity
         {
             reset &= Application.isEditor;
 
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
+            var head = DisplayManager
+                .MainCamera
+                .EnsureComponent<DisplayManager>()
+                .transform;
+
+            var stage = head.parent;
+            if (stage == null)
             {
-                OnValidate();
+                stage = new GameObject().transform;
+                head.Reparent(stage);
             }
-#endif
+            stage.name = "Stage";
+            stage.EnsureComponent<StageExtensions>();
+
+            if (stage.parent != transform)
+            {
+                stage.Reparent(transform);
+            }
 
             this.EnsureComponent<EventSystem>();
             this.EnsureComponent<UnifiedInputModule>();
@@ -210,9 +206,6 @@ namespace Juniper.Unity
             this.EnsureComponent<InteractionAudio>();
             this.EnsureComponent<MasterSceneController>();
             this.EnsureComponent<PermissionHandler>();
-
-            StageExtensions.Ensure(transform);
-            DisplayManager.MainCamera.EnsureComponent<DisplayManager>();
 
             return true;
         }

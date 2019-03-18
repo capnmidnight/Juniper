@@ -182,22 +182,6 @@ namespace Juniper.Unity
             Install(true);
         }
 
-        public static StageExtensions Ensure(Transform parent)
-        {
-            DisplayManager.MainCamera.name = "Head (Camera)";
-            var stage = DisplayManager.MainCamera.transform.parent;
-            if (stage == null)
-            {
-                stage = new GameObject().transform;
-            }
-
-            stage.name = "Stage";
-            DisplayManager.MainCamera.transform.SetParent(stage, false);
-            stage.SetParent(parent, false);
-
-            return stage.EnsureComponent<StageExtensions>();
-        }
-
 #if UNITY_EDITOR
 
         public void Reset()

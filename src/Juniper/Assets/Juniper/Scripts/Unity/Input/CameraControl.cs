@@ -146,8 +146,7 @@ namespace Juniper.Unity.Input
                 else
                 {
                     var touchPhase = UnityInput.GetTouch(requiredTouchCount - 1).phase;
-                    return touchPhase == TouchPhase.Began
-                        || touchPhase == TouchPhase.Moved
+                    return touchPhase == TouchPhase.Moved
                         || touchPhase == TouchPhase.Stationary;
                 }
             }

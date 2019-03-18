@@ -24,22 +24,10 @@ namespace Juniper.Unity.Display
         public override void Start()
         {
             base.Start();
-            if (cameraCtrl.mode == CameraControl.Mode.Auto)
-            {
-                var joystick = UnityInput.GetJoystickNames().FirstOrDefault();
-                if (UnityInput.touchSupported)
-                {
-                    cameraCtrl.mode = CameraControl.Mode.Touch;
-                }
-                else if (UnityInput.mousePresent)
-                {
-                    cameraCtrl.mode = CameraControl.Mode.Mouse;
-                }
-                else if (!string.IsNullOrEmpty(joystick))
-                {
-                    cameraCtrl.mode = CameraControl.Mode.Gamepad;
-                }
-            }
+
+#if !UNITY_EDITOR
+            cameraCtrl.mode = CameraControl.Mode.None;
+#endif
         }
 
         protected override void OnARModeChange()

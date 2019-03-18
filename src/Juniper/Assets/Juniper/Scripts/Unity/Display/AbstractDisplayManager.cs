@@ -25,9 +25,8 @@ namespace Juniper.Unity.Display
                     cam = ComponentExt.FindAny<Camera>(camera => camera.tag == "MainCamera");
                     if (cam == null)
                     {
-                        cam = new GameObject().AddComponent<Camera>();
-                        cam.name = "Head (Camera)";
-                        cam.tag = "MainCamera";
+                        cam = new GameObject("Head (Camera)").AddComponent<Camera>();
+                        cam.gameObject.tag = "MainCamera";
                     }
                 }
 
@@ -281,6 +280,12 @@ namespace Juniper.Unity.Display
                     {
                         lastDisplayType = DisplayType;
                         MainCamera.enabled = DisplayType != DisplayTypes.None;
+
+                        if (!Mathf.Approximately(MainCamera.fieldOfView, VerticalFieldOfView))
+                        {
+                            MainCamera.fieldOfView = VerticalFieldOfView;
+                        }
+
                         OnDisplayTypeChange();
                         StartAR();
                     }
@@ -460,12 +465,6 @@ namespace Juniper.Unity.Display
             {
                 Debug.LogWarning($"Cannot change {nameof(ARMode)} directly. Use the {nameof(StartAR)} method. ({lastARMode} => {ARMode})");
                 ARMode = lastARMode;
-            }
-
-            if (!Mathf.Approximately(MainCamera.fieldOfView, VerticalFieldOfView))
-            {
-                print($"{MainCamera.fieldOfView.Label(UnitOfMeasure.Degrees)} => {VerticalFieldOfView.Label(UnitOfMeasure.Degrees)}");
-                MainCamera.fieldOfView = VerticalFieldOfView;
             }
         }
     }
