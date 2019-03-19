@@ -7,11 +7,8 @@ using UnityEngine.XR.MagicLeap;
 
 namespace Juniper.Unity.Input.Pointers.Gaze
 {
-    public abstract class MagicLeapGazePointer<ButtonIDType, HapticsType, ConfigType> :
-        AbstractPointerDevice<ButtonIDType, HapticsType, ConfigType>
-        where ButtonIDType : struct
-        where HapticsType : AbstractHapticDevice
-        where ConfigType : AbstractPointerConfiguration<ButtonIDType>, new()
+    public abstract class MagicLeapGazePointer :
+        AbstractGazePointer<NoHaptics>
     {
         private MLResult startResult;
 

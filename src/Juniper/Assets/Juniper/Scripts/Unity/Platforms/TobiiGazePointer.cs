@@ -8,14 +8,16 @@ using UnityEngine;
 
 namespace Juniper.Unity.Input.Pointers.Gaze
 {
-    public abstract class TobiiGazePointer<ButtonIDType, HapticsType, ConfigType> :
-        AbstractScreenDevice<ButtonIDType, HapticsType, ConfigType>
-        where ButtonIDType : struct
-        where HapticsType : AbstractHapticDevice
-        where ConfigType : AbstractPointerConfiguration<ButtonIDType>, new()
+    public abstract class TobiiGazePointer :
+        AbstractGazePointer<NoHaptics>
     {
-        public override bool IsConnected =>
-            TobiiAPI.IsConnected && TobiiAPI.GetUserPresence().IsUserPresent();
+        public override bool IsConnected
+        {
+            get
+            {
+                return TobiiAPI.IsConnected && TobiiAPI.GetUserPresence().IsUserPresent();
+            }
+        }
 
         private GazePoint lastGaze;
 
