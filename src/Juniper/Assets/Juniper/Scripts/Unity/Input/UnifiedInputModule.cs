@@ -10,6 +10,8 @@ namespace Juniper.Unity.Input
         OculusInputModule
 #elif UNITY_XR_WINDOWSMR_METRO
         WindowsMRInputModule
+#elif UNITY_XR_MAGICLEAP
+        MagicLeapInputModule
 #else
         AbstractUnifiedInputModule
 #endif

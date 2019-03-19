@@ -1,7 +1,6 @@
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
-using System;
 
 #if ANDROID_API_26_OR_GREATER
 using HapticsType = Juniper.Unity.Haptics.AndroidAPI26Haptics;
@@ -12,25 +11,15 @@ using HapticsType = Juniper.Unity.Haptics.iOS10Haptics;
 #elif IOS_VERSION_9
 using HapticsType = Juniper.Unity.Haptics.iOS9Haptics;
 #else
-
 using HapticsType = Juniper.Unity.Haptics.DefaultHaptics;
-
 #endif
 
 namespace Juniper.Unity.Input.Pointers.Screen
 {
-    public class TouchPointConfiguration : AbstractPointerConfiguration<Unary>
-    {
-        public TouchPointConfiguration()
-        {
-            AddButton(Unary.One, UnityEngine.EventSystems.PointerEventData.InputButton.Left);
-        }
-    }
-
     /// <summary>
     /// Perform pointer events on touch screens.
     /// </summary>
-    public class TouchPoint : AbstractScreenDevice<Unary, HapticsType, TouchPointConfiguration>
+    public class TouchPoint : AbstractScreenDevice<Unary, HapticsType, UnaryPointerConfiguration>
     {
         [ContextMenu("Reinstall")]
         public override void Reinstall()
@@ -44,27 +33,8 @@ namespace Juniper.Unity.Input.Pointers.Screen
         [ReadOnly]
         public int fingerID;
 
-        /// <summary>
-        /// The latest Unity state object for the finger pressed onto the touch screen.
-        /// </summary>
-        public Touch Finger
-        {
-            get; private set;
-        }
-
         private static readonly Touch DEAD_FINGER = new Touch { phase = TouchPhase.Ended };
 
-#if UNITY_XR_MAGICLEAP
-
-        public override bool IsConnected
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-#else
         /// <summary>
         /// Sometimes we lose the touch point but we don't receive a cancel or end event, so we need
         /// to include a timeout from the last update time as well.
@@ -76,7 +46,6 @@ namespace Juniper.Unity.Input.Pointers.Screen
                 return ActiveThisFrame || wasPressed;
             }
         }
-#endif
 
         public bool ActiveThisFrame
         {
@@ -84,15 +53,8 @@ namespace Juniper.Unity.Input.Pointers.Screen
             private set;
         }
 
+        private bool pressed;
         private bool wasPressed;
-
-        private bool Pressed
-        {
-            get
-            {
-                return Finger.phase != TouchPhase.Ended && Finger.phase != TouchPhase.Canceled;
-            }
-        }
 
         public override void Awake()
         {
@@ -103,18 +65,20 @@ namespace Juniper.Unity.Input.Pointers.Screen
 
         public override bool IsButtonPressed(Unary button)
         {
-            return Pressed;
+            return pressed;
         }
 
         public override bool IsButtonUp(Unary button)
         {
-            return !Pressed && wasPressed;
+            return !pressed && wasPressed;
         }
 
         public override bool IsButtonDown(Unary button)
         {
-            return Pressed && !wasPressed;
+            return pressed && !wasPressed;
         }
+
+        private Vector3 lastWorldPoint;
 
         /// <summary>
         /// Where on the screen the pointer represents.
@@ -123,23 +87,22 @@ namespace Juniper.Unity.Input.Pointers.Screen
         {
             get
             {
-                return WorldFromScreen(Finger.position);
+                return lastWorldPoint;
             }
         }
 
         public override void Update()
         {
-            wasPressed = Pressed;
+            wasPressed = pressed;
 
             ActiveThisFrame = 0 <= fingerID && fingerID < UnityInput.touchCount;
-            if (ActiveThisFrame)
-            {
-                Finger = UnityInput.GetTouch(fingerID);
-            }
-            else
-            {
-                Finger = DEAD_FINGER;
-            }
+
+            var finger = ActiveThisFrame
+                ? UnityInput.GetTouch(fingerID)
+                : DEAD_FINGER;
+
+            pressed = finger.phase != TouchPhase.Ended && finger.phase != TouchPhase.Canceled;
+            lastWorldPoint = WorldFromScreen(finger.position);
 
             base.Update();
         }

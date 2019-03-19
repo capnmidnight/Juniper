@@ -1,5 +1,5 @@
 using Juniper.Unity.Haptics;
-using System.Linq;
+
 using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
@@ -27,26 +27,6 @@ namespace Juniper.Unity.Input.Pointers.Screen
         {
             base.Reinstall();
         }
-
-#if UNITY_XR_MAGICLEAP
-
-        public override bool IsConnected
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-        public bool ActiveThisFrame
-        {
-            get
-            {
-                return false;
-            }
-        }
-
-#else
 
         private Vector2 MoveDelta
         {
@@ -80,7 +60,6 @@ namespace Juniper.Unity.Input.Pointers.Screen
                     || MoveDelta.magnitude > 0;
             }
         }
-#endif
 
         /// <summary>
         /// Disables gazing for the pointer.

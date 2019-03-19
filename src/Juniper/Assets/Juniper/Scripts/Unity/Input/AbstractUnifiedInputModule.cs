@@ -89,6 +89,7 @@ namespace Juniper.Unity.Input
                 PointerFound += subAct;
             }
         }
+        
 
         public class PointerFoundEvent : UnityEvent<IPointerDevice>
         {
@@ -381,45 +382,65 @@ namespace Juniper.Unity.Input
             m_RaycastResultCache.Sort(RaycastComparer);
         }
 
-        private void EnableMouse(bool value)
+        public void EnableMouse(bool value)
         {
             mouse.SetActive(value);
+            if (enableMouseToggle != null && enableMouseToggle.isOn != value)
+            {
+                enableMouseToggle.isOn = value;
+            }
             PlayerPrefs.SetInt(ENABLE_MOUSE_KEY, value ? 1 : 0);
             PlayerPrefs.Save();
         }
 
-        private void EnableGaze(bool value)
+        public void EnableGaze(bool value)
         {
             gazePointer.SetActive(value);
+            if (enableGazeToggle != null && enableGazeToggle.isOn != value)
+            {
+                enableGazeToggle.isOn = value;
+            }
             PlayerPrefs.SetInt(ENABLE_GAZE_KEY, value ? 1 : 0);
             PlayerPrefs.Save();
         }
 
-        private void EnableTouch(bool value)
+        public void EnableTouch(bool value)
         {
             foreach (var touch in touches)
             {
                 touch.SetActive(value);
             }
+            if (enableTouchToggle != null && enableTouchToggle.isOn != value)
+            {
+                enableTouchToggle.isOn = value;
+            }
             PlayerPrefs.SetInt(ENABLE_TOUCH_KEY, value ? 1 : 0);
             PlayerPrefs.Save();
         }
 
-        private void EnableHands(bool value)
+        public void EnableHands(bool value)
         {
             foreach (var handTracker in handTrackers)
             {
                 handTracker.SetActive(value);
             }
+            if (enableHandsToggle != null && enableHandsToggle.isOn != value)
+            {
+                enableHandsToggle.isOn = value;
+            }
             PlayerPrefs.SetInt(ENABLE_HANDS_KEY, value ? 1 : 0);
             PlayerPrefs.Save();
         }
 
-        private void EnableControllers(bool value)
+        public void EnableControllers(bool value)
         {
             foreach (var motionController in motionControllers)
             {
                 motionController.SetActive(value);
+            }
+            if(enableControllersToggle != null && enableControllersToggle.isOn != value)
+            {
+                enableControllersToggle.isOn = value;
             }
             PlayerPrefs.SetInt(ENABLE_CONTROLLERS_KEY, value ? 1 : 0);
             PlayerPrefs.Save();
