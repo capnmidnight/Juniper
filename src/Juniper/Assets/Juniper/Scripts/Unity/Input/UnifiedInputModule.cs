@@ -12,6 +12,8 @@ namespace Juniper.Unity.Input
         WindowsMRInputModule
 #elif UNITY_XR_MAGICLEAP
         MagicLeapInputModule
+#elif UNITY_ANDROID || UNITY_IOS
+        AbstractMobileInputModule
 #else
         AbstractUnifiedInputModule
 #endif
