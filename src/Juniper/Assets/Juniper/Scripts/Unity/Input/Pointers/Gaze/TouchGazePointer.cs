@@ -32,7 +32,7 @@ namespace Juniper.Unity.Input.Pointers.Gaze
         {
             base.Awake();
 
-            showProbe = false;
+            showProbe = true;
         }
 
         public override bool IsButtonPressed(Unary button)
