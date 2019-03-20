@@ -21,14 +21,14 @@ namespace Juniper
         /// <param name="contentType">The MIME of the expected response</param>
         /// <param name="resolve">The callback to perform on success, with the stream payload</param>
         /// <param name="reject">The callback to perform on error</param>
-        /// <returns>Progress tracking object</returns>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         public static void GetStream(string url, string contentType, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
 
             Action<Stream> progResolve = (Stream resolveStream) =>
             {
-                prog?.SetProgress(1);
+                prog?.Report(1);
                 resolve(resolveStream);
             };
 
@@ -56,7 +56,7 @@ namespace Juniper
         /// <param name="url">The URL to request</param>
         /// <param name="resolve">The callback to perform on success, with the byte array payload</param>
         /// <param name="reject">The callback to perform on error</param>
-        /// <returns>Progress tracking object</returns>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         public static void GetByteStream(string url, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             GetStream(url, "application/octet-stream", resolve, reject, prog);
@@ -69,7 +69,7 @@ namespace Juniper
         /// <param name="contentType">The MIME of the expected response</param>
         /// <param name="resolve">The callback to perform on success, with the byte array payload</param>
         /// <param name="reject">The callback to perform on error</param>
-        /// <returns>Progress tracking object</returns>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         public static void GetBytes(string url, string contentType, Action<byte[]> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             GetStream(
@@ -87,7 +87,7 @@ namespace Juniper
         /// <param name="url">The URL to request</param>
         /// <param name="resolve">The callback to perform on success, with the byte array payload</param>
         /// <param name="reject">The callback to perform on error</param>
-        /// <returns>Progress tracking object</returns>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         public static void GetBytes(string url, Action<byte[]> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             GetBytes(url, "application/octet-stream", resolve, reject, prog);
@@ -100,7 +100,7 @@ namespace Juniper
         /// <param name="contentType">The MIME of the expected response</param>
         /// <param name="resolve">The callback to perform on success, with the string payload</param>
         /// <param name="reject">The callback to perform on error</param>
-        /// <returns>Progress tracking object</returns>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         public static void GetText(string url, string contentType, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             GetStream(
@@ -117,7 +117,7 @@ namespace Juniper
         /// <param name="url">The URL to request</param>
         /// <param name="resolve">The callback to perform on success, with the string payload</param>
         /// <param name="reject">The callback to perform on error</param>
-        /// <returns>Progress tracking object</returns>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         public static void GetText(string url, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             GetText(url, "text/plain", resolve, reject, prog);
@@ -130,7 +130,7 @@ namespace Juniper
         /// <param name="url">The URL to request</param>
         /// <param name="resolve">The callback to perform on success, with the stream payload</param>
         /// <param name="reject">The callback to perform on error</param>
-        /// <returns>Progress tracking object</returns>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         public static void GetJSON(string url, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             GetStream(url, "application/json", resolve, reject, prog);
@@ -142,7 +142,7 @@ namespace Juniper
         /// <param name="url">The URL to request</param>
         /// <param name="resolve">The callback to perform on success, with the JSON string payload</param>
         /// <param name="reject">The callback to perform on error</param>
-        /// <returns>Progress tracking object</returns>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         public static void GetJSON(string url, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             GetText(url, "application/json", resolve, reject, prog);
@@ -156,7 +156,7 @@ namespace Juniper
         /// <param name="writeBody">A callback function for writing the body to a stream</param>
         /// <param name="resolve">The callback to perform on success, with the stream payload</param>
         /// <param name="reject">The callback to perform on error</param>
-        /// <returns>Progress tracking object</returns>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         public static void PostStream(string url, string mime, long bodyLength, Action<Stream> writeBody, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             try
@@ -179,7 +179,7 @@ namespace Juniper
         /// <param name="body">The body to write to the POST request</param>
         /// <param name="resolve">The callback to perform on success, with the stream payload</param>
         /// <param name="reject">The callback to perform on error</param>
-        /// <returns>Progress tracking object</returns>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         public static void PostStream(string url, string mime, string body, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             var buf = Encoding.UTF8.GetBytes(body);
@@ -198,7 +198,7 @@ namespace Juniper
         /// The callback to perform on success, with the deserialized object payload
         /// </param>
         /// <param name="reject">The callback to perform on error</param>
-        /// <returns>Progress tracking object</returns>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         public static void GetObject<T>(string url, Action<T> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             try
@@ -225,7 +225,7 @@ namespace Juniper
         /// The callback to perform on success, with the deserialized object payload
         /// </param>
         /// <param name="reject">The callback to perform on error</param>
-        /// <returns>Progress tracking object</returns>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         public static void PostObject<T, U>(string url, U body, Action<T> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             try
@@ -282,9 +282,10 @@ namespace Juniper
         /// <summary>
         /// Initialize a byte stream request handler.
         /// </summary>
-        /// <param name="request"></param>
-        /// <param name="resolve"></param>
-        /// <param name="reject"></param>
+        /// <param name="request">The request to handle</param>
+        /// <param name="resolve">The callback to execute when the request completes successfully</param>
+        /// <param name="reject">The callback to execute if the request fails.</param>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         private HTTP(HttpWebRequest request, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             this.request = request;
@@ -296,10 +297,12 @@ namespace Juniper
         /// <summary>
         /// Initialize a byte stream request handler that first writes a request body.
         /// </summary>
-        /// <param name="request"></param>
-        /// <param name="writeBody"></param>
-        /// <param name="resolve"></param>
-        /// <param name="reject"></param>
+        /// <param name="request">The request to handle</param>
+        /// <param name="bodyLength">The length, in bytes, of the request body that needs to be written.</param>
+        /// <param name="writeBody">A callback to execute when the system is ready to write the request body.</param>
+        /// <param name="resolve">The callback to execute when the request completes successfully</param>
+        /// <param name="reject">The callback to execute if the request fails.</param>
+        /// <param name="prog">An optional progress tracker. Defaults to null (no progress tracking).</param>
         private HTTP(HttpWebRequest request, long bodyLength, Action<Stream> writeBody, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
         {
             this.request = request;
@@ -310,6 +313,12 @@ namespace Juniper
             SetReadResponse(request, resolve, progs[1]);
         }
 
+        /// <summary>
+        /// Wraps the response reading callback with a progress report.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="resolve"></param>
+        /// <param name="prog"></param>
         private void SetReadResponse(HttpWebRequest request, Action<Stream> resolve, IProgressReceiver prog)
         {
             var readProgress = new StreamProgress();
@@ -321,6 +330,12 @@ namespace Juniper
             };
         }
 
+        /// <summary>
+        /// Wraps the body writing callback with a progress report.
+        /// </summary>
+        /// <param name="bodyLength"></param>
+        /// <param name="writeBody"></param>
+        /// <param name="prog"></param>
         private void SetWriteBody(long bodyLength, Action<Stream> writeBody, IProgressReceiver prog)
         {
             var writeProgress = new StreamProgress();

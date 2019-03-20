@@ -26,11 +26,6 @@ namespace Juniper.Unity.Input.Pointers
             get;
         }
 
-        string name
-        {
-            get;
-        }
-
         string ProbeName
         {
             get;

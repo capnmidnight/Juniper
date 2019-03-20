@@ -7,6 +7,13 @@ namespace System.Collections.Generic
     /// </summary>
     public static class IEnumerableExt
     {
+        /// <summary>
+        /// Creates set-like behaviour for generic lists. If the list already contains
+        /// the given value, it will not be added to the list again.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collect"></param>
+        /// <param name="value"></param>
         public static void MaybeAdd<T>(this List<T> collect, T value)
         {
             if (!collect.Contains(value))
@@ -15,6 +22,15 @@ namespace System.Collections.Generic
             }
         }
 
+        /// <summary>
+        /// Creates set-like behaviour for generic lists. If any of the items are already
+        /// contained in the list, they will not be added. Any items that are not in the list
+        /// already will be added. The results are that <paramref name="collect"/> becomes
+        /// a union of the previous state of <paramref name="collect"/> and <paramref name="values"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collect"></param>
+        /// <param name="values"></param>
         public static void MaybeAddRange<T>(this List<T> collect, IEnumerable<T> values)
         {
             if (values != null)

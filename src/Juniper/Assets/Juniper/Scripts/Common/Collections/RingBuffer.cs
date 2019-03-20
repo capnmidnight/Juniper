@@ -150,14 +150,15 @@ namespace Juniper.Collections
         /// </exception>
         /// <value>The element at the specified index.</value>
         /// <example>
-        /// var buffer = new RingBuffer{int}(5); buffer.Add(3); // buffer[0] == 3 buffer.Add(1); //
-        /// buffer[0] == 3, buffer[1] == 1 buffer.Add(4); // buffer[0] == 3, buffer[1] == 1,
-        /// buffer[2] == 4 buffer.Add(1); // buffer[0] == 3, buffer[1] == 1, buffer[2] == 4,
-        /// buffer[3] == 1 buffer.Add(5); // buffer[0] == 3, buffer[1] == 1, buffer[2] == 4,
-        /// buffer[3] == 1, buffer[4] == 5 buffer.Add(9); // buffer[0] == 1, buffer[1] == 4,
-        /// buffer[2] == 1, buffer[3] == 5, buffer[4] == 9 buffer.Add(2); // buffer[0] == 4,
-        /// buffer[1] == 1, buffer[2] == 5, buffer[3] == 9, buffer[4] == 2 buffer[2] = 7; //
-        /// buffer[0] == 4, buffer[1] == 1, buffer[2] == 7, buffer[3] == 9, buffer[4] == 2
+        /// var buffer = new RingBuffer{int}(5);
+        /// buffer.Add(3); // buffer[0] == 3
+        /// buffer.Add(1); // buffer[0] == 3, buffer[1] == 1
+        /// buffer.Add(4); // buffer[0] == 3, buffer[1] == 1, buffer[2] == 4
+        /// buffer.Add(1); // buffer[0] == 3, buffer[1] == 1, buffer[2] == 4, buffer[3] == 1
+        /// buffer.Add(5); // buffer[0] == 3, buffer[1] == 1, buffer[2] == 4, buffer[3] == 1, buffer[4] == 5
+        /// buffer.Add(9); // buffer[0] == 1, buffer[1] == 4, buffer[2] == 1, buffer[3] == 5, buffer[4] == 9
+        /// buffer.Add(2); // buffer[0] == 4, buffer[1] == 1, buffer[2] == 5, buffer[3] == 9, buffer[4] == 2
+        /// buffer[2] = 7; // buffer[0] == 4, buffer[1] == 1, buffer[2] == 7, buffer[3] == 9, buffer[4] == 2
         /// </example>
         public T this[int index]
         {
@@ -194,10 +195,16 @@ namespace Juniper.Collections
         /// <param name="item">The item to search for.</param>
         /// <returns>True if the item is found. False if it is not.</returns>
         /// <example>
-        /// var buffer = new RingBuffer{int}(5); buffer.Add(3); // { 3 } buffer.Add(1); // { 3, 1 }
-        /// buffer.Add(4); // { 3, 1, 4 } buffer.Add(1); // { 3, 1, 4, 1 } buffer.Add(5); // { 3, 1,
-        /// 4, 1, 5 } buffer.Add(9); // { 1, 4, 1, 5, 9 } buffer.Add(2); // { 4, 1, 5, 9, 2 }
-        /// buffer.Contains(3); // --&gt; false buffer.Contains(1); // --&gt; true
+        /// var buffer = new RingBuffer{int}(5);
+        /// buffer.Add(3); // { 3 }
+        /// buffer.Add(1); // { 3, 1 }
+        /// buffer.Add(4); // { 3, 1, 4 }
+        /// buffer.Add(1); // { 3, 1, 4, 1 }
+        /// buffer.Add(5); // { 3, 1, 4, 1, 5 }
+        /// buffer.Add(9); // { 1, 4, 1, 5, 9 }
+        /// buffer.Add(2); // { 4, 1, 5, 9, 2 }
+        /// buffer.Contains(3); // --&gt; false
+        /// buffer.Contains(1); // --&gt; true
         /// </example>
         public bool Contains(T item)
         {

@@ -35,8 +35,6 @@ namespace Juniper.Data
             NextRequest = DateTime.Now.AddSeconds(pollRate / 4);
         }
 
-        #region Events
-
         /// <summary>
         /// Capture when the request poller is ready.
         /// </summary>
@@ -101,8 +99,6 @@ namespace Juniper.Data
                 TimedOut?.Invoke(this, EventArgs.Empty);
             }
         }
-
-        #endregion Events
 
         /// <summary>
         /// The timestamp at which the next request will be performed.
