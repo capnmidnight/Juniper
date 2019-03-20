@@ -181,7 +181,23 @@ namespace Juniper.Unity
         /// </summary>
         /// <param name="sceneName"></param>
         /// <returns></returns>
-        public void SwitchToSceneName(string sceneName, bool skipFadeOut = false)
+        public void SwitchToSceneName(string sceneName)
+        {
+            SwitchToSceneName(sceneName, false);
+        }
+
+        /// <summary>
+        /// A subscene is a root game object loaded from another scene. The scenes all get loaded at
+        /// runtime and then you can make different parts of it visible on the fly. This procedure
+        /// deactivates any subscenes that are not the desired subscene, calling any Exit functions
+        /// along the way. In the new scene, TransitionController Enter functions are called as well.
+        /// It is suitable for running in a coroutine to track when the end of the switching process occurs.
+        /// </summary>
+        /// <param name="sceneName"></param>
+        /// <param name="skipFadeOut">Whether or not to fade the screen out (true) or start with a black screen (false)
+        /// before loading the scene.</param>
+        /// <returns></returns>
+        private void SwitchToSceneName(string sceneName, bool skipFadeOut)
         {
             StartCoroutine(SwitchToSceneNameCoroutine(sceneName, skipFadeOut));
         }
@@ -198,7 +214,7 @@ namespace Juniper.Unity
             }
         }
 
-        private IEnumerator SwitchToSceneNameCoroutine(string subSceneName, bool skipFadeOut = false)
+        private IEnumerator SwitchToSceneNameCoroutine(string subSceneName, bool skipFadeOut)
         {
             loadingBar?.Activate();
             loadingBar?.Report(0);
@@ -209,13 +225,12 @@ namespace Juniper.Unity
                 yield return darth?.Waiter;
             }
 
-            var split = loadingBar?.Split(2);
             var parts = subSceneName.Split('.');
             var sceneName = parts[0];
             var sceneFileName = sceneName + ".unity";
             var scenePath = Array.Find(subSceneNames, s => s.EndsWith(sceneFileName));
 
-            yield return LoadScenePathCoroutine(scenePath, split[0]);
+            yield return LoadScenePathCoroutine(scenePath, loadingBar);
             yield return LoadingCompleteCoroutine();
         }
 
@@ -809,7 +824,6 @@ namespace Juniper.Unity
             prog?.Report(0);
 
             var sceneName = GetSceneNameFromPath(path);
-
             var split = prog.Split(2);
             var sceneLoadProg = split[0];
             var subSceneLoadProg = split[1];
@@ -832,7 +846,7 @@ namespace Juniper.Unity
                     while (!op.isDone)
                     {
                         sceneLoadProg?.Report(op.progress);
-                        yield return sceneName + " " + (prog?.Progress)?.ToString("P1") ?? "N/A";
+                        yield return sceneName + " " + (prog?.Progress).Label(UnitOfMeasure.Percent, 1);
                     }
                 }
             }
@@ -841,7 +855,7 @@ namespace Juniper.Unity
             while (scene == null)
             {
                 scene = GetScene(sceneName, path);
-                yield return sceneName + " " + (prog?.Progress)?.ToString("P1") ?? "N/A";
+                yield return sceneName + " " + (prog?.Progress).Label(UnitOfMeasure.Percent, 1);
             }
 
             var toLoad = from root in scene.Value.GetRootGameObjects()
@@ -852,7 +866,7 @@ namespace Juniper.Unity
 
             while (prog?.IsComplete() == false)
             {
-                yield return sceneName + " " + (prog?.Progress)?.ToString("P1") ?? "N/A";
+                yield return sceneName + " " + (prog?.Progress).Label(UnitOfMeasure.Percent, 1);
             }
         }
 

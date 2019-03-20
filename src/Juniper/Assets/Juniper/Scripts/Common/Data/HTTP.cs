@@ -322,7 +322,7 @@ namespace Juniper
         private void SetReadResponse(HttpWebRequest request, Action<Stream> resolve, IProgress prog)
         {
             this.resolve = stream =>
-                resolve(new StreamProgress(stream, request.ContentLength, prog));
+                resolve(new ProgressStream(stream, request.ContentLength, prog));
         }
 
         /// <summary>
@@ -335,7 +335,7 @@ namespace Juniper
         {
             this.writeBody = stream =>
             {
-                var writeProgress = new StreamProgress(stream, bodyLength, prog);
+                var writeProgress = new ProgressStream(stream, bodyLength, prog);
                 writeBody(writeProgress);
                 writeProgress.Flush();
             };

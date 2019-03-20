@@ -153,9 +153,8 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <param name="location"></param>
         /// <param name="force"></param>
         /// <returns></returns>
-        public IProgress Request(LatLngPoint location, bool force, IProgress prog = null)
+        public void Request(LatLngPoint location, bool force, IProgress prog = null)
         {
-            var subProgress = prog.Split(1)[0];
             if (NeedsNewReport(location) || force)
             {
                 string reportJSON = null;
@@ -183,10 +182,12 @@ namespace Juniper.World.Climate.OpenWeatherMap
                         reportJSON = JsonConvert.SerializeObject(errorObj);
                         LastReport = JsonConvert.DeserializeObject<WeatherReport>(reportJSON);
                     },
-                    subProgress);
+                    prog);
             }
-
-            return subProgress;
+            else
+            {
+                prog?.Report(1);
+            }
         }
     }
 }

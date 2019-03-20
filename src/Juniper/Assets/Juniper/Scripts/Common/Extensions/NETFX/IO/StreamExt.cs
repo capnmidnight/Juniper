@@ -23,7 +23,7 @@ namespace System.IO
         public static void Pipe(this Stream inStream, Stream outStream, IProgress prog = null)
         {
             prog?.Report(0);
-            inStream = new StreamProgress(inStream, prog);
+            inStream = new ProgressStream(inStream, prog);
             var read = int.MaxValue;
             var buf = new byte[BLOCK_SIZE];
             while (read > 0)
@@ -47,7 +47,7 @@ namespace System.IO
         public static byte[] ReadBytes(this Stream stream, IProgress prog = null)
         {
             prog?.Report(0);
-            var streamProg = new StreamProgress(stream, prog);
+            var streamProg = new ProgressStream(stream, prog);
             var buf = new byte[stream.Length];
             for (var i = 0; i < buf.Length; i += BLOCK_SIZE)
             {
@@ -66,7 +66,7 @@ namespace System.IO
         /// <returns>The string read out of the stream.</returns>
         public static string ReadString(this Stream stream, IProgress prog = null)
         {
-            var streamProg = new StreamProgress(stream, prog);
+            var streamProg = new ProgressStream(stream, prog);
             using (var reader = new StreamReader(streamProg))
             {
                 return reader.ReadToEnd();
@@ -82,7 +82,7 @@ namespace System.IO
         /// <returns>The value deserialized out of the stream.</returns>
         public static T ReadObject<T>(this Stream stream, IProgress prog = null)
         {
-            using (var streamProg = new StreamProgress(stream, prog))
+            using (var streamProg = new ProgressStream(stream, prog))
             using (var reader = new StreamReader(streamProg))
             {
                 return JsonConvert.DeserializeObject<T>(reader.ReadToEnd());

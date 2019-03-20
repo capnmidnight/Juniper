@@ -245,9 +245,9 @@ namespace Juniper.Unity.World.Climate
             {
                 string reportJSON = null;
 
-                var job = weatherService.Request(location, force, prog);
+                weatherService.Request(location, force, prog);
 
-                yield return new WaitUntil(job.IsComplete);
+                yield return new WaitUntil(() => prog?.IsComplete() != false);
 
                 if (reportJSON != lastReportJSON)
                 {

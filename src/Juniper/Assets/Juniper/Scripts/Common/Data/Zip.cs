@@ -44,7 +44,7 @@ namespace Juniper.Data
                     var entry = file[entryIndex];
                     using (var stream = file.GetInputStream(entry))
                     {
-                        resolve(new StreamProgress(stream, prog));
+                        resolve(new ProgressStream(stream, prog));
                     }
                 }
                 else

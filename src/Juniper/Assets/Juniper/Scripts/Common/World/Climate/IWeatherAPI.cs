@@ -35,7 +35,7 @@ namespace Juniper.World.Climate
         /// </summary>
         /// <param name="location"></param>
         /// <param name="force"></param>
-        /// <returns></returns>
-        IProgress Request(LatLngPoint location, bool force, IProgress prog = null);
+        /// <param name="prog"></param>
+        void Request(LatLngPoint location, bool force, IProgress prog = null);
     }
 }
