@@ -479,9 +479,9 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             EditorApplication.update += exec;
         }
 
-        private static void DelayedUpdate(IProgressReceiver prog, float maxTime, Action onComplete)
+        private static void DelayedUpdate(IProgress prog, float maxTime, Action onComplete)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
             var startTime = DateTime.Now;
             OnEditorUpdate(() =>
             {
@@ -490,7 +490,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             }, OnCancel, () =>
             {
                 var age = (float)(DateTime.Now - startTime).TotalSeconds;
-                prog?.SetProgress(age, maxTime);
+                prog?.Report(age, maxTime);
                 return age > maxTime;
             });
         }
@@ -513,7 +513,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
         private static string LastPrefix;
 
-        private static IProgressReceiver PrepareBuildStep(int offset, string prefix = null)
+        private static IProgress PrepareBuildStep(int offset, string prefix = null)
         {
             LastPrefix = prefix ?? LastPrefix;
             var step = BuildProgress - offset + 1;
@@ -522,12 +522,12 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 .Subdivide(step + BuildProgress, 2 * STAGES.Length, LastPrefix);
         }
 
-        private static void WithProgress(string prefix, Action<IProgressReceiver> act)
+        private static void WithProgress(string prefix, Action<IProgress> act)
         {
             try
             {
                 var prog = PrepareBuildStep(0, prefix);
-                prog.SetProgress(0);
+                prog.Report(0);
                 act(prog);
             }
             catch (OperationCanceledException)

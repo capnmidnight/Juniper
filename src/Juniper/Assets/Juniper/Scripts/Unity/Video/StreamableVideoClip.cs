@@ -11,11 +11,11 @@ namespace Juniper.Unity.Video
     [Serializable]
     public class StreamableVideoClip : StreamableAsset<VideoClip>
     {
-        public void Load(string cacheDirectory, TimeSpan ttl, Action<string> resolve, IProgressReceiver prog = null)
+        public void Load(string cacheDirectory, TimeSpan ttl, Action<string> resolve, IProgress prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
             resolve(LoadPath);
-            prog?.SetProgress(1);
+            prog?.Report(1);
         }
     }
 }

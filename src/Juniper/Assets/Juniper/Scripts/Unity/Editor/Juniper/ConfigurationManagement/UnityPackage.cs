@@ -34,7 +34,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
         internal static JObject Dependencies;
 
-        public override void Uninstall(IProgressReceiver prog = null)
+        public override void Uninstall(IProgress prog = null)
         {
             base.Uninstall(prog);
 
@@ -43,10 +43,10 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 Dependencies.Remove(Name);
             }
 
-            prog?.SetProgress(1);
+            prog?.Report(1);
         }
 
-        public override void Install(IProgressReceiver prog = null)
+        public override void Install(IProgress prog = null)
         {
             base.Install(prog);
 
@@ -63,7 +63,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 #endif
             }
 
-            prog?.SetProgress(1);
+            prog?.Report(1);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace Juniper.Progress
@@ -5,26 +6,23 @@ namespace Juniper.Progress
     public class StreamProgress : Stream, IProgress
     {
         private Stream stream;
-        private long totalRead;
         private long length;
-        private IProgressReceiver parent;
+        private IProgress parent;
 
-        public StreamProgress()
+        public StreamProgress(Stream stream, IProgress parent = null)
+            : this(stream, stream.Length, parent)
         {
         }
 
-        public StreamProgress(Stream stream, IProgressReceiver parent = null)
-        {
-            SetStream(stream, stream.Length, parent);
-        }
-
-        internal void SetStream(Stream stream, long length, IProgressReceiver parent = null)
+        public StreamProgress(Stream stream, long length, IProgress parent = null)
         {
             this.parent = parent;
             this.stream = stream;
             this.length = length;
+            TotalByteCount = 0;
         }
 
+        private long totalRead;
         private long TotalByteCount
         {
             get
@@ -35,26 +33,32 @@ namespace Juniper.Progress
             set
             {
                 totalRead = value;
-                parent?.SetProgress(totalRead, length);
+                this.Report(totalRead, length);
             }
+        }
+
+        public override void SetLength(long value)
+        {
+            stream.SetLength(value);
+            length = value;
+            this.Report(totalRead, length);
+        }
+
+        void IProgress<float>.Report(float value)
+        {
+            parent?.Report(value);
+        }
+
+        void IProgress.Report(float progress, string status)
+        {
+            parent?.Report(progress, status);
         }
 
         public float Progress
         {
             get
             {
-                if (stream == null)
-                {
-                    return 0;
-                }
-                else if (length == 0)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return (float)TotalByteCount / length;
-                }
+                return parent?.Progress ?? 1;
             }
         }
 
@@ -126,11 +130,6 @@ namespace Juniper.Progress
         public override long Seek(long offset, SeekOrigin origin)
         {
             return TotalByteCount = stream.Seek(offset, origin);
-        }
-
-        public override void SetLength(long value)
-        {
-            stream.SetLength(value);
         }
 
         public override void Write(byte[] buffer, int offset, int count)

@@ -22,9 +22,9 @@ namespace Juniper.Unity
             childTransitions = GetComponentsInChildren<AbstractTransitionController>(true);
         }
 
-        public virtual void Load(IProgressReceiver prog = null)
+        public virtual void Load(IProgress prog = null)
         {
-            prog?.SetProgress(1);
+            prog?.Report(1);
         }
 
         [ContextMenu("Enter")]

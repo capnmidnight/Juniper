@@ -157,7 +157,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             }
         }
 
-        public void InstallUnityPackages(IProgressReceiver prog = null)
+        public void InstallUnityPackages(IProgress prog = null)
         {
             var progs = prog.Split(2);
             Platforms.ForEachPackage(ExcludedUnityPackages, progs[0], (pkg, p) =>
@@ -183,12 +183,12 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             });
         }
 
-        public void InstallRawPackages(IProgressReceiver prog = null)
+        public void InstallRawPackages(IProgress prog = null)
         {
             Platforms.ForEachPackage(RawPackages, prog, (pkg, p) => pkg.Install(p));
         }
 
-        public void Activate(IProgressReceiver prog)
+        public void Activate(IProgress prog)
         {
             var progs = prog.Split(2);
             Platforms.ForEachPackage(IncludedUnityPackages, progs[0], (pkg, p) => pkg.Activate(TargetGroup, p));
@@ -262,12 +262,12 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             }
         }
 
-        public void UninstallRawPackages(IProgressReceiver prog = null)
+        public void UninstallRawPackages(IProgress prog = null)
         {
             Platforms.ForEachPackage(UninstallableRawPackages, prog, (pkg, p) => pkg.Uninstall(p));
         }
 
-        public void UninstallUnityPackages(IProgressReceiver prog = null)
+        public void UninstallUnityPackages(IProgress prog = null)
         {
             Platforms.ForEachPackage(UninstallableUnityPackages, prog, (pkg, p) => pkg.Uninstall(p));
         }

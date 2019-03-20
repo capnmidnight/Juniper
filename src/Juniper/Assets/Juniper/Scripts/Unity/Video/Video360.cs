@@ -126,9 +126,9 @@ namespace Juniper.Unity.Video
             CreateAudioTracks(1);
         }
 
-        public override void Load(IProgressReceiver prog = null)
+        public override void Load(IProgress prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
             Enter();
             if (player != null)
             {
@@ -157,7 +157,7 @@ namespace Juniper.Unity.Video
 
                     player.targetTexture = renderTexture;
                     Play();
-                    prog?.SetProgress(1);
+                    prog?.Report(1);
                 };
 
                 player.prepareCompleted += exec;

@@ -21,7 +21,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             Instance = new Platforms();
         }
 
-        public static void ForEachPackage<T>(IEnumerable<T> packages, IProgressReceiver prog, Action<T, IProgressReceiver> act)
+        public static void ForEachPackage<T>(IEnumerable<T> packages, IProgress prog, Action<T, IProgress> act)
             where T : AbstractPackage
         {
             prog.ForEach(packages, (pkg, p) =>

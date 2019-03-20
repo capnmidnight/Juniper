@@ -27,7 +27,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             }
         }
 
-        public override void Install(IProgressReceiver prog = null)
+        public override void Install(IProgress prog = null)
         {
             base.Install(prog);
 
@@ -36,10 +36,10 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 Zip.DecompressDirectory(InputZipFileName, "Assets", prog);
             }
 
-            prog?.SetProgress(1);
+            prog?.Report(1);
         }
 
-        public override void Activate(BuildTargetGroup targetGroup, IProgressReceiver prog = null)
+        public override void Activate(BuildTargetGroup targetGroup, IProgress prog = null)
         {
             base.Activate(targetGroup, prog);
 
@@ -78,9 +78,9 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             }
         }
 
-        private static void DeleteAll(IEnumerable<string> paths, Func<string, bool> tryDelete, IProgressReceiver prog)
+        private static void DeleteAll(IEnumerable<string> paths, Func<string, bool> tryDelete, IProgress prog)
         {
-            prog?.SetProgress(0, "Deleting");
+            prog?.Report(0, "Deleting");
 
             var prefixedPath = paths
                 .Select(path => Path.Combine("Assets", path))
@@ -92,10 +92,10 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             {
                 try
                 {
-                    subProgs[index]?.SetProgress(0);
+                    subProgs[index]?.Report(0);
                     if (tryDelete(path))
                     {
-                        subProgs[index]?.SetProgress(1);
+                        subProgs[index]?.Report(1);
                     }
                     ++index;
                 }
@@ -109,10 +109,10 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 }
             }
 
-            prog?.SetProgress(1, "Deleted");
+            prog?.Report(1, "Deleted");
         }
 
-        public override void Uninstall(IProgressReceiver prog = null)
+        public override void Uninstall(IProgress prog = null)
         {
             base.Uninstall(prog);
 

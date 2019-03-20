@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Juniper.Unity.Widgets
 {
-    public class LoadingBar : MonoBehaviour, IProgressReceiver
+    public class LoadingBar : MonoBehaviour, IProgress
     {
         public static PooledComponent<LoadingBar> Ensure(Transform parent, int transparentLayer)
         {
@@ -40,7 +40,12 @@ namespace Juniper.Unity.Widgets
             return bar;
         }
 
-        public void SetProgress(float progress, string status = null)
+        public void Report(float progress)
+        {
+            Report(progress, null);
+        }
+
+        public void Report(float progress, string status)
         {
             TargetValue = progress;
         }

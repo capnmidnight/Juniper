@@ -1,13 +1,12 @@
 namespace Juniper.Progress
 {
-    public class ProgressSubdivision : IProgressReceiver
+    public class ProgressSubdivision : IProgress
     {
-        private readonly IProgressReceiver parent;
+        private readonly IProgress parent;
         private readonly float start, length;
         private readonly string prefix;
-        private float localProgress;
 
-        public ProgressSubdivision(IProgressReceiver parent, float start, float length, string prefix = null)
+        public ProgressSubdivision(IProgress parent, float start, float length, string prefix = null)
         {
             this.parent = parent;
             this.start = System.Math.Max(0, start);
@@ -17,23 +16,26 @@ namespace Juniper.Progress
 
         public float Progress
         {
-            get
-            {
-                return localProgress;
-            }
+            get;
+            private set;
         }
 
-        public void SetProgress(float progress, string status = null)
+        public void Report(float progress)
         {
-            localProgress = progress;
+            Report(progress, null);
+        }
+
+        public void Report(float progress, string status)
+        {
+            Progress = progress;
             var prog = start + (progress * length);
             if (prefix == null)
             {
-                parent?.SetProgress(prog, status);
+                parent?.Report(prog, status);
             }
             else
             {
-                parent?.SetProgress(prog, prefix + " " + status);
+                parent?.Report(prog, prefix + " " + status);
             }
         }
     }

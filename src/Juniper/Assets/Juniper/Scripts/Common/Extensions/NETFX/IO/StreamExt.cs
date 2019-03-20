@@ -20,9 +20,9 @@ namespace System.IO
         /// <param name="inStream">The stream to pipe out of.</param>
         /// <param name="outStream">The stream to pipe into.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
-        public static void Pipe(this Stream inStream, Stream outStream, IProgressReceiver prog = null)
+        public static void Pipe(this Stream inStream, Stream outStream, IProgress prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
             inStream = new StreamProgress(inStream, prog);
             var read = int.MaxValue;
             var buf = new byte[BLOCK_SIZE];
@@ -35,7 +35,7 @@ namespace System.IO
                 }
             }
             outStream.Flush();
-            prog?.SetProgress(1);
+            prog?.Report(1);
         }
 
         /// <summary>
@@ -44,17 +44,17 @@ namespace System.IO
         /// <param name="stream">The stream to read.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
         /// <returns>The bytes read out of the stream.</returns>
-        public static byte[] ReadBytes(this Stream stream, IProgressReceiver prog = null)
+        public static byte[] ReadBytes(this Stream stream, IProgress prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
             var streamProg = new StreamProgress(stream, prog);
             var buf = new byte[stream.Length];
             for (var i = 0; i < buf.Length; i += BLOCK_SIZE)
             {
                 streamProg.Read(buf, i, BLOCK_SIZE);
-                prog?.SetProgress(i, stream.Length);
+                prog?.Report(i, stream.Length);
             }
-            prog?.SetProgress(1);
+            prog?.Report(1);
             return buf;
         }
 
@@ -64,7 +64,7 @@ namespace System.IO
         /// <param name="stream">The stream to read.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
         /// <returns>The string read out of the stream.</returns>
-        public static string ReadString(this Stream stream, IProgressReceiver prog = null)
+        public static string ReadString(this Stream stream, IProgress prog = null)
         {
             var streamProg = new StreamProgress(stream, prog);
             using (var reader = new StreamReader(streamProg))
@@ -80,7 +80,7 @@ namespace System.IO
         /// <param name="stream">The stream to read.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
         /// <returns>The value deserialized out of the stream.</returns>
-        public static T ReadObject<T>(this Stream stream, IProgressReceiver prog = null)
+        public static T ReadObject<T>(this Stream stream, IProgress prog = null)
         {
             using (var streamProg = new StreamProgress(stream, prog))
             using (var reader = new StreamReader(streamProg))

@@ -153,7 +153,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <param name="location"></param>
         /// <param name="force"></param>
         /// <returns></returns>
-        public IProgress Request(LatLngPoint location, bool force, IProgressReceiver prog = null)
+        public IProgress Request(LatLngPoint location, bool force, IProgress prog = null)
         {
             var subProgress = prog.Split(1)[0];
             if (NeedsNewReport(location) || force)

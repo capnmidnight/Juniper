@@ -32,9 +32,9 @@ namespace Juniper.Data
         /// <param name="resolve">A callback to recieve the file stream for the requested file.</param>
         /// <param name="reject">A callback if the file does not exist.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
-        public static void GetFile(string zipFile, string filePath, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetFile(string zipFile, string filePath, Action<Stream> resolve, Action<Exception> reject, IProgress prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
             using (var file = new ZipFile(zipFile))
             {
                 file.IsStreamOwner = true;
@@ -52,7 +52,7 @@ namespace Juniper.Data
                     reject(new FileNotFoundException($"Could not find file {filePath} in zip file {zipFile}", $"{zipFile}::{filePath}"));
                 }
             }
-            prog?.SetProgress(1);
+            prog?.Report(1);
         }
 
         /// <summary>
@@ -63,9 +63,9 @@ namespace Juniper.Data
         /// <param name="level">The zip compression level to use. Min is 0, max is 9.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
-        public static void CompressDirectory(string inputDirectory, string outputZipFile, int level, IProgressReceiver prog = null, Action<Exception> error = null)
+        public static void CompressDirectory(string inputDirectory, string outputZipFile, int level, IProgress prog = null, Action<Exception> error = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
 
             if (Directory.Exists(inputDirectory))
             {
@@ -104,7 +104,7 @@ namespace Juniper.Data
                 }
             }
 
-            prog?.SetProgress(1);
+            prog?.Report(1);
         }
 
         /// <summary>
@@ -114,9 +114,9 @@ namespace Juniper.Data
         /// <param name="outputDirectory">The location to which to dump the files.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
-        public static void DecompressDirectory(string inputZipFile, string outputDirectory, IProgressReceiver prog = null, Action<Exception> error = null)
+        public static void DecompressDirectory(string inputZipFile, string outputDirectory, IProgress prog = null, Action<Exception> error = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
             if (!File.Exists(inputZipFile))
             {
                 throw new FileNotFoundException("File not found! " + inputZipFile, inputZipFile);
@@ -167,9 +167,9 @@ namespace Juniper.Data
         /// <param name="inputZipFile">A filepath to the zip file to scan.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <returns>A lazy collection of ZipEntries</returns>
-        public static IEnumerable<ZipEntry> ZipEntries(string inputZipFile, IProgressReceiver prog = null)
+        public static IEnumerable<ZipEntry> ZipEntries(string inputZipFile, IProgress prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
 
             if (File.Exists(inputZipFile))
             {
@@ -180,14 +180,14 @@ namespace Juniper.Data
                     for (var i = 0; i < zf.Count; ++i)
                     {
                         var p = progs[i];
-                        p?.SetProgress(0);
+                        p?.Report(0);
 
                         yield return zf[i];
                     }
                 }
             }
 
-            prog?.SetProgress(1);
+            prog?.Report(1);
         }
 
         /// <summary>
@@ -196,7 +196,7 @@ namespace Juniper.Data
         /// <param name="inputZipFile">A filepath to the zip file to scan.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <returns>A lazy collection of ZipEntries that are files.</returns>
-        public static IEnumerable<string> RecurseFiles(string inputZipFile, IProgressReceiver prog = null)
+        public static IEnumerable<string> RecurseFiles(string inputZipFile, IProgress prog = null)
         {
             foreach (var zipEntry in ZipEntries(inputZipFile, prog))
             {
@@ -213,7 +213,7 @@ namespace Juniper.Data
         /// <param name="inputZipFile">A filepath to the zip file to scan.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <returns>A lazy collection of ZipEntries that are directories.</returns>
-        public static IEnumerable<string> RecurseDirectories(string inputZipFile, IProgressReceiver prog = null)
+        public static IEnumerable<string> RecurseDirectories(string inputZipFile, IProgress prog = null)
         {
             foreach (var zipEntry in ZipEntries(inputZipFile, prog))
             {

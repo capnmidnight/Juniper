@@ -9,19 +9,19 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         public string Name;
         public string CompilerDefine;
 
-        public virtual void Install(IProgressReceiver prog = null)
+        public virtual void Install(IProgress prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
         }
 
-        public virtual void Activate(BuildTargetGroup targetGroup, IProgressReceiver prog = null)
+        public virtual void Activate(BuildTargetGroup targetGroup, IProgress prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
         }
 
-        public virtual void Uninstall(IProgressReceiver prog = null)
+        public virtual void Uninstall(IProgress prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
         }
     }
 }

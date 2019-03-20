@@ -212,7 +212,7 @@ namespace Juniper.Unity.World.Climate
         /// </summary>
         /// <returns>The report coroutine.</returns>
         /// <param name="force">If set to <c>true</c> force.</param>
-        private IEnumerator GetReportCoroutine(bool force, IProgressReceiver prog = null)
+        private IEnumerator GetReportCoroutine(bool force, IProgress prog = null)
         {
             if (Ready)
             {
@@ -239,7 +239,7 @@ namespace Juniper.Unity.World.Climate
         /// <param name="location"></param>
         /// <param name="force"></param>
         /// <returns></returns>
-        public IEnumerator RequestCoroutine(LatLngPoint location, bool force, IProgressReceiver prog = null)
+        public IEnumerator RequestCoroutine(LatLngPoint location, bool force, IProgress prog = null)
         {
             if (Application.internetReachability != NetworkReachability.NotReachable || force)
             {

@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace Juniper.Unity.Progress
 {
-    public class UnityEditorProgressDialog : IProgressReceiver
+    public class UnityEditorProgressDialog : IProgress
     {
         private readonly string title;
 
@@ -22,7 +22,12 @@ namespace Juniper.Unity.Progress
             get; private set;
         }
 
-        public void SetProgress(float progress, string status = null)
+        public void Report(float progress)
+        {
+            Report(progress, null);
+        }
+
+        public void Report(float progress, string status)
         {
             Progress = progress;
             var progText = progress.ToString("P1");

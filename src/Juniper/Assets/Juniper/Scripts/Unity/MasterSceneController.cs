@@ -60,15 +60,11 @@ namespace Juniper.Unity
         /// <returns>The scene.</returns>
         /// <param name="sceneName">Scene name.</param>
         /// <param name="path">Path.</param>
-        private static IProgress LoadScene(string scenePath, string sceneName)
+        private static AsyncOperation LoadScene(string scenePath, string sceneName)
         {
             if (Application.isPlaying)
             {
-                var op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-                if (op != null)
-                {
-                    return new UnityAsyncOperationProgress(op);
-                }
+                return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             }
 #if UNITY_EDITOR
             else
@@ -76,7 +72,7 @@ namespace Juniper.Unity
                 EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
             }
 #endif
-            return StaticProgress.COMPLETE;
+            return null;
         }
 
         private static string GetSceneNameFromPath(string path)
@@ -205,7 +201,7 @@ namespace Juniper.Unity
         private IEnumerator SwitchToSceneNameCoroutine(string subSceneName, bool skipFadeOut = false)
         {
             loadingBar?.Activate();
-            loadingBar?.SetProgress(0);
+            loadingBar?.Report(0);
 
             if (!skipFadeOut)
             {
@@ -225,7 +221,7 @@ namespace Juniper.Unity
 
         private IEnumerator LoadingCompleteCoroutine()
         {
-            loadingBar?.SetProgress(1);
+            loadingBar?.Report(1);
             yield return loadingBar?.Waiter;
             splash?.Deactivate();
             loadingBar?.Deactivate();
@@ -671,9 +667,9 @@ namespace Juniper.Unity
         /// <summary>
         /// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
         /// </summary>
-        private IEnumerator LoadAllScenesCoroutine(IProgressReceiver prog = null)
+        private IEnumerator LoadAllScenesCoroutine(IProgress prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
 
             if (subSceneNames?.Length > 0)
             {
@@ -684,7 +680,7 @@ namespace Juniper.Unity
                 }
             }
 
-            prog?.SetProgress(1);
+            prog?.Report(1);
         }
 
         private void LoadFirstScene()
@@ -808,9 +804,9 @@ namespace Juniper.Unity
             }
         }
 
-        private IEnumerator LoadScenePathCoroutine(string path, IProgressReceiver prog)
+        private IEnumerator LoadScenePathCoroutine(string path, IProgress prog)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
 
             var sceneName = GetSceneNameFromPath(path);
 
@@ -820,16 +816,24 @@ namespace Juniper.Unity
 
             if (IsScenePathLoaded(path))
             {
-                sceneLoadProg?.SetProgress(1);
+                sceneLoadProg?.Report(1);
                 yield return sceneName + " already loaded.";
             }
             else
             {
                 var op = LoadScene(path, sceneName);
-                while (!op.IsComplete())
+                if (op == null)
                 {
-                    sceneLoadProg?.SetProgress(op.Progress);
-                    yield return sceneName + " " + (prog?.Progress)?.ToString("P1") ?? "N/A";
+                    sceneLoadProg?.Report(1);
+                    yield return sceneName + " 100%";
+                }
+                else
+                {
+                    while (!op.isDone)
+                    {
+                        sceneLoadProg?.Report(op.progress);
+                        yield return sceneName + " " + (prog?.Progress)?.ToString("P1") ?? "N/A";
+                    }
                 }
             }
 

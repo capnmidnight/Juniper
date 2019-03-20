@@ -60,13 +60,13 @@ namespace Juniper.Unity.Data
         /// <param name="resolve">A callback to receive the file stream asynchronously.</param>
         /// <param name="reject">A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
 
             Action<string> progResolve = (string resolvePath) =>
             {
-                prog?.SetProgress(1);
+                prog?.Report(1);
                 resolve(resolvePath);
             };
 
@@ -113,17 +113,17 @@ namespace Juniper.Unity.Data
             }
         }
 
-        public static void GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetCachedFile(cacheDirectory, path, ttl, "application/octet-stream", resolve, reject, prog);
         }
 
-        public static void GetCachedFile(string cacheDirectory, string path, string mime, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetCachedFile(string cacheDirectory, string path, string mime, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetCachedFile(cacheDirectory, path, DEFAULT_TTL, mime, resolve, reject, prog);
         }
 
-        public static void GetCachedFile(string cacheDirectory, string path, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetCachedFile(string cacheDirectory, string path, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetCachedFile(cacheDirectory, path, DEFAULT_TTL, "application/octet-stream", resolve, reject, prog);
         }
@@ -139,22 +139,22 @@ namespace Juniper.Unity.Data
         /// <param name="resolve">A callback to receive the file stream asynchronously.</param>
         /// <param name="reject">A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<Stream> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetCachedFile(cacheDirectory, path, ttl, mime, cachedPath => resolve(File.OpenRead(cachedPath)), reject, prog);
         }
 
-        public static void GetStream(string cacheDirectory, string path, TimeSpan ttl, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetStream(string cacheDirectory, string path, TimeSpan ttl, Action<Stream> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetStream(cacheDirectory, path, ttl, null, resolve, reject, prog);
         }
 
-        public static void GetStream(string cacheDirectory, string path, string mime, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetStream(string cacheDirectory, string path, string mime, Action<Stream> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetStream(cacheDirectory, path, DEFAULT_TTL, mime, resolve, reject, prog);
         }
 
-        public static void GetStream(string cacheDirectory, string path, Action<Stream> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetStream(string cacheDirectory, string path, Action<Stream> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetStream(cacheDirectory, path, DEFAULT_TTL, null, resolve, reject, prog);
         }
@@ -170,22 +170,22 @@ namespace Juniper.Unity.Data
         /// <param name="resolve">A callback to receive the file asynchronously.</param>
         /// <param name="reject">A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<byte[]> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<byte[]> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetStream(cacheDirectory, path, ttl, mime, stream => resolve(stream.ReadBytes()), reject, prog);
         }
 
-        public static void GetBytes(string cacheDirectory, string path, TimeSpan ttl, Action<byte[]> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetBytes(string cacheDirectory, string path, TimeSpan ttl, Action<byte[]> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetBytes(cacheDirectory, path, ttl, "application/octet-stream", resolve, reject, prog);
         }
 
-        public static void GetBytes(string cacheDirectory, string path, string mime, Action<byte[]> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetBytes(string cacheDirectory, string path, string mime, Action<byte[]> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetBytes(cacheDirectory, path, DEFAULT_TTL, mime, resolve, reject, prog);
         }
 
-        public static void GetBytes(string cacheDirectory, string path, Action<byte[]> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetBytes(string cacheDirectory, string path, Action<byte[]> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetBytes(cacheDirectory, path, DEFAULT_TTL, "application/octet-stream", resolve, reject, prog);
         }
@@ -201,12 +201,12 @@ namespace Juniper.Unity.Data
         /// <param name="resolve">A callback to receive the file asynchronously.</param>
         /// <param name="reject">A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetText(string cacheDirectory, string path, TimeSpan ttl, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetText(string cacheDirectory, string path, TimeSpan ttl, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetStream(cacheDirectory, path, ttl, "text/plain", stream => resolve(stream.ReadString()), reject, prog);
         }
 
-        public static void GetText(string cacheDirectory, string path, Action<string> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetText(string cacheDirectory, string path, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetText(cacheDirectory, path, DEFAULT_TTL, resolve, reject, prog);
         }
@@ -223,12 +223,12 @@ namespace Juniper.Unity.Data
         /// <param name="resolve">A callback to receive the file asynchronously.</param>
         /// <param name="reject">A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetJSONObject<T>(string cacheDirectory, string path, TimeSpan ttl, Action<T> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetJSONObject<T>(string cacheDirectory, string path, TimeSpan ttl, Action<T> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetStream(cacheDirectory, path, ttl, "application/json", stream => resolve(stream.ReadObject<T>()), reject, prog);
         }
 
-        public static void GetJSONObject<T>(string cacheDirectory, string path, Action<T> resolve, Action<Exception> reject, IProgressReceiver prog = null)
+        public static void GetJSONObject<T>(string cacheDirectory, string path, Action<T> resolve, Action<Exception> reject, IProgress prog = null)
         {
             GetJSONObject(cacheDirectory, path, DEFAULT_TTL, resolve, reject, prog);
         }
@@ -262,13 +262,13 @@ namespace Juniper.Unity.Data
             return File.Exists(path) && File.GetCreationTime(path) - DateTime.Now <= ttl;
         }
 
-        private static void GetOrCacheFile(string cacheDirectory, string fileName, TimeSpan ttl, Action<Action<Stream>> getStreamResolver, Action<string> resolve, IProgressReceiver prog = null)
+        private static void GetOrCacheFile(string cacheDirectory, string fileName, TimeSpan ttl, Action<Action<Stream>> getStreamResolver, Action<string> resolve, IProgress prog = null)
         {
-            prog?.SetProgress(0);
+            prog?.Report(0);
 
             Action<string> progResolve = (string resolvePath) =>
             {
-                prog?.SetProgress(1);
+                prog?.Report(1);
                 resolve(resolvePath);
             };
 
