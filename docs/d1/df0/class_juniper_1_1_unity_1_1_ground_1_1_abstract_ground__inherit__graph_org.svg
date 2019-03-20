@@ -111,7 +111,7 @@
 </g>
 <!-- Node2 -->
 <g id="node3" class="node"><title>Node2</title>
-<g id="a_node3"><a xlink:href="../../db/d28/interface_juniper_1_1_i_installable.html" target="_top" xlink:title=" ">
+<g id="a_node3"><a xlink:href="../../db/d28/interface_juniper_1_1_i_installable.html" target="_top" xlink:title="Defines an interface for objects that can be installed and have their installation progress tracked.">
 <polygon fill="white" stroke="black" points="325,-827.5 325,-906.5 394,-906.5 394,-827.5 325,-827.5"/>
 <text text-anchor="middle" x="359.5" y="-894.5" font-family="SegoeUI" font-size="10.00">IInstallable</text>
 <polyline fill="none" stroke="black" points="325,-887.5 394,-887.5 "/>

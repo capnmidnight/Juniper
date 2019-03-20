@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 133)">
 <title>Graphical Class Hierarchy</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-133 383,-133 383,4 -4,4"/>
-<!-- Node420 -->
-<g id="node1" class="node"><title>Node420</title>
+<!-- Node418 -->
+<g id="node1" class="node"><title>Node418</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="0,-55 0,-74 158,-74 158,-55 0,-55"/>
 <text text-anchor="middle" x="79" y="-62" font-family="SegoeUI" font-size="10.00">AbstractProbeNameConfiguration</text>
@@ -26,13 +26,13 @@
 </a>
 </g>
 </g>
-<!-- Node420&#45;&gt;Node0 -->
-<g id="edge1" class="edge"><title>Node420&#45;&gt;Node0</title>
+<!-- Node418&#45;&gt;Node0 -->
+<g id="edge1" class="edge"><title>Node418&#45;&gt;Node0</title>
 <path fill="none" stroke="midnightblue" d="M130.019,-76.4268C157.847,-83.062 192.753,-91.3851 222.437,-98.463"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="130.649,-72.9789 120.11,-74.064 129.026,-79.7881 130.649,-72.9789"/>
 </g>
-<!-- Node422 -->
-<g id="node3" class="node"><title>Node422</title>
+<!-- Node420 -->
+<g id="node3" class="node"><title>Node420</title>
 <g id="a_node3"><a xlink:href="de/d5a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_probe_configuration.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="200,-49.5 200,-79.5 373,-79.5 373,-49.5 200,-49.5"/>
 <text text-anchor="start" x="208" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
@@ -40,13 +40,13 @@
 </a>
 </g>
 </g>
-<!-- Node420&#45;&gt;Node422 -->
-<g id="edge2" class="edge"><title>Node420&#45;&gt;Node422</title>
+<!-- Node418&#45;&gt;Node420 -->
+<g id="edge2" class="edge"><title>Node418&#45;&gt;Node420</title>
 <path fill="none" stroke="midnightblue" d="M168.583,-64.5C178.971,-64.5 189.556,-64.5 199.903,-64.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="168.277,-61.0001 158.277,-64.5 168.277,-68.0001 168.277,-61.0001"/>
 </g>
-<!-- Node423 -->
-<g id="node4" class="node"><title>Node423</title>
+<!-- Node421 -->
+<g id="node4" class="node"><title>Node421</title>
 <g id="a_node4"><a xlink:href="d2/d55/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_probe_configuration.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="195.5,-0.5 195.5,-30.5 377.5,-30.5 377.5,-0.5 195.5,-0.5"/>
 <text text-anchor="start" x="203.5" y="-18.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
@@ -54,8 +54,8 @@
 </a>
 </g>
 </g>
-<!-- Node420&#45;&gt;Node423 -->
-<g id="edge3" class="edge"><title>Node420&#45;&gt;Node423</title>
+<!-- Node418&#45;&gt;Node421 -->
+<g id="edge3" class="edge"><title>Node418&#45;&gt;Node421</title>
 <path fill="none" stroke="midnightblue" d="M130.019,-52.5732C157.847,-45.938 192.753,-37.6149 222.437,-30.537"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="129.026,-49.2119 120.11,-54.936 130.649,-56.0211 129.026,-49.2119"/>
 </g>

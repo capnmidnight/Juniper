@@ -107,7 +107,7 @@ var sectionId = 'dynsection-1';
 <text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">&#45; OnCancel()</text>
 <text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">&#45; OnEditorUpdate()</text>
 <text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">&#45; DelayedUpdate()</text>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">and 8 more...</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">and 7 more...</text>
 </a>
 </g>
 </g>

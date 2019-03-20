@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +6,7 @@ namespace Juniper.Progress
     /// <summary>
     /// Progress reporting interface for asynchronous operations.
     /// </summary>
-    public interface IProgress : IProgress<float>
+    public interface IProgress : System.IProgress<float>
     {
         float Progress
         {
@@ -34,7 +33,7 @@ namespace Juniper.Progress
         /// <returns>True when progress is reasonably close to 1</returns>
         public static bool IsComplete(this IProgress prog)
         {
-            return Math.Abs(prog.Progress - 1) < ALPHA;
+            return System.Math.Abs(prog.Progress - 1) < ALPHA;
         }
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace Juniper.Progress
         /// <param name="arr">The list of objects to iterate over, for progress tracking.</param>
         /// <param name="act">The action to take on each list item.</param>
         /// <param name="error">A callback to fire if an error occurs when processing a list item.</param>
-        public static void ForEach<T>(this IProgress prog, IEnumerable<T> arr, Action<T, IProgress> act, Action<Exception> error = null)
+        public static void ForEach<T>(this IProgress prog, IEnumerable<T> arr, System.Action<T, IProgress> act, System.Action<System.Exception> error = null)
         {
             prog?.Report(0);
 
@@ -61,11 +60,11 @@ namespace Juniper.Progress
                     progs[index]?.Report(1);
                     ++index;
                 }
-                catch (OperationCanceledException)
+                catch (System.OperationCanceledException)
                 {
                     throw;
                 }
-                catch (Exception exp)
+                catch (System.Exception exp)
                 {
                     error?.Invoke(exp);
                 }

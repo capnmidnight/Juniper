@@ -1,51 +1,51 @@
 <map id="Juniper.IInstallable" name="Juniper.IInstallable">
-<area shape="rect" id="node1" title=" " alt="" coords="2513,5,2643,112"/>
+<area shape="rect" id="node1" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="2769,5,2899,112"/>
 <area shape="rect" id="node2" href="$d8/d0d/class_juniper_1_1_unity_1_1_abstract_permission_handler.html" title="Perform system&#45;specific authorization requests, such as GPS on Android, or Microphone on iOS." alt="" coords="243,447,451,583"/>
 <area shape="rect" id="node4" href="$d3/d84/class_juniper_1_1_unity_1_1_animation_1_1_fade_transition.html" title="Performs a fade&#45;in/fade&#45;out animation on scene transitions." alt="" coords="735,308,895,723"/>
-<area shape="rect" id="node5" href="$da/da5/class_juniper_1_1_unity_1_1_display_1_1_abstract_display_manager.html" title=" " alt="" coords="920,198,1111,833"/>
+<area shape="rect" id="node5" href="$da/da5/class_juniper_1_1_unity_1_1_display_1_1_abstract_display_manager.html" title=" " alt="" coords="920,191,1111,840"/>
 <area shape="rect" id="node14" href="$d6/dcb/class_juniper_1_1_unity_1_1_ground_1_1_abstract_ground.html" title=" " alt="" coords="1768,367,1959,664"/>
-<area shape="rect" id="node21" href="$d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="2089,352,2267,679"/>
-<area shape="rect" id="node26" href="$d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="2292,161,2531,869"/>
-<area shape="rect" id="node40" href="$d6/d3e/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_probe.html" title="AKA a Cursor, but I don&#39;t like the word Cursor (reminds me too much of SQL)." alt="" coords="2555,235,2737,796"/>
-<area shape="rect" id="node41" href="$d5/d97/class_juniper_1_1_unity_1_1_juniper_platform.html" title=" " alt="" coords="2762,381,2951,649"/>
-<area shape="rect" id="node42" href="$d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html" title="Manages loading SubSceneController components (scenes that are additively loaded into a &quot;main&quot; scene)..." alt="" coords="2976,198,3193,833"/>
-<area shape="rect" id="node43" href="$dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html" title=" " alt="" coords="3218,198,3413,833"/>
-<area shape="rect" id="node44" href="$db/d0d/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_estimate.html" title=" " alt="" coords="3437,337,3645,693"/>
-<area shape="rect" id="node47" href="$df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html" title=" " alt="" coords="3723,359,3961,671"/>
+<area shape="rect" id="node21" href="$d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="2329,198,2523,833"/>
+<area shape="rect" id="node28" href="$d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="2548,169,2787,862"/>
+<area shape="rect" id="node40" href="$d6/d3e/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_probe.html" title="AKA a Cursor, but I don&#39;t like the word Cursor (reminds me too much of SQL)." alt="" coords="2811,235,2993,796"/>
+<area shape="rect" id="node41" href="$d5/d97/class_juniper_1_1_unity_1_1_juniper_platform.html" title=" " alt="" coords="3018,374,3207,657"/>
+<area shape="rect" id="node42" href="$d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html" title="Manages loading SubSceneController components (scenes that are additively loaded into a &quot;main&quot; scene)..." alt="" coords="3232,161,3449,869"/>
+<area shape="rect" id="node43" href="$dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html" title=" " alt="" coords="3474,359,3666,671"/>
+<area shape="rect" id="node44" href="$db/d0d/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_estimate.html" title=" " alt="" coords="3690,337,3898,693"/>
+<area shape="rect" id="node47" href="$df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html" title=" " alt="" coords="3930,359,4167,671"/>
 <area shape="rect" id="node3" href="$db/ddd/class_juniper_1_1_unity_1_1_permission_handler.html" title=" " alt="" coords="5,992,167,1084"/>
-<area shape="rect" id="node6" href="$de/dad/class_juniper_1_1_unity_1_1_display_1_1_abstract_passthrough_display_manager.html" title=" " alt="" coords="191,977,381,1099"/>
+<area shape="rect" id="node6" href="$de/dad/class_juniper_1_1_unity_1_1_display_1_1_abstract_passthrough_display_manager.html" title=" " alt="" coords="191,985,381,1091"/>
 <area shape="rect" id="node9" href="$d1/dab/class_juniper_1_1_unity_1_1_display_1_1_daydream_display_manager.html" title=" " alt="" coords="405,977,617,1099"/>
 <area shape="rect" id="node10" href="$de/de6/class_juniper_1_1_unity_1_1_display_1_1_no_display_manager.html" title=" " alt="" coords="641,992,800,1084"/>
 <area shape="rect" id="node11" href="$d3/d15/class_juniper_1_1_unity_1_1_display_1_1_oculus_display_manager.html" title=" " alt="" coords="825,985,1006,1091"/>
 <area shape="rect" id="node12" href="$de/daa/class_juniper_1_1_unity_1_1_display_1_1_vive_focus_display_manager.html" title=" " alt="" coords="1031,985,1197,1091"/>
 <area shape="rect" id="node13" href="$d0/d34/class_juniper_1_1_unity_1_1_display_1_1_windows_m_r_display_manager.html" title=" " alt="" coords="1222,992,1417,1084"/>
-<area shape="rect" id="node7" href="$da/df4/class_juniper_1_1_unity_1_1_display_1_1_a_r_kit_display_manager.html" title=" " alt="" coords="199,1499,373,1605"/>
-<area shape="rect" id="node8" href="$d9/de4/class_juniper_1_1_unity_1_1_display_1_1_display_manager.html" title="Manages the camera FOV in the editor so that it matches the target system, or on desktop makes sure t..." alt="" coords="195,2255,377,2347"/>
+<area shape="rect" id="node7" href="$da/df4/class_juniper_1_1_unity_1_1_display_1_1_a_r_kit_display_manager.html" title=" " alt="" coords="199,1477,373,1583"/>
+<area shape="rect" id="node8" href="$d9/de4/class_juniper_1_1_unity_1_1_display_1_1_display_manager.html" title="Manages the camera FOV in the editor so that it matches the target system, or on desktop makes sure t..." alt="" coords="195,2189,377,2281"/>
 <area shape="rect" id="node15" href="$da/d0a/class_juniper_1_1_unity_1_1_ground_1_1_abstract_a_r_ground.html" title=" " alt="" coords="1441,992,1632,1084"/>
 <area shape="rect" id="node19" href="$d7/df7/class_juniper_1_1_unity_1_1_ground_1_1_no_terrain.html" title=" " alt="" coords="1656,999,1857,1077"/>
 <area shape="rect" id="node20" href="$db/db3/class_juniper_1_1_unity_1_1_ground_1_1_static_terrain.html" title=" " alt="" coords="1882,970,2058,1106"/>
-<area shape="rect" id="node16" href="$dd/dd1/class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground.html" title=" " alt="" coords="1309,1499,1484,1605"/>
-<area shape="rect" id="node17" href="$d1/d1e/class_juniper_1_1_unity_1_1_ground_1_1_holo_lens_ground.html" title=" " alt="" coords="1509,1352,1725,1752"/>
-<area shape="rect" id="node18" href="$d1/d89/class_juniper_1_1_unity_1_1_ground_1_1_ground.html" title="Manages references to the ground, either 3D terrain in VR apps or detected planes and meshes in AR ap..." alt="" coords="1524,2262,1709,2339"/>
-<area shape="rect" id="node22" href="$d7/d3e/class_juniper_1_1_unity_1_1_input_1_1_daydream_input_module.html" title=" " alt="" coords="2083,977,2273,1099"/>
-<area shape="rect" id="node24" href="$df/dcf/class_juniper_1_1_unity_1_1_input_1_1_oculus_input_module.html" title=" " alt="" coords="2298,985,2469,1091"/>
-<area shape="rect" id="node25" href="$d1/d22/class_juniper_1_1_unity_1_1_input_1_1_windows_m_r_input_module.html" title=" " alt="" coords="2493,992,2677,1084"/>
-<area shape="rect" id="node23" href="$d0/d5c/class_juniper_1_1_unity_1_1_input_1_1_unified_input_module.html" title=" " alt="" coords="2093,1506,2263,1598"/>
-<area shape="rect" id="node27" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="2701,926,2900,1150"/>
-<area shape="rect" id="node35" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title="A ScreenDevice is a AbstractPointerDevice&lt;ButtonIDType, HapticsType&gt; that has its primary pointer int..." alt="" coords="3034,970,3226,1106"/>
-<area shape="rect" id="node28" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="2289,1235,2553,1869"/>
-<area shape="rect" id="node34" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="2577,1440,2771,1664"/>
-<area shape="rect" id="node29" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="1761,1983,2046,2618"/>
-<area shape="rect" id="node30" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="2071,1976,2285,2625"/>
-<area shape="rect" id="node31" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="2309,1976,2532,2625"/>
-<area shape="rect" id="node32" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="2556,1983,2827,2618"/>
-<area shape="rect" id="node33" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="2851,1983,3174,2618"/>
-<area shape="rect" id="node36" href="$d0/d78/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_nose_pointer.html" title=" " alt="" coords="2795,1491,2990,1613"/>
-<area shape="rect" id="node37" href="$d6/d1d/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_tobii_gaze_pointer.html" title=" " alt="" coords="3014,1462,3246,1642"/>
-<area shape="rect" id="node38" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="3271,1491,3576,1613"/>
-<area shape="rect" id="node39" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="3601,1491,3883,1613"/>
-<area shape="rect" id="node45" href="$d6/d01/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_indoor_light_estimate.html" title="Uses the AR subsystem&#39;s light estimation values to modify the current ambient and directional light s..." alt="" coords="3407,977,3605,1099"/>
-<area shape="rect" id="node46" href="$d6/da5/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_outdoor_light_estimate.html" title="Modifies the base light estimate to include cloud cover values retrieved from a weather reporting ser..." alt="" coords="3629,919,3836,1157"/>
-<area shape="rect" id="node48" href="$d0/da4/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_a_r_kit_light_measurement.html" title=" " alt="" coords="3865,977,4085,1099"/>
-<area shape="rect" id="node49" href="$dd/d2a/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_light_measurement.html" title="Abstracts the measurement of light intensity from camera frames for Augmented Reality Light Estimatio..." alt="" coords="3908,1506,4099,1598"/>
+<area shape="rect" id="node16" href="$dd/dd1/class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground.html" title=" " alt="" coords="1385,1477,1560,1583"/>
+<area shape="rect" id="node17" href="$d1/d1e/class_juniper_1_1_unity_1_1_ground_1_1_holo_lens_ground.html" title=" " alt="" coords="1585,1330,1801,1730"/>
+<area shape="rect" id="node18" href="$d1/d89/class_juniper_1_1_unity_1_1_ground_1_1_ground.html" title="Manages references to the ground, either 3D terrain in VR apps or detected planes and meshes in AR ap..." alt="" coords="1600,2196,1785,2273"/>
+<area shape="rect" id="node22" href="$d0/d5e/class_juniper_1_1_unity_1_1_input_1_1_abstract_mobile_input_module.html" title=" " alt="" coords="2082,992,2261,1084"/>
+<area shape="rect" id="node23" href="$d7/d3e/class_juniper_1_1_unity_1_1_input_1_1_daydream_input_module.html" title=" " alt="" coords="2285,977,2476,1099"/>
+<area shape="rect" id="node25" href="$d8/d54/class_juniper_1_1_unity_1_1_input_1_1_magic_leap_input_module.html" title=" " alt="" coords="2501,992,2666,1084"/>
+<area shape="rect" id="node26" href="$df/dcf/class_juniper_1_1_unity_1_1_input_1_1_oculus_input_module.html" title=" " alt="" coords="2690,985,2861,1091"/>
+<area shape="rect" id="node27" href="$d1/d22/class_juniper_1_1_unity_1_1_input_1_1_windows_m_r_input_module.html" title=" " alt="" coords="2885,992,3069,1084"/>
+<area shape="rect" id="node24" href="$d0/d5c/class_juniper_1_1_unity_1_1_input_1_1_unified_input_module.html" title=" " alt="" coords="2295,1484,2466,1576"/>
+<area shape="rect" id="node29" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="3093,926,3292,1150"/>
+<area shape="rect" id="node37" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title="A ScreenDevice is a AbstractPointerDevice&lt;ButtonIDType, HapticsType&gt; that has its primary pointer int..." alt="" coords="3334,970,3526,1106"/>
+<area shape="rect" id="node30" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="2786,1235,3050,1825"/>
+<area shape="rect" id="node36" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="3074,1418,3269,1642"/>
+<area shape="rect" id="node31" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="2258,1939,2543,2530"/>
+<area shape="rect" id="node32" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="2568,1932,2783,2537"/>
+<area shape="rect" id="node33" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="2807,1932,3029,2537"/>
+<area shape="rect" id="node34" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="3053,1939,3324,2530"/>
+<area shape="rect" id="node35" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="3349,1939,3671,2530"/>
+<area shape="rect" id="node38" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="3293,1469,3575,1591"/>
+<area shape="rect" id="node39" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="3599,1469,3914,1591"/>
+<area shape="rect" id="node45" href="$d6/d01/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_indoor_light_estimate.html" title="Uses the AR subsystem&#39;s light estimation values to modify the current ambient and directional light s..." alt="" coords="3551,977,3749,1099"/>
+<area shape="rect" id="node46" href="$d6/da5/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_outdoor_light_estimate.html" title="Modifies the base light estimate to include cloud cover values retrieved from a weather reporting ser..." alt="" coords="3773,919,3980,1157"/>
+<area shape="rect" id="node48" href="$d0/da4/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_a_r_kit_light_measurement.html" title=" " alt="" coords="4004,977,4224,1099"/>
+<area shape="rect" id="node49" href="$dd/d2a/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_light_measurement.html" title="Abstracts the measurement of light intensity from camera frames for Augmented Reality Light Estimatio..." alt="" coords="4019,1484,4209,1576"/>
 </map>

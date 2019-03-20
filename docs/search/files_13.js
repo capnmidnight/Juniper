@@ -11,6 +11,7 @@ var searchData=
   ['tobiigazepointer_2ecs',['TobiiGazePointer.cs',['../d8/dba/_tobii_gaze_pointer_8cs.html',1,'']]],
   ['tons_2ecs',['Tons.cs',['../d2/df4/_tons_8cs.html',1,'']]],
   ['tooltip_2ecs',['Tooltip.cs',['../d6/d54/_tooltip_8cs.html',1,'']]],
+  ['touchgazepointer_2ecs',['TouchGazePointer.cs',['../d1/da4/_touch_gaze_pointer_8cs.html',1,'']]],
   ['touchpoint_2ecs',['TouchPoint.cs',['../d5/dae/_touch_point_8cs.html',1,'']]],
   ['trackablefoundeventargs_2ecs',['TrackableFoundEventArgs.cs',['../de/dc9/_trackable_found_event_args_8cs.html',1,'']]],
   ['trackablefoundeventhandler_2ecs',['TrackableFoundEventHandler.cs',['../d1/d06/_trackable_found_event_handler_8cs.html',1,'']]],

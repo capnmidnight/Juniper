@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 398)">
 <title>Juniper.Unity.Input.Pointers.Screen.IScreenDevice</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-398 141,-398 141,4 -4,4"/>
-<!-- Node11 -->
-<g id="node1" class="node"><title>Node11</title>
+<!-- Node13 -->
+<g id="node1" class="node"><title>Node13</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-79.5 137,-79.5 137,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
@@ -23,23 +23,23 @@
 </a>
 </g>
 </g>
-<!-- Node12 -->
-<g id="node2" class="node"><title>Node12</title>
+<!-- Node14 -->
+<g id="node2" class="node"><title>Node14</title>
 <g id="a_node2"><a xlink:href="../../d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="6.5,-116.5 6.5,-393.5 130.5,-393.5 130.5,-116.5 6.5,-116.5"/>
 <text text-anchor="middle" x="68.5" y="-381.5" font-family="SegoeUI" font-size="10.00">IPointerDevice</text>
 <polyline fill="none" stroke="black" points="6.5,-374.5 130.5,-374.5 "/>
 <text text-anchor="start" x="14.5" y="-362.5" font-family="SegoeUI" font-size="10.00">+ EventTarget</text>
 <text text-anchor="start" x="14.5" y="-351.5" font-family="SegoeUI" font-size="10.00">+ InputModule</text>
-<text text-anchor="start" x="14.5" y="-340.5" font-family="SegoeUI" font-size="10.00">+ PointerID</text>
-<text text-anchor="start" x="14.5" y="-329.5" font-family="SegoeUI" font-size="10.00">+ name</text>
-<text text-anchor="start" x="14.5" y="-318.5" font-family="SegoeUI" font-size="10.00">+ ProbeName</text>
-<text text-anchor="start" x="14.5" y="-307.5" font-family="SegoeUI" font-size="10.00">+ ButtonType</text>
-<text text-anchor="start" x="14.5" y="-296.5" font-family="SegoeUI" font-size="10.00">+ isActiveAndEnabled</text>
-<text text-anchor="start" x="14.5" y="-285.5" font-family="SegoeUI" font-size="10.00">+ IsConnected</text>
-<text text-anchor="start" x="14.5" y="-274.5" font-family="SegoeUI" font-size="10.00">+ IsDisabled</text>
-<text text-anchor="start" x="14.5" y="-263.5" font-family="SegoeUI" font-size="10.00">+ IsEnabled</text>
-<text text-anchor="start" x="14.5" y="-252.5" font-family="SegoeUI" font-size="10.00">and 23 more...</text>
+<text text-anchor="start" x="14.5" y="-340.5" font-family="SegoeUI" font-size="10.00">+ PointerDataID</text>
+<text text-anchor="start" x="14.5" y="-329.5" font-family="SegoeUI" font-size="10.00">+ ProbeName</text>
+<text text-anchor="start" x="14.5" y="-318.5" font-family="SegoeUI" font-size="10.00">+ ButtonType</text>
+<text text-anchor="start" x="14.5" y="-307.5" font-family="SegoeUI" font-size="10.00">+ isActiveAndEnabled</text>
+<text text-anchor="start" x="14.5" y="-296.5" font-family="SegoeUI" font-size="10.00">+ IsConnected</text>
+<text text-anchor="start" x="14.5" y="-285.5" font-family="SegoeUI" font-size="10.00">+ IsDisabled</text>
+<text text-anchor="start" x="14.5" y="-274.5" font-family="SegoeUI" font-size="10.00">+ IsEnabled</text>
+<text text-anchor="start" x="14.5" y="-263.5" font-family="SegoeUI" font-size="10.00">+ IsDragging</text>
+<text text-anchor="start" x="14.5" y="-252.5" font-family="SegoeUI" font-size="10.00">and 22 more...</text>
 <polyline fill="none" stroke="black" points="6.5,-245.5 130.5,-245.5 "/>
 <text text-anchor="start" x="14.5" y="-233.5" font-family="SegoeUI" font-size="10.00">+ ViewportFromWorld()</text>
 <text text-anchor="start" x="14.5" y="-222.5" font-family="SegoeUI" font-size="10.00">+ ViewportFromScreen()</text>
@@ -55,8 +55,8 @@
 </a>
 </g>
 </g>
-<!-- Node12&#45;&gt;Node11 -->
-<g id="edge1" class="edge"><title>Node12&#45;&gt;Node11</title>
+<!-- Node14&#45;&gt;Node13 -->
+<g id="edge1" class="edge"><title>Node14&#45;&gt;Node13</title>
 <path fill="none" stroke="midnightblue" d="M68.5,-106.252C68.5,-96.6846 68.5,-87.6428 68.5,-79.51"/>
 <polygon fill="none" stroke="midnightblue" points="65.0001,-106.396 68.5,-116.396 72.0001,-106.396 65.0001,-106.396"/>
 </g>

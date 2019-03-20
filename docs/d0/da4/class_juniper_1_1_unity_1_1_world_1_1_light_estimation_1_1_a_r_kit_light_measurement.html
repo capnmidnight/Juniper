@@ -114,10 +114,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:afe3640dadf0614c7ae10caae1acec876"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the current XR system configuration, and setup the correct light estimation functions for the current platform.  <a href="#afe3640dadf0614c7ae10caae1acec876">More...</a><br /></td></tr>
 <tr class="separator:afe3640dadf0614c7ae10caae1acec876"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a904ff8ec1460a130cab53382154e7935"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#a904ff8ec1460a130cab53382154e7935">Reinstall</a> ()</td></tr>
+<tr class="memdesc:a904ff8ec1460a130cab53382154e7935"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reinstall the object with a full reset.  <a href="#a904ff8ec1460a130cab53382154e7935">More...</a><br /></td></tr>
 <tr class="separator:a904ff8ec1460a130cab53382154e7935"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae0db08c703c34eb9a412f74520acc016"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#ae0db08c703c34eb9a412f74520acc016">Install</a> (bool reset)</td></tr>
+<tr class="memdesc:ae0db08c703c34eb9a412f74520acc016"><td class="mdescLeft">&#160;</td><td class="mdescRight">Install, with or without a full reset.  <a href="#ae0db08c703c34eb9a412f74520acc016">More...</a><br /></td></tr>
 <tr class="separator:ae0db08c703c34eb9a412f74520acc016"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aecef9fd67a76c0a3aec30fcdc28e0e64"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#aecef9fd67a76c0a3aec30fcdc28e0e64">Uninstall</a> ()</td></tr>
+<tr class="memdesc:aecef9fd67a76c0a3aec30fcdc28e0e64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove platform-specific features from the object.  <a href="#aecef9fd67a76c0a3aec30fcdc28e0e64">More...</a><br /></td></tr>
 <tr class="separator:aecef9fd67a76c0a3aec30fcdc28e0e64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae1683d86f549f1bddf9417ed48b319a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#aae1683d86f549f1bddf9417ed48b319a">Update</a> ()</td></tr>
 <tr class="memdesc:aae1683d86f549f1bddf9417ed48b319a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check to see if the ARCore light estimation has been updated.  <a href="#aae1683d86f549f1bddf9417ed48b319a">More...</a><br /></td></tr>
@@ -207,7 +210,7 @@ Private Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/d91/_abstract_light_measurement_8cs_source.html#l00087">87</a> of file <a class="el" href="../../d0/d91/_abstract_light_measurement_8cs_source.html">AbstractLightMeasurement.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        {</div><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <a class="code" href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#ae0db08c703c34eb9a412f74520acc016">Install</a>(<span class="keyword">false</span>);</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <a class="code" href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#ab6fcfaa549b27c52549872d554dad8ee">SetFakeValues</a>();</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement_html_ab6fcfaa549b27c52549872d554dad8ee"><div class="ttname"><a href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#ab6fcfaa549b27c52549872d554dad8ee">Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.SetFakeValues</a></div><div class="ttdeci">void SetFakeValues()</div><div class="ttdoc">Sets the current Intensity and Color from the fake values set in the Unity Editor.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d91/_abstract_light_measurement_8cs_source.html#l00121">AbstractLightMeasurement.cs:121</a></div></div>
-<div class="ttc" id="class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement_html_ae0db08c703c34eb9a412f74520acc016"><div class="ttname"><a href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#ae0db08c703c34eb9a412f74520acc016">Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Install</a></div><div class="ttdeci">virtual bool Install(bool reset)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d91/_abstract_light_measurement_8cs_source.html#l00108">AbstractLightMeasurement.cs:108</a></div></div>
+<div class="ttc" id="class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement_html_ae0db08c703c34eb9a412f74520acc016"><div class="ttname"><a href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#ae0db08c703c34eb9a412f74520acc016">Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Install</a></div><div class="ttdeci">virtual bool Install(bool reset)</div><div class="ttdoc">Install, with or without a full reset.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d91/_abstract_light_measurement_8cs_source.html#l00108">AbstractLightMeasurement.cs:108</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d0/d91/_abstract_light_measurement_8cs_source.html#l00108">Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Install()</a>, and <a class="el" href="../../d0/d91/_abstract_light_measurement_8cs_source.html#l00121">Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.SetFakeValues()</a>.</p>
 
@@ -236,6 +239,15 @@ Private Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Install, with or without a full reset. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">reset</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True, if the installation completed successfuly. False if the installable should be recycled and tried again.</dd></dl>
 
 <p>Implements <a class="el" href="../../db/d28/interface_juniper_1_1_i_installable.html#ac7ccaa4214cecc54e253722a304e14b1">Juniper.IInstallable</a>.</p>
 
@@ -307,10 +319,12 @@ Private Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Reinstall the object with a full reset. </p>
+
 <p>Implements <a class="el" href="../../db/d28/interface_juniper_1_1_i_installable.html#a97e17a09ac826d1b8ade1143961eb740">Juniper.IInstallable</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/d91/_abstract_light_measurement_8cs_source.html#l00094">94</a> of file <a class="el" href="../../d0/d91/_abstract_light_measurement_8cs_source.html">AbstractLightMeasurement.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        {</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <a class="code" href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#ae0db08c703c34eb9a412f74520acc016">Install</a>(<span class="keyword">true</span>);</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement_html_ae0db08c703c34eb9a412f74520acc016"><div class="ttname"><a href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#ae0db08c703c34eb9a412f74520acc016">Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Install</a></div><div class="ttdeci">virtual bool Install(bool reset)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d91/_abstract_light_measurement_8cs_source.html#l00108">AbstractLightMeasurement.cs:108</a></div></div>
+<div class="fragment"><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        {</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <a class="code" href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#ae0db08c703c34eb9a412f74520acc016">Install</a>(<span class="keyword">true</span>);</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement_html_ae0db08c703c34eb9a412f74520acc016"><div class="ttname"><a href="../../df/db3/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_measurement.html#ae0db08c703c34eb9a412f74520acc016">Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Install</a></div><div class="ttdeci">virtual bool Install(bool reset)</div><div class="ttdoc">Install, with or without a full reset.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d91/_abstract_light_measurement_8cs_source.html#l00108">AbstractLightMeasurement.cs:108</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d0/d91/_abstract_light_measurement_8cs_source.html#l00108">Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.Install()</a>.</p>
 
@@ -372,6 +386,8 @@ Private Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Remove platform-specific features from the object. </p>
 
 <p>Implements <a class="el" href="../../db/d28/interface_juniper_1_1_i_installable.html#a6b327e75973fcd0e3ce5d7bd34c54c38">Juniper.IInstallable</a>.</p>
 
@@ -740,7 +756,7 @@ Private Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ARKit/<a class="el" href="../../d8/de7/_a_r_kit_light_measurement_8cs_source.html">ARKitLightMeasurement.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ARKit/<a class="el" href="../../d8/de7/_a_r_kit_light_measurement_8cs_source.html">ARKitLightMeasurement.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

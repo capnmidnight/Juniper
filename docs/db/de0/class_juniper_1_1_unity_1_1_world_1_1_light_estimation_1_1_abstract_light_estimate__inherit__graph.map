@@ -3,5 +3,5 @@
 <area shape="rect" id="node4" href="$d6/d01/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_indoor_light_estimate.html" title="Uses the AR subsystem&#39;s light estimation values to modify the current ambient and directional light s..." alt="" coords="5,623,204,744"/>
 <area shape="rect" id="node5" href="$d6/da5/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_outdoor_light_estimate.html" title="Modifies the base light estimate to include cloud cover values retrieved from a weather reporting ser..." alt="" coords="228,564,435,803"/>
 <area shape="rect" id="node2" title=" " alt="" coords="101,20,210,97"/>
-<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="235,5,327,112"/>
+<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="235,5,327,112"/>
 </map>

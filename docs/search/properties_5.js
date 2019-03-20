@@ -1,7 +1,6 @@
 var searchData=
 [
   ['field',['Field',['../d9/d77/class_juniper_1_1_unity_1_1_widgets_1_1_labeled_input_field.html#a258bca92c18bcf54393c40bb03d1e1e9',1,'Juniper::Unity::Widgets::LabeledInputField']]],
-  ['finger',['Finger',['../dd/d87/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_touch_point.html#a5de56959bd102321556305af36ac4180',1,'Juniper::Unity::Input::Pointers::Screen::TouchPoint']]],
   ['firstselecteditem',['FirstSelectedItem',['../de/d8e/class_juniper_1_1_unity_1_1_widgets_1_1_list_view.html#ab7fe4061cb66f9961db99f03a827e9de',1,'Juniper::Unity::Widgets::ListView']]],
   ['firsttargets',['FirstTargets',['../db/db9/class_juniper_1_1_unity_1_1_image_tracking_1_1_abstract_tracker_keeper.html#a487b86686cc3aefc88c4cc5be6fc1a70',1,'Juniper::Unity::ImageTracking::AbstractTrackerKeeper']]],
   ['font',['Font',['../da/d7b/class_juniper_1_1_unity_1_1_widgets_1_1_list_view_item.html#ac46d21ce310fff5fbd246803eb3637e5',1,'Juniper::Unity::Widgets::ListViewItem']]],

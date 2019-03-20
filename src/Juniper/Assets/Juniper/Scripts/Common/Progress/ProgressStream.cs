@@ -86,11 +86,11 @@ namespace Juniper.Progress
         /// <summary>
         /// Send the progress report up to the parent.
         /// </summary>
-        /// <param name="value"></param>
-        void IProgress<float>.Report(float value)
+        /// <param name="progress"></param>
+        void IProgress<float>.Report(float progress)
         {
             Progress = progress;
-            parent?.Report(value);
+            parent?.Report(progress);
         }
 
         /// <summary>

@@ -105,15 +105,15 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4feb3a3dc1a0451fc942d9adb8fd256a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d67/class_juniper_1_1_unity_1_1_video_1_1_streamable_video_clip.html#a4feb3a3dc1a0451fc942d9adb8fd256a">Load</a> (string cacheDirectory, TimeSpan ttl, Action&lt; string &gt; resolve, <a class="el" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html">IProgressReceiver</a> prog=null)</td></tr>
-<tr class="separator:a4feb3a3dc1a0451fc942d9adb8fd256a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93942beffe93de541c2208faf723701b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d67/class_juniper_1_1_unity_1_1_video_1_1_streamable_video_clip.html#a93942beffe93de541c2208faf723701b">Load</a> (string cacheDirectory, TimeSpan ttl, Action&lt; string &gt; resolve, <a class="el" href="../../d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html">IProgress</a> prog=null)</td></tr>
+<tr class="separator:a93942beffe93de541c2208faf723701b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="../../d9/d6a/_streamable_video_clip_8cs_source.html#l00012">12</a> of file <a class="el" href="../../d9/d6a/_streamable_video_clip_8cs_source.html">StreamableVideoClip.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4feb3a3dc1a0451fc942d9adb8fd256a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4feb3a3dc1a0451fc942d9adb8fd256a">&#9670;&nbsp;</a></span>Load()</h2>
+<a id="a93942beffe93de541c2208faf723701b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93942beffe93de541c2208faf723701b">&#9670;&nbsp;</a></span>Load()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -142,7 +142,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html">IProgressReceiver</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html">IProgress</a>&#160;</td>
           <td class="paramname"><em>prog</em> = <code>null</code>&#160;</td>
         </tr>
         <tr>
@@ -159,12 +159,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d6a/_streamable_video_clip_8cs_source.html#l00014">14</a> of file <a class="el" href="../../d9/d6a/_streamable_video_clip_8cs_source.html">StreamableVideoClip.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        {</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            prog?.<a class="code" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">SetProgress</a>(0);</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            resolve(LoadPath);</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            prog?.<a class="code" href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">SetProgress</a>(1);</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div><div class="ttc" id="interface_juniper_1_1_progress_1_1_i_progress_receiver_html_a93de32d2ffe73e313406490566e6c96c"><div class="ttname"><a href="../../d3/de9/interface_juniper_1_1_progress_1_1_i_progress_receiver.html#a93de32d2ffe73e313406490566e6c96c">Juniper.Progress.IProgressReceiver.SetProgress</a></div><div class="ttdeci">void SetProgress(float progress, string status=null)</div></div>
+<div class="fragment"><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        {</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            prog?.<a class="code" href="../../d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html#ac9efd3f3660fd592d481926d51bf3769">Report</a>(0);</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            resolve(LoadPath);</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            prog?.<a class="code" href="../../d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html#ac9efd3f3660fd592d481926d51bf3769">Report</a>(1);</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div><div class="ttc" id="interface_juniper_1_1_progress_1_1_i_progress_html_ac9efd3f3660fd592d481926d51bf3769"><div class="ttname"><a href="../../d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html#ac9efd3f3660fd592d481926d51bf3769">Juniper.Progress.IProgress.Report</a></div><div class="ttdeci">void Report(float progress, string status)</div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Video/<a class="el" href="../../d9/d6a/_streamable_video_clip_8cs_source.html">StreamableVideoClip.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Video/<a class="el" href="../../d9/d6a/_streamable_video_clip_8cs_source.html">StreamableVideoClip.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

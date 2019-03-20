@@ -206,8 +206,8 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d0/dcd/_windows_m_r_motion_controller_8cs_source.html#l00044">44</a> of file <a class="el" href="../../d0/dcd/_windows_m_r_motion_controller_8cs_source.html">WindowsMRMotionController.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        {</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            base.Awake();</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#if !UNITY_EDITOR</span></div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            Haptics.ControllerID = <a class="code" href="../../dc/de6/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html#aaa7bd3ffeed94ddb9074303cbf951dc3">ControllerID</a>;</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            AddButton(<a class="code" href="../../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7">WindowsMRButtons</a>.Select, <a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Left);</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            AddButton(<a class="code" href="../../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7">WindowsMRButtons</a>.Touchpad, <a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Right);</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            AddButton(<a class="code" href="../../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7">WindowsMRButtons</a>.App, <a class="code" href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Middle);</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller_html_aaa7bd3ffeed94ddb9074303cbf951dc3"><div class="ttname"><a href="../../dc/de6/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html#aaa7bd3ffeed94ddb9074303cbf951dc3">Juniper.Unity.Input.Pointers.Motion.WindowsMRMotionController.ControllerID</a></div><div class="ttdeci">uint ControllerID</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dcd/_windows_m_r_motion_controller_8cs_source.html#l00025">WindowsMRMotionController.cs:25</a></div></div>
-<div class="ttc" id="_hover_craft_8cs_html_a5c50200d19d49e922dc81f88da2bcbf9"><div class="ttname"><a href="../../d1/db7/_hover_craft_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a></div><div class="ttdeci">UnityEngine.EventSystems.PointerEventData.InputButton InputButton</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/_hover_craft_8cs_source.html#l00005">HoverCraft.cs:5</a></div></div>
+<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        {</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            base.Awake();</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#if !UNITY_EDITOR</span></div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            Haptics.ControllerID = <a class="code" href="../../dc/de6/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html#aaa7bd3ffeed94ddb9074303cbf951dc3">ControllerID</a>;</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            AddButton(<a class="code" href="../../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7">WindowsMRButtons</a>.Select, <a class="code" href="../../d8/d05/_button_event_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Left);</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            AddButton(<a class="code" href="../../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7">WindowsMRButtons</a>.Touchpad, <a class="code" href="../../d8/d05/_button_event_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Right);</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            AddButton(<a class="code" href="../../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7">WindowsMRButtons</a>.App, <a class="code" href="../../d8/d05/_button_event_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a>.Middle);</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller_html_aaa7bd3ffeed94ddb9074303cbf951dc3"><div class="ttname"><a href="../../dc/de6/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html#aaa7bd3ffeed94ddb9074303cbf951dc3">Juniper.Unity.Input.Pointers.Motion.WindowsMRMotionController.ControllerID</a></div><div class="ttdeci">uint ControllerID</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dcd/_windows_m_r_motion_controller_8cs_source.html#l00025">WindowsMRMotionController.cs:25</a></div></div>
+<div class="ttc" id="_button_event_8cs_html_a5c50200d19d49e922dc81f88da2bcbf9"><div class="ttname"><a href="../../d8/d05/_button_event_8cs.html#a5c50200d19d49e922dc81f88da2bcbf9">InputButton</a></div><div class="ttdeci">UnityEngine.EventSystems.PointerEventData.InputButton InputButton</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d05/_button_event_8cs_source.html#l00010">ButtonEvent.cs:10</a></div></div>
 <div class="ttc" id="namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_html_a7229399eb731deed51e6bfc37dfd7bd7"><div class="ttname"><a href="../../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7">Juniper.Unity.Input.Pointers.Motion.WindowsMRButtons</a></div><div class="ttdeci">WindowsMRButtons</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d28/_abstract_windows_m_r_device_8cs_source.html#l00015">AbstractWindowsMRDevice.cs:15</a></div></div>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d0/dcd/_windows_m_r_motion_controller_8cs_source.html#l00025">Juniper.Unity.Input.Pointers.Motion.WindowsMRMotionController.ControllerID</a>.</p>
@@ -224,7 +224,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override void <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.InternalUpdate </td>
+          <td class="memname">override void <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.InternalUpdate </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -256,7 +256,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.IsButtonDown </td>
+          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.IsButtonDown </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7">WindowsMRButtons</a>&#160;</td>
           <td class="paramname"><em>button</em></td><td>)</td>
@@ -287,7 +287,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.IsButtonPressed </td>
+          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.IsButtonPressed </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7">WindowsMRButtons</a>&#160;</td>
           <td class="paramname"><em>button</em></td><td>)</td>
@@ -317,7 +317,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.IsButtonUp </td>
+          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.IsButtonUp </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7">WindowsMRButtons</a>&#160;</td>
           <td class="paramname"><em>button</em></td><td>)</td>
@@ -348,7 +348,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.UpdateReadings </td>
+          <td class="memname">static void <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.UpdateReadings </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -403,7 +403,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.IsConnected</td>
+          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.IsConnected</td>
         </tr>
       </table>
   </td>
@@ -427,7 +427,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">InteractionSourceState <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.lastInputState</td>
+          <td class="memname">InteractionSourceState <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.lastInputState</td>
         </tr>
       </table>
   </td>
@@ -477,7 +477,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual InteractionSourceState <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.InputState</td>
+          <td class="memname">virtual InteractionSourceState <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.InputState</td>
         </tr>
       </table>
   </td>
@@ -507,7 +507,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.IsDead</td>
+          <td class="memname">bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.IsDead</td>
         </tr>
       </table>
   </td>
@@ -535,7 +535,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.IsDominantHand</td>
+          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.IsDominantHand</td>
         </tr>
       </table>
   </td>
@@ -559,7 +559,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override Vector2 <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.RoundTouchPoint</td>
+          <td class="memname">override Vector2 <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.RoundTouchPoint</td>
         </tr>
       </table>
   </td>
@@ -570,7 +570,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../da/d28/_abstract_windows_m_r_device_8cs_source.html#l00150">150</a> of file <a class="el" href="../../da/d28/_abstract_windows_m_r_device_8cs_source.html">AbstractWindowsMRDevice.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;{ <span class="keyword">get</span> { <span class="keywordflow">return</span> Square2Round(<a class="code" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html#afbb08fbd5314c5bd673766a88fb81ee4">SquareTouchPoint</a>); } }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device_html_afbb08fbd5314c5bd673766a88fb81ee4"><div class="ttname"><a href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html#afbb08fbd5314c5bd673766a88fb81ee4">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice&lt; WindowsMRProbeConfiguration, HapticsType &gt;::SquareTouchPoint</a></div><div class="ttdeci">override Vector2 SquareTouchPoint</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d28/_abstract_windows_m_r_device_8cs_source.html#l00148">AbstractWindowsMRDevice.cs:148</a></div></div>
+<div class="fragment"><div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;{ <span class="keyword">get</span> { <span class="keywordflow">return</span> <a class="code" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html#afbb08fbd5314c5bd673766a88fb81ee4">SquareTouchPoint</a>.Square2Round(); } }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device_html_afbb08fbd5314c5bd673766a88fb81ee4"><div class="ttname"><a href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html#afbb08fbd5314c5bd673766a88fb81ee4">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice&lt; WindowsMRProbeConfiguration, HapticsType &gt;::SquareTouchPoint</a></div><div class="ttdeci">override Vector2 SquareTouchPoint</div><div class="ttdef"><b>Definition:</b> <a href="../../da/d28/_abstract_windows_m_r_device_8cs_source.html#l00148">AbstractWindowsMRDevice.cs:148</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -584,7 +584,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override Vector2 <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.SquareTouchPoint</td>
+          <td class="memname">override Vector2 <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.SquareTouchPoint</td>
         </tr>
       </table>
   </td>
@@ -609,7 +609,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.TouchPadPressed</td>
+          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.TouchPadPressed</td>
         </tr>
       </table>
   </td>
@@ -634,7 +634,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.TouchPadPressedDown</td>
+          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.TouchPadPressedDown</td>
         </tr>
       </table>
   </td>
@@ -660,7 +660,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.TouchPadPressedUp</td>
+          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.TouchPadPressedUp</td>
         </tr>
       </table>
   </td>
@@ -686,7 +686,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.TouchPadTouched</td>
+          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.TouchPadTouched</td>
         </tr>
       </table>
   </td>
@@ -711,7 +711,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.TouchPadTouchedDown</td>
+          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.TouchPadTouchedDown</td>
         </tr>
       </table>
   </td>
@@ -737,7 +737,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d5/dae/_touch_point_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.TouchPadTouchedUp</td>
+          <td class="memname">override bool <a class="el" href="../../d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html">Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice</a>&lt; ConfigType, <a class="el" href="../../d1/da4/_touch_gaze_pointer_8cs.html#a6188ec687b8a43c3fa6e1ab2d58efca5">HapticsType</a> &gt;.TouchPadTouchedUp</td>
         </tr>
       </table>
   </td>
@@ -754,7 +754,7 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/WindowsMR/<a class="el" href="../../d0/dcd/_windows_m_r_motion_controller_8cs_source.html">WindowsMRMotionController.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/WindowsMR/<a class="el" href="../../d0/dcd/_windows_m_r_motion_controller_8cs_source.html">WindowsMRMotionController.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

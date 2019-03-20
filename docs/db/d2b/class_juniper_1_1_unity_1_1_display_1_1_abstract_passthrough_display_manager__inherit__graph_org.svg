@@ -12,14 +12,13 @@
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
 <g id="a_node1"><a xlink:title=" ">
-<polygon fill="#bfbfbf" stroke="black" points="16.5,-221.5 16.5,-311.5 159.5,-311.5 159.5,-221.5 16.5,-221.5"/>
-<text text-anchor="start" x="24.5" y="-299.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Display.Abstract</text>
-<text text-anchor="middle" x="88" y="-288.5" font-family="SegoeUI" font-size="10.00">PassthroughDisplayManager</text>
-<polyline fill="none" stroke="black" points="16.5,-281.5 159.5,-281.5 "/>
-<text text-anchor="start" x="24.5" y="-269.5" font-family="SegoeUI" font-size="10.00">+ ARBackgroundMaterial</text>
-<text text-anchor="start" x="24.5" y="-258.5" font-family="SegoeUI" font-size="10.00">+ enablePointCloud</text>
-<polyline fill="none" stroke="black" points="16.5,-251.5 159.5,-251.5 "/>
-<text text-anchor="start" x="24.5" y="-239.5" font-family="SegoeUI" font-size="10.00">+ Start()</text>
+<polygon fill="#bfbfbf" stroke="black" points="16.5,-221.5 16.5,-300.5 159.5,-300.5 159.5,-221.5 16.5,-221.5"/>
+<text text-anchor="start" x="24.5" y="-288.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Display.Abstract</text>
+<text text-anchor="middle" x="88" y="-277.5" font-family="SegoeUI" font-size="10.00">PassthroughDisplayManager</text>
+<polyline fill="none" stroke="black" points="16.5,-270.5 159.5,-270.5 "/>
+<text text-anchor="start" x="24.5" y="-258.5" font-family="SegoeUI" font-size="10.00">+ ARBackgroundMaterial</text>
+<text text-anchor="start" x="24.5" y="-247.5" font-family="SegoeUI" font-size="10.00">+ enablePointCloud</text>
+<polyline fill="none" stroke="black" points="16.5,-240.5 159.5,-240.5 "/>
 <text text-anchor="start" x="24.5" y="-228.5" font-family="SegoeUI" font-size="10.00"># OnARModeChange()</text>
 </a>
 </g>
@@ -40,13 +39,13 @@
 </g>
 <!-- Node0&#45;&gt;Node4 -->
 <g id="edge4" class="edge"><title>Node0&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M88,-211.079C88,-202.234 88,-193.233 88,-184.858"/>
-<polygon fill="none" stroke="midnightblue" points="84.5001,-211.342 88,-221.342 91.5001,-211.342 84.5001,-211.342"/>
+<path fill="none" stroke="midnightblue" d="M88,-211.146C88,-202.256 88,-193.096 88,-184.555"/>
+<polygon fill="none" stroke="midnightblue" points="84.5001,-211.405 88,-221.405 91.5001,-211.405 84.5001,-211.405"/>
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
 <g id="a_node2"><a xlink:href="../../da/da5/class_juniper_1_1_unity_1_1_display_1_1_abstract_display_manager.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="23.5,-348.5 23.5,-812.5 152.5,-812.5 152.5,-348.5 23.5,-348.5"/>
+<polygon fill="white" stroke="black" points="23.5,-337.5 23.5,-812.5 152.5,-812.5 152.5,-337.5 23.5,-337.5"/>
 <text text-anchor="middle" x="88" y="-800.5" font-family="SegoeUI" font-size="10.00">AbstractDisplayManager</text>
 <polyline fill="none" stroke="black" points="23.5,-793.5 152.5,-793.5 "/>
 <text text-anchor="start" x="31.5" y="-781.5" font-family="SegoeUI" font-size="10.00">+ onDisplayTypeChange</text>
@@ -67,35 +66,36 @@
 <text text-anchor="start" x="31.5" y="-616.5" font-family="SegoeUI" font-size="10.00">&#45; jp</text>
 <text text-anchor="start" x="31.5" y="-605.5" font-family="SegoeUI" font-size="10.00">&#45; lastSystem</text>
 <text text-anchor="start" x="31.5" y="-594.5" font-family="SegoeUI" font-size="10.00">&#45; lastDisplayType</text>
-<text text-anchor="start" x="31.5" y="-583.5" font-family="SegoeUI" font-size="10.00">&#45; lastARMode</text>
-<text text-anchor="start" x="31.5" y="-572.5" font-family="SegoeUI" font-size="10.00">&#45; lastOption</text>
-<text text-anchor="start" x="31.5" y="-561.5" font-family="SegoeUI" font-size="10.00">&#45; cam</text>
-<polyline fill="none" stroke="black" points="23.5,-554.5 152.5,-554.5 "/>
-<text text-anchor="start" x="31.5" y="-542.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
-<text text-anchor="start" x="31.5" y="-531.5" font-family="SegoeUI" font-size="10.00">+ Reinstall()</text>
-<text text-anchor="start" x="31.5" y="-520.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="31.5" y="-509.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
-<text text-anchor="start" x="31.5" y="-498.5" font-family="SegoeUI" font-size="10.00">+ Start()</text>
-<text text-anchor="start" x="31.5" y="-487.5" font-family="SegoeUI" font-size="10.00">+ StartXRDisplay()</text>
-<text text-anchor="start" x="31.5" y="-476.5" font-family="SegoeUI" font-size="10.00">+ StopXRDisplay()</text>
-<text text-anchor="start" x="31.5" y="-465.5" font-family="SegoeUI" font-size="10.00">+ DisableDisplay()</text>
-<text text-anchor="start" x="31.5" y="-454.5" font-family="SegoeUI" font-size="10.00">+ StartAR()</text>
-<text text-anchor="start" x="31.5" y="-443.5" font-family="SegoeUI" font-size="10.00">+ StopAR()</text>
-<text text-anchor="start" x="31.5" y="-432.5" font-family="SegoeUI" font-size="10.00">+ ToggleAR()</text>
-<text text-anchor="start" x="31.5" y="-421.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
-<text text-anchor="start" x="31.5" y="-410.5" font-family="SegoeUI" font-size="10.00">+ SupportedXRDevice()</text>
-<text text-anchor="start" x="31.5" y="-399.5" font-family="SegoeUI" font-size="10.00"># OnDisplayTypeChange()</text>
-<text text-anchor="start" x="31.5" y="-388.5" font-family="SegoeUI" font-size="10.00"># OnARModeChange()</text>
-<text text-anchor="start" x="31.5" y="-377.5" font-family="SegoeUI" font-size="10.00">&#45; ChangeDisplayType()</text>
-<text text-anchor="start" x="31.5" y="-366.5" font-family="SegoeUI" font-size="10.00">&#45; ChangeARMode()</text>
-<text text-anchor="start" x="31.5" y="-355.5" font-family="SegoeUI" font-size="10.00">&#45; ChangeDevice()</text>
+<text text-anchor="start" x="31.5" y="-583.5" font-family="SegoeUI" font-size="10.00">&#45; resumeMode</text>
+<text text-anchor="start" x="31.5" y="-572.5" font-family="SegoeUI" font-size="10.00">&#45; lastARMode</text>
+<text text-anchor="start" x="31.5" y="-561.5" font-family="SegoeUI" font-size="10.00">&#45; lastOption</text>
+<text text-anchor="start" x="31.5" y="-550.5" font-family="SegoeUI" font-size="10.00">&#45; cam</text>
+<polyline fill="none" stroke="black" points="23.5,-543.5 152.5,-543.5 "/>
+<text text-anchor="start" x="31.5" y="-531.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
+<text text-anchor="start" x="31.5" y="-520.5" font-family="SegoeUI" font-size="10.00">+ Reinstall()</text>
+<text text-anchor="start" x="31.5" y="-509.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="31.5" y="-498.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<text text-anchor="start" x="31.5" y="-487.5" font-family="SegoeUI" font-size="10.00">+ Start()</text>
+<text text-anchor="start" x="31.5" y="-476.5" font-family="SegoeUI" font-size="10.00">+ StartXRDisplay()</text>
+<text text-anchor="start" x="31.5" y="-465.5" font-family="SegoeUI" font-size="10.00">+ StopXRDisplay()</text>
+<text text-anchor="start" x="31.5" y="-454.5" font-family="SegoeUI" font-size="10.00">+ DisableDisplay()</text>
+<text text-anchor="start" x="31.5" y="-443.5" font-family="SegoeUI" font-size="10.00">+ ResumeDisplay()</text>
+<text text-anchor="start" x="31.5" y="-432.5" font-family="SegoeUI" font-size="10.00">+ StartAR()</text>
+<text text-anchor="start" x="31.5" y="-421.5" font-family="SegoeUI" font-size="10.00">+ StopAR()</text>
+<text text-anchor="start" x="31.5" y="-410.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
+<text text-anchor="start" x="31.5" y="-399.5" font-family="SegoeUI" font-size="10.00">+ SupportedXRDevice()</text>
+<text text-anchor="start" x="31.5" y="-388.5" font-family="SegoeUI" font-size="10.00"># OnDisplayTypeChange()</text>
+<text text-anchor="start" x="31.5" y="-377.5" font-family="SegoeUI" font-size="10.00"># OnARModeChange()</text>
+<text text-anchor="start" x="31.5" y="-366.5" font-family="SegoeUI" font-size="10.00">&#45; ChangeDisplayType()</text>
+<text text-anchor="start" x="31.5" y="-355.5" font-family="SegoeUI" font-size="10.00">&#45; ChangeARMode()</text>
+<text text-anchor="start" x="31.5" y="-344.5" font-family="SegoeUI" font-size="10.00">&#45; ChangeDevice()</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node0 -->
 <g id="edge1" class="edge"><title>Node1&#45;&gt;Node0</title>
-<path fill="none" stroke="midnightblue" d="M88,-338.137C88,-328.632 88,-319.738 88,-311.682"/>
-<polygon fill="none" stroke="midnightblue" points="84.5001,-338.253 88,-348.254 91.5001,-338.254 84.5001,-338.253"/>
+<path fill="none" stroke="midnightblue" d="M88,-326.895C88,-317.309 88,-308.43 88,-300.511"/>
+<polygon fill="none" stroke="midnightblue" points="84.5001,-327.129 88,-337.129 91.5001,-327.129 84.5001,-327.129"/>
 </g>
 <!-- Node2 -->
 <g id="node3" class="node"><title>Node2</title>
@@ -111,12 +111,12 @@
 </g>
 <!-- Node2&#45;&gt;Node1 -->
 <g id="edge2" class="edge"><title>Node2&#45;&gt;Node1</title>
-<path fill="none" stroke="midnightblue" d="M46.8209,-850.04C48.4852,-839.187 50.4299,-826.505 52.5517,-812.668"/>
-<polygon fill="none" stroke="midnightblue" points="43.3101,-849.845 45.2538,-860.26 50.2292,-850.906 43.3101,-849.845"/>
+<path fill="none" stroke="midnightblue" d="M46.7115,-850.085C48.3483,-839.22 50.2625,-826.513 52.3537,-812.63"/>
+<polygon fill="none" stroke="midnightblue" points="43.1997,-849.902 45.1709,-860.312 50.1216,-850.945 43.1997,-849.902"/>
 </g>
 <!-- Node3 -->
 <g id="node4" class="node"><title>Node3</title>
-<g id="a_node4"><a xlink:href="../../db/d28/interface_juniper_1_1_i_installable.html" target="_top" xlink:title=" ">
+<g id="a_node4"><a xlink:href="../../db/d28/interface_juniper_1_1_i_installable.html" target="_top" xlink:title="Defines an interface for objects that can be installed and have their installation progress tracked.">
 <polygon fill="white" stroke="black" points="100.5,-849.5 100.5,-928.5 169.5,-928.5 169.5,-849.5 100.5,-849.5"/>
 <text text-anchor="middle" x="135" y="-916.5" font-family="SegoeUI" font-size="10.00">IInstallable</text>
 <polyline fill="none" stroke="black" points="100.5,-909.5 169.5,-909.5 "/>
@@ -130,8 +130,8 @@
 </g>
 <!-- Node3&#45;&gt;Node1 -->
 <g id="edge3" class="edge"><title>Node3&#45;&gt;Node1</title>
-<path fill="none" stroke="midnightblue" d="M127.555,-839.447C126.286,-831.174 124.898,-822.121 123.425,-812.513"/>
-<polygon fill="none" stroke="midnightblue" points="124.12,-840.138 129.095,-849.492 131.039,-839.077 124.12,-840.138"/>
+<path fill="none" stroke="midnightblue" d="M127.69,-839.474C126.455,-831.276 125.104,-822.308 123.67,-812.785"/>
+<polygon fill="none" stroke="midnightblue" points="124.239,-840.063 129.19,-849.43 131.161,-839.02 124.239,-840.063"/>
 </g>
 <!-- Node5 -->
 <g id="node6" class="node"><title>Node5</title>

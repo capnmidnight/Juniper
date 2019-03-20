@@ -2,5 +2,5 @@
 <area shape="rect" id="node1" title="Perform system&#45;specific authorization requests, such as GPS on Android, or Microphone on iOS." alt="" coords="19,160,227,296"/>
 <area shape="rect" id="node4" href="$db/ddd/class_juniper_1_1_unity_1_1_permission_handler.html" title=" " alt="" coords="42,344,203,436"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,20,115,97"/>
-<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title=" " alt="" coords="139,5,231,112"/>
+<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="139,5,231,112"/>
 </map>

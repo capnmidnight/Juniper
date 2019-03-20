@@ -97,8 +97,7 @@ namespace Juniper.Statistics
         /// <summary>
         /// Performs Sqrt on floats.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
         protected override float Sqrt(float value)
         {

@@ -58,15 +58,15 @@
 <polyline fill="none" stroke="black" points="6.5,-578.5 130.5,-578.5 "/>
 <text text-anchor="start" x="14.5" y="-566.5" font-family="SegoeUI" font-size="10.00">+ EventTarget</text>
 <text text-anchor="start" x="14.5" y="-555.5" font-family="SegoeUI" font-size="10.00">+ InputModule</text>
-<text text-anchor="start" x="14.5" y="-544.5" font-family="SegoeUI" font-size="10.00">+ PointerID</text>
-<text text-anchor="start" x="14.5" y="-533.5" font-family="SegoeUI" font-size="10.00">+ name</text>
-<text text-anchor="start" x="14.5" y="-522.5" font-family="SegoeUI" font-size="10.00">+ ProbeName</text>
-<text text-anchor="start" x="14.5" y="-511.5" font-family="SegoeUI" font-size="10.00">+ ButtonType</text>
-<text text-anchor="start" x="14.5" y="-500.5" font-family="SegoeUI" font-size="10.00">+ isActiveAndEnabled</text>
-<text text-anchor="start" x="14.5" y="-489.5" font-family="SegoeUI" font-size="10.00">+ IsConnected</text>
-<text text-anchor="start" x="14.5" y="-478.5" font-family="SegoeUI" font-size="10.00">+ IsDisabled</text>
-<text text-anchor="start" x="14.5" y="-467.5" font-family="SegoeUI" font-size="10.00">+ IsEnabled</text>
-<text text-anchor="start" x="14.5" y="-456.5" font-family="SegoeUI" font-size="10.00">and 23 more...</text>
+<text text-anchor="start" x="14.5" y="-544.5" font-family="SegoeUI" font-size="10.00">+ PointerDataID</text>
+<text text-anchor="start" x="14.5" y="-533.5" font-family="SegoeUI" font-size="10.00">+ ProbeName</text>
+<text text-anchor="start" x="14.5" y="-522.5" font-family="SegoeUI" font-size="10.00">+ ButtonType</text>
+<text text-anchor="start" x="14.5" y="-511.5" font-family="SegoeUI" font-size="10.00">+ isActiveAndEnabled</text>
+<text text-anchor="start" x="14.5" y="-500.5" font-family="SegoeUI" font-size="10.00">+ IsConnected</text>
+<text text-anchor="start" x="14.5" y="-489.5" font-family="SegoeUI" font-size="10.00">+ IsDisabled</text>
+<text text-anchor="start" x="14.5" y="-478.5" font-family="SegoeUI" font-size="10.00">+ IsEnabled</text>
+<text text-anchor="start" x="14.5" y="-467.5" font-family="SegoeUI" font-size="10.00">+ IsDragging</text>
+<text text-anchor="start" x="14.5" y="-456.5" font-family="SegoeUI" font-size="10.00">and 22 more...</text>
 <polyline fill="none" stroke="black" points="6.5,-449.5 130.5,-449.5 "/>
 <text text-anchor="start" x="14.5" y="-437.5" font-family="SegoeUI" font-size="10.00">+ ViewportFromWorld()</text>
 <text text-anchor="start" x="14.5" y="-426.5" font-family="SegoeUI" font-size="10.00">+ ViewportFromScreen()</text>

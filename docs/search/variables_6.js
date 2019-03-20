@@ -35,7 +35,6 @@ var searchData=
   ['framestats',['frameStats',['../d1/de6/class_juniper_1_1_unity_1_1_widgets_1_1_quality_degrader.html#a21731707268d5ca9fd753d0366107fb9',1,'Juniper::Unity::Widgets::QualityDegrader']]],
   ['freezeupdates',['freezeUpdates',['../d1/d1e/class_juniper_1_1_unity_1_1_ground_1_1_holo_lens_ground.html#ab3440ae2ad82ebd8588391582088e658',1,'Juniper::Unity::Ground::HoloLensGround']]],
   ['freezing_5fpoint',['FREEZING_POINT',['../de/d87/class_juniper_1_1_units_1_1_celsius.html#a76732247d5d4e6743fc9199c88a7f07a',1,'Juniper.Units.Celsius.FREEZING_POINT()'],['../d2/d75/class_juniper_1_1_units_1_1_farenheit.html#ab399abbbbb9e1714d4e7b86c1459564f',1,'Juniper.Units.Farenheit.FREEZING_POINT()'],['../d9/d59/class_juniper_1_1_units_1_1_kelvin.html#aae798d0b80c1fd1f72ec52e8e861cb2f',1,'Juniper.Units.Kelvin.FREEZING_POINT()']]],
-  ['frominputbutton',['fromInputButton',['../d4/da3/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_button_mapper.html#a834719c2357d03f0e4aa77ea6c454596',1,'Juniper::Unity::Input::Pointers::ButtonMapper']]],
   ['fudge',['fudge',['../d4/d97/class_juniper_1_1_unity_1_1_widgets_1_1_tooltip.html#a154672b3842d179b3325a10026d6d6f2',1,'Juniper::Unity::Widgets::Tooltip']]],
   ['fullscreen',['fullScreen',['../d5/d56/class_juniper_1_1_unity_1_1_animation_1_1_spiral_transition.html#acf3905676deeea68d0581117e0de5ea6',1,'Juniper::Unity::Animation::SpiralTransition']]],
   ['functions',['Functions',['../d6/d86/class_juniper_1_1_unity_1_1_animation_1_1_tween.html#afc6a6337e7f552c9b6b41bce347beb42',1,'Juniper::Unity::Animation::Tween']]]

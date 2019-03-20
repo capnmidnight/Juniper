@@ -313,8 +313,8 @@ namespace Juniper.Statistics
         /// Creates a new collection analyzer out of a generic collection.
         /// </summary>
         /// <param name="collection">Collection.</param>
-        /// <param name="zero">Value representing addition identity</param>
-        /// <param name="one">Value representing multiplication identity</param>
+        /// <param name="zero">The value that represents Zero for <typeparamref name="T"/></param>
+        /// <param name="one">The value that represents One for <typeparamref name="T"/></param>
         protected AbstractCollectionStatistics(IList<T> collection, T zero, T one)
         {
             collect = collection;
@@ -326,6 +326,8 @@ namespace Juniper.Statistics
         /// Creates a new collection analyzer with a RingBuffer as the underlying collection.
         /// </summary>
         /// <param name="capacity">Capacity.</param>
+        /// <param name="zero">The value that represents Zero for <typeparamref name="T"/></param>
+        /// <param name="one">The value that represents One for <typeparamref name="T"/></param>
         protected AbstractCollectionStatistics(int capacity, T zero, T one)
             : this(new RingBuffer<T>(capacity), zero, one)
         {
@@ -441,8 +443,7 @@ namespace Juniper.Statistics
         /// Implementing classes can define how calculate the square root of a value (because C#
         /// generics cannot specify operator constraints)
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
         protected abstract T Sqrt(T value);
 
@@ -450,8 +451,7 @@ namespace Juniper.Statistics
         /// Implementing classes can define how calculate the absolute value of a value (because C#
         /// generics cannot specify operator constraints)
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
         protected abstract T Abs(T value);
 
@@ -609,8 +609,7 @@ namespace Juniper.Statistics
         /// <summary>
         /// Coalesces null values for performing <see cref="Sqrt(T)"/>.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
         private T? Sqrt(T? value)
         {
@@ -627,8 +626,7 @@ namespace Juniper.Statistics
         /// <summary>
         /// Coalesces null values for performing <see cref="Abs(T, T)"/>.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
         private T? Abs(T? value)
         {

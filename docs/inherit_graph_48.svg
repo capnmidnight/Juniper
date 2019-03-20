@@ -11,9 +11,9 @@
 <polygon fill="white" stroke="none" points="-4,4 -4,-24 116,-24 116,4 -4,4"/>
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
-<g id="a_node1"><a xlink:href="d0/dd6/class_juniper_1_1_units_1_1_kibibytes.html" target="_top" xlink:title="Conversions from kibibytes, 2^10 bytes">
+<g id="a_node1"><a xlink:href="da/dff/class_juniper_1_1_units_1_1_kilobytes.html" target="_top" xlink:title="Conversions from kilobytes, 10^3 bytes">
 <polygon fill="white" stroke="black" points="0,-0.5 0,-19.5 112,-19.5 112,-0.5 0,-0.5"/>
-<text text-anchor="middle" x="56" y="-7.5" font-family="SegoeUI" font-size="10.00">Juniper.Units.Kibibytes</text>
+<text text-anchor="middle" x="56" y="-7.5" font-family="SegoeUI" font-size="10.00">Juniper.Units.Kilobytes</text>
 </a>
 </g>
 </g>

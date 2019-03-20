@@ -15,16 +15,16 @@
 <polygon fill="white" stroke="black" points="0,-0.5 0,-41.5 139,-41.5 139,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
 <text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">AbstractPointerConfiguration</text>
-<text text-anchor="middle" x="69.5" y="-7.5" font-family="SegoeUI" font-size="10.00">&lt; KeyCode &gt;</text>
+<text text-anchor="middle" x="69.5" y="-7.5" font-family="SegoeUI" font-size="10.00">&lt; Unary &gt;</text>
 </a>
 </g>
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
-<g id="a_node2"><a xlink:href="dc/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_mouse_configuration.html" target="_top" xlink:title=" ">
+<g id="a_node2"><a xlink:href="d7/d16/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_unary_pointer_configuration.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="175,-6 175,-36 312,-36 312,-6 175,-6"/>
 <text text-anchor="start" x="183" y="-24" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
-<text text-anchor="middle" x="243.5" y="-13" font-family="SegoeUI" font-size="10.00">Screen.MouseConfiguration</text>
+<text text-anchor="middle" x="243.5" y="-13" font-family="SegoeUI" font-size="10.00">UnaryPointerConfiguration</text>
 </a>
 </g>
 </g>

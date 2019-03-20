@@ -2,6 +2,7 @@ var searchData=
 [
   ['uninstallablerawpackages',['UninstallableRawPackages',['../dc/dd8/class_juniper_1_1_unity_editor_1_1_configuration_management_1_1_platform_configuration.html#a21894acbbb9888998ef231e6c1738464',1,'Juniper::UnityEditor::ConfigurationManagement::PlatformConfiguration']]],
   ['uninstallableunitypackages',['UninstallableUnityPackages',['../dc/dd8/class_juniper_1_1_unity_editor_1_1_configuration_management_1_1_platform_configuration.html#a76e5f3e44b25d3a37d9c37190a137336',1,'Juniper::UnityEditor::ConfigurationManagement::PlatformConfiguration']]],
+  ['unityinputbutton',['UnityInputButton',['../d2/dbe/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_mapped_button.html#a87b63a382193aff605522b53c855be1d',1,'Juniper::Unity::Input::Pointers::MappedButton']]],
   ['untilnextrequest',['UntilNextRequest',['../d5/d6f/class_juniper_1_1_data_1_1_managed_request.html#a5d3b8ab1c18edf5c36978271ef9dbbfc',1,'Juniper::Data::ManagedRequest']]],
   ['untilnextrequestseconds',['UntilNextRequestSeconds',['../d5/d6f/class_juniper_1_1_data_1_1_managed_request.html#a519d280314044bffc292f848b5e0cf93',1,'Juniper::Data::ManagedRequest']]],
   ['usefakecoord',['UseFakeCoord',['../db/d2e/class_juniper_1_1_unity_1_1_world_1_1_g_p_s_location.html#a6d3dbb3a2135455dd9a924709f48f9c8',1,'Juniper::Unity::World::GPSLocation']]],

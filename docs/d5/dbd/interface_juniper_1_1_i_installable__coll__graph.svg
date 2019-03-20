@@ -9,9 +9,9 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 84)">
 <title>Juniper.IInstallable</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-84 101,-84 101,4 -4,4"/>
-<!-- Node67 -->
-<g id="node1" class="node"><title>Node67</title>
-<g id="a_node1"><a xlink:title=" ">
+<!-- Node71 -->
+<g id="node1" class="node"><title>Node71</title>
+<g id="a_node1"><a xlink:title="Defines an interface for objects that can be installed and have their installation progress tracked.">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-79.5 97,-79.5 97,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="48.5" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.IInstallable</text>
 <polyline fill="none" stroke="black" points="0,-60.5 97,-60.5 "/>

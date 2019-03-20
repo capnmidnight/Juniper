@@ -1,7 +1,6 @@
 var searchData=
 [
   ['main',['Main',['../de/d67/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_main.html#af8cd61cf5cb6aae7a561585ad1af1a99',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Main']]],
-  ['makeeventhandler_3c_20t_20_3e',['MakeEventHandler&lt; T &gt;',['../d4/da3/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_button_mapper.html#a671a80feb4dd135788e5a629705004ce',1,'Juniper::Unity::Input::Pointers::ButtonMapper']]],
   ['makehandtracker',['MakeHandTracker',['../d1/ddd/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html#a914d1d59abe8e3c631290a13f5904ccd',1,'Juniper::Unity::Input::Pointers::Motion::HandTracker']]],
   ['makehandtrackers',['MakeHandTrackers',['../d1/ddd/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html#a44ddd8bc021d8f0e0bec3ce6cc2909a3',1,'Juniper::Unity::Input::Pointers::Motion::HandTracker']]],
   ['makeid',['MakeID',['../dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html#a0229b0662477fc288ee7d1389d6e1a4d',1,'Juniper::Unity::Anchoring::AbstractAnchorStore']]],
@@ -10,7 +9,7 @@ var searchData=
   ['makelabeledslider',['MakeLabeledSlider',['../d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html#a0f8831f14bab2e865289081dac3cf441',1,'Juniper::Unity::MasterSceneController']]],
   ['makemotioncontroller',['MakeMotionController',['../d7/d8f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html#a12873d2085328a6aeffc0b6a88af2e16',1,'Juniper::Unity::Input::Pointers::Motion::MotionController']]],
   ['makemotioncontrollers',['MakeMotionControllers',['../d7/d8f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html#a70275bde4fa5aa3b0131210024450629',1,'Juniper::Unity::Input::Pointers::Motion::MotionController']]],
-  ['makepointer_3c_20t_20_3e',['MakePointer&lt; T &gt;',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html#a8e6fab8a0df139d36b8bd7caf26849f6',1,'Juniper::Unity::StageExtensions']]],
+  ['makepointer_3c_20t_20_3e',['MakePointer&lt; T &gt;',['../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#aa392c4e32f818d992f2c85552b1cba44',1,'Juniper::Unity::Input::AbstractUnifiedInputModule']]],
   ['makepointername',['MakePointerName',['../d0/da7/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer_configuration.html#a394c959840843a8ee8f081b8c757d321',1,'Juniper::Unity::Input::Pointers::Motion::AbstractHandedPointerConfiguration']]],
   ['makepositionmeasurementmatrix',['MakePositionMeasurementMatrix',['../d9/d39/class_juniper_1_1_unity_1_1_statistics_1_1_kalman_motion_filter.html#a827067b1d6e421a5ebe1d5c5e7649573',1,'Juniper::Unity::Statistics::KalmanMotionFilter']]],
   ['makerequest',['MakeRequest',['../dc/d5a/class_juniper_1_1_h_t_t_p.html#a556c115da84128158de6f1846759f3ea',1,'Juniper::HTTP']]],
@@ -19,6 +18,7 @@ var searchData=
   ['managedrequest',['ManagedRequest',['../d5/d6f/class_juniper_1_1_data_1_1_managed_request.html#a88790cee275f718a5a90a8106345e80d',1,'Juniper::Data::ManagedRequest']]],
   ['managedrequestmessageargs',['ManagedRequestMessageArgs',['../de/d07/class_juniper_1_1_data_1_1_managed_request_message_args.html#a1aa735db1839600a51e75d079cf4b6c0',1,'Juniper::Data::ManagedRequestMessageArgs']]],
   ['managedrequestreadyeventargs',['ManagedRequestReadyEventArgs',['../de/dbf/class_juniper_1_1_data_1_1_managed_request_ready_event_args.html#a042a01eccbe5359ba9c7c241d4168630',1,'Juniper::Data::ManagedRequestReadyEventArgs']]],
+  ['mappedbutton',['MappedButton',['../d2/dbe/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_mapped_button.html#afd8593ca140f4195fd36bead25ff688c',1,'Juniper::Unity::Input::Pointers::MappedButton']]],
   ['matches',['Matches',['../d5/df6/class_system_1_1_collections_1_1_generic_1_1_i_enumerable_ext.html#a28ba6e1c6acc2132214724232ebe8f00',1,'System::Collections::Generic::IEnumerableExt']]],
   ['matches_3c_20t_20_3e',['Matches&lt; T &gt;',['../d5/df6/class_system_1_1_collections_1_1_generic_1_1_i_enumerable_ext.html#a086a99877f2df1c300367026d420a33e',1,'System.Collections.Generic.IEnumerableExt.Matches&lt; T &gt;(this IEnumerable&lt; T &gt; a, IEnumerable&lt; T &gt; b)'],['../d5/df6/class_system_1_1_collections_1_1_generic_1_1_i_enumerable_ext.html#a39596d5467725f2ba25c72caeff8aa4a',1,'System.Collections.Generic.IEnumerableExt.Matches&lt; T &gt;(this IEnumerable&lt; T &gt; a, IEnumerable b)'],['../d5/df6/class_system_1_1_collections_1_1_generic_1_1_i_enumerable_ext.html#a369ae6c6d121770c0dd961d715b9e2b6',1,'System.Collections.Generic.IEnumerableExt.Matches&lt; T &gt;(this IEnumerable&lt; T &gt; a, IEnumerator b)']]],
   ['max',['Max',['../dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html#aa19dc3da08b7836ffa7047134ce8ec8f',1,'Juniper::Statistics::AbstractCollectionStatistics']]],

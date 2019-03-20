@@ -1,0 +1,7 @@
+<map id="Juniper.Progress.ProgressStream" name="Juniper.Progress.ProgressStream">
+<area shape="rect" id="node1" title="A stream that can report progress on how much it has been consumed." alt="" coords="51,287,221,643"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,147,69,224"/>
+<area shape="rect" id="node3" href="$d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html" title="Progress reporting interface for asynchronous operations." alt="" coords="94,147,178,224"/>
+<area shape="rect" id="node4" title=" " alt="" coords="158,5,295,97"/>
+<area shape="rect" id="node5" href="$d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html" title="Progress reporting interface for asynchronous operations." alt="" coords="202,147,377,224"/>
+</map>

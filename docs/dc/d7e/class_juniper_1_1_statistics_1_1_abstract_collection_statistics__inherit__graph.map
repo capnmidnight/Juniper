@@ -1,12 +1,12 @@
 <map id="Juniper.Statistics.AbstractCollectionStatistics&lt; T &gt;" name="Juniper.Statistics.AbstractCollectionStatistics&lt; T &gt;">
-<area shape="rect" id="node1" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="339,132,537,972"/>
-<area shape="rect" id="node3" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="5,1035,204,1875"/>
-<area shape="rect" id="node5" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="228,1035,427,1875"/>
-<area shape="rect" id="node7" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="451,1035,649,1875"/>
-<area shape="rect" id="node9" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="673,1035,872,1875"/>
+<area shape="rect" id="node1" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="339,132,537,899"/>
+<area shape="rect" id="node3" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="5,961,204,1728"/>
+<area shape="rect" id="node5" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="228,961,427,1728"/>
+<area shape="rect" id="node7" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="451,961,649,1728"/>
+<area shape="rect" id="node9" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="673,961,872,1728"/>
 <area shape="rect" id="node2" title=" " alt="" coords="399,5,477,83"/>
-<area shape="rect" id="node4" href="$d5/d19/class_juniper_1_1_statistics_1_1_single_statistics.html" title="Computes statistics on System.Single values." alt="" coords="26,1924,183,2148"/>
-<area shape="rect" id="node6" href="$d5/da9/class_juniper_1_1_unity_1_1_statistics_1_1_vector2_statistics.html" title="Computes statistics on UnityEngine.Vector2 values." alt="" coords="250,1924,405,2148"/>
-<area shape="rect" id="node8" href="$d5/d8e/class_juniper_1_1_unity_1_1_statistics_1_1_vector3_statistics.html" title="A RingBuffer of UnityEngine.Vector3 values that also calculates some basic statistics along the way." alt="" coords="473,1924,627,2148"/>
-<area shape="rect" id="node10" href="$d2/d93/class_juniper_1_1_unity_1_1_statistics_1_1_vector4_statistics.html" title="A RingBuffer of UnityEngine.Vector4 values that also calculates some basic statistics along the way." alt="" coords="695,1924,850,2148"/>
+<area shape="rect" id="node4" href="$d5/d19/class_juniper_1_1_statistics_1_1_single_statistics.html" title="Computes statistics on System.Single values." alt="" coords="26,1777,183,2001"/>
+<area shape="rect" id="node6" href="$d5/da9/class_juniper_1_1_unity_1_1_statistics_1_1_vector2_statistics.html" title="Computes statistics on UnityEngine.Vector2 values." alt="" coords="250,1777,405,2001"/>
+<area shape="rect" id="node8" href="$d5/d8e/class_juniper_1_1_unity_1_1_statistics_1_1_vector3_statistics.html" title="A RingBuffer of UnityEngine.Vector3 values that also calculates some basic statistics along the way." alt="" coords="473,1777,627,2001"/>
+<area shape="rect" id="node10" href="$d2/d93/class_juniper_1_1_unity_1_1_statistics_1_1_vector4_statistics.html" title="A RingBuffer of UnityEngine.Vector4 values that also calculates some basic statistics along the way." alt="" coords="695,1777,850,2001"/>
 </map>

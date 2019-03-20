@@ -14,16 +14,16 @@
 <g id="a_node1"><a xlink:href="dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="0,-0.5 0,-30.5 149,-30.5 149,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">Juniper.Statistics.Abstract</text>
-<text text-anchor="middle" x="74.5" y="-7.5" font-family="SegoeUI" font-size="10.00">CollectionStatistics&lt; Vector3 &gt;</text>
+<text text-anchor="middle" x="74.5" y="-7.5" font-family="SegoeUI" font-size="10.00">CollectionStatistics&lt; Vector4 &gt;</text>
 </a>
 </g>
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
-<g id="a_node2"><a xlink:href="d5/d8e/class_juniper_1_1_unity_1_1_statistics_1_1_vector3_statistics.html" target="_top" xlink:title="A RingBuffer of UnityEngine.Vector3 values that also calculates some basic statistics along the way.">
+<g id="a_node2"><a xlink:href="d2/d93/class_juniper_1_1_unity_1_1_statistics_1_1_vector4_statistics.html" target="_top" xlink:title="A RingBuffer of UnityEngine.Vector4 values that also calculates some basic statistics along the way.">
 <polygon fill="white" stroke="black" points="185,-0.5 185,-30.5 301,-30.5 301,-0.5 185,-0.5"/>
 <text text-anchor="start" x="193" y="-18.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Statistics.</text>
-<text text-anchor="middle" x="243" y="-7.5" font-family="SegoeUI" font-size="10.00">Vector3Statistics</text>
+<text text-anchor="middle" x="243" y="-7.5" font-family="SegoeUI" font-size="10.00">Vector4Statistics</text>
 </a>
 </g>
 </g>

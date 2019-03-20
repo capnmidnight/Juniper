@@ -23,7 +23,7 @@ var searchData=
   ['neurosky',['NeuroSky',['../d0/dd6/namespace_juniper_1_1_neuro_sky.html',1,'Juniper']]],
   ['openweathermap',['OpenWeatherMap',['../d5/d13/namespace_juniper_1_1_world_1_1_climate_1_1_open_weather_map.html',1,'Juniper::World::Climate']]],
   ['pointers',['Pointers',['../d2/d10/namespace_juniper_1_1_input_1_1_pointers.html',1,'Juniper.Input.Pointers'],['../db/d75/namespace_juniper_1_1_unity_1_1_input_1_1_pointers.html',1,'Juniper.Unity.Input.Pointers']]],
-  ['progress',['Progress',['../df/d09/namespace_juniper_1_1_progress.html',1,'Juniper.Progress'],['../d8/d0d/namespace_juniper_1_1_unity_1_1_progress.html',1,'Juniper.Unity.Progress']]],
+  ['progress',['Progress',['../df/d09/namespace_juniper_1_1_progress.html',1,'Juniper']]],
   ['screen',['Screen',['../db/d00/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen.html',1,'Juniper::Unity::Input::Pointers']]],
   ['speech',['Speech',['../df/d0a/namespace_juniper_1_1_input_1_1_speech.html',1,'Juniper.Input.Speech'],['../df/d83/namespace_juniper_1_1_unity_1_1_input_1_1_speech.html',1,'Juniper.Unity.Input.Speech']]],
   ['statistics',['Statistics',['../dd/d57/namespace_juniper_1_1_statistics.html',1,'Juniper.Statistics'],['../d9/dab/namespace_juniper_1_1_unity_1_1_statistics.html',1,'Juniper.Unity.Statistics']]],

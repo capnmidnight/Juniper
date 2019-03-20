@@ -1,9 +1,11 @@
 var searchData=
 [
+  ['magicleapinputmodule',['MagicLeapInputModule',['../d8/d54/class_juniper_1_1_unity_1_1_input_1_1_magic_leap_input_module.html',1,'Juniper::Unity::Input']]],
   ['main',['Main',['../de/d67/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_main.html',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport']]],
   ['managedrequest',['ManagedRequest',['../d5/d6f/class_juniper_1_1_data_1_1_managed_request.html',1,'Juniper::Data']]],
   ['managedrequestmessageargs',['ManagedRequestMessageArgs',['../de/d07/class_juniper_1_1_data_1_1_managed_request_message_args.html',1,'Juniper::Data']]],
   ['managedrequestreadyeventargs',['ManagedRequestReadyEventArgs',['../de/dbf/class_juniper_1_1_data_1_1_managed_request_ready_event_args.html',1,'Juniper::Data']]],
+  ['mappedbutton',['MappedButton',['../d2/dbe/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_mapped_button.html',1,'Juniper::Unity::Input::Pointers']]],
   ['masterscenecontroller',['MasterSceneController',['../d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html',1,'Juniper::Unity']]],
   ['materialcollection',['MaterialCollection',['../d7/dc2/class_juniper_1_1_unity_1_1_widgets_1_1_material_collection.html',1,'Juniper::Unity::Widgets']]],
   ['megabytes',['Megabytes',['../d3/d36/class_juniper_1_1_units_1_1_megabytes.html',1,'Juniper::Units']]],
