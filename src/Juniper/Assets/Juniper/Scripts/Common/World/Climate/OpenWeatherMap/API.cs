@@ -111,11 +111,6 @@ namespace Juniper.World.Climate.OpenWeatherMap
         [Serializable]
         private class Error : ISerializable
         {
-            public Error(SerializationInfo info, StreamingContext context)
-            {
-                error = info.GetString(nameof(error));
-            }
-
             /// <summary>
             /// An error message that is hopefully easier to read than a full stack trace.
             /// </summary>
@@ -141,6 +136,21 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 error = $"ERROR [{featureName}]: {message}";
             }
 
+            /// <summary>
+            /// Deserializes an Error.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
+            public Error(SerializationInfo info, StreamingContext context)
+            {
+                error = info.GetString(nameof(error));
+            }
+
+            /// <summary>
+            /// Serializes the Error.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
                 info.AddValue(nameof(error), error);

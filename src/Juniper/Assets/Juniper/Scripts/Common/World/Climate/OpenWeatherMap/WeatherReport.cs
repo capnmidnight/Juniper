@@ -77,6 +77,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// </summary>
         public Sys sys;
 
+        /// <summary>
+        /// Deserializes a WeatherReport.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
         public WeatherReport(SerializationInfo info, StreamingContext context)
         {
             error = info.GetString(nameof(error));
@@ -94,6 +99,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
             sys = (Sys)info.GetValue(nameof(sys), typeof(Sys));
         }
 
+        /// <summary>
+        /// Serializes a WeatherReport.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(error), error);
@@ -337,12 +347,22 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             public float lat;
 
+            /// <summary>
+            /// Deserializes a Coord.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public Coord(SerializationInfo info, StreamingContext context)
             {
                 lon = info.GetSingle(nameof(lon));
                 lat = info.GetSingle(nameof(lat));
             }
 
+            /// <summary>
+            /// Serializes the Coord.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
                 info.AddValue(nameof(lon), lon);
@@ -376,6 +396,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             public int id;
 
+            /// <summary>
+            /// Deserializes a Wather.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public Weather(SerializationInfo info, StreamingContext context)
             {
                 main = info.GetString(nameof(main));
@@ -384,6 +409,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 id = info.GetInt32(nameof(id));
             }
 
+            /// <summary>
+            /// Serializes the Weather.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
                 info.AddValue(nameof(main), main);
@@ -837,6 +867,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             public float grnd_level;
 
+            /// <summary>
+            /// Deserializes a Main conditions structure.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public Main(SerializationInfo info, StreamingContext context)
             {
                 temp = info.GetSingle(nameof(temp));
@@ -848,6 +883,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 grnd_level = info.GetSingle(nameof(grnd_level));
             }
 
+            /// <summary>
+            /// Serializes the Main conditions structure.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
                 info.AddValue(nameof(temp), temp);
@@ -876,12 +916,22 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             public float deg;
 
+            /// <summary>
+            /// Deserializes a Wind.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public Wind(SerializationInfo info, StreamingContext context)
             {
                 speed = info.GetSingle(nameof(speed));
                 deg = info.GetSingle(nameof(deg));
             }
 
+            /// <summary>
+            /// Serializes the Wind.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
                 info.AddValue(nameof(speed), speed);
@@ -900,11 +950,21 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             public int all;
 
+            /// <summary>
+            /// Deserializes a Clouds.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public Clouds(SerializationInfo info, StreamingContext context)
             {
                 all = info.GetInt32(nameof(all));
             }
 
+            /// <summary>
+            /// Serializes the Clouds.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
                 info.AddValue(nameof(all), all);
@@ -922,11 +982,21 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             public int threeHour;
 
+            /// <summary>
+            /// Deserializes a Rain.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public Rain(SerializationInfo info, StreamingContext context)
             {
                 threeHour = info.GetInt32("3h");
             }
 
+            /// <summary>
+            /// Serializes the Rain.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
                 info.AddValue("3h", threeHour);
@@ -944,11 +1014,21 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             public int threeHour;
 
+            /// <summary>
+            /// Deserializes a Snow.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public Snow(SerializationInfo info, StreamingContext context)
             {
                 threeHour = info.GetInt32("3h");
             }
 
+            /// <summary>
+            /// Serializes the Snow.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
                 info.AddValue("3h", threeHour);
@@ -976,6 +1056,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             public long sunset;
 
+            /// <summary>
+            /// Deserializes a System info structure.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public Sys(SerializationInfo info, StreamingContext context)
             {
                 country = info.GetString(nameof(country));
@@ -983,6 +1068,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 sunset = info.GetInt64(nameof(sunset));
             }
 
+            /// <summary>
+            /// Serializes the System info structure.
+            /// </summary>
+            /// <param name="info"></param>
+            /// <param name="context"></param>
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
                 info.AddValue(nameof(country), country);

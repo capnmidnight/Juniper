@@ -19,106 +19,44 @@ namespace Juniper.Statistics
         /// </summary>
         private readonly IList<T> collect;
 
-        private T? max;
-        private T? min;
-        private T? mean;
-        private T? variance;
-        private T? standardDev;
-
         /// <summary>
-        /// The maximum value in the collection (calculated during collection modification)
+        /// The maximum value in the list, if there are any values in the list.
         /// </summary>
         public T? Maximum
         {
-            get
-            {
-                if (max == null)
-                {
-                    RecomputeStatistics();
-                }
-                return max;
-            }
-            protected set
-            {
-                max = value;
-            }
+            get; private set;
         }
 
         /// <summary>
-        /// The minimum value in the collection (calculated during collection modification)
+        /// The minimum value in the list, if there are any values in the list.
         /// </summary>
         public T? Minimum
         {
-            get
-            {
-                if (min == null)
-                {
-                    RecomputeStatistics();
-                }
-                return min;
-            }
-            protected set
-            {
-                min = value;
-            }
+            get; private set;
         }
 
         /// <summary>
-        /// The arithmetic mean of the values in the collection (calculated during collection modification)
+        /// The arithmetic mean of the values in the list, if there are any values in the list.
         /// </summary>
         public T? Mean
         {
-            get
-            {
-                if (mean == null)
-                {
-                    RecomputeStatistics();
-                }
-                return mean;
-            }
-            protected set
-            {
-                mean = value;
-            }
+            get; private set;
         }
 
         /// <summary>
-        /// The square of the standard deviation of the values in the collection (calculated during
-        /// collection modification)
+        /// The variance of all the values in the list, if there are any values in the list.
         /// </summary>
         public T? Variance
         {
-            get
-            {
-                if (variance == null)
-                {
-                    RecomputeStatistics();
-                }
-                return variance;
-            }
-            protected set
-            {
-                variance = value;
-            }
+            get; private set;
         }
 
         /// <summary>
-        /// The standard deviation of the values in the collection (calculated during collection modification)
+        /// The standard deviation of all the values in the list, if there are any values in the list.
         /// </summary>
         public T? StandardDeviation
         {
-            get
-            {
-                if (standardDev == null)
-                {
-                    RecomputeStatistics();
-                }
-                return standardDev;
-            }
-            protected set
-            {
-                standardDev = value;
-            }
+            get; private set;
         }
 
         /// <summary>
@@ -244,7 +182,11 @@ namespace Juniper.Statistics
         public void Clear()
         {
             collect.Clear();
-            RecomputeStatistics();
+            Minimum = null;
+            Maximum = null;
+            Mean = null;
+            Variance = null;
+            StandardDeviation = null;
         }
 
         /// <summary>
@@ -450,22 +392,84 @@ namespace Juniper.Statistics
             }
         }
 
+        /// <summary>
+        /// Implementing classes can define how two values get added (because C#
+        /// generics cannot specify operator constraints)
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         protected abstract T Add(T a, T b);
 
+        /// <summary>
+        /// Implementing classes can define how two values get subtracted (because C#
+        /// generics cannot specify operator constraints)
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         protected abstract T Subtract(T a, T b);
 
+        /// <summary>
+        /// Implementing classes can define how two values get multiplied (because C#
+        /// generics cannot specify operator constraints)
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         protected abstract T Multiply(T a, T b);
 
+        /// <summary>
+        /// Implementing classes can define how a value gets scaled by a scalar (because C#
+        /// generics cannot specify operator constraints)
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         protected abstract T Scale(T a, float b);
 
+        /// <summary>
+        /// Implementing classes can define how a value gets divided by a scalar (because C#
+        /// generics cannot specify operator constraints)
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         protected abstract T Divide(T a, float b);
 
+        /// <summary>
+        /// Implementing classes can define how calculate the square root of a value (because C#
+        /// generics cannot specify operator constraints)
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         protected abstract T Sqrt(T value);
 
+        /// <summary>
+        /// Implementing classes can define how calculate the absolute value of a value (because C#
+        /// generics cannot specify operator constraints)
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         protected abstract T Abs(T value);
 
+        /// <summary>
+        /// Implementing classes can define how two values get compared (because C#
+        /// generics cannot specify operator constraints)
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         protected abstract bool LessThan(T a, T b);
 
+        /// <summary>
+        /// Coalesces null values for performing <see cref="Add(T, T)"/>.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private T? Add(T? a, T? b)
         {
             if (a == null && b == null)
@@ -486,6 +490,12 @@ namespace Juniper.Statistics
             }
         }
 
+        /// <summary>
+        /// Coalesces null values for performing <see cref="Subtract(T, T)"/>.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private T? Subtract(T? a, T? b)
         {
             if (a == null && b == null)
@@ -506,6 +516,12 @@ namespace Juniper.Statistics
             }
         }
 
+        /// <summary>
+        /// Coalesces null values for performing <see cref="Multiply(T, T)"/>.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private T? Multiply(T? a, T? b)
         {
             if (a == null || b == null)
@@ -518,6 +534,12 @@ namespace Juniper.Statistics
             }
         }
 
+        /// <summary>
+        /// Coalesces null values for performing <see cref="Scale(T, float)"/>.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private T? Scale(T? a, float b)
         {
             if (a == null)
@@ -530,6 +552,12 @@ namespace Juniper.Statistics
             }
         }
 
+        /// <summary>
+        /// Coalesces null values for performing <see cref="Divide(T, float)"/>.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private T? Divide(T? a, float b)
         {
             if (a == null)
@@ -542,6 +570,12 @@ namespace Juniper.Statistics
             }
         }
 
+        /// <summary>
+        /// Coalesces null values for performing <see cref="Min(T, T)"/>.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private T Min(T? a, T b)
         {
             if (LessThan(a, b))
@@ -554,6 +588,12 @@ namespace Juniper.Statistics
             }
         }
 
+        /// <summary>
+        /// Coalesces null values for performing <see cref="Max(T, T)"/>.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private T Max(T? a, T b)
         {
             if (LessThan(a, b))
@@ -566,6 +606,12 @@ namespace Juniper.Statistics
             }
         }
 
+        /// <summary>
+        /// Coalesces null values for performing <see cref="Sqrt(T)"/>.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private T? Sqrt(T? value)
         {
             if (value == null)
@@ -578,6 +624,12 @@ namespace Juniper.Statistics
             }
         }
 
+        /// <summary>
+        /// Coalesces null values for performing <see cref="Abs(T, T)"/>.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private T? Abs(T? value)
         {
             if (value == null)
@@ -590,6 +642,13 @@ namespace Juniper.Statistics
             }
         }
 
+
+        /// <summary>
+        /// Coalesces null values for performing <see cref="LessThan(T, T)"/>.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         private bool LessThan(T? a, T? b)
         {
             if (a == null || b == null)
