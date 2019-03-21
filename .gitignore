@@ -74,6 +74,8 @@ examples/*/Assets/Juniper.meta
 **/Assets/StreamingAssets/Juniper/
 **/Assets/TextMesh Pro/
 **/Assets/TextMesh Pro.meta
+**/Assets/PicoMobileSDK/
+**/Assets/PicoMobileSDK.meta
 
 tobii_gameintegration_*.dll
 *.CodeAnalysisLog.xml
@@ -83,3 +85,6 @@ tobii_gameintegration_*.dll
 
 *.sln
 *.csproj
+
+**/Assets/Plugins/iOS/PicoVRSDK.framework.meta
+**/Assets/Plugins/iOS/PicoVRSDK.framework/

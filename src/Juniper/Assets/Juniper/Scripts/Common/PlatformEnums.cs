@@ -251,9 +251,14 @@ namespace Juniper
         AndroidOculus = SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option3,
 
         /// <summary>
+        /// Android virtual reality through Pico G2
+        /// </summary>
+        AndroidPicoG2 = SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option4,
+
+        /// <summary>
         /// Android virtual reality through Vive Focus.
         /// </summary>
-        AndroidViveFocus = SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option4,
+        AndroidViveFocus = SystemTypes.Android << Platform.SYS_OFFSET | DisplayTypes.Stereo << Platform.DISPLAY_OFFSET | Options.Option5,
 
         /// <summary>
         /// Apple smartphones with standard displays.

@@ -100,6 +100,19 @@
     ]
   },
   {
+    "Name": "AndroidPicoG2",
+    "buildTarget": "Android",
+    "CompilerDefine": "PICO", 
+    "androidSdkVersion": "AndroidApiLevel19",
+    "spatializer": "AM3D Spatializer - © 2016 GTEU",
+    "vrSystems": [
+      "None"
+    ],
+    "packages": [
+      "PicoMobileSDK"
+    ]
+  },
+  {
     "Name": "AndroidViveFocus",
     "buildTarget": "Android",
     "androidSdkVersion": "AndroidApiLevel25",

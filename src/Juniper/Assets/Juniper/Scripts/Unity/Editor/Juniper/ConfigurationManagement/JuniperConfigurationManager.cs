@@ -223,6 +223,18 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             NextPlatform = PlatformTypes.AndroidOculus;
         }
 
+        [MenuItem(ANDROID_MENU_NAME + "Pico G2", true)]
+        public static bool SetAndroid_PicoG2_MenuItem_Validate()
+        {
+            return MenuCheck(PlatformTypes.AndroidPicoG2);
+        }
+
+        [MenuItem(ANDROID_MENU_NAME + "Pico G2", false)]
+        public static void SetAndroid_PicoG2_MenuItem()
+        {
+            NextPlatform = PlatformTypes.AndroidPicoG2;
+        }
+
         [MenuItem(ANDROID_MENU_NAME + "Vive Focus", true)]
         public static bool SetAndroid_ViveFocus_MenuItem_Validate()
         {

@@ -42,5 +42,9 @@
   {
     "Name": "NeuroSky",
     "CompilerDefine": "NEUROSKY"
+  },
+  {
+    "Name": "PicoMobileSDK",
+    "CompilerDefine": "PICO"
   }
 ]

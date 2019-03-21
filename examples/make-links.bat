@@ -3,6 +3,7 @@ mkdir "Juniper - AndroidARCore\Assets"
 mkdir "Juniper - AndroidCardboard\Assets"
 mkdir "Juniper - AndroidDaydream\Assets"
 mkdir "Juniper - AndroidOculus\Assets"
+mkdir "Juniper - AndroidPicoG2\Assets"
 mkdir "Juniper - AndroidViveFocus\Assets"
 mkdir "Juniper - IOS\Assets"
 mkdir "Juniper - IOSARKit\Assets"
@@ -20,6 +21,7 @@ mklink /J "Juniper - AndroidARCore\Assets\Juniper" ..\src\Juniper\Assets\Juniper
 mklink /J "Juniper - AndroidCardboard\Assets\Juniper" ..\src\Juniper\Assets\Juniper
 mklink /J "Juniper - AndroidDaydream\Assets\Juniper" ..\src\Juniper\Assets\Juniper
 mklink /J "Juniper - AndroidOculus\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - AndroidPicoG2\Assets\Juniper" ..\src\Juniper\Assets\Juniper
 mklink /J "Juniper - AndroidViveFocus\Assets\Juniper" ..\src\Juniper\Assets\Juniper
 mklink /J "Juniper - IOS\Assets\Juniper" ..\src\Juniper\Assets\Juniper
 mklink /J "Juniper - IOSARKit\Assets\Juniper" ..\src\Juniper\Assets\Juniper

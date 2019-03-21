@@ -28,14 +28,16 @@ namespace Juniper.Unity
 #elif UNITY_ANDROID
 #if UNITY_XR_ARCORE
             PlatformTypes.AndroidARCore;
+#elif CARDBOARD
+            PlatformTypes.AndroidCardboard;
 #elif GOOGLEVR
             PlatformTypes.AndroidDaydream;
 #elif OCULUS
             PlatformTypes.AndroidOculus;
+#elif PICO
+            PlatformTypes.AndroidPicoG2;
 #elif WAVEVR
             PlatformTypes.AndroidViveFocus;
-#elif CARDBOARD
-            PlatformTypes.AndroidCardboard;
 #elif STANDARD_DISPLAY
             PlatformTypes.Android;
 #else
