@@ -385,10 +385,12 @@ namespace Juniper.Unity.Input
         public void EnableMouse(bool value)
         {
             mouse.SetActive(value);
+#if UNITY_MODULES_UI
             if (enableMouseToggle != null && enableMouseToggle.isOn != value)
             {
                 enableMouseToggle.isOn = value;
             }
+#endif
             PlayerPrefs.SetInt(ENABLE_MOUSE_KEY, value ? 1 : 0);
             PlayerPrefs.Save();
         }
@@ -396,10 +398,12 @@ namespace Juniper.Unity.Input
         public void EnableGaze(bool value)
         {
             gazePointer.SetActive(value);
+#if UNITY_MODULES_UI
             if (enableGazeToggle != null && enableGazeToggle.isOn != value)
             {
                 enableGazeToggle.isOn = value;
             }
+#endif
             PlayerPrefs.SetInt(ENABLE_GAZE_KEY, value ? 1 : 0);
             PlayerPrefs.Save();
         }
@@ -410,10 +414,12 @@ namespace Juniper.Unity.Input
             {
                 touch.SetActive(value);
             }
+#if UNITY_MODULES_UI
             if (enableTouchToggle != null && enableTouchToggle.isOn != value)
             {
                 enableTouchToggle.isOn = value;
             }
+#endif
             PlayerPrefs.SetInt(ENABLE_TOUCH_KEY, value ? 1 : 0);
             PlayerPrefs.Save();
         }
@@ -424,10 +430,12 @@ namespace Juniper.Unity.Input
             {
                 handTracker.SetActive(value);
             }
+#if UNITY_MODULES_UI
             if (enableHandsToggle != null && enableHandsToggle.isOn != value)
             {
                 enableHandsToggle.isOn = value;
             }
+#endif
             PlayerPrefs.SetInt(ENABLE_HANDS_KEY, value ? 1 : 0);
             PlayerPrefs.Save();
         }
@@ -438,10 +446,12 @@ namespace Juniper.Unity.Input
             {
                 motionController.SetActive(value);
             }
+#if UNITY_MODULES_UI
             if(enableControllersToggle != null && enableControllersToggle.isOn != value)
             {
                 enableControllersToggle.isOn = value;
             }
+#endif
             PlayerPrefs.SetInt(ENABLE_CONTROLLERS_KEY, value ? 1 : 0);
             PlayerPrefs.Save();
         }
