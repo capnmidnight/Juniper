@@ -252,10 +252,10 @@ RectTransform:
   m_Father: {fileID: 2057367587}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 740, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1000, y: -50}
+  m_SizeDelta: {x: 740, y: 100}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &100967508
 GameObject:
@@ -1122,10 +1122,10 @@ RectTransform:
   m_Father: {fileID: 24853138}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 740, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1000, y: -50}
+  m_SizeDelta: {x: 740, y: 100}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &776015978
 GameObject:
@@ -1159,10 +1159,10 @@ RectTransform:
   m_Father: {fileID: 2057367587}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 260, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 130, y: -50}
+  m_SizeDelta: {x: 260, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &776015980
 MonoBehaviour:
@@ -1261,11 +1261,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -1564,6 +1564,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volumeSlider: {fileID: 690309302}
+  defaultMixerGroup: {fileID: 24300002, guid: 8d56a40866983f34ba26296f7f30847d, type: 2}
+  soundOnStartUp: {fileID: 0}
+  soundOnShutDown: {fileID: 0}
   soundOnClosed: {fileID: 11400000, guid: 01fbf829975312141a055a0c3e95de59, type: 2}
   soundOnDisabled: {fileID: 11400000, guid: 76d7e382511a26e4bb0971f04c1a26b3, type: 2}
   soundOnDragged: {fileID: 11400000, guid: 2fed140456205434288c10415f0758f2, type: 2}
@@ -1601,6 +1604,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointerPrefab: {fileID: 1272435953467130, guid: 3f97d6ffded255c4d9e3698b8ebe593d,
     type: 3}
+  enableControllersToggle: {fileID: 0}
+  enableMouseToggle: {fileID: 0}
+  enableTouchToggle: {fileID: 0}
+  enableHandsToggle: {fileID: 0}
+  enableGazeToggle: {fileID: 0}
   gazePointer: {fileID: 1917455146}
   mouse: {fileID: 1905163095}
   touches:
@@ -1647,13 +1655,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59ecd2ac27251aa4fafb216636edf95e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentPlatform: 0
-  System: 0
+  CurrentPlatform: 776
+  System: 1
   DisplayType: 1
-  SupportedDisplayType: 0
+  SupportedDisplayType: 2
   ARMode: 0
   SupportedARMode: 0
-  Option: 0
+  Option: 8
 --- !u!4 &977850497
 Transform:
   m_ObjectHideFlags: 0
@@ -2433,6 +2441,11 @@ GameObject:
   - component: {fileID: 1468407190}
   - component: {fileID: 1468407189}
   - component: {fileID: 1468407191}
+  - component: {fileID: 1468407192}
+  - component: {fileID: 1468407193}
+  - component: {fileID: 1468407194}
+  - component: {fileID: 1468407195}
+  - component: {fileID: 1468407196}
   m_Layer: 0
   m_Name: Fader
   m_TagString: Untagged
@@ -2496,6 +2509,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407134
 MonoBehaviour:
@@ -2539,6 +2554,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407135
 MonoBehaviour:
@@ -2582,6 +2599,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407136
 MonoBehaviour:
@@ -2625,6 +2644,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407137
 MonoBehaviour:
@@ -2668,6 +2689,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407138
 MonoBehaviour:
@@ -2711,6 +2734,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407139
 MonoBehaviour:
@@ -2754,6 +2779,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407140
 MonoBehaviour:
@@ -2797,6 +2824,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!82 &1468407141
 AudioSource:
@@ -2936,6 +2965,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!23 &1468407143
 MeshRenderer:
@@ -3024,6 +3055,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407146
 MonoBehaviour:
@@ -3067,6 +3100,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407147
 MonoBehaviour:
@@ -3110,6 +3145,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407148
 MonoBehaviour:
@@ -3153,6 +3190,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407149
 MonoBehaviour:
@@ -3196,6 +3235,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407150
 MonoBehaviour:
@@ -3239,6 +3280,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407151
 MonoBehaviour:
@@ -3282,6 +3325,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407152
 MonoBehaviour:
@@ -3325,6 +3370,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407153
 MonoBehaviour:
@@ -3368,6 +3415,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407154
 MonoBehaviour:
@@ -3411,6 +3460,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407155
 MonoBehaviour:
@@ -3454,6 +3505,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407156
 MonoBehaviour:
@@ -3497,6 +3550,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407157
 MonoBehaviour:
@@ -3540,6 +3595,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407158
 MonoBehaviour:
@@ -3583,6 +3640,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407159
 MonoBehaviour:
@@ -3626,6 +3685,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407160
 MonoBehaviour:
@@ -3669,6 +3730,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407161
 MonoBehaviour:
@@ -3712,6 +3775,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407162
 MonoBehaviour:
@@ -3755,6 +3820,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407163
 MonoBehaviour:
@@ -3798,6 +3865,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407164
 MonoBehaviour:
@@ -3841,6 +3910,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407165
 MonoBehaviour:
@@ -3884,6 +3955,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407166
 MonoBehaviour:
@@ -3927,6 +4000,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407167
 MonoBehaviour:
@@ -3970,6 +4045,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407168
 MonoBehaviour:
@@ -4013,6 +4090,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407169
 MonoBehaviour:
@@ -4056,6 +4135,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407170
 MonoBehaviour:
@@ -4099,6 +4180,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407171
 MonoBehaviour:
@@ -4142,6 +4225,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407172
 MonoBehaviour:
@@ -4185,6 +4270,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407173
 MonoBehaviour:
@@ -4228,6 +4315,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407174
 MonoBehaviour:
@@ -4271,6 +4360,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407175
 MonoBehaviour:
@@ -4314,6 +4405,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407176
 MonoBehaviour:
@@ -4357,6 +4450,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407177
 MonoBehaviour:
@@ -4400,6 +4495,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407178
 MonoBehaviour:
@@ -4443,6 +4540,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407179
 MonoBehaviour:
@@ -4486,6 +4585,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407180
 MonoBehaviour:
@@ -4529,6 +4630,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407181
 MonoBehaviour:
@@ -4572,6 +4675,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407182
 MonoBehaviour:
@@ -4615,6 +4720,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407183
 MonoBehaviour:
@@ -4658,6 +4765,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407184
 MonoBehaviour:
@@ -4701,6 +4810,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407185
 MonoBehaviour:
@@ -4744,6 +4855,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407186
 MonoBehaviour:
@@ -4787,6 +4900,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407187
 MonoBehaviour:
@@ -4830,6 +4945,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407188
 MonoBehaviour:
@@ -4873,6 +4990,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407189
 MonoBehaviour:
@@ -4916,6 +5035,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407190
 MonoBehaviour:
@@ -4959,6 +5080,8 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!114 &1468407191
 MonoBehaviour:
@@ -5002,6 +5125,233 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   tween: 0
   tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
+  fadeLength: 0.25
+--- !u!114 &1468407192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468407131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502f9955918de466a8596d5dce844c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEntering:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExiting:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExited:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  state: 0
+  attackTime: 0
+  releaseTime: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  tween: 0
+  tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
+  fadeLength: 0.25
+--- !u!114 &1468407193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468407131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502f9955918de466a8596d5dce844c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEntering:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExiting:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExited:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  state: 0
+  attackTime: 0
+  releaseTime: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  tween: 0
+  tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
+  fadeLength: 0.25
+--- !u!114 &1468407194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468407131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502f9955918de466a8596d5dce844c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEntering:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExiting:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExited:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  state: 0
+  attackTime: 0
+  releaseTime: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  tween: 0
+  tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
+  fadeLength: 0.25
+--- !u!114 &1468407195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468407131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502f9955918de466a8596d5dce844c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEntering:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExiting:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExited:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  state: 0
+  attackTime: 0
+  releaseTime: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  tween: 0
+  tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
+  fadeLength: 0.25
+--- !u!114 &1468407196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468407131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502f9955918de466a8596d5dce844c4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEntering:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExiting:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onExited:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  state: 0
+  attackTime: 0
+  releaseTime: 0
+  onValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  tween: 0
+  tweenK: 0
+  fadeOutSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  fadeInSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
   fadeLength: 0.25
 --- !u!1 &1475703866
 GameObject:
@@ -5035,10 +5385,10 @@ RectTransform:
   m_Father: {fileID: 24853138}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 260, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 130, y: -50}
+  m_SizeDelta: {x: 260, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1475703868
 MonoBehaviour:
@@ -5137,11 +5487,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -5425,7 +5775,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684733865}
-  m_LocalRotation: {x: 0.17571652, y: 0.54192656, z: -0.11706055, w: 0.8134717}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -5486,10 +5836,10 @@ MonoBehaviour:
     Year: 2019
     Month: 3
     Day: 21
-    Hour: 0
-    Minute: 19
-    Second: 3
-    Millisecond: 920
+    Hour: 13
+    Minute: 3
+    Second: 43
+    Millisecond: 712
   DebugReport: 0
 --- !u!114 &1684733870
 MonoBehaviour:
@@ -6055,6 +6405,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultAvatarHeight: 1.75
+  usePhysicsBasedMovement: 1
+  shoes: {fileID: 0}
+  BodyPhysics: {fileID: 1812567917}
+  useGravity: 1
 --- !u!1 &1839475757
 GameObject:
   m_ObjectHideFlags: 0
@@ -6667,6 +7021,7 @@ MonoBehaviour:
   OcclusionMaterialInEditor: {fileID: 2100000, guid: 75f3f0c5c40a25a4daf57a117f6f656f,
     type: 2}
   VisualizationMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 3}
+  terrainData: {fileID: 0}
 --- !u!4 &1999866218
 Transform:
   m_ObjectHideFlags: 0

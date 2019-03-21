@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Juniper.Progress;
 
 namespace Juniper
 {
@@ -40,15 +41,20 @@ namespace Juniper
         /// </summary>
         /// <param name="getInstallables"></param>
         /// <param name="reset"></param>
-        /// <returns></returns>
-        public static int InstallAll(Func<IEnumerable<IInstallable>> getInstallables, bool reset)
+        /// <param name="prog">Progress tracker (non by default).</param>
+        /// <returns>The number of objects that didn't install correctly.</returns>
+        public static int InstallAll(Func<List<IInstallable>> getInstallables, bool reset, IProgress prog = null)
         {
             var installed = new List<IInstallable>();
             var keepFinding = true;
             for (var i = 0; i < 10 && keepFinding; ++i)
             {
                 keepFinding = false;
-                foreach (var installable in getInstallables())
+
+                var installables = getInstallables();
+                prog?.Report(installed.Count, installables.Count);
+
+                foreach (var installable in installables)
                 {
                     if (!installed.Contains(installable))
                     {
@@ -56,12 +62,13 @@ namespace Juniper
                         if (installable.Install(reset))
                         {
                             installed.Add(installable);
+                            prog?.Report(installed.Count, installables.Count);
                         }
                     }
                 }
             }
 
-            return getInstallables().Count() - installed.Count;
+            return getInstallables().Count - installed.Count;
         }
 
         /// <summary>

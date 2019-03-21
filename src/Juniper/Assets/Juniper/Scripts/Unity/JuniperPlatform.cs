@@ -14,11 +14,12 @@ namespace Juniper.Unity
     [DisallowMultipleComponent]
     public class JuniperPlatform : MonoBehaviour, IInstallable
     {
-        public static IEnumerable<IInstallable> GetInstallables()
+        public static List<IInstallable> GetInstallables()
         {
             return ComponentExt
                 .FindAll<Component>()
-                .OfType<IInstallable>();
+                .OfType<IInstallable>()
+                .ToList();
         }
 
         public static readonly PlatformTypes CURRENT_PLATFORM =

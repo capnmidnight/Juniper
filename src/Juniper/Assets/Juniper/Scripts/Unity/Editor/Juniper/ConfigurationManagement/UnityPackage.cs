@@ -1,8 +1,8 @@
+using System.Linq;
+
 using Juniper.Progress;
 
 using Newtonsoft.Json.Linq;
-
-using System.Linq;
 
 namespace Juniper.UnityEditor.ConfigurationManagement
 {
@@ -53,12 +53,12 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             var pkg = (string)Dependencies[Name];
             if (pkg != version)
             {
-#if !UNITY_2018_2_OR_NEWER
+#if UNITY_2018_2_OR_NEWER
+                Dependencies[Name] = version;
+#else
                 if (!Name.StartsWith(UNITY_SUBMODULE_PREFIX))
                 {
-#endif
                     Dependencies[Name] = version;
-#if !UNITY_2018_2_OR_NEWER
                 }
 #endif
             }

@@ -121,8 +121,6 @@
       "None"
     ],
     "packages": [
-      "com.unity.modules.xr@1.0.0",
-      "com.unity.modules.vr@1.0.0",
       "WaveVR",
       "ResonanceAudio"
     ]
@@ -144,8 +142,6 @@
       "None"
     ],
     "packages": [
-      "com.unity.xr.arfoundation@1.0.0-preview.22",
-      "com.unity.xr.arkit@1.0.0-preview.23",
       "UnityARKitPlugin"
     ]
   },

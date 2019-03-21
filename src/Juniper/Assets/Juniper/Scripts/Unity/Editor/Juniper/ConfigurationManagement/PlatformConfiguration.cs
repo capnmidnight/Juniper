@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using Juniper.Progress;
 using Juniper.Unity.Input.Speech;
 using Juniper.Unity.World;
 
 using Newtonsoft.Json;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 using UnityEditor;
 
@@ -143,18 +143,15 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             get; internal set;
         }
 
-        public bool SwitchTarget()
+        public void SwitchTarget()
         {
-            if (BuildTarget != EditorUserBuildSettings.activeBuildTarget)
-            {
-                Debug.Log($"Switching build target from {EditorUserBuildSettings.activeBuildTarget} to {BuildTarget}.");
-                EditorUserBuildSettings.SwitchActiveBuildTargetAsync(TargetGroup, BuildTarget);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            Debug.Log($"Switching build target from {EditorUserBuildSettings.activeBuildTarget} to {BuildTarget}.");
+            EditorUserBuildSettings.SwitchActiveBuildTargetAsync(TargetGroup, BuildTarget);
+        }
+
+        public bool TargetSwitchNeeded
+        {
+            get { return BuildTarget != EditorUserBuildSettings.activeBuildTarget; }
         }
 
         public void InstallUnityPackages(IProgress prog = null)
@@ -170,12 +167,9 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             Platforms.ForEachPackage(IncludedUnityPackages, progs[1], (pkg, p) =>
             {
 #if UNITY_2018_2_OR_NEWER
-                if (pkg.Name != "com.unity.xr.magicleap")
-                {
-                    pkg.Install(p);
-                }
+                pkg.Install(p);
 #else
-                if (pkg.Name != "com.unity.xr.magicleap" && !pkg.Name.StartsWith("com.unity.modules."))
+                if (!pkg.Name.StartsWith("com.unity.modules."))
                 {
                     pkg.Install(p);
                 }
@@ -276,11 +270,11 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             get
             {
-                var defines = Platforms.GetCompilerDefines(IncludedUnityPackages, RawPackages).ToList();
+                var defines = Platforms.GetCompilerDefines(IncludedUnityPackages, RawPackages);
 
                 if (!string.IsNullOrEmpty(CompilerDefine))
                 {
-                    defines.Add(CompilerDefine);
+                    defines.MaybeAdd(CompilerDefine);
                 }
 
                 if (TargetGroup == BuildTargetGroup.Android)
@@ -289,8 +283,8 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                     {
                         if (Enum.IsDefined(typeof(AndroidSdkVersions), i))
                         {
-                            defines.Add("ANDROID_API_" + i);
-                            defines.Add("ANDROID_API_" + i + "_OR_GREATER");
+                            defines.MaybeAdd("ANDROID_API_" + i);
+                            defines.MaybeAdd("ANDROID_API_" + i + "_OR_GREATER");
                         }
                     }
                 }
@@ -298,8 +292,8 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 {
                     for (var i = PlayerSettingsExt.iOS.TargetOSVersion.Major; i > 0; --i)
                     {
-                        defines.Add("IOS_VERSION_" + i);
-                        defines.Add("IOS_VERSION_" + i + "_OR_GREATER");
+                        defines.MaybeAdd("IOS_VERSION_" + i);
+                        defines.MaybeAdd("IOS_VERSION_" + i + "_OR_GREATER");
                     }
                 }
 

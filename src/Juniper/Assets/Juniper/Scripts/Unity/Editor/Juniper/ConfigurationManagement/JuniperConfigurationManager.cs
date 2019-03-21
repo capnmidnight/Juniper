@@ -1,15 +1,19 @@
-using Juniper.Progress;
-using Juniper.Unity;
-using Juniper.Unity.Progress;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
+using Juniper.Progress;
+using Juniper.Unity;
+using Juniper.Unity.Progress;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.SceneManagement;
+
 using UnityEngine;
 
 namespace Juniper.UnityEditor.ConfigurationManagement
@@ -144,7 +148,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             {
                 var d = Platforms.Instance.AllCompilerDefines.ToList();
                 d.Add(RECOMPILE_SLUG);
-                return d.ToArray();
+                return d.Distinct().ToArray();
             }
         }
 
@@ -404,14 +408,17 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         [MenuItem(OTHER_MENU_NAME + "Install", false, 201)]
         private static void Install()
         {
-            Uninstall();
-            JuniperPlatform.Ensure();
-            InternalInstall();
+            WithProgress("Juniper: installing", (prog) =>
+            {
+                Uninstall();
+                JuniperPlatform.Ensure();
+                InternalInstall(prog);
+            });
         }
 
-        private static void InternalInstall()
+        private static void InternalInstall(IProgress prog)
         {
-            var notInstalled = Installable.InstallAll(JuniperPlatform.GetInstallables, true);
+            var notInstalled = Installable.InstallAll(JuniperPlatform.GetInstallables, true, prog);
             if (notInstalled > 0)
             {
                 Debug.LogError($"Juniper: ERROR: {0} components were not installed correctly.");
@@ -554,12 +561,19 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
         private static void Recompile(bool advanceBuildStep, params PlatformConfiguration[] platforms)
         {
+            var prog = PrepareBuildStep(1);
+
+            InternalCompile(advanceBuildStep, platforms);
+
+            DelayedUpdate(prog, 30, () => Debug.LogWarning("Timeout!!!"));
+        }
+
+        private static void InternalCompile(bool advanceBuildStep, params PlatformConfiguration[] platforms)
+        {
             if (advanceBuildStep)
             {
                 ++BuildProgress;
             }
-
-            var prog = PrepareBuildStep(1);
 
             var commonDefines = platforms
                 .SelectMany(p => p.CompilerDefines)
@@ -600,20 +614,24 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
             var nextDefinesString = string.Join(";", nextDefines);
 
-            for (var i = platforms.Length - 1; i >= 0; --i)
-            {
-                PlayerSettings.SetScriptingDefineSymbolsForGroup(platforms[i].TargetGroup, nextDefinesString);
-            }
+            var targetGroups = platforms
+                .Select(p => p.TargetGroup)
+                .Distinct()
+                .Reverse()
+                .ToArray();
 
-            DelayedUpdate(prog, 30, () => Debug.LogWarning("Timeout!!!"));
+            foreach(var targetGroup in targetGroups)
+            {
+                Debug.LogFormat("Setting {0}: {1}", targetGroup, nextDefinesString);
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, nextDefinesString);
+            }
         }
 
         private static readonly Action[] STAGES =
         {
             DeactivatePlatform,
             RefreshPackages,
-            ActivatePlatform,
-            PrepareScene
+            PrepareProject
         };
 
         [DidReloadScripts]
@@ -653,7 +671,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             WithProgress("Refreshing packages " + NextPlatform, prog =>
             {
-                var progs = prog.Split(5);
+                var progs = prog.Split(4);
                 LastConfiguration.UninstallRawPackages(progs[0]);
 
                 var manifest = JObject.Parse(File.ReadAllText(MANIFEST_FILE));
@@ -672,11 +690,15 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 FileExt.WriteAllText(MANIFEST_FILE, txt);
 
                 NextConfiguration.InstallRawPackages(progs[3]);
-                NextConfiguration.Activate(progs[4]);
 
-                if (!NextConfiguration.SwitchTarget())
+                if (NextConfiguration.TargetSwitchNeeded)
                 {
-                    ++BuildProgress;
+                    InternalCompile(false, NextConfiguration);
+                    NextConfiguration.SwitchTarget();
+                }
+                else
+                {
+                    InternalCompile(true, NextConfiguration);
                     AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate | ImportAssetOptions.ImportRecursive);
                     if (!EditorApplication.isCompiling)
                     {
@@ -686,26 +708,21 @@ namespace Juniper.UnityEditor.ConfigurationManagement
             });
         }
 
-        public static void ActivatePlatform()
+        public static void PrepareProject()
         {
-            WithProgress("Activating Platform " + NextPlatform, _ =>
+            WithProgress("Preparing project", prog =>
             {
-                Recompile(true, NextConfiguration);
-            });
-        }
+                var progs = prog.Split(2);
+                NextConfiguration.Activate(progs[0]);
 
-        public static void PrepareScene()
-        {
-            WithProgress("Preparing scene", _ =>
-            {
                 var xr = JuniperPlatform.Ensure();
-                var scene = xr.gameObject.scene;
+
+                InternalInstall(progs[1]);
 
                 config.Commit();
                 OnCancel(false);
 
-                InternalInstall();
-
+                var scene = xr.gameObject.scene;
                 EditorSceneManager.MarkSceneDirty(scene);
                 if (EditorUtility.DisplayDialog("Juniper", "Done! Save scene?", "Save", "Cancel"))
                 {

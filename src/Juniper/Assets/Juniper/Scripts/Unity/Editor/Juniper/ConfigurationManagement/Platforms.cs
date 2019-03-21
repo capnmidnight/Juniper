@@ -1,12 +1,12 @@
-using Juniper.Progress;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
+using Juniper.Progress;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using UnityEngine;
 
@@ -28,7 +28,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 act?.Invoke(pkg, p), Debug.LogException);
         }
 
-        public static string[] GetCompilerDefines(UnityPackage[] unityPackages, RawPackage[] rawPackages)
+        public static List<string> GetCompilerDefines(UnityPackage[] unityPackages, RawPackage[] rawPackages)
         {
             return (from pkg in unityPackages
                     where pkg.version != "exclude"
@@ -36,7 +36,8 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 .Union(from pkg in rawPackages
                        select pkg.CompilerDefine)
                 .Where(def => !string.IsNullOrEmpty(def))
-                .ToArray();
+                .Distinct()
+                .ToList();
         }
 
         public readonly RawPackage[] allRawPackages;
