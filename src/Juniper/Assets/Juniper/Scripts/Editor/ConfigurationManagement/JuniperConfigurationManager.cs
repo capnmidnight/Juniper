@@ -59,7 +59,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             get
             {
-                return JuniperPlatform.CURRENT_PLATFORM;
+                return JuniperPlatform.CurrentPlatform;
             }
         }
 
@@ -399,32 +399,6 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
         private const string OTHER_MENU_NAME = MENU_NAME + "Other/";
 
-        [MenuItem(OTHER_MENU_NAME + "Uninstall", false, 200)]
-        private static void Uninstall()
-        {
-            Installable.UninstallAll(JuniperPlatform.GetInstallables);
-        }
-
-        [MenuItem(OTHER_MENU_NAME + "Install", false, 201)]
-        private static void Install()
-        {
-            WithProgress("Juniper: installing", (prog) =>
-            {
-                Uninstall();
-                JuniperPlatform.Ensure();
-                InternalInstall(prog);
-            });
-        }
-
-        private static void InternalInstall(IProgress prog)
-        {
-            var notInstalled = Installable.InstallAll(JuniperPlatform.GetInstallables, true, prog);
-            if (notInstalled > 0)
-            {
-                Debug.LogError($"Juniper: ERROR: {0} components were not installed correctly.");
-            }
-        }
-
         [MenuItem(OTHER_MENU_NAME + "Clear Errant Progress Dialogs", false, 202)]
         public static void ClearProgressDialog_MenuItem()
         {
@@ -622,7 +596,6 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
             foreach(var targetGroup in targetGroups)
             {
-                Debug.LogFormat("Setting {0}: {1}", targetGroup, nextDefinesString);
                 PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, nextDefinesString);
             }
         }
@@ -661,7 +634,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             WithProgress("Resetting to base configuration", _ =>
             {
-                Installable.UninstallAll(JuniperPlatform.GetInstallables);
+                JuniperPlatform.Uninstall();
                 LastConfiguration.Deactivate(NextConfiguration);
                 Recompile(true, LastConfiguration, NextConfiguration);
             });
@@ -712,23 +685,10 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             WithProgress("Preparing project", prog =>
             {
-                var progs = prog.Split(2);
-                NextConfiguration.Activate(progs[0]);
-
-                var xr = JuniperPlatform.Ensure();
-
-                InternalInstall(progs[1]);
-
+                NextConfiguration.Activate(prog);
+                JuniperPlatform.Install(true);
                 config.Commit();
                 OnCancel(false);
-
-                var scene = xr.gameObject.scene;
-                EditorSceneManager.MarkSceneDirty(scene);
-                if (EditorUtility.DisplayDialog("Juniper", "Done! Save scene?", "Save", "Cancel"))
-                {
-                    OnEditorUpdate(() =>
-                    EditorSceneManager.SaveScene(scene));
-                }
             });
         }
     }

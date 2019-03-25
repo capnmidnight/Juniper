@@ -12,7 +12,7 @@ namespace Juniper.Unity.Input.Pointers
             get; set;
         }
 
-        AbstractUnifiedInputModule InputModule
+        IInputModule InputModule
         {
             get;
         }
@@ -191,6 +191,6 @@ namespace Juniper.Unity.Input.Pointers
 
         void Process(PointerEventData evtData, float pixelDragThresholdSquared);
 
-        void SetProbe(Probe p);
+        void SetProbe(IProbe p);
     }
 }

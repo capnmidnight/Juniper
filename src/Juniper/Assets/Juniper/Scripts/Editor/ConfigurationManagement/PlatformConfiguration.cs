@@ -223,11 +223,6 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 EditorUserBuildSettings.wsaBuildAndRunDeployTarget = WSABuildAndRunDeployTarget.LocalMachine;
                 EditorUserBuildSettings.wsaUWPBuildType = WSAUWPBuildType.D3D;
                 PlayerSettings.WSA.inputSource = PlayerSettings.WSAInputSource.IndependentInputSource;
-                PlayerSettings.WSA.SetCapability(PlayerSettings.WSACapability.InternetClient, true);
-                PlayerSettings.WSA.SetCapability(PlayerSettings.WSACapability.WebCam, true);
-                PlayerSettings.WSA.SetCapability(PlayerSettings.WSACapability.Bluetooth, true);
-                PlayerSettings.WSA.SetCapability(PlayerSettings.WSACapability.Microphone, ComponentExt.FindAny<KeywordRecognizer>() != null);
-                PlayerSettings.WSA.SetCapability(PlayerSettings.WSACapability.Location, ComponentExt.FindAny<GPSLocation>() != null);
                 WSASubtarget sub;
                 if (Enum.TryParse(wsaSubtarget, out sub))
                 {

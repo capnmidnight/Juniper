@@ -1,5 +1,4 @@
 using Juniper.Unity;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,7 +101,7 @@ namespace UnityEngine
                     {
                         if (here == null)
                         {
-                            var root = (from scene in MasterSceneController.AllScenes
+                            var root = (from scene in JuniperPlatform.AllScenes
                                         from gameObject in scene.GetRootGameObjects()
                                         where gameObject.name == part
                                         select gameObject.GetComponent<RectTransform>())

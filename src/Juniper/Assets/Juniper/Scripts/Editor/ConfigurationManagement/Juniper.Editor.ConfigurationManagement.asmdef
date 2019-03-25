@@ -1,0 +1,16 @@
+{
+    "name": "Juniper.Editor.ConfigurationManagement",
+    "references": [
+        "Juniper.Unity"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": []
+}
