@@ -91,8 +91,6 @@ namespace Juniper.Unity.World.LightEstimation
 
         public override bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
             var baseInstall = base.Install(reset);
 
             sunPosition = this.EnsureComponent<SunPosition>();

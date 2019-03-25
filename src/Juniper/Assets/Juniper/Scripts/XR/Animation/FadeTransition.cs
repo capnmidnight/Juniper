@@ -116,8 +116,6 @@ namespace Juniper.Unity.Animation
         /// </summary>
         public bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
 #if UNITY_MODULES_AUDIO
 #if UNITY_EDITOR
             if (reset)

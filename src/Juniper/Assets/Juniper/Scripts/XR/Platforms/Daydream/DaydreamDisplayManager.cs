@@ -11,8 +11,6 @@ namespace Juniper.Unity.Display
 
         public override bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
             var baseInstall = base.Install(reset);
 
             this.EnsureComponent<GvrHeadset>();

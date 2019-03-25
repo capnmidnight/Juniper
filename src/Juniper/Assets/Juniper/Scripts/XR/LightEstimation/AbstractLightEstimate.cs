@@ -142,8 +142,6 @@ namespace Juniper.Unity.World.LightEstimation
 
         public virtual bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
             measurement = this.EnsureComponent<LightMeasurement>();
             sun = GetComponent<Light>();
 

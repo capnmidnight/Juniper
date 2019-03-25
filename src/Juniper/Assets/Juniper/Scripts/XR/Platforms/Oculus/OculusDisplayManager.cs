@@ -8,8 +8,6 @@ namespace Juniper.Unity.Display
     {
         public override void Install(bool reset)
         {
-            reset &= Application.isEditor;
-
             var baseInstall = base.Install(reset);
 
             var mgr = this.EnsureComponent<OVRManager>();

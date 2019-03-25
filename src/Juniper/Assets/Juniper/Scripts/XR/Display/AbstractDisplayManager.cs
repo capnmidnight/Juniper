@@ -159,8 +159,6 @@ namespace Juniper.Unity.Display
 
         public virtual bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
             jp = ComponentExt.FindAny<JuniperSystem>();
             if (jp == null)
             {

@@ -113,8 +113,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
 
         public override bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
             base.Install(reset);
 
             PointerConfig.Install(touchPadButtons, gameObject);

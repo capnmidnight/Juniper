@@ -157,8 +157,6 @@ namespace Juniper.Unity.Input
 
         public virtual bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
 #if UNITY_EDITOR
             if (pointerPrefab == null)
             {

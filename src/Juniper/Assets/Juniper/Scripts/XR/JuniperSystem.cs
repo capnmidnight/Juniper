@@ -105,8 +105,6 @@ namespace Juniper.Unity
 
         public bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
             var head = DisplayManager
                 .MainCamera
                 .EnsureComponent<DisplayManager>()

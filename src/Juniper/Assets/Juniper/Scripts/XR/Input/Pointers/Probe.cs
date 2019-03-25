@@ -237,8 +237,6 @@ namespace Juniper.Unity.Input.Pointers
 
         public bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
             Cursor = transform.EnsureTransform("cursor");
 
             var pipsContainer = Cursor.Find("offset/pips");

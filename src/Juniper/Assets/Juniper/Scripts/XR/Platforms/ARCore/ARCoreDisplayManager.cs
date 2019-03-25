@@ -33,8 +33,6 @@ namespace Juniper.Unity.Display
 
         public override bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
             if (!base.Install(reset))
             {
                 return false;

@@ -103,8 +103,6 @@ namespace Juniper.Unity
 
         public bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
             Head = DisplayManager.MainCamera.transform;

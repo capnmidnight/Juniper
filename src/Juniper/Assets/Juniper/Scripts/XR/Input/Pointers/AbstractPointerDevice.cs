@@ -186,8 +186,6 @@ namespace Juniper.Unity.Input.Pointers
 
         public virtual bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
             PointerConfig.Install(nativeButtons, gameObject);
 
             return true;

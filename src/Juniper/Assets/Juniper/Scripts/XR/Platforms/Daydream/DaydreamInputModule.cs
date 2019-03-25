@@ -18,8 +18,6 @@ namespace Juniper.Unity.Input
 
         public override bool Install(bool reset)
         {
-            reset &= Application.isEditor;
-
             var baseInstall = base.Install(reset);
 
             this.EnsureComponent<GvrControllerInput>();

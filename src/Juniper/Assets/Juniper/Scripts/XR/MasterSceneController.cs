@@ -286,7 +286,6 @@ namespace Juniper.Unity
 
         public bool Install(bool reset)
         {
-            reset &= Application.isEditor;
             var qualityDegrader = ComponentExt.FindAny<QualityDegrader>();
             var aud = ComponentExt.FindAny<InteractionAudio>();
             if (qualityDegrader == null || aud == null)
