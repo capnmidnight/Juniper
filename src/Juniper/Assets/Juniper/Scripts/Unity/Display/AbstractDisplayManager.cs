@@ -199,8 +199,40 @@ namespace Juniper.Unity.Display
 
 #if UNITY_MODULES_XR
 
-        private static bool ChangeDevice(string xrDevice)
+        private static bool ChangeXRDevice(DisplayTypes displayType)
         {
+            var xrDevice = "None";
+            if (displayType == DisplayTypes.Stereo)
+            {
+                if (JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.AndroidDaydream)
+                {
+                    xrDevice = "daydream";
+                }
+                else if (JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.AndroidOculus
+                    || JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.StandaloneOculus)
+                {
+                    xrDevice = "oculus";
+                }
+                else if (JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.UWPHoloLens
+                    || JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.UWPWindowsMR)
+                {
+                    xrDevice = "windowsmr";
+                }
+                else if (JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.MagicLeap)
+                {
+                    xrDevice = "Lumin";
+                }
+                else if (JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.StandaloneSteamVR)
+                {
+                    xrDevice = "openvr";
+                }
+                else if (JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.AndroidCardboard
+                    || JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.IOSCardboard)
+                {
+                    xrDevice = "cardboard";
+                }
+            }
+
             if (XRSettings.loadedDeviceName == xrDevice)
             {
                 return true;
@@ -221,52 +253,15 @@ namespace Juniper.Unity.Display
             }
         }
 
-        public static string SupportedXRDevice(DisplayTypes displayType)
-        {
-            if (displayType == DisplayTypes.Stereo)
-            {
-                if (JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.AndroidDaydream)
-                {
-                    return "daydream";
-                }
-                else if (JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.AndroidOculus
-                    || JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.StandaloneOculus)
-                {
-                    return "oculus";
-                }
-                else if (JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.UWPHoloLens
-                    || JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.UWPWindowsMR)
-                {
-                    return "windowsmr";
-                }
-                else if (JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.MagicLeap)
-                {
-                    return "Lumin";
-                }
-                else if (JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.StandaloneSteamVR)
-                {
-                    return "openvr";
-                }
-                else if (JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.AndroidCardboard
-                    || JuniperPlatform.CURRENT_PLATFORM == PlatformTypes.IOSCardboard)
-                {
-                    return "cardboard";
-                }
-            }
-
-            return "None";
-        }
-
 #endif
+
         private bool IsValidDisplayChange
         {
             get
             {
-#if UNITY_MODULES_XR
-                return ChangeDevice(SupportedXRDevice(DisplayType));
-#else
-                return DisplayType != DisplayTypes.Stereo;
-#endif
+                return DisplayType == SupportedDisplayType
+                    || DisplayType == DisplayTypes.None
+                    || DisplayType == DisplayTypes.Monoscopic;
             }
         }
 
@@ -280,6 +275,9 @@ namespace Juniper.Unity.Display
                     if (IsValidDisplayChange)
                     {
                         lastDisplayType = DisplayType;
+#if UNITY_MODULES_XR
+                        ChangeXRDevice(DisplayType);
+#endif
                         MainCamera.enabled = DisplayType != DisplayTypes.None;
 
                         if (!Mathf.Approximately(MainCamera.fieldOfView, VerticalFieldOfView))
@@ -288,6 +286,7 @@ namespace Juniper.Unity.Display
                         }
 
                         OnDisplayTypeChange();
+
                         if (DisplayType != DisplayTypes.None)
                         {
                             StartAR();
