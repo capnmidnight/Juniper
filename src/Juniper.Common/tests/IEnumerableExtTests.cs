@@ -1,30 +1,31 @@
-using NUnit.Framework;
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using UnityEngine;
-
 namespace System
 {
+    [TestClass]
     public class IEnumerableExtTests
     {
-        [Test]
+        [TestMethod]
         public void MoveNext_Empty()
         {
             var arr = new IEnumerator[0];
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_Null()
         {
             var arr = new IEnumerator[1];
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_EmptyArr()
         {
             var arr = new[] {
@@ -33,7 +34,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_OneElementArr()
         {
             var arr = new[] {
@@ -43,7 +44,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_OneElementArr_Null()
         {
             var arr = new[] {
@@ -54,7 +55,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_Null_OneElementArr()
         {
             var arr = new[] {
@@ -65,7 +66,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_OneElementArr_Empty()
         {
             var arr = new[] {
@@ -76,7 +77,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_Empty_OneElementArr()
         {
             var arr = new[] {
@@ -87,7 +88,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_OneElementArr_OneElementArr()
         {
             var arr = new[] {
@@ -98,7 +99,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_TwoElementArr()
         {
             var arr = new[] {
@@ -109,7 +110,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_TwoElementArr_Null()
         {
             var arr = new[] {
@@ -121,7 +122,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_Null_TwoElementArr()
         {
             var arr = new[] {
@@ -133,7 +134,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_TwoElementArr_Empty()
         {
             var arr = new[] {
@@ -145,7 +146,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_Empty_TwoElementArr()
         {
             var arr = new[] {
@@ -157,7 +158,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_TwoElementArr_OneElementArr()
         {
             var arr = new[] {
@@ -169,7 +170,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_OneElementArr_TwoElementArr()
         {
             var arr = new[] {
@@ -181,7 +182,7 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void MoveNext_TwoElementArr_TwoElementArr()
         {
             var arr = new[] {
@@ -193,41 +194,41 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void Current_Empty()
         {
             var arr = new IEnumerator[0];
             Assert.IsTrue(arr.Current().Empty());
         }
 
-        [Test]
+        [TestMethod]
         public void Current_Null()
         {
             var arr = new IEnumerator[1];
             Assert.IsTrue(arr.Current().Empty());
         }
 
-        [Test]
+        [TestMethod]
         public void Current_EmptyArr()
         {
             var arr = new[] {
             new object[0].GetEnumerator()
         };
-            Assert.Throws<InvalidOperationException>(() =>
+            Assert.ThrowsException<InvalidOperationException>(() =>
                 arr.Current().Empty());
         }
 
-        [Test]
+        [TestMethod]
         public void Current_OneElementArr_NoMove()
         {
             var arr = new[] {
             new []{ 2 }.GetEnumerator()
         };
-            Assert.Throws<InvalidOperationException>(() =>
+            Assert.ThrowsException<InvalidOperationException>(() =>
                 arr.Current().Empty());
         }
 
-        [Test]
+        [TestMethod]
         public void Current_OneElementArr_Move()
         {
             var elems = new[] { 2 };
@@ -238,7 +239,7 @@ namespace System
             Assert.IsTrue(elems.Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_OneElementArr_Null()
         {
             var elems = new[] { 2 };
@@ -250,7 +251,7 @@ namespace System
             Assert.IsTrue(elems.Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_Null_OneElementArr()
         {
             var elems = new[] { 2 };
@@ -262,7 +263,7 @@ namespace System
             Assert.IsTrue(elems.Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_OneElementArr_Empty()
         {
             var elems = new[] { 2 };
@@ -274,7 +275,7 @@ namespace System
             Assert.IsTrue(elems.Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_Empty_OneElementArr()
         {
             var elems = new[] { 2 };
@@ -286,7 +287,7 @@ namespace System
             Assert.IsTrue(elems.Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_OneElementArr_OneElementArr()
         {
             var elems = new[] { 2, 3 };
@@ -298,7 +299,7 @@ namespace System
             Assert.IsTrue(elems.Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_TwoElementArr()
         {
             var elems = new[] { 2, 3 };
@@ -311,7 +312,7 @@ namespace System
             Assert.IsTrue(elems.Skip(1).Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_TwoElementArr_Null()
         {
             var elems = new[] { 2, 3 };
@@ -325,7 +326,7 @@ namespace System
             Assert.IsTrue(elems.Skip(1).Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_Null_TwoElementArr()
         {
             var elems = new[] { 2, 3 };
@@ -339,7 +340,7 @@ namespace System
             Assert.IsTrue(elems.Skip(1).Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_TwoElementArr_Empty()
         {
             var elems = new[] { 2, 3 };
@@ -353,7 +354,7 @@ namespace System
             Assert.IsTrue(elems.Skip(1).Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_Empty_TwoElementArr()
         {
             var elems = new[] { 2, 3 };
@@ -367,7 +368,7 @@ namespace System
             Assert.IsTrue(elems.Skip(1).Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_TwoElementArr_OneElementArr()
         {
             var arr = new[] {
@@ -380,7 +381,7 @@ namespace System
             Assert.IsTrue(new[] { 5 }.Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_OneElementArr_TwoElementArr()
         {
             var arr = new[] {
@@ -393,7 +394,7 @@ namespace System
             Assert.IsTrue(new[] { 5 }.Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Current_TwoElementArr_TwoElementArr()
         {
             var arr = new[] {
@@ -406,21 +407,21 @@ namespace System
             Assert.IsTrue(new[] { 7, 5 }.Matches(arr.Current()));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_Empty()
         {
             var arr = new InterleavedEnumerator();
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_Null()
         {
             var arr = new InterleavedEnumerator(new IEnumerator[1]);
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_EmptyArr()
         {
             var arr = new InterleavedEnumerator(
@@ -429,17 +430,17 @@ namespace System
             Assert.IsFalse(arr.MoveNext());
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_OneElementArr_NoMove()
         {
             var arr = new InterleavedEnumerator(
                 new[] { 2 }.GetEnumerator()
             );
-            Assert.Throws<InvalidOperationException>(() =>
-                Debug.Log(arr.Current));
+            Assert.ThrowsException<InvalidOperationException>(() =>
+                arr.Current);
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_OneElementArr_Move()
         {
             var elems = new[] { 2 };
@@ -450,7 +451,7 @@ namespace System
             Assert.IsTrue(elems.Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_OneElementArr_Null()
         {
             var elems = new[] { 2 };
@@ -462,7 +463,7 @@ namespace System
             Assert.IsTrue(elems.Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_Null_OneElementArr()
         {
             var elems = new[] { 2 };
@@ -474,7 +475,7 @@ namespace System
             Assert.IsTrue(elems.Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_OneElementArr_Empty()
         {
             var elems = new[] { 2 };
@@ -486,7 +487,7 @@ namespace System
             Assert.IsTrue(elems.Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_Empty_OneElementArr()
         {
             var elems = new[] { 2 };
@@ -498,7 +499,7 @@ namespace System
             Assert.IsTrue(elems.Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_OneElementArr_OneElementArr()
         {
             var elems = new[] { 2, 3 };
@@ -510,7 +511,7 @@ namespace System
             Assert.IsTrue(elems.Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_TwoElementArr()
         {
             var elems = new[] { 2, 3 };
@@ -523,7 +524,7 @@ namespace System
             Assert.IsTrue(elems.Skip(1).Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_TwoElementArr_Null()
         {
             var elems = new[] { 2, 3 };
@@ -537,7 +538,7 @@ namespace System
             Assert.IsTrue(elems.Skip(1).Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_Null_TwoElementArr()
         {
             var elems = new[] { 2, 3 };
@@ -551,7 +552,7 @@ namespace System
             Assert.IsTrue(elems.Skip(1).Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_TwoElementArr_Empty()
         {
             var elems = new[] { 2, 3 };
@@ -565,7 +566,7 @@ namespace System
             Assert.IsTrue(elems.Skip(1).Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_Empty_TwoElementArr()
         {
             var elems = new[] { 2, 3 };
@@ -579,7 +580,7 @@ namespace System
             Assert.IsTrue(elems.Skip(1).Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_TwoElementArr_OneElementArr()
         {
             var arr = new InterleavedEnumerator(
@@ -592,7 +593,7 @@ namespace System
             Assert.IsTrue(new[] { 5 }.Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_OneElementArr_TwoElementArr()
         {
             var arr = new InterleavedEnumerator(
@@ -605,7 +606,7 @@ namespace System
             Assert.IsTrue(new[] { 5 }.Matches((IEnumerator)arr.Current));
         }
 
-        [Test]
+        [TestMethod]
         public void Interleave_TwoElementArr_TwoElementArr()
         {
             var arr = new InterleavedEnumerator(
@@ -619,3 +620,4 @@ namespace System
         }
     }
 }
+

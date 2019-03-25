@@ -1,32 +1,31 @@
-using Juniper.Statistics;
-using NUnit.Framework;
-
 using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Juniper.UnityEditor.Statistics
+namespace Juniper.Statistics.Tests
 {
+    [TestClass]
     public class SingleStatisticsTests
     {
-        [Test]
+        [TestMethod]
         public void MakeABuffer()
         {
-            Assert.DoesNotThrow(() => new SingleStatistics(100));
+            Assert.IsNotNull(new SingleStatistics(100));
         }
 
-        [Test]
+        [TestMethod]
         public void StartsEmpty()
         {
             var buffer = new SingleStatistics(100);
             Assert.AreEqual(0, buffer.Count);
         }
 
-        [Test]
-        public void ThrowsWithNoCapacity()
+        [TestMethod]
+        public void ThrowsExceptionWithNoCapacity()
         {
-            Assert.Throws(typeof(ArgumentOutOfRangeException), () => new SingleStatistics(0));
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => new SingleStatistics(0));
         }
 
-        [Test]
+        [TestMethod]
         public void AddingIncreasesCount()
         {
             var buffer = new SingleStatistics(1)
@@ -36,7 +35,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(1, buffer.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void CanGetBackOutAgain()
         {
             var buffer = new SingleStatistics(1)
@@ -46,7 +45,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(7, buffer[0]);
         }
 
-        [Test]
+        [TestMethod]
         public void CanGetBackOutAgain2()
         {
             var buffer = new SingleStatistics(5);
@@ -78,7 +77,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(5, buffer[4]);
         }
 
-        [Test]
+        [TestMethod]
         public void LoopingDoesntGrowSize()
         {
             var buffer = new SingleStatistics(1)
@@ -89,7 +88,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(1, buffer.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void LoopingOverwrites()
         {
             var buffer = new SingleStatistics(1)
@@ -100,7 +99,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(2, buffer[0]);
         }
 
-        [Test]
+        [TestMethod]
         public void LoopingAgainDoesntGrowSize()
         {
             var buffer = new SingleStatistics(1)
@@ -112,7 +111,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(1, buffer.Count);
         }
 
-        [Test]
+        [TestMethod]
         public void LoopingAgainOverwrites()
         {
             var buffer = new SingleStatistics(1)
@@ -124,7 +123,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(1, buffer[0]);
         }
 
-        [Test]
+        [TestMethod]
         public void LargerLooping()
         {
             var buffer = new SingleStatistics(100);
@@ -135,7 +134,7 @@ namespace Juniper.UnityEditor.Statistics
             }
         }
 
-        [Test]
+        [TestMethod]
         public void MaintainsOrder()
         {
             var buffer = new SingleStatistics(5)
@@ -153,7 +152,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(2, buffer[4]);
         }
 
-        [Test]
+        [TestMethod]
         public void ShiftsOldValuesOut()
         {
             var buffer = new SingleStatistics(4)
@@ -174,7 +173,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(2, buffer[3]);
         }
 
-        [Test]
+        [TestMethod]
         public void ComputesMin()
         {
             var buffer = new SingleStatistics(4)
@@ -187,7 +186,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(1, buffer.Minimum);
         }
 
-        [Test]
+        [TestMethod]
         public void ComputesMax()
         {
             var buffer = new SingleStatistics(4)
@@ -200,7 +199,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(5, buffer.Maximum);
         }
 
-        [Test]
+        [TestMethod]
         public void ComputesMean()
         {
             var buffer = new SingleStatistics(4)
@@ -213,7 +212,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(3.25f, buffer.Mean);
         }
 
-        [Test]
+        [TestMethod]
         public void ComputesMedian()
         {
             var buffer = new SingleStatistics(4)
@@ -226,7 +225,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(3f, buffer.Median);
         }
 
-        [Test]
+        [TestMethod]
         public void ComputesTrivialStandardDeviation()
         {
             var buffer = new SingleStatistics(4)
@@ -239,7 +238,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(0f, buffer.StandardDeviation);
         }
 
-        [Test]
+        [TestMethod]
         public void ComputesBasicStandardDeviation()
         {
             var buffer = new SingleStatistics(4)
@@ -252,7 +251,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual((float)Math.Sqrt(4 / 3f), buffer.StandardDeviation);
         }
 
-        [Test]
+        [TestMethod]
         public void ComputesStandardDeviation()
         {
             var buffer = new SingleStatistics(4)
@@ -265,8 +264,8 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(1.70782518f, buffer.StandardDeviation);
         }
 
-        [Test]
-        public void CopyUnfullWithoutOffsetThrowsWithTooSmallDestination()
+        [TestMethod]
+        public void CopyUnfullWithoutOffsetThrowsExceptionWithTooSmallDestination()
         {
             var buffer = new SingleStatistics(4)
             {
@@ -275,12 +274,12 @@ namespace Juniper.UnityEditor.Statistics
                 3
             };
             var arr = new float[2];
-            Assert.Throws<ArgumentException>(() =>
+            Assert.ThrowsException<ArgumentException>(() =>
                 buffer.CopyTo(arr, 0));
         }
 
-        [Test]
-        public void CopyUnfullWithOffsetThrowsWithTooSmallDestination()
+        [TestMethod]
+        public void CopyUnfullWithOffsetThrowsExceptionWithTooSmallDestination()
         {
             var buffer = new SingleStatistics(4)
             {
@@ -289,12 +288,12 @@ namespace Juniper.UnityEditor.Statistics
                 3
             };
             var arr = new float[3];
-            Assert.Throws<ArgumentException>(() =>
+            Assert.ThrowsException<ArgumentException>(() =>
                 buffer.CopyTo(arr, 1));
         }
 
-        [Test]
-        public void CopyWithNegativeOffsetThrows()
+        [TestMethod]
+        public void CopyWithNegativeOffsetThrowsException()
         {
             var buffer = new SingleStatistics(4)
             {
@@ -303,12 +302,12 @@ namespace Juniper.UnityEditor.Statistics
                 3
             };
             var arr = new float[3];
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
                 buffer.CopyTo(arr, -1));
         }
 
-        [Test]
-        public void CopyWithTooLargeOffsetThrows()
+        [TestMethod]
+        public void CopyWithTooLargeOffsetThrowsException()
         {
             var buffer = new SingleStatistics(4)
             {
@@ -317,11 +316,11 @@ namespace Juniper.UnityEditor.Statistics
                 3
             };
             var arr = new float[3];
-            Assert.Throws<ArgumentException>(() =>
+            Assert.ThrowsException<ArgumentException>(() =>
                 buffer.CopyTo(arr, 3));
         }
 
-        [Test]
+        [TestMethod]
         public void CopyUnfullUnwrappedBufferWithoutOffsetMaintainsOrder()
         {
             var buffer = new SingleStatistics(4)
@@ -337,7 +336,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(3, arr[2]);
         }
 
-        [Test]
+        [TestMethod]
         public void CopyUnfullUnwrappedBufferWithOffsetMaintainsOrder()
         {
             var buffer = new SingleStatistics(4)
@@ -354,7 +353,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(3, arr[3]);
         }
 
-        [Test]
+        [TestMethod]
         public void CopyFullUnwrappedBufferWithoutOffsetMaintainsOrder()
         {
             var buffer = new SingleStatistics(4)
@@ -372,7 +371,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(13, arr[3]);
         }
 
-        [Test]
+        [TestMethod]
         public void CopyFullUnwrappedBufferWithOffsetMaintainsOrder()
         {
             var buffer = new SingleStatistics(4)
@@ -391,7 +390,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(13, arr[4]);
         }
 
-        [Test]
+        [TestMethod]
         public void CopyWrappedBufferWithoutOffsetMaintainsOrder()
         {
             var buffer = new SingleStatistics(4)
@@ -410,7 +409,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(2, arr[3]);
         }
 
-        [Test]
+        [TestMethod]
         public void CopyWrappedBufferWithOffsetMaintainsOrder()
         {
             var buffer = new SingleStatistics(4)
@@ -430,7 +429,7 @@ namespace Juniper.UnityEditor.Statistics
             Assert.AreEqual(2, arr[4]);
         }
 
-        [Test]
+        [TestMethod]
         public void InsertMaintainsOrder()
         {
             var buffer = new SingleStatistics(4);
