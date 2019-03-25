@@ -2,7 +2,7 @@ printf "\n# Code Metrics\n" > README-parts/sloc.md
 
 printf "\n## Juniper\n" >> README-parts/sloc.md
 printf "\n\`\`\`\n" >> README-parts/sloc.md
-scc -c -i cs,shader --avg-wage 110000  ../src/Juniper/Assets/Juniper/Scripts/Common >> README-parts/sloc.md
+scc -c -i cs,shader --avg-wage 110000  ../src/Juniper.Common/src >> README-parts/sloc.md
 printf "\`\`\`\n" >> README-parts/sloc.md
 
 printf "\n## Juniper.Unity\n" >> README-parts/sloc.md
