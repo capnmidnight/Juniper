@@ -83,8 +83,10 @@ tobii_gameintegration_*.dll
 *.lastcodeanalysissucceeded
 *.lastcodeanalysissucceeded.meta
 
-*.sln
-*.csproj
+/src/Juniper/*.sln
+/src/Juniper/*.csproj
+/examples/*/*.sln
+/examples/*/*.csproj
 
 **/Assets/Plugins/iOS/PicoVRSDK.framework.meta
 **/Assets/Plugins/iOS/PicoVRSDK.framework/
