@@ -46,8 +46,8 @@ namespace Juniper.Unity.Ground
                     preexistingTerrain = terrain != null;
                     if (!preexistingTerrain)
                     {
-                        var terrainT = this.EnsureTransform("Terrain");
-                        terrain = terrainT.EnsureComponent<Terrain>();
+                        var terrainT = this.Ensure<Transform>("Terrain");
+                        terrain = terrainT.Ensure<Terrain>();
                         terrain.materialType = Terrain.MaterialType.Custom;
                         terrain.materialTemplate = CurrentMaterial;
                         terrain.terrainData = terrainData;
@@ -55,7 +55,7 @@ namespace Juniper.Unity.Ground
 
                     terrain.gameObject.layer = GroundLayer;
 
-                    var t = terrain.EnsureComponent<TerrainCollider>();
+                    var t = terrain.Ensure<TerrainCollider>();
                     if(t.IsNew)
                     {
                         t.Value.terrainData = terrain.terrainData;

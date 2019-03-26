@@ -197,8 +197,8 @@ namespace Juniper.Unity.Input
         public T MakePointer<T>(Transform parent, string path)
             where T : Component, IPointerDevice
         {
-            return parent.EnsureTransform(path)
-                .EnsureComponent<T>();
+            return parent.Ensure<Transform>(path)
+                .Ensure<T>();
         }
 
         public virtual void Uninstall()

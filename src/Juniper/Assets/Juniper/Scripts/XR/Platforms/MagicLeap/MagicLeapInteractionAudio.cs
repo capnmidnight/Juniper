@@ -10,7 +10,7 @@ namespace Juniper.Unity.Audio
         protected override AudioSource InternalSpatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
         {
             audioSource = base.InternalSpatialize(audioSource, loop, group);
-            audioSource.EnsureComponent<MSA.MSASource>(null, (msa) =>
+            audioSource.Ensure<MSA.MSASource>(null, (msa) =>
                 msa.Override3DProperties = true);
             return audioSource;
         }

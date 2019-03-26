@@ -327,7 +327,7 @@ namespace Juniper.Unity
             {
                 sys = new GameObject("SystemUserInterface").transform;
                 sys.localPosition = 1.5f * Vector3.forward;
-                var follow = sys.EnsureComponent<FollowMainCamera>();
+                var follow = sys.Ensure<FollowMainCamera>();
                 follow.Value.followDistance = 1.5f;
             }
 
@@ -343,8 +343,8 @@ namespace Juniper.Unity
             }
 
 #if UNITY_MODULES_UI
-            var canv = sys.EnsureRectTransform("Canvas")
-                .EnsureComponent<Canvas>();
+            var canv = sys.Ensure<RectTransform>("Canvas")
+                .Ensure<Canvas>();
 
             if (canv.IsNew || reset)
             {
@@ -356,12 +356,12 @@ namespace Juniper.Unity
                     .SetScale(new Vector3(0.001f, 0.001f, 1));
             }
 
-            canv.EnsureComponent<GraphicRaycaster>();
+            canv.Ensure<GraphicRaycaster>();
             canv.gameObject.layer = transparentLayer;
 
             var debugText = canv.Value
-                    .EnsureRectTransform("DebugText")
-                    .EnsureComponent<Text>();
+                    .Ensure<RectTransform>("DebugText")
+                    .Ensure<Text>();
             if (debugText.IsNew || reset)
             {
                 debugText.Value.gameObject.layer = transparentLayer;
@@ -378,12 +378,12 @@ namespace Juniper.Unity
                     .SetPosition(Vector3.zero);
             }
 
-            debugText.EnsureComponent<ScreenDebugger>();
+            debugText.Ensure<ScreenDebugger>();
 
             if (splash == null || reset)
             {
-                var splashImg = canv.EnsureRectTransform("SplashImage")
-                    .EnsureComponent<Image>();
+                var splashImg = canv.Ensure<RectTransform>("SplashImage")
+                    .Ensure<Image>();
 
                 if (splashImg.IsNew || reset)
                 {
@@ -402,7 +402,7 @@ namespace Juniper.Unity
 
             if (optionsInterface == null || reset)
             {
-                var opts = canv.EnsureRectTransform("Options");
+                var opts = canv.Ensure<RectTransform>("Options");
                 if (opts.IsNew || reset)
                 {
                     opts.SetAnchors(Vector2.zero, Vector2.one)
@@ -414,8 +414,8 @@ namespace Juniper.Unity
             }
 
             var icon = optionsInterface
-                .EnsureRectTransform("Image")
-                .EnsureComponent<Image>();
+                .Ensure<RectTransform>("Image")
+                .Ensure<Image>();
             if (icon.IsNew)
             {
 #if UNITY_EDITOR
@@ -428,7 +428,7 @@ namespace Juniper.Unity
             }
 
 #if UNITY_TEXTMESHPRO
-            var optionsPanel = optionsInterface.EnsureRectTransform("OptionsPanel");
+            var optionsPanel = optionsInterface.Ensure<RectTransform>("OptionsPanel");
             if (optionsPanel.IsNew)
             {
                 optionsPanel
@@ -437,7 +437,7 @@ namespace Juniper.Unity
                     .SetSize(Vector2.zero);
             }
 
-            var toggle = icon.EnsureComponent<Toggle>();
+            var toggle = icon.Ensure<Toggle>();
             toggle.Value.isOn = true;
             toggle.Value.onValueChanged.AddListener(optionsPanel.SetActive);
 
@@ -478,9 +478,9 @@ namespace Juniper.Unity
             }
 #endif
 
-            sun.EnsureComponent<GPSLocation>();
-            sun.EnsureComponent<SunPosition>();
-            sun.EnsureComponent<LightMeasurement>();
+            sun.Ensure<GPSLocation>();
+            sun.Ensure<SunPosition>();
+            sun.Ensure<LightMeasurement>();
 
             var estimator = sun.GetComponent<AbstractLightEstimate>();
             if (estimator == null)
@@ -496,7 +496,7 @@ namespace Juniper.Unity
             }
 
             sunRig.name = "SunRig";
-            sunRig.EnsureComponent<CompassRose>();
+            sunRig.Ensure<CompassRose>();
         }
 
         private void SetupGround()
@@ -506,13 +506,13 @@ namespace Juniper.Unity
             {
                 ground = new GameObject("Ground").transform;
             }
-            ground.EnsureComponent<Ground.Ground>();
+            ground.Ensure<Ground.Ground>();
         }
 
         private static RectTransform MakeLabeledPanel(RectTransform optionsPanel, string name, Vector2 position)
         {
-            var panelRect = optionsPanel.EnsureRectTransform(name).Value;
-            var panel = panelRect.EnsureComponent<HorizontalLayoutGroup>();
+            var panelRect = optionsPanel.Ensure<RectTransform>(name).Value;
+            var panel = panelRect.Ensure<HorizontalLayoutGroup>();
             if (panel.IsNew)
             {
                 panel.Value.childAlignment = TextAnchor.MiddleLeft;
@@ -526,8 +526,8 @@ namespace Juniper.Unity
                     .SetSize(new Vector2(0, 100));
             }
 
-            var labelRect = panel.EnsureRectTransform(name + "Label").Value;
-            var label = labelRect.EnsureComponent<TMPro.TextMeshProUGUI>();
+            var labelRect = panel.Ensure<RectTransform>(name + "Label").Value;
+            var label = labelRect.Ensure<TMPro.TextMeshProUGUI>();
             if (label.IsNew)
             {
                 label.SetPivot(0.5f * Vector2.one)
@@ -536,7 +536,7 @@ namespace Juniper.Unity
                 label.Value.alignment = TMPro.TextAlignmentOptions.MidlineRight;
             }
 
-            var content = panel.EnsureRectTransform(name + "Content");
+            var content = panel.Ensure<RectTransform>(name + "Content");
             if (content.IsNew)
             {
                 content.SetPivot(new Vector2(1, 0.5f))
@@ -551,8 +551,8 @@ namespace Juniper.Unity
             var panel = MakeLabeledPanel(optionsPanel, name, position);
 
             var slider = panel
-                .EnsureRectTransform(name + "Slider")
-                .EnsureComponent<Slider>();
+                .Ensure<RectTransform>(name + "Slider")
+                .Ensure<Slider>();
             if (slider.IsNew)
             {
                 var size = new Vector2(160, 20);
@@ -566,8 +566,8 @@ namespace Juniper.Unity
             }
 
             var background = slider
-                .EnsureRectTransform("Background")
-                .EnsureComponent<Image>();
+                .Ensure<RectTransform>("Background")
+                .Ensure<Image>();
             if (background.IsNew)
             {
                 background.SetAnchors(0.25f * Vector2.up, new Vector2(1, 0.75f))
@@ -580,7 +580,7 @@ namespace Juniper.Unity
             }
 
             var fillArea = slider
-                .EnsureRectTransform("Fill Area");
+                .Ensure<RectTransform>("Fill Area");
             if (fillArea.IsNew)
             {
                 fillArea
@@ -590,8 +590,8 @@ namespace Juniper.Unity
             }
 
             var fill = fillArea
-                .EnsureRectTransform("Fill")
-                .EnsureComponent<Image>();
+                .Ensure<RectTransform>("Fill")
+                .Ensure<Image>();
             if (fill.IsNew)
             {
                 fill
@@ -604,7 +604,7 @@ namespace Juniper.Unity
             }
 
             var handleArea = slider
-                .EnsureRectTransform("Handle Slide Area");
+                .Ensure<RectTransform>("Handle Slide Area");
             if (handleArea.IsNew)
             {
                 handleArea
@@ -613,8 +613,8 @@ namespace Juniper.Unity
             }
 
             var handle = handleArea
-                .EnsureRectTransform("Handle")
-                .EnsureComponent<Image>();
+                .Ensure<RectTransform>("Handle")
+                .Ensure<Image>();
             if (handle.IsNew)
             {
                 handle.SetSize(20 * Vector2.right);

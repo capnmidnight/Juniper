@@ -67,12 +67,12 @@ namespace UnityEngine
         /// <returns>The component.</returns>
         /// <param name="obj">Object.</param>
         /// <typeparam name="T">A subclass of type <see cref="Component"/>.</typeparam>
-        public static PooledComponent<T> EnsureComponent<T>(this GameObject obj, Predicate<T> predicate) where T : Component
+        public static PooledComponent<T> Ensure<T>(this GameObject obj, Predicate<T> predicate) where T : Component
         {
             return new PooledComponent<T>(obj, predicate, null);
         }
 
-        public static PooledComponent<T> EnsureComponent<T>(this GameObject obj) where T : Component
+        public static PooledComponent<T> Ensure<T>(this GameObject obj) where T : Component
         {
             return new PooledComponent<T>(obj, null, null);
         }
@@ -230,7 +230,7 @@ namespace UnityEngine
         /// <returns><c>true</c>, if component existed to be destroy, <c>false</c> otherwise.</returns>
         /// <param name="obj">The gameObject from which to remove the component.</param>
         /// <typeparam name="T">A subclass of type <see cref="Component"/>.</typeparam>
-        public static bool RemoveComponent<T>(this GameObject obj) where T : Component
+        public static bool Remove<T>(this GameObject obj) where T : Component
         {
             var o = obj.GetComponent<T>();
             o?.Destroy();

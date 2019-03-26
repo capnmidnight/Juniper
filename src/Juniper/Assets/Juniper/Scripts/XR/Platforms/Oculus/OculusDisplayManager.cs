@@ -8,40 +8,43 @@ namespace Juniper.Unity.Display
     {
         public override void Install(bool reset)
         {
-            var baseInstall = base.Install(reset);
-
-            var mgr = this.EnsureComponent<OVRManager>();
-            if (mgr.IsNew)
+            if(base.Install(reset))
             {
-                mgr.Value.useRecommendedMSAALevel = true;
-                mgr.Value.trackingOriginType = OVRManager.TrackingOrigin.EyeLevel;
-                mgr.Value.usePositionTracking = true;
-                mgr.Value.useRotationTracking = true;
-                mgr.Value.useIPDInPositionTracking = true;
-                mgr.Value.resetTrackerOnLoad = false;
-                mgr.Value.AllowRecenter = false;
-                mgr.Value.chromatic = true;
-            }
-
-            if (Application.isPlaying)
-            {
-                if (OVRManager.tiledMultiResSupported)
+                var mgr = this.Ensure<OVRManager>();
+                if (mgr.IsNew)
                 {
-                    OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSHigh;
+                    mgr.Value.useRecommendedMSAALevel = true;
+                    mgr.Value.trackingOriginType = OVRManager.TrackingOrigin.EyeLevel;
+                    mgr.Value.usePositionTracking = true;
+                    mgr.Value.useRotationTracking = true;
+                    mgr.Value.useIPDInPositionTracking = true;
+                    mgr.Value.resetTrackerOnLoad = false;
+                    mgr.Value.AllowRecenter = false;
+                    mgr.Value.chromatic = true;
                 }
 
-                if (OVRManager.display.displayFrequenciesAvailable.Length > 0)
+                if (Application.isPlaying)
                 {
-                    OVRManager.display.displayFrequency = OVRManager.display.displayFrequenciesAvailable.Max();
+                    if (OVRManager.tiledMultiResSupported)
+                    {
+                        OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSHigh;
+                    }
+
+                    if (OVRManager.display.displayFrequenciesAvailable.Length > 0)
+                    {
+                        OVRManager.display.displayFrequency = OVRManager.display.displayFrequenciesAvailable.Max();
+                    }
                 }
+
+                return true;
             }
 
-            return baseInstall;
+            return false;
         }
 
         public override void Uninstall()
         {
-            this.RemoveComponent<OVRManager>();
+            this.Remove<OVRManager>();
 
             base.Uninstall();
         }

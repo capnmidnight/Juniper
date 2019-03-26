@@ -9,30 +9,34 @@ namespace Juniper.Unity.Display
 #if !UNITY_EDITOR
         public override bool Install(bool reset)
         {
-            var baseInstall = base.Install(reset);
-
-            this.WithLock(() =>
+            if(base.Install(reset))
             {
-                var bgRenderer = this.EnsureComponent<UnityARVideo>();
-                bgRenderer.m_ClearMaterial = ARBackgroundMaterial;
 
-                this.EnsureComponent<UnityARCameraNearFar>();
+                this.WithLock(() =>
+                {
+                    var bgRenderer = this.Ensure<UnityARVideo>();
+                    bgRenderer.m_ClearMaterial = ARBackgroundMaterial;
 
-                var camMgr = this.EnsureComponent<UnityARCameraManager>();
-                camMgr.startAlignment = UnityARAlignment.UnityARAlignmentGravityAndHeading;
-                camMgr.planeDetection = UnityARPlaneDetection.None;
-                camMgr.getPointCloud = enablePointCloud;
-                camMgr.enableAutoFocus = true;
-            });
+                    this.Ensure<UnityARCameraNearFar>();
 
-            return baseInstall;
+                    var camMgr = this.Ensure<UnityARCameraManager>();
+                    camMgr.startAlignment = UnityARAlignment.UnityARAlignmentGravityAndHeading;
+                    camMgr.planeDetection = UnityARPlaneDetection.None;
+                    camMgr.getPointCloud = enablePointCloud;
+                    camMgr.enableAutoFocus = true;
+                });
+
+                return true;
+            }
+
+            return false;
         }
 
         public override void Uninstall()
         {
-            this.RemoveComponent<UnityARCameraManager>();
-            this.RemoveComponent<UnityARCameraNearFar>();
-            this.RemoveComponent<UnityARVideo>();
+            this.Remove<UnityARCameraManager>();
+            this.Remove<UnityARCameraNearFar>();
+            this.Remove<UnityARVideo>();
 
             base.Uninstall();
         }

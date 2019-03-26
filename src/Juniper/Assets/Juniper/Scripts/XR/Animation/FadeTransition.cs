@@ -66,13 +66,13 @@ namespace Juniper.Unity.Animation
         /// <returns></returns>
         public static PooledComponent<FadeTransition> Ensure(Transform parent)
         {
-            var fader = parent.EnsureTransform("Fader", () =>
+            var fader = parent.Ensure<Transform>("Fader", () =>
                 GameObject.CreatePrimitive(PrimitiveType.Quad))
-                .EnsureComponent<FadeTransition>();
+                .Ensure<FadeTransition>();
 #if UNITY_MODULES_PHYSICS
             if (fader.IsNew)
             {
-                fader.Value.RemoveComponent<Collider>();
+                fader.Value.Remove<Collider>();
             }
 #endif
             return fader;
@@ -128,7 +128,7 @@ namespace Juniper.Unity.Animation
             }
 #endif
 
-            aud = this.EnsureComponent<AudioSource>();
+            aud = this.Ensure<AudioSource>();
             aud.playOnAwake = false;
             aud.clip = fadeOutSound;
 #endif

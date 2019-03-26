@@ -70,7 +70,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
         {
             base.Uninstall();
 
-            this.RemoveComponent<ControllerConnectionHandler>();
+            this.Remove<ControllerConnectionHandler>();
         }
 
         public override void Awake()
@@ -99,7 +99,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
                 CleanupConnector(true);
                 this.WithLock(() =>
                 {
-                    connector = this.EnsureComponent<ControllerConnectionHandler>();
+                    connector = this.Ensure<ControllerConnectionHandler>();
                     if (NativeHandID == MLInput.Hand.Left)
                     {
                         connector.DevicesAllowed = ControllerConnectionHandler.DeviceTypesAllowed.ControllerLeft;

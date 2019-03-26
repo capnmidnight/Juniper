@@ -96,10 +96,11 @@ namespace UnityEngine
         /// <param name="parent"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static T Query<T>(this Transform parent, string path)
+        public static Transform Query<T>(this T parent, string path)
+            where T : Component
         {
             var parts = path.Split('/');
-            var top = new List<Transform> { parent };
+            var top = new List<Transform> { parent.transform };
             for (var i = 0; i < parts.Length; ++i)
             {
                 var part = parts[i];
@@ -141,7 +142,7 @@ namespace UnityEngine
 
                     if (next.Count == 0 && i < parts.Length - 1)
                     {
-                        return default(T);
+                        return null;
                     }
                     else
                     {
@@ -150,64 +151,16 @@ namespace UnityEngine
                 }
             }
 
-            top.RemoveAll(x =>
-                x == null);
+            top.RemoveAll(x => x == null);
 
             if (top.Count > 0)
             {
-                return top[0].GetComponent<T>();
+                return top[0].transform;
             }
             else
             {
-                return default(T);
+                return null;
             }
-        }
-
-        /// <summary>
-        /// Search through a series of Transforms and child transforms, defined as a set of
-        /// forward-slash delimited names. Use ".." to select the parent transform.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="parent"></param>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static Transform Query(this Transform parent, string path)
-        {
-            return parent.Query<Transform>(path);
-        }
-
-        /// <summary>
-        /// Search the given transform's children and their children's children recursively until we
-        /// find a gameObject of the given name.
-        /// </summary>
-        /// <param name="parent"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static Transform Search(this Transform parent, string name)
-        {
-            Transform child = null;
-
-            var searchSpace = new Queue<Transform>();
-            searchSpace.Enqueue(parent);
-
-            while (searchSpace.Count > 0)
-            {
-                var here = searchSpace.Dequeue();
-                child = here.Find(name);
-                if (child != null)
-                {
-                    break;
-                }
-                else
-                {
-                    foreach (Transform sub in here)
-                    {
-                        searchSpace.Enqueue(sub);
-                    }
-                }
-            }
-
-            return child;
         }
 
         public static T SetScale<T>(this T t, Vector3 s)

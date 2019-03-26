@@ -23,16 +23,16 @@ namespace Juniper.Unity.Ground
 
         public override bool Install(bool reset)
         {
-            mapper = DisplayManager.MainCamera.EnsureComponent<MLSpatialMapper>().Value;
+            mapper = DisplayManager.MainCamera.Ensure<MLSpatialMapper>().Value;
             mapper.meshParent = transform;
             if (mapper.meshPrefab == null)
             {
-                var pre = mapper.EnsureTransform("Original")
+                var pre = mapper.Ensure<Transform>("Original")
                     .Value
                     .gameObject;
-                pre.EnsureComponent<MeshFilter>();
-                pre.EnsureComponent<MeshCollider>();
-                pre.EnsureComponent<MeshRenderer>((rend) =>
+                pre.Ensure<MeshFilter>();
+                pre.Ensure<MeshCollider>();
+                pre.Ensure<MeshRenderer>((rend) =>
                     rend.SetMaterial(CurrentMaterial));
 
                 pre.Deactivate();

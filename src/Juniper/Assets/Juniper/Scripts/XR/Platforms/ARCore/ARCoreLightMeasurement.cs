@@ -11,17 +11,18 @@ namespace Juniper.Unity.World.LightEstimation
         /// </summary>
         public override bool Install(bool reset)
         {
-            var baseInstall = base.Install(reset);
-
-            var arCoreSession = ComponentExt.FindAny<ARCoreSession>();
-            if(arCoreSession?.SessionConfig == null)
+            if(base.Install(reset))
             {
-                return false;
+                var arCoreSession = ComponentExt.FindAny<ARCoreSession>();
+                if(arCoreSession?.SessionConfig == null)
+                {
+                    return false;
+                }
+
+                arCoreSession.SessionConfig.EnableLightEstimation = true;
+                return true;
             }
-
-            arCoreSession.SessionConfig.EnableLightEstimation = true;
-
-            return baseInstall;
+            return false;
         }
 
         protected override void UpdateMeasurement()

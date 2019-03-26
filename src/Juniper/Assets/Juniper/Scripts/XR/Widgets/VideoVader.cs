@@ -43,7 +43,7 @@ namespace Juniper.Unity.Widgets
         {
 #if UNITY_MODULES_VIDEO
             player = GetComponent<VideoPlayer>();
-            this.EnsureComponent<DetectVideoEnd>()
+            this.Ensure<DetectVideoEnd>()
                 .Value
                 .onVideoEnd
                 .AddListener(Finish);

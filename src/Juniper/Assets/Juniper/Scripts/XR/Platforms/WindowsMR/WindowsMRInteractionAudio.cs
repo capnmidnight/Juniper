@@ -12,7 +12,7 @@ namespace Juniper.Unity.Audio
         {
             audioSource = base.InternalSpatialize(audioSource, loop, group);
 
-            var ms = audioSource.EnsureComponent<AudioSpatializerMicrosoft>();
+            var ms = audioSource.Ensure<AudioSpatializerMicrosoft>();
             ms.Value.roomSize = AudioSpatializerMicrosoft.RoomSize.Medium;
 
             return audioSource;

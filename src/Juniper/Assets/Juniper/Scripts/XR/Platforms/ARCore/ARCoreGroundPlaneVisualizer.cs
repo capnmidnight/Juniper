@@ -86,9 +86,9 @@ namespace Juniper.Unity.Ground
 
         public bool Install(bool reset)
         {
-            mesh = this.EnsureComponent<MeshFilter>().Value.mesh;
-            meshRenderer = this.EnsureComponent<MeshRenderer>();
-            meshCollider = this.EnsureComponent<MeshCollider>();
+            mesh = this.Ensure<MeshFilter>().Value.mesh;
+            meshRenderer = this.Ensure<MeshRenderer>();
+            meshCollider = this.Ensure<MeshCollider>();
             return true;
         }
 

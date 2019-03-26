@@ -35,22 +35,24 @@ namespace Juniper.Unity.Input.Pointers.Motion
 
         public override bool Install(bool reset)
         {
-            var baseInstall = base.Install(reset);
+            if(base.Install(reset))
+            {
+                var arm = this.Ensure<GvrArmModel>().Value;
+                controller = this.Ensure<GvrTrackedController>();
+                controller.ControllerHand = NativeHandID;
+                controller.ArmModel = arm;
+                return true;
+            }
 
-            var arm = this.EnsureComponent<GvrArmModel>().Value;
-            controller = this.EnsureComponent<GvrTrackedController>();
-            controller.ControllerHand = NativeHandID;
-            controller.ArmModel = arm;
-
-            return baseInstall;
+            return false;
         }
 
         public override void Uninstall()
         {
             base.Uninstall();
 
-            this.RemoveComponent<GvrTrackedController>();
-            this.RemoveComponent<GvrArmModel>();
+            this.Remove<GvrTrackedController>();
+            this.Remove<GvrArmModel>();
         }
 
         public override void UpdatePointer()

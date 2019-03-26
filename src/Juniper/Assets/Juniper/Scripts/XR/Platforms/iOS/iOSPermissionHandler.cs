@@ -7,20 +7,23 @@ namespace Juniper.Unity.Permissions
     {
         public override bool Install(bool reset)
         {
-            var baseInstall = base.Install(reset);
-
-            if (!reset)
+            if(base.Install(reset))
             {
-                var auth = UserAuthorization.WebCam;
-                var speech = ComponentExt.FindAny<Input.Speech.IKeywordRecognizer>();
-                if (speech != null && speech.IsAvailable)
+                if (!reset)
                 {
-                    auth |= UserAuthorization.Microphone;
+                    var auth = UserAuthorization.WebCam;
+                    var speech = ComponentExt.FindAny<Input.Speech.IKeywordRecognizer>();
+                    if (speech != null && speech.IsAvailable)
+                    {
+                        auth |= UserAuthorization.Microphone;
+                    }
+                    Application.RequestUserAuthorization(auth);
                 }
-                Application.RequestUserAuthorization(auth);
+
+                return true;
             }
 
-            return baseInstall;
+            return false;
         }
     }
 }

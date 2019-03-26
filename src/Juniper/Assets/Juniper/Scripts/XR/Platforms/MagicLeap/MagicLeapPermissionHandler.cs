@@ -8,16 +8,18 @@ namespace Juniper.Unity
     {
         public override bool Install(bool reset)
         {
-            var baseInstall = base.Install(reset);
+            if(base.Install(reset))
+            {
+                this.Ensure<PrivilegeRequester>();
+                return true;
+            }
 
-            this.EnsureComponent<PrivilegeRequester>();
-
-            return baseInstall;
+            return false;
         }
 
         public override bool Uninstall()
         {
-            this.RemoveComponent<PrivilegeRequester>();
+            this.Remove<PrivilegeRequester>();
         }
     }
 }

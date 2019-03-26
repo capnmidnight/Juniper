@@ -1,18 +1,12 @@
-using System;
 using Juniper.Unity.Anchoring;
 using Juniper.Unity.Display;
 using Juniper.Unity.Input;
-using Juniper.Unity.Input.Pointers;
-using Juniper.Unity.Input.Pointers.Gaze;
-using Juniper.Unity.Input.Pointers.Motion;
-using Juniper.Unity.Input.Pointers.Screen;
 using Juniper.Unity.Widgets;
 
 using UnityEngine;
 using UnityEngine.Rendering;
 
 #if UNITY_MODULES_UI
-using UnityEngine.UI;
 #endif
 
 namespace Juniper.Unity
@@ -59,9 +53,7 @@ namespace Juniper.Unity
         {
             Install(false);
 
-#if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
-            usePhysicsBasedMovement = false;
-#endif
+            usePhysicsBasedMovement = JuniperPlatform.SupportedARMode == AugmentedRealityTypes.None;
 
 #if UNITY_MODULES_PHYSICS
             BodyShape.enabled = usePhysicsBasedMovement;
@@ -107,26 +99,26 @@ namespace Juniper.Unity
 
             Head = DisplayManager.MainCamera.transform;
 
-            var headShadow = Head.EnsureTransform("HeadShadow", () =>
+            var headShadow = Head.Ensure<Transform>("HeadShadow", () =>
                 MakeShadowCaster(
                     PrimitiveType.Sphere,
                     new Vector3(0.384284f, 0.3163f, 0.3831071f)));
 
-            headShadow.EnsureTransform("Goggles", () =>
+            headShadow.Ensure<Transform>("Goggles", () =>
                 MakeShadowCaster(
                     PrimitiveType.Cube,
                     new Vector3(0.85f, 0.5f, 0.5f),
                     new Vector3(0, 0, 0.311f)));
 
-            Hands = this.EnsureTransform("Hands");
+            Hands = this.Ensure<Transform>("Hands");
 
-            Body = this.EnsureTransform("Body", () =>
+            Body = this.Ensure<Transform>("Body", () =>
                 MakeShadowCaster(
                     PrimitiveType.Capsule,
                     new Vector3(0.5f, 0.5f * defaultAvatarHeight, 0.5f)));
 
 #if UNITY_MODULES_PHYSICS
-            var bs = this.EnsureComponent<CapsuleCollider>();
+            var bs = this.Ensure<CapsuleCollider>();
             if(bs.IsNew)
             {
                 bs.Value.SetMaterial(shoes);
@@ -136,7 +128,7 @@ namespace Juniper.Unity
             }
             BodyShape = bs;
 
-            var bp = this.EnsureComponent<Rigidbody>();
+            var bp = this.Ensure<Rigidbody>();
             if(bp.IsNew)
             {
                 bp.Value.mass = 80;
@@ -145,7 +137,7 @@ namespace Juniper.Unity
             BodyPhysics = bp;
 
             BodyPhysics.useGravity = false;
-            var grounder = BodyPhysics.EnsureComponent<Grounded>();
+            var grounder = BodyPhysics.Ensure<Grounded>();
             grounder.Value.WhenGrounded(() =>
             {
                 BodyPhysics.useGravity = useGravity;
@@ -153,7 +145,7 @@ namespace Juniper.Unity
             });
 #endif
 
-            this.RemoveComponent<AbstractVelocityLocomotion>();
+            this.Remove<AbstractVelocityLocomotion>();
             gameObject.AddComponent<DefaultLocomotion>();
 
             return true;

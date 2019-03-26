@@ -170,7 +170,7 @@ namespace Juniper.Unity.Input.Pointers
             pointerOffset = MinimumPointerDistance * Vector3.forward;
             ProbeName = name;
 
-            Haptics = this.EnsureComponent<HapticsType>();
+            Haptics = this.Ensure<HapticsType>();
 
             nativeButtons.ButtonDownNeeded += IsButtonDown;
             nativeButtons.ButtonUpNeeded += IsButtonUp;

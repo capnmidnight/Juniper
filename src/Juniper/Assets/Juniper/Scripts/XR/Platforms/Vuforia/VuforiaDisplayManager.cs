@@ -16,20 +16,23 @@ namespace Juniper.Unity.Display
 
         public override bool Install(bool reset)
         {
-            var baseInstall = base.Install(reset);
-
-            this.WithLock(() =>
+            if(base.Install(reset))
             {
-                var vuforia = this.EnsureComponent<VuforiaBehaviour>().Value;
-                vuforia.enabled = false;
-            });
+                this.WithLock(() =>
+                {
+                    var vuforia = this.Ensure<VuforiaBehaviour>().Value;
+                    vuforia.enabled = false;
+                });
 
-            return baseInstall;
+                return true;
+            }
+
+            return false;
         }
 
         public override void Uninstall()
         {
-            this.RemoveComponent<VuforiaBehaviour>();
+            this.Remove<VuforiaBehaviour>();
 
             base.Uninstall();
         }

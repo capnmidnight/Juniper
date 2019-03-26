@@ -18,29 +18,32 @@ namespace Juniper.Unity.Input
 
         public override bool Install(bool reset)
         {
-            var baseInstall = base.Install(reset);
-
-            this.EnsureComponent<GvrControllerInput>();
-            this.EnsureComponent<GvrEditorEmulator>();
+            if(base.Install(reset))
+            {
+                this.Ensure<GvrControllerInput>();
+                this.Ensure<GvrEditorEmulator>();
 
 #if UNITY_EDITOR
-            var ip = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(
-                System.IO.PathExt.FixPath("Assets/GoogleVR/Prefabs/InstantPreview/GvrInstantPreviewMain.prefab"));
-            if(ip != null)
-            {
-                UnityEditor.PrefabUtility.InstantiatePrefab(ip);
+                var ip = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(
+                    System.IO.PathExt.FixPath("Assets/GoogleVR/Prefabs/InstantPreview/GvrInstantPreviewMain.prefab"));
+                if(ip != null)
+                {
+                    UnityEditor.PrefabUtility.InstantiatePrefab(ip);
+                }
+
+                return true;
             }
 #endif
 
-            return baseInstall;
+            return false;
         }
 
         public override void Uninstall()
         {
             base.Uninstall();
 
-            this.RemoveComponent<GvrEditorEmulator>();
-            this.RemoveComponent<GvrControllerInput>();
+            this.Remove<GvrEditorEmulator>();
+            this.Remove<GvrControllerInput>();
             var ip = ComponentExt.FindAny<InstantPreviewHelper>();
             if (ip != null)
             {

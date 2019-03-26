@@ -115,7 +115,7 @@ namespace Juniper.Unity.Video
             skyboxMaterial.SetInt("_MirrorOnBack", mirror180OnBack ? 1 : 0);
             skyboxMaterial.SetInt("_Layout", (int)stereoLayout);
 
-            player = this.EnsureComponent<VideoPlayer>();
+            player = this.Ensure<VideoPlayer>();
             player.waitForFirstFrame = true;
             player.playOnAwake = false;
             player.loopPointReached += OnLoop;
@@ -198,7 +198,7 @@ namespace Juniper.Unity.Video
                 {
                     if (i == 0)
                     {
-                        aud = this.EnsureComponent<AudioSource>();
+                        aud = this.Ensure<AudioSource>();
                     }
                     else
                     {

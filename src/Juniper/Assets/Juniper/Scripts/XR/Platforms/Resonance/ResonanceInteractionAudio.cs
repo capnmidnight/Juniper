@@ -19,7 +19,7 @@ namespace Juniper.Unity.Audio
         {
             audioSource = base.InternalSpatialize(audioSource, loop, group);
 
-            var goog = audioSource.EnsureComponent<ResonanceAudioSource>().Value;
+            var goog = audioSource.Ensure<ResonanceAudioSource>().Value;
             goog.quality = ResonanceAudioSource.Quality.High;
 
             return audioSource;

@@ -22,11 +22,13 @@ namespace Juniper.Unity.Display
 
         public override bool Install(bool reset)
         {
-            var baseInstall = base.Install(reset);
+            if(base.Install(reset))
+            {
+                listener.Ensure<MSAListener>();
+                return true;
+            }
 
-            listener.EnsureComponent<MSAListener>();
-
-            return baseInstall;
+            return false;
         }
 
         public override void Start()
@@ -38,7 +40,7 @@ namespace Juniper.Unity.Display
 
         public override void Uninstall()
         {
-            this.RemoveComponent<MSAListener>();
+            this.Remove<MSAListener>();
 
             base.Uninstall();
         }

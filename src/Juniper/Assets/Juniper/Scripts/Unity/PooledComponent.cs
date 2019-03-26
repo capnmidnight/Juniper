@@ -25,6 +25,12 @@ namespace Juniper.Unity
             }
         }
 
+        public PooledComponent(GameObject obj, bool isNew)
+            : this(obj, null, null)
+        {
+            IsNew |= isNew;
+        }
+
         public PooledComponent(T value, bool isNew)
         {
             Value = value;
@@ -502,36 +508,40 @@ namespace Juniper.Unity
             }
         }
 
-        public PooledComponent<U> EnsureComponent<U>()
+        public PooledComponent<U> Ensure<U>()
             where U : Component
         {
-            return Value.EnsureComponent<U>();
+            return Value.Ensure<U>();
         }
 
-        public PooledComponent<U> EnsureComponent<U>(Predicate<U> predicate)
+        public PooledComponent<U> Ensure<U>(Predicate<U> predicate)
             where U : Component
         {
-            return Value.EnsureComponent<U>(predicate);
+            return Value.Ensure(predicate);
         }
 
-        public PooledComponent<Transform> EnsureTransform(string path, string creationPath = null)
+        public PooledComponent<U> Ensure<U>(string path)
+            where U : Transform
         {
-            return Value.EnsureTransform(path, creationPath);
+            return Value.Ensure<U>(path);
         }
 
-        public PooledComponent<Transform> EnsureTransform(string path, Func<GameObject> create)
+        public PooledComponent<U> Ensure<U>(string path, string creationPath = null)
+            where U : Transform
         {
-            return Value.EnsureTransform(path, null, create);
+            return Value.Ensure<U>(path, creationPath);
         }
 
-        public PooledComponent<Transform> EnsureTransform(string path, string creationPath, Func<GameObject> create)
+        public PooledComponent<U> Ensure<U>(string path, Func<GameObject> create)
+            where U : Transform
         {
-            return Value.EnsureTransform(path, creationPath, create);
+            return Value.Ensure<U>(path, null, create);
         }
 
-        public PooledComponent<RectTransform> EnsureRectTransform(string path, string creationPath = null)
+        public PooledComponent<U> Ensure<U>(string path, string creationPath, Func<GameObject> create)
+            where U : Transform
         {
-            return Value.EnsureRectTransform(path, creationPath);
+            return Value.Ensure<U>(path, creationPath, create);
         }
 
         public U Query<U>(string path)
@@ -544,14 +554,9 @@ namespace Juniper.Unity
             return Value.Query<Transform>(path);
         }
 
-        public RectTransform RectQuery(string path)
+        public Transform Find(string name)
         {
-            return Value.RectQuery(path);
-        }
-
-        public Transform Search(string name)
-        {
-            return Value.transform.Search(name);
+            return Value.transform.Find(name);
         }
 
         public PooledComponent<T> SetScale(Vector3 s)
@@ -600,6 +605,16 @@ namespace Juniper.Unity
         {
             Value.SetSize(sizeDelta);
             return this;
+        }
+
+        public void Deactivate()
+        {
+            Value.Deactivate();
+        }
+
+        public void Activate()
+        {
+            Value.Activate();
         }
     }
 }

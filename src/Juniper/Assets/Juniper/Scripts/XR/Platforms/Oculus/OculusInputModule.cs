@@ -11,18 +11,20 @@ namespace Juniper.Unity.Input
     {
         public override bool Install(bool reset)
         {
-            var baseInstall = base.Install(reset);
+            if(base.Install(reset))
+            {
+                this.Ensure<OVRManager>();
+                return true;
+            }
 
-            this.EnsureComponent<OVRManager>();
-
-            return baseInstall;
+            return false;
         }
 
         public override void Uninstall()
         {
             base.Uninstall();
 
-            this.RemoveComponent<OVRManager>();
+            this.Remove<OVRManager>();
         }
     }
 }

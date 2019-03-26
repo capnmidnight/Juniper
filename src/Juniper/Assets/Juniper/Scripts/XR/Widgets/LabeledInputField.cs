@@ -79,7 +79,7 @@ namespace Juniper.Unity.Widgets
             Label = GetComponentInChildren<Text>();
             Field = GetComponentInChildren<InputField>();
             Field.onValueChanged.AddListener(onValueChanged.Invoke);
-            Field.EnsureComponent<Selectable>()
+            Field.Ensure<Selectable>()
                 .Value
                 .onSelected
                 .AddListener(onSelected.Invoke);

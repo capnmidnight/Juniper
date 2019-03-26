@@ -131,11 +131,11 @@ namespace Juniper.Unity.Ground
             base.Awake();
             transform.ClearChildren();
 
-            var gr = this.EnsureComponent<SpatialMappingRenderer>();
+            var gr = this.Ensure<SpatialMappingRenderer>();
             gr.Value.occlusionMaterial = OcclusionMaterial;
             gr.Value.visualMaterial = VisualizationMaterial;
 
-            var gc = this.EnsureComponent<SpatialMappingCollider>();
+            var gc = this.Ensure<SpatialMappingCollider>();
 
             gCollider = gc;
             gRenderer = gr;

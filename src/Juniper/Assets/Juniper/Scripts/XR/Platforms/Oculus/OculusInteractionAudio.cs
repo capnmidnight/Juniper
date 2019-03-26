@@ -18,7 +18,7 @@ namespace Juniper.Unity.Audio
         protected override AudioSource InternalSpatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
         {
             audioSource = base.InternalSpatialize(audioSource, loop, group);
-            var oculus = audioSource.EnsureComponent<ONSPAudioSource>().Value;
+            var oculus = audioSource.Ensure<ONSPAudioSource>().Value;
             oculus.EnableSpatialization = true;
             oculus.EnableRfl = true;
             return audioSource;

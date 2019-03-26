@@ -77,12 +77,12 @@ namespace Juniper.Unity.Widgets
 
         public void Awake()
         {
-            img = this.EnsureComponent<Image>();
+            img = this.Ensure<Image>();
             img.rectTransform.anchorMin = Vector2.up;
             img.rectTransform.anchorMax = Vector2.up;
             img.rectTransform.pivot = Vector2.up;
 
-            btn = this.EnsureComponent<Button>();
+            btn = this.Ensure<Button>();
 
             text = GetComponentInChildren<Text>();
             if (text == null)

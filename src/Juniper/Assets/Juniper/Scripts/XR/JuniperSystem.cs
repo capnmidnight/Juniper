@@ -49,7 +49,7 @@ namespace Juniper.Unity
             var platform = ComponentExt.FindAny<JuniperSystem>();
             if (platform == null)
             {
-                platform = new GameObject("UserRig").EnsureComponent<JuniperSystem>();
+                platform = new GameObject("UserRig").Ensure<JuniperSystem>();
             }
 
             JuniperPlatform.Install(true);
@@ -107,7 +107,7 @@ namespace Juniper.Unity
         {
             var head = DisplayManager
                 .MainCamera
-                .EnsureComponent<DisplayManager>()
+                .Ensure<DisplayManager>()
                 .transform;
 
             var stage = head.parent;
@@ -117,19 +117,19 @@ namespace Juniper.Unity
                 head.Reparent(stage);
             }
             stage.name = "Stage";
-            stage.EnsureComponent<StageExtensions>();
+            stage.Ensure<StageExtensions>();
 
             if (stage.parent != transform)
             {
                 stage.Reparent(transform);
             }
 
-            this.EnsureComponent<EventSystem>();
-            this.EnsureComponent<UnifiedInputModule>();
-            this.EnsureComponent<AnchorStore>();
-            this.EnsureComponent<InteractionAudio>();
-            this.EnsureComponent<MasterSceneController>();
-            this.EnsureComponent<PermissionHandler>();
+            this.Ensure<EventSystem>();
+            this.Ensure<UnifiedInputModule>();
+            this.Ensure<AnchorStore>();
+            this.Ensure<InteractionAudio>();
+            this.Ensure<MasterSceneController>();
+            this.Ensure<PermissionHandler>();
 
             return true;
         }

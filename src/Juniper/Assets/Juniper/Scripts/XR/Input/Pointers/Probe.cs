@@ -201,7 +201,7 @@ namespace Juniper.Unity.Input.Pointers
                 }
                 else
                 {
-                    probe = Instantiate(config.pointerPrefab).EnsureComponent<Probe>();
+                    probe = Instantiate(config.pointerPrefab).Ensure<Probe>();
                     probe.name = name;
                 }
             }
@@ -237,7 +237,7 @@ namespace Juniper.Unity.Input.Pointers
 
         public bool Install(bool reset)
         {
-            Cursor = transform.EnsureTransform("cursor");
+            Cursor = transform.Ensure<Transform>("cursor");
 
             var pipsContainer = Cursor.Find("offset/pips");
             if (pipsContainer != null)
@@ -257,7 +257,7 @@ namespace Juniper.Unity.Input.Pointers
                 }
             }
 
-            touchpoint = this.EnsureTransform("touchpad/touchpointTrack/touchpoint");
+            touchpoint = this.Ensure<Transform>("touchpad/touchpointTrack/touchpoint");
 
             return true;
         }
@@ -268,12 +268,12 @@ namespace Juniper.Unity.Input.Pointers
             if (pointer != null)
             {
                 // Screen Devices need to use the Main Camera as the Event Camera.
-                Raycaster = DisplayManager.MainCamera.EnsureComponent<PhysicsRaycaster>();
+                Raycaster = DisplayManager.MainCamera.Ensure<PhysicsRaycaster>();
             }
             else
             {
                 // Any other type of pointer uses its own raycaster.
-                Raycaster = this.EnsureComponent<PhysicsRaycaster>();
+                Raycaster = this.Ensure<PhysicsRaycaster>();
             }
 
             if (EventCamera != DisplayManager.MainCamera)
@@ -372,7 +372,7 @@ namespace Juniper.Unity.Input.Pointers
 
             if (line == null && (LaserPointerMaterial != null || LaserPointerMaterial != lastLaserPointerMaterial))
             {
-                line = this.EnsureComponent<LineRenderer>();
+                line = this.Ensure<LineRenderer>();
                 line.alignment = LineAlignment.View;
                 line.positionCount = 2;
                 line.receiveShadows = false;

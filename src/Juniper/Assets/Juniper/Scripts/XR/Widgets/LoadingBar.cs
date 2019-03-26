@@ -8,12 +8,12 @@ namespace Juniper.Unity.Widgets
     {
         public static PooledComponent<LoadingBar> Ensure(Transform parent, int transparentLayer)
         {
-            var bar = parent.EnsureTransform("LoadingBar/Center/Indicator", () =>
+            var bar = parent.Ensure<Transform>("LoadingBar/Center/Indicator", () =>
                 GameObject.CreatePrimitive(PrimitiveType.Cube))
                 .Value
                 .parent
                 .parent
-                .EnsureComponent<LoadingBar>();
+                .Ensure<LoadingBar>();
 
 #if UNITY_MODULES_PHYSICS
             if (bar.IsNew)

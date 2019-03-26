@@ -149,7 +149,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
                 handObj = PointerConfig[NativeHandID];
 
                 bones = KeyPoints.Select((point, i) =>
-                    this.EnsureTransform(
+                    this.Ensure<Transform>(
                         $"Bone{i}",
                         () =>
                         {

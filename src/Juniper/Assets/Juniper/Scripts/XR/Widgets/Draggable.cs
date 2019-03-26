@@ -101,7 +101,7 @@ namespace Juniper.Unity.Widgets
                 t = transform.parent.Find(constraintName);
                 if (t == null)
                 {
-                    t = transform.parent.EnsureTransform(constraintName);
+                    t = transform.parent.Ensure<Transform>(constraintName);
                     t.localPosition = position;
                 }
             }

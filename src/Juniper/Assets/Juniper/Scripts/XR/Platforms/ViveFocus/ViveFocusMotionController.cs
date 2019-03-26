@@ -124,7 +124,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
             {
                 if (_controller == null)
                 {
-                    _controller = this.EnsureComponent<WaveVR_ControllerPoseTracker>();
+                    _controller = this.Ensure<WaveVR_ControllerPoseTracker>();
                     _controller.TrackPosition = true;
                     _controller.TrackRotation = true;
                     _controller.TrackTiming = WVR_TrackTiming.WhenUpdate;

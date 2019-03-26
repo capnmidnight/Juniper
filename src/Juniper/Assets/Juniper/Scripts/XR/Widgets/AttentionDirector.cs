@@ -83,7 +83,7 @@ namespace Juniper.Unity.Widgets
             tagRange = arrow.localPosition;
             image = transform.Find("Image");
 #if UNITY_MODULES_ANIMATION
-            animator = this.EnsureComponent<UnityAnimator>();
+            animator = this.Ensure<UnityAnimator>();
 #endif
 
             pointer.SetActive(false);

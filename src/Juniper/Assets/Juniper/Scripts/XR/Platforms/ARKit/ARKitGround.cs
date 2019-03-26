@@ -21,7 +21,7 @@ namespace Juniper.Unity.Ground
             base.Awake();
             var camMgr = ComponentExt.FindAny<UnityARCameraManager>();
             camMgr.planeDetection = UnityARPlaneDetection.HorizontalAndVertical;
-            generatePlanes = this.EnsureComponent<UnityARGeneratePlane>();
+            generatePlanes = this.Ensure<UnityARGeneratePlane>();
             generatePlanes.planePrefab = planePrefab;
         }
     }

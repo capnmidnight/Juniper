@@ -11,11 +11,13 @@ namespace Juniper.Unity.Display
 
         public override bool Install(bool reset)
         {
-            var baseInstall = base.Install(reset);
+            if(base.Install(reset))
+            {
+                this.Ensure<GvrHeadset>();
+                return true;
+            }
 
-            this.EnsureComponent<GvrHeadset>();
-
-            return baseInstall;
+            return false;
         }
 
         public override void Start()
@@ -30,7 +32,7 @@ namespace Juniper.Unity.Display
 
         public override void Uninstall()
         {
-            this.RemoveComponent<GvrHeadset>();
+            this.Remove<GvrHeadset>();
 
             base.Uninstall();
         }

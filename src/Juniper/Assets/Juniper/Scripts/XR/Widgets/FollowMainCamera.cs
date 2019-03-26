@@ -11,7 +11,7 @@ namespace Juniper.Unity.Widgets
 
         public void Awake()
         {
-            f = this.EnsureComponent<FollowObject>();
+            f = this.Ensure<FollowObject>();
 
             f.followObject = DisplayManager.MainCamera.transform;
             f.FollowPosition = CartesianAxisFlags.XYZ;

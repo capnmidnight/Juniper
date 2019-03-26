@@ -168,14 +168,15 @@ namespace UnityEngine
         /// <returns>The component.</returns>
         /// <param name="obj">Object.</param>
         /// <typeparam name="T">A subclass of type <see cref="Component"/>.</typeparam>
-        public static PooledComponent<T> EnsureComponent<T>(this Component obj, Predicate<T> predicate) where T : Component
+        public static PooledComponent<T> Ensure<T>(this Component obj, Predicate<T> predicate) where T : Component
         {
-            return obj.gameObject.EnsureComponent<T>(predicate);
+            return obj.gameObject.Ensure<T>(predicate);
         }
 
-        public static PooledComponent<T> EnsureComponent<T>(this Component obj) where T : Component
+        public static PooledComponent<T> Ensure<T>(this Component obj)
+            where T : Component
         {
-            return obj.gameObject.EnsureComponent<T>();
+            return obj.gameObject.Ensure<T>();
         }
 
         /// <summary>
@@ -184,7 +185,7 @@ namespace UnityEngine
         /// <returns><c>true</c>, if component existed to be destroy, <c>false</c> otherwise.</returns>
         /// <param name="obj">The gameObject from which to remove the component.</param>
         /// <typeparam name="T">A subclass of type <see cref="Component"/>.</typeparam>
-        public static bool RemoveComponent<T>(this Component obj) where T : Component
+        public static bool Remove<T>(this Component obj) where T : Component
         {
             var o = obj.GetComponent<T>();
             o?.Destroy();
@@ -199,10 +200,10 @@ namespace UnityEngine
         /// <param name="obj">Object.</param>
         /// <param name="path">Path.</param>
         /// <param name="create"></param>
-        public static PooledComponent<Transform> EnsureTransform<T>(this T obj, string path, Func<GameObject> create)
-            where T : Component
+        public static PooledComponent<T> Ensure<T>(this Component obj, string path, Func<GameObject> create)
+            where T : Transform
         {
-            return obj.EnsureTransform(path, null, create);
+            return obj.Ensure<T>(path, null, create);
         }
 
         /// <summary>
@@ -214,8 +215,8 @@ namespace UnityEngine
         /// <param name="path">Path.</param>
         /// <param name="creationPath"></param>
         /// <param name="create"></param>
-        public static PooledComponent<Transform> EnsureTransform<T>(this T obj, string path, string creationPath = null, Func<GameObject> create = null)
-            where T : Component
+        public static PooledComponent<T> Ensure<T>(this Component obj, string path, string creationPath = null, Func<GameObject> create = null)
+            where T : Transform
         {
             if (creationPath == null)
             {
@@ -251,13 +252,13 @@ namespace UnityEngine
                     var parentPath = string.Join("/", parts
                         .Take(parts.Length - 1)
                         .ToArray());
-                    parent = obj.EnsureTransform(parentPath);
+                    parent = obj.Ensure<T>(parentPath);
                 }
 
                 trans.SetParent(parent, false);
             }
 
-            return new PooledComponent<Transform>(trans, isNew);
+            return new PooledComponent<T>(trans.gameObject, isNew);
         }
 
         /// <summary>

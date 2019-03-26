@@ -165,14 +165,14 @@ namespace Juniper.Unity.Display
                 return false;
             }
 
-            this.EnsureComponent<QualityDegrader>();
-            cameraCtrl = this.EnsureComponent<CameraControl>();
+            this.Ensure<QualityDegrader>();
+            cameraCtrl = this.Ensure<CameraControl>();
 
 #if UNITY_MODULES_AUDIO
-            listener = this.EnsureComponent<AudioListener>();
+            listener = this.Ensure<AudioListener>();
 
 #if RESONANCE
-            goog = listener.EnsureComponent<ResonanceAudioListener>().Value;
+            goog = listener.Ensure<ResonanceAudioListener>().Value;
             goog.stereoSpeakerModeEnabled = Application.isEditor || jp.DisplayType != DisplayTypes.Stereo;
 #endif
 #endif
@@ -184,10 +184,10 @@ namespace Juniper.Unity.Display
 #if UNITY_MODULES_AUDIO
 #if RESONANCE
             ComponentExt.FindAny<AudioListener>()
-                ?.RemoveComponent<ResonanceAudioListener>();
+                ?.Remove<ResonanceAudioListener>();
 #endif
 
-            this.EnsureComponent<AudioListener>();
+            this.Ensure<AudioListener>();
 #endif
         }
 

@@ -48,7 +48,7 @@ namespace Juniper.Unity.Display
 
             if (arCoreSession == null)
             {
-                arCoreSession = this.EnsureComponent<ARCoreSession>().Value;
+                arCoreSession = this.Ensure<ARCoreSession>().Value;
                 arCoreSession.SessionConfig = ScriptableObject.CreateInstance<ARCoreSessionConfig>();
                 arCoreSession.SessionConfig.MatchCameraFramerate = true;
             }
@@ -60,7 +60,7 @@ namespace Juniper.Unity.Display
 
             if (bgRenderer == null)
             {
-                bgRenderer = this.EnsureComponent<ARCoreBackgroundRenderer>().Value;
+                bgRenderer = this.Ensure<ARCoreBackgroundRenderer>().Value;
                 bgRenderer.BackgroundMaterial = ARBackgroundMaterial;
             }
 
@@ -71,7 +71,7 @@ namespace Juniper.Unity.Display
 
             if (poseDriver == null)
             {
-                poseDriver = this.EnsureComponent<TrackedPoseDriver>().Value;
+                poseDriver = this.Ensure<TrackedPoseDriver>().Value;
                 poseDriver.SetPoseSource(TrackedPoseDriver.DeviceType.GenericXRDevice, TrackedPoseDriver.TrackedPose.ColorCamera);
                 poseDriver.trackingType = TrackedPoseDriver.TrackingType.RotationAndPosition;
                 poseDriver.updateType = TrackedPoseDriver.UpdateType.BeforeRender;
@@ -100,9 +100,9 @@ namespace Juniper.Unity.Display
 
         public override void Uninstall()
         {
-            this.RemoveComponent<ARCoreBackgroundRenderer>();
-            this.RemoveComponent<TrackedPoseDriver>();
-            this.RemoveComponent<ARCoreSession>();
+            this.Remove<ARCoreBackgroundRenderer>();
+            this.Remove<TrackedPoseDriver>();
+            this.Remove<ARCoreSession>();
 
             base.Uninstall();
         }
