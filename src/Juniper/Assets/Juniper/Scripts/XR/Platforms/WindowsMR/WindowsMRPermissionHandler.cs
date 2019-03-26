@@ -1,4 +1,4 @@
-#if UNITY_XR_WINDOWSMR
+#if UNITY_XR_WINDOWSMR_METRO
 using Juniper.Unity.Input.Speech;
 
 using UnityEngine;
