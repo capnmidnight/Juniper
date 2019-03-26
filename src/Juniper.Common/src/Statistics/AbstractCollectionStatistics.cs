@@ -376,12 +376,12 @@ namespace Juniper.Statistics
             Minimum = Min(Minimum, value);
             Maximum = Max(Maximum, value);
 
-            var prevMean = Mean;
-            var residual = Subtract(value, prevMean);
-            Mean = Add(prevMean, Divide(residual, Count));
-
             if (Count > 1)
             {
+                var prevMean = Mean;
+                var residual = Subtract(value, prevMean);
+                Mean = Add(prevMean, Divide(residual, Count));
+
                 var secondResidual = Subtract(value, Mean);
                 var n2 = Count - 2;
                 var n1 = Count - 1;
@@ -472,22 +472,7 @@ namespace Juniper.Statistics
         /// <returns></returns>
         private T? Add(T? a, T? b)
         {
-            if (a == null && b == null)
-            {
-                return null;
-            }
-            else if (a == null)
-            {
-                return b;
-            }
-            else if (b == null)
-            {
-                return a;
-            }
-            else
-            {
-                return Add(a.Value, b.Value);
-            }
+            return Add(a ?? Zero, b ?? Zero);
         }
 
         /// <summary>
@@ -498,22 +483,7 @@ namespace Juniper.Statistics
         /// <returns></returns>
         private T? Subtract(T? a, T? b)
         {
-            if (a == null && b == null)
-            {
-                return null;
-            }
-            else if (a == null)
-            {
-                return Scale(b, -1);
-            }
-            else if (b == null)
-            {
-                return a;
-            }
-            else
-            {
-                return Subtract(a.Value, b.Value);
-            }
+            return Subtract(a ?? Zero, b ?? Zero);
         }
 
         /// <summary>
@@ -578,7 +548,7 @@ namespace Juniper.Statistics
         /// <returns></returns>
         private T Min(T? a, T b)
         {
-            if (a != null && LessThan(a, b))
+            if (a != null && LessThan(a.Value, b))
             {
                 return a.Value;
             }
@@ -596,13 +566,13 @@ namespace Juniper.Statistics
         /// <returns></returns>
         private T Max(T? a, T b)
         {
-            if (a == null || LessThan(a, b))
+            if (a != null && LessThan(b, a.Value))
             {
-                return b;
+                return a.Value;
             }
             else
             {
-                return a.Value;
+                return b;
             }
         }
 

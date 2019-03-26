@@ -436,8 +436,7 @@ namespace System
             var arr = new InterleavedEnumerator(
                 new[] { 2 }.GetEnumerator()
             );
-            Assert.ThrowsException<InvalidOperationException>(() =>
-                arr.Current);
+            Assert.ThrowsException<InvalidOperationException>(() => arr.Current);
         }
 
         [TestMethod]
