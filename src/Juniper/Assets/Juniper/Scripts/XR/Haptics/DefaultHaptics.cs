@@ -1,4 +1,4 @@
-#if (UNITY_IOS || UNITY_ANDROID) && !GOOGLEVR && !OCULUS
+#if (UNITY_IOS || UNITY_ANDROID) && !GOOGLEVR && !UNITY_XR_OCULUS
 #define HAS_HAPTICS
 #endif
 
@@ -7,10 +7,8 @@ using System.Collections;
 using UnityEngine;
 
 #if UNITY_STANDALONE || UNITY_EDITOR
-
 using XInputDotNetPure;
-
-#elif UNITY_XR_WINDOWSMR_METRO && !UNITY_EDITOR
+#elif UNITY_XR_WINDOWSMR_METRO
 using System.Linq;
 using Windows.Gaming.Input;
 #endif

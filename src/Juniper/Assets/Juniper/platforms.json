@@ -87,7 +87,7 @@
   {
     "Name": "AndroidOculus",
     "buildTarget": "Android",
-    "CompilerDefine": "OCULUS", 
+    "CompilerDefine": "UNITY_XR_OCULUS",
     "androidSdkVersion": "AndroidApiLevel21",
     "spatializer": "OculusSpatializer",
     "vrSystems": [
@@ -102,7 +102,7 @@
   {
     "Name": "AndroidPicoG2",
     "buildTarget": "Android",
-    "CompilerDefine": "PICO", 
+    "CompilerDefine": "PICO",
     "androidSdkVersion": "AndroidApiLevel19",
     "spatializer": "AM3D Spatializer - © 2016 GTEU",
     "vrSystems": [
@@ -174,7 +174,7 @@
   {
     "Name": "StandaloneOculus",
     "buildTarget": "Standalone",
-    "CompilerDefine": "OCULUS", 
+    "CompilerDefine": "UNITY_XR_OCULUS",
     "spatializer": "OculusSpatializer",
     "vrSystems": [
       "Oculus",

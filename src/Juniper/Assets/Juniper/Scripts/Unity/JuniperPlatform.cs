@@ -56,7 +56,7 @@ namespace Juniper.Unity
             PlatformTypes.AndroidCardboard;
 #elif GOOGLEVR
             PlatformTypes.AndroidDaydream;
-#elif OCULUS
+#elif UNITY_XR_OCULUS
             PlatformTypes.AndroidOculus;
 #elif PICO
             PlatformTypes.AndroidPicoG2;
@@ -78,7 +78,7 @@ namespace Juniper.Unity
             PlatformTypes.None;
 #endif
 #elif UNITY_STANDALONE
-#if OCULUS
+#if UNITY_XR_OCULUS
             PlatformTypes.StandaloneOculus;
 #elif STEAMVR
             PlatformTypes.StandaloneSteamVR;

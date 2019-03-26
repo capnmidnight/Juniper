@@ -1,4 +1,4 @@
-#if OCULUS
+#if UNITY_XR_OCULUS
 using Juniper.Haptics;
 using UnityEngine;
 

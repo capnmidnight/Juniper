@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Juniper.Unity.Input.Pointers.Motion
 {
     public class MotionController :
-#if OCULUS
+#if UNITY_XR_OCULUS
         OculusTouchController
 #elif GOOGLEVR
         DaydreamMotionController
