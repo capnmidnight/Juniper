@@ -66,13 +66,16 @@ namespace Juniper.Unity.Animation
         /// <returns></returns>
         public static PooledComponent<FadeTransition> Ensure(Transform parent)
         {
-            return parent.EnsureTransform("Fader", () =>
+            var fader = parent.EnsureTransform("Fader", () =>
                 GameObject.CreatePrimitive(PrimitiveType.Quad))
-                    .EnsureComponent<FadeTransition>(
+                .EnsureComponent<FadeTransition>();
 #if UNITY_MODULES_PHYSICS
-                    (fader) => fader.RemoveComponent<Collider>()
+            if (fader.IsNew)
+            {
+                fader.Value.RemoveComponent<Collider>();
+            }
 #endif
-                    );
+            return fader;
         }
 
         /// <summary>

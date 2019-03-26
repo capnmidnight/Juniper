@@ -55,14 +55,17 @@ namespace Juniper.Unity.Ground
 
                     terrain.gameObject.layer = GroundLayer;
 
-                    collid = terrain.EnsureComponent<TerrainCollider>((t) =>
+                    var t = terrain.EnsureComponent<TerrainCollider>();
+                    if(t.IsNew)
                     {
-                        t.terrainData = terrain.terrainData;
+                        t.Value.terrainData = terrain.terrainData;
                         if (!preexistingTerrain)
                         {
-                            terrain.transform.position = -t.bounds.center;
+                            terrain.transform.position = -t.Value.bounds.center;
                         }
-                    });
+                    }
+
+                    collid = t;
                 }
 
                 if (collid.GetMaterial() == null)

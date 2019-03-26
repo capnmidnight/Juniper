@@ -210,18 +210,6 @@ namespace UnityEngine
             return child;
         }
 
-        /// <summary>
-        /// Get a component from a transform, creating it if it doesn't exist.
-        /// </summary>
-        /// <returns>The component.</returns>
-        /// <param name="obj">Object.</param>
-        /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static PooledComponent<T> EnsureComponent<T>(this Transform obj)
-            where T : Component
-        {
-            return obj.gameObject.EnsureComponent<T>();
-        }
-
         public static T SetScale<T>(this T t, Vector3 s)
             where T : Component
         {

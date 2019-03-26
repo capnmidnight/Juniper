@@ -168,14 +168,14 @@ namespace UnityEngine
         /// <returns>The component.</returns>
         /// <param name="obj">Object.</param>
         /// <typeparam name="T">A subclass of type <see cref="Component"/>.</typeparam>
-        public static PooledComponent<T> EnsureComponent<T>(this Component obj, Predicate<T> predicate = null, Action<T> onCreate = null) where T : Component
+        public static PooledComponent<T> EnsureComponent<T>(this Component obj, Predicate<T> predicate) where T : Component
         {
-            return obj.gameObject.EnsureComponent(predicate, onCreate);
+            return obj.gameObject.EnsureComponent<T>(predicate);
         }
 
-        public static PooledComponent<T> EnsureComponent<T>(this Component obj, Action<T> onCreate) where T : Component
+        public static PooledComponent<T> EnsureComponent<T>(this Component obj) where T : Component
         {
-            return obj.gameObject.EnsureComponent(null, onCreate);
+            return obj.gameObject.EnsureComponent<T>();
         }
 
         /// <summary>

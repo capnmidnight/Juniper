@@ -9,7 +9,7 @@ namespace Juniper.Unity
         public readonly T Value;
         public readonly bool IsNew;
 
-        public PooledComponent(GameObject obj, Predicate<T> predicate = null, Action<T> onCreate = null)
+        public PooledComponent(GameObject obj, Predicate<T> predicate, Action<T> onCreate)
         {
             if (predicate == null)
             {
@@ -508,14 +508,10 @@ namespace Juniper.Unity
             return Value.EnsureComponent<U>();
         }
 
-        public PooledComponent<U> EnsureComponent<U>(Action<U> onCreate) where U : Component
+        public PooledComponent<U> EnsureComponent<U>(Predicate<U> predicate)
+            where U : Component
         {
-            return Value.EnsureComponent(null, onCreate);
-        }
-
-        public PooledComponent<U> EnsureComponent<U>(Predicate<U> predicate = null, Action<U> onCreate = null) where U : Component
-        {
-            return Value.EnsureComponent(predicate, onCreate);
+            return Value.EnsureComponent<U>(predicate);
         }
 
         public PooledComponent<Transform> EnsureTransform(string path, string creationPath = null)

@@ -10,20 +10,20 @@ namespace Juniper.Unity.Widgets
         {
             var bar = parent.EnsureTransform("LoadingBar/Center/Indicator", () =>
                 GameObject.CreatePrimitive(PrimitiveType.Cube))
-            .Value
-            .parent
-            .parent
-            .EnsureComponent<LoadingBar>(
+                .Value
+                .parent
+                .parent
+                .EnsureComponent<LoadingBar>();
+
 #if UNITY_MODULES_PHYSICS
-                (loadingBar) =>
+            if (bar.IsNew)
+            {
+                foreach (var collider in bar.Value.GetComponentsInChildren<Collider>())
                 {
-                    foreach (var collider in loadingBar.GetComponentsInChildren<Collider>())
-                    {
-                        collider.Destroy();
-                    }
+                    collider.Destroy();
                 }
+            }
 #endif
-            );
 
             var queue = new Queue<Transform>
             {

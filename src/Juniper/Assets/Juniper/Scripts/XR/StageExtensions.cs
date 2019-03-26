@@ -126,19 +126,23 @@ namespace Juniper.Unity
                     new Vector3(0.5f, 0.5f * defaultAvatarHeight, 0.5f)));
 
 #if UNITY_MODULES_PHYSICS
-            BodyShape = this.EnsureComponent<CapsuleCollider>((bodyShape) =>
+            var bs = this.EnsureComponent<CapsuleCollider>();
+            if(bs.IsNew)
             {
-                bodyShape.SetMaterial(shoes);
-                bodyShape.height = defaultAvatarHeight;
-                bodyShape.radius = 0.25f;
-                bodyShape.direction = (int)CartesianAxis.Y;
-            });
+                bs.Value.SetMaterial(shoes);
+                bs.Value.height = defaultAvatarHeight;
+                bs.Value.radius = 0.25f;
+                bs.Value.direction = (int)CartesianAxis.Y;
+            }
+            BodyShape = bs;
 
-            BodyPhysics = this.EnsureComponent<Rigidbody>((phys) =>
+            var bp = this.EnsureComponent<Rigidbody>();
+            if(bp.IsNew)
             {
-                phys.mass = 80;
-                phys.constraints = RigidbodyConstraints.FreezeRotation;
-            });
+                bp.Value.mass = 80;
+                bp.Value.constraints = RigidbodyConstraints.FreezeRotation;
+            }
+            BodyPhysics = bp;
 
             BodyPhysics.useGravity = false;
             var grounder = BodyPhysics.EnsureComponent<Grounded>();
