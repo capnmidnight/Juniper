@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
-
+using UnityEngine.UI;
 using TextElementType = UnityEngine.UI.Text;
 
 namespace System
@@ -149,5 +149,13 @@ namespace System
         /// The text element to which the output is rendered.
         /// </summary>
         private TextElementType text;
+
+        public static TextElementType TextBox
+        {
+            get
+            {
+                return instance.text;
+            }
+        }
     }
 }

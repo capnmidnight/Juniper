@@ -1,0 +1,444 @@
+#if PICO
+
+using Juniper.Unity.Display;
+
+using Pvr_UnitySDKAPI;
+
+using System;
+
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace Juniper.Unity.Input
+{
+    public abstract class PicoInputModule : AbstractUnifiedInputModule
+    {
+        public override bool Install(bool reset)
+        {
+            if (base.Install(reset))
+            {
+                EnableMouse(false);
+                EnableTouch(false);
+                EnableGaze(false);
+                EnableControllers(true);
+                EnableHands(false);
+
+                var stageT = stage.transform;
+
+                MakeSafeArea(stageT);
+                MakeViewerToast(stage.Head);
+                MakeSafeToast(stageT);
+                MakeSafePanel1(stageT);
+                var forceQuit = MakeSafePanel2(stageT);
+                MakeResetPanel(stageT);
+
+                MakeSDKManager(stageT, forceQuit);
+                MakeControllerManager(stageT);
+                MakeController(stageT);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public override void Uninstall()
+        {
+            stage.Remove<Pvr_Controller>();
+            stage.Remove<Pvr_ControllerManager>();
+            stage.Remove<Pvr_UnitySDKManager>();
+
+            stage.Query("ResetPanel")?.gameObject?.Destroy();
+            stage.Query("SafePanel2")?.gameObject?.Destroy();
+            stage.Query("SafePanel1")?.gameObject?.Destroy();
+            stage.Query("SafeToast")?.gameObject?.Destroy();
+            stage.Head.Query("Viewertoast")?.gameObject?.Destroy();
+            stage.Query("SafeArea2")?.gameObject?.Destroy();
+
+            EnableHands(true);
+            EnableControllers(true);
+            EnableGaze(true);
+            EnableTouch(true);
+            EnableMouse(true);
+
+            base.Uninstall();
+        }
+
+        private static void MakeSafeArea(Transform parent)
+        {
+#if UNITY_EDITOR
+            var safeArea = parent.Find("SafeArea2");
+            if (safeArea == null)
+            {
+                safeArea = Instantiate(ComponentExt.EditorLoadAsset<GameObject>("Assets/PicoMobileSDK/Pvr_UnitySDK/Resources/Cylinder01.FBX")).transform;
+                safeArea.name = "SafeArea2";
+                safeArea.SetParent(parent, false);
+                safeArea.Deactivate();
+            }
+#endif
+        }
+
+        private static RectTransform MakePanel(Transform parent, string containerName, Vector3 containerPosition, Quaternion containerRotation, Vector3 position, float width, float height, Color imageColor)
+        {
+            var container = parent.Ensure<Transform>(containerName);
+            if (container.IsNew)
+            {
+                container.transform.position = containerPosition;
+                container.transform.rotation = containerRotation;
+            }
+
+            var panel = container.Ensure<RectTransform>("Panel");
+            var panelCanvas = panel.Ensure<Canvas>();
+            if (panelCanvas.IsNew)
+            {
+                panelCanvas.Value.renderMode = RenderMode.WorldSpace;
+            }
+
+            if (panel.IsNew)
+            {
+                panel.SetAnchors(Vector2.zero, Vector2.one)
+                    .SetPivot(0.5f * Vector2.one)
+                    .SetScale(0.0043f * Vector3.one)
+                    .SetSize(width, height)
+                    .SetPosition(position);
+            }
+
+            var panelImage = panel
+                .Ensure<CanvasRenderer>()
+                .Ensure<Image>();
+            if (panelImage.IsNew)
+            {
+#if UNITY_EDITOR
+                panelImage.Value.sprite = ComponentExt.EditorLoadAsset<Sprite>("UI/Skin/Background.psd");
+#endif
+                panelImage.Value.color = imageColor;
+                panelImage.Value.raycastTarget = true;
+                panelImage.Value.type = Image.Type.Sliced;
+                panelImage.Value.fillCenter = true;
+            }
+
+            container.Deactivate();
+
+            return panel;
+        }
+
+        private static RectTransform MakeText(Transform parent, string name, Vector3 position, float width, float height, Vector3 scale, int fontSize, TextAnchor alignment, Color textColor)
+        {
+            var text = parent.Ensure<RectTransform>(name);
+            if (text.IsNew)
+            {
+                text.SetAnchors(0.5f * Vector2.one, 0.5f * Vector2.one)
+                    .SetPivot(0.5f * Vector2.one)
+                    .SetScale(scale)
+                    .SetPosition(position)
+                    .SetSize(width, height);
+            }
+
+            var textTxt = text
+                .Ensure<CanvasRenderer>()
+                .Ensure<Text>();
+            if (textTxt.IsNew)
+            {
+                textTxt.Value.font = ComponentExt.LoadAsset<Font>("Assets/PicoMobileSDK/Pvr_Controller/MicrosoftYaHeiGB.ttf");
+                textTxt.Value.fontStyle = FontStyle.Normal;
+                textTxt.Value.fontSize = fontSize;
+                textTxt.Value.lineSpacing = 1;
+                textTxt.Value.supportRichText = true;
+                textTxt.Value.alignment = alignment;
+                textTxt.Value.alignByGeometry = false;
+                textTxt.Value.horizontalOverflow = HorizontalWrapMode.Wrap;
+                textTxt.Value.verticalOverflow = VerticalWrapMode.Truncate;
+                textTxt.Value.resizeTextForBestFit = false;
+                textTxt.Value.color = textColor;
+                textTxt.Value.raycastTarget = true;
+            }
+
+            return text;
+        }
+
+        private static RectTransform MakeImage(Transform parent, string name, Vector3 position, float width, float height, Sprite sprite, Image.Type type)
+        {
+            var image = parent.Ensure<RectTransform>(name);
+            if (image.IsNew)
+            {
+                image.SetAnchors(0.5f * Vector2.one, 0.5f * Vector2.one)
+                    .SetPivot(0.5f * Vector2.one)
+                    .SetSize(width, height)
+                    .SetPosition(position);
+            }
+
+            var imageImage = image
+                .Ensure<CanvasRenderer>()
+                .Ensure<Image>();
+            if (imageImage.IsNew)
+            {
+                imageImage.Value.sprite = sprite;
+                imageImage.Value.color = Color.white;
+                imageImage.Value.raycastTarget = true;
+                imageImage.Value.type = type;
+                imageImage.Value.fillCenter = true;
+                imageImage.Value.useSpriteMesh = false;
+                imageImage.Value.preserveAspect = false;
+            }
+
+            return image;
+        }
+
+        private static void MakeViewerToast(Transform parent)
+        {
+            var panel = MakePanel(
+                parent,
+                "Viewertoast",
+                2.5f * Vector3.forward,
+                Quaternion.identity,
+                Vector3.zero,
+                300, 80,
+                new Color(27f / 255, 27f / 255, 27f / 255, 204f / 255));
+
+            MakeText(
+                panel,
+                "title",
+                Vector3.zero,
+                500, 100,
+                0.5f * Vector3.one,
+                30, TextAnchor.MiddleCenter,
+                new Color(1f, 0.57f, 0f));
+        }
+
+        private static void MakeSafeToast(Transform parent)
+        {
+            var panel = MakePanel(
+                parent,
+                "SafeToast",
+                Vector3.zero,
+                Quaternion.identity,
+                Vector3.zero,
+                400, 400,
+                new Color(27f / 255, 27f / 255, 27f / 255, 1));
+
+            MakeText(
+                panel,
+                "title",
+                153 * Vector3.up,
+                415, 50,
+                Vector3.one,
+                30, TextAnchor.MiddleCenter,
+                new Color(1f, 0.57f, 0f));
+
+            MakeText(
+                panel,
+                "Text",
+                -8 * Vector3.up,
+                350, 250,
+                Vector3.one,
+                25, TextAnchor.UpperLeft,
+                Color.white);
+
+            MakeImage(
+                panel,
+                "Image",
+                -82 * Vector3.up,
+                200, 200,
+                ComponentExt.LoadAsset<Sprite>("Assets/PicoMobileSDK/Pvr_Controller/Texture/0.8M.png"),
+                Image.Type.Simple);
+        }
+
+        private static void MakeSafePanel1(Transform parent)
+        {
+            var panel = MakePanel(
+                parent,
+                "SafePanel1",
+                Vector3.zero,
+                Quaternion.identity,
+                3 * Vector3.forward,
+                400, 400,
+                new Color(27f / 255, 27f / 255, 27f / 255, 1));
+
+            panel.Ensure<GraphicRaycaster>();
+
+            MakeText(
+                panel,
+                "toast1",
+                83 * Vector3.up,
+                340, 170,
+                Vector3.one,
+                25, TextAnchor.UpperLeft,
+                Color.white);
+
+            MakeImage(
+                panel,
+                "Image",
+                -82 * Vector3.up,
+                200, 200,
+                ComponentExt.LoadAsset<Sprite>("Assets/PicoMobileSDK/Pvr_Controller/Texture/0.8M.png"),
+                Image.Type.Simple);
+        }
+
+        private static PooledComponent<Button> MakeSafePanel2(Transform parent)
+        {
+            var panel = MakePanel(
+                parent,
+                "SafePanel2",
+                Vector3.zero,
+                Quaternion.identity,
+                3 * Vector3.forward,
+                400, 400,
+                new Color(27f / 255, 27f / 255, 27f / 255, 1));
+            
+            var panelPvrCanvas = panel
+                .Ensure<GraphicRaycaster>()
+                .Ensure<Pvr_UIGraphicRaycaster>()
+                .Ensure<Pvr_UICanvas>();
+            if (panelPvrCanvas.IsNew)
+            {
+                panelPvrCanvas.Value.clickOnPointerCollision = false;
+                panelPvrCanvas.Value.autoActivateWithinDistance = 0;
+            }
+
+            MakeText(
+                panel,
+                "Title",
+                159 * Vector3.up,
+                200, 45,
+                Vector3.one,
+                30, TextAnchor.MiddleCenter,
+                new Color(1f, 0.57f, 0f));
+
+            MakeText(
+                panel,
+                "toast2",
+                5.3f * Vector3.up,
+                359, 132,
+                Vector3.one,
+                25, TextAnchor.MiddleCenter,
+                Color.white);
+
+            var forceQuit = MakeImage(
+                panel,
+                "forcequitBtn",
+                -82 * Vector3.up,
+                200, 35,
+                ComponentExt.LoadAsset<Sprite>("Assets/PicoMobileSDK/Pvr_Controller/Texture/Bt_background_long1.png"),
+                Image.Type.Sliced);
+
+            var forceQuitButton = forceQuit.Ensure<Button>();
+            if (forceQuitButton.IsNew)
+            {
+                forceQuitButton.Value.interactable = true;
+                forceQuitButton.Value.transition = Selectable.Transition.ColorTint;
+                forceQuitButton.Value.targetGraphic = forceQuit.GetComponent<Image>();
+                forceQuitButton.Value.colors = new ColorBlock
+                {
+                    normalColor = Color.white,
+                    highlightedColor = Color.blue,
+                    pressedColor = Color.red,
+                    disabledColor = Color.grey,
+                    colorMultiplier = 1,
+                    fadeDuration = 0.1f
+                };
+                forceQuitButton.Value.navigation = new Navigation
+                {
+                    mode = Navigation.Mode.Automatic
+                };
+            }
+
+            var forceQuitText = forceQuit
+                .Ensure<RectTransform>("Text")
+                .Ensure<Text>();
+            if (forceQuitText.IsNew)
+            {
+                forceQuitText.Value.font = ComponentExt.LoadAsset<Font>("Assets/PicoMobileSDK/Pvr_Controller/MicrosoftYaHeiGB.ttf");
+                forceQuitText.Value.fontStyle = FontStyle.Normal;
+                forceQuitText.Value.fontSize = 20;
+                forceQuitText.Value.lineSpacing = 1;
+                forceQuitText.Value.supportRichText = true;
+                forceQuitText.Value.alignment = TextAnchor.MiddleCenter;
+                forceQuitText.Value.alignByGeometry = false;
+                forceQuitText.Value.horizontalOverflow = HorizontalWrapMode.Wrap;
+                forceQuitText.Value.verticalOverflow = VerticalWrapMode.Truncate;
+                forceQuitText.Value.resizeTextForBestFit = false;
+                forceQuitText.Value.color = new Color(50f / 255, 50f / 255, 50f / 255);
+                forceQuitText.Value.raycastTarget = true;
+            }
+
+            return forceQuitButton;
+        }
+
+        private static void MakeResetPanel(Transform parent)
+        {
+            var panel = MakePanel(
+                parent,
+                "ResetPanel",
+                Vector3.zero,
+                Quaternion.identity,
+                3 * Vector3.forward,
+                400, 400,
+                new Color(27f / 255, 27f / 255, 27f / 255, 1));
+
+            panel.Ensure<GraphicRaycaster>();
+
+            MakeText(
+                panel,
+                "toast",
+                new Vector3(3, 88, 0),
+                340, 170,
+                Vector3.one,
+                25, TextAnchor.UpperLeft,
+                Color.white);
+
+            MakeImage(
+                panel,
+                "Image",
+                -82 * Vector3.up,
+                200, 200,
+                ComponentExt.LoadAsset<Sprite>("Assets/PicoMobileSDK/Pvr_Controller/Texture/0.8M.png"),
+                Image.Type.Simple);
+        }
+
+        private static void MakeSDKManager(Transform parent, PooledComponent<Button> forceQuit)
+        {
+            var sdkMgr = parent.Ensure<Pvr_UnitySDKManager>();
+            if (sdkMgr.IsNew)
+            {
+                sdkMgr.Value.RtAntiAlising = RenderTextureAntiAliasing.X_2;
+                sdkMgr.Value.RtBitDepth = RenderTextureDepth.BD_24;
+                sdkMgr.Value.RtFormat = RenderTextureFormat.Default;
+                sdkMgr.Value.DefaultRenderTexture = false;
+                sdkMgr.Value.RtLevel = RenderTextureLevel.High;
+                sdkMgr.Value.ShowFPS = false;
+                sdkMgr.Value.ShowSafePanel = false;
+                sdkMgr.Value.ScreenFade = false;
+                sdkMgr.Value.HeadDofNum = HeadDofNum.ThreeDof;
+                sdkMgr.Value.HandDofNum = HandDofNum.ThreeDof;
+                sdkMgr.Value.SixDofRecenter = true;
+                sdkMgr.Value.DefaultRange = true;
+                sdkMgr.Value.MovingRatios = 1;
+            }
+
+            if (forceQuit.IsNew)
+            {
+                forceQuit.Value.onClick.AddListener(sdkMgr.Value.SixDofForceQuit);
+            }
+        }
+
+        private static void MakeControllerManager(Transform parent)
+        {
+            var ctrlMgr = parent.Ensure<Pvr_ControllerManager>();
+            if (ctrlMgr.IsNew)
+            {
+                ctrlMgr.Value.toast = ScreenDebugger.TextBox;
+            }
+        }
+
+        private static void MakeController(Transform parent)
+        {
+            var ctrl = parent.Ensure<Pvr_Controller>();
+            if (ctrl.IsNew)
+            {
+                ctrl.Value.Axis = Pvr_Controller.ControllerAxis.Wrist;
+                ctrl.Value.Gazetype = Pvr_Controller.GazeType.Never;
+            }
+        }
+    }
+}
+#endif

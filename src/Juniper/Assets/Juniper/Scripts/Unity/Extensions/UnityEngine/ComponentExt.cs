@@ -305,5 +305,15 @@ namespace UnityEngine
             }
         }
 #endif
+        /// <summary>
+        /// When called from the Unity Editor, loads an audio clip from disk to use as
+        /// a property in a Unity component.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static T LoadAsset<T>(string path) where T : Object
+        {
+            return Resources.Load<T>(System.IO.PathExt.FixPath(path));
+        }
     }
 }

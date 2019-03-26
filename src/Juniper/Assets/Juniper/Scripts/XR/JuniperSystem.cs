@@ -3,8 +3,9 @@ using Juniper.Unity.Audio;
 using Juniper.Unity.Display;
 using Juniper.Unity.Input;
 using Juniper.Unity.Permissions;
+
 using UnityEditor;
-using UnityEditor.SceneManagement;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -54,7 +55,8 @@ namespace Juniper.Unity
 
             JuniperPlatform.Install(true);
 
-            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetSceneAt(0));
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEditor.SceneManagement.EditorSceneManager.GetSceneAt(0));
         }
 #endif
 

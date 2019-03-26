@@ -21,6 +21,8 @@ namespace Juniper.Unity.Display
         MagicLeapDisplayManager
 #elif WAVEVR
         ViveFocusDisplayManager
+#elif PICO
+        PicoDisplayManager
 #elif VUFORIA
         VuforiaDisplayManager
 #elif UNITY_XR_WINDOWSMR_METRO

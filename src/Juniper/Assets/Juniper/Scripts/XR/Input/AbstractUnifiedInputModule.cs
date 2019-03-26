@@ -185,10 +185,10 @@ namespace Juniper.Unity.Input
                 touches[i].fingerID = i;
             }
 
-            motionControllers = MotionController.MakeMotionControllers(name =>
+            motionControllers = MotionController.MakeControllers(name =>
                 MakePointer<MotionController>(stage.Hands, name));
 
-            handTrackers = HandTracker.MakeHandTrackers(name =>
+            handTrackers = HandTracker.MakeControllers(name =>
                 MakePointer<HandTracker>(stage.Hands, name));
 
             return true;

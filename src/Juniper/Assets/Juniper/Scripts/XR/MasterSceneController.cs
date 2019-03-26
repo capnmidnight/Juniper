@@ -13,7 +13,6 @@ using Juniper.Unity.Animation;
 using Juniper.Unity.Audio;
 using Juniper.Unity.Display;
 using Juniper.Unity.Widgets;
-using Juniper.Unity.Progress;
 using Juniper.Progress;
 
 using UnityEngine.UI;
@@ -732,7 +731,8 @@ namespace Juniper.Unity
         [ContextMenu("Load Scenes")]
         private void LoadScenes_MenuItem()
         {
-            var iter = LoadAllScenesCoroutine(new UnityEditorProgressDialog("Loading scenes"));
+            var iter = LoadAllScenesCoroutine(
+                new Progress.UnityEditorProgressDialog("Loading scenes"));
             while (iter.MoveNext())
             {
                 var obj = iter.Current;

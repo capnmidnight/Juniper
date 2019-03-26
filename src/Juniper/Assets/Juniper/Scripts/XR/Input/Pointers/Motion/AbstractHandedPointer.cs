@@ -41,6 +41,26 @@ namespace Juniper.Unity.Input.Pointers.Motion
         where ConfigType : AbstractHandedPointerConfiguration<HandIDType, ButtonIDType>, new()
         where HapticsType : AbstractHapticDevice
     {
+        public static T[] MakeControllers<T>(Func<string, T> MakePointer)
+            where T : AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType, HapticsType>
+        {
+            return new[] {
+                MakeMotionController(MakePointer, Hands.Left),
+                MakeMotionController(MakePointer, Hands.Right)
+            };
+        }
+
+        /// <summary>
+        /// Create a new hand pointer object for an interaction source that hasn't yet been seen.
+        /// </summary>
+        private static T MakeMotionController<T>(Func<string, T> MakePointer, Hands hand)
+            where T : AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType, HapticsType>
+        {
+            var pointer = MakePointer(PointerConfig.MakePointerName(hand));
+            pointer.Hand = hand;
+            return pointer;
+        }
+
         public Hands _hand;
 
         public virtual Hands Hand
@@ -56,7 +76,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
             }
         }
 
-        public HandIDType? NativeHandID
+        public virtual HandIDType? NativeHandID
         {
             get; protected set;
         }
