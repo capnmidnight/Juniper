@@ -232,17 +232,17 @@ namespace Juniper.Unity.Animation
         {
             base.OnEntered();
 
-            lastColor = DisplayManager.MainCamera.backgroundColor;
-            lastCullingMask = DisplayManager.MainCamera.cullingMask;
+            lastColor = DisplayManager.BackgroundColor;
+            lastCullingMask = DisplayManager.CullingMask;
             lastAmbientMode = RenderSettings.ambientMode;
 
             if (display.ARMode == AugmentedRealityTypes.None)
             {
-                DisplayManager.MainCamera.clearFlags = CameraClearFlags.Color;
-                DisplayManager.MainCamera.backgroundColor = ColorExt.TransparentBlack;
+                DisplayManager.ClearFlags = CameraClearFlags.Color;
+                DisplayManager.BackgroundColor = ColorExt.TransparentBlack;
             }
 
-            DisplayManager.MainCamera.cullingMask = LayerMask.GetMask("TransparentFX");
+            DisplayManager.CullingMask = LayerMask.GetMask("TransparentFX");
             RenderSettings.ambientMode = AmbientMode.Flat;
 
 #if UNITY_MODULES_AUDIO
@@ -273,11 +273,11 @@ namespace Juniper.Unity.Animation
 
             if (display.ARMode == AugmentedRealityTypes.None)
             {
-                DisplayManager.MainCamera.clearFlags = CameraClearFlags.Skybox;
-                DisplayManager.MainCamera.backgroundColor = lastColor;
+                DisplayManager.ClearFlags = CameraClearFlags.Skybox;
+                DisplayManager.BackgroundColor = lastColor;
             }
 
-            DisplayManager.MainCamera.cullingMask = lastCullingMask;
+            DisplayManager.CullingMask = lastCullingMask;
             RenderSettings.ambientMode = lastAmbientMode;
         }
 

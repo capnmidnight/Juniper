@@ -34,6 +34,51 @@ namespace Juniper.Unity.Display
             }
         }
 
+        public static CameraClearFlags ClearFlags
+        {
+            get
+            {
+                return MainCamera.clearFlags;
+            }
+            set
+            {
+                foreach (var camera in MainCamera.GetComponentsInChildren<Camera>())
+                {
+                    camera.clearFlags = value;
+                }
+            }
+        }
+
+        public static Color BackgroundColor
+        {
+            get
+            {
+                return MainCamera.backgroundColor;
+            }
+            set
+            {
+                foreach (var camera in MainCamera.GetComponentsInChildren<Camera>())
+                {
+                    camera.backgroundColor = value;
+                }
+            }
+        }
+
+        public static int CullingMask
+        {
+            get
+            {
+                return MainCamera.cullingMask;
+            }
+            set
+            {
+                foreach (var camera in MainCamera.GetComponentsInChildren<Camera>())
+                {
+                    camera.cullingMask = value;
+                }
+            }
+        }
+
 #if UNITY_MODULES_AUDIO
         protected AudioListener listener;
 
