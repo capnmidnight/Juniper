@@ -4,7 +4,7 @@ using Juniper.Input;
 using Juniper.Unity.Haptics;
 
 using Pvr_UnitySDKAPI;
-
+using System;
 using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
@@ -26,11 +26,11 @@ namespace Juniper.Unity.Input.Pointers.Motion
             {
                 if (hand == Hands.Left)
                 {
-                    return ControllerVariety.Controller1;
+                    return ControllerVariety.Controller0;
                 }
                 else if (hand == Hands.Right)
                 {
-                    return ControllerVariety.Controller0;
+                    return ControllerVariety.Controller1;
                 }
                 else
                 {
@@ -181,8 +181,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
 
         protected override void InternalUpdate()
         {
-            //transform.localPosition = Controller.UPvr_GetControllerPOS(controllerNumber);
-            //transform.localRotation = Controller.UPvr_GetControllerQUA(controllerNumber);
 
             base.InternalUpdate();
 
