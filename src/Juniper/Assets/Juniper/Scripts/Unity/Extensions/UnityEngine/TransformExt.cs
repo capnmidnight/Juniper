@@ -172,5 +172,10 @@ namespace UnityEngine
             }
             return t;
         }
+
+        public static void Destroy(this Transform t)
+        {
+            t.gameObject.Destroy();
+        }
     }
 }

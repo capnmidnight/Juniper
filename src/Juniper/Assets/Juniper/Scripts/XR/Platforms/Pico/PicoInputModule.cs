@@ -44,16 +44,17 @@ namespace Juniper.Unity.Input
 
         public override void Uninstall()
         {
+            var stage = transform.Find("Stage");
             stage.Remove<Pvr_Controller>();
             stage.Remove<Pvr_ControllerManager>();
             stage.Remove<Pvr_UnitySDKManager>();
 
-            stage.Query("ResetPanel")?.gameObject?.Destroy();
-            stage.Query("SafePanel2")?.gameObject?.Destroy();
-            stage.Query("SafePanel1")?.gameObject?.Destroy();
-            stage.Query("SafeToast")?.gameObject?.Destroy();
-            stage.Head.Query("Viewertoast")?.gameObject?.Destroy();
-            stage.Query("SafeArea2")?.gameObject?.Destroy();
+            stage.Find("ResetPanel")?.Destroy();
+            stage.Find("SafePanel2")?.Destroy();
+            stage.Find("SafePanel1")?.Destroy();
+            stage.Find("SafeToast")?.Destroy();
+            stage.Find("SafeArea2")?.Destroy();
+            stage.Find("Head/Viewertoast")?.Destroy();
 
             EnableHands(true);
             EnableControllers(true);
