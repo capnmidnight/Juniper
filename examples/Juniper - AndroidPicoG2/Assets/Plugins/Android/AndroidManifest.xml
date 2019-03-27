@@ -58,7 +58,7 @@
     <meta-data android:name="pico_scope" android:value="get_user_info" />
     <meta-data android:name="com.pvr.instructionset" android:value="32" />
     <!--Whether the platform animation is displayed.-->
-    <meta-data android:name="platform_logo" android:value="0" />
+    <meta-data android:name="platform_logo" android:value="1" />
     <meta-data android:name="platform_high" android:value="1" />
     <meta-data android:name="platform_sbf" android:value="-1" />
     <!--Set the Viewer platform msaa.-->
