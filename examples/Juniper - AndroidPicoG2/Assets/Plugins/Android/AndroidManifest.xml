@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.pico.Integration" android:versionName="1.0.0" android:versionCode="1">
   <!--payment-->
   <uses-permission android:name="android.permission.INTERNET" />
@@ -34,10 +34,6 @@
       <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
       <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="false" />
     </activity>
-    <activity android:name="com.pico.loginpaysdk.UnityAuthInterface" android:screenOrientation="landscape" android:configChanges="screenSize|orientation|keyboardHidden|keyboard">
-    </activity>
-    <activity android:name="com.pico.loginpaysdk.component.PicoSDKBrowser" android:configChanges="keyboardHidden|orientation" android:windowSoftInputMode="adjustResize" android:exported="false">
-    </activity>
     <service android:name="com.picovr.picovrlib.PeriodicService">
     </service>
     <service android:name="com.psmart.link.spp.LarkConnectService" />
@@ -58,11 +54,6 @@
         <action android:name="android.service.vr.VrListenerService" />
       </intent-filter>
     </service>
-    <meta-data android:name="pico_merchant_id" android:value="81" />
-    <meta-data android:name="pico_app_id" android:value="5a189befeb3b33f7df101fbecffe4f98" />
-    <meta-data android:name="pico_app_key" android:value="25ba00fb73343ff1ec32e1c152fff291" />
-    <meta-data android:name="pico_pay_key" android:value="d828c5d3a1cc11e6b7fe008cfaf3d930" />
-    <meta-data android:name="pico_redirectUrl" android:value="http://www.picovr.com" />
     <!--Scope of authorization-->
     <meta-data android:name="pico_scope" android:value="get_user_info" />
     <meta-data android:name="com.pvr.instructionset" android:value="32" />
