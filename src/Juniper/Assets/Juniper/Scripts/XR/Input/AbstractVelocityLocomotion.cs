@@ -15,6 +15,7 @@ namespace Juniper.Unity.Input
         protected Vector3 velocity;
 
         private StageExtensions stage;
+        protected UnifiedInputModule input;
 
         /// <summary>
         /// Retrieves configuration values for the default height of the avatar.
@@ -22,6 +23,7 @@ namespace Juniper.Unity.Input
         public virtual void Awake()
         {
             stage = ComponentExt.FindAny<StageExtensions>();
+            input = ComponentExt.FindAny<UnifiedInputModule>();
         }
 
         public virtual void Update()

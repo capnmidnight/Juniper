@@ -55,8 +55,8 @@ namespace Juniper.Unity
 
             JuniperPlatform.Install(true);
 
-            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
-                UnityEditor.SceneManagement.EditorSceneManager.GetSceneAt(0));
+            global::UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEngine.SceneManagement.SceneManager.GetSceneAt(0));
         }
 #endif
 

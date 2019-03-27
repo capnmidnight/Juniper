@@ -1,7 +1,5 @@
 using Juniper.Unity.Input.Pointers;
 
-using System;
-
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,8 +12,6 @@ namespace Juniper.Unity.Input
             get;
         }
 
-        event EventHandler<PointerFoundEventArgs> PointerFound;
-
         void AddPointer(IPointerDevice pointer);
         PointerEventData Clone(int pointerDataID, PointerEventData original);
         void EnableControllers(bool value);
@@ -25,6 +21,5 @@ namespace Juniper.Unity.Input
         void EnableTouch(bool value);
         T MakePointer<T>(Transform parent, string path) where T : Component, IPointerDevice;
         void Process();
-        void WithPointer(Action<IPointerDevice> onPointerAvailable);
     }
 }

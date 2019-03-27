@@ -41,9 +41,6 @@ namespace Juniper.Unity.Input
         /// </summary>
         public GameObject pointerPrefab;
 
-        public PointerFoundEvent onPointerFound;
-
-        public event EventHandler<PointerFoundEventArgs> PointerFound;
         private const string ENABLE_GAZE_KEY = "GazePointer";
         private const string ENABLE_MOUSE_KEY = "MousePointer";
         private const string ENABLE_TOUCH_KEY = "TouchPointers";
@@ -66,30 +63,13 @@ namespace Juniper.Unity.Input
 
         public void AddPointer(IPointerDevice pointer)
         {
-            if (!Devices.Contains(pointer) && !newDevices.Contains(pointer))
+            if (pointer != null
+                && !Devices.Contains(pointer)
+                && !newDevices.Contains(pointer))
             {
                 newDevices.Add(pointer);
             }
-        }
-
-        public void WithPointer(Action<IPointerDevice> onPointerAvailable)
-        {
-            if (Devices.Count > 0)
-            {
-                onPointerAvailable(Devices[0]);
-            }
-            else
-            {
-                EventHandler<PointerFoundEventArgs> subAct = null;
-                subAct = new EventHandler<PointerFoundEventArgs>((sender, args) =>
-                {
-                    PointerFound -= subAct;
-                    onPointerAvailable(args.device);
-                });
-                PointerFound += subAct;
-            }
-        }
-        
+        }        
 
         public class PointerFoundEvent : UnityEvent<IPointerDevice>
         {
@@ -251,23 +231,12 @@ namespace Juniper.Unity.Input
             }
         }
 
-        private void OnPointerFound(IPointerDevice pointer)
-        {
-            PointerFound?.Invoke(this, new PointerFoundEventArgs(pointer));
-            onPointerFound?.Invoke(pointer);
-        }
-
         /// <summary>
         /// Find all the pointers and fire raycaster events for them.
         /// </summary>
         public override void Process()
         {
-            foreach (var pointer in newDevices)
-            {
-                Devices.Add(pointer);
-                OnPointerFound(pointer);
-            }
-
+            Devices.AddRange(newDevices);
             newDevices.Clear();
 
             foreach (var pointer in Devices)
