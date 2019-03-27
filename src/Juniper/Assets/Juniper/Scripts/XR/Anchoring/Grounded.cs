@@ -59,6 +59,11 @@ namespace Juniper.Unity.Anchoring
 #endif
 
         /// <summary>
+        /// The stage that holds the user is really the thing that needs to be grounded.
+        /// </summary>
+        private StageExtensions stage;
+
+        /// <summary>
         /// How many seconds to wait in between ground tests, to avoid pegging the system with ground tests.
         /// </summary>
         public float testTimeout = 0.25f;
@@ -76,6 +81,7 @@ namespace Juniper.Unity.Anchoring
         /// </summary>
         public void Awake()
         {
+            stage = ComponentExt.FindAny<StageExtensions>();
             body = GetComponent<Rigidbody>();
             dragger = GetComponent<Draggable>();
             GroundMask = LayerMask.GetMask("Ground");
@@ -195,7 +201,7 @@ namespace Juniper.Unity.Anchoring
                 }
                 else
                 {
-                    transform.position = groundPoint.Value;
+                    transform.position = groundPoint.Value + stage.defaultAvatarHeight * Vector3.up;
 
                     Unfreeze();
                     EmptyJobQueue();

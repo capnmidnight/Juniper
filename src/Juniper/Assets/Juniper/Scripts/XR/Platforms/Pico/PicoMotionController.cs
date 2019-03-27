@@ -181,7 +181,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
 
         protected override void InternalUpdate()
         {
-
             base.InternalUpdate();
 
             wasTouchPadTouched = TouchPadTouched;
