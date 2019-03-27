@@ -15,6 +15,12 @@ namespace Juniper.Unity.Input
     {
         public override bool Install(bool reset)
         {
+            var stageT = transform.Find("Stage");
+
+            var sdkMgr = MakeSDKManager(stageT);
+            MakeControllerManager(stageT);
+            MakeController(stageT);
+
             if (base.Install(reset))
             {
                 EnableMouse(false);
@@ -23,18 +29,12 @@ namespace Juniper.Unity.Input
                 EnableControllers(true);
                 EnableHands(false);
 
-                var stageT = stage.transform;
-
+                MakeViewerToast(stageT.Find("Head"));
                 MakeSafeArea(stageT);
-                MakeViewerToast(stage.Head);
                 MakeSafeToast(stageT);
-                MakeSafePanel1(stageT);
-                var forceQuit = MakeSafePanel2(stageT);
                 MakeResetPanel(stageT);
-
-                MakeSDKManager(stageT, forceQuit);
-                MakeControllerManager(stageT);
-                MakeController(stageT);
+                MakeSafePanel1(stageT);
+                MakeSafePanel2(stageT, sdkMgr);
 
                 return true;
             }
@@ -178,8 +178,10 @@ namespace Juniper.Unity.Input
                 imageImage.Value.raycastTarget = true;
                 imageImage.Value.type = type;
                 imageImage.Value.fillCenter = true;
-                imageImage.Value.useSpriteMesh = false;
                 imageImage.Value.preserveAspect = false;
+#if UNITY_2018_2_OR_NEWER
+                imageImage.Value.useSpriteMesh = false;
+#endif
             }
 
             return image;
@@ -275,7 +277,7 @@ namespace Juniper.Unity.Input
                 Image.Type.Simple);
         }
 
-        private static PooledComponent<Button> MakeSafePanel2(Transform parent)
+        private static PooledComponent<Button> MakeSafePanel2(Transform parent, PooledComponent<Pvr_UnitySDKManager> sdkMgr)
         {
             var panel = MakePanel(
                 parent,
@@ -285,16 +287,8 @@ namespace Juniper.Unity.Input
                 3 * Vector3.forward,
                 400, 400,
                 new Color(27f / 255, 27f / 255, 27f / 255, 1));
-            
-            var panelPvrCanvas = panel
-                .Ensure<GraphicRaycaster>()
-                .Ensure<Pvr_UIGraphicRaycaster>()
-                .Ensure<Pvr_UICanvas>();
-            if (panelPvrCanvas.IsNew)
-            {
-                panelPvrCanvas.Value.clickOnPointerCollision = false;
-                panelPvrCanvas.Value.autoActivateWithinDistance = 0;
-            }
+
+            panel.Ensure<GraphicRaycaster>();
 
             MakeText(
                 panel,
@@ -362,6 +356,11 @@ namespace Juniper.Unity.Input
                 forceQuitText.Value.raycastTarget = true;
             }
 
+            if (forceQuitButton.IsNew || sdkMgr.IsNew)
+            {
+                forceQuitButton.Value.onClick.AddListener(sdkMgr.Value.SixDofForceQuit);
+            }
+
             return forceQuitButton;
         }
 
@@ -396,7 +395,7 @@ namespace Juniper.Unity.Input
                 Image.Type.Simple);
         }
 
-        private static void MakeSDKManager(Transform parent, PooledComponent<Button> forceQuit)
+        private static PooledComponent<Pvr_UnitySDKManager> MakeSDKManager(Transform parent)
         {
             var sdkMgr = parent.Ensure<Pvr_UnitySDKManager>();
             if (sdkMgr.IsNew)
@@ -411,15 +410,12 @@ namespace Juniper.Unity.Input
                 sdkMgr.Value.ScreenFade = false;
                 sdkMgr.Value.HeadDofNum = HeadDofNum.ThreeDof;
                 sdkMgr.Value.HandDofNum = HandDofNum.ThreeDof;
-                sdkMgr.Value.SixDofRecenter = true;
+                sdkMgr.Value.SixDofRecenter = false;
                 sdkMgr.Value.DefaultRange = true;
                 sdkMgr.Value.MovingRatios = 1;
             }
 
-            if (forceQuit.IsNew)
-            {
-                forceQuit.Value.onClick.AddListener(sdkMgr.Value.SixDofForceQuit);
-            }
+            return sdkMgr;
         }
 
         private static void MakeControllerManager(Transform parent)
@@ -436,7 +432,7 @@ namespace Juniper.Unity.Input
             var ctrl = parent.Ensure<Pvr_Controller>();
             if (ctrl.IsNew)
             {
-                ctrl.Value.Axis = Pvr_Controller.ControllerAxis.Wrist;
+                ctrl.Value.Axis = Pvr_Controller.ControllerAxis.Controller;
                 ctrl.Value.Gazetype = Pvr_Controller.GazeType.Never;
             }
         }

@@ -17,7 +17,7 @@ namespace Juniper.Unity.Display
                 if (head.IsNew)
                 {
                     head.Value.trackRotation = true;
-                    head.Value.trackPosition = true;
+                    head.Value.trackPosition = false;
                 }
 
                 var eyeMgr = this.Ensure<Pvr_UnitySDKEyeManager>();
