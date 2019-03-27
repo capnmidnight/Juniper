@@ -31,6 +31,7 @@ namespace Juniper.Unity.Input
         private Mode lastMode = Mode.None;
         
         public InputEventButton requiredMouseButton = InputEventButton.None;
+        public bool showCustomCursor;
         public int requiredTouchCount = 1;
         public float dragThreshold = 2;
 
@@ -293,14 +294,13 @@ namespace Juniper.Unity.Input
                     Cursor.lockState = CursorLockMode.None;
                 }
 #endif
-
-                Cursor.visible = Cursor.lockState != CursorLockMode.Locked;
             }
             else if (Cursor.lockState != CursorLockMode.None)
             {
                 Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
             }
+
+            Cursor.visible = Cursor.lockState != CursorLockMode.Locked && !showCustomCursor;
         }
 
         public void Update()
