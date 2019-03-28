@@ -39,7 +39,7 @@ namespace Juniper.Unity.Input.Speech
             OnKeywordRecognized(args.text);
         }
 #else
-        public bool IsAvailable = false;
+        public const bool IsAvailable = false;
 #endif
 
         /// <summary>

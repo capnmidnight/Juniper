@@ -1,26 +1,54 @@
 #if UNITY_XR_WINDOWSMR_METRO && WINDOWSMR
 using UnityEngine.XR.WSA.Input;
+
+using UnityInput = UnityEngine.Input;
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
+
 using System.Linq;
 
+using Juniper.Input;
+
 #if UNITY_EDITOR
-using HapticsType = Juniper.Haptics.NoHaptics;
+using HapticsType = Juniper.Unity.Haptics.NoHaptics;
 #else
-using HapticsType = Juniper.Haptics.WindowsMRHaptics;
+using HapticsType = Juniper.Unity.Haptics.WindowsMRHaptics;
 #endif
 
 namespace Juniper.Unity.Input.Pointers.Motion
 {
-    public class WindowsMRProbeConfiguration : AbstractProbeNameConfiguration<InteractionSourceHandedness>
+    public class WindowsMRMotionControllerConfiguration : AbstractMotionControllerConfiguration<InteractionSourceHandedness, WindowsMRButtons>
     {
-        public WindowsMRProbeConfiguration() :
-            base(InteractionSourceHandedness.Left, InteractionSourceHandedness.Right) { }
+        public WindowsMRMotionControllerConfiguration()
+        {
+            AddButton(WindowsMRButtons.Select, InputButton.Left);
+            AddButton(WindowsMRButtons.Touchpad, InputButton.Right);
+            AddButton(WindowsMRButtons.App, InputButton.Middle);
+        }
+
+        public override InteractionSourceHandedness? this[Hands hand]
+        {
+            get
+            {
+                if (hand == Hands.Left)
+                {
+                    return InteractionSourceHandedness.Left;
+                }
+                else if (hand == Hands.Right)
+                {
+                    return InteractionSourceHandedness.Right;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 
     /// <summary>
     /// A motion controller or hand-tracking. Currently only implements WindowsMR.
     /// </summary>
-    public abstract class WindowsMRMotionController : AbstractWindowsMRDevice<WindowsMRProbeConfiguration, HapticsType>
+    public abstract class WindowsMRMotionController : AbstractWindowsMRDevice<WindowsMRMotionControllerConfiguration, HapticsType>
     {
         private uint ControllerID;
 
@@ -49,9 +77,14 @@ namespace Juniper.Unity.Input.Pointers.Motion
             Haptics.ControllerID = ControllerID;
 #endif
 
-            AddButton(WindowsMRButtons.Select, InputButton.Left);
-            AddButton(WindowsMRButtons.Touchpad, InputButton.Right);
-            AddButton(WindowsMRButtons.App, InputButton.Middle);
+        }
+
+        public override float Trigger
+        {
+            get
+            {
+                return UnityInput.GetAxis(IsLeftHand ? "Joystick9" : "Joystick10");
+            }
         }
     }
 }

@@ -202,7 +202,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &87397486
 Transform:
   m_ObjectHideFlags: 0
@@ -280,14 +280,13 @@ GameObject:
   m_Component:
   - component: {fileID: 100967509}
   - component: {fileID: 100967512}
-  - component: {fileID: 100967510}
   m_Layer: 0
   m_Name: TouchPoint4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &100967509
 Transform:
   m_ObjectHideFlags: 0
@@ -302,46 +301,6 @@ Transform:
   m_Father: {fileID: 563782754}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &100967510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100967508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unary
-  buttonValueName: One
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &100967512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,14 +328,13 @@ GameObject:
   m_Component:
   - component: {fileID: 133942444}
   - component: {fileID: 133942447}
-  - component: {fileID: 133942445}
   m_Layer: 0
   m_Name: TouchPoint8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &133942444
 Transform:
   m_ObjectHideFlags: 0
@@ -391,46 +349,6 @@ Transform:
   m_Father: {fileID: 563782754}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &133942445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 133942443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unary
-  buttonValueName: One
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &133942447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,7 +623,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230470041}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.875, z: 0}
   m_LocalScale: {x: 0.5, y: 0.875, z: 0.5}
   m_Children: []
   m_Father: {fileID: 1812567914}
@@ -772,7 +690,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &255031664
 Transform:
   m_ObjectHideFlags: 0
@@ -814,14 +732,13 @@ GameObject:
   m_Component:
   - component: {fileID: 305331137}
   - component: {fileID: 305331140}
-  - component: {fileID: 305331138}
   m_Layer: 0
   m_Name: TouchPoint7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &305331137
 Transform:
   m_ObjectHideFlags: 0
@@ -836,46 +753,6 @@ Transform:
   m_Father: {fileID: 563782754}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &305331138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 305331136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unary
-  buttonValueName: One
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &305331140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1256,14 +1133,13 @@ GameObject:
   m_Component:
   - component: {fileID: 864784511}
   - component: {fileID: 864784514}
-  - component: {fileID: 864784512}
   m_Layer: 0
   m_Name: TouchPoint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &864784511
 Transform:
   m_ObjectHideFlags: 0
@@ -1278,46 +1154,6 @@ Transform:
   m_Father: {fileID: 563782754}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &864784512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 864784510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unary
-  buttonValueName: One
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &864784514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1516,14 +1352,13 @@ GameObject:
   m_Component:
   - component: {fileID: 957348376}
   - component: {fileID: 957348379}
-  - component: {fileID: 957348377}
   m_Layer: 0
   m_Name: TouchPoint0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &957348376
 Transform:
   m_ObjectHideFlags: 0
@@ -1538,46 +1373,6 @@ Transform:
   m_Father: {fileID: 563782754}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &957348377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 957348375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unary
-  buttonValueName: One
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &957348379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1611,8 +1406,6 @@ GameObject:
   - component: {fileID: 977850492}
   - component: {fileID: 977850491}
   - component: {fileID: 977850490}
-  - component: {fileID: 977850499}
-  - component: {fileID: 977850498}
   m_Layer: 0
   m_Name: UserRig
   m_TagString: Untagged
@@ -1756,13 +1549,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59ecd2ac27251aa4fafb216636edf95e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentPlatform: 770
-  System: 1
+  CurrentPlatform: 4352
+  System: 8
   DisplayType: 1
   SupportedDisplayType: 2
   ARMode: 0
   SupportedARMode: 0
-  Option: 2
+  Option: 0
 --- !u!4 &977850497
 Transform:
   m_ObjectHideFlags: 0
@@ -1778,31 +1571,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &977850498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 977850489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41679d3338266415f88d226e6bf3d0be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &977850499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 977850489}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41251d5f89d5546bb9d8ba907686b71f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  emulatorConnectionMode: 0
 --- !u!1 &978054213
 GameObject:
   m_ObjectHideFlags: 0
@@ -1813,14 +1581,13 @@ GameObject:
   m_Component:
   - component: {fileID: 978054214}
   - component: {fileID: 978054217}
-  - component: {fileID: 978054215}
   m_Layer: 0
   m_Name: TouchPoint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &978054214
 Transform:
   m_ObjectHideFlags: 0
@@ -1835,46 +1602,6 @@ Transform:
   m_Father: {fileID: 563782754}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &978054215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978054213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unary
-  buttonValueName: One
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &978054217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2155,7 +1882,7 @@ RectTransform:
   - {fileID: 1839475758}
   - {fileID: 149786171}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2259,14 +1986,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1266415978}
   - component: {fileID: 1266415981}
-  - component: {fileID: 1266415979}
   m_Layer: 0
   m_Name: TouchPoint3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1266415978
 Transform:
   m_ObjectHideFlags: 0
@@ -2281,46 +2007,6 @@ Transform:
   m_Father: {fileID: 563782754}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1266415979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1266415977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unary
-  buttonValueName: One
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1266415981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2348,14 +2034,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1360680707}
   - component: {fileID: 1360680710}
-  - component: {fileID: 1360680708}
   m_Layer: 0
   m_Name: TouchPoint9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1360680707
 Transform:
   m_ObjectHideFlags: 0
@@ -2370,46 +2055,6 @@ Transform:
   m_Father: {fileID: 563782754}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1360680708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1360680706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unary
-  buttonValueName: One
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1360680710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5535,11 +5180,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1493844777}
   - component: {fileID: 1493844778}
-  - component: {fileID: 1493844783}
-  - component: {fileID: 1493844782}
-  - component: {fileID: 1493844781}
-  - component: {fileID: 1493844780}
-  - component: {fileID: 1493844779}
   m_Layer: 0
   m_Name: RightMotionController
   m_TagString: Untagged
@@ -5579,164 +5219,6 @@ MonoBehaviour:
   showProbe: 1
   motionFilter: {fileID: 0}
   _hand: 2
---- !u!114 &1493844779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493844776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 311793381eb9d45149dc1a422000a9fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  armModel: {fileID: 1493844780}
-  isDeactivatedWhenDisconnected: 1
-  controllerHand: 0
---- !u!114 &1493844780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493844776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dda4bb2d5509e44e978d2bf56e25d7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  elbowRestPosition: {x: 0.195, y: -0.5, z: 0.005}
-  wristRestPosition: {x: 0, y: 0, z: 0.25}
-  controllerRestPosition: {x: 0, y: 0, z: 0.05}
-  armExtensionOffset: {x: -0.13, y: 0.14, z: 0.08}
-  elbowBendRatio: 0.6
-  fadeControllerOffset: 0
-  fadeDistanceFromHeadForward: 0.25
-  fadeDistanceFromHeadSide: 0.15
-  tooltipMinDistanceFromFace: 0.45
-  tooltipMaxAngleFromCamera: 80
-  isLockedToNeck: 0
---- !u!114 &1493844781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493844776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unity.Input.VirtualTouchPadButton
-  buttonValueName: Bottom
-  inputButton: 1
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1493844782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493844776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unity.Input.VirtualTouchPadButton
-  buttonValueName: Top
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1493844783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493844776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: GvrControllerButton
-  buttonValueName: App
-  inputButton: 2
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1519711838
 GameObject:
   m_ObjectHideFlags: 0
@@ -5811,63 +5293,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519711838}
   m_CullTransparentMesh: 0
---- !u!1001 &1546485291
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1000013061525784, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
-      propertyPath: m_Name
-      value: GvrInstantPreviewMain
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012185119224, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012185119224, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012185119224, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012185119224, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012185119224, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012185119224, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012185119224, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012185119224, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012185119224, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012185119224, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000012185119224, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ce7abbbeb276a1547bd8ce1069fdabb7, type: 3}
 --- !u!1 &1615725875
 GameObject:
   m_ObjectHideFlags: 0
@@ -6232,7 +5657,7 @@ Transform:
   m_Children:
   - {fileID: 1684733866}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1723647203
 GameObject:
@@ -6318,14 +5743,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1732342308}
   - component: {fileID: 1732342311}
-  - component: {fileID: 1732342309}
   m_Layer: 0
   m_Name: TouchPoint5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1732342308
 Transform:
   m_ObjectHideFlags: 0
@@ -6340,46 +5764,6 @@ Transform:
   m_Father: {fileID: 563782754}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1732342309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1732342307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unary
-  buttonValueName: One
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1732342311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6485,14 +5869,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1809295029}
   - component: {fileID: 1809295032}
-  - component: {fileID: 1809295030}
   m_Layer: 0
   m_Name: TouchPoint6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1809295029
 Transform:
   m_ObjectHideFlags: 0
@@ -6507,46 +5890,6 @@ Transform:
   m_Father: {fileID: 563782754}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1809295030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809295028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unary
-  buttonValueName: One
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1809295032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6841,16 +6184,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1905163088}
   - component: {fileID: 1905163095}
-  - component: {fileID: 1905163091}
-  - component: {fileID: 1905163090}
-  - component: {fileID: 1905163089}
   m_Layer: 0
   m_Name: Mouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1905163088
 Transform:
   m_ObjectHideFlags: 0
@@ -6865,126 +6205,6 @@ Transform:
   m_Father: {fileID: 2090462096}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1905163089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1905163087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.KeyCode
-  buttonValueName: Mouse2
-  inputButton: 2
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1905163090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1905163087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.KeyCode
-  buttonValueName: Mouse1
-  inputButton: 1
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1905163091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1905163087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: UnityEngine.KeyCode
-  buttonValueName: Mouse0
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1905163095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7088,14 +6308,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1917455143}
   - component: {fileID: 1917455146}
-  - component: {fileID: 1917455144}
   m_Layer: 0
   m_Name: GazePointer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1917455143
 Transform:
   m_ObjectHideFlags: 0
@@ -7110,46 +6329,6 @@ Transform:
   m_Father: {fileID: 2090462096}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1917455144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917455142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unary
-  buttonValueName: One
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &1917455146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7177,11 +6356,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1934661967}
   - component: {fileID: 1934661968}
-  - component: {fileID: 1934661973}
-  - component: {fileID: 1934661972}
-  - component: {fileID: 1934661971}
-  - component: {fileID: 1934661970}
-  - component: {fileID: 1934661969}
   m_Layer: 0
   m_Name: LeftMotionController
   m_TagString: Untagged
@@ -7221,164 +6395,6 @@ MonoBehaviour:
   showProbe: 1
   motionFilter: {fileID: 0}
   _hand: 1
---- !u!114 &1934661969
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934661966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 311793381eb9d45149dc1a422000a9fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  armModel: {fileID: 1934661970}
-  isDeactivatedWhenDisconnected: 1
-  controllerHand: 1
---- !u!114 &1934661970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934661966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dda4bb2d5509e44e978d2bf56e25d7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  elbowRestPosition: {x: 0.195, y: -0.5, z: 0.005}
-  wristRestPosition: {x: 0, y: 0, z: 0.25}
-  controllerRestPosition: {x: 0, y: 0, z: 0.05}
-  armExtensionOffset: {x: -0.13, y: 0.14, z: 0.08}
-  elbowBendRatio: 0.6
-  fadeControllerOffset: 0
-  fadeDistanceFromHeadForward: 0.25
-  fadeDistanceFromHeadSide: 0.15
-  tooltipMinDistanceFromFace: 0.45
-  tooltipMaxAngleFromCamera: 80
-  isLockedToNeck: 0
---- !u!114 &1934661971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934661966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unity.Input.VirtualTouchPadButton
-  buttonValueName: Bottom
-  inputButton: 1
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1934661972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934661966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: Juniper.Unity.Input.VirtualTouchPadButton
-  buttonValueName: Top
-  inputButton: 0
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!114 &1934661973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934661966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonTypeName: GvrControllerButton
-  buttonValueName: App
-  inputButton: 2
-  onClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDoubleClick:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onLongPress:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onUp:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onDown:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &1950928640
 GameObject:
   m_ObjectHideFlags: 0
@@ -7588,7 +6604,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2069537889
 GameObject:
@@ -7681,7 +6697,6 @@ GameObject:
   - component: {fileID: 2090462099}
   - component: {fileID: 2090462098}
   - component: {fileID: 2090462097}
-  - component: {fileID: 2090462102}
   m_Layer: 0
   m_Name: Head
   m_TagString: MainCamera
@@ -7821,15 +6836,3 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &2090462102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2090462095}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecd9463bbd7994be09b972947a085067, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

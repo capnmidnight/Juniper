@@ -264,7 +264,7 @@ namespace Juniper.Unity.Display
                 else if (JuniperPlatform.CurrentPlatform == PlatformTypes.UWPHoloLens
                     || JuniperPlatform.CurrentPlatform == PlatformTypes.UWPWindowsMR)
                 {
-                    xrDevice = "windowsmr";
+                    xrDevice = "WindowsMR";
                 }
                 else if (JuniperPlatform.CurrentPlatform == PlatformTypes.MagicLeap)
                 {

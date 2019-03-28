@@ -1,11 +1,9 @@
 #if UNITY_XR_WINDOWSMR_METRO
+using Juniper.Unity.Haptics;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Input;
-
-using Juniper.Statistics;
-using Juniper.Haptics;
 
 using UnityEngine;
 using UnityEngine.XR.WSA.Input;
@@ -29,7 +27,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
     /// </summary>
     public abstract class AbstractWindowsMRDevice<ConfigType, HapticsType>
         : AbstractMotionController<InteractionSourceHandedness, WindowsMRButtons, ConfigType, HapticsType>
-        where ConfigType : AbstractMotionControllerConfiguration<InteractionSourceHandedness>, new()
+        where ConfigType : AbstractMotionControllerConfiguration<InteractionSourceHandedness, WindowsMRButtons>, new()
         where HapticsType : AbstractHapticDevice
     {
         private static InteractionSourceState[] states;

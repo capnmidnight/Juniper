@@ -62,8 +62,8 @@ namespace Juniper.Unity.Haptics
             {
                 gp.Vibration = new GamepadVibration
                 {
-                    LeftMotor = v,
-                    RightMotor = v
+                    LeftMotor = amplitude,
+                    RightMotor = amplitude
                 };
             }
 #endif

@@ -216,7 +216,7 @@ namespace Juniper.Unity
                 // systems, the system can figure out the right orientation for the controller as
                 // you rotate your body in place, but it can't figure out the position relative
                 // to the 6DOF tracking of the headset.
-                Body.position = BodyShape.transform.position + userCenter;
+                Body.position = BodyShape.transform.position + userCenter - (0.5f * defaultAvatarHeight * Vector3.up);
             }
 #else
             Body.position = userCenter;
