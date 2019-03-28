@@ -1,5 +1,5 @@
 #if GOOGLEVR
-using System.Linq;
+using Juniper.Unity.Display;
 
 using UnityEngine;
 
@@ -20,6 +20,12 @@ namespace Juniper.Unity.Input
         {
             if(base.Install(reset))
             {
+                EnableMouse(false);
+                EnableTouch(false);
+                EnableGaze(false);
+                EnableControllers(true);
+                EnableHands(false);
+
                 this.Ensure<GvrControllerInput>();
                 this.Ensure<GvrEditorEmulator>();
 
@@ -30,10 +36,10 @@ namespace Juniper.Unity.Input
                 {
                     UnityEditor.PrefabUtility.InstantiatePrefab(ip);
                 }
+#endif
 
                 return true;
             }
-#endif
 
             return false;
         }

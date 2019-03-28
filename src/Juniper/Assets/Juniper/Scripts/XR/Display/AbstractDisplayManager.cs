@@ -6,6 +6,11 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Events;
 
+#if UNITY_MODULES_XR
+using UnityEngine.XR;
+using System.Linq;
+#endif
+
 namespace Juniper.Unity.Display
 {
     public abstract class AbstractDisplayManager : MonoBehaviour, IInstallable

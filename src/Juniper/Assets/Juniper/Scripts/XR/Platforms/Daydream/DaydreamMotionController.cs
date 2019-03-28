@@ -1,50 +1,80 @@
 #if GOOGLEVR
 
-using Juniper.Haptics;
+using Juniper.Input;
+using Juniper.Unity.Haptics;
+
 using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Unity.Input.Pointers.Motion
 {
-    public class DaydreamProbeConfiguration : AbstractMotionControllerConfiguration<GvrControllerHand>
+    public class DaydreamProbeConfiguration : AbstractMotionControllerConfiguration<GvrControllerHand, GvrControllerButton>
     {
-        public DaydreamProbeConfiguration() :
-            base(GvrControllerHand.Left, GvrControllerHand.Right) { }
-    }
+        public DaydreamProbeConfiguration()
+        {
+            AddButton(VirtualTouchPadButton.Top, InputButton.Left);
+            AddButton(VirtualTouchPadButton.Bottom, InputButton.Right);
+            AddButton(GvrControllerButton.App, InputButton.Middle);
+        }
 
-    /// <summary>
-    /// A motion controller or hand-tracking. Currently only implements WindowsMR.
-    /// </summary>
+        public override GvrControllerHand? this[Hands hand]
+        {
+            get
+            {
+                if (hand == Hands.Left)
+                {
+                    return GvrControllerHand.Left;
+                }
+                else if (hand == Hands.Right)
+                {
+                    return GvrControllerHand.Right;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+    }
+    
     public abstract class DaydreamMotionController
         : AbstractMotionController<GvrControllerHand, GvrControllerButton, DaydreamProbeConfiguration, NoHaptics>
     {
-        public override bool IsConnected =>
-            GvrControllerInput.GetDevice(NativeHandID)?.State == GvrConnectionState.Connected;
+        public override bool IsConnected
+        {
+            get
+            {
+                return NativeHandID != null
+                    && GvrControllerInput.GetDevice(NativeHandID.Value)?.State == GvrConnectionState.Connected;
+            }
+        }
 
         private GvrTrackedController controller;
 
         public override void Awake()
         {
             base.Awake();
-
-            AddButton(VirtualTouchPadButton.Top, InputButton.Left);
-            AddButton(VirtualTouchPadButton.Bottom, InputButton.Right);
-            AddButton(GvrControllerButton.App, InputButton.Middle);
         }
 
-        public override bool Install(bool reset)
+        public override GvrControllerHand? NativeHandID
         {
-            if(base.Install(reset))
+            get
             {
-                var arm = this.Ensure<GvrArmModel>().Value;
-                controller = this.Ensure<GvrTrackedController>();
-                controller.ControllerHand = NativeHandID;
-                controller.ArmModel = arm;
-                return true;
+                return base.NativeHandID;
             }
 
-            return false;
+            protected set
+            {
+                base.NativeHandID = value;
+                if (value != null)
+                {
+                    var arm = this.Ensure<GvrArmModel>().Value;
+                    controller = this.Ensure<GvrTrackedController>();
+                    controller.ControllerHand = value.Value;
+                    controller.ArmModel = arm;
+                }
+            }
         }
 
         public override void Uninstall()
@@ -55,86 +85,109 @@ namespace Juniper.Unity.Input.Pointers.Motion
             this.Remove<GvrArmModel>();
         }
 
-        public override void UpdatePointer()
-        {
-            controller.ControllerHand = NativeHandID;
-            base.UpdatePointer();
-        }
-
-        private GvrControllerInputDevice Device =>
-            controller?.ControllerInputDevice;
-
-        public override Vector2 RoundTouchPoint =>
-            Device.TouchPos;
-
-        public override Vector2 SquareTouchPoint =>
-            RoundTouchPoint.Round2Square();
-
-        public override bool? IsCharging =>
-            Device.IsCharging;
-
-        public override float? BatteryLevel
+        private GvrControllerInputDevice Device
         {
             get
             {
-                switch (Device?.BatteryLevel)
-                {
-                    case GvrControllerBatteryLevel.Full:
-                        return 1.0f;
-
-                    case GvrControllerBatteryLevel.AlmostFull:
-                        return 0.8f;
-
-                    case GvrControllerBatteryLevel.Medium:
-                        return 0.6f;
-
-                    case GvrControllerBatteryLevel.Low:
-                        return 0.4f;
-
-                    case GvrControllerBatteryLevel.CriticalLow:
-                        return 0.2f;
-
-                    default:
-                        return 0.0f;
-                }
+                return controller?.ControllerInputDevice;
             }
         }
 
-        public override bool IsDominantHand =>
-            Device.IsDominantHand;
+        public override Vector2 RoundTouchPoint
+        {
+            get
+            {
+                return Device.TouchPos;
+            }
+        }
 
-        public override bool IsLeftHand =>
-            NativeHandID == GvrControllerHand.Left;
+        public override Vector2 SquareTouchPoint
+        {
+            get
+            {
+                return RoundTouchPoint.Round2Square();
+            }
+        }
 
-        public override bool IsRightHand =>
-            NativeHandID == GvrControllerHand.Right;
 
-        protected override bool TouchPadTouched =>
-            Device.GetButton(GvrControllerButton.TouchPadTouch);
+        public override bool IsDominantHand
+        {
+            get
+            {
+                return Device.IsDominantHand;
+            }
+        }
 
-        protected override bool TouchPadTouchedDown =>
-            Device.GetButtonDown(GvrControllerButton.TouchPadTouch);
+        public override float Trigger
+        {
+            get
+            {
+                return Device.GetButton(GvrControllerButton.Trigger) ? 1 : 0;
+            }
+        }
 
-        protected override bool TouchPadTouchedUp =>
-            Device.GetButtonUp(GvrControllerButton.TouchPadTouch);
+        protected override bool TouchPadTouched
+        {
+            get
+            {
+                return Device.GetButton(GvrControllerButton.TouchPadTouch);
+            }
+        }
 
-        protected override bool TouchPadPressed =>
-            Device.GetButton(GvrControllerButton.TouchPadButton);
+        protected override bool TouchPadTouchedDown
+        {
+            get
+            {
+                return Device.GetButtonDown(GvrControllerButton.TouchPadTouch);
+            }
+        }
 
-        protected override bool TouchPadPressedDown =>
-            Device.GetButtonDown(GvrControllerButton.TouchPadButton);
+        protected override bool TouchPadTouchedUp
+        {
+            get
+            {
+                return Device.GetButtonUp(GvrControllerButton.TouchPadTouch);
+            }
+        }
 
-        protected override bool TouchPadPressedUp =>
-            Device.GetButtonUp(GvrControllerButton.TouchPadButton);
+        protected override bool TouchPadPressed
+        {
+            get
+            {
+                return Device.GetButton(GvrControllerButton.TouchPadButton);
+            }
+        }
 
-        public override bool IsButtonPressed(GvrControllerButton button) =>
-            Device.GetButton(button);
+        protected override bool TouchPadPressedDown
+        {
+            get
+            {
+                return Device.GetButtonDown(GvrControllerButton.TouchPadButton);
+            }
+        }
 
-        public override bool IsButtonUp(GvrControllerButton button) =>
-            Device.GetButtonUp(button);
+        protected override bool TouchPadPressedUp
+        {
+            get
+            {
+                return Device.GetButtonUp(GvrControllerButton.TouchPadButton);
+            }
+        }
 
-        public override bool IsButtonDown(GvrControllerButton button) =>
-            Device.GetButtonDown(button);
+        public override bool IsButtonPressed(GvrControllerButton button)
+        {
+            return Device.GetButton(button);
+        }
+
+        public override bool IsButtonUp(GvrControllerButton button)
+        {
+            return Device.GetButtonUp(button);
+        }
+
+        public override bool IsButtonDown(GvrControllerButton button)
+        {
+            return Device.GetButtonDown(button);
+        }
     }
 }
 

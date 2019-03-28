@@ -1,4 +1,6 @@
 #if GOOGLEVR
+using Juniper.Unity.Input;
+using System.Linq;
 using UnityEngine;
 
 namespace Juniper.Unity.Display
@@ -26,7 +28,7 @@ namespace Juniper.Unity.Display
 
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
-                mode = Mode.None;
+                cameraCtrl.mode = CameraControl.Mode.None;
             }
         }
 
