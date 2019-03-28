@@ -82,8 +82,7 @@ namespace System.IO
         /// <returns>The value deserialized out of the stream.</returns>
         public static T ReadObject<T>(this Stream stream, IProgress prog = null)
         {
-            using (var streamProg = new ProgressStream(stream, prog))
-            using (var reader = new StreamReader(streamProg))
+            using (var reader = new StreamReader(new ProgressStream(stream, prog)))
             {
                 return JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
             }

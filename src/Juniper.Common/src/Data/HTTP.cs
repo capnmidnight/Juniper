@@ -232,8 +232,8 @@ namespace Juniper
             {
                 byte[] buf = null;
                 using (var mem = new MemoryStream())
-                using (var writer = new StreamWriter(mem))
                 {
+                    var writer = new StreamWriter(mem);
                     writer.Write(JsonConvert.SerializeObject(body));
                     mem.Flush();
                     buf = mem.GetBuffer();
