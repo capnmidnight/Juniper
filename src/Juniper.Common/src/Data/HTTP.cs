@@ -26,11 +26,11 @@ namespace Juniper
         {
             prog?.Report(0);
 
-            Action<Stream> progResolve = (Stream resolveStream) =>
+            void progResolve(Stream resolveStream)
             {
                 prog?.Report(1);
                 resolve(resolveStream);
-            };
+            }
 
             if (reject == null)
             {

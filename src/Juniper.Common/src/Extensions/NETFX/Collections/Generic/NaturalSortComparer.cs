@@ -34,15 +34,14 @@ namespace System.Collections.Generic
             }
             else
             {
-                string[] x1, y1;
 
-                if (!table.TryGetValue(x, out x1))
+                if (!table.TryGetValue(x, out var x1))
                 {
                     x1 = Regex.Split(x.Replace(" ", ""), "([0-9]+)");
                     table.Add(x, x1);
                 }
 
-                if (!table.TryGetValue(y, out y1))
+                if (!table.TryGetValue(y, out var y1))
                 {
                     y1 = Regex.Split(y.Replace(" ", ""), "([0-9]+)");
                     table.Add(y, y1);
@@ -102,10 +101,8 @@ namespace System.Collections.Generic
         /// <returns>A comparison shift amount, usable for sorting algorithms.</returns>
         private static int PartCompare(string left, string right)
         {
-            int x, y;
-
-            if (!int.TryParse(left, out x)
-                || !int.TryParse(right, out y))
+            if (!int.TryParse(left, out var x)
+                || !int.TryParse(right, out var y))
             {
                 return string.Compare(left, right, StringComparison.Ordinal);
             }

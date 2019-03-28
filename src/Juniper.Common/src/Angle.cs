@@ -157,9 +157,8 @@ namespace Juniper
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            if (obj is Angle)
+            if (obj is Angle angle2)
             {
-                var angle2 = (Angle)obj;
                 var f1 = Repeat(currentValue);
                 var f2 = Repeat(angle2.currentValue);
                 return f1.Equals(f2);
