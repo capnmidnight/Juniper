@@ -104,7 +104,6 @@
     "buildTarget": "Android",
     "CompilerDefine": "PICO",
     "androidSdkVersion": "AndroidApiLevel19",
-    "spatializer": "AM3D Spatializer - © 2016 GTEU",
     "vrSystems": [
       "None"
     ],

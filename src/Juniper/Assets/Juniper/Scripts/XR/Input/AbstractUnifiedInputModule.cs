@@ -331,6 +331,11 @@ namespace Juniper.Unity.Input
         {
             m_RaycastResultCache.Clear();
 
+            foreach (var canvas in ComponentExt.FindAll<Canvas>())
+            {
+                canvas.worldCamera = pointer.EventCamera;
+            }
+            
             eventSystem.RaycastAll(eventData, m_RaycastResultCache);
 
             for (var i = 0; i < m_RaycastResultCache.Count; ++i)
