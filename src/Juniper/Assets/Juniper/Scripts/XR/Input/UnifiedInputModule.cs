@@ -16,6 +16,8 @@ namespace Juniper.Unity.Input
         PicoInputModule
 #elif UNITY_ANDROID || UNITY_IOS
         AbstractMobileInputModule
+#elif UNITY_STANDALONE
+        StandaloneInputModule
 #else
         AbstractUnifiedInputModule
 #endif

@@ -183,6 +183,11 @@ namespace Juniper.Unity.Input
 
         public virtual void Uninstall()
         {
+            EnableHands(true);
+            EnableControllers(true);
+            EnableGaze(true);
+            EnableTouch(true);
+            EnableMouse(true);
         }
 
 #if UNITY_EDITOR
