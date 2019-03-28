@@ -16,20 +16,38 @@ mkdir "Juniper - UWPWindowsMR\Assets"
 mkdir "Juniper - UWPHoloLens\Assets"
 mkdir "Juniper - MagicLeap\Assets"
 
-mklink /J "Juniper - Android\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - AndroidARCore\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - AndroidCardboard\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - AndroidDaydream\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - AndroidOculus\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - AndroidPicoG2\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - AndroidViveFocus\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - IOS\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - IOSARKit\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - IOSCardboard\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - Standalone\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - StandaloneOculus\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - StandaloneSteamVR\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - UWP\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - UWPWindowsMR\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - UWPHoloLens\Assets\Juniper" ..\src\Juniper\Assets\Juniper
-mklink /J "Juniper - MagicLeap\Assets\Juniper" ..\src\Juniper\Assets\Juniper
+mklink /J "Juniper - Android\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - AndroidARCore\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - AndroidCardboard\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - AndroidDaydream\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - AndroidOculus\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - AndroidPicoG2\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - AndroidViveFocus\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - IOS\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - IOSARKit\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - IOSCardboard\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - Standalone\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - StandaloneOculus\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - StandaloneSteamVR\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - UWP\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - UWPWindowsMR\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - UWPHoloLens\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+mklink /J "Juniper - MagicLeap\Assets\Juniper" "..\src\Juniper\Assets\Juniper"
+
+mklink /J "Juniper - Android\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - AndroidARCore\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - AndroidCardboard\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - AndroidDaydream\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - AndroidOculus\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - AndroidPicoG2\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - AndroidViveFocus\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - IOS\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - IOSARKit\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - IOSCardboard\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - Standalone\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - StandaloneOculus\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - StandaloneSteamVR\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - UWP\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - UWPWindowsMR\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - UWPHoloLens\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
+mklink /J "Juniper - MagicLeap\Assets\TextMesh Pro" "..\src\Juniper\Assets\TextMesh Pro"
