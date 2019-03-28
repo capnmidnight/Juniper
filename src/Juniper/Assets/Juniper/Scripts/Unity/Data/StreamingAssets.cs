@@ -284,9 +284,10 @@ namespace Juniper.Unity.Data
                 getStreamResolver(stream =>
                 {
                     DirectoryExt.CreateDirectory(dir);
+                    var fileInfo = new FileInfo(cachePath);
                     using (var file = new FileStream(cachePath, FileMode.Create))
                     {
-                        stream.Pipe(file, prog);
+                        stream.Pipe(file, fileInfo.Length, prog);
                     }
                     progResolve(cachePath);
                 });

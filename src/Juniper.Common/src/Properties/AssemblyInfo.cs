@@ -1,7 +1,9 @@
+using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+[assembly: CLSCompliant(true)]
 [assembly: AssemblyTitle("Juniper.Common")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]

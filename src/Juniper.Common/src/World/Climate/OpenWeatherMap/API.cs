@@ -151,7 +151,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             /// <param name="info"></param>
             /// <param name="context"></param>
-            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
             {
                 info.AddValue(nameof(error), error);
             }

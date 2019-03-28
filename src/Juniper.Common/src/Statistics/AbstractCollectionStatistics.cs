@@ -13,6 +13,8 @@ namespace Juniper.Statistics
     {
         private readonly T Zero;
         private readonly T One;
+        private readonly T MaxValue;
+        private readonly T MinValue;
 
         /// <summary>
         /// The collection being wrapped.
@@ -78,9 +80,8 @@ namespace Juniper.Statistics
         {
             get
             {
-                if (collect is RingBuffer<T>)
+                if (collect is RingBuffer<T> buf)
                 {
-                    var buf = (RingBuffer<T>)collect;
                     return buf.IsSaturated;
                 }
                 else
@@ -320,6 +321,8 @@ namespace Juniper.Statistics
             collect = collection;
             Zero = zero;
             One = one;
+            MaxValue = Scale(One, float.MaxValue);
+            MinValue = Scale(One, float.MinValue);
         }
 
         /// <summary>
@@ -343,9 +346,8 @@ namespace Juniper.Statistics
 
             if (Count > 0)
             {
-                Minimum = Scale(One, float.MaxValue);
-                Maximum = Scale(One, float.MinValue);
-                Mean = Zero;
+                Minimum = MaxValue;
+                Maximum = MinValue;
                 foreach (var v in this)
                 {
                     Minimum = Min(Minimum, v);
@@ -376,12 +378,12 @@ namespace Juniper.Statistics
             Minimum = Min(Minimum, value);
             Maximum = Max(Maximum, value);
 
+            var prevMean = Mean;
+            var residual = Subtract(value, prevMean);
+            Mean = Add(prevMean, Divide(residual, Count));
+
             if (Count > 1)
             {
-                var prevMean = Mean;
-                var residual = Subtract(value, prevMean);
-                Mean = Add(prevMean, Divide(residual, Count));
-
                 var secondResidual = Subtract(value, Mean);
                 var n2 = Count - 2;
                 var n1 = Count - 1;

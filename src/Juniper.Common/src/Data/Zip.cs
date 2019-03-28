@@ -19,10 +19,10 @@ namespace Juniper.Data
         ///// than stubbornly insisting on trying to use IBM437, which is only available by default
         ///// on Windows.
         ///// </summary>
-        //static Zip()
-        //{
-        //    ZipStrings.CodePage = 0;
-        //}
+        static Zip()
+        {
+            ZipStrings.UseUnicode = true;
+        }
 
         /// <summary>
         /// Retrieves a single file from a zip file.
@@ -44,7 +44,7 @@ namespace Juniper.Data
                     var entry = file[entryIndex];
                     using (var stream = file.GetInputStream(entry))
                     {
-                        resolve(new ProgressStream(stream, prog));
+                        resolve(new ProgressStream(stream, entry.Size, prog));
                     }
                 }
                 else
@@ -97,7 +97,7 @@ namespace Juniper.Data
                         zipStream.PutNextEntry(newEntry);
                         using (var streamReader = fi.OpenRead())
                         {
-                            streamReader.Pipe(zipStream, p);
+                            streamReader.Pipe(zipStream, fi.Length, p);
                         }
                         zipStream.CloseEntry();
                     }, error);
@@ -133,27 +133,20 @@ namespace Juniper.Data
                         {
                             DirectoryExt.CreateDirectory(fullZipToPath);
                         }
-                        else if (zipEntry.IsFile)
+                        else if (zipEntry.IsFile
+                            && (!File.Exists(fullZipToPath)
+                                || FileExt.TryDelete(fullZipToPath)))
                         {
-                            var okToWrite = !File.Exists(fullZipToPath);
-                            if (!okToWrite)
+                            var directoryName = Path.GetDirectoryName(fullZipToPath);
+                            if (directoryName.Length > 0)
                             {
-                                okToWrite = FileExt.TryDelete(fullZipToPath);
+                                DirectoryExt.CreateDirectory(directoryName);
                             }
 
-                            if (okToWrite)
+                            using (var zipStream = zf.GetInputStream(zipEntry))
+                            using (var streamWriter = File.Create(fullZipToPath))
                             {
-                                var directoryName = Path.GetDirectoryName(fullZipToPath);
-                                if (directoryName.Length > 0)
-                                {
-                                    DirectoryExt.CreateDirectory(directoryName);
-                                }
-
-                                using (var zipStream = zf.GetInputStream(zipEntry))
-                                using (var streamWriter = File.Create(fullZipToPath))
-                                {
-                                    zipStream.Pipe(streamWriter, p);
-                                }
+                                zipStream.Pipe(streamWriter, zipEntry.Size, p);
                             }
                         }
                     }, error);

@@ -20,10 +20,10 @@ namespace System.IO
         /// <param name="inStream">The stream to pipe out of.</param>
         /// <param name="outStream">The stream to pipe into.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
-        public static void Pipe(this Stream inStream, Stream outStream, IProgress prog = null)
+        public static void Pipe(this Stream inStream, Stream outStream, long length, IProgress prog = null)
         {
             prog?.Report(0);
-            inStream = new ProgressStream(inStream, prog);
+            inStream = new ProgressStream(inStream, length, prog);
             var read = int.MaxValue;
             var buf = new byte[BLOCK_SIZE];
             while (read > 0)
