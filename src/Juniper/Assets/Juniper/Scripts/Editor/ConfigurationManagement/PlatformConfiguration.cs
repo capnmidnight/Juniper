@@ -69,7 +69,15 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                     }
 #endif
                 }
-                return (BuildTarget)Enum.Parse(typeof(BuildTarget), localBuildTarget);
+
+                try
+                {
+                    return (BuildTarget)Enum.Parse(typeof(BuildTarget), localBuildTarget);
+                }
+                catch
+                {
+                    return BuildTarget.NoTarget;
+                }
             }
         }
 
