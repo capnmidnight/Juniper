@@ -35,47 +35,47 @@ ExportedObj/
 
 examples/*/Assets/Juniper/
 examples/*/Assets/Juniper.meta
+examples/*/Assets/TextMesh Pro/
+examples/*/Assets/TextMesh Pro.meta
 
-**/Assets/_TerrainAutoUpgrade.meta
-**/Assets/_TerrainAutoUpgrade/
-**/Assets/GoogleARCore/
-**/Assets/GoogleARCore.meta
-**/Assets/GoogleVR/
-**/Assets/GoogleVR.meta
-**/Assets/MagicLeap/
-**/Assets/MagicLeap.meta
-**/Assets/NatCam/
-**/Assets/NatCam.meta
-**/Assets/Oculus/
-**/Assets/Oculus.meta
-**/Assets/ResonanceAudio/
-**/Assets/ResonanceAudio.meta
-**/Assets/UBER/
-**/Assets/UBER.meta
-**/Assets/UnityARKitPlugin/
-**/Assets/UnityARKitPlugin.meta
-**/Assets/Vuforia/
-**/Assets/Vuforia.meta
-**/Assets/WaveVR/
-**/Assets/WaveVR.meta
-**/Assets/NeuroSky/
-**/Assets/NeuroSky.meta
-**/Assets/Tobii.meta
-**/Assets/Tobii
-**/Assets/PlayServicesResolver/
-**/Assets/PlayServicesResolver.meta
-**/Assets/StreamingAssets/Assets/
-**/Assets/StreamingAssets/Assets.meta
-**/Assets/Plugins/**/*audiopluginresonanceaudio*
-**/Assets/Plugins/iOS/ResonanceAudioAppController*
-**/Assets/Editor Default Resources.meta
-**/Assets/Editor Default Resources/
-**/Assets/StreamingAssets/Juniper.meta
-**/Assets/StreamingAssets/Juniper/
-**/Assets/TextMesh Pro/
-**/Assets/TextMesh Pro.meta
-**/Assets/PicoMobileSDK/
-**/Assets/PicoMobileSDK.meta
+src/Juniper/Assets/_TerrainAutoUpgrade.meta
+src/Juniper/Assets/_TerrainAutoUpgrade/
+src/Juniper/Assets/GoogleARCore/
+src/Juniper/Assets/GoogleARCore.meta
+src/Juniper/Assets/GoogleVR/
+src/Juniper/Assets/GoogleVR.meta
+src/Juniper/Assets/MagicLeap/
+src/Juniper/Assets/MagicLeap.meta
+src/Juniper/Assets/NatCam/
+src/Juniper/Assets/NatCam.meta
+src/Juniper/Assets/Oculus/
+src/Juniper/Assets/Oculus.meta
+src/Juniper/Assets/ResonanceAudio/
+src/Juniper/Assets/ResonanceAudio.meta
+src/Juniper/Assets/UBER/
+src/Juniper/Assets/UBER.meta
+src/Juniper/Assets/UnityARKitPlugin/
+src/Juniper/Assets/UnityARKitPlugin.meta
+src/Juniper/Assets/Vuforia/
+src/Juniper/Assets/Vuforia.meta
+src/Juniper/Assets/WaveVR/
+src/Juniper/Assets/WaveVR.meta
+src/Juniper/Assets/NeuroSky/
+src/Juniper/Assets/NeuroSky.meta
+src/Juniper/Assets/Tobii.meta
+src/Juniper/Assets/Tobii
+src/Juniper/Assets/PlayServicesResolver/
+src/Juniper/Assets/PlayServicesResolver.meta
+src/Juniper/Assets/StreamingAssets/Assets/
+src/Juniper/Assets/StreamingAssets/Assets.meta
+src/Juniper/Assets/Plugins/**/*audiopluginresonanceaudio*
+src/Juniper/Assets/Plugins/iOS/ResonanceAudioAppController*
+src/Juniper/Assets/Editor Default Resources.meta
+src/Juniper/Assets/Editor Default Resources/
+src/Juniper/Assets/StreamingAssets/Juniper.meta
+src/Juniper/Assets/StreamingAssets/Juniper/
+src/Juniper/Assets/PicoMobileSDK/
+src/Juniper/Assets/PicoMobileSDK.meta
 
 tobii_gameintegration_*.dll
 *.CodeAnalysisLog.xml
