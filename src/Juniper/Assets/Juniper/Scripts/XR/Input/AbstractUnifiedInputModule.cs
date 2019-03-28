@@ -319,6 +319,8 @@ namespace Juniper.Unity.Input
             return ray;
         }
 
+        private const float CanvasOffset = 0.23f;
+
         /// <summary>
         /// Fire a raycast using all of the GraphicRaycasters in the system, plus the one
         /// PhysicsRaycaster that is associated with the event Camera.
@@ -338,12 +340,12 @@ namespace Juniper.Unity.Input
                 {
                     var gfr = (GraphicRaycaster)ray.module;
                     var canv = gfr.GetComponent<Canvas>();
-                    ray.worldNormal = canv.transform.forward;
+                    ray.worldNormal = -canv.transform.forward;
 
                     var pos = (Vector3)ray.screenPosition;
                     if (canv.renderMode == RenderMode.WorldSpace)
                     {
-                        pos.z = ray.distance + 0.35f;
+                        pos.z = ray.distance + CanvasOffset;
                     }
                     ray.worldPosition = pointer.EventCamera.ScreenToWorldPoint(pos);
 

@@ -1551,4 +1551,4 @@ MonoBehaviour:
   TransitionSeconds: 0.25
   canPress: 1
   canGaze: 0
-  LaserPointerMaterial: {fileID: 0}
+  laserPointerMaterial: {fileID: 0}
