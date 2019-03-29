@@ -1,12 +1,13 @@
 #if UNITY_XR_OCULUS
-using UnityEngine;
 using System.Linq;
+
+using UnityEngine;
 
 namespace Juniper.Unity.Display
 {
     public class OculusDisplayManager : AbstractDisplayManager
     {
-        public override void Install(bool reset)
+        public override bool Install(bool reset)
         {
             if(base.Install(reset))
             {

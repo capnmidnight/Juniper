@@ -122,7 +122,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
         {
             get
             {
-                return Device.GetButton(GvrControllerButton.Trigger) ? 1 : 0;
+                return IsButtonPressed(GvrControllerButton.Trigger) ? 1 : 0;
             }
         }
 

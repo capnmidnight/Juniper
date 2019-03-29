@@ -28,6 +28,10 @@
     "CompilerDefine": "UNITY_XR_ARCORE"
   },
   {
+    "Name": "Oculus",
+    "CompilerDefine": "UNITY_XR_OCULUS"
+  },
+  {
     "Name": "UnityARKitPlugin",
     "CompilerDefine": "UNITY_XR_ARKIT"
   },

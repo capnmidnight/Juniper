@@ -87,7 +87,7 @@
   {
     "Name": "AndroidOculus",
     "buildTarget": "Android",
-    "CompilerDefine": "UNITY_XR_OCULUS",
+    "CompilerDefine": "UNITY_XR_OCULUS_ANDROID",
     "androidSdkVersion": "AndroidApiLevel21",
     "spatializer": "OculusSpatializer",
     "vrSystems": [
@@ -96,7 +96,7 @@
     "packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
-      "com.unity.xr.oculus.android@1.29.1"
+      "Oculus"
     ]
   },
   {
@@ -173,7 +173,7 @@
   {
     "Name": "StandaloneOculus",
     "buildTarget": "Standalone",
-    "CompilerDefine": "UNITY_XR_OCULUS",
+    "CompilerDefine": "UNITY_XR_OCULUS_STANDALONE",
     "spatializer": "OculusSpatializer",
     "vrSystems": [
       "Oculus",
@@ -182,7 +182,7 @@
     "packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
-      "com.unity.xr.oculus.standalone@1.29.1"
+      "Oculus"
     ]
   },
   {

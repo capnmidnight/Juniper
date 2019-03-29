@@ -1,9 +1,10 @@
-using System;
-using System.Collections.Generic;
 using Juniper.Unity.Input.Pointers;
 using Juniper.Unity.Input.Pointers.Gaze;
 using Juniper.Unity.Input.Pointers.Motion;
 using Juniper.Unity.Input.Pointers.Screen;
+
+using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;

@@ -6,8 +6,6 @@ namespace Juniper.Unity.Input
     public class UnifiedInputModule :
 #if GOOGLEVR
         DaydreamInputModule
-#elif UNITY_XR_OCULUS
-        OculusInputModule
 #elif UNITY_XR_WINDOWSMR_METRO
         WindowsMRInputModule
 #elif UNITY_XR_MAGICLEAP
