@@ -3,6 +3,7 @@ using Juniper.Unity.Input.Pointers.Gaze;
 using Juniper.Unity.Input.Pointers.Motion;
 using Juniper.Unity.Input.Pointers.Screen;
 
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -18,15 +19,21 @@ namespace Juniper.Unity.Input
     /// </summary>
     public abstract class AbstractUnifiedInputModule : PointerInputModule, IInstallable, IInputModule
     {
+        [Flags]
         public enum Mode
         {
             None,
-            Auto,
-            Desktop,
-            SeatedVR,
-            StandingVR,
-            Touchscreen,
-            HeadsetAR
+            Auto = ~None,
+            Mouse = 1,
+            Touch = 2,
+            Gaze = 4,
+            Motion = 8,
+            Hands = 16,
+            Desktop = Mouse,
+            Touchscreen = Touch | Gaze,
+            SeatedVR = Mouse | Gaze | Motion,
+            StandingVR = Gaze | Motion,
+            HeadsetAR = Gaze | Motion | Hands
         }
 
         private readonly List<IPointerDevice> newDevices = new List<IPointerDevice>();
@@ -100,14 +107,14 @@ namespace Juniper.Unity.Input
 #if UNITY_MODULES_UI
             if (enableGazeToggle != null)
             {
-                enableGazeToggle.onValueChanged.AddListener(EnableGaze);
+                enableGazeToggle.onValueChanged.AddListener(enable => EnableGaze(enable, true));
                 enableGazeToggle.isOn = PlayerPrefs.GetInt(ENABLE_GAZE_KEY, 0) == 1;
                 gazePointer.SetActive(enableGazeToggle.isOn);
             }
 
             if (enableHandsToggle != null)
             {
-                enableHandsToggle.onValueChanged.AddListener(EnableHands);
+                enableHandsToggle.onValueChanged.AddListener(enable => EnableHands(enable, true));
                 enableHandsToggle.isOn = PlayerPrefs.GetInt(ENABLE_HANDS_KEY, 0) == 1;
                 foreach (var handTracker in handTrackers)
                 {
@@ -117,7 +124,7 @@ namespace Juniper.Unity.Input
 
             if (enableControllersToggle != null)
             {
-                enableControllersToggle.onValueChanged.AddListener(EnableControllers);
+                enableControllersToggle.onValueChanged.AddListener(enable => EnableControllers(enable, true));
                 enableControllersToggle.isOn = PlayerPrefs.GetInt(ENABLE_CONTROLLERS_KEY, 1) == 1;
                 foreach (var motionController in motionControllers)
                 {
@@ -127,70 +134,19 @@ namespace Juniper.Unity.Input
 
             if (enableMouseToggle != null)
             {
-                enableMouseToggle.onValueChanged.AddListener(EnableMouse);
+                enableMouseToggle.onValueChanged.AddListener(enable => EnableMouse(enable, true));
                 enableMouseToggle.isOn = PlayerPrefs.GetInt(ENABLE_MOUSE_KEY, 1) == 1;
                 mouse.SetActive(enableMouseToggle.isOn);
             }
 
             if (enableTouchToggle != null)
             {
-                enableTouchToggle.onValueChanged.AddListener(EnableTouch);
+                enableTouchToggle.onValueChanged.AddListener(enable => EnableTouch(enable, true));
                 enableTouchToggle.isOn = PlayerPrefs.GetInt(ENABLE_TOUCH_KEY, Application.isMobilePlatform ? 1 : 0) == 1;
                 foreach (var touch in touches)
                 {
                     touch.SetActive(enableTouchToggle.isOn);
                 }
-            }
-
-            switch (mode)
-            {
-                case Mode.Desktop:
-                EnableMouse(true);
-                EnableTouch(false);
-                EnableGaze(false);
-                EnableControllers(false);
-                EnableHands(false);
-                break;
-
-                case Mode.Touchscreen:
-                EnableMouse(false);
-                EnableTouch(true);
-                EnableGaze(true);
-                EnableControllers(false);
-                EnableHands(false);
-                break;
-
-                case Mode.SeatedVR:
-                EnableMouse(true);
-                EnableTouch(false);
-                EnableGaze(true);
-                EnableControllers(true);
-                EnableHands(false);
-                break;
-
-                case Mode.StandingVR:
-                EnableMouse(false);
-                EnableTouch(false);
-                EnableGaze(true);
-                EnableControllers(true);
-                EnableHands(false);
-                break;
-
-                case Mode.HeadsetAR:
-                EnableMouse(false);
-                EnableTouch(false);
-                EnableGaze(true);
-                EnableControllers(true);
-                EnableHands(true);
-                break;
-
-                default:
-                EnableMouse(false);
-                EnableTouch(false);
-                EnableGaze(false);
-                EnableControllers(false);
-                EnableHands(false);
-                break;
             }
 #endif
         }
@@ -248,11 +204,11 @@ namespace Juniper.Unity.Input
 
         public virtual void Uninstall()
         {
-            EnableHands(true);
-            EnableControllers(true);
-            EnableGaze(true);
-            EnableTouch(true);
-            EnableMouse(true);
+            EnableHands(true, false);
+            EnableControllers(true, false);
+            EnableGaze(true, false);
+            EnableTouch(true, false);
+            EnableMouse(true, false);
         }
 
 #if UNITY_EDITOR
@@ -301,11 +257,58 @@ namespace Juniper.Unity.Input
             }
         }
 
+        private bool wasTouchConnected = false;
+        private bool TouchConnected
+        {
+            get
+            {
+                if (wasTouchConnected)
+                {
+                    return true;
+                }
+                else
+                {
+                    foreach (var touch in touches)
+                    {
+                        if (touch.IsConnected)
+                        {
+                            wasTouchConnected = true;
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+            }
+        }
+
+        private bool MotionConnected
+        {
+            get
+            {
+                foreach (var motion in motionControllers)
+                {
+                    if (motion.IsConnected)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
         /// <summary>
         /// Find all the pointers and fire raycaster events for them.
         /// </summary>
         public override void Process()
         {
+            EnableMouse(mode.HasFlag(Mode.Mouse) && mouse.IsConnected, false);
+            EnableTouch(mode.HasFlag(Mode.Touch) && TouchConnected && !MotionConnected, false);
+            EnableGaze(mode.HasFlag(Mode.Gaze) && !MotionConnected && !mouse.IsConnected && TouchConnected, false);
+            EnableControllers(mode.HasFlag(Mode.Motion), false);
+            EnableHands(mode.HasFlag(Mode.Hands), false);
+
             Devices.AddRange(newDevices);
             newDevices.Clear();
 
@@ -426,78 +429,85 @@ namespace Juniper.Unity.Input
             m_RaycastResultCache.Sort(RaycastComparer);
         }
 
-        public void EnableMouse(bool value)
+        private bool GetBool(string key)
         {
-            mouse.SetActive(value);
-#if UNITY_MODULES_UI
-            if (enableMouseToggle != null && enableMouseToggle.isOn != value)
-            {
-                enableMouseToggle.isOn = value;
-            }
-#endif
-            PlayerPrefs.SetInt(ENABLE_MOUSE_KEY, value ? 1 : 0);
+            return PlayerPrefs.GetInt(key, 0) == 1;
+        }
+
+        private void SetBool(string key, bool value)
+        {
+            PlayerPrefs.SetInt(key, value ? 1 : 0);
             PlayerPrefs.Save();
         }
 
-        public void EnableGaze(bool value)
+        private void EnableDevice(string key, Toggle toggle, bool value, bool savePref, Action<bool> setActive)
         {
-            gazePointer.SetActive(value);
-#if UNITY_MODULES_UI
-            if (enableGazeToggle != null && enableGazeToggle.isOn != value)
+            if (!savePref && !GetBool(key))
             {
-                enableGazeToggle.isOn = value;
+                value = false;
+            }
+
+            setActive(value);
+#if UNITY_MODULES_UI
+            if (toggle != null && toggle.isOn != value)
+            {
+                toggle.isOn = value;
             }
 #endif
-            PlayerPrefs.SetInt(ENABLE_GAZE_KEY, value ? 1 : 0);
-            PlayerPrefs.Save();
+
+            if (savePref)
+            {
+                SetBool(key, value);
+            }
         }
 
-        public void EnableTouch(bool value)
+        public void EnableMouse(bool value, bool savePref)
+        {
+            EnableDevice(ENABLE_MOUSE_KEY, enableMouseToggle, value, savePref, mouse.SetActive);
+        }
+
+        public void EnableGaze(bool value, bool savePref)
+        {
+            EnableDevice(ENABLE_GAZE_KEY, enableGazeToggle, value, savePref, gazePointer.SetActive);
+        }
+
+        private void EnableTouches(bool value)
         {
             foreach (var touch in touches)
             {
                 touch.SetActive(value);
             }
-#if UNITY_MODULES_UI
-            if (enableTouchToggle != null && enableTouchToggle.isOn != value)
-            {
-                enableTouchToggle.isOn = value;
-            }
-#endif
-            PlayerPrefs.SetInt(ENABLE_TOUCH_KEY, value ? 1 : 0);
-            PlayerPrefs.Save();
         }
 
-        public void EnableHands(bool value)
+        public void EnableTouch(bool value, bool savePref)
+        {
+            EnableDevice(ENABLE_TOUCH_KEY, enableTouchToggle, value, savePref, EnableTouches);
+        }
+
+        private void EnableHands(bool value)
         {
             foreach (var handTracker in handTrackers)
             {
                 handTracker.SetActive(value);
             }
-#if UNITY_MODULES_UI
-            if (enableHandsToggle != null && enableHandsToggle.isOn != value)
-            {
-                enableHandsToggle.isOn = value;
-            }
-#endif
-            PlayerPrefs.SetInt(ENABLE_HANDS_KEY, value ? 1 : 0);
-            PlayerPrefs.Save();
         }
 
-        public void EnableControllers(bool value)
+        public void EnableHands(bool value, bool savePref)
+        {
+            EnableDevice(ENABLE_HANDS_KEY, enableHandsToggle, value, savePref, EnableHands);
+        }
+
+        private void EnableControllers(bool value)
         {
             foreach (var motionController in motionControllers)
             {
                 motionController.SetActive(value);
             }
-#if UNITY_MODULES_UI
-            if(enableControllersToggle != null && enableControllersToggle.isOn != value)
-            {
-                enableControllersToggle.isOn = value;
-            }
-#endif
-            PlayerPrefs.SetInt(ENABLE_CONTROLLERS_KEY, value ? 1 : 0);
-            PlayerPrefs.Save();
+        }
+
+        public void EnableControllers(bool value, bool savePref)
+        {
+            EnableDevice(ENABLE_CONTROLLERS_KEY, enableControllersToggle, value, savePref, EnableControllers);
         }
     }
 }
