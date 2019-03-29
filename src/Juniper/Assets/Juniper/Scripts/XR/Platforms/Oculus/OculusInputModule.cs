@@ -8,11 +8,14 @@ namespace Juniper.Unity.Input
         {
             if (base.Install(reset))
             {
-                EnableMouse(true);
-                EnableTouch(false);
-                EnableGaze(false);
-                EnableControllers(true);
-                EnableHands(false);
+                if (!reset && mode == Mode.Auto)
+                {
+#if UNITY_XR_OCULUS_ANDROID
+                    mode = Mode.SeatedVR;
+#else
+                    mode = Mode.StandingVR;
+#endif
+                }
 
                 return true;
             }

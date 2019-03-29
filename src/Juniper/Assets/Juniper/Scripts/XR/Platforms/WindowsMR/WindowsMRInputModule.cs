@@ -8,19 +8,14 @@ namespace Juniper.Unity.Input
         {
             if (base.Install(reset))
             {
+                if(!reset && mode == Mode.Auto)
+                {
 #if WINDOWSMR
-                EnableMouse(true);
-                EnableTouch(false);
-                EnableGaze(false);
-                EnableControllers(true);
-                EnableHands(false);
+                    mode = Mode.StandingVR;
 #elif HOLOLENS
-                EnableMouse(false);
-                EnableTouch(false);
-                EnableGaze(true);
-                EnableControllers(false);
-                EnableHands(true);
+                    mode = Mode.HeadsetAR;
 #endif
+                }
                 return true;
             }
 

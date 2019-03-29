@@ -6,11 +6,10 @@ namespace Juniper.Unity.Input
         {
             if (base.Install(reset))
             {
-                EnableMouse(true);
-                EnableTouch(false);
-                EnableGaze(false);
-                EnableControllers(false);
-                EnableHands(false);
+                if (!reset && mode == Mode.Auto)
+                {
+                    mode = Mode.Desktop;
+                }
 
                 return true;
             }

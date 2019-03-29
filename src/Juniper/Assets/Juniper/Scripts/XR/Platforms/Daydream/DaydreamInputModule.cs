@@ -20,11 +20,11 @@ namespace Juniper.Unity.Input
         {
             if(base.Install(reset))
             {
-                EnableMouse(false);
-                EnableTouch(false);
-                EnableGaze(false);
-                EnableControllers(true);
-                EnableHands(false);
+                if(!reset && mode == Mode.Auto)
+                {
+                    var headset = ComponentExt.FindAny<GvrHeadset>();
+                    mode = headset.SupportsPositionalTracking ? Mode.StandingVR : Mode.SeatedVR;
+                }
 
                 this.Ensure<GvrControllerInput>();
                 this.Ensure<GvrEditorEmulator>();

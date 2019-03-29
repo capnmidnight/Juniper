@@ -1,16 +1,22 @@
+#if UNITY_XR_MAGICLEAP
 namespace Juniper.Unity.Input
 {
     public class MagicLeapInputModule : AbstractUnifiedInputModule
     {
-        protected override void Awake()
+        public override bool Install(bool reset)
         {
-            base.Awake();
+            if (base.Install(reset))
+            {
+                if (!reset && mode == Mode.Auto)
+                {
+                    mode = Mode.HeadsetAR;
+                }
 
-            EnableMouse(false);
-            EnableTouch(false);
-            EnableGaze(true);
-            EnableControllers(true);
-            EnableHands(true);
+                return true;
+            }
+
+            return false;
         }
     }
 }
+#endif

@@ -18,8 +18,21 @@ namespace Juniper.Unity.Input
     /// </summary>
     public abstract class AbstractUnifiedInputModule : PointerInputModule, IInstallable, IInputModule
     {
+        public enum Mode
+        {
+            None,
+            Auto,
+            Desktop,
+            SeatedVR,
+            StandingVR,
+            Touchscreen,
+            HeadsetAR
+        }
+
         private readonly List<IPointerDevice> newDevices = new List<IPointerDevice>();
         public readonly List<IPointerDevice> Devices = new List<IPointerDevice>();
+
+        public Mode mode = Mode.Auto;
 
         public bool AnyPointerDragging
         {
@@ -127,6 +140,57 @@ namespace Juniper.Unity.Input
                 {
                     touch.SetActive(enableTouchToggle.isOn);
                 }
+            }
+
+            switch (mode)
+            {
+                case Mode.Desktop:
+                EnableMouse(true);
+                EnableTouch(false);
+                EnableGaze(false);
+                EnableControllers(false);
+                EnableHands(false);
+                break;
+
+                case Mode.Touchscreen:
+                EnableMouse(false);
+                EnableTouch(true);
+                EnableGaze(true);
+                EnableControllers(false);
+                EnableHands(false);
+                break;
+
+                case Mode.SeatedVR:
+                EnableMouse(true);
+                EnableTouch(false);
+                EnableGaze(true);
+                EnableControllers(true);
+                EnableHands(false);
+                break;
+
+                case Mode.StandingVR:
+                EnableMouse(false);
+                EnableTouch(false);
+                EnableGaze(true);
+                EnableControllers(true);
+                EnableHands(false);
+                break;
+
+                case Mode.HeadsetAR:
+                EnableMouse(false);
+                EnableTouch(false);
+                EnableGaze(true);
+                EnableControllers(true);
+                EnableHands(true);
+                break;
+
+                default:
+                EnableMouse(false);
+                EnableTouch(false);
+                EnableGaze(false);
+                EnableControllers(false);
+                EnableHands(false);
+                break;
             }
 #endif
         }

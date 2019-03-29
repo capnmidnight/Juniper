@@ -23,11 +23,10 @@ namespace Juniper.Unity.Input
 
             if (base.Install(reset))
             {
-                EnableMouse(false);
-                EnableTouch(false);
-                EnableGaze(false);
-                EnableControllers(true);
-                EnableHands(false);
+                if(!reset && mode == Mode.Auto)
+                {
+                    mode = Mode.SeatedVR;
+                }
 
                 MakeViewerToast(stageT.Find("Head"));
                 MakeSafeArea(stageT);
@@ -55,12 +54,6 @@ namespace Juniper.Unity.Input
             stage.Find("SafeToast")?.Destroy();
             stage.Find("SafeArea2")?.Destroy();
             stage.Find("Head/Viewertoast")?.Destroy();
-
-            EnableHands(true);
-            EnableControllers(true);
-            EnableGaze(true);
-            EnableTouch(true);
-            EnableMouse(true);
 
             base.Uninstall();
         }
