@@ -15,10 +15,12 @@ namespace Juniper.Unity.Display
         ARCoreDisplayManager
 #elif UNITY_XR_ARKIT
         ARKitDisplayManager
-#elif GOOGLEVR
-        DaydreamDisplayManager
 #elif UNITY_XR_MAGICLEAP
         MagicLeapDisplayManager
+#elif UNITY_XR_OCULUS
+        OculusDisplayManager
+#elif GOOGLEVR
+        DaydreamDisplayManager
 #elif WAVEVR
         ViveFocusDisplayManager
 #elif PICO

@@ -2,7 +2,11 @@
   "packages": [
     "com.unity.package-manager-ui@2.0.7",
     "com.unity.ads@exclude",
+    "com.unity.modules.ads@exclude",
     "com.unity.analytics@exclude",
+    "com.unity.modules.unityanalytics@exclude",
+    "com.unity.standardevents@exclude",
+    "com.unity.modules.standardevents@exclude",
     "com.unity.modules.animation@1.0.0",
     "com.unity.modules.audio@1.0.0",
     "com.unity.modules.imageconversion@1.0.0",
@@ -22,7 +26,6 @@
     "com.unity.modules.video@1.0.0",
     "com.unity.modules.wind@1.0.0",
     "com.unity.purchasing@exclude",
-    "com.unity.standardevents@exclude",
     "com.unity.textmeshpro@1.3.0"
   ],
   "platforms": [
@@ -96,6 +99,8 @@
     "packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
+      "com.unity.xr.oculus.android@1.29.1",
+      "com.unity.xr.openvr.standalone@1.0.3",
       "Oculus"
     ]
   },
@@ -182,6 +187,8 @@
     "packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
+      "com.unity.xr.oculus.standalone@1.29.1",
+      "com.unity.xr.openvr.standalone@1.0.3",
       "Oculus"
     ]
   },

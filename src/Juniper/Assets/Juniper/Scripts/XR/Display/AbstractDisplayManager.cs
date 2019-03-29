@@ -259,7 +259,7 @@ namespace Juniper.Unity.Display
                 else if (JuniperPlatform.CurrentPlatform == PlatformTypes.AndroidOculus
                     || JuniperPlatform.CurrentPlatform == PlatformTypes.StandaloneOculus)
                 {
-                    xrDevice = "oculus";
+                    xrDevice = "Oculus";
                 }
                 else if (JuniperPlatform.CurrentPlatform == PlatformTypes.UWPHoloLens
                     || JuniperPlatform.CurrentPlatform == PlatformTypes.UWPWindowsMR)

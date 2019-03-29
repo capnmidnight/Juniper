@@ -65,18 +65,31 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
             var platformsJson = File.ReadAllText(PathExt.FixPath("Assets/Juniper/platforms.json"));
             var config = JObject.Parse(platformsJson);
+
             var common = config["packages"] as JArray;
             var commonPackageDefs = (from token in common
                                      select token.ToString()).ToArray();
+
             var commonPackages = ParsePackages(commonPackageDefs);
-            var commonUnityPackages = commonPackages.OfType<UnityPackage>().ToArray();
-            var includedUnityPackages = commonUnityPackages.Where(p => p.version != "exclude").ToArray();
-            var excludedUnityPackages = commonUnityPackages.Where(p => p.version == "exclude").ToArray();
-            var rawPackages = commonUnityPackages.OfType<RawPackage>().ToArray();
+
+            var commonUnityPackages = commonPackages
+                .OfType<UnityPackage>()
+                .ToArray();
+            var includedUnityPackages = commonUnityPackages
+                .Where(p => p.version != "exclude")
+                .ToArray();
+            var excludedUnityPackages = commonUnityPackages
+                .Where(p => p.version == "exclude")
+                .ToArray();
+
+            var rawPackages = commonUnityPackages
+                .OfType<RawPackage>()
+                .ToArray();
 
             var platforms = config["platforms"];
             AllPlatforms = JsonConvert.DeserializeObject<PlatformConfiguration[]>(platforms.ToString());
             PlatformDB = AllPlatforms.ToDictionary(pform => (PlatformTypes)Enum.Parse(typeof(PlatformTypes), pform.Name));
+
             foreach (var platform in AllPlatforms)
             {
                 var packages = ParsePackages(platform.packages);

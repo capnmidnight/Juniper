@@ -519,6 +519,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             try
             {
+                Debug.Log("Juniper: " + prefix);
                 var prog = PrepareBuildStep(0, prefix);
                 prog.Report(0);
                 act(prog);

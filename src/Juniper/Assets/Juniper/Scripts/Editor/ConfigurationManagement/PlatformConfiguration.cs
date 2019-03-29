@@ -165,13 +165,19 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         public void InstallUnityPackages(IProgress prog = null)
         {
             var progs = prog.Split(2);
+
             Platforms.ForEachPackage(ExcludedUnityPackages, progs[0], (pkg, p) =>
+            {
 #if UNITY_2018_2_OR_NEWER
-                pkg.Uninstall(p)
+                pkg.Uninstall(p);
 #else
-                pkg.Install(p)
+                if (!pkg.Name.StartsWith("com.unity.modules."))
+                {
+                    pkg.Install(p);
+                }
 #endif
-            );
+            });
+
             Platforms.ForEachPackage(IncludedUnityPackages, progs[1], (pkg, p) =>
             {
 #if UNITY_2018_2_OR_NEWER
@@ -193,8 +199,14 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         public void Activate(IProgress prog)
         {
             var progs = prog.Split(2);
-            Platforms.ForEachPackage(IncludedUnityPackages, progs[0], (pkg, p) => pkg.Activate(TargetGroup, p));
-            Platforms.ForEachPackage(RawPackages, progs[1], (pkg, p) => pkg.Activate(TargetGroup, p));
+
+            Platforms.ForEachPackage(
+                IncludedUnityPackages, progs[0],
+                (pkg, p) => pkg.Activate(TargetGroup, p));
+
+            Platforms.ForEachPackage(
+                RawPackages, progs[1],
+                (pkg, p) => pkg.Activate(TargetGroup, p));
 
             if (!string.IsNullOrEmpty(spatializer))
             {
