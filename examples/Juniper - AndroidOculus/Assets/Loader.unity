@@ -5508,6 +5508,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1493844777}
   - component: {fileID: 1493844778}
+  - component: {fileID: 1493844782}
   - component: {fileID: 1493844781}
   - component: {fileID: 1493844780}
   - component: {fileID: 1493844779}
@@ -5559,6 +5560,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1493844776}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed62bf3ae2456c408f247f96808ce96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_modelGearVrController: {fileID: 0}
+  m_modelOculusGoController: {fileID: 0}
+  m_controller: 33554432
+--- !u!114 &1493844780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493844776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -5590,7 +5606,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &1493844780
+--- !u!114 &1493844781
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5630,7 +5646,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &1493844781
+--- !u!114 &1493844782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7053,6 +7069,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1934661967}
   - component: {fileID: 1934661968}
+  - component: {fileID: 1934661972}
   - component: {fileID: 1934661971}
   - component: {fileID: 1934661970}
   - component: {fileID: 1934661969}
@@ -7104,6 +7121,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1934661966}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed62bf3ae2456c408f247f96808ce96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_modelGearVrController: {fileID: 0}
+  m_modelOculusGoController: {fileID: 0}
+  m_controller: 16777216
+--- !u!114 &1934661970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934661966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 803d06b7e0780414b9e64c5b648e7dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -7135,7 +7167,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &1934661970
+--- !u!114 &1934661971
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7175,7 +7207,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &1934661971
+--- !u!114 &1934661972
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7708,5 +7740,5 @@ MonoBehaviour:
   useRotationTracking: 1
   useIPDInPositionTracking: 1
   resetTrackerOnLoad: 0
-  AllowRecenter: 1
+  AllowRecenter: 0
   _reorientHMDOnControllerRecenter: 1

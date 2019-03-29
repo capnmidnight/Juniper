@@ -166,6 +166,24 @@ namespace Juniper.Unity.Input.Pointers.Motion
             }
         }
 
+        public override OVRInput.Controller? NativeHandID
+        {
+            get
+            {
+                return base.NativeHandID;
+            }
+
+            protected set
+            {
+                base.NativeHandID = value;
+                if (value != null)
+                {
+                    var controller = this.Ensure<OVRTrackedRemote>();
+                    controller.Value.m_controller = value.Value;
+                }
+            }
+        }
+
         protected override void InternalUpdate()
         {
             transform.localPosition = OVRInput.GetLocalControllerPosition(NativeHandID.Value);
