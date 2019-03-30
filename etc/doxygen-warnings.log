@@ -1,46 +1,46 @@
-C:/Users/smcbeth/Projects/Juniper/etc/markdown/coverage.md:1636: warning: explicit link request to 'Doxygen' could not be resolved
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Data/HTTP.cs:160: warning: The following parameters of Juniper.HTTP.PostStream(string url, string mime, long bodyLength, Action< Stream > writeBody, Action< Stream > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/etc/markdown/coverage.md:1657: warning: explicit link request to 'Doxygen' could not be resolved
+C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Data/HTTP.cs:160: warning: The following parameters of Juniper.HTTP.PostStream(string url, string mime, long bodyLength, Action< Stream > writeBody, Action< Stream > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
   parameter 'bodyLength'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Progress/IProgress.cs:91: warning: argument 'start' of command @param is not found in the argument list of Juniper.Progress.IProgressExt::Subdivide(this IProgress parent, int index, int count, string prefix=null)
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Progress/IProgress.cs:91: warning: argument 'length' of command @param is not found in the argument list of Juniper.Progress.IProgressExt::Subdivide(this IProgress parent, int index, int count, string prefix=null)
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/Progress/IProgress.cs:101: warning: The following parameters of Juniper.Progress.IProgressExt.Subdivide(this IProgress parent, int index, int count, string prefix=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Progress/IProgress.cs:91: warning: argument 'start' of command @param is not found in the argument list of Juniper.Progress.IProgressExt::Subdivide(this IProgress parent, int index, int count, string prefix=null)
+C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Progress/IProgress.cs:91: warning: argument 'length' of command @param is not found in the argument list of Juniper.Progress.IProgressExt::Subdivide(this IProgress parent, int index, int count, string prefix=null)
+C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Progress/IProgress.cs:101: warning: The following parameters of Juniper.Progress.IProgressExt.Subdivide(this IProgress parent, int index, int count, string prefix=null) are not documented:
   parameter 'index'
   parameter 'count'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/MasterSceneController.cs:57: warning: argument 'path' of command @param is not found in the argument list of Juniper.Unity.MasterSceneController::LoadScene(string scenePath, string sceneName)
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/MasterSceneController.cs:63: warning: The following parameters of Juniper.Unity.MasterSceneController.LoadScene(string scenePath, string sceneName) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs:55: warning: argument 'path' of command @param is not found in the argument list of Juniper.Unity.MasterSceneController::LoadScene(string scenePath, string sceneName)
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs:61: warning: The following parameters of Juniper.Unity.MasterSceneController.LoadScene(string scenePath, string sceneName) are not documented:
   parameter 'scenePath'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:173: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, Action< byte[]> resolve, Action< Exception > reject, IProgress prog=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:175: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, Action< byte[]> resolve, Action< Exception > reject, IProgress prog=null) are not documented:
   parameter 'cacheDirectory'
   parameter 'prog'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:63: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, string mime, Action< string > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:65: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, string mime, Action< string > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
   parameter 'cacheDirectory'
   parameter 'prog'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:214: warning: argument 'mime' of command @param is not found in the argument list of Juniper.Unity.Data.StreamingAssets::GetJSONObject< T >(string cacheDirectory, string path, TimeSpan ttl, Action< T > resolve, Action< Exception > reject, IProgress prog=null)
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:226: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetJSONObject< T >(string cacheDirectory, string path, TimeSpan ttl, Action< T > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:216: warning: argument 'mime' of command @param is not found in the argument list of Juniper.Unity.Data.StreamingAssets::GetJSONObject< T >(string cacheDirectory, string path, TimeSpan ttl, Action< T > resolve, Action< Exception > reject, IProgress prog=null)
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:228: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetJSONObject< T >(string cacheDirectory, string path, TimeSpan ttl, Action< T > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
   parameter 'cacheDirectory'
   parameter 'prog'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:142: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, Action< Stream > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:144: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, Action< Stream > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
   parameter 'cacheDirectory'
   parameter 'prog'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:193: warning: argument 'mime' of command @param is not found in the argument list of Juniper.Unity.Data.StreamingAssets::GetText(string cacheDirectory, string path, TimeSpan ttl, Action< string > resolve, Action< Exception > reject, IProgress prog=null)
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:204: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetText(string cacheDirectory, string path, TimeSpan ttl, Action< string > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:195: warning: argument 'mime' of command @param is not found in the argument list of Juniper.Unity.Data.StreamingAssets::GetText(string cacheDirectory, string path, TimeSpan ttl, Action< string > resolve, Action< Exception > reject, IProgress prog=null)
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:206: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetText(string cacheDirectory, string path, TimeSpan ttl, Action< string > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
   parameter 'cacheDirectory'
   parameter 'prog'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/Climate/Weather.cs:215: warning: The following parameters of Juniper.Unity.World.Climate.Weather.GetReportCoroutine(bool force, IProgress prog=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/World/Climate/Weather.cs:215: warning: The following parameters of Juniper.Unity.World.Climate.Weather.GetReportCoroutine(bool force, IProgress prog=null) are not documented:
   parameter 'prog'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/World/Climate/Weather.cs:242: warning: The following parameters of Juniper.Unity.World.Climate.Weather.RequestCoroutine(LatLngPoint location, bool force, IProgress prog=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/World/Climate/Weather.cs:242: warning: The following parameters of Juniper.Unity.World.Climate.Weather.RequestCoroutine(LatLngPoint location, bool force, IProgress prog=null) are not documented:
   parameter 'prog'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/API.cs:76: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.API(string apiKey, string lastReportJSON=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/World/Climate/OpenWeatherMap/API.cs:76: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.API(string apiKey, string lastReportJSON=null) are not documented:
   parameter 'lastReportJSON'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/World/Climate/OpenWeatherMap/API.cs:166: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.Request(LatLngPoint location, bool force, IProgress prog=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/World/Climate/OpenWeatherMap/API.cs:166: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.Request(LatLngPoint location, bool force, IProgress prog=null) are not documented:
   parameter 'prog'
+C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Extensions/NETFX/IO/StreamExt.cs:23: warning: The following parameters of System.IO.StreamExt.Pipe(this Stream inStream, Stream outStream, long length, IProgress prog=null) are not documented:
+  parameter 'length'
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/CameraExt.cs:10: warning: The following parameters of UnityEngine.CameraExt.IsInView(this Camera cam, Vector3 target) are not documented:
   parameter 'cam'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/ComponentExt.cs:171: warning: The following parameters of UnityEngine.ComponentExt.EnsureComponent< T >(this Component obj, Predicate< T > predicate=null, Action< T > onCreate=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/ComponentExt.cs:171: warning: The following parameters of UnityEngine.ComponentExt.Ensure< T >(this Component obj, Predicate< T > predicate) are not documented:
   parameter 'predicate'
-  parameter 'onCreate'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/GameObjectExt.cs:70: warning: The following parameters of UnityEngine.GameObjectExt.EnsureComponent< T >(this GameObject obj, Predicate< T > predicate=null, Action< T > onCreate=null) are not documented:
+C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/GameObjectExt.cs:70: warning: The following parameters of UnityEngine.GameObjectExt.Ensure< T >(this GameObject obj, Predicate< T > predicate) are not documented:
   parameter 'predicate'
-  parameter 'onCreate'
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/VectorExt.cs:19: warning: The following parameters of UnityEngine.VectorExt.ToUTM(this Vector3 value, int donatedZone, UTMPoint.GlobeHemisphere hemisphere) are not documented:
   parameter 'hemisphere'
