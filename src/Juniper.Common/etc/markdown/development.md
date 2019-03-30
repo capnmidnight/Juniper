@@ -1,3 +1,0 @@
-## Development
-
-N/A

@@ -1,5 +1,0 @@
-# Introduction
-
-[TOC]
-
-N/A

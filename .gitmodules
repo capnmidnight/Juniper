@@ -4,3 +4,7 @@
 [submodule "src/Juniper.Units"]
 	path = src/Juniper.Units
 	url = https://github.com/capnmidnight/Juniper.Units.git
+[submodule "src/Juniper.Common"]
+	path = src/Juniper.Common
+	url = https://github.com/capnmidnight/Juniper.Common.git
+	branch = master

@@ -1,3 +1,0 @@
-# Documentation Coverage
-
-N/A
