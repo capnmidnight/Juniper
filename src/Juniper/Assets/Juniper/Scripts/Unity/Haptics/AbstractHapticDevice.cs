@@ -40,7 +40,7 @@ namespace Juniper.Unity.Haptics
         /// <summary>
         /// Play a patterned vibration with amplitude modulation.
         /// </summary>
-        /// <param name="pattern">Pattern.</param>
+        /// <param name="pattern">   Pattern.</param>
         /// <param name="amplitudes">Amplitudes.</param>
         public abstract void Play(long[] pattern, float[] amplitudes);
 
@@ -54,7 +54,7 @@ namespace Juniper.Unity.Haptics
         /// Play a single vibration, of a set length of time, at a set strength.
         /// </summary>
         /// <param name="milliseconds">Milliseconds.</param>
-        /// <param name="amplitude">Amplitude values should be on the range [0, 1].</param>
+        /// <param name="amplitude">   Amplitude values should be on the range [0, 1].</param>
         public abstract void Vibrate(long milliseconds, float amplitude);
     }
 }

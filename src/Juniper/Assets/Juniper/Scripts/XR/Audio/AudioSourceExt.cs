@@ -16,7 +16,7 @@ namespace UnityEngine
         /// necessary spatialization component for the platforms spatialization plugin.
         /// </summary>
         /// <param name="audioSource"></param>
-        /// <param name="group"></param>
+        /// <param name="group">      </param>
         /// <returns></returns>
         public static AudioSource Spatialize(this AudioSource audioSource, AudioMixerGroup group)
         {
@@ -28,7 +28,7 @@ namespace UnityEngine
         /// necessary spatialization component for the platforms spatialization plugin.
         /// </summary>
         /// <param name="audioSource"></param>
-        /// <param name="loop"></param>
+        /// <param name="loop">       </param>
         /// <returns></returns>
         public static AudioSource Spatialize(this AudioSource audioSource, bool loop)
         {

@@ -67,8 +67,7 @@ namespace Juniper.Unity.Animation
         }
 
         /// <summary>
-        /// Jump the transition to the ENTERED state, without animating through
-        /// the ENTERING state.
+        /// Jump the transition to the ENTERED state, without animating through the ENTERING state.
         /// </summary>
         public override void SkipEnter()
         {
@@ -184,7 +183,7 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// Override this method in child classes to implement the animation of the transition.
         /// </summary>
-        /// <param name="final"></param>
+        /// <param name="final">  </param>
         /// <param name="initial"></param>
         private void OnValueChanged(float final, float initial)
         {

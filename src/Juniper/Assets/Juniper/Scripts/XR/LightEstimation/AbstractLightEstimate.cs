@@ -6,9 +6,8 @@ namespace Juniper.Unity.World.LightEstimation
 {
     public abstract class AbstractLightEstimate : MonoBehaviour, IInstallable
     {/// <summary>
-     /// When set to true, the lighting estimate will modify the global ambient light setting for
-     /// the scene.
-     /// </summary>
+     /// When set to true, the lighting estimate will modify the global ambient light setting for the
+     /// scene. </summary>
         public bool SetAmbientLight = true;
 
         /// <summary>
@@ -157,8 +156,7 @@ namespace Juniper.Unity.World.LightEstimation
         /// </summary>
         protected virtual void Update()
         {
-            float hue, sat, val;
-            Color.RGBToHSV(measurement.ColorEstimate, out hue, out sat, out val);
+            Color.RGBToHSV(measurement.ColorEstimate, out var hue, out var sat, out var val);
 
             var rampedIntensity = RampIntensity(measurement.IntensityEstimate);
             var cloudCover = CloudCover * CloudCoverScale * 2;
@@ -203,11 +201,11 @@ namespace Juniper.Unity.World.LightEstimation
         /// If <see cref="DebugReport"/> is set to true, prints a report that displays the status of
         /// the component and the values it is using for the light estimation.
         /// </summary>
-        /// <param name="ambientIntensity">Ambient intensity.</param>
-        /// <param name="ambientColor">Ambient color.</param>
+        /// <param name="ambientIntensity">    Ambient intensity.</param>
+        /// <param name="ambientColor">        Ambient color.</param>
         /// <param name="directionalIntensity">Directional intensity.</param>
-        /// <param name="directionalColor">Directional color.</param>
-        /// <param name="shadowStrength">Shadow strength.</param>
+        /// <param name="directionalColor">    Directional color.</param>
+        /// <param name="shadowStrength">      Shadow strength.</param>
         private void PrintDebugReport(float ambientIntensity, Color ambientColor, float directionalIntensity, Color directionalColor, float shadowStrength)
         {
             if (measurement == null)

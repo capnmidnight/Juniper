@@ -1,8 +1,8 @@
-using Juniper.Unity;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Juniper.Unity;
 
 namespace UnityEngine
 {
@@ -106,7 +106,7 @@ namespace UnityEngine
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="parent"></param>
-        /// <param name="path"></param>
+        /// <param name="path">  </param>
         /// <returns></returns>
         public static T Query<T>(this Component parent, string path)
         {
@@ -119,7 +119,7 @@ namespace UnityEngine
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="parent"></param>
-        /// <param name="path"></param>
+        /// <param name="path">  </param>
         /// <returns></returns>
         public static Transform Query(this Component parent, string path)
         {
@@ -145,7 +145,7 @@ namespace UnityEngine
         /// <paramref name="visible"/>. For any child transforms, calls <see
         /// cref="SetActive(Component, bool)"/> with <paramref name="visible"/> as the value.
         /// </summary>
-        /// <param name="parent"></param>
+        /// <param name="parent"> </param>
         /// <param name="visible"></param>
         public static void SetVisible(this Component parent, bool visible)
         {
@@ -197,8 +197,8 @@ namespace UnityEngine
         /// complex Transform hierarchies very quickly.
         /// </summary>
         /// <returns>The transform.</returns>
-        /// <param name="obj">Object.</param>
-        /// <param name="path">Path.</param>
+        /// <param name="obj">   Object.</param>
+        /// <param name="path">  Path.</param>
         /// <param name="create"></param>
         public static PooledComponent<T> Ensure<T>(this Component obj, string path, Func<GameObject> create)
             where T : Transform
@@ -211,10 +211,10 @@ namespace UnityEngine
         /// complex Transform hierarchies very quickly.
         /// </summary>
         /// <returns>The transform.</returns>
-        /// <param name="obj">Object.</param>
-        /// <param name="path">Path.</param>
+        /// <param name="obj">         Object.</param>
+        /// <param name="path">        Path.</param>
         /// <param name="creationPath"></param>
-        /// <param name="create"></param>
+        /// <param name="create">      </param>
         public static PooledComponent<T> Ensure<T>(this Component obj, string path, string creationPath = null, Func<GameObject> create = null)
             where T : Transform
         {
@@ -286,9 +286,10 @@ namespace UnityEngine
         }
 
 #if UNITY_EDITOR
+
         /// <summary>
-        /// When called from the Unity Editor, loads an audio clip from disk to use as
-        /// a property in a Unity component.
+        /// When called from the Unity Editor, loads an audio clip from disk to use as a property in
+        /// a Unity component.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -304,10 +305,12 @@ namespace UnityEngine
                 return UnityEditor.AssetDatabase.GetBuiltinExtraResource<T>(path);
             }
         }
+
 #endif
+
         /// <summary>
-        /// When called from the Unity Editor, loads an audio clip from disk to use as
-        /// a property in a Unity component.
+        /// When called from the Unity Editor, loads an audio clip from disk to use as a property in
+        /// a Unity component.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>

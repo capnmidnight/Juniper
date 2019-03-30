@@ -9,9 +9,10 @@ using UnityEngine;
 
 using Juniper.Unity.Input;
 
-
 #if UNITY_MODULES_AUDIO
+
 using Juniper.Unity.Audio;
+
 #endif
 
 namespace Juniper.Unity.Widgets
@@ -178,7 +179,7 @@ namespace Juniper.Unity.Widgets
         /// Set the attenion director to targeting a specific object, withouth showing the optional
         /// center image.
         /// </summary>
-        /// <param name="target">Target.</param>
+        /// <param name="target">       Target.</param>
         /// <param name="onTargetFound">On target found.</param>
         public void SetTarget(Component target, Action onTargetFound)
         {

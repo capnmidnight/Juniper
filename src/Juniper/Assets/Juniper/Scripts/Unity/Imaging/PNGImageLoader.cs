@@ -3,6 +3,7 @@ using System.Collections;
 
 using Juniper.Data;
 using Juniper.Unity.Data;
+
 using UnityEngine;
 
 namespace Juniper.Unity.Imaging
@@ -16,7 +17,7 @@ namespace Juniper.Unity.Imaging
         /// <summary>
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
-        /// <param name="pngBytes">Png bytes.</param>
+        /// <param name="pngBytes">     Png bytes.</param>
         /// <param name="ImageComplete">Image complete.</param>
         private static void DecodePNGTexture(byte[] pngBytes, OnRawImageComplete ImageComplete)
         {
@@ -90,8 +91,8 @@ namespace Juniper.Unity.Imaging
         /// </summary>
         /// <returns>The texture from streaming assets PNGC oroutine.</returns>
         /// <param name="imagePath">Image path.</param>
-        /// <param name="resolve">Resolve.</param>
-        /// <param name="reject">Reject.</param>
+        /// <param name="resolve">  Resolve.</param>
+        /// <param name="reject">   Reject.</param>
         public static IEnumerator StreamTexture(string imagePath, Action<Texture> resolve, Action<Exception> reject)
         {
             RawImage? image = null;

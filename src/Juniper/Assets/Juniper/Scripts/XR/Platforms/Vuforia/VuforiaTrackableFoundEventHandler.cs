@@ -49,7 +49,7 @@ namespace Juniper.Unity.ImageTracking
         /// Updates the tracking state of the target when Unity's OnTrackableStateChange event is fired.
         /// </summary>
         /// <param name="previousStatus">Previous status.</param>
-        /// <param name="newStatus">New status.</param>
+        /// <param name="newStatus">     New status.</param>
         public void OnTrackableStateChanged(
             TrackableBehaviour.Status previousStatus,
             TrackableBehaviour.Status newStatus)

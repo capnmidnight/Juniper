@@ -1,9 +1,9 @@
+using System;
+using System.Collections;
+
 using Juniper.Progress;
 using Juniper.World.Climate;
 using Juniper.World.GIS;
-
-using System;
-using System.Collections;
 
 using UnityEngine;
 
@@ -237,7 +237,7 @@ namespace Juniper.Unity.World.Climate
         /// Initiate a new request for a weather report at a given location.
         /// </summary>
         /// <param name="location"></param>
-        /// <param name="force"></param>
+        /// <param name="force">   </param>
         /// <returns></returns>
         public IEnumerator RequestCoroutine(LatLngPoint location, bool force, IProgress prog = null)
         {

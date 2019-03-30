@@ -1,7 +1,3 @@
-using Juniper.Input;
-
-using System;
-
 using UnityEngine;
 
 namespace Juniper.Unity.Input.Pointers.Motion

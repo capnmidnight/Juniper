@@ -322,8 +322,8 @@ namespace Juniper.Unity
         private WaitUntil _waiter;
 
         /// <summary>
-        /// Retrieves a cached waiter object. The object is cached so we don't cause unnecessary
-        /// GC pressure. Use it to wait for the transition to run to completion.
+        /// Retrieves a cached waiter object. The object is cached so we don't cause unnecessary GC
+        /// pressure. Use it to wait for the transition to run to completion.
         /// </summary>
         public WaitUntil Waiter
         {

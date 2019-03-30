@@ -34,10 +34,10 @@ namespace Juniper.Unity
         /// <summary>
         /// Initializes a new instance of the <see cref="T:HSVColor"/> struct.
         /// </summary>
-        /// <param name="hue">Hue.</param>
+        /// <param name="hue">       Hue.</param>
         /// <param name="saturation">Saturation.</param>
-        /// <param name="value">Value.</param>
-        /// <param name="alpha">Alpha.</param>
+        /// <param name="value">     Value.</param>
+        /// <param name="alpha">     Alpha.</param>
         public HSVColor(float hue, float saturation, float value, float alpha = 1)
         {
             h = hue;

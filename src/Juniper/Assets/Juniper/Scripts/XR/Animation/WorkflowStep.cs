@@ -19,7 +19,7 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Juniper.Animation.WorkflowStep"/> class.
         /// </summary>
-        /// <param name="view">View.</param>
+        /// <param name="view">         View.</param>
         /// <param name="animationClip">Animation clip.</param>
         public WorkflowStep(Transform view, string animationClip)
             : this(view, animationClip, null)
@@ -38,7 +38,7 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Juniper.Animation.WorkflowStep"/> class.
         /// </summary>
-        /// <param name="view">View.</param>
+        /// <param name="view">  View.</param>
         /// <param name="action">Action.</param>
         public WorkflowStep(Transform view, Action action)
             : this(view, null, action)
@@ -57,9 +57,9 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Juniper.Animation.WorkflowStep"/> class.
         /// </summary>
-        /// <param name="view">View.</param>
+        /// <param name="view">         View.</param>
         /// <param name="animationClip">Animation clip.</param>
-        /// <param name="action">Action.</param>
+        /// <param name="action">       Action.</param>
         public WorkflowStep(Transform view, string animationClip, Action action)
         {
             step = view;
@@ -129,10 +129,12 @@ namespace Juniper.Unity.Animation
         private readonly Button[] buttons;
 
 #if UNITY_MODULES_ANIMATION
+
         /// <summary>
         /// The (optional) animation to play on a 3D model when the step is entered.
         /// </summary>
         private readonly string animationClipName;
+
 #endif
 
         /// <summary>

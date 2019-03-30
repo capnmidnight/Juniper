@@ -64,7 +64,7 @@ namespace Juniper.Unity.Haptics
         /// <summary>
         /// Play a patterned vibration with amplitude modulation.
         /// </summary>
-        /// <param name="pattern">Pattern.</param>
+        /// <param name="pattern">   Pattern.</param>
         /// <param name="amplitudes">Amplitudes.</param>
         public override void Play(long[] pattern, float[] amplitudes)
         {
@@ -75,7 +75,7 @@ namespace Juniper.Unity.Haptics
         /// Play a patterned vibration with amplitude modulation.
         /// </summary>
         /// <param name="milliseconds">Pattern.</param>
-        /// <param name="amplitude">Amplitudes.</param>
+        /// <param name="amplitude">   Amplitudes.</param>
         public override void Vibrate(long milliseconds, float amplitude)
         {
             StartCoroutine(VibrateCoroutine(milliseconds, amplitude));
@@ -107,7 +107,7 @@ namespace Juniper.Unity.Haptics
         /// <summary>
         /// Play a patterned vibration with amplitude modulation.
         /// </summary>
-        /// <param name="pattern">Pattern.</param>
+        /// <param name="pattern">   Pattern.</param>
         /// <param name="amplitudes">Amplitudes.</param>
         protected virtual IEnumerator PlayCoroutine(long[] pattern, float[] amplitudes)
         {
@@ -121,7 +121,7 @@ namespace Juniper.Unity.Haptics
         /// Play a patterned vibration with amplitude modulation.
         /// </summary>
         /// <param name="milliseconds">Pattern.</param>
-        /// <param name="amplitude">Amplitudes.</param>
+        /// <param name="amplitude">   Amplitudes.</param>
         protected abstract IEnumerator VibrateCoroutine(long milliseconds, float amplitude);
 
         /// <summary>

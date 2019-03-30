@@ -1,7 +1,7 @@
+using System.Collections.Generic;
+
 using Juniper;
 using Juniper.World.GIS;
-
-using System.Collections.Generic;
 
 namespace UnityEngine
 {
@@ -14,7 +14,7 @@ namespace UnityEngine
         /// Convert a Vector3 with a given UTM Zone to a <see cref="UTMPoint"/>
         /// </summary>
         /// <returns>The utm.</returns>
-        /// <param name="value">Value.</param>
+        /// <param name="value">      Value.</param>
         /// <param name="donatedZone">Donated zone.</param>
         public static UTMPoint ToUTM(this Vector3 value, int donatedZone, UTMPoint.GlobeHemisphere hemisphere)
         {
@@ -46,7 +46,7 @@ namespace UnityEngine
         /// Calculates the shortest difference between two given Euler angle sets, given in degrees.
         /// </summary>
         /// <returns>The angle.</returns>
-        /// <param name="final">Final.</param>
+        /// <param name="final">  Final.</param>
         /// <param name="initial">Initial.</param>
         public static Vector3 DeltaAngle(this Vector3 final, Vector3 initial)
         {
@@ -71,7 +71,6 @@ namespace UnityEngine
         {
             return $"({v.x.Label(unit, sigFigs)}, {v.y.Label(unit, sigFigs)}, {v.z.Label(unit, sigFigs)}, {v.w.Label(unit, sigFigs)})";
         }
-
 
         public static Vector2 Round2Square(this Vector2 point)
         {

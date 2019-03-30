@@ -19,7 +19,7 @@ namespace Juniper.Unity.Animation
         /// Check to see if the current animation has the desired clip.
         /// </summary>
         /// <param name="animator"></param>
-        /// <param name="name"></param>
+        /// <param name="name">    </param>
         /// <returns></returns>
         public static bool AnimatorHasState(Animator animator, string name)
         {

@@ -1,7 +1,7 @@
-using Juniper.Input.Speech;
-
 using System;
 using System.Linq;
+
+using Juniper.Input.Speech;
 
 using UnityEngine;
 using UnityEngine.Events;

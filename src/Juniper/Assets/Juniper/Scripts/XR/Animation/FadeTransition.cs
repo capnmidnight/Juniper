@@ -1,7 +1,7 @@
-using Juniper.Unity.Display;
-
 using System;
 using System.Collections.Generic;
+
+using Juniper.Unity.Display;
 
 using UnityEngine;
 using UnityEngine.Rendering;

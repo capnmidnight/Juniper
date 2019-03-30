@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+
 using Juniper.Input;
 using Juniper.Unity.Input.Pointers;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Unity.Events
 {
@@ -39,7 +38,6 @@ namespace Juniper.Unity.Events
         public string buttonValueName;
 
         public InputEventButton inputButton = InputEventButton.None;
-
 
         public T? GetButtonValue<T>()
             where T : struct

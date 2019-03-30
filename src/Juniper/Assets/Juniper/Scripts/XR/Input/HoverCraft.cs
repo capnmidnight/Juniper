@@ -1,5 +1,7 @@
-using Juniper.Unity.Input.Pointers;
 using System.Linq;
+
+using Juniper.Unity.Input.Pointers;
+
 using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
@@ -7,6 +9,7 @@ using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 namespace Juniper.Unity.Input
 {
 #if UNITY_MODULES_PHYSICS
+
     [RequireComponent(typeof(Rigidbody))]
 #endif
     public class HoverCraft : AbstractVelocityLocomotion

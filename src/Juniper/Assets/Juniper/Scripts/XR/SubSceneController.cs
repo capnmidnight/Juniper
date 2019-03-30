@@ -1,8 +1,8 @@
-using Juniper.Unity.Animation;
-using Juniper.Progress;
-
 using System.Collections.Generic;
 using System.Linq;
+
+using Juniper.Progress;
+using Juniper.Unity.Animation;
 
 using UnityEngine;
 

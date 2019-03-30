@@ -38,7 +38,6 @@ namespace Juniper.Unity.Display
                 return false;
             }
 
-
 #if UNITY_EDITOR
             if (ARBackgroundMaterial == null || reset)
             {

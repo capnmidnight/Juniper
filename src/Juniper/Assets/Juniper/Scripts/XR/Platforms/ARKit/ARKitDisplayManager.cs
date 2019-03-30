@@ -11,7 +11,6 @@ namespace Juniper.Unity.Display
         {
             if(base.Install(reset))
             {
-
                 this.WithLock(() =>
                 {
                     var bgRenderer = this.Ensure<UnityARVideo>();

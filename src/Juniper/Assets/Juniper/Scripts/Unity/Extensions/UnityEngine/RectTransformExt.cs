@@ -1,8 +1,3 @@
-using Juniper.Unity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace UnityEngine
 {
     /// <summary>
@@ -82,7 +77,7 @@ namespace UnityEngine
         /// </summary>
         /// <returns>The contains.</returns>
         /// <param name="parent">Parent.</param>
-        /// <param name="point">Point.</param>
+        /// <param name="point"> Point.</param>
         public static bool Contains(this RectTransform parent, Vector2 point)
         {
             if (parent == null)

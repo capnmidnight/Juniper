@@ -23,7 +23,7 @@ namespace Juniper.Unity.World.GIS
         /// <summary>
         /// Convert this UTMPoint to a Unity Vector3, projected to the screen using the provided matrix.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value">   </param>
         /// <param name="toScreen"></param>
         /// <returns></returns>
         public static Vector3 ToScreen(this UTMPoint value, Matrix4x4 toScreen)

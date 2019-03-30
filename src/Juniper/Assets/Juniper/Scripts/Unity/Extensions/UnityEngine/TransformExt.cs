@@ -1,8 +1,7 @@
-using Juniper.Unity;
-
-using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Juniper.Unity;
 
 namespace UnityEngine
 {
@@ -15,8 +14,8 @@ namespace UnityEngine
         /// Move the transform onto a parent, and reset it's localPosition, localRotation, and
         /// localScale to the origin state.
         /// </summary>
-        /// <param name="t"></param>
-        /// <param name="parent"></param>
+        /// <param name="t">         </param>
+        /// <param name="parent">    </param>
         /// <param name="resetScale">
         /// Set to false to keep the object at its original size. Set to true to reset the scale to
         /// the unity scale. Defaults to true.
@@ -30,7 +29,7 @@ namespace UnityEngine
         /// <summary>
         /// Resets the transform's localPosition, localRotation, and localScale to the origin state.
         /// </summary>
-        /// <param name="t"></param>
+        /// <param name="t">         </param>
         /// <param name="resetScale">
         /// Set to false to keep the object at its original size. Set to true to reset the scale to
         /// the unity scale. Defaults to true.
@@ -77,7 +76,7 @@ namespace UnityEngine
         /// <summary>
         /// Remove all child transforms from a transform.
         /// </summary>
-        /// <param name="parent"></param>
+        /// <param name="parent">    </param>
         /// <param name="startIndex"></param>
         public static Transform ClearChildren(this Transform parent, int startIndex = 0)
         {
@@ -94,7 +93,7 @@ namespace UnityEngine
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="parent"></param>
-        /// <param name="path"></param>
+        /// <param name="path">  </param>
         /// <returns></returns>
         public static Transform Query<T>(this T parent, string path)
             where T : Component

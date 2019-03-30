@@ -1,8 +1,8 @@
-using Juniper.Unity.Display;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Juniper.Unity.Display;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -389,7 +389,7 @@ namespace Juniper.Unity.ImageTracking
         /// Initializes tracking of a specific target.
         /// </summary>
         /// <param name="dataSetName">Data set name.</param>
-        /// <param name="targetName">Target name.</param>
+        /// <param name="targetName"> Target name.</param>
         public void StartTrackerWithDataSetForTarget(string dataSetName, string targetName)
         {
             OnTrackingStarting(dataSetName, targetName);

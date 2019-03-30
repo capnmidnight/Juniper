@@ -6,8 +6,8 @@ using UnityEngine;
 namespace Juniper.Unity.Input.Pointers.Screen
 {
     /// <summary>
-    /// A ScreenDevice is a <see cref="AbstractPointerDevice{ButtonIDType, HapticsType}"/> that has its primary
-    /// pointer interactions happening in screen space.
+    /// A ScreenDevice is a <see cref="AbstractPointerDevice{ButtonIDType, HapticsType}"/> that has
+    /// its primary pointer interactions happening in screen space.
     /// </summary>
     public abstract class AbstractScreenDevice<ButtonIDType, HapticsType, ConfigType> :
         AbstractPointerDevice<ButtonIDType, HapticsType, ConfigType>,

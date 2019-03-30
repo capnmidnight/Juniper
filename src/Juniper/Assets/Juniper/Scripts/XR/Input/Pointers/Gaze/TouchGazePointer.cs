@@ -11,7 +11,9 @@ using HapticsType = Juniper.Unity.Haptics.iOS10Haptics;
 #elif IOS_VERSION_9
 using HapticsType = Juniper.Unity.Haptics.iOS9Haptics;
 #else
+
 using HapticsType = Juniper.Unity.Haptics.DefaultHaptics;
+
 #endif
 
 namespace Juniper.Unity.Input.Pointers.Gaze

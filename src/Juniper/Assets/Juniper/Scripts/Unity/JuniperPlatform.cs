@@ -58,6 +58,7 @@ namespace Juniper.Unity
             PlatformTypes.AndroidDaydream;
 #elif UNITY_XR_OCULUS
             PlatformTypes.AndroidOculus;
+
 #elif PICO
             PlatformTypes.AndroidPicoG2;
 #elif WAVEVR
@@ -100,10 +101,37 @@ namespace Juniper.Unity
 #else
             PlatformTypes.None;
 #endif
-        
-        public static SystemTypes System { get { return Platform.GetSystem(CurrentPlatform); } }
-        public static DisplayTypes SupportedDisplayType { get { return Platform.GetDisplayType(CurrentPlatform); } }
-        public static AugmentedRealityTypes SupportedARMode { get { return Platform.GetARType(CurrentPlatform); } }
-        public static Options Option { get { return Platform.GetOption(CurrentPlatform); } }
+
+        public static SystemTypes System
+        {
+            get
+            {
+                return Platform.GetSystem(CurrentPlatform);
+            }
+        }
+
+        public static DisplayTypes SupportedDisplayType
+        {
+            get
+            {
+                return Platform.GetDisplayType(CurrentPlatform);
+            }
+        }
+
+        public static AugmentedRealityTypes SupportedARMode
+        {
+            get
+            {
+                return Platform.GetARType(CurrentPlatform);
+            }
+        }
+
+        public static Options Option
+        {
+            get
+            {
+                return Platform.GetOption(CurrentPlatform);
+            }
+        }
     }
 }

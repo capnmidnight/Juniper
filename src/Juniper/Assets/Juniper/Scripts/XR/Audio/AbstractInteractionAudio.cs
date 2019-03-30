@@ -8,7 +8,6 @@ using Juniper.Input;
 
 using UnityEngine;
 
-
 #if UNITY_MODULES_AUDIO
 
 using System.Collections.Generic;
@@ -150,7 +149,7 @@ namespace Juniper.Unity.Audio
         /// Play the specified action at the camera position using the specified haptics, with no callback.
         /// </summary>
         /// <returns>The play.</returns>
-        /// <param name="action">Action.</param>
+        /// <param name="action"> Action.</param>
         /// <param name="haptics">Haptics.</param>
         public static float Play(Interaction action, AbstractHapticDevice haptics)
         {
@@ -161,8 +160,8 @@ namespace Juniper.Unity.Audio
         /// Play the specified action using the specified pose and haptic subsystem, with no callback.
         /// </summary>
         /// <returns>The play.</returns>
-        /// <param name="action">Action.</param>
-        /// <param name="pose">Pose.</param>
+        /// <param name="action"> Action.</param>
+        /// <param name="pose">   Pose.</param>
         /// <param name="haptics">Haptics.</param>
         public static float Play(Interaction action, Transform pose, AbstractHapticDevice haptics)
         {
@@ -174,8 +173,8 @@ namespace Juniper.Unity.Audio
         /// callback on completion.
         /// </summary>
         /// <returns>The play.</returns>
-        /// <param name="action">Action.</param>
-        /// <param name="haptics">Haptics.</param>
+        /// <param name="action">    Action.</param>
+        /// <param name="haptics">   Haptics.</param>
         /// <param name="onComplete"></param>
         public static float Play(Interaction action, AbstractHapticDevice haptics, Action onComplete)
         {
@@ -187,9 +186,9 @@ namespace Juniper.Unity.Audio
         /// on completion.
         /// </summary>
         /// <returns>The play.</returns>
-        /// <param name="action">Action.</param>
-        /// <param name="pose">Pose.</param>
-        /// <param name="haptics">Haptics.</param>
+        /// <param name="action">    Action.</param>
+        /// <param name="pose">      Pose.</param>
+        /// <param name="haptics">   Haptics.</param>
         /// <param name="onComplete"></param>
         public static float Play(Interaction action, Transform pose, AbstractHapticDevice haptics, Action onComplete)
         {
@@ -329,7 +328,7 @@ namespace Juniper.Unity.Audio
         /// Waits a set number of seconds and then executs a callback function.
         /// </summary>
         /// <returns>The wait.</returns>
-        /// <param name="seconds">Seconds.</param>
+        /// <param name="seconds">   Seconds.</param>
         /// <param name="onComplete">On complete.</param>
         private IEnumerator Wait(float seconds, Action onComplete)
         {
@@ -373,7 +372,7 @@ namespace Juniper.Unity.Audio
         /// <summary>
         /// Executes the haptic feedback portion of the interaction.
         /// </summary>
-        /// <param name="action">Action.</param>
+        /// <param name="action"> Action.</param>
         /// <param name="haptics">Haptics.</param>
         private void PlayHaptics(Interaction action, AbstractHapticDevice haptics)
         {
@@ -389,7 +388,7 @@ namespace Juniper.Unity.Audio
         /// </summary>
         /// <returns>The clip.</returns>
         /// <param name="action">Action.</param>
-        /// <param name="pose">Pose.</param>
+        /// <param name="pose">  Pose.</param>
         private float PlayClip(Interaction action, Transform pose)
         {
 #if UNITY_MODULES_AUDIO
@@ -524,8 +523,8 @@ namespace Juniper.Unity.Audio
         /// necessary spatialization component for the platforms spatialization plugin.
         /// </summary>
         /// <param name="audioSource"></param>
-        /// <param name="loop"></param>
-        /// <param name="group"></param>
+        /// <param name="loop">       </param>
+        /// <param name="group">      </param>
         /// <returns></returns>
         protected virtual AudioSource InternalSpatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
         {

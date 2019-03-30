@@ -1,6 +1,6 @@
-using Juniper.Unity.Events;
-
 using System;
+
+using Juniper.Unity.Events;
 
 using UnityEngine;
 using UnityEngine.Events;

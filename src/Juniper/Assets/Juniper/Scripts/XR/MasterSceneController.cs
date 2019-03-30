@@ -8,7 +8,6 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 using Juniper.Unity.Animation;
 using Juniper.Unity.Audio;
 using Juniper.Unity.Display;
@@ -16,9 +15,9 @@ using Juniper.Unity.Widgets;
 using Juniper.Progress;
 
 using UnityEngine.UI;
+
 using Juniper.Unity.World.LightEstimation;
 using Juniper.Unity.World;
-
 
 #if UNITY_EDITOR
 
@@ -58,7 +57,7 @@ namespace Juniper.Unity
         /// </summary>
         /// <returns>The scene.</returns>
         /// <param name="sceneName">Scene name.</param>
-        /// <param name="path">Path.</param>
+        /// <param name="path">     Path.</param>
         private static AsyncOperation LoadScene(string scenePath, string sceneName)
         {
             if (Application.isPlaying)
@@ -177,9 +176,11 @@ namespace Juniper.Unity
         /// along the way. In the new scene, TransitionController Enter functions are called as well.
         /// It is suitable for running in a coroutine to track when the end of the switching process occurs.
         /// </summary>
-        /// <param name="sceneName"></param>
-        /// <param name="skipFadeOut">Whether or not to fade the screen out (true) or start with a black screen (false)
-        /// before loading the scene.</param>
+        /// <param name="sceneName">  </param>
+        /// <param name="skipFadeOut">
+        /// Whether or not to fade the screen out (true) or start with a black screen (false) before
+        /// loading the scene.
+        /// </param>
         /// <returns></returns>
         private void SwitchToSceneName(string sceneName, bool skipFadeOut)
         {
@@ -245,9 +246,8 @@ namespace Juniper.Unity
         {
             JuniperPlatform.Install(false);
 
-            // Unity hacks the sense of null, creating a value reference that compares to null,
-            // but doesn't work with the null coallescing operator. So we make it actually,
-            // really null here.
+            // Unity hacks the sense of null, creating a value reference that compares to null, but
+            // doesn't work with the null coallescing operator. So we make it actually, really null here.
             if (splash == null)
             {
                 splash = null;
@@ -778,7 +778,7 @@ namespace Juniper.Unity
         /// </summary>
         /// <returns>The scene.</returns>
         /// <param name="sceneName">Scene name.</param>
-        /// <param name="path">Path.</param>
+        /// <param name="path">     Path.</param>
         private Scene? GetScene(string sceneName, string path)
         {
             if (IsScenePathLoaded(path))

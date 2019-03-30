@@ -80,7 +80,7 @@ namespace UnityEngine
         /// If <see cref="UseShared"/> is true, set the sharedMaterials on the renderer. Otherwise,
         /// set the materials property on the renderer.
         /// </summary>
-        /// <param name="renderer">Renderer.</param>
+        /// <param name="renderer"> Renderer.</param>
         /// <param name="materials">Material.</param>
         public static void SetMaterials(this Renderer renderer, Material[] materials)
         {
@@ -117,7 +117,7 @@ namespace UnityEngine
         /// the mesh property on the mesh filter.
         /// </summary>
         /// <param name="filter">a mesh filter.</param>
-        /// <param name="mesh">a mesh.</param>
+        /// <param name="mesh">  a mesh.</param>
         public static void SetMesh(this MeshFilter filter, Mesh mesh)
         {
             if (UseShared)

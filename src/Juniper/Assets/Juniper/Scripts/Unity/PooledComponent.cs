@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace Juniper.Unity
@@ -52,9 +53,7 @@ namespace Juniper.Unity
             UnityEngine.Object.DestroyImmediate(Value);
         }
 
-        //
-        // Summary:
-        //     The tag of this game object.
+        // Summary: The tag of this game object.
         public string tag
         {
             get
@@ -67,102 +66,70 @@ namespace Juniper.Unity
             }
         }
 
+        // Summary: Calls the method named methodName on every MonoBehaviour in this game object or
+        // any of its children.
         //
-        // Summary:
-        //     Calls the method named methodName on every MonoBehaviour in this game object
-        //     or any of its children.
+        // Parameters: methodName: Name of the method to call.
         //
-        // Parameters:
-        //   methodName:
-        //     Name of the method to call.
+        // parameter: Optional parameter to pass to the method (can be any value).
         //
-        //   parameter:
-        //     Optional parameter to pass to the method (can be any value).
-        //
-        //   options:
-        //     Should an error be raised if the method does not exist for a given target object?
+        // options: Should an error be raised if the method does not exist for a given target object?
         public void BroadcastMessage(string methodName)
         {
             Value.BroadcastMessage(methodName);
         }
 
+        // Summary: Calls the method named methodName on every MonoBehaviour in this game object or
+        // any of its children.
         //
-        // Summary:
-        //     Calls the method named methodName on every MonoBehaviour in this game object
-        //     or any of its children.
+        // Parameters: methodName: Name of the method to call.
         //
-        // Parameters:
-        //   methodName:
-        //     Name of the method to call.
+        // parameter: Optional parameter to pass to the method (can be any value).
         //
-        //   parameter:
-        //     Optional parameter to pass to the method (can be any value).
-        //
-        //   options:
-        //     Should an error be raised if the method does not exist for a given target object?
+        // options: Should an error be raised if the method does not exist for a given target object?
         public void BroadcastMessage(string methodName, object parameter)
         {
             Value.BroadcastMessage(methodName, parameter);
         }
 
+        // Summary: Calls the method named methodName on every MonoBehaviour in this game object or
+        // any of its children.
         //
-        // Summary:
-        //     Calls the method named methodName on every MonoBehaviour in this game object
-        //     or any of its children.
+        // Parameters: methodName: Name of the method to call.
         //
-        // Parameters:
-        //   methodName:
-        //     Name of the method to call.
+        // parameter: Optional parameter to pass to the method (can be any value).
         //
-        //   parameter:
-        //     Optional parameter to pass to the method (can be any value).
-        //
-        //   options:
-        //     Should an error be raised if the method does not exist for a given target object?
+        // options: Should an error be raised if the method does not exist for a given target object?
         public void BroadcastMessage(string methodName, object parameter = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
         {
             Value.BroadcastMessage(methodName, parameter, options);
         }
 
+        // Summary: Calls the method named methodName on every MonoBehaviour in this game object or
+        // any of its children.
         //
-        // Summary:
-        //     Calls the method named methodName on every MonoBehaviour in this game object
-        //     or any of its children.
+        // Parameters: methodName: Name of the method to call.
         //
-        // Parameters:
-        //   methodName:
-        //     Name of the method to call.
+        // parameter: Optional parameter to pass to the method (can be any value).
         //
-        //   parameter:
-        //     Optional parameter to pass to the method (can be any value).
-        //
-        //   options:
-        //     Should an error be raised if the method does not exist for a given target object?
+        // options: Should an error be raised if the method does not exist for a given target object?
         public void BroadcastMessage(string methodName, SendMessageOptions options)
         {
             Value.BroadcastMessage(methodName, options);
         }
 
+        // Summary: Is this game object tagged with tag ?
         //
-        // Summary:
-        //     Is this game object tagged with tag ?
-        //
-        // Parameters:
-        //   tag:
-        //     The tag to compare.
+        // Parameters: tag: The tag to compare.
         public bool CompareTag(string tag)
         {
             return Value.CompareTag(tag);
         }
 
+        // Summary: Returns the component of Type type if the game object has one attached, null if
+        // it doesn't.
         //
-        // Summary:
-        //     Returns the component of Type type if the game object has one attached, null
-        //     if it doesn't.
-        //
-        // Parameters:
-        //   type:
-        //     The type of Component to retrieve.
+        // Parameters: type: The type of Component to retrieve.
         public Component GetComponent(Type type)
         {
             return Value.GetComponent(type);
@@ -173,13 +140,10 @@ namespace Juniper.Unity
             return Value.GetComponent<U>();
         }
 
+        // Summary: Returns the component with name type if the game object has one attached, null if
+        // it doesn't.
         //
-        // Summary:
-        //     Returns the component with name type if the game object has one attached, null
-        //     if it doesn't.
-        //
-        // Parameters:
-        //   type:
+        // Parameters: type:
         public Component GetComponent(string type)
         {
             return Value.GetComponent(type);
@@ -200,32 +164,22 @@ namespace Juniper.Unity
             return Value.GetComponentInChildren(t, includeInactive);
         }
 
+        // Summary: Returns the component of Type type in the GameObject or any of its children using
+        // depth first search.
         //
-        // Summary:
-        //     Returns the component of Type type in the GameObject or any of its children using
-        //     depth first search.
+        // Parameters: t: The type of Component to retrieve.
         //
-        // Parameters:
-        //   t:
-        //     The type of Component to retrieve.
-        //
-        // Returns:
-        //     A component of the matching type, if found.
+        // Returns: A component of the matching type, if found.
         public Component GetComponentInChildren(Type t)
         {
             return Value.GetComponentInChildren(t);
         }
 
+        // Summary: Returns the component of Type type in the GameObject or any of its parents.
         //
-        // Summary:
-        //     Returns the component of Type type in the GameObject or any of its parents.
+        // Parameters: t: The type of Component to retrieve.
         //
-        // Parameters:
-        //   t:
-        //     The type of Component to retrieve.
-        //
-        // Returns:
-        //     A component of the matching type, if found.
+        // Returns: A component of the matching type, if found.
         public Component GetComponentInParent(Type t)
         {
             return Value.GetComponentInParent(t);
@@ -251,13 +205,9 @@ namespace Juniper.Unity
             Value.GetComponents(type, results);
         }
 
+        // Summary: Returns all components of Type type in the GameObject.
         //
-        // Summary:
-        //     Returns all components of Type type in the GameObject.
-        //
-        // Parameters:
-        //   type:
-        //     The type of Component to retrieve.
+        // Parameters: type: The type of Component to retrieve.
         public Component[] GetComponents(Type type)
         {
             return Value.GetComponents(type);
@@ -278,18 +228,13 @@ namespace Juniper.Unity
             return Value.GetComponentsInChildren(t);
         }
 
+        // Summary: Returns all components of Type type in the GameObject or any of its children.
         //
-        // Summary:
-        //     Returns all components of Type type in the GameObject or any of its children.
+        // Parameters: t: The type of Component to retrieve.
         //
-        // Parameters:
-        //   t:
-        //     The type of Component to retrieve.
-        //
-        //   includeInactive:
-        //     Should Components on inactive GameObjects be included in the found set? includeInactive
-        //     decides which children of the GameObject will be searched. The GameObject that
-        //     you call GetComponentsInChildren on is always searched regardless.
+        // includeInactive: Should Components on inactive GameObjects be included in the found set?
+        // includeInactive decides which children of the GameObject will be searched. The GameObject
+        // that you call GetComponentsInChildren on is always searched regardless.
         public Component[] GetComponentsInChildren(Type t, bool includeInactive)
         {
             return Value.GetComponentsInChildren(t, includeInactive);
@@ -325,168 +270,115 @@ namespace Juniper.Unity
             return Value.GetComponentsInParent<U>(includeInactive);
         }
 
+        // Summary: Returns all components of Type type in the GameObject or any of its parents.
         //
-        // Summary:
-        //     Returns all components of Type type in the GameObject or any of its parents.
+        // Parameters: t: The type of Component to retrieve.
         //
-        // Parameters:
-        //   t:
-        //     The type of Component to retrieve.
-        //
-        //   includeInactive:
-        //     Should inactive Components be included in the found set?
+        // includeInactive: Should inactive Components be included in the found set?
         public Component[] GetComponentsInParent(Type t, bool includeInactive = false)
         {
             return Value.GetComponentsInParent(t, includeInactive);
         }
 
+        // Summary: Calls the method named methodName on every MonoBehaviour in this game object.
         //
-        // Summary:
-        //     Calls the method named methodName on every MonoBehaviour in this game object.
+        // Parameters: methodName: Name of the method to call.
         //
-        // Parameters:
-        //   methodName:
-        //     Name of the method to call.
+        // value: Optional parameter for the method.
         //
-        //   value:
-        //     Optional parameter for the method.
-        //
-        //   options:
-        //     Should an error be raised if the target object doesn't implement the method for
-        //     the message?
+        // options: Should an error be raised if the target object doesn't implement the method for
+        // the message?
         public void SendMessage(string methodName, SendMessageOptions options)
         {
             Value.SendMessage(methodName, options);
         }
 
+        // Summary: Calls the method named methodName on every MonoBehaviour in this game object.
         //
-        // Summary:
-        //     Calls the method named methodName on every MonoBehaviour in this game object.
+        // Parameters: methodName: Name of the method to call.
         //
-        // Parameters:
-        //   methodName:
-        //     Name of the method to call.
+        // value: Optional parameter for the method.
         //
-        //   value:
-        //     Optional parameter for the method.
-        //
-        //   options:
-        //     Should an error be raised if the target object doesn't implement the method for
-        //     the message?
+        // options: Should an error be raised if the target object doesn't implement the method for
+        // the message?
         public void SendMessage(string methodName, object value, SendMessageOptions options)
         {
             Value.SendMessage(methodName, value, options);
         }
 
+        // Summary: Calls the method named methodName on every MonoBehaviour in this game object.
         //
-        // Summary:
-        //     Calls the method named methodName on every MonoBehaviour in this game object.
+        // Parameters: methodName: Name of the method to call.
         //
-        // Parameters:
-        //   methodName:
-        //     Name of the method to call.
+        // value: Optional parameter for the method.
         //
-        //   value:
-        //     Optional parameter for the method.
-        //
-        //   options:
-        //     Should an error be raised if the target object doesn't implement the method for
-        //     the message?
+        // options: Should an error be raised if the target object doesn't implement the method for
+        // the message?
         public void SendMessage(string methodName)
         {
             Value.SendMessage(methodName);
         }
 
+        // Summary: Calls the method named methodName on every MonoBehaviour in this game object.
         //
-        // Summary:
-        //     Calls the method named methodName on every MonoBehaviour in this game object.
+        // Parameters: methodName: Name of the method to call.
         //
-        // Parameters:
-        //   methodName:
-        //     Name of the method to call.
+        // value: Optional parameter for the method.
         //
-        //   value:
-        //     Optional parameter for the method.
-        //
-        //   options:
-        //     Should an error be raised if the target object doesn't implement the method for
-        //     the message?
+        // options: Should an error be raised if the target object doesn't implement the method for
+        // the message?
         public void SendMessage(string methodName, object value)
         {
             Value.SendMessage(methodName, value);
         }
 
+        // Summary: Calls the method named methodName on every MonoBehaviour in this game object and
+        // on every ancestor of the behaviour.
         //
-        // Summary:
-        //     Calls the method named methodName on every MonoBehaviour in this game object
-        //     and on every ancestor of the behaviour.
+        // Parameters: methodName: Name of method to call.
         //
-        // Parameters:
-        //   methodName:
-        //     Name of method to call.
+        // value: Optional parameter value for the method.
         //
-        //   value:
-        //     Optional parameter value for the method.
-        //
-        //   options:
-        //     Should an error be raised if the method does not exist on the target object?
+        // options: Should an error be raised if the method does not exist on the target object?
         public void SendMessageUpwards(string methodName, SendMessageOptions options)
         {
             Value.SendMessageUpwards(methodName, options);
         }
 
+        // Summary: Calls the method named methodName on every MonoBehaviour in this game object and
+        // on every ancestor of the behaviour.
         //
-        // Summary:
-        //     Calls the method named methodName on every MonoBehaviour in this game object
-        //     and on every ancestor of the behaviour.
+        // Parameters: methodName: Name of method to call.
         //
-        // Parameters:
-        //   methodName:
-        //     Name of method to call.
+        // value: Optional parameter value for the method.
         //
-        //   value:
-        //     Optional parameter value for the method.
-        //
-        //   options:
-        //     Should an error be raised if the method does not exist on the target object?
+        // options: Should an error be raised if the method does not exist on the target object?
         public void SendMessageUpwards(string methodName, object value)
         {
             Value.SendMessageUpwards(methodName, value);
         }
 
+        // Summary: Calls the method named methodName on every MonoBehaviour in this game object and
+        // on every ancestor of the behaviour.
         //
-        // Summary:
-        //     Calls the method named methodName on every MonoBehaviour in this game object
-        //     and on every ancestor of the behaviour.
+        // Parameters: methodName: Name of method to call.
         //
-        // Parameters:
-        //   methodName:
-        //     Name of method to call.
+        // value: Optional parameter value for the method.
         //
-        //   value:
-        //     Optional parameter value for the method.
-        //
-        //   options:
-        //     Should an error be raised if the method does not exist on the target object?
+        // options: Should an error be raised if the method does not exist on the target object?
         public void SendMessageUpwards(string methodName, object value = null, SendMessageOptions options = SendMessageOptions.RequireReceiver)
         {
             Value.SendMessageUpwards(methodName, value, options);
         }
 
+        // Summary: Calls the method named methodName on every MonoBehaviour in this game object and
+        // on every ancestor of the behaviour.
         //
-        // Summary:
-        //     Calls the method named methodName on every MonoBehaviour in this game object
-        //     and on every ancestor of the behaviour.
+        // Parameters: methodName: Name of method to call.
         //
-        // Parameters:
-        //   methodName:
-        //     Name of method to call.
+        // value: Optional parameter value for the method.
         //
-        //   value:
-        //     Optional parameter value for the method.
-        //
-        //   options:
-        //     Should an error be raised if the method does not exist on the target object?
+        // options: Should an error be raised if the method does not exist on the target object?
         public void SendMessageUpwards(string methodName)
         {
             Value.SendMessageUpwards(methodName);

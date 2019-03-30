@@ -1,7 +1,9 @@
+using System.Linq;
+
 using Juniper.Unity.Input;
 
-using System.Linq;
 using UnityEngine;
+
 using UnityInput = UnityEngine.Input;
 
 namespace Juniper.Unity.Display

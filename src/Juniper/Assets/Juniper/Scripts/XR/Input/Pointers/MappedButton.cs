@@ -24,9 +24,13 @@ namespace Juniper.Unity.Input.Pointers
         private bool mayLongPress;
 
         public event Action<Interaction> InteractionNeeded;
+
         public event Func<ButtonIDType, bool> ButtonDownNeeded;
+
         public event Func<ButtonIDType, bool> ButtonUpNeeded;
+
         public event Func<ButtonIDType, bool> ButtonPressedNeeded;
+
         public event Func<int, PointerEventData, PointerEventData> ClonedPointerEventNeeded;
 
         private readonly ButtonEvent buttonEvent;
@@ -35,7 +39,7 @@ namespace Juniper.Unity.Input.Pointers
         {
             get
             {
-                if(buttonEvent.inputButton == InputEventButton.None)
+                if (buttonEvent.inputButton == InputEventButton.None)
                 {
                     return null;
                 }
@@ -60,13 +64,25 @@ namespace Juniper.Unity.Input.Pointers
             buttonEvent.inputButton = inputBtn;
         }
 
-        public bool IsDown { get; private set; }
+        public bool IsDown
+        {
+            get; private set;
+        }
 
-        public bool IsUp { get; private set; }
+        public bool IsUp
+        {
+            get; private set;
+        }
 
-        public bool IsPressed { get; private set; }
+        public bool IsPressed
+        {
+            get; private set;
+        }
 
-        public bool IsDragging { get; private set; }
+        public bool IsDragging
+        {
+            get; private set;
+        }
 
         public IEventSystemHandler Process(PointerEventData eventData, float pixelDragThresholdSquared)
         {

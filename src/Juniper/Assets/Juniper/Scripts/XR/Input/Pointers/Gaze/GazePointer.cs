@@ -1,8 +1,3 @@
-using Juniper.Unity.Haptics;
-
-using UnityEngine;
-using UnityEngine.EventSystems;
-
 namespace Juniper.Unity.Input.Pointers.Gaze
 {
     public class GazePointer :
@@ -16,6 +11,5 @@ namespace Juniper.Unity.Input.Pointers.Gaze
         NosePointer
 #endif
     {
-
     }
 }

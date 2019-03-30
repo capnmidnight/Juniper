@@ -36,6 +36,7 @@ namespace Juniper.Unity
         public Options Option;
 
 #if UNITY_EDITOR
+
         [MenuItem("Juniper/Other/Uninstall", false, 200)]
         private static void UninstallJuniper()
         {
@@ -58,6 +59,7 @@ namespace Juniper.Unity
             global::UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
                 UnityEngine.SceneManagement.SceneManager.GetSceneAt(0));
         }
+
 #endif
 
         /// <summary>

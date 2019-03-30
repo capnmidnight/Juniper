@@ -9,8 +9,8 @@ namespace Juniper.Unity.Ground
     public abstract class HoloLensGround : AbstractARGround
     {
         /// <summary>
-        /// When running on HololLens, a mapping between Juniper's quality
-        /// levels and WindowsMR's Spatial Mapping detail levels.
+        /// When running on HololLens, a mapping between Juniper's quality levels and WindowsMR's
+        /// Spatial Mapping detail levels.
         /// </summary>
         private static readonly Dictionary<Level, SpatialMappingBase.LODType> LODTypeMapping = new Dictionary<Level, SpatialMappingBase.LODType>
         {
@@ -20,13 +20,11 @@ namespace Juniper.Unity.Ground
         };
 
         /// <summary>
-        /// When running on HoloLens, the component that manages the rendering
-        /// of the spatial mesh.
+        /// When running on HoloLens, the component that manages the rendering of the spatial mesh.
         /// </summary>
         private SpatialMappingRenderer gRenderer;
 
-        /// <summary>
-        /// When running on HoloLens, the component that manages physics
+        /// <summary> When running on HoloLens, the component that manages physics
         // collisions with the spatial mesh.
         /// </summary>
         private SpatialMappingCollider gCollider;
@@ -39,9 +37,8 @@ namespace Juniper.Unity.Ground
         private GameObject lastSurfaceParent;
 
         /// <summary>
-        /// On HoloLens, the time, in seconds, to wait before attempting
-        /// another spatial update. This can be an expensive operation, so it
-        /// needs to be scaled carefully.
+        /// On HoloLens, the time, in seconds, to wait before attempting another spatial update. This
+        /// can be an expensive operation, so it needs to be scaled carefully.
         /// </summary>
         public float secondsBetweenSpatialMappingUpdates = 3;
 
@@ -52,8 +49,8 @@ namespace Juniper.Unity.Ground
 
         /// <summary>
         /// On HoloLens, the number of spatial updates (multiply by <see
-        /// cref="secondsBetweenSpatialMappingUpdates"/> to get the total
-        /// amount of time) before old spatial data gets thrown out.
+        /// cref="secondsBetweenSpatialMappingUpdates"/> to get the total amount of time) before old
+        /// spatial data gets thrown out.
         /// </summary>
         public int updateCountBeforeSpatialMappingCleanup = 10;
 
@@ -63,8 +60,7 @@ namespace Juniper.Unity.Ground
         private int lastUpdateCount;
 
         /// <summary>
-        /// On HoloLens, the radius in meters out to which to keep spatial
-        /// meshes alive.
+        /// On HoloLens, the radius in meters out to which to keep spatial meshes alive.
         /// </summary>
         public float spatialMappingRange = 5;
 

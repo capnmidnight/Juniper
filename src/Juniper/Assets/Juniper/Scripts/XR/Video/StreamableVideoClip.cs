@@ -1,8 +1,8 @@
 #if UNITY_MODULES_VIDEO
 
-using Juniper.Progress;
-
 using System;
+
+using Juniper.Progress;
 
 using UnityEngine.Video;
 

@@ -1,5 +1,7 @@
-using Juniper.Progress;
 using System.Collections.Generic;
+
+using Juniper.Progress;
+
 using UnityEngine;
 
 namespace Juniper.Unity.Widgets

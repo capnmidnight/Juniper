@@ -10,7 +10,10 @@ namespace Juniper.Unity.Input.Pointers
         /// Unique pointer identifiers keep the pointer events cached in Unity's Event System.
         /// </summary>
         /// <value>The pointer identifier.</value>
-        public int PointerDataID { get; private set; }
+        public int PointerDataID
+        {
+            get; private set;
+        }
 
         public virtual void Awake()
         {

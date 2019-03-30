@@ -18,10 +18,12 @@ namespace Juniper.Unity.Permissions
         }
 
 #if UNITY_EDITOR
+
         public void Reset()
         {
             Reinstall();
         }
+
 #endif
 
         public virtual bool Install(bool reset)

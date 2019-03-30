@@ -1,4 +1,5 @@
 #if UNITY_XR_OCULUS
+
 using System.Linq;
 
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace Juniper.Unity.Display
     {
         public override bool Install(bool reset)
         {
-            if(base.Install(reset))
+            if (base.Install(reset))
             {
                 var mgr = this.Ensure<OVRManager>();
                 if (mgr.IsNew)
@@ -51,4 +52,5 @@ namespace Juniper.Unity.Display
         }
     }
 }
+
 #endif

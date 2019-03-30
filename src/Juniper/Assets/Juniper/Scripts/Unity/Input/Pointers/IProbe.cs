@@ -9,14 +9,17 @@ namespace Juniper.Unity.Input.Pointers
         {
             get;
         }
+
         Camera EventCamera
         {
             get;
         }
+
         PhysicsRaycaster Raycaster
         {
             get;
         }
+
         Vector2 TouchPoint
         {
             get;
@@ -36,9 +39,13 @@ namespace Juniper.Unity.Input.Pointers
         }
 
         void AlignProbe(Vector3 dir, Vector3 up, float maxDistance);
+
         void SetCursor(bool targeted, bool pressed, Vector3 targetPosition, Vector3 targetForward);
+
         void SetGaze(float gazeProgress);
+
         void Destroy();
+
         void SetActive(bool active);
     }
 }

@@ -6,7 +6,9 @@ using System.IO;
 using System.Text.RegularExpressions;
 
 #if UNITY_ANDROID
+
 using Juniper.Data;
+
 #endif
 
 namespace Juniper.Unity.Data
@@ -52,13 +54,13 @@ namespace Juniper.Unity.Data
         /// Open a file as an stream of bytes and save it to a cached location. On subsequent loads,
         /// open from the cached location.
         /// </summary>
-        /// <param name="path">The full path to the file in question</param>
-        /// <param name="ttl">The maximum age after which to consider a cached file invalidated.</param>
-        /// <param name="mime">
+        /// <param name="path">   The full path to the file in question</param>
+        /// <param name="ttl">    The maximum age after which to consider a cached file invalidated.</param>
+        /// <param name="mime">   
         /// The mime type of the file, in case we have to request the file over the 'net.
         /// </param>
         /// <param name="resolve">A callback to receive the file stream asynchronously.</param>
-        /// <param name="reject">A callback for when there is an error.</param>
+        /// <param name="reject"> A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
         public static void GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
         {
@@ -131,13 +133,13 @@ namespace Juniper.Unity.Data
         /// <summary>
         /// Open a file as an stream of bytes.
         /// </summary>
-        /// <param name="path">The full path to the file in question</param>
-        /// <param name="ttl">The maximum age after which to consider a cached file invalidated.</param>
-        /// <param name="mime">
+        /// <param name="path">   The full path to the file in question</param>
+        /// <param name="ttl">    The maximum age after which to consider a cached file invalidated.</param>
+        /// <param name="mime">   
         /// The mime type of the file, in case we have to request the file over the 'net.
         /// </param>
         /// <param name="resolve">A callback to receive the file stream asynchronously.</param>
-        /// <param name="reject">A callback for when there is an error.</param>
+        /// <param name="reject"> A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
         public static void GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<Stream> resolve, Action<Exception> reject, IProgress prog = null)
         {
@@ -162,13 +164,13 @@ namespace Juniper.Unity.Data
         /// <summary>
         /// Open a file as an array of bytes.
         /// </summary>
-        /// <param name="path">The full path to the file in question</param>
-        /// <param name="ttl">The maximum age after which to consider a cached file invalidated.</param>
-        /// <param name="mime">
+        /// <param name="path">   The full path to the file in question</param>
+        /// <param name="ttl">    The maximum age after which to consider a cached file invalidated.</param>
+        /// <param name="mime">   
         /// The mime type of the file, in case we have to request the file over the 'net.
         /// </param>
         /// <param name="resolve">A callback to receive the file asynchronously.</param>
-        /// <param name="reject">A callback for when there is an error.</param>
+        /// <param name="reject"> A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
         public static void GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<byte[]> resolve, Action<Exception> reject, IProgress prog = null)
         {
@@ -193,13 +195,13 @@ namespace Juniper.Unity.Data
         /// <summary>
         /// Open a file as a text string
         /// </summary>
-        /// <param name="path">The full path to the file in question</param>
-        /// <param name="ttl">The maximum age after which to consider a cached file invalidated.</param>
-        /// <param name="mime">
+        /// <param name="path">   The full path to the file in question</param>
+        /// <param name="ttl">    The maximum age after which to consider a cached file invalidated.</param>
+        /// <param name="mime">   
         /// The mime type of the file, in case we have to request the file over the 'net.
         /// </param>
         /// <param name="resolve">A callback to receive the file asynchronously.</param>
-        /// <param name="reject">A callback for when there is an error.</param>
+        /// <param name="reject"> A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
         public static void GetText(string cacheDirectory, string path, TimeSpan ttl, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
         {
@@ -215,13 +217,13 @@ namespace Juniper.Unity.Data
         /// Open a file as a deserialized JSON object.
         /// </summary>
         /// <typeparam name="T">The type of the object to deserialize to</typeparam>
-        /// <param name="path">The full path to the file in question</param>
-        /// <param name="ttl">The maximum age after which to consider a cached file invalidated.</param>
-        /// <param name="mime">
+        /// <param name="path">   The full path to the file in question</param>
+        /// <param name="ttl">    The maximum age after which to consider a cached file invalidated.</param>
+        /// <param name="mime">   
         /// The mime type of the file, in case we have to request the file over the 'net.
         /// </param>
         /// <param name="resolve">A callback to receive the file asynchronously.</param>
-        /// <param name="reject">A callback for when there is an error.</param>
+        /// <param name="reject"> A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
         public static void GetJSONObject<T>(string cacheDirectory, string path, TimeSpan ttl, Action<T> resolve, Action<Exception> reject, IProgress prog = null)
         {

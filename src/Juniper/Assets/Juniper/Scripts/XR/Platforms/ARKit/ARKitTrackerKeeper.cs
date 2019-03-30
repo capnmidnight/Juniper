@@ -48,9 +48,9 @@ namespace Juniper.Unity.ImageTracking
         /// <summary>
         /// Finds a target object by name and updates its state.
         /// </summary>
-        /// <param name="label">A label to aid in debugging.</param>
+        /// <param name="label">     A label to aid in debugging.</param>
         /// <param name="anchorData">Anchor data.</param>
-        /// <param name="act">The action to perform once the target is found.</param>
+        /// <param name="act">       The action to perform once the target is found.</param>
         private void WithTarget(string label, ARImageAnchor anchorData, Action<TrackableFoundEventHandler> act = null)
         {
             var tracking = Tracking ? "tracking" : "not tracking";

@@ -1,9 +1,9 @@
-using Juniper.Statistics;
-using Juniper.Unity.Display;
 using System;
 
+using Juniper.Statistics;
+using Juniper.Unity.Display;
+
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 #if UNITY_POSTPROCESSING

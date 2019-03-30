@@ -7,7 +7,9 @@ using System.Collections;
 using UnityEngine;
 
 #if UNITY_STANDALONE || UNITY_EDITOR
+
 using XInputDotNetPure;
+
 #elif UNITY_XR_WINDOWSMR_METRO
 using System.Linq;
 using Windows.Gaming.Input;
@@ -82,7 +84,7 @@ namespace Juniper.Unity.Haptics
         /// Play a single vibration of a set length of time.
         /// </summary>
         /// <param name="milliseconds">Milliseconds.</param>
-        /// <param name="amplitude">The strenght of vibration (ignored).</param>
+        /// <param name="amplitude">   The strenght of vibration (ignored).</param>
         protected override IEnumerator VibrateCoroutine(long milliseconds, float amplitude)
         {
             var seconds = Units.Milliseconds.Seconds(milliseconds);

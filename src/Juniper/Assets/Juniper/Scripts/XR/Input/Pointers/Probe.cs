@@ -1,6 +1,8 @@
 using System.Linq;
+
 using Juniper.Unity.Display;
 using Juniper.Unity.Input.Pointers.Screen;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -50,6 +52,7 @@ namespace Juniper.Unity.Input.Pointers
         /// Set to true if this probe is capable of gaze gestures.
         /// </summary>
         public bool canGaze;
+
         public bool CanGaze
         {
             get
@@ -136,6 +139,7 @@ namespace Juniper.Unity.Input.Pointers
         private LineRenderer line;
 
         public Material laserPointerMaterial;
+
         public Material LaserPointerMaterial
         {
             get
@@ -147,6 +151,7 @@ namespace Juniper.Unity.Input.Pointers
                 laserPointerMaterial = value;
             }
         }
+
         private Material lastLaserPointerMaterial;
         private Transform touchpoint;
 
@@ -182,7 +187,7 @@ namespace Juniper.Unity.Input.Pointers
         /// Adds a probe to the scene.
         /// </summary>
         /// <param name="parent"></param>
-        /// <param name="name"></param>
+        /// <param name="name">  </param>
         /// <returns></returns>
         public static Probe Ensure(Transform parent, string name)
         {
@@ -304,10 +309,10 @@ namespace Juniper.Unity.Input.Pointers
         /// <summary>
         /// Set the input state of the pointer.
         /// </summary>
-        /// <param name="targeted">whether or not we are pointing at a valid target</param>
-        /// <param name="pressed">whether or not the primary selection button has been pressed</param>
+        /// <param name="targeted">      whether or not we are pointing at a valid target</param>
+        /// <param name="pressed">       whether or not the primary selection button has been pressed</param>
         /// <param name="targetPosition">the location at which the pointer found a target</param>
-        /// <param name="targetForward">the surface normal rotation for the pointer's target</param>
+        /// <param name="targetForward"> the surface normal rotation for the pointer's target</param>
         public void SetCursor(bool targeted, bool pressed, Vector3 targetPosition, Vector3 targetForward)
         {
             Cursor.position = targetPosition;

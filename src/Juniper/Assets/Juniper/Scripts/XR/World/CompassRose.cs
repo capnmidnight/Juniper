@@ -1,7 +1,7 @@
+using System;
+
 using Juniper.Statistics;
 using Juniper.Unity.Display;
-
-using System;
 
 using UnityEngine;
 

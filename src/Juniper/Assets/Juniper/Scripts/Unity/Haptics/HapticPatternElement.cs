@@ -105,7 +105,7 @@ namespace Juniper.Unity.Haptics
         /// Retrieves an array of HapticPatternElements for a given HapticExpression instructs the
         /// device to play that pattern.
         /// </summary>
-        /// <param name="device">Device.</param>
+        /// <param name="device">    Device.</param>
         /// <param name="expression">Expression.</param>
         public static void Play(AbstractHapticDevice device, HapticExpression expression)
         {

@@ -1,7 +1,7 @@
+using System.Linq;
+
 using Juniper.Unity.Animation;
 using Juniper.Unity.Audio;
-
-using System.Linq;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -189,8 +189,8 @@ namespace Juniper.Unity.Widgets
 
         private string NormalizePart(string enabledPart)
         {
-            // If the desired state doesn't have a graphics object to display, then just display
-            // the default state.
+            // If the desired state doesn't have a graphics object to display, then just display the
+            // default state.
             if (enabledPart == null || !animator.HasState(enabledPart))
             {
                 enabledPart = PART_NAMES[0];

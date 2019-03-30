@@ -1,13 +1,15 @@
-using Newtonsoft.Json;
 using System;
 using System.Linq;
+
+using Newtonsoft.Json;
 
 using UnityEngine;
 
 namespace Juniper.Unity.Anchoring
 {
     /// <summary>
-    /// A store for points in space that the system will restore on second-run.  By default, Unity's PlayerPrefs KV store is used.
+    /// A store for points in space that the system will restore on second-run. By default, Unity's
+    /// PlayerPrefs KV store is used.
     /// </summary>
     public abstract class AbstractAnchorStore<AnchorType>
         : MonoBehaviour
@@ -19,11 +21,12 @@ namespace Juniper.Unity.Anchoring
         private static readonly string ID_PREFIX = typeof(AbstractAnchorStore<AnchorType>).FullName + "::";
 
         /// <summary>
-        /// Makes an identifier for storing values in that are unique to AbstractAnchorStore
-        /// so that AbstractAnchorStore can delete them later, when the user requests all anchors
-        /// be deleted.
+        /// Makes an identifier for storing values in that are unique to AbstractAnchorStore so that
+        /// AbstractAnchorStore can delete them later, when the user requests all anchors be deleted.
         /// </summary>
-        /// <param name="name">A controllable part of the name, to be modified to be unique in the data store.</param>
+        /// <param name="name">
+        /// A controllable part of the name, to be modified to be unique in the data store.
+        /// </param>
         /// <returns>A name in the data store unique to AbstractAnchorStore.</returns>
         protected static string MakeID(string name)
         {
@@ -48,7 +51,7 @@ namespace Juniper.Unity.Anchoring
         /// <summary>
         /// Saves a value to the data store.
         /// </summary>
-        /// <param name="name">The name of the object to save.</param>
+        /// <param name="name"> The name of the object to save.</param>
         /// <param name="value">The value to save.</param>
         protected static void SaveValue<T>(string name, T value)
         {
@@ -168,7 +171,7 @@ namespace Juniper.Unity.Anchoring
         /// <c>true</c>, if anchor existed on the object, existed in the datastore, or was
         /// successfully created, <c>false</c> otherwise.
         /// </returns>
-        /// <param name="ID">Identifier.</param>
+        /// <param name="ID">        Identifier.</param>
         /// <param name="gameObject">Game object.</param>
         public bool DropAnchor(string ID, GameObject gameObject)
         {
@@ -187,10 +190,10 @@ namespace Juniper.Unity.Anchoring
         }
 
         /// <summary>
-        /// Looks to see if the anchor was already in the data store, then loads it along
-        /// with the objects scale if it was, or creates it and saves the scale if it wasn't.
+        /// Looks to see if the anchor was already in the data store, then loads it along with the
+        /// objects scale if it was, or creates it and saves the scale if it wasn't.
         /// </summary>
-        /// <param name="ID">The name of the object to serialize</param>
+        /// <param name="ID">        The name of the object to serialize</param>
         /// <param name="gameObject">The object that is being anchored</param>
         /// <returns>The synchronized anchor</returns>
         protected virtual AnchorType SynchronizeAnchor(string ID, GameObject gameObject)
@@ -235,7 +238,7 @@ namespace Juniper.Unity.Anchoring
         /// specific objects. This method removes the anchor from the gameObject and delete it out of
         /// their native anchor store.
         /// </summary>
-        /// <param name="ID">Identifier.</param>
+        /// <param name="ID">        Identifier.</param>
         /// <param name="gameObject">Game object.</param>
         public void WeighAnchor(string ID, GameObject gameObject)
         {
@@ -250,9 +253,9 @@ namespace Juniper.Unity.Anchoring
         /// <summary>
         /// Removes an anchor along with its scale from the data store.
         /// </summary>
-        /// <param name="ID">The name of the anchor to remove</param>
+        /// <param name="ID">        The name of the anchor to remove</param>
         /// <param name="gameObject">The object that was anchored</param>
-        /// <param name="anchor">The anchor to destory</param>
+        /// <param name="anchor">    The anchor to destory</param>
         protected virtual void DeleteAnchor(string ID, GameObject gameObject, AnchorType anchor)
         {
             DeleteValue(ID);
@@ -282,8 +285,7 @@ namespace Juniper.Unity.Anchoring
         /// <summary>
         /// Anchors provide a means to restore the position of objects between sessions. In some AR
         /// systems, they also provide a means of prioritizing the stability of the location of
-        /// specific objects. This method checks to see if a given anchor exists in the anchor data
-        /// store.
+        /// specific objects. This method checks to see if a given anchor exists in the anchor data store.
         /// </summary>
         /// <returns><c>true</c>, if anchor exists, <c>false</c> otherwise.</returns>
         /// <param name="anchorID">Anchor identifier.</param>
@@ -292,7 +294,7 @@ namespace Juniper.Unity.Anchoring
         /// <summary>
         /// Creates a new anchor.
         /// </summary>
-        /// <param name="ID">The name of the anchor to create.</param>
+        /// <param name="ID">        The name of the anchor to create.</param>
         /// <param name="gameObject">The object to be anchored.</param>
         /// <returns>The new anchor.</returns>
         protected abstract AnchorType CreateAnchor(string ID, GameObject gameObject);

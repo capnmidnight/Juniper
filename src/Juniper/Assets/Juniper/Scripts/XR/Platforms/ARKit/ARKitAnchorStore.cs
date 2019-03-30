@@ -45,7 +45,6 @@ namespace Juniper.Unity.Anchoring
             return anchorStore[ID];
         }
 
-
         protected virtual AnchorType CreateAnchor(string ID, GameObject gameObject)
         {
             var anchor = gameObject.AddComponent<UnityARUserAnchorComponent>();

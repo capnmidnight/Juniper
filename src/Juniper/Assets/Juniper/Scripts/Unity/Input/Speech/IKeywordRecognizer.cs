@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Juniper.Input.Speech;
 
 namespace Juniper.Unity.Input.Speech

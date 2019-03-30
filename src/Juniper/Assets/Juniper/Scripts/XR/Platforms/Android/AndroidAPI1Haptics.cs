@@ -17,7 +17,7 @@ namespace Juniper.Unity.Haptics
         /// Play a single vibration of a set length of time.
         /// </summary>
         /// <param name="milliseconds">Milliseconds.</param>
-        /// <param name="amplitude">Strength of vibration (ignored).</param>
+        /// <param name="amplitude">   Strength of vibration (ignored).</param>
         protected override IEnumerator VibrateCoroutine(long milliseconds, float amplitude)
         {
             if (amplitude > 0.25f)
@@ -34,7 +34,7 @@ namespace Juniper.Unity.Haptics
         /// Play a patterned vibration, where all of the vibrations are the same amplitude, the
         /// default amplitude.
         /// </summary>
-        /// <param name="pattern">Pattern.</param>
+        /// <param name="pattern">   Pattern.</param>
         /// <param name="amplitudes">Strength of vibrations (ignored).</param>
         protected override IEnumerator PlayCoroutine(long[] pattern, float[] amplitudes)
         {

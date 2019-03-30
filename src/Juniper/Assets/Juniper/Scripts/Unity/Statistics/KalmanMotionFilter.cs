@@ -1,7 +1,7 @@
+using System;
+
 using Accord.Extensions.Statistics.Filters;
 using Accord.Math;
-
-using System;
 
 using UnityEngine;
 

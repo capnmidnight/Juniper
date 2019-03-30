@@ -12,7 +12,7 @@ namespace UnityEngine
         /// set the sharedMaterial. Otherwise, we set the material.
         /// </summary>
         /// <param name="collid">Collid.</param>
-        /// <param name="mat">Mat.</param>
+        /// <param name="mat">   Mat.</param>
         public static void SetMaterial(this Collider collid, PhysicMaterial mat)
         {
             if (Application.isEditor && !Application.isPlaying)

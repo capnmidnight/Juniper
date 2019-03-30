@@ -1,7 +1,7 @@
+using System;
+
 using Juniper.Unity.Anchoring;
 using Juniper.Unity.Display;
-
-using System;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -60,9 +60,8 @@ namespace Juniper.Unity.Widgets
         /// cref="minValue"/>, <see cref="maxValue"/>]
         /// </summary>
         /// <remarks>
-        /// To satisfy the IValuedControl interface, value needs to be a property. But to work
-        /// with the Unity Editor, it needs to be a field. So we have to manually create our own
-        /// property backing.
+        /// To satisfy the IValuedControl interface, value needs to be a property. But to work with
+        /// the Unity Editor, it needs to be a field. So we have to manually create our own property backing.
         /// </remarks>
         public float value
         {

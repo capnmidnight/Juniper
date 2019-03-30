@@ -1,4 +1,3 @@
-
 namespace Juniper.Unity.Audio
 {
     /// <summary>
@@ -17,6 +16,5 @@ namespace Juniper.Unity.Audio
         DefaultInteractionAudio
 #endif
     {
-
     }
 }

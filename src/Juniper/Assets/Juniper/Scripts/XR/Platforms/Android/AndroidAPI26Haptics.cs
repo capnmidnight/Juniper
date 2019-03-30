@@ -29,7 +29,7 @@ namespace Juniper.Unity.Haptics
         /// vibration pattern and executes it through the Android Vibration interface.
         /// </summary>
         /// <param name="function">Function.</param>
-        /// <param name="args">Arguments.</param>
+        /// <param name="args">    Arguments.</param>
         private static void CreateVibrationEffect(string function, params object[] args)
         {
             var vibrationEffect = VibrationEffect.CallStatic<AndroidJavaObject>(function, args);
@@ -54,14 +54,16 @@ namespace Juniper.Unity.Haptics
         /// Play a single vibration of a set length of time.
         /// </summary>
         /// <param name="milliseconds">Milliseconds.</param>
-        protected override IEnumerator VibrateCoroutine(long milliseconds) =>
-            VibrateCoroutine(milliseconds, DefaultAmplitude);
+        protected override IEnumerator VibrateCoroutine(long milliseconds)
+        {
+            return VibrateCoroutine(milliseconds, DefaultAmplitude);
+        }
 
         /// <summary>
         /// Play a single vibration, of a set length of time, at a set strength.
         /// </summary>
         /// <param name="milliseconds">Milliseconds.</param>
-        /// <param name="amplitude">Amplitude values should be on the range [0, 1].</param>
+        /// <param name="amplitude">   Amplitude values should be on the range [0, 1].</param>
         protected override IEnumerator VibrateCoroutine(long milliseconds, float amplitude)
         {
             CreateVibrationEffect("createOneShot", milliseconds, (int)(amplitude * 255));
@@ -82,7 +84,7 @@ namespace Juniper.Unity.Haptics
         /// <summary>
         /// Play a patterned vibration with amplitude modulation.
         /// </summary>
-        /// <param name="pattern">Pattern.</param>
+        /// <param name="pattern">   Pattern.</param>
         /// <param name="amplitudes">Amplitudes.</param>
         protected override IEnumerator PlayCoroutine(long[] pattern, float[] amplitudes)
         {

@@ -56,7 +56,7 @@ namespace Juniper.Unity.Ground
                     terrain.gameObject.layer = GroundLayer;
 
                     var t = terrain.Ensure<TerrainCollider>();
-                    if(t.IsNew)
+                    if (t.IsNew)
                     {
                         t.Value.terrainData = terrain.terrainData;
                         if (!preexistingTerrain)

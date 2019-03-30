@@ -19,10 +19,8 @@ namespace Juniper.Unity.Widgets
 
         public void Start()
         {
-            // TODO: figure out what is best for different systems.
-            // This is just a placeholder for now that works well
-            // in the Editor and on Daydream, but may not be suitable
-            // for other modalities.
+            // TODO: figure out what is best for different systems. This is just a placeholder for
+            // now that works well in the Editor and on Daydream, but may not be suitable for other modalities.
 
 #if UNITY_XR_ARCORE || UNITY_XR_ARKIT || STANDARD_DISPLAY && (ANDROID || IOS)
             f.interpolate = false;

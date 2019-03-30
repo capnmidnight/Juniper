@@ -18,10 +18,9 @@ namespace Juniper.Unity.ImageTracking
         public readonly bool Tracking;
 
         /// <summary>
-        /// Initializes a new instance of the <see
-        /// cref="T:Juniper.XR.TrackingStateChangeEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="T:Juniper.XR.TrackingStateChangeEventArgs"/> class.
         /// </summary>
-        /// <param name="src">Source.</param>
+        /// <param name="src">     Source.</param>
         /// <param name="tracking">If set to <c>true</c> tracking.</param>
         public TrackingStateChangeEventArgs(AbstractTrackableFoundEventHandler src, bool tracking)
         {

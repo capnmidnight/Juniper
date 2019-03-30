@@ -1,9 +1,9 @@
-using Juniper.Unity;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
+using Juniper.Unity;
 
 namespace UnityEngine
 {
@@ -15,7 +15,7 @@ namespace UnityEngine
         /// <summary>
         /// Set the active status for a game object and all of its parent objects in the scene graph.
         /// </summary>
-        /// <param name="obj">Object.</param>
+        /// <param name="obj">   Object.</param>
         /// <param name="active">If set to <c>true</c> active.</param>
         public static void SetTreeActive(this GameObject obj, bool active)
         {
@@ -102,7 +102,7 @@ namespace UnityEngine
         /// Take two game objects and figure out the relative scene navigation path between them.
         /// </summary>
         /// <returns>The name.</returns>
-        /// <param name="to">To.</param>
+        /// <param name="to">  To.</param>
         /// <param name="from">From.</param>
         public static string RelativeName(this GameObject to, GameObject from)
         {
@@ -140,7 +140,7 @@ namespace UnityEngine
         /// <summary>
         /// Turn off any renderers on the current game object, and deactivate all children in the transform.
         /// </summary>
-        /// <param name="t">T.</param>
+        /// <param name="t">      T.</param>
         /// <param name="visible">If set to <c>true</c> visible.</param>
         public static void SetVisible(this GameObject t, bool visible)
         {
@@ -155,7 +155,7 @@ namespace UnityEngine
         /// </summary>
         /// <returns>The query.</returns>
         /// <param name="parent">Parent.</param>
-        /// <param name="path">Path.</param>
+        /// <param name="path">  Path.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
         public static T Query<T>(this GameObject parent, string path)
         {
@@ -167,7 +167,7 @@ namespace UnityEngine
         /// </summary>
         /// <returns>The query.</returns>
         /// <param name="parent">Parent.</param>
-        /// <param name="path">Path.</param>
+        /// <param name="path">  Path.</param>
         public static GameObject Query(this GameObject parent, string path)
         {
             var trans = parent.transform.Query(path);
@@ -179,7 +179,7 @@ namespace UnityEngine
         /// or children with a mesh renderer.
         /// </summary>
         /// <returns>The center.</returns>
-        /// <param name="obj">Object.</param>
+        /// <param name="obj">    Object.</param>
         /// <param name="exclude">Exclude.</param>
         public static Vector3 Center(this GameObject obj, params Component[] exclude)
         {

@@ -1,7 +1,9 @@
 using UnityEngine;
 
 #if UNITY_MODULES_AUDIO
+
 using System.Collections.Generic;
+
 #endif
 
 namespace Juniper.Unity.Audio

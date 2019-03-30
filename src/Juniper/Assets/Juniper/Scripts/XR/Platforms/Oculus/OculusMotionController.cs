@@ -1,4 +1,5 @@
 #if UNITY_XR_OCULUS
+
 using Juniper.Input;
 using Juniper.Unity.Haptics;
 
@@ -13,6 +14,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
         internal const OVRInput.Controller Left =
 #if UNITY_ANDROID
             OVRInput.Controller.LTrackedRemote;
+
 #else
             OVRInput.Controller.LTouch;
 #endif
@@ -20,6 +22,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
         internal const OVRInput.Controller Right =
 #if UNITY_ANDROID
             OVRInput.Controller.RTrackedRemote;
+
 #else
             OVRInput.Controller.RTouch;
 #endif
@@ -56,6 +59,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
             }
         }
     }
+
     /// <summary>
     /// A motion controller or hand-tracking. Currently only implements WindowsMR.
     /// </summary>
@@ -193,4 +197,5 @@ namespace Juniper.Unity.Input.Pointers.Motion
         }
     }
 }
+
 #endif

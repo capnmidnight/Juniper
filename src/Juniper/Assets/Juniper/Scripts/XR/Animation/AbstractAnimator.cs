@@ -18,7 +18,7 @@ namespace Juniper.Unity.Animation
         /// will create a <see cref="ChildSwapAnimator"/>.
         /// </summary>
         /// <param name="parent"></param>
-        /// <param name="parts"></param>
+        /// <param name="parts"> </param>
         /// <returns></returns>
         public static AbstractAnimator GetAnimator(GameObject parent, string[] parts)
         {

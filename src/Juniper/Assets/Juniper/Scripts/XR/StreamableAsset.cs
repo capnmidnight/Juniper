@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 #if UNITY_EDITOR
+
 using UnityEditor;
+
 #else
 using Juniper.Unity.Data;
 #endif
@@ -28,6 +30,7 @@ namespace Juniper.Unity
         public string LoadPath =>
 #if UNITY_EDITOR
             AssetPath;
+
 #else
             StreamingAssets.FormatPath(Application.dataPath, AssetPath.Replace("Assets/", ""));
 #endif

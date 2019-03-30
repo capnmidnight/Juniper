@@ -1,9 +1,9 @@
-using Juniper.Input;
-using Juniper.Unity.Events;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+using Juniper.Input;
+using Juniper.Unity.Events;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -16,7 +16,7 @@ namespace Juniper.Unity.Input.Pointers
         where ButtonIDType : struct
     {
         public event Action<Interaction> InteractionNeeded;
-        
+
         public event Func<ButtonIDType, bool> ButtonDownNeeded;
 
         public event Func<ButtonIDType, bool> ButtonUpNeeded;
@@ -29,7 +29,10 @@ namespace Juniper.Unity.Input.Pointers
 
         public bool IsDragging
         {
-            get { return buttons.Any((btn) => btn.IsDragging); }
+            get
+            {
+                return buttons.Any((btn) => btn.IsDragging);
+            }
         }
 
         public void Install(GameObject pointer, Dictionary<ButtonIDType, InputEventButton> buttonMapping)
@@ -79,9 +82,9 @@ namespace Juniper.Unity.Input.Pointers
 
         private MappedButton<ButtonIDType> FindMappedButton(InputButton inputBtn)
         {
-            foreach(var button in buttons)
+            foreach (var button in buttons)
             {
-                if(button.UnityInputButton == inputBtn)
+                if (button.UnityInputButton == inputBtn)
                 {
                     return button;
                 }
@@ -107,7 +110,7 @@ namespace Juniper.Unity.Input.Pointers
         public IEventSystemHandler Process(PointerEventData eventData, float pixelDragThresholdSquared)
         {
             IEventSystemHandler eventTarget = null;
-            foreach(var btn in buttons)
+            foreach (var btn in buttons)
             {
                 eventTarget = btn.Process(eventData, pixelDragThresholdSquared);
             }

@@ -48,7 +48,7 @@ namespace UnityEngine
         /// <paramref name="targetWidth"/>.
         /// </summary>
         /// <param name="targetWidth">Target width.</param>
-        /// <param name="maxLines">Max lines.</param>
+        /// <param name="maxLines">   Max lines.</param>
         public void FitToWidth(float targetWidth, int maxLines = -1)
         {
             var oldText = mesh.text;
@@ -219,8 +219,8 @@ namespace UnityEngine
         /// Measures the text while fitting it into a maximum width.
         /// </summary>
         /// <returns>The lines.</returns>
-        /// <param name="s">S.</param>
-        /// <param name="w">The width.</param>
+        /// <param name="s">       S.</param>
+        /// <param name="w">       The width.</param>
         /// <param name="maxLines">Max lines.</param>
         private string WrapLines(string s, float w, int maxLines = -1)
         {

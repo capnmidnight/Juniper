@@ -124,7 +124,7 @@ namespace Juniper.Unity.World.LightEstimation
         /// <summary>
         /// Calculates an average pixel value in HSV space for the given image format.
         /// </summary>
-        /// <param name="image">Image.</param>
+        /// <param name="image">      Image.</param>
         /// <param name="pixelGetter">Pixel getter.</param>
         void GetAveragePixelIntensity(Vuforia.Image image, GetPixelFromBuffer pixelGetter)
         {

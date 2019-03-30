@@ -34,6 +34,7 @@ namespace Juniper.Unity.Widgets
         private bool playing;
 
 #if UNITY_MODULES_AUDIO
+
         /// <summary>
         /// The audioSource through which to play the audio clips.
         /// </summary>
@@ -52,6 +53,7 @@ namespace Juniper.Unity.Widgets
                 Play();
             }
         }
+
 #endif
 
         /// <summary>

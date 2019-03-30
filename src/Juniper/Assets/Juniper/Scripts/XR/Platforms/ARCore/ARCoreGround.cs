@@ -20,7 +20,6 @@ namespace Juniper.Unity.Ground
 
             display = ComponentExt.FindAny<DisplayManager>();
             display.ARModeChange += Display_ARModeChange;
-
         }
 
         private void Display_ARModeChange(object sender, AugmentedRealityTypes e)

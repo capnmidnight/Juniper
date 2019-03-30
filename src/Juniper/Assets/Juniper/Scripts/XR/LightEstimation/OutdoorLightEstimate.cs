@@ -1,7 +1,7 @@
+using System;
+
 using Juniper.Unity.World.Climate;
 using Juniper.Unity.World.GIS;
-
-using System;
 
 using UnityEngine;
 

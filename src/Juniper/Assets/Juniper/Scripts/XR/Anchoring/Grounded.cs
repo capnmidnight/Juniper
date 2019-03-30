@@ -1,7 +1,7 @@
-using Juniper.Unity.Widgets;
-
 using System;
 using System.Collections.Generic;
+
+using Juniper.Unity.Widgets;
 
 using UnityEngine;
 

@@ -29,7 +29,7 @@ namespace Juniper.Unity.Input
 
         public Mode mode = Mode.Auto;
         private Mode lastMode = Mode.None;
-        
+
         public InputEventButton requiredMouseButton = InputEventButton.None;
         public bool showCustomCursor;
         public int requiredTouchCount = 1;
@@ -73,6 +73,7 @@ namespace Juniper.Unity.Input
         public float maximumY = 85F;
 
         public UnityEvent onModeChange;
+
         public event Action<Mode> ModeChange;
 
         private void OnModeChange()

@@ -282,7 +282,7 @@ namespace Juniper.Unity.ImageTracking
         /// </summary>
         /// <returns>The tracker coroutine.</returns>
         /// <param name="dataSetName">Data set name.</param>
-        /// <param name="targetName">Target name.</param>
+        /// <param name="targetName"> Target name.</param>
         IEnumerator StartTrackerCoroutine(string dataSetName, string targetName)
         {
             if (!VuforiaConfiguration.Instance.Vuforia.DelayedInitialization)

@@ -1,6 +1,6 @@
-using Juniper.Unity.Haptics;
-
 using System;
+
+using Juniper.Unity.Haptics;
 
 namespace Juniper.Unity.Input.Pointers.Motion
 {

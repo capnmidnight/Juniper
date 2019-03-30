@@ -37,7 +37,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
             }
         }
     }
-    
+
     public abstract class DaydreamMotionController
         : AbstractMotionController<GvrControllerHand, GvrControllerButton, DaydreamProbeConfiguration, NoHaptics>
     {
@@ -108,7 +108,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
                 return RoundTouchPoint.Round2Square();
             }
         }
-
 
         public override bool IsDominantHand
         {

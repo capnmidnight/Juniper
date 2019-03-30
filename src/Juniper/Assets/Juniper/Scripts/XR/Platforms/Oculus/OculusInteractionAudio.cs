@@ -1,4 +1,5 @@
 #if UNITY_XR_OCULUS
+
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -15,6 +16,7 @@ namespace Juniper.Unity.Audio
         }
 
 #if UNITY_MODULES_AUDIO
+
         protected override AudioSource InternalSpatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
         {
             audioSource = base.InternalSpatialize(audioSource, loop, group);
@@ -23,7 +25,9 @@ namespace Juniper.Unity.Audio
             oculus.EnableRfl = true;
             return audioSource;
         }
+
 #endif
     }
 }
+
 #endif

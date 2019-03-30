@@ -1,4 +1,3 @@
-using Juniper;
 using Juniper.Unity;
 
 namespace UnityEngine
@@ -71,7 +70,7 @@ namespace UnityEngine
         /// <summary>
         /// Converts a color to HSV, scales the V, and converts back to RGB
         /// </summary>
-        /// <param name="rgb"></param>
+        /// <param name="rgb">      </param>
         /// <param name="intensity"></param>
         /// <returns></returns>
         public static Color Scale(this Color rgb, float intensity)
@@ -86,7 +85,7 @@ namespace UnityEngine
         /// </summary>
         /// <returns>The grayscale pixel.</returns>
         /// <param name="buffer">Buffer.</param>
-        /// <param name="i">The index.</param>
+        /// <param name="i">     The index.</param>
         public static Color GetGrayscalePixel(this byte[] buffer, int i)
         {
             var r = buffer[i];
@@ -98,7 +97,7 @@ namespace UnityEngine
         /// </summary>
         /// <returns>The RGB 565 pixel.</returns>
         /// <param name="buffer">Buffer.</param>
-        /// <param name="i">The index.</param>
+        /// <param name="i">     The index.</param>
         public static Color GetRGB565Pixel(this byte[] buffer, int i)
         {
             byte high = buffer[i],
@@ -114,7 +113,7 @@ namespace UnityEngine
         /// </summary>
         /// <returns>The RGB 888 pixel.</returns>
         /// <param name="buffer">Buffer.</param>
-        /// <param name="i">The index.</param>
+        /// <param name="i">     The index.</param>
         public static Color GetRGB888Pixel(this byte[] buffer, int i)
         {
             byte r = buffer[i],
@@ -128,7 +127,7 @@ namespace UnityEngine
         /// </summary>
         /// <returns>The YUVP ixel.</returns>
         /// <param name="buffer">Buffer.</param>
-        /// <param name="i">The index.</param>
+        /// <param name="i">     The index.</param>
         public static Color GetYUVPixel(this byte[] buffer, int i)
         {
             int y = buffer[i] - 16,

@@ -1,7 +1,7 @@
-using Juniper.Unity.Display;
-
 using System;
 using System.Linq;
+
+using Juniper.Unity.Display;
 
 using UnityEngine;
 using UnityEngine.Events;

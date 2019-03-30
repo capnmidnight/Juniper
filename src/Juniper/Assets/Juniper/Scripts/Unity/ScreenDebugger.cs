@@ -1,18 +1,18 @@
-using Juniper;
-
 using System.Collections.Generic;
 using System.Linq;
 
+using Juniper;
+
 using UnityEngine;
-using UnityEngine.UI;
+
 using TextElementType = UnityEngine.UI.Text;
 
 namespace System
 {
     /// <summary>
-    /// The ScreenDebugger component is a global logging system that has the option of piping its output
-    /// to a TextMesh visible on the screen. This can be handy for printing out logging information on
-    /// mobile devices without having to explicitly attach a mobile device debugger.
+    /// The ScreenDebugger component is a global logging system that has the option of piping its
+    /// output to a TextMesh visible on the screen. This can be handy for printing out logging
+    /// information on mobile devices without having to explicitly attach a mobile device debugger.
     /// </summary>
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
@@ -20,8 +20,8 @@ namespace System
     public class ScreenDebugger : MonoBehaviour
     {
         /// <summary>
-        /// When the ScreenDebugger is instantiated, that instance is saved statically to be accessible
-        /// to all code.
+        /// When the ScreenDebugger is instantiated, that instance is saved statically to be
+        /// accessible to all code.
         /// </summary>
         public ScreenDebugger()
         {
@@ -29,10 +29,10 @@ namespace System
         }
 
         /// <summary>
-        /// Print an exception formatted succinctly for printing to the console. The label field helps
-        /// locate the origin of the exception.
+        /// Print an exception formatted succinctly for printing to the console. The label field
+        /// helps locate the origin of the exception.
         /// </summary>
-        /// <param name="exp">Exp.</param>
+        /// <param name="exp">  Exp.</param>
         /// <param name="label">Label.</param>
         public static void PrintException(Exception exp, string label)
         {
@@ -43,7 +43,7 @@ namespace System
         /// Print a Vector with components to 3 significant figures.
         /// </summary>
         /// <param name="vector">Vector.</param>
-        /// <param name="label">Label.</param>
+        /// <param name="label"> Label.</param>
         public static void PrintVector(Vector2 vector, string label)
         {
             Print($"[{label}] <{vector.x.Label(UnitOfMeasure.Meters, 3)}, {vector.y.Label(UnitOfMeasure.Meters, 3)}>");
@@ -53,7 +53,7 @@ namespace System
         /// Print a Vector with components to 3 significant figures.
         /// </summary>
         /// <param name="vector">Vector.</param>
-        /// <param name="label">Label.</param>
+        /// <param name="label"> Label.</param>
         public static void PrintVector(Vector3 vector, string label)
         {
             Print($"[{label}] <{vector.x.Label(UnitOfMeasure.Meters, 3)}, {vector.y.Label(UnitOfMeasure.Meters, 3)}, {vector.z.Label(UnitOfMeasure.Meters, 3)}>");
@@ -63,7 +63,7 @@ namespace System
         /// Print a Vector with components to 3 significant figures.
         /// </summary>
         /// <param name="vector">Vector.</param>
-        /// <param name="label">Label.</param>
+        /// <param name="label"> Label.</param>
         public static void PrintVector(Vector4 vector, string label)
         {
             Print($"[{label}] <{vector.x.Label(UnitOfMeasure.Meters, 3)}, {vector.y.Label(UnitOfMeasure.Meters, 3)}, {vector.z.Label(UnitOfMeasure.Meters, 3)}, {vector.z.Label(UnitOfMeasure.Meters, 4)}>");
@@ -73,7 +73,7 @@ namespace System
         /// Print a formatted string
         /// </summary>
         /// <param name="format">Format.</param>
-        /// <param name="args">Arguments.</param>
+        /// <param name="args">  Arguments.</param>
         public static void PrintFormat(string format, params object[] args)
         {
             Print(string.Format(format, args));

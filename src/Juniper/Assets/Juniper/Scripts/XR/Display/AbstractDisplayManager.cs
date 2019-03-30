@@ -3,19 +3,22 @@ using Juniper.Unity.Widgets;
 
 using System;
 using System.Runtime.InteropServices;
+
 using UnityEngine;
 using UnityEngine.Events;
 
 #if UNITY_MODULES_XR
+
 using UnityEngine.XR;
+
 using System.Linq;
+
 #endif
 
 namespace Juniper.Unity.Display
 {
     public abstract class AbstractDisplayManager : MonoBehaviour, IInstallable
     {
-
         /// <summary>
         /// The main camera, cached so we don't incur a cost to look it up all the time.
         /// </summary>
@@ -360,6 +363,7 @@ namespace Juniper.Unity.Display
         }
 
         public DisplayTypeEvent onDisplayTypeChange;
+
         public event EventHandler<DisplayTypes> DisplayTypeChange;
 
         protected virtual void OnDisplayTypeChange()
@@ -431,7 +435,9 @@ namespace Juniper.Unity.Display
         }
 
         public ARModeEvent onARModeChange;
+
         public event EventHandler<AugmentedRealityTypes> ARModeChange;
+
         protected virtual void OnARModeChange()
         {
             onARModeChange?.Invoke(ARMode);

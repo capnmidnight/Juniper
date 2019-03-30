@@ -27,7 +27,7 @@ namespace Juniper.Unity.Display
             {
                 cameraCtrl.mode = CameraControl.Mode.None;
             }
-            else if(ARMode == AugmentedRealityTypes.None
+            else if (ARMode == AugmentedRealityTypes.None
                 && (cameraCtrl.mode == CameraControl.Mode.Auto || cameraCtrl.mode == CameraControl.Mode.None))
             {
                 cameraCtrl.mode = CameraControl.Mode.Touch;

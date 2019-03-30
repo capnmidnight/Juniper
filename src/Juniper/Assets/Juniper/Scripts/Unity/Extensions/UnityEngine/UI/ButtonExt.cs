@@ -11,7 +11,7 @@ namespace UnityEngine.UI
         /// <summary>
         /// Add a listener to the OnClick event of the button.
         /// </summary>
-        /// <param name="btn">Button.</param>
+        /// <param name="btn">   Button.</param>
         /// <param name="action">Action.</param>
         public static void AddListener(this Button btn, UnityAction action)
         {
@@ -21,7 +21,7 @@ namespace UnityEngine.UI
         /// <summary>
         /// Remove a listener from the OnClick event of the button.
         /// </summary>
-        /// <param name="btn">Button.</param>
+        /// <param name="btn">   Button.</param>
         /// <param name="action">Action.</param>
         public static void RemoveListener(this Button btn, UnityAction action)
         {
@@ -41,7 +41,7 @@ namespace UnityEngine.UI
         /// The SetDisabled function is useful for inverting the meaning of "enabled".
         /// </summary>
         /// <param name="btn">Button.</param>
-        /// <param name="v">If set to <c>true</c> v.</param>
+        /// <param name="v">  If set to <c>true</c> v.</param>
         public static void SetDisabled(this Button btn, bool v)
         {
             btn.enabled = !v;

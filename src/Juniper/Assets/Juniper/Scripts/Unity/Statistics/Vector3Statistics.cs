@@ -1,7 +1,7 @@
-using Juniper.Statistics;
-
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+
+using Juniper.Statistics;
 
 using UnityEngine;
 

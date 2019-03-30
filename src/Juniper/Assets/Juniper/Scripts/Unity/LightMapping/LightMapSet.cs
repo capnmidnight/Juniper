@@ -1,6 +1,6 @@
-using Juniper.Unity.Collections;
-
 using System;
+
+using Juniper.Unity.Collections;
 
 using UnityEngine;
 

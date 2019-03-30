@@ -1,9 +1,9 @@
+using System;
+using System.Collections;
+
 using Juniper.World.GIS;
 
 using Newtonsoft.Json;
-
-using System;
-using System.Collections;
 
 using UnityEngine;
 using UnityEngine.Events;

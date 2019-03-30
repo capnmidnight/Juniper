@@ -1,8 +1,8 @@
-using Juniper.Input;
-using Juniper.Unity.Haptics;
-
 using System;
 using System.Collections.Generic;
+
+using Juniper.Input;
+using Juniper.Unity.Haptics;
 
 using UnityEngine;
 using UnityEngine.EventSystems;

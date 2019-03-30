@@ -91,9 +91,11 @@ namespace Juniper.Unity.Widgets
         /// <summary>
         /// Find the motion constraint endpoint, or create it if it doesn't exist
         /// </summary>
-        /// <param name="t">the place to store the constraint</param>
+        /// <param name="t">             the place to store the constraint</param>
         /// <param name="constraintName">the name of the constraint as a sibling of this element</param>
-        /// <param name="position">the default location of the constraint, if it needs to be created</param>
+        /// <param name="position">      
+        /// the default location of the constraint, if it needs to be created
+        /// </param>
         private void ResolveConstraint(ref Transform t, string constraintName, Vector3 position)
         {
             if (t == null)
@@ -110,7 +112,7 @@ namespace Juniper.Unity.Widgets
         /// <summary>
         /// Destroy a motion constraint if it exists and we no longer need it.
         /// </summary>
-        /// <param name="t">the place the motion constraint is usually stored</param>
+        /// <param name="t">             the place the motion constraint is usually stored</param>
         /// <param name="constraintName">the name of the constraint as a sibling of this element</param>
         private void DestroyConstraint(ref Transform t, string constraintName)
         {

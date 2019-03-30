@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 using Juniper.Input;
 using Juniper.Input.Pointers;
 using Juniper.Unity.Audio;
@@ -5,9 +8,6 @@ using Juniper.Unity.Display;
 using Juniper.Unity.Events;
 using Juniper.Unity.Haptics;
 using Juniper.Unity.Statistics;
-
-using System;
-using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -500,7 +500,10 @@ namespace Juniper.Unity.Input.Pointers
 
         public virtual bool IsDragging
         {
-            get { return nativeButtons.IsDragging; }
+            get
+            {
+                return nativeButtons.IsDragging;
+            }
         }
 
         /// <summary>

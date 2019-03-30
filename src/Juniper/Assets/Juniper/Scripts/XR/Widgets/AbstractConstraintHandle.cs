@@ -29,8 +29,8 @@ namespace Juniper.Unity.Widgets
         /// Sets the target for all handles in a parent element.
         /// </summary>
         /// <returns>The setup.</returns>
-        /// <param name="handleParent">Handle parent.</param>
-        /// <param name="target">Target.</param>
+        /// <param name="handleParent">  Handle parent.</param>
+        /// <param name="target">        Target.</param>
         /// <param name="disableHandles">If set to <c>true</c> disable handles.</param>
         public static AbstractConstraintHandle[] Setup(Transform handleParent, Transform target, bool disableHandles)
         {

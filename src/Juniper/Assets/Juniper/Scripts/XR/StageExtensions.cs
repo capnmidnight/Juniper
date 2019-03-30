@@ -23,6 +23,7 @@ namespace Juniper.Unity
         public float defaultAvatarHeight = 1.75f;
 
 #if UNITY_MODULES_PHYSICS
+
         /// <summary>
         /// When set to true, colliders and rigid bodies will be added to the stage and camera to
         /// simulate a "body" that can be affected by gravity.
@@ -45,9 +46,20 @@ namespace Juniper.Unity
         public bool useGravity = true;
 #endif
 
-        public Transform Head { get; private set; }
-        public Transform Hands { get; private set; }
-        public Transform Body { get; private set; }
+        public Transform Head
+        {
+            get; private set;
+        }
+
+        public Transform Hands
+        {
+            get; private set;
+        }
+
+        public Transform Body
+        {
+            get; private set;
+        }
 
         public virtual void Awake()
         {
@@ -119,7 +131,7 @@ namespace Juniper.Unity
 
 #if UNITY_MODULES_PHYSICS
             var bs = this.Ensure<CapsuleCollider>();
-            if(bs.IsNew)
+            if (bs.IsNew)
             {
                 bs.Value.SetMaterial(shoes);
                 bs.Value.height = defaultAvatarHeight;
@@ -129,7 +141,7 @@ namespace Juniper.Unity
             BodyShape = bs;
 
             var bp = this.Ensure<Rigidbody>();
-            if(bp.IsNew)
+            if (bp.IsNew)
             {
                 bp.Value.mass = 80;
                 bp.Value.constraints = RigidbodyConstraints.FreezeRotation;
@@ -213,9 +225,9 @@ namespace Juniper.Unity
 
                 BodyShape.center = Quaternion.Inverse(transform.rotation) * center;
                 // Make the hands follow the camera position, but not the rotation. On Daydream
-                // systems, the system can figure out the right orientation for the controller as
-                // you rotate your body in place, but it can't figure out the position relative
-                // to the 6DOF tracking of the headset.
+                // systems, the system can figure out the right orientation for the controller as you
+                // rotate your body in place, but it can't figure out the position relative to the
+                // 6DOF tracking of the headset.
                 Body.position = BodyShape.transform.position + userCenter - (0.5f * defaultAvatarHeight * Vector3.up);
             }
 #else

@@ -76,7 +76,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
 #if !UNITY_EDITOR
             Haptics.ControllerID = ControllerID;
 #endif
-
         }
 
         public override float Trigger
