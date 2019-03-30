@@ -53,12 +53,18 @@ namespace System.Collections.Generic
         /// <typeparam name="T"></typeparam>
         /// <param name="collection"></param>
         /// <returns>A random item out of the collection.</returns>
-        /// <example>
-        /// // This is just one potential outcome. var arr = new int[]{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        /// arr.Random(); // --&gt; 3 arr.Random(); // --&gt; 1 arr.Random(); // --&gt; 4
-        /// arr.Random(); // --&gt; 1 arr.Random(); // --&gt; 5 arr.Random(); // --&gt; 9
-        /// arr.Random(); // --&gt; 2 arr.Random(); // --&gt; 6
-        /// </example>
+        /// <example><![CDATA[
+        /// // This is just one potential outcome.
+        /// var arr = new int[]{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        /// arr.Random(); // --> 3
+        /// arr.Random(); // --> 1
+        /// arr.Random(); // --> 4
+        /// arr.Random(); // --> 1
+        /// arr.Random(); // --> 5
+        /// arr.Random(); // --> 9
+        /// arr.Random(); // --> 2
+        /// arr.Random(); // --> 6
+        /// ]]></example>
         public static T Random<T>(this IEnumerable<T> collection)
         {
             var count = collection.Count();
@@ -76,12 +82,17 @@ namespace System.Collections.Generic
         /// <returns>
         /// True if the collections are the same length and contain the same items, in the same order.
         /// </returns>
-        /// <example>
-        /// var a = new int[]{ 1, 2, 3, 4, 5 }; var b = new int[]{ 1, 2, 3, 4, 5 }; var c = new
-        /// int[]{ 1, 2, 3, 4, 6 }; var d = new int[]{ 1, 2, 3, 4, 5, 6 }; var e = new int[]{ 1, 2,
-        /// 3, 4 }; /// a.Matches(b); // --&gt; true a.Matches(c); // --&gt; false a.Matches(d); //
-        /// --&gt; false a.Matches(e); // --&gt; false
-        /// </example>
+        /// <example><![CDATA[
+        /// var a = new int[]{ 1, 2, 3, 4, 5 };
+        /// var b = new int[]{ 1, 2, 3, 4, 5 };
+        /// var c = new int[]{ 1, 2, 3, 4, 6 };
+        /// var d = new int[]{ 1, 2, 3, 4, 5, 6 };
+        /// var e = new int[]{ 1, 2, 3, 4 };
+        /// a.Matches(b); // --> true
+        /// a.Matches(c); // --> false
+        /// a.Matches(d); // --> false
+        /// a.Matches(e); // --> false
+        /// ]]></example>
         public static bool Matches<T>(this IEnumerable<T> a, IEnumerable<T> b)
         {
             if (a.Count() != b.Count())
@@ -112,12 +123,17 @@ namespace System.Collections.Generic
         /// <returns>
         /// True if the collections are the same length and contain the same items, in the same order.
         /// </returns>
-        /// <example>
-        /// var a = new int[]{ 1, 2, 3, 4, 5 }; var b = new int[]{ 1, 2, 3, 4, 5 }; var c = new
-        /// int[]{ 1, 2, 3, 4, 6 }; var d = new int[]{ 1, 2, 3, 4, 5, 6 }; var e = new int[]{ 1, 2,
-        /// 3, 4 }; /// a.Matches(b); // --&gt; true a.Matches(c); // --&gt; false a.Matches(d); //
-        /// --&gt; false a.Matches(e); // --&gt; false
-        /// </example>
+        /// <example><![CDATA[
+        /// var a = new int[]{ 1, 2, 3, 4, 5 };
+        /// var b = new int[]{ 1, 2, 3, 4, 5 };
+        /// var c = new int[]{ 1, 2, 3, 4, 6 };
+        /// var d = new int[]{ 1, 2, 3, 4, 5, 6 };
+        /// var e = new int[]{ 1, 2, 3, 4 };
+        /// a.Matches(b); // --> true
+        /// a.Matches(c); // --> false
+        /// a.Matches(d); // --> false
+        /// a.Matches(e); // --> false
+        /// ]]></example>
         public static bool Matches<T>(this IEnumerable<T> a, IEnumerable b)
         {
             return a.Matches(b.Cast<T>());
@@ -132,12 +148,18 @@ namespace System.Collections.Generic
         /// <returns>
         /// True if the collections are the same length and contain the same items, in the same order.
         /// </returns>
-        /// <example>
-        /// var a = new int[]{ 1, 2, 3, 4, 5 }; var b = new int[]{ 1, 2, 3, 4, 5 }; var c = new
-        /// int[]{ 1, 2, 3, 4, 6 }; var d = new int[]{ 1, 2, 3, 4, 5, 6 }; var e = new int[]{ 1, 2,
-        /// 3, 4 }; /// a.Matches(b); // --&gt; true a.Matches(c); // --&gt; false a.Matches(d); //
-        /// --&gt; false a.Matches(e); // --&gt; false
-        /// </example>
+        /// <example><![CDATA[
+        /// var a = new int[]{ 1, 2, 3, 4, 5 };
+        /// var b = new int[]{ 1, 2, 3, 4, 5 };
+        /// var c = new
+        /// int[]{ 1, 2, 3, 4, 6 };
+        /// var d = new int[]{ 1, 2, 3, 4, 5, 6 };
+        /// var e = new int[]{ 1, 2, 3, 4 };
+        /// a.Matches(b); // --> true
+        /// a.Matches(c); // --> false
+        /// a.Matches(d); // --> false
+        /// a.Matches(e); // --> false
+        /// ]]></example>
         public static bool Matches<T>(this IEnumerable<T> a, IEnumerator b)
         {
             return a.Matches(b.AsEnumerable().Cast<T>());

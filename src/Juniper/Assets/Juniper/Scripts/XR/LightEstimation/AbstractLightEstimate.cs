@@ -5,9 +5,10 @@ using UnityEngine;
 namespace Juniper.Unity.World.LightEstimation
 {
     public abstract class AbstractLightEstimate : MonoBehaviour, IInstallable
-    {/// <summary>
-     /// When set to true, the lighting estimate will modify the global ambient light setting for the
-     /// scene. </summary>
+    {
+        /// <summary>
+        /// When set to true, the lighting estimate will modify the global ambient light setting for the
+        /// scene. </summary>
         public bool SetAmbientLight = true;
 
         /// <summary>
@@ -156,7 +157,8 @@ namespace Juniper.Unity.World.LightEstimation
         /// </summary>
         protected virtual void Update()
         {
-            Color.RGBToHSV(measurement.ColorEstimate, out var hue, out var sat, out var val);
+            float hue, sat, val;
+            Color.RGBToHSV(measurement.ColorEstimate, out hue, out sat, out val);
 
             var rampedIntensity = RampIntensity(measurement.IntensityEstimate);
             var cloudCover = CloudCover * CloudCoverScale * 2;

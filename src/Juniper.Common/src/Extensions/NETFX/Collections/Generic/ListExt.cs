@@ -10,17 +10,24 @@ namespace System.Collections.Generic
         /// </summary>
         private readonly static Random r = new Random();
 
-        /// <summary> Removes a random item from the given collection. Kind of like dealing cards out
-        /// of a deck. </summary> <typeparam name="T">Any type</typeparam> <param name="items">The
-        /// collection from which to remove the item.</param> <exception
-        /// cref="ArgumentNullException">Thrown when <paramref name="items"/> is null.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Throw when <paramref name="items"/> is
-        /// empty.</exception> <returns>One of the items, any of them.</returns> <example> var list =
-        /// new List<int> { 1, 2, 3, 4, 5 }; list.RemoveRandom(); // --> returns 3, collection is now
-        /// { 1, 2, 4, 5 } list.RemoveRandom(); // --> returns 1, collection is now { 2, 4, 5 }
-        /// list.RemoveRandom(); // --> returns 4, collection is now { 2, 5 } list.RemoveRandom(); //
-        /// --> returns 2, collection is now { 5 } list.RemoveRandom(); // --> returns 5, collection
-        /// is now empty list.RemoveRandom(); // --> throws ArgumentOutOfRangeException </example>
+        /// <summary>
+        /// Removes a random item from the given collection. Kind of like dealing cards out
+        /// of a deck.
+        /// </summary>
+        /// <typeparam name="T">Any type</typeparam>
+        /// <param name="items">The collection from which to remove the item.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="items"/> is null.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Throw when <paramref name="items"/> is empty.</exception>
+        /// <returns>One of the items, any of them.</returns>
+        /// <example><![CDATA[
+        /// var list = new List<int> { 1, 2, 3, 4, 5 };
+        /// list.RemoveRandom(); // --> returns 3, collection is now { 1, 2, 4, 5 }
+        /// list.RemoveRandom(); // --> returns 1, collection is now { 2, 4, 5 }
+        /// list.RemoveRandom(); // --> returns 4, collection is now { 2, 5 }
+        /// list.RemoveRandom(); // --> returns 2, collection is now { 5 }
+        /// list.RemoveRandom(); // --> returns 5, collection is now empty
+        /// list.RemoveRandom(); // --> throws ArgumentOutOfRangeException
+        /// ]]></example>
         public static T RemoveRandom<T>(this List<T> items)
         {
             if (items == null)
@@ -44,7 +51,7 @@ namespace System.Collections.Generic
         /// Remove and return a subsection of a List
         /// </summary>
         /// <returns>The split.</returns>
-        /// <param name="list">List.</param>
+        /// <param name="list"> List.</param>
         /// <param name="index">Index.</param>
         /// <param name="count">Count.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
