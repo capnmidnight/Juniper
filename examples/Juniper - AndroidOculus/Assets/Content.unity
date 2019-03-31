@@ -138,12 +138,14 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1237958088}
-  m_Text: Hello World from Juniper on Oculus Go
+  m_Text: 'Hello World from Juniper
+
+    on Oculus Go'
   m_OffsetZ: 0
   m_CharacterSize: 10
   m_LineSpacing: 1
   m_Anchor: 4
-  m_Alignment: 0
+  m_Alignment: 1
   m_TabSize: 4
   m_FontSize: 100
   m_FontStyle: 0
