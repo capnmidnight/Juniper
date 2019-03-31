@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Juniper/Scenes/Loader.unity
-    guid: 39e2661a5afa68841a9a261436b92520
+    path: Assets/Loader.unity
+    guid: 4fe68eea6af6ba84689c2ea2db2ac1bd
   - enabled: 1
     path: Assets/Content.unity
     guid: 37d6cedf1e64a554591bf34e121b21d1
