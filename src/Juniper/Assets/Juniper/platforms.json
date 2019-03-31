@@ -60,6 +60,7 @@
     "Name": "AndroidCardboard",
     "CompilerDefine": "CARDBOARD",
     "buildTarget": "Android",
+    "androidSdkVersion": "AndroidApiLevel19",
     "spatializer": "Resonance Audio",
     "vrSystems": [
       "None",
