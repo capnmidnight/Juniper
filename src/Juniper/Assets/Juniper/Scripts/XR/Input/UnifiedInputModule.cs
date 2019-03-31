@@ -14,6 +14,8 @@ namespace Juniper.Unity.Input
         OculusInputModule
 #elif PICO
         PicoInputModule
+#elif WAVEVR
+        ViveFocusInputModule
 #elif UNITY_ANDROID || UNITY_IOS
         AbstractMobileInputModule
 #elif UNITY_STANDALONE

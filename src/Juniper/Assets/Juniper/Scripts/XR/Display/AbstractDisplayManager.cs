@@ -90,7 +90,7 @@ namespace Juniper.Unity.Display
 #if UNITY_MODULES_AUDIO
         protected AudioListener listener;
 
-#if RESONANCE
+#if RESONANCEAUDIO
         protected ResonanceAudioListener goog;
 #endif
 #endif
@@ -224,7 +224,7 @@ namespace Juniper.Unity.Display
 #if UNITY_MODULES_AUDIO
             listener = this.Ensure<AudioListener>();
 
-#if RESONANCE
+#if RESONANCEAUDIO
             goog = listener.Ensure<ResonanceAudioListener>().Value;
             goog.stereoSpeakerModeEnabled = Application.isEditor || jp.DisplayType != DisplayTypes.Stereo;
 #endif
@@ -235,7 +235,7 @@ namespace Juniper.Unity.Display
         public virtual void Uninstall()
         {
 #if UNITY_MODULES_AUDIO
-#if RESONANCE
+#if RESONANCEAUDIO
             ComponentExt.FindAny<AudioListener>()
                 ?.Remove<ResonanceAudioListener>();
 #endif

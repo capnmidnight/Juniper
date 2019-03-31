@@ -4,7 +4,7 @@ namespace Juniper.Unity.Audio
     /// The audio portion of the interaction system.
     /// </summary>
     public class InteractionAudio :
-#if RESONANCE
+#if RESONANCEAUDIO
         ResonanceInteractionAudio
 #elif UNITY_XR_OCULUS
         OculusInteractionAudio

@@ -1,4 +1,4 @@
-#if RESONANCE
+#if RESONANCEAUDIO
 using UnityEngine;
 using UnityEngine.Audio;
 

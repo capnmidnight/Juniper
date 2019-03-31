@@ -1,6 +1,7 @@
 #if WAVEVR
 
-using Juniper.Haptics;
+using Juniper.Input;
+using Juniper.Unity.Haptics;
 
 using UnityEngine;
 
@@ -10,101 +11,195 @@ using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Unity.Input.Pointers.Motion
 {
-    public class ViveFocusProbeConfiguration : AbstractProbeNameConfiguration<WVR_DeviceType>
+    public class ViveFocusMotionControllerConfiguration : AbstractMotionControllerConfiguration<WVR_DeviceType, WVR_InputId>
     {
-        public ViveFocusProbeConfiguration() :
-            base(WVR_DeviceType.WVR_DeviceType_Controller_Left, WVR_DeviceType.WVR_DeviceType_Controller_Right) { }
+        public ViveFocusMotionControllerConfiguration()
+        {
+            AddButton(VirtualTouchPadButton.Top, InputButton.Left);
+            AddButton(VirtualTouchPadButton.Bottom, InputButton.Left);
+            AddButton(WVR_InputId.WVR_InputId_Alias1_Menu, InputButton.Middle);
+        }
+
+        public override WVR_DeviceType? this[Hands hand]
+        {
+            get
+            {
+                if (hand == Hands.Left)
+                {
+                    return WVR_DeviceType.WVR_DeviceType_Controller_Left;
+                }
+                else if (hand == Hands.Right)
+                {
+                    return WVR_DeviceType.WVR_DeviceType_Controller_Right;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
     }
 
     /// <summary>
     /// A motion controller or hand-tracking. Currently only implements WindowsMR.
     /// </summary>
-    public abstract class ViveFocusMotionController : AbstractMotionController<WVR_DeviceType, WVR_InputId, ViveFocusProbeConfiguration, ViveFocusHaptics>
+    public abstract class ViveFocusMotionController : AbstractMotionController<WVR_DeviceType, WVR_InputId, ViveFocusMotionControllerConfiguration, ViveFocusHaptics>
     {
         public override bool IsConnected
         {
             get
             {
-                var dev = WaveVR_Controller.Input(NativeHandID);
+                if (NativeHandID == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    var dev = WaveVR_Controller.Input(NativeHandID.Value);
 #if UNITY_EDITOR
-                return dev.connected
-                    && (dev.transform.rot != Quaternion.identity
-                        || dev.transform.pos != Vector3.zero);
+                    return dev.connected
+                        && (dev.transform.rot != Quaternion.identity
+                            || dev.transform.pos != Vector3.zero);
 #else
-                return dev.connected;
+                    return dev.connected;
 #endif
+                }
             }
         }
 
-        public override WVR_DeviceType NativeHandID
+        public override WVR_DeviceType? NativeHandID
         {
-            set
+            get
+            {
+                return base.NativeHandID;
+            }
+            protected set
             {
                 base.NativeHandID = value;
-                Controller.Type = NativeHandID;
+                if (value != null)
+                {
+                    Controller.Type = value.Value;
+                }
             }
         }
 
-        public override Vector2 RoundTouchPoint =>
-            Device.GetAxis(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+        public override Vector2 RoundTouchPoint
+        {
+            get
+            {
+                return Device.GetAxis(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+            }
+        }
 
-        public override Vector2 SquareTouchPoint =>
-            RoundTouchPoint.Round2Square();
+        public override Vector2 SquareTouchPoint
+        {
+            get
+            {
+                return RoundTouchPoint.Round2Square();
+            }
+        }
 
-        public override bool? IsCharging =>
-            Device.ChargeStatus == wvr.WVR_ChargeStatus.WVR_ChargeStatus_Charging;
+        public override bool IsDominantHand
+        {
+            get
+            {
+                return WaveVR_Controller.IsLeftHanded == IsLeftHand;
+            }
+        }
 
-        public override float? BatteryLevel =>
-            Device.DeviceBatteryPercentage;
-
-        public override bool IsDominantHand =>
-            WaveVR_Controller.IsLeftHanded == IsLeftHand;
-
-        public override bool IsLeftHand =>
-            NativeHandID == WVR_DeviceType.WVR_DeviceType_Controller_Left;
-
-        public override bool IsRightHand =>
-            NativeHandID == WVR_DeviceType.WVR_DeviceType_Controller_Right;
-
-        private WaveVR_Controller.Device Device =>
-            _device ?? (_device = WaveVR_Controller.Input(NativeHandID));
+        private WaveVR_Controller.Device Device
+        {
+            get
+            {
+                if (NativeHandID == null)
+                {
+                    return null;
+                }
+                else if(_device == null)
+                {
+                    _device = WaveVR_Controller.Input(NativeHandID.Value);
+                }
+                return _device;
+            }
+        }
 
         public override void Awake()
         {
             base.Awake();
 
             Haptics.Controller = Device;
-
-            AddButton(WVR_InputId.WVR_InputId_Alias1_Touchpad, InputButton.Left);
-            AddButton(WVR_InputId.WVR_InputId_Alias1_Menu, InputButton.Right);
         }
 
-        public override bool IsButtonPressed(WVR_InputId button) =>
-            Device.GetPress(button);
+        public override bool IsButtonPressed(WVR_InputId button)
+        {
+            return Device.GetPress(button);
+        }
 
-        public override bool IsButtonUp(WVR_InputId button) =>
-            Device.GetPressDown(button);
+        public override bool IsButtonUp(WVR_InputId button)
+        {
+            return Device.GetPressDown(button);
+        }
 
-        public override bool IsButtonDown(WVR_InputId button) =>
-            Device.GetPressUp(button);
+        public override bool IsButtonDown(WVR_InputId button)
+        {
+            return Device.GetPressUp(button);
+        }
 
-        protected override bool TouchPadTouched =>
-            Device.GetTouch(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+        protected override bool TouchPadTouched
+        {
+            get
+            {
+                return Device.GetTouch(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+            }
+        }
 
-        protected override bool TouchPadTouchedDown =>
-            Device.GetTouchDown(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+        protected override bool TouchPadTouchedDown
+        {
+            get
+            {
+                return Device.GetTouchDown(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+            }
+        }
 
-        protected override bool TouchPadTouchedUp =>
-            Device.GetTouchDown(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+        protected override bool TouchPadTouchedUp
+        {
+            get
+            {
+                return Device.GetTouchDown(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+            }
+        }
 
-        protected override bool TouchPadPressed =>
-            Device.GetPress(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+        protected override bool TouchPadPressed
+        {
+            get
+            {
+                return Device.GetPress(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+            }
+        }
 
-        protected override bool TouchPadPressedDown =>
-            Device.GetPressDown(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+        protected override bool TouchPadPressedDown
+        {
+            get
+            {
+                return Device.GetPressDown(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+            }
+        }
 
-        protected override bool TouchPadPressedUp =>
-            Device.GetPressUp(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+        protected override bool TouchPadPressedUp
+        {
+            get
+            {
+                return Device.GetPressUp(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+            }
+        }
+
+        public override float Trigger
+        {
+            get
+            {
+                return Device.GetAxis(WVR_InputId.WVR_InputId_Alias1_Trigger).magnitude;
+            }
+        }
 
         protected override void InternalUpdate()
         {

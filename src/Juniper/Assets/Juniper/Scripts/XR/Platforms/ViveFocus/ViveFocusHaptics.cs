@@ -1,7 +1,8 @@
 #if WAVEVR
-using System;
 using System.Collections;
+
 using UnityEngine;
+
 using wvr;
 
 namespace Juniper.Unity.Haptics
@@ -17,8 +18,7 @@ namespace Juniper.Unity.Haptics
             {
                 Controller?.TriggerHapticPulse(
                     (ushort)(milliseconds * 1000),
-                    WVR_InputId.WVR_InputId_Alias1_Trigger,
-                    (WVR_Intensity)amp);
+                    WVR_InputId.WVR_InputId_Alias1_Trigger);
             }
             yield return new WaitForSeconds(0.001f * milliseconds);
         }

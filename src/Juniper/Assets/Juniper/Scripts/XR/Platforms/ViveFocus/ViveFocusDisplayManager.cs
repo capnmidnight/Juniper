@@ -1,5 +1,6 @@
 #if WAVEVR
 using UnityEngine;
+
 using wvr;
 
 namespace Juniper.Unity.Display
@@ -12,21 +13,6 @@ namespace Juniper.Unity.Display
             {
                 this.WithLock(() =>
                 {
-#if UNITY_MODULES_AUDIO
-#if RESONANCEAUDIO
-                    var wasStereo = goog.stereoSpeakerModeEnabled;
-                    this.Remove<ResonanceAudioListener>();
-#endif
-
-                    this.Remove<AudioListener>();
-                    listener = ComponentExt.FindAny<AudioListener>();
-
-#if RESONANCEAUDIO
-                    goog = listener.Ensure<ResonanceAudioListener>();
-                    goog.stereoSpeakerModeEnabled = wasStereo;
-#endif
-#endif
-
                     var rend = this.Ensure<WaveVR_Render>();
                     if (rend.IsNew)
                     {
@@ -46,6 +32,21 @@ namespace Juniper.Unity.Display
                     tracker.EnableNeckModel = true;
                     tracker.trackRotation = true;
                     tracker.timing = WVR_TrackTiming.WhenNewPoses;
+
+#if UNITY_MODULES_AUDIO
+#if RESONANCEAUDIO
+                    var wasStereo = goog.stereoSpeakerModeEnabled;
+                    this.Remove<ResonanceAudioListener>();
+#endif
+
+                    this.Remove<AudioListener>();
+                    listener = ComponentExt.FindAny<AudioListener>();
+
+#if RESONANCEAUDIO
+                    goog = listener.Ensure<ResonanceAudioListener>();
+                    goog.stereoSpeakerModeEnabled = wasStereo;
+#endif
+#endif
                 });
 
                 return true;
