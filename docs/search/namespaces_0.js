@@ -22,6 +22,7 @@ var searchData=
   ['motion',['Motion',['../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html',1,'Juniper::Unity::Input::Pointers']]],
   ['neurosky',['NeuroSky',['../d0/dd6/namespace_juniper_1_1_neuro_sky.html',1,'Juniper']]],
   ['openweathermap',['OpenWeatherMap',['../d5/d13/namespace_juniper_1_1_world_1_1_climate_1_1_open_weather_map.html',1,'Juniper::World::Climate']]],
+  ['permissions',['Permissions',['../d8/d3e/namespace_juniper_1_1_unity_1_1_permissions.html',1,'Juniper::Unity']]],
   ['pointers',['Pointers',['../d2/d10/namespace_juniper_1_1_input_1_1_pointers.html',1,'Juniper.Input.Pointers'],['../db/d75/namespace_juniper_1_1_unity_1_1_input_1_1_pointers.html',1,'Juniper.Unity.Input.Pointers']]],
   ['progress',['Progress',['../df/d09/namespace_juniper_1_1_progress.html',1,'Juniper']]],
   ['screen',['Screen',['../db/d00/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen.html',1,'Juniper::Unity::Input::Pointers']]],

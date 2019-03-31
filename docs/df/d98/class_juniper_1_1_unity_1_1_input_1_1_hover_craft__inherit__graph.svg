@@ -12,15 +12,14 @@
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
 <g id="a_node1"><a xlink:title=" ">
-<polygon fill="#bfbfbf" stroke="black" points="5,-0.5 5,-101.5 129,-101.5 129,-0.5 5,-0.5"/>
-<text text-anchor="start" x="13" y="-89.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Hover</text>
-<text text-anchor="middle" x="67" y="-78.5" font-family="SegoeUI" font-size="10.00">Craft</text>
-<polyline fill="none" stroke="black" points="5,-71.5 129,-71.5 "/>
-<text text-anchor="start" x="13" y="-59.5" font-family="SegoeUI" font-size="10.00">+ Pointer</text>
-<text text-anchor="start" x="13" y="-48.5" font-family="SegoeUI" font-size="10.00">+ ForwardPressed</text>
-<text text-anchor="start" x="13" y="-37.5" font-family="SegoeUI" font-size="10.00">+ BackPressed</text>
-<polyline fill="none" stroke="black" points="5,-30.5 129,-30.5 "/>
-<text text-anchor="start" x="13" y="-18.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
+<polygon fill="#bfbfbf" stroke="black" points="5,-0.5 5,-90.5 129,-90.5 129,-0.5 5,-0.5"/>
+<text text-anchor="start" x="13" y="-78.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Hover</text>
+<text text-anchor="middle" x="67" y="-67.5" font-family="SegoeUI" font-size="10.00">Craft</text>
+<polyline fill="none" stroke="black" points="5,-60.5 129,-60.5 "/>
+<text text-anchor="start" x="13" y="-48.5" font-family="SegoeUI" font-size="10.00">+ Pointer</text>
+<text text-anchor="start" x="13" y="-37.5" font-family="SegoeUI" font-size="10.00">+ ForwardPressed</text>
+<text text-anchor="start" x="13" y="-26.5" font-family="SegoeUI" font-size="10.00">+ BackPressed</text>
+<polyline fill="none" stroke="black" points="5,-19.5 129,-19.5 "/>
 <text text-anchor="start" x="13" y="-7.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
 </a>
 </g>
@@ -28,24 +27,25 @@
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
 <g id="a_node2"><a xlink:href="../../d5/d28/class_juniper_1_1_unity_1_1_input_1_1_abstract_velocity_locomotion.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="0,-138.5 0,-250.5 134,-250.5 134,-138.5 0,-138.5"/>
+<polygon fill="white" stroke="black" points="0,-127.5 0,-250.5 134,-250.5 134,-127.5 0,-127.5"/>
 <text text-anchor="middle" x="67" y="-238.5" font-family="SegoeUI" font-size="10.00">AbstractVelocityLocomotion</text>
 <polyline fill="none" stroke="black" points="0,-231.5 134,-231.5 "/>
 <text text-anchor="start" x="8" y="-219.5" font-family="SegoeUI" font-size="10.00">+ moveSpeed</text>
 <text text-anchor="start" x="8" y="-208.5" font-family="SegoeUI" font-size="10.00">+ jink</text>
 <text text-anchor="start" x="8" y="-197.5" font-family="SegoeUI" font-size="10.00"># MOVEMENT_SCALE</text>
 <text text-anchor="start" x="8" y="-186.5" font-family="SegoeUI" font-size="10.00"># velocity</text>
-<text text-anchor="start" x="8" y="-175.5" font-family="SegoeUI" font-size="10.00">&#45; stage</text>
-<polyline fill="none" stroke="black" points="0,-168.5 134,-168.5 "/>
-<text text-anchor="start" x="8" y="-156.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
-<text text-anchor="start" x="8" y="-145.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
+<text text-anchor="start" x="8" y="-175.5" font-family="SegoeUI" font-size="10.00"># input</text>
+<text text-anchor="start" x="8" y="-164.5" font-family="SegoeUI" font-size="10.00">&#45; stage</text>
+<polyline fill="none" stroke="black" points="0,-157.5 134,-157.5 "/>
+<text text-anchor="start" x="8" y="-145.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
+<text text-anchor="start" x="8" y="-134.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node0 -->
 <g id="edge1" class="edge"><title>Node1&#45;&gt;Node0</title>
-<path fill="none" stroke="midnightblue" d="M67,-128.344C67,-119.375 67,-110.286 67,-101.658"/>
-<polygon fill="none" stroke="midnightblue" points="63.5001,-128.387 67,-138.387 70.5001,-128.387 63.5001,-128.387"/>
+<path fill="none" stroke="midnightblue" d="M67,-117.033C67,-108.028 67,-99.0285 67,-90.6168"/>
+<polygon fill="none" stroke="midnightblue" points="63.5001,-117.17 67,-127.17 70.5001,-117.17 63.5001,-117.17"/>
 </g>
 <!-- Node2 -->
 <g id="node3" class="node"><title>Node2</title>
@@ -61,8 +61,8 @@
 </g>
 <!-- Node2&#45;&gt;Node1 -->
 <g id="edge2" class="edge"><title>Node2&#45;&gt;Node1</title>
-<path fill="none" stroke="midnightblue" d="M67,-277.108C67,-268.748 67,-259.725 67,-250.834"/>
-<polygon fill="none" stroke="midnightblue" points="63.5001,-277.284 67,-287.284 70.5001,-277.284 63.5001,-277.284"/>
+<path fill="none" stroke="midnightblue" d="M67,-277.099C67,-268.739 67,-259.68 67,-250.672"/>
+<polygon fill="none" stroke="midnightblue" points="63.5001,-277.258 67,-287.258 70.5001,-277.258 63.5001,-277.258"/>
 </g>
 </g>
 </svg>

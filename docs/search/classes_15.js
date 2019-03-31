@@ -11,7 +11,8 @@ var searchData=
   ['videovader',['VideoVader',['../db/de8/class_juniper_1_1_unity_1_1_widgets_1_1_video_vader.html',1,'Juniper::Unity::Widgets']]],
   ['vivefocusdisplaymanager',['ViveFocusDisplayManager',['../de/daa/class_juniper_1_1_unity_1_1_display_1_1_vive_focus_display_manager.html',1,'Juniper::Unity::Display']]],
   ['vivefocushaptics',['ViveFocusHaptics',['../d0/ded/class_juniper_1_1_unity_1_1_haptics_1_1_vive_focus_haptics.html',1,'Juniper::Unity::Haptics']]],
+  ['vivefocusinputmodule',['ViveFocusInputModule',['../d8/d50/class_juniper_1_1_unity_1_1_input_1_1_vive_focus_input_module.html',1,'Juniper::Unity::Input']]],
   ['vivefocusmotioncontroller',['ViveFocusMotionController',['../de/dec/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller.html',1,'Juniper::Unity::Input::Pointers::Motion']]],
-  ['vivefocusprobeconfiguration',['ViveFocusProbeConfiguration',['../de/d5a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_probe_configuration.html',1,'Juniper::Unity::Input::Pointers::Motion']]],
+  ['vivefocusmotioncontrollerconfiguration',['ViveFocusMotionControllerConfiguration',['../d4/d8f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller_configuration.html',1,'Juniper::Unity::Input::Pointers::Motion']]],
   ['volumefade',['VolumeFade',['../d3/db2/class_juniper_1_1_unity_1_1_audio_1_1_volume_fade.html',1,'Juniper::Unity::Audio']]]
 ];

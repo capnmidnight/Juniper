@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 393)">
 <title>Juniper.Unity.Input.Pointers.Motion.AbstractMotionControllerConfiguration&lt; HandIDType, ButtonIDType &gt;</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-393 215,-393 215,4 -4,4"/>
-<!-- Node7 -->
-<g id="node1" class="node"><title>Node7</title>
+<!-- Node11 -->
+<g id="node1" class="node"><title>Node11</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-134.5 211,-134.5 211,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-122.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
@@ -28,8 +28,8 @@
 </a>
 </g>
 </g>
-<!-- Node8 -->
-<g id="node2" class="node"><title>Node8</title>
+<!-- Node12 -->
+<g id="node2" class="node"><title>Node12</title>
 <g id="a_node2"><a xlink:href="../../d0/da7/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer_configuration.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="20,-171.5 20,-261.5 191,-261.5 191,-171.5 20,-171.5"/>
 <text text-anchor="start" x="28" y="-249.5" font-family="SegoeUI" font-size="10.00">AbstractHandedPointerConfiguration</text>
@@ -43,13 +43,13 @@
 </a>
 </g>
 </g>
-<!-- Node8&#45;&gt;Node7 -->
-<g id="edge1" class="edge"><title>Node8&#45;&gt;Node7</title>
+<!-- Node12&#45;&gt;Node11 -->
+<g id="edge1" class="edge"><title>Node12&#45;&gt;Node11</title>
 <path fill="none" stroke="midnightblue" d="M105.5,-161.375C105.5,-152.658 105.5,-143.55 105.5,-134.591"/>
 <polygon fill="none" stroke="midnightblue" points="102,-161.395 105.5,-171.395 109,-161.395 102,-161.395"/>
 </g>
-<!-- Node9 -->
-<g id="node3" class="node"><title>Node9</title>
+<!-- Node13 -->
+<g id="node3" class="node"><title>Node13</title>
 <g id="a_node3"><a xlink:href="../../db/d8b/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="36,-298.5 36,-388.5 175,-388.5 175,-298.5 36,-298.5"/>
 <text text-anchor="start" x="44" y="-376.5" font-family="SegoeUI" font-size="10.00">AbstractPointerConfiguration</text>
@@ -63,8 +63,8 @@
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node8 -->
-<g id="edge2" class="edge"><title>Node9&#45;&gt;Node8</title>
+<!-- Node13&#45;&gt;Node12 -->
+<g id="edge2" class="edge"><title>Node13&#45;&gt;Node12</title>
 <path fill="none" stroke="midnightblue" d="M105.5,-288.157C105.5,-279.282 105.5,-270.183 105.5,-261.594"/>
 <polygon fill="none" stroke="midnightblue" points="102,-288.43 105.5,-298.43 109,-288.43 102,-288.43"/>
 </g>

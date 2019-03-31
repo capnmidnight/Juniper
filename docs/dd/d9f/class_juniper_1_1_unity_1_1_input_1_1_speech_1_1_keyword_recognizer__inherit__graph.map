@@ -1,4 +1,5 @@
 <map id="Juniper.Unity.Input.Speech.KeywordRecognizer" name="Juniper.Unity.Input.Speech.KeywordRecognizer">
-<area shape="rect" id="node1" title="A class that implements basic functionality for systems that manage speech recognition and route out ..." alt="" coords="5,131,184,296"/>
-<area shape="rect" id="node2" title=" " alt="" coords="40,5,149,83"/>
+<area shape="rect" id="node1" title="A class that implements basic functionality for systems that manage speech recognition and route out ..." alt="" coords="45,131,224,296"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,115,83"/>
+<area shape="rect" id="node3" href="$dc/ddd/interface_juniper_1_1_unity_1_1_input_1_1_speech_1_1_i_keyword_recognizer.html" title=" " alt="" coords="139,5,282,83"/>
 </map>

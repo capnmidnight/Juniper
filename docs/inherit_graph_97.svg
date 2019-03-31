@@ -9,16 +9,16 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 309)">
 <title>Graphical Class Hierarchy</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-309 496,-309 496,4 -4,4"/>
-<!-- Node313 -->
-<g id="node1" class="node"><title>Node313</title>
+<!-- Node321 -->
+<g id="node1" class="node"><title>Node321</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="28,-255 28,-274 99,-274 99,-255 28,-255"/>
 <text text-anchor="middle" x="63.5" y="-262" font-family="SegoeUI" font-size="10.00">IEnumerable</text>
 </a>
 </g>
 </g>
-<!-- Node314 -->
-<g id="node2" class="node"><title>Node314</title>
+<!-- Node322 -->
+<g id="node2" class="node"><title>Node322</title>
 <g id="a_node2"><a xlink:href="da/d46/interface_juniper_1_1_unity_1_1_audio_1_1_i_audio_clip_collection.html" target="_top" xlink:title="The IAudioClipCollection interface is implemented by two classes. One is a savable collection of audi...">
 <polygon fill="white" stroke="black" points="181.5,-274.5 181.5,-304.5 309.5,-304.5 309.5,-274.5 181.5,-274.5"/>
 <text text-anchor="start" x="189.5" y="-292.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Audio.IAudio</text>
@@ -26,8 +26,8 @@
 </a>
 </g>
 </g>
-<!-- Node313&#45;&gt;Node314 -->
-<g id="edge1" class="edge"><title>Node313&#45;&gt;Node314</title>
+<!-- Node321&#45;&gt;Node322 -->
+<g id="edge1" class="edge"><title>Node321&#45;&gt;Node322</title>
 <path fill="none" stroke="midnightblue" d="M109.182,-270.706C131.003,-273.737 157.635,-277.435 181.482,-280.747"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="109.592,-267.229 99.2058,-269.32 108.629,-274.163 109.592,-267.229"/>
 </g>
@@ -40,8 +40,8 @@
 </a>
 </g>
 </g>
-<!-- Node313&#45;&gt;Node60 -->
-<g id="edge4" class="edge"><title>Node313&#45;&gt;Node60</title>
+<!-- Node321&#45;&gt;Node60 -->
+<g id="edge4" class="edge"><title>Node321&#45;&gt;Node60</title>
 <path fill="none" stroke="midnightblue" d="M109.364,-258.518C128.376,-255.983 151.015,-252.965 172.276,-250.13"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="108.655,-255.082 99.2058,-259.873 109.581,-262.02 108.655,-255.082"/>
 </g>
@@ -54,13 +54,13 @@
 </a>
 </g>
 </g>
-<!-- Node314&#45;&gt;Node0 -->
-<g id="edge2" class="edge"><title>Node314&#45;&gt;Node0</title>
+<!-- Node322&#45;&gt;Node0 -->
+<g id="edge2" class="edge"><title>Node322&#45;&gt;Node0</title>
 <path fill="none" stroke="midnightblue" d="M310.949,-271.383C316.747,-269.494 322.501,-267.522 328,-265.5 351.126,-256.998 376.508,-245.676 395.781,-236.646"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="309.661,-268.119 301.187,-274.478 311.777,-274.792 309.661,-268.119"/>
 </g>
-<!-- Node315 -->
-<g id="node4" class="node"><title>Node315</title>
+<!-- Node323 -->
+<g id="node4" class="node"><title>Node323</title>
 <g id="a_node4"><a xlink:href="db/dd3/class_juniper_1_1_unity_1_1_audio_1_1_single_audio_clip_collection.html" target="_top" xlink:title="Wraps around a single audio clip to make it interface with code that handles full collections of audi...">
 <polygon fill="white" stroke="black" points="364,-274.5 364,-304.5 492,-304.5 492,-274.5 364,-274.5"/>
 <text text-anchor="start" x="372" y="-292.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Audio.Single</text>
@@ -68,21 +68,21 @@
 </a>
 </g>
 </g>
-<!-- Node314&#45;&gt;Node315 -->
-<g id="edge3" class="edge"><title>Node314&#45;&gt;Node315</title>
+<!-- Node322&#45;&gt;Node323 -->
+<g id="edge3" class="edge"><title>Node322&#45;&gt;Node323</title>
 <path fill="none" stroke="midnightblue" d="M319.663,-289.5C334.328,-289.5 349.617,-289.5 363.906,-289.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="319.63,-286 309.63,-289.5 319.63,-293 319.63,-286"/>
 </g>
-<!-- Node264 -->
-<g id="node6" class="node"><title>Node264</title>
+<!-- Node269 -->
+<g id="node6" class="node"><title>Node269</title>
 <g id="a_node6"><a xlink:href="d8/d2c/interface_unity_engine_1_1_i_valued.html" target="_top" xlink:title="An abstraction for Reference{T}s and Varabile{T}s to make them usuable in shared contexts.">
 <polygon fill="white" stroke="black" points="0,-28 0,-47 127,-47 127,-28 0,-28"/>
 <text text-anchor="middle" x="63.5" y="-35" font-family="SegoeUI" font-size="10.00">UnityEngine.IValued&lt; T &gt;</text>
 </a>
 </g>
 </g>
-<!-- Node265 -->
-<g id="node7" class="node"><title>Node265</title>
+<!-- Node270 -->
+<g id="node7" class="node"><title>Node270</title>
 <g id="a_node7"><a xlink:href="da/d38/class_unity_engine_1_1_abstract_reference.html" target="_top" xlink:title="A reference to either a savable *Variable or a static value set in the editor.">
 <polygon fill="white" stroke="black" points="171.5,-0.5 171.5,-30.5 319.5,-30.5 319.5,-0.5 171.5,-0.5"/>
 <text text-anchor="start" x="179.5" y="-18.5" font-family="SegoeUI" font-size="10.00">UnityEngine.AbstractReference</text>
@@ -90,8 +90,8 @@
 </a>
 </g>
 </g>
-<!-- Node264&#45;&gt;Node265 -->
-<g id="edge5" class="edge"><title>Node264&#45;&gt;Node265</title>
+<!-- Node269&#45;&gt;Node270 -->
+<g id="edge5" class="edge"><title>Node269&#45;&gt;Node270</title>
 <path fill="none" stroke="midnightblue" d="M137.335,-28.598C148.502,-27.2331 160.035,-25.8235 171.212,-24.4574"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="136.704,-25.1489 127.203,-29.8364 137.553,-32.0972 136.704,-25.1489"/>
 </g>
@@ -103,8 +103,8 @@
 </a>
 </g>
 </g>
-<!-- Node264&#45;&gt;Node61 -->
-<g id="edge6" class="edge"><title>Node264&#45;&gt;Node61</title>
+<!-- Node269&#45;&gt;Node61 -->
+<g id="edge6" class="edge"><title>Node269&#45;&gt;Node61</title>
 <path fill="none" stroke="midnightblue" d="M137.151,-46.3796C146.813,-47.5605 156.753,-48.7753 166.501,-49.9668"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="137.553,-42.9028 127.203,-45.1636 136.704,-49.8511 137.553,-42.9028"/>
 </g>

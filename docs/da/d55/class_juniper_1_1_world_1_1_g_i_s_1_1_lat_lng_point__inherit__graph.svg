@@ -22,18 +22,18 @@
 <polyline fill="none" stroke="black" points="0,-173.5 125,-173.5 "/>
 <text text-anchor="start" x="8" y="-161.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
 <text text-anchor="start" x="8" y="-150.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
-<text text-anchor="start" x="8" y="-139.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
-<text text-anchor="start" x="8" y="-128.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
-<text text-anchor="start" x="8" y="-117.5" font-family="SegoeUI" font-size="10.00">+ ToUTM()</text>
-<text text-anchor="start" x="8" y="-106.5" font-family="SegoeUI" font-size="10.00">+ ToSunPosition()</text>
-<text text-anchor="start" x="8" y="-95.5" font-family="SegoeUI" font-size="10.00">+ ToDMS()</text>
+<text text-anchor="start" x="8" y="-139.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
+<text text-anchor="start" x="8" y="-128.5" font-family="SegoeUI" font-size="10.00">+ ToUTM()</text>
+<text text-anchor="start" x="8" y="-117.5" font-family="SegoeUI" font-size="10.00">+ ToSunPosition()</text>
+<text text-anchor="start" x="8" y="-106.5" font-family="SegoeUI" font-size="10.00">+ ToDMS()</text>
+<text text-anchor="start" x="8" y="-95.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
 <text text-anchor="start" x="8" y="-84.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
 <text text-anchor="start" x="8" y="-73.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
-<text text-anchor="start" x="8" y="-62.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
-<text text-anchor="start" x="8" y="-51.5" font-family="SegoeUI" font-size="10.00">+ Equals()</text>
-<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ GetHashCode()</text>
-<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ Distance()</text>
-<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ TryParseDMS()</text>
+<text text-anchor="start" x="8" y="-62.5" font-family="SegoeUI" font-size="10.00">+ Equals()</text>
+<text text-anchor="start" x="8" y="-51.5" font-family="SegoeUI" font-size="10.00">+ GetHashCode()</text>
+<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ Distance()</text>
+<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ TryParseDMS()</text>
+<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00"># LatLngPoint()</text>
 <text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">&#45; ToDMS()</text>
 </a>
 </g>

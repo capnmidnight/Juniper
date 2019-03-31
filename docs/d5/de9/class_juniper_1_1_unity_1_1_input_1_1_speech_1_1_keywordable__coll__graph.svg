@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 327;
+var viewWidth = 359;
 var viewHeight = 547;
 var sectionId = 'dynsection-1';
 </script>
@@ -54,26 +54,26 @@ var sectionId = 'dynsection-1';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>Juniper.Unity.Input.Speech.Keywordable</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-543 323,-543 323,4 -4,4"/>
+<polygon fill="white" stroke="none" points="-4,4 -4,-543 354.5,-543 354.5,4 -4,4"/>
 <!-- Node3 -->
 <g id="node1" class="node"><title>Node3</title>
 <g id="a_node1"><a xlink:title="An object that can be fires an event when a particular keyword is uttered.">
-<polygon fill="#bfbfbf" stroke="black" points="69,-0.5 69,-167.5 203,-167.5 203,-0.5 69,-0.5"/>
-<text text-anchor="start" x="77" y="-155.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Speech.</text>
-<text text-anchor="middle" x="136" y="-144.5" font-family="SegoeUI" font-size="10.00">Keywordable</text>
-<polyline fill="none" stroke="black" points="69,-137.5 203,-137.5 "/>
-<text text-anchor="start" x="77" y="-125.5" font-family="SegoeUI" font-size="10.00">+ keywords</text>
-<text text-anchor="start" x="77" y="-114.5" font-family="SegoeUI" font-size="10.00">+ shortcutKey</text>
-<text text-anchor="start" x="77" y="-103.5" font-family="SegoeUI" font-size="10.00">+ onKeyword</text>
-<text text-anchor="start" x="77" y="-92.5" font-family="SegoeUI" font-size="10.00">+ Keywords</text>
-<text text-anchor="start" x="77" y="-81.5" font-family="SegoeUI" font-size="10.00">+ HasKeywords</text>
-<polyline fill="none" stroke="black" points="69,-74.5 203,-74.5 "/>
-<text text-anchor="start" x="77" y="-62.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
-<text text-anchor="start" x="77" y="-51.5" font-family="SegoeUI" font-size="10.00">+ OnEnable()</text>
-<text text-anchor="start" x="77" y="-40.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
-<text text-anchor="start" x="77" y="-29.5" font-family="SegoeUI" font-size="10.00"># OnKeyword()</text>
-<text text-anchor="start" x="77" y="-18.5" font-family="SegoeUI" font-size="10.00">&#45; OnKeyword()</text>
-<text text-anchor="start" x="77" y="-7.5" font-family="SegoeUI" font-size="10.00">&#45; Start()</text>
+<polygon fill="#bfbfbf" stroke="black" points="78,-0.5 78,-167.5 212,-167.5 212,-0.5 78,-0.5"/>
+<text text-anchor="start" x="86" y="-155.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Speech.</text>
+<text text-anchor="middle" x="145" y="-144.5" font-family="SegoeUI" font-size="10.00">Keywordable</text>
+<polyline fill="none" stroke="black" points="78,-137.5 212,-137.5 "/>
+<text text-anchor="start" x="86" y="-125.5" font-family="SegoeUI" font-size="10.00">+ keywords</text>
+<text text-anchor="start" x="86" y="-114.5" font-family="SegoeUI" font-size="10.00">+ shortcutKey</text>
+<text text-anchor="start" x="86" y="-103.5" font-family="SegoeUI" font-size="10.00">+ onKeyword</text>
+<text text-anchor="start" x="86" y="-92.5" font-family="SegoeUI" font-size="10.00">+ Keywords</text>
+<text text-anchor="start" x="86" y="-81.5" font-family="SegoeUI" font-size="10.00">+ HasKeywords</text>
+<polyline fill="none" stroke="black" points="78,-74.5 212,-74.5 "/>
+<text text-anchor="start" x="86" y="-62.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
+<text text-anchor="start" x="86" y="-51.5" font-family="SegoeUI" font-size="10.00">+ OnEnable()</text>
+<text text-anchor="start" x="86" y="-40.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
+<text text-anchor="start" x="86" y="-29.5" font-family="SegoeUI" font-size="10.00"># OnKeyword()</text>
+<text text-anchor="start" x="86" y="-18.5" font-family="SegoeUI" font-size="10.00">&#45; OnKeyword()</text>
+<text text-anchor="start" x="86" y="-7.5" font-family="SegoeUI" font-size="10.00">&#45; Start()</text>
 </a>
 </g>
 </g>
@@ -91,89 +91,106 @@ var sectionId = 'dynsection-1';
 </g>
 <!-- Node4&#45;&gt;Node3 -->
 <g id="edge1" class="edge"><title>Node4&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M39.9836,-370.786C39.9903,-331.067 43.0885,-267.173 60,-215 65.1592,-199.084 72.4887,-183 80.5811,-167.828"/>
-<polygon fill="none" stroke="midnightblue" points="36.4838,-370.852 40.0482,-380.829 43.4837,-370.807 36.4838,-370.852"/>
+<path fill="none" stroke="midnightblue" d="M42.192,-370.741C44.4209,-330.985 50.7966,-267.061 69,-215 74.5656,-199.083 82.1512,-182.934 90.3856,-167.68"/>
+<polygon fill="none" stroke="midnightblue" points="38.6932,-370.632 41.6884,-380.794 45.6844,-370.982 38.6932,-370.632"/>
 </g>
 <!-- Node6 -->
 <g id="node4" class="node"><title>Node6</title>
 <g id="a_node4"><a xlink:href="../../da/d31/class_juniper_1_1_unity_1_1_input_1_1_speech_1_1_keyword_recognizer.html" target="_top" xlink:title="A class that implements basic functionality for systems that manage speech recognition and route out ...">
-<polygon fill="white" stroke="black" points="69,-215.5 69,-327.5 203,-327.5 203,-215.5 69,-215.5"/>
-<text text-anchor="start" x="77" y="-315.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Speech.</text>
-<text text-anchor="middle" x="136" y="-304.5" font-family="SegoeUI" font-size="10.00">KeywordRecognizer</text>
-<polyline fill="none" stroke="black" points="69,-297.5 203,-297.5 "/>
-<text text-anchor="start" x="77" y="-285.5" font-family="SegoeUI" font-size="10.00">+ IsAvailable</text>
-<text text-anchor="start" x="77" y="-274.5" font-family="SegoeUI" font-size="10.00"># keywords</text>
-<polyline fill="none" stroke="black" points="69,-267.5 203,-267.5 "/>
-<text text-anchor="start" x="77" y="-255.5" font-family="SegoeUI" font-size="10.00">+ RefreshKeywords()</text>
-<text text-anchor="start" x="77" y="-244.5" font-family="SegoeUI" font-size="10.00">+ OnEnable()</text>
-<text text-anchor="start" x="77" y="-233.5" font-family="SegoeUI" font-size="10.00">+ OnDisable()</text>
-<text text-anchor="start" x="77" y="-222.5" font-family="SegoeUI" font-size="10.00"># OnKeywordRecognized()</text>
+<polygon fill="white" stroke="black" points="78,-215.5 78,-327.5 212,-327.5 212,-215.5 78,-215.5"/>
+<text text-anchor="start" x="86" y="-315.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Speech.</text>
+<text text-anchor="middle" x="145" y="-304.5" font-family="SegoeUI" font-size="10.00">KeywordRecognizer</text>
+<polyline fill="none" stroke="black" points="78,-297.5 212,-297.5 "/>
+<text text-anchor="start" x="86" y="-285.5" font-family="SegoeUI" font-size="10.00">+ IsAvailable</text>
+<text text-anchor="start" x="86" y="-274.5" font-family="SegoeUI" font-size="10.00"># keywords</text>
+<polyline fill="none" stroke="black" points="78,-267.5 212,-267.5 "/>
+<text text-anchor="start" x="86" y="-255.5" font-family="SegoeUI" font-size="10.00">+ RefreshKeywords()</text>
+<text text-anchor="start" x="86" y="-244.5" font-family="SegoeUI" font-size="10.00">+ OnEnable()</text>
+<text text-anchor="start" x="86" y="-233.5" font-family="SegoeUI" font-size="10.00">+ OnDisable()</text>
+<text text-anchor="start" x="86" y="-222.5" font-family="SegoeUI" font-size="10.00"># OnKeywordRecognized()</text>
 </a>
 </g>
 </g>
 <!-- Node4&#45;&gt;Node6 -->
 <g id="edge4" class="edge"><title>Node4&#45;&gt;Node6</title>
-<path fill="none" stroke="midnightblue" d="M66.0083,-372.699C75.6641,-358.876 86.932,-342.745 97.5695,-327.516"/>
-<polygon fill="none" stroke="midnightblue" points="63.0819,-370.776 60.2247,-380.978 68.8205,-374.785 63.0819,-370.776"/>
+<path fill="none" stroke="midnightblue" d="M68.3776,-372.699C78.9481,-358.876 91.2834,-342.745 102.929,-327.516"/>
+<polygon fill="none" stroke="midnightblue" points="65.3402,-370.909 62.046,-380.978 70.9007,-375.161 65.3402,-370.909"/>
 </g>
 <!-- Node5 -->
 <g id="node3" class="node"><title>Node5</title>
 <g id="a_node3"><a xlink:href="../../da/d92/interface_juniper_1_1_input_1_1_speech_1_1_i_keyword_triggered.html" target="_top" xlink:title="An interface for systems that respond to keyword utterances.">
-<polygon fill="white" stroke="black" points="221,-243 221,-300 319,-300 319,-243 221,-243"/>
-<text text-anchor="middle" x="270" y="-288" font-family="SegoeUI" font-size="10.00">IKeywordTriggered</text>
-<polyline fill="none" stroke="black" points="221,-281 319,-281 "/>
-<text text-anchor="start" x="229" y="-269" font-family="SegoeUI" font-size="10.00">+ Keywords</text>
-<polyline fill="none" stroke="black" points="221,-262 319,-262 "/>
-<text text-anchor="middle" x="270" y="-250" font-family="SegoeUI" font-size="10.00"> </text>
+<polygon fill="white" stroke="black" points="230,-243 230,-300 328,-300 328,-243 230,-243"/>
+<text text-anchor="middle" x="279" y="-288" font-family="SegoeUI" font-size="10.00">IKeywordTriggered</text>
+<polyline fill="none" stroke="black" points="230,-281 328,-281 "/>
+<text text-anchor="start" x="238" y="-269" font-family="SegoeUI" font-size="10.00">+ Keywords</text>
+<polyline fill="none" stroke="black" points="230,-262 328,-262 "/>
+<text text-anchor="middle" x="279" y="-250" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
 </g>
 </g>
 <!-- Node5&#45;&gt;Node3 -->
 <g id="edge2" class="edge"><title>Node5&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M244.071,-234.605C230.259,-215.486 212.657,-191.118 195.687,-167.627"/>
-<polygon fill="none" stroke="midnightblue" points="241.246,-236.672 249.939,-242.729 246.92,-232.573 241.246,-236.672"/>
+<path fill="none" stroke="midnightblue" d="M253.071,-234.605C239.259,-215.486 221.657,-191.118 204.687,-167.627"/>
+<polygon fill="none" stroke="midnightblue" points="250.246,-236.672 258.939,-242.729 255.92,-232.573 250.246,-236.672"/>
 </g>
 <!-- Node6&#45;&gt;Node3 -->
 <g id="edge3" class="edge"><title>Node6&#45;&gt;Node3</title>
-<path fill="none" stroke="#404040" d="M136,-215.346C136,-204.132 136,-192.036 136,-179.891"/>
-<polygon fill="none" stroke="#404040" points="136,-179.76 132,-173.76 136,-167.76 140,-173.76 136,-179.76"/>
-<text text-anchor="middle" x="151.5" y="-189" font-family="SegoeUI" font-size="10.00"> &#45;keyer</text>
+<path fill="none" stroke="#404040" d="M145,-215.346C145,-204.132 145,-192.036 145,-179.891"/>
+<polygon fill="none" stroke="#404040" points="145,-179.76 141,-173.76 145,-167.76 149,-173.76 145,-179.76"/>
+<text text-anchor="middle" x="160.5" y="-189" font-family="SegoeUI" font-size="10.00"> &#45;keyer</text>
 </g>
 <!-- Node7 -->
 <g id="node5" class="node"><title>Node7</title>
-<g id="a_node5"><a xlink:href="../../d9/d59/class_unity_engine_1_1_events_1_1_string_event.html" target="_top" xlink:title="An event that passes a string value as an argument.">
-<polygon fill="white" stroke="black" points="100.5,-375.5 100.5,-443.5 225.5,-443.5 225.5,-375.5 100.5,-375.5"/>
-<text text-anchor="start" x="108.5" y="-431.5" font-family="SegoeUI" font-size="10.00">UnityEngine.Events.String</text>
-<text text-anchor="middle" x="163" y="-420.5" font-family="SegoeUI" font-size="10.00">Event</text>
-<polyline fill="none" stroke="black" points="100.5,-413.5 225.5,-413.5 "/>
-<text text-anchor="middle" x="163" y="-401.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="100.5,-394.5 225.5,-394.5 "/>
-<text text-anchor="middle" x="163" y="-382.5" font-family="SegoeUI" font-size="10.00"> </text>
+<g id="a_node5"><a xlink:href="../../dc/ddd/interface_juniper_1_1_unity_1_1_input_1_1_speech_1_1_i_keyword_recognizer.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="100.5,-381 100.5,-438 207.5,-438 207.5,-381 100.5,-381"/>
+<text text-anchor="middle" x="154" y="-426" font-family="SegoeUI" font-size="10.00">IKeywordRecognizer</text>
+<polyline fill="none" stroke="black" points="100.5,-419 207.5,-419 "/>
+<text text-anchor="middle" x="154" y="-407" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="100.5,-400 207.5,-400 "/>
+<text text-anchor="start" x="108.5" y="-388" font-family="SegoeUI" font-size="10.00">+ RefreshKeywords()</text>
 </a>
 </g>
 </g>
 <!-- Node7&#45;&gt;Node6 -->
 <g id="edge5" class="edge"><title>Node7&#45;&gt;Node6</title>
-<path fill="none" stroke="#404040" d="M156.395,-375.231C154.242,-364.385 151.769,-351.928 149.304,-339.514"/>
-<polygon fill="none" stroke="#404040" points="149.292,-339.45 144.2,-334.344 146.955,-327.68 152.047,-332.786 149.292,-339.45"/>
-<text text-anchor="middle" x="206" y="-349" font-family="SegoeUI" font-size="10.00"> +onKeywordRecognized</text>
+<path fill="none" stroke="midnightblue" d="M151.5,-370.727C150.615,-357.356 149.601,-342.026 148.641,-327.516"/>
+<polygon fill="none" stroke="midnightblue" points="148.026,-371.231 152.179,-380.978 155.011,-370.769 148.026,-371.231"/>
 </g>
 <!-- Node8 -->
 <g id="node6" class="node"><title>Node8</title>
-<g id="a_node6"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="111,-481.5 111,-538.5 215,-538.5 215,-481.5 111,-481.5"/>
-<text text-anchor="middle" x="163" y="-526.5" font-family="SegoeUI" font-size="10.00">UnityEvent&lt; string &gt;</text>
-<polyline fill="none" stroke="#bfbfbf" points="111,-519.5 215,-519.5 "/>
-<text text-anchor="middle" x="163" y="-507.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="#bfbfbf" points="111,-500.5 215,-500.5 "/>
-<text text-anchor="middle" x="163" y="-488.5" font-family="SegoeUI" font-size="10.00"> </text>
+<g id="a_node6"><a xlink:href="../../d9/d59/class_unity_engine_1_1_events_1_1_string_event.html" target="_top" xlink:title="An event that passes a string value as an argument.">
+<polygon fill="white" stroke="black" points="225.5,-375.5 225.5,-443.5 350.5,-443.5 350.5,-375.5 225.5,-375.5"/>
+<text text-anchor="start" x="233.5" y="-431.5" font-family="SegoeUI" font-size="10.00">UnityEngine.Events.String</text>
+<text text-anchor="middle" x="288" y="-420.5" font-family="SegoeUI" font-size="10.00">Event</text>
+<polyline fill="none" stroke="black" points="225.5,-413.5 350.5,-413.5 "/>
+<text text-anchor="middle" x="288" y="-401.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="225.5,-394.5 350.5,-394.5 "/>
+<text text-anchor="middle" x="288" y="-382.5" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
 </g>
 </g>
-<!-- Node8&#45;&gt;Node7 -->
-<g id="edge6" class="edge"><title>Node8&#45;&gt;Node7</title>
-<path fill="none" stroke="midnightblue" d="M163,-471.007C163,-461.962 163,-452.383 163,-443.578"/>
-<polygon fill="none" stroke="midnightblue" points="159.5,-471.3 163,-481.3 166.5,-471.3 159.5,-471.3"/>
+<!-- Node8&#45;&gt;Node6 -->
+<g id="edge6" class="edge"><title>Node8&#45;&gt;Node6</title>
+<path fill="none" stroke="#404040" d="M253.018,-375.231C240.556,-363.378 226.071,-349.602 211.833,-336.061"/>
+<polygon fill="none" stroke="#404040" points="211.716,-335.95 204.611,-334.713 203.02,-327.68 210.125,-328.916 211.716,-335.95"/>
+<text text-anchor="middle" x="287" y="-349" font-family="SegoeUI" font-size="10.00"> +onKeywordRecognized</text>
+</g>
+<!-- Node9 -->
+<g id="node7" class="node"><title>Node9</title>
+<g id="a_node7"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="236,-481.5 236,-538.5 340,-538.5 340,-481.5 236,-481.5"/>
+<text text-anchor="middle" x="288" y="-526.5" font-family="SegoeUI" font-size="10.00">UnityEvent&lt; string &gt;</text>
+<polyline fill="none" stroke="#bfbfbf" points="236,-519.5 340,-519.5 "/>
+<text text-anchor="middle" x="288" y="-507.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="#bfbfbf" points="236,-500.5 340,-500.5 "/>
+<text text-anchor="middle" x="288" y="-488.5" font-family="SegoeUI" font-size="10.00"> </text>
+</a>
+</g>
+</g>
+<!-- Node9&#45;&gt;Node8 -->
+<g id="edge7" class="edge"><title>Node9&#45;&gt;Node8</title>
+<path fill="none" stroke="midnightblue" d="M288,-471.007C288,-461.962 288,-452.383 288,-443.578"/>
+<polygon fill="none" stroke="midnightblue" points="284.5,-471.3 288,-481.3 291.5,-471.3 284.5,-471.3"/>
 </g>
 </g>
 </svg>

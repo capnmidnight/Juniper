@@ -79,7 +79,7 @@ $(function() {
 
 <h3><a id="index_w"></a>- w -</h3><ul>
 <li>Wait()
-: <a class="el" href="d9/d23/class_juniper_1_1_unity_1_1_audio_1_1_interaction_audio.html#a9bcc3fb5ee33122e8652ebe2dae9e013">Juniper.Unity.Audio.InteractionAudio</a>
+: <a class="el" href="d2/dab/class_juniper_1_1_unity_1_1_audio_1_1_abstract_interaction_audio.html#a0978c59e64340e532ec0d2ccc8a14e52">Juniper.Unity.Audio.AbstractInteractionAudio</a>
 </li>
 <li>Waiter
 : <a class="el" href="dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html#a48799bd0736edbe439422100f1be62d3">Juniper.Unity.AbstractStateController</a>
@@ -135,6 +135,9 @@ $(function() {
 <li>wasTimedOut
 : <a class="el" href="d5/d6f/class_juniper_1_1_data_1_1_managed_request.html#a2be06204400a3c90b8330fbc92345cc9">Juniper.Data.ManagedRequest&lt; T &gt;</a>
 </li>
+<li>wasTouchConnected
+: <a class="el" href="d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#a5db869a0e3db46354f9dba6df6dc1150">Juniper.Unity.Input.AbstractUnifiedInputModule</a>
+</li>
 <li>wasTracking
 : <a class="el" href="db/db9/class_juniper_1_1_unity_1_1_image_tracking_1_1_abstract_tracker_keeper.html#a46021ff94a405ce47603bac56a57a9a8">Juniper.Unity.ImageTracking.AbstractTrackerKeeper</a>
 </li>
@@ -144,13 +147,10 @@ $(function() {
 <li>weather
 : <a class="el" href="d2/d88/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_weather.html#ac01eda1c9e5541ef61bd5fe40aa624bc">Juniper.Unity.World.Climate.Weather</a>
 , <a class="el" href="d6/da5/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_outdoor_light_estimate.html#a4372c570553180e27cef8203c9e731a3">Juniper.Unity.World.LightEstimation.OutdoorLightEstimate</a>
-, <a class="el" href="d8/dbe/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report.html#a9cd9dddd3960e72b30afdafea2eafbb6">Juniper.World.Climate.OpenWeatherMap.WeatherReport</a>
-</li>
-<li>Weather()
-: <a class="el" href="d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#ab5162dde93656db3d9c6fccf97b9ef1b">Juniper.World.Climate.OpenWeatherMap.WeatherReport.Weather</a>
+, <a class="el" href="d8/dbe/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report.html#a5440c2ee330dfbe793f8bd4ddf8a3e50">Juniper.World.Climate.OpenWeatherMap.WeatherReport</a>
 </li>
 <li>WeatherConditions
-: <a class="el" href="d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40">Juniper.World.Climate.OpenWeatherMap.WeatherReport.Weather</a>
+: <a class="el" href="de/dac/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_weather.html#ad530c5e906e5716b875a99249a56681e">Juniper.World.Climate.OpenWeatherMap.WeatherReport.OWMWeather</a>
 </li>
 <li>WeatherReport()
 : <a class="el" href="d8/dbe/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report.html#af1e5d763d87e7aec8035f4df9ca5a846">Juniper.World.Climate.OpenWeatherMap.WeatherReport</a>
@@ -180,10 +180,7 @@ $(function() {
 </li>
 <li>wind
 : <a class="el" href="d7/d50/class_juniper_1_1_unity_1_1_world_1_1_outdoor_wind_estimate.html#ac02e6b879dd5d9fad08a695838e2548d">Juniper.Unity.World.OutdoorWindEstimate</a>
-, <a class="el" href="d8/dbe/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report.html#a630066ab9c6e9cb9b7b1c46c613d4441">Juniper.World.Climate.OpenWeatherMap.WeatherReport</a>
-</li>
-<li>Wind()
-: <a class="el" href="d9/d50/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_wind.html#a9f0e1da614e312bb62422e329b7f7256">Juniper.World.Climate.OpenWeatherMap.WeatherReport.Wind</a>
+, <a class="el" href="d8/dbe/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report.html#a390b992fb3999d4167844474a2fb2a78">Juniper.World.Climate.OpenWeatherMap.WeatherReport</a>
 </li>
 <li>windDirection
 : <a class="el" href="db/de7/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_fake_weather_report.html#acc87a40b8fb2d56e349a8ca98df1305a">Juniper.Unity.World.Climate.FakeWeatherReport</a>
@@ -195,8 +192,8 @@ $(function() {
 , <a class="el" href="d8/d7d/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_report.html#a65ba33202c1d6617faead0013d92dec4">Juniper.World.Climate.IWeatherReport</a>
 , <a class="el" href="d8/dbe/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report.html#a386b77b18931416a181090cd3f9e0cd9">Juniper.World.Climate.OpenWeatherMap.WeatherReport</a>
 </li>
-<li>WindowsMRProbeConfiguration()
-: <a class="el" href="d2/d55/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_probe_configuration.html#ac0cd723caf1b66ee0d6e83331a028152">Juniper.Unity.Input.Pointers.Motion.WindowsMRProbeConfiguration</a>
+<li>WindowsMRMotionControllerConfiguration()
+: <a class="el" href="dd/d5e/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller_configuration.html#af2f98a9f6ac0289700bf40fb25da0fe8">Juniper.Unity.Input.Pointers.Motion.WindowsMRMotionControllerConfiguration</a>
 </li>
 <li>windSpeed
 : <a class="el" href="db/de7/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_fake_weather_report.html#afa5b5d82d4ab53552a613e220066f866">Juniper.Unity.World.Climate.FakeWeatherReport</a>
@@ -213,9 +210,6 @@ $(function() {
 </li>
 <li>WithLock()
 : <a class="el" href="d3/d40/class_unity_engine_1_1_component_ext.html#a452e7c14d5f8caaba27d9deeb1f76687">UnityEngine.ComponentExt</a>
-</li>
-<li>WithPointer()
-: <a class="el" href="d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#a2bb7e4826b0bd11b113dbe6ce1acac9b">Juniper.Unity.Input.AbstractUnifiedInputModule</a>
 </li>
 <li>WithProgress()
 : <a class="el" href="df/daa/class_juniper_1_1_unity_editor_1_1_configuration_management_1_1_juniper_configuration_manager.html#a01783cb4c67409b2c64f9652a80a9a8f">Juniper.UnityEditor.ConfigurationManagement.JuniperConfigurationManager</a>

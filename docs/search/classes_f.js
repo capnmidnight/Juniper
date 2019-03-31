@@ -4,7 +4,7 @@ var searchData=
   ['pathext',['PathExt',['../d9/de5/class_system_1_1_i_o_1_1_path_ext.html',1,'System::IO']]],
   ['pebibytes',['Pebibytes',['../de/daa/class_juniper_1_1_units_1_1_pebibytes.html',1,'Juniper::Units']]],
   ['percent',['Percent',['../d7/d61/class_juniper_1_1_units_1_1_percent.html',1,'Juniper::Units']]],
-  ['permissionhandler',['PermissionHandler',['../db/ddd/class_juniper_1_1_unity_1_1_permission_handler.html',1,'Juniper::Unity']]],
+  ['permissionhandler',['PermissionHandler',['../dc/dcb/class_juniper_1_1_unity_1_1_permissions_1_1_permission_handler.html',1,'Juniper::Unity::Permissions']]],
   ['petabytes',['Petabytes',['../d4/dac/class_juniper_1_1_units_1_1_petabytes.html',1,'Juniper::Units']]],
   ['platform',['Platform',['../d1/d76/class_juniper_1_1_platform.html',1,'Juniper']]],
   ['platformconfiguration',['PlatformConfiguration',['../dc/dd8/class_juniper_1_1_unity_editor_1_1_configuration_management_1_1_platform_configuration.html',1,'Juniper::UnityEditor::ConfigurationManagement']]],

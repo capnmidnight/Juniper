@@ -1,19 +1,18 @@
 var searchData=
 [
-  ['gamma1',['Gamma1',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#a517368c497bb8e2e8a013d2fbae27981',1,'Juniper::NeuroSky::MindWaveAdapter']]],
-  ['gamma2',['Gamma2',['../d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html#ad6f9ad5c3c0eefe6d0c3407b0879b996',1,'Juniper::NeuroSky::MindWaveAdapter']]],
   ['gazed',['gazed',['../d6/d9c/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_abstract_gaze_pointer.html#afbd95c29ef77ddc74153ee99c9dd7fe4',1,'Juniper::Unity::Input::Pointers::Gaze::AbstractGazePointer']]],
   ['gazepointer',['gazePointer',['../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#a2d7543a5663010f372170e42828115c7',1,'Juniper::Unity::Input::AbstractUnifiedInputModule']]],
   ['gazethreshold',['gazeThreshold',['../d6/d9c/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_abstract_gaze_pointer.html#ad6018de416bce3ae56c6418a7d92d97b',1,'Juniper::Unity::Input::Pointers::Gaze::AbstractGazePointer']]],
   ['gazetime',['gazeTime',['../d6/d9c/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_abstract_gaze_pointer.html#a37329021c7c2ffe949cbf496829a0f3b',1,'Juniper::Unity::Input::Pointers::Gaze::AbstractGazePointer']]],
   ['gcollider',['gCollider',['../d1/d1e/class_juniper_1_1_unity_1_1_ground_1_1_holo_lens_ground.html#a6836d169d92f41f9870a0e2aec134894',1,'Juniper::Unity::Ground::HoloLensGround']]],
   ['generateplanes',['generatePlanes',['../dd/dd1/class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground.html#aa132e699a46402b1dbab70a8c8fa6ef4',1,'Juniper::Unity::Ground::ARKitGround']]],
+  ['goog',['goog',['../da/da5/class_juniper_1_1_unity_1_1_display_1_1_abstract_display_manager.html#acb98e8608a3e81f357a83abc99dffbc8',1,'Juniper::Unity::Display::AbstractDisplayManager']]],
   ['gp',['gp',['../d3/d8d/class_juniper_1_1_unity_1_1_haptics_1_1_default_haptics.html#abbfa9e3e9b6d230ddcc993c6a4008ff9',1,'Juniper::Unity::Haptics::DefaultHaptics']]],
   ['graboffset',['grabOffset',['../d2/d57/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_valued.html#a382dd413a859c9f552b3554be8f60d8c',1,'Juniper::Unity::Widgets::AbstractValued']]],
   ['graphics_5fquality_5fkey',['GRAPHICS_QUALITY_KEY',['../d1/de6/class_juniper_1_1_unity_1_1_widgets_1_1_quality_degrader.html#af7f3e6563ab53f202c3fcfdcf5d1461c',1,'Juniper::Unity::Widgets::QualityDegrader']]],
   ['gravity',['GRAVITY',['../dc/d24/class_juniper_1_1_units_1_1_feet_per_second_squared.html#acefc81108ebe8347715e93ff3ca2fc58',1,'Juniper.Units.FeetPerSecondSquared.GRAVITY()'],['../d4/d41/class_juniper_1_1_units_1_1_meters_per_second_squared.html#a8c3ec44d8fd09e4c4db68c2c992118ff',1,'Juniper.Units.MetersPerSecondSquared.GRAVITY()']]],
   ['grenderer',['gRenderer',['../d1/d1e/class_juniper_1_1_unity_1_1_ground_1_1_holo_lens_ground.html#a4df061dac935702c273e087ac54c3943',1,'Juniper::Unity::Ground::HoloLensGround']]],
-  ['grnd_5flevel',['grnd_level',['../de/d67/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_main.html#a310039ada65a703bb64ba85d68c734ce',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Main']]],
+  ['grnd_5flevel',['grnd_level',['../d5/df6/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_main.html#a0e0c48d1f3be98600e59da913c5a1ec4',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::OWMMain']]],
   ['ground',['ground',['../d1/de6/class_juniper_1_1_unity_1_1_widgets_1_1_quality_degrader.html#a4ec5b0fff2760e9db2265ef1897b04df',1,'Juniper::Unity::Widgets::QualityDegrader']]],
   ['groundmask',['GroundMask',['../d2/d22/class_juniper_1_1_unity_1_1_anchoring_1_1_grounded.html#ae879e864137bfc7e629474a19b030522',1,'Juniper::Unity::Anchoring::Grounded']]],
   ['groundpoint',['groundPoint',['../d2/d22/class_juniper_1_1_unity_1_1_anchoring_1_1_grounded.html#a6e3fc0de08a2534abf27785ac43cc09a',1,'Juniper::Unity::Anchoring::Grounded']]]

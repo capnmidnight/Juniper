@@ -7,6 +7,7 @@ var searchData=
   ['magicleaphand_2ecs',['MagicLeapHand.cs',['../da/d21/_magic_leap_hand_8cs.html',1,'']]],
   ['magicleaphaptics_2ecs',['MagicLeapHaptics.cs',['../d9/d70/_magic_leap_haptics_8cs.html',1,'']]],
   ['magicleapinputmodule_2ecs',['MagicLeapInputModule.cs',['../d5/dd2/_magic_leap_input_module_8cs.html',1,'']]],
+  ['magicleapinteractionaudio_2ecs',['MagicLeapInteractionAudio.cs',['../d4/d3c/_magic_leap_interaction_audio_8cs.html',1,'']]],
   ['magicleaplightmeasurement_2ecs',['MagicLeapLightMeasurement.cs',['../dc/d85/_magic_leap_light_measurement_8cs.html',1,'']]],
   ['magicleapmotioncontroller_2ecs',['MagicLeapMotionController.cs',['../da/db0/_magic_leap_motion_controller_8cs.html',1,'']]],
   ['magicleappermissionhandler_2ecs',['MagicLeapPermissionHandler.cs',['../da/d91/_magic_leap_permission_handler_8cs.html',1,'']]],

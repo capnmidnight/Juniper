@@ -1,6 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,78,216,105"/>
-<area shape="rect" id="node2" href="$db/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_oculus_touch_probe_configuration.html" title=" " alt="" coords="264,5,511,47"/>
-<area shape="rect" id="node3" href="$de/d5a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_probe_configuration.html" title=" " alt="" coords="272,71,503,112"/>
-<area shape="rect" id="node4" href="$d2/d55/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_probe_configuration.html" title=" " alt="" coords="266,136,509,177"/>
+<area shape="rect" id="node1" href="$d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html" title=" " alt="" coords="5,5,284,76"/>
+<area shape="rect" id="node2" href="$dc/de6/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="332,20,560,61"/>
 </map>

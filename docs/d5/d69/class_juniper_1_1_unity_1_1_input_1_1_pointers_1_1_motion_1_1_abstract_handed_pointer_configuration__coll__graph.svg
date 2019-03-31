@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 233)">
 <title>Juniper.Unity.Input.Pointers.Motion.AbstractHandedPointerConfiguration&lt; HandIDType, ButtonIDType &gt;</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-233 207,-233 207,4 -4,4"/>
-<!-- Node12 -->
-<g id="node1" class="node"><title>Node12</title>
+<!-- Node16 -->
+<g id="node1" class="node"><title>Node16</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-101.5 203,-101.5 203,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-89.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
@@ -25,8 +25,8 @@
 </a>
 </g>
 </g>
-<!-- Node13 -->
-<g id="node2" class="node"><title>Node13</title>
+<!-- Node17 -->
+<g id="node2" class="node"><title>Node17</title>
 <g id="a_node2"><a xlink:href="../../db/d8b/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_configuration.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="32,-138.5 32,-228.5 171,-228.5 171,-138.5 32,-138.5"/>
 <text text-anchor="start" x="40" y="-216.5" font-family="SegoeUI" font-size="10.00">AbstractPointerConfiguration</text>
@@ -40,8 +40,8 @@
 </a>
 </g>
 </g>
-<!-- Node13&#45;&gt;Node12 -->
-<g id="edge1" class="edge"><title>Node13&#45;&gt;Node12</title>
+<!-- Node17&#45;&gt;Node16 -->
+<g id="edge1" class="edge"><title>Node17&#45;&gt;Node16</title>
 <path fill="none" stroke="midnightblue" d="M101.5,-128.131C101.5,-119.311 101.5,-110.219 101.5,-101.523"/>
 <polygon fill="none" stroke="midnightblue" points="98.0001,-128.319 101.5,-138.319 105,-128.319 98.0001,-128.319"/>
 </g>

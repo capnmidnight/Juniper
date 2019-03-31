@@ -55,8 +55,8 @@ var sectionId = 'dynsection-1';
 <g id="viewport">
 <title>Juniper.Unity.Input.Pointers.Motion.IMotionController</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-602 141,-602 141,4 -4,4"/>
-<!-- Node20 -->
-<g id="node1" class="node"><title>Node20</title>
+<!-- Node18 -->
+<g id="node1" class="node"><title>Node18</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-145.5 137,-145.5 137,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-133.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
@@ -75,8 +75,8 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node21 -->
-<g id="node2" class="node"><title>Node21</title>
+<!-- Node19 -->
+<g id="node2" class="node"><title>Node19</title>
 <g id="a_node2"><a xlink:href="../../dc/d7c/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="12.5,-182.5 12.5,-283.5 124.5,-283.5 124.5,-182.5 12.5,-182.5"/>
 <text text-anchor="middle" x="68.5" y="-271.5" font-family="SegoeUI" font-size="10.00">IHandedPointer</text>
@@ -91,13 +91,13 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node21&#45;&gt;Node20 -->
-<g id="edge1" class="edge"><title>Node21&#45;&gt;Node20</title>
+<!-- Node19&#45;&gt;Node18 -->
+<g id="edge1" class="edge"><title>Node19&#45;&gt;Node18</title>
 <path fill="none" stroke="midnightblue" d="M68.5,-172.381C68.5,-163.656 68.5,-154.595 68.5,-145.66"/>
 <polygon fill="none" stroke="midnightblue" points="65.0001,-172.441 68.5,-182.441 72.0001,-172.441 65.0001,-172.441"/>
 </g>
-<!-- Node22 -->
-<g id="node3" class="node"><title>Node22</title>
+<!-- Node20 -->
+<g id="node3" class="node"><title>Node20</title>
 <g id="a_node3"><a xlink:href="../../d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="6.5,-320.5 6.5,-597.5 130.5,-597.5 130.5,-320.5 6.5,-320.5"/>
 <text text-anchor="middle" x="68.5" y="-585.5" font-family="SegoeUI" font-size="10.00">IPointerDevice</text>
@@ -128,8 +128,8 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node22&#45;&gt;Node21 -->
-<g id="edge2" class="edge"><title>Node22&#45;&gt;Node21</title>
+<!-- Node20&#45;&gt;Node19 -->
+<g id="edge2" class="edge"><title>Node20&#45;&gt;Node19</title>
 <path fill="none" stroke="midnightblue" d="M68.5,-310.18C68.5,-300.987 68.5,-292.154 68.5,-283.966"/>
 <polygon fill="none" stroke="midnightblue" points="65.0001,-310.284 68.5,-320.284 72.0001,-310.284 65.0001,-310.284"/>
 </g>

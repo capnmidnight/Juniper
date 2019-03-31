@@ -10,6 +10,7 @@ var searchData=
   ['days',['Days',['../d8/d6d/class_juniper_1_1_units_1_1_days.html',1,'Juniper::Units']]],
   ['debugobject',['DebugObject',['../d4/d55/class_juniper_1_1_unity_1_1_widgets_1_1_debug_object.html',1,'Juniper::Unity::Widgets']]],
   ['defaulthaptics',['DefaultHaptics',['../d3/d8d/class_juniper_1_1_unity_1_1_haptics_1_1_default_haptics.html',1,'Juniper::Unity::Haptics']]],
+  ['defaultinteractionaudio',['DefaultInteractionAudio',['../de/da6/class_juniper_1_1_unity_1_1_audio_1_1_default_interaction_audio.html',1,'Juniper::Unity::Audio']]],
   ['defaultlocomotion',['DefaultLocomotion',['../d7/d1a/class_juniper_1_1_unity_1_1_input_1_1_default_locomotion.html',1,'Juniper::Unity::Input']]],
   ['degrees',['Degrees',['../d5/d39/class_juniper_1_1_units_1_1_degrees.html',1,'Juniper::Units']]],
   ['detectvideoend',['DetectVideoEnd',['../d4/d64/class_juniper_1_1_unity_1_1_widgets_1_1_detect_video_end.html',1,'Juniper::Unity::Widgets']]],

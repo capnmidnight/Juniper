@@ -154,7 +154,7 @@ Properties</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html#l00009">9</a> of file <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html">ViveFocusHaptics.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html#l00010">10</a> of file <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html">ViveFocusHaptics.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a18c0b6a92525eca2f68440a29594d90f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a18c0b6a92525eca2f68440a29594d90f">&#9670;&nbsp;</a></span>Cancel()</h2>
@@ -637,10 +637,10 @@ Properties</h2></td></tr>
 
 <p>Implements <a class="el" href="../../de/d85/class_juniper_1_1_unity_1_1_haptics_1_1_abstract_haptic_expressor.html#a2e8d61c56fcb24cafbbff6a98643b3c0">Juniper.Unity.Haptics.AbstractHapticExpressor</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html#l00013">13</a> of file <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html">ViveFocusHaptics.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        {</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            var amp = Mathf.Clamp(Mathf.RoundToInt(amplitude * 5), 0, 5);</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            <span class="keywordflow">if</span> (amp &gt; 0)</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            {</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                <a class="code" href="../../d0/ded/class_juniper_1_1_unity_1_1_haptics_1_1_vive_focus_haptics.html#aacdc79b3c5e1fb2b2a1444c8f5cce577">Controller</a>?.TriggerHapticPulse(</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                    (ushort)(milliseconds * 1000),</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                    WVR_InputId.WVR_InputId_Alias1_Trigger,</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                    (WVR_Intensity)amp);</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            }</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            yield <span class="keywordflow">return</span> <span class="keyword">new</span> WaitForSeconds(0.001f * milliseconds);</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_haptics_1_1_vive_focus_haptics_html_aacdc79b3c5e1fb2b2a1444c8f5cce577"><div class="ttname"><a href="../../d0/ded/class_juniper_1_1_unity_1_1_haptics_1_1_vive_focus_haptics.html#aacdc79b3c5e1fb2b2a1444c8f5cce577">Juniper.Unity.Haptics.ViveFocusHaptics.Controller</a></div><div class="ttdeci">WaveVR_Controller.Device Controller</div><div class="ttdef"><b>Definition:</b> <a href="../../da/de9/_vive_focus_haptics_8cs_source.html#l00011">ViveFocusHaptics.cs:11</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html#l00014">14</a> of file <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html">ViveFocusHaptics.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        {</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            var amp = Mathf.Clamp(Mathf.RoundToInt(amplitude * 5), 0, 5);</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keywordflow">if</span> (amp &gt; 0)</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            {</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                <a class="code" href="../../d0/ded/class_juniper_1_1_unity_1_1_haptics_1_1_vive_focus_haptics.html#aacdc79b3c5e1fb2b2a1444c8f5cce577">Controller</a>?.TriggerHapticPulse(</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                    (ushort)(milliseconds * 1000),</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                    WVR_InputId.WVR_InputId_Alias1_Trigger);</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            }</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            yield <span class="keywordflow">return</span> <span class="keyword">new</span> WaitForSeconds(0.001f * milliseconds);</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        }</div><div class="ttc" id="class_juniper_1_1_unity_1_1_haptics_1_1_vive_focus_haptics_html_aacdc79b3c5e1fb2b2a1444c8f5cce577"><div class="ttname"><a href="../../d0/ded/class_juniper_1_1_unity_1_1_haptics_1_1_vive_focus_haptics.html#aacdc79b3c5e1fb2b2a1444c8f5cce577">Juniper.Unity.Haptics.ViveFocusHaptics.Controller</a></div><div class="ttdeci">WaveVR_Controller.Device Controller</div><div class="ttdef"><b>Definition:</b> <a href="../../da/de9/_vive_focus_haptics_8cs_source.html#l00012">ViveFocusHaptics.cs:12</a></div></div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html#l00011">Juniper.Unity.Haptics.ViveFocusHaptics.Controller</a>.</p>
+<p class="reference">References <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html#l00012">Juniper.Unity.Haptics.ViveFocusHaptics.Controller</a>.</p>
 
 </div>
 </div>
@@ -704,14 +704,14 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html#l00011">11</a> of file <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html">ViveFocusHaptics.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html#l00013">Juniper.Unity.Haptics.ViveFocusHaptics.VibrateCoroutine()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html#l00012">12</a> of file <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html">ViveFocusHaptics.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;{ <span class="keyword">get</span>; <span class="keyword">set</span>; }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html#l00014">Juniper.Unity.Haptics.ViveFocusHaptics.VibrateCoroutine()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ViveFocus/<a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html">ViveFocusHaptics.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Platforms/ViveFocus/<a class="el" href="../../da/de9/_vive_focus_haptics_8cs_source.html">ViveFocusHaptics.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

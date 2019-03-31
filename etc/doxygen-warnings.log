@@ -1,11 +1,4 @@
-C:/Users/smcbeth/Projects/Juniper/etc/markdown/coverage.md:1657: warning: explicit link request to 'Doxygen' could not be resolved
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Data/HTTP.cs:160: warning: The following parameters of Juniper.HTTP.PostStream(string url, string mime, long bodyLength, Action< Stream > writeBody, Action< Stream > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
-  parameter 'bodyLength'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Progress/IProgress.cs:91: warning: argument 'start' of command @param is not found in the argument list of Juniper.Progress.IProgressExt::Subdivide(this IProgress parent, int index, int count, string prefix=null)
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Progress/IProgress.cs:91: warning: argument 'length' of command @param is not found in the argument list of Juniper.Progress.IProgressExt::Subdivide(this IProgress parent, int index, int count, string prefix=null)
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Progress/IProgress.cs:101: warning: The following parameters of Juniper.Progress.IProgressExt.Subdivide(this IProgress parent, int index, int count, string prefix=null) are not documented:
-  parameter 'index'
-  parameter 'count'
+C:/Users/smcbeth/Projects/Juniper/etc/markdown/coverage.md:1675: warning: explicit link request to 'Doxygen' could not be resolved
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs:55: warning: argument 'path' of command @param is not found in the argument list of Juniper.Unity.MasterSceneController::LoadScene(string scenePath, string sceneName)
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs:61: warning: The following parameters of Juniper.Unity.MasterSceneController.LoadScene(string scenePath, string sceneName) are not documented:
   parameter 'scenePath'
@@ -30,12 +23,6 @@ C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/World/Cl
   parameter 'prog'
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/World/Climate/Weather.cs:242: warning: The following parameters of Juniper.Unity.World.Climate.Weather.RequestCoroutine(LatLngPoint location, bool force, IProgress prog=null) are not documented:
   parameter 'prog'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/World/Climate/OpenWeatherMap/API.cs:76: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.API(string apiKey, string lastReportJSON=null) are not documented:
-  parameter 'lastReportJSON'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/World/Climate/OpenWeatherMap/API.cs:166: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.Request(LatLngPoint location, bool force, IProgress prog=null) are not documented:
-  parameter 'prog'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Extensions/NETFX/IO/StreamExt.cs:23: warning: The following parameters of System.IO.StreamExt.Pipe(this Stream inStream, Stream outStream, long length, IProgress prog=null) are not documented:
-  parameter 'length'
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/CameraExt.cs:10: warning: The following parameters of UnityEngine.CameraExt.IsInView(this Camera cam, Vector3 target) are not documented:
   parameter 'cam'
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/ComponentExt.cs:171: warning: The following parameters of UnityEngine.ComponentExt.Ensure< T >(this Component obj, Predicate< T > predicate) are not documented:

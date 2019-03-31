@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 35)">
 <title>Graphical Class Hierarchy</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-35 243,-35 243,4 -4,4"/>
-<!-- Node319 -->
-<g id="node1" class="node"><title>Node319</title>
+<!-- Node327 -->
+<g id="node1" class="node"><title>Node327</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="0,-6 0,-25 65,-25 65,-6 0,-6"/>
 <text text-anchor="middle" x="32.5" y="-13" font-family="SegoeUI" font-size="10.00">IDisposable</text>
@@ -19,15 +19,15 @@
 </g>
 <!-- Node0 -->
 <g id="node2" class="node"><title>Node0</title>
-<g id="a_node2"><a xlink:href="d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html" target="_top" xlink:title=" ">
+<g id="a_node2"><a xlink:href="d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html" target="_top" xlink:title="An adapter for the NeuroSky MindWave device, converting the raw data elements to an object model.">
 <polygon fill="white" stroke="black" points="101,-0.5 101,-30.5 239,-30.5 239,-0.5 101,-0.5"/>
 <text text-anchor="start" x="109" y="-18.5" font-family="SegoeUI" font-size="10.00">Juniper.NeuroSky.MindWave</text>
 <text text-anchor="middle" x="170" y="-7.5" font-family="SegoeUI" font-size="10.00">Adapter</text>
 </a>
 </g>
 </g>
-<!-- Node319&#45;&gt;Node0 -->
-<g id="edge1" class="edge"><title>Node319&#45;&gt;Node0</title>
+<!-- Node327&#45;&gt;Node0 -->
+<g id="edge1" class="edge"><title>Node327&#45;&gt;Node0</title>
 <path fill="none" stroke="midnightblue" d="M75.4881,-15.5C83.5483,-15.5 92.1801,-15.5 100.821,-15.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="75.2688,-12.0001 65.2687,-15.5 75.2687,-19.0001 75.2688,-12.0001"/>
 </g>

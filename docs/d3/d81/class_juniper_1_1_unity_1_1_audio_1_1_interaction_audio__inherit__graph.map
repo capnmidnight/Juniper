@@ -1,4 +1,6 @@
 <map id="Juniper.Unity.Audio.InteractionAudio" name="Juniper.Unity.Audio.InteractionAudio">
-<area shape="rect" id="node1" title="The audio portion of the interaction system." alt="" coords="5,131,201,868"/>
-<area shape="rect" id="node2" title=" " alt="" coords="49,5,158,83"/>
+<area shape="rect" id="node1" title="The audio portion of the interaction system." alt="" coords="5,1027,201,1119"/>
+<area shape="rect" id="node2" href="$da/d1b/class_juniper_1_1_unity_1_1_audio_1_1_resonance_interaction_audio.html" title=" " alt="" coords="15,901,192,979"/>
+<area shape="rect" id="node3" href="$d2/dab/class_juniper_1_1_unity_1_1_audio_1_1_abstract_interaction_audio.html" title="The audio portion of the interaction system." alt="" coords="15,131,191,853"/>
+<area shape="rect" id="node4" title=" " alt="" coords="49,5,158,83"/>
 </map>

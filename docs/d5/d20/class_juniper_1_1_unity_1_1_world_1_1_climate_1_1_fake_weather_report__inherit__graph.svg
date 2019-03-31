@@ -101,7 +101,7 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="19" y="-527.5" font-family="SegoeUI" font-size="10.00">+ City</text>
 <text text-anchor="start" x="19" y="-516.5" font-family="SegoeUI" font-size="10.00">+ Country</text>
 <text text-anchor="start" x="19" y="-505.5" font-family="SegoeUI" font-size="10.00">+ Location</text>
-<text text-anchor="start" x="19" y="-494.5" font-family="SegoeUI" font-size="10.00">+ Visibility</text>
+<text text-anchor="start" x="19" y="-494.5" font-family="SegoeUI" font-size="10.00">+ AtmosphericVisibility</text>
 <text text-anchor="start" x="19" y="-483.5" font-family="SegoeUI" font-size="10.00">+ SunriseTime</text>
 <text text-anchor="start" x="19" y="-472.5" font-family="SegoeUI" font-size="10.00">+ SunsetTime</text>
 <text text-anchor="start" x="19" y="-461.5" font-family="SegoeUI" font-size="10.00">+ CloudCover</text>
@@ -111,7 +111,7 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="19" y="-417.5" font-family="SegoeUI" font-size="10.00">+ Temperature</text>
 <text text-anchor="start" x="19" y="-406.5" font-family="SegoeUI" font-size="10.00">+ Humidity</text>
 <text text-anchor="start" x="19" y="-395.5" font-family="SegoeUI" font-size="10.00">+ AtmosphericPressure</text>
-<text text-anchor="start" x="19" y="-384.5" font-family="SegoeUI" font-size="10.00">+ Error</text>
+<text text-anchor="start" x="19" y="-384.5" font-family="SegoeUI" font-size="10.00">+ ErrorMessage</text>
 <polyline fill="none" stroke="black" points="11,-377.5 127,-377.5 "/>
 <text text-anchor="middle" x="69" y="-365.5" font-family="SegoeUI" font-size="10.00"> </text>
 </a>

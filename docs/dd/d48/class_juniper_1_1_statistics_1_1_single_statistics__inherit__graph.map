@@ -1,6 +1,6 @@
 <map id="Juniper.Statistics.SingleStatistics" name="Juniper.Statistics.SingleStatistics">
-<area shape="rect" id="node1" title="Computes statistics on System.Single values." alt="" coords="26,1777,183,2001"/>
-<area shape="rect" id="node2" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="5,961,204,1728"/>
-<area shape="rect" id="node3" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="5,132,204,899"/>
+<area shape="rect" id="node1" title="Computes statistics on System.Single values." alt="" coords="26,1836,183,2060"/>
+<area shape="rect" id="node2" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="5,991,204,1787"/>
+<area shape="rect" id="node3" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="5,132,204,928"/>
 <area shape="rect" id="node4" title=" " alt="" coords="65,5,144,83"/>
 </map>

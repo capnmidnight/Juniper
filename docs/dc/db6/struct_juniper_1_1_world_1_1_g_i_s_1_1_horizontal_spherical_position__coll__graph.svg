@@ -21,8 +21,8 @@
 <text text-anchor="start" x="8" y="-48.5" font-family="SegoeUI" font-size="10.00">+ RadiusAU</text>
 <polyline fill="none" stroke="black" points="0,-41.5 149,-41.5 "/>
 <text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ HorizontalSphericalPosition()</text>
-<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ HorizontalSphericalPosition()</text>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
+<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">&#45; HorizontalSphericalPosition()</text>
 </a>
 </g>
 </g>

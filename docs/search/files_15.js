@@ -12,6 +12,7 @@ var searchData=
   ['virtualtriggerbutton_2ecs',['VirtualTriggerButton.cs',['../dd/d27/_virtual_trigger_button_8cs.html',1,'']]],
   ['vivefocusdisplaymanager_2ecs',['ViveFocusDisplayManager.cs',['../df/d63/_vive_focus_display_manager_8cs.html',1,'']]],
   ['vivefocushaptics_2ecs',['ViveFocusHaptics.cs',['../da/de9/_vive_focus_haptics_8cs.html',1,'']]],
+  ['vivefocusinputmodule_2ecs',['ViveFocusInputModule.cs',['../d7/d4d/_vive_focus_input_module_8cs.html',1,'']]],
   ['vivefocusmotioncontroller_2ecs',['ViveFocusMotionController.cs',['../dd/d3b/_vive_focus_motion_controller_8cs.html',1,'']]],
   ['volumefade_2ecs',['VolumeFade.cs',['../d5/d70/_volume_fade_8cs.html',1,'']]],
   ['vuforiadisplaymanager_2ecs',['VuforiaDisplayManager.cs',['../d5/d70/_vuforia_display_manager_8cs.html',1,'']]],

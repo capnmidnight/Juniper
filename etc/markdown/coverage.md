@@ -23,7 +23,7 @@
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Widgets/DebugObject.cs - (1 of 1)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Units/src/Volume/CubicFeet.cs - (6 of 6)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Data/OneShotThread.cs - (9 of 9)
-100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/World/Climate/OpenWeatherMap/WeatherReport.cs - (4 of 4)
+100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/World/Climate/OpenWeatherMap/WeatherReport.cs - (32 of 32)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Input/Speech/KeywordRecognizedEventArgs.cs - (2 of 2)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Audio/SingleAudioClipCollection.cs - (8 of 8)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Widgets/AbstractValued.cs - (51 of 51)
@@ -56,6 +56,7 @@
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Units/src/Light/Brightness.cs - (2 of 2)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Units/src/Length/Kilometers.cs - (6 of 6)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Units/src/Acceleration/MetersPerSecondSquared.cs - (2 of 2)
+100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/CartesianAxis.cs - (13 of 13)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Units/src/Length/Inches.cs - (6 of 6)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Progress/ProgressStream.cs - (20 of 20)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Units/src/Area/SquareMeters.cs - (6 of 6)
@@ -105,6 +106,7 @@
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/ImageTracking/AbstractTrackableFoundEventHandler.cs - (27 of 27)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Units/src/FileSize/Kilobytes.cs - (16 of 16)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Input/Speech/KeywordRecognizer.cs - (8 of 8)
+100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Statistics/AbstractCollectionStatistics.cs - (49 of 49)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Units/src/FileSize/Yobibytes.cs - (16 of 16)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Data/ManagedRequestMessage.cs - (2 of 2)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Units/src/Temperature/Farenheit.cs - (5 of 5)
@@ -163,7 +165,7 @@
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Units/src/Length/Millimeters.cs - (6 of 6)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Anchoring/Anchored.cs - (17 of 17)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Units/src/Speed/FeetPerSecond.cs - (4 of 4)
-100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/World/Climate/FakeWeatherReport.cs - (24 of 24)
+100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/World/Climate/FakeWeatherReport.cs - (26 of 26)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/ColorExt.cs - (1 of 1)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Widgets/MaterialCollection.cs - (5 of 5)
 100% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Input/Speech/IKeywordTriggered.cs - (1 of 1)
@@ -199,13 +201,6 @@
 	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.UpdateMeasurement
  93% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/LightEstimation/AbstractLightMeasurement.cs - (15 of 16)
 	 virtual void Juniper.Unity.World.LightEstimation.AbstractLightMeasurement.UpdateMeasurement
- 92% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/CartesianAxis.cs - (12 of 13)
-	 CartesianAxisFlags
- 91% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Statistics/AbstractCollectionStatistics.cs - (45 of 49)
-	 readonly T Juniper.Statistics.AbstractCollectionStatistics< T >.MaxValue
-	 readonly T Juniper.Statistics.AbstractCollectionStatistics< T >.MinValue
-	 readonly T Juniper.Statistics.AbstractCollectionStatistics< T >.One
-	 readonly T Juniper.Statistics.AbstractCollectionStatistics< T >.Zero
  91% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/SubSceneController.cs - (32 of 35)
 	 bool Juniper.Unity.SubSceneController.isExitingPreviousScene
 	 virtual void Juniper.Unity.SubSceneController.Awake
@@ -292,6 +287,12 @@
 	 virtual string Juniper.Unity.Audio.AbstractInteractionAudio.DefaultAudioMixer
 	 void Juniper.Unity.Audio.AbstractInteractionAudio.OnValidate
 	 void Juniper.Unity.Audio.AbstractInteractionAudio.Start
+ 76% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Platforms/Resonance/ResonanceInteractionAudio.cs - (16 of 21)
+	 GameObject Juniper.Unity.Audio.AbstractInteractionAudio.volumeSlider
+	 float???? Juniper.Unity.Audio.AbstractInteractionAudio.Volume
+	 override string Juniper.Unity.Audio.ResonanceInteractionAudio.DefaultAudioMixer
+	 void Juniper.Unity.Audio.AbstractInteractionAudio.OnValidate
+	 void Juniper.Unity.Audio.AbstractInteractionAudio.Start
  76% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Audio/AbstractInteractionAudio.cs - (16 of 21)
 	 GameObject Juniper.Unity.Audio.AbstractInteractionAudio.volumeSlider
 	 float???? Juniper.Unity.Audio.AbstractInteractionAudio.Volume
@@ -347,6 +348,29 @@
 	 void Juniper.Unity.Input.Pointers.Probe.Destroy
 	 void Juniper.Unity.Input.Pointers.Probe.SetActive
 	 void Juniper.Unity.Input.Pointers.Probe.Start
+ 50% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.NeuroSky/src/MindWaveAdapter.cs - (22 of 44)
+	 bool Juniper.NeuroSky.MindWaveAdapter.DataValueChanged
+	 bool? Juniper.NeuroSky.MindWaveAdapter.EnableAutoRead
+	 bool? Juniper.NeuroSky.MindWaveAdapter.EnableDataLog
+	 bool? Juniper.NeuroSky.MindWaveAdapter.EnableStreamLog
+	 float? Juniper.NeuroSky.MindWaveAdapter.Alpha1
+	 float? Juniper.NeuroSky.MindWaveAdapter.Alpha2
+	 float? Juniper.NeuroSky.MindWaveAdapter.Attention
+	 float? Juniper.NeuroSky.MindWaveAdapter.Battery
+	 float? Juniper.NeuroSky.MindWaveAdapter.Beta1
+	 float? Juniper.NeuroSky.MindWaveAdapter.Beta2
+	 float? Juniper.NeuroSky.MindWaveAdapter.Delta
+	 float? Juniper.NeuroSky.MindWaveAdapter.Gamma1
+	 float? Juniper.NeuroSky.MindWaveAdapter.Gamma2
+	 float? Juniper.NeuroSky.MindWaveAdapter.GetDataValue
+	 float? Juniper.NeuroSky.MindWaveAdapter.Meditation
+	 float? Juniper.NeuroSky.MindWaveAdapter.PoorSignal
+	 float? Juniper.NeuroSky.MindWaveAdapter.Theta
+	 int Juniper.NeuroSky.MindWaveAdapter.ReadPackets
+	 string Juniper.NeuroSky.MindWaveAdapter.DataLogFileName
+	 string Juniper.NeuroSky.MindWaveAdapter.StreamLogFileName
+	 void Juniper.NeuroSky.MindWaveAdapter.WriteDataLog
+	 void Juniper.NeuroSky.MindWaveAdapter.WriteStreamLog
  48% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs - (17 of 35)
 	 FadeTransition Juniper.Unity.MasterSceneController.darth
 	 IEnumerator Juniper.Unity.MasterSceneController.LoadAllScenesCoroutine2
@@ -518,7 +542,7 @@
 	 virtual void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Process
 	 virtual void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.SetProbe
 	 void Juniper.Unity.Input.Pointers.AbstractPointerDevice< ButtonIDType, HapticsType, ConfigType >.Start
- 22% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Display/AbstractPassthroughDisplayManager.cs - (8 of 35)
+ 22% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Display/AbstractPassthroughDisplayManager.cs - (8 of 36)
 	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
 	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
 	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
@@ -534,6 +558,7 @@
 	 EventHandler<DisplayTypes> Juniper.Unity.Display.AbstractDisplayManager.DisplayTypeChange
 	 Options Juniper.Unity.Display.AbstractDisplayManager.Option
 	 PlatformTypes Juniper.Unity.Display.AbstractDisplayManager.CurrentPlatform
+	 ResonanceAudioListener Juniper.Unity.Display.AbstractDisplayManager.goog
 	 SystemTypes Juniper.Unity.Display.AbstractDisplayManager.System
 	 int Juniper.Unity.Display.AbstractDisplayManager.CullingMask
 	 override void Juniper.Unity.Display.AbstractPassthroughDisplayManager.OnARModeChange
@@ -546,7 +571,7 @@
 	 void Juniper.Unity.Display.AbstractDisplayManager.StartXRDisplay
 	 void Juniper.Unity.Display.AbstractDisplayManager.StopAR
 	 void Juniper.Unity.Display.AbstractDisplayManager.StopXRDisplay
- 22% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Platforms/ARKit/ARKitDisplayManager.cs - (8 of 35)
+ 22% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Platforms/ARKit/ARKitDisplayManager.cs - (8 of 36)
 	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
 	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
 	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
@@ -562,6 +587,7 @@
 	 EventHandler<DisplayTypes> Juniper.Unity.Display.AbstractDisplayManager.DisplayTypeChange
 	 Options Juniper.Unity.Display.AbstractDisplayManager.Option
 	 PlatformTypes Juniper.Unity.Display.AbstractDisplayManager.CurrentPlatform
+	 ResonanceAudioListener Juniper.Unity.Display.AbstractDisplayManager.goog
 	 SystemTypes Juniper.Unity.Display.AbstractDisplayManager.System
 	 int Juniper.Unity.Display.AbstractDisplayManager.CullingMask
 	 override void Juniper.Unity.Display.AbstractPassthroughDisplayManager.OnARModeChange
@@ -599,7 +625,7 @@
 	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableHands
 	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableMouse
 	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableTouch
- 18% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Platforms/ViveFocus/ViveFocusDisplayManager.cs - (6 of 33)
+ 17% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Platforms/ViveFocus/ViveFocusDisplayManager.cs - (6 of 34)
 	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
 	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
 	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
@@ -615,41 +641,13 @@
 	 EventHandler<DisplayTypes> Juniper.Unity.Display.AbstractDisplayManager.DisplayTypeChange
 	 Options Juniper.Unity.Display.AbstractDisplayManager.Option
 	 PlatformTypes Juniper.Unity.Display.AbstractDisplayManager.CurrentPlatform
+	 ResonanceAudioListener Juniper.Unity.Display.AbstractDisplayManager.goog
 	 SystemTypes Juniper.Unity.Display.AbstractDisplayManager.System
 	 int Juniper.Unity.Display.AbstractDisplayManager.CullingMask
 	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Awake
 	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnARModeChange
 	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnDisplayTypeChange
 	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Start
-	 void Juniper.Unity.Display.AbstractDisplayManager.DisableDisplay
-	 void Juniper.Unity.Display.AbstractDisplayManager.ResumeDisplay
-	 void Juniper.Unity.Display.AbstractDisplayManager.StartAR
-	 void Juniper.Unity.Display.AbstractDisplayManager.StartXRDisplay
-	 void Juniper.Unity.Display.AbstractDisplayManager.StopAR
-	 void Juniper.Unity.Display.AbstractDisplayManager.StopXRDisplay
- 17% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Platforms/Daydream/DaydreamDisplayManager.cs - (6 of 34)
-	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
-	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
-	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
-	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedARMode
-	 Camera Juniper.Unity.Display.AbstractDisplayManager.MainCamera
-	 CameraClearFlags Juniper.Unity.Display.AbstractDisplayManager.ClearFlags
-	 CameraControl Juniper.Unity.Display.AbstractDisplayManager.cameraCtrl
-	 Color Juniper.Unity.Display.AbstractDisplayManager.BackgroundColor
-	 DisplayTypeEvent Juniper.Unity.Display.AbstractDisplayManager.onDisplayTypeChange
-	 DisplayTypes Juniper.Unity.Display.AbstractDisplayManager.DisplayType
-	 DisplayTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedDisplayType
-	 EventHandler<AugmentedRealityTypes> Juniper.Unity.Display.AbstractDisplayManager.ARModeChange
-	 EventHandler<DisplayTypes> Juniper.Unity.Display.AbstractDisplayManager.DisplayTypeChange
-	 Options Juniper.Unity.Display.AbstractDisplayManager.Option
-	 PlatformTypes Juniper.Unity.Display.AbstractDisplayManager.CurrentPlatform
-	 SystemTypes Juniper.Unity.Display.AbstractDisplayManager.System
-	 bool Juniper.Unity.Display.DaydreamDisplayManager.AnyActiveGoogleInstantPreview
-	 int Juniper.Unity.Display.AbstractDisplayManager.CullingMask
-	 override void Juniper.Unity.Display.DaydreamDisplayManager.Start
-	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Awake
-	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnARModeChange
-	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnDisplayTypeChange
 	 void Juniper.Unity.Display.AbstractDisplayManager.DisableDisplay
 	 void Juniper.Unity.Display.AbstractDisplayManager.ResumeDisplay
 	 void Juniper.Unity.Display.AbstractDisplayManager.StartAR
@@ -731,13 +729,68 @@
 	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableHands
 	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableMouse
 	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableTouch
+ 17% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Platforms/ViveFocus/ViveFocusInputModule.cs - (5 of 29)
+	 GazePointer Juniper.Unity.Input.AbstractUnifiedInputModule.gazePointer
+	 HandTracker [] Juniper.Unity.Input.AbstractUnifiedInputModule.handTrackers
+	 Mode
+	 Mode Juniper.Unity.Input.AbstractUnifiedInputModule.mode
+	 MotionController [] Juniper.Unity.Input.AbstractUnifiedInputModule.motionControllers
+	 Mouse Juniper.Unity.Input.AbstractUnifiedInputModule.mouse
+	 PointerEventData Juniper.Unity.Input.AbstractUnifiedInputModule.Clone
+	 StageExtensions Juniper.Unity.Input.AbstractUnifiedInputModule.stage
+	 T Juniper.Unity.Input.AbstractUnifiedInputModule.MakePointer< T >
+	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableControllersToggle
+	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableGazeToggle
+	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableHandsToggle
+	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableMouseToggle
+	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableTouchToggle
+	 TouchPoint [] Juniper.Unity.Input.AbstractUnifiedInputModule.touches
+	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.AnyPointerDragging
+	 override void Juniper.Unity.Input.AbstractUnifiedInputModule.Awake
+	 readonly List<IPointerDevice> Juniper.Unity.Input.AbstractUnifiedInputModule.Devices
+	 void Juniper.Unity.Input.AbstractUnifiedInputModule.AddPointer
+	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableControllers
+	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableGaze
+	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableHands
+	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableMouse
+	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableTouch
+ 17% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Platforms/Daydream/DaydreamDisplayManager.cs - (6 of 35)
+	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
+	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
+	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
+	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedARMode
+	 Camera Juniper.Unity.Display.AbstractDisplayManager.MainCamera
+	 CameraClearFlags Juniper.Unity.Display.AbstractDisplayManager.ClearFlags
+	 CameraControl Juniper.Unity.Display.AbstractDisplayManager.cameraCtrl
+	 Color Juniper.Unity.Display.AbstractDisplayManager.BackgroundColor
+	 DisplayTypeEvent Juniper.Unity.Display.AbstractDisplayManager.onDisplayTypeChange
+	 DisplayTypes Juniper.Unity.Display.AbstractDisplayManager.DisplayType
+	 DisplayTypes Juniper.Unity.Display.AbstractDisplayManager.SupportedDisplayType
+	 EventHandler<AugmentedRealityTypes> Juniper.Unity.Display.AbstractDisplayManager.ARModeChange
+	 EventHandler<DisplayTypes> Juniper.Unity.Display.AbstractDisplayManager.DisplayTypeChange
+	 Options Juniper.Unity.Display.AbstractDisplayManager.Option
+	 PlatformTypes Juniper.Unity.Display.AbstractDisplayManager.CurrentPlatform
+	 ResonanceAudioListener Juniper.Unity.Display.AbstractDisplayManager.goog
+	 SystemTypes Juniper.Unity.Display.AbstractDisplayManager.System
+	 bool Juniper.Unity.Display.DaydreamDisplayManager.AnyActiveGoogleInstantPreview
+	 int Juniper.Unity.Display.AbstractDisplayManager.CullingMask
+	 override void Juniper.Unity.Display.DaydreamDisplayManager.Start
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.Awake
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnARModeChange
+	 virtual void Juniper.Unity.Display.AbstractDisplayManager.OnDisplayTypeChange
+	 void Juniper.Unity.Display.AbstractDisplayManager.DisableDisplay
+	 void Juniper.Unity.Display.AbstractDisplayManager.ResumeDisplay
+	 void Juniper.Unity.Display.AbstractDisplayManager.StartAR
+	 void Juniper.Unity.Display.AbstractDisplayManager.StartXRDisplay
+	 void Juniper.Unity.Display.AbstractDisplayManager.StopAR
+	 void Juniper.Unity.Display.AbstractDisplayManager.StopXRDisplay
  16% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/JuniperPlatform.cs - (1 of 6)
 	 AugmentedRealityTypes Juniper.Unity.JuniperPlatform.SupportedARMode
 	 DisplayTypes Juniper.Unity.JuniperPlatform.SupportedDisplayType
 	 Options Juniper.Unity.JuniperPlatform.Option
 	 SystemTypes Juniper.Unity.JuniperPlatform.System
 	 readonly PlatformTypes Juniper.Unity.JuniperPlatform.CurrentPlatform
- 16% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Display/AbstractDisplayManager.cs - (7 of 43)
+ 15% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Display/AbstractDisplayManager.cs - (7 of 44)
 	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
 	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
 	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
@@ -758,6 +811,7 @@
 	 Options Juniper.Unity.Display.AbstractDisplayManager.Option
 	 Options Juniper.Unity.Display.AbstractDisplayManager.lastOption
 	 PlatformTypes Juniper.Unity.Display.AbstractDisplayManager.CurrentPlatform
+	 ResonanceAudioListener Juniper.Unity.Display.AbstractDisplayManager.goog
 	 SystemTypes Juniper.Unity.Display.AbstractDisplayManager.System
 	 SystemTypes Juniper.Unity.Display.AbstractDisplayManager.lastSystem
 	 bool Juniper.Unity.Display.AbstractDisplayManager.IsValidDisplayChange
@@ -774,7 +828,7 @@
 	 void Juniper.Unity.Display.AbstractDisplayManager.StartXRDisplay
 	 void Juniper.Unity.Display.AbstractDisplayManager.StopAR
 	 void Juniper.Unity.Display.AbstractDisplayManager.StopXRDisplay
- 15% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Platforms/WindowsMR/WindowsMRDisplayManager.cs - (5 of 33)
+ 14% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Platforms/WindowsMR/WindowsMRDisplayManager.cs - (5 of 34)
 	 ARModeEvent Juniper.Unity.Display.AbstractDisplayManager.onARModeChange
 	 AudioListener Juniper.Unity.Display.AbstractDisplayManager.listener
 	 AugmentedRealityTypes Juniper.Unity.Display.AbstractDisplayManager.ARMode
@@ -790,6 +844,7 @@
 	 EventHandler<DisplayTypes> Juniper.Unity.Display.AbstractDisplayManager.DisplayTypeChange
 	 Options Juniper.Unity.Display.AbstractDisplayManager.Option
 	 PlatformTypes Juniper.Unity.Display.AbstractDisplayManager.CurrentPlatform
+	 ResonanceAudioListener Juniper.Unity.Display.AbstractDisplayManager.goog
 	 SystemTypes Juniper.Unity.Display.AbstractDisplayManager.System
 	 int Juniper.Unity.Display.AbstractDisplayManager.CullingMask
 	 override float Juniper.Unity.Display.WindowsMRDisplayManager.DEFAULT_FOV
@@ -863,6 +918,14 @@
 	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableTouch
 	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableTouches
 	 void Juniper.Unity.Input.AbstractUnifiedInputModule.SetBool
+ 12% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Widgets/LoadingBar.cs - (1 of 8)
+	 Transform Juniper.Unity.Widgets.LoadingBar.indicator
+	 WaitUntil Juniper.Unity.Widgets.LoadingBar.Waiter
+	 WaitUntil Juniper.Unity.Widgets.LoadingBar._waiter
+	 float Juniper.Unity.Widgets.LoadingBar.Progress
+	 float Juniper.Unity.Widgets.LoadingBar.TargetValue
+	 void Juniper.Unity.Widgets.LoadingBar.Awake
+	 void Juniper.Unity.Widgets.LoadingBar.Update
  10% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Input/Pointers/Gaze/NosePointer.cs - (1 of 10)
 	 bool Juniper.Unity.Input.Pointers.Gaze.AbstractGazePointer< HapticsType >.gazed
 	 float Juniper.Unity.Input.Pointers.Gaze.AbstractGazePointer< HapticsType >.gazeThreshold
@@ -1194,51 +1257,6 @@
 	 using TextElementType =  UnityEngine.UI.Text
   0% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Statistics/IntegrationMotionFilter.cs - (0 of 1)
 	 using Vector3 =  UnityEngine.Vector3
-  0% - C:/Users/smcbeth/Projects/Juniper/src/Juniper.NeuroSky/src/MindWaveAdapter.cs - (0 of 44)
-	 Baudrate? Juniper.NeuroSky.MindWaveAdapter.baudrate
-	 Baudrate?? Juniper.NeuroSky.MindWaveAdapter.SerialBaudRate
-	 FilterType? Juniper.NeuroSky.MindWaveAdapter.mainsFilter
-	 FilterType?? Juniper.NeuroSky.MindWaveAdapter.MainsFrequency
-	 Juniper.NeuroSky.MindWaveAdapter.MindWaveAdapter
-	 bool Juniper.NeuroSky.MindWaveAdapter.DataValueChanged
-	 bool Juniper.NeuroSky.MindWaveAdapter.autoReadEnabled
-	 bool Juniper.NeuroSky.MindWaveAdapter.connected
-	 bool Juniper.NeuroSky.MindWaveAdapter.dataLogEnabled
-	 bool Juniper.NeuroSky.MindWaveAdapter.streamLogEnabled
-	 bool Juniper.NeuroSky.MindWaveAdapter.valueDisposed
-	 bool? Juniper.NeuroSky.MindWaveAdapter.EnableAutoRead
-	 bool? Juniper.NeuroSky.MindWaveAdapter.EnableDataLog
-	 bool? Juniper.NeuroSky.MindWaveAdapter.EnableStreamLog
-	 const Baudrate Juniper.NeuroSky.MindWaveAdapter.DEFAULT_BAUD_RATE
-	 const FilterType Juniper.NeuroSky.MindWaveAdapter.DEFAULT_MAINS_FILTER
-	 const SerialDataFormat Juniper.NeuroSky.MindWaveAdapter.DEFAULT_SERIAL_FORMAT
-	 float? Juniper.NeuroSky.MindWaveAdapter.Alpha1
-	 float? Juniper.NeuroSky.MindWaveAdapter.Alpha2
-	 float? Juniper.NeuroSky.MindWaveAdapter.Attention
-	 float? Juniper.NeuroSky.MindWaveAdapter.Battery
-	 float? Juniper.NeuroSky.MindWaveAdapter.Beta1
-	 float? Juniper.NeuroSky.MindWaveAdapter.Beta2
-	 float? Juniper.NeuroSky.MindWaveAdapter.Delta
-	 float? Juniper.NeuroSky.MindWaveAdapter.Gamma1
-	 float? Juniper.NeuroSky.MindWaveAdapter.Gamma2
-	 float? Juniper.NeuroSky.MindWaveAdapter.GetDataValue
-	 float? Juniper.NeuroSky.MindWaveAdapter.Meditation
-	 float? Juniper.NeuroSky.MindWaveAdapter.PoorSignal
-	 float? Juniper.NeuroSky.MindWaveAdapter.Theta
-	 int Juniper.NeuroSky.MindWaveAdapter.ReadPackets
-	 int Juniper.NeuroSky.MindWaveAdapter.Version
-	 readonly int Juniper.NeuroSky.MindWaveAdapter.connectionId
-	 string Juniper.NeuroSky.MindWaveAdapter.DataLogFileName
-	 string Juniper.NeuroSky.MindWaveAdapter.StreamLogFileName
-	 string Juniper.NeuroSky.MindWaveAdapter.dataFileName
-	 string Juniper.NeuroSky.MindWaveAdapter.streamFileName
-	 virtual void Juniper.NeuroSky.MindWaveAdapter.Dispose
-	 void Juniper.NeuroSky.MindWaveAdapter.Connect
-	 void Juniper.NeuroSky.MindWaveAdapter.Disconnect
-	 void Juniper.NeuroSky.MindWaveAdapter.Dispose
-	 void Juniper.NeuroSky.MindWaveAdapter.SendByte
-	 void Juniper.NeuroSky.MindWaveAdapter.WriteDataLog
-	 void Juniper.NeuroSky.MindWaveAdapter.WriteStreamLog
   0% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Widgets/Splitter.cs - (0 of 6)
 	 Animator Juniper.Unity.Widgets.Splitter.animator
 	 bool Juniper.Unity.Widgets.Splitter.open
@@ -1251,15 +1269,6 @@
 	 void Juniper.Unity.Widgets.Selectable.OnSelect
   0% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Statistics/LerpMotionFilter.cs - (0 of 1)
 	 using Vector3 =  UnityEngine.Vector3
-  0% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Widgets/LoadingBar.cs - (0 of 8)
-	 Transform Juniper.Unity.Widgets.LoadingBar.indicator
-	 WaitUntil Juniper.Unity.Widgets.LoadingBar.Waiter
-	 WaitUntil Juniper.Unity.Widgets.LoadingBar._waiter
-	 float Juniper.Unity.Widgets.LoadingBar.Progress
-	 float Juniper.Unity.Widgets.LoadingBar.TargetValue
-	 void Juniper.Unity.Widgets.LoadingBar.Awake
-	 void Juniper.Unity.Widgets.LoadingBar.Report
-	 void Juniper.Unity.Widgets.LoadingBar.Update
   0% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Editor/ConfigurationManagement/Platforms.cs - (0 of 8)
 	 AbstractPackage [] Juniper.UnityEditor.ConfigurationManagement.Platforms.ParsePackages
 	 Juniper.UnityEditor.ConfigurationManagement.Platforms.Platforms
@@ -1363,6 +1372,15 @@
 	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
   0% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Input/Pointers/AbstractPointerDevice.cs - (0 of 1)
 	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
+  0% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/StreamableAsset.cs - (0 of 8)
+	 AssetType Juniper.Unity.StreamableAsset< AssetType >.Asset
+	 EventHandler<Exception> Juniper.Unity.StreamableAsset< AssetType >.LoadError
+	 ExceptionEvent Juniper.Unity.StreamableAsset< AssetType >.onLoadError
+	 bool Juniper.Unity.StreamableAsset< AssetType >.exported
+	 string Juniper.Unity.StreamableAsset< AssetType >.AssetPath
+	 string Juniper.Unity.StreamableAsset< AssetType >.CopyPath
+	 string Juniper.Unity.StreamableAsset< AssetType >.LoadPath
+	 void Juniper.Unity.StreamableAsset< AssetType >.OnLoadError
   0% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Input/RocketPack.cs - (0 of 5)
 	 Rigidbody Juniper.Unity.Input.RocketPack.body
 	 Transform Juniper.Unity.Input.RocketPack.camT
@@ -1651,34 +1669,21 @@
   0% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Input/HoverCraft.cs - (0 of 1)
 	 using InputButton =  UnityEngine.EventSystems.PointerEventData.InputButton
 
-65% API documentation coverage
+66% API documentation coverage
 ```
 
 #Doxygen Warnings
 
 ```
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/World/Climate/OpenWeatherMap/API.cs:76: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.API(string apiKey, string lastReportJSON=null) are not documented:
-  parameter 'lastReportJSON'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/World/Climate/OpenWeatherMap/API.cs:166: warning: The following parameters of Juniper.World.Climate.OpenWeatherMap.API.Request(LatLngPoint location, bool force, IProgress prog=null) are not documented:
-  parameter 'prog'
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/CameraExt.cs:10: warning: The following parameters of UnityEngine.CameraExt.IsInView(this Camera cam, Vector3 target) are not documented:
   parameter 'cam'
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/ComponentExt.cs:171: warning: The following parameters of UnityEngine.ComponentExt.Ensure< T >(this Component obj, Predicate< T > predicate) are not documented:
   parameter 'predicate'
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/GameObjectExt.cs:70: warning: The following parameters of UnityEngine.GameObjectExt.Ensure< T >(this GameObject obj, Predicate< T > predicate) are not documented:
   parameter 'predicate'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Data/HTTP.cs:160: warning: The following parameters of Juniper.HTTP.PostStream(string url, string mime, long bodyLength, Action< Stream > writeBody, Action< Stream > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
-  parameter 'bodyLength'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Progress/IProgress.cs:91: warning: argument 'start' of command @param is not found in the argument list of Juniper.Progress.IProgressExt::Subdivide(this IProgress parent, int index, int count, string prefix=null)
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Progress/IProgress.cs:91: warning: argument 'length' of command @param is not found in the argument list of Juniper.Progress.IProgressExt::Subdivide(this IProgress parent, int index, int count, string prefix=null)
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Progress/IProgress.cs:101: warning: The following parameters of Juniper.Progress.IProgressExt.Subdivide(this IProgress parent, int index, int count, string prefix=null) are not documented:
-  parameter 'index'
-  parameter 'count'
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs:55: warning: argument 'path' of command @param is not found in the argument list of Juniper.Unity.MasterSceneController::LoadScene(string scenePath, string sceneName)
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs:61: warning: The following parameters of Juniper.Unity.MasterSceneController.LoadScene(string scenePath, string sceneName) are not documented:
   parameter 'scenePath'
-C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/Extensions/NETFX/IO/StreamExt.cs:23: warning: The following parameters of System.IO.StreamExt.Pipe(this Stream inStream, Stream outStream, long length, IProgress prog=null) are not documented:
-  parameter 'length'
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:65: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, string mime, Action< string > resolve, Action< Exception > reject, IProgress prog=null) are not documented:
   parameter 'cacheDirectory'
   parameter 'prog'

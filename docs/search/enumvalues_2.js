@@ -1,11 +1,11 @@
 var searchData=
 [
-  ['calm',['CALM',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40af0b8338e91f9de1b95efcbf33d0caa10',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
+  ['calm',['CALM',['../de/dac/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_weather.html#ad530c5e906e5716b875a99249a56681eaf0b8338e91f9de1b95efcbf33d0caa10',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::OWMWeather']]],
   ['cardboard',['cardboard',['../de/d75/namespace_juniper.html#a315e60e9d5ff9f6fdaaa3312d9e3e8d8a7e1813d1263dfab2366123b8928656e3',1,'Juniper']]],
   ['celsius',['Celsius',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a1ef292971cad34ecb884283503bf86c1',1,'Juniper']]],
   ['center',['Center',['../d2/d4b/namespace_juniper_1_1_unity_1_1_input.html#a3f532a2dac76193eac1a0bcbd9641a44a4f1f6016fc9f3f2353c0cc7c67b292bd',1,'Juniper::Unity::Input']]],
   ['centimeters',['Centimeters',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a3040cc6624f5c309963dee141936b299',1,'Juniper']]],
-  ['clear_5fsky',['CLEAR_SKY',['../d3/dbc/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_weather.html#aa7a0dd077a94094eae71fe590c0e4d40a0ef6b47c8a8defd09cc125bed6b0a34e',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::Weather']]],
+  ['clear_5fsky',['CLEAR_SKY',['../de/dac/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_weather.html#ad530c5e906e5716b875a99249a56681ea0ef6b47c8a8defd09cc125bed6b0a34e',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::OWMWeather']]],
   ['click',['Click',['../df/d94/namespace_juniper_1_1_unity_1_1_haptics.html#a26351fb58c31def710b2c395a49dbd63a316853cc3718335f11c048e33b9be98a',1,'Juniper::Unity::Haptics']]],
   ['clicked',['Clicked',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82aaac77152dd6ab723d807092db6e0daf4',1,'Juniper::Input']]],
   ['closed',['Closed',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a03f4a47830f97377a35321051685071e',1,'Juniper::Input']]],

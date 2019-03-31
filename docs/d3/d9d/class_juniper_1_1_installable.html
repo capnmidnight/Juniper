@@ -100,9 +100,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:af2878005977c0a9374e6c24ce2d7dafe"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d9d/class_juniper_1_1_installable.html#af2878005977c0a9374e6c24ce2d7dafe">InstallAll</a> (Func&lt; IEnumerable&lt; <a class="el" href="../../db/d28/interface_juniper_1_1_i_installable.html">IInstallable</a> &gt;&gt; getInstallables, bool reset)</td></tr>
-<tr class="memdesc:af2878005977c0a9374e6c24ce2d7dafe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a callback for finding all installables in a system, runs until either we exhaust the retry count (default 10) or every installable successfully installs.  <a href="#af2878005977c0a9374e6c24ce2d7dafe">More...</a><br /></td></tr>
-<tr class="separator:af2878005977c0a9374e6c24ce2d7dafe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a272ad083fe4104e6b4aea126c35c6e2e"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d9d/class_juniper_1_1_installable.html#a272ad083fe4104e6b4aea126c35c6e2e">InstallAll</a> (Func&lt; List&lt; <a class="el" href="../../db/d28/interface_juniper_1_1_i_installable.html">IInstallable</a> &gt;&gt; getInstallables, bool reset, <a class="el" href="../../d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html">IProgress</a> prog=null)</td></tr>
+<tr class="memdesc:a272ad083fe4104e6b4aea126c35c6e2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a callback for finding all installables in a system, runs until either we exhaust the retry count (default 10) or every installable successfully installs.  <a href="#a272ad083fe4104e6b4aea126c35c6e2e">More...</a><br /></td></tr>
+<tr class="separator:a272ad083fe4104e6b4aea126c35c6e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e29d917efccd4a845596b043759e776"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d9d/class_juniper_1_1_installable.html#a0e29d917efccd4a845596b043759e776">UninstallAll</a> (Func&lt; IEnumerable&lt; <a class="el" href="../../db/d28/interface_juniper_1_1_i_installable.html">IInstallable</a> &gt;&gt; getInstallables)</td></tr>
 <tr class="memdesc:a0e29d917efccd4a845596b043759e776"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a callback for finding all installables in a system, runs the uninstall process for all of them.  <a href="#a0e29d917efccd4a845596b043759e776">More...</a><br /></td></tr>
 <tr class="separator:a0e29d917efccd4a845596b043759e776"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -110,10 +110,10 @@ Static Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="../../db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked.">IInstallable</a> utility functions. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de2/_i_installable_8cs_source.html#l00035">35</a> of file <a class="el" href="../../dc/de2/_i_installable_8cs_source.html">IInstallable.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/de2/_i_installable_8cs_source.html#l00036">36</a> of file <a class="el" href="../../dc/de2/_i_installable_8cs_source.html">IInstallable.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="af2878005977c0a9374e6c24ce2d7dafe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2878005977c0a9374e6c24ce2d7dafe">&#9670;&nbsp;</a></span>InstallAll()</h2>
+<a id="a272ad083fe4104e6b4aea126c35c6e2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a272ad083fe4104e6b4aea126c35c6e2e">&#9670;&nbsp;</a></span>InstallAll()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -124,14 +124,20 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">static int Juniper.Installable.InstallAll </td>
           <td>(</td>
-          <td class="paramtype">Func&lt; IEnumerable&lt; <a class="el" href="../../db/d28/interface_juniper_1_1_i_installable.html">IInstallable</a> &gt;&gt;&#160;</td>
+          <td class="paramtype">Func&lt; List&lt; <a class="el" href="../../db/d28/interface_juniper_1_1_i_installable.html">IInstallable</a> &gt;&gt;&#160;</td>
           <td class="paramname"><em>getInstallables</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>reset</em>&#160;</td>
+          <td class="paramname"><em>reset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html">IProgress</a>&#160;</td>
+          <td class="paramname"><em>prog</em> = <code>null</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -151,14 +157,16 @@ Static Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">getInstallables</td><td></td></tr>
     <tr><td class="paramname">reset</td><td></td></tr>
+    <tr><td class="paramname">prog</td><td><a class="el" href="../../df/d09/namespace_juniper_1_1_progress.html">Progress</a> tracker (non by default).</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of objects that didn't install correctly.</dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de2/_i_installable_8cs_source.html#l00044">44</a> of file <a class="el" href="../../dc/de2/_i_installable_8cs_source.html">IInstallable.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        {</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            var installed = <span class="keyword">new</span> List&lt;IInstallable&gt;();</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            var keepFinding = <span class="keyword">true</span>;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">for</span> (var i = 0; i &lt; 10 &amp;&amp; keepFinding; ++i)</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            {</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                keepFinding = <span class="keyword">false</span>;</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="keywordflow">foreach</span> (var installable <span class="keywordflow">in</span> getInstallables())</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                {</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                    <span class="keywordflow">if</span> (!installed.Contains(installable))</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                    {</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                        keepFinding = <span class="keyword">true</span>;</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                        <span class="keywordflow">if</span> (installable.Install(reset))</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                        {</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                            installed.Add(installable);</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                        }</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    }</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                }</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            }</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">return</span> getInstallables().Count() - installed.Count;</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d3/dfa/_master_scene_controller_8cs_source.html#l00260">Juniper.Unity.MasterSceneController.Awake()</a>, and <a class="el" href="../../d9/d3e/_juniper_configuration_manager_8cs_source.html#l00400">Juniper.UnityEditor.ConfigurationManagement.JuniperConfigurationManager.InternalInstall()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/de2/_i_installable_8cs_source.html#l00046">46</a> of file <a class="el" href="../../dc/de2/_i_installable_8cs_source.html">IInstallable.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        {</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            var installed = <span class="keyword">new</span> List&lt;IInstallable&gt;();</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            var keepFinding = <span class="keyword">true</span>;</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">for</span> (var i = 0; i &lt; 10 &amp;&amp; keepFinding; ++i)</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            {</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                keepFinding = <span class="keyword">false</span>;</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                var installables = getInstallables();</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                prog?.<a class="code" href="../../d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html#ac9efd3f3660fd592d481926d51bf3769">Report</a>(installed.Count, installables.Count);</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">foreach</span> (var installable <span class="keywordflow">in</span> installables)</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                {</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    <span class="keywordflow">if</span> (!installed.Contains(installable))</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    {</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                        keepFinding = <span class="keyword">true</span>;</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                        <span class="keywordflow">if</span> (installable.Install(reset))</div><div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        {</div><div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                            installed.Add(installable);</div><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                            prog?.<a class="code" href="../../d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html#ac9efd3f3660fd592d481926d51bf3769">Report</a>(installed.Count, installables.Count);</div><div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                        }</div><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                    }</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                }</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            }</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">return</span> getInstallables().Count - installed.Count;</div><div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div><div class="ttc" id="interface_juniper_1_1_progress_1_1_i_progress_html_ac9efd3f3660fd592d481926d51bf3769"><div class="ttname"><a href="../../d9/daf/interface_juniper_1_1_progress_1_1_i_progress.html#ac9efd3f3660fd592d481926d51bf3769">Juniper.Progress.IProgress.Report</a></div><div class="ttdeci">void Report(float progress, string status)</div><div class="ttdoc">Report progress to a listener implementation.</div></div>
+</div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d7/d0f/_juniper_platform_8cs_source.html#l00024">Juniper.Unity.JuniperPlatform.Install()</a>.</p>
 
 </div>
 </div>
@@ -194,14 +202,14 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/de2/_i_installable_8cs_source.html#l00072">72</a> of file <a class="el" href="../../dc/de2/_i_installable_8cs_source.html">IInstallable.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        {</div><div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordflow">foreach</span> (var installable <span class="keywordflow">in</span> getInstallables())</div><div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            {</div><div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                installable.Uninstall();</div><div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            }</div><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d9/d3e/_juniper_configuration_manager_8cs_source.html#l00630">Juniper.UnityEditor.ConfigurationManagement.JuniperConfigurationManager.DeactivatePlatform()</a>, and <a class="el" href="../../d9/d3e/_juniper_configuration_manager_8cs_source.html#l00387">Juniper.UnityEditor.ConfigurationManagement.JuniperConfigurationManager.Uninstall()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/de2/_i_installable_8cs_source.html#l00079">79</a> of file <a class="el" href="../../dc/de2/_i_installable_8cs_source.html">IInstallable.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">foreach</span> (var installable <span class="keywordflow">in</span> getInstallables())</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            {</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                installable.Uninstall();</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            }</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d7/d0f/_juniper_platform_8cs_source.html#l00019">Juniper.Unity.JuniperPlatform.Uninstall()</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Common/<a class="el" href="../../dc/de2/_i_installable_8cs_source.html">IInstallable.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper.Common/src/<a class="el" href="../../dc/de2/_i_installable_8cs_source.html">IInstallable.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

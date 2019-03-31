@@ -12,7 +12,7 @@
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
 <g id="a_node1"><a xlink:title=" ">
-<polygon fill="#bfbfbf" stroke="black" points="142.5,-138.5 142.5,-261.5 276.5,-261.5 276.5,-138.5 142.5,-138.5"/>
+<polygon fill="#bfbfbf" stroke="black" points="142.5,-127.5 142.5,-261.5 276.5,-261.5 276.5,-127.5 142.5,-127.5"/>
 <text text-anchor="start" x="150.5" y="-249.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Abstract</text>
 <text text-anchor="middle" x="209.5" y="-238.5" font-family="SegoeUI" font-size="10.00">VelocityLocomotion</text>
 <polyline fill="none" stroke="black" points="142.5,-231.5 276.5,-231.5 "/>
@@ -20,69 +20,69 @@
 <text text-anchor="start" x="150.5" y="-208.5" font-family="SegoeUI" font-size="10.00">+ jink</text>
 <text text-anchor="start" x="150.5" y="-197.5" font-family="SegoeUI" font-size="10.00"># MOVEMENT_SCALE</text>
 <text text-anchor="start" x="150.5" y="-186.5" font-family="SegoeUI" font-size="10.00"># velocity</text>
-<text text-anchor="start" x="150.5" y="-175.5" font-family="SegoeUI" font-size="10.00">&#45; stage</text>
-<polyline fill="none" stroke="black" points="142.5,-168.5 276.5,-168.5 "/>
-<text text-anchor="start" x="150.5" y="-156.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
-<text text-anchor="start" x="150.5" y="-145.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
+<text text-anchor="start" x="150.5" y="-175.5" font-family="SegoeUI" font-size="10.00"># input</text>
+<text text-anchor="start" x="150.5" y="-164.5" font-family="SegoeUI" font-size="10.00">&#45; stage</text>
+<polyline fill="none" stroke="black" points="142.5,-157.5 276.5,-157.5 "/>
+<text text-anchor="start" x="150.5" y="-145.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
+<text text-anchor="start" x="150.5" y="-134.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
 </a>
 </g>
 </g>
 <!-- Node2 -->
 <g id="node3" class="node"><title>Node2</title>
 <g id="a_node3"><a xlink:href="../../d7/d1a/class_juniper_1_1_unity_1_1_input_1_1_default_locomotion.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="0,-17 0,-85 129,-85 129,-17 0,-17"/>
-<text text-anchor="start" x="8" y="-73" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Default</text>
-<text text-anchor="middle" x="64.5" y="-62" font-family="SegoeUI" font-size="10.00">Locomotion</text>
-<polyline fill="none" stroke="black" points="0,-55 129,-55 "/>
-<text text-anchor="middle" x="64.5" y="-43" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="0,-36 129,-36 "/>
-<text text-anchor="middle" x="64.5" y="-24" font-family="SegoeUI" font-size="10.00"> </text>
+<polygon fill="white" stroke="black" points="0,-11.5 0,-79.5 129,-79.5 129,-11.5 0,-11.5"/>
+<text text-anchor="start" x="8" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Default</text>
+<text text-anchor="middle" x="64.5" y="-56.5" font-family="SegoeUI" font-size="10.00">Locomotion</text>
+<polyline fill="none" stroke="black" points="0,-49.5 129,-49.5 "/>
+<text text-anchor="middle" x="64.5" y="-37.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="0,-30.5 129,-30.5 "/>
+<text text-anchor="middle" x="64.5" y="-18.5" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node2 -->
 <g id="edge2" class="edge"><title>Node0&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M142.491,-131.067C126.755,-115.114 110.672,-98.8088 97.2301,-85.1816"/>
-<polygon fill="none" stroke="midnightblue" points="140.172,-133.699 149.686,-138.361 145.155,-128.784 140.172,-133.699"/>
+<path fill="none" stroke="midnightblue" d="M136.959,-119.959C123.072,-105.879 109.186,-91.8022 97.3404,-79.7934"/>
+<polygon fill="none" stroke="midnightblue" points="134.697,-122.649 144.211,-127.311 139.68,-117.733 134.697,-122.649"/>
 </g>
 <!-- Node3 -->
 <g id="node4" class="node"><title>Node3</title>
 <g id="a_node4"><a xlink:href="../../db/dbe/class_juniper_1_1_unity_1_1_input_1_1_hover_craft.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="147.5,-0.5 147.5,-101.5 271.5,-101.5 271.5,-0.5 147.5,-0.5"/>
-<text text-anchor="start" x="155.5" y="-89.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Hover</text>
-<text text-anchor="middle" x="209.5" y="-78.5" font-family="SegoeUI" font-size="10.00">Craft</text>
-<polyline fill="none" stroke="black" points="147.5,-71.5 271.5,-71.5 "/>
-<text text-anchor="start" x="155.5" y="-59.5" font-family="SegoeUI" font-size="10.00">+ Pointer</text>
-<text text-anchor="start" x="155.5" y="-48.5" font-family="SegoeUI" font-size="10.00">+ ForwardPressed</text>
-<text text-anchor="start" x="155.5" y="-37.5" font-family="SegoeUI" font-size="10.00">+ BackPressed</text>
-<polyline fill="none" stroke="black" points="147.5,-30.5 271.5,-30.5 "/>
-<text text-anchor="start" x="155.5" y="-18.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
+<polygon fill="white" stroke="black" points="147.5,-0.5 147.5,-90.5 271.5,-90.5 271.5,-0.5 147.5,-0.5"/>
+<text text-anchor="start" x="155.5" y="-78.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Hover</text>
+<text text-anchor="middle" x="209.5" y="-67.5" font-family="SegoeUI" font-size="10.00">Craft</text>
+<polyline fill="none" stroke="black" points="147.5,-60.5 271.5,-60.5 "/>
+<text text-anchor="start" x="155.5" y="-48.5" font-family="SegoeUI" font-size="10.00">+ Pointer</text>
+<text text-anchor="start" x="155.5" y="-37.5" font-family="SegoeUI" font-size="10.00">+ ForwardPressed</text>
+<text text-anchor="start" x="155.5" y="-26.5" font-family="SegoeUI" font-size="10.00">+ BackPressed</text>
+<polyline fill="none" stroke="black" points="147.5,-19.5 271.5,-19.5 "/>
 <text text-anchor="start" x="155.5" y="-7.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node3 -->
 <g id="edge3" class="edge"><title>Node0&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M209.5,-128.289C209.5,-119.323 209.5,-110.301 209.5,-101.758"/>
-<polygon fill="none" stroke="midnightblue" points="206,-128.361 209.5,-138.361 213,-128.361 206,-128.361"/>
+<path fill="none" stroke="midnightblue" d="M209.5,-117.15C209.5,-108.147 209.5,-99.2002 209.5,-90.8525"/>
+<polygon fill="none" stroke="midnightblue" points="206,-117.31 209.5,-127.311 213,-117.311 206,-117.31"/>
 </g>
 <!-- Node4 -->
 <g id="node5" class="node"><title>Node4</title>
 <g id="a_node5"><a xlink:href="../../db/def/class_juniper_1_1_unity_1_1_input_1_1_running_movement.html" target="_top" xlink:title="Controlling the camera from a desktop system. Very useful for quickly debugging things.">
-<polygon fill="white" stroke="black" points="289.5,-17 289.5,-85 423.5,-85 423.5,-17 289.5,-17"/>
-<text text-anchor="start" x="297.5" y="-73" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Running</text>
-<text text-anchor="middle" x="356.5" y="-62" font-family="SegoeUI" font-size="10.00">Movement</text>
-<polyline fill="none" stroke="black" points="289.5,-55 423.5,-55 "/>
-<text text-anchor="middle" x="356.5" y="-43" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="289.5,-36 423.5,-36 "/>
-<text text-anchor="start" x="297.5" y="-24" font-family="SegoeUI" font-size="10.00">+ Update()</text>
+<polygon fill="white" stroke="black" points="289.5,-11.5 289.5,-79.5 423.5,-79.5 423.5,-11.5 289.5,-11.5"/>
+<text text-anchor="start" x="297.5" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Running</text>
+<text text-anchor="middle" x="356.5" y="-56.5" font-family="SegoeUI" font-size="10.00">Movement</text>
+<polyline fill="none" stroke="black" points="289.5,-49.5 423.5,-49.5 "/>
+<text text-anchor="middle" x="356.5" y="-37.5" font-family="SegoeUI" font-size="10.00"> </text>
+<polyline fill="none" stroke="black" points="289.5,-30.5 423.5,-30.5 "/>
+<text text-anchor="start" x="297.5" y="-18.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
 </a>
 </g>
 </g>
 <!-- Node0&#45;&gt;Node4 -->
 <g id="edge4" class="edge"><title>Node0&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M277.433,-131.067C293.386,-115.114 309.691,-98.8088 323.318,-85.1816"/>
-<polygon fill="none" stroke="midnightblue" points="274.735,-128.815 270.139,-138.361 279.685,-133.765 274.735,-128.815"/>
+<path fill="none" stroke="midnightblue" d="M283.041,-119.959C297.121,-105.879 311.198,-91.8022 323.207,-79.7934"/>
+<polygon fill="none" stroke="midnightblue" points="280.286,-117.765 275.689,-127.311 285.235,-122.714 280.286,-117.765"/>
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
@@ -98,8 +98,8 @@
 </g>
 <!-- Node1&#45;&gt;Node0 -->
 <g id="edge1" class="edge"><title>Node1&#45;&gt;Node0</title>
-<path fill="none" stroke="midnightblue" d="M209.5,-288.099C209.5,-279.739 209.5,-270.68 209.5,-261.672"/>
-<polygon fill="none" stroke="midnightblue" points="206,-288.258 209.5,-298.258 213,-288.258 206,-288.258"/>
+<path fill="none" stroke="midnightblue" d="M209.5,-288.16C209.5,-279.782 209.5,-270.668 209.5,-261.533"/>
+<polygon fill="none" stroke="midnightblue" points="206,-288.324 209.5,-298.324 213,-288.324 206,-288.324"/>
 </g>
 </g>
 </svg>

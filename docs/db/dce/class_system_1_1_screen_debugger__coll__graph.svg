@@ -15,7 +15,7 @@
 <polygon fill="#bfbfbf" stroke="black" points="72,-0.5 72,-156.5 194,-156.5 194,-0.5 72,-0.5"/>
 <text text-anchor="middle" x="133" y="-144.5" font-family="SegoeUI" font-size="10.00">System.ScreenDebugger</text>
 <polyline fill="none" stroke="black" points="72,-137.5 194,-137.5 "/>
-<text text-anchor="middle" x="133" y="-125.5" font-family="SegoeUI" font-size="10.00"> </text>
+<text text-anchor="start" x="80" y="-125.5" font-family="SegoeUI" font-size="10.00">+ TextBox</text>
 <polyline fill="none" stroke="black" points="72,-118.5 194,-118.5 "/>
 <text text-anchor="start" x="80" y="-106.5" font-family="SegoeUI" font-size="10.00">+ ScreenDebugger()</text>
 <text text-anchor="start" x="80" y="-95.5" font-family="SegoeUI" font-size="10.00">+ AddLine()</text>

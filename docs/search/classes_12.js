@@ -9,7 +9,6 @@ var searchData=
   ['shaker',['Shaker',['../d4/d7d/class_juniper_1_1_unity_1_1_widgets_1_1_shaker.html',1,'Juniper::Unity::Widgets']]],
   ['singleaudioclipcollection',['SingleAudioClipCollection',['../db/dd3/class_juniper_1_1_unity_1_1_audio_1_1_single_audio_clip_collection.html',1,'Juniper::Unity::Audio']]],
   ['singlestatistics',['SingleStatistics',['../d5/d19/class_juniper_1_1_statistics_1_1_single_statistics.html',1,'Juniper::Statistics']]],
-  ['snow',['Snow',['../dc/d54/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_snow.html',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport']]],
   ['spiraltransition',['SpiralTransition',['../d5/d56/class_juniper_1_1_unity_1_1_animation_1_1_spiral_transition.html',1,'Juniper::Unity::Animation']]],
   ['splitter',['Splitter',['../d1/dc5/class_juniper_1_1_unity_1_1_widgets_1_1_splitter.html',1,'Juniper::Unity::Widgets']]],
   ['squarecentimeters',['SquareCentimeters',['../d9/db5/class_juniper_1_1_units_1_1_square_centimeters.html',1,'Juniper::Units']]],
@@ -20,6 +19,7 @@ var searchData=
   ['squaremiles',['SquareMiles',['../d3/d4c/class_juniper_1_1_units_1_1_square_miles.html',1,'Juniper::Units']]],
   ['squaremillimeters',['SquareMillimeters',['../db/d18/class_juniper_1_1_units_1_1_square_millimeters.html',1,'Juniper::Units']]],
   ['stageextensions',['StageExtensions',['../dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html',1,'Juniper::Unity']]],
+  ['standaloneinputmodule',['StandaloneInputModule',['../de/d32/class_juniper_1_1_unity_1_1_input_1_1_standalone_input_module.html',1,'Juniper::Unity::Input']]],
   ['standoff',['Standoff',['../d8/d03/class_juniper_1_1_unity_1_1_widgets_1_1_standoff.html',1,'Juniper::Unity::Widgets']]],
   ['staticterrain',['StaticTerrain',['../db/db3/class_juniper_1_1_unity_1_1_ground_1_1_static_terrain.html',1,'Juniper::Unity::Ground']]],
   ['streamableasset',['StreamableAsset',['../d5/d45/class_juniper_1_1_unity_1_1_streamable_asset.html',1,'Juniper.Unity.StreamableAsset'],['../d5/d45/class_juniper_1_1_unity_1_1_streamable_asset.html',1,'Juniper.Unity.StreamableAsset&lt; AssetType &gt;']]],
@@ -36,6 +36,5 @@ var searchData=
   ['stringreference',['StringReference',['../db/da2/class_unity_engine_1_1_string_reference.html',1,'UnityEngine']]],
   ['stringvariable',['StringVariable',['../d5/dd2/class_unity_engine_1_1_string_variable.html',1,'UnityEngine']]],
   ['subscenecontroller',['SubSceneController',['../d7/d3c/class_juniper_1_1_unity_1_1_sub_scene_controller.html',1,'Juniper::Unity']]],
-  ['sunposition',['SunPosition',['../d9/ded/class_juniper_1_1_unity_1_1_world_1_1_sun_position.html',1,'Juniper::Unity::World']]],
-  ['sys',['Sys',['../df/dae/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_sys.html',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport']]]
+  ['sunposition',['SunPosition',['../d9/ded/class_juniper_1_1_unity_1_1_world_1_1_sun_position.html',1,'Juniper::Unity::World']]]
 ];

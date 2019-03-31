@@ -82,6 +82,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="../../d0/d41/struct_juniper_1_1_world_1_1_g_i_s_1_1_horizontal_spherical_position-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Juniper.World.GIS.HorizontalSphericalPosition Struct Reference</div>  </div>
@@ -112,9 +113,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a27f935dc6b58091ff5db08dc3a32c90f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dc6/struct_juniper_1_1_world_1_1_g_i_s_1_1_horizontal_spherical_position.html#a27f935dc6b58091ff5db08dc3a32c90f">HorizontalSphericalPosition</a> (float alt, float az, float r)</td></tr>
 <tr class="memdesc:a27f935dc6b58091ff5db08dc3a32c90f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new bearing to an object.  <a href="#a27f935dc6b58091ff5db08dc3a32c90f">More...</a><br /></td></tr>
 <tr class="separator:a27f935dc6b58091ff5db08dc3a32c90f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3004f54b799e27aee69511e82406ad80"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dc6/struct_juniper_1_1_world_1_1_g_i_s_1_1_horizontal_spherical_position.html#a3004f54b799e27aee69511e82406ad80">HorizontalSphericalPosition</a> (SerializationInfo info, StreamingContext context)</td></tr>
-<tr class="memdesc:a3004f54b799e27aee69511e82406ad80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialze the object.  <a href="#a3004f54b799e27aee69511e82406ad80">More...</a><br /></td></tr>
-<tr class="separator:a3004f54b799e27aee69511e82406ad80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d615894ece4112a5cf72b2e6c1eee0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dc6/struct_juniper_1_1_world_1_1_g_i_s_1_1_horizontal_spherical_position.html#a2d615894ece4112a5cf72b2e6c1eee0b">GetObjectData</a> (SerializationInfo info, StreamingContext context)</td></tr>
 <tr class="memdesc:a2d615894ece4112a5cf72b2e6c1eee0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get serialization data from the object.  <a href="#a2d615894ece4112a5cf72b2e6c1eee0b">More...</a><br /></td></tr>
 <tr class="separator:a2d615894ece4112a5cf72b2e6c1eee0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,6 +128,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a08d4964cbd11f19408786aac7e5001af"><td class="memItemLeft" align="right" valign="top">readonly float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dc6/struct_juniper_1_1_world_1_1_g_i_s_1_1_horizontal_spherical_position.html#a08d4964cbd11f19408786aac7e5001af">RadiusAU</a></td></tr>
 <tr class="memdesc:a08d4964cbd11f19408786aac7e5001af"><td class="mdescLeft">&#160;</td><td class="mdescRight">The distance from the origin of the system (the sun) in astronomical units (earth-distances).  <a href="#a08d4964cbd11f19408786aac7e5001af">More...</a><br /></td></tr>
 <tr class="separator:a08d4964cbd11f19408786aac7e5001af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a3004f54b799e27aee69511e82406ad80"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/dc6/struct_juniper_1_1_world_1_1_g_i_s_1_1_horizontal_spherical_position.html#a3004f54b799e27aee69511e82406ad80">HorizontalSphericalPosition</a> (SerializationInfo info, StreamingContext context)</td></tr>
+<tr class="memdesc:a3004f54b799e27aee69511e82406ad80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialze the object.  <a href="#a3004f54b799e27aee69511e82406ad80">More...</a><br /></td></tr>
+<tr class="separator:a3004f54b799e27aee69511e82406ad80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a bearing and distance to an object in degrees azimuth and altitude. It is essentially an Euler rotation without a Z-axis rotation. </p>
@@ -224,7 +228,7 @@ Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

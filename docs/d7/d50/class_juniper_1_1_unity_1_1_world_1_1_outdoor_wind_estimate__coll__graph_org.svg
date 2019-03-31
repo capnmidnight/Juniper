@@ -131,7 +131,7 @@
 <text text-anchor="start" x="765.877" y="-671" font-family="SegoeUI" font-size="10.00">+ City</text>
 <text text-anchor="start" x="765.877" y="-660" font-family="SegoeUI" font-size="10.00">+ Country</text>
 <text text-anchor="start" x="765.877" y="-649" font-family="SegoeUI" font-size="10.00">+ Location</text>
-<text text-anchor="start" x="765.877" y="-638" font-family="SegoeUI" font-size="10.00">+ Visibility</text>
+<text text-anchor="start" x="765.877" y="-638" font-family="SegoeUI" font-size="10.00">+ AtmosphericVisibility</text>
 <text text-anchor="start" x="765.877" y="-627" font-family="SegoeUI" font-size="10.00">+ SunriseTime</text>
 <text text-anchor="start" x="765.877" y="-616" font-family="SegoeUI" font-size="10.00">+ SunsetTime</text>
 <text text-anchor="start" x="765.877" y="-605" font-family="SegoeUI" font-size="10.00">+ CloudCover</text>
@@ -141,7 +141,7 @@
 <text text-anchor="start" x="765.877" y="-561" font-family="SegoeUI" font-size="10.00">+ Temperature</text>
 <text text-anchor="start" x="765.877" y="-550" font-family="SegoeUI" font-size="10.00">+ Humidity</text>
 <text text-anchor="start" x="765.877" y="-539" font-family="SegoeUI" font-size="10.00">+ AtmosphericPressure</text>
-<text text-anchor="start" x="765.877" y="-528" font-family="SegoeUI" font-size="10.00">+ Error</text>
+<text text-anchor="start" x="765.877" y="-528" font-family="SegoeUI" font-size="10.00">+ ErrorMessage</text>
 <polyline fill="none" stroke="black" points="757.877,-521 911.877,-521 "/>
 <text text-anchor="middle" x="834.877" y="-509" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
@@ -223,7 +223,7 @@
 <text text-anchor="start" x="528.877" y="-1018" font-family="SegoeUI" font-size="10.00">+ City</text>
 <text text-anchor="start" x="528.877" y="-1007" font-family="SegoeUI" font-size="10.00">+ Country</text>
 <text text-anchor="start" x="528.877" y="-996" font-family="SegoeUI" font-size="10.00">+ Location</text>
-<text text-anchor="start" x="528.877" y="-985" font-family="SegoeUI" font-size="10.00">+ Visibility</text>
+<text text-anchor="start" x="528.877" y="-985" font-family="SegoeUI" font-size="10.00">+ AtmosphericVisibility</text>
 <text text-anchor="start" x="528.877" y="-974" font-family="SegoeUI" font-size="10.00">+ SunriseTime</text>
 <text text-anchor="start" x="528.877" y="-963" font-family="SegoeUI" font-size="10.00">+ SunsetTime</text>
 <text text-anchor="start" x="528.877" y="-952" font-family="SegoeUI" font-size="10.00">+ CloudCover</text>
@@ -233,7 +233,7 @@
 <text text-anchor="start" x="528.877" y="-908" font-family="SegoeUI" font-size="10.00">+ Temperature</text>
 <text text-anchor="start" x="528.877" y="-897" font-family="SegoeUI" font-size="10.00">+ Humidity</text>
 <text text-anchor="start" x="528.877" y="-886" font-family="SegoeUI" font-size="10.00">+ AtmosphericPressure</text>
-<text text-anchor="start" x="528.877" y="-875" font-family="SegoeUI" font-size="10.00">+ Error</text>
+<text text-anchor="start" x="528.877" y="-875" font-family="SegoeUI" font-size="10.00">+ ErrorMessage</text>
 <polyline fill="none" stroke="black" points="520.877,-868 636.877,-868 "/>
 <text text-anchor="middle" x="578.877" y="-856" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
@@ -257,18 +257,18 @@
 <polyline fill="none" stroke="black" points="377.377,-1005.5 502.377,-1005.5 "/>
 <text text-anchor="start" x="385.377" y="-993.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
 <text text-anchor="start" x="385.377" y="-982.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
-<text text-anchor="start" x="385.377" y="-971.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
-<text text-anchor="start" x="385.377" y="-960.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
-<text text-anchor="start" x="385.377" y="-949.5" font-family="SegoeUI" font-size="10.00">+ ToUTM()</text>
-<text text-anchor="start" x="385.377" y="-938.5" font-family="SegoeUI" font-size="10.00">+ ToSunPosition()</text>
-<text text-anchor="start" x="385.377" y="-927.5" font-family="SegoeUI" font-size="10.00">+ ToDMS()</text>
+<text text-anchor="start" x="385.377" y="-971.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
+<text text-anchor="start" x="385.377" y="-960.5" font-family="SegoeUI" font-size="10.00">+ ToUTM()</text>
+<text text-anchor="start" x="385.377" y="-949.5" font-family="SegoeUI" font-size="10.00">+ ToSunPosition()</text>
+<text text-anchor="start" x="385.377" y="-938.5" font-family="SegoeUI" font-size="10.00">+ ToDMS()</text>
+<text text-anchor="start" x="385.377" y="-927.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
 <text text-anchor="start" x="385.377" y="-916.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
 <text text-anchor="start" x="385.377" y="-905.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
-<text text-anchor="start" x="385.377" y="-894.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
-<text text-anchor="start" x="385.377" y="-883.5" font-family="SegoeUI" font-size="10.00">+ Equals()</text>
-<text text-anchor="start" x="385.377" y="-872.5" font-family="SegoeUI" font-size="10.00">+ GetHashCode()</text>
-<text text-anchor="start" x="385.377" y="-861.5" font-family="SegoeUI" font-size="10.00">+ Distance()</text>
-<text text-anchor="start" x="385.377" y="-850.5" font-family="SegoeUI" font-size="10.00">+ TryParseDMS()</text>
+<text text-anchor="start" x="385.377" y="-894.5" font-family="SegoeUI" font-size="10.00">+ Equals()</text>
+<text text-anchor="start" x="385.377" y="-883.5" font-family="SegoeUI" font-size="10.00">+ GetHashCode()</text>
+<text text-anchor="start" x="385.377" y="-872.5" font-family="SegoeUI" font-size="10.00">+ Distance()</text>
+<text text-anchor="start" x="385.377" y="-861.5" font-family="SegoeUI" font-size="10.00">+ TryParseDMS()</text>
+<text text-anchor="start" x="385.377" y="-850.5" font-family="SegoeUI" font-size="10.00"># LatLngPoint()</text>
 <text text-anchor="start" x="385.377" y="-839.5" font-family="SegoeUI" font-size="10.00">&#45; ToDMS()</text>
 </a>
 </g>

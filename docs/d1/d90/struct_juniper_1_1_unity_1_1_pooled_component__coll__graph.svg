@@ -23,15 +23,15 @@
 <polyline fill="none" stroke="black" points="0,-140.5 177,-140.5 "/>
 <text text-anchor="start" x="8" y="-128.5" font-family="SegoeUI" font-size="10.00">+ PooledComponent()</text>
 <text text-anchor="start" x="8" y="-117.5" font-family="SegoeUI" font-size="10.00">+ PooledComponent()</text>
-<text text-anchor="start" x="8" y="-106.5" font-family="SegoeUI" font-size="10.00">+ SetActive()</text>
-<text text-anchor="start" x="8" y="-95.5" font-family="SegoeUI" font-size="10.00">+ Destroy()</text>
-<text text-anchor="start" x="8" y="-84.5" font-family="SegoeUI" font-size="10.00">+ BroadcastMessage()</text>
+<text text-anchor="start" x="8" y="-106.5" font-family="SegoeUI" font-size="10.00">+ PooledComponent()</text>
+<text text-anchor="start" x="8" y="-95.5" font-family="SegoeUI" font-size="10.00">+ SetActive()</text>
+<text text-anchor="start" x="8" y="-84.5" font-family="SegoeUI" font-size="10.00">+ Destroy()</text>
 <text text-anchor="start" x="8" y="-73.5" font-family="SegoeUI" font-size="10.00">+ BroadcastMessage()</text>
 <text text-anchor="start" x="8" y="-62.5" font-family="SegoeUI" font-size="10.00">+ BroadcastMessage()</text>
 <text text-anchor="start" x="8" y="-51.5" font-family="SegoeUI" font-size="10.00">+ BroadcastMessage()</text>
-<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ CompareTag()</text>
-<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ GetComponent()</text>
-<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">and 50 more...</text>
+<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ BroadcastMessage()</text>
+<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ CompareTag()</text>
+<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">and 51 more...</text>
 <text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ operator T()</text>
 </a>
 </g>

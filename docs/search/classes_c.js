@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['magicleapinputmodule',['MagicLeapInputModule',['../d8/d54/class_juniper_1_1_unity_1_1_input_1_1_magic_leap_input_module.html',1,'Juniper::Unity::Input']]],
-  ['main',['Main',['../de/d67/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_main.html',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport']]],
   ['managedrequest',['ManagedRequest',['../d5/d6f/class_juniper_1_1_data_1_1_managed_request.html',1,'Juniper::Data']]],
   ['managedrequestmessageargs',['ManagedRequestMessageArgs',['../de/d07/class_juniper_1_1_data_1_1_managed_request_message_args.html',1,'Juniper::Data']]],
   ['managedrequestreadyeventargs',['ManagedRequestReadyEventArgs',['../de/dbf/class_juniper_1_1_data_1_1_managed_request_ready_event_args.html',1,'Juniper::Data']]],

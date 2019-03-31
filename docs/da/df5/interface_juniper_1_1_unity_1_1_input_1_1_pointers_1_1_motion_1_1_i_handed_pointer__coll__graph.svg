@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 431)">
 <title>Juniper.Unity.Input.Pointers.Motion.IHandedPointer</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-431 141,-431 141,4 -4,4"/>
-<!-- Node26 -->
-<g id="node1" class="node"><title>Node26</title>
+<!-- Node24 -->
+<g id="node1" class="node"><title>Node24</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-112.5 137,-112.5 137,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-100.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
@@ -26,8 +26,8 @@
 </a>
 </g>
 </g>
-<!-- Node27 -->
-<g id="node2" class="node"><title>Node27</title>
+<!-- Node25 -->
+<g id="node2" class="node"><title>Node25</title>
 <g id="a_node2"><a xlink:href="../../d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="6.5,-149.5 6.5,-426.5 130.5,-426.5 130.5,-149.5 6.5,-149.5"/>
 <text text-anchor="middle" x="68.5" y="-414.5" font-family="SegoeUI" font-size="10.00">IPointerDevice</text>
@@ -58,8 +58,8 @@
 </a>
 </g>
 </g>
-<!-- Node27&#45;&gt;Node26 -->
-<g id="edge1" class="edge"><title>Node27&#45;&gt;Node26</title>
+<!-- Node25&#45;&gt;Node24 -->
+<g id="edge1" class="edge"><title>Node25&#45;&gt;Node24</title>
 <path fill="none" stroke="midnightblue" d="M68.5,-139.051C68.5,-129.805 68.5,-120.874 68.5,-112.527"/>
 <polygon fill="none" stroke="midnightblue" points="65.0001,-139.194 68.5,-149.194 72.0001,-139.194 65.0001,-139.194"/>
 </g>

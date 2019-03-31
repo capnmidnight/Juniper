@@ -22,11 +22,11 @@
 <polyline fill="none" stroke="black" points="0,-85.5 142,-85.5 "/>
 <text text-anchor="start" x="8" y="-73.5" font-family="SegoeUI" font-size="10.00">+ GeocentricEclipticSpherical</text>
 <text text-anchor="start" x="8" y="-62.5" font-family="SegoeUI" font-size="10.00">Position()</text>
-<text text-anchor="start" x="8" y="-51.5" font-family="SegoeUI" font-size="10.00">+ GeocentricEclipticSpherical</text>
-<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">Position()</text>
-<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
-<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ ToEquitorial()</text>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ FromJulianDay()</text>
+<text text-anchor="start" x="8" y="-51.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
+<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ ToEquitorial()</text>
+<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ FromJulianDay()</text>
+<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">&#45; GeocentricEclipticSpherical</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">Position()</text>
 </a>
 </g>
 </g>

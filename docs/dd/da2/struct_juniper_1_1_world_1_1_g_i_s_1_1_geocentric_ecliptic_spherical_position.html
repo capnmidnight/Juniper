@@ -83,6 +83,7 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="../../d4/d6b/struct_juniper_1_1_world_1_1_g_i_s_1_1_geocentric_ecliptic_spherical_position-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Juniper.World.GIS.GeocentricEclipticSphericalPosition Struct Reference</div>  </div>
@@ -113,9 +114,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0a60b8a4fd12fb0823881973b9531e6d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/da2/struct_juniper_1_1_world_1_1_g_i_s_1_1_geocentric_ecliptic_spherical_position.html#a0a60b8a4fd12fb0823881973b9531e6d">GeocentricEclipticSphericalPosition</a> (float beta, float lambda, float r)</td></tr>
 <tr class="memdesc:a0a60b8a4fd12fb0823881973b9531e6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new bearing to an object.  <a href="#a0a60b8a4fd12fb0823881973b9531e6d">More...</a><br /></td></tr>
 <tr class="separator:a0a60b8a4fd12fb0823881973b9531e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a511d6f12db21231fb2847837e53e20"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/da2/struct_juniper_1_1_world_1_1_g_i_s_1_1_geocentric_ecliptic_spherical_position.html#a8a511d6f12db21231fb2847837e53e20">GeocentricEclipticSphericalPosition</a> (SerializationInfo info, StreamingContext context)</td></tr>
-<tr class="memdesc:a8a511d6f12db21231fb2847837e53e20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialze the object.  <a href="#a8a511d6f12db21231fb2847837e53e20">More...</a><br /></td></tr>
-<tr class="separator:a8a511d6f12db21231fb2847837e53e20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac206dd887ee886fdb105ce30f47e48a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/da2/struct_juniper_1_1_world_1_1_g_i_s_1_1_geocentric_ecliptic_spherical_position.html#ac206dd887ee886fdb105ce30f47e48a5">GetObjectData</a> (SerializationInfo info, StreamingContext context)</td></tr>
 <tr class="memdesc:ac206dd887ee886fdb105ce30f47e48a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get serialization data from the object.  <a href="#ac206dd887ee886fdb105ce30f47e48a5">More...</a><br /></td></tr>
 <tr class="separator:ac206dd887ee886fdb105ce30f47e48a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,6 +138,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a0e8c26f49ba4a1bb67dccb379692cd16"><td class="memItemLeft" align="right" valign="top">readonly float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/da2/struct_juniper_1_1_world_1_1_g_i_s_1_1_geocentric_ecliptic_spherical_position.html#a0e8c26f49ba4a1bb67dccb379692cd16">RadiusAU</a></td></tr>
 <tr class="memdesc:a0e8c26f49ba4a1bb67dccb379692cd16"><td class="mdescLeft">&#160;</td><td class="mdescRight">The distance in Astronomical <a class="el" href="../../d2/d5c/class_juniper_1_1_units.html" title="TODO: validate this against https://www.nist.gov/sites/default/files/documents/pml/wmd/metric/SP1038....">Units</a> from the center of Earth's orbit to find the object.  <a href="#a0e8c26f49ba4a1bb67dccb379692cd16">More...</a><br /></td></tr>
 <tr class="separator:a0e8c26f49ba4a1bb67dccb379692cd16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a8a511d6f12db21231fb2847837e53e20"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/da2/struct_juniper_1_1_world_1_1_g_i_s_1_1_geocentric_ecliptic_spherical_position.html#a8a511d6f12db21231fb2847837e53e20">GeocentricEclipticSphericalPosition</a> (SerializationInfo info, StreamingContext context)</td></tr>
+<tr class="memdesc:a8a511d6f12db21231fb2847837e53e20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deserialze the object.  <a href="#a8a511d6f12db21231fb2847837e53e20">More...</a><br /></td></tr>
+<tr class="separator:a8a511d6f12db21231fb2847837e53e20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a bearing and distance to an object from the Earth's orbit. </p>
@@ -236,7 +240,7 @@ Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

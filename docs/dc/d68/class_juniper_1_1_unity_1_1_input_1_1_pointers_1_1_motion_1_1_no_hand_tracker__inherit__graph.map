@@ -1,9 +1,9 @@
 <map id="Juniper.Unity.Input.Pointers.Motion.NoHandTracker" name="Juniper.Unity.Input.Pointers.Motion.NoHandTracker">
-<area shape="rect" id="node1" title=" " alt="" coords="411,2209,593,2360"/>
-<area shape="rect" id="node2" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="391,2053,613,2160"/>
-<area shape="rect" id="node3" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="406,1855,598,1976"/>
-<area shape="rect" id="node4" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="406,1596,598,1805"/>
-<area shape="rect" id="node5" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="405,1295,599,1519"/>
+<area shape="rect" id="node1" title=" " alt="" coords="411,2239,593,2389"/>
+<area shape="rect" id="node2" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="391,2083,613,2189"/>
+<area shape="rect" id="node3" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="406,1884,598,2005"/>
+<area shape="rect" id="node4" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="403,1611,601,1835"/>
+<area shape="rect" id="node5" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="403,1295,601,1533"/>
 <area shape="rect" id="node6" href="$d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="286,552,478,1245"/>
 <area shape="rect" id="node7" href="$db/ded/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_pointer_data_creator.html" title=" " alt="" coords="122,271,253,363"/>
 <area shape="rect" id="node8" title=" " alt="" coords="133,5,242,83"/>

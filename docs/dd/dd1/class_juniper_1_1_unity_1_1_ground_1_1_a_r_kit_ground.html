@@ -203,7 +203,7 @@ Private Attributes</h2></td></tr>
 <p>Reimplemented from <a class="el" href="../../d6/dcb/class_juniper_1_1_unity_1_1_ground_1_1_abstract_ground.html#af83f25cdccd032a23187734fd32c4ab0">Juniper.Unity.Ground.AbstractGround</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../d9/d1b/_a_r_kit_ground_8cs_source.html#l00019">19</a> of file <a class="el" href="../../d9/d1b/_a_r_kit_ground_8cs_source.html">ARKitGround.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            base.Awake();</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            var camMgr = <a class="code" href="../../d3/d40/class_unity_engine_1_1_component_ext.html">ComponentExt</a>.FindAny&lt;UnityARCameraManager&gt;();</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            camMgr.planeDetection = UnityARPlaneDetection.HorizontalAndVertical;</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <a class="code" href="../../dd/dd1/class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground.html#aa132e699a46402b1dbab70a8c8fa6ef4">generatePlanes</a> = this.EnsureComponent&lt;UnityARGeneratePlane&gt;();</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <a class="code" href="../../dd/dd1/class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground.html#aa132e699a46402b1dbab70a8c8fa6ef4">generatePlanes</a>.planePrefab = <a class="code" href="../../dd/dd1/class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground.html#af8134570bc6748e7089d87e809b2c37f">planePrefab</a>;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div><div class="ttc" id="class_unity_engine_1_1_component_ext_html"><div class="ttname"><a href="../../d3/d40/class_unity_engine_1_1_component_ext.html">UnityEngine.ComponentExt</a></div><div class="ttdoc">Extension methods for Unity's Component class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d68/_component_ext_8cs_source.html#l00012">ComponentExt.cs:12</a></div></div>
+<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            base.Awake();</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            var camMgr = <a class="code" href="../../d3/d40/class_unity_engine_1_1_component_ext.html">ComponentExt</a>.FindAny&lt;UnityARCameraManager&gt;();</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            camMgr.planeDetection = UnityARPlaneDetection.HorizontalAndVertical;</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <a class="code" href="../../dd/dd1/class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground.html#aa132e699a46402b1dbab70a8c8fa6ef4">generatePlanes</a> = this.Ensure&lt;UnityARGeneratePlane&gt;();</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <a class="code" href="../../dd/dd1/class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground.html#aa132e699a46402b1dbab70a8c8fa6ef4">generatePlanes</a>.planePrefab = <a class="code" href="../../dd/dd1/class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground.html#af8134570bc6748e7089d87e809b2c37f">planePrefab</a>;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div><div class="ttc" id="class_unity_engine_1_1_component_ext_html"><div class="ttname"><a href="../../d3/d40/class_unity_engine_1_1_component_ext.html">UnityEngine.ComponentExt</a></div><div class="ttdoc">Extension methods for Unity's Component class.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d68/_component_ext_8cs_source.html#l00012">ComponentExt.cs:12</a></div></div>
 <div class="ttc" id="class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground_html_aa132e699a46402b1dbab70a8c8fa6ef4"><div class="ttname"><a href="../../dd/dd1/class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground.html#aa132e699a46402b1dbab70a8c8fa6ef4">Juniper.Unity.Ground.ARKitGround.generatePlanes</a></div><div class="ttdeci">UnityARGeneratePlane generatePlanes</div><div class="ttdoc">When running on ARKit, this is the component that generates ground planes.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d1b/_a_r_kit_ground_8cs_source.html#l00017">ARKitGround.cs:17</a></div></div>
 <div class="ttc" id="class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground_html_af8134570bc6748e7089d87e809b2c37f"><div class="ttname"><a href="../../dd/dd1/class_juniper_1_1_unity_1_1_ground_1_1_a_r_kit_ground.html#af8134570bc6748e7089d87e809b2c37f">Juniper.Unity.Ground.ARKitGround.planePrefab</a></div><div class="ttdeci">GameObject planePrefab</div><div class="ttdoc">The clonable object to use as a ground plane in ARKit systems.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d1b/_a_r_kit_ground_8cs_source.html#l00012">ARKitGround.cs:12</a></div></div>
 </div><!-- fragment -->
@@ -472,7 +472,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html#l00023">23</a> of file <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html">AbstractGround.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html#l00067">Juniper.Unity.Ground.AbstractGround.ToggleVisualization()</a>, <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html#l00133">Juniper.Unity.Ground.AbstractGround.Update()</a>, and <a class="el" href="../../da/d67/_holo_lens_ground_8cs_source.html#l00211">Juniper.Unity.Ground.HoloLensGround.Update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html#l00067">Juniper.Unity.Ground.AbstractGround.ToggleVisualization()</a>, <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html#l00133">Juniper.Unity.Ground.AbstractGround.Update()</a>, and <a class="el" href="../../da/d67/_holo_lens_ground_8cs_source.html#l00207">Juniper.Unity.Ground.HoloLensGround.Update()</a>.</p>
 
 </div>
 </div>
@@ -500,7 +500,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html#l00028">28</a> of file <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html">AbstractGround.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d67/_holo_lens_ground_8cs_source.html#l00129">Juniper.Unity.Ground.HoloLensGround.Awake()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d67/_holo_lens_ground_8cs_source.html#l00125">Juniper.Unity.Ground.HoloLensGround.Awake()</a>.</p>
 
 </div>
 </div>
@@ -574,7 +574,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html#l00018">18</a> of file <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html">AbstractGround.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d5/d83/_static_terrain_8cs_source.html#l00028">Juniper.Unity.Ground.StaticTerrain.Awake()</a>, and <a class="el" href="../../da/d67/_holo_lens_ground_8cs_source.html#l00129">Juniper.Unity.Ground.HoloLensGround.Awake()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d83/_static_terrain_8cs_source.html#l00028">Juniper.Unity.Ground.StaticTerrain.Awake()</a>, and <a class="el" href="../../da/d67/_holo_lens_ground_8cs_source.html#l00125">Juniper.Unity.Ground.HoloLensGround.Awake()</a>.</p>
 
 </div>
 </div>
@@ -628,7 +628,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html#l00039">39</a> of file <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html">AbstractGround.cs</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../da/d67/_holo_lens_ground_8cs_source.html#l00129">Juniper.Unity.Ground.HoloLensGround.Awake()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../da/d67/_holo_lens_ground_8cs_source.html#l00125">Juniper.Unity.Ground.HoloLensGround.Awake()</a>.</p>
 
 </div>
 </div>
@@ -662,7 +662,7 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="class_juniper_1_1_unity_1_1_ground_1_1_abstract_ground_html_a738e3e2341df2a4103de47ada37c8363"><div class="ttname"><a href="../../d6/dcb/class_juniper_1_1_unity_1_1_ground_1_1_abstract_ground.html#a738e3e2341df2a4103de47ada37c8363">Juniper.Unity.Ground.AbstractGround.MeshVisualization</a></div><div class="ttdeci">GroundMeshVisualization MeshVisualization</div><div class="ttdoc">The current type of visualization to use for displaying the terrain.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d63/_abstract_ground_8cs_source.html#l00023">AbstractGround.cs:23</a></div></div>
 <div class="ttc" id="class_juniper_1_1_unity_1_1_ground_1_1_abstract_ground_html_a5830dcf1418152921a3492293b3aada7"><div class="ttname"><a href="../../d6/dcb/class_juniper_1_1_unity_1_1_ground_1_1_abstract_ground.html#a5830dcf1418152921a3492293b3aada7">Juniper.Unity.Ground.AbstractGround.OcclusionMaterialInEditor</a></div><div class="ttdeci">Material OcclusionMaterialInEditor</div><div class="ttdoc">The material to use when rendering in the editor in the GroundMeshVisualization.Occluded mode.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d63/_abstract_ground_8cs_source.html#l00034">AbstractGround.cs:34</a></div></div>
 </div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d5/d83/_static_terrain_8cs_source.html#l00028">Juniper.Unity.Ground.StaticTerrain.Awake()</a>, <a class="el" href="../../d5/d83/_static_terrain_8cs_source.html#l00075">Juniper.Unity.Ground.StaticTerrain.VisualizationChanged()</a>, and <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html#l00142">Juniper.Unity.Ground.AbstractGround.VisualizationChanged()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d83/_static_terrain_8cs_source.html#l00028">Juniper.Unity.Ground.StaticTerrain.Awake()</a>, <a class="el" href="../../d5/d83/_static_terrain_8cs_source.html#l00078">Juniper.Unity.Ground.StaticTerrain.VisualizationChanged()</a>, and <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html#l00142">Juniper.Unity.Ground.AbstractGround.VisualizationChanged()</a>.</p>
 
 </div>
 </div>
@@ -691,7 +691,7 @@ Private Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html#l00089">89</a> of file <a class="el" href="../../d6/d63/_abstract_ground_8cs_source.html">AbstractGround.cs</a>.</p>
 <div class="fragment"><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        {</div><div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keyword">get</span></div><div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            {</div><div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                <span class="keywordflow">return</span> gameObject.layer;</div><div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            }</div><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d5/d83/_static_terrain_8cs_source.html#l00028">Juniper.Unity.Ground.StaticTerrain.Awake()</a>, and <a class="el" href="../../da/d67/_holo_lens_ground_8cs_source.html#l00129">Juniper.Unity.Ground.HoloLensGround.Awake()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d5/d83/_static_terrain_8cs_source.html#l00028">Juniper.Unity.Ground.StaticTerrain.Awake()</a>, and <a class="el" href="../../da/d67/_holo_lens_ground_8cs_source.html#l00125">Juniper.Unity.Ground.HoloLensGround.Awake()</a>.</p>
 
 </div>
 </div>
@@ -725,7 +725,7 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Platforms/ARKit/<a class="el" href="../../d9/d1b/_a_r_kit_ground_8cs_source.html">ARKitGround.cs</a></li>
+<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Platforms/ARKit/<a class="el" href="../../d9/d1b/_a_r_kit_ground_8cs_source.html">ARKitGround.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

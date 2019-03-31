@@ -1,5 +1,5 @@
 <map id="Juniper.World.Climate.OpenWeatherMap.API" name="Juniper.World.Climate.OpenWeatherMap.API">
-<area shape="rect" id="node1" title="An implementation of OpenWeatherMap&#39;s REST API." alt="" coords="51,175,234,399"/>
+<area shape="rect" id="node1" title="An implementation of OpenWeatherMap&#39;s REST API." alt="" coords="51,175,234,384"/>
 <area shape="rect" id="node2" href="$d9/d1c/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_a_p_i.html" title=" " alt="" coords="5,5,155,112"/>
 <area shape="rect" id="node3" title=" " alt="" coords="179,20,231,97"/>
 </map>

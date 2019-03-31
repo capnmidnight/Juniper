@@ -53,7 +53,7 @@
 <text text-anchor="start" x="8" y="-555" font-family="SegoeUI" font-size="10.00">+ City</text>
 <text text-anchor="start" x="8" y="-544" font-family="SegoeUI" font-size="10.00">+ Country</text>
 <text text-anchor="start" x="8" y="-533" font-family="SegoeUI" font-size="10.00">+ Location</text>
-<text text-anchor="start" x="8" y="-522" font-family="SegoeUI" font-size="10.00">+ Visibility</text>
+<text text-anchor="start" x="8" y="-522" font-family="SegoeUI" font-size="10.00">+ AtmosphericVisibility</text>
 <text text-anchor="start" x="8" y="-511" font-family="SegoeUI" font-size="10.00">+ SunriseTime</text>
 <text text-anchor="start" x="8" y="-500" font-family="SegoeUI" font-size="10.00">+ SunsetTime</text>
 <text text-anchor="start" x="8" y="-489" font-family="SegoeUI" font-size="10.00">+ CloudCover</text>
@@ -63,7 +63,7 @@
 <text text-anchor="start" x="8" y="-445" font-family="SegoeUI" font-size="10.00">+ Temperature</text>
 <text text-anchor="start" x="8" y="-434" font-family="SegoeUI" font-size="10.00">+ Humidity</text>
 <text text-anchor="start" x="8" y="-423" font-family="SegoeUI" font-size="10.00">+ AtmosphericPressure</text>
-<text text-anchor="start" x="8" y="-412" font-family="SegoeUI" font-size="10.00">+ Error</text>
+<text text-anchor="start" x="8" y="-412" font-family="SegoeUI" font-size="10.00">+ ErrorMessage</text>
 <polyline fill="none" stroke="black" points="0,-405 116,-405 "/>
 <text text-anchor="middle" x="58" y="-393" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
@@ -87,18 +87,18 @@
 <polyline fill="none" stroke="black" points="134.5,-542.5 259.5,-542.5 "/>
 <text text-anchor="start" x="142.5" y="-530.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
 <text text-anchor="start" x="142.5" y="-519.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
-<text text-anchor="start" x="142.5" y="-508.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
-<text text-anchor="start" x="142.5" y="-497.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
-<text text-anchor="start" x="142.5" y="-486.5" font-family="SegoeUI" font-size="10.00">+ ToUTM()</text>
-<text text-anchor="start" x="142.5" y="-475.5" font-family="SegoeUI" font-size="10.00">+ ToSunPosition()</text>
-<text text-anchor="start" x="142.5" y="-464.5" font-family="SegoeUI" font-size="10.00">+ ToDMS()</text>
+<text text-anchor="start" x="142.5" y="-508.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
+<text text-anchor="start" x="142.5" y="-497.5" font-family="SegoeUI" font-size="10.00">+ ToUTM()</text>
+<text text-anchor="start" x="142.5" y="-486.5" font-family="SegoeUI" font-size="10.00">+ ToSunPosition()</text>
+<text text-anchor="start" x="142.5" y="-475.5" font-family="SegoeUI" font-size="10.00">+ ToDMS()</text>
+<text text-anchor="start" x="142.5" y="-464.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
 <text text-anchor="start" x="142.5" y="-453.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
 <text text-anchor="start" x="142.5" y="-442.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
-<text text-anchor="start" x="142.5" y="-431.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
-<text text-anchor="start" x="142.5" y="-420.5" font-family="SegoeUI" font-size="10.00">+ Equals()</text>
-<text text-anchor="start" x="142.5" y="-409.5" font-family="SegoeUI" font-size="10.00">+ GetHashCode()</text>
-<text text-anchor="start" x="142.5" y="-398.5" font-family="SegoeUI" font-size="10.00">+ Distance()</text>
-<text text-anchor="start" x="142.5" y="-387.5" font-family="SegoeUI" font-size="10.00">+ TryParseDMS()</text>
+<text text-anchor="start" x="142.5" y="-431.5" font-family="SegoeUI" font-size="10.00">+ Equals()</text>
+<text text-anchor="start" x="142.5" y="-420.5" font-family="SegoeUI" font-size="10.00">+ GetHashCode()</text>
+<text text-anchor="start" x="142.5" y="-409.5" font-family="SegoeUI" font-size="10.00">+ Distance()</text>
+<text text-anchor="start" x="142.5" y="-398.5" font-family="SegoeUI" font-size="10.00">+ TryParseDMS()</text>
+<text text-anchor="start" x="142.5" y="-387.5" font-family="SegoeUI" font-size="10.00"># LatLngPoint()</text>
 <text text-anchor="start" x="142.5" y="-376.5" font-family="SegoeUI" font-size="10.00">&#45; ToDMS()</text>
 </a>
 </g>

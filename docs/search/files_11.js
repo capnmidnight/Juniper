@@ -9,6 +9,7 @@ var searchData=
   ['readonlyattributedrawer_2ecs',['ReadOnlyAttributeDrawer.cs',['../d9/d06/_read_only_attribute_drawer_8cs.html',1,'']]],
   ['recttransformext_2ecs',['RectTransformExt.cs',['../dd/d7f/_rect_transform_ext_8cs.html',1,'']]],
   ['rendererext_2ecs',['RendererExt.cs',['../da/dc1/_renderer_ext_8cs.html',1,'']]],
+  ['resonanceinteractionaudio_2ecs',['ResonanceInteractionAudio.cs',['../d4/ddc/_resonance_interaction_audio_8cs.html',1,'']]],
   ['ringbuffer_2ecs',['RingBuffer.cs',['../d9/dd6/_ring_buffer_8cs.html',1,'']]],
   ['rocketpack_2ecs',['RocketPack.cs',['../d6/d4a/_rocket_pack_8cs.html',1,'']]],
   ['rotatable_2ecs',['Rotatable.cs',['../d4/dbc/_rotatable_8cs.html',1,'']]],

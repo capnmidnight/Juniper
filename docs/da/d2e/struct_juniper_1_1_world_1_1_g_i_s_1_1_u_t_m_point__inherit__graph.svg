@@ -22,10 +22,10 @@
 <text text-anchor="start" x="8" y="-70.5" font-family="SegoeUI" font-size="10.00">+ Hemisphere</text>
 <polyline fill="none" stroke="black" points="0,-63.5 137,-63.5 "/>
 <text text-anchor="start" x="8" y="-51.5" font-family="SegoeUI" font-size="10.00">+ UTMPoint()</text>
-<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ UTMPoint()</text>
-<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
-<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ ToLatLng()</text>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
+<text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
+<text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ ToLatLng()</text>
+<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">&#45; UTMPoint()</text>
 </a>
 </g>
 </g>
