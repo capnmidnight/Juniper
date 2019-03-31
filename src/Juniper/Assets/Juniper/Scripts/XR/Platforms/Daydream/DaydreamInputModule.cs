@@ -22,8 +22,7 @@ namespace Juniper.Unity.Input
             {
                 if(!reset && mode == Mode.Auto)
                 {
-                    var headset = ComponentExt.FindAny<GvrHeadset>();
-                    mode = headset.SupportsPositionalTracking ? Mode.StandingVR : Mode.SeatedVR;
+                    mode = GvrHeadset.SupportsPositionalTracking ? Mode.StandingVR : Mode.SeatedVR;
                 }
 
                 this.Ensure<GvrControllerInput>();
