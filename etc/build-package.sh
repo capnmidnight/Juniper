@@ -1,7 +1,6 @@
-cd ../src
 rm ../docs/Juniper.unitypackage
-Unity -quit -batchmode -nographics \
+cd ../src/Juniper
+"$UNITY_PATH\Unity" -quit -batchmode -nographics \
 	  -projectPath . \
 	  -exportPackage Assets/Juniper \
-	  Juniper.unitypackage
-mv Juniper.unitypackage ../docs/
+	  ../../docs/Juniper.unitypackage

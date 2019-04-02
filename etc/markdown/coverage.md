@@ -610,11 +610,11 @@
 	 PointerEventData Juniper.Unity.Input.AbstractUnifiedInputModule.Clone
 	 StageExtensions Juniper.Unity.Input.AbstractUnifiedInputModule.stage
 	 T Juniper.Unity.Input.AbstractUnifiedInputModule.MakePointer< T >
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableControllersToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableGazeToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableHandsToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableMouseToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableTouchToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableControllersToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableGazeToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableHandsToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableMouseToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableTouchToggle
 	 TouchPoint [] Juniper.Unity.Input.AbstractUnifiedInputModule.touches
 	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.AnyPointerDragging
 	 override void Juniper.Unity.Input.AbstractUnifiedInputModule.Awake
@@ -664,11 +664,11 @@
 	 PointerEventData Juniper.Unity.Input.AbstractUnifiedInputModule.Clone
 	 StageExtensions Juniper.Unity.Input.AbstractUnifiedInputModule.stage
 	 T Juniper.Unity.Input.AbstractUnifiedInputModule.MakePointer< T >
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableControllersToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableGazeToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableHandsToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableMouseToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableTouchToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableControllersToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableGazeToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableHandsToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableMouseToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableTouchToggle
 	 TouchPoint [] Juniper.Unity.Input.AbstractUnifiedInputModule.touches
 	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.AnyPointerDragging
 	 override void Juniper.Unity.Input.AbstractUnifiedInputModule.Awake
@@ -689,11 +689,11 @@
 	 PointerEventData Juniper.Unity.Input.AbstractUnifiedInputModule.Clone
 	 StageExtensions Juniper.Unity.Input.AbstractUnifiedInputModule.stage
 	 T Juniper.Unity.Input.AbstractUnifiedInputModule.MakePointer< T >
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableControllersToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableGazeToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableHandsToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableMouseToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableTouchToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableControllersToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableGazeToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableHandsToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableMouseToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableTouchToggle
 	 TouchPoint [] Juniper.Unity.Input.AbstractUnifiedInputModule.touches
 	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.AnyPointerDragging
 	 override void Juniper.Unity.Input.DaydreamInputModule.Awake
@@ -714,11 +714,11 @@
 	 PointerEventData Juniper.Unity.Input.AbstractUnifiedInputModule.Clone
 	 StageExtensions Juniper.Unity.Input.AbstractUnifiedInputModule.stage
 	 T Juniper.Unity.Input.AbstractUnifiedInputModule.MakePointer< T >
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableControllersToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableGazeToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableHandsToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableMouseToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableTouchToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableControllersToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableGazeToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableHandsToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableMouseToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableTouchToggle
 	 TouchPoint [] Juniper.Unity.Input.AbstractUnifiedInputModule.touches
 	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.AnyPointerDragging
 	 override void Juniper.Unity.Input.AbstractUnifiedInputModule.Awake
@@ -739,11 +739,11 @@
 	 PointerEventData Juniper.Unity.Input.AbstractUnifiedInputModule.Clone
 	 StageExtensions Juniper.Unity.Input.AbstractUnifiedInputModule.stage
 	 T Juniper.Unity.Input.AbstractUnifiedInputModule.MakePointer< T >
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableControllersToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableGazeToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableHandsToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableMouseToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableTouchToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableControllersToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableGazeToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableHandsToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableMouseToggle
+	 ToggleType Juniper.Unity.Input.AbstractUnifiedInputModule.enableTouchToggle
 	 TouchPoint [] Juniper.Unity.Input.AbstractUnifiedInputModule.touches
 	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.AnyPointerDragging
 	 override void Juniper.Unity.Input.AbstractUnifiedInputModule.Awake
@@ -878,46 +878,6 @@
 	 override void Juniper.Unity.Input.Pointers.Motion.AbstractWindowsMRDevice< ConfigType, HapticsType >.InternalUpdate
 	 override void Juniper.Unity.Input.Pointers.Motion.HandTracker.Reinstall
 	 override void Juniper.Unity.Input.Pointers.Motion.HoloLensHand.Awake
- 13% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Input/AbstractUnifiedInputModule.cs - (6 of 45)
-	 GazePointer Juniper.Unity.Input.AbstractUnifiedInputModule.gazePointer
-	 HandTracker [] Juniper.Unity.Input.AbstractUnifiedInputModule.handTrackers
-	 Mode
-	 Mode Juniper.Unity.Input.AbstractUnifiedInputModule.mode
-	 MotionController [] Juniper.Unity.Input.AbstractUnifiedInputModule.motionControllers
-	 Mouse Juniper.Unity.Input.AbstractUnifiedInputModule.mouse
-	 PointerEventData Juniper.Unity.Input.AbstractUnifiedInputModule.Clone
-	 RaycastResult Juniper.Unity.Input.AbstractUnifiedInputModule.UpdateRay
-	 StageExtensions Juniper.Unity.Input.AbstractUnifiedInputModule.stage
-	 T Juniper.Unity.Input.AbstractUnifiedInputModule.MakePointer< T >
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableControllersToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableGazeToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableHandsToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableMouseToggle
-	 Toggle Juniper.Unity.Input.AbstractUnifiedInputModule.enableTouchToggle
-	 TouchPoint [] Juniper.Unity.Input.AbstractUnifiedInputModule.touches
-	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.AnyPointerDragging
-	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.GetBool
-	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.MotionConnected
-	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.TouchConnected
-	 bool Juniper.Unity.Input.AbstractUnifiedInputModule.wasTouchConnected
-	 const float Juniper.Unity.Input.AbstractUnifiedInputModule.CanvasOffset
-	 const string Juniper.Unity.Input.AbstractUnifiedInputModule.ENABLE_CONTROLLERS_KEY
-	 const string Juniper.Unity.Input.AbstractUnifiedInputModule.ENABLE_GAZE_KEY
-	 const string Juniper.Unity.Input.AbstractUnifiedInputModule.ENABLE_HANDS_KEY
-	 const string Juniper.Unity.Input.AbstractUnifiedInputModule.ENABLE_MOUSE_KEY
-	 const string Juniper.Unity.Input.AbstractUnifiedInputModule.ENABLE_TOUCH_KEY
-	 override void Juniper.Unity.Input.AbstractUnifiedInputModule.Awake
-	 readonly List<IPointerDevice> Juniper.Unity.Input.AbstractUnifiedInputModule.Devices
-	 readonly List<IPointerDevice> Juniper.Unity.Input.AbstractUnifiedInputModule.newDevices
-	 void Juniper.Unity.Input.AbstractUnifiedInputModule.AddPointer
-	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableControllers
-	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableDevice
-	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableGaze
-	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableHands
-	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableMouse
-	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableTouch
-	 void Juniper.Unity.Input.AbstractUnifiedInputModule.EnableTouches
-	 void Juniper.Unity.Input.AbstractUnifiedInputModule.SetBool
  12% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Widgets/LoadingBar.cs - (1 of 8)
 	 Transform Juniper.Unity.Widgets.LoadingBar.indicator
 	 WaitUntil Juniper.Unity.Widgets.LoadingBar.Waiter
@@ -1392,6 +1352,8 @@
 	 DataType
 	 FilterType
 	 SerialDataFormat
+  0% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Input/AbstractUnifiedInputModule.cs - (0 of 1)
+	 using ToggleType =  UnityEngine.UI.Toggle
   0% - C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Editor/ConfigurationManagement/UnityPackage.cs - (0 of 9)
 	 const string Juniper.UnityEditor.ConfigurationManagement.UnityPackage.UNITY_SUBMODULE_PREFIX
 	 internal JObject Juniper.UnityEditor.ConfigurationManagement.UnityPackage.Dependencies
@@ -1707,5 +1669,5 @@ C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/World/Cl
   parameter 'prog'
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/World/Climate/Weather.cs:215: warning: The following parameters of Juniper.Unity.World.Climate.Weather.GetReportCoroutine(bool force, IProgress prog=null) are not documented:
   parameter 'prog'
-C:/Users/smcbeth/Projects/Juniper/etc/markdown/coverage.md:1657: warning: explicit link request to 'Doxygen' could not be resolved
+C:/Users/smcbeth/Projects/Juniper/etc/markdown/coverage.md:1637: warning: explicit link request to 'Doxygen' could not be resolved
 ```

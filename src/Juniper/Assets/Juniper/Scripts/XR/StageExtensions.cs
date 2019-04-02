@@ -65,9 +65,8 @@ namespace Juniper.Unity
         {
             Install(false);
 
-            usePhysicsBasedMovement = JuniperPlatform.SupportedARMode == AugmentedRealityTypes.None;
-
 #if UNITY_MODULES_PHYSICS
+            usePhysicsBasedMovement = JuniperPlatform.SupportedARMode == AugmentedRealityTypes.None;
             BodyShape.enabled = usePhysicsBasedMovement;
 #endif
         }

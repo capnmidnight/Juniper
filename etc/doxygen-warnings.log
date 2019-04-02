@@ -1,4 +1,4 @@
-C:/Users/smcbeth/Projects/Juniper/etc/markdown/coverage.md:1675: warning: explicit link request to 'Doxygen' could not be resolved
+C:/Users/smcbeth/Projects/Juniper/etc/markdown/coverage.md:1637: warning: explicit link request to 'Doxygen' could not be resolved
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs:55: warning: argument 'path' of command @param is not found in the argument list of Juniper.Unity.MasterSceneController::LoadScene(string scenePath, string sceneName)
 C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs:61: warning: The following parameters of Juniper.Unity.MasterSceneController.LoadScene(string scenePath, string sceneName) are not documented:
   parameter 'scenePath'

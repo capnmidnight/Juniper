@@ -1,6 +1,6 @@
 <map id="Juniper.Unity.Input.ViveFocusInputModule" name="Juniper.Unity.Input.ViveFocusInputModule">
-<area shape="rect" id="node1" title=" " alt="" coords="129,1033,285,1125"/>
-<area shape="rect" id="node2" href="$d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="110,248,305,985"/>
+<area shape="rect" id="node1" title=" " alt="" coords="129,1048,285,1140"/>
+<area shape="rect" id="node2" href="$d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="110,248,305,1000"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,64,137,141"/>
 <area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="161,49,253,156"/>
 <area shape="rect" id="node5" href="$d5/da1/interface_juniper_1_1_unity_1_1_input_1_1_i_input_module.html" title=" " alt="" coords="277,5,425,200"/>

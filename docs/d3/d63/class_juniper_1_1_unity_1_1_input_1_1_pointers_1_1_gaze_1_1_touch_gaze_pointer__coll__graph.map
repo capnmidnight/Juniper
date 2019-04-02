@@ -1,44 +1,44 @@
 <map id="Juniper.Unity.Input.Pointers.Gaze.TouchGazePointer" name="Juniper.Unity.Input.Pointers.Gaze.TouchGazePointer">
-<area shape="rect" id="node1" title=" " alt="" coords="321,1313,503,1507"/>
-<area shape="rect" id="node2" href="$d6/d9c/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_abstract_gaze_pointer.html" title=" " alt="" coords="743,468,881,721"/>
-<area shape="rect" id="node3" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="1230,5,1418,127"/>
-<area shape="rect" id="node37" href="$d6/d9c/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_abstract_gaze_pointer.html" title=" " alt="" coords="1414,176,1597,444"/>
-<area shape="rect" id="node38" href="$dd/d87/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_touch_point.html" title="Perform pointer events on touch screens." alt="" coords="926,1291,1109,1529"/>
-<area shape="rect" id="node4" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title="A ScreenDevice is a AbstractPointerDevice&lt;ButtonIDType, HapticsType&gt; that has its primary pointer int..." alt="" coords="1057,3082,1249,3218"/>
-<area shape="rect" id="node33" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="1069,3596,1229,3717"/>
-<area shape="rect" id="node5" href="$d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="837,2377,1029,2953"/>
-<area shape="rect" id="node26" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="834,3038,1033,3262"/>
-<area shape="rect" id="node6" href="$db/ded/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_pointer_data_creator.html" title=" " alt="" coords="528,1371,659,1449"/>
-<area shape="rect" id="node7" title=" " alt="" coords="1087,1077,1196,1155"/>
-<area shape="rect" id="node12" href="$dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html" title=" " alt="" coords="1133,1261,1325,1559"/>
-<area shape="rect" id="node8" title=" " alt="" coords="257,1077,309,1155"/>
-<area shape="rect" id="node23" href="$d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="517,4669,736,5055"/>
-<area shape="rect" id="node25" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="495,3391,759,3923"/>
-<area shape="rect" id="node9" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="1697,1063,1789,1169"/>
-<area shape="rect" id="node17" href="$d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="1532,1636,1727,2300"/>
-<area shape="rect" id="node10" href="$d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="200,1783,365,2153"/>
-<area shape="rect" id="node27" href="$dc/d7c/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html" title=" " alt="" coords="480,2597,629,2733"/>
-<area shape="rect" id="node42" href="$df/dcd/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_i_screen_device.html" title=" " alt="" coords="653,2619,813,2711"/>
-<area shape="rect" id="node11" href="$dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html" title="An interface for specifying how devices with buttons should behave." alt="" coords="763,1907,973,2029"/>
-<area shape="rect" id="node13" title=" " alt="" coords="844,1077,932,1155"/>
-<area shape="rect" id="node21" href="$de/db2/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="1065,5596,1193,5761"/>
-<area shape="rect" id="node14" href="$d8/dbf/class_juniper_1_1_unity_1_1_statistics_1_1_abstract_motion_filter.html" title=" " alt="" coords="533,1915,688,2021"/>
-<area shape="rect" id="node15" title=" " alt="" coords="683,1371,799,1449"/>
-<area shape="rect" id="node16" href="$db/d35/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_probe.html" title=" " alt="" coords="998,1856,1181,2080"/>
-<area shape="rect" id="node18" title=" " alt="" coords="1401,1371,1533,1449"/>
-<area shape="rect" id="node19" href="$d5/da1/interface_juniper_1_1_unity_1_1_input_1_1_i_input_module.html" title=" " alt="" coords="1557,1313,1705,1507"/>
-<area shape="rect" id="node20" href="$d1/ddd/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html" title=" " alt="" coords="1533,5811,1715,5903"/>
-<area shape="rect" id="node22" href="$d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html" title=" " alt="" coords="786,5132,985,5547"/>
-<area shape="rect" id="node24" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="519,4029,734,4620"/>
-<area shape="rect" id="node41" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="1167,4029,1404,4620"/>
-<area shape="rect" id="node28" href="$d0/dc2/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_motion_controller.html" title=" " alt="" coords="671,3060,809,3240"/>
-<area shape="rect" id="node29" href="$d4/da3/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_button_mapper.html" title=" " alt="" coords="404,3031,647,3269"/>
-<area shape="rect" id="node30" href="$d4/da3/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_button_mapper.html" title=" " alt="" coords="196,2546,407,2785"/>
-<area shape="rect" id="node31" href="$d4/da3/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_button_mapper.html" title=" " alt="" coords="124,3031,380,3269"/>
-<area shape="rect" id="node32" href="$d3/dfb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_mouse.html" title="A AbstractScreenDevice pointer for thet standard mouse connected to a desktop system." alt="" coords="1429,4213,1611,4437"/>
-<area shape="rect" id="node34" href="$d3/d2b/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_gaze_pointer.html" title=" " alt="" coords="1831,1364,2014,1456"/>
-<area shape="rect" id="node35" href="$d6/d1d/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_tobii_gaze_pointer.html" title=" " alt="" coords="1821,1048,1979,1184"/>
-<area shape="rect" id="node36" href="$d6/d9c/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_abstract_gaze_pointer.html" title=" " alt="" coords="1594,745,1731,999"/>
-<area shape="rect" id="node39" href="$d7/d8f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html" title=" " alt="" coords="1511,5293,1694,5385"/>
-<area shape="rect" id="node40" href="$d1/d9f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_daydream_motion_controller.html" title=" " alt="" coords="1377,4699,1551,5025"/>
+<area shape="rect" id="node1" title=" " alt="" coords="212,1313,395,1507"/>
+<area shape="rect" id="node2" href="$d6/d9c/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_abstract_gaze_pointer.html" title=" " alt="" coords="224,468,361,721"/>
+<area shape="rect" id="node3" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="895,5,1083,127"/>
+<area shape="rect" id="node37" href="$d6/d9c/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_abstract_gaze_pointer.html" title=" " alt="" coords="501,176,684,444"/>
+<area shape="rect" id="node38" href="$dd/d87/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_touch_point.html" title="Perform pointer events on touch screens." alt="" coords="1051,1291,1233,1529"/>
+<area shape="rect" id="node4" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title="A ScreenDevice is a AbstractPointerDevice&lt;ButtonIDType, HapticsType&gt; that has its primary pointer int..." alt="" coords="2097,3023,2289,3159"/>
+<area shape="rect" id="node33" href="$dc/db8/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_abstract_screen_device.html" title=" " alt="" coords="1850,3537,2010,3659"/>
+<area shape="rect" id="node5" href="$d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="1605,2319,1797,2895"/>
+<area shape="rect" id="node26" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="1691,2979,1889,3203"/>
+<area shape="rect" id="node6" href="$db/ded/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_pointer_data_creator.html" title=" " alt="" coords="1717,1371,1847,1449"/>
+<area shape="rect" id="node7" title=" " alt="" coords="1567,1077,1677,1155"/>
+<area shape="rect" id="node12" href="$dd/db6/class_juniper_1_1_unity_1_1_stage_extensions.html" title=" " alt="" coords="1309,1261,1501,1559"/>
+<area shape="rect" id="node8" title=" " alt="" coords="2160,1077,2212,1155"/>
+<area shape="rect" id="node23" href="$d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="1550,4611,1769,4996"/>
+<area shape="rect" id="node25" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="1527,3332,1791,3864"/>
+<area shape="rect" id="node9" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="1359,1063,1451,1169"/>
+<area shape="rect" id="node17" href="$d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="723,1636,918,2241"/>
+<area shape="rect" id="node10" href="$d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="2223,1753,2389,2124"/>
+<area shape="rect" id="node27" href="$dc/d7c/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html" title=" " alt="" coords="1909,2539,2058,2675"/>
+<area shape="rect" id="node42" href="$df/dcd/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_i_screen_device.html" title=" " alt="" coords="2123,2561,2283,2653"/>
+<area shape="rect" id="node11" href="$dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html" title="An interface for specifying how devices with buttons should behave." alt="" coords="1730,1878,1941,1999"/>
+<area shape="rect" id="node13" title=" " alt="" coords="937,1077,1025,1155"/>
+<area shape="rect" id="node21" href="$de/db2/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="945,5537,1073,5703"/>
+<area shape="rect" id="node14" href="$d8/dbf/class_juniper_1_1_unity_1_1_statistics_1_1_abstract_motion_filter.html" title=" " alt="" coords="1450,1885,1605,1992"/>
+<area shape="rect" id="node15" title=" " alt="" coords="1525,1371,1641,1449"/>
+<area shape="rect" id="node16" href="$db/d35/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_probe.html" title=" " alt="" coords="1965,1827,2148,2051"/>
+<area shape="rect" id="node18" title=" " alt="" coords="620,1371,752,1449"/>
+<area shape="rect" id="node19" href="$d5/da1/interface_juniper_1_1_unity_1_1_input_1_1_i_input_module.html" title=" " alt="" coords="776,1313,924,1507"/>
+<area shape="rect" id="node20" href="$d1/ddd/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html" title=" " alt="" coords="641,5752,824,5844"/>
+<area shape="rect" id="node22" href="$d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html" title=" " alt="" coords="1175,5073,1373,5488"/>
+<area shape="rect" id="node24" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="1552,3971,1767,4561"/>
+<area shape="rect" id="node41" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="1017,3971,1254,4561"/>
+<area shape="rect" id="node28" href="$d0/dc2/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_motion_controller.html" title=" " alt="" coords="1914,3001,2053,3181"/>
+<area shape="rect" id="node29" href="$d4/da3/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_button_mapper.html" title=" " alt="" coords="1423,2972,1666,3211"/>
+<area shape="rect" id="node30" href="$d4/da3/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_button_mapper.html" title=" " alt="" coords="1314,2487,1525,2726"/>
+<area shape="rect" id="node31" href="$d4/da3/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_button_mapper.html" title=" " alt="" coords="1143,2972,1399,3211"/>
+<area shape="rect" id="node32" href="$d3/dfb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_mouse.html" title="A AbstractScreenDevice pointer for thet standard mouse connected to a desktop system." alt="" coords="1312,4154,1495,4378"/>
+<area shape="rect" id="node34" href="$d3/d2b/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_gaze_pointer.html" title=" " alt="" coords="5,1364,188,1456"/>
+<area shape="rect" id="node35" href="$d6/d1d/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_tobii_gaze_pointer.html" title=" " alt="" coords="26,1048,183,1184"/>
+<area shape="rect" id="node36" href="$d6/d9c/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_gaze_1_1_abstract_gaze_pointer.html" title=" " alt="" coords="56,745,193,999"/>
+<area shape="rect" id="node39" href="$d7/d8f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html" title=" " alt="" coords="728,5235,911,5327"/>
+<area shape="rect" id="node40" href="$d1/d9f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_daydream_motion_controller.html" title=" " alt="" coords="796,4640,971,4967"/>
 </map>

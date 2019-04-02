@@ -9,7 +9,13 @@ using Juniper.Unity.Input.Pointers.Screen;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+
+#if UNITY_MODULES_UI
 using UnityEngine.UI;
+using ToggleType = UnityEngine.UI.Toggle;
+#else
+using ToggleType = UnityEngine.GameObject;
+#endif
 
 namespace Juniper.Unity.Input
 {
@@ -68,13 +74,11 @@ namespace Juniper.Unity.Input
         private const string ENABLE_HANDS_KEY = "HandPointers";
         private const string ENABLE_CONTROLLERS_KEY = "MotionControllers";
 
-#if UNITY_MODULES_UI
-        public Toggle enableControllersToggle;
-        public Toggle enableMouseToggle;
-        public Toggle enableTouchToggle;
-        public Toggle enableHandsToggle;
-        public Toggle enableGazeToggle;
-#endif
+        public ToggleType enableControllersToggle;
+        public ToggleType enableMouseToggle;
+        public ToggleType enableTouchToggle;
+        public ToggleType enableHandsToggle;
+        public ToggleType enableGazeToggle;
 
         public GazePointer gazePointer;
         public Mouse mouse;
@@ -104,48 +108,23 @@ namespace Juniper.Unity.Input
 
             Install(false);
 
+            SetupDevice(ENABLE_GAZE_KEY, enableGazeToggle, EnableGaze);
+            SetupDevice(ENABLE_HANDS_KEY, enableHandsToggle, EnableHands);
+            SetupDevice(ENABLE_CONTROLLERS_KEY, enableControllersToggle, EnableControllers);
+            SetupDevice(ENABLE_MOUSE_KEY, enableMouseToggle, EnableMouse);
+            SetupDevice(ENABLE_TOUCH_KEY, enableTouchToggle, EnableTouch);
+        }
+
+        private void SetupDevice(string key, ToggleType toggle, Action<bool, bool> onEnable)
+        {
 #if UNITY_MODULES_UI
-            if (enableGazeToggle != null)
+            if (toggle != null)
             {
-                enableGazeToggle.onValueChanged.AddListener(enable => EnableGaze(enable, true));
-                enableGazeToggle.isOn = PlayerPrefs.GetInt(ENABLE_GAZE_KEY, 0) == 1;
-                gazePointer.SetActive(enableGazeToggle.isOn);
-            }
-
-            if (enableHandsToggle != null)
-            {
-                enableHandsToggle.onValueChanged.AddListener(enable => EnableHands(enable, true));
-                enableHandsToggle.isOn = PlayerPrefs.GetInt(ENABLE_HANDS_KEY, 0) == 1;
-                foreach (var handTracker in handTrackers)
-                {
-                    handTracker.SetActive(enableHandsToggle.isOn);
-                }
-            }
-
-            if (enableControllersToggle != null)
-            {
-                enableControllersToggle.onValueChanged.AddListener(enable => EnableControllers(enable, true));
-                enableControllersToggle.isOn = PlayerPrefs.GetInt(ENABLE_CONTROLLERS_KEY, 1) == 1;
-                foreach (var motionController in motionControllers)
-                {
-                    motionController.SetActive(enableControllersToggle.isOn);
-                }
-            }
-
-            if (enableMouseToggle != null)
-            {
-                enableMouseToggle.onValueChanged.AddListener(enable => EnableMouse(enable, true));
-                enableMouseToggle.isOn = PlayerPrefs.GetInt(ENABLE_MOUSE_KEY, 1) == 1;
-                mouse.SetActive(enableMouseToggle.isOn);
-            }
-
-            if (enableTouchToggle != null)
-            {
-                enableTouchToggle.onValueChanged.AddListener(enable => EnableTouch(enable, true));
-                enableTouchToggle.isOn = PlayerPrefs.GetInt(ENABLE_TOUCH_KEY, Application.isMobilePlatform ? 1 : 0) == 1;
+                toggle.onValueChanged.AddListener(enable => onEnable(enable, true));
+                toggle.isOn = GetBool(key);
                 foreach (var touch in touches)
                 {
-                    touch.SetActive(enableTouchToggle.isOn);
+                    touch.SetActive(toggle.isOn);
                 }
             }
 #endif
@@ -409,6 +388,7 @@ namespace Juniper.Unity.Input
             for (var i = 0; i < m_RaycastResultCache.Count; ++i)
             {
                 var ray = m_RaycastResultCache[i];
+#if UNITY_MODULES_UI
                 if (ray.module is GraphicRaycaster)
                 {
                     var gfr = (GraphicRaycaster)ray.module;
@@ -424,6 +404,7 @@ namespace Juniper.Unity.Input
 
                     m_RaycastResultCache[i] = ray;
                 }
+#endif
             }
 
             m_RaycastResultCache.Sort(RaycastComparer);
@@ -440,7 +421,7 @@ namespace Juniper.Unity.Input
             PlayerPrefs.Save();
         }
 
-        private void EnableDevice(string key, Toggle toggle, bool value, bool savePref, Action<bool> setActive)
+        private void EnableDevice(string key, ToggleType toggle, bool value, bool savePref, Action<bool> setActive)
         {
             if (!savePref && !GetBool(key))
             {

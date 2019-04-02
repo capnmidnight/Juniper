@@ -37,3 +37,4 @@ Juniper is a framework within Unity 3D for managing and developing virtual, augm
 	- *Climate* - Code relating to weather reporting.
 		- *OpenWeatherMap* - Service integration for [OpenWeatherMap](https://openweathermap.org/)'s API.
 	- *GIS* - Latitude/Longitude points and conversions to different coordinate frames.
+

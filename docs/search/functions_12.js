@@ -80,6 +80,7 @@ var searchData=
   ['settargetcoroutine',['SetTargetCoroutine',['../d9/d15/class_juniper_1_1_unity_1_1_widgets_1_1_attention_director.html#a26f67e1a687b1330162dda1ca19b9ac1',1,'Juniper::Unity::Widgets::AttentionDirector']]],
   ['settreeactive',['SetTreeActive',['../d3/d40/class_unity_engine_1_1_component_ext.html#a14e8a89508d1baf8321820fca4ad7d20',1,'UnityEngine.ComponentExt.SetTreeActive()'],['../dd/d93/class_unity_engine_1_1_game_object_ext.html#a2a83e52efe20d8d89f506ed89afd54f2',1,'UnityEngine.GameObjectExt.SetTreeActive()']]],
   ['setup',['Setup',['../d6/d6a/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_constraint_handle.html#a9dcac2d000f9154675179696f8018574',1,'Juniper::Unity::Widgets::AbstractConstraintHandle']]],
+  ['setupdevice',['SetupDevice',['../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#ab3c92222be9845dbf19f3d50c6f3f12d',1,'Juniper::Unity::Input::AbstractUnifiedInputModule']]],
   ['setupfader',['SetupFader',['../d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html#a6464ef4753edd2297bf2199082c0a0e0',1,'Juniper::Unity::MasterSceneController']]],
   ['setupground',['SetupGround',['../d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html#ad5770bc05e8505976e4fc2e1ea5ec23d',1,'Juniper::Unity::MasterSceneController']]],
   ['setuplighting',['SetupLighting',['../d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html#ae61e9ca4f313a3f562dfe279d5ec96bd',1,'Juniper::Unity::MasterSceneController']]],

@@ -82,21 +82,12 @@ $(function() {
 <div class="toc"><h3>Table of Contents</h3>
 <ul><li class="level1"><a href="#autotoc_md17">Introduction</a></li>
 <li class="level1"><a href="#autotoc_md18">Setup</a><ul><li class="level2"><a href="#autotoc_md19">Installation</a></li>
-<li class="level2"><a href="#autotoc_md20">Project Integration</a></li>
-<li class="level2"><a href="#autotoc_md21">Configuration</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#autotoc_md22">Development</a><ul><li class="level2"><a href="#autotoc_md23">Tools</a></li>
-<li class="level2"><a href="#autotoc_md24">Debugging</a></li>
-<li class="level2"><a href="#autotoc_md25">Platform Notes</a></li>
+<li class="level1"><a href="#autotoc_md20">Development</a><ul><li class="level2"><a href="#autotoc_md21">Tools</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#autotoc_md26">Code Metrics</a><ul><li class="level2"><a href="#autotoc_md27">Juniper</a></li>
-<li class="level2"><a href="#autotoc_md28">Juniper.Unity</a></li>
-<li class="level2"><a href="#autotoc_md29">Juniper.Units</a></li>
-<li class="level2"><a href="#autotoc_md30">Juniper.NeuroSky</a></li>
-</ul>
-</li>
+<li class="level1"><a href="#autotoc_md22">Code Metrics</a></li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="autotoc_md17"></a>
@@ -139,7 +130,7 @@ Introduction</h1>
 <li><em>OpenWeatherMap</em> - Service integration for <a href="https://openweathermap.org/">OpenWeatherMap</a>'s API.</li>
 </ul>
 </li>
-<li><em>GIS</em> - Latitude/Longitude points and conversions to different coordinate frames. </li>
+<li><em>GIS</em> - Latitude/Longitude points and conversions to different coordinate frames.</li>
 </ul>
 </li>
 </ul>
@@ -150,71 +141,12 @@ Installation</h2>
 <p>There are two ways to install <a class="el" href="de/d75/namespace_juniper.html">Juniper</a>.</p>
 <ul>
 <li><a href="Juniper.unitypackage">Download the UnityPackage</a> and install it in your project, or</li>
-<li><a href="https://github.com/capnmidnight/Juniper">Clone the repository</a> and copy the contents of the <code>Package</code> directory to your Assets folder in a directory named <code><a class="el" href="de/d75/namespace_juniper.html">Juniper</a></code>.</li>
+<li><a href="https://github.com/capnmidnight/Juniper">Clone the repository</a> and copy the contents of the <code>src/Juniper/Assets/Juniper/</code> directory to your Assets folder in a directory named <code><a class="el" href="de/d75/namespace_juniper.html">Juniper</a></code>. This will also give you access to the <code>examples/</code> directory to see how projects are setup with <a class="el" href="de/d75/namespace_juniper.html">Juniper</a>. </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md20"></a>
-Project Integration</h2>
-<p>There are a number of different components that go into configuring a <a class="el" href="de/d75/namespace_juniper.html">Juniper</a> application:</p>
-<ul>
-<li>The AR or VR subsystem needs to be setup for use.</li>
-<li>The EventSystem needs to be configured,<ul>
-<li>along with an InputModuel that understands different types of 3D pointers, and,</li>
-<li>those pointers appropriate for the XR subsystem.</li>
-</ul>
-</li>
-<li>The user-interface interaction feedback audio system, which includes haptic feedback.</li>
-<li>A manager for AR targets, if they are being used.</li>
-<li>Mouse and Keyboard movement for use in the Editor.</li>
-<li>A camera configuration that,<ul>
-<li>updates the clear flags when switching between types of XR subsystems, and</li>
-<li>reduces rendering quality to keep the target frame-rate as close to the native display refresh rate as possible.</li>
-</ul>
-</li>
-<li>And, a graphical component for fading views in and out during scene transitions and other long, blocking operations, so the user doesn't see the camera locked in place.</li>
-</ul>
-<p>To that end, there is a Prefab that has most of this pre-configured, requiring only project-specific configuration once included in the project. It is located at </p><pre class="fragment">Juniper/Prefabs/UserRig.prefab
-</pre><p>The prefab contains the following GameObjects and Components:</p>
-<ul>
-<li><b>[GO] UserRig</b>: The root of the prefab<ul>
-<li><em>[CMP] XRSystem</em>: manages system configuration and AR/VR feature sets.</li>
-<li><em>[CMP] EventSystem</em>: Unity's EventSystem component for triggering pointer events.</li>
-<li><em>[CMP] UnifiedInputModule</em>: A custom InputModule that fuses a variety of different pointers between the computer mouse, the touch screen, and any potential motion controllers or hand tracking systems connected to the application.</li>
-<li><em>[CMP] Mouse</em>: The mouse pointer, mostly only used in the Editor.</li>
-<li><em>[CMP] Touches</em>: Invisible pointers for each finger.</li>
-<li><em>[CMP] TrackerKeeper</em>: A top-level manager for AR image targets, with event handlers for a variety of different scenarios in managing the AR experience.</li>
-<li><em>[CMP] R2D2</em>: Configuration setting for different audio clips to playback during different types of user interactions in the system. This also provides haptic feedback for most of the interaction types.</li>
-<li><b>[GO] Stage</b>: The immediate area around the user, separate from the camera. Keyboard/GamePad movement, or VR teleportation will move the stage instead of the camera. Moving the camera is reserved for the XR subsystem, to maintain the right view angle for the user.<ul>
-<li><em>[CMP] KeyboardMovement</em>: Moves the stage with Unity's configured keyboard movement keys in the direction the camera is looking. Mostly only used in the Editor for testing.</li>
-<li><b>[GO] Camera</b>: The main camera.<ul>
-<li><em>[CMP] Camera</em>: The main camera component. You may want to configure the Clipping Planes. Do not change the Field of View, as it will be ignored and recomputed at runtime for the specific XR subsystem.</li>
-<li><em>[CMP] CameraExtensions</em>: Manages camera attributes like camera FOV.</li>
-<li><em>[CMP] QualityDegrader</em>: Projects start out at the highest quality setting and degrade through the quality settings enabled in the Editor until either there are no more quality setting to go through or the app consistently hits 60FPS.</li>
-<li><em>[CMP] PhysicsRaycaster</em>: The raycaster used for all pointers that fire through the main camera, including the Moues and Touches.</li>
-<li><b>[GO] Fader</b>: A box that sits around the user's head for fading the camera view in and out in a way that works on all XR subsystems.<ul>
-<li><em>[CMP] Darth</em>: Darth Fader is the component that manages fading of the camera view. You can retrieve Darth Fader and use it to fade out the screen if you ever have any long, blocking operations that could lock up the camera.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md21"></a>
-Configuration</h2>
-<p>Once you have the UserRig prefab in your scene, select the UserRig game object and find the XRSystem component. Pay the most attention to the highlighted fields:</p>
-<img src="XRSystemSettings.png" alt="XR System Settings" class="inline"/>
-<p>Notes:</p><ul>
-<li>Make sure to set the TrackingSystem on XRSystem. It will initially be set to None.</li>
-<li>Additionally, if this is the first time you are setting up a Vuforia-based project and you select the "Marker Based AR" tracking type, you may need to use the GameObject menu in Unity to add a Vuforia prefab in order to force the Vuforia components to install into your project. You may delete it afterwards.</li>
-<li>R2D2 will be configured with a default set of sounds that come with <a class="el" href="de/d75/namespace_juniper.html">Juniper</a>. These sounds are Star Trek sound effects, so they will not be appropriate to deploy to a production system. Make sure you find a new set of sounds appropriate for your application.</li>
-<li>TrackerKeeper has a number of interesting events for managing your project workflow. It's recommended that you run Vuforia in Delayed Initialization mode, so your application can start with a splash-screen/menu view without the camera constantly running an draining the battery. </li>
-</ul>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md20"></a>
 Development</h1>
 <p>Clone the repository and copy the <code>Package/</code> directory to one of the <code>Test/&lt;PlatformName&gt;Test/Assets</code> directories.</p>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md21"></a>
 Tools</h2>
 <ul>
 <li><a href="https://unity3d.com/get-unity/download">Unity Hub</a>. Unity Hub is very handy for managing different versions of Unity between different projects. There is also a link in Unity Hub to the Unity Download Archive for any version that Unity does not advertise through the Available Installs screen.<ul>
@@ -228,31 +160,9 @@ Tools</h2>
 <li><a href="https://www.graphviz.org/download/">GraphViz</a>. This is used by Doxygen to generate nicer diagrams for the documentation. Make sure to add it to your PATH.</li>
 <li><a href="https://github.com/boyter/scc/releases">scc</a>. This is used by the documentation generation scripts to estimate the project complexity. Make sure to add it to your PATH.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md24"></a>
-Debugging</h2>
-<p>The prefab at: </p><pre class="fragment">Juniper/Prefabs/DebugUI.prefab
-</pre><p>Contains a Canvas and Text element that is used by the various components to print out their status.</p>
-<p>GPSLocation, SunPosition, Weather, and OutdoorLightEstimate all have boolean values controlling whether or not they provide real world values versus static values defined at design time. That boolean is called <code>Fake &lt;X&gt;</code>, where X is whatever property is being faked. They also include a boolean called <code>Print Debug Report</code> that enables showing the current status of the component on the ScreenDebugger.</p>
-<h2><a class="anchor" id="autotoc_md25"></a>
-Platform Notes</h2>
-<p>These are notes specific to each AR subsystem and/or operating system</p>
-<h3>Hololens</h3>
-<h4>Build settings</h4>
-<p>The Hololens documentation talks about a Unity Build setting "C# Projects" that enables completing the build and deploying to the device from Visual Studio rather than from Unity. The rationale for this feature is that it makes it faster to iterate on <em>changes</em> to scripts. If you want to make changes to the scene, to any assets, or add any scripts, you need to still do it through Unity.</p>
-<p>As of Version 2017.2 of Unity, this feature is broken, defaulting the Build Target Architecture to ARM. Just manually change the architecture to x86 (not x64).</p>
-<h1><a class="anchor" id="autotoc_md26"></a>
+<h1><a class="anchor" id="autotoc_md22"></a>
 Code Metrics</h1>
-<h2><a class="anchor" id="autotoc_md27"></a>
-Juniper</h2>
-<div class="fragment"><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Language                     Files       Lines      Code    Comments     Blanks</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">C#                              71        9028      4747        3466        815</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Total                           71        9028      4747        3466        815</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Estimated Cost to Develop $270,920</div><div class="line">Estimated Schedule Effort 7.240829 months</div><div class="line">Estimated People Required 2.267785</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div></div><!-- fragment --><h2><a class="anchor" id="autotoc_md28"></a>
-Juniper.Unity</h2>
-<div class="fragment"><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Language                     Files       Lines      Code    Comments     Blanks</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">C#                             296       33233     22871        5957       4405</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Total                          296       33233     22871        5957       4405</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Estimated Cost to Develop $1,412,055</div><div class="line">Estimated Schedule Effort 13.559753 months</div><div class="line">Estimated People Required 6.311718</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div></div><!-- fragment --><h2><a class="anchor" id="autotoc_md29"></a>
-Juniper.Units</h2>
-<p><a href="https://capnmidnight.github.io/Juniper.Units">project site</a></p>
-<div class="fragment"><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Language                     Files       Lines      Code    Comments     Blanks</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">C#                             100       11647      5081        5210       1356</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Total                          100       11647      5081        5210       1356</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Estimated Cost to Develop $290,970</div><div class="line">Estimated Schedule Effort 7.439962 months</div><div class="line">Estimated People Required 2.370423</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div></div><!-- fragment --><h2><a class="anchor" id="autotoc_md30"></a>
-Juniper.NeuroSky</h2>
-<p><a href="https://capnmidnight.github.io/Juniper.NeuroSky">project site</a></p>
-<div class="fragment"><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Language                     Files       Lines      Code    Comments     Blanks</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">C#                              35         964       634         207        123</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Total                           35         964       634         207        123</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Estimated Cost to Develop $32,718</div><div class="line">Estimated Schedule Effort 3.242878 months</div><div class="line">Estimated People Required 0.611523</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div></div><!-- fragment --> </div></div><!-- PageDoc -->
+<div class="fragment"><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Language                     Files       Lines      Code    Comments     Blanks</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">C#                             494       54928     33374       14850       6704</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Total                          494       54928     33374       14850       6704</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div><div class="line">Estimated Cost to Develop $2,099,814</div><div class="line">Estimated Schedule Effort 15.766558 months</div><div class="line">Estimated People Required 8.072197</div><div class="line">───────────────────────────────────────────────────────────────────────────────</div></div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->
 <!-- start footer part -->

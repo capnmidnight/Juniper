@@ -1,3 +1,4 @@
+mv ../docs/Juniper.unitypackage ../
 rm -rf ../docs/*
 
 cat doxygen.config \
@@ -10,3 +11,5 @@ cp *.css ../docs/
 
 cp ../*.png ../docs/
 cp ../*.jpg ../docs/
+
+mv ../Juniper.unitypackage ../docs/
