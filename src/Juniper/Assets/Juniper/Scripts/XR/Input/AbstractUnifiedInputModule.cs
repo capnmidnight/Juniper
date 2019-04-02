@@ -122,10 +122,6 @@ namespace Juniper.Unity.Input
             {
                 toggle.onValueChanged.AddListener(enable => onEnable(enable, true));
                 toggle.isOn = GetBool(key);
-                foreach (var touch in touches)
-                {
-                    touch.SetActive(toggle.isOn);
-                }
             }
 #endif
         }
@@ -423,11 +419,6 @@ namespace Juniper.Unity.Input
 
         private void EnableDevice(string key, ToggleType toggle, bool value, bool savePref, Action<bool> setActive)
         {
-            if (!savePref && !GetBool(key))
-            {
-                value = false;
-            }
-
             setActive(value);
 #if UNITY_MODULES_UI
             if (toggle != null && toggle.isOn != value)
