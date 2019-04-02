@@ -105,6 +105,10 @@ namespace Juniper.Unity.Input
                 dragged[mode] = false;
                 dragDistance[mode] = 0;
             }
+
+#if UNITY_EDITOR
+            showCustomCursor = true;
+#endif
         }
 
         public void Start()
