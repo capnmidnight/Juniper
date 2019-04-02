@@ -168,8 +168,8 @@ namespace Juniper.Unity.Input
             get
             {
                 return MOUSE_SENSITIVITY_SCALE * new Vector2(
-                    -UnityInput.GetAxis("Mouse Y"),
-                    UnityInput.GetAxis("Mouse X"));
+                    -UnityInput.GetAxisRaw("Mouse Y"),
+                    UnityInput.GetAxisRaw("Mouse X"));
             }
         }
 

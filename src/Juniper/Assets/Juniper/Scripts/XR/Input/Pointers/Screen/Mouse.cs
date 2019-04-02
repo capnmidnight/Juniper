@@ -32,7 +32,7 @@ namespace Juniper.Unity.Input.Pointers.Screen
         {
             get
             {
-                return new Vector2(UnityInput.GetAxis("Mouse X"), UnityInput.GetAxis("Mouse Y"));
+                return new Vector2(UnityInput.GetAxisRaw("Mouse X"), UnityInput.GetAxisRaw("Mouse Y"));
             }
         }
 

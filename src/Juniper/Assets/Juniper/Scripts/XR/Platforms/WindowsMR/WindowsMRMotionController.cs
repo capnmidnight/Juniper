@@ -82,7 +82,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
         {
             get
             {
-                return UnityInput.GetAxis(IsLeftHand ? "Joystick9" : "Joystick10");
+                return UnityInput.GetAxisRaw(IsLeftHand ? "Joystick9" : "Joystick10");
             }
         }
     }
