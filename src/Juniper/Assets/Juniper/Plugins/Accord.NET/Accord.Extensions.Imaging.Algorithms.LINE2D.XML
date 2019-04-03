@@ -1,0 +1,936 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Accord.Extensions.Imaging.Algorithms.LINE2D</name>
+    </assembly>
+    <members>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMemoryDetectorExtensions">
+            <summary>
+            Contains extensions for matching templates against <see cref="T:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMapPyramid"/> and <see cref="T:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps"/>.
+            <remarks>See <a href="http://cvlabwww.epfl.ch/~lepetit/papers/hinterstoisser_pami11.pdf"/> for details.</remarks>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMemoryDetectorExtensions.MatchTemplates(Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMapPyramid,System.Collections.Generic.IEnumerable{Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplatePyramid},System.Int32,System.Boolean)">
+            <summary>
+            Matches the provided pyramids of templates against the linearized memory maps pyramid.
+            </summary>
+            <param name="linPyr">Linearized memory pyramid.</param>
+            <param name="templPyrs">Pyramids of templates.</param>
+            <param name="minMatchingPercentage">Minimum matching percentage [0..100].</param>
+            <param name="inParallel">True to match each template pyramid in parallel, sequentially otherwise.</param>
+            <returns>List of found matches.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMemoryDetectorExtensions.MatchTemplate(Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMapPyramid,Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplatePyramid,System.Int32)">
+            <summary>
+            Matches the provided template pyramid against the linearized memory maps pyramid.
+            </summary>
+            <param name="linPyr">Linearized memory pyramid.</param>
+            <param name="templPyr">Template pyramid.</param>
+            <param name="minMatchingPercentage">Minimum matching percentage [0..100].</param>
+            <returns>List of found matches.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMemoryDetectorExtensions.MatchTemplates(Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps,System.Collections.Generic.IEnumerable{Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplate},System.Int32,System.Boolean)">
+            <summary>
+            Matches the provided templates against the linear memory maps.
+            </summary>
+            <param name="linMaps">Linear maps.</param>
+            <param name="templates">Collections of templates.</param>
+            <param name="minMatchingPercentage">Minimum matching percentage [0..100].</param>
+            <param name="inParallel">True to match each template in parallel, sequentially otherwise.</param>
+            <returns>List of found matches.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMemoryDetectorExtensions.MatchTemplate(Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps,Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplate,DotImaging.Primitives2D.Rectangle,System.Int32)">
+            <summary>
+            Matches the provided template against the linear memory maps.
+            </summary>
+            <param name="linMaps">Linear maps.</param>
+            <param name="template">Template.</param>
+            <param name="searchArea">Search area in the image.</param>
+            <param name="minMatchingPercentage">Minimum matching percentage [0..100].</param>
+            <returns>List of found matches.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMemoryDetectorExtensions.MatchTemplate(Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps,Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplate,System.Int32)">
+            <summary>
+            Matches the provided template against the linear memory maps.
+            </summary>
+            <param name="linMaps">Linear maps.</param>
+            <param name="template">Template.</param>
+            <param name="minMatchingPercentage">Minimum matching percentage [0..100].</param>
+            <returns>List of found matches.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.Match`1">
+            <summary>
+            Represents found LINE2D template.
+            </summary>
+            <typeparam name="T">LINE 2D template type.</typeparam>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.Match`1.X">
+            <summary>
+            Gets or sets the X location.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.Match`1.Y">
+            <summary>
+            Gets or sets the Y location.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.Match`1.Score">
+            <summary>
+            Gets or sets the matching score.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.Match`1.Template">
+            <summary>
+            Gets or sets the template.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.Match`1.BoundingRect">
+            <summary>
+            Gets the area of the match.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.Match`1.Points">
+            <summary>
+            Gets the template features translated for match location.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.Match`1.GetBoundingRect(Accord.Extensions.Imaging.Algorithms.LINE2D.Match{Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplate})">
+            <summary>
+            Gets the area of the match.
+            </summary>
+            <param name="m">Match.</param>
+            <returns>The area of the match.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.Match`1.GetCenter(Accord.Extensions.Imaging.Algorithms.LINE2D.Match{Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplate})">
+            <summary>
+            Gets the center location of the match.
+            </summary>
+            <param name="m">Match.</param>
+            <returns>The center point of the match.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.Match">
+            <summary>
+            Represents found LINE2D template.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.MatchClustering">
+            <summary>
+            LINE2D match grouping algorithm.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.MatchClustering.COMPARE_BY_SIZE">
+            <summary>
+            Default comparer. Compare matches by size. Usually representative match is better by using this criteria.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.MatchClustering.COMPARE_BY_SCORE">
+            <summary>
+            Compare matches by score.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.MatchClustering.#ctor(System.Single,System.Single)">
+            <summary>
+            Creates new LINE2D match clustering object.
+            </summary>
+            <param name="minGroupWeight">
+            Minimum group weight threshold. Group with less than <paramref name="minGroupWeight"/> will be discarded.
+            <para>If the all weights are equal to one, the <paramref name="minGroupWeight"/> represents the minimum number of neighbors.</para>
+            </param>
+            <param name="minMatchAreaOverlap">Minimum bounding rectangle overlap area represented as percentage [0..1].</param>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.MatchClustering.MinMatchAreaOverlap">
+            <summary>
+            Minimum bounding rectangle overlap area represented as percentage [0..1].
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.MatchClustering.AreDetectionsAdjacent(Accord.Extensions.Imaging.Algorithms.LINE2D.Match,Accord.Extensions.Imaging.Algorithms.LINE2D.Match)">
+            <summary>
+            Gets whether the two matches are adjacent.
+            </summary>
+            <param name="m1">First match.</param>
+            <param name="m2">Second match.</param>
+            <returns>True if two matches are adjacent, false otherwise.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.MatchClustering.GetRepresentative(System.Collections.Generic.IList{Accord.Extensions.Imaging.Algorithms.LINE2D.Match},System.Collections.Generic.IList{System.Single})">
+            <summary>
+            Gets cluster representative.
+            </summary>
+            <param name="matches">Matches.</param>
+            <param name="weights">Match weights - ignored because weights are incorporated into match itself.</param>
+            <returns>Representative match.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.MatchClustering.Group(System.Collections.Generic.IList{Accord.Extensions.Imaging.Algorithms.LINE2D.Match},System.Func{Accord.Extensions.Imaging.Algorithms.LINE2D.Match,System.Double})">
+            <summary>
+            Groups near matches into a group.
+            </summary>
+            <param name="matches">The objects to group.</param>
+            <param name="userCompareBy">User defined comparison function. If null, the default will be used.</param>
+            <returns>Clusters.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.SIMDArithemtics">
+            <summary>
+            Contains extension methods for 8-bit and 16-vector addition by suing fast SIMD arithmetics.
+            <para>The class depends on unmanaged project SIMDArrayInstructions.</para>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.SIMDArithemtics.AddByteToByteVector(System.Byte*,System.Byte*,System.Int32)">
+            <summary>
+            Adds two byte vectors.
+            </summary>
+            <param name="srcAddr">Source address.</param>
+            <param name="dstAddr">Destination address.</param>
+            <param name="numOfElemsToAdd">The number of elements (bytes) to add.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.SIMDArithemtics.AddTo(DotImaging.Image{DotImaging.Gray{System.Byte}},DotImaging.Image{DotImaging.Gray{System.Byte}},DotImaging.Primitives2D.Point)">
+            <summary>
+            Adds two 8-bit gray images.
+            <para>Source and destination image must have the size.</para>
+            </summary>
+            <param name="src">Source image.</param>
+            <param name="dst">Destination image.</param>
+            <param name="srcOffset">The point in source image.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.SIMDArithemtics.AddByteToShortVector(System.Byte*,System.Int16*,System.Int32)">
+            <summary>
+            Adds 8-bit to 16-bit vector using SIMD instructions.
+            </summary>
+            <param name="srcAddr">Source address.</param>
+            <param name="dstAddr">Destination address.</param>
+            <param name="numOfElemsToAdd">Number of elements to add.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.SIMDArithemtics.AddTo(DotImaging.Image{DotImaging.Gray{System.Byte}},DotImaging.Image{DotImaging.Gray{System.Int16}})">
+            <summary>
+            Adds 8-bit gray image to 16-bit destination image.
+            <para>Source and destination image must have the size.</para>
+            </summary>
+            <param name="src">Source image.</param>
+            <param name="dst">Destination image.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.SIMDArithemtics.#cctor">
+            <summary>
+            Initializes SIMD arithmetics by adding unmanaged library directory to the search path.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.Feature">
+            <summary>
+            Line2D feature.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.Feature.X">
+            <summary>
+            X location.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.Feature.Y">
+            <summary>
+            Y location.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.Feature.AngleBinaryRepresentation">
+            <summary>
+            Quantized angle - binary representation (1, 2, 4,...).
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.Feature.AngleIndex">
+            <summary>
+            Quantized angle index.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.Feature.#ctor(System.Int32,System.Int32,System.Byte)">
+            <summary>
+            Creates new feature.
+            </summary>
+            <param name="x">X location.</param>
+            <param name="y">Y location.</param>
+            <param name="angleBinaryRepresentation">Angle - binary representation.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.Feature.Clone">
+            <summary>
+            Clones the feature.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.Feature.GetAngleIndex(System.Byte)">
+            <summary>
+            Calculate Log2(angleBinRepr)
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.Feature.GetAngleBinaryForm(System.Byte)">
+            <summary>
+            Gets the binary representation of the quantized angle.
+            </summary>
+            <param name="angleIndex">Quantized angle index.</param>
+            <returns>The binary representation of the quantized angle</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplate">
+            <summary>
+            Represents LINE2D template interface.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplate.Features">
+            <summary>
+            Gets template features.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplate.Size">
+            <summary>
+            Gets template size (features bounding box).
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplate.ClassLabel">
+            <summary>
+            Gets class label for the template.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplate.Initialize(Accord.Extensions.Imaging.Algorithms.LINE2D.Feature[],DotImaging.Primitives2D.Size,System.String)">
+            <summary>
+            Initializes template. Used during de-serialization.
+            </summary>
+            <param name="features">Collection of features.</param>
+            <param name="size">Template size.</param>
+            <param name="classLabel">Template class label.</param>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplatePyramid">
+            <summary>
+            LINE2D template pyramid interface.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplatePyramid.Templates">
+            <summary>
+            Collection of templates. One template for each pyramid scale.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplatePyramid`1">
+            <summary>
+            LINE2D template pyramid interface.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplatePyramid`1.Templates">
+            <summary>
+            Collection of templates. One template for each pyramid scale.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ITemplatePyramid`1.Initialize(`0[])">
+            <summary>
+            Initializes template pyramid with the provided templates.
+            </summary>
+            <param name="templates">Collection of templates.</param>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplateWithMask">
+            <summary>
+            Image template which contains object mask. It can be created only from a black-white image.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplateWithMask.BinaryMask">
+            <summary>
+            Object's binary mask.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplateWithMask.HasBinaryMask">
+            <summary>
+            True if the template contains binary mask, false otherwise.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplateWithMask.Initialize(DotImaging.Gray{System.Byte}[0:,0:],System.Int32,System.Int32,System.String)">
+            <summary>
+            Creates template from the input image by using provided parameters.
+            </summary>
+            <param name="sourceImage">Input image.</param>
+            <param name="minFeatureStrength">Minimum gradient value for the feature.</param>
+            <param name="maxNumberOfFeatures">Maximum number of features per template. The features will be extracted so that their locations are semi-uniformly spread.</param>
+            <param name="classLabel">Template class label.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplateWithMask.Initialize(DotImaging.Bgr{System.Byte}[0:,0:],System.Int32,System.Int32,System.String)">
+            <summary>
+            This kind of template can not be created from color images. This function will throw an exception <see cref="T:System.Exception"/>.
+            </summary>
+            <param name="sourceImage">Input image.</param>
+            <param name="minFeatureStrength">Minimum gradient value for the feature.</param>
+            <param name="maxNumberOfFeatures">Maximum number of features per template. The features will be extracted so that their locations are semi-uniformly spread.</param>
+            <param name="classLabel">Template class label.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplateWithMask.ReadXml(System.Xml.XmlReader)">
+            <summary>
+            Generates an object from its XML representation.
+            </summary>
+            <param name="reader">Reader's stream.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplateWithMask.WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            Generates XML representation for the object.
+            </summary>
+            <param name="writer">Writers stream.</param>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.XMLTemplateSerializer`2">
+            <summary>
+            Serializes and de-serializes list of template pyramids into/from XML file.
+            If a template implements <see cref="T:System.Xml.Serialization.IXmlSerializable"/> interface additional data provided by a user may be serialized/deserialized as well.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.XMLTemplateSerializer`2.SerializeTemplatePyramidClass(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Serializes the collection of template pyramids with the same object class.
+            </summary>
+            <param name="c">The collection of template pyramids.</param>
+            <returns>Serialized collection of template pyramids.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.XMLTemplateSerializer`2.ToStream(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Serializes the collection of template pyramids and saves them to a memory stream with default encoding.
+            </summary>
+            <param name="cluster">The collection of template pyramids.</param>
+            <returns>
+            Output stream where string is written using default encoding.
+            <para>Output stream must be closed to free any resources.</para>
+            </returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.XMLTemplateSerializer`2.ToFile(System.Collections.Generic.IEnumerable{`0},System.String)">
+            <summary>
+            Serializes the collection of template pyramids and saves them to a specified file.
+            </summary>
+            <param name="cluster">The collection of template pyramids.</param>
+            <param name="fileName">File name.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.XMLTemplateSerializer`2.ToString(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Serializes the collection of template pyramids and writes XML content to a string.
+            </summary>
+            <param name="cluster">The collection of template pyramids.</param>
+            <returns>Serialized string.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.XMLTemplateSerializer`2.FromStream(System.IO.Stream)">
+            <summary>
+            De-serializes the template pyramids collection.
+            </summary>
+            <param name="stream">Input stream.</param>
+            <returns>The collection of template pyramids.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.XMLTemplateSerializer`2.FromFile(System.String)">
+            <summary>
+            De-serializes the template pyramids collection.
+            </summary>
+            <param name="fileName">File name.</param>
+            <returns>The collection of template pyramids.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.XMLTemplateSerializer`2.FromString(System.String)">
+            <summary>
+            De-serializes the template pyramids collection.
+            </summary>
+            <param name="xmlString">String with XML content.</param>
+            <returns>The collection of template pyramids.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.GlobalParameters">
+            <summary>
+            Contains global parameters for LINE2D template matching.
+            <para>Values that are defined work well in majority of situations (but can be changed if an user wants to - recompilation).</para>
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS">
+            <summary>
+            Number of quantized orientations. Needed for feature extraction.
+            <para>Maximum value is 8 (number of bits in byte). 3rd i 4th quadrant are mapped to 2nd and 1st</para>
+            <para>Although this number can be lower than 8 precision can be lost, but the preprocessing stage can be speeded-up (lower number of response maps).</para>
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.GlobalParameters.MAX_FEATURE_SIMILARITY">
+            <summary>
+            Max feature similarity. Default value is 4. Needed for feature (template) comparison.
+            This constant can be interpreted as max angle similarity.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.GlobalParameters.MAX_NUM_OF_FEATURES">
+            <summary>
+            Max number of features per template. It can be used for template feature extraction.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.GlobalParameters.MAX_SUPPORTED_NUM_OF_FEATURES_ADDDED_AS_BYTE">
+            <summary>
+            Max number of features that can be added to a buffer of type <see cref="T:System.Byte"/>.
+            </summary>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMapPyramid">
+            <summary>
+            Computes linearized maps for each image in the image pyramid.. See <see cref="T:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps"/> for details.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMapPyramid.DEFAULT_NEGBORHOOD_PER_LEVEL">
+            <summary>
+            Default neighborhood spread per level.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMapPyramid.PyramidalMaps">
+            <summary>
+            Gets linearized maps.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMapPyramid.CreatePyramid(DotImaging.Gray{System.Byte}[0:,0:],System.Int32,System.Int32[])">
+            <summary>
+            Creates linearized maps pyramid.
+            </summary>
+            <param name="sourceImage">Source image.</param>
+            <param name="minGradientMagnitude">Minimal gradient value threshold.</param>
+            <param name="neigborhoodPerLevel">Neighborhood per level. If null default neighborhood is going to be used.</param>
+            <returns>Pyramid of linearized maps.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMapPyramid.CreatePyramid(DotImaging.Bgr{System.Byte}[0:,0:],System.Int32,System.Int32[])">
+            <summary>
+            Creates linearized maps pyramid.
+            </summary>
+            <param name="sourceImage">Source image.</param>
+            <param name="minGradientMagnitude">Minimal gradient value threshold.</param>
+            <param name="neigborhoodPerLevel">Neighborhood per level. If null default neighborhood is going to be used.</param>
+            <returns>Pyramid of linearized maps.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMapPyramid.CreatePyramid``1(``0[0:,0:],System.Func{``0[0:,0:],DotImaging.Gray{System.Int32}[0:,0:]},System.Int32[])">
+            <summary>
+            Creates linearized maps pyramid.
+            </summary>
+            <param name="sourceImage">Source image.</param>
+            <param name="orientationImgCalc">Orientation image calculation function.</param>
+            <param name="neigborhoodPerLevel">Neighborhood per level. If null default neighborhood is going to be used.</param>
+            <returns>Pyramid of linearized maps.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps">
+            <summary>
+            Linearized memory maps calculation.
+            <para>
+            See <a href="http://cvlabwww.epfl.ch/~lepetit/papers/hinterstoisser_pami11.pdf" /> Section 2.5. for details.
+            </para>
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps.MAP_STRIDE_ALLIGNMENT">
+            <summary>
+            Linear map stride alignment.
+            <para>It's value is 0 because linear map should be represented as continuous vector (without stride alignment).</para>
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps.SimilarityAngleTable">
+            <summary>
+            Pre-calculated similarities between feature angle (binary representations) and all angle combinations.
+            <para>[NUM_OF_ORIENTATIONS, 256 (all possible angle combinations for an source orientation)]</para>
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps.LinearMaps">
+            <summary>
+            Gets linear maps. The map is selected according to an angle and then to an neighborhood.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps.NeigborhoodSize">
+            <summary>
+            Gets neigborhood size which is used to caclulate spreaded orientation image (FeatureMap)
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps.ImageSize">
+            <summary>
+            Gets original image size from which the response map is caclulated.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps.ImageValidSize">
+            <summary>
+            Getsvalid image size.
+            <para>Valid size is: (imgWidth / neigborhood * neigborhood,  imgWidth / neigborhood * neigborhood) - integer divisions are used.</para>
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps.LinearMapSize">
+            <summary>
+            Gets linear map size.
+            <para>Linear size is: (imgWidth / neigborhood, imgHeight / neigborhood) - integer divisions are used.</para>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps.#ctor(DotImaging.Gray{System.Int32}[0:,0:],System.Int32)">
+            <summary>
+            Creates linear response maps.
+            </summary>
+            <param name="orientationDegImg">Orientation image (in degrees).</param>
+            <param name="neigborhood">Spread neighborhood size.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.LinearizedMaps.GetMapElement(DotImaging.Primitives2D.Point,System.Int32,DotImaging.Primitives2D.Point@)">
+            <summary>
+            Gets the linearized map by suing provided image position and angle index.
+            </summary>
+            <param name="position">Image position.</param>
+            <param name="angleIndex">Quantized angle index.</param>
+            <param name="mapPoint">Corresponding position in the linearized map.</param>
+            <returns>Linearized map.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.FeatureMap">
+            <summary>
+            Orientation feature map.
+            <para>Feature map creation has 3 stages:</para>
+            <para>     1) Orientation quantization: [0..360] => [0..NUM_OF_QUNATIZED_ORIENTATIONS].</para>
+            <para>     2) Filtering quantized orientations (neighborhood must be the same oriented) 
+                          and representing them in a binary form: [0..NUM_OF_QUNATIZED_ORIENTATIONS] => [1, 2, 4, 8, 16...]</para>
+            <para>     3) Spreading binary represented orientations to local neighborhood. This is a trade-off between accuracy and the noise resistance.</para>
+            </summary>
+            <remarks>
+            See: <a href="http://cvlabwww.epfl.ch/~lepetit/papers/hinterstoisser_pami11.pdf" />
+            </remarks>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.FeatureMap.INVALID_ORIENTATION">
+            <summary>
+            Marker for invalid orientation (magnitude too small)
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.FeatureMap.INVALID_QUANTIZED_ORIENTATION">
+            <summary>
+            Marker for invalid quantized orientation (magnitude too small)
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.FeatureMap.AngleQuantizationTable">
+            <summary>
+            Angle quantization lookup table. It transforms [0..360] => [0..NUM_OF_QUNATIZED_ORIENTATIONS-1].
+            <para>For input value INVALID_ORIENTATION INVALID_QUANTIZED_ORIENTATION will be returned. 
+            This special value is needed during feature map building to discard pixels which have small magnitude.</para>
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.FeatureMap.RetainImportantQuantizedOrientations(DotImaging.Gray{System.Byte}[0:,0:],System.Int32)">
+            <summary>
+            Take only those orientations that have MINIMAL_NUM_OF_SAME_ORIENTED_PIXELS in 3x3 negborhood.
+            Performs angle transformation into binary form ([0..7] -> [1, 2, 4, 8, ..., 128]) as well.
+            </summary>
+            <param name="qunatizedOrientionImg">Quantized orientation image where angles are represented by lables [0..GlobalParameters.NUM_OF_QUNATIZED_ORIENTATIONS] (invalid orientation label included).</param>
+            <param name="minSameOrientations">Minimal number of same orientations for 3x3 neigborhood. The range is: [0..9] (3x3 neigborhood).</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.FeatureMap.Calculate(DotImaging.Gray{System.Int32}[0:,0:],System.Int32,System.Int32)">
+            <summary>
+            Calculates features map. First orientations are quantized, the stable ones are selected and then they are spread.
+            </summary>
+            <param name="orientationDegImg">Orientation map. Each location represents angle in degrees [0..360].</param>
+            <param name="spreadNeigborhood">Spreading neighborhood. If 1 no spreading is done.</param>
+            <param name="minSameOrientations">Minimal number of the same orientations in [3 x 3] neighborhood to proclaim the orientation stable.</param>
+            <returns>Feature map.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate">
+            <summary>
+            LINE2D template. The class contains methods for template extraction from an image.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate.#ctor">
+            <summary>
+            Creates an empty image template. Requires initialization.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate.Features">
+            <summary>
+            Gets template features.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate.Size">
+            <summary>
+            Gets template size (features bounding box).
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate.ClassLabel">
+            <summary>
+            Gets class label for the template.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate.Initialize(Accord.Extensions.Imaging.Algorithms.LINE2D.Feature[],DotImaging.Primitives2D.Size,System.String)">
+            <summary>
+            Initializes template. Used during de-serialization.
+            </summary>
+            <param name="features">Collection of features.</param>
+            <param name="size">Template size.</param>
+            <param name="classLabel">Template class label.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate.Initialize(DotImaging.Bgr{System.Byte}[0:,0:],System.Int32,System.Int32,System.String)">
+            <summary>
+            Creates template from the input image by using provided parameters.
+            </summary>
+            <param name="sourceImage">Input image.</param>
+            <param name="minFeatureStrength">Minimum gradient value for the feature.</param>
+            <param name="maxNumberOfFeatures">Maximum number of features per template. The features will be extracted so that their locations are semi-uniformly spread.</param>
+            <param name="classLabel">Template class label.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate.Initialize(DotImaging.Gray{System.Byte}[0:,0:],System.Int32,System.Int32,System.String)">
+            <summary>
+            Creates template from the input image by using provided parameters.
+            </summary>
+            <param name="sourceImage">Input image.</param>
+            <param name="minFeatureStrength">Minimum gradient value for the feature.</param>
+            <param name="maxNumberOfFeatures">Maximum number of features per template. The features will be extracted so that their locations are semi-uniformly spread.</param>
+            <param name="classLabel">Template class label.</param>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate.BoundingRect">
+            <summary>
+            Template bounding rectangle.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate.Initialize(DotImaging.Gray{System.Int32}[0:,0:],System.Int32,System.String,System.Func{Accord.Extensions.Imaging.Algorithms.LINE2D.Feature,System.Int32})">
+            <summary>
+            Creates template from the input image by using provided parameters.
+            </summary>
+            <param name="orientation">Orientation image.</param>
+            <param name="maxNumberOfFeatures">Maximum number of features per template. The features will be extracted so that their locations are semi-uniformly spread.</param>
+            <param name="classLabel">Template class label.</param>
+            <param name="featureImportanceFunc">Function which returns feature's strength.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate.ReadXml(System.Xml.XmlReader)">
+            <summary>
+            Generates an object from its XML representation.
+            </summary>
+            <param name="reader">Reader's stream.</param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate.WriteXml(System.Xml.XmlWriter)">
+            <summary>
+            Generates XML representation for the object.
+            </summary>
+            <param name="writer">Writers stream.</param>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplatePyramid`1">
+            <summary>
+            Image template pyramid. See <see cref="T:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplate"/> for details.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplatePyramid`1.DEFAULT_MAX_FEATURES_PER_LEVEL">
+            <summary>
+            Maximum number of features per pyramid level.
+            </summary>
+        </member>
+        <member name="P:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplatePyramid`1.Templates">
+            <summary>
+            Gets the image templates. One for each pyramid level.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplatePyramid`1.#ctor">
+            <summary>
+            Creates an empty image template pyramid. Requires initialization.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplatePyramid`1.Initialize(`0[])">
+            <summary>
+            Initialized image template pyramid with the provided templates.
+            </summary>
+            <param name="templates"></param>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplatePyramid`1.CreatePyramid(DotImaging.Bgr{System.Byte}[0:,0:],System.String,System.Int32,System.Int32,System.Int32[])">
+            <summary>
+            Creates image templates pyramid from the input image by using the provided parameters.
+            </summary>
+            <param name="sourceImage">Input image.</param>
+            <param name="classLabel">Templates class label.</param>
+            <param name="minFeatureStrength">Minimum feature's gradient strength.</param>
+            <param name="minNumberOfFeatures">Minimum number of features. If the number of features is less that minimum null will be returned.</param>
+            <param name="maxNumberOfFeaturesPerLevel">Maximum number of features per template. The features will be scattered semi-uniformly.</param>
+            <returns>Image template pyramid.</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.ImageTemplatePyramid`1.CreatePyramidFromPreparedBWImage(DotImaging.Gray{System.Byte}[0:,0:],System.String,System.Int32,System.Int32,System.Int32[])">
+            <summary>
+            Creates image templates pyramid from the black-white image by using the provided parameters.
+            </summary>
+            <param name="sourceImage">Input image.</param>
+            <param name="classLabel">Templates class label.</param>
+            <param name="minFeatureStrength">Minimum feature's gradient strength.</param>
+            <param name="minNumberOfFeatures">Minimum number of features. If the number of features is less that minimum null will be returned.</param>
+            <param name="maxNumberOfFeaturesPerLevel">Maximum number of features per template. The features will be scattered semi-uniformly.</param>
+            <returns>Image template pyramid.</returns>
+        </member>
+        <member name="T:Accord.Extensions.Imaging.Algorithms.LINE2D.GradientComputation">
+            <summary>
+            Contains methods for gray and color gradient magnitude and  orientation computation.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.GradientComputation.Sobel_3x3_X">
+            <summary>
+            Sobel 3x3 for finding vertical edges.
+            </summary>
+        </member>
+        <member name="F:Accord.Extensions.Imaging.Algorithms.LINE2D.GradientComputation.Sobel_3x3_Y">
+            <summary>
+            Sobel 3x3 for finding horizontal edges.
+            </summary>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.GradientComputation.Compute(DotImaging.Bgr{System.Byte}[0:,0:],DotImaging.Gray{System.Int32}[0:,0:]@,System.Int32)">
+            <summary>
+            Computes gradient orientations from the color image. Orientation from the channel which has the maximum gradient magnitude is taken as the orientation for a location.
+            </summary>
+            <param name="frame">Image.</param>
+            <param name="magnitudeSqrImage">Squared magnitude image.</param>
+            <param name="minValidMagnitude">Minimal valid magnitude.</param>
+            <returns>Orientation image (angles are in degrees).</returns>
+        </member>
+        <member name="M:Accord.Extensions.Imaging.Algorithms.LINE2D.GradientComputation.Compute(DotImaging.Gray{System.Byte}[0:,0:],DotImaging.Gray{System.Int32}[0:,0:]@,System.Int32)">
+            <summary>
+            Computes gradient orientations from the color image. Orientation from the channel which has the maximum gradient magnitude is taken as the orientation for a location.
+            </summary>
+            <param name="frame">Image.</param>
+            <param name="magnitudeSqrImage">Squared magnitude image.</param>
+            <param name="minValidMagnitude">Minimal valid magnitude.</param>
+            <returns>Orientation image (angles are in degrees).</returns>
+        </member>
+        <member name="T:DotImaging.PathExtensions">
+            <summary>
+            <para>Defined functions can be used as object extensions.</para>
+            Provides methods for string which is treated as file and directory path.
+            </summary>
+        </member>
+        <member name="M:DotImaging.PathExtensions.EnumerateFiles(System.IO.DirectoryInfo,System.String[],System.IO.SearchOption)">
+             <summary>
+             Returns an enumerable collection of file information that matches a specified search pattern and search subdirectory option.
+             </summary>
+             <param name="dirInfo">Directory info.</param>
+             <param name="searchPatterns">The search strings (e.g. new string[]{ ".jpg", ".bmp" }</param>
+             <param name="searchOption">
+             One of the enumeration values that specifies whether the search operation
+             should include only the current directory or all subdirectories. The default
+             value is <see cref="F:System.IO.SearchOption.TopDirectoryOnly"/>.
+            </param>
+             <returns>An enumerable collection of files that matches <paramref name="searchPatterns"/> and <paramref name="searchOption"/>.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.IsSubfolder(System.String,System.String)">
+            <summary>
+            Gets whether the path is child path.
+            </summary>
+            <param name="childPath">The child path.</param>
+            <param name="parentPath">The parent path.</param>
+            <returns>True if the child path is indeed child path (or the same) as parent path, otherwise false.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.GetRelativeFilePath(System.String,System.IO.DirectoryInfo)">
+            <summary>
+            Gets relative file path regarding specified directory.
+            </summary>
+            <param name="fileName">Full file name and path.</param>
+            <param name="dirInfo">
+            Directory info of a directory path which serves as root.
+            </param>
+            <returns>Relative file path. In case the relative path could not be find the empty string is returned.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.NormalizePathDelimiters(System.String)">
+            <summary>
+            Replaces path delimiters with platform-specific one defined in <see cref="F:System.IO.Path.DirectorySeparatorChar"/>.
+            </summary>
+            <param name="path">Path to replace delimiters.</param>
+            <returns>Path with replaced delimiters.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.NormalizePathDelimiters(System.String,System.String)">
+            <summary>
+            Replaces path delimiters with specified one.
+            </summary>
+            <param name="path">Path to replace delimiters.</param>
+            <param name="normalizedDelimiter">Replacing delimiter.</param>
+            <returns>Path with replaced delimiters.</returns>
+        </member>
+        <member name="M:DotImaging.PathExtensions.IsDirectory(System.String)">
+            <summary>
+            Checks whether the path is file or directory.
+            </summary>
+            <param name="path">File or directory path.</param>
+            <returns>
+            True if the path is directory, false if the path is file. 
+            Null is returned if the path does not exist or in case of an internal error.
+            </returns>
+        </member>
+        <member name="T:DotImaging.Platform">
+            <summary>
+            Contains functions and properties for platform interoperability.
+            </summary>
+        </member>
+        <member name="T:DotImaging.Platform.OperatingSystem">
+            <summary>
+            Operating system type.
+            </summary>
+        </member>
+        <member name="F:DotImaging.Platform.OperatingSystem.Windows">
+            <summary>
+            Windows family.
+            </summary>
+        </member>
+        <member name="F:DotImaging.Platform.OperatingSystem.Linux">
+            <summary>
+            Linux family
+            </summary>
+        </member>
+        <member name="F:DotImaging.Platform.OperatingSystem.MacOS">
+            <summary>
+            MacOS family
+            </summary>
+        </member>
+        <member name="M:DotImaging.Platform.getRunningPlatform">
+            <summary>
+            Gets operating system name.
+            <para>
+            Taken from: <a href="http://stackoverflow.com/questions/10138040/how-to-detect-properly-windows-linux-mac-operating-systems"/> and modified.
+            </para>
+            </summary>
+        </member>
+        <member name="P:DotImaging.Platform.RunningPlatform">
+            <summary>
+            Gets operating system name.
+            </summary>
+        </member>
+        <member name="M:DotImaging.Platform.AddDllSearchPath(System.String)">
+            <summary>
+            Adds the specified directory to unmanaged library search path for functions that load unmanaged library. See <paramref name="dllDirectory"/> attribute is also included.
+            Internally it changes process environmental variable.
+            </summary>
+            <param name="dllDirectory">Directory where to search unmanaged libraries.</param>
+        </member>
+        <member name="M:DotImaging.Platform.GetDefaultDllSearchPath(System.String)">
+            <summary>
+            Gets a default unmanaged library search directory.
+            The default directory is platform specific:
+            <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
+            <para>  MacOS: /UnmanagedLibraries/MacOS/</para>
+            <para>  Linux: /UnmanagedLibraries/Linux/</para>
+            </summary>
+            <param name="rootDirectory">Root directory which marks the starting point (e.g. executing assembly directory).</param>
+            <returns>Default unmanaged library search directory.</returns>
+        </member>
+        <member name="M:DotImaging.Platform.AddDllSearchPath">
+            <summary>
+            Adds the default directory to unmanaged library search path for functions that load unmanaged library. The root directory is the current directory. 
+            The default directory is platform specific:
+            <para>Windows: /UnmanagedLibraries/Windows/x86/ or /UnmanagedLibraries/Windows/x64/</para>
+            <para>  MacOS: /UnmanagedLibraries/MacOS/</para>
+            <para>  Linux: /UnmanagedLibraries/Linux/</para>
+            </summary>
+        </member>
+        <member name="M:DotImaging.Platform.GetModuleFormatString">
+            <summary>
+            Gets a platform specific module format (e.g. Windows {0}.dll).
+            </summary>
+            <returns>Module format string.</returns>
+        </member>
+        <member name="M:MoreLinq.MoreEnumerable.MaxBy``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            Returns the maximal element of the given sequence, based on
+            the given projection.
+            </summary>
+            <remarks>
+            If more than one element has the maximal projected value, the first
+            one encountered will be returned. This overload uses the default comparer
+            for the projected type. This operator uses immediate execution, but
+            only buffers a single result (the current maximal element).
+            </remarks>
+            <typeparam name="TSource">Type of the source sequence</typeparam>
+            <typeparam name="TKey">Type of the projected element</typeparam>
+            <param name="source">Source sequence</param>
+            <param name="selector">Selector to use to pick the results to compare</param>
+            <returns>The maximal element, according to the projection.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="source"/> or <paramref name="selector"/> is null</exception>
+            <exception cref="T:System.InvalidOperationException"><paramref name="source"/> is empty</exception>
+        </member>
+        <member name="M:MoreLinq.MoreEnumerable.MaxBy``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1},System.Collections.Generic.IComparer{``1})">
+            <summary>
+            Returns the maximal element of the given sequence, based on
+            the given projection and the specified comparer for projected values. 
+            </summary>
+            <remarks>
+            If more than one element has the maximal projected value, the first
+            one encountered will be returned. This overload uses the default comparer
+            for the projected type. This operator uses immediate execution, but
+            only buffers a single result (the current maximal element).
+            </remarks>
+            <typeparam name="TSource">Type of the source sequence</typeparam>
+            <typeparam name="TKey">Type of the projected element</typeparam>
+            <param name="source">Source sequence</param>
+            <param name="selector">Selector to use to pick the results to compare</param>
+            <param name="comparer">Comparer to use to compare projected values</param>
+            <returns>The maximal element, according to the projection.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="source"/>, <paramref name="selector"/> 
+            or <paramref name="comparer"/> is null</exception>
+            <exception cref="T:System.InvalidOperationException"><paramref name="source"/> is empty</exception>
+        </member>
+    </members>
+</doc>

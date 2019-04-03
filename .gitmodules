@@ -8,3 +8,11 @@
 	path = src/Juniper.Common
 	url = https://github.com/capnmidnight/Juniper.Common.git
 	branch = master
+[submodule "src/accord-net-framework"]
+	path = src/accord-net-framework
+	url = https://github.com/capnmidnight/accord-net-framework.git
+	branch = development
+[submodule "src/accord-net-extensions"]
+	path = src/accord-net-extensions
+	url = https://github.com/capnmidnight/accord-net-extensions.git
+	branch = master
