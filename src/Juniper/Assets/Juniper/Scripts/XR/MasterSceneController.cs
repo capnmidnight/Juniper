@@ -325,7 +325,7 @@ namespace Juniper.Unity
             if (sys == null)
             {
                 sys = new GameObject("SystemUserInterface").transform;
-                sys.localPosition = 1.5f * Vector3.forward;
+                sys.localPosition = new Vector3(0, 1.75f, 1.5f);
                 var follow = sys.Ensure<FollowMainCamera>();
                 follow.Value.followDistance = 1.5f;
             }

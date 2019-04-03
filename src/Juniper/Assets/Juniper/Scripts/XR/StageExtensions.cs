@@ -1,3 +1,4 @@
+using System.Linq;
 using Juniper.Unity.Anchoring;
 using Juniper.Unity.Display;
 using Juniper.Unity.Input;
@@ -51,6 +52,8 @@ namespace Juniper.Unity
             get; private set;
         }
 
+        private Transform HeadShadow;
+
         public Transform Hands
         {
             get; private set;
@@ -69,6 +72,13 @@ namespace Juniper.Unity
             usePhysicsBasedMovement = JuniperPlatform.SupportedARMode == AugmentedRealityTypes.None;
             BodyShape.enabled = usePhysicsBasedMovement;
 #endif
+
+            var casters = HeadShadow.GetComponentsInChildren<Renderer>()
+                .Union(Body.GetComponentsInChildren<Renderer>());
+            foreach(var caster in casters)
+            {
+                caster.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+            }
         }
 
         public virtual void Reinstall()
@@ -94,7 +104,7 @@ namespace Juniper.Unity
             var casterRenderer = caster.GetComponent<Renderer>();
             casterRenderer.lightProbeUsage = LightProbeUsage.Off;
             casterRenderer.reflectionProbeUsage = ReflectionProbeUsage.Off;
-            casterRenderer.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
+            casterRenderer.shadowCastingMode = ShadowCastingMode.On;
             casterRenderer.receiveShadows = false;
             casterRenderer.motionVectorGenerationMode = MotionVectorGenerationMode.ForceNoMotion;
 
@@ -110,12 +120,12 @@ namespace Juniper.Unity
 
             Head = DisplayManager.MainCamera.transform;
 
-            var headShadow = Head.Ensure<Transform>("HeadShadow", () =>
+            HeadShadow = Head.Ensure<Transform>("HeadShadow", () =>
                 MakeShadowCaster(
                     PrimitiveType.Sphere,
                     new Vector3(0.384284f, 0.3163f, 0.3831071f)));
 
-            headShadow.Ensure<Transform>("Goggles", () =>
+            HeadShadow.Ensure<Transform>("Goggles", () =>
                 MakeShadowCaster(
                     PrimitiveType.Cube,
                     new Vector3(0.85f, 0.5f, 0.5f),
@@ -126,7 +136,8 @@ namespace Juniper.Unity
             Body = this.Ensure<Transform>("Body", () =>
                 MakeShadowCaster(
                     PrimitiveType.Capsule,
-                    new Vector3(0.5f, 0.5f * defaultAvatarHeight, 0.5f)));
+                    new Vector3(0.5f, 0.5f * defaultAvatarHeight, 0.5f),
+                    0.5f * defaultAvatarHeight * Vector3.down));
 
 #if UNITY_MODULES_PHYSICS
             var bs = this.Ensure<CapsuleCollider>();
