@@ -227,7 +227,7 @@ namespace Juniper.Unity.World.Climate
                 currentWeather.Location.MaybeSet(ref weather.location);
                 currentWeather.Humidity.MaybeSet(ref weather.humidity);
                 currentWeather.Temperature.MaybeSet(ref weather.temperature);
-                currentWeather.Visibility.MaybeSet(ref weather.visibility);
+                currentWeather.AtmosphericVisibility.MaybeSet(ref weather.visibility);
                 currentWeather.WindDirection.MaybeSet(ref weather.windDirection);
                 currentWeather.WindSpeed.MaybeSet(ref weather.windSpeed);
             }
@@ -276,9 +276,9 @@ namespace Juniper.Unity.World.Climate
             {
                 ScreenDebugger.Print("  No weather report");
             }
-            else if (currentWeather.Error != null)
+            else if (currentWeather.ErrorMessage != null)
             {
-                ScreenDebugger.Print($"  ERROR: {currentWeather.Error}");
+                ScreenDebugger.Print($"  ERROR: {currentWeather.ErrorMessage}");
             }
             else
             {
@@ -291,7 +291,7 @@ namespace Juniper.Unity.World.Climate
                 ScreenDebugger.Print($"  Temperature: {currentWeather.Temperature.Label(UnitOfMeasure.Celsius)}");
                 ScreenDebugger.Print($"  Humidity: {currentWeather.Humidity.Label(UnitOfMeasure.Proportion)}");
                 ScreenDebugger.Print($"  Pressure: {currentWeather.AtmosphericPressure.Label(UnitOfMeasure.Hectopascals)}");
-                ScreenDebugger.Print($"  Visibility: {currentWeather.Visibility.Label(UnitOfMeasure.Meters)}");
+                ScreenDebugger.Print($"  Visibility: {currentWeather.AtmosphericVisibility.Label(UnitOfMeasure.Meters)}");
                 ScreenDebugger.Print($"  Wind Direction {WindDirection.Label(UnitOfMeasure.Degrees)}");
                 ScreenDebugger.Print($"  Wind Speed {WindSpeed.Label(UnitOfMeasure.MetersPerSecond)}");
                 ScreenDebugger.Print($"  Sunrise: {currentWeather.SunriseTime?.FixTime()}");

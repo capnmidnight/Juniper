@@ -112,7 +112,7 @@ namespace Juniper.Unity.World.Climate
         /// <summary>
         /// atmospheric visibility
         /// </summary>
-        public float? Visibility
+        public float? AtmosphericVisibility
         {
             get
             {
@@ -226,7 +226,7 @@ namespace Juniper.Unity.World.Climate
         /// The error message, if a server error occurred.
         /// </summary>
         /// <value>The error.</value>
-        public string Error
+        public string ErrorMessage
         {
             get
             {
