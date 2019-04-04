@@ -38,6 +38,7 @@ examples/*/Assets/Juniper.meta
 examples/*/Assets/TextMesh Pro/
 examples/*/Assets/TextMesh Pro.meta
 examples/*/Assets/StreamingAssets/Juniper/
+examples/*/Assets/StreamingAssets/Juniper.meta
 
 src/Juniper/Assets/_TerrainAutoUpgrade.meta
 src/Juniper/Assets/_TerrainAutoUpgrade/

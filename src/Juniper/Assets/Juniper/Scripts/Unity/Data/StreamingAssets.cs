@@ -26,16 +26,16 @@ namespace Juniper.Unity.Data
 
             if (!NetworkPathPattern.IsMatch(subPath))
             {
-#if UNITY_EDITOR || PLATFORM_WSA || PLATFORM_STANDALONE || UNITY_WEBGL
+#if UNITY_EDITOR || PLATFORM_WSA || UNITY_STANDALONE || UNITY_WEBGL
                 parts.Add(dataPath);
                 parts.Add("StreamingAssets");
-#elif UNITY_IOS
-                parts.Add(dataPath);
-                parts.Add("Raw");
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID || PLATFORM_LUMIN
                 parts.Add("jar:file:/");
                 parts.Add(dataPath + "!");
                 parts.Add("assets");
+#elif UNITY_IOS
+                parts.Add(dataPath);
+                parts.Add("Raw");
 #endif
             }
 
