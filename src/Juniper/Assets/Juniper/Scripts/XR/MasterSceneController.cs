@@ -641,10 +641,10 @@ namespace Juniper.Unity
 
         public void LoadAllScenes()
         {
-            StartCoroutine(LoadAllScenesCoroutine2());
+            StartCoroutine(LoadAllScenesCoroutineWithProgress());
         }
 
-        private IEnumerator LoadAllScenesCoroutine2()
+        private IEnumerator LoadAllScenesCoroutineWithProgress()
         {
             loadingBar?.Activate();
             yield return LoadAllScenesCoroutine(loadingBar);
