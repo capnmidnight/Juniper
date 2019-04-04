@@ -215,8 +215,9 @@ GameObject:
   - component: {fileID: 1237958091}
   - component: {fileID: 1237958090}
   - component: {fileID: 1237958089}
+  - component: {fileID: 1237958092}
   m_Layer: 0
-  m_Name: New Text
+  m_Name: PlatformGreeting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,7 +233,7 @@ TextMesh:
   m_GameObject: {fileID: 1237958088}
   m_Text: 'Hello World from Juniper
 
-    on WebGL'
+    on {Juniper:Platform}'
   m_OffsetZ: 0
   m_CharacterSize: 10
   m_LineSpacing: 1
@@ -297,6 +298,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1237958092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237958088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4bb466d63e87b243a7a99f2d4e2e24a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1520445405
 GameObject:
   m_ObjectHideFlags: 0
