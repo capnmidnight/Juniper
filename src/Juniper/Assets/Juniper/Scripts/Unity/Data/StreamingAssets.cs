@@ -26,7 +26,7 @@ namespace Juniper.Unity.Data
 
             if (!NetworkPathPattern.IsMatch(subPath))
             {
-#if UNITY_EDITOR || PLATFORM_WSA || PLATFORM_STANDALONE
+#if UNITY_EDITOR || PLATFORM_WSA || PLATFORM_STANDALONE || UNITY_WEBGL
                 parts.Add(dataPath);
                 parts.Add("StreamingAssets");
 #elif UNITY_IOS
