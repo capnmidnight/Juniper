@@ -295,7 +295,6 @@ namespace Juniper.Unity
             SetupFader(reset);
             SetupSystemInterface(reset, qualityDegrader, aud);
             SetupLighting();
-            SetupGround();
 
             return true;
         }
@@ -496,16 +495,6 @@ namespace Juniper.Unity
 
             sunRig.name = "SunRig";
             sunRig.Ensure<CompassRose>();
-        }
-
-        private void SetupGround()
-        {
-            var ground = transform.Query("/Ground");
-            if (ground == null)
-            {
-                ground = new GameObject("Ground").transform;
-            }
-            ground.Ensure<Ground.Ground>();
         }
 
         private static RectTransform MakeLabeledPanel(RectTransform optionsPanel, string name, Vector2 position)
