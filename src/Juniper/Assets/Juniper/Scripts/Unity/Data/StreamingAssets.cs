@@ -51,7 +51,7 @@ namespace Juniper.Unity.Data
         }
 
         /// <summary>
-        /// Open a file as an stream of bytes and save it to a cached location. On subsequent loads,
+        /// Open a file as a stream of bytes and save it to a cached location. On subsequent loads,
         /// open from the cached location.
         /// </summary>
         /// <param name="path">   The full path to the file in question</param>
