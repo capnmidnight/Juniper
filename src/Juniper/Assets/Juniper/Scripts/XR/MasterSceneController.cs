@@ -292,9 +292,13 @@ namespace Juniper.Unity
                 return false;
             }
 
+            if (reset && (subSceneNames == null || subSceneNames.Length == 0))
+            {
+                subSceneNames = new string[] { "Assets/Juniper/Scenes/Examples/Content.unity" };
+            }
+
             SetupFader(reset);
             SetupSystemInterface(reset, qualityDegrader, aud);
-            SetupLighting();
 
             return true;
         }
@@ -451,50 +455,6 @@ namespace Juniper.Unity
 
 #endif
 #endif
-        }
-
-        private void SetupLighting()
-        {
-            var sun = RenderSettings.sun;
-#if UNITY_EDITOR
-            if (sun?.gameObject?.scene.name != gameObject.scene.name)
-            {
-                sun = (from light in ComponentExt.FindAll<Light>()
-                       where light.type == LightType.Directional
-                        && light.gameObject?.scene.name == gameObject.scene.name
-                       orderby light.intensity descending
-                       select light).FirstOrDefault();
-
-                if (sun == null)
-                {
-                    sun = new GameObject("Sun").AddComponent<Light>();
-                    sun.type = LightType.Directional;
-                    sun.shadows = LightShadows.Soft;
-                }
-
-                RenderSettings.sun = sun;
-            }
-#endif
-
-            sun.Ensure<GPSLocation>();
-            sun.Ensure<SunPosition>();
-            sun.Ensure<LightMeasurement>();
-
-            var estimator = sun.GetComponent<AbstractLightEstimate>();
-            if (estimator == null)
-            {
-                estimator = sun.gameObject.AddComponent<IndoorLightEstimate>();
-            }
-
-            var sunRig = sun.transform.parent;
-            if (sunRig == null)
-            {
-                sunRig = new GameObject().transform;
-                sun.transform.SetParent(sunRig, false);
-            }
-
-            sunRig.name = "SunRig";
-            sunRig.Ensure<CompassRose>();
         }
 
         private static RectTransform MakeLabeledPanel(RectTransform optionsPanel, string name, Vector2 position)

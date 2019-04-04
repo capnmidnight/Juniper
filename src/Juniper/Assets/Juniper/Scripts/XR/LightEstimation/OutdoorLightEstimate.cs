@@ -15,7 +15,6 @@ namespace Juniper.Unity.World.LightEstimation
     /// </summary>
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(Light))]
     public class OutdoorLightEstimate : AbstractLightEstimate
     {
         /// <summary>

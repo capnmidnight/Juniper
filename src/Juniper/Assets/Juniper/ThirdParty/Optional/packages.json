@@ -1,5 +1,9 @@
 [
   {
+    "Name": "Bakery",
+    "CompilerDefine": "BAKERY"
+  },
+  {
     "Name": "UBER",
     "CompilerDefine": "UBER_SHADER"
   },
@@ -42,10 +46,6 @@
   {
     "Name": "Vuforia",
     "CompilerDefine": "VUFORIA"
-  },
-  {
-    "Name": "NeuroSky",
-    "CompilerDefine": "NEUROSKY"
   },
   {
     "Name": "PicoMobileSDK",

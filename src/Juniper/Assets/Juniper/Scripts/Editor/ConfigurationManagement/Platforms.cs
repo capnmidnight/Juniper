@@ -79,7 +79,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 .Where(p => p.version == "exclude")
                 .ToArray();
 
-            var rawPackages = commonUnityPackages
+            var commonRawPackages = commonPackages
                 .OfType<RawPackage>()
                 .ToArray();
 
@@ -116,7 +116,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
                 platform.RawPackages = platform
                     .UninstallableRawPackages
-                    .Union(rawPackages)
+                    .Union(commonRawPackages)
                     .ToArray();
             }
         }

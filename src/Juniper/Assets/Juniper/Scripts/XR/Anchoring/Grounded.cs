@@ -116,8 +116,8 @@ namespace Juniper.Unity.Anchoring
             var center = transform.position;
             var rays = new[]
             {
-                new Ray(center, -transform.up),
-                new Ray(center, transform.up)
+                new Ray(center + 0.1f * Vector3.up, -transform.up),
+                new Ray(center + 0.1f * Vector3.down, transform.up)
             };
 
             foreach (var ray in rays)

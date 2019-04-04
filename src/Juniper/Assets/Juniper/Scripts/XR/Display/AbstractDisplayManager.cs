@@ -96,16 +96,27 @@ namespace Juniper.Unity.Display
 #endif
 
         private JuniperSystem jp;
+        private JuniperSystem Sys
+        {
+            get
+            {
+                if (jp == null)
+                {
+                    jp = ComponentExt.FindAny<JuniperSystem>();
+                }
+                return jp;
+            }
+        }
 
         public PlatformTypes CurrentPlatform
         {
             get
             {
-                return jp.CurrentPlatform;
+                return Sys.CurrentPlatform;
             }
             private set
             {
-                jp.CurrentPlatform = value;
+                Sys.CurrentPlatform = value;
             }
         }
 
@@ -113,11 +124,11 @@ namespace Juniper.Unity.Display
         {
             get
             {
-                return jp.System;
+                return Sys.System;
             }
             private set
             {
-                jp.System = value;
+                Sys.System = value;
             }
         }
 
@@ -127,11 +138,11 @@ namespace Juniper.Unity.Display
         {
             get
             {
-                return jp.DisplayType;
+                return Sys.DisplayType;
             }
             private set
             {
-                jp.DisplayType = value;
+                Sys.DisplayType = value;
             }
         }
 
@@ -139,7 +150,7 @@ namespace Juniper.Unity.Display
         {
             get
             {
-                return jp.SupportedDisplayType;
+                return Sys.SupportedDisplayType;
             }
         }
 
@@ -150,11 +161,11 @@ namespace Juniper.Unity.Display
         {
             get
             {
-                return jp.ARMode;
+                return Sys.ARMode;
             }
             private set
             {
-                jp.ARMode = value;
+                Sys.ARMode = value;
             }
         }
 
@@ -162,7 +173,7 @@ namespace Juniper.Unity.Display
         {
             get
             {
-                return jp.SupportedARMode;
+                return Sys.SupportedARMode;
             }
         }
 
@@ -172,11 +183,11 @@ namespace Juniper.Unity.Display
         {
             get
             {
-                return jp.Option;
+                return Sys.Option;
             }
             private set
             {
-                jp.Option = value;
+                Sys.Option = value;
             }
         }
 
@@ -212,12 +223,6 @@ namespace Juniper.Unity.Display
 
         public virtual bool Install(bool reset)
         {
-            jp = ComponentExt.FindAny<JuniperSystem>();
-            if (jp == null)
-            {
-                return false;
-            }
-
             this.Ensure<QualityDegrader>();
             cameraCtrl = this.Ensure<CameraControl>();
 

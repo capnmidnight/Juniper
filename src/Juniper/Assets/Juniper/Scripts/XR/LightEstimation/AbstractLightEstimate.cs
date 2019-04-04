@@ -2,6 +2,12 @@ using System;
 
 using UnityEngine;
 
+#if BAKERY
+using LightT = BakeryDirectLight;
+#else
+using LightT = UnityEngine.Light;
+#endif
+
 namespace Juniper.Unity.World.LightEstimation
 {
     public abstract class AbstractLightEstimate : MonoBehaviour, IInstallable
@@ -55,7 +61,7 @@ namespace Juniper.Unity.World.LightEstimation
         /// <summary>
         /// The light to which this component is attached.
         /// </summary>
-        protected Light sun;
+        protected LightT sun;
 
         /// <summary>
         /// The AR subsystem for measuring light strength in a camera frame.
@@ -142,8 +148,36 @@ namespace Juniper.Unity.World.LightEstimation
 
         public virtual bool Install(bool reset)
         {
+            sun = GetComponent<LightT>();
+#if UNITY_EDITOR
+            if (reset)
+            {
+                name = "Sun";
+
+#if !BAKERY
+                sun.type = LightType.Directional;
+                sun.shadows = LightShadows.Soft;
+                sun.lightmapBakeType = LightmapBakeType.Mixed;
+
+                RenderSettings.sun = sun;
+#endif
+
+                var sunRig = transform.parent;
+                if (sunRig == null)
+                {
+                    sunRig = new GameObject().transform;
+                    transform.SetParent(sunRig, false);
+                }
+
+                sunRig.name = "SunRig";
+                sunRig.Ensure<CompassRose>();
+            }
+#endif
+
+                this.Ensure<GPSLocation>();
+            this.Ensure<SunPosition>();
+            this.Ensure<LightMeasurement>();
             measurement = this.Ensure<LightMeasurement>();
-            sun = GetComponent<Light>();
 
             return sun != null;
         }
@@ -173,11 +207,20 @@ namespace Juniper.Unity.World.LightEstimation
 
             var shadowStrength = Mathf.Clamp(shadowScale * directionalIntensityEstimate * (1 - ambientIntensityEstimate), 0f, 1f);
 
-            if (SetDirectionalLight && sun != null)
+            if (SetDirectionalLight && sun != null && (!sun.gameObject.isStatic || !Application.isPlaying))
             {
+#if BAKERY
+                if (!Application.isPlaying)
+                {
+                    sun.color = directionalColor;
+                    sun.intensity = directionalIntensity;
+                    sun.shadowSpread = 1 - shadowStrength;
+                }
+#else
                 sun.color = directionalColor;
                 sun.intensity = directionalIntensity;
                 sun.shadowStrength = shadowStrength;
+#endif
 
                 if (HasSunRotation)
                 {
@@ -185,7 +228,7 @@ namespace Juniper.Unity.World.LightEstimation
                 }
             }
 
-            if (SetAmbientLight)
+                if (SetAmbientLight)
             {
                 RenderSettings.ambientLight = ambientColor;
                 RenderSettings.ambientIntensity = ambientIntensity;

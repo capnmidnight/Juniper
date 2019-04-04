@@ -118,6 +118,8 @@ namespace Juniper.Unity
         {
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
+            transform.position = defaultAvatarHeight * Vector3.up;
+
             Head = DisplayManager.MainCamera.transform;
 
             HeadShadow = Head.Ensure<Transform>("HeadShadow", () =>
@@ -230,22 +232,22 @@ namespace Juniper.Unity
 #if UNITY_MODULES_PHYSICS
             if (usePhysicsBasedMovement)
             {
-                var center = userCenter;
-                center.y = -0.5f * defaultAvatarHeight;
-
-                BodyShape.center = Quaternion.Inverse(transform.rotation) * center;
+#if !UNITY_XR_MAGICLEAP
                 // Make the hands follow the camera position, but not the rotation. On Daydream
                 // systems, the system can figure out the right orientation for the controller as you
                 // rotate your body in place, but it can't figure out the position relative to the
                 // 6DOF tracking of the headset.
-                Body.position = BodyShape.transform.position + userCenter - (0.5f * defaultAvatarHeight * Vector3.up);
+                Hands.position = BodyShape.transform.position + userCenter;
+#endif
+
+                var center = userCenter;
+                center.y = -0.5f * defaultAvatarHeight;
+
+                BodyShape.center = Quaternion.Inverse(transform.rotation) * center;
+                Body.position = Hands.position - (0.5f * defaultAvatarHeight * Vector3.up);
             }
 #else
             Body.position = userCenter;
-#endif
-
-#if !UNITY_XR_MAGICLEAP
-            Hands.position = Body.position;
 #endif
         }
     }
