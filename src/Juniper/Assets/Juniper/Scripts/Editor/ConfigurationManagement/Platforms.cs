@@ -14,12 +14,9 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 {
     internal class Platforms
     {
-        public static Platforms Instance;
+        private static readonly string[] NO_VR_SYSTEMS = new string[] { "None" };
 
-        static Platforms()
-        {
-            Instance = new Platforms();
-        }
+        private static readonly AbstractPackage[] EMPTY_PACKAGES = new AbstractPackage[0];
 
         public static void ForEachPackage<T>(IEnumerable<T> packages, IProgress prog, Action<T, IProgress> act)
             where T : AbstractPackage
@@ -92,6 +89,10 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
             foreach (var platform in AllPlatforms)
             {
+                if (platform.vrSystems == null)
+                {
+                    platform.vrSystems = NO_VR_SYSTEMS;
+                }
                 var packages = ParsePackages(platform.packages);
                 var unityPackages = packages.OfType<UnityPackage>().ToArray();
 
@@ -122,10 +123,17 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
         private AbstractPackage[] ParsePackages(string[] packages)
         {
-            return (from pkgName in packages
-                    select rawPackageDB.Get(pkgName)
-                    ?? new UnityPackage(pkgName))
-                .ToArray();
+            if (packages == null)
+            {
+                return EMPTY_PACKAGES;
+            }
+            else
+            {
+                return (from pkgName in packages
+                        select rawPackageDB.Get(pkgName)
+                        ?? new UnityPackage(pkgName))
+                    .ToArray();
+            }
         }
     }
 }

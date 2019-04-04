@@ -102,7 +102,8 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
         private static bool Config_PlatformChanged()
         {
-            if (!Platforms.Instance.PlatformDB[config.NextPlatform].IsSupported)
+            var platforms = new Platforms();
+            if (!platforms.PlatformDB[config.NextPlatform].IsSupported)
             {
                 EditorUtility.DisplayDialog(
                    "Juniper",
@@ -126,7 +127,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             get
             {
-                return Platforms.Instance.PlatformDB.Get(CurrentPlatform);
+                return new Platforms().PlatformDB.Get(CurrentPlatform);
             }
         }
 
@@ -134,7 +135,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             get
             {
-                return Platforms.Instance.PlatformDB.Get(NextPlatform);
+                return new Platforms().PlatformDB.Get(NextPlatform);
             }
         }
 
@@ -146,7 +147,8 @@ namespace Juniper.UnityEditor.ConfigurationManagement
         {
             get
             {
-                var d = Platforms.Instance.AllCompilerDefines.ToList();
+                var platforms = new Platforms();
+                var d = platforms.AllCompilerDefines.ToList();
                 d.Add(RECOMPILE_SLUG);
                 return d.Distinct().ToArray();
             }
@@ -156,7 +158,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
         private static bool MenuCheck(PlatformTypes p)
         {
-            return CurrentPlatform != p && Platforms.Instance.PlatformDB[p].IsSupported;
+            return CurrentPlatform != p && new Platforms().PlatformDB[p].IsSupported;
         }
 
         #region Menu/Android
@@ -381,19 +383,35 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
         #region Menu/LuminOS
 
-        [MenuItem(MENU_NAME + "LuminOS/Magic Leap", true)]
+        [MenuItem(MENU_NAME + "Magic Leap", true)]
         public static bool SetMagicLeap_MenuItem_Validate()
         {
             return MenuCheck(PlatformTypes.MagicLeap);
         }
 
-        [MenuItem(MENU_NAME + "LuminOS/Magic Leap", false)]
+        [MenuItem(MENU_NAME + "Magic Leap", false)]
         public static void SetMagicLeap_MenuItem()
         {
             NextPlatform = PlatformTypes.MagicLeap;
         }
 
         #endregion Menu/LuminOS
+
+        #region Menu/WebGL
+
+        [MenuItem(MENU_NAME + "WebGL", true)]
+        public static bool SetWebGL_MenuItem_Validate()
+        {
+            return MenuCheck(PlatformTypes.WebGL);
+        }
+
+        [MenuItem(MENU_NAME + "WebGL", false)]
+        public static void SetWebGL_MenuItem()
+        {
+            NextPlatform = PlatformTypes.WebGL;
+        }
+
+        #endregion
 
         #region Menu/Other
 

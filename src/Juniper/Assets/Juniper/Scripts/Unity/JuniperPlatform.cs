@@ -49,6 +49,9 @@ namespace Juniper.Unity
 #if UNITY_XR_MAGICLEAP
             PlatformTypes.MagicLeap;
 
+#elif UNITY_WEBGL
+            PlatformTypes.WebGL;
+
 #elif UNITY_ANDROID
 #if UNITY_XR_ARCORE
             PlatformTypes.AndroidARCore;

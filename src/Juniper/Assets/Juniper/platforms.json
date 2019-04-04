@@ -31,26 +31,17 @@
   "platforms": [
   {
     "Name": "None",
-    "buildTarget": "Standalone",
-    "vrSystems": [],
-    "packages": []
+    "buildTarget": "Standalone"
   },
   {
     "Name": "Android",
     "buildTarget": "Android",
-    "CompilerDefine": "STANDARD_DISPLAY",
-    "vrSystems": [
-      "None"
-    ],
-    "packages": []
+    "CompilerDefine": "STANDARD_DISPLAY"
   },
   {
     "Name": "AndroidARCore",
     "buildTarget": "Android",
     "androidSdkVersion": "AndroidApiLevel24",
-    "vrSystems": [
-      "None"
-    ],
     "packages": [
       "com.unity.modules.jsonserialize@1.0.0",
       "GoogleARCore"
@@ -111,9 +102,6 @@
     "buildTarget": "Android",
     "CompilerDefine": "PICO",
     "androidSdkVersion": "AndroidApiLevel19",
-    "vrSystems": [
-      "None"
-    ],
     "packages": [
       "PicoMobileSDK"
     ]
@@ -123,9 +111,6 @@
     "buildTarget": "Android",
     "androidSdkVersion": "AndroidApiLevel25",
     "spatializer": "Resonance Audio",
-    "vrSystems": [
-      "None"
-    ],
     "packages": [
       "WaveVR",
       "ResonanceAudio"
@@ -135,18 +120,12 @@
     "Name": "IOS",
     "buildTarget": "iOS",
     "CompilerDefine": "STANDARD_DISPLAY",
-    "vrSystems": [
-      "None"
-    ],
     "packages": []
   },
   {
     "Name": "IOSARKit",
     "buildTarget": "iOS",
     "iOSVersion": "11.0",
-    "vrSystems": [
-      "None"
-    ],
     "packages": [
       "UnityARKitPlugin"
     ]
@@ -170,9 +149,6 @@
     "Name": "Standalone",
     "buildTarget": "Standalone",
     "CompilerDefine": "STANDARD_DISPLAY",
-    "vrSystems": [
-      "None"
-    ],
     "packages": [
       "Tobii"
     ]
@@ -214,9 +190,6 @@
     "buildTarget": "WSAPlayer",
     "CompilerDefine": "STANDARD_DISPLAY",
     "wsaSubtarget": "AnyDevice",
-    "vrSystems": [
-      "None"
-    ],
     "packages": [
       "Tobii"
     ]
@@ -264,6 +237,10 @@
       "com.unity.modules.vr@1.0.0",
       "MagicLeap"
     ]
+  },
+  {
+    "Name": "WebGL",
+    "buildTarget": "WebGL"
   }
 ]
 }
