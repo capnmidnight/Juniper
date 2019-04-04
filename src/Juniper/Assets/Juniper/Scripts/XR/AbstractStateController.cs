@@ -141,7 +141,7 @@ namespace Juniper.Unity
         {
             get
             {
-                return enabled;
+                return isActiveAndEnabled;
             }
         }
 
@@ -152,7 +152,7 @@ namespace Juniper.Unity
         {
             get
             {
-                return !enabled;
+                return !isActiveAndEnabled;
             }
         }
 
