@@ -246,58 +246,61 @@ namespace Juniper.Unity.Display
 
         public virtual void Start()
         {
+            
         }
 
 #if UNITY_MODULES_XR
 
         private static bool ChangeXRDevice(DisplayTypes displayType)
         {
-            var xrDevice = "None";
+            var xrDevice = UnityXRPlatforms.None;
             if (displayType == DisplayTypes.Stereo)
             {
                 if (JuniperPlatform.CurrentPlatform == PlatformTypes.AndroidDaydream)
                 {
-                    xrDevice = "daydream";
+                    xrDevice = UnityXRPlatforms.daydream;
                 }
                 else if (JuniperPlatform.CurrentPlatform == PlatformTypes.AndroidOculus
                     || JuniperPlatform.CurrentPlatform == PlatformTypes.StandaloneOculus)
                 {
-                    xrDevice = "Oculus";
+                    xrDevice = UnityXRPlatforms.Oculus;
                 }
                 else if (JuniperPlatform.CurrentPlatform == PlatformTypes.UWPHoloLens
                     || JuniperPlatform.CurrentPlatform == PlatformTypes.UWPWindowsMR)
                 {
-                    xrDevice = "WindowsMR";
+                    xrDevice = UnityXRPlatforms.WindowsMR;
                 }
                 else if (JuniperPlatform.CurrentPlatform == PlatformTypes.MagicLeap)
                 {
-                    xrDevice = "Lumin";
+                    xrDevice = UnityXRPlatforms.Lumin;
                 }
                 else if (JuniperPlatform.CurrentPlatform == PlatformTypes.StandaloneSteamVR)
                 {
-                    xrDevice = "openvr";
+                    xrDevice = UnityXRPlatforms.OpenVR;
                 }
                 else if (JuniperPlatform.CurrentPlatform == PlatformTypes.AndroidCardboard
                     || JuniperPlatform.CurrentPlatform == PlatformTypes.IOSCardboard)
                 {
-                    xrDevice = "cardboard";
+                    xrDevice = UnityXRPlatforms.cardboard;
                 }
             }
 
-            if (XRSettings.loadedDeviceName == xrDevice)
+            var xrDeviceName = xrDevice.ToString();
+
+            if (XRSettings.loadedDeviceName == xrDeviceName)
             {
                 return true;
             }
-            else if (XRSettings.supportedDevices.Contains(xrDevice))
+            else if (XRSettings.supportedDevices.Contains(xrDeviceName))
             {
-                XRSettings.LoadDeviceByName(xrDevice);
+                XRSettings.LoadDeviceByName(xrDeviceName);
                 return true;
             }
             else
             {
                 Debug.LogErrorFormat(
                     "XR Device '{0}' is not available. Current is '{1}'. Available are '{2}'.",
-                    xrDevice,
+                    xrDeviceName,
                     XRSettings.loadedDeviceName,
                     string.Join(", ", XRSettings.supportedDevices));
                 return false;
