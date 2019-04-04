@@ -2,12 +2,6 @@ using System;
 
 using UnityEngine;
 
-#if BAKERY
-using LightT = BakeryDirectLight;
-#else
-using LightT = UnityEngine.Light;
-#endif
-
 namespace Juniper.Unity.World.LightEstimation
 {
     public abstract class AbstractLightEstimate : MonoBehaviour, IInstallable
@@ -61,7 +55,7 @@ namespace Juniper.Unity.World.LightEstimation
         /// <summary>
         /// The light to which this component is attached.
         /// </summary>
-        protected LightT sun;
+        protected Light sun;
 
         /// <summary>
         /// The AR subsystem for measuring light strength in a camera frame.
@@ -148,19 +142,17 @@ namespace Juniper.Unity.World.LightEstimation
 
         public virtual bool Install(bool reset)
         {
-            sun = GetComponent<LightT>();
+            sun = GetComponent<Light>();
 #if UNITY_EDITOR
             if (reset)
             {
                 name = "Sun";
 
-#if !BAKERY
                 sun.type = LightType.Directional;
                 sun.shadows = LightShadows.Soft;
                 sun.lightmapBakeType = LightmapBakeType.Mixed;
 
                 RenderSettings.sun = sun;
-#endif
 
                 var sunRig = transform.parent;
                 if (sunRig == null)
@@ -209,18 +201,12 @@ namespace Juniper.Unity.World.LightEstimation
 
             if (SetDirectionalLight && sun != null && (!sun.gameObject.isStatic || !Application.isPlaying))
             {
-#if BAKERY
                 if (!Application.isPlaying)
                 {
                     sun.color = directionalColor;
                     sun.intensity = directionalIntensity;
-                    sun.shadowSpread = 1 - shadowStrength;
+                    sun.shadowStrength = shadowStrength;
                 }
-#else
-                sun.color = directionalColor;
-                sun.intensity = directionalIntensity;
-                sun.shadowStrength = shadowStrength;
-#endif
 
                 if (HasSunRotation)
                 {
