@@ -22,32 +22,33 @@ namespace Juniper.Unity.Data
 
         public static string FormatPath(string dataPath, string subPath)
         {
-            var parts = new List<string>();
-
+            var parts = new List<string>(4);
+            var pathSep = '/';
             if (!NetworkPathPattern.IsMatch(subPath))
             {
-#if UNITY_EDITOR || PLATFORM_WSA || UNITY_STANDALONE || UNITY_WEBGL
+#if UNITY_EDITOR || PLATFORM_WSA || UNITY_STANDALONE
+                pathSep = Path.DirectorySeparatorChar;
                 parts.Add(dataPath);
                 parts.Add("StreamingAssets");
 #elif UNITY_ANDROID || PLATFORM_LUMIN
+
                 parts.Add("jar:file:/");
                 parts.Add(dataPath + "!");
                 parts.Add("assets");
 #elif UNITY_IOS
+                pathSep = Path.DirectorySeparatorChar;
                 parts.Add(dataPath);
                 parts.Add("Raw");
+#elif UNITY_WEBGL
+                UnityEngine.Debug.Log(dataPath);
+                parts.Add(dataPath);
+                parts.Add("StreamingAssets");
 #endif
             }
 
             parts.Add(subPath);
 
-            var path = parts.ToArray().Join();
-            if (NetworkPathPattern.IsMatch(path))
-            {
-                path = path.Replace('\\', '/');
-            }
-
-            return path;
+            return parts.ToArray().Join(pathSep);
         }
 
         /// <summary>
