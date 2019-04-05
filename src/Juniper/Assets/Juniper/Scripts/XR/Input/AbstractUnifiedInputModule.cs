@@ -262,7 +262,8 @@ namespace Juniper.Unity.Input
                     evtData.position = pointer.ScreenPoint;
                     evtData.scrollDelta = pointer.ScrollDelta;
                     evtData.useDragThreshold = eventSystem.pixelDragThreshold > 0;
-                    evtData.pointerCurrentRaycast = UpdateRay(pointer, evtData);
+
+                    UpdateRay(pointer, evtData);
 
                     pointer.Process(evtData, eventSystem.pixelDragThreshold * eventSystem.pixelDragThreshold);
                 }
@@ -289,7 +290,7 @@ namespace Juniper.Unity.Input
             return clone;
         }
 
-        private RaycastResult UpdateRay(IPointerDevice pointer, PointerEventData evtData)
+        private void UpdateRay(IPointerDevice pointer, PointerEventData evtData)
         {
             var ray = evtData.pointerCurrentRaycast;
 
@@ -324,7 +325,7 @@ namespace Juniper.Unity.Input
                 }
             }
 
-            return ray;
+            evtData.pointerCurrentRaycast = ray;
         }
 
         private const float CanvasOffset = 0.23f;
