@@ -64,7 +64,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
         /// The time at which the last State frame came in.
         /// </summary>
         private float updateTime;
-        private float lastUpdateTime;
 
         /// <summary>
         /// If there hasn't been a State frame update in over a second, then we will consider the
@@ -96,27 +95,12 @@ namespace Juniper.Unity.Input.Pointers.Motion
             {
                 _deviceState = value;
                 updateTime = Time.time;
-
-                var pose = value.sourcePose;
-
-                Vector3 point;
-                if (pose.TryGetPosition(out point, InteractionSourceNode.Pointer))
-                {
-                    transform.localPosition = point;
-                }
-
-                Quaternion rot;
-                if (pose.TryGetRotation(out rot, InteractionSourceNode.Pointer))
-                {
-                    transform.localRotation = rot;
-                }
             }
         }
 
         protected override void InternalUpdate()
         {
             lastInputState = InputState;
-            lastUpdateTime = updateTime;
 
             if (states != null)
             {
@@ -128,6 +112,20 @@ namespace Juniper.Unity.Input.Pointers.Motion
                         break;
                     }
                 }
+            }
+
+            var pose = InputState.sourcePose;
+
+            Vector3 point;
+            if (pose.TryGetPosition(out point, InteractionSourceNode.Pointer))
+            {
+                transform.localPosition = point;
+            }
+
+            Quaternion rot;
+            if (pose.TryGetRotation(out rot, InteractionSourceNode.Pointer))
+            {
+                transform.localRotation = rot;
             }
 
             base.InternalUpdate();
