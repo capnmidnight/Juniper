@@ -17,7 +17,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
         App,
         Select,
         Grip,
-        Menu,
         Thumbstick,
         Touchpad
     }
@@ -46,7 +45,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
         {
             { WindowsMRButtons.Any, s => s.anyPressed },
             { WindowsMRButtons.Grip, s => s.grasped },
-            { WindowsMRButtons.Menu, s => s.menuPressed },
             { WindowsMRButtons.Select, s => s.selectPressed },
             { WindowsMRButtons.Thumbstick, s => s.thumbstickPressed },
             { WindowsMRButtons.Touchpad, s => s.touchpadPressed }
