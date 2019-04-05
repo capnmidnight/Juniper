@@ -3,10 +3,10 @@ guid: eab7266437292844fb9c971655993327
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
-  serializedVersion: 7
+  serializedVersion: 9
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -32,7 +32,7 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: -1
-    aniso: -1
+    aniso: 4
     mipBias: -100
     wrapU: 1
     wrapV: 1
@@ -65,7 +65,7 @@ TextureImporter:
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -76,7 +76,7 @@ TextureImporter:
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -87,7 +87,7 @@ TextureImporter:
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -98,7 +98,7 @@ TextureImporter:
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -109,7 +109,18 @@ TextureImporter:
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
-    crunchedCompression: 0
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
@@ -119,7 +130,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: ac1f5e27ea140d349b5c81f4d36aa1fa
     vertices: []
     indices: 
     edges: []
