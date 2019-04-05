@@ -87,7 +87,7 @@ namespace Juniper.Unity.Input.Pointers
         public IEventSystemHandler Process(PointerEventData eventData, float pixelDragThresholdSquared)
         {
             IsPressed = ButtonPressedNeeded?.Invoke(button) == true;
-            var evtData = ClonedPointerEventNeeded?.Invoke(buttonEvent.PointerDataID, eventData) ?? eventData;
+            var evtData = ClonedPointerEventNeeded?.Invoke(buttonEvent.GetInstanceID(), eventData) ?? eventData;
             evtData.button = (InputButton)buttonEvent.inputButton;
 
             TestUpDown(evtData);

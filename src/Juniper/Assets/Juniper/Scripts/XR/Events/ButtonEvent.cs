@@ -11,7 +11,7 @@ using UnityEngine.EventSystems;
 namespace Juniper.Unity.Events
 {
     [RequireComponent(typeof(IPointerDevice))]
-    public class ButtonEvent : PointerDataCreator
+    public class ButtonEvent : MonoBehaviour
     {
         public static string FormatKey(string type, string value)
         {

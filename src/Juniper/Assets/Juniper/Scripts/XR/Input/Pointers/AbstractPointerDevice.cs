@@ -41,7 +41,7 @@ namespace Juniper.Unity.Input.Pointers
     }
 
     public abstract class AbstractPointerDevice<ButtonIDType, HapticsType, ConfigType> :
-        PointerDataCreator,
+        MonoBehaviour,
         IInstallable,
         IPointerDevice,
         IPointerButtons<ButtonIDType>
@@ -67,6 +67,14 @@ namespace Juniper.Unity.Input.Pointers
 
         [ReadOnly]
         public bool Connected;
+
+        public int PointerDataID
+        {
+            get
+            {
+                return GetInstanceID();
+            }
+        }
 
         /// <summary>
         /// The minimum distance from the camera at which to place the pointer.
@@ -158,10 +166,8 @@ namespace Juniper.Unity.Input.Pointers
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Juniper.Input.PointerDevice"/> class.
         /// </summary>
-        public override void Awake()
+        public virtual void Awake()
         {
-            base.Awake();
-
             Install(false);
 
             eventManager = ComponentExt.FindAny<UnifiedInputModule>();
