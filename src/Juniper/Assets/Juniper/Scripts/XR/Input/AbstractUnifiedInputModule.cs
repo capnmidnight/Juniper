@@ -108,10 +108,6 @@ namespace Juniper.Unity.Input
 
             Install(false);
 
-#if UNITY_EDITOR
-            mode = Mode.Desktop;
-#endif
-
             SetupDevice(ENABLE_GAZE_KEY, enableGazeToggle, EnableGaze);
             SetupDevice(ENABLE_HANDS_KEY, enableHandsToggle, EnableHands);
             SetupDevice(ENABLE_CONTROLLERS_KEY, enableControllersToggle, EnableControllers);
