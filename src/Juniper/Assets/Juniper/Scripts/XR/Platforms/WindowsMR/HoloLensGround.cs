@@ -12,7 +12,7 @@ namespace Juniper.Unity.Ground
         /// When running on HololLens, a mapping between Juniper's quality levels and WindowsMR's
         /// Spatial Mapping detail levels.
         /// </summary>
-        private static readonly Dictionary<Level, SpatialMappingBase.LODType> LODTypeMapping = new Dictionary<Level, SpatialMappingBase.LODType>
+        private static readonly Dictionary<Level, SpatialMappingBase.LODType> LODTypeMapping = new Dictionary<Level, SpatialMappingBase.LODType>(3)
         {
             { Level.Low, SpatialMappingBase.LODType.Low },
             { Level.Medium, SpatialMappingBase.LODType.Medium },

@@ -28,8 +28,9 @@ namespace Juniper.Unity.Widgets
             Multiple
         }
 
-        public List<ListViewItem> Items { get; } = new List<ListViewItem>();
-        public List<ListViewItem> Selection { get; } = new List<ListViewItem>();
+        public List<ListViewItem> Items { get; } = new List<ListViewItem>(10);
+
+        public List<ListViewItem> Selection { get; } = new List<ListViewItem>(10);
 
         public ListViewItem FirstSelectedItem
         {

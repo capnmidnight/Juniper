@@ -18,7 +18,7 @@ namespace Juniper.Unity.Imaging
         /// A mapping from Vuforia's pixel formats to functions that can retrieve an indexed pixel in
         /// those formats.
         /// </summary>
-        static Dictionary<Image.PIXEL_FORMAT, GetPixelFromBuffer> PixelConverters = new Dictionary<Image.PIXEL_FORMAT, GetPixelFromBuffer>
+        static Dictionary<Image.PIXEL_FORMAT, GetPixelFromBuffer> PixelConverters = new Dictionary<Image.PIXEL_FORMAT, GetPixelFromBuffer>(6)
         {
             { Image.PIXEL_FORMAT.GRAYSCALE, ColorExt.GetGrayscalePixel },
             { Image.PIXEL_FORMAT.RGB565, ColorExt.GetRGB565Pixel },

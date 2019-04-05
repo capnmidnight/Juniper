@@ -42,7 +42,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
             InteractionManager.GetCurrentReading(states);
         }
 
-        private static readonly Dictionary<WindowsMRButtons, Func<InteractionSourceState, bool>> BUTTONS = new Dictionary<WindowsMRButtons, Func<InteractionSourceState, bool>>
+        private static readonly Dictionary<WindowsMRButtons, Func<InteractionSourceState, bool>> BUTTONS = new Dictionary<WindowsMRButtons, Func<InteractionSourceState, bool>>(7)
         {
             { WindowsMRButtons.Any, s => s.anyPressed },
             { WindowsMRButtons.Grip, s => s.grasped },

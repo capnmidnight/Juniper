@@ -170,7 +170,7 @@ namespace Juniper.Unity.Animation
         /// A queue of actions to perform when the fader has finished fading out, before it fades
         /// back in.
         /// </summary>
-        private readonly List<Action> actions = new List<Action>();
+        private readonly List<Action> actions = new List<Action>(5);
 
         /// <summary>
         /// Adds the provided action to a queue of actions that will be executed in between a

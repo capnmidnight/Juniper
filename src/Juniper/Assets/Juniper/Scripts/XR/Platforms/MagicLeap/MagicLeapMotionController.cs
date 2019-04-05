@@ -61,8 +61,8 @@ namespace Juniper.Unity.Input.Pointers.Motion
             get; set;
         }
 
-        private readonly Dictionary<MLInputControllerButton, bool> pressed = new Dictionary<MLInputControllerButton, bool>();
-        private readonly Dictionary<MLInputControllerButton, bool> wasPressed = new Dictionary<MLInputControllerButton, bool>();
+        private readonly Dictionary<MLInputControllerButton, bool> pressed = new Dictionary<MLInputControllerButton, bool>(3);
+        private readonly Dictionary<MLInputControllerButton, bool> wasPressed = new Dictionary<MLInputControllerButton, bool>(3);
 
         private ControllerConnectionHandler connector;
 

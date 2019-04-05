@@ -20,7 +20,7 @@ namespace Juniper.Unity.ImageTracking
         /// <summary>
         /// All of the targets in the system.
         /// </summary>
-        protected readonly List<AbstractTrackableFoundEventHandler> targets = new List<AbstractTrackableFoundEventHandler>();
+        protected readonly List<AbstractTrackableFoundEventHandler> targets = new List<AbstractTrackableFoundEventHandler>(10);
 
         /// <summary>
         /// Is set to true when the tracking system is initialized and running.

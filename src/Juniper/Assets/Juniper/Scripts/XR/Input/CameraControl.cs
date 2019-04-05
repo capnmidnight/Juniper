@@ -88,9 +88,9 @@ namespace Juniper.Unity.Input
 
         private StageExtensions stage;
 
-        private readonly Dictionary<Mode, bool> wasGestureSatisfied = new Dictionary<Mode, bool>();
-        private readonly Dictionary<Mode, bool> dragged = new Dictionary<Mode, bool>();
-        private readonly Dictionary<Mode, float> dragDistance = new Dictionary<Mode, float>();
+        private readonly Dictionary<Mode, bool> wasGestureSatisfied = new Dictionary<Mode, bool>(7);
+        private readonly Dictionary<Mode, bool> dragged = new Dictionary<Mode, bool>(7);
+        private readonly Dictionary<Mode, float> dragDistance = new Dictionary<Mode, float>(7);
 
         private UnifiedInputModule input;
 

@@ -85,7 +85,7 @@ namespace UnityEngine
         /// <param name="obj">Object.</param>
         public static string FullName(this GameObject obj)
         {
-            var parts = new List<string>();
+            var parts = new List<string>(5);
             var tail = obj.transform;
             while (tail != null)
             {
@@ -123,7 +123,7 @@ namespace UnityEngine
                 toParts.RemoveAt(0);
             }
 
-            var parts = new List<string>();
+            var parts = new List<string>(5);
             foreach (var part in fromParts)
             {
                 parts.Add("..");

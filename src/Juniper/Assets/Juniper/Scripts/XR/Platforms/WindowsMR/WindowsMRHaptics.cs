@@ -44,7 +44,7 @@ namespace Juniper.Unity.Haptics
                               where s.Source.Id == ControllerID
                               select s.Source.Controller.SimpleHapticsController)
                             .FirstOrDefault();
-                expressions = new Dictionary<ushort, SimpleHapticsControllerFeedback>();
+                expressions = new Dictionary<ushort, SimpleHapticsControllerFeedback>(5);
                 if (controller != null)
                 {
                     foreach (var fb in controller.SupportedFeedback)

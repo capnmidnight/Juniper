@@ -12,7 +12,7 @@ namespace Juniper.Unity.Ground
     public class MagicLeapGround :
         AbstractARGround
     {
-        private static readonly Dictionary<Level, MLSpatialMapper.LevelOfDetail> DETAIL_LEVELS = new Dictionary<Level, MLSpatialMapper.LevelOfDetail>
+        private static readonly Dictionary<Level, MLSpatialMapper.LevelOfDetail> DETAIL_LEVELS = new Dictionary<Level, MLSpatialMapper.LevelOfDetail>(3)
         {
             { Level.Low, MLSpatialMapper.LevelOfDetail.Minimum },
             { Level.Medium, MLSpatialMapper.LevelOfDetail.Medium },

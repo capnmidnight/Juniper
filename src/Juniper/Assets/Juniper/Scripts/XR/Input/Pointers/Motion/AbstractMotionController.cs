@@ -24,8 +24,8 @@ namespace Juniper.Unity.Input.Pointers.Motion
             }
         }
 
-        private readonly Dictionary<VirtualTouchPadButton, InputEventButton> touchPadButtons = new Dictionary<VirtualTouchPadButton, InputEventButton>();
-        private readonly Dictionary<VirtualTriggerButton, InputEventButton> triggerButtons = new Dictionary<VirtualTriggerButton, InputEventButton>();
+        private readonly Dictionary<VirtualTouchPadButton, InputEventButton> touchPadButtons = new Dictionary<VirtualTouchPadButton, InputEventButton>(11);
+        private readonly Dictionary<VirtualTriggerButton, InputEventButton> triggerButtons = new Dictionary<VirtualTriggerButton, InputEventButton>(3);
 
         protected void AddButton(VirtualTouchPadButton outButton, InputButton? inButton = null)
         {
@@ -59,7 +59,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
         private const float BUTTON_RADIUS = 0.25f;
         private const float DIM = 0.75f;
 
-        private static readonly Dictionary<VirtualTouchPadButton, Vector2> BUTTON_CENTERS = new Dictionary<VirtualTouchPadButton, Vector2>
+        private static readonly Dictionary<VirtualTouchPadButton, Vector2> BUTTON_CENTERS = new Dictionary<VirtualTouchPadButton, Vector2>(9)
         {
             { VirtualTouchPadButton.Center, new Vector2(0, 0) },
 
@@ -74,7 +74,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
             { VirtualTouchPadButton.BottomRight, new Vector2(DIM, -DIM) },
         };
 
-        private static readonly Dictionary<VirtualTriggerButton, float> TRIGGER_THRESHOLDS = new Dictionary<VirtualTriggerButton, float>
+        private static readonly Dictionary<VirtualTriggerButton, float> TRIGGER_THRESHOLDS = new Dictionary<VirtualTriggerButton, float>(3)
         {
             { VirtualTriggerButton.Off, 0.1f },
             { VirtualTriggerButton.On, 0.2f },

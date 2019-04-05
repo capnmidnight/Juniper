@@ -40,7 +40,7 @@ namespace Juniper.Unity.Haptics
         {
             if (pattern.Length > 0)
             {
-                var collapsedPattern = new List<long>();
+                var collapsedPattern = new List<long>(pattern.Length);
                 var lastAmp = false;
                 for (var i = 0; i < pattern.Length; ++i)
                 {

@@ -138,7 +138,7 @@ namespace System
         /// <summary>
         /// The text that will be rendered out to the TextMesh at the end of the frame.
         /// </summary>
-        private static readonly List<string> lines = new List<string>();
+        private static readonly List<string> lines = new List<string>(10);
 
         /// <summary>
         /// The screen debugger instance, a singleton.

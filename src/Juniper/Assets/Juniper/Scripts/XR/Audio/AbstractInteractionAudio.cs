@@ -224,7 +224,7 @@ namespace Juniper.Unity.Audio
                 startUp = new SingleAudioClipCollection(soundOnStartUp, false);
                 shutDown = new SingleAudioClipCollection(soundOnShutDown, false);
 
-                audioSources = new List<AudioSource>();
+                audioSources = new List<AudioSource>(10);
 
                 volume = volumeSlider?.GetSlider();
                 volume.ValueChange += Volume_ValueChange;

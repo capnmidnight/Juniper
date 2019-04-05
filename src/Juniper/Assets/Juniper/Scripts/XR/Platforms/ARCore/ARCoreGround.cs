@@ -11,7 +11,7 @@ namespace Juniper.Unity.Ground
         /// <summary>
         /// When running on ARCore, a collection of all the planes that ARCore is tracking.
         /// </summary>
-        private readonly List<DetectedPlane> newPlanes = new List<DetectedPlane>();
+        private readonly List<DetectedPlane> newPlanes = new List<DetectedPlane>(10);
         private DisplayManager display;
 
         protected override void Awake()

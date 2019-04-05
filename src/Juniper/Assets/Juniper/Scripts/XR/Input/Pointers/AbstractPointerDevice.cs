@@ -19,7 +19,7 @@ namespace Juniper.Unity.Input.Pointers
     public abstract class AbstractPointerConfiguration<ButtonIDType>
         where ButtonIDType : struct
     {
-        private readonly Dictionary<ButtonIDType, InputEventButton> nativeButtons = new Dictionary<ButtonIDType, InputEventButton>();
+        private readonly Dictionary<ButtonIDType, InputEventButton> nativeButtons = new Dictionary<ButtonIDType, InputEventButton>(5);
 
         protected void AddButton(ButtonIDType outButton, InputButton? inButton = null)
         {

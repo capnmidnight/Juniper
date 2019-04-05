@@ -1,7 +1,8 @@
-using System;
 using System.Collections.Generic;
 
 using UnityEngine;
+
+using TweenFuncT = System.Func<float, float, Juniper.Direction, float>;
 
 namespace Juniper.Unity.Animation
 {
@@ -55,7 +56,7 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// A lookup for the tween functions, so we don't have to use reflection every time we want one.
         /// </summary>
-        public static readonly Dictionary<TweenType, Func<float, float, Direction, float>> Functions = new Dictionary<TweenType, Func<float, float, Direction, float>>
+        public static readonly Dictionary<TweenType, TweenFuncT> Functions = new Dictionary<TweenType, TweenFuncT>(6)
         {
             { TweenType.Linear, Linear },
             { TweenType.Quadratic, Quadratic },

@@ -35,12 +35,12 @@ namespace Juniper.Unity.Ground
         /// <summary>
         /// Keeps the previous frame's mesh polygon to avoid mesh update every frame.
         /// </summary>
-        private readonly List<Vector3> previousFrameMeshVertices = new List<Vector3>();
+        private readonly List<Vector3> previousFrameMeshVertices = new List<Vector3>(100);
 
         /// <summary>
         /// The mesh polygon for the current frame.
         /// </summary>
-        private readonly List<Vector3> meshVertices = new List<Vector3>();
+        private readonly List<Vector3> meshVertices = new List<Vector3>(100);
 
         /// <summary>
         /// The ordering of vertices in the polygon.

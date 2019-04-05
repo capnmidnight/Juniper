@@ -11,7 +11,7 @@ namespace Juniper.Unity.Anchoring
         /// The collection in which anchors are stored. This value's type changes depending on
         /// certain compliation flags.
         /// </summary>
-        private readonly Dictionary<string, Anchor> anchorStore = new Dictionary<string, Anchor>();
+        private readonly Dictionary<string, Anchor> anchorStore = new Dictionary<string, Anchor>(10);
 
         private ARCoreSession session;
 

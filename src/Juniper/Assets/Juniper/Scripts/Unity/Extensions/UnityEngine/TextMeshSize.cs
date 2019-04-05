@@ -16,7 +16,7 @@ namespace UnityEngine
         {
             mesh = tm;
             renderer = tm.GetComponent<Renderer>();
-            charWidths = new Dictionary<char, float>();
+            charWidths = new Dictionary<char, float>(128);
 
             //the space can not be got alone
             var aw = GetTextWidth("a");

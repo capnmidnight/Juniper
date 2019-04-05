@@ -42,8 +42,8 @@ namespace Juniper.Unity.Input
             HeadsetAR = Gaze | Motion | Hands
         }
 
-        private readonly List<IPointerDevice> newDevices = new List<IPointerDevice>();
-        public readonly List<IPointerDevice> Devices = new List<IPointerDevice>();
+        private readonly List<IPointerDevice> newDevices = new List<IPointerDevice>(12);
+        public readonly List<IPointerDevice> Devices = new List<IPointerDevice>(12);
 
         public Mode mode = Mode.Auto;
 

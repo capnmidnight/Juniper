@@ -118,7 +118,7 @@ namespace Juniper.Unity.Haptics
         /// <summary>
         /// Stored patterns to use on systems other than iOS that do not have the patterns built in.
         /// </summary>
-        private static readonly Dictionary<HapticExpression, HapticPatternElement[]> expressions = new Dictionary<HapticExpression, HapticPatternElement[]>
+        private static readonly Dictionary<HapticExpression, HapticPatternElement[]> expressions = new Dictionary<HapticExpression, HapticPatternElement[]>(10)
         {
             { HapticExpression.SelectionChange, new []{
                 new HapticPatternElement(10, 1f/6f) } },

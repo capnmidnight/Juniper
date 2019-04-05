@@ -13,7 +13,7 @@ namespace Juniper.Unity.Anchoring
         /// The collection in which anchors are stored. This value's type changes depending on
         /// certain compliation flags.
         /// </summary>
-        private readonly Dictionary<string, AnchorType> anchorStore = new Dictionary<string, AnchorType>();
+        private readonly Dictionary<string, AnchorType> anchorStore = new Dictionary<string, AnchorType>(10);
 
         public override bool HasAnchor(string anchorID)
         {

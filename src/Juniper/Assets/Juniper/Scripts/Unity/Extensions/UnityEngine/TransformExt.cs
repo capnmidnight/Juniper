@@ -99,13 +99,13 @@ namespace UnityEngine
             where T : Component
         {
             var parts = path.Split('/');
-            var top = new List<Transform> { parent.transform };
+            var top = new List<Transform>(5) { parent.transform };
             for (var i = 0; i < parts.Length; ++i)
             {
                 var part = parts[i];
                 if (part != ".")
                 {
-                    var next = new List<Transform>();
+                    var next = new List<Transform>(5);
 
                     foreach (var here in top)
                     {

@@ -25,7 +25,7 @@ namespace Juniper.Unity.Input.Pointers
 
         public event Func<int, PointerEventData, PointerEventData> ClonedPointerEventNeeded;
 
-        private readonly List<MappedButton<ButtonIDType>> buttons = new List<MappedButton<ButtonIDType>>();
+        private readonly List<MappedButton<ButtonIDType>> buttons = new List<MappedButton<ButtonIDType>>(5);
 
         public bool IsDragging
         {
