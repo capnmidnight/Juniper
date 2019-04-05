@@ -33,7 +33,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
 
         public static void UpdateReadings()
         {
-            if (states == null || InteractionManager.numSourceStates > states.Length)
+            if (states == null || InteractionManager.numSourceStates != states.Length)
             {
                 states = new InteractionSourceState[InteractionManager.numSourceStates];
             }
