@@ -121,7 +121,7 @@ namespace System
             if (lines.Count > 0)
             {
                 var log = string.Join(Environment.NewLine, lines);
-                print(log);
+                Debug.Log(log);
 
                 var formatted = from msg in lines
                                 select $"{Time.frameCount}: {msg}";

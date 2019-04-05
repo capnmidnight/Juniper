@@ -690,12 +690,12 @@ namespace Juniper.Unity
                     var subIter = (IEnumerator)obj;
                     while (subIter?.MoveNext() == true)
                     {
-                        print(subIter.Current);
+                        Debug.Log(subIter.Current);
                     }
                 }
                 else
                 {
-                    print(obj);
+                    Debug.Log(obj);
                 }
             }
 
