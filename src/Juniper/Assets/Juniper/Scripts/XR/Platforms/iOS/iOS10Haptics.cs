@@ -36,8 +36,10 @@ namespace Juniper.Unity.Haptics
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Juniper.Haptics.iOS10Haptics"/> class.
         /// </summary>
-        public void Awake() =>
+        public void Awake()
+        {
             NativeMethods.Prepare();
+        }
 
         /// <summary>
         /// Play a canned haptic pattern.
@@ -54,8 +56,10 @@ namespace Juniper.Unity.Haptics
         /// <summary>
         /// Releases all resource used by the <see cref="T:Juniper.Haptics.iOS10Haptics"/> object.
         /// </summary>
-        void OnDestroy() =>
+        void OnDestroy()
+        {
             NativeMethods.Shutdown();
+        }
     }
 }
 #endif

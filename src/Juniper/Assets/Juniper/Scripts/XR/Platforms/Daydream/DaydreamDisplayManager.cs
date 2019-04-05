@@ -7,9 +7,14 @@ namespace Juniper.Unity.Display
 {
     public class DaydreamDisplayManager : AbstractDisplayManager
     {
-        public static bool AnyActiveGoogleInstantPreview =>
-            ComponentExt.FindAll<Gvr.Internal.InstantPreview>()
-                .Any(ComponentExt.IsActivated);
+        public static bool AnyActiveGoogleInstantPreview
+        {
+            get
+            {
+                return ComponentExt.FindAll<Gvr.Internal.InstantPreview>()
+                    .Any(ComponentExt.IsActivated);
+            }
+        }
 
         public override bool Install(bool reset)
         {

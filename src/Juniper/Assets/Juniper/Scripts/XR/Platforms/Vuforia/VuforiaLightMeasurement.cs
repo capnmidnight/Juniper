@@ -40,12 +40,17 @@ namespace Juniper.Unity.World.LightEstimation
         /// </summary>
         IlluminationManager illumination;
 
-        protected override bool UseFakeIntensity =>
-            base.UseFakeIntensity
-            || (illumination == null && analyzer == null)
-            || (illumination != null && illumination.AmbientIntensity == null)
-            || (analyzer != null
-                && (!analyzer.Running || VuforiaImageAnalyzer.ImageFormat == null));
+        protected override bool UseFakeIntensity
+        {
+            get
+            {
+                return base.UseFakeIntensity
+                    || (illumination == null && analyzer == null)
+                    || (illumination != null && illumination.AmbientIntensity == null)
+                    || (analyzer != null
+                        && (!analyzer.Running || VuforiaImageAnalyzer.ImageFormat == null));
+            }
+        }
 
         public override void Awake()
         {

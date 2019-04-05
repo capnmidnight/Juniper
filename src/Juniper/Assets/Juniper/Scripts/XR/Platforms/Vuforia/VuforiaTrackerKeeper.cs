@@ -56,14 +56,19 @@ namespace Juniper.Unity.ImageTracking
         /// </summary>
         int numUpdates = 0;
 
-        protected override IEnumerable<TrackableFoundEventHandler> FirstTargets =>
-            base.FirstTargets
-                .Union(from m in this.FindAll<ModelTargetBehaviour>()
-                       select m.Ensure<TrackableFoundEventHandler>().Value)
-                .Union(from m in this.FindAll<ImageTargetBehaviour>()
-                       select m.Ensure<TrackableFoundEventHandler>().Value)
-                .Union(from m in this.FindAll<ObjectTargetBehaviour>()
-                       select m.Ensure<TrackableFoundEventHandler>().Value);
+        protected override IEnumerable<TrackableFoundEventHandler> FirstTargets
+        {
+            get
+            {
+                return base.FirstTargets
+                    .Union(from m in this.FindAll<ModelTargetBehaviour>()
+                           select m.Ensure<TrackableFoundEventHandler>().Value)
+                    .Union(from m in this.FindAll<ImageTargetBehaviour>()
+                           select m.Ensure<TrackableFoundEventHandler>().Value)
+                    .Union(from m in this.FindAll<ObjectTargetBehaviour>()
+                           select m.Ensure<TrackableFoundEventHandler>().Value);
+            }
+        }
 
         protected override void Start()
         {

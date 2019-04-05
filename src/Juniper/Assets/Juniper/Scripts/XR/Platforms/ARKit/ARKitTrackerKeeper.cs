@@ -78,24 +78,30 @@ namespace Juniper.Unity.ImageTracking
         /// An event handler for the first time an image is found by ARKit.
         /// </summary>
         /// <param name="anchorData">Anchor data.</param>
-        private void UnityARSessionNativeInterface_ARImageAnchorAddedEvent(ARImageAnchor anchorData) =>
+        private void UnityARSessionNativeInterface_ARImageAnchorAddedEvent(ARImageAnchor anchorData)
+        {
             WithTarget("Added", anchorData, target =>
                 target.ForceFound());
+        }
 
         /// <summary>
         /// An event handler that executes every time ARKit updates its understanding of an image.
         /// </summary>
         /// <param name="anchorData">Anchor data.</param>
-        private void UnityARSessionNativeInterface_ARImageAnchorUpdatedEvent(ARImageAnchor anchorData) =>
+        private void UnityARSessionNativeInterface_ARImageAnchorUpdatedEvent(ARImageAnchor anchorData)
+        {
             WithTarget("Updated", anchorData);
+        }
 
         /// <summary>
         /// An event handler that executes when ARKit loses track of an image.
         /// </summary>
         /// <param name="anchorData">Anchor data.</param>
-        private void UnityARSessionNativeInterface_ARImageAnchorRemovedEvent(ARImageAnchor anchorData) =>
+        private void UnityARSessionNativeInterface_ARImageAnchorRemovedEvent(ARImageAnchor anchorData)
+        {
             WithTarget("Removed", anchorData, target =>
                 target.ForceLost());
+        }
 
         protected override void OnTrackingStarting(string dataSetName, string targetName)
         {

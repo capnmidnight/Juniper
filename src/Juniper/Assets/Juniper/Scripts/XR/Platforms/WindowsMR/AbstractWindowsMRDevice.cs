@@ -52,11 +52,13 @@ namespace Juniper.Unity.Input.Pointers.Motion
             { WindowsMRButtons.Touchpad, s => s.touchpadPressed }
         };
 
-        public override bool IsConnected =>
-            InteractionManager
-                .GetCurrentReading()
-                .Any(obj =>
-                    obj.source.handedness == NativeHandID);
+        public override bool IsConnected
+        {
+            get
+            {
+                return states?.Any(obj => obj.source.handedness == NativeHandID) == true;
+            }
+        }
 
         /// <summary>
         /// The time at which the last State frame came in.
