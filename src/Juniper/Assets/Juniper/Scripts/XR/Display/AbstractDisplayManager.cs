@@ -33,7 +33,11 @@ namespace Juniper.Unity.Display
                     cam = ComponentExt.FindAny<Camera>(camera => camera.tag == "MainCamera");
                     if (cam == null)
                     {
-                        cam = new GameObject("Head").AddComponent<Camera>();
+                        var head = new GameObject("Head");
+                        cam = head.AddComponent<Camera>();
+#pragma warning disable CS0618 // Type or member is obsolete
+                        head.AddComponent<GUILayer>();
+#pragma warning restore CS0618 // Type or member is obsolete
                         cam.gameObject.tag = "MainCamera";
                     }
                 }

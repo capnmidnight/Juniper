@@ -7,6 +7,19 @@ namespace Juniper.Unity.Display
         private Pvr_UnitySDKEye leftEye;
         private Pvr_UnitySDKEye rightEye;
 
+        private static Camera MakeCamera(PvrUnitySDKAPI.Eye eyeSide)
+        {
+            var eyeCamera = this.Ensure<Transform>(eyeSide.ToString())
+                .Ensure<Camera>()
+#pragma warning disable CS0618 // Type or member is obsolete
+                .Ensure<GUILayer>()
+#pragma warning restore CS0618 // Type or member is obsolete
+                .Ensure<Pvr_UnitySDKEye>();
+
+            eyeCamera.eye = eyeSide;
+            return eyeCamera;
+        }
+
         public override bool Install(bool reset)
         {
             if (base.Install(reset))
@@ -23,17 +36,9 @@ namespace Juniper.Unity.Display
                 var eyeMgr = this.Ensure<Pvr_UnitySDKEyeManager>();
                 eyeMgr.Value.isfirst = true;
 
-                leftEye = this.Ensure<Transform>("LeftEye")
-                    .Ensure<Camera>()
-                    .Ensure<Pvr_UnitySDKEye>();
+                leftEye = MakeCamera(Pvr_UnitySDKAPI.Eye.LeftEye
+                rightEye = MakeCamera(Pvr_UnitySDKAPI.Eye.RightEye);
 
-                leftEye.eye = Pvr_UnitySDKAPI.Eye.LeftEye;
-
-                rightEye = this.Ensure<Transform>("RightEye")
-                    .Ensure<Camera>()
-                    .Ensure<Pvr_UnitySDKEye>();
-
-                rightEye.eye = Pvr_UnitySDKAPI.Eye.RightEye;
                 return true;
             }
 
