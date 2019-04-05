@@ -1,10 +1,7 @@
 #if UNITY_XR_WINDOWSMR_METRO && WINDOWSMR
 using UnityEngine.XR.WSA.Input;
 
-using UnityInput = UnityEngine.Input;
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
-
-using System.Linq;
 
 using Juniper.Input;
 
@@ -50,6 +47,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
     /// </summary>
     public abstract class WindowsMRMotionController : AbstractWindowsMRDevice<WindowsMRMotionControllerConfiguration, HapticsType>
     {
+#if !UNITY_EDITOR
         private uint ControllerID;
 
         public override Hands Hand
@@ -73,10 +71,9 @@ namespace Juniper.Unity.Input.Pointers.Motion
         {
             base.Awake();
 
-#if !UNITY_EDITOR
             Haptics.ControllerID = ControllerID;
-#endif
         }
+#endif
 
         public override float Trigger
         {
