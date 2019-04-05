@@ -201,8 +201,7 @@ namespace Juniper.Unity.Anchoring
                 }
                 else
                 {
-                    transform.position = groundPoint.Value + stage.defaultAvatarHeight * Vector3.up;
-
+                    transform.position = groundPoint.Value;
                     Unfreeze();
                     EmptyJobQueue();
                 }

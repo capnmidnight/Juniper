@@ -36,11 +36,12 @@ namespace Juniper.Unity.Input
             Gaze = 4,
             Motion = 8,
             Hands = 16,
+            HasFloorPosition = 32,
             Desktop = Mouse,
             Touchscreen = Touch | Gaze,
             SeatedVR = Mouse | Gaze | Motion,
-            StandingVR = Gaze | Motion,
-            HeadsetAR = Gaze | Motion | Hands
+            StandingVR = Gaze | Motion | HasFloorPosition,
+            HeadsetAR = Gaze | Motion | Hands | HasFloorPosition
         }
 
         private readonly List<IPointerDevice> newDevices = new List<IPointerDevice>(12);
@@ -95,7 +96,7 @@ namespace Juniper.Unity.Input
             {
                 newDevices.Add(pointer);
             }
-        }        
+        }
 
         public class PointerFoundEvent : UnityEvent<IPointerDevice>
         {
@@ -108,6 +109,8 @@ namespace Juniper.Unity.Input
             base.Awake();
 
             Install(false);
+
+            stage.SetStageFollowsHead(!mode.HasFlag(Mode.HasFloorPosition));
 
             SetupDevice(ENABLE_GAZE_KEY, enableGazeToggle, EnableGaze);
             SetupDevice(ENABLE_HANDS_KEY, enableHandsToggle, EnableHands);
@@ -244,6 +247,11 @@ namespace Juniper.Unity.Input
         /// </summary>
         public override void Process()
         {
+            if(!mode.HasFlag(Mode.HasFloorPosition))
+            {
+                stage.MoveHandsWithHead();
+            }
+
             EnableMouse(mode.HasFlag(Mode.Mouse) && mouse.IsConnected, false);
             EnableTouch(mode.HasFlag(Mode.Touch) && TouchConnected && !MotionConnected, false);
             EnableGaze(mode.HasFlag(Mode.Gaze) && !MotionConnected && !mouse.IsConnected && TouchConnected, false);

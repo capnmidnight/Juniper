@@ -53,6 +53,7 @@ namespace Juniper.Unity
             {
                 platform = new GameObject("UserRig").Ensure<JuniperSystem>();
             }
+            platform.tag = "Player";
 
             JuniperPlatform.Install(true);
 
@@ -114,18 +115,26 @@ namespace Juniper.Unity
                 .Ensure<DisplayManager>()
                 .transform;
 
-            var stage = head.parent;
+            var shoulders = head.parent;
+            if (shoulders == null)
+            {
+                shoulders = new GameObject().transform;
+                head.Reparent(shoulders);
+            }
+            shoulders.name = "Shoulders";
+
+            var stage = shoulders.parent;
             if (stage == null)
             {
                 stage = new GameObject().transform;
-                head.Reparent(stage);
+                shoulders.Reparent(stage);
             }
             stage.name = "Stage";
             stage.Ensure<StageExtensions>();
 
             if (stage.parent != transform)
             {
-                stage.Reparent(transform);
+                stage.SetParent(transform, false);
             }
 
             this.Ensure<EventSystem>();
