@@ -30,7 +30,7 @@ namespace Juniper.Unity.Display
             {
                 if (cam == null)
                 {
-                    cam = ComponentExt.FindAny<Camera>(camera => camera.tag == "MainCamera");
+                    cam = ComponentExt.FindAny<Camera>(camera => camera.CompareTag("MainCamera"));
                     if (cam == null)
                     {
                         var head = new GameObject("Head");

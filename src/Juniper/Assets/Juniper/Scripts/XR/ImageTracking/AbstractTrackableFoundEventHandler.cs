@@ -102,10 +102,10 @@ namespace Juniper.Unity.ImageTracking
             if (attachmentPoint == null)
             {
                 attachmentPoint = transform.Children().FirstOrDefault(t =>
-                    t.tag == TAG_NAME)
-                                           ?? transform.Children().FirstOrDefault(t =>
-                                               t.name == TRANSFORM_NAME)
-                                           ?? transform;
+                    t.CompareTag(TAG_NAME))
+                        ?? transform.Children().FirstOrDefault(t =>
+                            t.name == TRANSFORM_NAME)
+                        ?? transform;
             }
         }
 
