@@ -197,41 +197,6 @@ namespace Juniper.Unity.Input
 
 #endif
 
-        /// <summary>
-        /// A method for sorting raycasts.
-        /// </summary>
-        /// <returns>The comparer.</returns>
-        /// <param name="lhs">Lhs.</param>
-        /// <param name="rhs">Rhs.</param>
-        private static int RaycastComparer(RaycastResult lhs, RaycastResult rhs)
-        {
-            if (lhs.module.eventCamera != null
-                && rhs.module.eventCamera != null)
-            {
-                return lhs.distance.CompareTo(rhs.distance);
-            }
-            else if (lhs.module.sortOrderPriority != rhs.module.sortOrderPriority)
-            {
-                return lhs.module.sortOrderPriority.CompareTo(rhs.module.sortOrderPriority);
-            }
-            else if (lhs.module.renderOrderPriority != rhs.module.renderOrderPriority)
-            {
-                return lhs.module.renderOrderPriority.CompareTo(rhs.module.renderOrderPriority);
-            }
-            else if (lhs.depth != rhs.depth)
-            {
-                return rhs.depth.CompareTo(lhs.depth);
-            }
-            else if (Mathf.Abs(lhs.distance - rhs.distance) > 0.00001f)
-            {
-                return lhs.distance.CompareTo(rhs.distance);
-            }
-            else
-            {
-                return lhs.index.CompareTo(rhs.index);
-            }
-        }
-
         private bool wasTouchConnected = false;
         private bool TouchConnected
         {
@@ -372,19 +337,17 @@ namespace Juniper.Unity.Input
         /// <param name="eventData">Event data.</param>
         private void RaycastAll(IPointerDevice pointer, PointerEventData eventData)
         {
-            m_RaycastResultCache.Clear();
-
             foreach (var canvas in ComponentExt.FindAll<Canvas>())
             {
                 canvas.worldCamera = pointer.EventCamera;
             }
-            
+
             eventSystem.RaycastAll(eventData, m_RaycastResultCache);
 
+#if UNITY_MODULES_UI
             for (var i = 0; i < m_RaycastResultCache.Count; ++i)
             {
                 var ray = m_RaycastResultCache[i];
-#if UNITY_MODULES_UI
                 if (ray.module is GraphicRaycaster)
                 {
                     var gfr = (GraphicRaycaster)ray.module;
@@ -400,10 +363,8 @@ namespace Juniper.Unity.Input
 
                     m_RaycastResultCache[i] = ray;
                 }
-#endif
             }
-
-            m_RaycastResultCache.Sort(RaycastComparer);
+#endif
         }
 
         private bool GetBool(string key)
