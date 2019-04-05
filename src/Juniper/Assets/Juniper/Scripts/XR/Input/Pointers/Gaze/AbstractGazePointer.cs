@@ -45,9 +45,9 @@ namespace Juniper.Unity.Input.Pointers.Gaze
         /// <summary>
         /// Disables gazing for the pointer.
         /// </summary>
-        public override void SetProbe(IProbe p)
+        public override void OnProbeFound()
         {
-            base.SetProbe(p);
+            base.OnProbeFound();
 
             if (probe != null)
             {

@@ -184,8 +184,6 @@ namespace Juniper.Unity.Input.Pointers
         /// <returns></returns>
         public static Probe Ensure(Transform parent, string name)
         {
-            name += "-probe";
-
             var probe = ComponentExt
                 .FindAll<Probe>(p => p.name == name)
                 .FirstOrDefault();
@@ -196,18 +194,15 @@ namespace Juniper.Unity.Input.Pointers
                 if (config.pointerPrefab == null)
                 {
                     probe = new GameObject(name).AddComponent<Probe>();
-                    probe.transform.SetParent(parent, false);
                 }
                 else
                 {
-                    probe = Instantiate(config.pointerPrefab, parent).Ensure<Probe>();
+                    probe = Instantiate(config.pointerPrefab).Ensure<Probe>();
                     probe.name = name;
                 }
             }
-            else
-            {
-                probe.transform.SetParent(parent, false);
-            }
+
+            probe.transform.Reparent(parent, false);
 
             return probe;
         }

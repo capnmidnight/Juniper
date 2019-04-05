@@ -188,6 +188,6 @@ namespace Juniper.Unity.Input.Pointers
 
         void Process(PointerEventData evtData, float pixelDragThresholdSquared);
 
-        void SetProbe(IProbe p);
+        void OnProbeFound();
     }
 }

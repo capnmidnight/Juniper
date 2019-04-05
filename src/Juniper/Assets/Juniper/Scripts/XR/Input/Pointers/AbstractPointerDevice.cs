@@ -163,7 +163,6 @@ namespace Juniper.Unity.Input.Pointers
             stage = ComponentExt.FindAny<StageExtensions>();
 
             pointerOffset = MinimumPointerDistance * Vector3.forward;
-            ProbeName = name;
 
             Haptics = this.Ensure<HapticsType>();
 
@@ -182,7 +181,7 @@ namespace Juniper.Unity.Input.Pointers
         public virtual bool Install(bool reset)
         {
             PointerConfig.Install(nativeButtons, gameObject);
-
+            OnProbeFound();
             return true;
         }
 
@@ -208,38 +207,16 @@ namespace Juniper.Unity.Input.Pointers
         public bool showProbe = true;
 
         /// <summary>
-        /// The name of the pointer.
-        /// </summary>
-        /// <value>The name.</value>
-        private string _probeName;
-
-        /// <summary>
         /// The cursor probe that shows the physical location of the current selection.
         /// </summary>
+        [SerializeField]
         protected IProbe probe;
 
-        private IProbe FindProbe()
+        public virtual void OnProbeFound()
         {
-            if (ProbeName != null)
+            if (probe == null)
             {
-                return Probe.Ensure(transform, ProbeName);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public virtual void SetProbe(IProbe p)
-        {
-            if (probe != p)
-            {
-                if (probe != null)
-                {
-                    probe.Destroy();
-                }
-
-                probe = p ?? FindProbe();
+                probe = Probe.Ensure(transform, ProbeName); 
             }
         }
 
@@ -247,22 +224,7 @@ namespace Juniper.Unity.Input.Pointers
         {
             get
             {
-                return _probeName;
-            }
-
-            private set
-            {
-                if (value != ProbeName)
-                {
-                    if (probe != null)
-                    {
-                        probe.Destroy();
-                        probe = null;
-                    }
-
-                    _probeName = value;
-                    SetProbe(FindProbe());
-                }
+                return name + "-probe";
             }
         }
 
