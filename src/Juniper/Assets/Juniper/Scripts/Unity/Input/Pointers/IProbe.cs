@@ -10,11 +10,6 @@ namespace Juniper.Unity.Input.Pointers
             get;
         }
 
-        Camera EventCamera
-        {
-            get;
-        }
-
         PhysicsRaycaster Raycaster
         {
             get;
@@ -38,7 +33,7 @@ namespace Juniper.Unity.Input.Pointers
             set;
         }
 
-        void AlignProbe(Vector3 dir, Vector3 up, float maxDistance);
+        void AlignProbe(Vector3 dir, Vector3 up);
 
         void SetCursor(bool targeted, bool pressed, Vector3 targetPosition, Vector3 targetForward);
 

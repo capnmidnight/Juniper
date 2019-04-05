@@ -306,6 +306,11 @@ namespace UnityEngine
             }
         }
 
+        public static Object[] EditorLoadAllAssets(string path)
+        {
+            return UnityEditor.AssetDatabase.LoadAllAssetsAtPath(System.IO.PathExt.FixPath(path));
+        }
+
 #endif
 
         /// <summary>

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+using Juniper.Unity.Display;
 using Juniper.Unity.Input.Pointers;
 using Juniper.Unity.Input.Pointers.Gaze;
 using Juniper.Unity.Input.Pointers.Motion;
@@ -338,10 +339,7 @@ namespace Juniper.Unity.Input
         /// <param name="eventData">Event data.</param>
         private void RaycastAll(IPointerDevice pointer, PointerEventData eventData)
         {
-            foreach (var canvas in ComponentExt.FindAll<Canvas>())
-            {
-                canvas.worldCamera = pointer.EventCamera;
-            }
+            DisplayManager.MoveEventCameraToPointer(pointer);
 
             eventSystem.RaycastAll(eventData, m_RaycastResultCache);
 
@@ -360,7 +358,7 @@ namespace Juniper.Unity.Input
                     {
                         pos.z = ray.distance + CanvasOffset;
                     }
-                    ray.worldPosition = pointer.EventCamera.ScreenToWorldPoint(pos);
+                    ray.worldPosition = pointer.WorldFromScreen(pos);
 
                     m_RaycastResultCache[i] = ray;
                 }

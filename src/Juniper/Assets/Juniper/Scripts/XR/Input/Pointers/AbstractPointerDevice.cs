@@ -142,17 +142,6 @@ namespace Juniper.Unity.Input.Pointers
             }
         }
 
-        /// <summary>
-        /// The camera the pointer uses to point at Canvas objects.
-        /// </summary>
-        public Camera EventCamera
-        {
-            get
-            {
-                return probe?.EventCamera;
-            }
-        }
-
         public virtual bool AnyButtonPressed
         {
             get
@@ -420,34 +409,40 @@ namespace Juniper.Unity.Input.Pointers
             get; protected set;
         }
 
-        public Vector2 ScreenFromWorld(Vector3 worldPoint)
+        public Vector3 ScreenFromWorld(Vector3 worldPoint)
         {
-            return EventCamera.WorldToScreenPoint(worldPoint);
+            DisplayManager.MoveEventCameraToPointer(this);
+            return DisplayManager.EventCamera.WorldToScreenPoint(worldPoint);
         }
 
-        public Vector2 ScreenFromViewport(Vector2 viewportPoint)
+        public Vector3 ScreenFromViewport(Vector3 viewportPoint)
         {
-            return EventCamera.ViewportToScreenPoint(viewportPoint);
+            DisplayManager.MoveEventCameraToPointer(this);
+            return DisplayManager.EventCamera.ViewportToScreenPoint(viewportPoint);
         }
 
-        public Vector2 ViewportFromWorld(Vector3 worldPoint)
+        public Vector3 ViewportFromWorld(Vector3 worldPoint)
         {
-            return EventCamera.WorldToViewportPoint(worldPoint);
+            DisplayManager.MoveEventCameraToPointer(this);
+            return DisplayManager.EventCamera.WorldToViewportPoint(worldPoint);
         }
 
-        public Vector2 ViewportFromScreen(Vector2 screenPoint)
+        public Vector3 ViewportFromScreen(Vector3 screenPoint)
         {
-            return EventCamera.ScreenToViewportPoint(screenPoint);
+            DisplayManager.MoveEventCameraToPointer(this);
+            return DisplayManager.EventCamera.ScreenToViewportPoint(screenPoint);
         }
 
-        public Vector3 WorldFromScreen(Vector2 screenPoint)
+        public Vector3 WorldFromScreen(Vector3 screenPoint)
         {
-            return EventCamera.ScreenToWorldPoint((Vector3)screenPoint + pointerOffset);
+            DisplayManager.MoveEventCameraToPointer(this);
+            return DisplayManager.EventCamera.ScreenToWorldPoint(screenPoint + pointerOffset);
         }
 
-        public Vector3 WorldFromViewport(Vector2 viewportPoint)
+        public Vector3 WorldFromViewport(Vector3 viewportPoint)
         {
-            return EventCamera.ViewportToWorldPoint((Vector3)viewportPoint + pointerOffset);
+            DisplayManager.MoveEventCameraToPointer(this);
+            return DisplayManager.EventCamera.ViewportToWorldPoint(viewportPoint + pointerOffset);
         }
 
 #if UNITY_EDITOR
@@ -488,7 +483,7 @@ namespace Juniper.Unity.Input.Pointers
             {
                 motionFilter?.UpdateState(WorldPoint);
                 InternalUpdate();
-                probe?.AlignProbe(Direction, transform.up, MaximumPointerDistance);
+                probe?.AlignProbe(Direction, transform.up);
             }
         }
 

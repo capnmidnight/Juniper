@@ -5,6 +5,7 @@ using Juniper.Unity.Input.Pointers.Screen;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 namespace Juniper.Unity.Input.Pointers
 {
@@ -160,14 +161,6 @@ namespace Juniper.Unity.Input.Pointers
             get; private set;
         }
 
-        public Camera EventCamera
-        {
-            get
-            {
-                return Raycaster?.eventCamera;
-            }
-        }
-
         public Vector2 TouchPoint
         {
             get
@@ -272,41 +265,16 @@ namespace Juniper.Unity.Input.Pointers
 
         public void Start()
         {
-            var pointer = GetComponentInParent<IScreenDevice>();
-            if (pointer != null)
-            {
-                // Screen Devices need to use the Main Camera as the Event Camera.
-                Raycaster = DisplayManager.MainCamera.Ensure<PhysicsRaycaster>();
-            }
-            else
-            {
-                // Any other type of pointer uses its own raycaster.
-                Raycaster = this.Ensure<PhysicsRaycaster>();
-            }
-
-            if (EventCamera != DisplayManager.MainCamera)
-            {
-                EventCamera.clearFlags = CameraClearFlags.SolidColor;
-                EventCamera.backgroundColor = ColorExt.TransparentBlack;
-                EventCamera.nearClipPlane = DisplayManager.MainCamera.nearClipPlane;
-                EventCamera.depth = DisplayManager.MainCamera.depth - 1;
-                EventCamera.allowHDR = false;
-                EventCamera.allowMSAA = false;
-                EventCamera.enabled = false;
-            }
+            Raycaster = DisplayManager.EventCamera.GetComponent<PhysicsRaycaster>();
         }
 
         public void Uninstall()
         {
         }
 
-        public void AlignProbe(Vector3 dir, Vector3 up, float maxDistance)
+        public void AlignProbe(Vector3 dir, Vector3 up)
         {
             transform.rotation = Quaternion.LookRotation(dir, up);
-            if (EventCamera != DisplayManager.MainCamera)
-            {
-                EventCamera.farClipPlane = maxDistance;
-            }
         }
 
         /// <summary>

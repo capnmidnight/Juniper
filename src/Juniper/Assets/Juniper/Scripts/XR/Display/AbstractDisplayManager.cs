@@ -6,6 +6,10 @@ using System.Runtime.InteropServices;
 
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using Juniper.Unity.Input.Pointers;
+using Juniper.Unity.Haptics;
+using UnityEngine.SceneManagement;
 
 #if UNITY_MODULES_XR
 
@@ -24,26 +28,68 @@ namespace Juniper.Unity.Display
         /// </summary>
         private static Camera cam;
 
+        private static Camera eventCam;
+
+        private static Camera MakeCamera(string tag, string name)
+        {
+            TagManager.Normalize(tag);
+            var cam = ComponentExt.FindAny<Camera>(camera => camera.CompareTag(tag));
+            if (cam == null)
+            {
+                var obj = new GameObject(name);
+                cam = obj.AddComponent<Camera>();
+#pragma warning disable CS0618 // Type or member is obsolete
+                obj.AddComponent<GUILayer>();
+#pragma warning restore CS0618 // Type or member is obsolete
+                cam.gameObject.tag = tag;
+                var js = ComponentExt.FindAny<JuniperSystem>();
+                SceneManager.MoveGameObjectToScene(obj, js.gameObject.scene);
+            }
+
+            cam.Ensure<PhysicsRaycaster>();
+
+            return cam;
+        }
+
         public static Camera MainCamera
         {
             get
             {
                 if (cam == null)
                 {
-                    cam = ComponentExt.FindAny<Camera>(camera => camera.CompareTag("MainCamera"));
-                    if (cam == null)
-                    {
-                        var head = new GameObject("Head");
-                        cam = head.AddComponent<Camera>();
-#pragma warning disable CS0618 // Type or member is obsolete
-                        head.AddComponent<GUILayer>();
-#pragma warning restore CS0618 // Type or member is obsolete
-                        cam.gameObject.tag = "MainCamera";
-                    }
+                    cam = MakeCamera("MainCamera", "Head");
                 }
 
                 return cam;
             }
+        }
+
+        public static Camera EventCamera
+        {
+            get
+            {
+                if (eventCam == null)
+                {
+                    eventCam = MakeCamera("EventCamera", "PointerCamera");
+                    eventCam.Ensure<PhysicsRaycaster>();
+                    eventCam.clearFlags = CameraClearFlags.SolidColor;
+                    eventCam.backgroundColor = ColorExt.TransparentBlack;
+                    eventCam.depth = MainCamera.depth - 1;
+                    eventCam.allowHDR = false;
+                    eventCam.allowMSAA = false;
+                    eventCam.enabled = false;
+                }
+
+                return eventCam;
+            }
+        }
+        
+        public static void MoveEventCameraToPointer(IPointerDevice pointer)
+        {
+            EventCamera.transform.position = pointer.transform.position;
+            EventCamera.transform.rotation = pointer.transform.rotation;
+            EventCamera.nearClipPlane = pointer.MinimumPointerDistance;
+            EventCamera.farClipPlane = pointer.MaximumPointerDistance;
         }
 
         public static CameraClearFlags ClearFlags

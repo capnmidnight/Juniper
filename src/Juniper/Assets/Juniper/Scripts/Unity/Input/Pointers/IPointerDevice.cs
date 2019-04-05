@@ -7,6 +7,8 @@ namespace Juniper.Unity.Input.Pointers
 {
     public interface IPointerDevice
     {
+        Transform transform { get;  }
+
         IEventSystemHandler EventTarget
         {
             get; set;
@@ -62,11 +64,6 @@ namespace Juniper.Unity.Input.Pointers
         }
 
         PhysicsRaycaster Raycaster
-        {
-            get;
-        }
-
-        Camera EventCamera
         {
             get;
         }
@@ -171,17 +168,17 @@ namespace Juniper.Unity.Input.Pointers
             get;
         }
 
-        Vector2 ViewportFromWorld(Vector3 worldPoint);
+        Vector3 ViewportFromWorld(Vector3 worldPoint);
 
-        Vector2 ViewportFromScreen(Vector2 screenPoint);
+        Vector3 ViewportFromScreen(Vector3 screenPoint);
 
-        Vector2 ScreenFromWorld(Vector3 worldPoint);
+        Vector3 ScreenFromWorld(Vector3 worldPoint);
 
-        Vector2 ScreenFromViewport(Vector2 viewportPoint);
+        Vector3 ScreenFromViewport(Vector3 viewportPoint);
 
-        Vector3 WorldFromScreen(Vector2 screenPoint);
+        Vector3 WorldFromScreen(Vector3 screenPoint);
 
-        Vector3 WorldFromViewport(Vector2 viewportPoint);
+        Vector3 WorldFromViewport(Vector3 viewportPoint);
 
         bool IsButtonDown(PointerEventData.InputButton button);
 
