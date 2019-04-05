@@ -203,15 +203,18 @@ namespace Juniper.Unity.Input.Pointers
                 if (config.pointerPrefab == null)
                 {
                     probe = new GameObject(name).AddComponent<Probe>();
+                    probe.transform.SetParent(parent, false);
                 }
                 else
                 {
-                    probe = Instantiate(config.pointerPrefab).Ensure<Probe>();
+                    probe = Instantiate(config.pointerPrefab, parent).Ensure<Probe>();
                     probe.name = name;
                 }
             }
-
-            probe.transform.SetParent(parent, false);
+            else
+            {
+                probe.transform.SetParent(parent, false);
+            }
 
             return probe;
         }

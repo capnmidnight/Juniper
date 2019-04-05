@@ -64,9 +64,8 @@ namespace Juniper.Unity.Input
             var safeArea = parent.Find("SafeArea2");
             if (safeArea == null)
             {
-                safeArea = Instantiate(ComponentExt.EditorLoadAsset<GameObject>("Assets/PicoMobileSDK/Pvr_UnitySDK/Resources/Cylinder01.FBX")).transform;
+                safeArea = Instantiate(ComponentExt.EditorLoadAsset<GameObject>("Assets/PicoMobileSDK/Pvr_UnitySDK/Resources/Cylinder01.FBX"), parent).transform;
                 safeArea.name = "SafeArea2";
-                safeArea.SetParent(parent, false);
                 safeArea.Deactivate();
             }
 #endif
