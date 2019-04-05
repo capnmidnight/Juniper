@@ -13,9 +13,6 @@ using UnityEngine.EventSystems;
 
 #if UNITY_MODULES_UI
 using UnityEngine.UI;
-using ToggleType = UnityEngine.UI.Toggle;
-#else
-using ToggleType = UnityEngine.GameObject;
 #endif
 
 namespace Juniper.Unity.Input
@@ -76,11 +73,24 @@ namespace Juniper.Unity.Input
         private const string ENABLE_HANDS_KEY = "HandPointers";
         private const string ENABLE_CONTROLLERS_KEY = "MotionControllers";
 
-        public ToggleType enableControllersToggle;
-        public ToggleType enableMouseToggle;
-        public ToggleType enableTouchToggle;
-        public ToggleType enableHandsToggle;
-        public ToggleType enableGazeToggle;
+#if UNITY_MODULES_UI
+        public Toggle enableControllersToggle;
+        public Toggle enableMouseToggle;
+        public Toggle enableTouchToggle;
+        public Toggle enableHandsToggle;
+        public Toggle enableGazeToggle;
+#endif
+
+        [SerializeField]
+        private GameObject enableControllersObject;
+        [SerializeField]
+        private GameObject enableMouseObject;
+        [SerializeField]
+        private GameObject enableTouchObject;
+        [SerializeField]
+        private GameObject enableHandsObject;
+        [SerializeField]
+        private GameObject enableGazeObject;
 
         public GazePointer gazePointer;
         public Mouse mouse;
@@ -112,23 +122,50 @@ namespace Juniper.Unity.Input
 
             stage.SetStageFollowsHead(!mode.HasFlag(Mode.HasFloorPosition));
 
+#if UNITY_MODULES_UI
             SetupDevice(ENABLE_GAZE_KEY, enableGazeToggle, EnableGaze);
             SetupDevice(ENABLE_HANDS_KEY, enableHandsToggle, EnableHands);
             SetupDevice(ENABLE_CONTROLLERS_KEY, enableControllersToggle, EnableControllers);
             SetupDevice(ENABLE_MOUSE_KEY, enableMouseToggle, EnableMouse);
             SetupDevice(ENABLE_TOUCH_KEY, enableTouchToggle, EnableTouch);
+#endif
         }
 
-        private void SetupDevice(string key, ToggleType toggle, Action<bool, bool> onEnable)
-        {
 #if UNITY_MODULES_UI
+
+#if UNITY_EDITOR
+        private static void NormalizeToggleField(ref Toggle toggle, ref GameObject obj)
+        {
+            if (toggle != null)
+            {
+                obj = toggle.gameObject;
+            }
+            else if (obj != null)
+            {
+                toggle = obj.GetComponent<Toggle>();
+            }
+        }
+
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+            NormalizeToggleField(ref enableControllersToggle, ref enableControllersObject);
+            NormalizeToggleField(ref enableHandsToggle, ref enableHandsObject);
+            NormalizeToggleField(ref enableMouseToggle, ref enableMouseObject);
+            NormalizeToggleField(ref enableTouchToggle, ref enableTouchObject);
+            NormalizeToggleField(ref enableGazeToggle, ref enableGazeObject);
+        }
+#endif
+
+        private void SetupDevice(string key, Toggle toggle, Action<bool, bool> onEnable)
+        {
             if (toggle != null)
             {
                 toggle.onValueChanged.AddListener(enable => onEnable(enable, true));
                 toggle.isOn = GetBool(key);
             }
-#endif
         }
+#endif
 
         public virtual void Reinstall()
         {
@@ -150,7 +187,7 @@ namespace Juniper.Unity.Input
 
             stage = ComponentExt.FindAny<StageExtensions>();
 
-            if(stage == null || stage.Head == null || stage.Hands == null)
+            if (stage == null || stage.Head == null || stage.Hands == null)
             {
                 return false;
             }
@@ -177,8 +214,10 @@ namespace Juniper.Unity.Input
         public T MakePointer<T>(Transform parent, string path)
             where T : Component, IPointerDevice
         {
-            return parent.Ensure<Transform>(path)
+            var p = parent.Ensure<Transform>(path)
                 .Ensure<T>();
+            p.tag = "GameController";
+            return p;
         }
 
         public virtual void Uninstall()
@@ -385,30 +424,43 @@ namespace Juniper.Unity.Input
             PlayerPrefs.Save();
         }
 
-        private void EnableDevice(string key, ToggleType toggle, bool value, bool savePref, Action<bool> setActive)
+        private void EnableDevice(string key, bool value, bool savePref, Action<bool> setActive)
         {
             setActive(value);
-#if UNITY_MODULES_UI
-            if (toggle != null && toggle.isOn != value)
-            {
-                toggle.isOn = value;
-            }
-#endif
-
             if (savePref)
             {
                 SetBool(key, value);
             }
         }
 
+#if UNITY_MODULES_UI
+        private void EnableDevice(string key, bool value, bool savePref, Action<bool> setActive, Toggle toggle)
+        {
+            if (toggle != null && toggle.isOn != value)
+            {
+                toggle.isOn = value;
+            }
+            EnableDevice(key, value, savePref, setActive);
+        }
+
+#endif
+
         public void EnableMouse(bool value, bool savePref)
         {
-            EnableDevice(ENABLE_MOUSE_KEY, enableMouseToggle, value, savePref, mouse.SetActive);
+            EnableDevice(ENABLE_MOUSE_KEY, value, savePref, mouse.SetActive
+#if UNITY_UI_MODULES
+                , enableMouseToggle
+#endif
+                );
         }
 
         public void EnableGaze(bool value, bool savePref)
         {
-            EnableDevice(ENABLE_GAZE_KEY, enableGazeToggle, value, savePref, gazePointer.SetActive);
+            EnableDevice(ENABLE_GAZE_KEY, value, savePref, gazePointer.SetActive
+#if UNITY_UI_MODULES
+                , enableGazeToggle
+#endif
+                );
         }
 
         private void EnableTouches(bool value)
@@ -421,7 +473,11 @@ namespace Juniper.Unity.Input
 
         public void EnableTouch(bool value, bool savePref)
         {
-            EnableDevice(ENABLE_TOUCH_KEY, enableTouchToggle, value, savePref, EnableTouches);
+            EnableDevice(ENABLE_TOUCH_KEY, value, savePref, EnableTouches
+#if UNITY_UI_MODULES
+                , enableTouchToggle
+#endif
+                );
         }
 
         private void EnableHands(bool value)
@@ -434,7 +490,11 @@ namespace Juniper.Unity.Input
 
         public void EnableHands(bool value, bool savePref)
         {
-            EnableDevice(ENABLE_HANDS_KEY, enableHandsToggle, value, savePref, EnableHands);
+            EnableDevice(ENABLE_HANDS_KEY, value, savePref, EnableHands
+#if UNITY_UI_MODULES
+                , enableHandsToggle
+#endif
+                );
         }
 
         private void EnableControllers(bool value)
@@ -447,7 +507,11 @@ namespace Juniper.Unity.Input
 
         public void EnableControllers(bool value, bool savePref)
         {
-            EnableDevice(ENABLE_CONTROLLERS_KEY, enableControllersToggle, value, savePref, EnableControllers);
+            EnableDevice(ENABLE_CONTROLLERS_KEY, value, savePref, EnableControllers
+#if UNITY_UI_MODULES
+                , enableControllersToggle
+#endif
+                );
         }
     }
 }
