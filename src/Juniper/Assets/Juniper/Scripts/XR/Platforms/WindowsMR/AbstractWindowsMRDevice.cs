@@ -43,6 +43,8 @@ namespace Juniper.Unity.Input.Pointers.Motion
 
         private static readonly Dictionary<WindowsMRButtons, Func<InteractionSourceState, bool>> BUTTONS = new Dictionary<WindowsMRButtons, Func<InteractionSourceState, bool>>(7)
         {
+            { WindowsMRButtons.AirTap, s => s.selectPressed },
+            { WindowsMRButtons.App, s => s.menuPressed },
             { WindowsMRButtons.Any, s => s.anyPressed },
             { WindowsMRButtons.Grip, s => s.grasped },
             { WindowsMRButtons.Select, s => s.selectPressed },
