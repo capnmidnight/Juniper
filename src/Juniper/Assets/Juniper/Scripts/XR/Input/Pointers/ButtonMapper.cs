@@ -35,22 +35,22 @@ namespace Juniper.Unity.Input.Pointers
             }
         }
 
-        public void Install(GameObject pointer, Dictionary<ButtonIDType, InputEventButton> buttonMapping)
+        public void Install(GameObject eventParent, Dictionary<ButtonIDType, InputEventButton> buttonMapping)
         {
             buttons.Clear();
 
             foreach (var pair in buttonMapping)
             {
-                var btn = new MappedButton<ButtonIDType>(pair.Key, pair.Value, pointer);
+                var btn = new MappedButton<ButtonIDType>(pair.Key, pair.Value, eventParent);
                 btn.ButtonDownNeeded += OnButtonDownNeeded;
                 btn.ButtonUpNeeded += OnButtonUpNeeded;
                 btn.ButtonPressedNeeded += OnButtonPressedNeeded;
                 btn.ClonedPointerEventNeeded += OnClonedPointerEventNeeded;
-                btn.InteractionNeeded += InteractionNeeded;
+                btn.InteractionNeeded += OnInteractionNeeded;
                 buttons.Add(btn);
             }
 
-            foreach (var evt in pointer.GetComponents<ButtonEvent>())
+            foreach (var evt in eventParent.GetComponents<ButtonEvent>())
             {
                 if (string.IsNullOrEmpty(evt.buttonTypeName)
                     || string.IsNullOrEmpty(evt.buttonValueName))
@@ -78,6 +78,11 @@ namespace Juniper.Unity.Input.Pointers
         private PointerEventData OnClonedPointerEventNeeded(int pointerID, PointerEventData donor)
         {
             return ClonedPointerEventNeeded?.Invoke(pointerID, donor);
+        }
+
+        private void OnInteractionNeeded(Interaction action)
+        {
+            InteractionNeeded?.Invoke(action);
         }
 
         private MappedButton<ButtonIDType> FindMappedButton(InputButton inputBtn)
