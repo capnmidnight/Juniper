@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 74503f0d6ab0001498c706c648ec881a
+timeCreated: 1436957071
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - DeferredTranslucencyBlit: {fileID: 2100000, guid: e981270abc78f92498ad55a200ee25d3,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

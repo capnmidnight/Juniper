@@ -1,0 +1,8 @@
+Select HDR for camera.
+Disable antialiasing in forward (MSAA - Unity Quality Settings) to not break HDR.
+UBER is designed to work well in this mode.
+
+Select linear lighting to get the right PBR look of attached example materials.
+
+To get fog working in forward lighting open UBER/Shaders/UBER_ForwardFogType.cginc - select desired type and reimport shaders.
+(any changes made to UBER_StandardConfig.cginc file also require reimporting shaders)

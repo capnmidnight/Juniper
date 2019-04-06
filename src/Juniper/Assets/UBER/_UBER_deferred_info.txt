@@ -1,0 +1,7 @@
+In deferred to get translucency and self-shadowing working:
+
+1. Attach UBER_applyLightForDeferred.cs (Add Component - "UBER/Apply Light for Deferred") to the main light you'd like to cast self-shadowing in POM.
+2. Attach UBER_DeferredParams.cs (Add Component - "UBER/Deferred Params") to the camera to control translucency in the scene (it has limited control per object in deferred).
+3. Make sure you have camera set to HDR rendering.
+
+Select UBER/Shaders/Deferred_Lighting/Internal-DeferredShading_UBER.shader in Edit/Project Settings/Graphics/Deferred - custom shader.
