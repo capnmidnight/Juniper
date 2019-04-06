@@ -145,7 +145,7 @@ namespace Juniper.Unity
 
             Hands = this.Ensure<Transform>("Hands");
 
-            Body = this.Ensure<Transform>("Body", () =>
+            Body = Shoulders.Ensure<Transform>("Body", () =>
                 MakeShadowCaster(
                     PrimitiveType.Capsule,
                     new Vector3(0.5f, 0.5f * defaultAvatarHeight, 0.5f),
@@ -179,8 +179,7 @@ namespace Juniper.Unity
             });
 #endif
 
-            this.Remove<AbstractVelocityLocomotion>();
-            gameObject.AddComponent<DefaultLocomotion>();
+            BodyPhysics.Ensure<DefaultLocomotion>();
 
             return true;
         }
@@ -222,7 +221,7 @@ namespace Juniper.Unity
 
         public void SetVelocity(Vector3 v)
         {
-            velocity = Body.rotation * v;
+            velocity = Shoulders.rotation * v;
 
 #if UNITY_MODULES_PHYSICS
             if (usePhysicsBasedMovement)
