@@ -82,14 +82,23 @@ namespace Juniper.Unity.Input
 #endif
 
         [SerializeField]
+        [HideInNormalInspector]
         private GameObject enableControllersObject;
+
         [SerializeField]
+        [HideInNormalInspector]
         private GameObject enableMouseObject;
+
         [SerializeField]
+        [HideInNormalInspector]
         private GameObject enableTouchObject;
+
         [SerializeField]
+        [HideInNormalInspector]
         private GameObject enableHandsObject;
+
         [SerializeField]
+        [HideInNormalInspector]
         private GameObject enableGazeObject;
 
         public GazePointer gazePointer;
@@ -376,7 +385,7 @@ namespace Juniper.Unity.Input
             evtData.pointerCurrentRaycast = ray;
         }
 
-        private const float CanvasOffset = 0.23f;
+        public float CanvasOffset = 0.23f;
 
         /// <summary>
         /// Fire a raycast using all of the GraphicRaycasters in the system, plus the one

@@ -18,7 +18,7 @@ namespace Juniper.Unity.Input.Pointers.Screen
     }
 
     /// <summary>
-    /// A <see cref="AbstractScreenDevice"/> pointer for thet standard mouse connected to a desktop system.
+    /// A <see cref="AbstractScreenDevice"/> pointer for the standard mouse connected to a desktop system.
     /// </summary>
     public class Mouse : AbstractScreenDevice<KeyCode, NoHaptics, MouseConfiguration>
     {
