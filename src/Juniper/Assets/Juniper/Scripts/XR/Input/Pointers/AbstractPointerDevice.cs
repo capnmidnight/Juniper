@@ -371,40 +371,40 @@ namespace Juniper.Unity.Input.Pointers
             get; protected set;
         }
 
-        public Vector3 ScreenFromWorld(Vector3 worldPoint)
+        public Vector2 ScreenFromWorld(Vector3 worldPoint)
         {
             DisplayManager.MoveEventCameraToPointer(this);
             return DisplayManager.EventCamera.WorldToScreenPoint(worldPoint);
         }
 
-        public Vector3 ScreenFromViewport(Vector3 viewportPoint)
+        public Vector2 ScreenFromViewport(Vector2 viewportPoint)
         {
             DisplayManager.MoveEventCameraToPointer(this);
             return DisplayManager.EventCamera.ViewportToScreenPoint(viewportPoint);
         }
 
-        public Vector3 ViewportFromWorld(Vector3 worldPoint)
+        public Vector2 ViewportFromWorld(Vector3 worldPoint)
         {
             DisplayManager.MoveEventCameraToPointer(this);
             return DisplayManager.EventCamera.WorldToViewportPoint(worldPoint);
         }
 
-        public Vector3 ViewportFromScreen(Vector3 screenPoint)
+        public Vector2 ViewportFromScreen(Vector2 screenPoint)
         {
             DisplayManager.MoveEventCameraToPointer(this);
             return DisplayManager.EventCamera.ScreenToViewportPoint(screenPoint);
         }
 
-        public Vector3 WorldFromScreen(Vector3 screenPoint)
+        public Vector3 WorldFromScreen(Vector2 screenPoint)
         {
             DisplayManager.MoveEventCameraToPointer(this);
-            return DisplayManager.EventCamera.ScreenToWorldPoint(screenPoint + pointerOffset);
+            return DisplayManager.EventCamera.ScreenToWorldPoint((Vector3)screenPoint + pointerOffset);
         }
 
-        public Vector3 WorldFromViewport(Vector3 viewportPoint)
+        public Vector3 WorldFromViewport(Vector2 viewportPoint)
         {
             DisplayManager.MoveEventCameraToPointer(this);
-            return DisplayManager.EventCamera.ViewportToWorldPoint(viewportPoint + pointerOffset);
+            return DisplayManager.EventCamera.ViewportToWorldPoint((Vector3)viewportPoint + pointerOffset);
         }
 
 #if UNITY_EDITOR

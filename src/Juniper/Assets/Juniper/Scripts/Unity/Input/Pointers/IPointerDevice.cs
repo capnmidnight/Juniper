@@ -168,17 +168,17 @@ namespace Juniper.Unity.Input.Pointers
             get;
         }
 
-        Vector3 ViewportFromWorld(Vector3 worldPoint);
+        Vector2 ViewportFromWorld(Vector3 worldPoint);
 
-        Vector3 ViewportFromScreen(Vector3 screenPoint);
+        Vector2 ViewportFromScreen(Vector2 screenPoint);
 
-        Vector3 ScreenFromWorld(Vector3 worldPoint);
+        Vector2 ScreenFromWorld(Vector3 worldPoint);
 
-        Vector3 ScreenFromViewport(Vector3 viewportPoint);
+        Vector2 ScreenFromViewport(Vector2 viewportPoint);
 
-        Vector3 WorldFromScreen(Vector3 screenPoint);
+        Vector3 WorldFromScreen(Vector2 screenPoint);
 
-        Vector3 WorldFromViewport(Vector3 viewportPoint);
+        Vector3 WorldFromViewport(Vector2 viewportPoint);
 
         bool IsButtonDown(PointerEventData.InputButton button);
 
