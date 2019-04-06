@@ -36,7 +36,7 @@ namespace Juniper.Unity.Input.Pointers.Gaze
                             if (validGazeCount > 0)
                             {
                                 var point = (Vector3)lastGaze.Screen + pointerOffset;
-                                motionFilter?.UpdateState(EventCamera.ScreenToWorldPoint(point));
+                                motionFilter?.UpdateState(WorldFromScreen(point));
                             }
                             lastGaze = gaze;
                             ++validGazeCount;
