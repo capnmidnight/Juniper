@@ -171,7 +171,7 @@ namespace Juniper.Unity
             BodyPhysics = bp;
 
             BodyPhysics.useGravity = false;
-            var grounder = BodyPhysics.Ensure<Grounded>();
+            var grounder = this.Ensure<Grounded>();
             grounder.Value.WhenGrounded(() =>
             {
                 BodyPhysics.useGravity = useGravity;

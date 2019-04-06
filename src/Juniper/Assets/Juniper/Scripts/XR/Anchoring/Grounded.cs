@@ -52,7 +52,7 @@ namespace Juniper.Unity.Anchoring
         private int GroundMask;
 
         /// <summary>
-        /// The timestamp of when the last ground test was performed.
+        /// The time stamp of when the last ground test was performed.
         /// </summary>
         private float lastTime;
 
@@ -69,7 +69,7 @@ namespace Juniper.Unity.Anchoring
         public float testTimeout = 0.25f;
 
         /// <summary>
-        /// The minimum amount of horizontalness to consider for the "ground".
+        /// The minimum amount of horizontal-ness to consider for the "ground".
         /// </summary>
         public float horizontalnessThreshold = 0.85f;
 
