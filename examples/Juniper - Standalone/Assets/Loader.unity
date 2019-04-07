@@ -52,7 +52,7 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_EnvironmentLightingMode: 0
     m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 1
+    m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
     serializedVersion: 10
     m_Resolution: 2
@@ -88,7 +88,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000004, guid: e32d53d1958f3f54ba2c55d18640b0fe,
+  m_LightingDataAsset: {fileID: 112000004, guid: 0517640556d5f4b46a4a9f34c9aa8542,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -10432,7 +10432,7 @@ CapsuleCollider:
   m_Radius: 0.25
   m_Height: 1.7526001
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.8763001, z: 0}
 --- !u!1 &687651539
 GameObject:
   m_ObjectHideFlags: 0
@@ -17841,6 +17841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testTimeout: 0.25
   horizontalnessThreshold: 0.85
+  grounded: 0
 --- !u!1 &1243755378
 GameObject:
   m_ObjectHideFlags: 0
