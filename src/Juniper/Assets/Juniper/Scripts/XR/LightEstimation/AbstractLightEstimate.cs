@@ -12,7 +12,7 @@ namespace Juniper.Unity.World.LightEstimation
         public bool SetAmbientLight = true;
 
         /// <summary>
-        /// When <see cref="SetAmbientLight"/> isSunRotation{getcales the ambient light intensity
+        /// When <see cref="SetAmbientLight"/> is true, scales the ambient light intensity
         /// estimate to control the brightness of the overall scene.
         /// </summary>
         public float ambientScale = 1f;
@@ -83,7 +83,7 @@ namespace Juniper.Unity.World.LightEstimation
         }
 
         /// <summary>
-        /// Gets a rotation quaternion that will put the "sun dot" of Unity's defauilt skybox into
+        /// Gets a rotation quaternion that will put the "sun dot" of Unity's default skybox into
         /// the correct position in the sky.
         /// </summary>
         /// <value>The sun rotation.</value>
@@ -121,7 +121,7 @@ namespace Juniper.Unity.World.LightEstimation
         /// Retrieves the light to which this component is attached, and makes sure there is a <see
         /// cref="LightMeasurement"/> component attached.
         /// </summary>
-        protected virtual void Awake()
+        public void Awake()
         {
             Install(false);
         }
@@ -166,7 +166,7 @@ namespace Juniper.Unity.World.LightEstimation
             }
 #endif
 
-                this.Ensure<GPSLocation>();
+            this.Ensure<GPSLocation>();
             this.Ensure<SunPosition>();
             this.Ensure<LightMeasurement>();
             measurement = this.Ensure<LightMeasurement>();
@@ -214,7 +214,7 @@ namespace Juniper.Unity.World.LightEstimation
                 }
             }
 
-                if (SetAmbientLight)
+            if (SetAmbientLight)
             {
                 RenderSettings.ambientLight = ambientColor;
                 RenderSettings.ambientIntensity = ambientIntensity;

@@ -104,23 +104,22 @@ namespace Juniper.Unity.Widgets
         }
 
         /// <summary>
-        /// Finds the <see cref="payload"/> and checks to see if it's already open.
-        /// </summary>
-        protected override void Awake()
-        {
-            payload = transform.Find("Payload");
-
-            stater = payload.GetComponent<AbstractTransitionController>();
-
-            base.Awake();
-        }
-
-        /// <summary>
         /// Make sure the state hasn't changed outside of our control.
         /// </summary>
         protected override void Update()
         {
             base.Update();
+
+            if (payload == null)
+            {
+                payload = transform.Find("Payload");
+            }
+
+            if (stater == null)
+            {
+                stater = payload.GetComponent<AbstractTransitionController>();
+            }
+
 
             if (Open == wasOpen)
             {

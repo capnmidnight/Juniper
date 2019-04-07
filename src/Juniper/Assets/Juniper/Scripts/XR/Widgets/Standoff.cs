@@ -28,18 +28,15 @@ namespace Juniper.Unity.Widgets
         public float height = 1;
 
         /// <summary>
-        /// Finds the main camera.
-        /// </summary>
-        public void Awake()
-        {
-            camT = DisplayManager.MainCamera.transform;
-        }
-
-        /// <summary>
         /// Moves the object into position above and behind the target, away from the user.
         /// </summary>
         public void Update()
         {
+            if (camT == null)
+            {
+                camT = DisplayManager.MainCamera.transform;
+            }
+
             if (target != null)
             {
                 var delta = target.position - camT.position;

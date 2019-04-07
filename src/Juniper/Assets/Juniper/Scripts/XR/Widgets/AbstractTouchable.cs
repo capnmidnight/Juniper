@@ -50,7 +50,7 @@ namespace Juniper.Unity.Widgets
 
         /// <summary>
         /// Should the control run in a "disabled" state? It is still actively executing code, it's
-        /// just preventing the main data-function of the control from occuring. There is still a
+        /// just preventing the main data-function of the control from occurring. There is still a
         /// need to show a different UI and react to user input to indicate the control is disabled.
         /// </summary>
         public bool disabled;
@@ -155,19 +155,15 @@ namespace Juniper.Unity.Widgets
         }
 
         /// <summary>
-        /// Get the Rigidbody, <see cref="AbstractAnimator"/>, AudioSource, and <see
-        /// cref="InteractionAudio"/> for this control.
-        /// </summary>
-        protected virtual void Awake()
-        {
-            animator = AbstractAnimator.GetAnimator(gameObject, PART_NAMES);
-        }
-
-        /// <summary>
         /// Update the physics state of the control, and enable/disable Disabled view on <see cref="DisabledChanged"/>.
         /// </summary>
         protected virtual void Update()
         {
+            if (animator == null)
+            {
+                animator = AbstractAnimator.GetAnimator(gameObject, PART_NAMES);
+            }
+
             if (DisabledDown)
             {
                 ShowState(PART_NAMES.Last());
@@ -223,7 +219,7 @@ namespace Juniper.Unity.Widgets
         }
 
         /// <summary>
-        /// Reqct to the pointer hovering over the control.
+        /// React to the pointer hovering over the control.
         /// </summary>
         /// <param name="eventData">Event data.</param>
         public virtual void OnPointerEnter(PointerEventData eventData)

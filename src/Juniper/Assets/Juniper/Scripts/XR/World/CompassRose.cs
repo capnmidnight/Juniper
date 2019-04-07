@@ -51,20 +51,21 @@ namespace Juniper.Unity.World
         }
 
         /// <summary>
-        /// Setup the statistical analyzers and find the main camera.
-        /// </summary>
-        public void Awake()
-        {
-            camT = DisplayManager.MainCamera.transform;
-            samples = new SingleStatistics(averagingIterations);
-        }
-
-        /// <summary>
         /// If <see cref="UseFakeHeading"/> is false, calculate the angle offset to correct the
         /// positioning of the object.
         /// </summary>
         public void Update()
         {
+            if (camT == null)
+            {
+                camT = DisplayManager.MainCamera.transform;
+            }
+
+            if (samples == null)
+            {
+                samples = new SingleStatistics(averagingIterations);
+            }
+
             if (UseFakeHeading)
             {
                 HasHeading = true;
@@ -86,7 +87,7 @@ namespace Juniper.Unity.World
         }
 
         /// <summary>
-        /// Compass heading readings analzyer.
+        /// Compass heading readings analyzer.
         /// </summary>
         private SingleStatistics samples;
 
@@ -126,7 +127,7 @@ namespace Juniper.Unity.World
 
         /// <summary>
         /// Returns true if the user requested a static heading, the magnetic compass has been
-        /// disabled, or the app is running in the Unity Editor.
+        /// disabled, or the application is running in the Unity Editor.
         /// </summary>
         /// <value><c>true</c> if use fake heading; otherwise, <c>false</c>.</value>
         private bool UseFakeHeading
@@ -138,7 +139,7 @@ namespace Juniper.Unity.World
         }
 
         /// <summary>
-        /// Returns true when the camera's forward vector is roughly pointing parrallel to the ground.
+        /// Returns true when the camera's forward vector is roughly pointing parallel to the ground.
         /// </summary>
         /// <value><c>true</c> if can see horizon; otherwise, <c>false</c>.</value>
         private bool CanSeeHorizon

@@ -106,11 +106,8 @@ namespace Juniper.Unity.Widgets
         /// <summary>
         /// Initialize the control, and set the current value as <see cref="startValue"/>.
         /// </summary>
-        protected override void Awake()
+        public void Awake()
         {
-            base.Awake();
-
-            angleCorrector = new Angle(value);
             if (minValue >= maxValue)
             {
                 minValue = 0;
@@ -128,6 +125,11 @@ namespace Juniper.Unity.Widgets
         protected override void Update()
         {
             base.Update();
+
+            if (angleCorrector == null)
+            {
+                angleCorrector = new Angle(value);
+            }
 
             if (!IsDisabled)
             {

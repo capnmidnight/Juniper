@@ -106,18 +106,15 @@ namespace System
         }
 
         /// <summary>
-        /// Finds the text component to which the output will be rendered.
-        /// </summary>
-        public void Awake()
-        {
-            text = GetComponent<TextElementType>();
-        }
-
-        /// <summary>
         /// Renders all text in <see cref="lines"/> to the <see cref="text"/> output.
         /// </summary>
         public void LateUpdate()
         {
+            if(text == null)
+            {
+                text = GetComponent<TextElementType>();
+            }
+
             if (lines.Count > 0)
             {
                 var log = string.Join(Environment.NewLine, lines);

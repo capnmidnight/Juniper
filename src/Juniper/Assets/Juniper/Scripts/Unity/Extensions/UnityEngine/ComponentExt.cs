@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Juniper.Unity;
+using UnityEngine.SceneManagement;
 
 namespace UnityEngine
 {
@@ -273,14 +274,21 @@ namespace UnityEngine
 
         public static IEnumerable<T> FindAll<T>(Func<T, bool> filter = null) where T : Component
         {
-            foreach (var o in Resources.FindObjectsOfTypeAll<T>())
+            for (int i = 0; i < SceneManager.sceneCount; ++i)
             {
-                if (o != null
-                    && o.gameObject != null
-                    && o.gameObject.scene.name != null
-                    && filter?.Invoke(o) != false)
+                var scene = SceneManager.GetSceneAt(i);
+                if (scene.isLoaded || !string.IsNullOrEmpty(scene.name))
                 {
-                    yield return o;
+                    foreach (var o in scene.GetRootGameObjects())
+                    {
+                        foreach (var c in o.GetComponentsInChildren<T>(true))
+                        {
+                            if (filter?.Invoke(c) != false)
+                            {
+                                yield return c;
+                            }
+                        }
+                    }
                 }
             }
         }

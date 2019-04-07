@@ -15,14 +15,17 @@ namespace Juniper.Unity.Widgets
 
         public void Awake()
         {
-#if UNITY_MODULES_ANIMATION
-            animator = GetComponent<Animator>();
-#endif
             wasOpen = open;
         }
 
         public void Update()
         {
+#if UNITY_MODULES_ANIMATION
+            if (animator == null)
+            {
+                animator = GetComponent<Animator>();
+            }
+#endif
             if (open != wasOpen)
             {
                 wasOpen = open;

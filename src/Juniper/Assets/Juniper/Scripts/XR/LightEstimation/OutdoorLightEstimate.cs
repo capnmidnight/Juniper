@@ -59,7 +59,7 @@ namespace Juniper.Unity.World.LightEstimation
         }
 
         /// <summary>
-        /// Gets a rotation quaternion that will put the "sun dot" of Unity's defauilt skybox into
+        /// Gets a rotation quaternion that will put the "sun dot" of Unity's default skybox into
         /// the correct position in the sky, unless it's night time, using an indoor lighting model instead.
         /// </summary>
         /// <value>The sun rotation.</value>
@@ -78,16 +78,6 @@ namespace Juniper.Unity.World.LightEstimation
             }
         }
 
-        /// <summary>
-        /// Retrieves teh sun position calculator and the weather service attached to this light.
-        /// </summary>
-        protected override void Awake()
-        {
-            base.Awake();
-
-            weather = ComponentExt.FindAny<Weather>();
-        }
-
         public override bool Install(bool reset)
         {
             if (base.Install(reset))
@@ -104,6 +94,11 @@ namespace Juniper.Unity.World.LightEstimation
         protected override void Update()
         {
             base.Update();
+
+            if (weather == null)
+            {
+                weather = ComponentExt.FindAny<Weather>();
+            }
 
             if (DebugReport)
             {

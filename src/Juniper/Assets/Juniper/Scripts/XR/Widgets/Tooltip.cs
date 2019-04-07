@@ -72,28 +72,31 @@ namespace Juniper.Unity.Widgets
         }
 
         /// <summary>
-        /// Gets the label, creates the lablel sizer, and finds the background image.
-        /// </summary>
-        public void Awake()
-        {
-            lbl = gameObject.GetComponentInChildren<TextMesh>();
-            if (lbl != null && string.IsNullOrEmpty(text))
-            {
-                text = lbl.text;
-            }
-
-            sizer = new TextMeshSize(lbl);
-
-            bg = transform.Find("Background");
-        }
-
-        /// <summary>
         /// Updates the text on <see cref="lbl"/> from the <see cref="text"/> value of this
         /// component, resizes the tooltip to fit the text, and animates the label scaling into and
         /// out of view.
         /// </summary>
         public void Update()
         {
+            if (lbl == null)
+            {
+                lbl = gameObject.GetComponentInChildren<TextMesh>();
+                if (lbl != null && string.IsNullOrEmpty(text))
+                {
+                    text = lbl.text;
+                }
+            }
+
+            if (sizer == null)
+            {
+                sizer = new TextMeshSize(lbl);
+            }
+
+            if (bg == null)
+            {
+                bg = transform.Find("Background");
+            }
+
             if (lbl != null && text != lbl.text)
             {
                 lbl.text = text;

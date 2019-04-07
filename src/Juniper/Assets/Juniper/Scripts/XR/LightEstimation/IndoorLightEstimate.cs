@@ -39,7 +39,7 @@ namespace Juniper.Unity.World.LightEstimation
         }
 
         /// <summary>
-        /// Gets a rotation quaternion that will put the "sun dot" of Unity's defauilt skybox into
+        /// Gets a rotation quaternion that will put the "sun dot" of Unity's default skybox into
         /// the correct position in the sky.
         /// </summary>
         /// <value>The sun rotation.</value>

@@ -33,27 +33,30 @@ namespace Juniper.Unity.Widgets
         public bool drawConnectingLine = true;
 
         /// <summary>
-        /// Gets the text renderer and attempts to find the line renderer on this element.
-        /// </summary>
-        public void Awake()
-        {
-            text = GetComponentInChildren<TextMesh>();
-
-            line = GetComponent<LineRenderer>();
-            if (line != null)
-            {
-                line.positionCount = 2;
-            }
-
-            camT = DisplayManager.MainCamera.transform;
-        }
-
-        /// <summary>
         /// Sets the position of the connecting line, updates the text on the TextMesh element, and
         /// resizes the text as requested.
         /// </summary>
         public void Update()
         {
+            if (text == null)
+            {
+                text = GetComponentInChildren<TextMesh>();
+            }
+
+            if (line == null)
+            {
+                line = GetComponent<LineRenderer>();
+                if (line != null)
+                {
+                    line.positionCount = 2;
+                }
+            }
+
+            if (camT == null)
+            {
+                camT = DisplayManager.MainCamera.transform;
+            }
+
             if (line != null && transform.parent != null)
             {
                 line.enabled = drawConnectingLine;

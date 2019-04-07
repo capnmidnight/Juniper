@@ -9,14 +9,17 @@ namespace Juniper.Unity.Widgets
         [Range(0, 1)]
         public float value;
 
-        public void Awake()
-        {
-            bar = GetComponentInChildren<Image>();
-            rect = GetComponent<RectTransform>();
-        }
-
         public void Update()
         {
+            if(bar == null)
+            {
+                bar = GetComponentInChildren<Image>();
+            }
+
+            if(rect == null)
+            {
+                rect = GetComponent<RectTransform>();
+            }
             value = Mathf.Clamp01(value);
             bar.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect.rect.width * value);
         }

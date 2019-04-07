@@ -71,9 +71,10 @@ namespace Juniper.Unity.World
         }
 
         /// <summary>
-        /// Find the weather service and the wind zone we'll be operating on.
+        /// Update the wind zone with either the static values (if <see cref="FakeWind"/> is true) or
+        /// the values from the weather report (if FakeWind is false).
         /// </summary>
-        public void Awake()
+        public void Update()
         {
             if (weatherService == null)
             {
@@ -81,16 +82,12 @@ namespace Juniper.Unity.World
             }
 
 #if UNITY_MODULES_WIND
-            wind = GetComponent<WindZone>();
+            if (wind == null)
+            {
+                wind = GetComponent<WindZone>();
+            }
 #endif
-        }
 
-        /// <summary>
-        /// Update the wind zone with either the static values (if <see cref="FakeWind"/> is true) or
-        /// the values from the weather report (if FakeWind is false).
-        /// </summary>
-        public void Update()
-        {
             if (!UseFakeIntensity)
             {
                 if (weatherService.WindDirection != null)

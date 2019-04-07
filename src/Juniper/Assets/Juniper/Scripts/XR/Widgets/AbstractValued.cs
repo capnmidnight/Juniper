@@ -132,7 +132,7 @@ namespace Juniper.Unity.Widgets
         }
 
         /// <summary>
-        /// The point in 3D space where the user's selection occured. When transitioning from no
+        /// The point in 3D space where the user's selection occurred. When transitioning from no
         /// selection to having a selection, the manipulationPoint will be set as the raycast point
         /// where the user made the selection. In subsequent updates, the manipulationPoint will move
         /// from that starting point in proportion to the user's movements.
@@ -226,26 +226,21 @@ namespace Juniper.Unity.Widgets
         }
 
         /// <summary>
-        /// Get the user's camera, and find out whether or not this control has an output display.
-        /// </summary>
-        protected override void Awake()
-        {
-            base.Awake();
-
-            camT = DisplayManager.MainCamera.transform;
-
-            if (Display == null)
-            {
-                Display = this.Query<TextMesh>("Display");
-            }
-        }
-
-        /// <summary>
         /// After all user input has been resolved, update the saved value of the control, for
         /// changing its rendered representation.
         /// </summary>
         protected override void LateUpdate()
         {
+            if (camT == null)
+            {
+                camT = DisplayManager.MainCamera.transform;
+            }
+
+            if (Display == null)
+            {
+                Display = this.Query<TextMesh>("Display");
+            }
+
             var delta = Mathf.Abs(internalValue - lastTickValue);
             if (delta > 1)
             {
