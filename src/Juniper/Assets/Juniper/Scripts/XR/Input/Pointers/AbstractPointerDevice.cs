@@ -562,12 +562,12 @@ namespace Juniper.Unity.Input.Pointers
             return nativeButtons.IsButtonDown(button);
         }
 
+        protected virtual void InternalUpdate() { }
+
         public abstract bool IsButtonPressed(ButtonIDType button);
 
         public abstract bool IsButtonDown(ButtonIDType button);
 
         public abstract bool IsButtonUp(ButtonIDType button);
-
-        protected abstract void InternalUpdate();
     }
 }

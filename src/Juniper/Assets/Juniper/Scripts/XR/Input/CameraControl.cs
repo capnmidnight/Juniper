@@ -318,7 +318,7 @@ namespace Juniper.Unity.Input
 
             CheckMouseLock();
 
-            if (!input.AnyPointerDragging || Cursor.lockState != CursorLockMode.None)
+            if (!input.AnyPointerDragging || Cursor.lockState == CursorLockMode.Locked)
             {
                 CheckMode(mode, disableVertical);
                 if (mode == Mode.MagicWindow)

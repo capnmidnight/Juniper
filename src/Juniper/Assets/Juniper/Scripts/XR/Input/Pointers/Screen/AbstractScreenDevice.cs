@@ -1,4 +1,3 @@
-using Juniper.Unity.Display;
 using Juniper.Unity.Haptics;
 
 using UnityEngine;
@@ -30,14 +29,6 @@ namespace Juniper.Unity.Input.Pointers.Screen
             {
                 return Quaternion.identity;
             }
-        }
-
-        protected override void InternalUpdate()
-        {
-            var camT = DisplayManager.MainCamera.transform;
-            var cameraRotation = Quaternion.LookRotation(Direction, camT.up) * CameraRotationOffset;
-            transform.position = camT.position + (cameraRotation * CameraPositionOffset);
-            transform.rotation = cameraRotation;
         }
     }
 }
