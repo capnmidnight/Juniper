@@ -46,8 +46,6 @@ namespace Juniper.Unity.Display
                 SceneManager.MoveGameObjectToScene(obj, js.gameObject.scene);
             }
 
-            cam.Ensure<PhysicsRaycaster>();
-
             return cam;
         }
 
@@ -78,6 +76,8 @@ namespace Juniper.Unity.Display
                     eventCam.allowHDR = false;
                     eventCam.allowMSAA = false;
                     eventCam.enabled = false;
+
+                    eventCam.Ensure<PhysicsRaycaster>();
                 }
 
                 return eventCam;
