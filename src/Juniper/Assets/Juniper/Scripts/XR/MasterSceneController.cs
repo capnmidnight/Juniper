@@ -352,6 +352,7 @@ namespace Juniper.Unity
             {
                 canv.Value.renderMode = RenderMode.WorldSpace;
 
+                canv.Value.worldCamera = DisplayManager.EventCamera;
                 canv.SetAnchors(0.5f * Vector2.one, 0.5f * Vector2.one)
                     .SetPivot(0.5f * Vector2.one)
                     .SetSize(1000, 1000)
