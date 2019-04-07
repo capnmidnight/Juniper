@@ -36,6 +36,12 @@ namespace Juniper.Unity.Anchoring
         private bool wasUsingGravity;
 
         /// <summary>
+        /// The saved "isKinematic" value from the <see cref="body"/> object, so that it can be
+        /// restored to its original value after the draggable handle has been removed.
+        /// </summary>
+        private bool wasKinematic;
+
+        /// <summary>
         /// Where the current gameObject has been ordered to find.
         /// </summary>
         private Vector3? groundPoint;
@@ -44,7 +50,7 @@ namespace Juniper.Unity.Anchoring
         /// Before the object is actually grounded, other entities may wish to know when it is. This
         /// queue holds callbacks to those entities to execute once the object is grounded.
         /// </summary>
-        private Queue<Action> q;
+        private Queue<Action> q = new Queue<Action>();
 
         /// <summary>
         /// The raycasting mask for the ground mesh.
@@ -56,24 +62,15 @@ namespace Juniper.Unity.Anchoring
         /// </summary>
         private float lastTime;
 
-#endif
-
         /// <summary>
         /// The stage that holds the user is really the thing that needs to be grounded.
         /// </summary>
         private StageExtensions stage;
 
         /// <summary>
-        /// How many seconds to wait in between ground tests, to avoid pegging the system with ground tests.
+        /// A flag indicating the grounded object is already frozen in place.
         /// </summary>
-        public float testTimeout = 0.25f;
-
-        /// <summary>
-        /// The minimum amount of horizontal-ness to consider for the "ground".
-        /// </summary>
-        public float horizontalnessThreshold = 0.85f;
-
-#if UNITY_MODULES_PHYSICS
+        private bool frozen = false;
 
         /// <summary>
         /// Get the physics components of the gameObject, find information about the ground mesh, and
@@ -82,7 +79,7 @@ namespace Juniper.Unity.Anchoring
         public void Awake()
         {
             stage = ComponentExt.FindAny<StageExtensions>();
-            body = GetComponent<Rigidbody>();
+            body = GetComponentInChildren<Rigidbody>();
             dragger = GetComponent<Draggable>();
             GroundMask = LayerMask.GetMask("Ground");
             lastTime = Time.time;
@@ -95,16 +92,79 @@ namespace Juniper.Unity.Anchoring
         /// </summary>
         private void Freeze()
         {
-            if (body != null)
+            if (body != null && !frozen)
             {
+                frozen = true;
                 if (dragger != null)
                 {
                     dragger.enabled = false;
                 }
 
                 wasUsingGravity = body.useGravity;
+                wasKinematic = body.isKinematic;
                 body.useGravity = false;
+                body.isKinematic = true;
             }
+        }
+
+        /// <summary>
+        /// Restore physics and draggable capabilities.
+        /// </summary>
+        private void Unfreeze()
+        {
+            if (body != null && frozen)
+            {
+                frozen = false;
+                body.useGravity = wasUsingGravity;
+                body.isKinematic = wasKinematic;
+
+                if (dragger)
+                {
+                    dragger.enabled = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Execute any <see cref="WhenGrounded(Action)"/> callbacks that were registered before the
+        /// object was grounded.
+        /// </summary>
+        private void EmptyJobQueue()
+        {
+            while (q.Count > 0)
+            {
+                var act = q.Dequeue();
+                act();
+            }
+        }
+
+        /// <summary>
+        /// If the test timeout has passed, raycast for the ground mesh under and over the object. If
+        /// it's found, move the object to that point and unfreeze it.
+        /// </summary>
+        public void Update()
+        {
+            if (Time.time - lastTime > testTimeout)
+            {
+                lastTime = Time.time;
+                groundPoint = GetGroundUnderObject();
+                if (groundPoint == null)
+                {
+                    Freeze();
+                }
+                else
+                {
+                    if (!stage.usePhysicsBasedMovement)
+                    {
+                        transform.position = groundPoint.Value;
+                    }
+                    Unfreeze();
+                    EmptyJobQueue();
+                }
+            }
+
+            isFrozen = frozen;
+            grounded = groundPoint != null;
         }
 
         /// <summary>
@@ -136,78 +196,29 @@ namespace Juniper.Unity.Anchoring
             return null;
         }
 
-        /// <summary>
-        /// Restore physics and draggable capabilities.
-        /// </summary>
-        private void Unfreeze()
-        {
-            if (body)
-            {
-                body.useGravity = wasUsingGravity;
-
-                if (dragger)
-                {
-                    dragger.enabled = true;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Execute any <see cref="WhenGrounded(Action)"/> callbacks that were registered before the
-        /// object was grounded.
-        /// </summary>
-        private void EmptyJobQueue()
-        {
-            if (q != null)
-            {
-                while (q.Count > 0)
-                {
-                    var act = q.Dequeue();
-                    act();
-                }
-
-                q = null;
-            }
-        }
-
-#if UNITY_EDITOR
-
-        /// <summary>
-        /// Delete the saved ground point, starting the work of looking for the ground again.
-        /// </summary>
-        public void Reset()
-        {
-            groundPoint = null;
-        }
-
-#endif
-
 #endif
 
         /// <summary>
-        /// If the test timeout has passed, raycast for the ground mesh under and over the object. If
-        /// it's found, move the object to that point and unfreeze it.
+        /// How many seconds to wait in between ground tests, to avoid pegging the system with ground tests.
         /// </summary>
-        public void Update()
-        {
-#if UNITY_MODULES_PHYSICS
-            if (groundPoint == null && Time.time - lastTime > testTimeout)
-            {
-                lastTime = Time.time;
-                groundPoint = GetGroundUnderObject();
-                if (groundPoint == null)
-                {
-                    Freeze();
-                }
-                else
-                {
-                    transform.position = groundPoint.Value;
-                    Unfreeze();
-                    EmptyJobQueue();
-                }
-            }
-#endif
-        }
+        public float testTimeout = 0.25f;
+
+        /// <summary>
+        /// The minimum amount of horizontal-ness to consider for the "ground".
+        /// </summary>
+        public float horizontalnessThreshold = 0.85f;
+
+        /// <summary>
+        /// Display in the editor whether or not a ground point is currently available.
+        /// </summary>
+        [ReadOnly]
+        public bool grounded = false;
+
+        /// <summary>
+        /// Display in the editor whether or not the object is frozen.
+        /// </summary>
+        [ReadOnly]
+        public bool isFrozen = false;
 
         /// <summary>
         /// Check to see if the object is grounded, and call the callback if it is. If it's not, put
@@ -216,20 +227,14 @@ namespace Juniper.Unity.Anchoring
         /// <param name="p">P.</param>
         public void WhenGrounded(Action p)
         {
-#if UNITY_MODULES_PHYSICS
             if (groundPoint != null)
             {
                 p();
             }
             else
             {
-                if (q == null)
-                {
-                    q = new Queue<Action>();
-                }
                 q.Enqueue(p);
             }
-#endif
         }
     }
 }

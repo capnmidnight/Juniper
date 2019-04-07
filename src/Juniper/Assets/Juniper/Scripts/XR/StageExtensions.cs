@@ -169,14 +169,9 @@ namespace Juniper.Unity
                 bp.Value.constraints = RigidbodyConstraints.FreezeRotation;
             }
             BodyPhysics = bp;
+            BodyPhysics.useGravity = useGravity;
 
-            BodyPhysics.useGravity = false;
-            var grounder = this.Ensure<Grounded>();
-            grounder.Value.WhenGrounded(() =>
-            {
-                BodyPhysics.useGravity = useGravity;
-                grounder.Destroy();
-            });
+            this.Ensure<Grounded>();
 #endif
 
             BodyPhysics.Ensure<DefaultLocomotion>();
@@ -221,12 +216,16 @@ namespace Juniper.Unity
 
         public void SetVelocity(Vector3 v)
         {
+#if UNITY_MODULES_PHYSICS
+            var falling = BodyPhysics.velocity.y;
+#endif
+
             velocity = Shoulders.rotation * v;
 
 #if UNITY_MODULES_PHYSICS
             if (usePhysicsBasedMovement)
             {
-                velocity.y = BodyPhysics.velocity.y;
+                velocity.y = falling;
             }
 #endif
         }
@@ -236,7 +235,7 @@ namespace Juniper.Unity
 #if UNITY_MODULES_PHYSICS
             BodyShape.enabled = usePhysicsBasedMovement;
             BodyPhysics.isKinematic = !usePhysicsBasedMovement;
-            BodyPhysics.useGravity = !usePhysicsBasedMovement && useGravity;
+            BodyPhysics.useGravity = usePhysicsBasedMovement && useGravity;
             if (usePhysicsBasedMovement)
             {
                 var acceleration = (velocity - BodyPhysics.velocity) / Time.fixedDeltaTime;
@@ -256,8 +255,7 @@ namespace Juniper.Unity
             if (usePhysicsBasedMovement)
             {
                 var center = userCenter;
-                center.y = -0.5f * Head.position.y;
-                BodyShape.height = Head.position.y;
+                center.y = -0.5f * BodyShape.height;
                 BodyShape.center = Quaternion.Inverse(Shoulders.rotation) * center;
             }
 #endif
