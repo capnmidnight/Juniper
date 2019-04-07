@@ -112,7 +112,6 @@ namespace Juniper.Unity
         {
             var head = DisplayManager
                 .MainCamera
-                .Ensure<DisplayManager>()
                 .transform;
 
             var shoulders = head.parent;

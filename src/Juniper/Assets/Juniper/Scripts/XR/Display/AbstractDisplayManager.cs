@@ -1,14 +1,13 @@
-using Juniper.Unity.Input;
-using Juniper.Unity.Widgets;
-
 using System;
 using System.Runtime.InteropServices;
+
+using Juniper.Unity.Input;
+using Juniper.Unity.Input.Pointers;
+using Juniper.Unity.Widgets;
 
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using Juniper.Unity.Input.Pointers;
-using Juniper.Unity.Haptics;
 using UnityEngine.SceneManagement;
 
 #if UNITY_MODULES_XR
@@ -43,7 +42,10 @@ namespace Juniper.Unity.Display
 #pragma warning restore CS0618 // Type or member is obsolete
                 cam.gameObject.tag = tag;
                 var js = ComponentExt.FindAny<JuniperSystem>();
-                SceneManager.MoveGameObjectToScene(obj, js.gameObject.scene);
+                if (js != null)
+                {
+                    SceneManager.MoveGameObjectToScene(obj, js.gameObject.scene);
+                }
             }
 
             return cam;
@@ -56,6 +58,7 @@ namespace Juniper.Unity.Display
                 if (cam == null)
                 {
                     cam = MakeCamera("MainCamera", "Head");
+                    cam.Ensure<DisplayManager>();
                 }
 
                 return cam;
@@ -276,7 +279,14 @@ namespace Juniper.Unity.Display
 
         public virtual void Start()
         {
-            
+            eventCam.aspect = MainCamera.aspect;
+            eventCam.cameraType = MainCamera.cameraType;
+            eventCam.fieldOfView = MainCamera.fieldOfView;
+            eventCam.orthographic = MainCamera.orthographic;
+            eventCam.orthographicSize = MainCamera.orthographicSize;
+            eventCam.pixelRect = MainCamera.pixelRect;
+            eventCam.stereoConvergence = MainCamera.stereoConvergence;
+            eventCam.stereoSeparation = MainCamera.stereoSeparation;
         }
 
 #if UNITY_MODULES_XR
@@ -490,7 +500,7 @@ namespace Juniper.Unity.Display
         /// <summary>
         /// Gets the field of view value that should be targeted for the running application.
         /// </summary>
-        /// <value>The default fov.</value>
+        /// <value>The default field of view.</value>
         protected virtual float DEFAULT_FOV
         {
             get
@@ -556,6 +566,8 @@ namespace Juniper.Unity.Display
                 Debug.LogWarning($"Cannot change {nameof(ARMode)} directly. Use the {nameof(StartAR)} method. ({lastARMode} => {ARMode})");
                 ARMode = lastARMode;
             }
+
+            EventCamera.cullingMask = MainCamera.cullingMask;
         }
     }
 }
