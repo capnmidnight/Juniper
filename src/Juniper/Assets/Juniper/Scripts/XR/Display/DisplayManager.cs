@@ -30,7 +30,7 @@ namespace Juniper.Unity.Display
 #elif UNITY_XR_WINDOWSMR_METRO
         WindowsMRDisplayManager
 #else
-        NoDisplayManager
+        DefaultDisplayManager
 #endif
     {
     }

@@ -8,7 +8,7 @@ using UnityInput = UnityEngine.Input;
 
 namespace Juniper.Unity.Display
 {
-    public abstract class NoDisplayManager : AbstractDisplayManager
+    public abstract class DefaultDisplayManager : AbstractDisplayManager
     {
         protected override float DEFAULT_FOV
         {
@@ -24,7 +24,8 @@ namespace Juniper.Unity.Display
 
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
-                var joystick = UnityInput.GetJoystickNames().FirstOrDefault();
+                var hasJoystick = UnityInput.GetJoystickNames()
+                    .Any(j => !string.IsNullOrEmpty(j));
 
                 if (Application.isMobilePlatform)
                 {
@@ -34,7 +35,7 @@ namespace Juniper.Unity.Display
                 {
                     cameraCtrl.mode = CameraControl.Mode.MouseLocked;
                 }
-                else if (!string.IsNullOrEmpty(joystick))
+                else if (hasJoystick)
                 {
                     cameraCtrl.mode = CameraControl.Mode.Gamepad;
                 }
