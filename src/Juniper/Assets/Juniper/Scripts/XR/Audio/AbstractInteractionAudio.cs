@@ -22,94 +22,10 @@ namespace Juniper.Unity.Audio
     /// <summary>
     /// The audio portion of the interaction system.
     /// </summary>
-    public abstract class AbstractInteractionAudio : MonoBehaviour
+    public abstract class AbstractInteractionAudio : MonoBehaviour, IInstallable
     {
-        public GameObject volumeSlider;
-
-#if UNITY_MODULES_AUDIO
-
-        private const string MASTER_VOLUME_KEY = "MasterVolume";
-
-        private IValuedControl<float> volume;
-
         /// <summary>
-        /// The audio mixer to use with ResonanceAudio
-        /// </summary>
-        public AudioMixerGroup defaultMixerGroup;
-
-        /// <summary>
-        /// The sound to play when the app first starts up.
-        /// </summary>
-        [Header("Transitions")]
-        public AudioClip soundOnStartUp;
-
-        /// <summary>
-        /// The sound to play right before the app shuts down.
-        /// </summary>
-        public AudioClip soundOnShutDown;
-
-#endif
-
-        /// <summary>
-        /// The sound to play when an <see cref="Widgets.Openable"/> object has been closed.
-        /// </summary>
-        [Header("Interactions")]
-        public AudioClipCollection soundOnClosed;
-
-        /// <summary>
-        /// The sound to play when any <see cref="Widgets.Touchable"/> that has been set to disabled
-        /// has been clicked.
-        /// </summary>
-        public AudioClipCollection soundOnDisabled;
-
-        /// <summary>
-        /// The sound to play when a <see cref="Widgets.Draggable"/> has been moved more than 10cm.
-        /// </summary>
-        public AudioClipCollection soundOnDragged;
-
-        /// <summary>
-        /// The sound to play when a cursor first hovers over any <see cref="Widgets.Touchable"/>.
-        /// </summary>
-        public AudioClipCollection soundOnEntered;
-
-        /// <summary>
-        /// The sound to play when an operation needs to indicate an error.
-        /// </summary>
-        public AudioClipCollection soundOnError;
-
-        /// <summary>
-        /// The sound to play when a cursor leaves a <see cref="Widgets.Touchable"/> and is no longer
-        /// hovering over it.
-        /// </summary>
-        public AudioClipCollection soundOnExited;
-
-        /// <summary>
-        /// The sound to play when an <see cref="Widgets.Openable"/> object has been opened.
-        /// </summary>
-        public AudioClipCollection soundOnOpened;
-
-        /// <summary>
-        /// The sound to play when the primary selection button is no longer being pressed on a <see cref="Widgets.Clickable"/>.
-        /// </summary>
-        public AudioClipCollection soundOnReleased;
-
-        /// <summary>
-        /// The sound to play when a scrollable section is moved a certain distance.
-        /// </summary>
-        public AudioClipCollection soundOnScrolled;
-
-        /// <summary>
-        /// The sound to play when the primary selection button is first being pressed on a <see cref="Widgets.Clickable"/>.
-        /// </summary>
-        public AudioClipCollection soundOnSelected;
-
-        /// <summary>
-        /// The sound to play when a long-running operating needs to indicate success.
-        /// </summary>
-        public AudioClipCollection soundOnSuccess;
-
-        /// <summary>
-        /// Converst an Interaction into a haptic expression to be able to play.
+        /// Converts an Interaction into a haptic expression to be able to play.
         /// </summary>
         /// <returns>The haptic expressions.</returns>
         /// <param name="action">Action.</param>
@@ -201,8 +117,123 @@ namespace Juniper.Unity.Audio
         {
             return instance?.InternalSpatialize(audioSource, loop, group);
         }
+#endif
+
+
+        public GameObject volumeSlider;
+
+        /// <summary>
+        /// The sound to play when an <see cref="Widgets.Openable"/> object has been closed.
+        /// </summary>
+        [Header("Interactions")]
+        public AudioClipCollection soundOnClosed;
+
+        /// <summary>
+        /// The sound to play when any <see cref="Widgets.Touchable"/> that has been set to disabled
+        /// has been clicked.
+        /// </summary>
+        public AudioClipCollection soundOnDisabled;
+
+        /// <summary>
+        /// The sound to play when a <see cref="Widgets.Draggable"/> has been moved more than 10cm.
+        /// </summary>
+        public AudioClipCollection soundOnDragged;
+
+        /// <summary>
+        /// The sound to play when a cursor first hovers over any <see cref="Widgets.Touchable"/>.
+        /// </summary>
+        public AudioClipCollection soundOnEntered;
+
+        /// <summary>
+        /// The sound to play when an operation needs to indicate an error.
+        /// </summary>
+        public AudioClipCollection soundOnError;
+
+        /// <summary>
+        /// The sound to play when a cursor leaves a <see cref="Widgets.Touchable"/> and is no longer
+        /// hovering over it.
+        /// </summary>
+        public AudioClipCollection soundOnExited;
+
+        /// <summary>
+        /// The sound to play when an <see cref="Widgets.Openable"/> object has been opened.
+        /// </summary>
+        public AudioClipCollection soundOnOpened;
+
+        /// <summary>
+        /// The sound to play when the primary selection button is no longer being pressed on a <see cref="Widgets.Clickable"/>.
+        /// </summary>
+        public AudioClipCollection soundOnReleased;
+
+        /// <summary>
+        /// The sound to play when a scrollable section is moved a certain distance.
+        /// </summary>
+        public AudioClipCollection soundOnScrolled;
+
+        /// <summary>
+        /// The sound to play when the primary selection button is first being pressed on a <see cref="Widgets.Clickable"/>.
+        /// </summary>
+        public AudioClipCollection soundOnSelected;
+
+        /// <summary>
+        /// The sound to play when a long-running operating needs to indicate success.
+        /// </summary>
+        public AudioClipCollection soundOnSuccess;
+
+#if UNITY_MODULES_AUDIO
+
+        /// <summary>
+        /// The sound to play when the application first starts up.
+        /// </summary>
+        [Header("Transitions")]
+        public AudioClip soundOnStartUp;
+
+        /// <summary>
+        /// The sound to play right before the application shuts down.
+        /// </summary>
+        public AudioClip soundOnShutDown;
+
+        private const string MASTER_VOLUME_KEY = "MasterVolume";
+
+        private IValuedControl<float> volume;
+
+        /// <summary>
+        /// The audio mixer to use with ResonanceAudio
+        /// </summary>
+        public AudioMixerGroup defaultMixerGroup;
+
+        protected AudioListener listener;
+#endif
+
+        public virtual bool Install(bool reset)
+        {
+
+#if UNITY_MODULES_AUDIO
+            listener = DisplayManager.MainCamera.Ensure<AudioListener>();
+#endif
+            return true;
+        }
+
+        public void Reinstall()
+        {
+            Install(true);
+        }
+
+#if UNITY_EDITOR
+
+        public void Reset()
+        {
+            Reinstall();
+        }
 
 #endif
+
+        public virtual void Uninstall()
+        {
+#if UNITY_MODULES_AUDIO
+            DisplayManager.MainCamera.Ensure<AudioListener>();
+#endif
+        }
 
         /// <summary>
         /// Gets the system configuration, sets up the default haptics, provisions the interaction
@@ -217,6 +248,8 @@ namespace Juniper.Unity.Audio
             }
             else
             {
+                Install(false);
+
                 instance = this;
                 camT = DisplayManager.MainCamera.transform;
 
@@ -325,7 +358,7 @@ namespace Juniper.Unity.Audio
         }
 
         /// <summary>
-        /// Waits a set number of seconds and then executs a callback function.
+        /// Waits a set number of seconds and then executes a callback function.
         /// </summary>
         /// <returns>The wait.</returns>
         /// <param name="seconds">   Seconds.</param>

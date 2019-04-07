@@ -137,14 +137,6 @@ namespace Juniper.Unity.Display
             }
         }
 
-#if UNITY_MODULES_AUDIO
-        protected AudioListener listener;
-
-#if RESONANCEAUDIO
-        protected ResonanceAudioListener goog;
-#endif
-#endif
-
         private JuniperSystem jp;
         private JuniperSystem Sys
         {
@@ -275,28 +267,11 @@ namespace Juniper.Unity.Display
         {
             this.Ensure<QualityDegrader>();
             cameraCtrl = this.Ensure<CameraControl>();
-
-#if UNITY_MODULES_AUDIO
-            listener = this.Ensure<AudioListener>();
-
-#if RESONANCEAUDIO
-            goog = listener.Ensure<ResonanceAudioListener>().Value;
-            goog.stereoSpeakerModeEnabled = Application.isEditor || jp.DisplayType != DisplayTypes.Stereo;
-#endif
-#endif
             return true;
         }
 
         public virtual void Uninstall()
         {
-#if UNITY_MODULES_AUDIO
-#if RESONANCEAUDIO
-            ComponentExt.FindAny<AudioListener>()
-                ?.Remove<ResonanceAudioListener>();
-#endif
-
-            this.Ensure<AudioListener>();
-#endif
         }
 
         public virtual void Start()
