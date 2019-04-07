@@ -85,6 +85,7 @@ namespace Juniper.Unity.Input
         private bool firstTime = true;
 
         private Quaternion lastGyro = Quaternion.identity;
+        private Vector2 lastMousePosition;
 
         private StageExtensions stage;
 
@@ -105,6 +106,8 @@ namespace Juniper.Unity.Input
                 dragged[mode] = false;
                 dragDistance[mode] = 0;
             }
+
+            lastMousePosition = UnityInput.mousePosition;
 
 #if UNITY_EDITOR
             showCustomCursor = true;
@@ -183,20 +186,29 @@ namespace Juniper.Unity.Input
         {
             get
             {
-                var viewport = 2 * new Vector2(
-                    UnityInput.mousePosition.y / Screen.height,
-                    UnityInput.mousePosition.x / Screen.width) - Vector2.one;
-                var square = viewport.Square2Round();
-                if (square.magnitude > EDGE_FACTOR)
+                var delta = new Vector2(UnityInput.GetAxisRaw("Mouse X"), UnityInput.GetAxis("Mouse Y"));
+                var trueMousePosition = lastMousePosition + delta;
+                var mousePosition = (Vector2)UnityInput.mousePosition;
+                lastMousePosition = mousePosition;
+
+                if (trueMousePosition.x >= 0
+                    && trueMousePosition.x < Screen.width
+                    && trueMousePosition.y >= 0
+                    && trueMousePosition.y < Screen.height)
                 {
-                    viewport.x = (int)(viewport.x / -EDGE_FACTOR);
-                    viewport.y = (int)(viewport.y / EDGE_FACTOR);
-                    return viewport;
+                    var viewport = 2 * new Vector2(
+                        mousePosition.y / Screen.height,
+                        mousePosition.x / Screen.width) - Vector2.one;
+                    var square = viewport.Square2Round();
+                    if (square.magnitude > EDGE_FACTOR)
+                    {
+                        viewport.x = (int)(viewport.x / -EDGE_FACTOR);
+                        viewport.y = (int)(viewport.y / EDGE_FACTOR);
+                        return viewport;
+                    }
                 }
-                else
-                {
-                    return Vector2.zero;
-                }
+
+                return Vector2.zero;
             }
         }
 
@@ -320,7 +332,15 @@ namespace Juniper.Unity.Input
 
             if (!input.AnyPointerDragging || Cursor.lockState == CursorLockMode.Locked)
             {
-                CheckMode(mode, disableVertical);
+                if (mode == Mode.MouseLocked && Cursor.lockState != CursorLockMode.Locked)
+                {
+                    CheckMode(Mode.MouseScreenEdge, disableVertical);
+                }
+                else
+                {
+                    CheckMode(mode, disableVertical);
+                }
+
                 if (mode == Mode.MagicWindow)
                 {
                     CheckMode(Mode.Touch, true);
