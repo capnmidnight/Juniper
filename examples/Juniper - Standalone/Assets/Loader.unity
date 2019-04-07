@@ -10415,7 +10415,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -14848,9 +14848,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volumeSlider: {fileID: 808906789}
-  defaultMixerGroup: {fileID: 24300002, guid: 8d56a40866983f34ba26296f7f30847d, type: 2}
-  soundOnStartUp: {fileID: 8300000, guid: 1a9c7e647cd76a34595d588d36fc432c, type: 3}
-  soundOnShutDown: {fileID: 8300000, guid: 06fe8257402ae734eb1e6e09bcdeb9b0, type: 3}
   soundOnClosed: {fileID: 11400000, guid: 01fbf829975312141a055a0c3e95de59, type: 2}
   soundOnDisabled: {fileID: 11400000, guid: 76d7e382511a26e4bb0971f04c1a26b3, type: 2}
   soundOnDragged: {fileID: 11400000, guid: 2fed140456205434288c10415f0758f2, type: 2}
@@ -14862,6 +14859,9 @@ MonoBehaviour:
   soundOnScrolled: {fileID: 11400000, guid: 2fed140456205434288c10415f0758f2, type: 2}
   soundOnSelected: {fileID: 11400000, guid: 7e149bbac0700477ea8b840ec813d2ac, type: 2}
   soundOnSuccess: {fileID: 11400000, guid: 7b9da42f9cb52464288a22fd54f8395f, type: 2}
+  soundOnStartUp: {fileID: 8300000, guid: 1a9c7e647cd76a34595d588d36fc432c, type: 3}
+  soundOnShutDown: {fileID: 8300000, guid: 06fe8257402ae734eb1e6e09bcdeb9b0, type: 3}
+  defaultMixerGroup: {fileID: 24300002, guid: 8d56a40866983f34ba26296f7f30847d, type: 2}
 --- !u!114 &1024407837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17842,6 +17842,7 @@ MonoBehaviour:
   testTimeout: 0.25
   horizontalnessThreshold: 0.85
   grounded: 0
+  isFrozen: 0
 --- !u!1 &1243755378
 GameObject:
   m_ObjectHideFlags: 0

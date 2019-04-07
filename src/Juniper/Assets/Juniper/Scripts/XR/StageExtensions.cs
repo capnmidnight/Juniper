@@ -76,6 +76,8 @@ namespace Juniper.Unity
             get; private set;
         }
 
+        private Grounded grounder;
+
         public virtual void Awake()
         {
             Install(false);
@@ -169,9 +171,11 @@ namespace Juniper.Unity
                 bp.Value.constraints = RigidbodyConstraints.FreezeRotation;
             }
             BodyPhysics = bp;
-            BodyPhysics.useGravity = useGravity;
+            BodyPhysics.useGravity = false;
+            BodyPhysics.isKinematic = true;
+            BodyPhysics.velocity = Vector3.zero;
 
-            this.Ensure<Grounded>();
+            grounder = this.Ensure<Grounded>();
 #endif
 
             BodyPhysics.Ensure<DefaultLocomotion>();
@@ -234,8 +238,11 @@ namespace Juniper.Unity
         {
 #if UNITY_MODULES_PHYSICS
             BodyShape.enabled = usePhysicsBasedMovement;
-            BodyPhysics.isKinematic = !usePhysicsBasedMovement;
-            BodyPhysics.useGravity = usePhysicsBasedMovement && useGravity;
+            if (grounder.grounded)
+            {
+                BodyPhysics.useGravity = usePhysicsBasedMovement && useGravity;
+                BodyPhysics.isKinematic = !usePhysicsBasedMovement;
+            }
             if (usePhysicsBasedMovement)
             {
                 var acceleration = (velocity - BodyPhysics.velocity) / Time.fixedDeltaTime;

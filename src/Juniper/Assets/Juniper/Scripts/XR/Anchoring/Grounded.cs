@@ -117,6 +117,7 @@ namespace Juniper.Unity.Anchoring
                 frozen = false;
                 body.useGravity = wasUsingGravity;
                 body.isKinematic = wasKinematic;
+                body.velocity = Vector3.zero;
 
                 if (dragger)
                 {
