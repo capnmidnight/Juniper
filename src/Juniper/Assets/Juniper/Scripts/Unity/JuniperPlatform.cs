@@ -24,9 +24,13 @@ namespace Juniper.Unity
         public static void Install(bool reset)
         {
             var notInstalled = Installable.InstallAll(GetInstallables, reset);
-            if (notInstalled > 0)
+            if (notInstalled.Count > 0)
             {
-                Debug.LogError($"Juniper: ERROR: {0} components were not installed correctly.");
+                var names = from module in notInstalled
+                            let type = module.GetType()
+                            select type.Name;
+                var nameList = string.Join(", ", names);
+                Debug.LogError($"Juniper: ERROR: {nameList} components were not installed correctly.");
             }
         }
 
