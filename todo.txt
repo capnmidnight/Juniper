@@ -101,3 +101,6 @@ x 2019-02-17 2019-02-01 pri:B Better Gaze Smoothing
 x 2019-02-19 2019-02-12 pri:F Magic Leap - Light Estimation
 (F) 2019-02-17 Streaming Audio
 (B) 2019-02-18 Magic Leap - wider meshing area
+(A) Split Unity-specific and XR code into separate repos
+(A) Split Unity utility code and scene management code into separate repos
+(A) Split Unity widgets code into separate repo
