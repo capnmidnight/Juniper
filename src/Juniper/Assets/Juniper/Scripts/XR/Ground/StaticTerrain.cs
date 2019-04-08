@@ -31,7 +31,7 @@ namespace Juniper.Unity.Ground
             {
                 Collider collid;
 
-                if (terrain == null)
+                if (terrainData == null)
                 {
                     var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
                     plane.layer = GroundLayer;
