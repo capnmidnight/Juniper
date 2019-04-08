@@ -33,12 +33,6 @@ namespace Juniper.Unity
 #if UNITY_MODULES_PHYSICS
 
         /// <summary>
-        /// When set to true, colliders and rigid bodies will be added to the stage and camera to
-        /// simulate a "body" that can be affected by gravity.
-        /// </summary>
-        public bool usePhysicsBasedMovement = true;
-
-        /// <summary>
         /// A friction material for the player's avatar.
         /// </summary>
         public PhysicMaterial shoes;
@@ -50,8 +44,6 @@ namespace Juniper.Unity
         public Rigidbody BodyPhysics;
 
         private CapsuleCollider BodyShape;
-
-        public bool useGravity = true;
 #endif
 
         public Transform Shoulders
@@ -176,6 +168,7 @@ namespace Juniper.Unity
             BodyPhysics.velocity = Vector3.zero;
 
             grounder = this.Ensure<Grounded>();
+            grounder.WhenGrounded(grounder.Destroy);
 #endif
 
             BodyPhysics.Ensure<DefaultLocomotion>();
@@ -189,7 +182,6 @@ namespace Juniper.Unity
 
         public void SetStageFollowsHead(bool followHead)
         {
-            usePhysicsBasedMovement &= followHead;
             avatarHeight = followHead ? defaultAvatarHeight : 0;
             if (followHead)
             {
@@ -227,44 +219,25 @@ namespace Juniper.Unity
             velocity = Head.rotation * v;
 
 #if UNITY_MODULES_PHYSICS
-            if (usePhysicsBasedMovement)
-            {
-                velocity.y = falling;
-            }
+            velocity.y = falling;
 #endif
         }
 
         public void FixedUpdate()
         {
 #if UNITY_MODULES_PHYSICS
-            BodyShape.enabled = usePhysicsBasedMovement;
-            if (grounder.grounded)
-            {
-                BodyPhysics.useGravity = usePhysicsBasedMovement && useGravity;
-                BodyPhysics.isKinematic = !usePhysicsBasedMovement;
-            }
-            if (usePhysicsBasedMovement)
-            {
-                var acceleration = (velocity - BodyPhysics.velocity) / Time.fixedDeltaTime;
-                BodyPhysics.AddForce(acceleration, ForceMode.Acceleration);
-            }
-            else
-            {
-#endif
-                Shoulders.position += velocity * Time.fixedDeltaTime;
-#if UNITY_MODULES_PHYSICS
-            }
+            var acceleration = (velocity - BodyPhysics.velocity) / Time.fixedDeltaTime;
+            BodyPhysics.AddForce(acceleration, ForceMode.Acceleration);
+#else
+            Shoulders.position += velocity * Time.fixedDeltaTime;
 #endif
 
             var userCenter = Head.position - Shoulders.position;
 
 #if UNITY_MODULES_PHYSICS
-            if (usePhysicsBasedMovement)
-            {
-                var center = userCenter;
-                center.y = -0.5f * BodyShape.height;
-                BodyShape.center = Quaternion.Inverse(Shoulders.rotation) * center;
-            }
+            var center = userCenter;
+            center.y = -0.5f * BodyShape.height;
+            BodyShape.center = Quaternion.Inverse(Shoulders.rotation) * center;
 #endif
             Body.localScale = new Vector3(0.5f, 0.5f * Head.position.y, 0.5f);
             Body.position = Shoulders.position + userCenter - (0.5f * Head.position.y * Vector3.up);

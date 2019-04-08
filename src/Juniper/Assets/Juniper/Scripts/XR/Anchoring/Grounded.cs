@@ -155,10 +155,7 @@ namespace Juniper.Unity.Anchoring
                 }
                 else
                 {
-                    if (!stage.usePhysicsBasedMovement)
-                    {
-                        transform.position = groundPoint.Value;
-                    }
+                    transform.position = groundPoint.Value;
                     Unfreeze();
                     EmptyJobQueue();
                 }
