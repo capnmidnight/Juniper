@@ -96,7 +96,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Optimized Leaf Material
-  m_Shader: {fileID: 10511, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 10607, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -108,19 +108,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpSpecMap:
-        m_Texture: {fileID: 2800000, guid: e8e5dc3c41acbbc4687ab96a34e4b72b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 788adf4ddd5991a4d8f437d874293344, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 5e051113bb6652843a9be683c3dfbe15, type: 3}
+        m_Texture: {fileID: 2800000, guid: 37b8096b8c0a32c4b89d0ba1f09c22e3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadowTex:
-        m_Texture: {fileID: 2800000, guid: c150c07ee23c64b44b235ba7811a04c8, type: 3}
+        m_Texture: {fileID: 2800000, guid: d1af7a073009d2241ac69ea890cec2e5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TranslucencyMap:
-        m_Texture: {fileID: 2800000, guid: 2067a9d22b40a7943a854c86933929d8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 29daaeb2f36ae64409ce737cd91360d8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -145,7 +145,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Optimized Bark Material
-  m_Shader: {fileID: 10509, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 10604, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -161,7 +161,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpSpecMap:
-        m_Texture: {fileID: 2800000, guid: e8e5dc3c41acbbc4687ab96a34e4b72b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 788adf4ddd5991a4d8f437d874293344, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GlossMap:
@@ -169,11 +169,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 5e051113bb6652843a9be683c3dfbe15, type: 3}
+        m_Texture: {fileID: 2800000, guid: 37b8096b8c0a32c4b89d0ba1f09c22e3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TranslucencyMap:
-        m_Texture: {fileID: 2800000, guid: 2067a9d22b40a7943a854c86933929d8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 29daaeb2f36ae64409ce737cd91360d8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Name: Tree Data
   m_EditorClassIdentifier: 
   _uniqueID: 3430
-  materialHash: 831427b618a4696e533434c3a8249239215482368
+  materialHash: 574f7a934d5a401a793853d540f62f41215482368
   root:
     _uniqueID: 1
     seed: 1271676
@@ -583,7 +583,7 @@ MonoBehaviour:
     lodQualityMultiplier: 1
     geometryMode: 0
     materialBranch: {fileID: 2100000, guid: c2899ebd15aeb7b458beca7afa87a7d5, type: 2}
-    materialBreak: {fileID: 2100000, guid: c2899ebd15aeb7b458beca7afa87a7d5, type: 2}
+    materialBreak: {fileID: 0}
     materialFrond: {fileID: 0}
     height: {x: 15.717709, y: 21.75729}
     radius: 0.5
@@ -1059,7 +1059,7 @@ MonoBehaviour:
     lodQualityMultiplier: 1
     geometryMode: 0
     materialBranch: {fileID: 2100000, guid: c2899ebd15aeb7b458beca7afa87a7d5, type: 2}
-    materialBreak: {fileID: 2100000, guid: c2899ebd15aeb7b458beca7afa87a7d5, type: 2}
+    materialBreak: {fileID: 0}
     materialFrond: {fileID: 0}
     height: {x: 10, y: 17.858854}
     radius: 0.5
