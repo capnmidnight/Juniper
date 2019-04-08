@@ -247,7 +247,7 @@ namespace Juniper.Unity
             JuniperPlatform.Install(false);
 
             // Unity hacks the sense of null, creating a value reference that compares to null, but
-            // doesn't work with the null coallescing operator. So we make it actually, really null here.
+            // doesn't work with the null coalescing operator. So we make it actually, really null here.
             if (splash == null)
             {
                 splash = null;
@@ -350,15 +350,14 @@ namespace Juniper.Unity
 
             if (canv.IsNew || reset)
             {
-                canv.Value.renderMode = RenderMode.WorldSpace;
-
-                canv.Value.worldCamera = DisplayManager.EventCamera;
                 canv.SetAnchors(0.5f * Vector2.one, 0.5f * Vector2.one)
                     .SetPivot(0.5f * Vector2.one)
                     .SetSize(1000, 1000)
                     .SetScale(new Vector3(0.001f, 0.001f, 1));
             }
 
+            canv.Value.renderMode = RenderMode.WorldSpace;
+            canv.Value.worldCamera = DisplayManager.EventCamera;
             canv.Ensure<GraphicRaycaster>();
             canv.gameObject.layer = transparentLayer;
 
