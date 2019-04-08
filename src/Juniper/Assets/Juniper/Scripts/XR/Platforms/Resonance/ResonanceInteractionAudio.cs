@@ -24,6 +24,8 @@ namespace Juniper.Unity.Audio
                 var js = ComponentExt.FindAny<JuniperSystem>();
                 goog = listener.Ensure<ResonanceAudioListener>().Value;
                 goog.stereoSpeakerModeEnabled = Application.isEditor || js.DisplayType != DisplayTypes.Stereo;
+
+                return true;
             }
 
             return false;
