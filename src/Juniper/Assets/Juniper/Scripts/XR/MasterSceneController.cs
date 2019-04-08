@@ -16,9 +16,6 @@ using Juniper.Progress;
 
 using UnityEngine.UI;
 
-using Juniper.Unity.World.LightEstimation;
-using Juniper.Unity.World;
-
 #if UNITY_EDITOR
 
 using UnityEditor;
@@ -221,6 +218,24 @@ namespace Juniper.Unity
 
         private IEnumerator LoadingCompleteCoroutine()
         {
+            for (var i = 1; i < SceneManager.sceneCount; ++i)
+            {
+                var scene = SceneManager.GetSceneAt(i);
+                var canvases = scene.FindAll<Canvas>((c) =>
+                    c.renderMode == RenderMode.WorldSpace
+                        && c.worldCamera == null);
+                foreach (var canvas in canvases)
+                {
+                    canvas.worldCamera = DisplayManager.EventCamera;
+                }
+
+                var audioSources = scene.FindAll<AudioSource>((a) => a.spatialize);
+                foreach (var audioSource in audioSources)
+                {
+                    audioSource.Spatialize();
+                }
+            }
+
             loadingBar?.Report(1);
             yield return loadingBar?.Waiter;
             splash?.Deactivate();
