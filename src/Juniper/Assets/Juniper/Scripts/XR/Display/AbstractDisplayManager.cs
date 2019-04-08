@@ -91,7 +91,6 @@ namespace Juniper.Unity.Display
         {
             EventCamera.transform.position = pointer.transform.position;
             EventCamera.transform.rotation = pointer.transform.rotation;
-            EventCamera.nearClipPlane = pointer.MinimumPointerDistance;
             EventCamera.farClipPlane = pointer.MaximumPointerDistance;
         }
 
