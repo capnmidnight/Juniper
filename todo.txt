@@ -15,6 +15,7 @@
 (T) 2019-02-01 Vuforia - Android
 (T) 2019-02-01 Vuforia - iOS
 (T) 2019-02-01 Vuforia - HoloLens
+(F) 2019-04-07 PSVR
 (Z) 2019-02-01 Unity AR Foundation
 x 2019-02-11 2019-02-01 pri:F Magic Leap - Hands
 x 2019-03-01 2019-02-01 pri:F Magic Leap - Hand Gestures
@@ -44,10 +45,10 @@ x 2019-02-05 2019-02-01 pri:F Magic Leap - Meshing
 (T) 2019-02-01 Magic Window - UWP?
 (F) 2019-02-01 Tooltips
 (F) 2019-02-01 Confirmation Dialogs
-(A) 2019-02-01 Use Oculus Packages from Unity
+x (A) 2019-02-01 Use Oculus Packages from Unity
 (A) 2019-02-01 Use ARKit Packages from Unity
 (A) 2019-02-01 Use ARCore Packages from Unity
-(Z) 2019-02-01 Configuration Management Tools
+x (Z) 2019-02-01 Configuration Management Tools
 x 2019-02-18 2019-02-01 pri:F Long Press
 (F) 2019-02-01 Double Clicks
 (F) 2019-02-01 Force Clicks
@@ -64,7 +65,6 @@ x 2019-02-04 2019-02-01 pri:F User Prefs for Options
 (A) 2019-02-01 Requirements Docs
 (F) 2019-02-01 Per-platform Camera Follow
 (F) 2019-02-01 UI Controls
-(D) 2019-02-01 UI Controls
 (F) 2019-02-01 Options Interface - VR Mode
 (F) 2019-02-01 Options Interface - Music Volume
 (F) 2019-02-01 Options Interface - Language
@@ -82,7 +82,7 @@ x 2019-02-04 2019-02-01 pri:F User Prefs for Options
 (A) 2019-02-01 Accessibility Documentation
 (D) 2019-02-01 Tutorials w/ Videos
 (D) 2019-02-01 More demos
-(A) 2019-02-01 Upgrade Accord.NET
+x (A) 2019-02-01 Upgrade Accord.NET
 (F) 2019-02-01 Multiplayer Server
 (F) 2019-02-01 Langauge Packs
 (F) 2019-02-01 Audio-only Mode
@@ -91,11 +91,11 @@ x 2019-02-04 2019-02-01 pri:F User Prefs for Options
 (F) 2019-02-01 Data Access - SqlSiphon
 (F) 2019-02-01 Data Access - JSON/REST
 (F) 2019-02-01 Data Access - XML/WSDL
-(F) 2019-02-01 Virtual Keyboards
-(A) 2019-02-01 Bakery?
+x (F) 2019-02-01 Virtual Keyboards
+x (A) 2019-02-01 Bakery?
 (F) 2019-02-01 Chromakey
 (Z) 2019-02-01 Mixed Reality view
-(A) 2019-02-01 Third party lib patches
+x (A) 2019-02-01 Third party lib patches
 (Z) 2019-02-01 GameObject Code Behinds
 x 2019-02-17 2019-02-01 pri:B Better Gaze Smoothing
 x 2019-02-19 2019-02-12 pri:F Magic Leap - Light Estimation
