@@ -74,6 +74,23 @@ namespace UnityEngine
         }
 
         /// <summary>
+        /// Enumerate through a transform and all of its children, as if they were one collection.
+        /// </summary>
+        /// <returns>The family.</returns>
+        /// <param name="parent">Parent.</param>
+        public static IEnumerable<T> FamilyTree<T>(this T parent)
+            where T : Transform
+        {
+            var q = new Queue<T>(10) { parent };
+            while (q.Count > 0)
+            {
+                var here = q.Dequeue();
+                q.AddRange(here.Children());
+                yield return here;
+            }
+        }
+
+        /// <summary>
         /// Remove all child transforms from a transform.
         /// </summary>
         /// <param name="parent">    </param>

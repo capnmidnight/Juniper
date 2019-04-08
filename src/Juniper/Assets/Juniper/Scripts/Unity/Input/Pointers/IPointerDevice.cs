@@ -168,6 +168,12 @@ namespace Juniper.Unity.Input.Pointers
             get;
         }
 
+        int Layer
+        {
+            get;
+            set;
+        }
+
         Vector2 ViewportFromWorld(Vector3 worldPoint);
 
         Vector2 ViewportFromScreen(Vector2 screenPoint);

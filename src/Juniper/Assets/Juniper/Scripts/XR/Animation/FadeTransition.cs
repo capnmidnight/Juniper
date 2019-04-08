@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Juniper.Unity.Display;
-
+using Juniper.Unity.Input;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -59,6 +59,8 @@ namespace Juniper.Unity.Animation
             }
         }
 
+        private UnifiedInputModule input;
+
         /// <summary>
         /// Setup the necessary gameObjects and components to make a fader box appears in front of
         /// the camera.
@@ -69,12 +71,16 @@ namespace Juniper.Unity.Animation
             var fader = parent.Ensure<Transform>("Fader", () =>
                 GameObject.CreatePrimitive(PrimitiveType.Quad))
                 .Ensure<FadeTransition>();
+
 #if UNITY_MODULES_PHYSICS
             if (fader.IsNew)
             {
                 fader.Value.Remove<Collider>();
             }
 #endif
+
+            fader.gameObject.layer = LayerMask.NameToLayer("TransparentFX");
+
             return fader;
         }
 
@@ -92,6 +98,7 @@ namespace Juniper.Unity.Animation
             props = new MaterialPropertyBlock();
 
             display = ComponentExt.FindAny<DisplayManager>();
+            input = ComponentExt.FindAny<UnifiedInputModule>();
         }
 
         /// <summary>
@@ -203,7 +210,13 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// The culling-mask that was used before the fade-out transition started.
         /// </summary>
-        private int lastCullingMask;
+        private int lastCameraCullingMask;
+
+        /// <summary>
+        /// The layers the controllers are rendered on. This is used to make sure the controllers
+        /// are still visible while the scene is faded out.
+        /// </summary>
+        private int lastControllerLayer;
 
         /// <summary>
         /// The ambient light mode that was used before the fade-out transition was started.
@@ -233,7 +246,8 @@ namespace Juniper.Unity.Animation
             base.OnEntered();
 
             lastColor = DisplayManager.BackgroundColor;
-            lastCullingMask = DisplayManager.CullingMask;
+            lastCameraCullingMask = DisplayManager.CullingMask;
+            lastControllerLayer = input.ControllerLayer;
             lastAmbientMode = RenderSettings.ambientMode;
 
             if (display.ARMode == AugmentedRealityTypes.None)
@@ -242,6 +256,7 @@ namespace Juniper.Unity.Animation
                 DisplayManager.BackgroundColor = ColorExt.TransparentBlack;
             }
 
+            input.ControllerLayer = LayerMask.NameToLayer("TransparentFX");
             DisplayManager.CullingMask = LayerMask.GetMask("TransparentFX");
             RenderSettings.ambientMode = AmbientMode.Flat;
 
@@ -277,7 +292,8 @@ namespace Juniper.Unity.Animation
                 DisplayManager.BackgroundColor = lastColor;
             }
 
-            DisplayManager.CullingMask = lastCullingMask;
+            DisplayManager.CullingMask = lastCameraCullingMask;
+            input.ControllerLayer = lastControllerLayer;
             RenderSettings.ambientMode = lastAmbientMode;
         }
 

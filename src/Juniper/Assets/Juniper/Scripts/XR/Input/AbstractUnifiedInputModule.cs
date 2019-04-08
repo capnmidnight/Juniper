@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Juniper.Unity.Display;
 using Juniper.Unity.Input.Pointers;
 using Juniper.Unity.Input.Pointers.Gaze;
@@ -43,6 +43,8 @@ namespace Juniper.Unity.Input
 
         private readonly List<IPointerDevice> newDevices = new List<IPointerDevice>(12);
         public readonly List<IPointerDevice> Devices = new List<IPointerDevice>(12);
+
+        public IPointerDevice PrimaryPointer;
 
         public Mode mode = Mode.Auto;
 
@@ -123,11 +125,19 @@ namespace Juniper.Unity.Input
 
         protected StageExtensions stage;
 
+        public int ControllerLayer;
+
         protected override void Awake()
         {
             base.Awake();
 
             Install(false);
+
+            ControllerLayer = Devices
+                .Union(newDevices)
+                .Select(d => (int?)d.Layer)
+                .FirstOrDefault()
+                ?? LayerMask.NameToLayer("Ignore Raycast");
 
             stage.SetStageFollowsHead(!mode.HasFlag(Mode.HasFloorPosition));
 
@@ -226,6 +236,7 @@ namespace Juniper.Unity.Input
             var p = parent.Ensure<Transform>(path)
                 .Ensure<T>();
             p.tag = "GameController";
+            p.Value.Layer = LayerMask.NameToLayer("Ignore Raycast");
             return p;
         }
 
@@ -295,17 +306,18 @@ namespace Juniper.Unity.Input
         /// </summary>
         public override void Process()
         {
-            EnableMouse(mode.HasFlag(Mode.Mouse) && mouse.IsConnected, false);
-            EnableTouch(mode.HasFlag(Mode.Touch) && TouchConnected && !MotionConnected, false);
-            EnableGaze(mode.HasFlag(Mode.Gaze) && !MotionConnected && !mouse.IsConnected && TouchConnected, false);
-            EnableControllers(mode.HasFlag(Mode.Motion), false);
-            EnableHands(mode.HasFlag(Mode.Hands), false);
-
             Devices.AddRange(newDevices);
             newDevices.Clear();
 
+            EnableGaze(mode.HasFlag(Mode.Gaze) && !MotionConnected && !mouse.IsConnected && TouchConnected, false);
+            EnableMouse(mode.HasFlag(Mode.Mouse) && mouse.IsConnected, false);
+            EnableTouch(mode.HasFlag(Mode.Touch) && TouchConnected && !MotionConnected, false);
+            EnableHands(mode.HasFlag(Mode.Hands), false);
+            EnableControllers(mode.HasFlag(Mode.Motion), false);
+
             foreach (var pointer in Devices)
             {
+                pointer.Layer = ControllerLayer;
                 if (pointer.IsEnabled)
                 {
                     PointerEventData evtData;
@@ -428,9 +440,15 @@ namespace Juniper.Unity.Input
             PlayerPrefs.Save();
         }
 
-        private void EnableDevice(string key, bool value, bool savePref, Action<bool> setActive)
+        private void EnableDevice(string key, bool value, IPointerDevice pointer, bool savePref, Action<bool> setActive)
         {
             setActive(value);
+
+            if (pointer.IsEnabled)
+            {
+                PrimaryPointer = pointer;
+            }
+
             if (savePref)
             {
                 SetBool(key, value);
@@ -438,20 +456,20 @@ namespace Juniper.Unity.Input
         }
 
 #if UNITY_MODULES_UI
-        private void EnableDevice(string key, bool value, bool savePref, Action<bool> setActive, Toggle toggle)
+        private void EnableDevice(string key, bool value, IPointerDevice pointer, bool savePref, Action<bool> setActive, Toggle toggle)
         {
             if (toggle != null && toggle.isOn != value)
             {
                 toggle.isOn = value;
             }
-            EnableDevice(key, value, savePref, setActive);
+            EnableDevice(key, value, pointer, savePref, setActive);
         }
 
 #endif
 
         public void EnableMouse(bool value, bool savePref)
         {
-            EnableDevice(ENABLE_MOUSE_KEY, value, savePref, mouse.SetActive
+            EnableDevice(ENABLE_MOUSE_KEY, value, mouse, savePref, mouse.SetActive
 #if UNITY_UI_MODULES
                 , enableMouseToggle
 #endif
@@ -460,7 +478,7 @@ namespace Juniper.Unity.Input
 
         public void EnableGaze(bool value, bool savePref)
         {
-            EnableDevice(ENABLE_GAZE_KEY, value, savePref, gazePointer.SetActive
+            EnableDevice(ENABLE_GAZE_KEY, value, gazePointer, savePref, gazePointer.SetActive
 #if UNITY_UI_MODULES
                 , enableGazeToggle
 #endif
@@ -477,7 +495,7 @@ namespace Juniper.Unity.Input
 
         public void EnableTouch(bool value, bool savePref)
         {
-            EnableDevice(ENABLE_TOUCH_KEY, value, savePref, EnableTouches
+            EnableDevice(ENABLE_TOUCH_KEY, value, touches[0], savePref, EnableTouches
 #if UNITY_UI_MODULES
                 , enableTouchToggle
 #endif
@@ -494,7 +512,7 @@ namespace Juniper.Unity.Input
 
         public void EnableHands(bool value, bool savePref)
         {
-            EnableDevice(ENABLE_HANDS_KEY, value, savePref, EnableHands
+            EnableDevice(ENABLE_HANDS_KEY, value, handTrackers.LastOrDefault(), savePref, EnableHands
 #if UNITY_UI_MODULES
                 , enableHandsToggle
 #endif
@@ -511,7 +529,7 @@ namespace Juniper.Unity.Input
 
         public void EnableControllers(bool value, bool savePref)
         {
-            EnableDevice(ENABLE_CONTROLLERS_KEY, value, savePref, EnableControllers
+            EnableDevice(ENABLE_CONTROLLERS_KEY, value, motionControllers.LastOrDefault(), savePref, EnableControllers
 #if UNITY_UI_MODULES
                 , enableControllersToggle
 #endif

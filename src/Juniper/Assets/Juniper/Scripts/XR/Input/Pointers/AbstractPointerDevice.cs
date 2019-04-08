@@ -99,6 +99,24 @@ namespace Juniper.Unity.Input.Pointers
 
         public Material LaserPointerMaterial;
 
+        public int Layer
+        {
+            get
+            {
+                return gameObject.layer;
+            }
+            set
+            {
+                if (value != gameObject.layer)
+                {
+                    foreach (var trans in transform.FamilyTree())
+                    {
+                        trans.gameObject.layer = value;
+                    }
+                }
+            }
+        }
+
         public bool LockedOnTarget
         {
             get; set;
@@ -216,7 +234,7 @@ namespace Juniper.Unity.Input.Pointers
         {
             if (probe == null)
             {
-                probe = Probe.Ensure(transform, ProbeName); 
+                probe = Probe.Ensure(transform, ProbeName);
             }
         }
 
@@ -562,7 +580,9 @@ namespace Juniper.Unity.Input.Pointers
             return nativeButtons.IsButtonDown(button);
         }
 
-        protected virtual void InternalUpdate() { }
+        protected virtual void InternalUpdate()
+        {
+        }
 
         public abstract bool IsButtonPressed(ButtonIDType button);
 
