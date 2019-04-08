@@ -308,7 +308,7 @@ namespace Juniper.Unity
 #if UNITY_EDITOR
             if (sceneFaderMaterial == null || reset)
             {
-                sceneFaderMaterial = ComponentExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/FaderMaterial.mat");
+                sceneFaderMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/FaderMaterial.mat");
             }
 #endif
 
@@ -390,7 +390,7 @@ namespace Juniper.Unity
                 if (splashImg.IsNew || reset)
                 {
 #if UNITY_EDITOR
-                    splashImg.Value.sprite = ComponentExt.EditorLoadAsset<Sprite>("Assets/Juniper/Textures/logo-large.png");
+                    splashImg.Value.sprite = ResourceExt.EditorLoadAsset<Sprite>("Assets/Juniper/Textures/logo-large.png");
 #endif
                     splashImg
                         .SetAnchors(Vector2.zero, Vector2.one)
@@ -421,7 +421,7 @@ namespace Juniper.Unity
             if (icon.IsNew)
             {
 #if UNITY_EDITOR
-                icon.Value.sprite = ComponentExt.EditorLoadAsset<Sprite>("Assets/Juniper/Textures/gear.png");
+                icon.Value.sprite = ResourceExt.EditorLoadAsset<Sprite>("Assets/Juniper/Textures/gear.png");
 #endif
 
                 icon.SetAnchors(Vector2.zero, Vector2.zero)
@@ -522,7 +522,7 @@ namespace Juniper.Unity
                     .SetPosition(Vector2.zero)
                     .SetSize(Vector2.zero);
 #if UNITY_EDITOR
-                background.Value.sprite = ComponentExt.EditorLoadAsset<Sprite>("UI/Skin/Background.psd");
+                background.Value.sprite = ResourceExt.EditorLoadAsset<Sprite>("UI/Skin/Background.psd");
 #endif
                 background.Value.type = Image.Type.Sliced;
             }
@@ -546,7 +546,7 @@ namespace Juniper.Unity
                     .SetAnchors(Vector2.zero, Vector2.up)
                     .SetSize(new Vector2(10, 0));
 #if UNITY_EDITOR
-                fill.Value.sprite = ComponentExt.EditorLoadAsset<Sprite>("UI/Skin/UISprite.psd");
+                fill.Value.sprite = ResourceExt.EditorLoadAsset<Sprite>("UI/Skin/UISprite.psd");
 #endif
                 fill.Value.type = Image.Type.Sliced;
             }
@@ -567,7 +567,7 @@ namespace Juniper.Unity
             {
                 handle.SetSize(20 * Vector2.right);
 #if UNITY_EDITOR
-                handle.Value.sprite = ComponentExt.EditorLoadAsset<Sprite>("UI/Skin/Knob.psd");
+                handle.Value.sprite = ResourceExt.EditorLoadAsset<Sprite>("UI/Skin/Knob.psd");
 #endif
             }
 

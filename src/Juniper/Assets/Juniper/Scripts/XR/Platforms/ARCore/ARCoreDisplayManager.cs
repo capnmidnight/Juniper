@@ -41,7 +41,7 @@ namespace Juniper.Unity.Display
 #if UNITY_EDITOR
             if (ARBackgroundMaterial == null || reset)
             {
-                ARBackgroundMaterial = ComponentExt.EditorLoadAsset<Material>("Assets/GoogleARCore/SDK/Materials/ARBackground.mat");
+                ARBackgroundMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/GoogleARCore/SDK/Materials/ARBackground.mat");
             }
 #endif
 

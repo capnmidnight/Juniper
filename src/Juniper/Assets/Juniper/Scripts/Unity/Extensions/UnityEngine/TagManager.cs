@@ -20,7 +20,7 @@ namespace UnityEngine
 #if UNITY_EDITOR
             if (!DEFAULT_TAGS.Contains(tag))
             {
-                var tagManager = new UnityEditor.SerializedObject(ComponentExt.EditorLoadAllAssets("ProjectSettings/TagManager.asset")[0]);
+                var tagManager = ResourceExt.EditorLoadAsset("ProjectSettings/TagManager.asset");
                 var tagsProp = tagManager.FindProperty("tags");
                 bool found = false;
                 for (int i = 0; i < tagsProp.arraySize && !found; i++)

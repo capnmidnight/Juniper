@@ -2,7 +2,7 @@ using System;
 
 using Juniper.Input;
 using Juniper.Unity.Haptics;
-
+using Juniper.Unity.Statistics;
 using UnityEngine;
 
 namespace Juniper.Unity.Input.Pointers.Motion
@@ -57,6 +57,9 @@ namespace Juniper.Unity.Input.Pointers.Motion
             where T : AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType, HapticsType>
         {
             var pointer = MakePointer(PointerConfig.MakePointerName(hand));
+#if UNITY_EDITOR
+            pointer.motionFilter = ResourceExt.EditorLoadAsset<KalmanMotionFilter>("Assets/Juniper/Prefabs/Filters/handTrackingKalmanFilter.asset");
+#endif
             pointer.Hand = hand;
             return pointer;
         }

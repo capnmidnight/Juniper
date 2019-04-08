@@ -64,7 +64,7 @@ namespace Juniper.Unity.Input
             var safeArea = parent.Find("SafeArea2");
             if (safeArea == null)
             {
-                safeArea = Instantiate(ComponentExt.EditorLoadAsset<GameObject>("Assets/PicoMobileSDK/Pvr_UnitySDK/Resources/Cylinder01.FBX"), parent).transform;
+                safeArea = Instantiate(ResourceExt.EditorLoadAsset<GameObject>("Assets/PicoMobileSDK/Pvr_UnitySDK/Resources/Cylinder01.FBX"), parent).transform;
                 safeArea.name = "SafeArea2";
                 safeArea.Deactivate();
             }
@@ -102,7 +102,7 @@ namespace Juniper.Unity.Input
             if (panelImage.IsNew)
             {
 #if UNITY_EDITOR
-                panelImage.Value.sprite = ComponentExt.EditorLoadAsset<Sprite>("UI/Skin/Background.psd");
+                panelImage.Value.sprite = ResourceExt.EditorLoadAsset<Sprite>("UI/Skin/Background.psd");
 #endif
                 panelImage.Value.color = imageColor;
                 panelImage.Value.raycastTarget = true;
@@ -132,7 +132,7 @@ namespace Juniper.Unity.Input
                 .Ensure<Text>();
             if (textTxt.IsNew)
             {
-                textTxt.Value.font = ComponentExt.LoadAsset<Font>("Assets/PicoMobileSDK/Pvr_Controller/MicrosoftYaHeiGB.ttf");
+                textTxt.Value.font = ResourceExt.LoadAsset<Font>("Assets/PicoMobileSDK/Pvr_Controller/MicrosoftYaHeiGB.ttf");
                 textTxt.Value.fontStyle = FontStyle.Normal;
                 textTxt.Value.fontSize = fontSize;
                 textTxt.Value.lineSpacing = 1;
@@ -234,7 +234,7 @@ namespace Juniper.Unity.Input
                 "Image",
                 -82 * Vector3.up,
                 200, 200,
-                ComponentExt.LoadAsset<Sprite>("Assets/PicoMobileSDK/Pvr_Controller/Texture/0.8M.png"),
+                ResourceExt.LoadAsset<Sprite>("Assets/PicoMobileSDK/Pvr_Controller/Texture/0.8M.png"),
                 Image.Type.Simple);
         }
 
@@ -265,7 +265,7 @@ namespace Juniper.Unity.Input
                 "Image",
                 -82 * Vector3.up,
                 200, 200,
-                ComponentExt.LoadAsset<Sprite>("Assets/PicoMobileSDK/Pvr_Controller/Texture/0.8M.png"),
+                ResourceExt.LoadAsset<Sprite>("Assets/PicoMobileSDK/Pvr_Controller/Texture/0.8M.png"),
                 Image.Type.Simple);
         }
 
@@ -305,7 +305,7 @@ namespace Juniper.Unity.Input
                 "forcequitBtn",
                 -82 * Vector3.up,
                 200, 35,
-                ComponentExt.LoadAsset<Sprite>("Assets/PicoMobileSDK/Pvr_Controller/Texture/Bt_background_long1.png"),
+                ResourceExt.LoadAsset<Sprite>("Assets/PicoMobileSDK/Pvr_Controller/Texture/Bt_background_long1.png"),
                 Image.Type.Sliced);
 
             var forceQuitButton = forceQuit.Ensure<Button>();
@@ -334,7 +334,7 @@ namespace Juniper.Unity.Input
                 .Ensure<Text>();
             if (forceQuitText.IsNew)
             {
-                forceQuitText.Value.font = ComponentExt.LoadAsset<Font>("Assets/PicoMobileSDK/Pvr_Controller/MicrosoftYaHeiGB.ttf");
+                forceQuitText.Value.font = ResourceExt.LoadAsset<Font>("Assets/PicoMobileSDK/Pvr_Controller/MicrosoftYaHeiGB.ttf");
                 forceQuitText.Value.fontStyle = FontStyle.Normal;
                 forceQuitText.Value.fontSize = 20;
                 forceQuitText.Value.lineSpacing = 1;
@@ -383,7 +383,7 @@ namespace Juniper.Unity.Input
                 "Image",
                 -82 * Vector3.up,
                 200, 200,
-                ComponentExt.LoadAsset<Sprite>("Assets/PicoMobileSDK/Pvr_Controller/Texture/0.8M.png"),
+                ResourceExt.LoadAsset<Sprite>("Assets/PicoMobileSDK/Pvr_Controller/Texture/0.8M.png"),
                 Image.Type.Simple);
         }
 

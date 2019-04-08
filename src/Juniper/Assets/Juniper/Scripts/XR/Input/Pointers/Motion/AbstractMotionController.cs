@@ -121,7 +121,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
 #if UNITY_EDITOR
             if (LaserPointerMaterial == null)
             {
-                LaserPointerMaterial = ComponentExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/LaserPointer.mat");
+                LaserPointerMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/LaserPointer.mat");
             }
 #endif
 

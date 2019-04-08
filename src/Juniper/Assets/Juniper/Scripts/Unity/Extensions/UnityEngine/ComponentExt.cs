@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Juniper.Unity;
+
 using UnityEngine.SceneManagement;
 
 namespace UnityEngine
@@ -263,73 +264,68 @@ namespace UnityEngine
         }
 
         /// <summary>
-        /// Find any object in the scene that is of a certain type.
+        /// Find any object in any scene that is of a certain type.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="filter"></param>
         /// <returns></returns>
         public static T FindAny<T>(Func<T, bool> filter = null) where T : Component
         {
             return FindAll(filter).FirstOrDefault();
         }
 
+        /// <summary>
+        /// Find any object in the specified scene that is of a certain type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="scene"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public static T FindAny<T>(this Scene scene, Func<T, bool> filter = null) where T : Component
+        {
+            return scene.FindAll(filter).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Find all objects in any scene that is of a certain type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public static IEnumerable<T> FindAll<T>(Func<T, bool> filter = null) where T : Component
         {
-            for (int i = 0; i < SceneManager.sceneCount; ++i)
+            for (var i = 0; i < SceneManager.sceneCount; ++i)
             {
                 var scene = SceneManager.GetSceneAt(i);
-                if (scene.isLoaded || !string.IsNullOrEmpty(scene.name))
+                foreach (var c in scene.FindAll(filter))
                 {
-                    foreach (var o in scene.GetRootGameObjects())
-                    {
-                        foreach (var c in o.GetComponentsInChildren<T>(true))
-                        {
-                            if (filter?.Invoke(c) != false)
-                            {
-                                yield return c;
-                            }
-                        }
-                    }
+                    yield return c;
                 }
             }
         }
 
-#if UNITY_EDITOR
-
         /// <summary>
-        /// When called from the Unity Editor, loads an audio clip from disk to use as a property in
-        /// a Unity component.
+        /// Find all objects in the specified scene that is of a certain type.
         /// </summary>
-        /// <param name="path"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="scene"></param>
+        /// <param name="filter"></param>
         /// <returns></returns>
-        public static T EditorLoadAsset<T>(string path) where T : Object
+        public static IEnumerable<T> FindAll<T>(this Scene scene, Func<T, bool> filter = null) where T : Component
         {
-            var fixedPath = System.IO.PathExt.FixPath(path);
-            if (System.IO.File.Exists(fixedPath))
+            if (scene.isLoaded || !string.IsNullOrEmpty(scene.name))
             {
-                return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(fixedPath);
+                foreach (var o in scene.GetRootGameObjects())
+                {
+                    foreach (var c in o.GetComponentsInChildren<T>(true))
+                    {
+                        if (filter?.Invoke(c) != false)
+                        {
+                            yield return c;
+                        }
+                    }
+                }
             }
-            else
-            {
-                return UnityEditor.AssetDatabase.GetBuiltinExtraResource<T>(path);
-            }
-        }
-
-        public static Object[] EditorLoadAllAssets(string path)
-        {
-            return UnityEditor.AssetDatabase.LoadAllAssetsAtPath(System.IO.PathExt.FixPath(path));
-        }
-
-#endif
-
-        /// <summary>
-        /// When called from the Unity Editor, loads an audio clip from disk to use as a property in
-        /// a Unity component.
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static T LoadAsset<T>(string path) where T : Object
-        {
-            return Resources.Load<T>(System.IO.PathExt.FixPath(path));
         }
     }
 }

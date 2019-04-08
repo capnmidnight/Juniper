@@ -106,7 +106,7 @@ namespace Juniper.Unity
 
         private void GetAsset()
         {
-            Asset = ComponentExt.EditorLoadAsset<AssetType>(AssetPath);
+            Asset = ResourceExt.EditorLoadAsset<AssetType>(AssetPath);
         }
 
 #endif

@@ -123,8 +123,8 @@ namespace Juniper.Unity.Animation
 #if UNITY_EDITOR
             if (reset)
             {
-                fadeOutSound = ComponentExt.EditorLoadAsset<AudioClip>("Assets/Juniper/Audio/Star Trek/hologram_off_2.mp3");
-                fadeInSound = ComponentExt.EditorLoadAsset<AudioClip>("Assets/Juniper/Audio/Star Trek/hologrid_online.mp3");
+                fadeOutSound = ResourceExt.EditorLoadAsset<AudioClip>("Assets/Juniper/Audio/Star Trek/hologram_off_2.mp3");
+                fadeInSound = ResourceExt.EditorLoadAsset<AudioClip>("Assets/Juniper/Audio/Star Trek/hologrid_online.mp3");
             }
 #endif
 

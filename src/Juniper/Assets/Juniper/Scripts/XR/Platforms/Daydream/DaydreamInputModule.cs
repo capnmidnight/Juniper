@@ -29,11 +29,15 @@ namespace Juniper.Unity.Input
                 this.Ensure<GvrEditorEmulator>();
 
 #if UNITY_EDITOR
-                var ip = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(
-                    System.IO.PathExt.FixPath("Assets/GoogleVR/Prefabs/InstantPreview/GvrInstantPreviewMain.prefab"));
-                if(ip != null)
+                var ip = ComponentExt.FindAny<InstantPreviewHelper>()?.gameObject;
+                if (ip == null)
                 {
-                    UnityEditor.PrefabUtility.InstantiatePrefab(ip);
+                    ip = ResourceExt.EditorLoadAsset<GameObject>(
+                        "Assets/GoogleVR/Prefabs/InstantPreview/GvrInstantPreviewMain.prefab");
+                    if (ip != null)
+                    {
+                        UnityEditor.PrefabUtility.InstantiatePrefab(ip);
+                    }
                 }
 #endif
 
