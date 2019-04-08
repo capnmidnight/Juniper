@@ -8,7 +8,7 @@ namespace Juniper.Unity.Input
     [DisallowMultipleComponent]
     public class RunningMovement : AbstractVelocityLocomotion
     {
-        public override void Update()
+        public void Update()
         {
             var horiz = jink * UnityEngine.Input.GetAxisRaw("Horizontal");
             var vert = moveSpeed * UnityEngine.Input.GetAxisRaw("Vertical");
@@ -23,9 +23,7 @@ namespace Juniper.Unity.Input
                 moveDirection.Normalize();
             }
 
-            velocity = moveDirection * MOVEMENT_SCALE;
-
-            base.Update();
+            stage.SetVelocity(stage.Head.rotation * (moveDirection * MOVEMENT_SCALE));
         }
     }
 }

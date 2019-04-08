@@ -216,7 +216,7 @@ namespace Juniper.Unity
             var falling = BodyPhysics.velocity.y;
 #endif
 
-            velocity = Head.rotation * v;
+            velocity = v;
 
 #if UNITY_MODULES_PHYSICS
             velocity.y = falling;

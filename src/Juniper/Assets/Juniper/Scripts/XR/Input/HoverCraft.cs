@@ -14,13 +14,11 @@ namespace Juniper.Unity.Input
 #endif
     public class HoverCraft : AbstractVelocityLocomotion
     {
-        public IPointerDevice Pointer;
-
         private bool ForwardPressed
         {
             get
             {
-                return Pointer?.IsButtonPressed(InputButton.Left) == true;
+                return input.PrimaryPointer?.IsButtonPressed(InputButton.Left) == true;
             }
         }
 
@@ -28,25 +26,16 @@ namespace Juniper.Unity.Input
         {
             get
             {
-                return Pointer?.IsButtonPressed(InputButton.Right) == true;
+                return input.PrimaryPointer?.IsButtonPressed(InputButton.Right) == true;
             }
         }
 
-        public override void Update()
+        public void Update()
         {
-            if (Pointer == null)
-            {
-                Pointer = input.Devices.FirstOrDefault(p => p.IsEnabled);
-            }
-            else if (Pointer.IsDisabled)
-            {
-                velocity = Vector3.zero;
-                Pointer = null;
-            }
-            else
+            if (input.PrimaryPointer != null)
             {
                 float thrust = 0;
-                if (Pointer.EventTarget == null)
+                if (input.PrimaryPointer.EventTarget == null)
                 {
                     if (ForwardPressed)
                     {
@@ -58,10 +47,8 @@ namespace Juniper.Unity.Input
                     }
                 }
 
-                velocity = thrust * MOVEMENT_SCALE * Pointer.Direction;
+                stage.SetVelocity(thrust * MOVEMENT_SCALE * input.PrimaryPointer.Direction);
             }
-
-            base.Update();
         }
     }
 }

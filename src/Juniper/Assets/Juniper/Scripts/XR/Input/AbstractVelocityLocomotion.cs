@@ -12,9 +12,8 @@ namespace Juniper.Unity.Input
         public float jink = 0.5f;
 
         protected const float MOVEMENT_SCALE = 15;
-        protected Vector3 velocity;
 
-        private StageExtensions stage;
+        protected StageExtensions stage;
         protected UnifiedInputModule input;
 
         /// <summary>
@@ -24,11 +23,6 @@ namespace Juniper.Unity.Input
         {
             stage = ComponentExt.FindAny<StageExtensions>();
             input = ComponentExt.FindAny<UnifiedInputModule>();
-        }
-
-        public virtual void Update()
-        {
-            stage.SetVelocity(velocity);
         }
     }
 }
