@@ -295,11 +295,6 @@ namespace Juniper.Unity.Input
         /// </summary>
         public override void Process()
         {
-            if(!mode.HasFlag(Mode.HasFloorPosition))
-            {
-                stage.MoveHandsWithHead();
-            }
-
             EnableMouse(mode.HasFlag(Mode.Mouse) && mouse.IsConnected, false);
             EnableTouch(mode.HasFlag(Mode.Touch) && TouchConnected && !MotionConnected, false);
             EnableGaze(mode.HasFlag(Mode.Gaze) && !MotionConnected && !mouse.IsConnected && TouchConnected, false);

@@ -145,7 +145,7 @@ namespace Juniper.Unity
                     new Vector3(0.5f * defaultAvatarHeight, 0.5f, 0.5f),
                     new Vector3(0, 0, 0.311f)));
 
-            Hands = this.Ensure<Transform>("Hands");
+            Hands = Shoulders.Ensure<Transform>("Hands");
 
             Body = Shoulders.Ensure<Transform>("Body", () =>
                 MakeShadowCaster(
@@ -266,20 +266,8 @@ namespace Juniper.Unity
                 BodyShape.center = Quaternion.Inverse(Shoulders.rotation) * center;
             }
 #endif
-
             Body.localScale = new Vector3(0.5f, 0.5f * Head.position.y, 0.5f);
             Body.position = Shoulders.position + userCenter - (0.5f * Head.position.y * Vector3.up);
-        }
-
-        /// <summary>
-        /// Makes the hands follow the camera position, but not the rotation. On Daydream
-        /// systems, the system can figure out the right orientation for the controller as you
-        /// rotate your body in place, but it can't figure out the position relative to the
-        /// 6DOF tracking of the headset.
-        /// </summary>
-        public void MoveHandsWithHead()
-        {
-            Hands.position = Head.position - Shoulders.position;
         }
     }
 }
