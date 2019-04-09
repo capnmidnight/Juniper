@@ -301,6 +301,26 @@ namespace Juniper.Unity.Input
             }
         }
 
+        public PointerEventData Clone(int pointerDataID, PointerEventData original)
+        {
+            PointerEventData clone;
+            GetPointerData(pointerDataID, out clone, true);
+
+            clone.delta = original.delta;
+            clone.position = original.position;
+            clone.scrollDelta = original.scrollDelta;
+            clone.pointerEnter = original.pointerEnter;
+            clone.useDragThreshold = original.useDragThreshold;
+            clone.pointerCurrentRaycast = original.pointerCurrentRaycast;
+            if (original.clickCount == -1)
+            {
+                clone.eligibleForClick = false;
+                clone.clickCount = 0;
+            }
+
+            return clone;
+        }
+
         /// <summary>
         /// Find all the pointers and fire raycaster events for them.
         /// </summary>
@@ -332,26 +352,6 @@ namespace Juniper.Unity.Input
                     pointer.Process(evtData, eventSystem.pixelDragThreshold * eventSystem.pixelDragThreshold);
                 }
             }
-        }
-
-        public PointerEventData Clone(int pointerDataID, PointerEventData original)
-        {
-            PointerEventData clone;
-            GetPointerData(pointerDataID, out clone, true);
-
-            clone.delta = original.delta;
-            clone.position = original.position;
-            clone.scrollDelta = original.scrollDelta;
-            clone.pointerEnter = original.pointerEnter;
-            clone.useDragThreshold = original.useDragThreshold;
-            clone.pointerCurrentRaycast = original.pointerCurrentRaycast;
-            if (original.clickCount == -1)
-            {
-                clone.eligibleForClick = false;
-                clone.clickCount = 0;
-            }
-
-            return clone;
         }
 
         private void UpdateRay(IPointerDevice pointer, PointerEventData evtData)
