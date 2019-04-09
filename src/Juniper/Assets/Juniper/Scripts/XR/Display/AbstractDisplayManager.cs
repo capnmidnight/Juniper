@@ -72,6 +72,7 @@ namespace Juniper.Unity.Display
                 if (eventCam == null)
                 {
                     eventCam = MakeCamera("EventCamera", "PointerCamera");
+                    eventCam.cullingMask = ~LayerMask.GetMask("Ignore Raycast");
                     eventCam.Ensure<PhysicsRaycaster>();
                     eventCam.clearFlags = CameraClearFlags.SolidColor;
                     eventCam.backgroundColor = ColorExt.TransparentBlack;
@@ -566,7 +567,7 @@ namespace Juniper.Unity.Display
                 ARMode = lastARMode;
             }
 
-            EventCamera.cullingMask = MainCamera.cullingMask;
+            EventCamera.cullingMask = MainCamera.cullingMask & ~LayerMask.GetMask("Ignore Raycast");
         }
     }
 }
