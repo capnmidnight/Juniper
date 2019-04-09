@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
-
+using System.Linq;
 using Juniper.Input;
 using Juniper.Input.Pointers;
 using Juniper.Unity.Audio;
 using Juniper.Unity.Display;
-using Juniper.Unity.Events;
 using Juniper.Unity.Haptics;
 using Juniper.Unity.Statistics;
 
@@ -16,30 +14,6 @@ using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Unity.Input.Pointers
 {
-    public abstract class AbstractPointerConfiguration<ButtonIDType>
-        where ButtonIDType : struct
-    {
-        private readonly Dictionary<ButtonIDType, InputEventButton> nativeButtons = new Dictionary<ButtonIDType, InputEventButton>(5);
-
-        protected void AddButton(ButtonIDType outButton, InputButton? inButton = null)
-        {
-            nativeButtons.Add(outButton, inButton == null ? InputEventButton.None : (InputEventButton)inButton.Value);
-        }
-
-        public void Install(ButtonMapper<ButtonIDType> mapper, GameObject eventParent)
-        {
-            mapper.Install(eventParent, nativeButtons);
-        }
-
-        public void Uninstall(GameObject eventParent)
-        {
-            foreach (var evt in eventParent.GetComponents<ButtonEvent>())
-            {
-                evt.Destroy();
-            }
-        }
-    }
-
     public abstract class AbstractPointerDevice<ButtonIDType, HapticsType, ConfigType> :
         MonoBehaviour,
         IInstallable,
@@ -426,7 +400,7 @@ namespace Juniper.Unity.Input.Pointers
         }
 
 #if UNITY_EDITOR
-        private AbstractMotionFilter parent;
+        private AbstractMotionFilter parentMotionFilter;
 #endif
 
         private AbstractMotionFilter lastMotionFilter;
@@ -441,14 +415,14 @@ namespace Juniper.Unity.Input.Pointers
             if (motionFilter != lastMotionFilter)
             {
 #if UNITY_EDITOR
-                parent = motionFilter;
+                parentMotionFilter = motionFilter;
 #endif
                 motionFilter = Instantiate(motionFilter);
                 lastMotionFilter = motionFilter;
             }
 
 #if UNITY_EDITOR
-            motionFilter?.Copy(parent);
+            motionFilter?.Copy(parentMotionFilter);
 #endif
 
             Connected = IsConnected;

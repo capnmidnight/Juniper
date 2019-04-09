@@ -2,25 +2,14 @@ using Juniper.Unity.Haptics;
 
 using UnityEngine;
 
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 using UnityInput = UnityEngine.Input;
 
 namespace Juniper.Unity.Input.Pointers.Screen
 {
-    public class MouseConfiguration : AbstractPointerConfiguration<KeyCode>
-    {
-        public MouseConfiguration()
-        {
-            AddButton(KeyCode.Mouse0, InputButton.Left);
-            AddButton(KeyCode.Mouse1, InputButton.Right);
-            AddButton(KeyCode.Mouse2, InputButton.Middle);
-        }
-    }
-
     /// <summary>
     /// A <see cref="AbstractScreenDevice"/> pointer for the standard mouse connected to a desktop system.
     /// </summary>
-    public class Mouse : AbstractScreenDevice<KeyCode, NoHaptics, MouseConfiguration>
+    public class Mouse : AbstractScreenDevice<KeyCode, NoHaptics, MousePointerConfiguration>
     {
         [ContextMenu("Reinstall")]
         public override void Reinstall()

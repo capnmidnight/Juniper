@@ -1,45 +1,17 @@
 #if GOOGLEVR
 
-using Juniper.Input;
+using System;
+using System.Linq;
+
 using Juniper.Unity.Haptics;
 
 using UnityEngine;
-
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
+using UnityEngine.EventSystems;
 
 namespace Juniper.Unity.Input.Pointers.Motion
 {
-    public class DaydreamProbeConfiguration : AbstractMotionControllerConfiguration<GvrControllerHand, GvrControllerButton>
-    {
-        public DaydreamProbeConfiguration()
-        {
-            AddButton(VirtualTouchPadButton.Top, InputButton.Left);
-            AddButton(VirtualTouchPadButton.Bottom, InputButton.Right);
-            AddButton(GvrControllerButton.App, InputButton.Middle);
-        }
-
-        public override GvrControllerHand? this[Hands hand]
-        {
-            get
-            {
-                if (hand == Hands.Left)
-                {
-                    return GvrControllerHand.Left;
-                }
-                else if (hand == Hands.Right)
-                {
-                    return GvrControllerHand.Right;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-    }
-
     public abstract class DaydreamMotionController
-        : AbstractMotionController<GvrControllerHand, GvrControllerButton, DaydreamProbeConfiguration, NoHaptics>
+        : AbstractMotionController<GvrControllerHand, GvrControllerButton, DaydreamPointerConfiguration, NoHaptics>
     {
         public override bool IsConnected
         {

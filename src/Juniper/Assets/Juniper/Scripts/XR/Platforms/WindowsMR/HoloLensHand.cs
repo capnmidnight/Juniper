@@ -5,16 +5,10 @@ using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Unity.Input.Pointers.Motion
 {
-    public class HoloLensProbeConfiguration : AbstractHandTrackerConfiguration<InteractionSourceHandedness>
-    {
-        public HoloLensProbeConfiguration() :
-            base(InteractionSourceHandedness.Unknown, InteractionSourceHandedness.Unknown) { }
-    }
-
     /// <summary>
     /// A motion controller or hand-tracking. Currently only implements WindowsMR.
     /// </summary>
-    public abstract class HoloLensHand : AbstractWindowsMRDevice<HoloLensProbeConfiguration, Haptics.NoHaptics>
+    public abstract class HoloLensHand : AbstractWindowsMRDevice<HoloLensHandConfiguration, Haptics.NoHaptics>
     {
         /// <summary>
         /// The interaction origin from the last frame, used for interpolating the position and

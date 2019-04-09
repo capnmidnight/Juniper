@@ -3,36 +3,11 @@ using System;
 using Juniper.Input;
 using Juniper.Unity.Haptics;
 using Juniper.Unity.Statistics;
+
 using UnityEngine;
 
 namespace Juniper.Unity.Input.Pointers.Motion
 {
-    public abstract class AbstractHandedPointerConfiguration<HandIDType, ButtonIDType>
-        : AbstractPointerConfiguration<ButtonIDType>
-        where HandIDType : struct, IComparable
-        where ButtonIDType : struct
-    {
-        public Type HandType
-        {
-            get
-            {
-                return typeof(HandIDType);
-            }
-        }
-
-        public string MakePointerName(Hands hand)
-        {
-            return $"{hand}{PointerNameStub}";
-        }
-
-        protected abstract string PointerNameStub
-        {
-            get;
-        }
-
-        public abstract HandIDType? this[Hands hand] { get; }
-    }
-
     public abstract class AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType, HapticsType> :
         AbstractPointerDevice<ButtonIDType, HapticsType, ConfigType>,
         IHandedPointer
