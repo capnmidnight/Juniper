@@ -15881,7 +15881,7 @@ MonoBehaviour:
   - {fileID: 731424656}
   - {fileID: 1801075409}
   ControllerLayer: 0
-  CanvasOffset: 0.23
+  CanvasOffset: 0.2
 --- !u!114 &1154177208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18245,7 +18245,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 50
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 0
@@ -21586,7 +21586,7 @@ MonoBehaviour:
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_isInputParsingRequired: 0
-  m_inputSource: 3
+  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
@@ -23119,7 +23119,7 @@ MonoBehaviour:
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_isInputParsingRequired: 0
-  m_inputSource: 3
+  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}

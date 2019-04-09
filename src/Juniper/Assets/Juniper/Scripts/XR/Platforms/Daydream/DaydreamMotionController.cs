@@ -1,12 +1,8 @@
 #if GOOGLEVR
 
-using System;
-using System.Linq;
-
 using Juniper.Unity.Haptics;
 
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Juniper.Unity.Input.Pointers.Motion
 {
