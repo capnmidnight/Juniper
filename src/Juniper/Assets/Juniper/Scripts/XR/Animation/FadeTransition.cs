@@ -79,8 +79,6 @@ namespace Juniper.Unity.Animation
             }
 #endif
 
-            fader.gameObject.layer = LayerMask.NameToLayer("TransparentFX");
-
             return fader;
         }
 
