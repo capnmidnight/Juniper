@@ -366,7 +366,7 @@ namespace Juniper.Unity.Input.Pointers
             {
                 line.SetPosition(0, transform.position);
                 var delta = targetPosition - transform.position;
-                line.SetPosition(1, transform.position + (0.333f * delta));
+                line.SetPosition(1, transform.position + (0.75f * delta));
             }
 
             lastLaserPointerMaterial = LaserPointerMaterial;
