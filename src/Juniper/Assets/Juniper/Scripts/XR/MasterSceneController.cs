@@ -221,9 +221,11 @@ namespace Juniper.Unity
             for (var i = 1; i < SceneManager.sceneCount; ++i)
             {
                 var scene = SceneManager.GetSceneAt(i);
+
                 var canvases = scene.FindAll<Canvas>((c) =>
                     c.renderMode == RenderMode.WorldSpace
-                        && c.worldCamera == null);
+                        && (c.worldCamera == null
+                            || c.worldCamera == DisplayManager.MainCamera));
                 foreach (var canvas in canvases)
                 {
                     canvas.worldCamera = DisplayManager.EventCamera;
