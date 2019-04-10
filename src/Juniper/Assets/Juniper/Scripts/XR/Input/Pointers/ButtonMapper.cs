@@ -31,7 +31,7 @@ namespace Juniper.Unity.Input.Pointers
         {
             get
             {
-                return buttons.Any((btn) => btn.IsDragging);
+                return buttons.Any((btn) => btn.IsPressed && !btn.IsDown);
             }
         }
 
