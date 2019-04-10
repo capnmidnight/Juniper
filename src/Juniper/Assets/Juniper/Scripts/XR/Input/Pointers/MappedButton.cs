@@ -85,7 +85,7 @@ namespace Juniper.Unity.Input.Pointers
 
         public IEventSystemHandler Process(PointerEventData eventData, float pixelDragThresholdSquared)
         {
-            IsPressed = ButtonPressedNeeded(button) == true;
+            IsPressed = ButtonPressedNeeded(button);
             var evtData = ClonedPointerEventNeeded(buttonEvent.GetInstanceID(), eventData);
             evtData.button = (InputButton)buttonEvent.inputButton;
 
@@ -108,16 +108,14 @@ namespace Juniper.Unity.Input.Pointers
                 evtData.pressPosition = evtData.position;
                 evtData.pointerPressRaycast = evtData.pointerCurrentRaycast;
                 evtData.eligibleForClick = true;
-
-                evtData.pointerDrag = ExecuteEvents.ExecuteHierarchy(evtData.pointerEnter, evtData, ExecuteEvents.initializePotentialDrag);
                 evtData.pointerPress = ExecuteEvents.ExecuteHierarchy(evtData.pointerEnter, evtData, ExecuteEvents.pointerDownHandler);
+                evtData.pointerDrag = ExecuteEvents.ExecuteHierarchy(evtData.pointerEnter, evtData, ExecuteEvents.initializePotentialDrag);
                 buttonEvent.OnDown(evtData);
                 if (evtData.pointerPress != null)
                 {
                     InteractionNeeded(Interaction.Pressed);
                 }
             }
-
             
             var deltaTime = Time.unscaledTime - buttonDownTime;
             evtData.eligibleForClick = deltaTime < THRESHOLD_CLICK;
@@ -213,7 +211,7 @@ namespace Juniper.Unity.Input.Pointers
                     evtData.pointerDrag = ExecuteEvents.ExecuteHierarchy(evtData.pointerDrag ?? evtData.pointerPress, evtData, ExecuteEvents.dragHandler);
                     InteractionNeeded(Interaction.Dragged);
                 }
-                else if (wasDragging)
+                else if (wasDragging && !IsPressed)
                 {
                     ExecuteEvents.ExecuteHierarchy(evtData.pointerDrag, evtData, ExecuteEvents.endDragHandler);
                     InteractionNeeded(Interaction.DraggingEnded);

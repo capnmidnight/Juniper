@@ -421,6 +421,7 @@ namespace Juniper.Unity.Input
                     {
                         var delta = pos - pointer.Origin;
                         delta *= ray.distance / delta.magnitude + CanvasOffset;
+                        ray.distance = delta.magnitude;
                         pos = pointer.Origin + delta;
                     }
                     ray.worldPosition = pos;
