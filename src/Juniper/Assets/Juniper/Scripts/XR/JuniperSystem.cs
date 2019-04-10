@@ -110,32 +110,7 @@ namespace Juniper.Unity
 
         public bool Install(bool reset)
         {
-            var head = DisplayManager
-                .MainCamera
-                .transform;
-
-            var shoulders = head.parent;
-            if (shoulders == null)
-            {
-                shoulders = new GameObject().transform;
-                head.Reparent(shoulders);
-            }
-            shoulders.name = "Shoulders";
-
-            var stage = shoulders.parent;
-            if (stage == null)
-            {
-                stage = new GameObject().transform;
-                shoulders.Reparent(stage);
-            }
-            stage.name = "Stage";
-            stage.Ensure<Avatar>();
-
-            if (stage.parent != transform)
-            {
-                stage.SetParent(transform, false);
-            }
-
+            DisplayManager.SetupMainCamera();
             this.Ensure<EventSystem>();
             this.Ensure<UnifiedInputModule>();
             this.Ensure<AnchorStore>();

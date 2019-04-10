@@ -55,13 +55,17 @@ namespace Juniper.Unity.Display
         {
             get
             {
-                if (cam == null)
-                {
-                    cam = MakeCamera("MainCamera", "Head");
-                    cam.Ensure<DisplayManager>();
-                }
-
+                SetupMainCamera();
                 return cam;
+            }
+        }
+
+        public static void SetupMainCamera()
+        {
+            if (cam == null)
+            {
+                cam = MakeCamera("MainCamera", "Head");
+                cam.Ensure<DisplayManager>();
             }
         }
 
@@ -87,7 +91,7 @@ namespace Juniper.Unity.Display
                 return eventCam;
             }
         }
-        
+
         public static void MoveEventCameraToPointer(IPointerDevice pointer)
         {
             EventCamera.transform.position = pointer.transform.position;
@@ -268,8 +272,25 @@ namespace Juniper.Unity.Display
 
         public virtual bool Install(bool reset)
         {
+            var sys = ComponentExt.FindAny<JuniperSystem>();
+            if (sys == null)
+            {
+                return false;
+            }
+
+            var stage = MainCamera.transform.parent;
+            if (stage == null)
+            {
+                stage = new GameObject().transform;
+                transform.SetParent(stage, false);
+            }
+            stage.SetParent(sys.transform, false);
+            stage.name = "Stage";
+            stage.Ensure<Avatar>();
+
             this.Ensure<QualityDegrader>();
             cameraCtrl = this.Ensure<CameraControl>();
+
             return true;
         }
 

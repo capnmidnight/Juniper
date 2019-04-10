@@ -118,8 +118,7 @@ namespace Juniper.Unity
 
             Head = DisplayManager.MainCamera.transform;
 
-            Shoulders = Head.parent;
-            Shoulders.position = defaultAvatarHeight * Vector3.up;
+            Shoulders = this.Ensure<Transform>("Shoulders");
 
             var _ = DisplayManager.EventCamera; // force the event camera to setup
 
