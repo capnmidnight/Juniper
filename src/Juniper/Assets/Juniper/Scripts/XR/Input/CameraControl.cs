@@ -42,13 +42,13 @@ namespace Juniper.Unity.Input
         /// The mouse is not as sensitive as the motion controllers, so we have to bump up the
         /// sensitivity quite a bit.
         /// </summary>
-        private const float MOUSE_SENSITIVITY_SCALE = 50;
+        private const float MOUSE_SENSITIVITY_SCALE = 20;
 
         /// <summary>
         /// The mouse is not as sensitive as the motion controllers, so we have to bump up the
         /// sensitivity quite a bit.
         /// </summary>
-        private const float TOUCH_SENSITIVITY_SCALE = 1;
+        private const float TOUCH_SENSITIVITY_SCALE = 0.5f;
 
         /// <summary>
         /// How quickly the mouse moves horizontally
@@ -175,8 +175,8 @@ namespace Juniper.Unity.Input
             get
             {
                 return MOUSE_SENSITIVITY_SCALE * new Vector2(
-                    -UnityInput.GetAxisRaw("Mouse Y"),
-                    UnityInput.GetAxisRaw("Mouse X"));
+                    -UnityInput.GetAxis("Mouse Y"),
+                    UnityInput.GetAxis("Mouse X"));
             }
         }
 
