@@ -1,4 +1,6 @@
 #if RESONANCEAUDIO
+using System;
+using Juniper.Unity.Display;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -15,20 +17,28 @@ namespace Juniper.Unity.Audio
         }
 
 #if UNITY_MODULES_AUDIO
-        protected ResonanceAudioListener goog;
+        protected ResonanceAudioListener resListener;
 
         public override bool Install(bool reset)
         {
             if(base.Install(reset))
             {
                 var js = ComponentExt.FindAny<JuniperSystem>();
-                goog = listener.Ensure<ResonanceAudioListener>().Value;
-                goog.stereoSpeakerModeEnabled = Application.isEditor || js.DisplayType != DisplayTypes.Stereo;
+                var dsp = ComponentExt.FindAny<DisplayManager>();
+
+                resListener = listener.Ensure<ResonanceAudioListener>().Value;                
+                resListener.stereoSpeakerModeEnabled = Application.isEditor || js.DisplayType != DisplayTypes.Stereo;
+                dsp.DisplayTypeChange += OnDisplayTypeChange;
 
                 return true;
             }
 
             return false;
+        }
+
+        private void OnDisplayTypeChange(object sender, DisplayTypes e)
+        {
+            resListener.stereoSpeakerModeEnabled = Application.isEditor || e != DisplayTypes.Stereo;
         }
 
         public override void Uninstall()
@@ -43,8 +53,8 @@ namespace Juniper.Unity.Audio
         {
             audioSource = base.InternalSpatialize(audioSource, loop, group);
 
-            var goog = audioSource.Ensure<ResonanceAudioSource>().Value;
-            goog.quality = ResonanceAudioSource.Quality.High;
+            var resSource = audioSource.Ensure<ResonanceAudioSource>().Value;
+            resSource.quality = ResonanceAudioSource.Quality.High;
 
             return audioSource;
         }

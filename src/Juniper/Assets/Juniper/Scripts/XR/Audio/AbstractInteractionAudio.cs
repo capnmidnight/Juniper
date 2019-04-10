@@ -120,6 +120,12 @@ namespace Juniper.Unity.Audio
 #endif
 
 
+        /// <summary>
+        /// The audio mixer to use with ResonanceAudio
+        /// </summary>
+        [Header("Configuration")]
+        public AudioMixerGroup defaultMixerGroup;
+
         public GameObject volumeSlider;
 
         /// <summary>
@@ -196,11 +202,6 @@ namespace Juniper.Unity.Audio
         private const string MASTER_VOLUME_KEY = "MasterVolume";
 
         private IValuedControl<float> volume;
-
-        /// <summary>
-        /// The audio mixer to use with ResonanceAudio
-        /// </summary>
-        public AudioMixerGroup defaultMixerGroup;
 
         protected AudioListener listener;
 #endif

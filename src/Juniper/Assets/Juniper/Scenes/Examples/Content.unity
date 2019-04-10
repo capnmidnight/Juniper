@@ -2740,7 +2740,7 @@ MonoBehaviour:
   OcclusionMaterial: {fileID: 2100000, guid: aadd5a709a48466c887296bb5b1b8110, type: 2}
   OcclusionMaterialInEditor: {fileID: 2100000, guid: aadd5a709a48466c887296bb5b1b8110,
     type: 2}
-  VisualizationMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  VisualizationMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 3}
   terrainData: {fileID: 15600000, guid: 9f331b3e246af5948bb26a90d2e200e0, type: 2}
 --- !u!4 &1520445407
 Transform:
@@ -2800,6 +2800,8 @@ MonoBehaviour:
         Culture=neutral, PublicKeyToken=null
     exported: 1
     Asset: {fileID: 0}
+  spatialize: 0
+  spatialBlend: 0
 --- !u!1 &1559464542
 GameObject:
   m_ObjectHideFlags: 0
