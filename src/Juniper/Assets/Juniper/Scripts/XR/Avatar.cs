@@ -150,10 +150,11 @@ namespace Juniper.Unity
                 bs.Value.height = defaultAvatarHeight;
                 bs.Value.radius = 0.25f;
                 bs.Value.direction = (int)CartesianAxis.Y;
+                bs.Value.center = 0.5f * defaultAvatarHeight * Vector3.down;
             }
             BodyShape = bs;
 
-            var bp = BodyShape.Ensure<Rigidbody>();
+            var bp = this.Ensure<Rigidbody>();
             if (bp.IsNew)
             {
                 bp.Value.mass = 80;
@@ -165,7 +166,13 @@ namespace Juniper.Unity
             BodyPhysics.velocity = Vector3.zero;
 
             grounder = this.Ensure<Grounded>();
-            grounder.WhenGrounded(grounder.Destroy);
+            grounder.WhenGrounded(() => { 
+                grounder.Destroy();
+                grounder = null;
+                BodyPhysics.useGravity = true;
+                BodyPhysics.isKinematic = false;
+                BodyPhysics.velocity = Vector3.zero;
+            });
 #endif
 
             BodyPhysics.Ensure<DefaultLocomotion>();
@@ -180,10 +187,6 @@ namespace Juniper.Unity
         public void SetStageFollowsHead(bool followHead)
         {
             avatarHeight = followHead ? defaultAvatarHeight : 0;
-            if (followHead)
-            {
-                BodyPhysics.Remove<Grounded>();
-            }
             Shoulders.position = avatarHeight * Vector3.up;
         }
 
