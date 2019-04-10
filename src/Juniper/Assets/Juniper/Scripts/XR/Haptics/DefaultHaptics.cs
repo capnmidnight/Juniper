@@ -93,8 +93,8 @@ namespace Juniper.Unity.Haptics
 #elif HAS_HAPTICS
             if (amplitude > 0.25f)
             {
-                var now = Time.time;
-                while (Time.time - now < seconds)
+                var now = Time.unscaledTime;
+                while (Time.unscaledTime - now < seconds)
                 {
                     Handheld.Vibrate();
                     yield return null;

@@ -67,10 +67,10 @@ namespace Juniper.Unity.Input.Pointers.Motion
 
         /// <summary>
         /// If there hasn't been a State frame update in over a second, then we will consider the
-        /// hand as "lossed" and drop it from pointer events.
+        /// hand as "lost" and drop it from pointer events.
         /// </summary>
         /// <value><c>true</c> if is dead; otherwise, <c>false</c>.</value>
-        public bool IsDead { get { return Time.time - updateTime > 1; } }
+        public bool IsDead { get { return Time.unscaledTime - updateTime > 1; } }
 
         public override bool IsDominantHand { get { return IsRightHand; } }
 
@@ -94,7 +94,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
             set
             {
                 _deviceState = value;
-                updateTime = Time.time;
+                updateTime = Time.unscaledTime;
             }
         }
 

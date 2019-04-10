@@ -82,7 +82,7 @@ namespace Juniper.Unity.Anchoring
             body = GetComponentInChildren<Rigidbody>();
             dragger = GetComponent<Draggable>();
             GroundMask = LayerMask.GetMask("Ground");
-            lastTime = Time.time;
+            lastTime = Time.unscaledTime;
             Freeze();
         }
 
@@ -145,9 +145,9 @@ namespace Juniper.Unity.Anchoring
         /// </summary>
         public void Update()
         {
-            if (Time.time - lastTime > testTimeout)
+            if (Time.unscaledTime - lastTime > testTimeout)
             {
-                lastTime = Time.time;
+                lastTime = Time.unscaledTime;
                 groundPoint = GetGroundUnderObject();
                 if (groundPoint == null)
                 {

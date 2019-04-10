@@ -68,7 +68,7 @@ namespace Juniper.Unity.Input.Pointers.Gaze
         {
             if (target != lastTarget)
             {
-                gazeTime = Time.time;
+                gazeTime = Time.unscaledTime;
             }
             lastTarget = target;
 
@@ -81,7 +81,7 @@ namespace Juniper.Unity.Input.Pointers.Gaze
             }
             else if (gazeThreshold > 0)
             {
-                var deltaTime = Time.time - gazeTime;
+                var deltaTime = Time.unscaledTime - gazeTime;
                 gazed = gazeThreshold <= deltaTime
                     && deltaTime < (gazeThreshold + 0.125f);
                 probe.SetGaze(deltaTime / gazeThreshold);

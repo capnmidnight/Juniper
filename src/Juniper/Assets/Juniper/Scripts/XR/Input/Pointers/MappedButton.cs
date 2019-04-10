@@ -102,7 +102,7 @@ namespace Juniper.Unity.Input.Pointers
             if (IsDown)
             {
                 mayLongPress = true;
-                buttonDownTime = Time.time;
+                buttonDownTime = Time.unscaledTime;
                 dragDistance = 0;
                 evtData.rawPointerPress = evtData.pointerEnter;
                 evtData.pressPosition = evtData.position;
@@ -118,7 +118,8 @@ namespace Juniper.Unity.Input.Pointers
                 }
             }
 
-            var deltaTime = Time.time - buttonDownTime;
+            
+            var deltaTime = Time.unscaledTime - buttonDownTime;
             evtData.eligibleForClick = deltaTime < THRESHOLD_CLICK;
 
             if (IsUp)
@@ -134,7 +135,7 @@ namespace Juniper.Unity.Input.Pointers
                 if (evtData.eligibleForClick)
                 {
                     ++evtData.clickCount;
-                    evtData.clickTime = Time.time;
+                    evtData.clickTime = Time.unscaledTime;
 
                     evtData.selectedObject = ExecuteEvents.ExecuteHierarchy(evtData.pointerPress, evtData, ExecuteEvents.pointerClickHandler);
                     buttonEvent.OnClick(evtData);

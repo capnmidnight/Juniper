@@ -27,11 +27,11 @@ namespace Juniper.Unity.Input.Pointers.Motion
                 var visible = handObj?.IsVisible == true;
                 if (visible)
                 {
-                    lastSeenTime = Time.time;
+                    lastSeenTime = Time.unscaledTime;
                 }
                 else
                 {
-                    visible = (Time.time - lastSeenTime) < 0.2f;
+                    visible = (Time.unscaledTime - lastSeenTime) < 0.2f;
                 }
                 return visible;
             }

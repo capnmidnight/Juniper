@@ -476,10 +476,10 @@ namespace Juniper.Unity.Input.Pointers
 
         public virtual void PlayInteraction(Interaction action)
         {
-            if (Time.time > finishTime || action != lastAction)
+            if (Time.unscaledTime > finishTime || action != lastAction)
             {
                 lastAction = action;
-                finishTime = Time.time + InteractionAudio.Play(action, probe.Cursor, Haptics);
+                finishTime = Time.unscaledTime + InteractionAudio.Play(action, probe.Cursor, Haptics);
             }
         }
 

@@ -408,7 +408,7 @@ namespace Juniper.UnityEditor
             {
                 get
                 {
-                    return Time.time - startTime > 1;
+                    return Time.unscaledTime - startTime > 1;
                 }
             }
 
@@ -427,14 +427,14 @@ namespace Juniper.UnityEditor
 
             public override void Exit()
             {
-                startTime = Time.time;
+                startTime = Time.unscaledTime;
                 FiredEntering = FiredEntered = FiredExiting = FiredExited = false;
                 base.Exit();
             }
 
             protected override void OnEntering()
             {
-                startTime = Time.time;
+                startTime = Time.unscaledTime;
                 FiredEntering = FiredEntered = FiredExiting = FiredExited = false;
                 base.OnEntering();
             }

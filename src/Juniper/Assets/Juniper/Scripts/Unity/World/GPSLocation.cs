@@ -129,7 +129,7 @@ namespace Juniper.Unity.World
         /// </summary>
         public void Awake()
         {
-            nextUpdateTime = Time.time;
+            nextUpdateTime = Time.unscaledTime;
 
             if (!UseFakeCoord)
             {
@@ -237,7 +237,7 @@ namespace Juniper.Unity.World
         {
             if (Status == LocationServiceStatus.Running
                 && !UseFakeCoord
-                && Time.time >= nextUpdateTime)
+                && Time.unscaledTime >= nextUpdateTime)
             {
                 nextUpdateTime += timeBetweenUpdates;
                 var newLocation = Location.lastData;

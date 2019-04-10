@@ -1,9 +1,4 @@
 #if UNITY_XR_WINDOWSMR_METRO && WINDOWSMR
-using UnityEngine.XR.WSA.Input;
-
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
-
-using Juniper.Input;
 
 #if UNITY_EDITOR
 using HapticsType = Juniper.Unity.Haptics.NoHaptics;

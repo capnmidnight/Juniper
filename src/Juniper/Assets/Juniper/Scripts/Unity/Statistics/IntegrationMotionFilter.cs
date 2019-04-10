@@ -26,7 +26,7 @@ namespace Juniper.Unity.Statistics
         {
             get
             {
-                var deltaTime = Time.time - lastTime;
+                var deltaTime = Time.unscaledTime - lastTime;
                 if (components.Length > 1 && deltaTime > 0)
                 {
                     for (var i = components.Length - 2; i >= 0; --i)
@@ -34,7 +34,7 @@ namespace Juniper.Unity.Statistics
                         components[i] += (components[i + 1] * deltaTime * IF) + (components[i] * compIF);
                     }
 
-                    lastTime = Time.time;
+                    lastTime = Time.unscaledTime;
                 }
                 return Position;
             }
@@ -79,7 +79,7 @@ namespace Juniper.Unity.Statistics
                 compIF = 1 - IF;
             }
 
-            var deltaTime = Time.time - lastTime;
+            var deltaTime = Time.unscaledTime - lastTime;
             if (deltaTime > 0)
             {
                 Vector3 last;
@@ -95,7 +95,7 @@ namespace Juniper.Unity.Statistics
                     ++saturation;
                 }
 
-                lastTime = Time.time;
+                lastTime = Time.unscaledTime;
             }
         }
     }

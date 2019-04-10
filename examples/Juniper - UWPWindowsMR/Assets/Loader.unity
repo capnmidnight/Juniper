@@ -9003,10 +9003,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultAvatarHeight: 1.7526001
-  usePhysicsBasedMovement: 1
   shoes: {fileID: 0}
   BodyPhysics: {fileID: 682227806}
-  useGravity: 1
 --- !u!114 &598634045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25637,7 +25635,8 @@ MonoBehaviour:
   handTrackers:
   - {fileID: 1835289920}
   - {fileID: 1832242640}
-  CanvasOffset: 0.23
+  ControllerLayer: 0
+  CanvasOffset: 0.2
 --- !u!114 &1721577239
 MonoBehaviour:
   m_ObjectHideFlags: 0
