@@ -300,14 +300,10 @@ namespace Juniper.Unity.Display
 
         public virtual void Start()
         {
+#if !UNITY_MODULES_XR
             eventCam.aspect = MainCamera.aspect;
-            eventCam.cameraType = MainCamera.cameraType;
             eventCam.fieldOfView = MainCamera.fieldOfView;
-            eventCam.orthographic = MainCamera.orthographic;
-            eventCam.orthographicSize = MainCamera.orthographicSize;
-            eventCam.pixelRect = MainCamera.pixelRect;
-            eventCam.stereoConvergence = MainCamera.stereoConvergence;
-            eventCam.stereoSeparation = MainCamera.stereoSeparation;
+#endif
         }
 
 #if UNITY_MODULES_XR

@@ -21,11 +21,65 @@ namespace Juniper.Unity
         public float defaultAvatarHeight = (5f + 9f.Convert(UnitOfMeasure.Inches, UnitOfMeasure.Feet))
             .Convert(UnitOfMeasure.Feet, UnitOfMeasure.Meters);
 
+        private Vector3 LocalUserTop
+        {
+            get
+            {
+                return Head.localPosition;
+            }
+        }
+
+        public Vector3 UserTop
+        {
+            get
+            {
+                return Head.position;
+            }
+        }
+
         /// <summary>
         /// Tells us where to put the stage. This will be the <see cref="defaultAvatarHeight"/>
         /// on 3DOF systems, and 0 on 6DOF systems;
         /// </summary>
-        private float avatarHeight;
+        private float AvatarHeight
+        {
+            get
+            {
+                return LocalUserTop.y;
+            }
+        }
+
+        private float HalfHeight
+        {
+            get
+            {
+                return 0.5f * AvatarHeight;
+            }
+        }
+
+        private Vector3 HalfUp
+        {
+            get
+            {
+                return HalfHeight * Vector3.up;
+            }
+        }
+
+        private Vector3 LocalUserCenter
+        {
+            get
+            {
+                return LocalUserTop - HalfUp;
+            }
+        }
+
+        public Vector3 UserCenter
+        {
+            get
+            {
+                return UserTop - HalfUp;
+            }
+        }
 
 #if UNITY_MODULES_PHYSICS
 
@@ -67,6 +121,8 @@ namespace Juniper.Unity
 
         private Grounded grounder;
 
+        private Vector3 velocity;
+
         public virtual void Awake()
         {
             Install(false);
@@ -93,11 +149,10 @@ namespace Juniper.Unity
 
 #endif
 
-        private static GameObject MakeShadowCaster(PrimitiveType type, Vector3? scale, Vector3? position = null)
+        private static GameObject MakeShadowCaster(PrimitiveType type, Vector3? scale)
         {
             var caster = GameObject.CreatePrimitive(type);
             caster.transform.localScale = scale ?? Vector3.one;
-            caster.transform.localPosition = position ?? Vector3.zero;
 
             var casterRenderer = caster.GetComponent<Renderer>();
             casterRenderer.lightProbeUsage = LightProbeUsage.Off;
@@ -127,29 +182,27 @@ namespace Juniper.Unity
                     PrimitiveType.Sphere,
                     new Vector3(0.384284f, 0.3163f, 0.3831071f)));
 
-            HeadShadow.Ensure<Transform>("Goggles", () =>
+            var goggles = HeadShadow.Ensure<Transform>("Goggles", () =>
                 MakeShadowCaster(
                     PrimitiveType.Cube,
-                    new Vector3(0.5f * defaultAvatarHeight, 0.5f, 0.5f),
-                    new Vector3(0, 0, 0.311f)));
+                    new Vector3(HalfHeight, 0.5f, 0.5f)));
+            goggles.Value.localPosition = new Vector3(0, 0, 0.311f);
 
             Hands = Shoulders.Ensure<Transform>("Hands");
 
             Body = Shoulders.Ensure<Transform>("Body", () =>
                 MakeShadowCaster(
                     PrimitiveType.Capsule,
-                    new Vector3(0.5f, 0.5f * defaultAvatarHeight, 0.5f),
-                    0.5f * defaultAvatarHeight * Vector3.down));
+                    new Vector3(0.5f, HalfHeight, 0.5f)));
 
 #if UNITY_MODULES_PHYSICS
             var bs = Shoulders.Ensure<CapsuleCollider>();
             if (bs.IsNew)
             {
                 bs.Value.SetMaterial(shoes);
-                bs.Value.height = defaultAvatarHeight;
+                bs.Value.height = AvatarHeight;
                 bs.Value.radius = 0.25f;
                 bs.Value.direction = (int)CartesianAxis.Y;
-                bs.Value.center = 0.5f * defaultAvatarHeight * Vector3.down;
             }
             BodyShape = bs;
 
@@ -165,7 +218,8 @@ namespace Juniper.Unity
             BodyPhysics.velocity = Vector3.zero;
 
             grounder = this.Ensure<Grounded>();
-            grounder.WhenGrounded(() => { 
+            grounder.WhenGrounded(() =>
+            {
                 grounder.Destroy();
                 grounder = null;
                 BodyPhysics.useGravity = true;
@@ -176,17 +230,32 @@ namespace Juniper.Unity
 
             BodyPhysics.Ensure<DefaultLocomotion>();
 
+            SetBodyPositionAndShape();
+
             return true;
+        }
+
+        private void SetBodyPositionAndShape()
+        {
+            Shoulders.localPosition = LocalUserTop;
+            Body.localScale = new Vector3(0.5f, HalfHeight, 0.5f);
+#if UNITY_MODULES_PHYSICS
+            var center = LocalUserCenter;
+            center.y = -HalfHeight;
+            BodyShape.center = Quaternion.Inverse(transform.rotation) * center;
+#endif
         }
 
         public void Uninstall()
         {
         }
 
-        public void SetStageFollowsHead(bool followHead)
+        public void SetIndependentHead(bool isIndendent)
         {
-            avatarHeight = followHead ? defaultAvatarHeight : 0;
-            Shoulders.position = avatarHeight * Vector3.up;
+            if (!isIndendent)
+            {
+                Head.localPosition = defaultAvatarHeight * Vector3.up;
+            }
         }
 
         public void RotateView(Quaternion dQuat, float minX, float maxX)
@@ -194,7 +263,7 @@ namespace Juniper.Unity
             var quat = Head.rotation * dQuat;
             var eul = quat.eulerAngles;
 
-            Shoulders.localRotation = Quaternion.AngleAxis(eul.y, Vector3.up);
+            transform.localRotation = Quaternion.AngleAxis(eul.y, Vector3.up);
 
             var x = eul.x;
             if (x > 180)
@@ -206,8 +275,6 @@ namespace Juniper.Unity
 
             Head.localRotation = Quaternion.AngleAxis(x, Vector3.right);
         }
-
-        private Vector3 velocity;
 
         public void SetVelocity(Vector3 v)
         {
@@ -228,18 +295,10 @@ namespace Juniper.Unity
             var acceleration = (velocity - BodyPhysics.velocity) / Time.fixedDeltaTime;
             BodyPhysics.AddForce(acceleration, ForceMode.Acceleration);
 #else
-            Shoulders.position += velocity * Time.fixedDeltaTime;
+            transform.position += velocity * Time.fixedDeltaTime;
 #endif
 
-            var userCenter = Head.position - Shoulders.position;
-
-#if UNITY_MODULES_PHYSICS
-            var center = userCenter;
-            center.y = -0.5f * BodyShape.height;
-            BodyShape.center = Quaternion.Inverse(Shoulders.rotation) * center;
-#endif
-            Body.localScale = new Vector3(0.5f, 0.5f * Head.position.y, 0.5f);
-            Body.position = Shoulders.position + userCenter - (0.5f * Head.position.y * Vector3.up);
+            SetBodyPositionAndShape();
         }
     }
 }

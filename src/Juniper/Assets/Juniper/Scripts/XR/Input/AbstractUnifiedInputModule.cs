@@ -139,7 +139,7 @@ namespace Juniper.Unity.Input
                 .FirstOrDefault()
                 ?? LayerMask.NameToLayer("Ignore Raycast");
 
-            stage.SetStageFollowsHead(!mode.HasFlag(Mode.HasFloorPosition));
+            stage.SetIndependentHead(mode.HasFlag(Mode.HasFloorPosition));
 
 #if UNITY_MODULES_UI
             SetupDevice(ENABLE_GAZE_KEY, enableGazeToggle, EnableGaze);
