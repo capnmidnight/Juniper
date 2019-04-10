@@ -103,7 +103,9 @@ namespace Juniper.Unity.Input.Pointers.Screen
                 ? UnityInput.GetTouch(fingerID)
                 : DEAD_FINGER;
 
-            pressed = finger.phase != TouchPhase.Ended && finger.phase != TouchPhase.Canceled;
+            pressed = finger.type != TouchType.Indirect
+                && finger.phase != TouchPhase.Ended
+                && finger.phase != TouchPhase.Canceled;
             lastWorldPoint = WorldFromScreen(finger.position);
 
             base.Update();
