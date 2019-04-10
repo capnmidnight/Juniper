@@ -123,7 +123,7 @@ namespace Juniper.Unity.Input
         {
         }
 
-        protected StageExtensions stage;
+        protected Avatar stage;
 
         public int ControllerLayer;
 
@@ -204,7 +204,7 @@ namespace Juniper.Unity.Input
             }
 #endif
 
-            stage = ComponentExt.FindAny<StageExtensions>();
+            stage = ComponentExt.FindAny<Avatar>();
 
             if (stage == null || stage.Head == null || stage.Hands == null)
             {

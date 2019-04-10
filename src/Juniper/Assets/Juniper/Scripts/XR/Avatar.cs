@@ -7,13 +7,10 @@ using Juniper.Unity.Widgets;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-#if UNITY_MODULES_UI
-#endif
-
 namespace Juniper.Unity
 {
     [DisallowMultipleComponent]
-    public class StageExtensions : MonoBehaviour, IInstallable
+    public class Avatar : MonoBehaviour, IInstallable
     {
         /// <summary>
         /// When running on systems that do not understand the relationship between the camera and

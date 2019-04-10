@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+
 using Juniper.Input;
 using Juniper.Input.Pointers;
 using Juniper.Unity.Audio;
@@ -162,7 +162,7 @@ namespace Juniper.Unity.Input.Pointers
             Install(false);
 
             eventManager = ComponentExt.FindAny<UnifiedInputModule>();
-            stage = ComponentExt.FindAny<StageExtensions>();
+            stage = ComponentExt.FindAny<Avatar>();
 
             pointerOffset = MinimumPointerDistance * Vector3.forward;
 
@@ -461,7 +461,7 @@ namespace Juniper.Unity.Input.Pointers
             }
         }
 
-        protected StageExtensions stage;
+        protected Avatar stage;
 
         public virtual bool IsDragging
         {

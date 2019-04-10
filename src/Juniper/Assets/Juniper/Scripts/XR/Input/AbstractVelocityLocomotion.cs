@@ -13,7 +13,7 @@ namespace Juniper.Unity.Input
 
         protected const float MOVEMENT_SCALE = 15;
 
-        protected StageExtensions stage;
+        protected Avatar stage;
         protected UnifiedInputModule input;
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace Juniper.Unity.Input
         /// </summary>
         public virtual void Awake()
         {
-            stage = ComponentExt.FindAny<StageExtensions>();
+            stage = ComponentExt.FindAny<Avatar>();
             input = ComponentExt.FindAny<UnifiedInputModule>();
         }
     }

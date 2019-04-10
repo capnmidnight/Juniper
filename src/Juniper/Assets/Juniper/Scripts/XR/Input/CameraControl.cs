@@ -87,7 +87,7 @@ namespace Juniper.Unity.Input
         private Quaternion lastGyro = Quaternion.identity;
         private Vector2 lastMousePosition;
 
-        private StageExtensions stage;
+        private Avatar stage;
 
         private readonly Dictionary<Mode, bool> wasGestureSatisfied = new Dictionary<Mode, bool>(7);
         private readonly Dictionary<Mode, bool> dragged = new Dictionary<Mode, bool>(7);
@@ -97,7 +97,7 @@ namespace Juniper.Unity.Input
 
         public void Awake()
         {
-            stage = ComponentExt.FindAny<StageExtensions>();
+            stage = ComponentExt.FindAny<Avatar>();
 
             foreach (var m in Enum.GetValues(typeof(Mode)))
             {

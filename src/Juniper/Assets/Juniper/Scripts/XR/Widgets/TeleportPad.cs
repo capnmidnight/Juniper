@@ -26,7 +26,7 @@ namespace Juniper.Unity.Widgets
         private void Start()
         {
             running = false;
-            userT = ComponentExt.FindAny<StageExtensions>().transform;
+            userT = ComponentExt.FindAny<Avatar>().transform;
 #if UNITY_MODULES_PHYSICS
             user = userT.GetComponent<Rigidbody>();
 #endif

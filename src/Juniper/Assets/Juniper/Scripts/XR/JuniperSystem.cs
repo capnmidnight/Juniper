@@ -129,7 +129,7 @@ namespace Juniper.Unity
                 shoulders.Reparent(stage);
             }
             stage.name = "Stage";
-            stage.Ensure<StageExtensions>();
+            stage.Ensure<Avatar>();
 
             if (stage.parent != transform)
             {

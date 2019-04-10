@@ -65,7 +65,7 @@ namespace Juniper.Unity.Anchoring
         /// <summary>
         /// The stage that holds the user is really the thing that needs to be grounded.
         /// </summary>
-        private StageExtensions stage;
+        private Avatar stage;
 
         /// <summary>
         /// A flag indicating the grounded object is already frozen in place.
@@ -78,7 +78,7 @@ namespace Juniper.Unity.Anchoring
         /// </summary>
         public void Awake()
         {
-            stage = ComponentExt.FindAny<StageExtensions>();
+            stage = ComponentExt.FindAny<Avatar>();
             body = GetComponentInChildren<Rigidbody>();
             dragger = GetComponent<Draggable>();
             GroundMask = LayerMask.GetMask("Ground");
