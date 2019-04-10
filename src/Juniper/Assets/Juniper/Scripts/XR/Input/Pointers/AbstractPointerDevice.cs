@@ -39,6 +39,16 @@ namespace Juniper.Unity.Input.Pointers
 
         protected readonly ButtonMapper<ButtonIDType> nativeButtons = new ButtonMapper<ButtonIDType>();
 
+        public void AddButton(ButtonIDType buttonID, InputEventButton buttonValue)
+        {
+            nativeButtons.AddButton(gameObject, buttonID, buttonValue);
+        }
+
+        public void RemoveButton(ButtonIDType buttonID)
+        {
+            nativeButtons.RemoveButton(buttonID);
+        }
+
         [ReadOnly]
         public bool Connected;
 

@@ -16,8 +16,9 @@ namespace Juniper.Unity.Input.Pointers
         private const float THRESHOLD_CLICK = 0.4f;
         private const float THRESHOLD_LONG_PRESS = 2f;
 
-        public readonly ButtonIDType button;
-        public readonly int buttonNumber;
+        public ButtonIDType button;
+        public int buttonNumber;
+        private string buttonName;
 
         private float buttonDownTime;
         private float dragDistance;
@@ -52,8 +53,7 @@ namespace Juniper.Unity.Input.Pointers
 
         public MappedButton(ButtonIDType btn, InputEventButton inputBtn, GameObject eventParent)
         {
-            button = btn;
-            buttonNumber = Convert.ToInt32(btn);
+            Button = btn;
             var key = ButtonEvent.MakeKey(button);
             var btns = eventParent.GetComponents<ButtonEvent>();
             buttonEvent = Array.Find(btns, e => e.Key == key)
@@ -61,6 +61,25 @@ namespace Juniper.Unity.Input.Pointers
                 ?? eventParent.AddComponent<ButtonEvent>();
             buttonEvent.Key = key;
             buttonEvent.inputButton = inputBtn;
+        }
+
+        public void Destroy()
+        {
+            buttonEvent.Destroy();
+        }
+
+        private ButtonIDType Button
+        {
+            get
+            {
+                return button;
+            }
+            set
+            {
+                button = value;
+                buttonName = value.ToString();
+                buttonNumber = Convert.ToInt32(value);
+            }
         }
 
         public bool IsDown
@@ -85,6 +104,11 @@ namespace Juniper.Unity.Input.Pointers
 
         public IEventSystemHandler Process(PointerEventData eventData, float pixelDragThresholdSquared)
         {
+            if (buttonEvent.buttonValueName != buttonName)
+            {
+                Button = buttonEvent.GetButtonValue<ButtonIDType>();
+            }
+
             IsPressed = ButtonPressedNeeded(button);
             var evtData = ClonedPointerEventNeeded(buttonEvent.GetInstanceID(), eventData);
             evtData.button = (InputButton)buttonEvent.inputButton;

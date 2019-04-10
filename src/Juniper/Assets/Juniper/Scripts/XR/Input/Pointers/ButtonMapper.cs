@@ -41,13 +41,7 @@ namespace Juniper.Unity.Input.Pointers
 
             foreach (var pair in buttonMapping)
             {
-                var btn = new MappedButton<ButtonIDType>(pair.Key, pair.Value, eventParent);
-                btn.ButtonDownNeeded += OnButtonDownNeeded;
-                btn.ButtonUpNeeded += OnButtonUpNeeded;
-                btn.ButtonPressedNeeded += OnButtonPressedNeeded;
-                btn.ClonedPointerEventNeeded += OnClonedPointerEventNeeded;
-                btn.InteractionNeeded += OnInteractionNeeded;
-                buttons.Add(btn);
+                AddButton(eventParent, pair.Key, pair.Value);
             }
 
             foreach (var evt in eventParent.GetComponents<ButtonEvent>())
@@ -57,6 +51,32 @@ namespace Juniper.Unity.Input.Pointers
                 {
                     evt.Destroy();
                 }
+            }
+        }
+
+        public void AddButton(GameObject eventParent, ButtonIDType buttonID, InputEventButton buttonValue)
+        {
+            var btn = new MappedButton<ButtonIDType>(buttonID, buttonValue, eventParent);
+            btn.ButtonDownNeeded += OnButtonDownNeeded;
+            btn.ButtonUpNeeded += OnButtonUpNeeded;
+            btn.ButtonPressedNeeded += OnButtonPressedNeeded;
+            btn.ClonedPointerEventNeeded += OnClonedPointerEventNeeded;
+            btn.InteractionNeeded += OnInteractionNeeded;
+            buttons.Add(btn);
+        }
+
+        public void RemoveButton(ButtonIDType buttonID)
+        {
+            var btn = buttons.FirstOrDefault(b => b.button.Equals(buttonID));
+            if (btn != null)
+            {
+                buttons.Remove(btn);
+                btn.ButtonDownNeeded -= OnButtonDownNeeded;
+                btn.ButtonUpNeeded -= OnButtonUpNeeded;
+                btn.ButtonPressedNeeded -= OnButtonPressedNeeded;
+                btn.ClonedPointerEventNeeded += OnClonedPointerEventNeeded;
+                btn.InteractionNeeded -= OnInteractionNeeded;
+                btn.Destroy();
             }
         }
 

@@ -39,7 +39,7 @@ namespace Juniper.Unity.Events
 
         public InputEventButton inputButton = InputEventButton.None;
 
-        public T? GetButtonValue<T>()
+        public T GetButtonValue<T>()
             where T : struct
         {
             var type = typeof(T);

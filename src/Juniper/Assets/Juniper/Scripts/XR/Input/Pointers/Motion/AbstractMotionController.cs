@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+using Juniper.Input;
 using Juniper.Unity.Haptics;
 
 using UnityEngine;
@@ -44,7 +44,28 @@ namespace Juniper.Unity.Input.Pointers.Motion
         };
 
         protected readonly ButtonMapper<VirtualTouchPadButton> touchPadButtons = new ButtonMapper<VirtualTouchPadButton>();
+
+        public void AddButton(VirtualTouchPadButton buttonID, InputEventButton buttonValue)
+        {
+            touchPadButtons.AddButton(gameObject, buttonID, buttonValue);
+        }
+
+        public void RemoveButton(VirtualTouchPadButton buttonID)
+        {
+            touchPadButtons.RemoveButton(buttonID);
+        }
+
         protected readonly ButtonMapper<VirtualTriggerButton> triggerButtons = new ButtonMapper<VirtualTriggerButton>();
+
+        public void AddButton(VirtualTriggerButton buttonID, InputEventButton buttonValue)
+        {
+            triggerButtons.AddButton(gameObject, buttonID, buttonValue);
+        }
+
+        public void RemoveButton(VirtualTriggerButton buttonID)
+        {
+            triggerButtons.RemoveButton(buttonID);
+        }
 
         public override bool IsDragging
         {
