@@ -30,9 +30,9 @@ namespace Juniper.Unity
                             let type = module.Key.GetType()
                             let errorType = module.Value.GetType()
                             let errorMessage = module.Value.Message
-                            select $"[{type.Name}] {errorType.Name}: {errorMessage}";
-                var nameList = string.Join("\n\t", names);
-                Debug.LogError($"Juniper: ERROR: components were not installed correctly.\n\t{nameList}");
+                            select $"\n\t[{type.Name}] {errorType.Name}: {errorMessage}";
+                var nameList = string.Join("", names);
+                Debug.LogError("Juniper: ERROR: components were not installed correctly." + nameList);
             }
         }
 
