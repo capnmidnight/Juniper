@@ -12,14 +12,9 @@ namespace Juniper.Unity
     [DisallowMultipleComponent]
     public class Avatar : MonoBehaviour, IInstallable
     {
-        public static bool Ensure()
+        public static void Ensure()
         {
             var sys = ComponentExt.FindAny<JuniperSystem>();
-            if (sys == null)
-            {
-                return false;
-            }
-
             var sysT = sys.transform;
             var head = DisplayManager.MainCamera.transform;
             
@@ -29,8 +24,6 @@ namespace Juniper.Unity
             var stage = neck.EnsureParent("Stage", sysT);
             stage.Ensure<Avatar>();
             stage.transform.SetParent(sysT, false);
-
-            return true;
         }
         /// <summary>
         /// When running on systems that do not understand the relationship between the camera and
@@ -211,7 +204,7 @@ namespace Juniper.Unity
             return caster;
         }
 
-        public bool Install(bool reset)
+        public void Install(bool reset)
         {
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
@@ -282,8 +275,6 @@ namespace Juniper.Unity
 #endif
 
             SetBodyPositionAndShape();
-
-            return true;
         }
 
         private void SetBodyPositionAndShape()

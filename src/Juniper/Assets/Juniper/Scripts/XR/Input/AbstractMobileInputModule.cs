@@ -2,19 +2,14 @@ namespace Juniper.Unity.Input
 {
     public class AbstractMobileInputModule : AbstractUnifiedInputModule
     {
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if (base.Install(reset))
+            base.Install(reset);
+
+            if (!reset && mode == Mode.Auto)
             {
-                if (!reset && mode == Mode.Auto)
-                {
-                    mode = Mode.Touchscreen;
-                }
-
-                return true;
+                mode = Mode.Touchscreen;
             }
-
-            return false;
         }
     }
 }

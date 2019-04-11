@@ -125,9 +125,8 @@ namespace Juniper.Unity.World.LightEstimation
 
 #endif
 
-        public virtual bool Install(bool reset)
+        public virtual void Install(bool reset)
         {
-            return true;
         }
 
         public virtual void Uninstall()

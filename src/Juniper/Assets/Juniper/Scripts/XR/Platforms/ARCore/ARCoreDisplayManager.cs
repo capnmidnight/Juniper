@@ -31,12 +31,9 @@ namespace Juniper.Unity.Display
         private ARCoreBackgroundRenderer bgRenderer;
         private TrackedPoseDriver poseDriver;
 
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if (!base.Install(reset))
-            {
-                return false;
-            }
+            base.Install(reset);
 
 #if UNITY_EDITOR
             if (ARBackgroundMaterial == null || reset)
@@ -52,20 +49,10 @@ namespace Juniper.Unity.Display
                 arCoreSession.SessionConfig.MatchCameraFramerate = true;
             }
 
-            if (arCoreSession == null)
-            {
-                return false;
-            }
-
             if (bgRenderer == null)
             {
                 bgRenderer = this.Ensure<ARCoreBackgroundRenderer>().Value;
                 bgRenderer.BackgroundMaterial = ARBackgroundMaterial;
-            }
-
-            if (bgRenderer == null)
-            {
-                return false;
             }
 
             if (poseDriver == null)
@@ -76,13 +63,6 @@ namespace Juniper.Unity.Display
                 poseDriver.updateType = TrackedPoseDriver.UpdateType.BeforeRender;
                 poseDriver.UseRelativeTransform = true;
             }
-
-            if (poseDriver == null)
-            {
-                return false;
-            }
-
-            return true;
         }
 
         public override void Start()

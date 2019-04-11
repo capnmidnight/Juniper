@@ -303,17 +303,11 @@ namespace Juniper.Unity.Display
 
         protected CameraControl cameraCtrl;
 
-        public virtual bool Install(bool reset)
+        public virtual void Install(bool reset)
         {
-            if (Avatar.Ensure())
-            {
-                this.Ensure<QualityDegrader>();
-                cameraCtrl = this.Ensure<CameraControl>();
-
-                return true;
-            }
-
-            return false;
+            Avatar.Ensure();
+            this.Ensure<QualityDegrader>();
+            cameraCtrl = this.Ensure<CameraControl>();
         }
 
         public virtual void Uninstall()

@@ -9,20 +9,17 @@ namespace Juniper.Unity.World.LightEstimation
         /// <summary>
         /// Sets up the ARCore light estimation system.
         /// </summary>
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if(base.Install(reset))
-            {
-                var arCoreSession = ComponentExt.FindAny<ARCoreSession>();
-                if(arCoreSession?.SessionConfig == null)
-                {
-                    return false;
-                }
+            base.Install(reset);
 
-                arCoreSession.SessionConfig.EnableLightEstimation = true;
-                return true;
+            var arCoreSession = ComponentExt.FindAny<ARCoreSession>();
+            if(arCoreSession?.SessionConfig == null)
+            {
+                return false;
             }
-            return false;
+
+            arCoreSession.SessionConfig.EnableLightEstimation = true;
         }
 
         protected override void UpdateMeasurement()

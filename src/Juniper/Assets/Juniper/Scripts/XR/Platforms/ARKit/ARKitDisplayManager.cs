@@ -7,28 +7,23 @@ namespace Juniper.Unity.Display
     public class ARKitDisplayManager : AbstractPassthroughDisplayManager
     {
 #if !UNITY_EDITOR
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if(base.Install(reset))
+            base.Install(reset);
+
+            this.WithLock(() =>
             {
-                this.WithLock(() =>
-                {
-                    var bgRenderer = this.Ensure<UnityARVideo>();
-                    bgRenderer.m_ClearMaterial = ARBackgroundMaterial;
+                var bgRenderer = this.Ensure<UnityARVideo>();
+                bgRenderer.m_ClearMaterial = ARBackgroundMaterial;
 
-                    this.Ensure<UnityARCameraNearFar>();
+                this.Ensure<UnityARCameraNearFar>();
 
-                    var camMgr = this.Ensure<UnityARCameraManager>();
-                    camMgr.startAlignment = UnityARAlignment.UnityARAlignmentGravityAndHeading;
-                    camMgr.planeDetection = UnityARPlaneDetection.None;
-                    camMgr.getPointCloud = enablePointCloud;
-                    camMgr.enableAutoFocus = true;
-                });
-
-                return true;
-            }
-
-            return false;
+                var camMgr = this.Ensure<UnityARCameraManager>();
+                camMgr.startAlignment = UnityARAlignment.UnityARAlignmentGravityAndHeading;
+                camMgr.planeDetection = UnityARPlaneDetection.None;
+                camMgr.getPointCloud = enablePointCloud;
+                camMgr.enableAutoFocus = true;
+            });
         }
 
         public override void Uninstall()

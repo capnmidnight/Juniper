@@ -224,13 +224,12 @@ namespace Juniper.Unity.Audio
         protected AudioListener listener;
 #endif
 
-        public virtual bool Install(bool reset)
+        public virtual void Install(bool reset)
         {
 
 #if UNITY_MODULES_AUDIO
             listener = DisplayManager.MainCamera.Ensure<AudioListener>();
 #endif
-            return true;
         }
 
         public void Reinstall()

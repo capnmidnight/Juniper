@@ -6,18 +6,14 @@ namespace Juniper.Unity
 {
     public abstract class MagicLeapPermissionHandler : AbstractPermissionHandler
     {
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if(base.Install(reset))
-            {
-                this.Ensure<PrivilegeRequester>();
-                return true;
-            }
+            base.Install(reset);
 
-            return false;
+            this.Ensure<PrivilegeRequester>();
         }
 
-        public override bool Uninstall()
+        public override void Uninstall()
         {
             this.Remove<PrivilegeRequester>();
         }

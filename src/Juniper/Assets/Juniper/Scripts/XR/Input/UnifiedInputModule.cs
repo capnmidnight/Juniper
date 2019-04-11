@@ -214,7 +214,7 @@ namespace Juniper.Unity.Input
             Install(true);
         }
 
-        public virtual bool Install(bool reset)
+        public virtual void Install(bool reset)
         {
 #if UNITY_EDITOR
             if (pointerPrefab == null)
@@ -228,12 +228,6 @@ namespace Juniper.Unity.Input
 #endif
 
             stage = ComponentExt.FindAny<Avatar>();
-
-            if (stage == null || stage.Head == null || stage.Hands == null)
-            {
-                return false;
-            }
-
 #if UNITY_EDITOR
             stage.IndependentHead = false;
 #else
@@ -255,8 +249,6 @@ namespace Juniper.Unity.Input
 
             handTrackers = HandTracker.MakeControllers(name =>
                 MakePointer<HandTracker>(stage.Hands, name));
-
-            return true;
         }
 
         public T MakePointer<T>(Transform parent, string path)

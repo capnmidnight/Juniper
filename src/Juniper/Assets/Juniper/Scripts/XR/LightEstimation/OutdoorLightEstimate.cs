@@ -78,14 +78,11 @@ namespace Juniper.Unity.World.LightEstimation
             }
         }
 
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if (base.Install(reset))
-            {
-                sunPosition = this.Ensure<SunPosition>();
-                return true;
-            }
-            return false;
+            base.Install(reset);
+
+            sunPosition = this.Ensure<SunPosition>();
         }
 
         /// <summary>

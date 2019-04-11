@@ -5,25 +5,20 @@ namespace Juniper.Unity.Permissions
 {
     public abstract class iOSPermissionHandler : AbstractPermissionHandler
     {
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if(base.Install(reset))
+            base.Install(reset);
+
+            if (!reset)
             {
-                if (!reset)
+                var auth = UserAuthorization.WebCam;
+                var speech = ComponentExt.FindAny<Input.Speech.IKeywordRecognizer>();
+                if (speech != null && speech.IsAvailable)
                 {
-                    var auth = UserAuthorization.WebCam;
-                    var speech = ComponentExt.FindAny<Input.Speech.IKeywordRecognizer>();
-                    if (speech != null && speech.IsAvailable)
-                    {
-                        auth |= UserAuthorization.Microphone;
-                    }
-                    Application.RequestUserAuthorization(auth);
+                    auth |= UserAuthorization.Microphone;
                 }
-
-                return true;
+                Application.RequestUserAuthorization(auth);
             }
-
-            return false;
         }
     }
 }

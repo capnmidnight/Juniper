@@ -8,40 +8,35 @@ namespace Juniper.Unity.Display
 {
     public class OculusDisplayManager : AbstractDisplayManager
     {
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if (base.Install(reset))
+            base.Install(reset);
+
+            var mgr = this.Ensure<OVRManager>();
+            if (mgr.IsNew)
             {
-                var mgr = this.Ensure<OVRManager>();
-                if (mgr.IsNew)
-                {
-                    mgr.Value.useRecommendedMSAALevel = true;
-                    mgr.Value.trackingOriginType = OVRManager.TrackingOrigin.EyeLevel;
-                    mgr.Value.usePositionTracking = true;
-                    mgr.Value.useRotationTracking = true;
-                    mgr.Value.useIPDInPositionTracking = true;
-                    mgr.Value.resetTrackerOnLoad = false;
-                    mgr.Value.AllowRecenter = false;
-                    mgr.Value.chromatic = true;
-                }
-
-                if (Application.isPlaying)
-                {
-                    if (OVRManager.tiledMultiResSupported)
-                    {
-                        OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSHigh;
-                    }
-
-                    if (OVRManager.display.displayFrequenciesAvailable.Length > 0)
-                    {
-                        OVRManager.display.displayFrequency = OVRManager.display.displayFrequenciesAvailable.Max();
-                    }
-                }
-
-                return true;
+                mgr.Value.useRecommendedMSAALevel = true;
+                mgr.Value.trackingOriginType = OVRManager.TrackingOrigin.EyeLevel;
+                mgr.Value.usePositionTracking = true;
+                mgr.Value.useRotationTracking = true;
+                mgr.Value.useIPDInPositionTracking = true;
+                mgr.Value.resetTrackerOnLoad = false;
+                mgr.Value.AllowRecenter = false;
+                mgr.Value.chromatic = true;
             }
 
-            return false;
+            if (Application.isPlaying)
+            {
+                if (OVRManager.tiledMultiResSupported)
+                {
+                    OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSHigh;
+                }
+
+                if (OVRManager.display.displayFrequenciesAvailable.Length > 0)
+                {
+                    OVRManager.display.displayFrequency = OVRManager.display.displayFrequenciesAvailable.Max();
+                }
+            }
         }
 
         public override void Uninstall()

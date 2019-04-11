@@ -21,8 +21,10 @@ namespace Juniper.Unity.Ground
 
         private MLSpatialMapper mapper;
 
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
+            base.Install(reset);
+
             mapper = DisplayManager.MainCamera.Ensure<MLSpatialMapper>().Value;
             mapper.meshParent = transform;
             if (mapper.meshPrefab == null)
@@ -38,8 +40,6 @@ namespace Juniper.Unity.Ground
                 pre.Deactivate();
                 mapper.meshPrefab = pre;
             }
-
-            return true;
         }
 
         public override void Awake()

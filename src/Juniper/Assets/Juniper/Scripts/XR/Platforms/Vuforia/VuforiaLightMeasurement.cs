@@ -69,15 +69,11 @@ namespace Juniper.Unity.World.LightEstimation
             }
         }
 
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if(base.Install(reset))
-            {
-                analyzer = this.Ensure<VuforiaImageAnalyzer>();
-                return true;
-            }
+            base.Install(reset);
 
-            return false;
+            analyzer = this.Ensure<VuforiaImageAnalyzer>();
         }
 
         public override void Uninstall()

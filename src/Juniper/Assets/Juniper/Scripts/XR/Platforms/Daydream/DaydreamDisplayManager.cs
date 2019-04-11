@@ -16,15 +16,11 @@ namespace Juniper.Unity.Display
             }
         }
 
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if(base.Install(reset))
-            {
-                this.Ensure<GvrHeadset>();
-                return true;
-            }
+            base.Install(reset);
 
-            return false;
+            this.Ensure<GvrHeadset>();
         }
 
         public override void Start()

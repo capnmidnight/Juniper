@@ -27,10 +27,12 @@ namespace Juniper.Unity
             if (notInstalled.Count > 0)
             {
                 var names = from module in notInstalled
-                            let type = module.GetType()
-                            select type.Name;
-                var nameList = string.Join(", ", names);
-                Debug.LogError($"Juniper: ERROR: {nameList} components were not installed correctly.");
+                            let type = module.Key.GetType()
+                            let errorType = module.Value.GetType()
+                            let errorMessage = module.Value.Message
+                            select $"[{type.Name}] {errorType.Name}: {errorMessage}";
+                var nameList = string.Join("\n\t", names);
+                Debug.LogError($"Juniper: ERROR: components were not installed correctly.\n\t{nameList}");
             }
         }
 

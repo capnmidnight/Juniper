@@ -300,14 +300,10 @@ namespace Juniper.Unity
 
 #endif
 
-        public bool Install(bool reset)
+        public void Install(bool reset)
         {
             var qualityDegrader = ComponentExt.FindAny<QualityDegrader>();
             var aud = ComponentExt.FindAny<InteractionAudio>();
-            if (qualityDegrader == null || aud == null)
-            {
-                return false;
-            }
 
             if (reset && (subSceneNames == null || subSceneNames.Length == 0))
             {
@@ -316,8 +312,6 @@ namespace Juniper.Unity
 
             SetupFader(reset);
             SetupSystemInterface(reset, qualityDegrader, aud);
-
-            return true;
         }
 
         private void SetupFader(bool reset)

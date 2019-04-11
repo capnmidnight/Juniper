@@ -16,35 +16,30 @@ namespace Juniper.Unity.Input
             gci.enabled = gee.enabled = DisplayManager.AnyActiveGoogleInstantPreview;
         }
 
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if(base.Install(reset))
+            base.Install(reset);
+
+            if(!reset && mode == Mode.Auto)
             {
-                if(!reset && mode == Mode.Auto)
-                {
-                    mode = GvrHeadset.SupportsPositionalTracking ? Mode.StandingVR : Mode.SeatedVR;
-                }
-
-                this.Ensure<GvrControllerInput>();
-                this.Ensure<GvrEditorEmulator>();
-
-#if UNITY_EDITOR
-                var ip = ComponentExt.FindAny<InstantPreviewHelper>()?.gameObject;
-                if (ip == null)
-                {
-                    ip = ResourceExt.EditorLoadAsset<GameObject>(
-                        "Assets/GoogleVR/Prefabs/InstantPreview/GvrInstantPreviewMain.prefab");
-                    if (ip != null)
-                    {
-                        UnityEditor.PrefabUtility.InstantiatePrefab(ip);
-                    }
-                }
-#endif
-
-                return true;
+                mode = GvrHeadset.SupportsPositionalTracking ? Mode.StandingVR : Mode.SeatedVR;
             }
 
-            return false;
+            this.Ensure<GvrControllerInput>();
+            this.Ensure<GvrEditorEmulator>();
+
+#if UNITY_EDITOR
+            var ip = ComponentExt.FindAny<InstantPreviewHelper>()?.gameObject;
+            if (ip == null)
+            {
+                ip = ResourceExt.EditorLoadAsset<GameObject>(
+                    "Assets/GoogleVR/Prefabs/InstantPreview/GvrInstantPreviewMain.prefab");
+                if (ip != null)
+                {
+                    UnityEditor.PrefabUtility.InstantiatePrefab(ip);
+                }
+            }
+#endif
         }
 
         public override void Uninstall()

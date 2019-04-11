@@ -122,7 +122,7 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// Installs necessary components and initializes their default values.
         /// </summary>
-        public bool Install(bool reset)
+        public void Install(bool reset)
         {
 #if UNITY_MODULES_AUDIO
 #if UNITY_EDITOR
@@ -137,8 +137,6 @@ namespace Juniper.Unity.Animation
             aud.playOnAwake = false;
             aud.clip = fadeOutSound;
 #endif
-
-            return true;
         }
 
         /// <summary>

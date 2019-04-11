@@ -3,19 +3,14 @@ namespace Juniper.Unity.Input
 {
     public class MagicLeapInputModule : AbstractUnifiedInputModule
     {
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if (base.Install(reset))
+            base.Install(reset);
+
+            if (!reset && mode == Mode.Auto)
             {
-                if (!reset && mode == Mode.Auto)
-                {
-                    mode = Mode.HeadsetAR;
-                }
-
-                return true;
+                mode = Mode.HeadsetAR;
             }
-
-            return false;
         }
     }
 }

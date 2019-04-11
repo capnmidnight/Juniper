@@ -13,7 +13,7 @@ namespace Juniper.Unity.Input
 {
     public abstract class PicoInputModule : AbstractUnifiedInputModule
     {
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
             var stageT = transform.Find("Stage");
 
@@ -21,24 +21,19 @@ namespace Juniper.Unity.Input
             MakeControllerManager(stageT);
             MakeController(stageT);
 
-            if (base.Install(reset))
+            base.Install(reset);
+
+            if(!reset && mode == Mode.Auto)
             {
-                if(!reset && mode == Mode.Auto)
-                {
-                    mode = Mode.SeatedVR;
-                }
-
-                MakeViewerToast(stageT.Find("Head"));
-                MakeSafeArea(stageT);
-                MakeSafeToast(stageT);
-                MakeResetPanel(stageT);
-                MakeSafePanel1(stageT);
-                MakeSafePanel2(stageT, sdkMgr);
-
-                return true;
+                mode = Mode.SeatedVR;
             }
 
-            return false;
+            MakeViewerToast(stageT.Find("Head"));
+            MakeSafeArea(stageT);
+            MakeSafeToast(stageT);
+            MakeResetPanel(stageT);
+            MakeSafePanel1(stageT);
+            MakeSafePanel2(stageT, sdkMgr);
         }
 
         public override void Uninstall()

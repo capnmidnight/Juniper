@@ -20,15 +20,11 @@ namespace Juniper.Unity.Display
             }
         }
 
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if(base.Install(reset))
-            {
-                listener.Ensure<MSAListener>();
-                return true;
-            }
+            base.Install(reset);
 
-            return false;
+            listener.Ensure<MSAListener>();
         }
 
         public override void Start()

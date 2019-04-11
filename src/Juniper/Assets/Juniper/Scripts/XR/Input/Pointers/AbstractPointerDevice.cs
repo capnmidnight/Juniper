@@ -180,11 +180,10 @@ namespace Juniper.Unity.Input.Pointers
             eventManager.AddPointer(this);
         }
 
-        public virtual bool Install(bool reset)
+        public virtual void Install(bool reset)
         {
             PointerConfig.Install(nativeButtons, gameObject);
             OnProbeFound();
-            return true;
         }
 
         public virtual void Uninstall()

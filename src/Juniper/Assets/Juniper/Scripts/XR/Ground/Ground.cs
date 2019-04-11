@@ -169,13 +169,12 @@ namespace Juniper.Unity.Ground
             }
         }
 
-        public virtual bool Install(bool reset)
+        public virtual void Install(bool reset)
         {
             if (reset)
             {
                 gameObject.layer = LayerMask.NameToLayer("Ground");
             }
-            return true;
         }
 
         public virtual void Uninstall()

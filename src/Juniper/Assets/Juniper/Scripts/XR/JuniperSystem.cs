@@ -108,7 +108,7 @@ namespace Juniper.Unity
 
 #endif
 
-        public bool Install(bool reset)
+        public void Install(bool reset)
         {
             DisplayManager.SetupMainCamera();
             this.Ensure<EventSystem>();
@@ -117,8 +117,6 @@ namespace Juniper.Unity
             this.Ensure<InteractionAudio>();
             this.Ensure<MasterSceneController>();
             this.Ensure<PermissionHandler>();
-
-            return true;
         }
 
         public void Uninstall()

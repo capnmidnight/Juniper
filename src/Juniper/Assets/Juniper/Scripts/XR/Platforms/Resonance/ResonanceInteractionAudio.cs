@@ -19,21 +19,16 @@ namespace Juniper.Unity.Audio
 #if UNITY_MODULES_AUDIO
         protected ResonanceAudioListener resListener;
 
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if(base.Install(reset))
-            {
-                var js = ComponentExt.FindAny<JuniperSystem>();
-                var dsp = ComponentExt.FindAny<DisplayManager>();
+            base.Install(reset);
 
-                resListener = listener.Ensure<ResonanceAudioListener>().Value;                
-                resListener.stereoSpeakerModeEnabled = Application.isEditor || js.DisplayType != DisplayTypes.Stereo;
-                dsp.DisplayTypeChange += OnDisplayTypeChange;
+            var js = ComponentExt.FindAny<JuniperSystem>();
+            var dsp = ComponentExt.FindAny<DisplayManager>();
 
-                return true;
-            }
-
-            return false;
+            resListener = listener.Ensure<ResonanceAudioListener>().Value;                
+            resListener.stereoSpeakerModeEnabled = Application.isEditor || js.DisplayType != DisplayTypes.Stereo;
+            dsp.DisplayTypeChange += OnDisplayTypeChange;
         }
 
         private void OnDisplayTypeChange(object sender, DisplayTypes e)

@@ -4,22 +4,18 @@ namespace Juniper.Unity.Input
 {
     public abstract class WindowsMRInputModule : AbstractUnifiedInputModule
     {
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if (base.Install(reset))
-            {
-                if(!reset && mode == Mode.Auto)
-                {
-#if WINDOWSMR
-                    mode = Mode.StandingVR;
-#elif HOLOLENS
-                    mode = Mode.HeadsetAR;
-#endif
-                }
-                return true;
-            }
+            base.Install(reset);
 
-            return false;
+            if(!reset && mode == Mode.Auto)
+            {
+#if WINDOWSMR
+                mode = Mode.StandingVR;
+#elif HOLOLENS
+                mode = Mode.HeadsetAR;
+#endif
+            }
         }
         /// <summary>
         /// Manages the input controllers, either motion controllers on WindowsMR headsets, or hand

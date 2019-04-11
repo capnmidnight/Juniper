@@ -140,7 +140,7 @@ namespace Juniper.Unity.World.LightEstimation
 
 #endif
 
-        public virtual bool Install(bool reset)
+        public virtual void Install(bool reset)
         {
             sun = GetComponent<Light>();
 #if UNITY_EDITOR
@@ -170,8 +170,6 @@ namespace Juniper.Unity.World.LightEstimation
             this.Ensure<SunPosition>();
             this.Ensure<LightMeasurement>();
             measurement = this.Ensure<LightMeasurement>();
-
-            return sun != null;
         }
 
         public void Uninstall()

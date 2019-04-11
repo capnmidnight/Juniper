@@ -118,7 +118,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
             triggerButtons.InteractionNeeded += PlayInteraction;
         }
 
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
             base.Install(reset);
 
@@ -131,8 +131,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
                 LaserPointerMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/LaserPointer.mat");
             }
 #endif
-
-            return true;
         }
 
         public abstract float Trigger

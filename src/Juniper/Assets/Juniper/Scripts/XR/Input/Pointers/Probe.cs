@@ -231,7 +231,7 @@ namespace Juniper.Unity.Input.Pointers
 
 #endif
 
-        public bool Install(bool reset)
+        public void Install(bool reset)
         {
             Cursor = transform.Ensure<Transform>("cursor");
 
@@ -254,8 +254,6 @@ namespace Juniper.Unity.Input.Pointers
             }
 
             touchpoint = this.Ensure<Transform>("touchpad/touchpointTrack/touchpoint");
-
-            return true;
         }
 
         public void Start()

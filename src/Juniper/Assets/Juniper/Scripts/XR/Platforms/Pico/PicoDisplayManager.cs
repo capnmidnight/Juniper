@@ -20,29 +20,24 @@ namespace Juniper.Unity.Display
             return eyeCamera;
         }
 
-        public override bool Install(bool reset)
+        public override void Install(bool reset)
         {
-            if (base.Install(reset))
+            base.Install(reset);
+
+            cameraCtrl.mode = Input.CameraControl.Mode.None;
+
+            var head = this.Ensure<Pvr_UnitySDKHeadTrack>();
+            if (head.IsNew)
             {
-                cameraCtrl.mode = Input.CameraControl.Mode.None;
-
-                var head = this.Ensure<Pvr_UnitySDKHeadTrack>();
-                if (head.IsNew)
-                {
-                    head.Value.trackRotation = true;
-                    head.Value.trackPosition = false;
-                }
-
-                var eyeMgr = this.Ensure<Pvr_UnitySDKEyeManager>();
-                eyeMgr.Value.isfirst = true;
-
-                leftEye = MakeCamera(Pvr_UnitySDKAPI.Eye.LeftEye
-                rightEye = MakeCamera(Pvr_UnitySDKAPI.Eye.RightEye);
-
-                return true;
+                head.Value.trackRotation = true;
+                head.Value.trackPosition = false;
             }
 
-            return false;
+            var eyeMgr = this.Ensure<Pvr_UnitySDKEyeManager>();
+            eyeMgr.Value.isfirst = true;
+
+            leftEye = MakeCamera(Pvr_UnitySDKAPI.Eye.LeftEye
+            rightEye = MakeCamera(Pvr_UnitySDKAPI.Eye.RightEye);
         }
 
         public override void Uninstall()
