@@ -467,7 +467,7 @@ namespace Juniper.Unity.Input.Pointers
         {
             get
             {
-                return nativeButtons.IsDragging;
+                return EventTarget != null && nativeButtons.IsDragging;
             }
         }
 

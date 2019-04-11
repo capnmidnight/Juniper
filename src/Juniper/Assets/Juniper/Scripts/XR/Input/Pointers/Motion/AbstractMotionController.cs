@@ -72,8 +72,8 @@ namespace Juniper.Unity.Input.Pointers.Motion
             get
             {
                 return base.IsDragging
-                    || touchPadButtons.IsDragging
-                    || triggerButtons.IsDragging;
+                    || EventTarget != null && touchPadButtons.IsDragging
+                    || EventTarget != null && triggerButtons.IsDragging;
             }
         }
 
