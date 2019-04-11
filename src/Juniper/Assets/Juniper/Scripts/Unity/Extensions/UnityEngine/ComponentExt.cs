@@ -181,6 +181,22 @@ namespace UnityEngine
             return obj.gameObject.Ensure<T>();
         }
 
+        public static PooledComponent<Transform> EnsureParent(this Component obj, string name, params Transform[] exclusionList)
+        {
+            var parent = obj.transform.parent;
+            if (parent == null || exclusionList.Contains(parent))
+            {
+                parent = new GameObject(name).transform;
+                obj.transform.SetParent(parent, false);
+                return new PooledComponent<Transform>(parent, true);
+            }
+            else
+            {
+                parent.name = name;
+                return new PooledComponent<Transform>(parent, false);
+            }
+        }
+
         /// <summary>
         /// Checks to see if a gameObject has a particular component and, if it does, destroys it.
         /// </summary>

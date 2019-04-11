@@ -436,6 +436,11 @@ namespace Juniper.Unity
             return Value.Ensure<U>(path, creationPath, create);
         }
 
+        public PooledComponent<Transform> EnsureParent(string name, params Transform[] exclusionList)
+        {
+            return Value.EnsureParent(name, exclusionList);
+        }
+
         public U Query<U>(string path)
         {
             return Value.Query<U>(path);

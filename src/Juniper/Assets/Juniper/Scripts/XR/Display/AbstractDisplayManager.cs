@@ -272,26 +272,15 @@ namespace Juniper.Unity.Display
 
         public virtual bool Install(bool reset)
         {
-            var sys = ComponentExt.FindAny<JuniperSystem>();
-            if (sys == null)
+            if (Avatar.Ensure())
             {
-                return false;
+                this.Ensure<QualityDegrader>();
+                cameraCtrl = this.Ensure<CameraControl>();
+
+                return true;
             }
 
-            var stage = MainCamera.transform.parent;
-            if (stage == null)
-            {
-                stage = new GameObject().transform;
-                transform.SetParent(stage, false);
-            }
-            stage.SetParent(sys.transform, false);
-            stage.name = "Stage";
-            stage.Ensure<Avatar>();
-
-            this.Ensure<QualityDegrader>();
-            cameraCtrl = this.Ensure<CameraControl>();
-
-            return true;
+            return false;
         }
 
         public virtual void Uninstall()

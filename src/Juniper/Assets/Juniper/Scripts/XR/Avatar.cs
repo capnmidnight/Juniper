@@ -12,6 +12,26 @@ namespace Juniper.Unity
     [DisallowMultipleComponent]
     public class Avatar : MonoBehaviour, IInstallable
     {
+        public static bool Ensure()
+        {
+            var sys = ComponentExt.FindAny<JuniperSystem>();
+            if (sys == null)
+            {
+                return false;
+            }
+
+            var sysT = sys.transform;
+            var head = DisplayManager.MainCamera.transform;
+            
+            var pivot = head.EnsureParent("Pivot", sysT);
+            var neck = pivot.EnsureParent("Neck", sysT);
+
+            var stage = neck.EnsureParent("Stage", sysT);
+            stage.Ensure<Avatar>();
+            stage.transform.SetParent(sysT, false);
+
+            return true;
+        }
         /// <summary>
         /// When running on systems that do not understand the relationship between the camera and
         /// the ground (marker-tracking AR, 3DOF VR), this is the height that is used for the camera
@@ -21,19 +41,19 @@ namespace Juniper.Unity
         public float defaultAvatarHeight = (5f + 9f.Convert(UnitOfMeasure.Inches, UnitOfMeasure.Feet))
             .Convert(UnitOfMeasure.Feet, UnitOfMeasure.Meters);
 
-        private Vector3 LocalUserTop
-        {
-            get
-            {
-                return Head.localPosition;
-            }
-        }
-
         public Vector3 UserTop
         {
             get
             {
                 return Head.position;
+            }
+        }
+
+        private Vector3 LocalUserTop
+        {
+            get
+            {
+                return UserTop - transform.position;
             }
         }
 
@@ -91,32 +111,56 @@ namespace Juniper.Unity
         /// <summary>
         /// Physics for the avatar's body.
         /// </summary>
-        [HideInInspector]
+        [HideInNormalInspector]
         public Rigidbody BodyPhysics;
 
-        private CapsuleCollider BodyShape;
+        [HideInNormalInspector]
+        [SerializeField]
+        private CapsuleCollider bodyShape;
 #endif
 
-        public Transform Shoulders
-        {
-            get; private set;
-        }
+        [HideInNormalInspector]
+        [SerializeField]
+        private Transform shoulders;
+
+        [HideInNormalInspector]
+        [SerializeField]
+        private Transform neck;
+
+        [HideInNormalInspector]
+        [SerializeField]
+        private Transform pivot;
+
+        [HideInNormalInspector]
+        [SerializeField]
+        private Transform headShadow;
+
+        [HideInNormalInspector]
+        [SerializeField]
+        private Transform body;
 
         public Transform Head
         {
             get; private set;
         }
 
-        private Transform HeadShadow;
-
         public Transform Hands
         {
             get; private set;
         }
 
-        public Transform Body
+        private bool isIndependentHead;
+        public bool IndependentHead
         {
-            get; private set;
+            get
+            {
+                return isIndependentHead;
+            }
+            set
+            {
+                isIndependentHead = value;
+                body.localPosition = -HalfUp;
+            }
         }
 
         private Grounded grounder;
@@ -127,8 +171,8 @@ namespace Juniper.Unity
         {
             Install(false);
 
-            var casters = HeadShadow.GetComponentsInChildren<Renderer>()
-                .Union(Body.GetComponentsInChildren<Renderer>());
+            var casters = headShadow.GetComponentsInChildren<Renderer>()
+                .Union(body.GetComponentsInChildren<Renderer>());
             foreach (var caster in casters)
             {
                 caster.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
@@ -172,39 +216,47 @@ namespace Juniper.Unity
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
             Head = DisplayManager.MainCamera.transform;
+            {
+                Head.localPosition = Vector3.zero;
 
-            Shoulders = this.Ensure<Transform>("Shoulders");
+                pivot = Head.parent;
+                pivot.localPosition = Vector3.zero;
 
-            var _ = DisplayManager.EventCamera; // force the event camera to setup
+                neck = pivot.parent;
+                neck.localPosition = defaultAvatarHeight * Vector3.up;
 
-            HeadShadow = Head.Ensure<Transform>("HeadShadow", () =>
-                MakeShadowCaster(
-                    PrimitiveType.Sphere,
-                    new Vector3(0.384284f, 0.3163f, 0.3831071f)));
+                headShadow = Head.Ensure<Transform>("HeadShadow", () =>
+                    MakeShadowCaster(
+                        PrimitiveType.Sphere,
+                        new Vector3(0.384284f, 0.3163f, 0.3831071f)));
 
-            var goggles = HeadShadow.Ensure<Transform>("Goggles", () =>
-                MakeShadowCaster(
-                    PrimitiveType.Cube,
-                    new Vector3(HalfHeight, 0.5f, 0.5f)));
-            goggles.Value.localPosition = new Vector3(0, 0, 0.311f);
+                var goggles = headShadow.Ensure<Transform>("Goggles", () =>
+                    MakeShadowCaster(
+                        PrimitiveType.Cube,
+                        new Vector3(HalfHeight, 0.5f, 0.5f)));
+                goggles.Value.localPosition = new Vector3(0, 0, 0.311f);
+            }
 
-            Hands = Shoulders.Ensure<Transform>("Hands");
+            shoulders = this.Ensure<Transform>("Shoulders");
+            {
+                Hands = shoulders.Ensure<Transform>("Hands");
 
-            Body = Shoulders.Ensure<Transform>("Body", () =>
-                MakeShadowCaster(
-                    PrimitiveType.Capsule,
-                    new Vector3(0.5f, HalfHeight, 0.5f)));
+                body = shoulders.Ensure<Transform>("Body", () =>
+                    MakeShadowCaster(
+                        PrimitiveType.Capsule,
+                        new Vector3(0.5f, HalfHeight, 0.5f)));
 
 #if UNITY_MODULES_PHYSICS
-            var bs = Shoulders.Ensure<CapsuleCollider>();
-            if (bs.IsNew)
-            {
-                bs.Value.SetMaterial(shoes);
-                bs.Value.height = AvatarHeight;
-                bs.Value.radius = 0.25f;
-                bs.Value.direction = (int)CartesianAxis.Y;
+                var bs = shoulders.Ensure<CapsuleCollider>();
+                if (bs.IsNew)
+                {
+                    bs.Value.SetMaterial(shoes);
+                    bs.Value.height = AvatarHeight;
+                    bs.Value.radius = 0.25f;
+                    bs.Value.direction = (int)CartesianAxis.Y;
+                }
+                bodyShape = bs;
             }
-            BodyShape = bs;
 
             var bp = this.Ensure<Rigidbody>();
             if (bp.IsNew)
@@ -216,6 +268,7 @@ namespace Juniper.Unity
             BodyPhysics.useGravity = false;
             BodyPhysics.isKinematic = true;
             BodyPhysics.velocity = Vector3.zero;
+            BodyPhysics.Ensure<DefaultLocomotion>();
 
             grounder = this.Ensure<Grounded>();
             grounder.WhenGrounded(() =>
@@ -228,8 +281,6 @@ namespace Juniper.Unity
             });
 #endif
 
-            BodyPhysics.Ensure<DefaultLocomotion>();
-
             SetBodyPositionAndShape();
 
             return true;
@@ -237,25 +288,18 @@ namespace Juniper.Unity
 
         private void SetBodyPositionAndShape()
         {
-            Shoulders.localPosition = LocalUserTop;
-            Body.localScale = new Vector3(0.5f, HalfHeight, 0.5f);
+            shoulders.localPosition = LocalUserTop;
+            body.localScale = new Vector3(0.5f, HalfHeight, 0.5f);
 #if UNITY_MODULES_PHYSICS
             var center = LocalUserCenter;
-            center.y = -HalfHeight;
-            BodyShape.center = Quaternion.Inverse(transform.rotation) * center;
+            center.y -= AvatarHeight;
+            bodyShape.center = Quaternion.Inverse(transform.rotation) * center;
+            bodyShape.height = AvatarHeight;
 #endif
         }
 
         public void Uninstall()
         {
-        }
-
-        public void SetIndependentHead(bool isIndendent)
-        {
-            if (!isIndendent)
-            {
-                Head.localPosition = defaultAvatarHeight * Vector3.up;
-            }
         }
 
         public void RotateView(Quaternion dQuat, float minX, float maxX)
@@ -273,7 +317,7 @@ namespace Juniper.Unity
 
             x = Mathf.Max(minX, Mathf.Min(maxX, x));
 
-            Head.localRotation = Quaternion.AngleAxis(x, Vector3.right);
+            pivot.localRotation = Quaternion.AngleAxis(x, Vector3.right);
         }
 
         public void SetVelocity(Vector3 v)

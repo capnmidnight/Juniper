@@ -139,8 +139,6 @@ namespace Juniper.Unity.Input
                 .FirstOrDefault()
                 ?? LayerMask.NameToLayer("Ignore Raycast");
 
-            stage.SetIndependentHead(mode.HasFlag(Mode.HasFloorPosition));
-
 #if UNITY_MODULES_UI
             SetupDevice(ENABLE_GAZE_KEY, enableGazeToggle, EnableGaze);
             SetupDevice(ENABLE_HANDS_KEY, enableHandsToggle, EnableHands);
@@ -210,6 +208,12 @@ namespace Juniper.Unity.Input
             {
                 return false;
             }
+
+#if UNITY_EDITOR
+            stage.IndependentHead = false;
+#else
+            stage.IndependentHead = mode.HasFlag(Mode.HasFloorPosition);
+#endif
 
             gazePointer = MakePointer<GazePointer>(stage.Head, "GazePointer");
             mouse = MakePointer<Mouse>(stage.Head, "Mouse");
