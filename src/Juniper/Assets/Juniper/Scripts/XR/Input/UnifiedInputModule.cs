@@ -450,7 +450,8 @@ namespace Juniper.Unity.Input
             evtData.pointerCurrentRaycast = ray;
         }
 
-        public float CanvasOffset = 0.2f;
+        [HideInNormalInspector]
+        public float canvasOffset = 0.2f;
 
         /// <summary>
         /// Fire a raycast using all of the GraphicRaycasters in the system, plus the one
@@ -478,7 +479,7 @@ namespace Juniper.Unity.Input
                     if (canv.renderMode == RenderMode.WorldSpace)
                     {
                         var delta = pos - pointer.Origin;
-                        delta *= ray.distance / delta.magnitude + CanvasOffset;
+                        delta *= ray.distance / delta.magnitude + canvasOffset;
                         ray.distance = delta.magnitude;
                         pos = pointer.Origin + delta;
                     }
