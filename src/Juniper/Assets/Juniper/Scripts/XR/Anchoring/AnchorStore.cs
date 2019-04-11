@@ -35,7 +35,7 @@ namespace Juniper.Unity.Anchoring
     /// </summary>
     public abstract class AbstractAnchorStore<AnchorType>
         : MonoBehaviour
-        where AnchorType : MonoBehaviour
+        where AnchorType : Component
     {
         /// <summary>
         /// A prefix to add to names to make IDs unique to AbstractAnchorStore.
@@ -190,7 +190,7 @@ namespace Juniper.Unity.Anchoring
         /// save it to its native anchor store.
         /// </summary>
         /// <returns>
-        /// <c>true</c>, if anchor existed on the object, existed in the datastore, or was
+        /// <c>true</c>, if anchor existed on the object, existed in the data-store, or was
         /// successfully created, <c>false</c> otherwise.
         /// </returns>
         /// <param name="ID">        Identifier.</param>
@@ -277,7 +277,7 @@ namespace Juniper.Unity.Anchoring
         /// </summary>
         /// <param name="ID">        The name of the anchor to remove</param>
         /// <param name="gameObject">The object that was anchored</param>
-        /// <param name="anchor">    The anchor to destory</param>
+        /// <param name="anchor">    The anchor to destroy</param>
         protected virtual void DeleteAnchor(string ID, GameObject gameObject, AnchorType anchor)
         {
             DeleteValue(ID);

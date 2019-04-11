@@ -20,7 +20,7 @@ namespace Juniper.Unity.Data
     {
         public static TimeSpan DEFAULT_TTL = TimeSpan.Zero;
 
-        public static string FormatPath(string dataPath, string subPath)
+        public static string FormatPath(string streamingAssetsPath, string dataPath, string subPath)
         {
             var parts = new List<string>(4);
             var pathSep = '/';
@@ -46,8 +46,10 @@ namespace Juniper.Unity.Data
             }
 
             parts.Add(subPath);
-
-            return parts.ToArray().Join(pathSep);
+            var path = parts.ToArray().Join(pathSep);
+            UnityEngine.Debug.Log(streamingAssetsPath);
+            UnityEngine.Debug.Log(path);
+            return path;
         }
 
         /// <summary>

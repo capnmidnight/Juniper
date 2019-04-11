@@ -24,7 +24,11 @@ namespace Juniper.Unity.Input
         public override void UpdateModule()
         {
             base.UpdateModule();
+#if WINDOWSMR
             Pointers.Motion.MotionController.UpdateReadings();
+#elif HOLOLENS
+            Pointers.Motion.HandTracker.UpdateReadings();
+#endif
         }
     }
 }

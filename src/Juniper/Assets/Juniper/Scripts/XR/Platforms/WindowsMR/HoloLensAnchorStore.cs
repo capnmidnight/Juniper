@@ -1,22 +1,19 @@
 #if UNITY_XR_WINDOWSMR_METRO && HOLOLENS
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using System.Linq;
-using UnityEngine.XR.WSA.Persistence;
-using AnchorType = UnityEngine.XR.WSA.Persistence.WorldAnchor;
 using UnityEngine;
+using UnityEngine.XR.WSA;
+using UnityEngine.XR.WSA.Persistence;
+
+using AnchorType = UnityEngine.XR.WSA.WorldAnchor;
 
 namespace Juniper.Unity.Anchoring
 {
-    public abstract class HoloLensAnchorStore : AbstractAnchorStore<AnchorType>
+    public class HoloLensAnchorStore : AbstractAnchorStore<AnchorType>
     {
         /// <summary>
         /// The collection in which anchors are stored. This value's type changes depending on
-        /// certain compliation flags.
+        /// certain compilation flags.
         /// </summary>
         private WorldAnchorStore anchorStore;
 
@@ -37,6 +34,13 @@ namespace Juniper.Unity.Anchoring
         protected override bool IsSaved(AnchorType anchor)
         {
             return base.IsSaved(anchor) || anchorStore == null;
+        }
+
+        protected override AnchorType CreateAnchor(string ID, GameObject gameObject)
+        {
+            var anchor = gameObject.Ensure<AnchorType>();
+            anchorStore.Save(ID, anchor);
+            return anchor;
         }
 
         protected override AnchorType LoadAnchor(string ID)

@@ -1,4 +1,4 @@
-#if UNITY_XR_WINDOWSMR_METRO && WINDOWSMR
+#if UNITY_XR_WINDOWSMR_METRO
 using UnityEngine;
 
 namespace Juniper.Unity.Display
@@ -17,7 +17,7 @@ namespace Juniper.Unity.Display
             }
         }
 
-#if UNITY_5_3_OR_NEWER && (!UNITY_2017_1_OR_NEWER || (UNITY_2017_2_OR_NEWER && !UNITY_2017_3_OR_NEWER))
+#if HOLOLENS && UNITY_5_3_OR_NEWER && (!UNITY_2017_1_OR_NEWER || (UNITY_2017_2_OR_NEWER && !UNITY_2017_3_OR_NEWER))
         public override void Update()
         {
             base.Update();

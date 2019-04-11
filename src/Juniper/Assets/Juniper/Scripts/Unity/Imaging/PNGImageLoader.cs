@@ -40,7 +40,7 @@ namespace Juniper.Unity.Imaging
 
             StreamingAssets.GetStream(
                 Application.temporaryCachePath,
-                StreamingAssets.FormatPath(Application.dataPath, imagePath),
+                StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
                 "image/png",
                 stream => Image.DecodePNG(stream, img => image = img),
                 reject);

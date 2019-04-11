@@ -41,6 +41,22 @@ namespace Juniper.Unity.Input.Pointers.Motion
         }
 #endif
 
+        protected override bool TouchPadTouched { get { return InputState.touchpadTouched; } }
+
+        protected override bool TouchPadTouchedDown { get { return TouchPadTouched && !lastInputState.touchpadTouched; } }
+
+        protected override bool TouchPadTouchedUp { get { return !TouchPadTouched && lastInputState.touchpadTouched; } }
+
+        protected override bool TouchPadPressed { get { return InputState.touchpadPressed; } }
+
+        protected override bool TouchPadPressedDown { get { return TouchPadPressed && !lastInputState.touchpadPressed; } }
+
+        protected override bool TouchPadPressedUp { get { return !TouchPadPressed && lastInputState.touchpadPressed; } }
+
+        public override Vector2 SquareTouchPoint { get { return InputState.touchpadPosition; } }
+
+        public override Vector2 RoundTouchPoint { get { return SquareTouchPoint.Square2Round(); } }
+
         public override float Trigger
         {
             get
