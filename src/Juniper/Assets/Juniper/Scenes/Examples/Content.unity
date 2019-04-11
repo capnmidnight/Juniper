@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1684733871}
-  m_IndirectSpecularColor: {r: 0.1919589, g: 0.21450058, b: 0.22481732, a: 1}
+  m_IndirectSpecularColor: {r: 0.4753825, g: 0.500496, b: 0.511476, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000002, guid: 410b0b1b5e6d8f04d94bd304aeafc12d,
+  m_LightingDataAsset: {fileID: 112000002, guid: 81901281580f2d44393839c9d529f730,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -2798,8 +2798,8 @@ MonoBehaviour:
         m_Calls: []
       m_TypeName: UnityEngine.Events.ExceptionEvent, Juniper.Unity, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
-    exported: 1
-    Asset: {fileID: 0}
+    exported: 0
+    Asset: {fileID: 8300000, guid: 3b1631c25b44a46d9a74c327cabd9142, type: 3}
   spatialize: 0
   spatialBlend: 0
 --- !u!1 &1559464542

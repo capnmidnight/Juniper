@@ -26,12 +26,11 @@ namespace Juniper.Unity.Data
             var pathSep = '/';
             if (!NetworkPathPattern.IsMatch(subPath))
             {
-#if UNITY_EDITOR || PLATFORM_WSA || UNITY_STANDALONE
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WSA
                 pathSep = Path.DirectorySeparatorChar;
                 parts.Add(dataPath);
                 parts.Add("StreamingAssets");
 #elif UNITY_ANDROID || PLATFORM_LUMIN
-
                 parts.Add("jar:file:/");
                 parts.Add(dataPath + "!");
                 parts.Add("assets");

@@ -8,6 +8,10 @@ using Juniper.Unity.Input.Pointers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+#if !NET_4_6 && !NET_3_5
+using System.Reflection;
+#endif
+
 namespace Juniper.Unity.Events
 {
     [RequireComponent(typeof(IPointerDevice))]
@@ -43,8 +47,13 @@ namespace Juniper.Unity.Events
             where T : struct
         {
             var type = typeof(T);
+#if NET_4_6 || NET_3_5
+            var typeInfo = type;
+#else
+            var typeInfo = typeof(T).GetTypeInfo();
+#endif
 
-            if (type.IsEnum)
+            if (typeInfo.IsEnum)
             {
                 return (T)Enum.Parse(type, buttonValueName);
             }

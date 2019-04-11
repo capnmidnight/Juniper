@@ -52,27 +52,18 @@ namespace Juniper.Unity.Audio
         {
             prog?.Report(0);
             Enter();
-            if (player == null)
-            {
-                ScreenDebugger.Print("No audio player for AmbientAudio!");
-            }
-            else
-            {
-                ScreenDebugger.Print("Starting ambient audio");
-                StartCoroutine(audioClip.Load(
-                    clip =>
-                    {
-                        ScreenDebugger.Print("Playing ambient audio");
-                        player.clip = clip;
-                        player.Play();
-                    },
-                    exp =>
-                    {
-                        ScreenDebugger.PrintException(exp, "AmbientAudio");
-                        prog?.Report(1);
-                    },
-                    prog));
-            }
+            StartCoroutine(audioClip.Load(
+                clip =>
+                {
+                    player.clip = clip;
+                    player.Play();
+                },
+                exp =>
+                {
+                    ScreenDebugger.PrintException(exp, "AmbientAudio");
+                    prog?.Report(1);
+                },
+                prog));
         }
     }
 }

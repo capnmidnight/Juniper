@@ -27,10 +27,10 @@ namespace Juniper.Unity.Imaging
 #endif
 
         /// <summary>
-        /// Gets a texture from disk or the internet, running in a background thread, with a
+        /// Gets a texture from disk or the Internet, running in a background thread, with a
         /// coroutine waiting on the thread to finish.
         /// </summary>
-        /// <returns>The texture from streaming assets PNGC oroutine.</returns>
+        /// <returns>The texture from streaming assets PNGC coroutine.</returns>
         /// <param name="imagePath">Image path.</param>
         /// <param name="resolve">  Resolve.</param>
         /// <param name="reject">   Reject.</param>
