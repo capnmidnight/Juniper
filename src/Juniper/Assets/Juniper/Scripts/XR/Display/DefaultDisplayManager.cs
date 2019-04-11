@@ -1,10 +1,12 @@
-using System.Linq;
-
 using Juniper.Unity.Input;
 
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
+
+#if !UNITY_EDITOR
+using System.Linq;
+#endif
 
 namespace Juniper.Unity.Display
 {
@@ -24,9 +26,19 @@ namespace Juniper.Unity.Display
 
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
+#if UNITY_EDITOR
+                var input = ComponentExt.FindAny<UnifiedInputModule>();
+                if (input.mode.HasFlag(UnifiedInputModule.Mode.Touch))
+                {
+                    cameraCtrl.mode = CameraControl.Mode.Touch;
+                }
+                else if(input.mode.HasFlag(UnifiedInputModule.Mode.Mouse))
+                {
+                    cameraCtrl.mode = CameraControl.Mode.MouseScreenEdge;
+                }
+#else
                 var hasJoystick = UnityInput.GetJoystickNames()
                     .Any(j => !string.IsNullOrEmpty(j));
-
                 if (Application.isMobilePlatform)
                 {
                     cameraCtrl.mode = CameraControl.Mode.Touch;
@@ -39,6 +51,7 @@ namespace Juniper.Unity.Display
                 {
                     cameraCtrl.mode = CameraControl.Mode.Gamepad;
                 }
+#endif
                 else
                 {
                     cameraCtrl.mode = CameraControl.Mode.None;

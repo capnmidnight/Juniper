@@ -51,8 +51,7 @@ namespace Juniper.Unity.Input.Pointers.Screen
 
         public bool ActiveThisFrame
         {
-            get;
-            private set;
+            get { return 0 <= fingerID && fingerID < UnityInput.touchCount; }
         }
 
         private bool pressed;
@@ -97,14 +96,11 @@ namespace Juniper.Unity.Input.Pointers.Screen
         {
             wasPressed = pressed;
 
-            ActiveThisFrame = 0 <= fingerID && fingerID < UnityInput.touchCount;
-
             var finger = ActiveThisFrame
                 ? UnityInput.GetTouch(fingerID)
                 : DEAD_FINGER;
 
-            pressed = finger.type != TouchType.Indirect
-                && finger.phase != TouchPhase.Ended
+            pressed = finger.phase != TouchPhase.Ended
                 && finger.phase != TouchPhase.Canceled;
             lastWorldPoint = WorldFromScreen(finger.position);
 

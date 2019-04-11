@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Sean McBeth
-  productName: Juniper Android
+  companyName: Juniper VR
+  productName: Juniper Demo
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -156,7 +156,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.mcbeth.juniper.android
+    Android: com.juniper.android
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 21
@@ -239,6 +239,7 @@ PlayerSettings:
   tvOSManualSigningProvisioningProfileType: 0
   appleEnableAutomaticSigning: 0
   iOSRequireARKit: 0
+  iOSAutomaticallyDetectAndAddCapabilities: 1
   appleEnableProMotion: 0
   clonedFromGUID: 00000000000000000000000000000000
   templatePackageId: 
@@ -624,7 +625,7 @@ PlayerSettings:
     7: ANDROID_API_16;ANDROID_API_16_OR_GREATER;ANDROID_API_17;ANDROID_API_17_OR_GREATER;ANDROID_API_18;ANDROID_API_18_OR_GREATER;ANDROID_API_19;ANDROID_API_19_OR_GREATER;ANDROID_API_21;ANDROID_API_21_OR_GREATER;STANDARD_DISPLAY;UNITY_MODULES_ANIMATION;UNITY_MODULES_AUDIO;UNITY_MODULES_IMAGECONVERSION;UNITY_MODULES_IMGUI;UNITY_MODULES_PARTICLESYSTEM;UNITY_MODULES_PHYSICS;UNITY_MODULES_PHYSICS2D;UNITY_MODULES_SCREENCAPTURE;UNITY_MODULES_TERRAIN;UNITY_MODULES_TERRAINPHYSICS;UNITY_MODULES_UI;UNITY_MODULES_UMBRA;UNITY_MODULES_UNITYWEBREQUEST;UNITY_MODULES_UNITYWEBREQUESTASSETBUNDLE;UNITY_MODULES_UNITYWEBREQUESTAUDIO;UNITY_MODULES_UNITYWEBREQUESTWWW;UNITY_MODULES_VIDEO;UNITY_MODULES_WIND;UNITY_PACKAGE_MANAGER_UI;UNITY_TEXTMESHPRO
   platformArchitecture: {}
   scriptingBackend:
-    Android: 1
+    Android: 0
   il2cppCompilerConfiguration: {}
   managedStrippingLevel:
     Android: 3
