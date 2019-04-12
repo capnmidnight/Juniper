@@ -8,39 +8,28 @@ using UnityEngine.Events;
 
 namespace Juniper.Unity.Input.Speech
 {
+    public class KeywordRecognizer :
+#if UNITY_WSA
+        UWPKeywordRecognizer
+#elif UNITY_STANDALONE_WIN
+        NETFXKeywordRecognizer
+#else
+        NoKeywordRecognizer
+#endif
+    {
+
+    }
+
     /// <summary>
     /// A class that implements basic functionality for systems that manage speech recognition and
     /// route out the events associated with recognizing keywords.
     /// </summary>
-    public class KeywordRecognizer : MonoBehaviour, IKeywordRecognizer
+    public abstract class AbstractKeywordRecognizer : MonoBehaviour, IKeywordRecognizer
     {
         /// <summary>
         /// The keywords for which to listen.
         /// </summary>
         protected string[] keywords;
-
-        /// <summary>
-        /// Reads as true if the current XR subsystem supports speech recognition.
-        /// </summary>
-#if UNITY_WSA
-        public const bool IsAvailable = true;
-
-        /// <summary>
-        /// The real recognizer.
-        /// </summary>
-        UnityEngine.Windows.Speech.KeywordRecognizer recognizer;
-
-        /// <summary>
-        /// When speech is recognized, forward it into the keyword recognizer.
-        /// </summary>
-        /// <param name="args">Arguments.</param>
-        void Recognizer_OnPhraseRecognized(UnityEngine.Windows.Speech.PhraseRecognizedEventArgs args)
-        {
-            OnKeywordRecognized(args.text);
-        }
-#else
-        public const bool IsAvailable = false;
-#endif
 
         /// <summary>
         /// Respond to the speech recognition system having detected a keyword. You should only use
@@ -76,18 +65,16 @@ namespace Juniper.Unity.Input.Speech
         {
             this.WithLock(() =>
             {
-                keywords = (from comp in Resources.FindObjectsOfTypeAll<MonoBehaviour>()
-                            where (Application.isPlaying || comp.gameObject.scene.isLoaded)
-                            && comp is IKeywordTriggered
+                keywords = (from comp in ComponentExt.FindAll<MonoBehaviour>()
+                            where comp is IKeywordTriggered
                             let trigger = (IKeywordTriggered)comp
                             where trigger.Keywords != null
                             from keyword in trigger.Keywords
                             where !string.IsNullOrEmpty(keyword)
                             select keyword)
-                .Distinct()
-                .ToArray();
-
-                Array.Sort(keywords);
+                    .Distinct()
+                    .OrderBy(x => x)
+                    .ToArray();
             });
         }
 
@@ -96,16 +83,8 @@ namespace Juniper.Unity.Input.Speech
         /// </summary>
         public void OnEnable()
         {
-#if UNITY_WSA
-            OnDisable();
-
-            if (keywords != null && keywords.Length > 0)
-            {
-                recognizer = new UnityEngine.Windows.Speech.KeywordRecognizer(keywords);
-                recognizer.OnPhraseRecognized += Recognizer_OnPhraseRecognized;
-                recognizer.Start();
-            }
-#endif
+            TearDown();
+            Setup();
         }
 
         /// <summary>
@@ -113,15 +92,11 @@ namespace Juniper.Unity.Input.Speech
         /// </summary>
         public void OnDisable()
         {
-#if UNITY_WSA
-            if (recognizer != null)
-            {
-                recognizer.OnPhraseRecognized -= Recognizer_OnPhraseRecognized;
-                recognizer.Stop();
-                recognizer.Dispose();
-                recognizer = null;
-            }
-#endif
+            TearDown();
         }
+
+        protected abstract void Setup();
+
+        protected abstract void TearDown();
     }
 }

@@ -15,6 +15,7 @@ using Juniper.Unity.Widgets;
 using Juniper.Progress;
 
 using UnityEngine.UI;
+using Juniper.Unity.Input.Speech;
 
 #if UNITY_EDITOR
 
@@ -237,6 +238,8 @@ namespace Juniper.Unity
                     audioSource.Spatialize();
                 }
             }
+
+            ComponentExt.FindAny<KeywordRecognizer>()?.RefreshKeywords();
 
             loadingBar?.Report(1);
             yield return loadingBar?.Waiter;

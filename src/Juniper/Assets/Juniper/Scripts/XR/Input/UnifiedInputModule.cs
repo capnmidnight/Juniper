@@ -7,7 +7,7 @@ using Juniper.Unity.Input.Pointers;
 using Juniper.Unity.Input.Pointers.Gaze;
 using Juniper.Unity.Input.Pointers.Motion;
 using Juniper.Unity.Input.Pointers.Screen;
-
+using Juniper.Unity.Input.Speech;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -249,6 +249,8 @@ namespace Juniper.Unity.Input
 
             handTrackers = HandTracker.MakeControllers(name =>
                 MakePointer<HandTracker>(stage.Hands, name));
+
+            this.Ensure<KeywordRecognizer>();
         }
 
         public T MakePointer<T>(Transform parent, string path)
