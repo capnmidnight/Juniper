@@ -15,7 +15,9 @@ namespace Juniper.Unity.Input.Pointers.Gaze
         {
             get
             {
-                return TobiiAPI.IsConnected && TobiiAPI.GetUserPresence().IsUserPresent();
+                return Application.isPlaying
+                    && TobiiAPI.IsConnected
+                    && TobiiAPI.GetUserPresence().IsUserPresent();
             }
         }
 
