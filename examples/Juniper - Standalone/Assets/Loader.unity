@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.47739887, g: 0.50349027, b: 0.51339406, a: 1}
+  m_IndirectSpecularColor: {r: 0.193715, g: 0.21728598, b: 0.22664861, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6506,7 +6506,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 50
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 0
@@ -8598,7 +8598,7 @@ MonoBehaviour:
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_isInputParsingRequired: 0
-  m_inputSource: 3
+  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
@@ -19863,7 +19863,7 @@ MonoBehaviour:
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
   m_isInputParsingRequired: 0
-  m_inputSource: 3
+  m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
   - {fileID: 0}
@@ -30041,6 +30041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b87a634374e4514987063d5b2105c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultMixerGroup: {fileID: 24300002, guid: 8d56a40866983f34ba26296f7f30847d, type: 2}
   volumeSlider: {fileID: 2009219014}
   soundOnClosed: {fileID: 11400000, guid: 01fbf829975312141a055a0c3e95de59, type: 2}
   soundOnDisabled: {fileID: 11400000, guid: 76d7e382511a26e4bb0971f04c1a26b3, type: 2}
@@ -30055,7 +30056,6 @@ MonoBehaviour:
   soundOnSuccess: {fileID: 11400000, guid: 7b9da42f9cb52464288a22fd54f8395f, type: 2}
   soundOnStartUp: {fileID: 8300000, guid: 1a9c7e647cd76a34595d588d36fc432c, type: 3}
   soundOnShutDown: {fileID: 8300000, guid: 06fe8257402ae734eb1e6e09bcdeb9b0, type: 3}
-  defaultMixerGroup: {fileID: 24300002, guid: 8d56a40866983f34ba26296f7f30847d, type: 2}
 --- !u!114 &2083424602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30113,7 +30113,7 @@ MonoBehaviour:
   - {fileID: 1762787959}
   - {fileID: 1543826969}
   ControllerLayer: 0
-  CanvasOffset: 0.2
+  canvasOffset: 0.2
 --- !u!114 &2083424604
 MonoBehaviour:
   m_ObjectHideFlags: 0
