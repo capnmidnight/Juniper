@@ -86,10 +86,19 @@ namespace Juniper.Unity.Input.Speech
         {
             onKeyword?.Invoke();
             Keyword?.Invoke(this, EventArgs.Empty);
-
+            var pointerEvent = new PointerEventData(ComponentExt.FindAny<EventSystem>())
+            {
+                button = PointerEventData.InputButton.Left,
+                eligibleForClick = true,
+                clickCount = 1,
+                clickTime = Time.unscaledTime,
+            };
             foreach (var button in GetComponents<IPointerClickHandler>())
             {
-                button?.OnPointerClick(null);
+                if (button != null)
+                {
+                    button.OnPointerClick(pointerEvent);
+                }
             }
         }
 

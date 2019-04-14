@@ -15,8 +15,8 @@ namespace UnityEngine
     {
         /// <summary>
         /// ARCore looks for certain things as soon as the component is enabled, so we have to delay
-        /// it. First, we disable the object hiearchy in question. Then, we execute the code to
-        /// create the ARCore objects. Finally, we reenable the hierarchy.
+        /// it. First, we disable the object hierarchy in question. Then, we execute the code to
+        /// create the ARCore objects. Finally, we re-enable the hierarchy.
         /// </summary>
         /// <param name="src"></param>
         /// <param name="act"></param>

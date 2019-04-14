@@ -9,10 +9,8 @@ using UnityEngine.Events;
 namespace Juniper.Unity.Input.Speech
 {
     public class KeywordRecognizer :
-#if UNITY_WSA
-        UWPKeywordRecognizer
-#elif UNITY_STANDALONE_WIN
-        NETFXKeywordRecognizer
+#if UNITY_WSA || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        WindowsKeywordRecognizer
 #else
         NoKeywordRecognizer
 #endif
@@ -34,14 +32,14 @@ namespace Juniper.Unity.Input.Speech
         /// <summary>
         /// Respond to the speech recognition system having detected a keyword. You should only use
         /// this version in the Unity Editor. If you are programmatically attaching event listeners,
-        /// you should preferr <see cref="KeywordRecognized"/>.
+        /// you should prefer <see cref="KeywordRecognized"/>.
         /// </summary>
         public StringEvent onKeywordRecognized = new StringEvent();
 
         /// <summary>
         /// Respond to the speech recognition system having detected a keyword. You should only use
         /// this version if you are programmatically attaching event listeners. If you are attaching
-        /// events in the Unity Editor, you should preferr <see cref="onKeywordRecognized"/>.
+        /// events in the Unity Editor, you should prefer <see cref="onKeywordRecognized"/>.
         /// </summary>
         public event EventHandler<KeywordRecognizedEventArgs> KeywordRecognized;
 
@@ -63,19 +61,18 @@ namespace Juniper.Unity.Input.Speech
         /// <returns>The active keywords.</returns>
         public void RefreshKeywords()
         {
-            this.WithLock(() =>
-            {
-                keywords = (from comp in ComponentExt.FindAll<MonoBehaviour>()
-                            where comp is IKeywordTriggered
-                            let trigger = (IKeywordTriggered)comp
-                            where trigger.Keywords != null
-                            from keyword in trigger.Keywords
-                            where !string.IsNullOrEmpty(keyword)
-                            select keyword)
-                    .Distinct()
-                    .OrderBy(x => x)
-                    .ToArray();
-            });
+            TearDown();
+            keywords = (from comp in ComponentExt.FindAll<MonoBehaviour>()
+                        where comp is IKeywordTriggered
+                        let trigger = (IKeywordTriggered)comp
+                        where trigger.Keywords != null
+                        from keyword in trigger.Keywords
+                        where !string.IsNullOrEmpty(keyword)
+                        select keyword)
+                .Distinct()
+                .OrderBy(x => x)
+                .ToArray();
+            Setup();
         }
 
         /// <summary>
@@ -83,8 +80,7 @@ namespace Juniper.Unity.Input.Speech
         /// </summary>
         public void OnEnable()
         {
-            TearDown();
-            Setup();
+            RefreshKeywords();
         }
 
         /// <summary>

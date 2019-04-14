@@ -1,13 +1,8 @@
-#if UNITY_WSA
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+#if UNITY_WSA || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 
 namespace Juniper.Unity.Input.Speech
 {
-    public abstract class UWPKeywordRecognizer : AbstractKeywordRecognizer
+    public abstract class WindowsKeywordRecognizer : AbstractKeywordRecognizer
     {
         /// <summary>
         /// Reads as true if the current XR subsystem supports speech recognition.
