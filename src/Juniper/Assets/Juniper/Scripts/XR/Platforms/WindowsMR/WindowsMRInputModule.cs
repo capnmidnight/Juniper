@@ -10,11 +10,7 @@ namespace Juniper.Unity.Input
 
             if(!reset && mode == Mode.Auto)
             {
-#if WINDOWSMR
-                mode = Mode.StandingVR;
-#elif HOLOLENS
-                mode = Mode.HeadsetAR;
-#endif
+                mode = Mode.None;
             }
         }
         /// <summary>
@@ -24,11 +20,14 @@ namespace Juniper.Unity.Input
         public override void UpdateModule()
         {
             base.UpdateModule();
-#if WINDOWSMR
-            Pointers.Motion.MotionController.UpdateReadings();
-#elif HOLOLENS
-            Pointers.Motion.HandTracker.UpdateReadings();
-#endif
+            var kind = Pointers.Motion.WindowsMRMotionController.UpdateReadings();
+
+            if (mode == Mode.None)
+            {
+                mode = kind == UnityEngine.XR.WSA.Input.InteractionSourceKind.Controller
+                    ? Mode.StandingVR
+                    : Mode.HeadsetAR;
+            }
         }
     }
 }

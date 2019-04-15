@@ -1,4 +1,4 @@
-#if HOLOLENS
+#if UNITY_XR_WINDOWSMR_METRO
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +9,7 @@ using UnityEngine.XR.WSA;
 
 namespace Juniper.Unity.Ground
 {
-    public abstract class HoloLensGround : AbstractARGround
+    public abstract class WindowsMRGround : AbstractGround
     {
         /// <summary>
         /// When running on HololLens, a mapping between Juniper's quality levels and WindowsMR's
@@ -128,8 +128,14 @@ namespace Juniper.Unity.Ground
         protected override void Awake()
         {
             base.Awake();
-            transform.ClearChildren();
 
+
+#if !UNITY_EDITOR
+            if (Windows.Graphics.Holographic.HolographicDisplay.GetDefault()?.IsOpaque == false)
+            {
+                transform.ClearChildren();
+            }
+#endif
             var gr = this.Ensure<SpatialMappingRenderer>();
             gr.Value.occlusionMaterial = OcclusionMaterial;
             gr.Value.visualMaterial = VisualizationMaterial;

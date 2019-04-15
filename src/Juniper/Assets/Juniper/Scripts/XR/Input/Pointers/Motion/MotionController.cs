@@ -19,7 +19,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
         ViveFocusMotionController
 #elif PICO
         PicoMotionController
-#elif WINDOWSMR
+#elif UNITY_XR_WINDOWSMR_METRO
         WindowsMRMotionController
 #elif UNITY_XR_MAGICLEAP
         MagicLeapMotionController

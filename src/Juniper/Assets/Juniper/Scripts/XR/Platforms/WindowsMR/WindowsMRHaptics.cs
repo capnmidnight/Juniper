@@ -1,4 +1,4 @@
-#if UNITY_XR_WINDOWSMR_METRO && WINDOWSMR && !UNITY_EDITOR
+#if UNITY_XR_WINDOWSMR_METRO && !UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;

@@ -21,8 +21,8 @@ namespace Juniper.Unity.Anchoring
         ARKitAnchorStore
 #elif UNITY_XR_MAGICLEAP
         MagicLeapAnchorStore
-#elif HOLOLENS
-        HoloLensAnchorStore
+#elif UNITY_XR_WINDOWSMR_METRO
+        WindowsMRAnchorStore
 #else
         MockAnchorStore
 #endif

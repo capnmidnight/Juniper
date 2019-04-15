@@ -5,19 +5,7 @@ namespace Juniper.Unity.Display
 {
     public class WindowsMRDisplayManager : AbstractDisplayManager
     {
-        protected override float DEFAULT_FOV
-        {
-            get
-            {
-#if HOLOLENS
-                return 26;
-#else
-                return base.DEFAULT_FOV;
-#endif
-            }
-        }
-
-#if HOLOLENS && UNITY_5_3_OR_NEWER && (!UNITY_2017_1_OR_NEWER || (UNITY_2017_2_OR_NEWER && !UNITY_2017_3_OR_NEWER))
+#if UNITY_5_3_OR_NEWER && (!UNITY_2017_1_OR_NEWER || (UNITY_2017_2_OR_NEWER && !UNITY_2017_3_OR_NEWER))
         public override void Update()
         {
             base.Update();

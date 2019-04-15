@@ -7,9 +7,7 @@ using UnityEngine;
 namespace Juniper.Unity.Input.Pointers.Motion
 {
     public class HandTracker :
-#if HOLOLENS
-        HoloLensHand
-#elif UNITY_XR_MAGICLEAP
+#if UNITY_XR_MAGICLEAP
         MagicLeapHand
 #elif LEAP_MOTION
         LeapMotionHand

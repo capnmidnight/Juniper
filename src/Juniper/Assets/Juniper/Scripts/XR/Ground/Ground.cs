@@ -13,14 +13,14 @@ namespace Juniper.Unity.Ground
     /// </summary>
     [ExecuteInEditMode]
     public class Ground :
-#if HOLOLENS
-        HoloLensGround
-#elif UNITY_XR_ARKIT
+#if UNITY_XR_ARKIT
         ARKitGround
 #elif UNITY_XR_MAGICLEAP
         MagicLeapGround
 #elif UNITY_XR_ARCORE
         ARCoreGround
+#elif UNITY_XR_WINDOWSMR_METRO
+        WindowsMRGround
 #elif UNITY_MODULES_TERRAIN
         StaticTerrain
 #else
@@ -38,6 +38,11 @@ namespace Juniper.Unity.Ground
         /// </summary>
         [Header("Ground")]
         public PhysicMaterial Roughness;
+
+        /// <summary>
+        /// On HoloLens, the level of detail to use when performing spatial mapping.
+        /// </summary>
+        public Level spatialMappingFidelity = Level.Medium;
 
         /// <summary>
         /// The current type of visualization to use for displaying the terrain.
@@ -61,7 +66,7 @@ namespace Juniper.Unity.Ground
         public Material VisualizationMaterial;
 
         /// <summary>
-        /// The material to use to render the terrain, occording to <see cref="MeshVisualization"/>.
+        /// The material to use to render the terrain, according to <see cref="MeshVisualization"/>.
         /// </summary>
         public Material CurrentMaterial
         {
@@ -116,7 +121,7 @@ namespace Juniper.Unity.Ground
         }
 
         /// <summary>
-        /// Renderers that exist in the direct ancestery of the Ground object, including itself.
+        /// Renderers that exist in the direct ancestry of the Ground object, including itself.
         /// </summary>
         /// <value>The ground visualizers.</value>
         public IEnumerable<Renderer> GroundVisualizers

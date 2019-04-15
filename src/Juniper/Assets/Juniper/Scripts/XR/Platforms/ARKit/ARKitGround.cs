@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Juniper.Unity.Ground
 {
-    public class ARKitGround : AbstractARGround
+    public class ARKitGround : AbstractGround
     {
         /// <summary>
         /// The clonable object to use as a ground plane in ARKit systems.

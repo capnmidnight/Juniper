@@ -9,8 +9,7 @@ using UnityEngine.XR.MagicLeap;
 
 namespace Juniper.Unity.Ground
 {
-    public class MagicLeapGround :
-        AbstractARGround
+    public class MagicLeapGround : AbstractGround
     {
         private static readonly Dictionary<Level, MLSpatialMapper.LevelOfDetail> DETAIL_LEVELS = new Dictionary<Level, MLSpatialMapper.LevelOfDetail>(3)
         {

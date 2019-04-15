@@ -19,9 +19,7 @@ namespace Juniper.Unity.Widgets
     [DisallowMultipleComponent]
     public class QualityDegrader : MonoBehaviour
     {
-#if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
         private Ground.Ground ground;
-#endif
 
         /// <summary>
         /// Calculates statistics for the frame delta time value, for knowing the mean value and
@@ -51,12 +49,10 @@ namespace Juniper.Unity.Widgets
                     ChangeQuality(QualitySettings.DecreaseLevel, (a, b) => a > b, value);
                     display.ResumeDisplay();
 
-#if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
                     if (ground != null)
                     {
                         ground.spatialMappingFidelity = (Level)(value / 2);
                     }
-#endif
 
 #if UNITY_POSTPROCESSING
                     prost.enabled = QualityLevel >= 4;
@@ -128,9 +124,7 @@ namespace Juniper.Unity.Widgets
         /// </summary>
         public void Awake()
         {
-#if UNITY_XR_ARKIT || UNITY_XR_ARCORE || HOLOLENS || UNITY_XR_MAGICLEAP
             ground = ComponentExt.FindAny<Ground.Ground>();
-#endif
 
 #if UNITY_POSTPROCESSING
             prost = GetComponent<PostProcessLayer>();

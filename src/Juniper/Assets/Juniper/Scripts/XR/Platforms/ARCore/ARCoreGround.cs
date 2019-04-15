@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Juniper.Unity.Ground
 {
-    public class ARCoreGround : AbstractARGround
+    public class ARCoreGround : AbstractGround
     {
         /// <summary>
         /// When running on ARCore, a collection of all the planes that ARCore is tracking.

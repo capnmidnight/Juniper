@@ -1,15 +1,14 @@
-#if UNITY_XR_WINDOWSMR_METRO && HOLOLENS
+#if UNITY_XR_WINDOWSMR_METRO
 using System.Linq;
 
 using UnityEngine;
-using UnityEngine.XR.WSA;
 using UnityEngine.XR.WSA.Persistence;
 
 using AnchorType = UnityEngine.XR.WSA.WorldAnchor;
 
 namespace Juniper.Unity.Anchoring
 {
-    public class HoloLensAnchorStore : AbstractAnchorStore<AnchorType>
+    public class WindowsMRAnchorStore : AbstractAnchorStore<AnchorType>
     {
         /// <summary>
         /// The collection in which anchors are stored. This value's type changes depending on

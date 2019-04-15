@@ -117,7 +117,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                     || (config.NextPlatform != CurrentPlatform
                         && EditorUtility.DisplayDialog(
                             "Juniper",
-                            $"You are about to change the platfrom from {CurrentPlatform} to {config.NextPlatform}. Do you want to continue?",
+                            $"You are about to change the platform from {CurrentPlatform} to {config.NextPlatform}. Do you want to continue?",
                             "Change platform",
                             "Don't change platform"));
             }
