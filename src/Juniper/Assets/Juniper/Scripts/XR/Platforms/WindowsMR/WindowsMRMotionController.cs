@@ -34,12 +34,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
                 ?? InteractionSourceKind.Other;
         }
 
-        /// <summary>
-        /// How quickly the interaction origin is moving, and in what direction. Used to extrapolate
-        /// the position of the origin during frames in which we don't receive an updated State frame.
-        /// </summary>
-        private Vector3 originVelocity;
-
         private static readonly Dictionary<WindowsMRButtons, Func<InteractionSourceState, bool>> BUTTONS = new Dictionary<WindowsMRButtons, Func<InteractionSourceState, bool>>(7)
         {
             { WindowsMRButtons.AirTap, s => s.selectPressed },
@@ -79,7 +73,6 @@ namespace Juniper.Unity.Input.Pointers.Motion
         /// </summary>
         private InteractionSourceState _deviceState;
         protected InteractionSourceState lastInputState;
-        private InteractionSourceHandedness handedness = InteractionSourceHandedness.Unknown;
 
         /// <summary>
         /// Gets and sets the most recent controller State frame. On set, also decomposes the state
@@ -94,57 +87,41 @@ namespace Juniper.Unity.Input.Pointers.Motion
             }
             set
             {
+                lastInputState = _deviceState;
                 _deviceState = value;
+                updateTime = Time.unscaledTime;
 
                 Vector3 point;
                 if (InputState.sourcePose.TryGetPosition(out point, InteractionSourceNode.Pointer))
                 {
-                    SetLocalPosition(point);
+                    transform.localPosition = point;
                 }
-            }
-        }
 
-        /// <summary>
-        /// Extrapolate the position of the pointer.
-        /// </summary>
-        public void FixedUpdate()
-        {
-            var newOrigin = transform.position + originVelocity * Time.fixedDeltaTime;
-            var newLocalOrigin = transform.worldToLocalMatrix.MultiplyPoint(newOrigin);
-            SetLocalPosition(newLocalOrigin);
-        }
-
-        private void SetLocalPosition(Vector3 point)
-        {
-            transform.localPosition = point;
-
-            if (_deviceState.source.handedness == InteractionSourceHandedness.Unknown)
-            {
-                var side = GetSide(point);
-
-                const float vert = 0.1f;
-                var horiz = side == InteractionSourceHandedness.Right ? -0.03f : 0.03f;
-                const float fwd = 0.03f;
-                var camT = DisplayManager.MainCamera.transform;
-                transform.position += camT.rotation * new Vector3(horiz, vert, fwd);
-                var toPoint = (transform.position - camT.position).normalized;
-                transform.rotation = Quaternion.FromToRotation(camT.forward, toPoint);
-
-                var deltaTime = Time.unscaledTime - updateTime;
-                updateTime = Time.unscaledTime;
-                originVelocity = OriginDelta / deltaTime;
-            }
-            else
-            {
-                Quaternion rot;
-                if (_deviceState.sourcePose.TryGetRotation(out rot, InteractionSourceNode.Pointer))
+                if (_deviceState.source.handedness == InteractionSourceHandedness.Unknown)
                 {
-                    transform.localRotation = rot;
+                    var side = GetSide(point);
+
+                    const float vert = 0.1f;
+                    var horiz = side == InteractionSourceHandedness.Right ? -0.03f : 0.03f;
+                    const float fwd = 0.03f;
+                    var camT = DisplayManager.MainCamera.transform;
+                    transform.position = camT.localToWorldMatrix.MultiplyPoint(point + new Vector3(horiz, vert, fwd));
+                    var toPoint = (transform.position - camT.position).normalized;
+                    transform.rotation = Quaternion.FromToRotation(camT.forward, toPoint);
                 }
+                else
+                {
+
+                    Quaternion rot;
+                    if (_deviceState.sourcePose.TryGetRotation(out rot, InteractionSourceNode.Pointer))
+                    {
+                        transform.localRotation = rot;
+                    }
 
 #if !UNITY_EDITOR
-                Haptics.ControllerID = InteractionState.source.id;
+                    Haptics.ControllerID = InteractionState.source.id;
 #endif
+                }
             }
         }
 
