@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+
 using Juniper.Input;
-using Juniper.Unity.Haptics;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -34,13 +34,12 @@ namespace Juniper.Unity.Input.Pointers.Motion
         }
     }
 
-    public abstract class AbstractMotionController<HandIDType, ButtonIDType, ConfigType, HapticsType> :
-        AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType, HapticsType>,
+    public abstract class AbstractMotionController<HandIDType, ButtonIDType, ConfigType> :
+        AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType>,
         IMotionController
         where HandIDType : struct, IComparable
         where ButtonIDType : struct
         where ConfigType : AbstractMotionControllerConfiguration<HandIDType, ButtonIDType>, new()
-        where HapticsType : AbstractHapticDevice
     {
         private const float BUTTON_RADIUS = 0.25f;
         private const float DIM = 0.75f;

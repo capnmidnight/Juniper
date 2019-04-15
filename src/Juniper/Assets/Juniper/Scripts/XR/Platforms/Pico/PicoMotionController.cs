@@ -14,7 +14,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
     /// <summary>
     /// A motion controller or hand-tracking. Currently only implements WindowsMR.
     /// </summary>
-    public abstract class PicoMotionController : AbstractMotionController<ControllerVariety, Pvr_KeyCode, PicoMotionControllerConfiguration, NoHaptics>
+    public abstract class PicoMotionController : AbstractMotionController<ControllerVariety, Pvr_KeyCode, PicoMotionControllerConfiguration>
     {
         private int controllerNumber;
 
@@ -155,6 +155,11 @@ namespace Juniper.Unity.Input.Pointers.Motion
             base.InternalUpdate();
 
             wasTouchPadTouched = TouchPadTouched;
+        }
+
+        protected override AbstractHapticDevice MakeHapticsDevice()
+        {
+            return this.Ensure<NoHaptics>();
         }
     }
 }

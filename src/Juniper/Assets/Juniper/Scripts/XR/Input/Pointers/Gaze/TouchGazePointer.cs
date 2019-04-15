@@ -1,25 +1,13 @@
+using Juniper.Unity.Haptics;
+
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
 
-#if ANDROID_API_26_OR_GREATER
-using HapticsType = Juniper.Unity.Haptics.AndroidAPI26Haptics;
-#elif ANDROID_API_1_OR_GREATER
-using HapticsType = Juniper.Unity.Haptics.AndroidAPI1Haptics;
-#elif IOS_VERSION_10_OR_GREATER
-using HapticsType = Juniper.Unity.Haptics.iOS10Haptics;
-#elif IOS_VERSION_9
-using HapticsType = Juniper.Unity.Haptics.iOS9Haptics;
-#else
-
-using HapticsType = Juniper.Unity.Haptics.DefaultHaptics;
-
-#endif
-
 namespace Juniper.Unity.Input.Pointers.Gaze
 {
     public abstract class TouchGazePointer :
-        AbstractGazePointer<HapticsType>
+        AbstractGazePointer
     {
         [ContextMenu("Reinstall")]
         public override void Reinstall()
@@ -76,6 +64,21 @@ namespace Juniper.Unity.Input.Pointers.Gaze
                 lastViewportPoint = ViewportFromScreen(finger.position);
             }
             base.Update();
+        }
+
+        protected override AbstractHapticDevice MakeHapticsDevice()
+        {
+#if ANDROID_API_26_OR_GREATER
+            return this.Ensure<AndroidAPI26Haptics>();
+#elif ANDROID_API_1_OR_GREATER
+            return this.Ensure<AndroidAPI1Haptics>();
+#elif IOS_VERSION_10_OR_GREATER
+            return this.Ensure<iOS10Haptics>();
+#elif IOS_VERSION_9
+            return this.Ensure<iOS9Haptics>();
+#else
+            return this.Ensure<DefaultHaptics>();
+#endif
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
     /// <summary>
     /// A motion controller or hand-tracking. Currently only implements WindowsMR.
     /// </summary>
-    public abstract class OculusMotionController : AbstractMotionController<OVRInput.Controller, OVRInput.Button, OculusMotionControllerConfiguration, NoHaptics>
+    public abstract class OculusMotionController : AbstractMotionController<OVRInput.Controller, OVRInput.Button, OculusMotionControllerConfiguration>
     {
         public override bool IsConnected
         {
@@ -143,6 +143,11 @@ namespace Juniper.Unity.Input.Pointers.Motion
             transform.localRotation = OVRInput.GetLocalControllerRotation(NativeHandID.Value);
 
             base.InternalUpdate();
+        }
+
+        protected override AbstractHapticDevice MakeHapticsDevice()
+        {
+            return this.Ensure<NoHaptics>();
         }
     }
 }

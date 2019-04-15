@@ -9,7 +9,7 @@ namespace Juniper.Unity.Input.Pointers.Screen
     /// <summary>
     /// A <see cref="AbstractScreenDevice"/> pointer for the standard mouse connected to a desktop system.
     /// </summary>
-    public class Mouse : AbstractScreenDevice<KeyCode, NoHaptics, MousePointerConfiguration>
+    public class Mouse : AbstractScreenDevice<KeyCode, MousePointerConfiguration>
     {
         [ContextMenu("Reinstall")]
         public override void Reinstall()
@@ -115,6 +115,11 @@ namespace Juniper.Unity.Input.Pointers.Screen
         public override bool IsButtonUp(KeyCode button)
         {
             return UnityInput.GetKeyUp(button);
+        }
+
+        protected override AbstractHapticDevice MakeHapticsDevice()
+        {
+            return this.Ensure<NoHaptics>();
         }
     }
 }

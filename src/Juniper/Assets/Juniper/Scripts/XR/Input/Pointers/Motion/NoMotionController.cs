@@ -16,7 +16,7 @@ namespace Juniper.Unity.Input.Pointers.Motion
         }
     }
 
-    public abstract class NoMotionController : AbstractMotionController<Unary, KeyCode, NoMotionControllerConfiguration, NoHaptics>
+    public abstract class NoMotionController : AbstractMotionController<Unary, KeyCode, NoMotionControllerConfiguration>
     {
         public override bool IsConnected
         {
@@ -116,6 +116,11 @@ namespace Juniper.Unity.Input.Pointers.Motion
         public override float Trigger
         {
             get;
+        }
+
+        protected override AbstractHapticDevice MakeHapticsDevice()
+        {
+            return this.Ensure<NoHaptics>();
         }
     }
 }

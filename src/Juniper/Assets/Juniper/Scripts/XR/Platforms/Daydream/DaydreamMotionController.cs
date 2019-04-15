@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Juniper.Unity.Input.Pointers.Motion
 {
     public abstract class DaydreamMotionController
-        : AbstractMotionController<GvrControllerHand, GvrControllerButton, DaydreamPointerConfiguration, NoHaptics>
+        : AbstractMotionController<GvrControllerHand, GvrControllerButton, DaydreamPointerConfiguration>
     {
         public override bool IsConnected
         {
@@ -154,6 +154,11 @@ namespace Juniper.Unity.Input.Pointers.Motion
         public override bool IsButtonDown(GvrControllerButton button)
         {
             return Device.GetButtonDown(button);
+        }
+
+        protected override AbstractHapticDevice MakeHapticsDevice()
+        {
+            return this.Ensure<NoHaptics>();
         }
     }
 }

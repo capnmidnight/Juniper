@@ -37,10 +37,14 @@ namespace Juniper.Unity.Input.Pointers.Motion
     }
 
     public abstract class AbstractHandTracker<HandIDType, ButtonIDType, ConfigType> :
-        AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType, NoHaptics>
+        AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType>
         where HandIDType : struct, IComparable
         where ButtonIDType : struct
         where ConfigType : AbstractHandTrackerConfiguration<HandIDType, ButtonIDType>, new()
     {
+        protected override AbstractHapticDevice MakeHapticsDevice()
+        {
+            return this.Ensure<NoHaptics>();
+        }
     }
 }

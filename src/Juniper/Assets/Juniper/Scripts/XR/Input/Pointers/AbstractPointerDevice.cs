@@ -14,13 +14,12 @@ using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Unity.Input.Pointers
 {
-    public abstract class AbstractPointerDevice<ButtonIDType, HapticsType, ConfigType> :
+    public abstract class AbstractPointerDevice<ButtonIDType, ConfigType> :
         MonoBehaviour,
         IInstallable,
         IPointerDevice,
         IPointerButtons<ButtonIDType>
         where ButtonIDType : struct
-        where HapticsType : AbstractHapticDevice
         where ConfigType : AbstractPointerConfiguration<ButtonIDType>, new()
     {
         protected static readonly Vector2 VIEWPORT_MIDPOINT =
@@ -166,7 +165,7 @@ namespace Juniper.Unity.Input.Pointers
 
             pointerOffset = MinimumPointerDistance * Vector3.forward;
 
-            Haptics = this.Ensure<HapticsType>();
+            Haptics = MakeHapticsDevice();
 
             nativeButtons.ButtonDownNeeded += IsButtonDown;
             nativeButtons.ButtonUpNeeded += IsButtonUp;
@@ -475,7 +474,7 @@ namespace Juniper.Unity.Input.Pointers
         /// global haptic system. For motion controllers, each controller has its own haptic system.
         /// </summary>
         /// <value>The haptics.</value>
-        public HapticsType Haptics
+        public AbstractHapticDevice Haptics
         {
             get; protected set;
         }
@@ -572,5 +571,7 @@ namespace Juniper.Unity.Input.Pointers
         public abstract bool IsButtonDown(ButtonIDType button);
 
         public abstract bool IsButtonUp(ButtonIDType button);
+
+        protected abstract AbstractHapticDevice MakeHapticsDevice();
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Juniper.Unity.Input.Pointers.Gaze
 {
     public abstract class NosePointer :
-        AbstractGazePointer<NoHaptics>
+        AbstractGazePointer
     {
         public override Vector3 WorldPoint
         {
