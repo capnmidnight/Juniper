@@ -15,8 +15,17 @@
 (T) 2019-02-01 Vuforia - Android
 (T) 2019-02-01 Vuforia - iOS
 (T) 2019-02-01 Vuforia - HoloLens
-(F) 2019-04-07 PSVR
-(Z) 2019-02-01 Unity AR Foundation
+(T) 2019-04-16 Pico G2
+(T) 2019-02-01 Cardboard - Android
+(T) 2019-02-01 Cardboard - iOS
+(T) 2019-02-01 Cardboard - UWP?
+(T) 2019-02-01 Magic Window - Android
+(T) 2019-02-01 Magic Window - iOS
+(T) 2019-02-01 Magic Window - UWP?
+(F) 2019-04-07 PSVR?
+(Z) 2019-02-01 Unity AR Foundation?
+(A) 2019-02-01 Use ARKit Packages from Unity
+(A) 2019-02-01 Use ARCore Packages from Unity
 x 2019-02-11 2019-02-01 pri:F Magic Leap - Hands
 x 2019-03-01 2019-02-01 pri:F Magic Leap - Hand Gestures
 (T) 2019-02-01 Magic Leap - Anchoring
@@ -24,7 +33,7 @@ x 2019-02-05 2019-02-01 pri:F Magic Leap - Meshing
 (F) 2019-02-01 Magic Leap - Image Tracking
 (F) 2019-02-01 Magic Leap - Plane Extraction
 (F) 2019-02-01 Magic Leap - Object Recognition
-(Z) 2019-02-01 SteamVR 2.0
+(Z) 2019-02-01 SteamVR 2.0?
 (Z) 2019-02-01 Leap Motion
 (T) 2019-02-01 Tobii
 (Z) 2019-02-01 NeuroSky - PC
@@ -32,22 +41,15 @@ x 2019-02-05 2019-02-01 pri:F Magic Leap - Meshing
 (Z) 2019-02-01 NeuroSky - iOS
 (Z) 2019-02-01 NeuroSky - UWP?
 (F) 2019-02-01 Speech Synthesis
-(T) 2019-02-01 Speech Recognition - UWP
-(F) 2019-02-01 Speech Recognition - PC
+x (T) 2019-02-01 Speech Recognition - UWP
+x (F) 2019-02-01 Speech Recognition - PC
 (F) 2019-02-01 Speech Recognition - Android
 (F) 2019-02-01 Speech Recognition - iOS
 (Z) 2019-02-01 Magic Leap - Speech Recognition
-(T) 2019-02-01 Cardboard - Android
-(T) 2019-02-01 Cardboard - iOS
-(T) 2019-02-01 Cardboard - Windows Phone?
-(T) 2019-02-01 Magic Window - Android
-(T) 2019-02-01 Magic Window - iOS
-(T) 2019-02-01 Magic Window - UWP?
 (F) 2019-02-01 Tooltips
+(F) 2019-02-01 Subtitles
 (F) 2019-02-01 Confirmation Dialogs
 x (A) 2019-02-01 Use Oculus Packages from Unity
-(A) 2019-02-01 Use ARKit Packages from Unity
-(A) 2019-02-01 Use ARCore Packages from Unity
 x (Z) 2019-02-01 Configuration Management Tools
 x 2019-02-18 2019-02-01 pri:F Long Press
 (F) 2019-02-01 Double Clicks
@@ -70,11 +72,11 @@ x 2019-02-04 2019-02-01 pri:F User Prefs for Options
 (F) 2019-02-01 Options Interface - Language
 (F) 2019-02-01 Options Interface - Units
 (F) 2019-02-01 Options Interface - Subtitles
-(F) 2019-02-01 Subtitles
 (F) 2019-02-01 Options Interface - Button Config
 (F) 2019-02-01 Options Interface - Voice Over
 (F) 2019-02-01 Options Interface - Tooltips for each option
 (F) 2019-02-01 Options Interface - Show Subtitles
+(F) 2019-04-16 Screen-space UI for Smartphone systems
 (F) 2019-02-01 Navigation Events
 (F) 2019-02-01 Boundary Rendering
 (F) 2019-02-01 Grab Hands
@@ -99,7 +101,7 @@ x (A) 2019-02-01 Third party lib patches
 (Z) 2019-02-01 GameObject Code Behinds
 x 2019-02-17 2019-02-01 pri:B Better Gaze Smoothing
 x 2019-02-19 2019-02-12 pri:F Magic Leap - Light Estimation
-(F) 2019-02-17 Streaming Audio
+x (F) 2019-02-17 Streaming Audio
 (B) 2019-02-18 Magic Leap - wider meshing area
 (A) Split Unity-specific and XR code into separate repos
 (A) Split Unity utility code and scene management code into separate repos
