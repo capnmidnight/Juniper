@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Juniper.Unity.Input.Pointers.Gaze
 {
     public abstract class TobiiGazePointer :
-        AbstractGazePointer<NoHaptics>
+        AbstractGazePointer
     {
         public override bool IsConnected
         {
