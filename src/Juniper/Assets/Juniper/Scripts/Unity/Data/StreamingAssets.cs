@@ -1,3 +1,4 @@
+using Juniper.Data;
 using Juniper.Progress;
 
 using System;
@@ -64,7 +65,7 @@ namespace Juniper.Unity.Data
         /// <param name="resolve">A callback to receive the file stream asynchronously.</param>
         /// <param name="reject"> A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
+        public static async void GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
         {
             prog?.Report(0);
 
@@ -83,7 +84,21 @@ namespace Juniper.Unity.Data
                         cacheDirectory,
                         uri.PathAndQuery,
                         ttl,
-                        streamResolve => HTTP.GetStream(path, mime, streamResolve, reject, prog),
+                        async streamResolve =>
+                        {
+                            try
+                            {
+                                using (var result = await HTTP.GetStream(path, mime, prog))
+                                {
+                                    var reader = new StreamReader(result.Value);
+                                    resolve(reader.ReadToEnd());
+                                }
+                            }
+                            catch(Exception exp)
+                            {
+                                reject(exp);
+                            }
+                        },
                         progResolve,
                         prog);
                 }
