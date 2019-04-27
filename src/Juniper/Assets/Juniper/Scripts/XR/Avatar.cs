@@ -279,7 +279,7 @@ namespace Juniper.Unity
 
         private void SetBodyPositionAndShape()
         {
-            shoulders.localPosition = LocalUserTop;
+            //shoulders.localPosition = LocalUserTop;
             body.localScale = new Vector3(0.5f, HalfHeight, 0.5f);
 #if UNITY_MODULES_PHYSICS
             var center = LocalUserCenter;
