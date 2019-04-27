@@ -26,8 +26,7 @@
     "com.unity.modules.video@1.0.0",
     "com.unity.modules.wind@1.0.0",
     "com.unity.purchasing@exclude",
-    "com.unity.textmeshpro@1.3.0",
-    "UBER"
+    "com.unity.textmeshpro@1.3.0"
   ],
   "platforms": [
   {
