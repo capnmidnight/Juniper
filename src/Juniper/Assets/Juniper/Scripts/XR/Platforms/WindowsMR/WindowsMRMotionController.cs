@@ -153,8 +153,9 @@ namespace Juniper.Unity.Input.Pointers.Motion
                 foreach (var state in states)
                 {
                     Vector3 point;
-                    if (InputState.source.handedness == NativeHandID
-                        || (InputState.sourcePose.TryGetPosition(out point, InteractionSourceNode.Pointer)
+                    if (state.source.handedness == NativeHandID
+                        || (state.source.handedness == InteractionSourceHandedness.Unknown
+                            && state.sourcePose.TryGetPosition(out point, InteractionSourceNode.Pointer)
                             && GetSide(point) == NativeHandID))
                     {
                         InputState = state;
