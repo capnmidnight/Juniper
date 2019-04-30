@@ -10,36 +10,6 @@ namespace System.IO
     public static class StreamExt
     {
         /// <summary>
-        /// Default read buffer size.
-        /// </summary>
-        private const int BLOCK_SIZE = 4096;
-
-        /// <summary>
-        /// Pipe the output of one stream into the input of another.
-        /// </summary>
-        /// <param name="inStream">The stream to pipe out of.</param>
-        /// <param name="outStream">The stream to pipe into.</param>
-        /// <param name="length">The length of the stream that is being piped out.</param>
-        /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
-        public static void Pipe(this Stream inStream, Stream outStream, long length, IProgress prog = null)
-        {
-            prog?.Report(0);
-            inStream = new ProgressStream(inStream, length, prog);
-            var read = int.MaxValue;
-            var buf = new byte[BLOCK_SIZE];
-            while (read > 0)
-            {
-                read = inStream.Read(buf, 0, BLOCK_SIZE);
-                if (read > 0)
-                {
-                    outStream.Write(buf, 0, read);
-                }
-            }
-            outStream.Flush();
-            prog?.Report(1);
-        }
-
-        /// <summary>
         /// Reads all of the bytes out of a given stream.
         /// </summary>
         /// <param name="stream">The stream to read.</param>
@@ -47,16 +17,12 @@ namespace System.IO
         /// <returns>The bytes read out of the stream.</returns>
         public static byte[] ReadBytes(this Stream stream, IProgress prog = null)
         {
-            prog?.Report(0);
-            var streamProg = new ProgressStream(stream, prog);
-            var buf = new byte[stream.Length];
-            for (var i = 0; i < buf.Length; i += BLOCK_SIZE)
+            using (var progStream = new ProgressStream(stream, prog))
+            using (var mem = new MemoryStream())
             {
-                streamProg.Read(buf, i, BLOCK_SIZE);
-                prog?.Report(i, stream.Length);
+                progStream.CopyTo(mem);
+                return mem.GetBuffer();
             }
-            prog?.Report(1);
-            return buf;
         }
 
         /// <summary>
@@ -67,8 +33,8 @@ namespace System.IO
         /// <returns>The string read out of the stream.</returns>
         public static string ReadString(this Stream stream, IProgress prog = null)
         {
-            var streamProg = new ProgressStream(stream, prog);
-            using (var reader = new StreamReader(streamProg))
+            using (var progStream = new ProgressStream(stream, prog))
+            using (var reader = new StreamReader(progStream))
             {
                 return reader.ReadToEnd();
             }
@@ -83,7 +49,8 @@ namespace System.IO
         /// <returns>The value deserialized out of the stream.</returns>
         public static T ReadObject<T>(this Stream stream, IProgress prog = null)
         {
-            using (var reader = new StreamReader(new ProgressStream(stream, prog)))
+            using (var progStream = new ProgressStream(stream, prog))
+            using (var reader = new StreamReader(progStream))
             {
                 return JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
             }

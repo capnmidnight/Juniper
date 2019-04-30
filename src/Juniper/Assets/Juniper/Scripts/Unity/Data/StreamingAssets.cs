@@ -304,9 +304,9 @@ namespace Juniper.Unity.Data
                 {
                     DirectoryExt.CreateDirectory(dir);
                     var fileInfo = new FileInfo(cachePath);
-                    using (var file = new FileStream(cachePath, FileMode.Create))
+                    using (var file = new ProgressStream(new FileStream(cachePath, FileMode.Create), fileInfo.Length, prog))
                     {
-                        stream.Pipe(file, fileInfo.Length, prog);
+                        stream.CopyTo(file);
                     }
                     progResolve(cachePath);
                 });
