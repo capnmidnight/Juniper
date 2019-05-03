@@ -131,9 +131,24 @@ namespace Juniper.Unity.Audio
 
 #if UNITY_MODULES_AUDIO
 
-        public static AudioSource Spatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
+        public AudioSource Spatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
         {
-            return instance?.InternalSpatialize(audioSource, loop, group);
+            return InternalSpatialize(audioSource, loop, group);
+        }
+
+        public AudioSource Spatialize(AudioSource audioSource, bool loop)
+        {
+            return InternalSpatialize(audioSource, loop, defaultMixerGroup);
+        }
+
+        public AudioSource Spatialize(AudioSource audioSource, AudioMixerGroup group)
+        {
+            return InternalSpatialize(audioSource, false, group);
+        }
+
+        public AudioSource Spatialize(AudioSource audioSource)
+        {
+            return InternalSpatialize(audioSource, false, defaultMixerGroup);
         }
 #endif
 
@@ -524,9 +539,10 @@ namespace Juniper.Unity.Audio
 
         private AudioSource CreateNewAudioSource()
         {
-            var audioSource = new GameObject()
-                .AddComponent<AudioSource>()
-                .Spatialize(defaultMixerGroup);
+            var audioSource = Spatialize(
+                new GameObject().AddComponent<AudioSource>(),
+                false,
+                defaultMixerGroup);
             audioSources.Add(audioSource);
             audioSource.name = "AudioSource" + audioSources.Count.ToString("00");
             return audioSource;

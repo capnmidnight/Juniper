@@ -42,7 +42,10 @@ namespace Juniper.Unity.Imaging
                 Application.temporaryCachePath,
                 StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
                 "image/png",
-                stream => Image.DecodePNG(stream, img => image = img),
+                async stream =>
+                {
+                    image = await Image.DecodePNG(stream);
+                },
                 reject);
 
             yield return new WaitUntil(() => image != null);

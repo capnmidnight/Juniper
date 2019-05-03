@@ -45,8 +45,8 @@ namespace Juniper.Unity.Widgets
         /// </summary>
         public void Awake()
         {
-            audioSource = GetComponent<AudioSource>()
-                .Spatialize();
+            var interaction = ComponentExt.FindAny<InteractionAudio>();
+            audioSource = interaction.Spatialize(GetComponent<AudioSource>());
 
             if (audioSource.playOnAwake)
             {

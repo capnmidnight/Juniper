@@ -111,6 +111,8 @@ namespace Juniper.Unity
 
         private FadeTransition darth;
 
+        private InteractionAudio interaction;
+
         /// <summary>
         /// A flag that indicates the cursor was locked on the previous frame.
         /// </summary>
@@ -235,7 +237,7 @@ namespace Juniper.Unity
                 var audioSources = scene.FindAll<AudioSource>((a) => a.spatialize);
                 foreach (var audioSource in audioSources)
                 {
-                    audioSource.Spatialize();
+                    interaction.Spatialize(audioSource);
                 }
             }
 
@@ -282,6 +284,7 @@ namespace Juniper.Unity
             splash?.Activate();
 
             darth = ComponentExt.FindAny<FadeTransition>();
+            interaction = ComponentExt.FindAny<InteractionAudio>();
 
             foreach (var subScene in FindObjectsOfType<SubSceneController>())
             {

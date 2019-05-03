@@ -3,7 +3,7 @@
 using System;
 
 using Juniper.Progress;
-
+using Juniper.Unity.Audio;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
@@ -84,9 +84,13 @@ namespace Juniper.Unity.Video
             OverUnder
         }
 
+        private InteractionAudio interaction;
+
         public override void Awake()
         {
             base.Awake();
+
+            interaction = ComponentExt.FindAny<InteractionAudio>();
 
             if (skyboxMaterial == null)
             {
@@ -206,7 +210,7 @@ namespace Juniper.Unity.Video
                     }
                 }
 
-                aud.Spatialize();
+                interaction.Spatialize(aud);
                 aud.playOnAwake = false;
                 player.EnableAudioTrack(i, true);
                 player.SetTargetAudioSource(i, aud);
