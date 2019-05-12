@@ -4,6 +4,7 @@ using Juniper.Statistics;
 using Juniper.Unity.Display;
 
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 #if UNITY_POSTPROCESSING
@@ -19,6 +20,8 @@ namespace Juniper.Unity.Widgets
     [DisallowMultipleComponent]
     public class QualityDegrader : MonoBehaviour
     {
+        public Button[] qualityButtons;
+
         private Ground.Ground ground;
 
         /// <summary>
@@ -62,7 +65,7 @@ namespace Juniper.Unity.Widgets
                     PlayerPrefs.Save();
                 }
 
-                UpdateSlider(value);
+                UpdateButtons(value);
             }
         }
 
@@ -108,8 +111,6 @@ namespace Juniper.Unity.Widgets
             }
         }
 
-        public Slider qualitySlider;
-
 #if UNITY_POSTPROCESSING
         /// <summary>
         /// The post processing layer to disable as the last step of degrading quality.
@@ -132,18 +133,21 @@ namespace Juniper.Unity.Widgets
 
             display = ComponentExt.FindAny<DisplayManager>();
 
-            if (qualitySlider != null)
+            if (qualityButtons != null)
             {
-                qualitySlider.onValueChanged.AddListener(QualityValueChange);
+                for (int i = 0; i < qualityButtons.Length; ++i)
+                {
+                    qualityButtons[i].onClick.AddListener(QualityValueChange(i));
+                }
             }
 
             QualityLevel = PlayerPrefs.GetInt(GRAPHICS_QUALITY_KEY, QualityLevel);
-            UpdateSlider(QualityLevel);
+            UpdateButtons(QualityLevel);
         }
 
-        private void QualityValueChange(float i)
+        private UnityAction QualityValueChange(int i)
         {
-            QualityLevel = (int)i;
+            return () => QualityLevel = i;
         }
 
         /// <summary>
@@ -163,11 +167,14 @@ namespace Juniper.Unity.Widgets
             }
         }
 
-        private void UpdateSlider(int value)
+        private void UpdateButtons(int value)
         {
-            if (qualitySlider != null && !Mathf.Approximately(qualitySlider.value, value))
+            if (qualityButtons != null)
             {
-                qualitySlider.value = value;
+                for (int i = 0; i < qualityButtons.Length; ++i)
+                {
+                    qualityButtons[i].interactable = value != i;
+                }
             }
         }
     }
