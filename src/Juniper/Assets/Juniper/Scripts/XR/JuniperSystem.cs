@@ -3,6 +3,7 @@ using Juniper.Unity.Audio;
 using Juniper.Unity.Display;
 using Juniper.Unity.Input;
 using Juniper.Unity.Permissions;
+using Juniper.XR;
 
 using UnityEditor;
 

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-using Juniper.Data;
+using Juniper.Image;
 using Juniper.Unity.Data;
 
 using UnityEngine;
@@ -36,30 +36,30 @@ namespace Juniper.Unity.Imaging
         /// <param name="reject">   Reject.</param>
         public static IEnumerator StreamTexture(string imagePath, Action<Texture> resolve, Action<Exception> reject)
         {
-            RawImage? image = null;
-
-            StreamingAssets.GetStream(
+            var resultTask = StreamingAssets.GetStream(
                 Application.temporaryCachePath,
                 StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
-                "image/png",
-                async stream =>
+                "image/png");
+
+            yield return new WaitUntil(() => resultTask.IsCompleted || resultTask.IsFaulted || resultTask.IsCanceled);
+
+            using (resultTask.Result.Value)
+            {
+                var imageTask = Decoder.DecodePNG(resultTask.Result.Value);
+
+                yield return new WaitUntil(() => imageTask.IsCompleted || imageTask.IsFaulted || imageTask.IsCanceled);
+
+                try
                 {
-                    image = await Image.DecodePNG(stream);
-                },
-                reject);
-
-            yield return new WaitUntil(() => image != null);
-
-            try
-            {
-                var texture = new Texture2D(image.Value.width, image.Value.height, DecodedPNGFormat, false);
-                texture.LoadRawTextureData(image.Value.data);
-                texture.Apply(false, true);
-                resolve(texture);
-            }
-            catch (Exception exp)
-            {
-                reject(exp);
+                    var texture = new Texture2D(imageTask.Result.width, imageTask.Result.height, DecodedPNGFormat, false);
+                    texture.LoadRawTextureData(imageTask.Result.data);
+                    texture.Apply(false, true);
+                    resolve(texture);
+                }
+                catch (Exception exp)
+                {
+                    reject(exp);
+                }
             }
         }
 

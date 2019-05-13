@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-
+using Juniper.Input;
 using UnityEngine;
 
-using TweenFuncT = System.Func<float, float, Juniper.Direction, float>;
+using TweenFuncT = System.Func<float, float, Juniper.Input.Direction, float>;
 
 namespace Juniper.Unity.Animation
 {
@@ -22,7 +22,7 @@ namespace Juniper.Unity.Animation
         Quadratic,
 
         /// <summary>
-        /// Values increase in proportion to the cube of time. This function is specifically scalled
+        /// Values increase in proportion to the cube of time. This function is specifically scaled
         /// to provide the full shape of the cube function from -1 to 1.
         /// </summary>
         Cubic,
@@ -89,7 +89,7 @@ namespace Juniper.Unity.Animation
         }
 
         /// <summary>
-        /// Values increase in proportion to the cube of time. This function is specifically scalled
+        /// Values increase in proportion to the cube of time. This function is specifically scaled
         /// to provide the full shape of the cube function from -1 to 1.
         /// </summary>
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>

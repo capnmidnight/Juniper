@@ -1,6 +1,6 @@
 using System;
 
-using Juniper.World.Climate;
+using Juniper.Climate;
 using Juniper.World.GIS;
 
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace Juniper.Unity.World.Climate
     public class FakeWeatherReport : IWeatherReport
     {
         /// <summary>
-        /// timestamp for the period of time the report covers.
+        /// time-stamp for the period of time the report covers.
         /// </summary>
         public EditableDateTime reportTime;
 
@@ -66,7 +66,7 @@ namespace Juniper.Unity.World.Climate
         public float atmosphericPressure;
 
         /// <summary>
-        /// timestamp for the period of time the report covers.
+        /// time-stamp for the period of time the report covers.
         /// </summary>
         public DateTime ReportTime
         {

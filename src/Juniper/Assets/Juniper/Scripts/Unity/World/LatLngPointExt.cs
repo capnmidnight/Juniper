@@ -1,5 +1,6 @@
 using System;
 
+using Juniper.Units;
 using Juniper.World.GIS;
 
 using UnityEngine;
@@ -21,10 +22,10 @@ namespace Juniper.Unity.World.GIS
         [Obsolete("This should really only ever be used when trying to match visuals to Google Maps.")]
         public static Vector3 SphericalMercator(this LatLngPoint value)
         {
-            var lat = Units.Degrees.Radians(value.Latitude);
-            var lng = Units.Degrees.Radians(value.Longitude);
-            var x = Units.DatumWGS_84.earthRadius * lng;
-            var y = Units.DatumWGS_84.earthRadius * Math.Log(Math.Tan(Math.PI / 4 + lat / 2));
+            var lat = Degrees.Radians(value.Latitude);
+            var lng = Degrees.Radians(value.Longitude);
+            var x = DatumWGS_84.earthRadius * lng;
+            var y = DatumWGS_84.earthRadius * Math.Log(Math.Tan(Math.PI / 4 + lat / 2));
             return new Vector3(x, (float)y);
         }
 

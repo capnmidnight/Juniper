@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 
+using Juniper.XR;
+
 using Newtonsoft.Json;
 
 namespace Juniper.UnityEditor.ConfigurationManagement

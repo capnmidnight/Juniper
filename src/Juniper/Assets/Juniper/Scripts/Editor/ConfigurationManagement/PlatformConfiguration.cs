@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Juniper.Progress;
-using Juniper.Unity.Input.Speech;
-using Juniper.Unity.World;
-
+using Juniper.XR;
 using Newtonsoft.Json;
 
 using UnityEditor;

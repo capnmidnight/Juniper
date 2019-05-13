@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
-
+using Juniper.Climate;
 using Juniper.Progress;
+using Juniper.Units;
 using Juniper.World.Climate;
 using Juniper.World.GIS;
 

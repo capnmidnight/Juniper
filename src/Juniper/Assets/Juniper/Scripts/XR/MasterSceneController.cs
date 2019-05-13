@@ -15,7 +15,12 @@ using Juniper.Unity.Widgets;
 using Juniper.Progress;
 
 using UnityEngine.UI;
+
 using Juniper.Unity.Input.Speech;
+
+using UnityImage = UnityEngine.UI.Image;
+
+using Juniper.Units;
 
 #if UNITY_EDITOR
 
@@ -78,7 +83,7 @@ namespace Juniper.Unity
 
         public LoadingBar loadingBar;
 
-        public Image splash;
+        public UnityImage splash;
 
         public Transform optionsInterface;
 
@@ -350,7 +355,7 @@ namespace Juniper.Unity
 
             loadingBar = sys.Query<LoadingBar>("LoadingBar");
 
-            splash = sys.Query<Image>("Canvas/SplashImage");
+            splash = sys.Query<UnityImage>("Canvas/SplashImage");
 
 
             optionsInterface = sys.Find("Canvas/Options/OptionsPanel");

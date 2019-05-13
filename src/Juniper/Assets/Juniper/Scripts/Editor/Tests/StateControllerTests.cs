@@ -1,9 +1,10 @@
 #if UNITY_2018_1_OR_NEWER
+using System.Collections;
+
+using Juniper.Input;
 using Juniper.Unity;
 
 using NUnit.Framework;
-
-using System.Collections;
 
 using UnityEngine;
 using UnityEngine.TestTools;

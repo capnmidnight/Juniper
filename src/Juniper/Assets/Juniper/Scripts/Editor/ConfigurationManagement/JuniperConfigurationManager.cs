@@ -6,13 +6,13 @@ using System.Linq;
 using Juniper.Progress;
 using Juniper.Unity;
 using Juniper.Unity.Progress;
+using Juniper.XR;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using UnityEditor;
 using UnityEditor.Callbacks;
-using UnityEditor.SceneManagement;
 
 using UnityEngine;
 

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-using Juniper;
+using Juniper.Units;
 using Juniper.World.GIS;
 
 namespace UnityEngine
@@ -57,19 +57,34 @@ namespace UnityEngine
             return new Vector3(dx, dy, dz);
         }
 
-        public static string Label(this Vector2 v, UnitOfMeasure unit, int? sigFigs = null)
+        public static string Label(this Vector2 v, UnitOfMeasure unit, int sigFigs)
         {
             return $"({v.x.Label(unit, sigFigs)}, {v.y.Label(unit, sigFigs)})";
         }
 
-        public static string Label(this Vector3 v, UnitOfMeasure unit, int? sigFigs = null)
+        public static string Label(this Vector2 v, UnitOfMeasure unit)
+        {
+            return $"({v.x.Label(unit)}, {v.y.Label(unit)})";
+        }
+
+        public static string Label(this Vector3 v, UnitOfMeasure unit, int sigFigs)
         {
             return $"({v.x.Label(unit, sigFigs)}, {v.y.Label(unit, sigFigs)}, {v.z.Label(unit, sigFigs)})";
         }
 
-        public static string Label(this Vector4 v, UnitOfMeasure unit, int? sigFigs = null)
+        public static string Label(this Vector3 v, UnitOfMeasure unit)
+        {
+            return $"({v.x.Label(unit)}, {v.y.Label(unit)}, {v.z.Label(unit)})";
+        }
+
+        public static string Label(this Vector4 v, UnitOfMeasure unit, int sigFigs)
         {
             return $"({v.x.Label(unit, sigFigs)}, {v.y.Label(unit, sigFigs)}, {v.z.Label(unit, sigFigs)}, {v.w.Label(unit, sigFigs)})";
+        }
+
+        public static string Label(this Vector4 v, UnitOfMeasure unit)
+        {
+            return $"({v.x.Label(unit)}, {v.y.Label(unit)}, {v.z.Label(unit)}, {v.w.Label(unit)})";
         }
 
         public static Vector2 Round2Square(this Vector2 point)

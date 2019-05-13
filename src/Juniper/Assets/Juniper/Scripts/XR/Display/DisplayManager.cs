@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using Juniper.Unity.Input;
 using Juniper.Unity.Input.Pointers;
 using Juniper.Unity.Widgets;
+using Juniper.XR;
 
 using UnityEngine;
 using UnityEngine.Events;

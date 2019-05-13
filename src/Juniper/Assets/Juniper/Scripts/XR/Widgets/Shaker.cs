@@ -1,7 +1,7 @@
 using System;
 
-using Juniper.Statistics;
-
+using Juniper.Collections.Statistics;
+using Juniper.Units;
 using UnityEngine;
 using UnityEngine.Events;
 

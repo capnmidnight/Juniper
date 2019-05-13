@@ -1,3 +1,4 @@
+using Juniper.Units;
 using UnityEngine;
 
 namespace Juniper.Unity.Widgets
@@ -70,7 +71,7 @@ namespace Juniper.Unity.Widgets
         }
 
         /// <summary>
-        /// Achieve the target following by reparenting this gameObject to the target object. The
+        /// Achieve the target following by re-parenting this gameObject to the target object. The
         /// FollowObject component will be removed in the process.
         /// </summary>
         /// <param name="target">Target.</param>

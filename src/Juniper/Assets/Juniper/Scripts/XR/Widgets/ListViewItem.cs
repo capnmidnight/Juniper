@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+using UnityImage = UnityEngine.UI.Image;
+
 namespace Juniper.Unity.Widgets
 {
     public class ListViewItem : MonoBehaviour
@@ -77,7 +79,7 @@ namespace Juniper.Unity.Widgets
 
         public void Awake()
         {
-            img = this.Ensure<Image>();
+            img = this.Ensure<UnityImage>();
             img.rectTransform.anchorMin = Vector2.up;
             img.rectTransform.anchorMax = Vector2.up;
             img.rectTransform.pivot = Vector2.up;
@@ -109,7 +111,7 @@ namespace Juniper.Unity.Widgets
             btn.onClick.AddListener(action);
         }
 
-        private Image img;
+        private UnityImage img;
         private Button btn;
         private Text text;
     }

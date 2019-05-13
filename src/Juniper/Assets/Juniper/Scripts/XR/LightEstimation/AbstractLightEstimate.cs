@@ -1,5 +1,5 @@
 using System;
-
+using Juniper.Units;
 using UnityEngine;
 
 namespace Juniper.Unity.World.LightEstimation

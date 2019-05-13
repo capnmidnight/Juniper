@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using Juniper.HTTP;
 
 namespace Juniper.Data
 {
@@ -73,7 +75,7 @@ namespace Juniper.Data
         }
 
         /// <summary>
-        /// Creates a reference to an HTTP endpoint service, with each of the relavent address parts
+        /// Creates a reference to an HTTP endpoint service, with each of the relevant address parts
         /// broken out.
         /// </summary>
         /// <param name="scheme"></param>
@@ -141,14 +143,15 @@ namespace Juniper.Data
         /// <typeparam name="ResponseT"></typeparam>
         /// <param name="path"></param>
         /// <param name="parameters"></param>
-        protected Task<HTTP.Result<ResponseT>> GetObject<ResponseT>(string path, params string[] parameters)
+        protected async Task<Result<ResponseT>> GetObject<ResponseT>(string path, params string[] parameters)
         {
             var uri = new UriBuilder(scheme, address, port, $"{app}/{path}")
             {
                 Query = string.Join("&", parameters)
             }.ToString();
 
-            return HTTP.GetObject<ResponseT>(uri, authPair?.Key, authPair?.Value);
+            var stream = await Requester.GetStream(uri, authPair?.Key, authPair?.Value, "application/json");
+            return new Result<ResponseT>(stream.Status, stream.Value.ReadObject<ResponseT>());
         }
 
         /// <summary>
@@ -157,10 +160,11 @@ namespace Juniper.Data
         /// <typeparam name="ResponseT"></typeparam>
         /// <param name="name"></param>
         /// <param name="requestBody"></param>
-        protected Task<HTTP.Result<ResponseT>> PostObject<ResponseT, BodyT>(string name, BodyT requestBody)
+        protected async Task<Result<ResponseT>> PostObject<ResponseT, BodyT>(string name, BodyT requestBody)
         {
             var uri = new UriBuilder(scheme, address, port, $"{app}/{name}").ToString();
-            return HTTP.PostObject<ResponseT, BodyT>(uri, authPair?.Key, authPair?.Value, requestBody);
+            var stream = await Requester.PostStream(uri, authPair?.Key, authPair?.Value, requestBody.WriteObject(), "application/json");
+            return new Result<ResponseT>(stream.Status, stream.Value.ReadObject<ResponseT>());
         }
 
         /// <summary>

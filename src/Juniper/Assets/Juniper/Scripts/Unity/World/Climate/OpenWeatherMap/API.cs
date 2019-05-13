@@ -1,8 +1,13 @@
 using System;
+using System.IO;
 using System.Runtime.Serialization;
-using Juniper.Data;
+
+using Juniper.Climate;
+using Juniper.HTTP;
 using Juniper.Progress;
+using Juniper.Units;
 using Juniper.World.GIS;
+
 using Newtonsoft.Json;
 
 namespace Juniper.World.Climate.OpenWeatherMap
@@ -38,7 +43,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         private readonly string apiKey;
 
         /// <summary>
-        /// Get the last weather report that was retreived for the server.
+        /// Get the last weather report that was retrieved for the server.
         /// </summary>
         public IWeatherReport LastReport
         {
@@ -54,7 +59,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         }
 
         /// <summary>
-        /// The radius, in meters, to allow the user to travel before we request a new reportt
+        /// The radius, in meters, to allow the user to travel before we request a new report
         /// outside of the normal <see cref="ReportTTLMinutes"/> time frame.
         /// </summary>
         public float ReportRadiusMeters
@@ -63,7 +68,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         }
 
         /// <summary>
-        /// Initialize a new API requester object with the given authenticationi API kye.
+        /// Initialize a new API requester object with the given authentication API key.
         /// </summary>
         /// <param name="apiKey">The OpenWeatherMap API key to use for authentication.</param>
         /// <param name="lastReportJSON">The value of the last report we received, if there was any.</param>
@@ -79,7 +84,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
 
         /// <summary>
         /// Returns true when <see cref="LastReport"/> is null, LastReport indicates and error
-        /// occured, the time since the last report exceeds the <see cref="ReportTTLMinutes"/>, or
+        /// occurred, the time since the last report exceeds the <see cref="ReportTTLMinutes"/>, or
         /// the distance from <paramref name="location"/> to the last report's location is more than
         /// <see cref="ReportRadiusMeters"/>.
         /// </summary>
@@ -167,9 +172,9 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 var url = $"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Latitude}&lon={location.Longitude}&units={units}&appid={apiKey}";
                 try
                 {
-                    var results = await HTTP.GetObject<WeatherReport>(url);
+                    var results = await Requester.GetStream(url, "application/json", prog);
                     var httpStatus = results.Status;
-                    var report = results.Value;
+                    var report = results.Value.ReadObject<WeatherReport>();
                     if (report == null)
                     {
                         var errorObj = new Error("GetNewReport", "No response: " + url);

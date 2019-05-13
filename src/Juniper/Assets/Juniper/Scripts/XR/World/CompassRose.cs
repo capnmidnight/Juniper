@@ -1,6 +1,7 @@
 using System;
 
-using Juniper.Statistics;
+using Juniper.Collections.Statistics;
+using Juniper.Units;
 using Juniper.Unity.Display;
 
 using UnityEngine;

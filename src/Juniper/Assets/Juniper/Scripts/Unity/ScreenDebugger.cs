@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Juniper;
-
+using Juniper.Units;
 using UnityEngine;
 
 using TextElementType = UnityEngine.UI.Text;

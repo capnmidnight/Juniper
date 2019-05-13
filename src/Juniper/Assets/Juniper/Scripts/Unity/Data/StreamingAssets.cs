@@ -1,10 +1,11 @@
-using Juniper.Data;
-using Juniper.Progress;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Juniper.HTTP;
+using Juniper.Progress;
 
 #if UNITY_ANDROID
 
@@ -57,50 +58,28 @@ namespace Juniper.Unity.Data
         /// Open a file as a stream of bytes and save it to a cached location. On subsequent loads,
         /// open from the cached location.
         /// </summary>
-        /// <param name="path">   The full path to the file in question</param>
-        /// <param name="ttl">    The maximum age after which to consider a cached file invalidated.</param>
-        /// <param name="mime">   
-        /// The mime type of the file, in case we have to request the file over the 'net.
-        /// </param>
-        /// <param name="resolve">A callback to receive the file stream asynchronously.</param>
-        /// <param name="reject"> A callback for when there is an error.</param>
+        /// <param name="path">The full path to the file in question</param>
+        /// <param name="ttl">The maximum age after which to consider a cached file invalidated.</param>
+        /// <param name="mime">The mime type of the file, in case we have to request the file over the 'net.</param>
         /// <returns>Progress tracking object</returns>
-        public static async void GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
+        public static async Task<StreamResult> GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog = null)
         {
             prog?.Report(0);
-
-            Action<string> progResolve = (string resolvePath) =>
-            {
-                prog?.Report(1);
-                resolve(resolvePath);
-            };
-
             try
             {
                 if (NetworkPathPattern.IsMatch(path))
                 {
                     var uri = new Uri(path);
-                    GetOrCacheFile(
-                        cacheDirectory,
-                        uri.PathAndQuery,
-                        ttl,
-                        async streamResolve =>
-                        {
-                            try
-                            {
-                                using (var result = await HTTP.GetStream(path, mime, prog))
-                                {
-                                    var reader = new StreamReader(result.Value);
-                                    resolve(reader.ReadToEnd());
-                                }
-                            }
-                            catch(Exception exp)
-                            {
-                                reject(exp);
-                            }
-                        },
-                        progResolve,
-                        prog);
+                    var cachePath = Uri.EscapeUriString(Path.Combine(cacheDirectory, uri.PathAndQuery));
+                    if (FileIsGood(cachePath, ttl))
+                    {
+                        return new StreamResult(HttpStatusCode.OK, mime, File.OpenRead(cachePath));
+                    }
+                    else
+                    {
+                        var result = await Requester.GetStream(uri.ToString(), mime, prog);
+                        return new StreamResult(result.Status, result.MIMEType, new CachingStream(result.Value, cachePath));
+                    }
                 }
 #if UNITY_ANDROID
                 else if (AndroidJarPattern.IsMatch(path))
@@ -108,74 +87,46 @@ namespace Juniper.Unity.Data
                     var match = AndroidJarPattern.Match(path);
                     var apk = match.Groups[1].Value;
                     path = match.Groups[2].Value;
-                    GetOrCacheFile(
-                        cacheDirectory,
-                        path,
-                        ttl,
-                        streamResolve => Zip.GetFile(apk, path, streamResolve, reject, prog),
-                        progResolve,
-                        prog);
+                    var cachePath = Uri.EscapeUriString(Path.Combine(cacheDirectory, path));
+                    if (FileIsGood(cachePath, ttl))
+                    {
+                        return new StreamResult(HttpStatusCode.OK, mime, File.OpenRead(cachePath));
+                    }
+                    else
+                    {
+                        var stream = Zip.Decompressor.GetFile(apk, path, prog);
+                        return new StreamResult(HttpStatusCode.OK, mime, new CachingStream(stream, cachePath));                        
+                    }
                 }
 #endif
                 else if (File.Exists(path))
                 {
-                    progResolve(path);
+                    return new StreamResult(HttpStatusCode.OK, mime, File.OpenRead(path));
                 }
                 else
                 {
                     throw new FileNotFoundException("Could not find file " + path, path);
                 }
             }
-            catch (Exception exp)
+            finally
             {
-                reject(exp);
+                prog?.Report(1);
             }
         }
 
-        public static void GetCachedFile(string cacheDirectory, string path, TimeSpan ttl, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
+        public static Task<StreamResult> GetStream(string cacheDirectory, string path, TimeSpan ttl, IProgress prog = null)
         {
-            GetCachedFile(cacheDirectory, path, ttl, "application/octet-stream", resolve, reject, prog);
+            return GetStream(cacheDirectory, path, ttl, "application/octet-stream", prog);
         }
 
-        public static void GetCachedFile(string cacheDirectory, string path, string mime, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
+        public static Task<StreamResult> GetStream(string cacheDirectory, string path, string mime, IProgress prog = null)
         {
-            GetCachedFile(cacheDirectory, path, DEFAULT_TTL, mime, resolve, reject, prog);
+            return GetStream(cacheDirectory, path, DEFAULT_TTL, mime, prog);
         }
 
-        public static void GetCachedFile(string cacheDirectory, string path, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
+        public static Task<StreamResult> GetStream(string cacheDirectory, string path, IProgress prog = null)
         {
-            GetCachedFile(cacheDirectory, path, DEFAULT_TTL, "application/octet-stream", resolve, reject, prog);
-        }
-
-        /// <summary>
-        /// Open a file as an stream of bytes.
-        /// </summary>
-        /// <param name="path">   The full path to the file in question</param>
-        /// <param name="ttl">    The maximum age after which to consider a cached file invalidated.</param>
-        /// <param name="mime">   
-        /// The mime type of the file, in case we have to request the file over the 'net.
-        /// </param>
-        /// <param name="resolve">A callback to receive the file stream asynchronously.</param>
-        /// <param name="reject"> A callback for when there is an error.</param>
-        /// <returns>Progress tracking object</returns>
-        public static void GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<Stream> resolve, Action<Exception> reject, IProgress prog = null)
-        {
-            GetCachedFile(cacheDirectory, path, ttl, mime, cachedPath => resolve(File.OpenRead(cachedPath)), reject, prog);
-        }
-
-        public static void GetStream(string cacheDirectory, string path, TimeSpan ttl, Action<Stream> resolve, Action<Exception> reject, IProgress prog = null)
-        {
-            GetStream(cacheDirectory, path, ttl, null, resolve, reject, prog);
-        }
-
-        public static void GetStream(string cacheDirectory, string path, string mime, Action<Stream> resolve, Action<Exception> reject, IProgress prog = null)
-        {
-            GetStream(cacheDirectory, path, DEFAULT_TTL, mime, resolve, reject, prog);
-        }
-
-        public static void GetStream(string cacheDirectory, string path, Action<Stream> resolve, Action<Exception> reject, IProgress prog = null)
-        {
-            GetStream(cacheDirectory, path, DEFAULT_TTL, null, resolve, reject, prog);
+            return GetStream(cacheDirectory, path, DEFAULT_TTL, "application/octet-stream", prog);
         }
 
         /// <summary>
@@ -189,24 +140,25 @@ namespace Juniper.Unity.Data
         /// <param name="resolve">A callback to receive the file asynchronously.</param>
         /// <param name="reject"> A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, Action<byte[]> resolve, Action<Exception> reject, IProgress prog = null)
+        public static async Task<Result<byte[]>> GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog = null)
         {
-            GetStream(cacheDirectory, path, ttl, mime, stream => resolve(stream.ReadBytes()), reject, prog);
+            var result = await GetStream(cacheDirectory, path, ttl, mime, prog);
+            return new Result<byte[]>(result.Status, result.MIMEType, result.Value.ReadBytes());
         }
 
-        public static void GetBytes(string cacheDirectory, string path, TimeSpan ttl, Action<byte[]> resolve, Action<Exception> reject, IProgress prog = null)
+        public static Task<Result<byte[]>> GetBytes(string cacheDirectory, string path, TimeSpan ttl, IProgress prog = null)
         {
-            GetBytes(cacheDirectory, path, ttl, "application/octet-stream", resolve, reject, prog);
+            return GetBytes(cacheDirectory, path, ttl, "application/octet-stream", prog);
         }
 
-        public static void GetBytes(string cacheDirectory, string path, string mime, Action<byte[]> resolve, Action<Exception> reject, IProgress prog = null)
+        public static Task<Result<byte[]>> GetBytes(string cacheDirectory, string path, string mime, IProgress prog = null)
         {
-            GetBytes(cacheDirectory, path, DEFAULT_TTL, mime, resolve, reject, prog);
+            return GetBytes(cacheDirectory, path, DEFAULT_TTL, mime, prog);
         }
 
-        public static void GetBytes(string cacheDirectory, string path, Action<byte[]> resolve, Action<Exception> reject, IProgress prog = null)
+        public static Task<Result<byte[]>> GetBytes(string cacheDirectory, string path, IProgress prog = null)
         {
-            GetBytes(cacheDirectory, path, DEFAULT_TTL, "application/octet-stream", resolve, reject, prog);
+            return GetBytes(cacheDirectory, path, DEFAULT_TTL, "application/octet-stream", prog);
         }
 
         /// <summary>
@@ -217,17 +169,16 @@ namespace Juniper.Unity.Data
         /// <param name="mime">   
         /// The mime type of the file, in case we have to request the file over the 'net.
         /// </param>
-        /// <param name="resolve">A callback to receive the file asynchronously.</param>
-        /// <param name="reject"> A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetText(string cacheDirectory, string path, TimeSpan ttl, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
+        public static async Task<Result<string>> GetText(string cacheDirectory, string path, TimeSpan ttl, IProgress prog = null)
         {
-            GetStream(cacheDirectory, path, ttl, "text/plain", stream => resolve(stream.ReadString()), reject, prog);
+            var result = await GetStream(cacheDirectory, path, ttl, "text/plain", prog);
+            return new Result<string>(result.Status, result.MIMEType, result.Value.ReadString());
         }
 
-        public static void GetText(string cacheDirectory, string path, Action<string> resolve, Action<Exception> reject, IProgress prog = null)
+        public static Task<Result<string>> GetText(string cacheDirectory, string path, IProgress prog = null)
         {
-            GetText(cacheDirectory, path, DEFAULT_TTL, resolve, reject, prog);
+            return GetText(cacheDirectory, path, DEFAULT_TTL, prog);
         }
 
         /// <summary>
@@ -239,17 +190,16 @@ namespace Juniper.Unity.Data
         /// <param name="mime">   
         /// The mime type of the file, in case we have to request the file over the 'net.
         /// </param>
-        /// <param name="resolve">A callback to receive the file asynchronously.</param>
-        /// <param name="reject"> A callback for when there is an error.</param>
         /// <returns>Progress tracking object</returns>
-        public static void GetJSONObject<T>(string cacheDirectory, string path, TimeSpan ttl, Action<T> resolve, Action<Exception> reject, IProgress prog = null)
+        public static async Task<Result<T>> GetJSONObject<T>(string cacheDirectory, string path, TimeSpan ttl, IProgress prog = null)
         {
-            GetStream(cacheDirectory, path, ttl, "application/json", stream => resolve(stream.ReadObject<T>()), reject, prog);
+            var result = await GetStream(cacheDirectory, path, ttl, "application/json", prog);
+            return new Result<T>(result.Status, result.MIMEType, result.Value.ReadObject<T>());
         }
 
-        public static void GetJSONObject<T>(string cacheDirectory, string path, Action<T> resolve, Action<Exception> reject, IProgress prog = null)
+        public static Task<Result<T>> GetJSONObject<T>(string cacheDirectory, string path, IProgress prog = null)
         {
-            GetJSONObject(cacheDirectory, path, DEFAULT_TTL, resolve, reject, prog);
+            return GetJSONObject<T>(cacheDirectory, path, DEFAULT_TTL, prog);
         }
 
         /// <summary>
@@ -279,38 +229,6 @@ namespace Juniper.Unity.Data
         private static bool FileIsGood(string path, TimeSpan ttl)
         {
             return File.Exists(path) && File.GetCreationTime(path) - DateTime.Now <= ttl;
-        }
-
-        private static void GetOrCacheFile(string cacheDirectory, string fileName, TimeSpan ttl, Action<Action<Stream>> getStreamResolver, Action<string> resolve, IProgress prog = null)
-        {
-            prog?.Report(0);
-
-            Action<string> progResolve = (string resolvePath) =>
-            {
-                prog?.Report(1);
-                resolve(resolvePath);
-            };
-
-            var cachePath = Uri.EscapeUriString(Path.Combine(cacheDirectory, fileName));
-
-            if (FileIsGood(cachePath, ttl))
-            {
-                progResolve(cachePath);
-            }
-            else
-            {
-                var dir = Path.GetDirectoryName(cachePath);
-                getStreamResolver(stream =>
-                {
-                    DirectoryExt.CreateDirectory(dir);
-                    var fileInfo = new FileInfo(cachePath);
-                    using (var file = new ProgressStream(new FileStream(cachePath, FileMode.Create), fileInfo.Length, prog))
-                    {
-                        stream.CopyTo(file);
-                    }
-                    progResolve(cachePath);
-                });
-            }
         }
     }
 }

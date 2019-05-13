@@ -4,12 +4,10 @@ using System;
 using System.Collections;
 using System.IO;
 
-using Juniper.Data;
+using Juniper.Audio;
 using Juniper.Progress;
 using Juniper.Unity.Data;
-using NAudio.Vorbis;
-using NAudio.Wave;
-using NLayer.NAudioSupport;
+
 using UnityEngine;
 
 namespace Juniper.Unity.Audio
@@ -27,43 +25,42 @@ namespace Juniper.Unity.Audio
             if (ext == ".mp3")
             {
                 mime = "audio/mpeg";
-                decoder = Juniper.Data.Audio.DecodeMP3;
+                decoder = Decoder.DecodeMP3;
             }
             else if (ext == ".wav")
             {
                 mime = "audio/wav";
-                decoder = Juniper.Data.Audio.DecodeWAV;
+                decoder = Decoder.DecodeWAV;
             }
             else if (ext == ".ogg")
             {
                 mime = "audio/ogg";
-                decoder = Juniper.Data.Audio.DecodeVorbis;
+                decoder = Decoder.DecodeVorbis;
             }
             else
             {
                 throw new InvalidOperationException($"{ext} is not a recognized audio format ({LoadPath}).");
             }
 
-            RawAudio? audio = null;
-            StreamingAssets.GetStream(
+            var audioTask = StreamingAssets.GetStream(
                 Application.temporaryCachePath,
                 LoadPath,
                 mime,
-                stream => audio = decoder(stream),
-                reject,
                 prog);
 
-            yield return new WaitUntil(() => audio != null);
+            yield return new WaitUntil(() => audioTask.IsCanceled || audioTask.IsCompleted || audioTask.IsFaulted);
+
+            var audio = decoder(audioTask.Result.Value);
 
             try
             {
                 var clip = AudioClip.Create(
                     info.Name,
-                    (int)audio.Value.samples,
-                    audio.Value.channels,
-                    audio.Value.frequency,
+                    (int)audio.samples,
+                    audio.channels,
+                    audio.frequency,
                     true,
-                    data => Juniper.Data.Audio.FillBuffer(audio.Value.stream, data));
+                    data => Decoder.FillBuffer(audio.stream, data));
 
                 clip.LoadAudioData();
                 prog?.Report(1);

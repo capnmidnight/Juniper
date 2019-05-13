@@ -5,7 +5,7 @@ using System.Linq;
 
 using Juniper.Data;
 using Juniper.Progress;
-
+using Juniper.Zip;
 using Newtonsoft.Json;
 
 using UnityEditor;
@@ -33,7 +33,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
             if (File.Exists(InputZipFileName))
             {
-                Zip.DecompressDirectory(InputZipFileName, "Assets", prog);
+                Decompressor.DecompressDirectory(InputZipFileName, "Assets", prog);
             }
 
             prog?.Report(1);
@@ -118,8 +118,8 @@ namespace Juniper.UnityEditor.ConfigurationManagement
 
             var progs = prog.Split(4);
 
-            var dirs = Zip.RecurseDirectories(InputZipFileName, progs[2]);
-            var files = Zip.RecurseFiles(InputZipFileName, progs[0]);
+            var dirs = Decompressor.RecurseDirectories(InputZipFileName, progs[2]);
+            var files = Decompressor.RecurseFiles(InputZipFileName, progs[0]);
             files = files
                 .Union(files.Select(file => file + ".meta"))
                 .Union(dirs.Select(dir => dir + ".meta"))

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 
 using Juniper.Progress;
+using Juniper.XR;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

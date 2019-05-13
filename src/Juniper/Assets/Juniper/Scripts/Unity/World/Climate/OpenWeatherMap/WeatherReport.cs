@@ -1,13 +1,14 @@
-using Juniper.World.GIS;
-
 using System;
 using System.Linq;
 using System.Runtime.Serialization;
 
+using Juniper.Climate;
+using Juniper.World.GIS;
+
 namespace Juniper.World.Climate.OpenWeatherMap
 {
     /// <summary>
-    /// respone from the OpenWeatherMap API. <seealso cref="http://openweathermap.org/current#current_JSON"/>.
+    /// response from the OpenWeatherMap API. <seealso cref="http://openweathermap.org/current#current_JSON"/>.
     /// </summary>
     [Serializable]
     public class WeatherReport : IWeatherReport, ISerializable
@@ -28,7 +29,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         public string name;
 
         /// <summary>
-        /// timestamp for the period of time the report covers.
+        /// time-stamp for the period of time the report covers.
         /// </summary>
         public long dt;
 
@@ -48,7 +49,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         public OWMWeather[] weather;
 
         /// <summary>
-        /// The main metrics portion of the weather forcast.
+        /// The main metrics portion of the weather forecast.
         /// </summary>
         public OWMMain main;
 
@@ -144,12 +145,12 @@ namespace Juniper.World.Climate.OpenWeatherMap
         }
 
         /// <summary>
-        /// timestamp for the period of time the report covers.
+        /// time-stamp for the period of time the report covers.
         /// </summary>
         private DateTime? repTime;
 
         /// <summary>
-        /// timestamp for the period of time the report covers.
+        /// time-stamp for the period of time the report covers.
         /// </summary>
         public DateTime ReportTime
         {
@@ -382,12 +383,12 @@ namespace Juniper.World.Climate.OpenWeatherMap
             public string main;
 
             /// <summary>
-            /// An extended description of the main weather forcast.
+            /// An extended description of the main weather forecast.
             /// </summary>
             public string description;
 
             /// <summary>
-            /// name of the icon to use to go along with the weather forcast.
+            /// name of the icon to use to go along with the weather forecast.
             /// </summary>
             public string icon;
 
@@ -397,7 +398,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             public int id;
 
             /// <summary>
-            /// Deserializes a Wather.
+            /// Deserializes a Weather.
             /// </summary>
             /// <param name="info"></param>
             /// <param name="context"></param>
@@ -825,7 +826,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         }
 
         /// <summary>
-        /// The main metrics portion of the weather forcast.
+        /// The main metrics portion of the weather forecast.
         /// </summary>
         [Serializable]
         public class OWMMain : ISerializable
@@ -851,7 +852,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             public float temp_min;
 
             /// <summary>
-            /// The predicted high for the day (which may not agree with the current temperatue).
+            /// The predicted high for the day (which may not agree with the current temperature).
             /// </summary>
             public float temp_max;
 
@@ -1047,12 +1048,12 @@ namespace Juniper.World.Climate.OpenWeatherMap
             public string country;
 
             /// <summary>
-            /// A Unix timestamp for when sunrise should occur for the day.
+            /// A Unix time-stamp for when sunrise should occur for the day.
             /// </summary>
             public long sunrise;
 
             /// <summary>
-            /// A Unix timestamp for when sunset should occur for the day.
+            /// A Unix time-stamp for when sunset should occur for the day.
             /// </summary>
             public long sunset;
 
@@ -1086,7 +1087,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             private DateTime? riseTime;
 
             /// <summary>
-            /// Converts the Unix timestamp value of <see cref="sunrise"/> to a DateTime value stored
+            /// Converts the Unix time-stamp value of <see cref="sunrise"/> to a DateTime value stored
             /// in <see cref="riseTime"/>, and returns that value.
             /// </summary>
             /// <value>The sunrise time.</value>
@@ -1104,7 +1105,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             private DateTime? setTime;
 
             /// <summary>
-            /// Converts the Unix timestamp value of <see cref="sunset"/> to a DateTime value stored
+            /// Converts the Unix time-stamp value of <see cref="sunset"/> to a DateTime value stored
             /// in <see cref="setTime"/>, and returns that value.
             /// </summary>
             /// <value>The sunset time.</value>

@@ -1,5 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
+
+using UnityImage = UnityEngine.UI.Image;
 
 namespace Juniper.Unity.Widgets
 {
@@ -13,7 +14,7 @@ namespace Juniper.Unity.Widgets
         {
             if(bar == null)
             {
-                bar = GetComponentInChildren<Image>();
+                bar = GetComponentInChildren<UnityImage>();
             }
 
             if(rect == null)
@@ -36,7 +37,7 @@ namespace Juniper.Unity.Widgets
             }
         }
 
-        private Image bar;
+        private UnityImage bar;
         private RectTransform rect;
     }
 }
