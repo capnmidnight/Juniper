@@ -15830,6 +15830,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1252858825}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1253220005 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 339888098, guid: e3e687949debdeb42af2b59fc6bacd9e,
+    type: 3}
+  m_PrefabInstance: {fileID: 798561023}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1258698849
 GameObject:
   m_ObjectHideFlags: 0
@@ -28273,7 +28279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultMixerGroup: {fileID: 24300002, guid: 8d56a40866983f34ba26296f7f30847d, type: 2}
-  volumeSlider: {fileID: 0}
+  volumeSlider: {fileID: 1253220005}
   soundOnClosed: {fileID: 11400000, guid: 01fbf829975312141a055a0c3e95de59, type: 2}
   soundOnDisabled: {fileID: 11400000, guid: 76d7e382511a26e4bb0971f04c1a26b3, type: 2}
   soundOnDragged: {fileID: 11400000, guid: 2fed140456205434288c10415f0758f2, type: 2}

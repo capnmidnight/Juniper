@@ -315,14 +315,6 @@ namespace Juniper.Unity.Display
         {
         }
 
-        public virtual void Start()
-        {
-#if !UNITY_MODULES_XR
-            eventCam.aspect = MainCamera.aspect;
-            eventCam.fieldOfView = MainCamera.fieldOfView;
-#endif
-        }
-
 #if UNITY_MODULES_XR
 
         private static bool ChangeXRDevice(DisplayTypes displayType)

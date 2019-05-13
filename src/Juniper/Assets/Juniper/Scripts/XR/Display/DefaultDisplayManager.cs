@@ -19,10 +19,8 @@ namespace Juniper.Unity.Display
             }
         }
 
-        public override void Start()
+        public void Start()
         {
-            base.Start();
-
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
                 var input = ComponentExt.FindAny<UnifiedInputModule>();

@@ -271,8 +271,6 @@ namespace Juniper.Unity
         /// </summary>
         public virtual void Awake()
         {
-            JuniperPlatform.Install(false);
-
             // Unity hacks the sense of null, creating a value reference that compares to null, but
             // doesn't work with the null coalescing operator. So we make it actually, really null here.
             if (splash == null)

@@ -292,8 +292,11 @@ namespace Juniper.Unity.Audio
 
                 audioSources = new List<AudioSource>(10);
 
-                volume = volumeSlider?.GetSlider();
-                volume.ValueChange += Volume_ValueChange;
+                if (volumeSlider != null)
+                {
+                    volume = volumeSlider.GetSlider();
+                    volume.ValueChange += Volume_ValueChange;
+                }
 #endif
             }
         }
