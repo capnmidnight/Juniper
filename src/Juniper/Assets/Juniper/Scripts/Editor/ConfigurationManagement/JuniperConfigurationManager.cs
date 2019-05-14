@@ -667,7 +667,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 LastConfiguration.UninstallRawPackages(progs[0]);
 
                 var manifest = JObject.Parse(File.ReadAllText(MANIFEST_FILE));
-                var deps = manifest["dependencies"] as JObject;
+                var deps = (JObject)manifest["dependencies"];
                 if (deps == null)
                 {
                     deps = new JObject();

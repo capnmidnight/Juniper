@@ -9,7 +9,7 @@ namespace Juniper.Unity.Anchoring
 {
     /// <summary>
     /// This component searches for the ground above or below the gameObject it's attached to. When a
-    /// mesh tagged as the "Ground" is found, with horizontal surfaces, the gameObject is moved to
+    /// mesh tagged as the "Terrain" is found, with horizontal surfaces, the gameObject is moved to
     /// the ground and kept there. Use this when you have objects that should rest of the ground, but
     /// you're not sure where the ground will be.
     /// </summary>
@@ -81,7 +81,7 @@ namespace Juniper.Unity.Anchoring
             stage = ComponentExt.FindAny<Avatar>();
             body = GetComponentInChildren<Rigidbody>();
             dragger = GetComponent<Draggable>();
-            GroundMask = LayerMask.GetMask("Ground");
+            GroundMask = LayerMask.GetMask("Terrain");
             lastTime = Time.unscaledTime;
             Freeze();
         }

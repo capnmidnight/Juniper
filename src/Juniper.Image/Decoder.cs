@@ -10,9 +10,9 @@ namespace Juniper.Image
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">     Png bytes.</param>
-        public static async Task<RawImage> DecodePNG(Stream imageStream)
+        public static Task<RawImage> DecodePNG(Stream imageStream)
         {
-            return await Task.Run(() =>
+            return Task.Run(() =>
             {
                 var png = new Hjg.Pngcs.PngReader(imageStream);
                 png.SetUnpackedMode(true);

@@ -177,7 +177,7 @@ namespace Juniper.Unity.Ground
         {
             if (reset)
             {
-                gameObject.layer = LayerMask.NameToLayer("Ground");
+                gameObject.layer = LayerMask.NameToLayer("Terrain");
             }
         }
 

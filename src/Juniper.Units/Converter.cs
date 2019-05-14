@@ -1106,6 +1106,22 @@ namespace Juniper.Units
         }
 
         /// <summary>
+        /// Convert a source value of a given unit of measure, converted directly to a different unit
+        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <param name="toUnit"></param>
+        /// <param name="sigfigs"></param>
+        /// <returns></returns>
+        public static string Label(this float value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
+        {
+            return value
+                .Convert(fromUnit, toUnit)
+                .Label(toUnit, sigfigs);
+        }
+
+        /// <summary>
         /// Convert a source value of a given unit of measure, converted to a given system of
         /// measure, with its abbreviation, to a certain number of significant digits, to a string.
         /// </summary>
@@ -1130,22 +1146,6 @@ namespace Juniper.Units
         public static string Label(this float value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
         {
             return value.Label(fromUnit, FindConversion(fromUnit, toSystem));
-        }
-
-        /// <summary>
-        /// Convert a source value of a given unit of measure, converted directly to a different unit
-        /// of measure, with its abbreviation, to a certain number of significant digits, to a string.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="fromUnit"></param>
-        /// <param name="toUnit"></param>
-        /// <param name="sigfigs"></param>
-        /// <returns></returns>
-        public static string Label(this float value, UnitOfMeasure fromUnit, UnitOfMeasure toUnit, int sigfigs)
-        {
-            return value
-                .Convert(fromUnit, toUnit)
-                .Label(toUnit, sigfigs);
         }
 
         /// <summary>

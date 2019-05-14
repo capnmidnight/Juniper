@@ -44,6 +44,21 @@ namespace Juniper.Unity.World.LightEstimation
         }
 
         /// <summary>
+        /// Returns true if it is not night time, we have a <see cref="weather"/> component, and that
+        /// component has a cloud cover value.
+        /// </summary>
+        /// <value><c>true</c> if has cloud cover; otherwise, <c>false</c>.</value>
+        private bool HasCloudCover
+        {
+            get
+            {
+                return !IsNight
+                    && weather != null
+                    && weather.CloudCover != null;
+            }
+        }
+
+        /// <summary>
         /// Returns true if it is not night time, we have a <see cref="sunPosition"/> component, and
         /// that component is capable of calculating the sun position.
         /// </summary>
@@ -130,21 +145,6 @@ namespace Juniper.Unity.World.LightEstimation
 
                 return (weatherHasSunset && timeIsAfterSunset)
                     || (!weatherHasSunset && sunPositionCanCalculate && sunIsBelowHorizon);
-            }
-        }
-
-        /// <summary>
-        /// Returns true if it is not night time, we have a <see cref="weather"/> component, and that
-        /// component has a cloud cover value.
-        /// </summary>
-        /// <value><c>true</c> if has cloud cover; otherwise, <c>false</c>.</value>
-        private bool HasCloudCover
-        {
-            get
-            {
-                return !IsNight
-                    && weather != null
-                    && weather.CloudCover != null;
             }
         }
 
