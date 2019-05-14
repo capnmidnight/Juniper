@@ -1,12 +1,12 @@
 using System;
 
-using Juniper.Unity.Anchoring;
-using Juniper.Unity.Display;
+using Juniper.Anchoring;
+using Juniper.Display;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     /// <summary>
     /// The Valued component adds a float field and range of valid values for that field to a

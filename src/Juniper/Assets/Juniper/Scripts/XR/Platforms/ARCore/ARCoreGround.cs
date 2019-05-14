@@ -1,10 +1,10 @@
 #if UNITY_XR_ARCORE
 using GoogleARCore;
-using Juniper.Unity.Display;
+using Juniper.Display;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Juniper.Unity.Ground
+namespace Juniper.Ground
 {
     public class ARCoreGround : AbstractGround
     {

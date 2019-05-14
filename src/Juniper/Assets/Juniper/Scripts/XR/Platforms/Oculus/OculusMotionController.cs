@@ -1,13 +1,13 @@
 #if UNITY_XR_OCULUS
 
 using Juniper.Input;
-using Juniper.Unity.Haptics;
+using Juniper.Haptics;
 
 using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     /// <summary>
     /// A motion controller or hand-tracking. Currently only implements WindowsMR.

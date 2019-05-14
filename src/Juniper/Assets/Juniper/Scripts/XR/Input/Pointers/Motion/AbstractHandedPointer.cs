@@ -1,11 +1,11 @@
 using System;
 
-using Juniper.Input;
-using Juniper.Unity.Statistics;
+using Juniper.Input.Pointers;
+using Juniper.Statistics;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     public abstract class AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType> :
         AbstractPointerDevice<ButtonIDType, ConfigType>,

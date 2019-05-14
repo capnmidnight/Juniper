@@ -4,7 +4,7 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Display
+namespace Juniper.Display
 {
     public class OculusDisplayManager : AbstractDisplayManager
     {

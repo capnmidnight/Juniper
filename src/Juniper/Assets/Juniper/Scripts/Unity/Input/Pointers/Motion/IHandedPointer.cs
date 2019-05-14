@@ -1,6 +1,6 @@
-using Juniper.Input;
+using Juniper.Input.Pointers;
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     public interface IHandedPointer : IPointerDevice
     {

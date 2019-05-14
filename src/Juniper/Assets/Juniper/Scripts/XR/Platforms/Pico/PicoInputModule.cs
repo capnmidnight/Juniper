@@ -1,6 +1,6 @@
 #if PICO
 
-using Juniper.Unity.Display;
+using Juniper.Display;
 
 using Pvr_UnitySDKAPI;
 
@@ -9,7 +9,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
     public abstract class PicoInputModule : AbstractUnifiedInputModule
     {

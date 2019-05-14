@@ -1,6 +1,6 @@
 #if UNITY_XR_MAGICLEAP
 
-namespace Juniper.Unity.ImageTracking
+namespace Juniper.ImageTracking
 {
     public class MagicLeapTrackerKeeper : AbstractTrackerKeeper
     {

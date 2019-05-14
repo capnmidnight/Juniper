@@ -1,5 +1,5 @@
 #if UNITY_XR_MAGICLEAP
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
     public class MagicLeapInputModule : AbstractUnifiedInputModule
     {

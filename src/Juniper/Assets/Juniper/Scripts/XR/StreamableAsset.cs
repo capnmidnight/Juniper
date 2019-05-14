@@ -9,10 +9,10 @@ using UnityEngine.Events;
 using UnityEditor;
 
 #else
-using Juniper.Unity.Data;
+using Juniper.Data;
 #endif
 
-namespace Juniper.Unity
+namespace Juniper
 {
     [Serializable]
     public abstract class StreamableAsset

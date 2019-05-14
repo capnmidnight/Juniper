@@ -1,9 +1,8 @@
-using Juniper.World.GIS;
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Juniper.UnityEditor.World.GIS
+namespace Juniper.World.GIS
 {
     /// <summary>
     /// An editor for <see cref="LatLngPoint"/> s.

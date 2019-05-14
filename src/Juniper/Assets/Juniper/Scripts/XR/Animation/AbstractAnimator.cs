@@ -2,7 +2,7 @@ using System.Collections;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Animation
+namespace Juniper.Animation
 {
     /// <summary>
     /// An abstraction layer over different ways of showing UI state. Only one such component is

@@ -3,7 +3,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Juniper.Unity.Audio
+namespace Juniper.Audio
 {
     public abstract class OculusInteractionAudio : AbstractInteractionAudio
     {

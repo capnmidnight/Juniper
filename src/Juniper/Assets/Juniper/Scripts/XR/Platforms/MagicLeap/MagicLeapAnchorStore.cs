@@ -5,7 +5,7 @@ using UnityEngine;
 
 using AnchorType = UnityEngine.XR.MagicLeap.MLPersistentBehavior;
 
-namespace Juniper.Unity.Anchoring
+namespace Juniper.Anchoring
 {
     public abstract class MagicLeapAnchorStore : AbstractAnchorStore<AnchorType>
     {

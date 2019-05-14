@@ -4,14 +4,14 @@ using Juniper.Units;
 using Juniper.XR;
 using UnityEngine;
 
-namespace Juniper.Unity.Ground
+namespace Juniper.Ground
 {
     /// <summary>
     /// Manages references to the ground, either 3D terrain in VR apps or detected planes and meshes
     /// in AR apps.
     /// </summary>
     [ExecuteInEditMode]
-    public class Ground :
+    public class TerrainManager :
 #if UNITY_XR_ARKIT
         ARKitGround
 #elif UNITY_XR_MAGICLEAP

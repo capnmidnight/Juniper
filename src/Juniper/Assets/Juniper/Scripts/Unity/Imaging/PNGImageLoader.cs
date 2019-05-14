@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 
 using Juniper.Image;
-using Juniper.Unity.Data;
+using Juniper.Data;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Imaging
+namespace Juniper.Imaging
 {
     /// <summary>
     /// Load PNG images from disk or the 'net, and decode them in a background thread, so the

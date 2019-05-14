@@ -1,8 +1,8 @@
-using Juniper.Unity.Display;
+using Juniper.Display;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Animation
+namespace Juniper.Animation
 {
     /// <summary>
     /// Take an object in world-space and spiral it in to camera-locked space (faux-screen-space)
@@ -22,7 +22,7 @@ namespace Juniper.Unity.Animation
         /// <summary>
         /// Set to true if the transition is being used to make a video appear as if it is
         /// full-screen. The <see cref="distance"/> field will automatically be calculated to make
-        /// the extents of the video fill the viewport.
+        /// the extents of the video fill the view port.
         /// </summary>
         public bool fullScreen = true;
 

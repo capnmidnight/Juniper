@@ -4,7 +4,7 @@ using Juniper.Progress;
 
 using Newtonsoft.Json.Linq;
 
-namespace Juniper.UnityEditor.ConfigurationManagement
+namespace Juniper.ConfigurationManagement
 {
     internal sealed class UnityPackage : AbstractPackage
     {

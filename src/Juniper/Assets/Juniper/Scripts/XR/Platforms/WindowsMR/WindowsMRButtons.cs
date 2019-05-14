@@ -1,6 +1,6 @@
 #if UNITY_XR_WINDOWSMR_METRO
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     public enum WindowsMRButtons
     {

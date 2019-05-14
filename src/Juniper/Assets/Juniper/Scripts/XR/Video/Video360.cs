@@ -3,13 +3,13 @@
 using System;
 
 using Juniper.Progress;
-using Juniper.Unity.Audio;
+using Juniper.Audio;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Video;
 
-namespace Juniper.Unity.Video
+namespace Juniper.Video
 {
     public class Video360 : SubSceneController
     {
@@ -136,8 +136,7 @@ namespace Juniper.Unity.Video
             Enter();
             if (player != null)
             {
-                VideoPlayer.EventHandler exec = null;
-                exec = player =>
+                void exec(VideoPlayer player)
                 {
                     player.prepareCompleted -= exec;
 
@@ -162,7 +161,7 @@ namespace Juniper.Unity.Video
                     player.targetTexture = renderTexture;
                     Play();
                     prog?.Report(1);
-                };
+                }
 
                 player.prepareCompleted += exec;
 

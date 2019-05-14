@@ -1,9 +1,9 @@
-using Juniper.Unity.Input.Pointers;
+using Juniper.Input.Pointers;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
     public interface IInputModule
     {

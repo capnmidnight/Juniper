@@ -1,15 +1,16 @@
 using System;
 using System.Runtime.InteropServices;
 
-using Juniper.Unity.Input;
-using Juniper.Unity.Input.Pointers;
-using Juniper.Unity.Widgets;
+using Juniper.Input;
+using Juniper.Input.Pointers;
+using Juniper.Widgets;
 using Juniper.XR;
 
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using Juniper;
 
 #if UNITY_MODULES_XR
 
@@ -19,7 +20,7 @@ using UnityEngine.XR;
 
 #endif
 
-namespace Juniper.Unity.Display
+namespace Juniper.Display
 {
     /// <summary>
     /// Manages the camera FOV in the editor so that it matches the target system, or on desktop

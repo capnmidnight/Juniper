@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Juniper.Unity.Events
+namespace Juniper.Events
 {
     /// <summary>
     /// A component that can be used to trigger events after a set amount of time. Useful for

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Juniper.Unity;
+using Juniper;
 
 namespace UnityEngine
 {

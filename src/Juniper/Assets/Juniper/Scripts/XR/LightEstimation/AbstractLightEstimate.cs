@@ -2,7 +2,7 @@ using System;
 using Juniper.Units;
 using UnityEngine;
 
-namespace Juniper.Unity.World.LightEstimation
+namespace Juniper.World.LightEstimation
 {
     public abstract class AbstractLightEstimate : MonoBehaviour, IInstallable
     {
@@ -181,8 +181,8 @@ namespace Juniper.Unity.World.LightEstimation
         /// </summary>
         protected virtual void Update()
         {
-            float hue, sat, val;
-            Color.RGBToHSV(measurement.ColorEstimate, out hue, out sat, out val);
+            float hue, sat;
+            Color.RGBToHSV(measurement.ColorEstimate, out hue, out sat, out _);
 
             var rampedIntensity = RampIntensity(measurement.IntensityEstimate);
             var cloudCover = CloudCover * CloudCoverScale * 2;

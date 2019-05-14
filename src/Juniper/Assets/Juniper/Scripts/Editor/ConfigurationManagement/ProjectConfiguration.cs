@@ -5,7 +5,7 @@ using Juniper.XR;
 
 using Newtonsoft.Json;
 
-namespace Juniper.UnityEditor.ConfigurationManagement
+namespace Juniper.ConfigurationManagement
 {
     public sealed class ProjectConfiguration
     {

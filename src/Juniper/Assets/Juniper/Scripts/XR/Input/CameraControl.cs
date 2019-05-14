@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 using UnityInput = UnityEngine.Input;
 
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
     [RequireComponent(typeof(Camera))]
     public class CameraControl : MonoBehaviour

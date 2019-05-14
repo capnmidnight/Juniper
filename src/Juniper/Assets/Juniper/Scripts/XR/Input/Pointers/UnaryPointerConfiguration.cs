@@ -1,6 +1,6 @@
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Unity.Input.Pointers
+namespace Juniper.Input.Pointers
 {
     public class UnaryPointerConfiguration : AbstractPointerConfiguration<Unary>
     {

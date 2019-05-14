@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.ImageTracking
+namespace Juniper.ImageTracking
 {
     /// <summary>
     /// Trackable object--like images, scanned objects, and model generated targets-- come and go out

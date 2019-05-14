@@ -1,16 +1,14 @@
 #if UNITY_2018_1_OR_NEWER
-using Juniper.Unity.Animation;
-
-using NUnit.Framework;
-
 using System.Collections;
 using System.Collections.Generic;
+
+using NUnit.Framework;
 
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-namespace Juniper.UnityEditor.Animation
+namespace Juniper.Animation
 {
     public class TransitionControllerTests
     {

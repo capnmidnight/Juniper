@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     /// <summary>
     /// GameObjects with this component will be hidden in the live application view, only appearing

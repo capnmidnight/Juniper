@@ -2,7 +2,7 @@ using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Unity.Input.Pointers.Screen
+namespace Juniper.Input.Pointers.Screen
 {
     public class MousePointerConfiguration : AbstractPointerConfiguration<KeyCode>
     {

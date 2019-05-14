@@ -10,7 +10,7 @@ using Windows.Globalization;
 using Windows.Perception;
 using Windows.UI.Input.Spatial;
 
-namespace Juniper.Unity.Haptics
+namespace Juniper.Haptics
 {
     public class WindowsMRHaptics : AbstractHapticExpressor
     {

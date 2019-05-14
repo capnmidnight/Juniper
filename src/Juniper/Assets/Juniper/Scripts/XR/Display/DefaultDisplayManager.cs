@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
 
-using Juniper.Unity.Input;
+using Juniper.Input;
 
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
 
-namespace Juniper.Unity.Display
+namespace Juniper.Display
 {
     public abstract class DefaultDisplayManager : AbstractDisplayManager
     {

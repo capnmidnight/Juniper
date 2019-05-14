@@ -1,9 +1,9 @@
 using Juniper.Units;
-using Juniper.Unity.Display;
+using Juniper.Display;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     public class FollowMainCamera : MonoBehaviour
     {

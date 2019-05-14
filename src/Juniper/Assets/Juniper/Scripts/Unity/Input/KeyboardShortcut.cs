@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
     /// <summary>
     /// This component listens for a given keystroke, firing an event when it occurs. That event can

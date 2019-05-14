@@ -1,9 +1,9 @@
 #if UNITY_XR_WINDOWSMR_METRO
-using Juniper.Unity.Input.Speech;
+using Juniper.Input.Speech;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Permissions
+namespace Juniper.Permissions
 {
     public abstract class WindowsMRPermissionHandler : AbstractPermissionHandler
     {

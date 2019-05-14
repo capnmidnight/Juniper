@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Input.Speech
+namespace Juniper.Speech
 {
     public abstract class NoKeywordRecognizer : AbstractKeywordRecognizer
     {

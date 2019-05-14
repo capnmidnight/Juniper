@@ -1,10 +1,10 @@
-using Juniper.Unity.Haptics;
+using Juniper.Haptics;
 
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
 
-namespace Juniper.Unity.Input.Pointers.Screen
+namespace Juniper.Input.Pointers.Screen
 {
     /// <summary>
     /// A <see cref="AbstractScreenDevice"/> pointer for the standard mouse connected to a desktop system.

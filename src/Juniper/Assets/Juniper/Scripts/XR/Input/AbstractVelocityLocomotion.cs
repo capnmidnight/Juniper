@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
     public abstract class AbstractVelocityLocomotion : MonoBehaviour
     {

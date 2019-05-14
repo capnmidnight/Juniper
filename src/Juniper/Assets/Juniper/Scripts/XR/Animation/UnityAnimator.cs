@@ -5,7 +5,7 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Animation
+namespace Juniper.Animation
 {
     /// <summary>
     /// Abstract over Unity's Animator class for 3D models. Requires an Animator object on the

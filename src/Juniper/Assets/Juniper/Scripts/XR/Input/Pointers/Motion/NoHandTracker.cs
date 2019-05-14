@@ -2,7 +2,7 @@ using Juniper.Input;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     public class NoHandTrackerConfiguration : AbstractHandTrackerConfiguration<Unary, KeyCode>
     {

@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     public interface IValuedControl<T>
     {

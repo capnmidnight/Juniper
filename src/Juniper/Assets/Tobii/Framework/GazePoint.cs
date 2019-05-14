@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // Copyright 2014 Tobii Technology AB. All rights reserved.
 //-----------------------------------------------------------------------
 
@@ -133,7 +133,7 @@ namespace Tobii.Gaming
 		/// <returns>A string that represents the current object.</returns>
 		public override string ToString()
 		{
-			return string.Format("{0} {1} {2}", Screen, Timestamp);
+			return string.Format("{0} {1}", Screen, Timestamp);
 		}
 	}
 }

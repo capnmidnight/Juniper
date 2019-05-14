@@ -2,11 +2,11 @@
 using System;
 using System.Collections;
 using Juniper.XR;
-using Juniper.Unity.Imaging;
+using Juniper.Imaging;
 using Vuforia;
 using UnityEngine;
 
-namespace Juniper.Unity.World.LightEstimation
+namespace Juniper.World.LightEstimation
 {
     public abstract class VuforiaLightMeasurement : AbstractLightMeasurement
     {

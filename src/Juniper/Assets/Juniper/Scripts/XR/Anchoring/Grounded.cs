@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 
-using Juniper.Unity.Widgets;
+using Juniper.Widgets;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Anchoring
+namespace Juniper.Anchoring
 {
     /// <summary>
     /// This component searches for the ground above or below the gameObject it's attached to. When a
@@ -50,7 +50,7 @@ namespace Juniper.Unity.Anchoring
         /// Before the object is actually grounded, other entities may wish to know when it is. This
         /// queue holds callbacks to those entities to execute once the object is grounded.
         /// </summary>
-        private Queue<Action> q = new Queue<Action>();
+        private readonly Queue<Action> q = new Queue<Action>();
 
         /// <summary>
         /// The raycasting mask for the ground mesh.
@@ -63,11 +63,6 @@ namespace Juniper.Unity.Anchoring
         private float lastTime;
 
         /// <summary>
-        /// The stage that holds the user is really the thing that needs to be grounded.
-        /// </summary>
-        private Avatar stage;
-
-        /// <summary>
         /// A flag indicating the grounded object is already frozen in place.
         /// </summary>
         private bool frozen = false;
@@ -78,7 +73,6 @@ namespace Juniper.Unity.Anchoring
         /// </summary>
         public void Awake()
         {
-            stage = ComponentExt.FindAny<Avatar>();
             body = GetComponentInChildren<Rigidbody>();
             dragger = GetComponent<Draggable>();
             GroundMask = LayerMask.GetMask("Terrain");

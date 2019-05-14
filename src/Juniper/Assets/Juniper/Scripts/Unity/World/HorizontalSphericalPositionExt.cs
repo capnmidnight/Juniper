@@ -1,8 +1,6 @@
-using Juniper.World.GIS;
-
 using UnityEngine;
 
-namespace Juniper.Unity.World.GIS
+namespace Juniper.World.GIS
 {
     /// <summary>
     /// Extension methods on <see cref="HorizontalSphericalPosition"/>. Making these methods into
@@ -19,7 +17,7 @@ namespace Juniper.Unity.World.GIS
         }
 
         /// <summary>
-        /// Converts an AltitudeAzimuth to Unity's standard euler rotation construct.
+        /// Converts an AltitudeAzimuth to Unity's standard Euler rotation construct.
         /// </summary>
         public static Vector3 ToEuler(this HorizontalSphericalPosition p)
         {

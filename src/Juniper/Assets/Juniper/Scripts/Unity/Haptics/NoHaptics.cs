@@ -1,4 +1,4 @@
-namespace Juniper.Unity.Haptics
+namespace Juniper.Haptics
 {
     /// <summary>
     /// When we are on a system that we know for a fact does not have haptics, we can initialize the

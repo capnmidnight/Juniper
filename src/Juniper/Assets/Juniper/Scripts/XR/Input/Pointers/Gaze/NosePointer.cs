@@ -1,8 +1,8 @@
-using Juniper.Unity.Haptics;
+using Juniper.Haptics;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Input.Pointers.Gaze
+namespace Juniper.Input.Pointers.Gaze
 {
     public abstract class NosePointer :
         AbstractGazePointer

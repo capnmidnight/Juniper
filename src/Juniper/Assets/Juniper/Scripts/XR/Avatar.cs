@@ -1,14 +1,14 @@
 using System.Linq;
 using Juniper.Units;
-using Juniper.Unity.Anchoring;
-using Juniper.Unity.Display;
-using Juniper.Unity.Input;
-using Juniper.Unity.Widgets;
+using Juniper.Anchoring;
+using Juniper.Display;
+using Juniper.Input;
+using Juniper.Widgets;
 
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace Juniper.Unity
+namespace Juniper
 {
     [DisallowMultipleComponent]
     public class Avatar : MonoBehaviour, IInstallable

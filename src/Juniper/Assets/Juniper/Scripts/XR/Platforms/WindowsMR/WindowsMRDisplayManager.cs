@@ -1,7 +1,7 @@
 #if UNITY_XR_WINDOWSMR_METRO
 using UnityEngine;
 
-namespace Juniper.Unity.Display
+namespace Juniper.Display
 {
     public class WindowsMRDisplayManager : AbstractDisplayManager
     {

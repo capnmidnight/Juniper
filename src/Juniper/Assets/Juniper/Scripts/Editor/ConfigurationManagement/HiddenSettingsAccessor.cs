@@ -1,9 +1,9 @@
 using System.Reflection;
 
-namespace Juniper.UnityEditor
+namespace Juniper
 {
     /// <summary>
-    /// A base class for all of the Settings extendor classes to gain access to helper methods that
+    /// A base class for all of the Settings extender classes to gain access to helper methods that
     /// do the hard work of finding the hidden settings.
     /// </summary>
     public class HiddenSettingsAccessor
@@ -47,7 +47,7 @@ namespace Juniper.UnityEditor
             }
             else
             {
-                return default(U);
+                return default;
             }
         }
 

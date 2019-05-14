@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Juniper.Unity.Display;
-using Juniper.Unity.Input.Pointers;
-using Juniper.Unity.Input.Pointers.Gaze;
-using Juniper.Unity.Input.Pointers.Motion;
-using Juniper.Unity.Input.Pointers.Screen;
-using Juniper.Unity.Input.Speech;
+using Juniper.Display;
+using Juniper.Input.Pointers;
+using Juniper.Input.Pointers.Gaze;
+using Juniper.Input.Pointers.Motion;
+using Juniper.Input.Pointers.Screen;
+using Juniper.Speech;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -16,7 +16,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 #endif
 
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
     [DisallowMultipleComponent]
     public class UnifiedInputModule :
@@ -463,9 +463,8 @@ namespace Juniper.Unity.Input
             for (var i = 0; i < m_RaycastResultCache.Count; ++i)
             {
                 var ray = m_RaycastResultCache[i];
-                if (ray.module is GraphicRaycaster)
+                if (ray.module is GraphicRaycaster gfr)
                 {
-                    var gfr = (GraphicRaycaster)ray.module;
                     var canv = gfr.GetComponent<Canvas>();
                     ray.worldNormal = -canv.transform.forward;
 

@@ -4,13 +4,14 @@ using System.Linq;
 
 using Juniper.Progress;
 using Juniper.XR;
+
 using Newtonsoft.Json;
 
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Juniper.UnityEditor.ConfigurationManagement
+namespace Juniper.ConfigurationManagement
 {
     internal sealed class PlatformConfiguration
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 using UnityImage = UnityEngine.UI.Image;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     [ExecuteInEditMode]
     public class ProgressBar : MonoBehaviour

@@ -8,7 +8,7 @@ using UnityEngine;
 
 using UnityEngine.XR.iOS;
 
-namespace Juniper.Unity.ImageTracking
+namespace Juniper.ImageTracking
 {
     public class ARKitTrackerKeeper : AbstractTrackerKeeper
     {

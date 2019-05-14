@@ -1,5 +1,5 @@
 #if LEAP_MOTION
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     public class LeapMotionHand
         : AbstractHandTracker

@@ -5,7 +5,7 @@ using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 using Juniper.Input;
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     public class WindowsMRMotionControllerConfiguration : AbstractMotionControllerConfiguration<InteractionSourceHandedness, WindowsMRButtons>
     {

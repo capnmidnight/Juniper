@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+
 using Juniper.Units;
+using Juniper;
 using Juniper.World.GIS;
 
 using Newtonsoft.Json;
@@ -10,7 +12,7 @@ using UnityEngine.Events;
 
 using UnityInput = UnityEngine.Input;
 
-namespace Juniper.Unity.World
+namespace Juniper.World
 {
     /// <summary>
     /// Retrieves the user's latitude, longitude, and altitude from satellites orbiting Spaceship

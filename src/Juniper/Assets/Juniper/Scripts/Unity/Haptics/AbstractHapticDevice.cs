@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Haptics
+namespace Juniper.Haptics
 {
     /// <summary>
     /// An interface for all haptic device subsystems.

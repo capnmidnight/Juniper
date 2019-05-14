@@ -7,7 +7,7 @@ using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     public abstract class AbstractMotionControllerConfiguration<HandIDType, ButtonIDType>
         : AbstractHandedPointerConfiguration<HandIDType, ButtonIDType>

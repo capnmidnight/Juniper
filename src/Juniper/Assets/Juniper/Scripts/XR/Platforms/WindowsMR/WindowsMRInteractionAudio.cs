@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.WSA;
 
-namespace Juniper.Unity.Audio
+namespace Juniper.Audio
 {
     public abstract class WindowsMRInteractionAudio : AbstractInteractionAudio
     {

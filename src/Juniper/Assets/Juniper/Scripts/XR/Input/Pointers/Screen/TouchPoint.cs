@@ -1,9 +1,9 @@
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
-using Juniper.Unity.Haptics;
+using Juniper.Haptics;
 
-namespace Juniper.Unity.Input.Pointers.Screen
+namespace Juniper.Input.Pointers.Screen
 {
     /// <summary>
     /// Perform pointer events on touch screens.

@@ -1,18 +1,16 @@
 using System;
 
-using Juniper.Input;
-using Juniper.Input.Pointers;
-using Juniper.Unity.Audio;
-using Juniper.Unity.Display;
-using Juniper.Unity.Haptics;
-using Juniper.Unity.Statistics;
+using Juniper.Audio;
+using Juniper.Display;
+using Juniper.Haptics;
+using Juniper.Statistics;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Unity.Input.Pointers
+namespace Juniper.Input.Pointers
 {
     public abstract class AbstractPointerDevice<ButtonIDType, ConfigType> :
         MonoBehaviour,

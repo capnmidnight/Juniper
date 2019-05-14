@@ -1,8 +1,6 @@
 using System;
 
-using Juniper.Speech;
-
-namespace Juniper.Unity.Speech
+namespace Juniper.Speech
 {
     public interface IKeywordRecognizer
     {

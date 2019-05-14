@@ -1,7 +1,7 @@
 #if WAVEVR
 
 using Juniper.Input;
-using Juniper.Unity.Haptics;
+using Juniper.Haptics;
 
 using UnityEngine;
 
@@ -9,7 +9,7 @@ using wvr;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     public class ViveFocusMotionControllerConfiguration : AbstractMotionControllerConfiguration<WVR_DeviceType, WVR_InputId>
     {

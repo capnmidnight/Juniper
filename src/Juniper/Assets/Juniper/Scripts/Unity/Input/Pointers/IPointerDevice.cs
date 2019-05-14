@@ -1,9 +1,11 @@
 using System;
 
+using Juniper.Input;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Juniper.Unity.Input.Pointers
+namespace Juniper.Input.Pointers
 {
     public interface IPointerDevice
     {

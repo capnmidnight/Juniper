@@ -1,4 +1,4 @@
-using Juniper.Unity;
+using Juniper;
 
 namespace UnityEngine
 {

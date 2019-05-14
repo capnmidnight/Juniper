@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Juniper.Data;
 using Juniper.Progress;
 using Juniper.Zip;
+
 using Newtonsoft.Json;
 
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Juniper.UnityEditor.ConfigurationManagement
+namespace Juniper.ConfigurationManagement
 {
     internal sealed class RawPackage : AbstractPackage
     {

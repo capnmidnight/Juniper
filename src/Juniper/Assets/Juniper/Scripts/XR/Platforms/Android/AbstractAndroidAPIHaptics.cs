@@ -5,7 +5,7 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Haptics
+namespace Juniper.Haptics
 {
     /// <summary>
     /// Android has two APIs for haptic feedback, but they all pump through the Vibrator system

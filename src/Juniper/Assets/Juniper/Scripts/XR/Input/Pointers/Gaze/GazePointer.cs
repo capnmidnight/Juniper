@@ -1,10 +1,10 @@
-using Juniper.Unity.Haptics;
-using Juniper.Unity.Input.Pointers.Screen;
+using Juniper.Haptics;
+using Juniper.Input.Pointers.Screen;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Juniper.Unity.Input.Pointers.Gaze
+namespace Juniper.Input.Pointers.Gaze
 {
     public class GazePointer :
 #if TOBII

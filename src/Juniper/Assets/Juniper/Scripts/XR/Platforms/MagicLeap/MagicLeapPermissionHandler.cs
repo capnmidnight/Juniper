@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 
-namespace Juniper.Unity
+namespace Juniper
 {
     public abstract class MagicLeapPermissionHandler : AbstractPermissionHandler
     {

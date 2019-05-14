@@ -1,6 +1,8 @@
+using Juniper.Input.Pointers;
+
 using UnityEngine;
 
-namespace Juniper.Unity.Input.Pointers.Screen
+namespace Juniper.Input.Pointers.Screen
 {
     public interface IScreenDevice : IPointerDevice
     {

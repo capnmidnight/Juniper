@@ -1,6 +1,6 @@
 #if WAVEVR
 
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
     public abstract class ViveFocusInputModule : AbstractUnifiedInputModule
     {

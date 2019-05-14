@@ -14,12 +14,11 @@ namespace UnityEngine.Events
         /// <param name="action">Action.</param>
         public static void Once(this UnityEvent evt, Action action)
         {
-            UnityAction subAct = null;
-            subAct = () =>
+            void subAct()
             {
                 evt.RemoveListener(subAct);
                 action();
-            };
+            }
 
             evt.AddListener(subAct);
         }

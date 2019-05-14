@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     /// <summary>
     /// A draggable object that can be used to update the rotation of another object.

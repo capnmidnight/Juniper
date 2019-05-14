@@ -2,7 +2,7 @@ using System.IO;
 
 using UnityEditor;
 
-namespace Juniper.UnityEditor
+namespace Juniper
 {
     public static class PluginImporterExt
     {

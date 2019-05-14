@@ -8,15 +8,15 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using Juniper.Unity.Animation;
-using Juniper.Unity.Audio;
-using Juniper.Unity.Display;
-using Juniper.Unity.Widgets;
+using Juniper.Animation;
+using Juniper.Audio;
+using Juniper.Display;
+using Juniper.Widgets;
 using Juniper.Progress;
 
 using UnityEngine.UI;
 
-using Juniper.Unity.Input.Speech;
+using Juniper.Speech;
 
 using UnityImage = UnityEngine.UI.Image;
 
@@ -29,7 +29,7 @@ using UnityEditor.SceneManagement;
 
 #endif
 
-namespace Juniper.Unity
+namespace Juniper
 {
     /// <summary>
     /// Manages loading <see cref="SubSceneController"/> components (scenes that are additively
@@ -320,7 +320,7 @@ namespace Juniper.Unity
             }
 
             SetupFader(reset);
-            SetupSystemInterface(reset, qualityDegrader, aud);
+            SetupSystemInterface(qualityDegrader, aud);
         }
 
         private void SetupFader(bool reset)
@@ -342,7 +342,7 @@ namespace Juniper.Unity
             }
         }
 
-        private void SetupSystemInterface(bool reset, QualityDegrader qualityDegrader, InteractionAudio aud)
+        private void SetupSystemInterface(QualityDegrader qualityDegrader, InteractionAudio aud)
         {
             var sys = transform.Query("/SystemUserInterface");
             if (sys == null)
@@ -472,9 +472,8 @@ namespace Juniper.Unity
             while (iter.MoveNext())
             {
                 var obj = iter.Current;
-                if (obj is IEnumerator)
+                if (obj is IEnumerator subIter)
                 {
-                    var subIter = (IEnumerator)obj;
                     while (subIter?.MoveNext() == true)
                     {
                         Debug.Log(subIter.Current);

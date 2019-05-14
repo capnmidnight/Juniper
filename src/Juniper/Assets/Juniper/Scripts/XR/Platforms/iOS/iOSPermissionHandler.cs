@@ -1,7 +1,7 @@
 #if UNITY_IOS
 using UnityEngine;
 
-namespace Juniper.Unity.Permissions
+namespace Juniper.Permissions
 {
     public abstract class iOSPermissionHandler : AbstractPermissionHandler
     {

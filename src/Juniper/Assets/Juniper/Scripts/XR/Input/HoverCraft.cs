@@ -1,12 +1,12 @@
 using System.Linq;
 
-using Juniper.Unity.Input.Pointers;
+using Juniper.Input.Pointers;
 
 using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
 #if UNITY_MODULES_PHYSICS
 

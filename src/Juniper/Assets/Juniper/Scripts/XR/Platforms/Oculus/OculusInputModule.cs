@@ -1,6 +1,6 @@
 #if UNITY_XR_OCULUS
 
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
     public abstract class OculusInputModule : AbstractUnifiedInputModule
     {

@@ -15,7 +15,7 @@ using System.Linq;
 using Windows.Gaming.Input;
 #endif
 
-namespace Juniper.Unity.Haptics
+namespace Juniper.Haptics
 {
     /// <summary>
     /// When no specific haptic implementation is available, but we know the system supports haptics,

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using Juniper.Unity.Ground;
+using Juniper.Ground;
 
 using UnityEngine;
 using UnityEngine.XR.WSA;
 
-namespace Juniper.Unity.Ground
+namespace Juniper.Ground
 {
     public abstract class WindowsMRGround : AbstractGround
     {

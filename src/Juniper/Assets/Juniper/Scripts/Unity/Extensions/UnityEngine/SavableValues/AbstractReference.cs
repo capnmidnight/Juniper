@@ -43,7 +43,7 @@ namespace UnityEngine
                 }
                 else if (Variable == null)
                 {
-                    return default(T);
+                    return default;
                 }
                 else
                 {

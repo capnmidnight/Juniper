@@ -1,11 +1,10 @@
 using System;
 
 using Juniper.Units;
-using Juniper.World.GIS;
 
 using UnityEngine;
 
-namespace Juniper.Unity.World.GIS
+namespace Juniper.World.GIS
 {
     /// <summary>
     /// Extension methods on <see cref="LatLngPoint"/>. Making these methods into extension methods

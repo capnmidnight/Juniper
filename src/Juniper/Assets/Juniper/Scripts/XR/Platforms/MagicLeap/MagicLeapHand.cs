@@ -10,7 +10,7 @@ using UnityEngine.XR.MagicLeap;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     public abstract class MagicLeapHand
         : AbstractHandTracker<MLHandType, MLHandKeyPose, MagicLeapHandConfiguration>

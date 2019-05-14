@@ -3,7 +3,7 @@ using UnityEngine.XR.iOS;
 using UnityEngine.UI;
 using UnityEngine;
 
-namespace Juniper.Unity.World.LightEstimation
+namespace Juniper.World.LightEstimation
 {
     public abstract class ARKitLightMeasurement : AbstractLightMeasurement
     {

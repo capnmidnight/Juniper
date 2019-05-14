@@ -167,7 +167,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         {
             if (NeedsNewReport(location) || force)
             {
-                string reportJSON = null;
+                string reportJSON;
 
                 var url = $"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Latitude}&lon={location.Longitude}&units={units}&appid={apiKey}";
                 try

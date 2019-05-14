@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Juniper.Unity
+namespace Juniper
 {
     public struct PooledComponent<T> where T : Component
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     public class LabeledInputField : MonoBehaviour
     {

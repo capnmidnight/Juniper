@@ -2,7 +2,7 @@ using Juniper.Progress;
 
 using UnityEditor;
 
-namespace Juniper.UnityEditor.ConfigurationManagement
+namespace Juniper.ConfigurationManagement
 {
     internal abstract class AbstractPackage
     {

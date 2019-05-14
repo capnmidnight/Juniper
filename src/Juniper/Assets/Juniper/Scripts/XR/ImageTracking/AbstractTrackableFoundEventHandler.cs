@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
 
-using Juniper.Unity.Display;
+using Juniper.Display;
 
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Juniper.Unity.ImageTracking
+namespace Juniper.ImageTracking
 {
     public abstract class AbstractTrackableFoundEventHandler : MonoBehaviour
     {

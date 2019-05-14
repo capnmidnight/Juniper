@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     public class FileSelector : MonoBehaviour
     {
@@ -124,7 +124,7 @@ namespace Juniper.Unity.Widgets
             var t = transform.Find(p);
             if (t == null)
             {
-                return default(T);
+                return default;
             }
             else
             {
@@ -236,15 +236,13 @@ namespace Juniper.Unity.Widgets
         private void Select(ListViewItem item)
         {
             var obj = item.DataItem;
-            if (obj is FileInfo)
+            if (obj is FileInfo file)
             {
-                var file = (FileInfo)obj;
                 ok.interactable = true;
                 ShowPath(file.FullName);
             }
-            else if (obj is DirectoryInfo)
+            else if (obj is DirectoryInfo dir)
             {
-                var dir = (DirectoryInfo)obj;
                 ReadDirectory(dir.FullName);
             }
         }

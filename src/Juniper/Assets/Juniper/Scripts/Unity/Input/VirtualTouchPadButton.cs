@@ -1,4 +1,4 @@
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
     [System.Flags]
     public enum VirtualTouchPadButton

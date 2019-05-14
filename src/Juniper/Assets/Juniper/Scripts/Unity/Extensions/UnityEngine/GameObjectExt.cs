@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Juniper.Unity;
+using Juniper;
 
 namespace UnityEngine
 {

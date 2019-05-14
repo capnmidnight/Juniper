@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Vector3 = UnityEngine.Vector3;
 
-namespace Juniper.Unity.Statistics
+namespace Juniper.Statistics
 {
     [Serializable]
     [CreateAssetMenu(fileName = "lerpMotionFilter", menuName = "Motion Filters/LERP")]
@@ -45,9 +45,8 @@ namespace Juniper.Unity.Statistics
 
         public override void Copy(AbstractMotionFilter filter)
         {
-            if (filter is LerpMotionFilter)
+            if (filter is LerpMotionFilter f)
             {
-                var f = (LerpMotionFilter)filter;
                 interpolationFactor = f.interpolationFactor;
             }
         }

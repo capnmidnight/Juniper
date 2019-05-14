@@ -2,7 +2,6 @@
 using System.Collections;
 
 using Juniper.Input;
-using Juniper.Unity;
 
 using NUnit.Framework;
 
@@ -10,7 +9,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.TestTools.Utils;
 
-namespace Juniper.UnityEditor
+namespace Juniper
 {
     public class StateControllerTests
     {

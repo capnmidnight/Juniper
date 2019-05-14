@@ -1,9 +1,11 @@
 using System.Reflection;
 using System.Text.RegularExpressions;
+
 using UnityEditor;
+
 using UnityEngine;
 
-namespace Juniper.UnityEditor
+namespace Juniper
 {
     public static class SerializedPropertyExt
     {
@@ -12,7 +14,7 @@ namespace Juniper.UnityEditor
             var value = GetObject(property);
             if (value == null)
             {
-                return default(T);
+                return default;
             }
             else
             {
@@ -41,7 +43,7 @@ namespace Juniper.UnityEditor
         /// <summary>
         /// The array index pattern.
         /// </summary>
-        private static Regex arrayIndexPattern = new Regex("data\\[(\\w+)\\]", RegexOptions.Compiled);
+        private static readonly Regex arrayIndexPattern = new Regex("data\\[(\\w+)\\]", RegexOptions.Compiled);
 
         private static object GetObject(SerializedProperty property)
         {

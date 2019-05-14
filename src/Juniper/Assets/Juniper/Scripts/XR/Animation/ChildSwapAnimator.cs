@@ -2,7 +2,7 @@ using System.Collections;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Animation
+namespace Juniper.Animation
 {
     /// <summary>
     /// An animator for UIs that swap out child components as visible/invisible. Only one such

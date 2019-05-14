@@ -1,13 +1,13 @@
 using System.Linq;
 
-using Juniper.Unity.Display;
-using Juniper.Unity.Input.Pointers.Screen;
+using Juniper.Display;
+using Juniper.Input.Pointers.Screen;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-namespace Juniper.Unity.Input.Pointers
+namespace Juniper.Input.Pointers
 {
     /// <summary>
     /// AKA a Cursor, but I don't like the word Cursor (reminds me too much of SQL).

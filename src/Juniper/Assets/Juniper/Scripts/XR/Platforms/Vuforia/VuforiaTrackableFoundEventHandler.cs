@@ -2,7 +2,7 @@
 using System;
 using Vuforia;
 
-namespace Juniper.Unity.ImageTracking
+namespace Juniper.ImageTracking
 {
     [RequireComponent(typeof(TrackableBehaviour))]
     public abstract class VuforiaTrackableFoundEventHandler :

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Permissions
+namespace Juniper.Permissions
 {
     public class PermissionHandler :
 #if UNITY_IOS

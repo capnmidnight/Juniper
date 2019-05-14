@@ -6,7 +6,7 @@ using Juniper.Progress;
 
 using UnityEngine.Video;
 
-namespace Juniper.Unity.Video
+namespace Juniper.Video
 {
     [Serializable]
     public class StreamableVideoClip : StreamableAsset<VideoClip>

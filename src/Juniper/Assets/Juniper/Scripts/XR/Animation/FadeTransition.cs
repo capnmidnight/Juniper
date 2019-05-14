@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 
-using Juniper.Unity.Display;
-using Juniper.Unity.Input;
+using Juniper.Display;
+using Juniper.Input;
+using Juniper;
 using Juniper.XR;
 
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace Juniper.Unity.Animation
+namespace Juniper.Animation
 {
     /// <summary>
     /// Performs a fade-in/fade-out animation on scene transitions.
@@ -61,6 +62,10 @@ namespace Juniper.Unity.Animation
             }
         }
 
+        /// <summary>
+        /// The input module that will tell use what layer the controllers are on, so we don't fade
+        /// them out.
+        /// </summary>
         private UnifiedInputModule input;
 
         /// <summary>

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Juniper.Input;
-using Juniper.Unity.Events;
+using Juniper.Events;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Unity.Input.Pointers
+namespace Juniper.Input.Pointers
 {
     public class ButtonMapper<ButtonIDType>
         where ButtonIDType : struct

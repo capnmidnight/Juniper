@@ -1,8 +1,8 @@
-using Juniper.Unity.Animation;
+using Juniper.Animation;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     public class TeleportPad : Clickable
     {

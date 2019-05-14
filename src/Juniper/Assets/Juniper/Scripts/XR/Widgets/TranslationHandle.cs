@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     /// <summary>
     /// A draggable object that can be used to translate the position of another object.

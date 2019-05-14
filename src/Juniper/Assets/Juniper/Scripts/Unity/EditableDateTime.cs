@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-namespace Juniper.Unity
+namespace Juniper
 {
     /// <summary>
     /// A wrapper around System.DateTime that makes it possible to edit values in the Unity Editor.
@@ -231,14 +231,12 @@ namespace Juniper.Unity
         /// </returns>
         public override bool Equals(object obj)
         {
-            if (obj is EditableDateTime)
+            if (obj is EditableDateTime edt)
             {
-                var edt = (EditableDateTime)obj;
                 return edt.Value == Value;
             }
-            else if (obj is DateTime)
+            else if (obj is DateTime dt)
             {
-                var dt = (DateTime)obj;
                 return dt == Value;
             }
             else

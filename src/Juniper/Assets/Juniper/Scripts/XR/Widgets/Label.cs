@@ -1,8 +1,8 @@
-using Juniper.Unity.Display;
+using Juniper.Display;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     /// <summary>
     /// A text box with an opaque background that floats in mid-air and has a connecting line to the

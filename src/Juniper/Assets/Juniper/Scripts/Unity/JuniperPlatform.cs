@@ -6,7 +6,7 @@ using Juniper.XR;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Juniper.Unity
+namespace Juniper
 {
     public static class JuniperPlatform
     {

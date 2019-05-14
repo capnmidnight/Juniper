@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Input.Pointers.Screen
+namespace Juniper.Input.Pointers.Screen
 {
     /// <summary>
     /// A ScreenDevice is a <see cref="AbstractPointerDevice{ButtonIDType, ConfigType}"/> that has

@@ -1,11 +1,11 @@
 using System;
 
 using Juniper.Input;
-
+using Juniper;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Juniper.Unity.Animation
+namespace Juniper.Animation
 {
     /// <summary>
     /// Child classes of this class are able to animate transitions between program states.

@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 
 using Juniper.Input;
-using Juniper.Unity.Events;
+using Juniper.Events;
 
 using UnityEngine;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Unity.Input.Pointers
+namespace Juniper.Input.Pointers
 {
     public abstract class AbstractPointerConfiguration<ButtonIDType>
         where ButtonIDType : struct

@@ -1,6 +1,6 @@
 #if UNITY_XR_WINDOWSMR_METRO
 
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
     public abstract class WindowsMRInputModule : AbstractUnifiedInputModule
     {

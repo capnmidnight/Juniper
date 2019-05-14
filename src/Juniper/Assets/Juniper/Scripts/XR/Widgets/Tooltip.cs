@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     /// <summary>
     /// A combination of a TextMesh object and a background label, where the text can resize to fill

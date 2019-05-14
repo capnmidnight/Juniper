@@ -1,10 +1,10 @@
 #if RESONANCEAUDIO
 using System;
-using Juniper.Unity.Display;
+using Juniper.Display;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Juniper.Unity.Audio
+namespace Juniper.Audio
 {
     public abstract class ResonanceInteractionAudio : AbstractInteractionAudio
     {

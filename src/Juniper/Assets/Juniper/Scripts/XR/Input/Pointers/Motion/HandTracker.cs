@@ -1,10 +1,10 @@
 using System;
 
-using Juniper.Unity.Haptics;
+using Juniper.Haptics;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     public class HandTracker :
 #if UNITY_XR_MAGICLEAP

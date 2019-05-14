@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Juniper.Unity.Display;
+using Juniper.Display;
 
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Juniper.Unity.ImageTracking
+namespace Juniper.ImageTracking
 {
     public class TrackerKeeper :
 #if UNITY_XR_ARCORE

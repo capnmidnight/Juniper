@@ -1,17 +1,16 @@
-using Juniper.Input;
-using Juniper.Unity.Events;
-
 using System;
 using System.Linq;
+
+using Juniper.Input;
 
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Juniper.UnityEditor.Events
+namespace Juniper.Events
 {
     [CustomEditor(typeof(ButtonEvent))]
-    public class ButtonEventEditor : Editor
+    public class ButtonEventEditor : UnityEditor.Editor
     {
         private static readonly ButtonEvent _;
         private const string FIELD_ONCLICK = nameof(_.onClick);

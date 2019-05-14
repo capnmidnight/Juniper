@@ -1,8 +1,8 @@
-using Juniper.Unity.Input;
+using Juniper.Input;
 using Juniper.XR;
 using UnityEngine;
 
-namespace Juniper.Unity.Display
+namespace Juniper.Display
 {
     public abstract class AbstractPassthroughDisplayManager : AbstractDisplayManager
     {

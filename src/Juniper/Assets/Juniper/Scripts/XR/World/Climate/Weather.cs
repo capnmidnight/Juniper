@@ -3,12 +3,13 @@ using System.Collections;
 using Juniper.Climate;
 using Juniper.Progress;
 using Juniper.Units;
+using Juniper;
 using Juniper.World.Climate;
 using Juniper.World.GIS;
-
+using Juniper.World;
 using UnityEngine;
 
-namespace Juniper.Unity.World.Climate
+namespace Juniper.World.Climate
 {
     /// <summary>
     /// A component for managing access to weather reports. Only one of these components is allowed

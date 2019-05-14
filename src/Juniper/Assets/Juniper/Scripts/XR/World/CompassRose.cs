@@ -2,13 +2,13 @@ using System;
 
 using Juniper.Collections.Statistics;
 using Juniper.Units;
-using Juniper.Unity.Display;
+using Juniper.Display;
 
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
 
-namespace Juniper.Unity.World
+namespace Juniper.World
 {
     /// <summary>
     /// A component for managing orientation to Earth's magnetic field (or any sufficiently large

@@ -1,14 +1,14 @@
 using System;
 
 using Juniper.Input;
-using Juniper.Unity.Events;
+using Juniper.Events;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
-namespace Juniper.Unity.Input.Pointers
+namespace Juniper.Input.Pointers
 {
     public class MappedButton<ButtonIDType>
         where ButtonIDType : struct
@@ -53,7 +53,7 @@ namespace Juniper.Unity.Input.Pointers
 
         public MappedButton(ButtonIDType btn, InputEventButton inputBtn, GameObject eventParent)
         {
-            Button = btn;
+            SetButton(btn);
             var key = ButtonEvent.MakeKey(button);
             var btns = eventParent.GetComponents<ButtonEvent>();
             buttonEvent = Array.Find(btns, e => e.Key == key)
@@ -68,18 +68,11 @@ namespace Juniper.Unity.Input.Pointers
             buttonEvent.Destroy();
         }
 
-        private ButtonIDType Button
+        private void SetButton(ButtonIDType value)
         {
-            get
-            {
-                return button;
-            }
-            set
-            {
-                button = value;
-                buttonName = value.ToString();
-                buttonNumber = Convert.ToInt32(value);
-            }
+            button = value;
+            buttonName = value.ToString();
+            buttonNumber = Convert.ToInt32(value);
         }
 
         public bool IsDown
@@ -106,7 +99,7 @@ namespace Juniper.Unity.Input.Pointers
         {
             if (buttonEvent.buttonValueName != buttonName)
             {
-                Button = buttonEvent.GetButtonValue<ButtonIDType>();
+                SetButton(buttonEvent.GetButtonValue<ButtonIDType>());
             }
 
             IsPressed = ButtonPressedNeeded(button);

@@ -1,4 +1,3 @@
-using Juniper.Unity;
 using System;
 
 using UnityEditor;
@@ -11,7 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor.Build.Reporting;
 #endif
 
-namespace Juniper.UnityEditor
+namespace Juniper
 {
     public abstract class StreamableAssetEditor<T, U> : PropertyDrawer,
 #if UNITY_2018_1_OR_NEWER
@@ -88,14 +87,10 @@ namespace Juniper.UnityEditor
                             var t = obj.GetType();
                             foreach (var field in t.GetFields())
                             {
-                                var val = field.GetValue(obj);
-                                if (val is StreamableAsset)
+                                if (field.GetValue(obj) is StreamableAsset value
+                                    && !string.IsNullOrEmpty(value.AssetPath))
                                 {
-                                    var value = (StreamableAsset)val;
-                                    if (!string.IsNullOrEmpty(value.AssetPath))
-                                    {
-                                        act(value);
-                                    }
+                                    act(value);
                                 }
                             }
                         }

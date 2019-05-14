@@ -2,7 +2,7 @@
 using UnityEngine;
 using AnchorType = UnityEngine.XR.iOS.UnityARUserAnchorComponent;
 
-namespace Juniper.Unity.Anchoring
+namespace Juniper.Anchoring
 {
     public abstract class ARKitAnchorStore : AbstractAnchorStore<AnchorType>
     {

@@ -1,13 +1,10 @@
 using System;
 using System.Linq;
 
-using Juniper.Speech;
-using Juniper.Unity.Speech;
-
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Juniper.Unity.Input.Speech
+namespace Juniper.Speech
 {
     public class KeywordRecognizer :
 #if UNITY_WSA || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(Animator))]

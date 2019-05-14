@@ -1,4 +1,4 @@
-namespace Juniper.Unity.Input
+namespace Juniper.Input
 {
     public class DefaultLocomotion :
 #if UNITY_XR_ARKIT || UNITY_XR_ARCORE || UNITY_XR_MAGICLEAP

@@ -1,8 +1,9 @@
 using System;
 
 using Juniper.Collections.Statistics;
+using Juniper.Display;
+using Juniper.Ground;
 using Juniper.Units;
-using Juniper.Unity.Display;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,7 +13,7 @@ using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
 #endif
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     /// <summary>
     /// This component manages the quality settings on the fly, making sure the application never
@@ -23,7 +24,7 @@ namespace Juniper.Unity.Widgets
     {
         public Button[] qualityButtons;
 
-        private Ground.Ground ground;
+        private TerrainManager ground;
 
         /// <summary>
         /// Calculates statistics for the frame delta time value, for knowing the mean value and
@@ -126,7 +127,7 @@ namespace Juniper.Unity.Widgets
         /// </summary>
         public void Awake()
         {
-            ground = ComponentExt.FindAny<Ground.Ground>();
+            ground = ComponentExt.FindAny<Ground.TerrainManager>();
 
 #if UNITY_POSTPROCESSING
             prost = GetComponent<PostProcessLayer>();

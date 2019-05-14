@@ -4,8 +4,6 @@ using System.IO;
 using System.Linq;
 
 using Juniper.Progress;
-using Juniper.Unity;
-using Juniper.Unity.Progress;
 using Juniper.XR;
 
 using Newtonsoft.Json;
@@ -16,13 +14,13 @@ using UnityEditor.Callbacks;
 
 using UnityEngine;
 
-namespace Juniper.UnityEditor.ConfigurationManagement
+namespace Juniper.ConfigurationManagement
 {
     /// <summary>
     /// An editor to respond to changes in XRSystem.
     /// </summary>
     [CustomEditor(typeof(JuniperPlatform))]
-    public class JuniperConfigurationManager : Editor
+    public class JuniperConfigurationManager : UnityEditor.Editor
     {
         private const string MENU_NAME = "Juniper/";
 
@@ -469,8 +467,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                 test = () => true;
             }
 
-            EditorApplication.CallbackFunction exec = null;
-            exec = () =>
+            void exec()
             {
                 if (test())
                 {
@@ -485,7 +482,7 @@ namespace Juniper.UnityEditor.ConfigurationManagement
                         reject();
                     }
                 }
-            };
+            }
 
             EditorApplication.update += exec;
         }

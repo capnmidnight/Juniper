@@ -4,7 +4,7 @@ using UnityEngine;
 
 using TweenFuncT = System.Func<float, float, Juniper.Input.Direction, float>;
 
-namespace Juniper.Unity.Animation
+namespace Juniper.Animation
 {
     /// <summary>
     /// Different modes of animating a single value from 0 to 1.

@@ -126,7 +126,7 @@ namespace Juniper.Data
         }
 
         /// <summary>
-        /// Creates a reference to an HTTP endpoint service, with each of the relavent address parts
+        /// Creates a reference to an HTTP endpoint service, with each of the relevant address parts
         /// broken out. Defaults to using port 80 if the scheme is HTTP and 443 if the scheme is HTTPS.
         /// </summary>
         /// <param name="scheme"></param>
@@ -151,7 +151,7 @@ namespace Juniper.Data
             }.ToString();
 
             var stream = await Requester.GetStream(uri, authPair?.Key, authPair?.Value, "application/json");
-            return new Result<ResponseT>(stream.Status, stream.Value.ReadObject<ResponseT>());
+            return new Result<ResponseT>(stream.Status, stream.MIMEType, stream.Value.ReadObject<ResponseT>());
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace Juniper.Data
         {
             var uri = new UriBuilder(scheme, address, port, $"{app}/{name}").ToString();
             var stream = await Requester.PostStream(uri, authPair?.Key, authPair?.Value, requestBody.WriteObject(), "application/json");
-            return new Result<ResponseT>(stream.Status, stream.Value.ReadObject<ResponseT>());
+            return new Result<ResponseT>(stream.Status, stream.MIMEType, stream.Value.ReadObject<ResponseT>());
         }
 
         /// <summary>

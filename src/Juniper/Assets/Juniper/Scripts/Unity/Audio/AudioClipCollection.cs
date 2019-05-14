@@ -5,7 +5,7 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Audio
+namespace Juniper.Audio
 {
     /// <summary>
     /// A collection of related audio clips. For example, one might have many different gunshot

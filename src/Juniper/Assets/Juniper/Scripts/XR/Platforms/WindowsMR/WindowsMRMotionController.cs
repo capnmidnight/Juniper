@@ -4,13 +4,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Juniper.Unity.Display;
-using Juniper.Unity.Haptics;
+using Juniper.Display;
+using Juniper.Haptics;
 using UnityEngine;
 using UnityEngine.XR.WSA.Input;
 #endif
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     /// <summary>
     /// A motion controller or hand-tracking. Currently only implements WindowsMR.

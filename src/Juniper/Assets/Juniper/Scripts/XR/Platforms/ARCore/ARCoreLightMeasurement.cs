@@ -2,7 +2,7 @@
 using GoogleARCore;
 using UnityEngine;
 
-namespace Juniper.Unity.World.LightEstimation
+namespace Juniper.World.LightEstimation
 {
     public abstract class ARCoreLightMeasurement : AbstractLightMeasurement
     {

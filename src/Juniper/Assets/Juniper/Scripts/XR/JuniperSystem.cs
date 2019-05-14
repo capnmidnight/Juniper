@@ -1,8 +1,8 @@
-using Juniper.Unity.Anchoring;
-using Juniper.Unity.Audio;
-using Juniper.Unity.Display;
-using Juniper.Unity.Input;
-using Juniper.Unity.Permissions;
+using Juniper.Anchoring;
+using Juniper.Audio;
+using Juniper.Display;
+using Juniper.Input;
+using Juniper.Permissions;
 using Juniper.XR;
 
 using UnityEditor;
@@ -10,7 +10,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Juniper.Unity
+namespace Juniper
 {
     [DisallowMultipleComponent]
     public class JuniperSystem : MonoBehaviour, IInstallable

@@ -1,10 +1,10 @@
-using Juniper.Unity.Haptics;
+using Juniper.Haptics;
 
 using UnityEngine;
 
 using UnityInput = UnityEngine.Input;
 
-namespace Juniper.Unity.Input.Pointers.Gaze
+namespace Juniper.Input.Pointers.Gaze
 {
     public abstract class TouchGazePointer :
         AbstractGazePointer

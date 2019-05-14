@@ -1,7 +1,7 @@
 #if UNITY_IOS
 using System.Runtime.InteropServices;
 
-namespace Juniper.Unity.Haptics
+namespace Juniper.Haptics
 {
     /// <summary>
     /// iOS 10 Taptic Feedback. /// <a

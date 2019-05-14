@@ -1,9 +1,9 @@
 #if GOOGLEVR
-using Juniper.Unity.Input;
+using Juniper.Input;
 using System.Linq;
 using UnityEngine;
 
-namespace Juniper.Unity.Display
+namespace Juniper.Display
 {
     public class DaydreamDisplayManager : AbstractDisplayManager
     {

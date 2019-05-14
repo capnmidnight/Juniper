@@ -8,7 +8,7 @@ using UnityEngine.UI;
 using Animator = UnityEngine.MonoBehaviour;
 #endif
 
-namespace Juniper.Unity.Animation
+namespace Juniper.Animation
 {
     /// <summary>
     /// A series of workflow steps can be used to show different UI elements and have other

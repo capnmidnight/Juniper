@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using GoogleARCore;
 using UnityEngine;
 
-namespace Juniper.Unity.Anchoring
+namespace Juniper.Anchoring
 {
     public class ARCoreAnchorStore : AbstractAnchorStore<Anchor>
     {

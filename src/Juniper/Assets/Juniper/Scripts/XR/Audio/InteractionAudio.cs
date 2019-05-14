@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 
-using Juniper.Unity.Haptics;
-using Juniper.Unity.Widgets;
-using Juniper.Unity.Display;
+using Juniper.Haptics;
+using Juniper.Widgets;
+using Juniper.Display;
 using Juniper.Input;
 
 using UnityEngine;
@@ -17,7 +17,7 @@ using UnityEngine.Audio;
 
 #endif
 
-namespace Juniper.Unity.Audio
+namespace Juniper.Audio
 {
     /// <summary>
     /// The audio portion of the interaction system.

@@ -2,7 +2,7 @@ using System;
 
 using UnityEditor;
 
-namespace Juniper.UnityEditor
+namespace Juniper
 {
     /// <summary>
     /// A collection of extra settings that Unity doesn't expose natively.
@@ -17,7 +17,7 @@ namespace Juniper.UnityEditor
             /// <summary>
             /// The PlayerSettings.iOS.targetOSVersionString value, exposed as a System.Version object.
             /// </summary>
-            /// <value>The target OSV ersion.</value>
+            /// <value>The target OS Version.</value>
             public static Version TargetOSVersion
             {
                 get

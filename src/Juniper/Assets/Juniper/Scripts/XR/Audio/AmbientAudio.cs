@@ -2,16 +2,16 @@
 
 using System;
 using Juniper.Progress;
-
+using Juniper;
 using UnityEngine;
 
-namespace Juniper.Unity.Audio
+namespace Juniper.Audio
 {
     public class AmbientAudio : SubSceneController
     {
         public StreamableAudioClip audioClip;
 
-        [Header("Spatializationi")]
+        [Header("Spatialization")]
         public bool spatialize;
 
         [Range(0, 1)]

@@ -1,6 +1,6 @@
 #if UNITY_XR_ARKIT
 
-namespace Juniper.Unity.ImageTracking
+namespace Juniper.ImageTracking
 {
     public abstract class ARKitTrackableFoundEventHandler : AbstractTrackableFoundEventHandler
     {

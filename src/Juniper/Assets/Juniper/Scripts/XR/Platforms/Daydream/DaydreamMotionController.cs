@@ -1,10 +1,10 @@
 #if GOOGLEVR
 
-using Juniper.Unity.Haptics;
+using Juniper.Haptics;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     public abstract class DaydreamMotionController
         : AbstractMotionController<GvrControllerHand, GvrControllerButton, DaydreamPointerConfiguration>

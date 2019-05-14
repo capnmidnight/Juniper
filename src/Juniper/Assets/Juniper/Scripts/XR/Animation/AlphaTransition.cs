@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Animation
+namespace Juniper.Animation
 {
     /// <summary>
     /// Performs a shrinking/growing animation on scene transitions.

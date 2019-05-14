@@ -1,7 +1,7 @@
 #if UNITY_XR_ARKIT
 using UnityEngine;
 
-namespace Juniper.Unity.Ground
+namespace Juniper.Ground
 {
     public class ARKitGround : AbstractGround
     {

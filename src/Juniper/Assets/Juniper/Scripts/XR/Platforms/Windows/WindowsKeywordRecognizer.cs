@@ -1,6 +1,6 @@
 #if UNITY_WSA || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 
-namespace Juniper.Unity.Input.Speech
+namespace Juniper.Speech
 {
     public abstract class WindowsKeywordRecognizer : AbstractKeywordRecognizer
     {

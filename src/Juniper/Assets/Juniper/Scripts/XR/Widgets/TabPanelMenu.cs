@@ -2,7 +2,7 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     public class TabPanelMenu : MonoBehaviour
     {

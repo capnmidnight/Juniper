@@ -1,8 +1,8 @@
-using Juniper.Unity.Audio;
+using Juniper.Audio;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     /// <summary>
     /// Plays clips out of an AudioClipCollection at set intervals, making for a point source of

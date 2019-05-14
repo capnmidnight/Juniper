@@ -1,7 +1,7 @@
 using Juniper.Units;
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     /// <summary>
     /// Make one object's pose follow the pose of another object.

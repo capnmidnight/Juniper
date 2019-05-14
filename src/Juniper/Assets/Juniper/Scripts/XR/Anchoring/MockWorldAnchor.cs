@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Anchoring
+namespace Juniper.Anchoring
 {
     /// <summary>
     /// Anchors provide a means to restore the position of objects between sessions. In some AR

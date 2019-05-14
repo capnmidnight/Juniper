@@ -2,7 +2,7 @@ using System;
 
 using Juniper.Input;
 
-namespace Juniper.Unity.Input.Pointers.Motion
+namespace Juniper.Input.Pointers.Motion
 {
     public abstract class AbstractHandedPointerConfiguration<HandIDType, ButtonIDType>
         : AbstractPointerConfiguration<ButtonIDType>

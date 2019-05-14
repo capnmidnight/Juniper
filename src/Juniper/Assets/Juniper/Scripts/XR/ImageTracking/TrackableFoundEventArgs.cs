@@ -1,6 +1,6 @@
 using System;
 
-namespace Juniper.Unity.ImageTracking
+namespace Juniper.ImageTracking
 {
     /// <summary>
     /// Event arguments for AR tracked objects coming into and out of view.

@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     public class ValueDragger : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {

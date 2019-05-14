@@ -1,10 +1,8 @@
-using Juniper.Unity;
-
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Juniper.UnityEditor
+namespace Juniper
 {
     [CustomPropertyDrawer(typeof(HideInNormalInspectorAttribute))]
     public class HideInNormalInspectorDrawer : PropertyDrawer

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 using UnityImage = UnityEngine.UI.Image;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     public class ListViewItem : MonoBehaviour
     {

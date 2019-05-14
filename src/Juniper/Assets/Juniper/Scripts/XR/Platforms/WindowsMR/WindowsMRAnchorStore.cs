@@ -6,7 +6,7 @@ using UnityEngine.XR.WSA.Persistence;
 
 using AnchorType = UnityEngine.XR.WSA.WorldAnchor;
 
-namespace Juniper.Unity.Anchoring
+namespace Juniper.Anchoring
 {
     public class WindowsMRAnchorStore : AbstractAnchorStore<AnchorType>
     {

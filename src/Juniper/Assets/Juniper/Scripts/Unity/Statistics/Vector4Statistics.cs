@@ -5,7 +5,7 @@ using Juniper.Collections.Statistics;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Statistics
+namespace Juniper.Statistics
 {
     /// <summary>
     /// A RingBuffer of UnityEngine.Vector4 values that also calculates some basic statistics along
@@ -24,7 +24,7 @@ namespace Juniper.Unity.Statistics
         }
 
         /// <summary>
-        /// Create a RingBuffer of Vector4s of a fixed size. RingBuffers aren't resizable.
+        /// Create a RingBuffer of Vector4s of a fixed size. RingBuffers aren't re-sizable.
         /// Statistical values default to null.
         /// </summary>
         /// <param name="capacity"></param>

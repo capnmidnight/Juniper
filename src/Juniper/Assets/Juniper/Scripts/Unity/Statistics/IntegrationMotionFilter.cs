@@ -4,7 +4,7 @@ using UnityEngine;
 
 using Vector3 = UnityEngine.Vector3;
 
-namespace Juniper.Unity.Statistics
+namespace Juniper.Statistics
 {
     [Serializable]
     [CreateAssetMenu(fileName = "integrationMotionFilter", menuName = "Motion Filters/Integration")]
@@ -52,9 +52,8 @@ namespace Juniper.Unity.Statistics
 
         public override void Copy(AbstractMotionFilter filter)
         {
-            if (filter is IntegrationMotionFilter)
+            if (filter is IntegrationMotionFilter f)
             {
-                var f = (IntegrationMotionFilter)filter;
                 componentCount = f.componentCount;
                 interpolationFactor = f.interpolationFactor;
             }

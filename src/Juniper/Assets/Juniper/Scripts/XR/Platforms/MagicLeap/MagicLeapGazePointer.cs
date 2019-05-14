@@ -1,11 +1,11 @@
 #if UNITY_XR_MAGICLEAP
 
-using Juniper.Unity.Haptics;
+using Juniper.Haptics;
 
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 
-namespace Juniper.Unity.Input.Pointers.Gaze
+namespace Juniper.Input.Pointers.Gaze
 {
     public abstract class MagicLeapGazePointer :
         AbstractGazePointer<NoHaptics>

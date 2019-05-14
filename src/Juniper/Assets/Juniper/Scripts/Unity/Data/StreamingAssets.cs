@@ -13,7 +13,7 @@ using Juniper.Data;
 
 #endif
 
-namespace Juniper.Unity.Data
+namespace Juniper.Data
 {
     /// <summary>
     /// Get files out of the Unity StreamingAssets folder.

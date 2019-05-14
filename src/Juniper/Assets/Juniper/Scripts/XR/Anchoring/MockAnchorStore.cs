@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Unity.Anchoring
+namespace Juniper.Anchoring
 {
     /// <summary>
     /// An anchor store that stores all anchors in the default data store for AbstractAnchorStore.

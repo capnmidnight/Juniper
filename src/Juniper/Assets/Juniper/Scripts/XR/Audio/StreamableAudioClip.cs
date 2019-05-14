@@ -4,13 +4,13 @@ using System;
 using System.Collections;
 using System.IO;
 
-using Juniper.Audio;
+using Juniper.Data;
 using Juniper.Progress;
-using Juniper.Unity.Data;
+using Juniper;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Audio
+namespace Juniper.Audio
 {
     [Serializable]
     public class StreamableAudioClip : StreamableAsset<AudioClip>

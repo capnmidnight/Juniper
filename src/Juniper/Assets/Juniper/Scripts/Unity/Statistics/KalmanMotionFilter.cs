@@ -7,7 +7,7 @@ using UnityEngine;
 
 using Vector3 = UnityEngine.Vector3;
 
-namespace Juniper.Unity.Statistics
+namespace Juniper.Statistics
 {
     [Serializable]
     [CreateAssetMenu(fileName = "kalmanMotionFilter", menuName = "Motion Filters/Kalman")]
@@ -79,9 +79,8 @@ namespace Juniper.Unity.Statistics
 
         public override void Copy(AbstractMotionFilter filter)
         {
-            if (filter is KalmanMotionFilter)
+            if (filter is KalmanMotionFilter f)
             {
-                var f = (KalmanMotionFilter)filter;
                 componentCount = f.componentCount;
                 measurementNoise = f.measurementNoise;
                 processNoiseScale = f.processNoiseScale;

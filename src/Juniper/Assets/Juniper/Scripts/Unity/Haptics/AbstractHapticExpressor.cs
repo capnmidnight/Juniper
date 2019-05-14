@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace Juniper.Unity.Haptics
+namespace Juniper.Haptics
 {
     /// <summary>
     /// Non-iOS systems do not have built-in haptic patterns. This class replicates the functionality

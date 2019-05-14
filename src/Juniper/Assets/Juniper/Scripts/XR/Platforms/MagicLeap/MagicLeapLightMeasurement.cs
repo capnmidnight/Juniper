@@ -1,7 +1,7 @@
 #if UNITY_XR_MAGICLEAP
 using UnityEngine.XR.MagicLeap;
 
-namespace Juniper.Unity.World.LightEstimation
+namespace Juniper.World.LightEstimation
 {
     public abstract class MagicLeapLightMeasurement : AbstractLightMeasurement
     {

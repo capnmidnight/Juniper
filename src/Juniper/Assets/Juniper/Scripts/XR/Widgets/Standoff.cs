@@ -1,8 +1,8 @@
-using Juniper.Unity.Display;
+using Juniper.Display;
 
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     /// <summary>
     /// Holds an object away from the user on the opposite side of a target object. This is useful

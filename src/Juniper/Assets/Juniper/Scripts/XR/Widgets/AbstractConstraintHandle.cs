@@ -1,7 +1,7 @@
 using Juniper.Units;
 using UnityEngine;
 
-namespace Juniper.Unity.Widgets
+namespace Juniper.Widgets
 {
     /// <summary>
     /// An abstract class that manages reading the movement of a control handle and constraining that

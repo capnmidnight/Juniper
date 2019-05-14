@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.UnityEditor
+namespace Juniper
 {
     /// <summary>
     /// A collection of extra settings that Unity doesn't expose natively.

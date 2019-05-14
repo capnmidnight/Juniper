@@ -240,7 +240,7 @@ namespace UnityEngine
                 {
                     var c = s[i];
 
-                    float charWidth = 0;
+                    float charWidth;
                     if (charWidths.ContainsKey(c))
                     {
                         charWidth = charWidths[c];

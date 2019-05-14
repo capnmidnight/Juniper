@@ -1,6 +1,6 @@
 using UnityEngine.EventSystems;
 
-namespace Juniper.Unity.Events
+namespace Juniper.Events
 {
     public interface ILongPressHandler : IEventSystemHandler
     {

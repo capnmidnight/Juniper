@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 using UnityEngine;
 
-namespace Juniper.UnityEditor.ConfigurationManagement
+namespace Juniper.ConfigurationManagement
 {
     internal class Platforms
     {
