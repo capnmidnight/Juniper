@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['backgroundthreaderroreventargs',['BackgroundThreadErrorEventArgs',['../da/df7/class_juniper_1_1_data_1_1_background_thread_error_event_args.html',1,'Juniper::Data']]],
+  ['backgroundthreaderroreventargs',['BackgroundThreadErrorEventArgs',['../df/d7e/class_juniper_1_1_threading_1_1_background_thread_error_event_args.html',1,'Juniper::Threading']]],
+  ['bodyinfo',['BodyInfo',['../d5/d37/struct_juniper_1_1_h_t_t_p_1_1_body_info.html',1,'Juniper::HTTP']]],
   ['booleanevent',['BooleanEvent',['../dc/d68/class_unity_engine_1_1_events_1_1_boolean_event.html',1,'UnityEngine::Events']]],
   ['boundsext',['BoundsExt',['../d5/d9b/class_unity_engine_1_1_bounds_ext.html',1,'UnityEngine']]],
   ['brightness',['Brightness',['../dc/df2/class_juniper_1_1_units_1_1_brightness.html',1,'Juniper::Units']]],

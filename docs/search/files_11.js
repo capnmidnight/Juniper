@@ -2,6 +2,7 @@ var searchData=
 [
   ['radians_2ecs',['Radians.cs',['../d4/d37/_radians_8cs.html',1,'']]],
   ['ratio_2ecs',['Ratio.cs',['../d7/dff/_ratio_8cs.html',1,'']]],
+  ['rawaudio_2ecs',['RawAudio.cs',['../d3/d96/_raw_audio_8cs.html',1,'']]],
   ['rawimage_2ecs',['RawImage.cs',['../dc/de9/_raw_image_8cs.html',1,'']]],
   ['rawpackage_2ecs',['RawPackage.cs',['../df/d1e/_raw_package_8cs.html',1,'']]],
   ['readme_2emd',['README.md',['../d9/dd6/_r_e_a_d_m_e_8md.html',1,'']]],
@@ -10,6 +11,8 @@ var searchData=
   ['recttransformext_2ecs',['RectTransformExt.cs',['../dd/d7f/_rect_transform_ext_8cs.html',1,'']]],
   ['rendererext_2ecs',['RendererExt.cs',['../da/dc1/_renderer_ext_8cs.html',1,'']]],
   ['resonanceinteractionaudio_2ecs',['ResonanceInteractionAudio.cs',['../d4/ddc/_resonance_interaction_audio_8cs.html',1,'']]],
+  ['resourceext_2ecs',['ResourceExt.cs',['../da/d0e/_resource_ext_8cs.html',1,'']]],
+  ['result_2ecs',['Result.cs',['../d1/dca/_result_8cs.html',1,'']]],
   ['ringbuffer_2ecs',['RingBuffer.cs',['../d9/dd6/_ring_buffer_8cs.html',1,'']]],
   ['rocketpack_2ecs',['RocketPack.cs',['../d6/d4a/_rocket_pack_8cs.html',1,'']]],
   ['rotatable_2ecs',['Rotatable.cs',['../d4/dbc/_rotatable_8cs.html',1,'']]],

@@ -16,7 +16,7 @@ var searchData=
   ['ondisplaytypechange',['onDisplayTypeChange',['../da/da5/class_juniper_1_1_unity_1_1_display_1_1_abstract_display_manager.html#af5f2497b6b9825f3666ac05819e1f1e1',1,'Juniper::Unity::Display::AbstractDisplayManager']]],
   ['ondoubleclick',['onDoubleClick',['../db/d9a/class_juniper_1_1_unity_1_1_events_1_1_button_event.html#aa5dac0901855e6b15228a4572b8d2e97',1,'Juniper::Unity::Events::ButtonEvent']]],
   ['ondown',['onDown',['../db/d9a/class_juniper_1_1_unity_1_1_events_1_1_button_event.html#a6d647f5a13d77f76730e9c8403a954cd',1,'Juniper::Unity::Events::ButtonEvent']]],
-  ['one',['One',['../dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html#a0f44c16b389276facb5286819fad0535',1,'Juniper::Statistics::AbstractCollectionStatistics']]],
+  ['one',['One',['../db/dc4/class_juniper_1_1_collections_1_1_statistics_1_1_abstract_collection_statistics.html#a30e045edd27794f43fc0557e89f330cb',1,'Juniper::Collections::Statistics::AbstractCollectionStatistics']]],
   ['onenter',['onEnter',['../d3/d32/class_unity_engine_1_1_events_1_1_triggered_event.html#a5f22013d6466f3a1b1508649d138642a',1,'UnityEngine::Events::TriggeredEvent']]],
   ['onentered',['onEntered',['../dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html#a426269b34493228acdffeea7cab12df2',1,'Juniper::Unity::AbstractStateController']]],
   ['onentering',['onEntering',['../dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html#a4d73374b39e0a5647d38d90233307c59',1,'Juniper::Unity::AbstractStateController']]],
@@ -26,7 +26,7 @@ var searchData=
   ['onfound',['onFound',['../d9/d49/class_juniper_1_1_unity_1_1_image_tracking_1_1_abstract_trackable_found_event_handler.html#aa5c540990c8f8eae15e1ece3da3fa4c0',1,'Juniper::Unity::ImageTracking::AbstractTrackableFoundEventHandler']]],
   ['oninactive',['onInactive',['../d4/d7d/class_juniper_1_1_unity_1_1_widgets_1_1_shaker.html#a6feed1e84d893002bdbaf7756753a4ef',1,'Juniper::Unity::Widgets::Shaker']]],
   ['onkeyword',['onKeyword',['../d2/d89/class_juniper_1_1_unity_1_1_input_1_1_speech_1_1_keywordable.html#a9ba9648c55f2350b580f3ee6be1890bd',1,'Juniper::Unity::Input::Speech::Keywordable']]],
-  ['onkeywordrecognized',['onKeywordRecognized',['../da/d31/class_juniper_1_1_unity_1_1_input_1_1_speech_1_1_keyword_recognizer.html#a23e263d34c44719da0e784b9b0d64de5',1,'Juniper::Unity::Input::Speech::KeywordRecognizer']]],
+  ['onkeywordrecognized',['onKeywordRecognized',['../dc/d89/class_juniper_1_1_unity_1_1_input_1_1_speech_1_1_abstract_keyword_recognizer.html#a4aba75823b0f6353f4bae35cd89e9ed5',1,'Juniper::Unity::Input::Speech::AbstractKeywordRecognizer']]],
   ['onloaderror',['onLoadError',['../d5/d45/class_juniper_1_1_unity_1_1_streamable_asset.html#af6b83fd84883e8a3a1bfcff5fa230a3e',1,'Juniper::Unity::StreamableAsset']]],
   ['onlongpress',['onLongPress',['../db/d9a/class_juniper_1_1_unity_1_1_events_1_1_button_event.html#aad12c717ce3dd271e264fc60f4613a38',1,'Juniper.Unity.Events.ButtonEvent.onLongPress()'],['../df/de4/class_juniper_1_1_unity_1_1_widgets_1_1_clickable.html#a2943ae8b488994493683360c4e56b6fc',1,'Juniper.Unity.Widgets.Clickable.onLongPress()']]],
   ['onloop',['onLoop',['../d2/d0b/class_juniper_1_1_unity_1_1_video_1_1_video360.html#a44236329e7754cb187938a295499525e',1,'Juniper::Unity::Video::Video360']]],
@@ -57,7 +57,7 @@ var searchData=
   ['option',['Option',['../d1/d6f/class_juniper_1_1_unity_1_1_juniper_system.html#a693d64b287eb6bdc4d0fc6b9ee1709ff',1,'Juniper::Unity::JuniperSystem']]],
   ['optionsinterface',['optionsInterface',['../d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html#ad30a7564da772dc8fc2e4d0aeb08321a',1,'Juniper::Unity::MasterSceneController']]],
   ['orientation',['orientation',['../d9/ded/class_juniper_1_1_unity_1_1_world_1_1_sun_position.html#ac2f5eb3f818879a0ed0616d443fe4d82',1,'Juniper::Unity::World::SunPosition']]],
-  ['originvelocity',['originVelocity',['../de/db2/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html#a24e95dd7c3e7d8d21b2f608417653203',1,'Juniper::Unity::Input::Pointers::Motion::HoloLensHand']]],
   ['other_5fmenu_5fname',['OTHER_MENU_NAME',['../df/daa/class_juniper_1_1_unity_editor_1_1_configuration_management_1_1_juniper_configuration_manager.html#a71df2beb72e25055ef2d14590f81bef4',1,'Juniper::UnityEditor::ConfigurationManagement::JuniperConfigurationManager']]],
+  ['outstream',['outStream',['../d2/d1f/class_juniper_1_1_progress_1_1_caching_stream.html#a396b58dfdb38765f43999b1a8747a21a',1,'Juniper::Progress::CachingStream']]],
   ['overhead',['overhead',['../db/d0d/class_juniper_1_1_unity_1_1_world_1_1_light_estimation_1_1_abstract_light_estimate.html#a3672a1bdb9d8973ffb366a38319be6a5',1,'Juniper::Unity::World::LightEstimation::AbstractLightEstimate']]]
 ];

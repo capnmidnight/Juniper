@@ -1,9 +1,8 @@
 <map id="Juniper.Unity.Input.Pointers.MappedButton&lt; ButtonIDType &gt;" name="Juniper.Unity.Input.Pointers.MappedButton&lt; ButtonIDType &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="87,763,292,1060"/>
-<area shape="rect" id="node2" href="$db/d9a/class_juniper_1_1_unity_1_1_events_1_1_button_event.html" title=" " alt="" coords="93,373,285,700"/>
-<area shape="rect" id="node3" href="$db/ded/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_pointer_data_creator.html" title=" " alt="" coords="11,167,141,245"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,13,115,90"/>
-<area shape="rect" id="node5" title=" " alt="" coords="151,13,203,90"/>
-<area shape="rect" id="node6" href="$d0/d0e/class_juniper_1_1_unity_1_1_events_1_1_pointer_event.html" title=" " alt="" coords="285,160,465,252"/>
-<area shape="rect" id="node7" title=" " alt="" coords="292,5,457,97"/>
+<area shape="rect" id="node1" title=" " alt="" coords="63,749,268,1091"/>
+<area shape="rect" id="node2" href="$db/d9a/class_juniper_1_1_unity_1_1_events_1_1_button_event.html" title=" " alt="" coords="69,360,261,687"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,154,115,231"/>
+<area shape="rect" id="node4" title=" " alt="" coords="139,154,191,231"/>
+<area shape="rect" id="node5" href="$d0/d0e/class_juniper_1_1_unity_1_1_events_1_1_pointer_event.html" title=" " alt="" coords="215,147,395,239"/>
+<area shape="rect" id="node6" title=" " alt="" coords="223,5,388,97"/>
 </map>

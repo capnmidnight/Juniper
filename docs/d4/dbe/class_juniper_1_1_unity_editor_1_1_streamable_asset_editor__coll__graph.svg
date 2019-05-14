@@ -9,8 +9,8 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 200)">
 <title>Juniper.UnityEditor.StreamableAssetEditor&lt; T, U &gt;</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-200 302.5,-200 302.5,4 -4,4"/>
-<!-- Node6 -->
-<g id="node1" class="node"><title>Node6</title>
+<!-- Node8 -->
+<g id="node1" class="node"><title>Node8</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="71.5,-0.5 71.5,-101.5 220.5,-101.5 220.5,-0.5 71.5,-0.5"/>
 <text text-anchor="start" x="79.5" y="-89.5" font-family="SegoeUI" font-size="10.00">Juniper.UnityEditor.Streamable</text>
@@ -25,8 +25,8 @@
 </a>
 </g>
 </g>
-<!-- Node7 -->
-<g id="node2" class="node"><title>Node7</title>
+<!-- Node9 -->
+<g id="node2" class="node"><title>Node9</title>
 <g id="a_node2"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="0,-138.5 0,-195.5 84,-195.5 84,-138.5 0,-138.5"/>
 <text text-anchor="middle" x="42" y="-183.5" font-family="SegoeUI" font-size="10.00">PropertyDrawer</text>
@@ -37,13 +37,13 @@
 </a>
 </g>
 </g>
-<!-- Node7&#45;&gt;Node6 -->
-<g id="edge1" class="edge"><title>Node7&#45;&gt;Node6</title>
+<!-- Node9&#45;&gt;Node8 -->
+<g id="edge1" class="edge"><title>Node9&#45;&gt;Node8</title>
 <path fill="none" stroke="midnightblue" d="M74.0459,-130.873C82.4852,-121.622 91.7511,-111.465 100.743,-101.608"/>
 <polygon fill="none" stroke="midnightblue" points="71.3295,-128.657 67.1755,-138.404 76.5008,-133.375 71.3295,-128.657"/>
 </g>
-<!-- Node8 -->
-<g id="node3" class="node"><title>Node8</title>
+<!-- Node10 -->
+<g id="node3" class="node"><title>Node10</title>
 <g id="a_node3"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="102.5,-138.5 102.5,-195.5 189.5,-195.5 189.5,-138.5 102.5,-138.5"/>
 <text text-anchor="middle" x="146" y="-183.5" font-family="SegoeUI" font-size="10.00">IPreprocessBuild</text>
@@ -54,13 +54,13 @@
 </a>
 </g>
 </g>
-<!-- Node8&#45;&gt;Node6 -->
-<g id="edge2" class="edge"><title>Node8&#45;&gt;Node6</title>
+<!-- Node10&#45;&gt;Node8 -->
+<g id="edge2" class="edge"><title>Node10&#45;&gt;Node8</title>
 <path fill="none" stroke="midnightblue" d="M146,-128.354C146,-119.796 146,-110.578 146,-101.608"/>
 <polygon fill="none" stroke="midnightblue" points="142.5,-128.404 146,-138.404 149.5,-128.404 142.5,-128.404"/>
 </g>
-<!-- Node9 -->
-<g id="node4" class="node"><title>Node9</title>
+<!-- Node11 -->
+<g id="node4" class="node"><title>Node11</title>
 <g id="a_node4"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="207.5,-138.5 207.5,-195.5 298.5,-195.5 298.5,-138.5 207.5,-138.5"/>
 <text text-anchor="middle" x="253" y="-183.5" font-family="SegoeUI" font-size="10.00">IPostprocessBuild</text>
@@ -71,8 +71,8 @@
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node6 -->
-<g id="edge3" class="edge"><title>Node9&#45;&gt;Node6</title>
+<!-- Node11&#45;&gt;Node8 -->
+<g id="edge3" class="edge"><title>Node11&#45;&gt;Node8</title>
 <path fill="none" stroke="midnightblue" d="M220.03,-130.873C211.347,-121.622 201.814,-111.465 192.562,-101.608"/>
 <polygon fill="none" stroke="midnightblue" points="217.703,-133.508 227.098,-138.404 222.807,-128.717 217.703,-133.508"/>
 </g>

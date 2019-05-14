@@ -90,11 +90,11 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="41.5" y="-230.5" font-family="SegoeUI" font-size="10.00"># measurement</text>
 <text text-anchor="start" x="41.5" y="-219.5" font-family="SegoeUI" font-size="10.00"># overhead</text>
 <polyline fill="none" stroke="black" points="33.5,-212.5 142.5,-212.5 "/>
-<text text-anchor="start" x="41.5" y="-200.5" font-family="SegoeUI" font-size="10.00">+ Reinstall()</text>
-<text text-anchor="start" x="41.5" y="-189.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="41.5" y="-178.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
-<text text-anchor="start" x="41.5" y="-167.5" font-family="SegoeUI" font-size="10.00"># RampIntensity()</text>
-<text text-anchor="start" x="41.5" y="-156.5" font-family="SegoeUI" font-size="10.00"># Awake()</text>
+<text text-anchor="start" x="41.5" y="-200.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
+<text text-anchor="start" x="41.5" y="-189.5" font-family="SegoeUI" font-size="10.00">+ Reinstall()</text>
+<text text-anchor="start" x="41.5" y="-178.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="41.5" y="-167.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<text text-anchor="start" x="41.5" y="-156.5" font-family="SegoeUI" font-size="10.00"># RampIntensity()</text>
 <text text-anchor="start" x="41.5" y="-145.5" font-family="SegoeUI" font-size="10.00"># Update()</text>
 <text text-anchor="start" x="41.5" y="-134.5" font-family="SegoeUI" font-size="10.00">&#45; PrintDebugReport()</text>
 </a>

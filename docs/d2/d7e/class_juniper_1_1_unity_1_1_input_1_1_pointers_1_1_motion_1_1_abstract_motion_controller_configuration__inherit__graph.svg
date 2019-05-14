@@ -239,14 +239,14 @@ var sectionId = 'dynsection-0';
 </g>
 <!-- Node6 -->
 <g id="node7" class="node"><title>Node6</title>
-<g id="a_node7"><a xlink:href="../../d1/d6c/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_daydream_probe_configuration.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="248,-11.5 248,-79.5 421,-79.5 421,-11.5 248,-11.5"/>
-<text text-anchor="start" x="256" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
-<text text-anchor="middle" x="334.5" y="-56.5" font-family="SegoeUI" font-size="10.00">Motion.DaydreamProbeConfiguration</text>
-<polyline fill="none" stroke="black" points="248,-49.5 421,-49.5 "/>
-<text text-anchor="start" x="256" y="-37.5" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
-<polyline fill="none" stroke="black" points="248,-30.5 421,-30.5 "/>
-<text text-anchor="start" x="256" y="-18.5" font-family="SegoeUI" font-size="10.00">+ DaydreamProbeConfiguration()</text>
+<g id="a_node7"><a xlink:href="../../df/da9/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_daydream_pointer_configuration.html" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="245,-11.5 245,-79.5 424,-79.5 424,-11.5 245,-11.5"/>
+<text text-anchor="start" x="253" y="-67.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
+<text text-anchor="middle" x="334.5" y="-56.5" font-family="SegoeUI" font-size="10.00">Motion.DaydreamPointerConfiguration</text>
+<polyline fill="none" stroke="black" points="245,-49.5 424,-49.5 "/>
+<text text-anchor="start" x="253" y="-37.5" font-family="SegoeUI" font-size="10.00">+ this[Hands hand]</text>
+<polyline fill="none" stroke="black" points="245,-30.5 424,-30.5 "/>
+<text text-anchor="start" x="253" y="-18.5" font-family="SegoeUI" font-size="10.00">+ DaydreamPointerConfiguration()</text>
 </a>
 </g>
 </g>

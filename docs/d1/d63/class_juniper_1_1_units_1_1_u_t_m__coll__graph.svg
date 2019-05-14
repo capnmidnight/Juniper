@@ -11,13 +11,13 @@
 <polygon fill="white" stroke="none" points="-4,4 -4,-62 98,-62 98,4 -4,4"/>
 <!-- Node1 -->
 <g id="node1" class="node"><title>Node1</title>
-<g id="a_node1"><a xlink:title="Conversions from UTMPoint s.">
+<g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-57.5 94,-57.5 94,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="47" y="-45.5" font-family="SegoeUI" font-size="10.00">Juniper.Units.UTM</text>
 <polyline fill="none" stroke="black" points="0,-38.5 94,-38.5 "/>
 <text text-anchor="middle" x="47" y="-26.5" font-family="SegoeUI" font-size="10.00"> </text>
 <polyline fill="none" stroke="black" points="0,-19.5 94,-19.5 "/>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ LatLng()</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ ToLatLng()</text>
 </a>
 </g>
 </g>

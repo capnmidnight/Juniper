@@ -1,4 +1,0 @@
-<map id="Juniper.Data.OneShotThread" name="Juniper.Data.OneShotThread">
-<area shape="rect" id="node1" title="Run any System.Action in a background thread that starts right away." alt="" coords="5,219,192,325"/>
-<area shape="rect" id="node2" href="$dd/da7/class_juniper_1_1_data_1_1_abstract_background_thread.html" title="An abstract class for performing an operation on a background thread." alt="" coords="11,5,187,171"/>
-</map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['options',['Options',['../de/d75/namespace_juniper.html#aa0ae52a17511e7a52beae1e3dc428c13',1,'Juniper']]]
+  ['options',['Options',['../d2/d08/namespace_juniper_1_1_x_r.html#a4ae9c31f783775d0987fe0167e7fa64f',1,'Juniper::XR']]]
 ];

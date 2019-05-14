@@ -5,11 +5,13 @@ var searchData=
   ['magicleapgazepointer_2ecs',['MagicLeapGazePointer.cs',['../dc/dd1/_magic_leap_gaze_pointer_8cs.html',1,'']]],
   ['magicleapground_2ecs',['MagicLeapGround.cs',['../de/d66/_magic_leap_ground_8cs.html',1,'']]],
   ['magicleaphand_2ecs',['MagicLeapHand.cs',['../da/d21/_magic_leap_hand_8cs.html',1,'']]],
+  ['magicleaphandconfiguration_2ecs',['MagicLeapHandConfiguration.cs',['../de/d89/_magic_leap_hand_configuration_8cs.html',1,'']]],
   ['magicleaphaptics_2ecs',['MagicLeapHaptics.cs',['../d9/d70/_magic_leap_haptics_8cs.html',1,'']]],
   ['magicleapinputmodule_2ecs',['MagicLeapInputModule.cs',['../d5/dd2/_magic_leap_input_module_8cs.html',1,'']]],
   ['magicleapinteractionaudio_2ecs',['MagicLeapInteractionAudio.cs',['../d4/d3c/_magic_leap_interaction_audio_8cs.html',1,'']]],
   ['magicleaplightmeasurement_2ecs',['MagicLeapLightMeasurement.cs',['../dc/d85/_magic_leap_light_measurement_8cs.html',1,'']]],
   ['magicleapmotioncontroller_2ecs',['MagicLeapMotionController.cs',['../da/db0/_magic_leap_motion_controller_8cs.html',1,'']]],
+  ['magicleapmotioncontrollerconfiguration_2ecs',['MagicLeapMotionControllerConfiguration.cs',['../d9/db6/_magic_leap_motion_controller_configuration_8cs.html',1,'']]],
   ['magicleappermissionhandler_2ecs',['MagicLeapPermissionHandler.cs',['../da/d91/_magic_leap_permission_handler_8cs.html',1,'']]],
   ['magicleaptrackerkeeper_2ecs',['MagicLeapTrackerKeeper.cs',['../db/de6/_magic_leap_tracker_keeper_8cs.html',1,'']]],
   ['managedrequest_2ecs',['ManagedRequest.cs',['../d0/d14/_managed_request_8cs.html',1,'']]],
@@ -36,5 +38,6 @@ var searchData=
   ['mockworldanchor_2ecs',['MockWorldAnchor.cs',['../d0/d3a/_mock_world_anchor_8cs.html',1,'']]],
   ['months_2ecs',['Months.cs',['../df/d6e/_months_8cs.html',1,'']]],
   ['motioncontroller_2ecs',['MotionController.cs',['../df/d3f/_motion_controller_8cs.html',1,'']]],
-  ['mouse_2ecs',['Mouse.cs',['../dc/dcd/_mouse_8cs.html',1,'']]]
+  ['mouse_2ecs',['Mouse.cs',['../dc/dcd/_mouse_8cs.html',1,'']]],
+  ['mousepointerconfiguration_2ecs',['MousePointerConfiguration.cs',['../d3/d69/_mouse_pointer_configuration_8cs.html',1,'']]]
 ];

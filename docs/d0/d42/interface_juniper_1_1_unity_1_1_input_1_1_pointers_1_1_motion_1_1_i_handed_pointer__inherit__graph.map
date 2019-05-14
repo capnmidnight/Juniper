@@ -1,26 +1,21 @@
 <map id="Juniper.Unity.Input.Pointers.Motion.IHandedPointer" name="Juniper.Unity.Input.Pointers.Motion.IHandedPointer">
-<area shape="rect" id="node1" title=" " alt="" coords="468,425,651,576"/>
-<area shape="rect" id="node3" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="399,625,597,864"/>
-<area shape="rect" id="node23" href="$d0/dc2/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_motion_controller.html" title=" " alt="" coords="848,647,1031,842"/>
-<area shape="rect" id="node2" href="$d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="477,5,642,376"/>
-<area shape="rect" id="node4" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="366,941,630,1532"/>
-<area shape="rect" id="node19" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="131,1117,329,1356"/>
-<area shape="rect" id="node5" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="808,1639,1023,2244"/>
-<area shape="rect" id="node12" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="423,1639,680,2244"/>
-<area shape="rect" id="node14" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="1056,1646,1327,2237"/>
-<area shape="rect" id="node17" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="1366,1646,1689,2237"/>
-<area shape="rect" id="node6" href="$d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="806,2321,1025,2736"/>
-<area shape="rect" id="node7" href="$d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html" title=" " alt="" coords="541,2813,820,3243"/>
-<area shape="rect" id="node9" href="$d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html" title=" " alt="" coords="845,2813,1063,3243"/>
-<area shape="rect" id="node8" href="$dc/de6/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="567,3358,795,3479"/>
-<area shape="rect" id="node10" href="$de/db2/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="863,3292,1045,3545"/>
-<area shape="rect" id="node11" href="$d1/ddd/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html" title=" " alt="" coords="863,3595,1045,3687"/>
-<area shape="rect" id="node13" href="$de/dec/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="444,2343,659,2714"/>
-<area shape="rect" id="node15" href="$d1/d9f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_daydream_motion_controller.html" title=" " alt="" coords="1083,2358,1299,2699"/>
-<area shape="rect" id="node16" href="$d7/d8f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html" title=" " alt="" coords="1100,2982,1283,3074"/>
-<area shape="rect" id="node18" href="$de/d40/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_no_motion_controller.html" title=" " alt="" coords="1436,2395,1619,2663"/>
-<area shape="rect" id="node20" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="65,1881,257,2002"/>
-<area shape="rect" id="node21" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="5,2475,316,2582"/>
-<area shape="rect" id="node22" href="$d6/dbd/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_no_hand_tracker.html" title=" " alt="" coords="69,2953,252,3103"/>
-<area shape="rect" id="node24" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="978,941,1242,1532"/>
+<area shape="rect" id="node1" title=" " alt="" coords="608,425,791,576"/>
+<area shape="rect" id="node3" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="539,625,737,864"/>
+<area shape="rect" id="node18" href="$d0/dc2/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_motion_controller.html" title=" " alt="" coords="1016,647,1199,842"/>
+<area shape="rect" id="node2" href="$d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="617,5,782,376"/>
+<area shape="rect" id="node4" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="226,1177,413,1299"/>
+<area shape="rect" id="node8" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="531,913,745,1563"/>
+<area shape="rect" id="node5" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="5,1933,316,2040"/>
+<area shape="rect" id="node6" href="$d6/dbd/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_no_hand_tracker.html" title=" " alt="" coords="69,2507,252,2658"/>
+<area shape="rect" id="node7" href="$d1/ddd/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html" title=" " alt="" coords="69,2847,252,2939"/>
+<area shape="rect" id="node9" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="412,1662,675,2311"/>
+<area shape="rect" id="node12" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="929,1655,1240,2319"/>
+<area shape="rect" id="node14" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="1609,1669,1939,2304"/>
+<area shape="rect" id="node16" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="1301,1662,1567,2311"/>
+<area shape="rect" id="node10" href="$d1/d9f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_daydream_motion_controller.html" title=" " alt="" coords="435,2405,651,2761"/>
+<area shape="rect" id="node11" href="$d7/d8f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html" title=" " alt="" coords="452,2847,635,2939"/>
+<area shape="rect" id="node13" href="$dc/de6/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_windows_m_r_motion_controller.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="971,2368,1199,2797"/>
+<area shape="rect" id="node15" href="$de/d40/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_no_motion_controller.html" title=" " alt="" coords="1683,2441,1865,2724"/>
+<area shape="rect" id="node17" href="$de/dec/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_vive_focus_motion_controller.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="1327,2390,1541,2775"/>
+<area shape="rect" id="node19" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="1161,921,1435,1555"/>
 </map>

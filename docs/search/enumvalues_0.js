@@ -1,20 +1,20 @@
 var searchData=
 [
-  ['acceleration',['Acceleration',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa3b926d163371fd620b09b63219b12f52',1,'Juniper::Units']]],
+  ['acceleration',['Acceleration',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa3b926d163371fd620b09b63219b12f52',1,'Juniper::Units']]],
   ['airtap',['AirTap',['../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7a28e889104deeb9b72b847b5026fe2e75',1,'Juniper::Unity::Input::Pointers::Motion']]],
-  ['android',['Android',['../de/d75/namespace_juniper.html#a6e1ae745b610b801cab2beca6c1e8ea1ae84e30b9390cdb64db6db2c9ab87846d',1,'Juniper.Android()'],['../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991ae84e30b9390cdb64db6db2c9ab87846d',1,'Juniper.Android()']]],
-  ['androidarcore',['AndroidARCore',['../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991a78c6066ed551c5b0c02e7bbd9c2da683',1,'Juniper']]],
-  ['androidcardboard',['AndroidCardboard',['../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991a0ade19d807156e5a4763bde19e09caf0',1,'Juniper']]],
-  ['androiddaydream',['AndroidDaydream',['../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991a43a7267c82eccb99ecd9f97f43e81ac1',1,'Juniper']]],
-  ['androidoculus',['AndroidOculus',['../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991a61713922a2076951c7bcb84ec854ee2d',1,'Juniper']]],
-  ['androidpicog2',['AndroidPicoG2',['../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991a9b86fe2d613e05c4282080a41fb36cab',1,'Juniper']]],
-  ['androidvivefocus',['AndroidViveFocus',['../de/d75/namespace_juniper.html#a5b19399c232b1bd2736a424de784a991ae436e656f0237b5e585d1d65f59f4fe4',1,'Juniper']]],
-  ['angles',['Angles',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa2fa76adbb6d92527d3c42cb3e0a8a948',1,'Juniper::Units']]],
+  ['android',['Android',['../d2/d08/namespace_juniper_1_1_x_r.html#a2a2febae0dc9a222a152997e0cf0d414ae84e30b9390cdb64db6db2c9ab87846d',1,'Juniper.XR.Android()'],['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9ae84e30b9390cdb64db6db2c9ab87846d',1,'Juniper.XR.Android()']]],
+  ['androidarcore',['AndroidARCore',['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9a78c6066ed551c5b0c02e7bbd9c2da683',1,'Juniper::XR']]],
+  ['androidcardboard',['AndroidCardboard',['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9a0ade19d807156e5a4763bde19e09caf0',1,'Juniper::XR']]],
+  ['androiddaydream',['AndroidDaydream',['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9a43a7267c82eccb99ecd9f97f43e81ac1',1,'Juniper::XR']]],
+  ['androidoculus',['AndroidOculus',['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9a61713922a2076951c7bcb84ec854ee2d',1,'Juniper::XR']]],
+  ['androidpicog2',['AndroidPicoG2',['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9a9b86fe2d613e05c4282080a41fb36cab',1,'Juniper::XR']]],
+  ['androidvivefocus',['AndroidViveFocus',['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9ae436e656f0237b5e585d1d65f59f4fe4',1,'Juniper::XR']]],
+  ['angles',['Angles',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa2fa76adbb6d92527d3c42cb3e0a8a948',1,'Juniper::Units']]],
   ['any',['Any',['../d2/d4b/namespace_juniper_1_1_unity_1_1_input.html#a3f532a2dac76193eac1a0bcbd9641a44aed36a1ef76a59ee3f15180e0441188ad',1,'Juniper.Unity.Input.Any()'],['../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7aed36a1ef76a59ee3f15180e0441188ad',1,'Juniper.Unity.Input.Pointers.Motion.Any()']]],
   ['app',['App',['../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7aac863f346e618f9a959b5c95d5d28941',1,'Juniper::Unity::Input::Pointers::Motion']]],
   ['april',['April',['../d8/dd0/namespace_system.html#a9948aa83f3da57bc2f9e436b6a08675ba3fcf026bbfffb63fb24b8de9d0446949',1,'System']]],
-  ['area',['Area',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aadeec4ff19974f12ed781cb9a59064214',1,'Juniper::Units']]],
-  ['atmosphericpressure',['AtmosphericPressure',['../d2/d5c/class_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aaf5046a50e3db0d4b830d757b0d60a75d',1,'Juniper::Units']]],
+  ['area',['Area',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aadeec4ff19974f12ed781cb9a59064214',1,'Juniper::Units']]],
+  ['atmosphericpressure',['AtmosphericPressure',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aaf5046a50e3db0d4b830d757b0d60a75d',1,'Juniper::Units']]],
   ['august',['August',['../d8/dd0/namespace_system.html#a9948aa83f3da57bc2f9e436b6a08675ba41ba70891fb6f39327d8ccb9b1dafb84',1,'System']]],
-  ['auto',['Auto',['../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#a04797fb7092b1d3be70c5528547e63b0a06b9281e396db002010bde1de57262eb',1,'Juniper.Unity.Input.AbstractUnifiedInputModule.Auto()'],['../d3/d64/class_juniper_1_1_unity_1_1_input_1_1_camera_control.html#a5eb0d8c40191ee00ec3cbe7870b7e94aa06b9281e396db002010bde1de57262eb',1,'Juniper.Unity.Input.CameraControl.Auto()']]]
+  ['auto',['Auto',['../d3/d64/class_juniper_1_1_unity_1_1_input_1_1_camera_control.html#a5eb0d8c40191ee00ec3cbe7870b7e94aa06b9281e396db002010bde1de57262eb',1,'Juniper.Unity.Input.CameraControl.Auto()'],['../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#a04797fb7092b1d3be70c5528547e63b0a06b9281e396db002010bde1de57262eb',1,'Juniper.Unity.Input.AbstractUnifiedInputModule.Auto()']]]
 ];

@@ -27,7 +27,7 @@
 <text text-anchor="start" x="136" y="-169.5" font-family="SegoeUI" font-size="10.00">+ City</text>
 <text text-anchor="start" x="136" y="-158.5" font-family="SegoeUI" font-size="10.00">+ Country</text>
 <text text-anchor="start" x="136" y="-147.5" font-family="SegoeUI" font-size="10.00">+ Location</text>
-<text text-anchor="start" x="136" y="-136.5" font-family="SegoeUI" font-size="10.00">+ Visibility</text>
+<text text-anchor="start" x="136" y="-136.5" font-family="SegoeUI" font-size="10.00">+ AtmosphericVisibility</text>
 <text text-anchor="start" x="136" y="-125.5" font-family="SegoeUI" font-size="10.00">+ SunriseTime</text>
 <text text-anchor="start" x="136" y="-114.5" font-family="SegoeUI" font-size="10.00">+ SunsetTime</text>
 <text text-anchor="start" x="136" y="-103.5" font-family="SegoeUI" font-size="10.00">+ CloudCover</text>
@@ -37,7 +37,7 @@
 <text text-anchor="start" x="136" y="-59.5" font-family="SegoeUI" font-size="10.00">+ Temperature</text>
 <text text-anchor="start" x="136" y="-48.5" font-family="SegoeUI" font-size="10.00">+ Humidity</text>
 <text text-anchor="start" x="136" y="-37.5" font-family="SegoeUI" font-size="10.00">+ AtmosphericPressure</text>
-<text text-anchor="start" x="136" y="-26.5" font-family="SegoeUI" font-size="10.00">+ Error</text>
+<text text-anchor="start" x="136" y="-26.5" font-family="SegoeUI" font-size="10.00">+ ErrorMessage</text>
 <polyline fill="none" stroke="black" points="128,-19.5 266,-19.5 "/>
 <text text-anchor="middle" x="197" y="-7.5" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
@@ -45,7 +45,7 @@
 </g>
 <!-- Node3 -->
 <g id="node2" class="node"><title>Node3</title>
-<g id="a_node2"><a xlink:href="../../d8/d7d/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_report.html" target="_top" xlink:title=" ">
+<g id="a_node2"><a xlink:href="../../de/d3a/interface_juniper_1_1_climate_1_1_i_weather_report.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="0,-386 0,-597 116,-597 116,-386 0,-386"/>
 <text text-anchor="middle" x="58" y="-585" font-family="SegoeUI" font-size="10.00">IWeatherReport</text>
 <polyline fill="none" stroke="black" points="0,-578 116,-578 "/>
@@ -77,36 +77,33 @@
 <!-- Node4 -->
 <g id="node3" class="node"><title>Node4</title>
 <g id="a_node3"><a xlink:href="../../d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html" target="_top" xlink:title="A point in geographic space on a radial coordinate system.">
-<polygon fill="white" stroke="black" points="134.5,-369.5 134.5,-613.5 259.5,-613.5 259.5,-369.5 134.5,-369.5"/>
-<text text-anchor="start" x="142.5" y="-601.5" font-family="SegoeUI" font-size="10.00">Juniper.World.GIS.LatLng</text>
-<text text-anchor="middle" x="197" y="-590.5" font-family="SegoeUI" font-size="10.00">Point</text>
-<polyline fill="none" stroke="black" points="134.5,-583.5 259.5,-583.5 "/>
-<text text-anchor="start" x="142.5" y="-571.5" font-family="SegoeUI" font-size="10.00">+ Altitude</text>
-<text text-anchor="start" x="142.5" y="-560.5" font-family="SegoeUI" font-size="10.00">+ Latitude</text>
-<text text-anchor="start" x="142.5" y="-549.5" font-family="SegoeUI" font-size="10.00">+ Longitude</text>
-<polyline fill="none" stroke="black" points="134.5,-542.5 259.5,-542.5 "/>
-<text text-anchor="start" x="142.5" y="-530.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
-<text text-anchor="start" x="142.5" y="-519.5" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
-<text text-anchor="start" x="142.5" y="-508.5" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
-<text text-anchor="start" x="142.5" y="-497.5" font-family="SegoeUI" font-size="10.00">+ ToUTM()</text>
-<text text-anchor="start" x="142.5" y="-486.5" font-family="SegoeUI" font-size="10.00">+ ToSunPosition()</text>
-<text text-anchor="start" x="142.5" y="-475.5" font-family="SegoeUI" font-size="10.00">+ ToDMS()</text>
-<text text-anchor="start" x="142.5" y="-464.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
-<text text-anchor="start" x="142.5" y="-453.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
-<text text-anchor="start" x="142.5" y="-442.5" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
-<text text-anchor="start" x="142.5" y="-431.5" font-family="SegoeUI" font-size="10.00">+ Equals()</text>
-<text text-anchor="start" x="142.5" y="-420.5" font-family="SegoeUI" font-size="10.00">+ GetHashCode()</text>
-<text text-anchor="start" x="142.5" y="-409.5" font-family="SegoeUI" font-size="10.00">+ Distance()</text>
-<text text-anchor="start" x="142.5" y="-398.5" font-family="SegoeUI" font-size="10.00">+ TryParseDMS()</text>
-<text text-anchor="start" x="142.5" y="-387.5" font-family="SegoeUI" font-size="10.00"># LatLngPoint()</text>
-<text text-anchor="start" x="142.5" y="-376.5" font-family="SegoeUI" font-size="10.00">&#45; ToDMS()</text>
+<polygon fill="white" stroke="black" points="134.5,-386 134.5,-597 259.5,-597 259.5,-386 134.5,-386"/>
+<text text-anchor="start" x="142.5" y="-585" font-family="SegoeUI" font-size="10.00">Juniper.World.GIS.LatLng</text>
+<text text-anchor="middle" x="197" y="-574" font-family="SegoeUI" font-size="10.00">Point</text>
+<polyline fill="none" stroke="black" points="134.5,-567 259.5,-567 "/>
+<text text-anchor="start" x="142.5" y="-555" font-family="SegoeUI" font-size="10.00">+ Altitude</text>
+<text text-anchor="start" x="142.5" y="-544" font-family="SegoeUI" font-size="10.00">+ Latitude</text>
+<text text-anchor="start" x="142.5" y="-533" font-family="SegoeUI" font-size="10.00">+ Longitude</text>
+<polyline fill="none" stroke="black" points="134.5,-526 259.5,-526 "/>
+<text text-anchor="start" x="142.5" y="-514" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
+<text text-anchor="start" x="142.5" y="-503" font-family="SegoeUI" font-size="10.00">+ LatLngPoint()</text>
+<text text-anchor="start" x="142.5" y="-492" font-family="SegoeUI" font-size="10.00">+ GetObjectData()</text>
+<text text-anchor="start" x="142.5" y="-481" font-family="SegoeUI" font-size="10.00">+ ToDMS()</text>
+<text text-anchor="start" x="142.5" y="-470" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
+<text text-anchor="start" x="142.5" y="-459" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
+<text text-anchor="start" x="142.5" y="-448" font-family="SegoeUI" font-size="10.00">+ ToString()</text>
+<text text-anchor="start" x="142.5" y="-437" font-family="SegoeUI" font-size="10.00">+ Equals()</text>
+<text text-anchor="start" x="142.5" y="-426" font-family="SegoeUI" font-size="10.00">+ GetHashCode()</text>
+<text text-anchor="start" x="142.5" y="-415" font-family="SegoeUI" font-size="10.00">+ TryParseDMS()</text>
+<text text-anchor="start" x="142.5" y="-404" font-family="SegoeUI" font-size="10.00"># LatLngPoint()</text>
+<text text-anchor="start" x="142.5" y="-393" font-family="SegoeUI" font-size="10.00">&#45; ToDMS()</text>
 </a>
 </g>
 </g>
 <!-- Node4&#45;&gt;Node2 -->
 <g id="edge2" class="edge"><title>Node4&#45;&gt;Node2</title>
-<path fill="none" stroke="#404040" d="M197,-369.371C197,-350.683 197,-331.137 197,-311.749"/>
-<polygon fill="none" stroke="#404040" points="197,-311.706 193,-305.706 197,-299.706 201,-305.706 197,-311.706"/>
+<path fill="none" stroke="#404040" d="M197,-385.869C197,-362.428 197,-337.035 197,-311.901"/>
+<polygon fill="none" stroke="#404040" points="197,-311.593 193,-305.593 197,-299.593 201,-305.593 197,-311.593"/>
 <text text-anchor="middle" x="218.5" y="-321" font-family="SegoeUI" font-size="10.00"> +location</text>
 </g>
 <!-- Node5 -->
@@ -123,7 +120,7 @@
 </g>
 <!-- Node5&#45;&gt;Node4 -->
 <g id="edge3" class="edge"><title>Node5&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M197,-673.317C197,-656.337 197,-635.237 197,-613.51"/>
+<path fill="none" stroke="midnightblue" d="M197,-673.154C197,-651.939 197,-624.332 197,-597.11"/>
 <polygon fill="none" stroke="midnightblue" points="193.5,-673.327 197,-683.327 200.5,-673.327 193.5,-673.327"/>
 </g>
 <!-- Node6 -->

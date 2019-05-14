@@ -1,6 +1,6 @@
 <map id="Juniper.Unity.Statistics.Vector2Statistics" name="Juniper.Unity.Statistics.Vector2Statistics">
-<area shape="rect" id="node1" title="Computes statistics on UnityEngine.Vector2 values." alt="" coords="27,1836,182,2060"/>
-<area shape="rect" id="node2" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="5,991,204,1787"/>
-<area shape="rect" id="node3" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="5,132,204,928"/>
-<area shape="rect" id="node4" title=" " alt="" coords="65,5,144,83"/>
+<area shape="rect" id="node1" title="Computes statistics on UnityEngine.Vector2 values." alt="" coords="33,1836,187,2060"/>
+<area shape="rect" id="node2" href="$db/dc4/class_juniper_1_1_collections_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="11,991,209,1787"/>
+<area shape="rect" id="node3" href="$db/dc4/class_juniper_1_1_collections_1_1_statistics_1_1_abstract_collection_statistics.html" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="5,132,215,928"/>
+<area shape="rect" id="node4" title=" " alt="" coords="71,5,149,83"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="Juniper.Unity.Widgets.AbstractTouchable" name="Juniper.Unity.Widgets.AbstractTouchable">
-<area shape="rect" id="node1" title="The base class for all interactive, AR&#45;compatible, GUI controls /// This class is abstract to avoid i..." alt="" coords="457,360,653,701"/>
+<area shape="rect" id="node1" title="The base class for all interactive, AR&#45;compatible, GUI controls /// This class is abstract to avoid i..." alt="" coords="457,360,653,687"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,5,115,83"/>
 <area shape="rect" id="node7" href="$dd/d2d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_animator.html" title="An abstraction layer over different ways of showing UI state. Only one such component is allowed on a..." alt="" coords="60,132,220,268"/>
 <area shape="rect" id="node3" title=" " alt="" coords="245,161,385,239"/>

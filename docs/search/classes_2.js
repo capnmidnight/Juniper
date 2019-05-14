@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['cachingstream',['CachingStream',['../d2/d1f/class_juniper_1_1_progress_1_1_caching_stream.html',1,'Juniper::Progress']]],
   ['cameracontrol',['CameraControl',['../d3/d64/class_juniper_1_1_unity_1_1_input_1_1_camera_control.html',1,'Juniper::Unity::Input']]],
   ['cameraext',['CameraExt',['../d9/da8/class_unity_engine_1_1_camera_ext.html',1,'UnityEngine']]],
   ['celsius',['Celsius',['../de/d87/class_juniper_1_1_units_1_1_celsius.html',1,'Juniper::Units']]],
@@ -11,6 +12,8 @@ var searchData=
   ['comment',['Comment',['../d3/dfd/class_juniper_1_1_unity_1_1_comment.html',1,'Juniper::Unity']]],
   ['compassrose',['CompassRose',['../d4/df8/class_juniper_1_1_unity_1_1_world_1_1_compass_rose.html',1,'Juniper::Unity::World']]],
   ['componentext',['ComponentExt',['../d3/d40/class_unity_engine_1_1_component_ext.html',1,'UnityEngine']]],
+  ['compressor',['Compressor',['../d9/da9/class_juniper_1_1_zip_1_1_compressor.html',1,'Juniper::Zip']]],
+  ['converter',['Converter',['../d8/d59/class_juniper_1_1_units_1_1_converter.html',1,'Juniper::Units']]],
   ['cubiccentimeters',['CubicCentimeters',['../df/d93/class_juniper_1_1_units_1_1_cubic_centimeters.html',1,'Juniper::Units']]],
   ['cubicfeet',['CubicFeet',['../d6/df4/class_juniper_1_1_units_1_1_cubic_feet.html',1,'Juniper::Units']]],
   ['cubicinches',['CubicInches',['../d0/d1a/class_juniper_1_1_units_1_1_cubic_inches.html',1,'Juniper::Units']]],

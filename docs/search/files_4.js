@@ -1,6 +1,7 @@
 var searchData=
 [
   ['editabledatetime_2ecs',['EditableDateTime.cs',['../d7/d85/_editable_date_time_8cs.html',1,'']]],
+  ['equitorialspherical_2ecs',['EquitorialSpherical.cs',['../d8/d9c/_equitorial_spherical_8cs.html',1,'']]],
   ['equitorialsphericalposition_2ecs',['EquitorialSphericalPosition.cs',['../d1/d69/_equitorial_spherical_position_8cs.html',1,'']]],
   ['errorhandler_2ecs',['ErrorHandler.cs',['../d2/de6/_error_handler_8cs.html',1,'']]],
   ['exabytes_2ecs',['Exabytes.cs',['../d8/da0/_exabytes_8cs.html',1,'']]],

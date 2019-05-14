@@ -1,6 +1,0 @@
-<map id="Juniper.Data.AbstractBackgroundThread" name="Juniper.Data.AbstractBackgroundThread">
-<area shape="rect" id="node1" title="An abstract class for performing an operation on a background thread." alt="" coords="125,5,336,185"/>
-<area shape="rect" id="node2" href="$dd/dad/class_juniper_1_1_data_1_1_abstract_background_repeating_thread.html" title="Performs an operation in a loop on a background thread." alt="" coords="15,233,225,399"/>
-<area shape="rect" id="node4" href="$d0/dce/class_juniper_1_1_data_1_1_one_shot_thread.html" title="Run any System.Action in a background thread that starts right away." alt="" coords="249,263,436,369"/>
-<area shape="rect" id="node3" href="$d5/d6f/class_juniper_1_1_data_1_1_managed_request.html" title="A ManagedRequest is a AbstractBackgroundRepeatingThread that keeps a parameterized type value as its ..." alt="" coords="5,447,235,817"/>
-</map>

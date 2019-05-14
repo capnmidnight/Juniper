@@ -33,7 +33,7 @@
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
-<g id="a_node2"><a xlink:href="../../d9/d1c/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_a_p_i.html" target="_top" xlink:title=" ">
+<g id="a_node2"><a xlink:href="../../d8/d53/interface_juniper_1_1_climate_1_1_i_weather_a_p_i.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="12.5,-204.5 12.5,-283.5 124.5,-283.5 124.5,-204.5 12.5,-204.5"/>
 <text text-anchor="middle" x="68.5" y="-271.5" font-family="SegoeUI" font-size="10.00">IWeatherAPI</text>
 <polyline fill="none" stroke="black" points="12.5,-264.5 124.5,-264.5 "/>

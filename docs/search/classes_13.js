@@ -2,6 +2,7 @@ var searchData=
 [
   ['tabpanelbutton',['TabPanelButton',['../d5/da9/class_juniper_1_1_unity_1_1_widgets_1_1_tab_panel_button.html',1,'Juniper::Unity::Widgets']]],
   ['tabpanelmenu',['TabPanelMenu',['../dd/d87/class_juniper_1_1_unity_1_1_widgets_1_1_tab_panel_menu.html',1,'Juniper::Unity::Widgets']]],
+  ['tagmanager',['TagManager',['../d8/d28/class_unity_engine_1_1_tag_manager.html',1,'UnityEngine']]],
   ['tebibytes',['Tebibytes',['../d7/d08/class_juniper_1_1_units_1_1_tebibytes.html',1,'Juniper::Units']]],
   ['teleportpad',['TeleportPad',['../d3/d4d/class_juniper_1_1_unity_1_1_widgets_1_1_teleport_pad.html',1,'Juniper::Unity::Widgets']]],
   ['terabytes',['Terabytes',['../d2/d98/class_juniper_1_1_units_1_1_terabytes.html',1,'Juniper::Units']]],
@@ -23,5 +24,6 @@ var searchData=
   ['translationtransition',['TranslationTransition',['../d4/d79/class_juniper_1_1_unity_1_1_animation_1_1_translation_transition.html',1,'Juniper::Unity::Animation']]],
   ['triggeredevent',['TriggeredEvent',['../d3/d32/class_unity_engine_1_1_events_1_1_triggered_event.html',1,'UnityEngine::Events']]],
   ['triggeredeventdelegate',['TriggeredEventDelegate',['../d7/d95/class_unity_engine_1_1_events_1_1_triggered_event_1_1_triggered_event_delegate.html',1,'UnityEngine::Events::TriggeredEvent']]],
-  ['tween',['Tween',['../d6/d86/class_juniper_1_1_unity_1_1_animation_1_1_tween.html',1,'Juniper::Unity::Animation']]]
+  ['tween',['Tween',['../d6/d86/class_juniper_1_1_unity_1_1_animation_1_1_tween.html',1,'Juniper::Unity::Animation']]],
+  ['typeext',['TypeExt',['../db/d92/class_system_1_1_type_ext.html',1,'System']]]
 ];

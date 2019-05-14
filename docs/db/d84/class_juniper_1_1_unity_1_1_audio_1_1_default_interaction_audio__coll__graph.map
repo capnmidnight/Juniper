@@ -1,13 +1,14 @@
 <map id="Juniper.Unity.Audio.DefaultInteractionAudio" name="Juniper.Unity.Audio.DefaultInteractionAudio">
-<area shape="rect" id="node1" title=" " alt="" coords="267,1364,442,1456"/>
-<area shape="rect" id="node2" href="$d2/dab/class_juniper_1_1_unity_1_1_audio_1_1_abstract_interaction_audio.html" title="The audio portion of the interaction system." alt="" coords="267,797,443,1315"/>
+<area shape="rect" id="node1" title=" " alt="" coords="317,1467,491,1559"/>
+<area shape="rect" id="node2" href="$d2/dab/class_juniper_1_1_unity_1_1_audio_1_1_abstract_interaction_audio.html" title="The audio portion of the interaction system." alt="" coords="316,797,492,1417"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,459,115,537"/>
-<area shape="rect" id="node4" href="$d3/d6d/class_juniper_1_1_unity_1_1_audio_1_1_audio_clip_collection.html" title="A collection of related audio clips. For example, one might have many different gunshot sounds to hav..." alt="" coords="139,408,306,588"/>
-<area shape="rect" id="node5" title=" " alt="" coords="31,147,147,224"/>
-<area shape="rect" id="node6" href="$da/d46/interface_juniper_1_1_unity_1_1_audio_1_1_i_audio_clip_collection.html" title="The IAudioClipCollection interface is implemented by two classes. One is a savable collection of audi..." alt="" coords="171,132,317,239"/>
-<area shape="rect" id="node7" title=" " alt="" coords="232,5,405,83"/>
-<area shape="rect" id="node10" href="$da/d46/interface_juniper_1_1_unity_1_1_audio_1_1_i_audio_clip_collection.html" title="The IAudioClipCollection interface is implemented by two classes. One is a savable collection of audi..." alt="" coords="269,263,440,384"/>
-<area shape="rect" id="node8" href="$dd/d6e/interface_juniper_1_1_unity_1_1_widgets_1_1_i_valued_control.html" title=" " alt="" coords="440,452,632,544"/>
-<area shape="rect" id="node9" href="$dd/d6e/interface_juniper_1_1_unity_1_1_widgets_1_1_i_valued_control.html" title=" " alt="" coords="440,139,632,231"/>
-<area shape="rect" id="node11" title=" " alt="" coords="657,459,709,537"/>
+<area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="139,445,231,551"/>
+<area shape="rect" id="node5" href="$d3/d6d/class_juniper_1_1_unity_1_1_audio_1_1_audio_clip_collection.html" title="A collection of related audio clips. For example, one might have many different gunshot sounds to hav..." alt="" coords="255,408,422,588"/>
+<area shape="rect" id="node6" title=" " alt="" coords="147,147,263,224"/>
+<area shape="rect" id="node7" href="$da/d46/interface_juniper_1_1_unity_1_1_audio_1_1_i_audio_clip_collection.html" title="The IAudioClipCollection interface is implemented by two classes. One is a savable collection of audi..." alt="" coords="287,132,433,239"/>
+<area shape="rect" id="node8" title=" " alt="" coords="348,5,521,83"/>
+<area shape="rect" id="node11" href="$da/d46/interface_juniper_1_1_unity_1_1_audio_1_1_i_audio_clip_collection.html" title="The IAudioClipCollection interface is implemented by two classes. One is a savable collection of audi..." alt="" coords="385,263,556,384"/>
+<area shape="rect" id="node9" href="$dd/d6e/interface_juniper_1_1_unity_1_1_widgets_1_1_i_valued_control.html" title=" " alt="" coords="556,452,748,544"/>
+<area shape="rect" id="node10" href="$dd/d6e/interface_juniper_1_1_unity_1_1_widgets_1_1_i_valued_control.html" title=" " alt="" coords="556,139,748,231"/>
+<area shape="rect" id="node12" title=" " alt="" coords="773,459,825,537"/>
 </map>

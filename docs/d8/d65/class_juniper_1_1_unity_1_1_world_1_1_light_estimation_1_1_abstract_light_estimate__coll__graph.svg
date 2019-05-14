@@ -74,11 +74,11 @@ var sectionId = 'dynsection-1';
 <text text-anchor="start" x="106" y="-103.5" font-family="SegoeUI" font-size="10.00">+ SunRotation</text>
 <text text-anchor="start" x="106" y="-92.5" font-family="SegoeUI" font-size="10.00"># sun</text>
 <polyline fill="none" stroke="black" points="98,-85.5 254,-85.5 "/>
-<text text-anchor="start" x="106" y="-73.5" font-family="SegoeUI" font-size="10.00">+ Reinstall()</text>
-<text text-anchor="start" x="106" y="-62.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="106" y="-51.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
-<text text-anchor="start" x="106" y="-40.5" font-family="SegoeUI" font-size="10.00"># RampIntensity()</text>
-<text text-anchor="start" x="106" y="-29.5" font-family="SegoeUI" font-size="10.00"># Awake()</text>
+<text text-anchor="start" x="106" y="-73.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
+<text text-anchor="start" x="106" y="-62.5" font-family="SegoeUI" font-size="10.00">+ Reinstall()</text>
+<text text-anchor="start" x="106" y="-51.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="106" y="-40.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<text text-anchor="start" x="106" y="-29.5" font-family="SegoeUI" font-size="10.00"># RampIntensity()</text>
 <text text-anchor="start" x="106" y="-18.5" font-family="SegoeUI" font-size="10.00"># Update()</text>
 <text text-anchor="start" x="106" y="-7.5" font-family="SegoeUI" font-size="10.00">&#45; PrintDebugReport()</text>
 </a>

@@ -18,7 +18,7 @@
 <polyline fill="none" stroke="black" points="0,-38.5 156,-38.5 "/>
 <text text-anchor="middle" x="78" y="-26.5" font-family="SegoeUI" font-size="10.00"> </text>
 <polyline fill="none" stroke="black" points="0,-19.5 156,-19.5 "/>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">&#45; DecodePNGTexture()</text>
+<text text-anchor="middle" x="78" y="-7.5" font-family="SegoeUI" font-size="10.00"> </text>
 </a>
 </g>
 </g>

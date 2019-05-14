@@ -16,7 +16,7 @@
 <text text-anchor="start" x="8" y="-177.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Widgets.Quality</text>
 <text text-anchor="middle" x="70.5" y="-166.5" font-family="SegoeUI" font-size="10.00">Degrader</text>
 <polyline fill="none" stroke="black" points="0,-159.5 141,-159.5 "/>
-<text text-anchor="start" x="8" y="-147.5" font-family="SegoeUI" font-size="10.00">+ qualitySlider</text>
+<text text-anchor="start" x="8" y="-147.5" font-family="SegoeUI" font-size="10.00">+ qualityButtons</text>
 <text text-anchor="start" x="8" y="-136.5" font-family="SegoeUI" font-size="10.00">+ QualityLevel</text>
 <text text-anchor="start" x="8" y="-125.5" font-family="SegoeUI" font-size="10.00">+ QualityName</text>
 <text text-anchor="start" x="8" y="-114.5" font-family="SegoeUI" font-size="10.00">+ IsBad</text>
@@ -29,7 +29,7 @@
 <text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ Update()</text>
 <text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">&#45; ChangeQuality()</text>
 <text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">&#45; QualityValueChange()</text>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">&#45; UpdateSlider()</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">&#45; UpdateButtons()</text>
 </a>
 </g>
 </g>

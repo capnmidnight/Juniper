@@ -1,5 +1,0 @@
-<map id="Juniper.Data.ManagedRequest&lt; T &gt;" name="Juniper.Data.ManagedRequest&lt; T &gt;">
-<area shape="rect" id="node1" title="A ManagedRequest is a AbstractBackgroundRepeatingThread that keeps a parameterized type value as its ..." alt="" coords="5,432,235,803"/>
-<area shape="rect" id="node2" href="$dd/dad/class_juniper_1_1_data_1_1_abstract_background_repeating_thread.html" title="Performs an operation in a loop on a background thread." alt="" coords="24,219,216,384"/>
-<area shape="rect" id="node3" href="$dd/da7/class_juniper_1_1_data_1_1_abstract_background_thread.html" title="An abstract class for performing an operation on a background thread." alt="" coords="32,5,208,171"/>
-</map>

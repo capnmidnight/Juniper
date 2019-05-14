@@ -91,21 +91,23 @@ $(function() {
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d7/da5/class_unity_engine_1_1_quaternion_ext__coll__graph.svg" width="183" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d7/da5/class_unity_engine_1_1_quaternion_ext__coll__graph.svg" width="183" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:afb6c9ab7f1816338c9f7be062c37a118"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dfb/class_unity_engine_1_1_quaternion_ext.html#afb6c9ab7f1816338c9f7be062c37a118">Label</a> (this Quaternion quat, int? sigFigs=null)</td></tr>
-<tr class="separator:afb6c9ab7f1816338c9f7be062c37a118"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51d038309e1e4b0d9d2427dc259388f6"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dfb/class_unity_engine_1_1_quaternion_ext.html#a51d038309e1e4b0d9d2427dc259388f6">Label</a> (this Quaternion quat, int sigFigs)</td></tr>
+<tr class="separator:a51d038309e1e4b0d9d2427dc259388f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6af0be6232294597b546ff4d2342f24"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dfb/class_unity_engine_1_1_quaternion_ext.html#ae6af0be6232294597b546ff4d2342f24">Label</a> (this Quaternion quat)</td></tr>
+<tr class="separator:ae6af0be6232294597b546ff4d2342f24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="../../d9/dff/_quaternion_ext_8cs_source.html#l00005">5</a> of file <a class="el" href="../../d9/dff/_quaternion_ext_8cs_source.html">QuaternionExt.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="afb6c9ab7f1816338c9f7be062c37a118"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb6c9ab7f1816338c9f7be062c37a118">&#9670;&nbsp;</a></span>Label()</h2>
+<a id="a51d038309e1e4b0d9d2427dc259388f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51d038309e1e4b0d9d2427dc259388f6">&#9670;&nbsp;</a></span>Label() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -122,8 +124,8 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int?&#160;</td>
-          <td class="paramname"><em>sigFigs</em> = <code>null</code>&#160;</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>sigFigs</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -139,12 +141,41 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d9/dff/_quaternion_ext_8cs_source.html#l00007">7</a> of file <a class="el" href="../../d9/dff/_quaternion_ext_8cs_source.html">QuaternionExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        {</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;            <span class="keywordflow">return</span> quat.eulerAngles.Label(<a class="code" href="../../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794">UnitOfMeasure</a>.Degrees, sigFigs);</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        }</div><div class="ttc" id="namespace_juniper_html_a0bef6394d8ba675064f1cb513890f794"><div class="ttname"><a href="../../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794">Juniper.UnitOfMeasure</a></div><div class="ttdeci">UnitOfMeasure</div><div class="ttdoc">Useful names for all the different types of units.</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d10/_units_8cs_source.html#l00033">Units.cs:33</a></div></div>
+<div class="fragment"><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        {</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;            <span class="keywordflow">return</span> quat.eulerAngles.Label(<a class="code" href="../../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77">UnitOfMeasure</a>.Degrees, sigFigs);</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        }</div><div class="ttc" id="namespace_juniper_1_1_units_html_a80b4501b591797a3abd586b1ed2a2f77"><div class="ttname"><a href="../../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77">Juniper.Units.UnitOfMeasure</a></div><div class="ttdeci">UnitOfMeasure</div><div class="ttdoc">Useful names for all the different types of units.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d22/_unit_of_measure_8cs_source.html#l00006">UnitOfMeasure.cs:6</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="ae6af0be6232294597b546ff4d2342f24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6af0be6232294597b546ff4d2342f24">&#9670;&nbsp;</a></span>Label() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static string UnityEngine.QuaternionExt.Label </td>
+          <td>(</td>
+          <td class="paramtype">this Quaternion&#160;</td>
+          <td class="paramname"><em>quat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d9/dff/_quaternion_ext_8cs_source.html#l00012">12</a> of file <a class="el" href="../../d9/dff/_quaternion_ext_8cs_source.html">QuaternionExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        {</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            <span class="keywordflow">return</span> quat.eulerAngles.Label(<a class="code" href="../../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77">UnitOfMeasure</a>.Degrees);</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        }</div><div class="ttc" id="namespace_juniper_1_1_units_html_a80b4501b591797a3abd586b1ed2a2f77"><div class="ttname"><a href="../../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77">Juniper.Units.UnitOfMeasure</a></div><div class="ttdeci">UnitOfMeasure</div><div class="ttdoc">Useful names for all the different types of units.</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d22/_unit_of_measure_8cs_source.html#l00006">UnitOfMeasure.cs:6</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/<a class="el" href="../../d9/dff/_quaternion_ext_8cs_source.html">QuaternionExt.cs</a></li>
+<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/<a class="el" href="../../d9/dff/_quaternion_ext_8cs_source.html">QuaternionExt.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

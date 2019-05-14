@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['z',['Z',['../de/d75/namespace_juniper.html#ad07516cea58a7e230fb306ab4a2e42c7a21c2e59531c8710156d34a3c30ac81d5',1,'Juniper.Z()'],['../de/d75/namespace_juniper.html#a5e469413b715278bac31283a19d2e774a21c2e59531c8710156d34a3c30ac81d5',1,'Juniper.Z()']]],
-  ['zebibytes',['Zebibytes',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a7630a2e211498671d37a49e85b8100c6',1,'Juniper']]],
-  ['zettabytes',['Zettabytes',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794ae7d195686624d72a3737ed4d84058f41',1,'Juniper']]]
+  ['z',['Z',['../d6/ddd/namespace_juniper_1_1_units.html#ae014f3ac9ce8ff7ef1d1da0a1f0d18b6a21c2e59531c8710156d34a3c30ac81d5',1,'Juniper.Units.Z()'],['../d6/ddd/namespace_juniper_1_1_units.html#a576699a908699d786a13403dc3a5d549a21c2e59531c8710156d34a3c30ac81d5',1,'Juniper.Units.Z()']]],
+  ['zebibytes',['Zebibytes',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77a7630a2e211498671d37a49e85b8100c6',1,'Juniper::Units']]],
+  ['zettabytes',['Zettabytes',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77ae7d195686624d72a3737ed4d84058f41',1,'Juniper::Units']]]
 ];

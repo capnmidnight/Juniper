@@ -1,5 +1,6 @@
 var searchData=
 [
   ['warning',['Warning',['../df/d94/namespace_juniper_1_1_unity_1_1_haptics.html#a26351fb58c31def710b2c395a49dbd63a0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'Juniper::Unity::Haptics']]],
-  ['windowsmr',['WindowsMR',['../de/d75/namespace_juniper.html#a315e60e9d5ff9f6fdaaa3312d9e3e8d8a83c23c0bd64e1cc5a47b6f49d30e7b55',1,'Juniper']]]
+  ['webgl',['WebGL',['../d2/d08/namespace_juniper_1_1_x_r.html#a2a2febae0dc9a222a152997e0cf0d414a4423e67d47682f902b06a8c211e7a7db',1,'Juniper.XR.WebGL()'],['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9a4423e67d47682f902b06a8c211e7a7db',1,'Juniper.XR.WebGL()']]],
+  ['windowsmr',['WindowsMR',['../d2/d08/namespace_juniper_1_1_x_r.html#af28307584b4f1ff107cd8924af3b0ea7a83c23c0bd64e1cc5a47b6f49d30e7b55',1,'Juniper::XR']]]
 ];

@@ -276,7 +276,7 @@ Private Attributes</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        {</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            var animator = parent.GetComponent&lt;AbstractAnimator&gt;();</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            var defaultState = parts[0];</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keywordflow">if</span> (animator == <span class="keyword">null</span>)</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            {</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#if UNITY_MODULES_ANIMATION</span></div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                var anim = parent.GetComponent&lt;Animator&gt;();</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                <span class="keywordflow">if</span> (anim != <span class="keyword">null</span> &amp;&amp; UnityAnimator.AnimatorHasState(anim, defaultState))</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                {</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                    animator = parent.Ensure&lt;UnityAnimator&gt;();</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                }</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <span class="keywordflow">else</span></div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#endif</span></div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">if</span> (parent.transform.childCount &gt; 0 &amp;&amp; parent.transform.Find(defaultState))</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                {</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                    var swapper = parent.Ensure&lt;ChildSwapAnimator&gt;();</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                    swapper.Value.stateNames = parts;</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                    animator = swapper;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                }</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            }</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">return</span> animator;</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div></div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../d4/dd9/_unity_animator_8cs_source.html#l00024">Juniper.Unity.Animation.UnityAnimator.AnimatorHasState()</a>, and <a class="el" href="../../d9/d06/_child_swap_animator_8cs_source.html#l00017">Juniper.Unity.Animation.ChildSwapAnimator.stateNames</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../d3/d04/_abstract_touchable_8cs_source.html#l00161">Juniper.Unity.Widgets.AbstractTouchable.Awake()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../d3/d04/_abstract_touchable_8cs_source.html#l00160">Juniper.Unity.Widgets.AbstractTouchable.Update()</a>.</p>
 
 </div>
 </div>
@@ -360,7 +360,7 @@ Private Attributes</h2></td></tr>
 </div><!-- fragment -->
 <p class="reference">References <a class="el" href="../../dd/d2d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_animator.html#a6e259ad0819743251a2b6ae486de7b6e">Juniper.Unity.Animation.AbstractAnimator.PlayCoroutine()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="../../df/d3d/_attention_director_8cs_source.html#l00069">Juniper.Unity.Widgets.AttentionDirector.Play()</a>, and <a class="el" href="../../d3/d04/_abstract_touchable_8cs_source.html#l00207">Juniper.Unity.Widgets.AbstractTouchable.ShowState()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="../../df/d3d/_attention_director_8cs_source.html#l00069">Juniper.Unity.Widgets.AttentionDirector.Play()</a>, and <a class="el" href="../../d3/d04/_abstract_touchable_8cs_source.html#l00203">Juniper.Unity.Widgets.AbstractTouchable.ShowState()</a>.</p>
 
 </div>
 </div>
@@ -436,7 +436,7 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Animation/<a class="el" href="../../d4/dd9/_unity_animator_8cs_source.html">UnityAnimator.cs</a></li>
+<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/Animation/<a class="el" href="../../d4/dd9/_unity_animator_8cs_source.html">UnityAnimator.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

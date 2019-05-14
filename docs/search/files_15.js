@@ -14,6 +14,7 @@ var searchData=
   ['vivefocushaptics_2ecs',['ViveFocusHaptics.cs',['../da/de9/_vive_focus_haptics_8cs.html',1,'']]],
   ['vivefocusinputmodule_2ecs',['ViveFocusInputModule.cs',['../d7/d4d/_vive_focus_input_module_8cs.html',1,'']]],
   ['vivefocusmotioncontroller_2ecs',['ViveFocusMotionController.cs',['../dd/d3b/_vive_focus_motion_controller_8cs.html',1,'']]],
+  ['vivefocusmotioncontrollerconfiguration_2ecs',['ViveFocusMotionControllerConfiguration.cs',['../d1/dec/_vive_focus_motion_controller_configuration_8cs.html',1,'']]],
   ['volumefade_2ecs',['VolumeFade.cs',['../d5/d70/_volume_fade_8cs.html',1,'']]],
   ['vuforiadisplaymanager_2ecs',['VuforiaDisplayManager.cs',['../d5/d70/_vuforia_display_manager_8cs.html',1,'']]],
   ['vuforiaimageanalyzer_2ecs',['VuforiaImageAnalyzer.cs',['../d3/d31/_vuforia_image_analyzer_8cs.html',1,'']]],

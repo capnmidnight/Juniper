@@ -2,7 +2,9 @@ var searchData=
 [
   ['weather',['Weather',['../d2/d88/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_weather.html',1,'Juniper::Unity::World::Climate']]],
   ['weatherreport',['WeatherReport',['../d8/dbe/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report.html',1,'Juniper::World::Climate::OpenWeatherMap']]],
+  ['windowsmranchorstore',['WindowsMRAnchorStore',['../d7/d28/class_juniper_1_1_unity_1_1_anchoring_1_1_windows_m_r_anchor_store.html',1,'Juniper::Unity::Anchoring']]],
   ['windowsmrdisplaymanager',['WindowsMRDisplayManager',['../d0/d34/class_juniper_1_1_unity_1_1_display_1_1_windows_m_r_display_manager.html',1,'Juniper::Unity::Display']]],
+  ['windowsmrground',['WindowsMRGround',['../db/d37/class_juniper_1_1_unity_1_1_ground_1_1_windows_m_r_ground.html',1,'Juniper::Unity::Ground']]],
   ['windowsmrhaptics',['WindowsMRHaptics',['../d2/d06/class_juniper_1_1_unity_1_1_haptics_1_1_windows_m_r_haptics.html',1,'Juniper::Unity::Haptics']]],
   ['windowsmrinputmodule',['WindowsMRInputModule',['../d1/d22/class_juniper_1_1_unity_1_1_input_1_1_windows_m_r_input_module.html',1,'Juniper::Unity::Input']]],
   ['windowsmrinteractionaudio',['WindowsMRInteractionAudio',['../d5/dd8/class_juniper_1_1_unity_1_1_audio_1_1_windows_m_r_interaction_audio.html',1,'Juniper::Unity::Audio']]],

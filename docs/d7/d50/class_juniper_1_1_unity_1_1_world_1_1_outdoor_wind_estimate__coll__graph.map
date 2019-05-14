@@ -1,19 +1,19 @@
 <map id="Juniper.Unity.World.OutdoorWindEstimate" name="Juniper.Unity.World.OutdoorWindEstimate">
-<area shape="rect" id="node1" title="Receives a wind speed and direction value from a wether reporting service and applies the values to a..." alt="" coords="94,1587,277,1767"/>
-<area shape="rect" id="node2" title=" " alt="" coords="375,455,484,533"/>
-<area shape="rect" id="node3" href="$d2/d88/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_weather.html" title="A component for managing access to weather reports. Only one of these components is allowed on a game..." alt="" coords="481,1212,665,1524"/>
-<area shape="rect" id="node17" href="$db/d2e/class_juniper_1_1_unity_1_1_world_1_1_g_p_s_location.html" title="Retrieves the user&#39;s latitude, longitude, and altitude from satellites orbiting Spaceship Earth...." alt="" coords="329,771,535,1127"/>
-<area shape="rect" id="node4" href="$d8/d7d/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_report.html" title=" " alt="" coords="1016,801,1221,1098"/>
-<area shape="rect" id="node5" href="$d9/d1c/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_a_p_i.html" title=" " alt="" coords="80,896,304,1003"/>
-<area shape="rect" id="node6" href="$db/de7/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_fake_weather_report.html" title="An API&#45;compatible, editable object for making static weather reports." alt="" coords="611,749,795,1149"/>
-<area shape="rect" id="node7" href="$d8/d7d/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_report.html" title=" " alt="" coords="700,353,855,635"/>
-<area shape="rect" id="node8" href="$d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html" title="A point in geographic space on a radial coordinate system." alt="" coords="509,331,675,657"/>
-<area shape="rect" id="node9" title=" " alt="" coords="546,147,638,224"/>
-<area shape="rect" id="node10" href="$dd/d15/struct_juniper_1_1_unity_1_1_editable_date_time.html" title="A wrapper around System.DateTime that makes it possible to edit values in the Unity Editor." alt="" coords="879,301,1078,687"/>
-<area shape="rect" id="node11" title=" " alt="" coords="953,147,1005,224"/>
-<area shape="rect" id="node12" href="$d5/dd2/class_unity_engine_1_1_string_variable.html" title="A string value that can be saved to the Assets folder and used across projects" alt="" coords="819,911,992,988"/>
-<area shape="rect" id="node13" href="$d4/d88/class_unity_engine_1_1_abstract_variable.html" title=" " alt="" coords="1102,441,1277,547"/>
-<area shape="rect" id="node14" href="$d4/d88/class_unity_engine_1_1_abstract_variable.html" title="An abstraction of storing values on disk in the Assets folder. A sort of drag&#45;and&#45;drop means of setti..." alt="" coords="1079,132,1299,239"/>
-<area shape="rect" id="node15" title=" " alt="" coords="1065,5,1181,83"/>
-<area shape="rect" id="node16" href="$d8/d2c/interface_unity_engine_1_1_i_valued.html" title="An abstraction for Reference{T}s and Varabile{T}s to make them usuable in shared contexts." alt="" coords="1205,5,1304,83"/>
+<area shape="rect" id="node1" title="Receives a wind speed and direction value from a wether reporting service and applies the values to a..." alt="" coords="31,1587,214,1752"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,455,115,533"/>
+<area shape="rect" id="node3" href="$d2/d88/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_weather.html" title="A component for managing access to weather reports. Only one of these components is allowed on a game..." alt="" coords="331,1212,515,1524"/>
+<area shape="rect" id="node15" href="$db/d2e/class_juniper_1_1_unity_1_1_world_1_1_g_p_s_location.html" title="Retrieves the user&#39;s latitude, longitude, and altitude from satellites orbiting Spaceship Earth...." alt="" coords="98,771,305,1127"/>
+<area shape="rect" id="node4" href="$db/de7/class_juniper_1_1_unity_1_1_world_1_1_climate_1_1_fake_weather_report.html" title="An API&#45;compatible, editable object for making static weather reports." alt="" coords="732,749,916,1149"/>
+<area shape="rect" id="node5" href="$de/d3a/interface_juniper_1_1_climate_1_1_i_weather_report.html" title=" " alt="" coords="753,353,908,635"/>
+<area shape="rect" id="node6" href="$d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html" title="A point in geographic space on a radial coordinate system." alt="" coords="562,353,729,635"/>
+<area shape="rect" id="node7" title=" " alt="" coords="599,147,691,224"/>
+<area shape="rect" id="node8" href="$dd/d15/struct_juniper_1_1_unity_1_1_editable_date_time.html" title="A wrapper around System.DateTime that makes it possible to edit values in the Unity Editor." alt="" coords="339,301,538,687"/>
+<area shape="rect" id="node9" title=" " alt="" coords="413,147,465,224"/>
+<area shape="rect" id="node10" href="$d5/dd2/class_unity_engine_1_1_string_variable.html" title="A string value that can be saved to the Assets folder and used across projects" alt="" coords="940,911,1113,988"/>
+<area shape="rect" id="node11" href="$d4/d88/class_unity_engine_1_1_abstract_variable.html" title=" " alt="" coords="939,441,1114,547"/>
+<area shape="rect" id="node12" href="$d4/d88/class_unity_engine_1_1_abstract_variable.html" title="An abstraction of storing values on disk in the Assets folder. A sort of drag&#45;and&#45;drop means of setti..." alt="" coords="917,132,1137,239"/>
+<area shape="rect" id="node13" title=" " alt="" coords="902,5,1018,83"/>
+<area shape="rect" id="node14" href="$d8/d2c/interface_unity_engine_1_1_i_valued.html" title="An abstraction for Reference{T}s and Varabile{T}s to make them usuable in shared contexts." alt="" coords="1043,5,1141,83"/>
+<area shape="rect" id="node16" href="$d8/d53/interface_juniper_1_1_climate_1_1_i_weather_a_p_i.html" title=" " alt="" coords="329,896,516,1003"/>
+<area shape="rect" id="node17" href="$de/d3a/interface_juniper_1_1_climate_1_1_i_weather_report.html" title=" " alt="" coords="541,801,707,1098"/>
 </map>

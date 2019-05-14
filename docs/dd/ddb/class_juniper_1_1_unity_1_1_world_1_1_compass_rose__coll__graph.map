@@ -1,9 +1,9 @@
 <map id="Juniper.Unity.World.CompassRose" name="Juniper.Unity.World.CompassRose">
-<area shape="rect" id="node1" title="A component for managing orientation to Earth&#39;s magnetic field (or any sufficiently large magnetic fi..." alt="" coords="95,2196,313,2464"/>
+<area shape="rect" id="node1" title="A component for managing orientation to Earth&#39;s magnetic field (or any sufficiently large magnetic fi..." alt="" coords="95,2196,313,2449"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,1946,115,2023"/>
-<area shape="rect" id="node3" href="$d8/d42/struct_juniper_1_1_angle.html" title="Represents an angle in degrees that doesn&#39;t wrap around to 0 when iterating past 360 degrees...." alt="" coords="139,1836,269,2133"/>
-<area shape="rect" id="node4" href="$d5/d19/class_juniper_1_1_statistics_1_1_single_statistics.html" title="Computes statistics on System.Single values." alt="" coords="293,1873,451,2097"/>
-<area shape="rect" id="node5" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="273,991,471,1787"/>
-<area shape="rect" id="node6" href="$dc/d87/class_juniper_1_1_statistics_1_1_abstract_collection_statistics.html" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="273,132,471,928"/>
-<area shape="rect" id="node7" title=" " alt="" coords="333,5,411,83"/>
+<area shape="rect" id="node3" href="$db/d82/struct_juniper_1_1_units_1_1_angle.html" title="Represents an angle in degrees that doesn&#39;t wrap around to 0 when iterating past 360 degrees...." alt="" coords="139,1836,269,2133"/>
+<area shape="rect" id="node4" href="$d5/d25/class_juniper_1_1_collections_1_1_statistics_1_1_single_statistics.html" title="Computes statistics on System.Single values." alt="" coords="293,1873,480,2097"/>
+<area shape="rect" id="node5" href="$db/dc4/class_juniper_1_1_collections_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="287,991,486,1787"/>
+<area shape="rect" id="node6" href="$db/dc4/class_juniper_1_1_collections_1_1_statistics_1_1_abstract_collection_statistics.html" title="An abstract class for a collection wrapper that can automatically compute statistics on the values co..." alt="" coords="282,132,491,928"/>
+<area shape="rect" id="node7" title=" " alt="" coords="347,5,426,83"/>
 </map>

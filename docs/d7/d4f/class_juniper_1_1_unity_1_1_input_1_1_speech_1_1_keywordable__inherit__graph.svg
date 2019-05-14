@@ -51,7 +51,7 @@
 </g>
 <!-- Node2 -->
 <g id="node3" class="node"><title>Node2</title>
-<g id="a_node3"><a xlink:href="../../da/d92/interface_juniper_1_1_input_1_1_speech_1_1_i_keyword_triggered.html" target="_top" xlink:title="An interface for systems that respond to keyword utterances.">
+<g id="a_node3"><a xlink:href="../../dd/dd1/interface_juniper_1_1_speech_1_1_i_keyword_triggered.html" target="_top" xlink:title="An interface for systems that respond to keyword utterances.">
 <polygon fill="white" stroke="black" points="100,-215.5 100,-272.5 198,-272.5 198,-215.5 100,-215.5"/>
 <text text-anchor="middle" x="149" y="-260.5" font-family="SegoeUI" font-size="10.00">IKeywordTriggered</text>
 <polyline fill="none" stroke="black" points="100,-253.5 198,-253.5 "/>

@@ -1,6 +1,6 @@
 <map id="Juniper.Unity.World.GPSLocation" name="Juniper.Unity.World.GPSLocation">
-<area shape="rect" id="node1" title="Retrieves the user&#39;s latitude, longitude, and altitude from satellites orbiting Spaceship Earth...." alt="" coords="7,521,214,877"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,257,115,334"/>
-<area shape="rect" id="node3" href="$d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html" title="A point in geographic space on a radial coordinate system." alt="" coords="139,132,306,459"/>
+<area shape="rect" id="node1" title="Retrieves the user&#39;s latitude, longitude, and altitude from satellites orbiting Spaceship Earth...." alt="" coords="7,477,214,833"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,235,115,312"/>
+<area shape="rect" id="node3" href="$d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html" title="A point in geographic space on a radial coordinate system." alt="" coords="139,132,306,415"/>
 <area shape="rect" id="node4" title=" " alt="" coords="177,5,269,83"/>
 </map>

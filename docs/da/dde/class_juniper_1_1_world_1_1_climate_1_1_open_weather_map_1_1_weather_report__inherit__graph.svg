@@ -57,7 +57,7 @@ var sectionId = 'dynsection-0';
 <polygon fill="white" stroke="none" points="-4,4 -4,-651 207.5,-651 207.5,4 -4,4"/>
 <!-- Node0 -->
 <g id="node1" class="node"><title>Node0</title>
-<g id="a_node1"><a xlink:title="respone from the OpenWeatherMap API. http://openweathermap.org/current::current_JSON.">
+<g id="a_node1"><a xlink:title="response from the OpenWeatherMap API. http://openweathermap.org/current::current_JSON.">
 <polygon fill="#bfbfbf" stroke="black" points="43,-0.5 43,-398.5 183,-398.5 183,-0.5 43,-0.5"/>
 <text text-anchor="start" x="51" y="-386.5" font-family="SegoeUI" font-size="10.00">Juniper.World.Climate.Open</text>
 <text text-anchor="middle" x="113" y="-375.5" font-family="SegoeUI" font-size="10.00">WeatherMap.WeatherReport</text>
@@ -100,7 +100,7 @@ var sectionId = 'dynsection-0';
 </g>
 <!-- Node1 -->
 <g id="node2" class="node"><title>Node1</title>
-<g id="a_node2"><a xlink:href="../../d8/d7d/interface_juniper_1_1_world_1_1_climate_1_1_i_weather_report.html" target="_top" xlink:title=" ">
+<g id="a_node2"><a xlink:href="../../de/d3a/interface_juniper_1_1_climate_1_1_i_weather_report.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="0,-435.5 0,-646.5 116,-646.5 116,-435.5 0,-435.5"/>
 <text text-anchor="middle" x="58" y="-634.5" font-family="SegoeUI" font-size="10.00">IWeatherReport</text>
 <polyline fill="none" stroke="black" points="0,-627.5 116,-627.5 "/>

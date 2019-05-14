@@ -2,8 +2,8 @@ var searchData=
 [
   ['entered',['Entered',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82ada227d75216ac0ad2d08a1acebcfc18f',1,'Juniper::Input']]],
   ['error',['Error',['../df/d94/namespace_juniper_1_1_unity_1_1_haptics.html#a26351fb58c31def710b2c395a49dbd63a902b0d55fddef6f8d651fe1035b7d4bd',1,'Juniper.Unity.Haptics.Error()'],['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a902b0d55fddef6f8d651fe1035b7d4bd',1,'Juniper.Input.Error()']]],
-  ['exabytes',['Exabytes',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794a1e7535056f489fc82f76fae19149b2ef',1,'Juniper']]],
-  ['exbibytes',['Exbibytes',['../de/d75/namespace_juniper.html#a0bef6394d8ba675064f1cb513890f794ae59204e6e3275f512172ae9645a916fe',1,'Juniper']]],
+  ['exabytes',['Exabytes',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77a1e7535056f489fc82f76fae19149b2ef',1,'Juniper::Units']]],
+  ['exbibytes',['Exbibytes',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77ae59204e6e3275f512172ae9645a916fe',1,'Juniper::Units']]],
   ['exited',['Exited',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a268ce394e277db759f5d6ee76c59f0e7',1,'Juniper::Input']]],
   ['extreme_5fcold',['EXTREME_COLD',['../de/dac/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_weather.html#ad530c5e906e5716b875a99249a56681ea1a004b1d7ec50481667a1b7c38e1056e',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::OWMWeather']]],
   ['extreme_5fhail',['EXTREME_HAIL',['../de/dac/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_weather.html#ad530c5e906e5716b875a99249a56681eaa00091f3b5ef48ec3f3c402c27c8b6df',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::OWMWeather']]],

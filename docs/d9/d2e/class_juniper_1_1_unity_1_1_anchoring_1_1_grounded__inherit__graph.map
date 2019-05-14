@@ -1,4 +1,4 @@
 <map id="Juniper.Unity.Anchoring.Grounded" name="Juniper.Unity.Anchoring.Grounded">
-<area shape="rect" id="node1" title="This component searches for the ground above or below the gameObject it&#39;s attached to...." alt="" coords="5,131,179,443"/>
+<area shape="rect" id="node1" title="This component searches for the ground above or below the gameObject it&#39;s attached to...." alt="" coords="5,131,179,501"/>
 <area shape="rect" id="node2" title=" " alt="" coords="37,5,147,83"/>
 </map>

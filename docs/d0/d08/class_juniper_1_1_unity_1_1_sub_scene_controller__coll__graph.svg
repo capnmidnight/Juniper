@@ -55,8 +55,8 @@ var sectionId = 'dynsection-1';
 <g id="viewport">
 <title>Juniper.Unity.SubSceneController</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-918 217,-918 217,4 -4,4"/>
-<!-- Node4 -->
-<g id="node1" class="node"><title>Node4</title>
+<!-- Node5 -->
+<g id="node1" class="node"><title>Node5</title>
 <g id="a_node1"><a xlink:title="SubSceneControllers are used by the MasterSceneController to manage workflow through an application....">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-167.5 159,-167.5 159,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="79.5" y="-155.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.SubSceneController</text>
@@ -77,8 +77,8 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node5 -->
-<g id="node2" class="node"><title>Node5</title>
+<!-- Node6 -->
+<g id="node2" class="node"><title>Node6</title>
 <g id="a_node2"><a xlink:href="../../dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html" target="_top" xlink:title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ...">
 <polygon fill="white" stroke="black" points="1.5,-508.5 1.5,-818.5 117.5,-818.5 117.5,-508.5 1.5,-508.5"/>
 <text text-anchor="middle" x="59.5" y="-806.5" font-family="SegoeUI" font-size="10.00">AbstractStateController</text>
@@ -112,13 +112,13 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node5&#45;&gt;Node4 -->
-<g id="edge1" class="edge"><title>Node5&#45;&gt;Node4</title>
+<!-- Node6&#45;&gt;Node5 -->
+<g id="edge1" class="edge"><title>Node6&#45;&gt;Node5</title>
 <path fill="none" stroke="midnightblue" d="M58.7703,-498.127C59.231,-413.477 61.0951,-308.642 66.5,-215 67.3822,-199.715 68.703,-183.453 70.1698,-167.791"/>
 <polygon fill="none" stroke="midnightblue" points="55.2694,-498.331 58.7209,-508.347 62.2693,-498.364 55.2694,-498.331"/>
 </g>
-<!-- Node7 -->
-<g id="node4" class="node"><title>Node7</title>
+<!-- Node8 -->
+<g id="node4" class="node"><title>Node8</title>
 <g id="a_node4"><a xlink:href="../../de/d7d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_transition_controller.html" target="_top" xlink:title="Child classes of this class are able to animate transitions between program states.">
 <polygon fill="white" stroke="black" points="76,-215.5 76,-470.5 213,-470.5 213,-215.5 76,-215.5"/>
 <text text-anchor="start" x="84" y="-458.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Animation.</text>
@@ -147,13 +147,13 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node5&#45;&gt;Node7 -->
-<g id="edge4" class="edge"><title>Node5&#45;&gt;Node7</title>
+<!-- Node6&#45;&gt;Node8 -->
+<g id="edge4" class="edge"><title>Node6&#45;&gt;Node8</title>
 <path fill="none" stroke="midnightblue" d="M103.221,-498.676C105.706,-489.365 108.185,-480.075 110.625,-470.933"/>
 <polygon fill="none" stroke="midnightblue" points="99.8275,-497.817 100.631,-508.381 106.591,-499.622 99.8275,-497.817"/>
 </g>
-<!-- Node6 -->
-<g id="node3" class="node"><title>Node6</title>
+<!-- Node7 -->
+<g id="node3" class="node"><title>Node7</title>
 <g id="a_node3"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="18.5,-856.5 18.5,-913.5 100.5,-913.5 100.5,-856.5 18.5,-856.5"/>
 <text text-anchor="middle" x="59.5" y="-901.5" font-family="SegoeUI" font-size="10.00">MonoBehaviour</text>
@@ -164,13 +164,13 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node5 -->
-<g id="edge2" class="edge"><title>Node6&#45;&gt;Node5</title>
+<!-- Node7&#45;&gt;Node6 -->
+<g id="edge2" class="edge"><title>Node7&#45;&gt;Node6</title>
 <path fill="none" stroke="midnightblue" d="M59.5,-845.99C59.5,-837.781 59.5,-828.619 59.5,-818.892"/>
 <polygon fill="none" stroke="midnightblue" points="56.0001,-846.2 59.5,-856.2 63.0001,-846.2 56.0001,-846.2"/>
 </g>
-<!-- Node7&#45;&gt;Node4 -->
-<g id="edge3" class="edge"><title>Node7&#45;&gt;Node4</title>
+<!-- Node8&#45;&gt;Node5 -->
+<g id="edge3" class="edge"><title>Node8&#45;&gt;Node5</title>
 <path fill="none" stroke="#404040" d="M112.476,-215.382C109.432,-203.346 106.382,-191.287 103.433,-179.629"/>
 <polygon fill="none" stroke="#404040" points="103.344,-179.276 97.9951,-174.44 100.402,-167.642 105.751,-172.479 103.344,-179.276"/>
 <text text-anchor="middle" x="142.5" y="-189" font-family="SegoeUI" font-size="10.00"> &#45;childTransitions</text>

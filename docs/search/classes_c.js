@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['managedrequest',['ManagedRequest',['../d5/d6f/class_juniper_1_1_data_1_1_managed_request.html',1,'Juniper::Data']]],
-  ['managedrequestmessageargs',['ManagedRequestMessageArgs',['../de/d07/class_juniper_1_1_data_1_1_managed_request_message_args.html',1,'Juniper::Data']]],
-  ['managedrequestreadyeventargs',['ManagedRequestReadyEventArgs',['../de/dbf/class_juniper_1_1_data_1_1_managed_request_ready_event_args.html',1,'Juniper::Data']]],
+  ['managedrequest',['ManagedRequest',['../dd/d66/class_juniper_1_1_threading_1_1_managed_request.html',1,'Juniper::Threading']]],
+  ['managedrequestmessageargs',['ManagedRequestMessageArgs',['../d5/d4c/class_juniper_1_1_threading_1_1_managed_request_message_args.html',1,'Juniper::Threading']]],
+  ['managedrequestreadyeventargs',['ManagedRequestReadyEventArgs',['../d1/da7/class_juniper_1_1_threading_1_1_managed_request_ready_event_args.html',1,'Juniper::Threading']]],
   ['mappedbutton',['MappedButton',['../d2/dbe/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_mapped_button.html',1,'Juniper::Unity::Input::Pointers']]],
   ['masterscenecontroller',['MasterSceneController',['../d7/dde/class_juniper_1_1_unity_1_1_master_scene_controller.html',1,'Juniper::Unity']]],
   ['materialcollection',['MaterialCollection',['../d7/dc2/class_juniper_1_1_unity_1_1_widgets_1_1_material_collection.html',1,'Juniper::Unity::Widgets']]],
@@ -23,5 +23,5 @@ var searchData=
   ['mockworldanchor',['MockWorldAnchor',['../db/d48/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_world_anchor.html',1,'Juniper::Unity::Anchoring']]],
   ['motioncontroller',['MotionController',['../d7/d8f/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_motion_controller.html',1,'Juniper::Unity::Input::Pointers::Motion']]],
   ['mouse',['Mouse',['../d3/dfb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_mouse.html',1,'Juniper::Unity::Input::Pointers::Screen']]],
-  ['mouseconfiguration',['MouseConfiguration',['../dc/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_mouse_configuration.html',1,'Juniper::Unity::Input::Pointers::Screen']]]
+  ['mousepointerconfiguration',['MousePointerConfiguration',['../d8/d59/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_mouse_pointer_configuration.html',1,'Juniper::Unity::Input::Pointers::Screen']]]
 ];

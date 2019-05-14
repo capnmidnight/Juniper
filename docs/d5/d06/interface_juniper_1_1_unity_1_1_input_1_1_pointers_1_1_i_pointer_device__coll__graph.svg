@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 293)">
 <title>Juniper.Unity.Input.Pointers.IPointerDevice</title>
 <polygon fill="white" stroke="none" points="-4,4 -4,-293 141,-293 141,4 -4,4"/>
-<!-- Node39 -->
-<g id="node1" class="node"><title>Node39</title>
+<!-- Node33 -->
+<g id="node1" class="node"><title>Node33</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-288.5 137,-288.5 137,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-276.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Input.Pointers.</text>
 <text text-anchor="middle" x="68.5" y="-265.5" font-family="SegoeUI" font-size="10.00">IPointerDevice</text>
 <polyline fill="none" stroke="black" points="0,-258.5 137,-258.5 "/>
-<text text-anchor="start" x="8" y="-246.5" font-family="SegoeUI" font-size="10.00">+ EventTarget</text>
-<text text-anchor="start" x="8" y="-235.5" font-family="SegoeUI" font-size="10.00">+ InputModule</text>
-<text text-anchor="start" x="8" y="-224.5" font-family="SegoeUI" font-size="10.00">+ PointerDataID</text>
-<text text-anchor="start" x="8" y="-213.5" font-family="SegoeUI" font-size="10.00">+ ProbeName</text>
-<text text-anchor="start" x="8" y="-202.5" font-family="SegoeUI" font-size="10.00">+ ButtonType</text>
-<text text-anchor="start" x="8" y="-191.5" font-family="SegoeUI" font-size="10.00">+ isActiveAndEnabled</text>
-<text text-anchor="start" x="8" y="-180.5" font-family="SegoeUI" font-size="10.00">+ IsConnected</text>
-<text text-anchor="start" x="8" y="-169.5" font-family="SegoeUI" font-size="10.00">+ IsDisabled</text>
-<text text-anchor="start" x="8" y="-158.5" font-family="SegoeUI" font-size="10.00">+ IsEnabled</text>
-<text text-anchor="start" x="8" y="-147.5" font-family="SegoeUI" font-size="10.00">+ IsDragging</text>
-<text text-anchor="start" x="8" y="-136.5" font-family="SegoeUI" font-size="10.00">and 22 more...</text>
+<text text-anchor="start" x="8" y="-246.5" font-family="SegoeUI" font-size="10.00">+ transform</text>
+<text text-anchor="start" x="8" y="-235.5" font-family="SegoeUI" font-size="10.00">+ EventTarget</text>
+<text text-anchor="start" x="8" y="-224.5" font-family="SegoeUI" font-size="10.00">+ InputModule</text>
+<text text-anchor="start" x="8" y="-213.5" font-family="SegoeUI" font-size="10.00">+ PointerDataID</text>
+<text text-anchor="start" x="8" y="-202.5" font-family="SegoeUI" font-size="10.00">+ ProbeName</text>
+<text text-anchor="start" x="8" y="-191.5" font-family="SegoeUI" font-size="10.00">+ ButtonType</text>
+<text text-anchor="start" x="8" y="-180.5" font-family="SegoeUI" font-size="10.00">+ isActiveAndEnabled</text>
+<text text-anchor="start" x="8" y="-169.5" font-family="SegoeUI" font-size="10.00">+ IsConnected</text>
+<text text-anchor="start" x="8" y="-158.5" font-family="SegoeUI" font-size="10.00">+ IsDisabled</text>
+<text text-anchor="start" x="8" y="-147.5" font-family="SegoeUI" font-size="10.00">+ IsEnabled</text>
+<text text-anchor="start" x="8" y="-136.5" font-family="SegoeUI" font-size="10.00">and 23 more...</text>
 <polyline fill="none" stroke="black" points="0,-129.5 137,-129.5 "/>
 <text text-anchor="start" x="8" y="-117.5" font-family="SegoeUI" font-size="10.00">+ ViewportFromWorld()</text>
 <text text-anchor="start" x="8" y="-106.5" font-family="SegoeUI" font-size="10.00">+ ViewportFromScreen()</text>
@@ -38,7 +38,7 @@
 <text text-anchor="start" x="8" y="-40.5" font-family="SegoeUI" font-size="10.00">+ IsButtonPressed()</text>
 <text text-anchor="start" x="8" y="-29.5" font-family="SegoeUI" font-size="10.00">+ IsButtonUp()</text>
 <text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">+ Process()</text>
-<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ SetProbe()</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="SegoeUI" font-size="10.00">+ OnProbeFound()</text>
 </a>
 </g>
 </g>

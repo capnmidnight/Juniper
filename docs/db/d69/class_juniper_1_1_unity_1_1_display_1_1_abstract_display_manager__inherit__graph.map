@@ -1,12 +1,12 @@
 <map id="Juniper.Unity.Display.AbstractDisplayManager" name="Juniper.Unity.Display.AbstractDisplayManager">
-<area shape="rect" id="node1" title=" " alt="" coords="440,160,631,853"/>
-<area shape="rect" id="node4" href="$de/dad/class_juniper_1_1_unity_1_1_display_1_1_abstract_passthrough_display_manager.html" title=" " alt="" coords="5,909,196,1015"/>
-<area shape="rect" id="node7" href="$d1/dab/class_juniper_1_1_unity_1_1_display_1_1_daydream_display_manager.html" title=" " alt="" coords="220,901,432,1023"/>
-<area shape="rect" id="node8" href="$de/de6/class_juniper_1_1_unity_1_1_display_1_1_no_display_manager.html" title=" " alt="" coords="456,916,615,1008"/>
-<area shape="rect" id="node9" href="$de/daa/class_juniper_1_1_unity_1_1_display_1_1_vive_focus_display_manager.html" title=" " alt="" coords="639,909,805,1015"/>
-<area shape="rect" id="node10" href="$d0/d34/class_juniper_1_1_unity_1_1_display_1_1_windows_m_r_display_manager.html" title=" " alt="" coords="830,916,1025,1008"/>
-<area shape="rect" id="node2" title=" " alt="" coords="418,20,527,97"/>
-<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="552,5,644,112"/>
-<area shape="rect" id="node5" href="$da/df4/class_juniper_1_1_unity_1_1_display_1_1_a_r_kit_display_manager.html" title=" " alt="" coords="14,1071,187,1177"/>
-<area shape="rect" id="node6" href="$d9/de4/class_juniper_1_1_unity_1_1_display_1_1_display_manager.html" title="Manages the camera FOV in the editor so that it matches the target system, or on desktop makes sure t..." alt="" coords="9,1225,192,1317"/>
+<area shape="rect" id="node1" title=" " alt="" coords="445,160,650,824"/>
+<area shape="rect" id="node4" href="$de/dad/class_juniper_1_1_unity_1_1_display_1_1_abstract_passthrough_display_manager.html" title=" " alt="" coords="5,879,196,986"/>
+<area shape="rect" id="node7" href="$d1/dab/class_juniper_1_1_unity_1_1_display_1_1_daydream_display_manager.html" title=" " alt="" coords="220,872,432,993"/>
+<area shape="rect" id="node8" href="$d3/d2c/class_juniper_1_1_unity_1_1_display_1_1_default_display_manager.html" title=" " alt="" coords="456,887,639,979"/>
+<area shape="rect" id="node9" href="$de/daa/class_juniper_1_1_unity_1_1_display_1_1_vive_focus_display_manager.html" title=" " alt="" coords="663,879,829,986"/>
+<area shape="rect" id="node10" href="$d0/d34/class_juniper_1_1_unity_1_1_display_1_1_windows_m_r_display_manager.html" title=" " alt="" coords="854,887,1049,979"/>
+<area shape="rect" id="node2" title=" " alt="" coords="430,20,539,97"/>
+<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="564,5,656,112"/>
+<area shape="rect" id="node5" href="$da/df4/class_juniper_1_1_unity_1_1_display_1_1_a_r_kit_display_manager.html" title=" " alt="" coords="14,1041,187,1148"/>
+<area shape="rect" id="node6" href="$d9/de4/class_juniper_1_1_unity_1_1_display_1_1_display_manager.html" title="Manages the camera FOV in the editor so that it matches the target system, or on desktop makes sure t..." alt="" coords="9,1196,192,1288"/>
 </map>

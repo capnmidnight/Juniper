@@ -1,8 +1,8 @@
 <map id="Juniper.Unity.Widgets.IValuedControl&lt; T &gt;" name="Juniper.Unity.Widgets.IValuedControl&lt; T &gt;">
 <area shape="rect" id="node1" title=" " alt="" coords="295,5,487,97"/>
 <area shape="rect" id="node2" href="$dd/d6e/interface_juniper_1_1_unity_1_1_widgets_1_1_i_valued_control.html" title=" " alt="" coords="295,160,487,252"/>
-<area shape="rect" id="node3" href="$d2/d57/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_valued.html" title="The Valued component adds a float field and range of valid values for that field to a Touchable objec..." alt="" coords="125,301,321,863"/>
-<area shape="rect" id="node6" href="$d3/d58/class_juniper_1_1_unity_1_1_widgets_1_1_unity_slider_adapter.html" title=" " alt="" coords="346,521,549,643"/>
-<area shape="rect" id="node4" href="$dc/da5/class_juniper_1_1_unity_1_1_widgets_1_1_draggable.html" title="An object that can be picked up and put down in a new location." alt="" coords="5,912,212,1165"/>
-<area shape="rect" id="node5" href="$d3/d60/class_juniper_1_1_unity_1_1_widgets_1_1_rotatable.html" title="A control that is rotatable in a single axis at a time." alt="" coords="237,912,439,1165"/>
+<area shape="rect" id="node3" href="$d2/d57/class_juniper_1_1_unity_1_1_widgets_1_1_abstract_valued.html" title="The Valued component adds a float field and range of valid values for that field to a Touchable objec..." alt="" coords="125,301,321,848"/>
+<area shape="rect" id="node6" href="$d3/d58/class_juniper_1_1_unity_1_1_widgets_1_1_unity_slider_adapter.html" title=" " alt="" coords="346,514,549,635"/>
+<area shape="rect" id="node4" href="$dc/da5/class_juniper_1_1_unity_1_1_widgets_1_1_draggable.html" title="An object that can be picked up and put down in a new location." alt="" coords="5,897,212,1151"/>
+<area shape="rect" id="node5" href="$d3/d60/class_juniper_1_1_unity_1_1_widgets_1_1_rotatable.html" title="A control that is rotatable in a single axis at a time." alt="" coords="237,897,439,1151"/>
 </map>

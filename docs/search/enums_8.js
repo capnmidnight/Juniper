@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['level',['Level',['../de/d75/namespace_juniper.html#a726d4e314bcbb83319c207b2b851358b',1,'Juniper']]]
+  ['level',['Level',['../d6/ddd/namespace_juniper_1_1_units.html#a332dc0005197841ed567d9423dcd8777',1,'Juniper::Units']]]
 ];

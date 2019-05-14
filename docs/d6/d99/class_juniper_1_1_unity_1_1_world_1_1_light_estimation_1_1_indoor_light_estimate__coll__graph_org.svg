@@ -42,11 +42,11 @@
 <text text-anchor="start" x="129.5" y="-231.5" font-family="SegoeUI" font-size="10.00">+ SunRotation</text>
 <text text-anchor="start" x="129.5" y="-220.5" font-family="SegoeUI" font-size="10.00"># sun</text>
 <polyline fill="none" stroke="black" points="121.5,-213.5 230.5,-213.5 "/>
-<text text-anchor="start" x="129.5" y="-201.5" font-family="SegoeUI" font-size="10.00">+ Reinstall()</text>
-<text text-anchor="start" x="129.5" y="-190.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
-<text text-anchor="start" x="129.5" y="-179.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
-<text text-anchor="start" x="129.5" y="-168.5" font-family="SegoeUI" font-size="10.00"># RampIntensity()</text>
-<text text-anchor="start" x="129.5" y="-157.5" font-family="SegoeUI" font-size="10.00"># Awake()</text>
+<text text-anchor="start" x="129.5" y="-201.5" font-family="SegoeUI" font-size="10.00">+ Awake()</text>
+<text text-anchor="start" x="129.5" y="-190.5" font-family="SegoeUI" font-size="10.00">+ Reinstall()</text>
+<text text-anchor="start" x="129.5" y="-179.5" font-family="SegoeUI" font-size="10.00">+ Install()</text>
+<text text-anchor="start" x="129.5" y="-168.5" font-family="SegoeUI" font-size="10.00">+ Uninstall()</text>
+<text text-anchor="start" x="129.5" y="-157.5" font-family="SegoeUI" font-size="10.00"># RampIntensity()</text>
 <text text-anchor="start" x="129.5" y="-146.5" font-family="SegoeUI" font-size="10.00"># Update()</text>
 <text text-anchor="start" x="129.5" y="-135.5" font-family="SegoeUI" font-size="10.00">&#45; PrintDebugReport()</text>
 </a>

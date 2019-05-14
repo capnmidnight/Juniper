@@ -1,5 +1,5 @@
 <map id="Juniper.Unity.Animation.FadeTransition" name="Juniper.Unity.Animation.FadeTransition">
-<area shape="rect" id="node1" title="Performs a fade&#45;in/fade&#45;out animation on scene transitions." alt="" coords="97,968,257,1383"/>
+<area shape="rect" id="node1" title="Performs a fade&#45;in/fade&#45;out animation on scene transitions." alt="" coords="95,968,258,1412"/>
 <area shape="rect" id="node2" href="$de/d7d/class_juniper_1_1_unity_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="5,593,188,920"/>
 <area shape="rect" id="node3" href="$dd/d90/class_juniper_1_1_unity_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="19,131,174,545"/>
 <area shape="rect" id="node4" title=" " alt="" coords="42,5,151,83"/>

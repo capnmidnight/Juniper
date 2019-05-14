@@ -1,3 +1,10 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d6/d0b/class_juniper_1_1_unity_editor_1_1_plugin_importer_ext_1_1i_o_s.html" title=" " alt="" coords="5,5,172,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,127,32"/>
+<area shape="rect" id="node2" href="$d3/d42/class_juniper_1_1_unity_editor_1_1_streamable_asset_editor.html" title=" " alt="" coords="175,23,373,65"/>
+<area shape="rect" id="node3" title=" " alt="" coords="8,56,124,83"/>
+<area shape="rect" id="node4" title=" " alt="" coords="10,161,122,188"/>
+<area shape="rect" id="node5" href="$de/d03/class_juniper_1_1_unity_editor_1_1_hide_in_normal_inspector_drawer.html" title=" " alt="" coords="189,89,359,130"/>
+<area shape="rect" id="node6" href="$d4/dca/class_juniper_1_1_unity_editor_1_1_label_attribute_drawer.html" title="A custom property drawer for drawing customized labels on Unity component fields." alt="" coords="193,154,355,195"/>
+<area shape="rect" id="node7" href="$d3/db7/class_juniper_1_1_unity_editor_1_1_read_only_drawer.html" title=" " alt="" coords="193,219,355,261"/>
+<area shape="rect" id="node8" href="$d8/dda/class_juniper_1_1_unity_editor_1_1_world_1_1_g_i_s_1_1_lat_lng_point_editor.html" title="An editor for LatLngPoint s." alt="" coords="189,285,359,326"/>
 </map>

@@ -1,17 +1,13 @@
 <map id="Juniper.Unity.Input.Pointers.Motion.HandTracker" name="Juniper.Unity.Input.Pointers.Motion.HandTracker">
-<area shape="rect" id="node1" title=" " alt="" coords="412,4135,595,4227"/>
-<area shape="rect" id="node2" href="$de/db2/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_holo_lens_hand.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="439,3847,567,4085"/>
-<area shape="rect" id="node3" href="$d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html" title=" " alt="" coords="404,3383,603,3797"/>
-<area shape="rect" id="node4" href="$d8/d08/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_windows_m_r_device.html" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="394,2891,613,3305"/>
-<area shape="rect" id="node5" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="396,2251,611,2841"/>
-<area shape="rect" id="node6" href="$d7/ddb/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="371,1568,635,2159"/>
-<area shape="rect" id="node7" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="288,1295,487,1519"/>
-<area shape="rect" id="node8" href="$d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="286,552,478,1245"/>
-<area shape="rect" id="node9" href="$db/ded/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_pointer_data_creator.html" title=" " alt="" coords="122,271,253,363"/>
-<area shape="rect" id="node10" title=" " alt="" coords="133,5,242,83"/>
-<area shape="rect" id="node11" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="5,264,97,371"/>
-<area shape="rect" id="node12" href="$d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="511,132,677,503"/>
-<area shape="rect" id="node14" href="$dc/d7c/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html" title=" " alt="" coords="506,831,655,967"/>
-<area shape="rect" id="node13" href="$dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html" title="An interface for specifying how devices with buttons should behave." alt="" coords="277,257,487,378"/>
-<area shape="rect" id="node15" href="$d0/dc2/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_motion_controller.html" title=" " alt="" coords="511,1317,650,1497"/>
+<area shape="rect" id="node1" title=" " alt="" coords="391,1952,573,2044"/>
+<area shape="rect" id="node2" href="$d6/dbd/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_no_hand_tracker.html" title=" " alt="" coords="415,1767,549,1903"/>
+<area shape="rect" id="node3" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="371,1611,593,1717"/>
+<area shape="rect" id="node4" href="$d0/d0a/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="386,1412,578,1533"/>
+<area shape="rect" id="node5" href="$d7/d77/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="383,1139,581,1363"/>
+<area shape="rect" id="node6" href="$d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="263,425,459,1089"/>
+<area shape="rect" id="node7" title=" " alt="" coords="122,152,231,229"/>
+<area shape="rect" id="node8" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="5,137,97,244"/>
+<area shape="rect" id="node9" href="$d4/d43/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="490,5,655,376"/>
+<area shape="rect" id="node11" href="$dc/d7c/interface_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html" title=" " alt="" coords="487,689,637,825"/>
+<area shape="rect" id="node10" href="$dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html" title="An interface for specifying how devices with buttons should behave." alt="" coords="255,115,466,266"/>
 </map>

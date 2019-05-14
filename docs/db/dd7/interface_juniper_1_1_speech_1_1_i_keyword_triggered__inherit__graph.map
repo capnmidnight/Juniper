@@ -1,0 +1,4 @@
+<map id="Juniper.Speech.IKeywordTriggered" name="Juniper.Speech.IKeywordTriggered">
+<area shape="rect" id="node1" title="An interface for systems that respond to keyword utterances." alt="" coords="5,5,228,83"/>
+<area shape="rect" id="node2" href="$d2/d89/class_juniper_1_1_unity_1_1_input_1_1_speech_1_1_keywordable.html" title="An object that can be fires an event when a particular keyword is uttered." alt="" coords="27,131,206,369"/>
+</map>

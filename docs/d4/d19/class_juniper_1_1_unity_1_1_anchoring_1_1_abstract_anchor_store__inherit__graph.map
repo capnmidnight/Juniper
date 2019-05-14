@@ -1,9 +1,9 @@
 <map id="Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;" name="Juniper.Unity.Anchoring.AbstractAnchorStore&lt; AnchorType &gt;">
-<area shape="rect" id="node1" title="A store for points in space that the system will restore on second&#45;run. By default,..." alt="" coords="223,132,457,488"/>
+<area shape="rect" id="node1" title="A store for points in space that the system will restore on second&#45;run. By default,..." alt="" coords="225,132,460,488"/>
 <area shape="rect" id="node3" href="$de/d3f/class_juniper_1_1_unity_1_1_anchoring_1_1_a_r_kit_anchor_store.html" title=" " alt="" coords="5,639,232,833"/>
-<area shape="rect" id="node5" href="$de/d8a/class_juniper_1_1_unity_1_1_anchoring_1_1_holo_lens_anchor_store.html" title=" " alt="" coords="256,646,424,826"/>
-<area shape="rect" id="node6" href="$dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title=" " alt="" coords="448,551,664,921"/>
-<area shape="rect" id="node2" title=" " alt="" coords="285,5,395,83"/>
+<area shape="rect" id="node5" href="$d7/d28/class_juniper_1_1_unity_1_1_anchoring_1_1_windows_m_r_anchor_store.html" title=" " alt="" coords="256,639,429,833"/>
+<area shape="rect" id="node6" href="$dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title=" " alt="" coords="453,551,669,921"/>
+<area shape="rect" id="node2" title=" " alt="" coords="288,5,397,83"/>
 <area shape="rect" id="node4" href="$dd/d26/class_juniper_1_1_unity_1_1_anchoring_1_1_anchor_store.html" title="Anchors provide a means to restore the position of objects between sessions. In some AR systems,..." alt="" coords="39,985,199,1077"/>
-<area shape="rect" id="node7" href="$d9/d0e/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_anchor_store.html" title="An anchor store that stores all anchors in the default data store for AbstractAnchorStore." alt="" coords="476,971,636,1092"/>
+<area shape="rect" id="node7" href="$d9/d0e/class_juniper_1_1_unity_1_1_anchoring_1_1_mock_anchor_store.html" title="An anchor store that stores all anchors in the default data store for AbstractAnchorStore." alt="" coords="481,971,641,1092"/>
 </map>

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['f',['f',['../d6/d57/class_juniper_1_1_unity_1_1_widgets_1_1_follow_main_camera.html#a70943eb0b547bf8e22c0785732aef230',1,'Juniper.Unity.Widgets.FollowMainCamera.f()'],['../d6/de5/class_juniper_1_1_units_1_1_datum_w_g_s__84.html#ad8f879a540f29fa8516ac8e0ae7c2d9c',1,'Juniper.Units.DatumWGS_84.f()']]],
+  ['f',['f',['../d6/d57/class_juniper_1_1_unity_1_1_widgets_1_1_follow_main_camera.html#a70943eb0b547bf8e22c0785732aef230',1,'Juniper.Unity.Widgets.FollowMainCamera.f()'],['../d5/d97/class_juniper_1_1_world_1_1_g_i_s_1_1_datum_w_g_s__84.html#ac00a7cff31205ca01cd04ccb1c6b3127',1,'Juniper.World.GIS.DatumWGS_84.f()']]],
   ['fadeinsound',['fadeInSound',['../d3/d84/class_juniper_1_1_unity_1_1_animation_1_1_fade_transition.html#aaba85a9850c7bc24f544f59f31ee2e1f',1,'Juniper::Unity::Animation::FadeTransition']]],
   ['fadelength',['fadeLength',['../d3/d84/class_juniper_1_1_unity_1_1_animation_1_1_fade_transition.html#ab767830e53af9cdbf1478e9add6cc4fd',1,'Juniper::Unity::Animation::FadeTransition']]],
   ['fadeoutsound',['fadeOutSound',['../d3/d84/class_juniper_1_1_unity_1_1_animation_1_1_fade_transition.html#af73f496be84d0ec7b33cae5e66b1d9fd',1,'Juniper::Unity::Animation::FadeTransition']]],
@@ -19,7 +19,7 @@ var searchData=
   ['filefilter',['fileFilter',['../d4/d3f/class_juniper_1_1_unity_1_1_widgets_1_1_file_selector.html#a7b4cbbd75f196155438e3eb2f6426cb0',1,'Juniper::Unity::Widgets::FileSelector']]],
   ['filter',['filter',['../d4/d3f/class_juniper_1_1_unity_1_1_widgets_1_1_file_selector.html#a3d44f8ec1a0d386ca5d55fc7dcff6a29',1,'Juniper::Unity::Widgets::FileSelector']]],
   ['fingerid',['fingerID',['../dd/d87/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_screen_1_1_touch_point.html#a746794e4a8b52f468fec69377cbb7310',1,'Juniper::Unity::Input::Pointers::Screen::TouchPoint']]],
-  ['finishtime',['finishTime',['../d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html#ae051ff32b18b2debc45770583f3d0e1a',1,'Juniper::Unity::Input::Pointers::AbstractPointerDevice']]],
+  ['finishtime',['finishTime',['../d7/d05/class_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html#a57b7f218d3fae68a38c0e56492e8b45e',1,'Juniper::Unity::Input::Pointers::AbstractPointerDevice']]],
   ['firsttime',['firstTime',['../d3/d64/class_juniper_1_1_unity_1_1_input_1_1_camera_control.html#af87158000c5042d17200ef8c774d30de',1,'Juniper::Unity::Input::CameraControl']]],
   ['flip_5fimage',['FLIP_IMAGE',['../d3/d64/class_juniper_1_1_unity_1_1_input_1_1_camera_control.html#a66600e32dc33929f4d811d95d3cfb10e',1,'Juniper::Unity::Input::CameraControl']]],
   ['followdistance',['followDistance',['../d6/d57/class_juniper_1_1_unity_1_1_widgets_1_1_follow_main_camera.html#ac2b61bfae2b8fd1d5c9a55f35dfbcea0',1,'Juniper::Unity::Widgets::FollowMainCamera']]],
@@ -33,9 +33,11 @@ var searchData=
   ['forcek',['ForceK',['../d4/d7d/class_juniper_1_1_unity_1_1_widgets_1_1_shaker.html#a6b8cc81273ad7cafc78e116fac656025',1,'Juniper::Unity::Widgets::Shaker']]],
   ['found',['Found',['../d9/d49/class_juniper_1_1_unity_1_1_image_tracking_1_1_abstract_trackable_found_event_handler.html#a72d9c0a38c812a1e8f0117a262abcbce',1,'Juniper::Unity::ImageTracking::AbstractTrackableFoundEventHandler']]],
   ['framestats',['frameStats',['../d1/de6/class_juniper_1_1_unity_1_1_widgets_1_1_quality_degrader.html#a21731707268d5ca9fd753d0366107fb9',1,'Juniper::Unity::Widgets::QualityDegrader']]],
-  ['freezeupdates',['freezeUpdates',['../d1/d1e/class_juniper_1_1_unity_1_1_ground_1_1_holo_lens_ground.html#ab3440ae2ad82ebd8588391582088e658',1,'Juniper::Unity::Ground::HoloLensGround']]],
+  ['freezeupdates',['freezeUpdates',['../db/d37/class_juniper_1_1_unity_1_1_ground_1_1_windows_m_r_ground.html#a8b06ccf5c3afcbdc054346a84510e80e',1,'Juniper::Unity::Ground::WindowsMRGround']]],
   ['freezing_5fpoint',['FREEZING_POINT',['../de/d87/class_juniper_1_1_units_1_1_celsius.html#a76732247d5d4e6743fc9199c88a7f07a',1,'Juniper.Units.Celsius.FREEZING_POINT()'],['../d2/d75/class_juniper_1_1_units_1_1_farenheit.html#ab399abbbbb9e1714d4e7b86c1459564f',1,'Juniper.Units.Farenheit.FREEZING_POINT()'],['../d9/d59/class_juniper_1_1_units_1_1_kelvin.html#aae798d0b80c1fd1f72ec52e8e861cb2f',1,'Juniper.Units.Kelvin.FREEZING_POINT()']]],
+  ['frequency',['frequency',['../d5/d6c/struct_juniper_1_1_audio_1_1_raw_audio.html#ae46b7c47b315b30cb42fcfe026d8561e',1,'Juniper::Audio::RawAudio']]],
+  ['frozen',['frozen',['../d2/d22/class_juniper_1_1_unity_1_1_anchoring_1_1_grounded.html#a707e56e2339364589e4da97ff578f474',1,'Juniper::Unity::Anchoring::Grounded']]],
   ['fudge',['fudge',['../d4/d97/class_juniper_1_1_unity_1_1_widgets_1_1_tooltip.html#a154672b3842d179b3325a10026d6d6f2',1,'Juniper::Unity::Widgets::Tooltip']]],
   ['fullscreen',['fullScreen',['../d5/d56/class_juniper_1_1_unity_1_1_animation_1_1_spiral_transition.html#acf3905676deeea68d0581117e0de5ea6',1,'Juniper::Unity::Animation::SpiralTransition']]],
-  ['functions',['Functions',['../d6/d86/class_juniper_1_1_unity_1_1_animation_1_1_tween.html#afc6a6337e7f552c9b6b41bce347beb42',1,'Juniper::Unity::Animation::Tween']]]
+  ['functions',['Functions',['../d6/d86/class_juniper_1_1_unity_1_1_animation_1_1_tween.html#adfc636d63958e4e24d94bf11489d7c67',1,'Juniper::Unity::Animation::Tween']]]
 ];

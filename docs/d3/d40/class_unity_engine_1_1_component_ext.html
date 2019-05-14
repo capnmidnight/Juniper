@@ -101,7 +101,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a452e7c14d5f8caaba27d9deeb1f76687"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d40/class_unity_engine_1_1_component_ext.html#a452e7c14d5f8caaba27d9deeb1f76687">WithLock</a> (this Component src, Action act)</td></tr>
-<tr class="memdesc:a452e7c14d5f8caaba27d9deeb1f76687"><td class="mdescLeft">&#160;</td><td class="mdescRight">ARCore looks for certain things as soon as the component is enabled, so we have to delay it. First, we disable the object hiearchy in question. Then, we execute the code to create the ARCore objects. Finally, we reenable the hierarchy.  <a href="#a452e7c14d5f8caaba27d9deeb1f76687">More...</a><br /></td></tr>
+<tr class="memdesc:a452e7c14d5f8caaba27d9deeb1f76687"><td class="mdescLeft">&#160;</td><td class="mdescRight">ARCore looks for certain things as soon as the component is enabled, so we have to delay it. First, we disable the object hierarchy in question. Then, we execute the code to create the ARCore objects. Finally, we re-enable the hierarchy.  <a href="#a452e7c14d5f8caaba27d9deeb1f76687">More...</a><br /></td></tr>
 <tr class="separator:a452e7c14d5f8caaba27d9deeb1f76687"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c018b4acaa86aff544972e1d8a029a7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d40/class_unity_engine_1_1_component_ext.html#a3c018b4acaa86aff544972e1d8a029a7">IsActivated</a> (this Component parent)</td></tr>
 <tr class="memdesc:a3c018b4acaa86aff544972e1d8a029a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check to see if a component is valid (not-null) and activated.  <a href="#a3c018b4acaa86aff544972e1d8a029a7">More...</a><br /></td></tr>
@@ -140,6 +140,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:afa2b6b0be65206c1fd46f6cb25e3903c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9cfffbb7fdb9eb367370b750d5210c4e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d40/class_unity_engine_1_1_component_ext.html#a9cfffbb7fdb9eb367370b750d5210c4e">Ensure&lt; T &gt;</a> (this Component obj)</td></tr>
 <tr class="separator:a9cfffbb7fdb9eb367370b750d5210c4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f096e5fbc559cbb27d6d7cc8ff98399"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent</a>&lt; Transform &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d40/class_unity_engine_1_1_component_ext.html#a0f096e5fbc559cbb27d6d7cc8ff98399">EnsureParent</a> (this Component obj, string name, params Transform[] exclusionList)</td></tr>
+<tr class="separator:a0f096e5fbc559cbb27d6d7cc8ff98399"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b1d6d6588dfd82e71accfb198c101a4"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d40/class_unity_engine_1_1_component_ext.html#a5b1d6d6588dfd82e71accfb198c101a4">Remove&lt; T &gt;</a> (this Component obj)</td></tr>
 <tr class="memdesc:a5b1d6d6588dfd82e71accfb198c101a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks to see if a gameObject has a particular component and, if it does, destroys it.  <a href="#a5b1d6d6588dfd82e71accfb198c101a4">More...</a><br /></td></tr>
 <tr class="separator:a5b1d6d6588dfd82e71accfb198c101a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,18 +152,22 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a482675296eb43fd42bc7dfaa51689e8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill in a path of Transforms with other Transforms as necessary. Useful for creating complex Transform hierarchies very quickly.  <a href="#a482675296eb43fd42bc7dfaa51689e8d">More...</a><br /></td></tr>
 <tr class="separator:a482675296eb43fd42bc7dfaa51689e8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a975be095dd00a3e6ec0cd0678330ea6b"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d40/class_unity_engine_1_1_component_ext.html#a975be095dd00a3e6ec0cd0678330ea6b">FindAny&lt; T &gt;</a> (Func&lt; T, bool &gt; filter=null)</td></tr>
-<tr class="memdesc:a975be095dd00a3e6ec0cd0678330ea6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find any object in the scene that is of a certain type.  <a href="#a975be095dd00a3e6ec0cd0678330ea6b">More...</a><br /></td></tr>
+<tr class="memdesc:a975be095dd00a3e6ec0cd0678330ea6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find any object in any scene that is of a certain type.  <a href="#a975be095dd00a3e6ec0cd0678330ea6b">More...</a><br /></td></tr>
 <tr class="separator:a975be095dd00a3e6ec0cd0678330ea6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab11e75736318a099467cd4f6b206c4c5"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d40/class_unity_engine_1_1_component_ext.html#ab11e75736318a099467cd4f6b206c4c5">FindAny&lt; T &gt;</a> (this Scene scene, Func&lt; T, bool &gt; filter=null)</td></tr>
+<tr class="memdesc:ab11e75736318a099467cd4f6b206c4c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find any object in the specified scene that is of a certain type.  <a href="#ab11e75736318a099467cd4f6b206c4c5">More...</a><br /></td></tr>
+<tr class="separator:ab11e75736318a099467cd4f6b206c4c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af67c47570abcadcbb6e130cb0f04179a"><td class="memItemLeft" align="right" valign="top">static IEnumerable&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d40/class_unity_engine_1_1_component_ext.html#af67c47570abcadcbb6e130cb0f04179a">FindAll&lt; T &gt;</a> (Func&lt; T, bool &gt; filter=null)</td></tr>
+<tr class="memdesc:af67c47570abcadcbb6e130cb0f04179a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find all objects in any scene that is of a certain type.  <a href="#af67c47570abcadcbb6e130cb0f04179a">More...</a><br /></td></tr>
 <tr class="separator:af67c47570abcadcbb6e130cb0f04179a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae02acf19222a62909f3f95bbcf27a37"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d40/class_unity_engine_1_1_component_ext.html#aae02acf19222a62909f3f95bbcf27a37">LoadAsset&lt; T &gt;</a> (string path)</td></tr>
-<tr class="memdesc:aae02acf19222a62909f3f95bbcf27a37"><td class="mdescLeft">&#160;</td><td class="mdescRight">When called from the Unity Editor, loads an audio clip from disk to use as a property in a Unity component.  <a href="#aae02acf19222a62909f3f95bbcf27a37">More...</a><br /></td></tr>
-<tr class="separator:aae02acf19222a62909f3f95bbcf27a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa876bd332a2bd0d99b0d1cd5b2e03310"><td class="memItemLeft" align="right" valign="top">static IEnumerable&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d40/class_unity_engine_1_1_component_ext.html#aa876bd332a2bd0d99b0d1cd5b2e03310">FindAll&lt; T &gt;</a> (this Scene scene, Func&lt; T, bool &gt; filter=null)</td></tr>
+<tr class="memdesc:aa876bd332a2bd0d99b0d1cd5b2e03310"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find all objects in the specified scene that is of a certain type.  <a href="#aa876bd332a2bd0d99b0d1cd5b2e03310">More...</a><br /></td></tr>
+<tr class="separator:aa876bd332a2bd0d99b0d1cd5b2e03310"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Extension methods for Unity's Component class. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00012">12</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00014">14</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aca1116169f5a971844eae84a826b49c1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aca1116169f5a971844eae84a826b49c1">&#9670;&nbsp;</a></span>Activate() <span class="overload">[1/2]</span></h2>
@@ -196,8 +202,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00066">66</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        {</div><div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            parent.gameObject.Activate();</div><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00068">68</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        {</div><div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            parent.gameObject.Activate();</div><div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a58594fad7f50e60895e29b17231b6643"></a>
@@ -233,8 +239,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00079">79</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div><div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            parent.gameObject.Activate();</div><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            parent.enabled = <span class="keyword">true</span>;</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00081">81</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        {</div><div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            parent.gameObject.Activate();</div><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            parent.enabled = <span class="keyword">true</span>;</div><div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a2fe447e61b8652ac581907e80168724d"></a>
@@ -270,8 +276,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00093">93</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        {</div><div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            parent.gameObject.Deactivate();</div><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00095">95</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        {</div><div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            parent.gameObject.Deactivate();</div><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aecd0b79b073c3dc6f9a78d24c5fb2ac7"></a>
@@ -298,9 +304,9 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00098">98</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        {</div><div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            Object.DestroyImmediate(obj);</div><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        }</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="../../d1/d04/_daydream_input_module_8cs_source.html#l00046">Juniper.Unity.Input.DaydreamInputModule.Uninstall()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00100">100</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        {</div><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            Object.DestroyImmediate(obj);</div><div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        }</div></div><!-- fragment -->
+<p class="reference">Referenced by <a class="el" href="../../d1/d04/_daydream_input_module_8cs_source.html#l00045">Juniper.Unity.Input.DaydreamInputModule.Uninstall()</a>.</p>
 
 </div>
 </div>
@@ -361,8 +367,8 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00171">171</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                                                                                                       : Component</div><div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        {</div><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            <span class="keywordflow">return</span> obj.gameObject.Ensure&lt;T&gt;(predicate);</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00173">173</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                                                                                                       : Component</div><div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        {</div><div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            <span class="keywordflow">return</span> obj.gameObject.Ensure&lt;T&gt;(predicate);</div><div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a9cfffbb7fdb9eb367370b750d5210c4e"></a>
@@ -397,8 +403,8 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00176">176</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                    : Component</div><div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        {</div><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            <span class="keywordflow">return</span> obj.gameObject.Ensure&lt;T&gt;();</div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00178">178</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                    : Component</div><div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        {</div><div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            <span class="keywordflow">return</span> obj.gameObject.Ensure&lt;T&gt;();</div><div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="aae1c24e6e06972c039a03617ac217e58"></a>
@@ -460,8 +466,8 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00203">203</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                    : Transform</div><div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        {</div><div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            <span class="keywordflow">return</span> obj.Ensure&lt;T&gt;(path, <span class="keyword">null</span>, create);</div><div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00221">221</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                    : Transform</div><div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        {</div><div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="keywordflow">return</span> obj.Ensure&lt;T&gt;(path, <span class="keyword">null</span>, create);</div><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a482675296eb43fd42bc7dfaa51689e8d"></a>
@@ -530,13 +536,58 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00218">218</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                    : Transform</div><div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        {</div><div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            <span class="keywordflow">if</span> (creationPath == <span class="keyword">null</span>)</div><div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            {</div><div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                creationPath = path;</div><div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            }</div><div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;</div><div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            var trans = obj.transform.Query(path);</div><div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            var isNew = trans == <span class="keyword">null</span>;</div><div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            <span class="keywordflow">if</span> (isNew)</div><div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            {</div><div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                var parts = creationPath.Split(<span class="charliteral">&#39;/&#39;</span>);</div><div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                var name = parts.LastOrDefault();</div><div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;</div><div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                <span class="keywordflow">if</span> (create == <span class="keyword">null</span>)</div><div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                {</div><div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                    create = () =&gt; <span class="keyword">new</span> GameObject();</div><div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                }</div><div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;</div><div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;                trans = create().transform;</div><div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                trans.name = name;</div><div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div><div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                Transform parent;</div><div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                <span class="keywordflow">if</span> (parts.Length == 1)</div><div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                {</div><div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                    parent = obj.transform;</div><div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                }</div><div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (parts.Length == 0 || (parts.Length == 2 &amp;&amp; parts[0].Length == 0))</div><div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                {</div><div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                    parent = <span class="keyword">null</span>;</div><div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                }</div><div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                <span class="keywordflow">else</span></div><div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                {</div><div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                    var parentPath = <span class="keywordtype">string</span>.Join(<span class="stringliteral">&quot;/&quot;</span>, parts</div><div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                        .Take(parts.Length - 1)</div><div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                        .ToArray());</div><div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                    parent = obj.Ensure&lt;T&gt;(parentPath);</div><div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                }</div><div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;</div><div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                trans.SetParent(parent, <span class="keyword">false</span>);</div><div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            }</div><div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div><div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent&lt;T&gt;</a>(trans.gameObject, isNew);</div><div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        }</div><div class="ttc" id="struct_juniper_1_1_unity_1_1_pooled_component_html"><div class="ttname"><a href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">Juniper.Unity.PooledComponent</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/dc7/_pooled_component_8cs_source.html#l00008">PooledComponent.cs:8</a></div></div>
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00236">236</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                    : Transform</div><div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        {</div><div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            <span class="keywordflow">if</span> (creationPath == <span class="keyword">null</span>)</div><div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            {</div><div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                creationPath = path;</div><div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            }</div><div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div><div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            var trans = obj.transform.Query(path);</div><div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            var isNew = trans == <span class="keyword">null</span>;</div><div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            <span class="keywordflow">if</span> (isNew)</div><div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            {</div><div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                var parts = creationPath.Split(<span class="charliteral">&#39;/&#39;</span>);</div><div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                var name = parts.LastOrDefault();</div><div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;</div><div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                <span class="keywordflow">if</span> (create == <span class="keyword">null</span>)</div><div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                {</div><div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                    create = () =&gt; <span class="keyword">new</span> GameObject();</div><div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                }</div><div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;</div><div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                trans = create().transform;</div><div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                trans.name = name;</div><div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;</div><div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                Transform parent;</div><div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                <span class="keywordflow">if</span> (parts.Length == 1)</div><div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                {</div><div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                    parent = obj.transform;</div><div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                }</div><div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                <span class="keywordflow">else</span> <span class="keywordflow">if</span> (parts.Length == 0 || (parts.Length == 2 &amp;&amp; parts[0].Length == 0))</div><div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                {</div><div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                    parent = <span class="keyword">null</span>;</div><div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                }</div><div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                <span class="keywordflow">else</span></div><div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                {</div><div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                    var parentPath = <span class="keywordtype">string</span>.Join(<span class="stringliteral">&quot;/&quot;</span>, parts</div><div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                        .Take(parts.Length - 1)</div><div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                        .ToArray());</div><div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                    parent = obj.Ensure&lt;T&gt;(parentPath);</div><div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                }</div><div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;</div><div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                trans.SetParent(parent, <span class="keyword">false</span>);</div><div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            }</div><div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;</div><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent&lt;T&gt;</a>(trans.gameObject, isNew);</div><div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        }</div><div class="ttc" id="struct_juniper_1_1_unity_1_1_pooled_component_html"><div class="ttname"><a href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">Juniper.Unity.PooledComponent</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/dc7/_pooled_component_8cs_source.html#l00008">PooledComponent.cs:8</a></div></div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a0f096e5fbc559cbb27d6d7cc8ff98399"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f096e5fbc559cbb27d6d7cc8ff98399">&#9670;&nbsp;</a></span>EnsureParent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent</a>&lt;Transform&gt; UnityEngine.ComponentExt.EnsureParent </td>
+          <td>(</td>
+          <td class="paramtype">this Component&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">params Transform []&#160;</td>
+          <td class="paramname"><em>exclusionList</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00184">184</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        {</div><div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            var parent = obj.transform.parent;</div><div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="keywordflow">if</span> (parent == <span class="keyword">null</span> || exclusionList.Contains(parent))</div><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            {</div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                parent = <span class="keyword">new</span> GameObject(name).transform;</div><div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                obj.transform.SetParent(parent, <span class="keyword">false</span>);</div><div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent&lt;Transform&gt;</a>(parent, <span class="keyword">true</span>);</div><div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            }</div><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <span class="keywordflow">else</span></div><div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            {</div><div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                parent.name = name;</div><div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">PooledComponent&lt;Transform&gt;</a>(parent, <span class="keyword">false</span>);</div><div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            }</div><div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        }</div><div class="ttc" id="struct_juniper_1_1_unity_1_1_pooled_component_html"><div class="ttname"><a href="../../d7/d59/struct_juniper_1_1_unity_1_1_pooled_component.html">Juniper.Unity.PooledComponent</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/dc7/_pooled_component_8cs_source.html#l00008">PooledComponent.cs:8</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
 <a id="af67c47570abcadcbb6e130cb0f04179a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af67c47570abcadcbb6e130cb0f04179a">&#9670;&nbsp;</a></span>FindAll&lt; T &gt;()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af67c47570abcadcbb6e130cb0f04179a">&#9670;&nbsp;</a></span>FindAll&lt; T &gt;() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -558,6 +609,21 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Find all objects in any scene that is of a certain type. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filter</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
 <div class="typeconstraint">
 <dl><dt><b>Type Constraints</b></dt><dd>
 <table border="0" cellspacing="2" cellpadding="0">
@@ -567,12 +633,74 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00274">274</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                                                                                     : Component</div><div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        {</div><div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            <span class="keywordflow">foreach</span> (var o <span class="keywordflow">in</span> Resources.FindObjectsOfTypeAll&lt;T&gt;())</div><div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            {</div><div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                <span class="keywordflow">if</span> (o != <span class="keyword">null</span></div><div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                    &amp;&amp; o.gameObject != <span class="keyword">null</span></div><div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                    &amp;&amp; o.gameObject.scene.name != <span class="keyword">null</span></div><div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                    &amp;&amp; filter?.Invoke(o) != <span class="keyword">false</span>)</div><div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                {</div><div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                    yield <span class="keywordflow">return</span> o;</div><div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                }</div><div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;            }</div><div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00311">311</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                                                                                     : Component</div><div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        {</div><div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            <span class="keywordflow">for</span> (var i = 0; i &lt; SceneManager.sceneCount; ++i)</div><div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            {</div><div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                var scene = SceneManager.GetSceneAt(i);</div><div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                <span class="keywordflow">foreach</span> (var c <span class="keywordflow">in</span> scene.FindAll(filter))</div><div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                {</div><div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                    yield <span class="keywordflow">return</span> c;</div><div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;                }</div><div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            }</div><div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="aa876bd332a2bd0d99b0d1cd5b2e03310"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa876bd332a2bd0d99b0d1cd5b2e03310">&#9670;&nbsp;</a></span>FindAll&lt; T &gt;() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static IEnumerable&lt;T&gt; UnityEngine.ComponentExt.FindAll&lt; T &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this Scene&#160;</td>
+          <td class="paramname"><em>scene</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; T, bool &gt;&#160;</td>
+          <td class="paramname"><em>filter</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Find all objects in the specified scene that is of a certain type. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scene</td><td></td></tr>
+    <tr><td class="paramname">filter</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<div class="typeconstraint">
+<dl><dt><b>Type Constraints</b></dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>Component</em></td><td>&#160;</td></tr>
+</table>
+</dd>
+</dl>
+</div>
+
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00330">330</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                                                                                                       : Component</div><div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        {</div><div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;            <span class="keywordflow">if</span> (scene.isLoaded || !<span class="keywordtype">string</span>.IsNullOrEmpty(scene.name))</div><div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            {</div><div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                <span class="keywordflow">foreach</span> (var o <span class="keywordflow">in</span> scene.GetRootGameObjects())</div><div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                {</div><div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;                    <span class="keywordflow">foreach</span> (var c <span class="keywordflow">in</span> o.GetComponentsInChildren&lt;T&gt;(<span class="keyword">true</span>))</div><div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                    {</div><div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;                        <span class="keywordflow">if</span> (filter?.Invoke(c) != <span class="keyword">false</span>)</div><div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;                        {</div><div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;                            yield <span class="keywordflow">return</span> c;</div><div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;                        }</div><div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;                    }</div><div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                }</div><div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;            }</div><div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a975be095dd00a3e6ec0cd0678330ea6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a975be095dd00a3e6ec0cd0678330ea6b">&#9670;&nbsp;</a></span>FindAny&lt; T &gt;()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a975be095dd00a3e6ec0cd0678330ea6b">&#9670;&nbsp;</a></span>FindAny&lt; T &gt;() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -595,10 +723,16 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Find any object in the scene that is of a certain type. </p>
+<p>Find any object in any scene that is of a certain type. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filter</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -612,8 +746,70 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00269">269</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                                                                        : Component</div><div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        {</div><div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;            <span class="keywordflow">return</span> FindAll(filter).FirstOrDefault();</div><div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00288">288</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                                                                        : Component</div><div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        {</div><div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;            <span class="keywordflow">return</span> FindAll(filter).FirstOrDefault();</div><div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        }</div></div><!-- fragment -->
+</div>
+</div>
+<a id="ab11e75736318a099467cd4f6b206c4c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab11e75736318a099467cd4f6b206c4c5">&#9670;&nbsp;</a></span>FindAny&lt; T &gt;() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static T UnityEngine.ComponentExt.FindAny&lt; T &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this Scene&#160;</td>
+          <td class="paramname"><em>scene</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; T, bool &gt;&#160;</td>
+          <td class="paramname"><em>filter</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Find any object in the specified scene that is of a certain type. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scene</td><td></td></tr>
+    <tr><td class="paramname">filter</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<div class="typeconstraint">
+<dl><dt><b>Type Constraints</b></dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>Component</em></td><td>&#160;</td></tr>
+</table>
+</dd>
+</dl>
+</div>
+
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00300">300</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                                                                                          : Component</div><div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        {</div><div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            <span class="keywordflow">return</span> scene.FindAll(filter).FirstOrDefault();</div><div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a7ca57ca38bc9123ed3ba0f88d61fd155"></a>
@@ -649,8 +845,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00137">137</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        {</div><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            var r = parent.GetComponent&lt;Renderer&gt;();</div><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keywordflow">return</span> r?.enabled == <span class="keyword">true</span>;</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00139">139</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        {</div><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            var r = parent.GetComponent&lt;Renderer&gt;();</div><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            <span class="keywordflow">return</span> r?.enabled == <span class="keyword">true</span>;</div><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a3c018b4acaa86aff544972e1d8a029a7"></a>
@@ -685,59 +881,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00032">32</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        {</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keywordflow">return</span> parent.gameObject.IsActivated();</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        }</div></div><!-- fragment -->
-</div>
-</div>
-<a id="aae02acf19222a62909f3f95bbcf27a37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae02acf19222a62909f3f95bbcf27a37">&#9670;&nbsp;</a></span>LoadAsset&lt; T &gt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static T UnityEngine.ComponentExt.LoadAsset&lt; T &gt; </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>When called from the Unity Editor, loads an audio clip from disk to use as a property in a Unity component. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">path</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-<div class="typeconstraint">
-<dl><dt><b>Type Constraints</b></dt><dd>
-<table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>Object</em></td><td>&#160;</td></tr>
-</table>
-</dd>
-</dl>
-</div>
-
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00317">317</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                                                          : Object</div><div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        {</div><div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            <span class="keywordflow">return</span> Resources.Load&lt;T&gt;(<a class="code" href="../../d8/dd0/namespace_system.html">System</a>.<a class="code" href="../../dc/d30/namespace_system_1_1_i_o.html">IO</a>.<a class="code" href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html">PathExt</a>.<a class="code" href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html#a9035d7dafebaf274171d5814827a03a3">FixPath</a>(path));</div><div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        }</div><div class="ttc" id="class_system_1_1_i_o_1_1_path_ext_html_a9035d7dafebaf274171d5814827a03a3"><div class="ttname"><a href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html#a9035d7dafebaf274171d5814827a03a3">System.IO.PathExt.FixPath</a></div><div class="ttdeci">static string FixPath(string path)</div><div class="ttdoc">Converts paths specified in any combination of forward- or back-slashes to the correct slash for the ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d16/_path_ext_8cs_source.html#l00017">PathExt.cs:17</a></div></div>
-<div class="ttc" id="namespace_system_html"><div class="ttname"><a href="../../d8/dd0/namespace_system.html">System</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d5b/_date_time_ext2_8cs_source.html#l00005">DateTimeExt2.cs:5</a></div></div>
-<div class="ttc" id="namespace_system_1_1_i_o_html"><div class="ttname"><a href="../../dc/d30/namespace_system_1_1_i_o.html">System.IO</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dcd/_directory_ext_8cs_source.html#l00003">DirectoryExt.cs:3</a></div></div>
-<div class="ttc" id="class_system_1_1_i_o_1_1_path_ext_html"><div class="ttname"><a href="../../d9/de5/class_system_1_1_i_o_1_1_path_ext.html">System.IO.PathExt</a></div><div class="ttdoc">A static class containing a few functions that the normal System.IO.Path class does not contain.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d16/_path_ext_8cs_source.html#l00008">PathExt.cs:8</a></div></div>
-</div><!-- fragment -->
-<p class="reference">References <a class="el" href="../../d9/d16/_path_ext_8cs_source.html#l00017">System.IO.PathExt.FixPath()</a>.</p>
-
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00034">34</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        {</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keywordflow">return</span> parent.gameObject.IsActivated();</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a336eb886e0f495af6f300f1c509073d9"></a>
@@ -790,8 +935,8 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00124">124</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        {</div><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="keywordflow">return</span> parent.transform.Query(path);</div><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00126">126</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        {</div><div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">return</span> parent.transform.Query(path);</div><div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="ac17442ed5d5fb048616a4af43caee013"></a>
@@ -844,8 +989,8 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00111">111</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        {</div><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="keywordflow">return</span> parent.transform.Query&lt;T&gt;(path);</div><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00113">113</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        {</div><div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            <span class="keywordflow">return</span> parent.transform.Query&lt;T&gt;(path);</div><div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a5b1d6d6588dfd82e71accfb198c101a4"></a>
@@ -895,8 +1040,8 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 </div>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00188">188</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                                                                 : Component</div><div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        {</div><div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            var o = obj.GetComponent&lt;T&gt;();</div><div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            o?.Destroy();</div><div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            <span class="keywordflow">return</span> o != <span class="keyword">null</span>;</div><div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00206">206</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                                                                 : Component</div><div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        {</div><div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            var o = obj.GetComponent&lt;T&gt;();</div><div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            o?.Destroy();</div><div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            <span class="keywordflow">return</span> o != <span class="keyword">null</span>;</div><div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a54157827c934e8e1265df95835bb1134"></a>
@@ -942,8 +1087,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00053">53</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        {</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            parent.gameObject.SetActive(active);</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00055">55</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            parent.gameObject.SetActive(active);</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a14e8a89508d1baf8321820fca4ad7d20"></a>
@@ -989,8 +1134,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00043">43</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            parent.gameObject.SetTreeActive(active);</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00045">45</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        {</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            parent.gameObject.SetTreeActive(active);</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a42192e9f1aaf0b71c4a65b311fcbee10"></a>
@@ -1036,8 +1181,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00150">150</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        {</div><div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            var r = parent.GetComponent&lt;Renderer&gt;();</div><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            <span class="keywordflow">if</span> (r != <span class="keyword">null</span>)</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            {</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                r.enabled = visible;</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            }</div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <span class="keywordflow">foreach</span> (Transform child <span class="keywordflow">in</span> parent.transform)</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            {</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                child.SetActive(visible);</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            }</div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00152">152</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        {</div><div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            var r = parent.GetComponent&lt;Renderer&gt;();</div><div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            <span class="keywordflow">if</span> (r != <span class="keyword">null</span>)</div><div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            {</div><div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                r.enabled = visible;</div><div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            }</div><div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div><div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <span class="keywordflow">foreach</span> (Transform child <span class="keywordflow">in</span> parent.transform)</div><div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            {</div><div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                child.SetActive(visible);</div><div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            }</div><div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a452e7c14d5f8caaba27d9deeb1f76687"></a>
@@ -1074,7 +1219,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>ARCore looks for certain things as soon as the component is enabled, so we have to delay it. First, we disable the object hiearchy in question. Then, we execute the code to create the ARCore objects. Finally, we reenable the hierarchy. </p>
+<p>ARCore looks for certain things as soon as the component is enabled, so we have to delay it. First, we disable the object hierarchy in question. Then, we execute the code to create the ARCore objects. Finally, we re-enable the hierarchy. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">src</td><td></td></tr>
@@ -1083,12 +1228,12 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00021">21</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        {</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            src.Deactivate();</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            act();</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            src.Activate();</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d0/d68/_component_ext_8cs_source.html#l00023">23</a> of file <a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a>.</p>
+<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        {</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            src.Deactivate();</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            act();</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            src.Activate();</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/smcbeth/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/<a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a></li>
+<li>C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/UnityEngine/<a class="el" href="../../d0/d68/_component_ext_8cs_source.html">ComponentExt.cs</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.15-->

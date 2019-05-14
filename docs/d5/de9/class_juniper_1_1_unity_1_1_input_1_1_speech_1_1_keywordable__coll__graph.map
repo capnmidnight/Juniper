@@ -1,9 +1,11 @@
 <map id="Juniper.Unity.Input.Speech.Keywordable" name="Juniper.Unity.Input.Speech.Keywordable">
-<area shape="rect" id="node1" title="An object that can be fires an event when a particular keyword is uttered." alt="" coords="109,500,288,724"/>
+<area shape="rect" id="node1" title="An object that can be fires an event when a particular keyword is uttered." alt="" coords="109,783,288,1007"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,139,115,217"/>
-<area shape="rect" id="node4" href="$da/d31/class_juniper_1_1_unity_1_1_input_1_1_speech_1_1_keyword_recognizer.html" title="A class that implements basic functionality for systems that manage speech recognition and route out ..." alt="" coords="109,287,288,437"/>
-<area shape="rect" id="node3" href="$da/d92/interface_juniper_1_1_input_1_1_speech_1_1_i_keyword_triggered.html" title="An interface for systems that respond to keyword utterances." alt="" coords="312,323,443,401"/>
-<area shape="rect" id="node5" href="$dc/ddd/interface_juniper_1_1_unity_1_1_input_1_1_speech_1_1_i_keyword_recognizer.html" title=" " alt="" coords="139,139,282,217"/>
-<area shape="rect" id="node6" href="$d9/d59/class_unity_engine_1_1_events_1_1_string_event.html" title="An event that passes a string value as an argument." alt="" coords="306,132,473,224"/>
-<area shape="rect" id="node7" title=" " alt="" coords="320,5,459,83"/>
+<area shape="rect" id="node6" href="$dc/d89/class_juniper_1_1_unity_1_1_input_1_1_speech_1_1_abstract_keyword_recognizer.html" title="A class that implements basic functionality for systems that manage speech recognition and route out ..." alt="" coords="119,287,300,437"/>
+<area shape="rect" id="node3" href="$dd/dd1/interface_juniper_1_1_speech_1_1_i_keyword_triggered.html" title="An interface for systems that respond to keyword utterances." alt="" coords="312,635,443,713"/>
+<area shape="rect" id="node4" href="$da/d31/class_juniper_1_1_unity_1_1_input_1_1_speech_1_1_keyword_recognizer.html" title=" " alt="" coords="109,628,288,720"/>
+<area shape="rect" id="node5" href="$d4/d57/class_juniper_1_1_unity_1_1_input_1_1_speech_1_1_no_keyword_recognizer.html" title=" " alt="" coords="132,487,281,579"/>
+<area shape="rect" id="node7" href="$d8/d97/interface_juniper_1_1_unity_1_1_speech_1_1_i_keyword_recognizer.html" title=" " alt="" coords="139,139,282,217"/>
+<area shape="rect" id="node8" href="$d9/d59/class_unity_engine_1_1_events_1_1_string_event.html" title="An event that passes a string value as an argument." alt="" coords="306,132,473,224"/>
+<area shape="rect" id="node9" title=" " alt="" coords="320,5,459,83"/>
 </map>
