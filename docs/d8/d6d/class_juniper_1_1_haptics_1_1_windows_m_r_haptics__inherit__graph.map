@@ -1,0 +1,6 @@
+<map id="Juniper.Haptics.WindowsMRHaptics" name="Juniper.Haptics.WindowsMRHaptics">
+<area shape="rect" id="node1" title=" " alt="" coords="5,675,228,899"/>
+<area shape="rect" id="node2" href="$d7/d8b/class_juniper_1_1_haptics_1_1_abstract_haptic_expressor.html" title="Non&#45;iOS systems do not have built&#45;in haptic patterns. This class replicates the functionality of the ..." alt="" coords="37,359,197,627"/>
+<area shape="rect" id="node3" href="$d0/d83/class_juniper_1_1_haptics_1_1_abstract_haptic_device.html" title="An interface for all haptic device subsystems." alt="" coords="46,131,187,311"/>
+<area shape="rect" id="node4" title=" " alt="" coords="62,5,171,83"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="Juniper.Input.Pointers.Probe" name="Juniper.Input.Pointers.Probe">
+<area shape="rect" id="node1" title="AKA a Cursor, but I don&#39;t like the word Cursor (reminds me too much of SQL)." alt="" coords="166,307,349,839"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,64,115,141"/>
+<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="139,49,231,156"/>
+<area shape="rect" id="node4" href="$d1/de0/interface_juniper_1_1_input_1_1_pointers_1_1_i_probe.html" title=" " alt="" coords="255,5,406,200"/>
+<area shape="rect" id="node5" title=" " alt="" coords="431,64,519,141"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Juniper.Widgets.RotationHandle" name="Juniper.Widgets.RotationHandle">
+<area shape="rect" id="node1" title="A draggable object that can be used to update the rotation of another object." alt="" coords="7,417,171,524"/>
+<area shape="rect" id="node2" href="$d3/d3f/class_juniper_1_1_widgets_1_1_abstract_constraint_handle.html" title="An abstract class that manages reading the movement of a control handle and constraining that movemen..." alt="" coords="5,131,172,369"/>
+<area shape="rect" id="node3" title=" " alt="" coords="34,5,143,83"/>
+</map>

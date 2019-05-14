@@ -1,0 +1,13 @@
+<map id="Juniper.Input.Pointers.Motion.AbstractHandTracker&lt; HandIDType, ButtonIDType, ConfigType &gt;" name="Juniper.Input.Pointers.Motion.AbstractHandTracker&lt; HandIDType, ButtonIDType, ConfigType &gt;">
+<area shape="rect" id="node1" title=" " alt="" coords="368,1412,596,1519"/>
+<area shape="rect" id="node9" href="$d2/d07/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_hand_tracker.html" title=" " alt="" coords="352,1596,612,1703"/>
+<area shape="rect" id="node2" href="$d1/d3f/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="383,1139,581,1363"/>
+<area shape="rect" id="node3" href="$da/d81/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="263,425,459,1089"/>
+<area shape="rect" id="node4" title=" " alt="" coords="122,152,231,229"/>
+<area shape="rect" id="node5" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="5,137,97,244"/>
+<area shape="rect" id="node6" href="$d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="490,5,655,376"/>
+<area shape="rect" id="node8" href="$dc/d0e/interface_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html" title=" " alt="" coords="487,689,637,825"/>
+<area shape="rect" id="node7" href="$dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html" title="An interface for specifying how devices with buttons should behave." alt="" coords="255,115,466,266"/>
+<area shape="rect" id="node10" href="$db/d09/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_no_hand_tracker.html" title=" " alt="" coords="386,1752,578,1903"/>
+<area shape="rect" id="node11" href="$db/d04/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_hand_tracker.html" title=" " alt="" coords="386,1952,578,2044"/>
+</map>

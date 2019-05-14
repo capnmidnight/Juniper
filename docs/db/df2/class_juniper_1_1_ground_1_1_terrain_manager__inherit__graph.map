@@ -1,0 +1,7 @@
+<map id="Juniper.Ground.TerrainManager" name="Juniper.Ground.TerrainManager">
+<area shape="rect" id="node1" title="Manages references to the ground, either 3D terrain in VR apps or detected planes and meshes in AR ap..." alt="" coords="21,645,225,723"/>
+<area shape="rect" id="node2" href="$d9/d00/class_juniper_1_1_ground_1_1_a_r_kit_ground.html" title=" " alt="" coords="63,505,182,597"/>
+<area shape="rect" id="node3" href="$d9/d8c/class_juniper_1_1_ground_1_1_abstract_ground.html" title=" " alt="" coords="33,160,212,457"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,20,115,97"/>
+<area shape="rect" id="node5" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="139,5,231,112"/>
+</map>

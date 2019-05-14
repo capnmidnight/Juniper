@@ -1,8 +1,0 @@
-<map id="Juniper.Unity.LightMapping.LightMapSwitcher" name="Juniper.Unity.LightMapping.LightMapSwitcher">
-<area shape="rect" id="node1" title="The LightMapSwitcher takes different sets of static light map sets and switches between them at runti..." alt="" coords="23,344,201,480"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,175,115,252"/>
-<area shape="rect" id="node3" href="$d0/dbf/class_juniper_1_1_unity_1_1_light_mapping_1_1_light_map_set.html" title="A set of Directional, Light, and Shadow maps, for being able to switch between light maps at runtime ..." alt="" coords="139,145,317,281"/>
-<area shape="rect" id="node4" title=" " alt="" coords="43,5,159,83"/>
-<area shape="rect" id="node5" title=" " alt="" coords="184,5,272,83"/>
-<area shape="rect" id="node6" title=" " alt="" coords="330,5,382,83"/>
-</map>

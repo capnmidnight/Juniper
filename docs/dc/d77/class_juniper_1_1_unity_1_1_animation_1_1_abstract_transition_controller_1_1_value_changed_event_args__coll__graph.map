@@ -1,4 +1,0 @@
-<map id="Juniper.Unity.Animation.AbstractTransitionController.ValueChangedEventArgs" name="Juniper.Unity.Animation.AbstractTransitionController.ValueChangedEventArgs">
-<area shape="rect" id="node1" title="Changes in the transition value can be captured in other scripts by subscribing to the ValueChanged e..." alt="" coords="5,131,192,252"/>
-<area shape="rect" id="node2" title=" " alt="" coords="59,5,138,83"/>
-</map>

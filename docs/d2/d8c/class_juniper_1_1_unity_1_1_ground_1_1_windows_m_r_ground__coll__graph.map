@@ -1,8 +1,0 @@
-<map id="Juniper.Unity.Ground.WindowsMRGround" name="Juniper.Unity.Ground.WindowsMRGround">
-<area shape="rect" id="node1" title=" " alt="" coords="172,521,388,892"/>
-<area shape="rect" id="node2" href="$d6/dcb/class_juniper_1_1_unity_1_1_ground_1_1_abstract_ground.html" title=" " alt="" coords="33,161,212,459"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,20,115,97"/>
-<area shape="rect" id="node4" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="139,5,231,112"/>
-<area shape="rect" id="node5" title=" " alt="" coords="236,271,324,349"/>
-<area shape="rect" id="node6" title=" " alt="" coords="357,271,409,349"/>
-</map>

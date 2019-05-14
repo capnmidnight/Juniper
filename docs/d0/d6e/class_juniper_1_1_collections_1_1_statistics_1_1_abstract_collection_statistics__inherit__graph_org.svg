@@ -338,8 +338,8 @@
 </g>
 <!-- Node0&#45;&gt;Node8 -->
 <g id="edge8" class="edge"><title>Node0&#45;&gt;Node8</title>
-<path fill="none" stroke="orange" d="M407.711,-1002.51C436.996,-944.153 468.546,-876.534 492.5,-813 495.386,-805.345 498.219,-797.546 500.995,-789.648"/>
-<polygon fill="orange" stroke="orange" points="404.408,-1001.29 403.032,-1011.79 410.659,-1004.44 404.408,-1001.29"/>
+<path fill="none" stroke="orange" d="M407.675,-1001.2C436.598,-943.113 467.717,-876.01 491.5,-813 494.729,-804.446 497.895,-795.713 500.992,-786.863"/>
+<polygon fill="orange" stroke="orange" points="404.396,-999.929 403.054,-1010.44 410.657,-1003.06 404.396,-999.929"/>
 <text text-anchor="middle" x="512.5" y="-834" font-family="SegoeUI" font-size="10.00"> &lt; Vector4 &gt;</text>
 </g>
 <!-- Node1 -->
@@ -388,23 +388,23 @@
 </g>
 <!-- Node5 -->
 <g id="node6" class="node"><title>Node5</title>
-<g id="a_node6"><a xlink:href="../../d5/da9/class_juniper_1_1_unity_1_1_statistics_1_1_vector2_statistics.html" target="_top" xlink:title="Computes statistics on UnityEngine.Vector2 values.">
-<polygon fill="white" stroke="black" points="183.5,-0.5 183.5,-167.5 299.5,-167.5 299.5,-0.5 183.5,-0.5"/>
-<text text-anchor="start" x="191.5" y="-155.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Statistics.</text>
-<text text-anchor="middle" x="241.5" y="-144.5" font-family="SegoeUI" font-size="10.00">Vector2Statistics</text>
-<polyline fill="none" stroke="black" points="183.5,-137.5 299.5,-137.5 "/>
+<g id="a_node6"><a xlink:href="../../d0/d49/class_juniper_1_1_statistics_1_1_vector2_statistics.html" target="_top" xlink:title="Computes statistics on UnityEngine.Vector2 values.">
+<polygon fill="white" stroke="black" points="179,-0.5 179,-167.5 304,-167.5 304,-0.5 179,-0.5"/>
+<text text-anchor="start" x="187" y="-155.5" font-family="SegoeUI" font-size="10.00">Juniper.Statistics.Vector2</text>
+<text text-anchor="middle" x="241.5" y="-144.5" font-family="SegoeUI" font-size="10.00">Statistics</text>
+<polyline fill="none" stroke="black" points="179,-137.5 304,-137.5 "/>
 <text text-anchor="middle" x="241.5" y="-125.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="183.5,-118.5 299.5,-118.5 "/>
-<text text-anchor="start" x="191.5" y="-106.5" font-family="SegoeUI" font-size="10.00">+ Vector2Statistics()</text>
-<text text-anchor="start" x="191.5" y="-95.5" font-family="SegoeUI" font-size="10.00">+ Vector2Statistics()</text>
-<text text-anchor="start" x="191.5" y="-84.5" font-family="SegoeUI" font-size="10.00"># Abs()</text>
-<text text-anchor="start" x="191.5" y="-73.5" font-family="SegoeUI" font-size="10.00"># Add()</text>
-<text text-anchor="start" x="191.5" y="-62.5" font-family="SegoeUI" font-size="10.00"># Divide()</text>
-<text text-anchor="start" x="191.5" y="-51.5" font-family="SegoeUI" font-size="10.00"># LessThan()</text>
-<text text-anchor="start" x="191.5" y="-40.5" font-family="SegoeUI" font-size="10.00"># Multiply()</text>
-<text text-anchor="start" x="191.5" y="-29.5" font-family="SegoeUI" font-size="10.00"># Scale()</text>
-<text text-anchor="start" x="191.5" y="-18.5" font-family="SegoeUI" font-size="10.00"># Sqrt()</text>
-<text text-anchor="start" x="191.5" y="-7.5" font-family="SegoeUI" font-size="10.00"># Subtract()</text>
+<polyline fill="none" stroke="black" points="179,-118.5 304,-118.5 "/>
+<text text-anchor="start" x="187" y="-106.5" font-family="SegoeUI" font-size="10.00">+ Vector2Statistics()</text>
+<text text-anchor="start" x="187" y="-95.5" font-family="SegoeUI" font-size="10.00">+ Vector2Statistics()</text>
+<text text-anchor="start" x="187" y="-84.5" font-family="SegoeUI" font-size="10.00"># Abs()</text>
+<text text-anchor="start" x="187" y="-73.5" font-family="SegoeUI" font-size="10.00"># Add()</text>
+<text text-anchor="start" x="187" y="-62.5" font-family="SegoeUI" font-size="10.00"># Divide()</text>
+<text text-anchor="start" x="187" y="-51.5" font-family="SegoeUI" font-size="10.00"># LessThan()</text>
+<text text-anchor="start" x="187" y="-40.5" font-family="SegoeUI" font-size="10.00"># Multiply()</text>
+<text text-anchor="start" x="187" y="-29.5" font-family="SegoeUI" font-size="10.00"># Scale()</text>
+<text text-anchor="start" x="187" y="-18.5" font-family="SegoeUI" font-size="10.00"># Sqrt()</text>
+<text text-anchor="start" x="187" y="-7.5" font-family="SegoeUI" font-size="10.00"># Subtract()</text>
 </a>
 </g>
 </g>
@@ -415,23 +415,23 @@
 </g>
 <!-- Node7 -->
 <g id="node8" class="node"><title>Node7</title>
-<g id="a_node8"><a xlink:href="../../d5/d8e/class_juniper_1_1_unity_1_1_statistics_1_1_vector3_statistics.html" target="_top" xlink:title="A RingBuffer of UnityEngine.Vector3 values that also calculates some basic statistics along the way.">
-<polygon fill="white" stroke="black" points="350.5,-0.5 350.5,-167.5 466.5,-167.5 466.5,-0.5 350.5,-0.5"/>
-<text text-anchor="start" x="358.5" y="-155.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Statistics.</text>
-<text text-anchor="middle" x="408.5" y="-144.5" font-family="SegoeUI" font-size="10.00">Vector3Statistics</text>
-<polyline fill="none" stroke="black" points="350.5,-137.5 466.5,-137.5 "/>
+<g id="a_node8"><a xlink:href="../../d6/d1f/class_juniper_1_1_statistics_1_1_vector3_statistics.html" target="_top" xlink:title="A RingBuffer of UnityEngine.Vector3 values that also calculates some basic statistics along the way.">
+<polygon fill="white" stroke="black" points="346,-0.5 346,-167.5 471,-167.5 471,-0.5 346,-0.5"/>
+<text text-anchor="start" x="354" y="-155.5" font-family="SegoeUI" font-size="10.00">Juniper.Statistics.Vector3</text>
+<text text-anchor="middle" x="408.5" y="-144.5" font-family="SegoeUI" font-size="10.00">Statistics</text>
+<polyline fill="none" stroke="black" points="346,-137.5 471,-137.5 "/>
 <text text-anchor="middle" x="408.5" y="-125.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="350.5,-118.5 466.5,-118.5 "/>
-<text text-anchor="start" x="358.5" y="-106.5" font-family="SegoeUI" font-size="10.00">+ Vector3Statistics()</text>
-<text text-anchor="start" x="358.5" y="-95.5" font-family="SegoeUI" font-size="10.00">+ Vector3Statistics()</text>
-<text text-anchor="start" x="358.5" y="-84.5" font-family="SegoeUI" font-size="10.00"># Abs()</text>
-<text text-anchor="start" x="358.5" y="-73.5" font-family="SegoeUI" font-size="10.00"># Add()</text>
-<text text-anchor="start" x="358.5" y="-62.5" font-family="SegoeUI" font-size="10.00"># Divide()</text>
-<text text-anchor="start" x="358.5" y="-51.5" font-family="SegoeUI" font-size="10.00"># LessThan()</text>
-<text text-anchor="start" x="358.5" y="-40.5" font-family="SegoeUI" font-size="10.00"># Multiply()</text>
-<text text-anchor="start" x="358.5" y="-29.5" font-family="SegoeUI" font-size="10.00"># Scale()</text>
-<text text-anchor="start" x="358.5" y="-18.5" font-family="SegoeUI" font-size="10.00"># Sqrt()</text>
-<text text-anchor="start" x="358.5" y="-7.5" font-family="SegoeUI" font-size="10.00"># Subtract()</text>
+<polyline fill="none" stroke="black" points="346,-118.5 471,-118.5 "/>
+<text text-anchor="start" x="354" y="-106.5" font-family="SegoeUI" font-size="10.00">+ Vector3Statistics()</text>
+<text text-anchor="start" x="354" y="-95.5" font-family="SegoeUI" font-size="10.00">+ Vector3Statistics()</text>
+<text text-anchor="start" x="354" y="-84.5" font-family="SegoeUI" font-size="10.00"># Abs()</text>
+<text text-anchor="start" x="354" y="-73.5" font-family="SegoeUI" font-size="10.00"># Add()</text>
+<text text-anchor="start" x="354" y="-62.5" font-family="SegoeUI" font-size="10.00"># Divide()</text>
+<text text-anchor="start" x="354" y="-51.5" font-family="SegoeUI" font-size="10.00"># LessThan()</text>
+<text text-anchor="start" x="354" y="-40.5" font-family="SegoeUI" font-size="10.00"># Multiply()</text>
+<text text-anchor="start" x="354" y="-29.5" font-family="SegoeUI" font-size="10.00"># Scale()</text>
+<text text-anchor="start" x="354" y="-18.5" font-family="SegoeUI" font-size="10.00"># Sqrt()</text>
+<text text-anchor="start" x="354" y="-7.5" font-family="SegoeUI" font-size="10.00"># Subtract()</text>
 </a>
 </g>
 </g>
@@ -442,23 +442,23 @@
 </g>
 <!-- Node9 -->
 <g id="node10" class="node"><title>Node9</title>
-<g id="a_node10"><a xlink:href="../../d2/d93/class_juniper_1_1_unity_1_1_statistics_1_1_vector4_statistics.html" target="_top" xlink:title="A RingBuffer of UnityEngine.Vector4 values that also calculates some basic statistics along the way.">
-<polygon fill="white" stroke="black" points="517.5,-0.5 517.5,-167.5 633.5,-167.5 633.5,-0.5 517.5,-0.5"/>
-<text text-anchor="start" x="525.5" y="-155.5" font-family="SegoeUI" font-size="10.00">Juniper.Unity.Statistics.</text>
-<text text-anchor="middle" x="575.5" y="-144.5" font-family="SegoeUI" font-size="10.00">Vector4Statistics</text>
-<polyline fill="none" stroke="black" points="517.5,-137.5 633.5,-137.5 "/>
+<g id="a_node10"><a xlink:href="../../da/d3a/class_juniper_1_1_statistics_1_1_vector4_statistics.html" target="_top" xlink:title="A RingBuffer of UnityEngine.Vector4 values that also calculates some basic statistics along the way.">
+<polygon fill="white" stroke="black" points="513,-0.5 513,-167.5 638,-167.5 638,-0.5 513,-0.5"/>
+<text text-anchor="start" x="521" y="-155.5" font-family="SegoeUI" font-size="10.00">Juniper.Statistics.Vector4</text>
+<text text-anchor="middle" x="575.5" y="-144.5" font-family="SegoeUI" font-size="10.00">Statistics</text>
+<polyline fill="none" stroke="black" points="513,-137.5 638,-137.5 "/>
 <text text-anchor="middle" x="575.5" y="-125.5" font-family="SegoeUI" font-size="10.00"> </text>
-<polyline fill="none" stroke="black" points="517.5,-118.5 633.5,-118.5 "/>
-<text text-anchor="start" x="525.5" y="-106.5" font-family="SegoeUI" font-size="10.00">+ Vector4Statistics()</text>
-<text text-anchor="start" x="525.5" y="-95.5" font-family="SegoeUI" font-size="10.00">+ Vector4Statistics()</text>
-<text text-anchor="start" x="525.5" y="-84.5" font-family="SegoeUI" font-size="10.00"># Abs()</text>
-<text text-anchor="start" x="525.5" y="-73.5" font-family="SegoeUI" font-size="10.00"># Add()</text>
-<text text-anchor="start" x="525.5" y="-62.5" font-family="SegoeUI" font-size="10.00"># Divide()</text>
-<text text-anchor="start" x="525.5" y="-51.5" font-family="SegoeUI" font-size="10.00"># LessThan()</text>
-<text text-anchor="start" x="525.5" y="-40.5" font-family="SegoeUI" font-size="10.00"># Multiply()</text>
-<text text-anchor="start" x="525.5" y="-29.5" font-family="SegoeUI" font-size="10.00"># Scale()</text>
-<text text-anchor="start" x="525.5" y="-18.5" font-family="SegoeUI" font-size="10.00"># Sqrt()</text>
-<text text-anchor="start" x="525.5" y="-7.5" font-family="SegoeUI" font-size="10.00"># Subtract()</text>
+<polyline fill="none" stroke="black" points="513,-118.5 638,-118.5 "/>
+<text text-anchor="start" x="521" y="-106.5" font-family="SegoeUI" font-size="10.00">+ Vector4Statistics()</text>
+<text text-anchor="start" x="521" y="-95.5" font-family="SegoeUI" font-size="10.00">+ Vector4Statistics()</text>
+<text text-anchor="start" x="521" y="-84.5" font-family="SegoeUI" font-size="10.00"># Abs()</text>
+<text text-anchor="start" x="521" y="-73.5" font-family="SegoeUI" font-size="10.00"># Add()</text>
+<text text-anchor="start" x="521" y="-62.5" font-family="SegoeUI" font-size="10.00"># Divide()</text>
+<text text-anchor="start" x="521" y="-51.5" font-family="SegoeUI" font-size="10.00"># LessThan()</text>
+<text text-anchor="start" x="521" y="-40.5" font-family="SegoeUI" font-size="10.00"># Multiply()</text>
+<text text-anchor="start" x="521" y="-29.5" font-family="SegoeUI" font-size="10.00"># Scale()</text>
+<text text-anchor="start" x="521" y="-18.5" font-family="SegoeUI" font-size="10.00"># Sqrt()</text>
+<text text-anchor="start" x="521" y="-7.5" font-family="SegoeUI" font-size="10.00"># Subtract()</text>
 </a>
 </g>
 </g>

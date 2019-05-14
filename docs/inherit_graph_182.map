@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node1" href="$da/d38/class_unity_engine_1_1_abstract_reference.html" title=" " alt="" coords="5,5,203,47"/>
-<area shape="rect" id="node2" href="$de/d90/class_unity_engine_1_1_float_reference.html" title="A reference to either a savable FloatVariable or a static float value set in the editor." alt="" coords="251,13,429,39"/>
+<area shape="rect" id="node2" href="$da/d2f/class_unity_engine_1_1_integer_reference.html" title="A reference to either a savable IntegerVariable or a static int value set in the editor." alt="" coords="251,13,441,39"/>
 </map>

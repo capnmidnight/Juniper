@@ -1,0 +1,9 @@
+<map id="Juniper.Audio.AbstractInteractionAudio" name="Juniper.Audio.AbstractInteractionAudio">
+<area shape="rect" id="node1" title="The audio portion of the interaction system." alt="" coords="242,160,453,1000"/>
+<area shape="rect" id="node4" href="$dc/d19/class_juniper_1_1_audio_1_1_default_interaction_audio.html" title=" " alt="" coords="5,1077,209,1169"/>
+<area shape="rect" id="node5" href="$d6/dce/class_juniper_1_1_audio_1_1_resonance_interaction_audio.html" title=" " alt="" coords="234,1048,461,1199"/>
+<area shape="rect" id="node7" href="$d7/dbf/class_juniper_1_1_audio_1_1_windows_m_r_interaction_audio.html" title=" " alt="" coords="485,1077,719,1169"/>
+<area shape="rect" id="node2" title=" " alt="" coords="230,20,339,97"/>
+<area shape="rect" id="node3" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="364,5,456,112"/>
+<area shape="rect" id="node6" href="$d6/d01/class_juniper_1_1_audio_1_1_interaction_audio.html" title="The audio portion of the interaction system." alt="" coords="265,1247,429,1339"/>
+</map>

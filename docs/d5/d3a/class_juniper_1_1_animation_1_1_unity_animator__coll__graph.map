@@ -1,0 +1,5 @@
+<map id="Juniper.Animation.UnityAnimator" name="Juniper.Animation.UnityAnimator">
+<area shape="rect" id="node1" title="Abstract over Unity&#39;s Animator class for 3D models. Requires an Animator object on the current gameOb..." alt="" coords="5,300,213,421"/>
+<area shape="rect" id="node2" href="$d8/dea/class_juniper_1_1_animation_1_1_abstract_animator.html" title="An abstraction layer over different ways of showing UI state. Only one such component is allowed on a..." alt="" coords="48,131,171,252"/>
+<area shape="rect" id="node3" title=" " alt="" coords="55,5,164,83"/>
+</map>

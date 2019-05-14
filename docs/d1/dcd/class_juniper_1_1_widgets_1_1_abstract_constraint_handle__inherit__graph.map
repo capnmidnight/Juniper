@@ -1,0 +1,7 @@
+<map id="Juniper.Widgets.AbstractConstraintHandle" name="Juniper.Widgets.AbstractConstraintHandle">
+<area shape="rect" id="node1" title="An abstract class that manages reading the movement of a control handle and constraining that movemen..." alt="" coords="205,131,369,384"/>
+<area shape="rect" id="node3" href="$d3/db7/class_juniper_1_1_widgets_1_1_rotation_handle.html" title="A draggable object that can be used to update the rotation of another object." alt="" coords="5,432,169,539"/>
+<area shape="rect" id="node4" href="$d1/d66/class_juniper_1_1_widgets_1_1_scale_handle.html" title="A constraint handle that is used to scale the size of a target object." alt="" coords="194,439,381,531"/>
+<area shape="rect" id="node5" href="$dd/d53/class_juniper_1_1_widgets_1_1_translation_handle.html" title="A draggable object that can be used to translate the position of another object." alt="" coords="405,432,586,539"/>
+<area shape="rect" id="node2" title=" " alt="" coords="233,5,342,83"/>
+</map>

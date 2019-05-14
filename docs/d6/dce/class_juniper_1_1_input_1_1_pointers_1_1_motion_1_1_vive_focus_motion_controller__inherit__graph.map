@@ -1,0 +1,13 @@
+<map id="Juniper.Input.Pointers.Motion.ViveFocusMotionController" name="Juniper.Input.Pointers.Motion.ViveFocusMotionController">
+<area shape="rect" id="node1" title="A motion controller or hand&#45;tracking. Currently only implements WindowsMR." alt="" coords="389,2837,581,3223"/>
+<area shape="rect" id="node2" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="351,2153,618,2788"/>
+<area shape="rect" id="node3" href="$d2/d25/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_motion_controller.html" title=" " alt="" coords="378,1412,591,2061"/>
+<area shape="rect" id="node4" href="$d1/d3f/class_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_abstract_handed_pointer.html" title=" " alt="" coords="269,1139,468,1363"/>
+<area shape="rect" id="node5" href="$da/d81/class_juniper_1_1_input_1_1_pointers_1_1_abstract_pointer_device.html" title=" " alt="" coords="263,425,459,1089"/>
+<area shape="rect" id="node6" title=" " alt="" coords="122,152,231,229"/>
+<area shape="rect" id="node7" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="5,137,97,244"/>
+<area shape="rect" id="node8" href="$d0/da1/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_device.html" title=" " alt="" coords="490,5,655,376"/>
+<area shape="rect" id="node10" href="$dc/d0e/interface_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_i_handed_pointer.html" title=" " alt="" coords="487,689,637,825"/>
+<area shape="rect" id="node9" href="$dc/dc8/interface_juniper_1_1_input_1_1_pointers_1_1_i_pointer_buttons.html" title="An interface for specifying how devices with buttons should behave." alt="" coords="255,115,466,266"/>
+<area shape="rect" id="node11" href="$dc/d7d/interface_juniper_1_1_input_1_1_pointers_1_1_motion_1_1_i_motion_controller.html" title=" " alt="" coords="493,1161,631,1341"/>
+</map>

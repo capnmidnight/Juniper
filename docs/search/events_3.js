@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['displaytypechange',['DisplayTypeChange',['../da/da5/class_juniper_1_1_unity_1_1_display_1_1_abstract_display_manager.html#a957c8990b42e935e7521384f300297a0',1,'Juniper::Unity::Display::AbstractDisplayManager']]],
-  ['doubleclick',['DoubleClick',['../db/d9a/class_juniper_1_1_unity_1_1_events_1_1_button_event.html#a59c34dc0b3f384f6549ba4a02be7a7d0',1,'Juniper::Unity::Events::ButtonEvent']]],
-  ['down',['Down',['../db/d9a/class_juniper_1_1_unity_1_1_events_1_1_button_event.html#afc8f2474d5364afd9093664916978b70',1,'Juniper::Unity::Events::ButtonEvent']]]
+  ['displaytypechange',['DisplayTypeChange',['../db/d51/class_juniper_1_1_display_1_1_abstract_display_manager.html#a2c031d67a69a7c02e20b39dcc61a8a5b',1,'Juniper::Display::AbstractDisplayManager']]],
+  ['doubleclick',['DoubleClick',['../df/d46/class_juniper_1_1_events_1_1_button_event.html#a297dd237a6875bb3b9315298b3e1d072',1,'Juniper::Events::ButtonEvent']]],
+  ['down',['Down',['../df/d46/class_juniper_1_1_events_1_1_button_event.html#ad7e4487198e168b61a49c99e7627c801',1,'Juniper::Events::ButtonEvent']]]
 ];

@@ -91,7 +91,7 @@ $(function() {
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d70/class_juniper_1_1_image_1_1_decoder__coll__graph.svg" width="166" height="103"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d70/class_juniper_1_1_image_1_1_decoder__coll__graph.svg" width="166" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <table class="memberdecls">
@@ -100,50 +100,11 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a7e8edf331db91f44fc7e13b506c8fc10"><td class="memItemLeft" align="right" valign="top">static Task&lt; <a class="el" href="../../db/d31/struct_juniper_1_1_image_1_1_raw_image.html">RawImage</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/daa/class_juniper_1_1_image_1_1_decoder.html#a7e8edf331db91f44fc7e13b506c8fc10">DecodePNG</a> (Stream imageStream)</td></tr>
 <tr class="memdesc:a7e8edf331db91f44fc7e13b506c8fc10"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.  <a href="#a7e8edf331db91f44fc7e13b506c8fc10">More...</a><br /></td></tr>
 <tr class="separator:a7e8edf331db91f44fc7e13b506c8fc10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c7d92380654a6bf160c05ce3d48a3c8"><td class="memItemLeft" align="right" valign="top">static Task&lt; <a class="el" href="../../db/d31/struct_juniper_1_1_image_1_1_raw_image.html">RawImage</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/daa/class_juniper_1_1_image_1_1_decoder.html#a7c7d92380654a6bf160c05ce3d48a3c8">DecodeJPEG</a> (Stream imageStream)</td></tr>
-<tr class="memdesc:a7c7d92380654a6bf160c05ce3d48a3c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.  <a href="#a7c7d92380654a6bf160c05ce3d48a3c8">More...</a><br /></td></tr>
-<tr class="separator:a7c7d92380654a6bf160c05ce3d48a3c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="../../db/d99/_juniper_8_image_2_decoder_8cs_source.html#l00007">7</a> of file <a class="el" href="../../db/d99/_juniper_8_image_2_decoder_8cs_source.html">Decoder.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a7c7d92380654a6bf160c05ce3d48a3c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c7d92380654a6bf160c05ce3d48a3c8">&#9670;&nbsp;</a></span>DecodeJPEG()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static Task&lt;<a class="el" href="../../db/d31/struct_juniper_1_1_image_1_1_raw_image.html">RawImage</a>&gt; Juniper.Image.Decoder.DecodeJPEG </td>
-          <td>(</td>
-          <td class="paramtype">Stream&#160;</td>
-          <td class="paramname"><em>imageStream</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">imageStream</td><td>Png bytes.</td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="../../db/d99/_juniper_8_image_2_decoder_8cs_source.html#l00041">41</a> of file <a class="el" href="../../db/d99/_juniper_8_image_2_decoder_8cs_source.html">Decoder.cs</a>.</p>
-<div class="fragment"><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        {</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="keywordflow">return</span> Task.Run(() =&gt;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            {</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                var jpeg = <span class="keyword">new</span> BitMiracle.LibJpeg.JpegImage(imageStream);</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                var rowSize = jpeg.Width * (jpeg.BitsPerComponent * jpeg.ComponentsPerSample) / 8;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                var size = jpeg.Height * rowSize;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                var data = <span class="keyword">new</span> <span class="keywordtype">byte</span>[size];</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keywordflow">for</span>(<span class="keywordtype">int</span> y = 0; y &lt; jpeg.Height; ++y)</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                {</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                    var row = jpeg.GetRow(y);</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                    Array.Copy(row.ToBytes(), 0, data, y * rowSize, row.Length);</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                }</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="keywordflow">return</span> <span class="keyword">new</span> RawImage</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                {</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                    width = jpeg.Width,</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                    height = jpeg.Height,</div><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    data = data</div><div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                };</div><div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            });</div><div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        }</div></div><!-- fragment -->
-</div>
-</div>
 <a id="a7e8edf331db91f44fc7e13b506c8fc10"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7e8edf331db91f44fc7e13b506c8fc10">&#9670;&nbsp;</a></span>DecodePNG()</h2>
 

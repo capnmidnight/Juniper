@@ -1,7 +1,25 @@
-C:/Users/sean/Projects/Juniper/etc/markdown/coverage.md:1779: warning: explicit link request to 'Doxygen' could not be resolved
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs:58: warning: argument 'path' of command @param is not found in the argument list of Juniper.MasterSceneController::LoadScene(string scenePath, string sceneName)
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs:64: warning: The following parameters of Juniper.MasterSceneController.LoadScene(string scenePath, string sceneName) are not documented:
+  parameter 'scenePath'
 C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/AbstractService.cs:123: warning: The following parameters of Juniper.Data.AbstractService.AbstractService(string scheme, string address, string app, string userName, string password) are not documented:
   parameter 'userName'
   parameter 'password'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:132: warning: argument 'resolve' of command @param is not found in the argument list of Juniper.Data.StreamingAssets::GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog=null)
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:132: warning: argument 'reject' of command @param is not found in the argument list of Juniper.Data.StreamingAssets::GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog=null)
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:143: warning: The following parameters of Juniper.Data.StreamingAssets.GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog=null) are not documented:
+  parameter 'cacheDirectory'
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:184: warning: argument 'mime' of command @param is not found in the argument list of Juniper.Data.StreamingAssets::GetJSONObject< T >(string cacheDirectory, string path, TimeSpan ttl, IProgress prog=null)
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:194: warning: The following parameters of Juniper.Data.StreamingAssets.GetJSONObject< T >(string cacheDirectory, string path, TimeSpan ttl, IProgress prog=null) are not documented:
+  parameter 'cacheDirectory'
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:65: warning: The following parameters of Juniper.Data.StreamingAssets.GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog=null) are not documented:
+  parameter 'cacheDirectory'
+  parameter 'prog'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:164: warning: argument 'mime' of command @param is not found in the argument list of Juniper.Data.StreamingAssets::GetText(string cacheDirectory, string path, TimeSpan ttl, IProgress prog=null)
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:173: warning: The following parameters of Juniper.Data.StreamingAssets.GetText(string cacheDirectory, string path, TimeSpan ttl, IProgress prog=null) are not documented:
+  parameter 'cacheDirectory'
+  parameter 'prog'
 C:/Users/sean/Projects/Juniper/src/Juniper.HTTP/HTTP.cs:145: warning: argument 'resolve' of command @param is not found in the argument list of Juniper.HTTP.Requester::GetStream(string url, string userName, string password, string acceptType, IProgress prog=null)
 C:/Users/sean/Projects/Juniper/src/Juniper.HTTP/HTTP.cs:131: warning: argument 'contentLength' of command @param is not found in the argument list of Juniper.HTTP.Requester::PostStream(string url, Func< Stream, BodyInfo > writeBody, IProgress prog=null)
 C:/Users/sean/Projects/Juniper/src/Juniper.HTTP/HTTP.cs:131: warning: argument 'contentType' of command @param is not found in the argument list of Juniper.HTTP.Requester::PostStream(string url, Func< Stream, BodyInfo > writeBody, IProgress prog=null)
@@ -16,28 +34,9 @@ C:/Users/sean/Projects/Juniper/src/Juniper.Units/Geo/LatLng.cs:8: warning: argum
 C:/Users/sean/Projects/Juniper/src/Juniper.Units/Geo/LatLng.cs:13: warning: The following parameters of Juniper.Units.LatLng.Distance(this LatLngPoint A, LatLngPoint B) are not documented:
   parameter 'A'
   parameter 'B'
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs:58: warning: argument 'path' of command @param is not found in the argument list of Juniper.Unity.MasterSceneController::LoadScene(string scenePath, string sceneName)
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/MasterSceneController.cs:64: warning: The following parameters of Juniper.Unity.MasterSceneController.LoadScene(string scenePath, string sceneName) are not documented:
-  parameter 'scenePath'
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:132: warning: argument 'resolve' of command @param is not found in the argument list of Juniper.Unity.Data.StreamingAssets::GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog=null)
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:132: warning: argument 'reject' of command @param is not found in the argument list of Juniper.Unity.Data.StreamingAssets::GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog=null)
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:143: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetBytes(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog=null) are not documented:
-  parameter 'cacheDirectory'
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/World/Climate/Weather.cs:217: warning: The following parameters of Juniper.World.Climate.Weather.GetReportCoroutine(bool force, IProgress prog=null) are not documented:
   parameter 'prog'
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:184: warning: argument 'mime' of command @param is not found in the argument list of Juniper.Unity.Data.StreamingAssets::GetJSONObject< T >(string cacheDirectory, string path, TimeSpan ttl, IProgress prog=null)
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:194: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetJSONObject< T >(string cacheDirectory, string path, TimeSpan ttl, IProgress prog=null) are not documented:
-  parameter 'cacheDirectory'
-  parameter 'prog'
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:65: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog=null) are not documented:
-  parameter 'cacheDirectory'
-  parameter 'prog'
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:164: warning: argument 'mime' of command @param is not found in the argument list of Juniper.Unity.Data.StreamingAssets::GetText(string cacheDirectory, string path, TimeSpan ttl, IProgress prog=null)
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Data/StreamingAssets.cs:173: warning: The following parameters of Juniper.Unity.Data.StreamingAssets.GetText(string cacheDirectory, string path, TimeSpan ttl, IProgress prog=null) are not documented:
-  parameter 'cacheDirectory'
-  parameter 'prog'
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/World/Climate/Weather.cs:216: warning: The following parameters of Juniper.Unity.World.Climate.Weather.GetReportCoroutine(bool force, IProgress prog=null) are not documented:
-  parameter 'prog'
-C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/World/Climate/Weather.cs:243: warning: The following parameters of Juniper.Unity.World.Climate.Weather.RequestCoroutine(LatLngPoint location, bool force, IProgress prog=null) are not documented:
+C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/XR/World/Climate/Weather.cs:244: warning: The following parameters of Juniper.World.Climate.Weather.RequestCoroutine(LatLngPoint location, bool force, IProgress prog=null) are not documented:
   parameter 'prog'
 C:/Users/sean/Projects/Juniper/src/Juniper/Assets/Juniper/Scripts/Unity/Extensions/NETFX/StreamExt.cs:36: warning: The following parameters of System.IO.StreamExt.WriteBytes(this byte [] value, string type=null, IProgress prog=null) are not documented:
   parameter 'type'

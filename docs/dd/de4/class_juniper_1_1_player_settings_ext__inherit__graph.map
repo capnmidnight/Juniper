@@ -1,0 +1,4 @@
+<map id="Juniper.PlayerSettingsExt" name="Juniper.PlayerSettingsExt">
+<area shape="rect" id="node1" title="A collection of extra settings that Unity doesn&#39;t expose natively." alt="" coords="31,175,197,252"/>
+<area shape="rect" id="node2" href="$de/d99/class_juniper_1_1_hidden_settings_accessor.html" title="A base class for all of the Settings extender classes to gain access to helper methods that do the ha..." alt="" coords="5,5,223,127"/>
+</map>

@@ -6,7 +6,7 @@
 <area shape="rect" id="node9" href="$db/dc4/class_juniper_1_1_collections_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="673,991,872,1801"/>
 <area shape="rect" id="node2" title=" " alt="" coords="399,5,477,83"/>
 <area shape="rect" id="node4" href="$d5/d25/class_juniper_1_1_collections_1_1_statistics_1_1_single_statistics.html" title="Computes statistics on System.Single values." alt="" coords="11,1851,198,2075"/>
-<area shape="rect" id="node6" href="$d5/da9/class_juniper_1_1_unity_1_1_statistics_1_1_vector2_statistics.html" title="Computes statistics on UnityEngine.Vector2 values." alt="" coords="250,1851,405,2075"/>
-<area shape="rect" id="node8" href="$d5/d8e/class_juniper_1_1_unity_1_1_statistics_1_1_vector3_statistics.html" title="A RingBuffer of UnityEngine.Vector3 values that also calculates some basic statistics along the way." alt="" coords="473,1851,627,2075"/>
-<area shape="rect" id="node10" href="$d2/d93/class_juniper_1_1_unity_1_1_statistics_1_1_vector4_statistics.html" title="A RingBuffer of UnityEngine.Vector4 values that also calculates some basic statistics along the way." alt="" coords="695,1851,850,2075"/>
+<area shape="rect" id="node6" href="$d0/d49/class_juniper_1_1_statistics_1_1_vector2_statistics.html" title="Computes statistics on UnityEngine.Vector2 values." alt="" coords="244,1851,411,2075"/>
+<area shape="rect" id="node8" href="$d6/d1f/class_juniper_1_1_statistics_1_1_vector3_statistics.html" title="A RingBuffer of UnityEngine.Vector3 values that also calculates some basic statistics along the way." alt="" coords="467,1851,633,2075"/>
+<area shape="rect" id="node10" href="$da/d3a/class_juniper_1_1_statistics_1_1_vector4_statistics.html" title="A RingBuffer of UnityEngine.Vector4 values that also calculates some basic statistics along the way." alt="" coords="689,1851,856,2075"/>
 </map>

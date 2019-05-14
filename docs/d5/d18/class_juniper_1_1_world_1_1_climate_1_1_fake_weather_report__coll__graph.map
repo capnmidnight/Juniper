@@ -1,0 +1,8 @@
+<map id="Juniper.World.Climate.FakeWeatherReport" name="Juniper.World.Climate.FakeWeatherReport">
+<area shape="rect" id="node1" title="An API&#45;compatible, editable object for making static weather reports." alt="" coords="179,593,357,993"/>
+<area shape="rect" id="node2" href="$de/d3a/interface_juniper_1_1_climate_1_1_i_weather_report.html" title=" " alt="" coords="5,197,160,479"/>
+<area shape="rect" id="node3" href="$d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html" title="A point in geographic space on a radial coordinate system." alt="" coords="185,197,351,479"/>
+<area shape="rect" id="node4" title=" " alt="" coords="222,5,314,83"/>
+<area shape="rect" id="node5" href="$d0/d94/struct_juniper_1_1_editable_date_time.html" title="A wrapper around System.DateTime that makes it possible to edit values in the Unity Editor." alt="" coords="376,145,573,531"/>
+<area shape="rect" id="node6" title=" " alt="" coords="449,5,501,83"/>
+</map>

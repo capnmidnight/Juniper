@@ -1,0 +1,10 @@
+<map id="Juniper.Audio.AmbientAudio" name="Juniper.Audio.AmbientAudio">
+<area shape="rect" id="node1" title=" " alt="" coords="191,1300,374,1421"/>
+<area shape="rect" id="node2" href="$db/d32/class_juniper_1_1_sub_scene_controller.html" title="SubSceneControllers are used by the MasterSceneController to manage workflow through an application...." alt="" coords="88,1013,248,1237"/>
+<area shape="rect" id="node3" href="$d9/d7e/class_juniper_1_1_abstract_state_controller.html" title="A subscene is a game object loaded from another scene. The scenes all get loaded at runtime and then ..." alt="" coords="5,132,160,547"/>
+<area shape="rect" id="node5" href="$d6/d38/class_juniper_1_1_animation_1_1_abstract_transition_controller.html" title="Child classes of this class are able to animate transitions between program states." alt="" coords="81,609,255,951"/>
+<area shape="rect" id="node4" title=" " alt="" coords="28,5,137,83"/>
+<area shape="rect" id="node6" href="$d5/d04/class_juniper_1_1_audio_1_1_streamable_audio_clip.html" title=" " alt="" coords="278,1079,447,1171"/>
+<area shape="rect" id="node7" href="$dc/de1/class_juniper_1_1_streamable_asset.html" title=" " alt="" coords="279,741,478,819"/>
+<area shape="rect" id="node8" href="$dc/de1/class_juniper_1_1_streamable_asset.html" title=" " alt="" coords="297,301,461,378"/>
+</map>

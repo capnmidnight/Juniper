@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['virtualtouchpadbutton',['VirtualTouchPadButton',['../d2/d4b/namespace_juniper_1_1_unity_1_1_input.html#a3f532a2dac76193eac1a0bcbd9641a44',1,'Juniper::Unity::Input']]],
-  ['virtualtriggerbutton',['VirtualTriggerButton',['../d2/d4b/namespace_juniper_1_1_unity_1_1_input.html#aff5fd3b8acf8c19892057c86fde02850',1,'Juniper::Unity::Input']]]
+  ['virtualtouchpadbutton',['VirtualTouchPadButton',['../d7/de5/namespace_juniper_1_1_input.html#ad5afcad5323b73bcac5c9707f1746ffa',1,'Juniper::Input']]],
+  ['virtualtriggerbutton',['VirtualTriggerButton',['../d7/de5/namespace_juniper_1_1_input.html#a2142c978c8700c9702ef9fe45dce440d',1,'Juniper::Input']]]
 ];

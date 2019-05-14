@@ -1,0 +1,8 @@
+<map id="Juniper.Input.UnifiedInputModule" name="Juniper.Input.UnifiedInputModule">
+<area shape="rect" id="node1" title=" " alt="" coords="123,1247,291,1339"/>
+<area shape="rect" id="node2" href="$d0/daf/class_juniper_1_1_input_1_1_daydream_input_module.html" title=" " alt="" coords="132,1092,283,1199"/>
+<area shape="rect" id="node3" href="$db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html" title="Finds all of the IPointerDevice s and fires raycaster events for all of them." alt="" coords="110,248,305,1044"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,64,137,141"/>
+<area shape="rect" id="node5" href="$db/d28/interface_juniper_1_1_i_installable.html" title="Defines an interface for objects that can be installed and have their installation progress tracked." alt="" coords="161,49,253,156"/>
+<area shape="rect" id="node6" href="$d0/d2e/interface_juniper_1_1_input_1_1_i_input_module.html" title=" " alt="" coords="277,5,425,200"/>
+</map>

@@ -30,7 +30,7 @@ var searchData=
   ['streamablevideoclipeditor_2ecs',['StreamableVideoClipEditor.cs',['../d6/d8a/_streamable_video_clip_editor_8cs.html',1,'']]],
   ['streamext_2ecs',['StreamExt.cs',['../dd/d67/_stream_ext_8cs.html',1,'']]],
   ['streamingassets_2ecs',['StreamingAssets.cs',['../d9/dd8/_streaming_assets_8cs.html',1,'']]],
-  ['streamresult_2ecs',['StreamResult.cs',['../dd/d47/_assets_2_juniper_2_scripts_2_unity_2_data_2_stream_result_8cs.html',1,'(Global Namespace)'],['../dd/d54/_h_t_t_p_2_stream_result_8cs.html',1,'(Global Namespace)']]],
+  ['streamresult_2ecs',['StreamResult.cs',['../db/d8a/_stream_result_8cs.html',1,'']]],
   ['stringbuilderext_2ecs',['StringBuilderExt.cs',['../d2/d93/_string_builder_ext_8cs.html',1,'']]],
   ['stringevent_2ecs',['StringEvent.cs',['../d6/dd0/_string_event_8cs.html',1,'']]],
   ['stringext_2ecs',['StringExt.cs',['../dc/d63/_string_ext_8cs.html',1,'']]],

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['acceleration',['Acceleration',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa3b926d163371fd620b09b63219b12f52',1,'Juniper::Units']]],
-  ['airtap',['AirTap',['../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7a28e889104deeb9b72b847b5026fe2e75',1,'Juniper::Unity::Input::Pointers::Motion']]],
+  ['airtap',['AirTap',['../d7/dac/namespace_juniper_1_1_input_1_1_pointers_1_1_motion.html#af527056cce88b66b9d9609b3707f49cfa28e889104deeb9b72b847b5026fe2e75',1,'Juniper::Input::Pointers::Motion']]],
   ['android',['Android',['../d2/d08/namespace_juniper_1_1_x_r.html#a2a2febae0dc9a222a152997e0cf0d414ae84e30b9390cdb64db6db2c9ab87846d',1,'Juniper.XR.Android()'],['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9ae84e30b9390cdb64db6db2c9ab87846d',1,'Juniper.XR.Android()']]],
   ['androidarcore',['AndroidARCore',['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9a78c6066ed551c5b0c02e7bbd9c2da683',1,'Juniper::XR']]],
   ['androidcardboard',['AndroidCardboard',['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9a0ade19d807156e5a4763bde19e09caf0',1,'Juniper::XR']]],
@@ -10,11 +10,11 @@ var searchData=
   ['androidpicog2',['AndroidPicoG2',['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9a9b86fe2d613e05c4282080a41fb36cab',1,'Juniper::XR']]],
   ['androidvivefocus',['AndroidViveFocus',['../d2/d08/namespace_juniper_1_1_x_r.html#aae98557496bb22e354128f29401512f9ae436e656f0237b5e585d1d65f59f4fe4',1,'Juniper::XR']]],
   ['angles',['Angles',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aa2fa76adbb6d92527d3c42cb3e0a8a948',1,'Juniper::Units']]],
-  ['any',['Any',['../d2/d4b/namespace_juniper_1_1_unity_1_1_input.html#a3f532a2dac76193eac1a0bcbd9641a44aed36a1ef76a59ee3f15180e0441188ad',1,'Juniper.Unity.Input.Any()'],['../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7aed36a1ef76a59ee3f15180e0441188ad',1,'Juniper.Unity.Input.Pointers.Motion.Any()']]],
-  ['app',['App',['../d9/d2c/namespace_juniper_1_1_unity_1_1_input_1_1_pointers_1_1_motion.html#a7229399eb731deed51e6bfc37dfd7bd7aac863f346e618f9a959b5c95d5d28941',1,'Juniper::Unity::Input::Pointers::Motion']]],
+  ['any',['Any',['../d7/de5/namespace_juniper_1_1_input.html#ad5afcad5323b73bcac5c9707f1746ffaaed36a1ef76a59ee3f15180e0441188ad',1,'Juniper.Input.Any()'],['../d7/dac/namespace_juniper_1_1_input_1_1_pointers_1_1_motion.html#af527056cce88b66b9d9609b3707f49cfaed36a1ef76a59ee3f15180e0441188ad',1,'Juniper.Input.Pointers.Motion.Any()']]],
+  ['app',['App',['../d7/dac/namespace_juniper_1_1_input_1_1_pointers_1_1_motion.html#af527056cce88b66b9d9609b3707f49cfaac863f346e618f9a959b5c95d5d28941',1,'Juniper::Input::Pointers::Motion']]],
   ['april',['April',['../d8/dd0/namespace_system.html#a9948aa83f3da57bc2f9e436b6a08675ba3fcf026bbfffb63fb24b8de9d0446949',1,'System']]],
   ['area',['Area',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aadeec4ff19974f12ed781cb9a59064214',1,'Juniper::Units']]],
   ['atmosphericpressure',['AtmosphericPressure',['../d6/ddd/namespace_juniper_1_1_units.html#adcf09e4190a7b9027fbda9dea119540aaf5046a50e3db0d4b830d757b0d60a75d',1,'Juniper::Units']]],
   ['august',['August',['../d8/dd0/namespace_system.html#a9948aa83f3da57bc2f9e436b6a08675ba41ba70891fb6f39327d8ccb9b1dafb84',1,'System']]],
-  ['auto',['Auto',['../d3/d64/class_juniper_1_1_unity_1_1_input_1_1_camera_control.html#a5eb0d8c40191ee00ec3cbe7870b7e94aa06b9281e396db002010bde1de57262eb',1,'Juniper.Unity.Input.CameraControl.Auto()'],['../d6/dd6/class_juniper_1_1_unity_1_1_input_1_1_abstract_unified_input_module.html#a04797fb7092b1d3be70c5528547e63b0a06b9281e396db002010bde1de57262eb',1,'Juniper.Unity.Input.AbstractUnifiedInputModule.Auto()']]]
+  ['auto',['Auto',['../dc/dfb/class_juniper_1_1_input_1_1_camera_control.html#aaf175f42bd07ff5603565fa70a608abea06b9281e396db002010bde1de57262eb',1,'Juniper.Input.CameraControl.Auto()'],['../db/d40/class_juniper_1_1_input_1_1_abstract_unified_input_module.html#a31e82fda1e828641ca79dda9fbb99088a06b9281e396db002010bde1de57262eb',1,'Juniper.Input.AbstractUnifiedInputModule.Auto()']]]
 ];

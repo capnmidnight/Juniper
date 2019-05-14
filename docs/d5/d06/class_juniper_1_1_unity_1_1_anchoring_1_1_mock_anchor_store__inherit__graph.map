@@ -1,6 +1,0 @@
-<map id="Juniper.Unity.Anchoring.MockAnchorStore" name="Juniper.Unity.Anchoring.MockAnchorStore">
-<area shape="rect" id="node1" title="An anchor store that stores all anchors in the default data store for AbstractAnchorStore." alt="" coords="43,956,203,1077"/>
-<area shape="rect" id="node2" href="$dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title=" " alt="" coords="39,551,206,907"/>
-<area shape="rect" id="node3" href="$dd/dac/class_juniper_1_1_unity_1_1_anchoring_1_1_abstract_anchor_store.html" title="A store for points in space that the system will restore on second&#45;run. By default,..." alt="" coords="5,132,240,488"/>
-<area shape="rect" id="node4" title=" " alt="" coords="68,5,177,83"/>
-</map>

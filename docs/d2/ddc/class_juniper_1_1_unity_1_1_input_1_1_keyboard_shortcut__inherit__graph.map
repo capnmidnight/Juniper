@@ -1,4 +1,0 @@
-<map id="Juniper.Unity.Input.KeyboardShortcut" name="Juniper.Unity.Input.KeyboardShortcut">
-<area shape="rect" id="node1" title="This component listens for a given keystroke, firing an event when it occurs. That event can be used ..." alt="" coords="5,131,191,237"/>
-<area shape="rect" id="node2" title=" " alt="" coords="43,5,153,83"/>
-</map>

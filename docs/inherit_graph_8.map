@@ -1,4 +1,20 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$db/dc4/class_juniper_1_1_collections_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="5,5,192,61"/>
-<area shape="rect" id="node2" href="$d5/d8e/class_juniper_1_1_unity_1_1_statistics_1_1_vector3_statistics.html" title="A RingBuffer of UnityEngine.Vector3 values that also calculates some basic statistics along the way." alt="" coords="240,13,395,54"/>
+<area shape="rect" id="node1" title=" " alt="" coords="43,470,135,497"/>
+<area shape="rect" id="node2" href="$d4/d60/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_a_p_i_1_1_error.html" title="Encapsulates an error response from the API server. Objects of this type are Serializable." alt="" coords="264,5,447,47"/>
+<area shape="rect" id="node3" href="$d8/dbe/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report.html" title="response from the OpenWeatherMap API. http://openweathermap.org/current::current_JSON." alt="" coords="262,907,449,948"/>
+<area shape="rect" id="node4" href="$db/d80/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_clouds.html" title="The current cloud cover." alt="" coords="226,71,485,112"/>
+<area shape="rect" id="node5" href="$d4/dda/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_coord.html" title="Latitude and longitude values for the OpenWeatherMap report." alt="" coords="228,136,483,177"/>
+<area shape="rect" id="node6" href="$d5/df6/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_main.html" title="The main metrics portion of the weather forecast." alt="" coords="231,201,479,243"/>
+<area shape="rect" id="node7" href="$de/dfa/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_rain.html" title="The expected rainfall for the next three hours." alt="" coords="232,267,479,308"/>
+<area shape="rect" id="node8" href="$df/d33/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_snow.html" title="The expected snowfall for the next three hours." alt="" coords="229,332,482,373"/>
+<area shape="rect" id="node9" href="$d9/d6e/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_sys.html" title="Additional geographic information about the weather report." alt="" coords="235,397,476,439"/>
+<area shape="rect" id="node10" href="$de/dac/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_weather.html" title="nested portion of the OpenWeatherMap report that covers weather conditions." alt="" coords="220,463,491,504"/>
+<area shape="rect" id="node11" href="$df/dc5/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_wind.html" title="The current wind speed and direction." alt="" coords="230,528,481,569"/>
+<area shape="rect" id="node12" href="$d6/d6b/struct_juniper_1_1_world_1_1_g_i_s_1_1_equitorial_spherical_position.html" title="Represents a bearing and distance to an object from the Earth&#39;s equator." alt="" coords="264,593,447,635"/>
+<area shape="rect" id="node13" href="$dd/da2/struct_juniper_1_1_world_1_1_g_i_s_1_1_geocentric_ecliptic_spherical_position.html" title="Represents a bearing and distance to an object from the Earth&#39;s orbit." alt="" coords="261,659,450,700"/>
+<area shape="rect" id="node14" href="$d9/dc6/struct_juniper_1_1_world_1_1_g_i_s_1_1_horizontal_spherical_position.html" title="Represents a bearing and distance to an object in degrees azimuth and altitude. It is essentially an ..." alt="" coords="262,724,449,765"/>
+<area shape="rect" id="node15" href="$d6/d53/class_juniper_1_1_world_1_1_g_i_s_1_1_lat_lng_point.html" title="A point in geographic space on a radial coordinate system." alt="" coords="272,789,439,831"/>
+<area shape="rect" id="node16" href="$d0/da5/struct_juniper_1_1_world_1_1_g_i_s_1_1_u_t_m_point.html" title="The Universal Transverse Mercator (UTM) conformal projection uses a 2&#45;dimensional Cartesian coordinat..." alt="" coords="264,855,447,882"/>
+<area shape="rect" id="node17" href="$de/d3a/interface_juniper_1_1_climate_1_1_i_weather_report.html" title=" " alt="" coords="5,939,172,980"/>
+<area shape="rect" id="node18" href="$d3/d28/class_juniper_1_1_world_1_1_climate_1_1_fake_weather_report.html" title="An API&#45;compatible, editable object for making static weather reports." alt="" coords="266,972,445,1013"/>
 </map>

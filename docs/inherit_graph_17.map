@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$db/d31/struct_juniper_1_1_image_1_1_raw_image.html" title="The raw bytes and dimensions of an image that has been loaded either off disk or across the &#39;net." alt="" coords="5,5,173,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,46,60,73"/>
+<area shape="rect" id="node2" href="$db/d0c/class_juniper_1_1_configuration_management_1_1_juniper_configuration_manager.html" title="An editor to respond to changes in XRSystem." alt="" coords="108,5,329,47"/>
+<area shape="rect" id="node3" href="$d5/db7/class_juniper_1_1_events_1_1_button_event_editor.html" title=" " alt="" coords="131,71,306,112"/>
 </map>

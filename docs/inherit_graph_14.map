@@ -1,8 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="31,71,117,98"/>
-<area shape="rect" id="node2" href="$db/d6e/class_juniper_1_1_data_1_1_stream_result.html" title=" " alt="" coords="195,13,370,39"/>
-<area shape="rect" id="node3" href="$d8/dc0/class_juniper_1_1_h_t_t_p_1_1_stream_result.html" title=" " alt="" coords="193,130,372,157"/>
-<area shape="rect" id="node4" href="$d6/d9e/class_juniper_1_1_neuro_sky_1_1_mind_wave_adapter.html" title="An adapter for the NeuroSky MindWave device, converting the raw data elements to an object model." alt="" coords="191,64,375,105"/>
-<area shape="rect" id="node5" href="$da/de7/class_juniper_1_1_data_1_1_result.html" title=" " alt="" coords="8,5,140,47"/>
-<area shape="rect" id="node6" href="$d5/dfc/class_juniper_1_1_h_t_t_p_1_1_result.html" title=" " alt="" coords="5,123,143,164"/>
+<area shape="rect" id="node1" href="$db/dc4/class_juniper_1_1_collections_1_1_statistics_1_1_abstract_collection_statistics.html" title=" " alt="" coords="5,5,192,61"/>
+<area shape="rect" id="node2" href="$da/d3a/class_juniper_1_1_statistics_1_1_vector4_statistics.html" title="A RingBuffer of UnityEngine.Vector4 values that also calculates some basic statistics along the way." alt="" coords="240,13,407,54"/>
 </map>

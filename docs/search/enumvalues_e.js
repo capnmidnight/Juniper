@@ -3,8 +3,8 @@ var searchData=
   ['occluded',['Occluded',['../d2/d08/namespace_juniper_1_1_x_r.html#a72e7ece2d6df2a8a7134c0a399784aeaa40deec4b6f036b28681fc864b1e31de3',1,'Juniper::XR']]],
   ['october',['October',['../d8/dd0/namespace_system.html#a9948aa83f3da57bc2f9e436b6a08675baeca60ae8611369fe28a02e2ab8c5d12e',1,'System']]],
   ['oculus',['Oculus',['../d2/d08/namespace_juniper_1_1_x_r.html#af28307584b4f1ff107cd8924af3b0ea7aa8a06837aec81e16c9a07221848aef6f',1,'Juniper::XR']]],
-  ['off',['Off',['../d2/d4b/namespace_juniper_1_1_unity_1_1_input.html#aff5fd3b8acf8c19892057c86fde02850ad15305d7a4e34e02489c74a5ef542f36',1,'Juniper::Unity::Input']]],
-  ['on',['On',['../d2/d4b/namespace_juniper_1_1_unity_1_1_input.html#aff5fd3b8acf8c19892057c86fde02850a521c36a31c2762741cf0f8890cbe05e3',1,'Juniper::Unity::Input']]],
+  ['off',['Off',['../d7/de5/namespace_juniper_1_1_input.html#a2142c978c8700c9702ef9fe45dce440dad15305d7a4e34e02489c74a5ef542f36',1,'Juniper::Input']]],
+  ['on',['On',['../d7/de5/namespace_juniper_1_1_input.html#a2142c978c8700c9702ef9fe45dce440da521c36a31c2762741cf0f8890cbe05e3',1,'Juniper::Input']]],
   ['one',['One',['../de/d75/namespace_juniper.html#ab0d94b9ed3239f43181c35fcb22163aba06c2cea18679d64399783748fa367bdd',1,'Juniper']]],
   ['opened',['Opened',['../d7/de5/namespace_juniper_1_1_input.html#ad8a7dff274d0c2c708676f6f60bc7a82a1a11b1adc359c03db0ca798a00e2632c',1,'Juniper::Input']]],
   ['openvr',['OpenVR',['../d2/d08/namespace_juniper_1_1_x_r.html#af28307584b4f1ff107cd8924af3b0ea7ace7fc0c476385de5949584bef08090a5',1,'Juniper::XR']]],
@@ -15,5 +15,5 @@ var searchData=
   ['option5',['Option5',['../d2/d08/namespace_juniper_1_1_x_r.html#a4ae9c31f783775d0987fe0167e7fa64fa9e837b7a3d43abe885878022781f1efd',1,'Juniper::XR']]],
   ['ounces',['Ounces',['../d6/ddd/namespace_juniper_1_1_units.html#a80b4501b591797a3abd586b1ed2a2f77abf3358e168a810d1704bf8f87e3123ba',1,'Juniper::Units']]],
   ['overcast_5fclouds',['OVERCAST_CLOUDS',['../de/dac/class_juniper_1_1_world_1_1_climate_1_1_open_weather_map_1_1_weather_report_1_1_o_w_m_weather.html#ad530c5e906e5716b875a99249a56681ea6c06ec11e123860b0ff36ce572a8ff21',1,'Juniper::World::Climate::OpenWeatherMap::WeatherReport::OWMWeather']]],
-  ['overunder',['OverUnder',['../d2/d0b/class_juniper_1_1_unity_1_1_video_1_1_video360.html#adfa82158e85a8403142569625cabf1adae465a253ff195aa9095280684a78246c',1,'Juniper::Unity::Video::Video360']]]
+  ['overunder',['OverUnder',['../d6/df6/class_juniper_1_1_video_1_1_video360.html#a5ab0eb24c0216a880cf97d7059d6625aae465a253ff195aa9095280684a78246c',1,'Juniper::Video::Video360']]]
 ];
