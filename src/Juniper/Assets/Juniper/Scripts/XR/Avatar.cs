@@ -250,8 +250,10 @@ namespace Juniper
                     bs.Value.direction = (int)CartesianAxis.Y;
                 }
                 bodyShape = bs;
+#endif
             }
 
+#if UNITY_MODULES_PHYSICS
             var bp = this.Ensure<Rigidbody>();
             if (bp.IsNew)
             {

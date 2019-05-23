@@ -20,10 +20,34 @@ namespace Juniper.Units
         /// runtime-value you would receive. The system does not work well for values that oscillate
         /// over ~180 degree changes.
         /// </remarks>
-        public Angle(float v, float r = 0)
+        public Angle(float v, float r)
         {
             currentValue = v;
             rotations = r;
+        }
+
+        /// <summary>
+        /// Create an angle value at set starting point
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="r"></param>
+        /// <remarks>
+        /// You should try to instantiate the Angle at a value that is close to the first
+        /// runtime-value you would receive. The system does not work well for values that oscillate
+        /// over ~180 degree changes.
+        /// </remarks>
+        public Angle(float v) : this(v, 0)
+        {
+        }
+
+        /// <summary>
+        /// Automatically unwrap the value of the Angle, to be able to use with other API fields that
+        /// expect angle values in degrees.
+        /// </summary>
+        /// <param name="a">An <c>Angle</c> object.</param>
+        public float ToSingle()
+        {
+            return currentValue;
         }
 
         /// <summary>
@@ -33,7 +57,17 @@ namespace Juniper.Units
         /// <param name="a">An <c>Angle</c> object.</param>
         public static implicit operator float(Angle a)
         {
-            return a.currentValue;
+            return a.ToSingle();
+        }
+
+        /// <summary>
+        /// Wrap an angle value in the Angle struct. Useful for using
+        /// <c>System.Linq.Enumerable.Cast{T}</c> on a collection of Angles.
+        /// </summary>
+        /// <param name="f">An angle in degrees</param>
+        public static Angle FromSingle(float f)
+        {
+            return new Angle(f);
         }
 
         /// <summary>
@@ -43,7 +77,20 @@ namespace Juniper.Units
         /// <param name="f">An angle in degrees</param>
         public static explicit operator Angle(float f)
         {
-            return new Angle(f);
+            return FromSingle(f);
+        }
+
+        /// <summary>
+        /// Create a new Angle struct that represents the smallest turn from the old Angle struct in
+        /// either the clockwise or counter-clockwise direction that matches the new angle.
+        /// </summary>
+        /// <param name="v">The new angle value, in degrees.</param>
+        /// <returns>
+        /// The new Angle struct that minimizes the likelihood of spinning around in weird circles.
+        /// </returns>
+        public Angle Xor(float v)
+        {
+            return Update(v);
         }
 
         /// <summary>
@@ -57,7 +104,17 @@ namespace Juniper.Units
         /// </returns>
         public static Angle operator ^(Angle a, float v)
         {
-            return a.Update(v);
+            return a.Xor(v);
+        }
+
+        /// <summary>
+        /// Whole-number divide the angle and save the remainder, and minimize rotation to the new value
+        /// </summary>
+        /// <param name="v">The scalar by which to divide.</param>
+        /// <returns>The minimized value of clamp(a % v, 0, 360)</returns>
+        public Angle Mod(float v)
+        {
+            return Update(currentValue % v);
         }
 
         /// <summary>
@@ -68,7 +125,17 @@ namespace Juniper.Units
         /// <returns>The minimized value of clamp(a % v, 0, 360)</returns>
         public static Angle operator %(Angle a, float v)
         {
-            return a.Update(a.currentValue % v);
+            return a.Mod(v);
+        }
+
+        /// <summary>
+        /// Add to the angle, and minimize rotation to the new value
+        /// </summary>
+        /// <param name="v">The scalar by which to add.</param>
+        /// <returns>The minimized value of clamp(a + v, 0, 360)</returns>
+        public Angle Add(float v)
+        {
+            return Update(currentValue + v);
         }
 
         /// <summary>
@@ -79,7 +146,17 @@ namespace Juniper.Units
         /// <returns>The minimized value of clamp(a + v, 0, 360)</returns>
         public static Angle operator +(Angle a, float v)
         {
-            return a.Update(a.currentValue + v);
+            return a.Add(v);
+        }
+
+        /// <summary>
+        /// Subtract from the angle, and minimize rotation to the new value
+        /// </summary>
+        /// <param name="v">The scalar by which to subtract.</param>
+        /// <returns>The minimized value of clamp(a - v, 0, 360)</returns>
+        public Angle Subtract(float v)
+        {
+            return Update(currentValue - v);
         }
 
         /// <summary>
@@ -90,7 +167,17 @@ namespace Juniper.Units
         /// <returns>The minimized value of clamp(a - v, 0, 360)</returns>
         public static Angle operator -(Angle a, float v)
         {
-            return a.Update(a.currentValue - v);
+            return a.Subtract(v);
+        }
+
+        /// <summary>
+        /// Multiply the angle, and minimize rotation to the new value
+        /// </summary>
+        /// <param name="v">The scalar by which to multiply.</param>
+        /// <returns>The minimized value of clamp(a * v, 0, 360)</returns>
+        public Angle Multiply(float v)
+        {
+            return Update(currentValue * v);
         }
 
         /// <summary>
@@ -101,7 +188,17 @@ namespace Juniper.Units
         /// <returns>The minimized value of clamp(a * v, 0, 360)</returns>
         public static Angle operator *(Angle a, float v)
         {
-            return a.Update(a.currentValue * v);
+            return a.Multiply(v);
+        }
+
+        /// <summary>
+        /// Divide the angle, and minimize rotation to the new value
+        /// </summary>
+        /// <param name="v">The scalar by which to divide.</param>
+        /// <returns>The minimized value of clamp(a / v, 0, 360)</returns>
+        public Angle Divide(float v)
+        {
+            return Update(currentValue / v);
         }
 
         /// <summary>
@@ -112,7 +209,7 @@ namespace Juniper.Units
         /// <returns>The minimized value of clamp(a / v, 0, 360)</returns>
         public static Angle operator /(Angle a, float v)
         {
-            return a.Update(a.currentValue / v);
+            return a.Divide(v);
         }
 
         /// <summary>

@@ -34,7 +34,7 @@ namespace Juniper.Display
                 tracker.timing = WVR_TrackTiming.WhenNewPoses;
 
 #if UNITY_MODULES_AUDIO
-#if RESONANCEAUDIO
+#if UNITY_GOOGLE_RESONANCE_AUDIO
                 var wasStereo = goog.stereoSpeakerModeEnabled;
                 this.Remove<ResonanceAudioListener>();
 #endif
@@ -42,7 +42,7 @@ namespace Juniper.Display
                 this.Remove<AudioListener>();
                 listener = ComponentExt.FindAny<AudioListener>();
 
-#if RESONANCEAUDIO
+#if UNITY_GOOGLE_RESONANCE_AUDIO
                 goog = listener.Ensure<ResonanceAudioListener>();
                 goog.stereoSpeakerModeEnabled = wasStereo;
 #endif

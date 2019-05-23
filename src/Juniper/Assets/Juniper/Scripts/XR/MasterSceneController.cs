@@ -230,6 +230,7 @@ namespace Juniper
             {
                 var scene = SceneManager.GetSceneAt(i);
 
+#if UNITY_MODULES_UI
                 var canvases = scene.FindAll<Canvas>((c) =>
                     c.renderMode == RenderMode.WorldSpace
                         && (c.worldCamera == null
@@ -238,12 +239,15 @@ namespace Juniper
                 {
                     canvas.worldCamera = DisplayManager.EventCamera;
                 }
+#endif
 
+#if UNITY_MODULES_AUDIO
                 var audioSources = scene.FindAll<AudioSource>((a) => a.spatialize);
                 foreach (var audioSource in audioSources)
                 {
                     interaction.Spatialize(audioSource);
                 }
+#endif
             }
 
             ComponentExt.FindAny<KeywordRecognizer>()?.RefreshKeywords();

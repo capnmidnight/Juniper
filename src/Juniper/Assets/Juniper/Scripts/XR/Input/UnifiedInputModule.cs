@@ -20,7 +20,7 @@ namespace Juniper.Input
 {
     [DisallowMultipleComponent]
     public class UnifiedInputModule :
-#if GOOGLEVR
+#if UNITY_XR_GOOGLEVR_ANDROID
         DaydreamInputModule
 #elif UNITY_XR_WINDOWSMR_METRO
         WindowsMRInputModule

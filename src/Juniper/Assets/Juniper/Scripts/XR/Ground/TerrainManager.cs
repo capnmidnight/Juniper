@@ -32,11 +32,14 @@ namespace Juniper.Ground
         MonoBehaviour,
         IInstallable
     {
+
+#if UNITY_MODULES_PHYSICS
         /// <summary>
         /// A friction material for the ground to interact with the player's shoes.
         /// </summary>
         [Header("Ground")]
         public PhysicMaterial Roughness;
+#endif
 
         /// <summary>
         /// On HoloLens, the level of detail to use when performing spatial mapping.

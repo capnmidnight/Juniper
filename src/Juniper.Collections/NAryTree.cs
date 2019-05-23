@@ -16,6 +16,21 @@ namespace Juniper.Collections
         public readonly T Value;
 
         /// <summary>
+        /// All nodes below the current node.
+        /// </summary>
+        protected readonly List<NAryTree<T>> children;
+
+        /// <summary>
+        /// How deep into the tree is this branch
+        /// </summary>
+        private int depth;
+
+        /// <summary>
+        /// The next node above the current node.
+        /// </summary>
+        protected NAryTree<T> parent;
+
+        /// <summary>
         /// Creates a root node with no children.
         /// </summary>
         /// <param name="value">The value to store at the root.</param>
@@ -103,21 +118,6 @@ namespace Juniper.Collections
                 act(here);
             }
         }
-
-        /// <summary>
-        /// How deep into the tree is this branch
-        /// </summary>
-        private int depth;
-
-        /// <summary>
-        /// The next node above the current node.
-        /// </summary>
-        private NAryTree<T> parent;
-
-        /// <summary>
-        /// All nodes below the current node.
-        /// </summary>
-        private List<NAryTree<T>> children;
 
         /// <summary>
         /// Increase the depth of this and any child nodes.

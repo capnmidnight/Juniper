@@ -7,11 +7,12 @@
     <ProjectGuid>{10DB1B9B-3FE1-4E78-9056-32DC9E5DFF8D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Juniper.Zip</RootNamespace>
-    <AssemblyName>Juniper.Zip</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RootNamespace>Juniper.Compression</RootNamespace>
+    <AssemblyName>Juniper.Compression</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,9 +38,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tar.GZip\Decompressor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Compressor.cs" />
-    <Compile Include="Decompressor.cs" />
+    <Compile Include="Zip\Compressor.cs" />
+    <Compile Include="Zip\Decompressor.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SharpZipLib">
@@ -47,6 +49,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.Collections\Juniper.Collections.csproj">
+      <Project>{e7450f17-721d-436b-9ccb-af130da82bf0}</Project>
+      <Name>Juniper.Collections</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.NETFXExtensions\Juniper.NETFXExtensions.csproj">
       <Project>{71ce09ef-34ce-4970-a731-593c09a7efb9}</Project>
       <Name>Juniper.NETFXExtensions</Name>

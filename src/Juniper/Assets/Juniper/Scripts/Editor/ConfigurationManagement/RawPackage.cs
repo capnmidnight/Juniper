@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 
 using Juniper.Progress;
-using Juniper.Zip;
+using Juniper.Compression.Zip;
 
 using Newtonsoft.Json;
 

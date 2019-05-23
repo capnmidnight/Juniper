@@ -9,7 +9,7 @@ namespace Juniper.Units
     /// </summary>
     public static partial class Converter
     {
-        public static int DEFAULT_SIGNIFICANT_FIGURES = 3;
+        public const int DEFAULT_SIGNIFICANT_FIGURES = 3;
 
         /// <summary>
         /// The TypeGroups put the different <see cref="UnitOfMeasure"/>s into groupings by <see
@@ -122,7 +122,7 @@ namespace Juniper.Units
         /// </summary>
         /// <param name="unit">The unit to look up</param>
         /// <returns>The gross category of the unit</returns>
-        private static Category GetPrimaryCategory(UnitOfMeasure unit)
+        public static Category GetPrimaryCategory(UnitOfMeasure unit)
         {
             return TypeGroups[unit][0];
         }
@@ -212,7 +212,7 @@ namespace Juniper.Units
         /// <summary>
         /// All the short-form symbols of each <see cref="UnitOfMeasure"/>.
         /// </summary>
-        public static Dictionary<UnitOfMeasure, string> Abbreviations = new Dictionary<UnitOfMeasure, string>(75) {
+        public static readonly Dictionary<UnitOfMeasure, string> Abbreviations = new Dictionary<UnitOfMeasure, string>(75) {
             { UnitOfMeasure.Units, " ea" },
 
             { UnitOfMeasure.Degrees, "°" },
@@ -1036,9 +1036,21 @@ namespace Juniper.Units
         /// <param name="fromUnit"></param>
         /// <param name="toSystem"></param>
         /// <returns></returns>
-        public static float Convert(this float value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem = SystemOfMeasure.USCustomary)
+        public static float Convert(this float value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
         {
             return value.Convert(fromUnit, FindConversion(fromUnit, toSystem));
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to the analogous unit of measure in a different
+        /// system of measure.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <returns></returns>
+        public static float Convert(this float value, UnitOfMeasure fromUnit)
+        {
+            return value.Convert(fromUnit, SystemOfMeasure.USCustomary);
         }
 
         /// <summary>
@@ -1061,9 +1073,21 @@ namespace Juniper.Units
         /// <param name="fromUnit"></param>
         /// <param name="toSystem"></param>
         /// <returns></returns>
-        public static float? Convert(this float? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem = SystemOfMeasure.USCustomary)
+        public static float? Convert(this float? value, UnitOfMeasure fromUnit, SystemOfMeasure toSystem)
         {
             return value?.Convert(fromUnit, toSystem);
+        }
+
+        /// <summary>
+        /// Convert a value from one unit of measure to the analogous unit of measure in a different
+        /// system of measure.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="fromUnit"></param>
+        /// <returns></returns>
+        public static float? Convert(this float? value, UnitOfMeasure fromUnit)
+        {
+            return value?.Convert(fromUnit);
         }
 
         /// <summary>

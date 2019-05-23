@@ -23,7 +23,7 @@ namespace Juniper.Audio
     /// The audio portion of the interaction system.
     /// </summary>
     public class InteractionAudio :
-#if RESONANCEAUDIO
+#if UNITY_GOOGLE_RESONANCE_AUDIO
         ResonanceInteractionAudio
 #elif UNITY_XR_OCULUS
         OculusInteractionAudio
@@ -150,14 +150,14 @@ namespace Juniper.Audio
         {
             return InternalSpatialize(audioSource, false, defaultMixerGroup);
         }
-#endif
-
 
         /// <summary>
         /// The audio mixer to use with ResonanceAudio
         /// </summary>
         [Header("Configuration")]
         public AudioMixerGroup defaultMixerGroup;
+#endif
+
 
         public GameObject volumeSlider;
 

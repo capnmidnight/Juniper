@@ -3,7 +3,9 @@ using UnityEngine;
 namespace Juniper.Widgets
 {
     [ExecuteInEditMode]
+#if UNITY_MODULES_ANIMATION
     [RequireComponent(typeof(Animator))]
+#endif
     public class Splitter : MonoBehaviour
     {
         public bool open;

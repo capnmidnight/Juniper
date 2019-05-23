@@ -1,4 +1,4 @@
-#if GOOGLEVR
+#if UNITY_XR_GOOGLEVR_ANDROID
 
 using Juniper.Haptics;
 

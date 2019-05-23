@@ -1,13 +1,13 @@
-using ICSharpCode.SharpZipLib.Zip;
-
-using Juniper.Progress;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Juniper.Zip
+using ICSharpCode.SharpZipLib.Zip;
+
+using Juniper.Progress;
+
+namespace Juniper.Compression.Zip
 {
     /// <summary>
     /// Functions for dealing with Zip files.
@@ -40,10 +40,7 @@ namespace Juniper.Zip
                 if (entryIndex > -1)
                 {
                     var entry = file[entryIndex];
-                    using (var stream = file.GetInputStream(entry))
-                    {
-                        return new ProgressStream(stream, entry.Size, prog);
-                    }
+                    return new ProgressStream(file.GetInputStream(entry), entry.Size, prog);
                 }
                 else
                 {
@@ -102,7 +99,7 @@ namespace Juniper.Zip
         /// <summary>
         /// Lists all of the entries (both files and directories) in a zip file.
         /// </summary>
-        /// <param name="inputZipFile">A filepath to the zip file to scan.</param>
+        /// <param name="inputZipFile">A file-path to the zip file to scan.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <returns>A lazy collection of ZipEntries</returns>
         public static IEnumerable<ZipEntry> ZipEntries(string inputZipFile, IProgress prog = null)
@@ -131,7 +128,7 @@ namespace Juniper.Zip
         /// <summary>
         /// Lists all of the files in a zip file.
         /// </summary>
-        /// <param name="inputZipFile">A filepath to the zip file to scan.</param>
+        /// <param name="inputZipFile">A file-path to the zip file to scan.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <returns>A lazy collection of ZipEntries that are files.</returns>
         public static IEnumerable<string> RecurseFiles(string inputZipFile, IProgress prog = null)
@@ -148,7 +145,7 @@ namespace Juniper.Zip
         /// <summary>
         /// Lists all of the directories in a zip file.
         /// </summary>
-        /// <param name="inputZipFile">A filepath to the zip file to scan.</param>
+        /// <param name="inputZipFile">A file-path to the zip file to scan.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <returns>A lazy collection of ZipEntries that are directories.</returns>
         public static IEnumerable<string> RecurseDirectories(string inputZipFile, IProgress prog = null)

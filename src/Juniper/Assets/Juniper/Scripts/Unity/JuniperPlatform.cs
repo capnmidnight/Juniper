@@ -65,7 +65,7 @@ namespace Juniper
             PlatformTypes.AndroidARCore;
 #elif CARDBOARD
             PlatformTypes.AndroidCardboard;
-#elif GOOGLEVR
+#elif UNITY_XR_GOOGLEVR_ANDROID
             PlatformTypes.AndroidDaydream;
 #elif UNITY_XR_OCULUS
             PlatformTypes.AndroidOculus;

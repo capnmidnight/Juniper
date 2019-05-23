@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a977e633f34ec49429bafff6e4f54099
+guid: 54a4abdc587377248b0cbabc62b447f5
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -28,11 +28,13 @@ PluginImporter:
         Exclude Win64: 0
         Exclude WindowsStoreApps: 0
         Exclude iOS: 0
+        Exclude tvOS: 0
   - first:
       Android: Android
     second:
       enabled: 1
-      settings: {}
+      settings:
+        CPU: ARMv7
   - first:
       Any: 
     second:
@@ -43,7 +45,21 @@ PluginImporter:
     second:
       enabled: 0
       settings:
+        CPU: AnyCPU
         DefaultValueInitialized: true
+        OS: AnyOS
+  - first:
+      Facebook: Win
+    second:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
+  - first:
+      Facebook: Win64
+    second:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
   - first:
       Lumin: Lumin
     second:
@@ -53,12 +69,14 @@ PluginImporter:
       Standalone: Linux
     second:
       enabled: 1
-      settings: {}
+      settings:
+        CPU: x86
   - first:
       Standalone: Linux64
     second:
       enabled: 1
-      settings: {}
+      settings:
+        CPU: x86_64
   - first:
       Standalone: LinuxUniversal
     second:
@@ -68,17 +86,20 @@ PluginImporter:
       Standalone: OSXUniversal
     second:
       enabled: 1
-      settings: {}
+      settings:
+        CPU: AnyCPU
   - first:
       Standalone: Win
     second:
       enabled: 1
-      settings: {}
+      settings:
+        CPU: AnyCPU
   - first:
       Standalone: Win64
     second:
       enabled: 1
-      settings: {}
+      settings:
+        CPU: AnyCPU
   - first:
       WebGL: WebGL
     second:
@@ -90,11 +111,25 @@ PluginImporter:
       enabled: 1
       settings:
         CPU: AnyCPU
+        DontProcess: false
+        PlaceholderPath: 
+        SDK: AnySDK
+        ScriptingBackend: AnyScriptingBackend
   - first:
       iPhone: iOS
     second:
       enabled: 1
-      settings: {}
+      settings:
+        AddToEmbeddedBinaries: false
+        CompileFlags: 
+        FrameworkDependencies: 
+  - first:
+      tvOS: tvOS
+    second:
+      enabled: 1
+      settings:
+        CompileFlags: 
+        FrameworkDependencies: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 

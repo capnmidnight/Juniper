@@ -1,4 +1,4 @@
-#if RESONANCEAUDIO
+#if UNITY_GOOGLE_RESONANCE_AUDIO
 using System;
 using Juniper.Display;
 using UnityEngine;

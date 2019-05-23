@@ -39,11 +39,8 @@ namespace System.IO
             while (q.Count > 0)
             {
                 var here = q.Dequeue();
-                foreach (var subDir in Directory.GetDirectories(here))
-                {
-                    q.Enqueue(subDir);
-                    yield return subDir;
-                }
+                yield return here;
+                q.AddRange(Directory.GetDirectories(here));
             }
         }
 

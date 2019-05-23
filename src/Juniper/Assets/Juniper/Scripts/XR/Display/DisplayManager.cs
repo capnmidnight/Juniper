@@ -39,7 +39,7 @@ namespace Juniper.Display
         MagicLeapDisplayManager
 #elif UNITY_XR_OCULUS
         OculusDisplayManager
-#elif GOOGLEVR
+#elif UNITY_XR_GOOGLEVR_ANDROID
         DaydreamDisplayManager
 #elif WAVEVR
         ViveFocusDisplayManager

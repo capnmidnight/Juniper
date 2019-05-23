@@ -1858,12 +1858,12 @@ MonoBehaviour:
   onDisplayTypeChange:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Display.AbstractDisplayManager+DisplayTypeEvent, Assembly-CSharp,
+    m_TypeName: Juniper.Display.AbstractDisplayManager+DisplayTypeEvent, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   onARModeChange:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Display.AbstractDisplayManager+ARModeEvent, Assembly-CSharp,
+    m_TypeName: Juniper.Display.AbstractDisplayManager+ARModeEvent, Assembly-CSharp,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!92 &90438553
 Behaviour:
@@ -4045,28 +4045,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &269872645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6170,28 +6170,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &390605681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7227,28 +7227,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &494110125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7548,28 +7548,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &521047063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13575,28 +13575,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &1074016435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20026,28 +20026,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &1483029495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20349,28 +20349,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &1497508053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20389,28 +20389,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &1497508054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20429,28 +20429,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &1497508055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20731,28 +20731,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &1527182880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24079,28 +24079,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &1747400568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24482,28 +24482,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &1786140568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24911,28 +24911,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &1826490549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28306,6 +28306,7 @@ GameObject:
   - component: {fileID: 2083424601}
   - component: {fileID: 2083424600}
   - component: {fileID: 2083424599}
+  - component: {fileID: 2083424607}
   m_Layer: 0
   m_Name: UserRig
   m_TagString: Player
@@ -28370,8 +28371,8 @@ MonoBehaviour:
   soundOnScrolled: {fileID: 11400000, guid: 2fed140456205434288c10415f0758f2, type: 2}
   soundOnSelected: {fileID: 11400000, guid: 7e149bbac0700477ea8b840ec813d2ac, type: 2}
   soundOnSuccess: {fileID: 11400000, guid: 7b9da42f9cb52464288a22fd54f8395f, type: 2}
-  soundOnStartUp: {fileID: 8300000, guid: 1a9c7e647cd76a34595d588d36fc432c, type: 3}
-  soundOnShutDown: {fileID: 8300000, guid: 06fe8257402ae734eb1e6e09bcdeb9b0, type: 3}
+  soundOnStartUp: {fileID: 0}
+  soundOnShutDown: {fileID: 0}
 --- !u!114 &2083424602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28479,6 +28480,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2083424607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083424598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 195dc4b47a4bf4246a67df908e4e924d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onKeywordRecognized:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.StringEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!1 &2090893613
 GameObject:
   m_ObjectHideFlags: 0
@@ -28607,28 +28625,28 @@ MonoBehaviour:
   onClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onLongPress:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onUp:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   onDown:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Juniper.Unity.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+    m_TypeName: Juniper.Events.PointerEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &2094294771
 MonoBehaviour:
   m_ObjectHideFlags: 0

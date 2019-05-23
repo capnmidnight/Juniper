@@ -15,6 +15,17 @@ namespace Juniper.Anchoring
     /// </summary>
     public class Grounded : MonoBehaviour
     {
+        /// <summary>
+        /// Where the current gameObject has been ordered to find.
+        /// </summary>
+        private Vector3? groundPoint;
+
+        /// <summary>
+        /// Before the object is actually grounded, other entities may wish to know when it is. This
+        /// queue holds callbacks to those entities to execute once the object is grounded.
+        /// </summary>
+        private readonly Queue<Action> q = new Queue<Action>();
+
 #if UNITY_MODULES_PHYSICS
 
         /// <summary>
@@ -40,17 +51,6 @@ namespace Juniper.Anchoring
         /// restored to its original value after the draggable handle has been removed.
         /// </summary>
         private bool wasKinematic;
-
-        /// <summary>
-        /// Where the current gameObject has been ordered to find.
-        /// </summary>
-        private Vector3? groundPoint;
-
-        /// <summary>
-        /// Before the object is actually grounded, other entities may wish to know when it is. This
-        /// queue holds callbacks to those entities to execute once the object is grounded.
-        /// </summary>
-        private readonly Queue<Action> q = new Queue<Action>();
 
         /// <summary>
         /// The raycasting mask for the ground mesh.

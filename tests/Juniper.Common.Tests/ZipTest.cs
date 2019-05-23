@@ -1,8 +1,9 @@
 using System;
 using System.IO;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Juniper.Data.Tests
+namespace Juniper.Compression.Zip.Tests
 {
     [TestClass]
     public class ZipTest
@@ -20,7 +21,7 @@ namespace Juniper.Data.Tests
         [TestMethod]
         public void GetFile()
         {
-            using (var reader = new StreamReader(Zip.Decompressor.GetFile(TestZip, TestFile)))
+            using (var reader = new StreamReader(Decompressor.GetFile(TestZip, TestFile)))
             {
                 var text = reader.ReadToEnd();
 
@@ -32,7 +33,7 @@ namespace Juniper.Data.Tests
         public void DecompressDirectory()
         {
             var outDir = Path.GetTempPath();
-            Zip.Decompressor.DecompressDirectory(TestZip, outDir, null, Reject);
+            Decompressor.DecompressDirectory(TestZip, outDir, null, Reject);
             var outFile = Path.Combine(outDir, TestFile);
             var text = File.ReadAllText(outFile);
             Assert.AreEqual(TestFileLength, text.Length);

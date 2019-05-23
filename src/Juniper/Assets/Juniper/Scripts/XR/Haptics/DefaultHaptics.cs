@@ -1,4 +1,4 @@
-#if (UNITY_IOS || UNITY_ANDROID) && !GOOGLEVR && !UNITY_XR_OCULUS
+#if (UNITY_IOS || UNITY_ANDROID) && !UNITY_XR_GOOGLEVR_ANDROID && !UNITY_XR_OCULUS
 #define HAS_HAPTICS
 #endif
 
@@ -6,7 +6,7 @@ using System.Collections;
 
 using UnityEngine;
 
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if (UNITY_STANDALONE || UNITY_EDITOR) && XINPUTDOTNETPURE
 
 using XInputDotNetPure;
 
@@ -56,7 +56,7 @@ namespace Juniper.Haptics
         /// <param name="amplitude">The strength of the vibration.</param>
         private void SetVibration(float amplitude)
         {
-#if UNITY_STANDALONE || UNITY_EDITOR
+#if (UNITY_STANDALONE || UNITY_EDITOR) && XINPUTDOTNETPURE
             GamePad.SetVibration(PlayerIndex.One, amplitude, amplitude);
 
 #elif UNITY_XR_WINDOWSMR_METRO

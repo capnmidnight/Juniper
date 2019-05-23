@@ -202,6 +202,7 @@ namespace UnityEngine
                 }
             }
 
+#if UNITY_MODULES_UI
             foreach (var renderer in obj.GetComponentsInChildren<CanvasRenderer>())
             {
                 var rect = renderer.GetComponent<RectTransform>();
@@ -219,6 +220,7 @@ namespace UnityEngine
                     }
                 }
             }
+#endif
 
             output /= count;
             return output;

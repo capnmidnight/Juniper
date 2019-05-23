@@ -10,7 +10,9 @@ namespace Juniper.Widgets
     /// JibberJabber component is allowed on a gameObject at a time.
     /// </summary>
     [DisallowMultipleComponent]
+#if UNITY_MODULES_AUDIO
     [RequireComponent(typeof(AudioSource))]
+#endif
     public class JibberJabber : MonoBehaviour
     {
         /// <summary>

@@ -1,13 +1,12 @@
+using System;
+using System.IO;
+using System.Linq;
+
 using ICSharpCode.SharpZipLib.Zip;
 
 using Juniper.Progress;
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
-namespace Juniper.Zip
+namespace Juniper.Compression.Zip
 {
     /// <summary>
     /// Functions for dealing with Zip files.
@@ -28,7 +27,7 @@ namespace Juniper.Zip
         /// Makes a zip file out of the contents of a directory.
         /// </summary>
         /// <param name="inputDirectory">The directory to zip</param>
-        /// <param name="outputZipFile">The filepath of the zip file to create</param>
+        /// <param name="outputZipFile">The file-path of the zip file to create</param>
         /// <param name="level">The zip compression level to use. Min is 0, max is 9.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>

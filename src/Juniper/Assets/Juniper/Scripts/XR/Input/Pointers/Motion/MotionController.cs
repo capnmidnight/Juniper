@@ -13,7 +13,7 @@ namespace Juniper.Input.Pointers.Motion
     public class MotionController :
 #if UNITY_XR_OCULUS
         OculusMotionController
-#elif GOOGLEVR
+#elif UNITY_XR_GOOGLEVR_ANDROID
         DaydreamMotionController
 #elif WAVEVR
         ViveFocusMotionController
