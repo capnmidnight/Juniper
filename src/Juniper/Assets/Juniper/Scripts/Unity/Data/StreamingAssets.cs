@@ -4,14 +4,9 @@ using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 using Juniper.HTTP;
 using Juniper.Progress;
-
-#if UNITY_ANDROID
-
-using Juniper.Data;
-
-#endif
 
 namespace Juniper.Data
 {
@@ -94,7 +89,7 @@ namespace Juniper.Data
                     }
                     else
                     {
-                        var stream = Zip.Decompressor.GetFile(apk, path, prog);
+                        var stream = Compression.Zip.Decompressor.GetFile(apk, path, prog);
                         return new StreamResult(HttpStatusCode.OK, mime, new CachingStream(stream, cachePath));                        
                     }
                 }

@@ -1,6 +1,7 @@
 #if UNITY_GOOGLE_RESONANCE_AUDIO
 using System;
 using Juniper.Display;
+using Juniper.XR;
 using UnityEngine;
 using UnityEngine.Audio;
 

@@ -19,11 +19,11 @@ namespace Juniper.Permissions
 
                     if (Permission.HasUserAuthorizedPermission(permission))
                     {
-                        Debug.Log($"The user granted permission {permission}");
+                        UnityEngine.Debug.Log($"The user granted permission {permission}");
                     }
                     else
                     {
-                        Debug.Log($"The user DID NOT grant permission {permission}");
+                        UnityEngine.Debug.Log($"The user DID NOT grant permission {permission}");
                     }
                 }
             }
