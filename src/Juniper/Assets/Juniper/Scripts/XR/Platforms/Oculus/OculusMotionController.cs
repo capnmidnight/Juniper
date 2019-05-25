@@ -131,7 +131,7 @@ namespace Juniper.Input.Pointers.Motion
                 base.NativeHandID = value;
                 if (value != null)
                 {
-                    var controller = this.Ensure<OVRTrackedRemote>();
+                    var controller = this.Ensure<OVRControllerHelper>();
                     controller.Value.m_controller = value.Value;
                 }
             }

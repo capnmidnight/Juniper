@@ -102,17 +102,17 @@ namespace UnityEngine
             Object.DestroyImmediate(obj);
         }
 
-        /// <summary>
-        /// Search through a series of Transforms and child transforms, defined as a set of
-        /// forward-slash delimited names. Use ".." to select the parent transform.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="parent"></param>
-        /// <param name="path">  </param>
-        /// <returns></returns>
         public static T Query<T>(this Component parent, string path)
         {
-            return parent.transform.Query<T>(path);
+            var trans = parent.Query(path);
+            if (trans == null)
+            {
+                return default;
+            }
+            else
+            {
+                return trans.GetComponent<T>();
+            }
         }
 
         /// <summary>
@@ -125,7 +125,68 @@ namespace UnityEngine
         /// <returns></returns>
         public static Transform Query(this Component parent, string path)
         {
-            return parent.transform.Query(path);
+            var parts = path.Split('/');
+            var top = new List<Transform>(5) { parent.transform };
+            for (var i = 0; i < parts.Length; ++i)
+            {
+                var part = parts[i];
+                if (part != ".")
+                {
+                    var next = new List<Transform>(5);
+
+                    foreach (var here in top)
+                    {
+                        if (here == null)
+                        {
+                            next.Add((from scene in JuniperPlatform.AllScenes
+                                      from gameObject in scene.GetRootGameObjects()
+                                      where gameObject.name == part
+                                      select gameObject.transform)
+                                .FirstOrDefault());
+                        }
+                        else if (part == "*")
+                        {
+                            next.AddRange(here.Children());
+                        }
+                        else if (part == "..")
+                        {
+                            next.Add(here.parent);
+                        }
+                        else if (part.Length > 0)
+                        {
+                            var child = here.Find(part);
+                            if (child != null)
+                            {
+                                next.Add(child);
+                            }
+                        }
+                        else
+                        {
+                            next.Add(null);
+                        }
+                    }
+
+                    if (next.Count == 0 && i < parts.Length - 1)
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        top = next;
+                    }
+                }
+            }
+
+            top.RemoveAll(x => x == null);
+
+            if (top.Count > 0)
+            {
+                return top[0].transform;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>

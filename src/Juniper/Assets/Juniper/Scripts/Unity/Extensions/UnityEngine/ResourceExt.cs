@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace UnityEngine
 {
@@ -19,8 +17,8 @@ namespace UnityEngine
         /// <returns></returns>
         public static T EditorLoadAsset<T>(string path) where T : Object
         {
-            var fixedPath = System.IO.PathExt.FixPath(path);
-            if (System.IO.File.Exists(fixedPath))
+            var fixedPath = PathExt.FixPath(path);
+            if (File.Exists(fixedPath))
             {
                 return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(fixedPath);
             }
@@ -38,7 +36,7 @@ namespace UnityEngine
         /// <returns></returns>
         public static IEnumerable<UnityEditor.SerializedObject> EditorLoadAllAssets(string path)
         {
-            return UnityEditor.AssetDatabase.LoadAllAssetsAtPath(System.IO.PathExt.FixPath(path))
+            return UnityEditor.AssetDatabase.LoadAllAssetsAtPath(PathExt.FixPath(path))
                 .Select(obj => new UnityEditor.SerializedObject(obj));
         }
 
@@ -50,7 +48,7 @@ namespace UnityEngine
         /// <returns></returns>
         public static UnityEditor.SerializedObject EditorLoadAsset(string path)
         {
-            return UnityEditor.AssetDatabase.LoadAllAssetsAtPath(System.IO.PathExt.FixPath(path))
+            return UnityEditor.AssetDatabase.LoadAllAssetsAtPath(PathExt.FixPath(path))
                 .Select(obj => new UnityEditor.SerializedObject(obj))
                 .FirstOrDefault();
         }
@@ -65,7 +63,7 @@ namespace UnityEngine
         /// <returns></returns>
         public static T LoadAsset<T>(string path) where T : Object
         {
-            return Resources.Load<T>(System.IO.PathExt.FixPath(path));
+            return Resources.Load<T>(PathExt.FixPath(path));
         }
     }
 }

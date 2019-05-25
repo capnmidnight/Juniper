@@ -349,10 +349,15 @@ namespace Juniper
         private void SetupSystemInterface(QualityDegrader qualityDegrader, InteractionAudio aud)
         {
             var sys = transform.Query("/SystemUserInterface");
+#if UNITY_EDITOR
             if (sys == null)
             {
-                sys = Instantiate(ResourceExt.LoadAsset<GameObject>("/Assets/Juniper/Prefabs/UI/SystemUserInterface.prefab")).transform;
+                var prefab = ResourceExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/UI/SystemUserInterface.prefab");
+                print(prefab);
+                sys = Instantiate(prefab).transform;
+                sys.name = "SystemUserInterface";
             }
+#endif
 
 
             loadingBar = sys.Query<LoadingBar>("LoadingBar");

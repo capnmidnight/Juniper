@@ -151,30 +151,6 @@ namespace UnityEngine
         }
 
         /// <summary>
-        /// Find a component on a game object at a certain path relative to this game object..
-        /// </summary>
-        /// <returns>The query.</returns>
-        /// <param name="parent">Parent.</param>
-        /// <param name="path">  Path.</param>
-        /// <typeparam name="T">The 1st type parameter.</typeparam>
-        public static T Query<T>(this GameObject parent, string path)
-        {
-            return parent.transform.Query<T>(path);
-        }
-
-        /// <summary>
-        /// Find a game object with a relative path from another game object.
-        /// </summary>
-        /// <returns>The query.</returns>
-        /// <param name="parent">Parent.</param>
-        /// <param name="path">  Path.</param>
-        public static GameObject Query(this GameObject parent, string path)
-        {
-            var trans = parent.transform.Query(path);
-            return trans.gameObject;
-        }
-
-        /// <summary>
         /// Figures out a rough "center" location for an object that might include a mesh renderer,
         /// or children with a mesh renderer.
         /// </summary>

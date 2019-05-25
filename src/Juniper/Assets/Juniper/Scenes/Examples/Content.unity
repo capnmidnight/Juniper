@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1684733871}
-  m_IndirectSpecularColor: {r: 0.19180283, g: 0.21541323, b: 0.2258429, a: 1}
+  m_IndirectSpecularColor: {r: 0.479051, g: 0.50444084, b: 0.5161634, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
     m_ExportTrainingData: 0
-  m_LightingDataAsset: {fileID: 112000002, guid: 0517640556d5f4b46a4a9f34c9aa8542,
+  m_LightingDataAsset: {fileID: 112000002, guid: 410b0b1b5e6d8f04d94bd304aeafc12d,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -3213,10 +3213,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1520445407}
     m_Modifications:
-    - target: {fileID: 1262440479064932, guid: 829a5f61d90ac4c42b217bbfc1b3cea2, type: 3}
-      propertyPath: m_Name
-      value: Rabbit
-      objectReference: {fileID: 0}
     - target: {fileID: 4005735964643980, guid: 829a5f61d90ac4c42b217bbfc1b3cea2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.192707
@@ -3260,6 +3256,10 @@ PrefabInstance:
     - target: {fileID: 4005735964643980, guid: 829a5f61d90ac4c42b217bbfc1b3cea2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1262440479064932, guid: 829a5f61d90ac4c42b217bbfc1b3cea2, type: 3}
+      propertyPath: m_Name
+      value: Rabbit
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 829a5f61d90ac4c42b217bbfc1b3cea2, type: 3}
@@ -3537,7 +3537,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0.03871283, z: 5.87e-43, w: 0.038967997}
+  m_BoundingSphereOverride: {x: 0, y: -4.234494e-15, z: 9.64e-43, w: -4.234494e-15}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 10
