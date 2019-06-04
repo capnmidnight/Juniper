@@ -133,16 +133,27 @@ namespace Juniper.ConfigurationManagement
         {
             base.Uninstall(prog);
 
-            var progs = prog.Split(4);
+            var progs = prog.Split(3);
 
-            var dirs = Decompressor.DirectoryNames(InputZipFileName);
-            var files = Decompressor.FileNames(InputZipFileName);
-            files = files
-                .Union(files.Select(file => file + ".meta"))
-                .Union(dirs.Select(dir => dir + ".meta"))
-                .Where(path => !path.EndsWith(".meta.meta"));
+            var files = Decompressor.FileNames(InputZipFileName).Where(File.Exists);
+            files = files.Union(from file in files
+                                where Path.GetExtension(file) != ".meta"
+                                select file + ".meta");
+
+            DeleteAll(files, FileExt.TryDelete, progs[0]);
+
+            var dirs = from dir in Decompressor.DirectoryNames(InputZipFileName)
+                       where Directory.Exists(dir)
+                       orderby dir.Length descending
+                       select dir;
+
+            files = from dir in dirs
+                    let exts = Directory.GetFiles(dir).Select(Path.GetExtension)
+                    where exts.Count(ext => ext != ".meta") == 0
+                    select dir + ".meta";
+
             DeleteAll(files, FileExt.TryDelete, progs[1]);
-            DeleteAll(dirs.Reverse(), DirectoryExt.TryDelete, progs[3]);
+            DeleteAll(dirs, DirectoryExt.TryDelete, progs[2]);
         }
     }
 }

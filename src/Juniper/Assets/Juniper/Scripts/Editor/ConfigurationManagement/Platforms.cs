@@ -44,12 +44,12 @@ namespace Juniper.ConfigurationManagement
 
         public readonly List<AssetStorePackage> allAssetStorePackages;
         private readonly Dictionary<string, DateTime> writeTimes;
-        private Task fileWatcherTask;
 
         public readonly PlatformConfiguration[] AllPlatforms;
         public readonly Dictionary<PlatformTypes, PlatformConfiguration> PlatformDB;
 
         public event Action<AssetStorePackage[]> AssetStorePackagesUpdated;
+        public event Action ScanningProgressUpdated;
 
         public string[] AllCompilerDefines
         {
@@ -132,42 +132,63 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private int counter = 0;
         private void FileWatcher()
         {
-            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var packages = Decompressor.FindUnityPackages(
-                Path.Combine(userProfile, "AppData", "Roaming", "Unity", "Asset Store-5.x"),
-                Path.Combine(userProfile, "Projects", "Packages"));
-            var package = (from path in packages
-                           let file = new FileInfo(path)
-                           where file.LastWriteTime > writeTimes.Get(file.FullName, DateTime.MinValue)
-                           select new AssetStorePackage(file))
-                        .FirstOrDefault();
-            if (package != null)
+            while (true)
             {
-                writeTimes[package.InputUnityPackageFile] = package.LastWriteTime;
-                allAssetStorePackages.Add(package);
+                var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var packages = Decompressor.FindUnityPackages(
+                    Path.Combine(userProfile, "AppData", "Roaming", "Unity", "Asset Store-5.x"),
+                    Path.Combine(userProfile, "Projects", "Packages"));
+                var package = (from path in packages
+                               let file = new FileInfo(path)
+                               where file.LastWriteTime > writeTimes.Get(file.FullName, DateTime.MinValue)
+                               select new AssetStorePackage(file))
+                            .FirstOrDefault();
+                if (package != null)
+                {
+                    writeTimes[package.InputUnityPackageFile] = package.LastWriteTime;
+                    allAssetStorePackages.Add(package);
+                    package.ScanningProgressUpdated += Package_ScanningProgressUpdated;
+                }
+
+                int scanningCount = 0;
+                foreach (var p in allAssetStorePackages)
+                {
+                    if (p.ScanningProgress == AssetStorePackage.Status.Scanning
+                        || p.ScanningProgress == AssetStorePackage.Status.Listing)
+                    {
+                        ++scanningCount;
+                    }
+                }
+
+                foreach (var p in allAssetStorePackages)
+                {
+                    if(scanningCount < 4
+                        || (p.ScanningProgress != AssetStorePackage.Status.List
+                            && p.ScanningProgress != AssetStorePackage.Status.Scan))
+                    {
+                        if (p.ScanningProgress == AssetStorePackage.Status.List
+                            || p.ScanningProgress == AssetStorePackage.Status.Scan)
+                        {
+                            ++scanningCount;
+                        }
+                        p.Update();
+                    }
+                }
+
+                AssetStorePackagesUpdated?.Invoke(allAssetStorePackages.ToArray());
             }
-            allAssetStorePackages[counter % allAssetStorePackages.Count].UpdateStats();
-            ++counter;
-            AssetStorePackagesUpdated?.Invoke(allAssetStorePackages.ToArray());
         }
 
-        public bool IsFileWatcherRunning
+        private void Package_ScanningProgressUpdated()
         {
-            get
-            {
-                return fileWatcherTask != null
-                    && !fileWatcherTask.IsCanceled
-                    && !fileWatcherTask.IsCompleted
-                    && !fileWatcherTask.IsFaulted;
-            }
+            ScanningProgressUpdated?.Invoke();
         }
 
         public void StartFileWatcher()
         {
-            fileWatcherTask = Task.Run(FileWatcher);
+            Task.Run(FileWatcher);
         }
 
         private AbstractPackage[] ParsePackages(string[] packages)

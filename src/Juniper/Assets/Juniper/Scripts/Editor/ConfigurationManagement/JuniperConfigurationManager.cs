@@ -30,13 +30,14 @@ namespace Juniper.ConfigurationManagement
 
         private static Vector2 packageScrollPosition;
         private static AssetStorePackage[] assetStorePackages;
+        private static bool repaintNeeded;
+        private static bool repaintBound;
 
         static JuniperConfigurationManager()
         {
             platforms = new Platforms();
             platforms.AssetStorePackagesUpdated += Platforms_PackagesUpdated;
-            EditorApplication.update += EditorApplication_update;
-
+            platforms.ScanningProgressUpdated += RepaintWindow;
             platforms.StartFileWatcher();
 
             config = ProjectConfiguration.Load();
@@ -51,14 +52,6 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private static void EditorApplication_update()
-        {
-            if (!platforms.IsFileWatcherRunning)
-            {
-                RepaintWindow();
-            }
-        }
-
         private static void Platforms_PackagesUpdated(AssetStorePackage[] packages)
         {
             assetStorePackages = packages;
@@ -67,12 +60,25 @@ namespace Juniper.ConfigurationManagement
 
         private static void RepaintWindow()
         {
-            EditorWindow.GetWindow<JuniperConfigurationManager>().Repaint();
+            repaintNeeded = true;
         }
 
         public void OnGUI()
         {
             titleContent = TITLE;
+
+            if (!repaintBound)
+            {
+                repaintBound = true;
+                EditorApplication.update += () =>
+                {
+                    if (repaintNeeded)
+                    {
+                        repaintNeeded = false;
+                        Repaint();
+                    }
+                };
+            }
 
             this.HeaderIndent("Status", () =>
             {
@@ -94,28 +100,71 @@ namespace Juniper.ConfigurationManagement
                 else
                 {
                     packageScrollPosition = EditorGUILayout.BeginScrollView(packageScrollPosition);
-                    foreach (var package in assetStorePackages.OrderBy(p => p.Name))
+                    foreach (var package in assetStorePackages)
                     {
                         this.HGroup(() =>
                         {
-                            var wasInstalled = package.IsInstalled;
-                            EditorGUILayout.LabelField(string.Format("{0} ({1})", Path.GetFileNameWithoutExtension(package.Name), Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent)));
-                            if (wasInstalled)
+                            try
                             {
-                                EditorGUILayout.LabelField("Installed");
+                                EditorGUILayout.LabelField(Path.GetFileNameWithoutExtension(package.Name));
+
+                                if (package.ScanningProgress == AssetStorePackage.Status.None)
+                                {
+                                    EditorGUILayout.LabelField("Identified", EditorStyles.centeredGreyMiniLabel);
+                                }
+                                else if (package.ScanningProgress == AssetStorePackage.Status.Found
+                                    || package.ScanningProgress == AssetStorePackage.Status.List)
+                                {
+                                    EditorGUILayout.LabelField("Found", EditorStyles.centeredGreyMiniLabel);
+                                }
+                                else if (package.ScanningProgress == AssetStorePackage.Status.NotFound)
+                                {
+                                    EditorGUILayout.LabelField("Not Found!");
+                                }
+                                else if (package.ScanningProgress == AssetStorePackage.Status.Listing)
+                                {
+                                    EditorGUILayout.LabelField("Listing", EditorStyles.centeredGreyMiniLabel);
+                                }
+                                else if (package.ScanningProgress == AssetStorePackage.Status.Listed
+                                    || package.ScanningProgress == AssetStorePackage.Status.Scan
+                                    || package.ScanningProgress == AssetStorePackage.Status.Scanning)
+                                {
+                                    EditorGUILayout.LabelField(string.Format(
+                                        "({0} files)",
+                                        package.TotalFiles),
+                                        EditorStyles.centeredGreyMiniLabel);
+                                    EditorGUILayout.LabelField("Scanning", EditorStyles.centeredGreyMiniLabel);
+                                }
+                                else if (package.ScanningProgress == AssetStorePackage.Status.Scanned)
+                                {
+                                    EditorGUILayout.LabelField(string.Format(
+                                        "({0} of {1} files)",
+                                        Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent),
+                                        package.TotalFiles),
+                                        EditorStyles.centeredGreyMiniLabel);
+
+                                    if (package.InstallPercentage < 1 && GUILayout.Button("Install"))
+                                    {
+                                        package.Install();
+                                    }
+
+                                    if (package.InstallPercentage > 0 && GUILayout.Button("Uninstall"))
+                                    {
+                                        package.Uninstall();
+                                    }
+                                }
+                                else if (package.ScanningProgress == AssetStorePackage.Status.Error)
+                                {
+                                    EditorGUILayout.LabelField("ERROR! " + package.ErrorMessage, EditorStyles.miniBoldLabel);
+                                }
                             }
-                            else if(GUILayout.Button("Install", EditorStyles.label))
+                            catch
                             {
-                                package.Install();
+
                             }
                         });
                     }
                     EditorGUILayout.EndScrollView();
-                }
-
-                if (!platforms.IsFileWatcherRunning)
-                {
-                    platforms.StartFileWatcher();
                 }
             });
         }
