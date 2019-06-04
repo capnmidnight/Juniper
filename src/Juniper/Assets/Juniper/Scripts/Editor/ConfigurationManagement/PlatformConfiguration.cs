@@ -139,13 +139,13 @@ namespace Juniper.ConfigurationManagement
         }
 
         [JsonIgnore]
-        public RawPackage[] UninstallableRawPackages
+        public ZipPackage[] UninstallableRawPackages
         {
             get; internal set;
         }
 
         [JsonIgnore]
-        public RawPackage[] RawPackages
+        public ZipPackage[] RawPackages
         {
             get; internal set;
         }

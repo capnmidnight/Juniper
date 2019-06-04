@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
+using Juniper.Compression.Tar.GZip;
 using Juniper.Progress;
 using Juniper.XR;
 
@@ -19,15 +20,25 @@ namespace Juniper.ConfigurationManagement
     /// <summary>
     /// An editor to respond to changes in XRSystem.
     /// </summary>
-    [CustomEditor(typeof(JuniperPlatform))]
-    public class JuniperConfigurationManager : UnityEditor.Editor
+    public class JuniperConfigurationManager : EditorWindow
     {
         private const string MENU_NAME = "Juniper/";
-
         private static readonly ProjectConfiguration config;
+        private static readonly Platforms platforms;
+
+        private static readonly GUIContent TITLE = new GUIContent("Juniper");
+
+        private static Vector2 packageScrollPosition;
+        private static AssetStorePackage[] assetStorePackages;
 
         static JuniperConfigurationManager()
         {
+            platforms = new Platforms();
+            platforms.AssetStorePackagesUpdated += Platforms_PackagesUpdated;
+            EditorApplication.update += EditorApplication_update;
+
+            platforms.StartFileWatcher();
+
             config = ProjectConfiguration.Load();
             config.PlatformChanged += Config_PlatformChanged;
             config.PlatformChangeConfirmed += StartBuild;
@@ -37,6 +48,90 @@ namespace Juniper.ConfigurationManagement
                 OnEditorUpdate(() =>
                     NextPlatform = DesiredPlatform,
                     () => EditorUtility.DisplayDialog("Juniper", "Could not change platform.", "OK"));
+            }
+        }
+
+        private static void EditorApplication_update()
+        {
+            if (!platforms.IsFileWatcherRunning)
+            {
+                RepaintWindow();
+            }
+        }
+
+        private static void Platforms_PackagesUpdated(AssetStorePackage[] packages)
+        {
+            assetStorePackages = packages;
+            RepaintWindow();
+        }
+
+        private static void RepaintWindow()
+        {
+            EditorWindow.GetWindow<JuniperConfigurationManager>().Repaint();
+        }
+
+        public void OnGUI()
+        {
+            titleContent = TITLE;
+
+            this.HeaderIndent("Status", () =>
+            {
+                this.Labeled("Build step", () => EditorGUILayout.LabelField(BuildStepName));
+            });
+
+            this.HeaderIndent("Platform", () =>
+            {
+                this.Labeled("Current Platform", () => EditorGUILayout.LabelField(CurrentPlatform.ToString()));
+                this.Labeled("Desired Platform", () => EditorGUILayout.DropdownButton(new GUIContent(DesiredPlatform.ToString(), "Select the desired build platform"), FocusType.Keyboard));
+            });
+
+            this.HeaderIndent("Packages", () =>
+            {
+                if (assetStorePackages == null || assetStorePackages.Length == 0)
+                {
+                    EditorGUILayout.LabelField("(Loading)", EditorStyles.centeredGreyMiniLabel);
+                }
+                else
+                {
+                    packageScrollPosition = EditorGUILayout.BeginScrollView(packageScrollPosition);
+                    foreach (var package in assetStorePackages.OrderBy(p => p.Name))
+                    {
+                        this.HGroup(() =>
+                        {
+                            var wasInstalled = package.IsInstalled;
+                            EditorGUILayout.LabelField(string.Format("{0} ({1})", Path.GetFileNameWithoutExtension(package.Name), Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent)));
+                            if (wasInstalled)
+                            {
+                                EditorGUILayout.LabelField("Installed");
+                            }
+                            else if(GUILayout.Button("Install", EditorStyles.label))
+                            {
+                                package.Install();
+                            }
+                        });
+                    }
+                    EditorGUILayout.EndScrollView();
+                }
+
+                if (!platforms.IsFileWatcherRunning)
+                {
+                    platforms.StartFileWatcher();
+                }
+            });
+        }
+
+        private static string BuildStepName
+        {
+            get
+            {
+                if (0 <= BuildProgress && BuildProgress < STAGES.Length)
+                {
+                    return STAGES[BuildProgress].Method.Name;
+                }
+                else
+                {
+                    return "Complete";
+                }
             }
         }
 
@@ -100,7 +195,6 @@ namespace Juniper.ConfigurationManagement
 
         private static bool Config_PlatformChanged()
         {
-            var platforms = new Platforms();
             if (!platforms.PlatformDB[config.NextPlatform].IsSupported)
             {
                 EditorUtility.DisplayDialog(
@@ -125,7 +219,7 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
-                return new Platforms().PlatformDB.Get(CurrentPlatform);
+                return platforms.PlatformDB.Get(CurrentPlatform);
             }
         }
 
@@ -133,7 +227,7 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
-                return new Platforms().PlatformDB.Get(NextPlatform);
+                return platforms.PlatformDB.Get(NextPlatform);
             }
         }
 
@@ -145,7 +239,6 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
-                var platforms = new Platforms();
                 var d = platforms.AllCompilerDefines.ToList();
                 d.Add(RECOMPILE_SLUG);
                 return d.Distinct().ToArray();
@@ -156,7 +249,13 @@ namespace Juniper.ConfigurationManagement
 
         private static bool MenuCheck(PlatformTypes p)
         {
-            return CurrentPlatform != p && new Platforms().PlatformDB[p].IsSupported;
+            return CurrentPlatform != p && platforms.PlatformDB[p].IsSupported;
+        }
+
+        [MenuItem(MENU_NAME + "Configuration Manager")]
+        public static void ShowJuniperWindow()
+        {
+            EditorWindow.GetWindow<JuniperConfigurationManager>();
         }
 
         #region Menu/Android
@@ -610,7 +709,7 @@ namespace Juniper.ConfigurationManagement
                 .Reverse()
                 .ToArray();
 
-            foreach(var targetGroup in targetGroups)
+            foreach (var targetGroup in targetGroups)
             {
                 PlayerSettings.SetScriptingDefineSymbolsForGroup(targetGroup, nextDefinesString);
             }

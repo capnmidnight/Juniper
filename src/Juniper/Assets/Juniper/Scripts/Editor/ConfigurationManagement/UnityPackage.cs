@@ -34,16 +34,13 @@ namespace Juniper.ConfigurationManagement
 
         internal static JObject Dependencies;
 
-        public override void Uninstall(IProgress prog = null)
+        public override bool IsInstalled
         {
-            base.Uninstall(prog);
-
-            if (Dependencies[Name] != null)
+            get
             {
-                Dependencies.Remove(Name);
+                var pkg = (string)Dependencies[Name];
+                return pkg == version;
             }
-
-            prog?.Report(1);
         }
 
         public override void Install(IProgress prog = null)
@@ -61,6 +58,18 @@ namespace Juniper.ConfigurationManagement
                     Dependencies[Name] = version;
                 }
 #endif
+            }
+
+            prog?.Report(1);
+        }
+
+        public override void Uninstall(IProgress prog = null)
+        {
+            base.Uninstall(prog);
+
+            if (Dependencies[Name] != null)
+            {
+                Dependencies.Remove(Name);
             }
 
             prog?.Report(1);

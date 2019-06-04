@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Juniper.ConfigurationManagement
 {
-    internal sealed class RawPackage : AbstractPackage
+    internal sealed class ZipPackage : AbstractPackage
     {
         public static string ROOT_DIRECTORY = PathExt.FixPath("Assets/Juniper/ThirdParty/Optional");
 
@@ -27,13 +27,30 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
+        public override bool IsInstalled
+        {
+            get
+            {
+                foreach(var file in Decompressor.FileNames(InputZipFileName))
+                {
+                    var installPath = Path.Combine("Assets", file);
+                    if(!File.Exists(installPath))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
         public override void Install(IProgress prog = null)
         {
             base.Install(prog);
 
             if (File.Exists(InputZipFileName))
             {
-                Decompressor.DecompressDirectory(InputZipFileName, "Assets", prog);
+                Decompressor.Decompress(InputZipFileName, "Assets", prog);
             }
 
             prog?.Report(1);
@@ -118,8 +135,8 @@ namespace Juniper.ConfigurationManagement
 
             var progs = prog.Split(4);
 
-            var dirs = Decompressor.RecurseDirectories(InputZipFileName, progs[2]);
-            var files = Decompressor.RecurseFiles(InputZipFileName, progs[0]);
+            var dirs = Decompressor.DirectoryNames(InputZipFileName);
+            var files = Decompressor.FileNames(InputZipFileName);
             files = files
                 .Union(files.Select(file => file + ".meta"))
                 .Union(dirs.Select(dir => dir + ".meta"))

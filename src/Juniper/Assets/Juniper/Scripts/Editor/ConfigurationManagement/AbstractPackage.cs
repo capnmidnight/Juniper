@@ -9,6 +9,11 @@ namespace Juniper.ConfigurationManagement
         public string Name;
         public string CompilerDefine;
 
+        public abstract bool IsInstalled
+        {
+            get;
+        }
+
         public virtual void Install(IProgress prog = null)
         {
             prog?.Report(0);

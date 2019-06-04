@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using System.Threading.Tasks;
+using Juniper.Compression.Tar.GZip;
 using Juniper.Progress;
 using Juniper.XR;
 
@@ -26,7 +27,7 @@ namespace Juniper.ConfigurationManagement
                 act?.Invoke(pkg, p), Debug.LogException);
         }
 
-        public static List<string> GetCompilerDefines(UnityPackage[] unityPackages, RawPackage[] rawPackages)
+        public static List<string> GetCompilerDefines(UnityPackage[] unityPackages, ZipPackage[] rawPackages)
         {
             return (from pkg in unityPackages
                     where pkg.version != "exclude"
@@ -38,11 +39,17 @@ namespace Juniper.ConfigurationManagement
                 .ToList();
         }
 
-        public readonly RawPackage[] allRawPackages;
+        public readonly ZipPackage[] allRawPackages;
         public readonly Dictionary<string, AbstractPackage> rawPackageDB;
+
+        public readonly List<AssetStorePackage> allAssetStorePackages;
+        private readonly Dictionary<string, DateTime> writeTimes;
+        private Task fileWatcherTask;
 
         public readonly PlatformConfiguration[] AllPlatforms;
         public readonly Dictionary<PlatformTypes, PlatformConfiguration> PlatformDB;
+
+        public event Action<AssetStorePackage[]> AssetStorePackagesUpdated;
 
         public string[] AllCompilerDefines
         {
@@ -57,8 +64,11 @@ namespace Juniper.ConfigurationManagement
 
         public Platforms()
         {
-            var rawPackageJson = File.ReadAllText(Path.Combine(RawPackage.ROOT_DIRECTORY, "packages.json"));
-            allRawPackages = JsonConvert.DeserializeObject<RawPackage[]>(rawPackageJson);
+            writeTimes = new Dictionary<string, DateTime>();
+            allAssetStorePackages = new List<AssetStorePackage>();
+
+            var rawPackageJson = File.ReadAllText(Path.Combine(ZipPackage.ROOT_DIRECTORY, "packages.json"));
+            allRawPackages = JsonConvert.DeserializeObject<ZipPackage[]>(rawPackageJson);
             rawPackageDB = allRawPackages.Cast<AbstractPackage>().ToDictionary(pkg => pkg.Name);
 
             var platformsJson = File.ReadAllText(PathExt.FixPath("Assets/Juniper/platforms.json"));
@@ -81,7 +91,7 @@ namespace Juniper.ConfigurationManagement
                 .ToArray();
 
             var commonRawPackages = commonPackages
-                .OfType<RawPackage>()
+                .OfType<ZipPackage>()
                 .ToArray();
 
             var platforms = config["platforms"];
@@ -112,7 +122,7 @@ namespace Juniper.ConfigurationManagement
                     .ToArray();
 
                 platform.UninstallableRawPackages = packages
-                    .OfType<RawPackage>()
+                    .OfType<ZipPackage>()
                     .ToArray();
 
                 platform.RawPackages = platform
@@ -120,6 +130,44 @@ namespace Juniper.ConfigurationManagement
                     .Union(commonRawPackages)
                     .ToArray();
             }
+        }
+
+        private int counter = 0;
+        private void FileWatcher()
+        {
+            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var packages = Decompressor.FindUnityPackages(
+                Path.Combine(userProfile, "AppData", "Roaming", "Unity", "Asset Store-5.x"),
+                Path.Combine(userProfile, "Projects", "Packages"));
+            var package = (from path in packages
+                           let file = new FileInfo(path)
+                           where file.LastWriteTime > writeTimes.Get(file.FullName, DateTime.MinValue)
+                           select new AssetStorePackage(file))
+                        .FirstOrDefault();
+            if (package != null)
+            {
+                writeTimes[package.InputUnityPackageFile] = package.LastWriteTime;
+                allAssetStorePackages.Add(package);
+            }
+            allAssetStorePackages[counter % allAssetStorePackages.Count].UpdateStats();
+            ++counter;
+            AssetStorePackagesUpdated?.Invoke(allAssetStorePackages.ToArray());
+        }
+
+        public bool IsFileWatcherRunning
+        {
+            get
+            {
+                return fileWatcherTask != null
+                    && !fileWatcherTask.IsCanceled
+                    && !fileWatcherTask.IsCompleted
+                    && !fileWatcherTask.IsFaulted;
+            }
+        }
+
+        public void StartFileWatcher()
+        {
+            fileWatcherTask = Task.Run(FileWatcher);
         }
 
         private AbstractPackage[] ParsePackages(string[] packages)
