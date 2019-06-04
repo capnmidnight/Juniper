@@ -42,6 +42,7 @@
     <Compile Include="IEnumerableExtTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingleStatisticsTests.cs" />
+    <Compile Include="FileTreeTests.cs" />
     <Compile Include="ZipTest.cs" />
   </ItemGroup>
   <ItemGroup>

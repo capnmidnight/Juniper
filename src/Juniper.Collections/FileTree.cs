@@ -8,7 +8,7 @@ namespace Juniper.Collections
     /// <summary>
     /// A representation of files in a tree structure by directory.
     /// </summary>
-    public class FileTree : NAryTree<string>
+    public class FileTree : NAryTree<string, FileTree>
     {
         public readonly bool IsDirectory;
 
@@ -18,33 +18,38 @@ namespace Juniper.Collections
             IsDirectory = isDirectory;
         }
 
-        public FileTree() : this("", true) { }
+        public FileTree(string root) : this(root, true) { }
 
         public void AddPath(string path, bool isDirectory)
         {
             path = PathExt.FixPath(path);
-            var parts = new Queue<string>(path.Split(Path.DirectorySeparatorChar));
-            var here = this;
-            while (parts.Count > 0 && here != null)
+            var parts = path.Split(Path.DirectorySeparatorChar);
+            var q = new Queue<string>(parts);
+            var parent = q.Dequeue();
+            if (parent == Value)
             {
-                var pathPart = parts.Dequeue();
-                FileTree next = null;
-                foreach (var child in here.children)
+                var here = this;
+                while (q.Count > 0 && here != null)
                 {
-                    if (child.Value == pathPart)
+                    var pathPart = q.Dequeue();
+                    FileTree next = null;
+                    foreach (var child in here.children)
                     {
-                        next = (FileTree)child;
-                        break;
+                        if (child.Value == pathPart)
+                        {
+                            next = (FileTree)child;
+                            break;
+                        }
                     }
-                }
 
-                if (next == null)
-                {
-                    next = new FileTree(pathPart, parts.Count > 0 || isDirectory);
-                    Add(next);
-                }
+                    if (next == null)
+                    {
+                        next = new FileTree(pathPart, q.Count > 0 || isDirectory);
+                        here.Add(next);
+                    }
 
-                here = next;
+                    here = next;
+                }
             }
         }
 
@@ -70,9 +75,11 @@ namespace Juniper.Collections
         public void Delete(string root)
         {
             var stack = new Stack<string>();
-            var q = new Queue<FileTree>();
-            q.Add(this);
-            while(q.Count > 0)
+            var q = new Queue<FileTree>
+            {
+                this
+            };
+            while (q.Count > 0)
             {
                 var here = q.Dequeue();
                 if (!here.IsDirectory)
@@ -85,7 +92,7 @@ namespace Juniper.Collections
                 }
             }
 
-            while(stack.Count > 0)
+            while (stack.Count > 0)
             {
                 var here = stack.Pop();
                 var path = Path.Combine(root, here);

@@ -8,7 +8,8 @@ namespace Juniper.Collections
     /// A node in an N-ary tree.
     /// </summary>
     /// <typeparam name="T">Any type of object</typeparam>
-    public class NAryTree<T>
+    public class NAryTree<T, U>
+        where U : NAryTree<T, U>
     {
         /// <summary>
         /// The value stored in this node.
@@ -18,17 +19,12 @@ namespace Juniper.Collections
         /// <summary>
         /// All nodes below the current node.
         /// </summary>
-        protected readonly List<NAryTree<T>> children;
-
-        /// <summary>
-        /// How deep into the tree is this branch
-        /// </summary>
-        private int depth;
+        public readonly List<NAryTree<T, U>> children;
 
         /// <summary>
         /// The next node above the current node.
         /// </summary>
-        protected NAryTree<T> parent;
+        protected NAryTree<T, U> parent;
 
         /// <summary>
         /// Creates a root node with no children.
@@ -37,8 +33,26 @@ namespace Juniper.Collections
         public NAryTree(T value)
         {
             Value = value;
-            depth = 0;
-            children = new List<NAryTree<T>>(3);
+            children = new List<NAryTree<T, U>>(3);
+        }
+
+        /// <summary>
+        /// How deep into the tree is this branch
+        /// </summary>
+        protected int Depth
+        {
+            get
+            {
+                var depth = 0;
+                var here = this;
+                while (here != null)
+                {
+                    ++depth;
+                    here = here.parent;
+                }
+
+                return depth;
+            }
         }
 
         /// <summary>
@@ -67,11 +81,10 @@ namespace Juniper.Collections
         /// Add an element as a child of the node.
         /// </summary>
         /// <param name="node">The node to add.</param>
-        public void Add(NAryTree<T> node)
+        public void Add(NAryTree<T, U> node)
         {
             children.Add(node);
             node.parent = this;
-            node.IncreaseDepth();
         }
 
         /// <summary>
@@ -80,7 +93,7 @@ namespace Juniper.Collections
         /// <param name="value">The value to store.</param>
         public void Add(T value)
         {
-            Add(new NAryTree<T>(value));
+            Add(new NAryTree<T, U>(value));
         }
 
         /// <summary>
@@ -92,7 +105,7 @@ namespace Juniper.Collections
             var sb = new StringBuilder();
             Recurse(here =>
             {
-                for (var i = 0; i < here.depth; ++i)
+                for (var i = 0; i < here.Depth; ++i)
                 {
                     sb.Append("--");
                 }
@@ -106,25 +119,20 @@ namespace Juniper.Collections
         /// stack frame.
         /// </summary>
         /// <param name="act">Act.</param>
-        protected void Recurse(Action<NAryTree<T>> act)
+        public void Recurse(Action<U> act)
         {
             // how to do recursion without killing the function call stack
-            var stack = new Stack<NAryTree<T>>();
-            stack.Push(this);
+            var stack = new Stack<U>();
+            stack.Push((U)this);
             while (stack.Count > 0)
             {
                 var here = stack.Pop();
-                here.children.ForEach(stack.Push);
                 act(here);
+                foreach (var child in here.children)
+                {
+                    stack.Push((U)child);
+                }
             }
-        }
-
-        /// <summary>
-        /// Increase the depth of this and any child nodes.
-        /// </summary>
-        private void IncreaseDepth()
-        {
-            Recurse(here => ++here.depth);
         }
     }
 }
