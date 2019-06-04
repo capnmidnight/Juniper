@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
 
 using Juniper.Collections;
+using Juniper.Progress;
 
 namespace Juniper.Compression.Tar.GZip
 {
@@ -15,14 +17,14 @@ namespace Juniper.Compression.Tar.GZip
     public static class Decompressor
     {
         /// <summary>
-        /// Enumerates all of the entires in a single TAR archive so that it can be used
+        /// Enumerates all of the entires in a single Tar archive so that it can be used
         /// more easily with c#'s for-each.
         /// </summary>
         /// <param name="tar"></param>
         /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
         /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
         /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
-        public static IEnumerable<T> Entries<T>(this TarInputStream tar, Func<TarEntry, TarInputStream, bool> checkEntry, Func<TarEntry, TarInputStream, T> eachEntry)
+        public static IEnumerable<T> Select<T>(this TarInputStream tar, Func<TarEntry, TarInputStream, bool> checkEntry, Func<TarEntry, TarInputStream, T> eachEntry)
         {
             TarEntry entry;
             while ((entry = tar.GetNextEntry()) != null)
@@ -35,15 +37,52 @@ namespace Juniper.Compression.Tar.GZip
         }
 
         /// <summary>
-        /// Enumerates all of the entires in a single TAR archive so that it can be used
+        /// Lists all of the entries (both files and directories) in a Tar file.
+        /// </summary>
+        /// <param name="inputTarFile">A file-path to the Tar file to scan.</param>
+        /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
+        /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
+        /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
+        private static IEnumerable<T> Select<T>(string inputTarFile, Func<TarEntry, TarInputStream, bool> checkEntry, Func<TarEntry, TarInputStream, T> eachEntry)
+        {
+            if (!File.Exists(inputTarFile))
+            {
+                throw new FileNotFoundException("File not found! " + inputTarFile, inputTarFile);
+            }
+            else
+            {
+                using (var tar = new TarInputStream(File.OpenRead(inputTarFile)))
+                {
+                    tar.IsStreamOwner = true;
+                    return tar.Select(checkEntry, eachEntry);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Enumerates all of the entires in a single Tar archive so that it can be used
         /// more easily with c#'s for-each.
         /// </summary>
         /// <param name="tar"></param>
         /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
         /// <returns>A lazy collection of TarEntry objects, as filtered by <paramref name="checkEntry"/>.</returns>
-        public static IEnumerable<TarEntry> Entries(this TarInputStream tar, Func<TarEntry, TarInputStream, bool> checkEntry)
+        public static IEnumerable<TarEntry> Select(this TarInputStream tar, Func<TarEntry, TarInputStream, bool> checkEntry)
         {
-            return tar.Entries(
+            return tar.Select(
+                checkEntry,
+                (entry, _) => entry);
+        }
+
+        /// <summary>
+        /// Lists all of the entries (both files and directories) in a Tar file.
+        /// </summary>
+        /// <param name="inputTarFile">A file-path to the Tar file to scan.</param>
+        /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
+        /// <returns>A lazy collection of TarEntries</returns>
+        public static IEnumerable<TarEntry> Select(string inputTarFile, Func<TarEntry, TarInputStream, bool> checkEntry)
+        {
+            return Select(
+                inputTarFile,
                 checkEntry,
                 (entry, _) => entry);
         }
@@ -53,51 +92,131 @@ namespace Juniper.Compression.Tar.GZip
         /// more easily with c#'s for-each.
         /// </summary>
         /// <param name="tar"></param>
-        /// <returns>A lazy collection of TarEntry objects.</returns>
-        public static IEnumerable<TarEntry> Entries(this TarInputStream tar)
+        /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
+        /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
+        public static void ForEach(this TarInputStream tar, Action<TarEntry, TarInputStream> eachEntry)
         {
-            return tar.Entries(
-                (_, __) => true,
-                (entry, _) => entry);
+            TarEntry entry;
+            while ((entry = tar.GetNextEntry()) != null)
+            {
+                eachEntry(entry, tar);
+            }
         }
 
         /// <summary>
-        /// Lists all of the entries (both files and directories) in a TGZ file.
+        /// Enumerates all of the entires in a single TAR archive so that it can be used
+        /// more easily with c#'s for-each.
         /// </summary>
-        /// <param name="inputTgzFile">A file-path to the TGZ file to scan.</param>
-        /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
+        /// <param name="inputTarFile">A file-path to the Tar file to scan.</param>
         /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
         /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
-        private static IEnumerable<T> WithTGZ<T>(string inputTgzFile, Func<TarEntry, TarInputStream, bool> checkEntry, Func<TarEntry, TarInputStream, T> eachEntry)
+        public static void ForEach(string inputTarFile, Action<TarEntry, TarInputStream> eachEntry)
         {
-            if (!File.Exists(inputTgzFile))
+            if (!File.Exists(inputTarFile))
             {
-                throw new FileNotFoundException("File not found! " + inputTgzFile, inputTgzFile);
+                throw new FileNotFoundException("File not found! " + inputTarFile, inputTarFile);
             }
             else
             {
-                using (var gzip = new GZipInputStream(File.OpenRead(inputTgzFile)))
-                using (var tar = new TarInputStream(gzip))
+                using (var tar = new TarInputStream(File.OpenRead(inputTarFile)))
                 {
                     tar.IsStreamOwner = true;
-                    return tar.Entries(checkEntry, eachEntry);
+                    TarEntry entry;
+                    while ((entry = tar.GetNextEntry()) != null)
+                    {
+                        eachEntry(entry, tar);
+                    }
                 }
             }
         }
 
         /// <summary>
-        /// Lists all of the entries (both files and directories) in a TGZ file.
+        /// Enumerates all of the entires in a single Tar archive so that it can be used
+        /// more easily with c#'s for-each.
         /// </summary>
-        /// <param name="inputTgzFile">A file-path to the TGZ file to scan.</param>
-        /// <returns>A lazy collection of TarEntries</returns>
-        public static IEnumerable<TarEntry> Entries(string inputTgzFile)
+        /// <param name="tar"></param>
+        /// <returns>A lazy collection of TarEntry objects.</returns>
+        public static IEnumerable<TarEntry> Select(this TarInputStream tar)
         {
-            return WithTGZ(
-                inputTgzFile,
-                null,
+            return tar.Select(
+                (_, __) => true,
                 (entry, _) => entry);
         }
 
+        /// <summary>
+        /// Lists all of the entries (both files and directories) in a Tar file.
+        /// </summary>
+        /// <param name="inputTarFile">A file-path to the Tar file to scan.</param>
+        /// <returns>A lazy collection of TarEntries</returns>
+        public static IEnumerable<TarEntry> Select(string inputTarFile)
+        {
+            return Select(
+                inputTarFile,
+                (_, __) => true,
+                (entry, _) => entry);
+        }
+
+        /// <summary>
+        /// Dump the contents of a tar file out to disk.
+        /// </summary>
+        /// <param name="inputTarFile">The tar file to decompress</param>
+        /// <param name="outputDirectory">The location to which to dump the files.</param>
+        /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
+        /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
+        public static void Decompress(string inputTarFile, string outputDirectory, IProgress prog = null, Action<Exception> error = null)
+        {
+            prog?.Report(0);
+            if (!File.Exists(inputTarFile))
+            {
+                throw new FileNotFoundException("File not found! " + inputTarFile, inputTarFile);
+            }
+            else
+            {
+                ForEach(inputTarFile, (tarEntry, tarStream) =>
+                {
+                    var fullTarToPath = Path.Combine(outputDirectory, tarEntry.Name);
+                    if (tarEntry.IsDirectory)
+                    {
+                        DirectoryExt.CreateDirectory(fullTarToPath);
+                    }
+                    else if (!File.Exists(fullTarToPath)
+                        || FileExt.TryDelete(fullTarToPath))
+                    {
+                        var directoryName = Path.GetDirectoryName(fullTarToPath);
+                        if (directoryName.Length > 0)
+                        {
+                            DirectoryExt.CreateDirectory(directoryName);
+                        }
+
+                        tarStream.CopyTo(File.Create(fullTarToPath));
+                    }
+                });
+            }
+        }
+
+        /// <summary>
+        /// Get the names of all the directories in the zip file.
+        /// </summary>
+        /// <param name="inputTarFile"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> DirectoryNames(string inputTarFile)
+        {
+            return Select(inputTarFile,
+                (entry, _) => entry.IsDirectory,
+                (entry, _) => entry.Name);
+        }
+
+        /// <summary>
+        /// Get the names of all the files in the zip file.
+        /// </summary>
+        /// <param name="inputTarFile"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> FileNames(string inputTarFile)
+        {
+            return Select(inputTarFile,
+                (entry, _) => !entry.IsDirectory,
+                (entry, _) => entry.Name);
+        }
 
         /// <summary>
         /// Find all of the UnityPackage files in all subdirectories of the given root
@@ -105,11 +224,11 @@ namespace Juniper.Compression.Tar.GZip
         /// </summary>
         /// <param name="searchPaths"></param>
         /// <returns></returns>
-        public static IEnumerable<string> UnityPackageFiles(params string[] searchPaths)
+        public static IEnumerable<string> FindUnityPackages(params string[] searchPaths)
         {
             return from path in searchPaths
-                   from subDir in DirectoryExt.RecurseDirectories(path)
-                   from file in Directory.GetFiles(subDir, "*.unitypackage")
+                   where Directory.Exists(path)
+                   from file in Directory.GetFiles(path, "*.unitypackage", SearchOption.AllDirectories)
                    select file;
         }
 
@@ -118,36 +237,47 @@ namespace Juniper.Compression.Tar.GZip
         /// </summary>
         /// <param name="inputPackageFile">The .unitypackage file to read</param>
         /// <returns>A lazy collection of filenames.</returns>
-        public static FileTree UnityPackageContent(string inputPackageFile)
+        public static IEnumerable<string> UnityPackageFiles(string inputPackageFile)
         {
             if (!File.Exists(inputPackageFile))
             {
                 throw new FileNotFoundException("File not found! " + inputPackageFile, inputPackageFile);
             }
-            else
+            using (var inputStream = new GZipInputStream(File.OpenRead(inputPackageFile)))
             {
-                using (var inStream = new GZipInputStream(File.OpenRead(inputPackageFile)))
-                using (var tar = new TarInputStream(inStream))
+                using (var tarInputStream = new TarInputStream(inputStream))
                 {
-                    tar.IsStreamOwner = true;
-                    var tree = new FileTree();
-                    foreach (var entry in tar.Entries())
+                    tarInputStream.IsStreamOwner = true;
+                    foreach (var item in tarInputStream.Select())
                     {
-                        if (!entry.IsDirectory && entry.Name == "pathname")
+                        if (!item.IsDirectory && item.Name.EndsWith("/pathname"))
                         {
-                            var mem = new MemoryStream((int)entry.Size);
-                            tar.CopyEntryContents(mem);
-                            mem.Flush();
-                            mem.Position = 0;
-                            var streamReader = new StreamReader(mem);
-                            var name = streamReader.ReadLine();
-                            tree.AddPath(name, false);
+                            var memoryStream = new MemoryStream((int)item.Size);
+                            tarInputStream.CopyEntryContents(memoryStream);
+                            memoryStream.Flush();
+                            memoryStream.Position = 0L;
+                            var streamReader = new StreamReader(memoryStream);
+                            var path = streamReader.ReadLine();
+                            yield return path;
                         }
                     }
-
-                    return tree;
                 }
             }
+        }
+
+        /// <summary>
+        /// Read the names of all the files contained in a .unitypackage file.
+        /// </summary>
+        /// <param name="inputPackageFile">The .unitypackage file to read</param>
+        /// <returns>A hierarchical tree of file paths.</returns>
+        public static FileTree UnityPackageTree(string inputPackageFile)
+        {
+            var fileTree = new FileTree("Assets");
+            foreach (var file in UnityPackageFiles(inputPackageFile))
+            {
+                fileTree.AddPath(file, false);
+            }
+            return fileTree;
         }
     }
 }

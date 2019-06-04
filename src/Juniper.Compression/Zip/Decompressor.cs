@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 using ICSharpCode.SharpZipLib.Zip;
 
@@ -50,13 +49,153 @@ namespace Juniper.Compression.Zip
         }
 
         /// <summary>
+        /// Enumerates all of the entires in a single Zip archive so that it can be used
+        /// more easily with c#'s for-each.
+        /// </summary>
+        /// <param name="zip"></param>
+        /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
+        /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
+        /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
+        public static IEnumerable<T> Select<T>(this ZipInputStream zip, Func<ZipEntry, ZipInputStream, bool> checkEntry, Func<ZipEntry, ZipInputStream, T> eachEntry)
+        {
+            ZipEntry entry;
+            while ((entry = zip.GetNextEntry()) != null)
+            {
+                if (checkEntry(entry, zip))
+                {
+                    yield return eachEntry(entry, zip);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Lists all of the entries (both files and directories) in a Zip file.
+        /// </summary>
+        /// <param name="inputZipFile">A file-path to the Zip file to scan.</param>
+        /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
+        /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
+        /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
+        private static IEnumerable<T> Select<T>(string inputZipFile, Func<ZipEntry, ZipInputStream, bool> checkEntry, Func<ZipEntry, ZipInputStream, T> eachEntry)
+        {
+            if (!File.Exists(inputZipFile))
+            {
+                throw new FileNotFoundException("File not found! " + inputZipFile, inputZipFile);
+            }
+            else
+            {
+                using (var zip = new ZipInputStream(File.OpenRead(inputZipFile)))
+                {
+                    zip.IsStreamOwner = true;
+                    return zip.Select(checkEntry, eachEntry);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Enumerates all of the entires in a single Zip archive so that it can be used
+        /// more easily with c#'s for-each.
+        /// </summary>
+        /// <param name="zip"></param>
+        /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
+        /// <returns>A lazy collection of ZipEntry objects, as filtered by <paramref name="checkEntry"/>.</returns>
+        public static IEnumerable<ZipEntry> Select(this ZipInputStream zip, Func<ZipEntry, ZipInputStream, bool> checkEntry)
+        {
+            return zip.Select(
+                checkEntry,
+                (entry, _) => entry);
+        }
+
+        /// <summary>
+        /// Lists all of the entries (both files and directories) in a Zip file.
+        /// </summary>
+        /// <param name="inputZipFile">A file-path to the Zip file to scan.</param>
+        /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
+        /// <returns>A lazy collection of ZipEntries</returns>
+        public static IEnumerable<ZipEntry> Select(string inputZipFile, Func<ZipEntry, ZipInputStream, bool> checkEntry)
+        {
+            return Select(
+                inputZipFile,
+                checkEntry,
+                (entry, _) => entry);
+        }
+
+        /// <summary>
+        /// Enumerates all of the entires in a single Zip archive so that it can be used
+        /// more easily with c#'s for-each.
+        /// </summary>
+        /// <param name="zip"></param>
+        /// <returns>A lazy collection of ZipEntry objects.</returns>
+        public static IEnumerable<ZipEntry> Select(this ZipInputStream zip)
+        {
+            return zip.Select(
+                (_, __) => true,
+                (entry, _) => entry);
+        }
+
+        /// <summary>
+        /// Lists all of the entries (both files and directories) in a Zip file.
+        /// </summary>
+        /// <param name="inputZipFile">A file-path to the Zip file to scan.</param>
+        /// <returns>A lazy collection of ZipEntries</returns>
+        public static IEnumerable<ZipEntry> Select(string inputZipFile)
+        {
+            return Select(
+                inputZipFile,
+                (_, __) => true,
+                (entry, _) => entry);
+        }
+
+        /// <summary>
+        /// Enumerates all of the entires in a single TAR archive so that it can be used
+        /// more easily with c#'s for-each.
+        /// </summary>
+        /// <param name="zip"></param>
+        /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
+        /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
+        public static void ForEach(this ZipInputStream zip, Action<ZipEntry, ZipInputStream> eachEntry)
+        {
+            ZipEntry entry;
+            while ((entry = zip.GetNextEntry()) != null)
+            {
+                eachEntry(entry, zip);
+            }
+        }
+
+        /// <summary>
+        /// Enumerates all of the entires in a single TAR archive so that it can be used
+        /// more easily with c#'s for-each.
+        /// </summary>
+        /// <param name="inputZipFile">A file-path to the Zip file to scan.</param>
+        /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
+        /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
+        public static void ForEach(string inputZipFile, Action<ZipEntry, ZipInputStream> eachEntry)
+        {
+            if (!File.Exists(inputZipFile))
+            {
+                throw new FileNotFoundException("File not found! " + inputZipFile, inputZipFile);
+            }
+            else
+            {
+                using (var zip = new ZipInputStream(File.OpenRead(inputZipFile)))
+                {
+                    zip.IsStreamOwner = true;
+                    ZipEntry entry;
+                    while ((entry = zip.GetNextEntry()) != null)
+                    {
+                        eachEntry(entry, zip);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Dump the contents of a zip file out to disk.
         /// </summary>
         /// <param name="inputZipFile">The zip file to decompress</param>
         /// <param name="outputDirectory">The location to which to dump the files.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
-        public static void DecompressDirectory(string inputZipFile, string outputDirectory, IProgress prog = null, Action<Exception> error = null)
+        public static void Decompress(string inputZipFile, string outputDirectory, IProgress prog = null, Action<Exception> error = null)
         {
             prog?.Report(0);
             if (!File.Exists(inputZipFile))
@@ -65,98 +204,51 @@ namespace Juniper.Compression.Zip
             }
             else
             {
-                using (var zf = new ZipFile(inputZipFile))
+                ForEach(inputZipFile, (zipEntry, zipStream) =>
                 {
-                    zf.IsStreamOwner = true;
-                    prog.ForEach(zf.Cast<ZipEntry>(), (zipEntry, p) =>
+                    var fullZipToPath = Path.Combine(outputDirectory, zipEntry.Name);
+                    if (zipEntry.IsDirectory)
                     {
-                        var fullZipToPath = Path.Combine(outputDirectory, zipEntry.Name);
-                        if (zipEntry.IsDirectory)
-                        {
-                            DirectoryExt.CreateDirectory(fullZipToPath);
-                        }
-                        else if (zipEntry.IsFile
-                            && (!File.Exists(fullZipToPath)
-                                || FileExt.TryDelete(fullZipToPath)))
-                        {
-                            var directoryName = Path.GetDirectoryName(fullZipToPath);
-                            if (directoryName.Length > 0)
-                            {
-                                DirectoryExt.CreateDirectory(directoryName);
-                            }
-
-                            using (var zipStream = zf.GetInputStream(zipEntry))
-                            using (var streamWriter = new ProgressStream(File.Create(fullZipToPath), zipEntry.Size, p))
-                            {
-                                zipStream.CopyTo(streamWriter);
-                            }
-                        }
-                    }, error);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Lists all of the entries (both files and directories) in a zip file.
-        /// </summary>
-        /// <param name="inputZipFile">A file-path to the zip file to scan.</param>
-        /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
-        /// <returns>A lazy collection of ZipEntries</returns>
-        public static IEnumerable<ZipEntry> ZipEntries(string inputZipFile, IProgress prog = null)
-        {
-            prog?.Report(0);
-
-            if (File.Exists(inputZipFile))
-            {
-                using (var zf = new ZipFile(inputZipFile))
-                {
-                    zf.IsStreamOwner = true;
-                    var progs = prog.Split(zf.Count);
-                    for (var i = 0; i < zf.Count; ++i)
-                    {
-                        var p = progs[i];
-                        p?.Report(0);
-
-                        yield return zf[i];
+                        DirectoryExt.CreateDirectory(fullZipToPath);
                     }
-                }
-            }
+                    else if (zipEntry.IsFile
+                        && (!File.Exists(fullZipToPath)
+                            || FileExt.TryDelete(fullZipToPath)))
+                    {
+                        var directoryName = Path.GetDirectoryName(fullZipToPath);
+                        if (directoryName.Length > 0)
+                        {
+                            DirectoryExt.CreateDirectory(directoryName);
+                        }
 
-            prog?.Report(1);
-        }
-
-        /// <summary>
-        /// Lists all of the files in a zip file.
-        /// </summary>
-        /// <param name="inputZipFile">A file-path to the zip file to scan.</param>
-        /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
-        /// <returns>A lazy collection of ZipEntries that are files.</returns>
-        public static IEnumerable<string> RecurseFiles(string inputZipFile, IProgress prog = null)
-        {
-            foreach (var zipEntry in ZipEntries(inputZipFile, prog))
-            {
-                if (zipEntry.IsFile)
-                {
-                    yield return PathExt.FixPath(zipEntry.Name);
-                }
+                        zipStream.CopyTo(File.Create(fullZipToPath));
+                    }
+                });
             }
         }
 
         /// <summary>
-        /// Lists all of the directories in a zip file.
+        /// Get the names of all the directories in the zip file.
         /// </summary>
-        /// <param name="inputZipFile">A file-path to the zip file to scan.</param>
-        /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
-        /// <returns>A lazy collection of ZipEntries that are directories.</returns>
-        public static IEnumerable<string> RecurseDirectories(string inputZipFile, IProgress prog = null)
+        /// <param name="inputZipFile"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> DirectoryNames(string inputZipFile)
         {
-            foreach (var zipEntry in ZipEntries(inputZipFile, prog))
-            {
-                if (zipEntry.IsDirectory)
-                {
-                    yield return PathExt.FixPath(zipEntry.Name);
-                }
-            }
+            return Select(inputZipFile,
+                (entry, _) => entry.IsDirectory,
+                (entry, _) => entry.Name);
+        }
+
+        /// <summary>
+        /// Get the names of all the files in the zip file.
+        /// </summary>
+        /// <param name="inputZipFile"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> FileNames(string inputZipFile)
+        {
+            return Select(inputZipFile,
+                (entry, _) => entry.IsFile,
+                (entry, _) => entry.Name);
         }
     }
 }

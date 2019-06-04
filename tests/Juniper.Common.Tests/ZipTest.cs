@@ -33,7 +33,7 @@ namespace Juniper.Compression.Zip.Tests
         public void DecompressDirectory()
         {
             var outDir = Path.GetTempPath();
-            Decompressor.DecompressDirectory(TestZip, outDir, null, Reject);
+            Decompressor.Decompress(TestZip, outDir, null, Reject);
             var outFile = Path.Combine(outDir, TestFile);
             var text = File.ReadAllText(outFile);
             Assert.AreEqual(TestFileLength, text.Length);
