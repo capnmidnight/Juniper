@@ -97,6 +97,8 @@
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
       "com.unity.xr.oculus.android@1.36.0",
+      "com.unity.xr.oculus.standalone@1.36.0",
+      "com.unity.xr.openvr.standalone@1.0.5",
       "Oculus"
     ]
   },
