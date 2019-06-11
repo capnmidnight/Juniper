@@ -1,9 +1,9 @@
 using System;
-using System.IO;
 using System.Runtime.Serialization;
 
 using Juniper.Climate;
 using Juniper.HTTP;
+using Juniper.Json;
 using Juniper.Progress;
 using Juniper.Units;
 using Juniper.World.GIS;
@@ -172,7 +172,8 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 var url = $"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Latitude}&lon={location.Longitude}&units={units}&appid={apiKey}";
                 try
                 {
-                    var results = await Requester.GetStream(url, "application/json", prog);
+                    var requester = new Requester(url).Accept("application/json");
+                    var results = await requester.Get(prog);
                     var httpStatus = results.Status;
                     var report = results.Value.ReadObject<WeatherReport>();
                     if (report == null)

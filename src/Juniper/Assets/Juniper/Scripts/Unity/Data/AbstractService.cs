@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Juniper.HTTP;
+using Juniper.Json;
 
 namespace Juniper.Data
 {
@@ -150,7 +151,15 @@ namespace Juniper.Data
                 Query = string.Join("&", parameters)
             }.ToString();
 
-            var stream = await Requester.GetStream(uri, authPair?.Key, authPair?.Value, "application/json");
+            var requester = new Requester(uri)
+                .Accept("application/json");
+
+            if(authPair != null)
+            {
+                requester = requester.BasicAuth(authPair.Value.Key, authPair.Value.Value);
+            }
+
+            var stream = await requester.Get();
             return new Result<ResponseT>(stream.Status, stream.MIMEType, stream.Value.ReadObject<ResponseT>());
         }
 
@@ -163,7 +172,17 @@ namespace Juniper.Data
         protected async Task<Result<ResponseT>> PostObject<ResponseT, BodyT>(string name, BodyT requestBody)
         {
             var uri = new UriBuilder(scheme, address, port, $"{app}/{name}").ToString();
-            var stream = await Requester.PostStream(uri, authPair?.Key, authPair?.Value, requestBody.WriteObject(), "application/json");
+
+            var requester = new Requester(uri)
+                .Accept("application/json");
+
+            if (authPair != null)
+            {
+                requester = requester.BasicAuth(authPair.Value.Key, authPair.Value.Value);
+            }
+
+            var stream = await requester.Post(requestBody.WriteObject());
+
             return new Result<ResponseT>(stream.Status, stream.MIMEType, stream.Value.ReadObject<ResponseT>());
         }
 

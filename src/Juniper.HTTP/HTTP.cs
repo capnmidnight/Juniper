@@ -10,46 +10,72 @@ namespace Juniper.HTTP
     /// <summary>
     /// Perform HTTP queries
     /// </summary>
-    public static class Requester
+    public class Requester
     {
+        private HttpWebRequest request;
+
         /// <summary>
-        /// Create the basic request object.
+        /// Creates a new HTTP request object that can be modified in-place before
+        /// being sent across the web.
         /// </summary>
-        /// <param name="method">GET/PUT/POST/etc.</param>
-        /// <param name="url"></param>
+        /// <param name="url">The URL to request</param>
+        public Requester(string url)
+        {
+            request = (HttpWebRequest)WebRequest.Create(url);
+        }
+
+        /// <summary>
+        /// Set an arbitrary header value on the HTTP request.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public Requester Header(string name, object value)
+        {
+            request.Headers.Add(name, value.ToString());
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the Authorization header for the request, using Basic
+        /// HTTP auth.
+        /// </summary>
         /// <param name="userName">Basic HTTP authentication user name.</param>
         /// <param name="password">Basic HTTP authentication user password.</param>
-        /// <param name="acceptType">The MIME type of the expected response.</param>
-        /// <returns>A web request object</returns>
-        private static HttpWebRequest MakeRequest(string method, string url, string userName, string password, string acceptType)
+        /// <returns>The requester object, to enable a literate interface.</returns>
+        public Requester BasicAuth(string userName, string password)
         {
-            var request = (HttpWebRequest)WebRequest.Create(url);
-
-            request.Method = method;
-
             if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
             {
                 var authPair = userName + ":" + password;
                 var authBytes = Encoding.UTF8.GetBytes(authPair);
                 var auth64 = Convert.ToBase64String(authBytes);
-                request.Headers.Add("Authorization", "Basic " + auth64);
+                Header("Authorization", "Basic " + auth64);
             }
 
+            return this;
+        }
+
+        /// <summary>Sets the MIME-type that we expect to come back from the server.</summary>
+        /// <param name="acceptType">The MIME type of the expected response.</param>
+        /// <returns>The requester object, to enable a literate interface.</returns>
+        public Requester Accept(string acceptType)
+        {
             if (!string.IsNullOrEmpty(acceptType))
             {
                 request.Accept = acceptType;
             }
 
-            return request;
+            return this;
         }
 
         /// <summary>
         /// Reads the body from an HTTP response.
         /// </summary>
-        /// <param name="request">The request that initiated the response</param>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        private static async Task<StreamResult> HandleResponse(HttpWebRequest request, IProgress prog = null)
+        private async Task<StreamResult> HandleResponse(IProgress prog)
         {
             using (var response = (HttpWebResponse)await request.GetResponseAsync())
             {
@@ -57,7 +83,7 @@ namespace Juniper.HTTP
                 {
                     return new StreamResult(
                         response.StatusCode,
-                        null,
+                        response.ContentType,
                         null);
                 }
                 else
@@ -71,18 +97,21 @@ namespace Juniper.HTTP
         }
 
         /// <summary>
-        /// Perform a POST request, writing the body through a stream, and return the results as a stream.
+        /// Sets the HTTP method of the request object.
         /// </summary>
-        /// <param name="url">The URL to request</param>
-        /// <param name="userName">Basic HTTP authentication user name.</param>
-        /// <param name="password">Basic HTTP authentication user password.</param>
-        /// <param name="writeBody">A callback function for writing the body to a stream</param>
-        /// <param name="acceptType">The MIME of the expected response</param>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<StreamResult> PostStream(string url, string userName, string password, Func<Stream, BodyInfo> writeBody, string acceptType, IProgress prog = null)
+        /// <param name="method"></param>
+        private void SetMethod(string method)
         {
-            var request = MakeRequest("POST", url, userName, password, acceptType);
+            request.Method = method;
+
+            if (string.IsNullOrEmpty(request.Accept))
+            {
+                request.Accept = "application/octet-stream";
+            }
+        }
+
+        private async Task WriteBody(Func<Stream, BodyInfo> writeBody)
+        {
             using (var stream = await request.GetRequestStreamAsync())
             {
                 var contentInfo = writeBody(stream);
@@ -97,103 +126,87 @@ namespace Juniper.HTTP
                     }
                 }
             }
-
-            return await HandleResponse(request, prog);
         }
 
         /// <summary>
         /// Perform a POST request, writing the body through a stream, and return the results as a stream.
         /// </summary>
-        /// <param name="url">The URL to request</param>
-        /// <param name="userName">Basic HTTP authentication user name.</param>
-        /// <param name="password">Basic HTTP authentication user password.</param>
-        /// <param name="writeBody">A callback function for writing the body to a stream</param>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static Task<StreamResult> PostStream(string url, string userName, string password, Func<Stream, BodyInfo> writeBody, IProgress prog = null)
+        public async Task<StreamResult> Post(Func<Stream, BodyInfo> writeBody, IProgress prog = null)
         {
-            return PostStream(url, userName, password, writeBody, "application/octet-stream", prog);
+            SetMethod("POST");
+            await WriteBody(writeBody);
+            return await HandleResponse(prog);
         }
 
         /// <summary>
-        /// Perform a POST request, writing the body through a stream, and return the results as a stream.
+        /// Perform a PUT request, writing the body through a stream, and return the results as a stream.
         /// </summary>
-        /// <param name="url">The URL to request</param>
-        /// <param name="writeBody">A callback function for writing the body to a stream</param>
-        /// <param name="acceptType">The MIME of the expected response</param>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static Task<StreamResult> PostStream(string url, Func<Stream, BodyInfo> writeBody, string acceptType, IProgress prog = null)
+        public async Task<StreamResult> Put(Func<Stream, BodyInfo> writeBody, IProgress prog = null)
         {
-            return PostStream(url, null, null, writeBody, acceptType, prog);
+            SetMethod("PUT");
+            await WriteBody(writeBody);
+            return await HandleResponse(prog);
         }
 
         /// <summary>
-        /// Perform a POST request, writing the body through a stream, and return the results as a stream.
+        /// Perform a PATCH request, writing the body through a stream, and return the results as a stream.
         /// </summary>
-        /// <param name="url">The URL to request</param>
-        /// <param name="contentLength">The total length of the body that needs to be written</param>
-        /// <param name="contentType">The MIME type of both the request and response body</param>
-        /// <param name="writeBody">A callback function for writing the body to a stream</param>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static Task<StreamResult> PostStream(string url, Func<Stream, BodyInfo> writeBody, IProgress prog = null)
+        public async Task<StreamResult> Patch(Func<Stream, BodyInfo> writeBody, IProgress prog = null)
         {
-            return PostStream(url, null, null, writeBody, "application/octet-stream", prog);
+            SetMethod("PATCH");
+            await WriteBody(writeBody);
+            return await HandleResponse(prog);
+        }
+
+        /// <summary>
+        /// Perform a DELETE request, writing the body through a stream, and return the results as a stream.
+        /// </summary>
+        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
+        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
+        public async Task<StreamResult> Delete(Func<Stream, BodyInfo> writeBody, IProgress prog = null)
+        {
+            SetMethod("DELETE");
+            await WriteBody(writeBody);
+            return await HandleResponse(prog);
+        }
+
+        /// <summary>
+        /// Perform a DELETE request, writing the body through a stream, and return the results as a stream.
+        /// </summary>
+        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
+        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
+        public async Task<StreamResult> Delete(IProgress prog = null)
+        {
+            SetMethod("DELETE");
+            return await HandleResponse(prog);
         }
 
         /// <summary>
         /// Perform a GET request and return the results as a stream of bytes
         /// </summary>
-        /// <param name="url">The URL to request</param>
-        /// <param name="acceptType">The MIME of the expected response</param>
-        /// <param name="resolve">The callback to perform on success, with the HTTP status code and a stream payload</param>
-        /// <param name="userName">Basic HTTP authentication user name.</param>
-        /// <param name="password">Basic HTTP authentication user password.</param>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<StreamResult> GetStream(string url, string userName, string password, string acceptType, IProgress prog = null)
+        public async Task<StreamResult> Get(IProgress prog = null)
         {
-            var request = MakeRequest("GET", url, userName, password, acceptType);
-            return await HandleResponse(request, prog);
+            SetMethod("GET");
+            return await HandleResponse(prog);
         }
 
         /// <summary>
-        /// Perform a GET request and return the results as an array of bytes, for the
-        /// `application/unknown` MIME type
+        /// Perform a HEAD request and return the results as a stream of bytes
         /// </summary>
-        /// <param name="url">The URL to request</param>
-        /// <param name="userName">Basic HTTP authentication user name.</param>
-        /// <param name="password">Basic HTTP authentication user password.</param>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static Task<StreamResult> GetStream(string url, string userName, string password, IProgress prog = null)
+        public async Task<StreamResult> Head(IProgress prog = null)
         {
-            return GetStream(url, userName, password, "application/octet-stream", prog);
-        }
-
-        /// <summary>
-        /// Perform a GET request and return the results as a stream of bytes
-        /// </summary>
-        /// <param name="url">The URL to request</param>
-        /// <param name="acceptType">The MIME of the expected response</param>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static Task<StreamResult> GetStream(string url, string acceptType, IProgress prog = null)
-        {
-            return GetStream(url, null, null, acceptType, prog);
-        }
-
-        /// <summary>
-        /// Perform a GET request and return the results as an array of bytes, for the
-        /// `application/unknown` MIME type
-        /// </summary>
-        /// <param name="url">The URL to request</param>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static Task<StreamResult> GetStream(string url, IProgress prog = null)
-        {
-            return GetStream(url, null, null, "application/octet-stream", prog);
+            SetMethod("HEAD");
+            return await HandleResponse(prog);
         }
     }
 }

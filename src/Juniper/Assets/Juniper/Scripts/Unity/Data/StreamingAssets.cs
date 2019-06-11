@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Juniper.HTTP;
+using Juniper.Json;
 using Juniper.Progress;
 
 namespace Juniper.Data
@@ -72,7 +73,9 @@ namespace Juniper.Data
                     }
                     else
                     {
-                        var result = await Requester.GetStream(uri.ToString(), mime, prog);
+                        var requester = new Requester(uri.ToString())
+                            .Accept(mime);
+                        var result = await requester.Get(prog);
                         return new StreamResult(result.Status, result.MIMEType, new CachingStream(result.Value, cachePath));
                     }
                 }
