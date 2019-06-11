@@ -38,18 +38,16 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileTree.cs" />
+    <Compile Include="System.Collections\Generic\DictionaryExt.cs" />
+    <Compile Include="System.Collections\Generic\IEnumerableExt.cs" />
+    <Compile Include="System.Collections\Generic\ListExt.cs" />
+    <Compile Include="System.Collections\Generic\NaturalSortComparer.cs" />
+    <Compile Include="System.Collections\InterleavedEnumerator.cs" />
     <Compile Include="NAryTree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RingBuffer.cs" />
     <Compile Include="Statistics\AbstractCollectionStatistics.cs" />
     <Compile Include="Statistics\SingleStatistics.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Juniper.NETFXExtensions\Juniper.NETFXExtensions.csproj">
-      <Project>{71CE09EF-34CE-4970-A731-593C09A7EFB9}</Project>
-      <Name>Juniper.NETFXExtensions</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
