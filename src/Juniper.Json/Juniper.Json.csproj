@@ -37,6 +37,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Deserializer.cs" />
     <Compile Include="StreamExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -49,6 +50,10 @@
       <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
       <Name>Juniper.Progress</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Juniper.Serialization\Juniper.Serialization.csproj">
+      <Project>{9d6f67cc-8eac-4644-9e20-c18c9d3e58cc}</Project>
+      <Name>Juniper.Serialization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.Streams\Juniper.Streams.csproj">
       <Project>{134d77e1-78d5-4f9b-868f-7ea6e98cec08}</Project>
       <Name>Juniper.Streams</Name>
@@ -60,4 +65,8 @@
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /V /C /I /K /Y  $(ProjectDir)StreamExt.cs $(SolutionDir)Juniper\Assets\Juniper\Scripts\Unity\Extensions\NETFX
+xcopy /V /C /I /K /Y  $(ProjectDir)Deserializer.cs $(SolutionDir)Juniper\Assets\Juniper\Scripts\Unity\Extensions\NETFX</PostBuildEvent>
+  </PropertyGroup>
 </Project>

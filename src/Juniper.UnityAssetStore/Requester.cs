@@ -1,108 +1,148 @@
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
+using Juniper.HTTP;
+using Juniper.Serialization;
 
 namespace Juniper.UnityAssetStore
 {
-    public class Package
-    {
-        public string package_version_id;
-    }
-
-    public class Asset
-    {
-
-    }
-
-    public class Category
-    {
-
-    }
-
-    public class Publisher
-    {
-
-    }
-
     public class Requester
     {
         const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
         const string UnityAssetStoreServiceRoot = "https://www.assetstore.unity3d.com/api/en-US/";
 
-        private static async Task<List<T>> GetList<T>(string url)
+        private readonly IDeserializer deserializer;
+
+        public Requester(IDeserializer deserializer)
         {
-            var response = await new HTTP.Requester(UnityAssetStoreServiceRoot + url)
+            this.deserializer = deserializer;
+        }
+
+        private async Task<T> Get<T>(string url)
+        {
+            var response = await new HTTP.Requester(url)
                 .Header("X-Unity-Session", UnityAssetStoreToken)
+                .Accept("application/json")
                 .Get();
 
             if (response.Status == System.Net.HttpStatusCode.OK
                 && response.Value != null)
             {
                 var text = response.Value?.ReadString();
-                System.Console.WriteLine(text);
+                if (deserializer.TryDeserialize(text, out T value))
+                {
+                    return value;
+                }
             }
 
-            return null;
+            return default;
         }
 
-        private static async Task<T> Get<T>(string url)
+        private async Task<T> Post<T>(string url, string data)
         {
-            var list = await GetList<T>(url);
-            if (list == null)
+            var response = await new HTTP.Requester(url)
+                .Header("X-Unity-Session", UnityAssetStoreToken)
+                .Accept("application/json")
+                .Post(data.WriteString("application/x-www-form-urlencoded; charset=UTF-8"));
+
+            if (response.Status == System.Net.HttpStatusCode.OK
+                && response.Value != null)
             {
-                return default;
+                var text = response.Value?.ReadString();
+                if (deserializer.TryDeserialize(text, out T value))
+                {
+                    return value;
+                }
             }
-            else
-            {
-                return list.FirstOrDefault();
-            }
+
+            return default;
         }
 
-        public static async Task<List<Package>> SearchPackages(string query, int limit)
+        public async Task<Category[]> GetCategories()
         {
-            return await GetList<Package>($"search/xplr/search.json?query=${query}&limit=${limit}");
+            var value = await Get<Categories>($"{UnityAssetStoreServiceRoot}home/categories.json");
+            return value.categories;
         }
 
-        public static async Task<Package> GetPackageOverview(string packageID)
+        public async Task<string> GetCategoryName(string categoryID)
         {
-            return await Get<Package>($"content/overview/{packageID}.json");
+            var value = await Get<Result<Title>>($"{UnityAssetStoreServiceRoot}head/category/{categoryID}.json");
+            return value.result.title;
         }
 
-        public static async Task<List<Asset>> GetPackageAssets(string packageID, string version)
+        public async Task<AssetSummary> GetAssetSummary(string assetID)
         {
-            return await GetList<Asset>($"content/assets/{packageID}/{version}.json");
+            var value = await Get<Result<AssetSummary>>($"{UnityAssetStoreServiceRoot}head/package/{assetID}.json");
+            return value.result;
         }
 
-        public static async Task<List<Asset>> GetPackageAssets(string packageID)
+        public async Task<AssetDetail> GetAssetDetails(string assetID)
         {
-            var package = await GetPackageOverview(packageID);
-            return await GetPackageAssets(packageID, package.package_version_id);
+            var value = await Get<Content<AssetDetail>>($"{UnityAssetStoreServiceRoot}content/overview/{assetID}.json");
+            return value.content;
         }
 
-        public static async Task<List<Category>> GetCategories()
+        public async Task<Price> GetAssetPrice(string assetID)
         {
-            return await GetList<Category>("home/categories.json");
+            return await Get<Price>($"{UnityAssetStoreServiceRoot}content/price/{assetID}.json");
         }
 
-        public static async Task<Category> GetCategory(string categoryID)
+        private async Task<Results<AssetDetail>> GetTopAssets(string type, string categoryID, int count)
         {
-            return await Get<Category>($"head/category/{categoryID}.json");
+            return await Get<Results<AssetDetail>>($"{UnityAssetStoreServiceRoot}category/top/{type}/{categoryID}/{count}.json");
         }
 
-        public static async Task<List<Package>> GetPackagesInCategory(string categoryID)
+        public async Task<Results<AssetDetail>> GetTopLatestAssets(string categoryID, int count = 10)
         {
-            return await GetList<Package>($"category/results/{categoryID}.json");
+            return await GetTopAssets("latest", categoryID, count);
         }
 
-        public static async Task<Publisher> GetPublisher(string publisherID)
+        public async Task<Results<AssetDetail>> GetTopGrossingAssets(string categoryID, int count = 10)
         {
-            return await Get<Publisher>($"publisher/overview/{publisherID}.json");
+            return await GetTopAssets("grossing", categoryID, count);
         }
 
-        public static async Task<List<Package>> GetPackagesFromPublisher(string publisherID)
+        public async Task<Results<AssetDetail>> GetTopFreeAssets(string categoryID, int count = 10)
         {
-            return await GetList<Package>($"publisher/results/{publisherID}.json");
+            return await GetTopAssets("free", categoryID, count);
+        }
+
+        public async Task<Results<AssetDetail>> GetTopPaidAssets(string categoryID, int count = 10)
+        {
+            return await GetTopAssets("paid", categoryID, count);
+        }
+
+        public async Task<AssetContent[]> GetAssetContents(string assetID)
+        {
+            var value = await Get<AssetContents>($"{UnityAssetStoreServiceRoot}content/assets/{assetID}.json");
+            return value.assets;
+        }
+
+        public async Task<string> GetPublisherName(string publisherID)
+        {
+            var value = await Get<Result<Title>>($"{UnityAssetStoreServiceRoot}head/publisher/{publisherID}.json");
+            return value.result.title;
+        }
+
+        public async Task<PublisherDetail> GetPublisherDetail(string publisherID)
+        {
+            var value = await Get<Overview<PublisherDetail>>($"{UnityAssetStoreServiceRoot}publisher/overview/{publisherID}.json");
+            return value.overview;
+        }
+
+        public async Task<Sale> GetCurrentSale()
+        {
+            return await Get<Sale>($"{UnityAssetStoreServiceRoot}sale/results.json");
+        }
+
+        public async Task<StoreSearch.Results> Search(StoreSearch parameters)
+        {
+            return await Get<StoreSearch.Results>($"{UnityAssetStoreServiceRoot}search/results.json?" + parameters.SearchString);
+        }
+
+        public async Task<AssetDownload[]> GetDownloads()
+        {
+            var value = await Post<Results<AssetDownload>>($"{UnityAssetStoreServiceRoot}account/downloads/search.json?", "[]");
+            return value.results;
         }
     }
 }

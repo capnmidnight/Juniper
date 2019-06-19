@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequesterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter">
@@ -51,6 +52,20 @@
     <PackageReference Include="MSTest.TestFramework">
       <Version>1.3.2</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Juniper.Json\Juniper.Json.csproj">
+      <Project>{B10A2AB6-5677-4F5E-B6FC-D81120787746}</Project>
+      <Name>Juniper.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Juniper.Serialization\Juniper.Serialization.csproj">
+      <Project>{9D6F67CC-8EAC-4644-9E20-C18C9D3E58CC}</Project>
+      <Name>Juniper.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Juniper.UnityAssetStore\Juniper.UnityAssetStore.csproj">
+      <Project>{d1fbfa8a-db69-4cc3-94c8-cd921e1af4cf}</Project>
+      <Name>Juniper.UnityAssetStore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

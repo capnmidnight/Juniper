@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+
 using Juniper.Progress;
 
 namespace Juniper.HTTP
@@ -12,7 +13,7 @@ namespace Juniper.HTTP
     /// </summary>
     public class Requester
     {
-        private HttpWebRequest request;
+        private readonly HttpWebRequest request;
 
         /// <summary>
         /// Creates a new HTTP request object that can be modified in-place before
@@ -22,6 +23,9 @@ namespace Juniper.HTTP
         public Requester(string url)
         {
             request = (HttpWebRequest)WebRequest.Create(url);
+            Header("Upgrade-Insecure-Request", 1);
+            Header("DNT", 1);
+            request.CachePolicy = new System.Net.Cache.HttpRequestCachePolicy(System.Net.Cache.HttpRequestCacheLevel.NoCacheNoStore);
         }
 
         /// <summary>
@@ -77,54 +81,39 @@ namespace Juniper.HTTP
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
         private async Task<StreamResult> HandleResponse(IProgress prog)
         {
-            using (var response = (HttpWebResponse)await request.GetResponseAsync())
+            var task = request.GetResponseAsync();
+            var webResponse = await task;
+            var response = (HttpWebResponse)webResponse;
+            if (response.ContentLength == 0)
             {
-                if (response.ContentLength == 0)
-                {
-                    return new StreamResult(
-                        response.StatusCode,
-                        response.ContentType,
-                        null);
-                }
-                else
-                {
-                    return new StreamResult(
-                        response.StatusCode,
-                        response.ContentType,
-                        new ProgressStream(response.GetResponseStream(), response.ContentLength, prog));
-                }
+                return new StreamResult(
+                    response.StatusCode,
+                    response.ContentType,
+                    null);
+            }
+            else
+            {
+                return new StreamResult(
+                    response.StatusCode,
+                    response.ContentType,
+                    new ProgressStream(response.GetResponseStream(), response.ContentLength, prog));
             }
         }
 
-        /// <summary>
-        /// Sets the HTTP method of the request object.
-        /// </summary>
-        /// <param name="method"></param>
-        private void SetMethod(string method)
+        private void SetDefaultAcceptType()
         {
-            request.Method = method;
-
             if (string.IsNullOrEmpty(request.Accept))
             {
                 request.Accept = "application/octet-stream";
             }
         }
 
-        private async Task WriteBody(Func<Stream, BodyInfo> writeBody)
+        private async Task WriteBody(Func<Stream, string> writeBody, IProgress prog = null)
         {
             using (var stream = await request.GetRequestStreamAsync())
             {
-                var contentInfo = writeBody(stream);
-
-                if (contentInfo.Length > 0)
-                {
-                    request.ContentLength = contentInfo.Length;
-
-                    if (!string.IsNullOrEmpty(contentInfo.MIMEType))
-                    {
-                        request.ContentType = contentInfo.MIMEType;
-                    }
-                }
+                request.ContentType = writeBody(stream);
+                request.ContentLength = stream.Length;
             }
         }
 
@@ -133,9 +122,10 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public async Task<StreamResult> Post(Func<Stream, BodyInfo> writeBody, IProgress prog = null)
+        public async Task<StreamResult> Post(Func<Stream, string> writeBody, IProgress prog = null)
         {
-            SetMethod("POST");
+            request.Method = "POST";
+            SetDefaultAcceptType();
             await WriteBody(writeBody);
             return await HandleResponse(prog);
         }
@@ -145,9 +135,9 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public async Task<StreamResult> Put(Func<Stream, BodyInfo> writeBody, IProgress prog = null)
+        public async Task<StreamResult> Put(Func<Stream, string> writeBody, IProgress prog = null)
         {
-            SetMethod("PUT");
+            request.Method = "PUT";
             await WriteBody(writeBody);
             return await HandleResponse(prog);
         }
@@ -157,9 +147,10 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public async Task<StreamResult> Patch(Func<Stream, BodyInfo> writeBody, IProgress prog = null)
+        public async Task<StreamResult> Patch(Func<Stream, string> writeBody, IProgress prog = null)
         {
-            SetMethod("PATCH");
+            request.Method = "PATCH";
+            SetDefaultAcceptType();
             await WriteBody(writeBody);
             return await HandleResponse(prog);
         }
@@ -169,9 +160,10 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public async Task<StreamResult> Delete(Func<Stream, BodyInfo> writeBody, IProgress prog = null)
+        public async Task<StreamResult> Delete(Func<Stream, string> writeBody, IProgress prog = null)
         {
-            SetMethod("DELETE");
+            request.Method = "DELETE";
+            SetDefaultAcceptType();
             await WriteBody(writeBody);
             return await HandleResponse(prog);
         }
@@ -183,7 +175,8 @@ namespace Juniper.HTTP
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
         public async Task<StreamResult> Delete(IProgress prog = null)
         {
-            SetMethod("DELETE");
+            request.Method = "DELETE";
+            SetDefaultAcceptType();
             return await HandleResponse(prog);
         }
 
@@ -194,7 +187,8 @@ namespace Juniper.HTTP
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
         public async Task<StreamResult> Get(IProgress prog = null)
         {
-            SetMethod("GET");
+            request.Method = "GET";
+            SetDefaultAcceptType();
             return await HandleResponse(prog);
         }
 
@@ -205,7 +199,7 @@ namespace Juniper.HTTP
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
         public async Task<StreamResult> Head(IProgress prog = null)
         {
-            SetMethod("HEAD");
+            request.Method = "HEAD";
             return await HandleResponse(prog);
         }
     }

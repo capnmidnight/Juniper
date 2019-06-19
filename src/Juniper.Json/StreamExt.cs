@@ -36,7 +36,7 @@ namespace Juniper.Json
         /// <param name="obj">The object to write.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
         /// <returns>A callback function that can be used to write the object when a stream becomes available.</returns>
-        public static Func<Stream, BodyInfo> WriteObject<T>(this T obj, IProgress prog = null)
+        public static Func<Stream, string> WriteObject<T>(this T obj, IProgress prog = null)
         {
             return JsonConvert.SerializeObject(obj)
                 .WriteString("application/json", prog);

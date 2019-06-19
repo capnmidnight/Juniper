@@ -17,7 +17,7 @@ namespace Juniper.HTTP
         /// <param name="value">The bytes to write.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
         /// <returns>A callback function that can be used to write the text when a stream becomes available.</returns>
-        public static Func<Stream, BodyInfo> WriteBytes(this byte[] value, string type = null, IProgress prog = null)
+        public static Func<Stream, string> WriteBytes(this byte[] value, string type = null, IProgress prog = null)
         {
             return (stream) =>
             {
@@ -26,7 +26,7 @@ namespace Juniper.HTTP
                     progStream.Write(value, 0, value.Length);
                 }
 
-                return new BodyInfo(type ?? "application/octet-stream", value.Length);
+                return type ?? "application/octet-stream";
             };
         }
 
@@ -36,7 +36,7 @@ namespace Juniper.HTTP
         /// <param name="value">The text to write.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
         /// <returns>A callback function that can be used to write the text when a stream becomes available.</returns>
-        public static Func<Stream, BodyInfo> WriteString(this string value, string type = null, IProgress prog = null)
+        public static Func<Stream, string> WriteString(this string value, string type = null, IProgress prog = null)
         {
             return (stream) =>
             {
@@ -47,7 +47,7 @@ namespace Juniper.HTTP
                     writer.Write(value);
                 }
 
-                return new BodyInfo(type ?? "text/plain", len);
+                return type ?? "text/plain";
             };
         }
     }

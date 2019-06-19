@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{888B994C-2AE8-42B2-84F5-B15E11CC4F4F}</ProjectGuid>
+    <ProjectGuid>{9D6F67CC-8EAC-4644-9E20-C18C9D3E58CC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Juniper.HTTP</RootNamespace>
-    <AssemblyName>Juniper.HTTP</AssemblyName>
+    <RootNamespace>Juniper.Serialization</RootNamespace>
+    <AssemblyName>Juniper.Serialization</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,17 +37,10 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HTTP.cs" />
+    <Compile Include="IDeserializer.cs" />
+    <Compile Include="ISerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Result.cs" />
-    <Compile Include="StreamExt.cs" />
-    <Compile Include="StreamResult.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">
-      <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
-      <Name>Juniper.Progress</Name>
-    </ProjectReference>
+    <Compile Include="SerializationInfoExt.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
