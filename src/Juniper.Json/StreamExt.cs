@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
+
 using Juniper.HTTP;
 using Juniper.Progress;
 
@@ -35,7 +37,7 @@ namespace Juniper.Json
         /// <param name="value">The text to write.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
         /// <returns>A callback function that can be used to write the text when a stream becomes available.</returns>
-        public static Task<StreamResult> Write<T>(this T obj, Func<Func<BodyInfo>, Action<Stream>, IProgress, Task<StreamResult>> writer, IProgress prog = null)
+        public static Task<HttpWebResponse> Write<T>(this T obj, Func<Func<BodyInfo>, Action<Stream>, Task<HttpWebResponse>> writer)
         {
             var text = JsonConvert.SerializeObject(obj);
             return text.Write(writer);

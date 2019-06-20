@@ -1,11 +1,9 @@
-using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
+
 using HtmlAgilityPack;
-using Juniper.HTTP;
+
 using Juniper.Serialization;
 
 namespace Juniper.UnityAssetStore
@@ -29,25 +27,28 @@ namespace Juniper.UnityAssetStore
         private async Task<string> Get(string url, string token = null)
         {
             var code = HttpStatusCode.Redirect;
-            StreamResult response = null;
+            HttpWebResponse response = null;
             while (code == HttpStatusCode.Redirect)
             {
-                response = await new HTTP.Requester(url)
+                response = await HttpWebRequestExt.Create(url)
                     .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
                     .Accept("application/json")
                     .Get();
-                code = response.Status;
+                code = response.StatusCode;
                 if (code == HttpStatusCode.Redirect)
                 {
-                    url = response.Value.ReadString();
+                    url = response.Headers[HttpResponseHeader.Location];
                 }
             }
 
             if (response != null
-                && response.Status == HttpStatusCode.OK
-                && response.Value != null)
+                && response.StatusCode == HttpStatusCode.OK
+                && response.ContentLength > 0)
             {
-                return response.Value?.ReadString();
+                using (var stream = response.GetResponseStream())
+                {
+                    return stream.ReadString();
+                }
             }
 
             return default;
@@ -55,7 +56,7 @@ namespace Juniper.UnityAssetStore
 
         public async Task<string> Post(string url, string data, string token = null)
         {
-            var response = await data.Write(new HTTP.Requester(url)
+            var response = await data.Write(HttpWebRequestExt.Create(url)
                 .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
                 //.Header("Origin", "https://www.assetstore.unity3d.com")
                 //.Header("Referer", "https://www.assetstore.unity3d.com/en/?stay")
@@ -64,10 +65,13 @@ namespace Juniper.UnityAssetStore
                 //.Header("X-Requested-With", "UnityAssetStore")
                 .Post, "application/x-www-form-urlencoded");
 
-            if (response.Status == System.Net.HttpStatusCode.OK
-                && response.Value != null)
+            if (response.StatusCode == HttpStatusCode.OK
+                && response.ContentLength > 0)
             {
-                return response.Value?.ReadString();
+                using (var stream = response.GetResponseStream())
+                {
+                    return stream.ReadString();
+                }
             }
 
             return default;
