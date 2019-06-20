@@ -74,32 +74,6 @@ namespace Juniper.HTTP
             return this;
         }
 
-        /// <summary>
-        /// Reads the body from an HTTP response.
-        /// </summary>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        private async Task<StreamResult> HandleResponse(IProgress prog)
-        {
-            var task = request.GetResponseAsync();
-            var webResponse = await task;
-            var response = (HttpWebResponse)webResponse;
-            if (response.ContentLength == 0)
-            {
-                return new StreamResult(
-                    response.StatusCode,
-                    response.ContentType,
-                    null);
-            }
-            else
-            {
-                return new StreamResult(
-                    response.StatusCode,
-                    response.ContentType,
-                    new ProgressStream(response.GetResponseStream(), response.ContentLength, prog));
-            }
-        }
-
         private void SetDefaultAcceptType()
         {
             if (string.IsNullOrEmpty(request.Accept))
@@ -127,7 +101,7 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public async Task<StreamResult> Post(Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
+        public async Task<HttpWebResponse> Post(Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
         {
             request.Method = "POST";
             SetDefaultAcceptType();

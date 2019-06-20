@@ -1,7 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using System.Web;
 using HtmlAgilityPack;
 using Juniper.HTTP;
 using Juniper.Serialization;
@@ -11,6 +13,7 @@ namespace Juniper.UnityAssetStore
     public class Requester
     {
         const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
+        const string UnityAPIRoot = "https://api.unity.com/";
         const string UnityAssetStoreRoot = "https://www.assetstore.unity3d.com/";
         const string UnityAssetStoreAPIRoot = UnityAssetStoreRoot + "api/en-US/";
 
@@ -25,12 +28,23 @@ namespace Juniper.UnityAssetStore
 
         private async Task<string> Get(string url, string token = null)
         {
-            var response = await new HTTP.Requester(url)
-                .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
-                .Accept("application/json")
-                .Get();
+            var code = HttpStatusCode.Redirect;
+            StreamResult response = null;
+            while (code == HttpStatusCode.Redirect)
+            {
+                response = await new HTTP.Requester(url)
+                    .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
+                    .Accept("application/json")
+                    .Get();
+                code = response.Status;
+                if (code == HttpStatusCode.Redirect)
+                {
+                    url = response.Value.ReadString();
+                }
+            }
 
-            if (response.Status == System.Net.HttpStatusCode.OK
+            if (response != null
+                && response.Status == HttpStatusCode.OK
                 && response.Value != null)
             {
                 return response.Value?.ReadString();
@@ -165,19 +179,12 @@ namespace Juniper.UnityAssetStore
         public async Task<AssetDownload[]> GetDownloads(string userName, string password, string token)
         {
             var doc = new HtmlDocument();
-            var login = await Get($"{UnityAssetStoreRoot}auth/login?redirect_to=%2F");
+            var login = await Get($"{UnityAPIRoot}auth/login?redirect_to=%2F");
             doc.LoadHtml(login);
-            var anchor = doc.DocumentNode.SelectNodes("//a").FirstOrDefault();
-            if (anchor != null && anchor.InnerText == "Found")
+            var csrfToken = doc.DocumentNode.SelectSingleNode("/html/head/meta[@name='csrf-token']");
+            if (csrfToken != null)
             {
-                var href = new Uri(anchor.Attributes["href"].Value);
-                
-                if (sessionID == null)
-                {
-                    sessionID = await Post($"{UnityAssetStoreRoot}login?skip_terms=1", $"user={userName}&pass={password}", UnityAssetStoreToken + token);
-                }
-                var value = await Post<Results<AssetDownload>>($"{UnityAssetStoreAPIRoot}account/downloads/search.json?", "[]");
-                return value.results;
+              
             }
 
             return default;
