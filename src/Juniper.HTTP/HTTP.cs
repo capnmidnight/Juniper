@@ -106,7 +106,7 @@ namespace Juniper.HTTP
             request.Method = "POST";
             SetDefaultAcceptType();
             await WriteBody(getInfo, writeBody);
-            return await HandleResponse(prog);
+            return (HttpWebResponse)await request.GetResponseAsync();
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Juniper.HTTP
         {
             request.Method = "PUT";
             await WriteBody(getInfo, writeBody);
-            return await HandleResponse(prog);
+            return (HttpWebResponse)await request.GetResponseAsync();
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Juniper.HTTP
             request.Method = "PATCH";
             SetDefaultAcceptType();
             await WriteBody(getInfo, writeBody);
-            return await HandleResponse(prog);
+            return (HttpWebResponse)await request.GetResponseAsync();
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Juniper.HTTP
             request.Method = "DELETE";
             SetDefaultAcceptType();
             await WriteBody(getInfo, writeBody);
-            return await HandleResponse(prog);
+            return (HttpWebResponse)await request.GetResponseAsync();
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Juniper.HTTP
         {
             request.Method = "DELETE";
             SetDefaultAcceptType();
-            return await HandleResponse(prog);
+            return (HttpWebResponse)await request.GetResponseAsync();
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Juniper.HTTP
         {
             request.Method = "GET";
             SetDefaultAcceptType();
-            return await HandleResponse(prog);
+            return (HttpWebResponse)await request.GetResponseAsync();
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Juniper.HTTP
         public async Task<StreamResult> Head(IProgress prog = null)
         {
             request.Method = "HEAD";
-            return await HandleResponse(prog);
+            return (HttpWebResponse)await request.GetResponseAsync();
         }
     }
 }
