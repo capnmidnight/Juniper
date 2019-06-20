@@ -1,5 +1,8 @@
+using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
 using Juniper.HTTP;
 using Juniper.Serialization;
 
@@ -8,87 +11,107 @@ namespace Juniper.UnityAssetStore
     public class Requester
     {
         const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
-        const string UnityAssetStoreServiceRoot = "https://www.assetstore.unity3d.com/api/en-US/";
+        const string UnityAssetStoreRoot = "https://www.assetstore.unity3d.com/";
+        const string UnityAssetStoreAPIRoot = UnityAssetStoreRoot + "api/en-US/";
 
         private readonly IDeserializer deserializer;
+
+        private string sessionID;
 
         public Requester(IDeserializer deserializer)
         {
             this.deserializer = deserializer;
         }
 
-        private async Task<T> Get<T>(string url)
+        private async Task<string> Get(string url, string token = null)
         {
             var response = await new HTTP.Requester(url)
-                .Header("X-Unity-Session", UnityAssetStoreToken)
+                .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
                 .Accept("application/json")
                 .Get();
 
             if (response.Status == System.Net.HttpStatusCode.OK
                 && response.Value != null)
             {
-                var text = response.Value?.ReadString();
-                if (deserializer.TryDeserialize(text, out T value))
-                {
-                    return value;
-                }
+                return response.Value?.ReadString();
             }
 
             return default;
         }
 
-        private async Task<T> Post<T>(string url, string data)
+        public async Task<string> Post(string url, string data, string token = null)
         {
-            var response = await new HTTP.Requester(url)
-                .Header("X-Unity-Session", UnityAssetStoreToken)
-                .Accept("application/json")
-                .Post(data.WriteString("application/x-www-form-urlencoded; charset=UTF-8"));
+            var response = await data.Write(new HTTP.Requester(url)
+                .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
+                //.Header("Origin", "https://www.assetstore.unity3d.com")
+                //.Header("Referer", "https://www.assetstore.unity3d.com/en/?stay")
+                //.Header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36")
+                //.Header("X-Kharma-Version", 0)
+                //.Header("X-Requested-With", "UnityAssetStore")
+                .Post, "application/x-www-form-urlencoded");
 
             if (response.Status == System.Net.HttpStatusCode.OK
                 && response.Value != null)
             {
-                var text = response.Value?.ReadString();
-                if (deserializer.TryDeserialize(text, out T value))
-                {
-                    return value;
-                }
+                return response.Value?.ReadString();
             }
 
             return default;
         }
 
+        private T Decode<T>(string text)
+        {
+            if (text != null
+                && deserializer.TryDeserialize(text, out T value))
+            {
+                return value;
+            }
+
+            return default;
+        }
+
+        private async Task<T> Get<T>(string url, string token = null)
+        {
+            return Decode<T>(await Get(url, token));
+        }
+
+        private async Task<T> Post<T>(string url, string data, string token = null)
+        {
+            return Decode<T>(await Post(url, data, token));
+        }
+
         public async Task<Category[]> GetCategories()
         {
-            var value = await Get<Categories>($"{UnityAssetStoreServiceRoot}home/categories.json");
+            var value = await Get<Categories>($"{UnityAssetStoreAPIRoot}home/categories.json");
             return value.categories;
         }
 
         public async Task<string> GetCategoryName(string categoryID)
         {
-            var value = await Get<Result<Title>>($"{UnityAssetStoreServiceRoot}head/category/{categoryID}.json");
+            var value = await Get<Result<Title>>($"{UnityAssetStoreAPIRoot}head/category/{categoryID}.json");
             return value.result.title;
         }
 
         public async Task<AssetSummary> GetAssetSummary(string assetID)
         {
-            var value = await Get<Result<AssetSummary>>($"{UnityAssetStoreServiceRoot}head/package/{assetID}.json");
+            var value = await Get<Result<AssetSummary>>($"{UnityAssetStoreAPIRoot}head/package/{assetID}.json");
             return value.result;
         }
 
         public async Task<AssetDetail> GetAssetDetails(string assetID)
         {
-            var value = await Get<Content<AssetDetail>>($"{UnityAssetStoreServiceRoot}content/overview/{assetID}.json");
+            var value = await Get<Content<AssetDetail>>($"{UnityAssetStoreAPIRoot}content/overview/{assetID}.json");
             return value.content;
         }
 
         public async Task<Price> GetAssetPrice(string assetID)
         {
-            return await Get<Price>($"{UnityAssetStoreServiceRoot}content/price/{assetID}.json");
+            return await Get<Price>($"{UnityAssetStoreAPIRoot}content/price/{assetID}.json");
         }
 
         private async Task<Results<AssetDetail>> GetTopAssets(string type, string categoryID, int count)
         {
-            return await Get<Results<AssetDetail>>($"{UnityAssetStoreServiceRoot}category/top/{type}/{categoryID}/{count}.json");
+            return await Get<Results<AssetDetail>>($"{UnityAssetStoreAPIRoot}category/top/{type}/{categoryID}/{count}.json");
         }
 
         public async Task<Results<AssetDetail>> GetTopLatestAssets(string categoryID, int count = 10)
@@ -113,36 +136,51 @@ namespace Juniper.UnityAssetStore
 
         public async Task<AssetContent[]> GetAssetContents(string assetID)
         {
-            var value = await Get<AssetContents>($"{UnityAssetStoreServiceRoot}content/assets/{assetID}.json");
+            var value = await Get<AssetContents>($"{UnityAssetStoreAPIRoot}content/assets/{assetID}.json");
             return value.assets;
         }
 
         public async Task<string> GetPublisherName(string publisherID)
         {
-            var value = await Get<Result<Title>>($"{UnityAssetStoreServiceRoot}head/publisher/{publisherID}.json");
+            var value = await Get<Result<Title>>($"{UnityAssetStoreAPIRoot}head/publisher/{publisherID}.json");
             return value.result.title;
         }
 
         public async Task<PublisherDetail> GetPublisherDetail(string publisherID)
         {
-            var value = await Get<Overview<PublisherDetail>>($"{UnityAssetStoreServiceRoot}publisher/overview/{publisherID}.json");
+            var value = await Get<Overview<PublisherDetail>>($"{UnityAssetStoreAPIRoot}publisher/overview/{publisherID}.json");
             return value.overview;
         }
 
         public async Task<Sale> GetCurrentSale()
         {
-            return await Get<Sale>($"{UnityAssetStoreServiceRoot}sale/results.json");
+            return await Get<Sale>($"{UnityAssetStoreAPIRoot}sale/results.json");
         }
 
         public async Task<StoreSearch.Results> Search(StoreSearch parameters)
         {
-            return await Get<StoreSearch.Results>($"{UnityAssetStoreServiceRoot}search/results.json?" + parameters.SearchString);
+            return await Get<StoreSearch.Results>($"{UnityAssetStoreAPIRoot}search/results.json?" + parameters.SearchString);
         }
 
-        public async Task<AssetDownload[]> GetDownloads()
+        public async Task<AssetDownload[]> GetDownloads(string userName, string password, string token)
         {
-            var value = await Post<Results<AssetDownload>>($"{UnityAssetStoreServiceRoot}account/downloads/search.json?", "[]");
-            return value.results;
+            var doc = new HtmlDocument();
+            var login = await Get($"{UnityAssetStoreRoot}auth/login?redirect_to=%2F");
+            doc.LoadHtml(login);
+            var anchor = doc.DocumentNode.SelectNodes("//a").FirstOrDefault();
+            if (anchor != null && anchor.InnerText == "Found")
+            {
+                var href = new Uri(anchor.Attributes["href"].Value);
+                
+                if (sessionID == null)
+                {
+                    sessionID = await Post($"{UnityAssetStoreRoot}login?skip_terms=1", $"user={userName}&pass={password}", UnityAssetStoreToken + token);
+                }
+                var value = await Post<Results<AssetDownload>>($"{UnityAssetStoreAPIRoot}account/downloads/search.json?", "[]");
+                return value.results;
+            }
+
+            return default;
         }
     }
 }

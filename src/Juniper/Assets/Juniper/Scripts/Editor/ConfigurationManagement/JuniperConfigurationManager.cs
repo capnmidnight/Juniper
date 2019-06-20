@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using System.Threading.Tasks;
 using Juniper.Compression.Tar.GZip;
 using Juniper.Progress;
 using Juniper.XR;
@@ -38,7 +38,8 @@ namespace Juniper.ConfigurationManagement
             platforms = new Platforms();
             platforms.AssetStorePackagesUpdated += Platforms_PackagesUpdated;
             platforms.ScanningProgressUpdated += RepaintWindow;
-            platforms.StartFileWatcher();
+
+            //platforms.StartFileWatcher();
 
             config = ProjectConfiguration.Load();
             config.PlatformChanged += Config_PlatformChanged;
@@ -78,6 +79,40 @@ namespace Juniper.ConfigurationManagement
                         Repaint();
                     }
                 };
+
+
+                var token = UnityEditorInternal.InternalEditorUtility.GetAuthToken();
+                Task.Run(async () => {
+                    var req = new UnityAssetStore.Requester(new Json.Deserializer());
+                    const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
+                    const string UnityAssetStoreRoot = "https://www.assetstore.unity3d.com/";
+                    const string userName = "sean.mcbeth@gmail.com";
+                    const string password = "RzKuj0fd9f";
+                    try
+                    {
+                        var sessionID = await req.Post($"{UnityAssetStoreRoot}login?skip_terms=1", $"user={userName}&pass={password}", UnityAssetStoreToken + token);
+                        Debug.Log(sessionID);
+                    }
+                    catch(Exception exp)
+                    {
+
+                    }
+                    //req.GetDownloads("sean.mcbeth@gmail.com", "RzKuj0fd9f)
+                    //    .ContinueWith(task =>
+                    //    {
+                    //        if (task.IsFaulted)
+                    //        {
+                    //            Debug.LogError(task.Exception);
+                    //        }
+                    //        else
+                    //        {
+                    //            foreach (var download in task.Result)
+                    //            {
+                    //                Debug.Log($"{download.name} ({download.id})");
+                    //            }
+                    //        }
+                    //    });
+                });
             }
 
             this.HeaderIndent("Status", () =>
@@ -91,6 +126,7 @@ namespace Juniper.ConfigurationManagement
                 this.Labeled("Desired Platform", () => EditorGUILayout.DropdownButton(new GUIContent(DesiredPlatform.ToString(), "Select the desired build platform"), FocusType.Keyboard));
             });
 
+            /*
             this.HeaderIndent("Packages", () =>
             {
                 if (assetStorePackages == null || assetStorePackages.Length == 0)
@@ -167,6 +203,7 @@ namespace Juniper.ConfigurationManagement
                     EditorGUILayout.EndScrollView();
                 }
             });
+            */
         }
 
         private static string BuildStepName

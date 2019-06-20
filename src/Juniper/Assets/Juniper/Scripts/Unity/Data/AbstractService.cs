@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
+
 using Juniper.HTTP;
 using Juniper.Json;
 
@@ -181,7 +181,7 @@ namespace Juniper.Data
                 requester = requester.BasicAuth(authPair.Value.Key, authPair.Value.Value);
             }
 
-            var stream = await requester.Post(requestBody.WriteObject());
+            var stream = await requestBody.Write(requester.Post);
 
             return new Result<ResponseT>(stream.Status, stream.MIMEType, stream.Value.ReadObject<ResponseT>());
         }

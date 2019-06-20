@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
-
+using System.Threading.Tasks;
 using Juniper.Progress;
 
 namespace Juniper.HTTP
@@ -17,16 +17,20 @@ namespace Juniper.HTTP
         /// <param name="value">The bytes to write.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
         /// <returns>A callback function that can be used to write the text when a stream becomes available.</returns>
-        public static Func<Stream, string> WriteBytes(this byte[] value, string type = null, IProgress prog = null)
+        private static Action<Stream> BytesWriter(this byte[] value, IProgress prog = null)
         {
             return (stream) =>
             {
-                using (var progStream = new ProgressStream(stream, value.Length, prog))
-                {
-                    progStream.Write(value, 0, value.Length);
-                }
+                var progStream = new ProgressStream(stream, value.Length, prog);
+                progStream.Write(value, 0, value.Length);
+            };
+        }
 
-                return type ?? "application/octet-stream";
+        private static Func<BodyInfo> BytesInfoGetter(this byte[] value, string type = null)
+        {
+            return () =>
+            {
+                return new BodyInfo(type ?? "application/octet-stream", value.Length);
             };
         }
 
@@ -36,19 +40,23 @@ namespace Juniper.HTTP
         /// <param name="value">The text to write.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
         /// <returns>A callback function that can be used to write the text when a stream becomes available.</returns>
-        public static Func<Stream, string> WriteString(this string value, string type = null, IProgress prog = null)
+        public static Task<StreamResult> Write(this byte[] bytes, Func<Func<BodyInfo>, Action<Stream>, IProgress, Task<StreamResult>> writer, string type = null, IProgress prog = null)
         {
-            return (stream) =>
-            {
-                long len = Encoding.Unicode.GetByteCount(value);
-                using (var progStream = new ProgressStream(stream, len, prog))
-                using (var writer = new StreamWriter(progStream))
-                {
-                    writer.Write(value);
-                }
+            var infoGetter = bytes.BytesInfoGetter(type ?? "text/plain");
+            var bodyWriter = bytes.BytesWriter(prog);
+            return writer(infoGetter, bodyWriter, prog);
+        }
 
-                return type ?? "text/plain";
-            };
+        /// <summary>
+        /// Writes text out to a stream.
+        /// </summary>
+        /// <param name="value">The text to write.</param>
+        /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
+        /// <returns>A callback function that can be used to write the text when a stream becomes available.</returns>
+        public static Task<StreamResult> Write(this string value, Func<Func<BodyInfo>, Action<Stream>, IProgress, Task<StreamResult>> writer, string type = null, IProgress prog = null)
+        {
+            var bytes = Encoding.Unicode.GetBytes(value);
+            return bytes.Write(writer, type ?? "text/plain", prog);
         }
     }
 }

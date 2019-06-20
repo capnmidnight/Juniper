@@ -108,12 +108,17 @@ namespace Juniper.HTTP
             }
         }
 
-        private async Task WriteBody(Func<Stream, string> writeBody, IProgress prog = null)
+        private async Task WriteBody(Func<BodyInfo> getInfo, Action<Stream> writeBody)
         {
-            using (var stream = await request.GetRequestStreamAsync())
+            var info = getInfo();
+            if (info.Length > 0)
             {
-                request.ContentType = writeBody(stream);
-                request.ContentLength = stream.Length;
+                request.ContentLength = info.Length;
+                request.ContentType = info.MIMEType;
+                using (var stream = await request.GetRequestStreamAsync())
+                {
+                    writeBody(stream);
+                }
             }
         }
 
@@ -122,11 +127,11 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public async Task<StreamResult> Post(Func<Stream, string> writeBody, IProgress prog = null)
+        public async Task<StreamResult> Post(Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
         {
             request.Method = "POST";
             SetDefaultAcceptType();
-            await WriteBody(writeBody);
+            await WriteBody(getInfo, writeBody);
             return await HandleResponse(prog);
         }
 
@@ -135,10 +140,10 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public async Task<StreamResult> Put(Func<Stream, string> writeBody, IProgress prog = null)
+        public async Task<StreamResult> Put(Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
         {
             request.Method = "PUT";
-            await WriteBody(writeBody);
+            await WriteBody(getInfo, writeBody);
             return await HandleResponse(prog);
         }
 
@@ -147,11 +152,11 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public async Task<StreamResult> Patch(Func<Stream, string> writeBody, IProgress prog = null)
+        public async Task<StreamResult> Patch(Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
         {
             request.Method = "PATCH";
             SetDefaultAcceptType();
-            await WriteBody(writeBody);
+            await WriteBody(getInfo, writeBody);
             return await HandleResponse(prog);
         }
 
@@ -160,11 +165,11 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public async Task<StreamResult> Delete(Func<Stream, string> writeBody, IProgress prog = null)
+        public async Task<StreamResult> Delete(Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
         {
             request.Method = "DELETE";
             SetDefaultAcceptType();
-            await WriteBody(writeBody);
+            await WriteBody(getInfo, writeBody);
             return await HandleResponse(prog);
         }
 

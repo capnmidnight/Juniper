@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-
+using System.Threading.Tasks;
 using Juniper.HTTP;
 using Juniper.Progress;
 
@@ -30,16 +30,15 @@ namespace Juniper.Json
         }
 
         /// <summary>
-        /// Writes an object out to a stream as JSON text.
+        /// Writes text out to a stream.
         /// </summary>
-        /// <typeparam name="T">The type of the serialized object.</typeparam>
-        /// <param name="obj">The object to write.</param>
+        /// <param name="value">The text to write.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
-        /// <returns>A callback function that can be used to write the object when a stream becomes available.</returns>
-        public static Func<Stream, string> WriteObject<T>(this T obj, IProgress prog = null)
+        /// <returns>A callback function that can be used to write the text when a stream becomes available.</returns>
+        public static Task<StreamResult> Write<T>(this T obj, Func<Func<BodyInfo>, Action<Stream>, IProgress, Task<StreamResult>> writer, IProgress prog = null)
         {
-            return JsonConvert.SerializeObject(obj)
-                .WriteString("application/json", prog);
+            var text = JsonConvert.SerializeObject(obj);
+            return text.Write(writer);
         }
     }
 }

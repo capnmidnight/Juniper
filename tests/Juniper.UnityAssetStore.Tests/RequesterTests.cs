@@ -114,5 +114,11 @@ namespace Juniper.UnityAssetStore.Tests
                 .Category(categoryID)
                 .Page(3));
         }
+
+        [TestMethod]
+        public async Task GetDownloads()
+        {
+            var downloads = await req.GetDownloads("sean.mcbeth@gmail.com", "RzKuj0fd9f", "");
+        }
     }
 }
