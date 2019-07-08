@@ -1,14 +1,11 @@
-using System;
-using System.Runtime.Serialization;
-
 using Juniper.Climate;
-using Juniper.HTTP;
-using Juniper.Json;
 using Juniper.Progress;
+using Juniper.Serialization;
 using Juniper.Units;
 using Juniper.World.GIS;
-
-using Newtonsoft.Json;
+using System;
+using System.Runtime.Serialization;
+using System.Net;
 
 namespace Juniper.World.Climate.OpenWeatherMap
 {
@@ -36,6 +33,16 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// Units of measure to request from the API.
         /// </summary>
         private const string units = "metric";
+
+        /// <summary>
+        /// Factory used to serialize objects for local caching.
+        /// </summary>
+        private readonly ISerializer serializer;
+
+        /// <summary>
+        /// factory used to deserialize objects from the data stream.
+        /// </summary>
+        private readonly IDeserializer deserializer;
 
         /// <summary>
         /// The key to authenticate with the API
@@ -70,15 +77,22 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// Initialize a new API requester object with the given authentication API key.
         /// </summary>
+        /// <param name="serializer">Factory used to serialize objects.</param>
+        /// <param name="deserializer">The factory used for deserializing objects.</param>
         /// <param name="apiKey">The OpenWeatherMap API key to use for authentication.</param>
         /// <param name="lastReportJSON">The value of the last report we received, if there was any.</param>
-        public API(string apiKey, string lastReportJSON = null)
+        public API(ISerializer serializer, IDeserializer deserializer, string apiKey, string lastReportJSON = null)
         {
+            this.serializer = serializer;
+            this.deserializer = deserializer;
             this.apiKey = apiKey;
 
             if (lastReportJSON != null)
             {
-                LastReport = JsonConvert.DeserializeObject<WeatherReport>(lastReportJSON);
+                if(deserializer.TryDeserialize<WeatherReport>(lastReportJSON, out var report))
+                {
+                    LastReport = report;
+                }
             }
         }
 
@@ -172,32 +186,38 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 var url = $"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Latitude}&lon={location.Longitude}&units={units}&appid={apiKey}";
                 try
                 {
-                    var requester = new Requester(url).Accept("application/json");
-                    var results = await requester.Get(prog);
-                    var httpStatus = results.Status;
-                    var report = results.Value.ReadObject<WeatherReport>();
-                    if (report == null)
+                    var requester = HttpWebRequestExt.Create(url);
+                    requester.Accept = "application/json";
+                    var response = await requester.Get();
+                    var body = response.ReadBody();
+                    if(deserializer.TryDeserialize<WeatherReport>(body, out var report))
                     {
-                        var errorObj = new Error("GetNewReport", "No response: " + url);
-                        reportJSON = JsonConvert.SerializeObject(errorObj);
-                        LastReport = JsonConvert.DeserializeObject<WeatherReport>(reportJSON);
+                        reportJSON = serializer.Serialize("Weather report", report);
+                        LastReport = report;
                     }
                     else
                     {
-                        reportJSON = JsonConvert.SerializeObject(report);
-                        LastReport = report;
+                        ErrorReport = new Error("GetNewReport", "No response: " + url);
                     }
                 }
                 catch (Exception exp)
                 {
-                    var errorObj = new Error("GetNewReport", exp.Message + ": " + url);
-                    reportJSON = JsonConvert.SerializeObject(errorObj);
-                    LastReport = JsonConvert.DeserializeObject<WeatherReport>(reportJSON);
+                    ErrorReport = new Error("GetNewReport", exp.Message + ": " + url);
                 }
             }
             else
             {
                 prog?.Report(1);
+            }
+        }
+
+        private Error ErrorReport
+        {
+            set
+            {
+                var reportJSON = serializer.Serialize("Weather error", value);
+                deserializer.TryDeserialize<WeatherReport>(reportJSON, out var errorReport);
+                LastReport = errorReport;
             }
         }
     }

@@ -49,8 +49,6 @@
     <Compile Include="Angles\Radians.cs" />
     <Compile Include="CartesianAxis.cs" />
     <Compile Include="Category.cs" />
-    <Compile Include="Geo\EquitorialSpherical.cs" />
-    <Compile Include="Geo\GeocentricEclipticSpherical.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="SystemOfMeasure.cs" />
     <Compile Include="Unary.cs" />
@@ -79,8 +77,6 @@
     <Compile Include="FileSize\Yotabytes.cs" />
     <Compile Include="FileSize\Zebibytes.cs" />
     <Compile Include="FileSize\Zettabytes.cs" />
-    <Compile Include="Geo\LatLng.cs" />
-    <Compile Include="Geo\UTM.cs" />
     <Compile Include="Area\SquareCentimeters.cs" />
     <Compile Include="Area\SquareFeet.cs" />
     <Compile Include="Area\SquareInches.cs" />
@@ -132,10 +128,6 @@
     <ProjectReference Include="..\Juniper.NETFXExtensions\Juniper.NETFXExtensions.csproj">
       <Project>{71ce09ef-34ce-4970-a731-593c09a7efb9}</Project>
       <Name>Juniper.NETFXExtensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.World\Juniper.World.csproj">
-      <Project>{27b52adc-cb80-4b77-a0fc-958c0b0d0982}</Project>
-      <Name>Juniper.World</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

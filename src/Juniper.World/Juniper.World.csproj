@@ -38,8 +38,15 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Climate\GoogleMaps\Example.cs" />
     <Compile Include="Climate\IWeatherAPI.cs" />
     <Compile Include="Climate\IWeatherReport.cs" />
+    <Compile Include="Climate\OpenWeatherMap\API.cs" />
+    <Compile Include="Climate\OpenWeatherMap\WeatherReport.cs" />
+    <Compile Include="GIS\EquitorialSpherical.cs" />
+    <Compile Include="GIS\GeocentricEclipticSpherical.cs" />
+    <Compile Include="GIS\LatLng.cs" />
+    <Compile Include="GIS\UTM.cs" />
     <Compile Include="GIS\Datum.cs" />
     <Compile Include="GIS\EquitorialSphericalPosition.cs" />
     <Compile Include="GIS\GeocentricEclipticSphericalPosition.cs" />
@@ -49,6 +56,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.HTTP\Juniper.HTTP.csproj">
+      <Project>{888b994c-2ae8-42b2-84f5-b15e11cc4f4f}</Project>
+      <Name>Juniper.HTTP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.NETFXExtensions\Juniper.NETFXExtensions.csproj">
       <Project>{71ce09ef-34ce-4970-a731-593c09a7efb9}</Project>
       <Name>Juniper.NETFXExtensions</Name>
@@ -56,6 +67,14 @@
     <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">
       <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
       <Name>Juniper.Progress</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Serialization\Juniper.Serialization.csproj">
+      <Project>{9d6f67cc-8eac-4644-9e20-c18c9d3e58cc}</Project>
+      <Name>Juniper.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Units\Juniper.Units.csproj">
+      <Project>{d1d31fd0-65ee-4576-828b-e0f60e3bf4ae}</Project>
+      <Name>Juniper.Units</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
