@@ -32,6 +32,21 @@ namespace Juniper.Json
         }
 
         /// <summary>
+        /// Reads all of the text out of a stream, and interprets it as a JSON serialized object.
+        /// </summary>
+        /// <typeparam name="T">The type of the serialized object.</typeparam>
+        /// <param name="response">The HTTP web response that contains the object in its body.</param>
+        /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
+        /// <returns>The value deserialized out of the stream.</returns>
+        public static T ReadObject<T>(this HttpWebResponse response, IProgress prog = null)
+        {
+            using(var stream = response.GetResponseStream())
+            {
+                return stream.ReadObject<T>(prog);
+            }
+        }
+
+        /// <summary>
         /// Writes text out to a stream.
         /// </summary>
         /// <param name="value">The text to write.</param>

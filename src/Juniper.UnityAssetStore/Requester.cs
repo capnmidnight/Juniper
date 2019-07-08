@@ -1,5 +1,7 @@
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using HtmlAgilityPack;
@@ -12,7 +14,7 @@ namespace Juniper.UnityAssetStore
     {
         const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
         const string UnityAPIRoot = "https://api.unity.com/";
-        const string UnityAssetStoreRoot = "https://www.assetstore.unity3d.com/";
+        const string UnityAssetStoreRoot = "https://assetstore.unity3d.com/";
         const string UnityAssetStoreAPIRoot = UnityAssetStoreRoot + "api/en-US/";
 
         private readonly IDeserializer deserializer;
@@ -182,13 +184,29 @@ namespace Juniper.UnityAssetStore
 
         public async Task<AssetDownload[]> GetDownloads(string userName, string password, string token)
         {
-            var doc = new HtmlDocument();
-            var login = await Get($"{UnityAPIRoot}auth/login?redirect_to=%2F");
-            doc.LoadHtml(login);
-            var csrfToken = doc.DocumentNode.SelectSingleNode("/html/head/meta[@name='csrf-token']");
-            if (csrfToken != null)
+            var req = HttpWebRequestExt.Create($"https://assetstore.unity.com/auth/login?redirect_to=%2F");
+            req.Header("Accept-Langage", "en-US,en;q=0.9");
+            req.Header("Accept-Encoding", "gzip, deflate, br");
+            req.KeepAlive = true;
+            req.DoNotTrack();
+            req.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36";
+            req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3";
+
+            var res = await req.Get();
+            if(res.StatusCode == HttpStatusCode.OK)
             {
-              
+                var doc = new HtmlDocument();
+                var html = res.ReadBody();
+                doc.LoadHtml(html);
+                var csrfToken = doc
+                    .DocumentNode
+                    .SelectSingleNode("//meta[@name='csrf-token']")
+                    .Attributes["content"]
+                    .Value;
+                if (csrfToken != null)
+                {
+
+                }
             }
 
             return default;

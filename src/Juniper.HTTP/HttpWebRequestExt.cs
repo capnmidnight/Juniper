@@ -20,7 +20,7 @@ namespace System.Net
         public static HttpWebRequest Create(string url)
         {
             var request = (HttpWebRequest)WebRequest.Create(url);
-            request.Header("Upgrade-Insecure-Request", 1);
+            request.Header("Upgrade-Insecure-Requests", 1);
             return request;
         }
 
