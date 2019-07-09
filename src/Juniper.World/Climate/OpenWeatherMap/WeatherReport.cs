@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
-
+using System.Threading.Tasks;
 using Juniper.Climate;
+using Juniper.Image;
 using Juniper.World.GIS;
 
 namespace Juniper.World.Climate.OpenWeatherMap
@@ -433,6 +435,13 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 {
                     return $"http://openweathermap.org/img/w/{icon}.png";
                 }
+            }
+
+            public async Task<RawImage> GetIcon()
+            {
+                var request = HttpWebRequestExt.Create(IconURL);
+                var response = await request.Get();
+                return await Decoder.DecodeResponseAsync(response);
             }
 
             /// <summary>
