@@ -97,6 +97,17 @@ namespace Juniper.World.Climate.OpenWeatherMap
         }
 
         /// <summary>
+        /// Initialize a new API requester object with the given authentication API key.
+        /// </summary>
+        /// <param name="factory">Factory used to serialize and deserialize objects.</param>
+        /// <param name="apiKey">The OpenWeatherMap API key to use for authentication.</param>
+        /// <param name="lastReportJSON">The value of the last report we received, if there was any.</param>
+        public API(IFactory factory, string apiKey, string lastReportJSON = null)
+            : this(factory, factory, apiKey, lastReportJSON)
+        {
+        }
+
+        /// <summary>
         /// Returns true when <see cref="LastReport"/> is null, LastReport indicates and error
         /// occurred, the time since the last report exceeds the <see cref="ReportTTLMinutes"/>, or
         /// the distance from <paramref name="location"/> to the last report's location is more than

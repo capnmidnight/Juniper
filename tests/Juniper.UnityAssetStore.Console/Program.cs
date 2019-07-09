@@ -9,7 +9,7 @@ namespace Juniper.UnityAssetStore.Console
     {
         static async Task Main(string[] args)
         {
-            var json = new Deserializer();
+            var json = new JsonFactory();
             var req = new Requester(json);
 
             var x = await req.GetTopFreeAssets("6");

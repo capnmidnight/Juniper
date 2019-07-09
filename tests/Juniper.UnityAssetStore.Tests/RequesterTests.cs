@@ -19,7 +19,7 @@ namespace Juniper.UnityAssetStore.Tests
         [TestInitialize]
         public void Init()
         {
-            req = new Requester(new Deserializer());
+            req = new Requester(new JsonFactory());
         }
 
         [TestMethod]

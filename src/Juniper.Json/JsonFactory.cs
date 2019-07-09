@@ -4,8 +4,13 @@ using Newtonsoft.Json;
 
 namespace Juniper.Json
 {
-    public class Deserializer : IDeserializer
+    public class JsonFactory : IDeserializer, ISerializer
     {
+        public string Serialize<T>(string name, T value)
+        {
+            return JsonConvert.SerializeObject(value);
+        }
+
         public T Deserialize<T>(string text)
         {
             return JsonConvert.DeserializeObject<T>(text);
