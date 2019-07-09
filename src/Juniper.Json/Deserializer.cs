@@ -6,11 +6,16 @@ namespace Juniper.Json
 {
     public class Deserializer : IDeserializer
     {
+        public T Deserialize<T>(string text)
+        {
+            return JsonConvert.DeserializeObject<T>(text);
+        }
+
         public bool TryDeserialize<T>(string text, out T value)
         {
             try
             {
-                value = JsonConvert.DeserializeObject<T>(text);
+                value = Deserialize<T>(text);
                 return true;
             }
             catch
