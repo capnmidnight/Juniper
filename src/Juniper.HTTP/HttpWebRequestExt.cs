@@ -24,6 +24,13 @@ namespace System.Net
             return request;
         }
 
+        public static HttpWebRequest Create(Uri uri)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(uri);
+            request.Header("Upgrade-Insecure-Requests", 1);
+            return request;
+        }
+
         public static HttpWebRequest DoNotTrack(this HttpWebRequest request)
         {
             request.Header("DNT", 1);

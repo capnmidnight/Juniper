@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -28,18 +29,23 @@ namespace Juniper.UnityAssetStore
 
         private async Task<string> Get(string url, string token = null)
         {
+            return await Get(new Uri(url), token);
+        }
+
+        private async Task<string> Get(Uri uri, string token = null)
+        {
             var code = HttpStatusCode.Redirect;
             HttpWebResponse response = null;
             while (code == HttpStatusCode.Redirect)
             {
-                response = await HttpWebRequestExt.Create(url)
+                response = await HttpWebRequestExt.Create(uri)
                     .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
                     .Accept("application/json")
                     .Get();
                 code = response.StatusCode;
                 if (code == HttpStatusCode.Redirect)
                 {
-                    url = response.Headers[HttpResponseHeader.Location];
+                    uri = new Uri(response.Headers[HttpResponseHeader.Location]);
                 }
             }
 
@@ -58,7 +64,12 @@ namespace Juniper.UnityAssetStore
 
         public async Task<string> Post(string url, string data, string token = null)
         {
-            var response = await data.Write(HttpWebRequestExt.Create(url)
+            return await Post(new Uri(url), data, token);
+        }
+
+        public async Task<string> Post(Uri uri, string data, string token = null)
+        {
+            var response = await data.Write(HttpWebRequestExt.Create(uri)
                 .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
                 //.Header("Origin", "https://www.assetstore.unity3d.com")
                 //.Header("Referer", "https://www.assetstore.unity3d.com/en/?stay")
@@ -95,9 +106,19 @@ namespace Juniper.UnityAssetStore
             return Decode<T>(await Get(url, token));
         }
 
+        private async Task<T> Get<T>(Uri uri, string token = null)
+        {
+            return Decode<T>(await Get(uri, token));
+        }
+
         private async Task<T> Post<T>(string url, string data, string token = null)
         {
             return Decode<T>(await Post(url, data, token));
+        }
+
+        private async Task<T> Post<T>(Uri uri, string data, string token = null)
+        {
+            return Decode<T>(await Post(uri, data, token));
         }
 
         public async Task<Category[]> GetCategories()

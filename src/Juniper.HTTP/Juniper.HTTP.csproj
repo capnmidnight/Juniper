@@ -43,6 +43,8 @@
     <Compile Include="HttpWebRequestExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamExt.cs" />
+    <Compile Include="StringExt.cs" />
+    <Compile Include="UriBuilderExt.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">
