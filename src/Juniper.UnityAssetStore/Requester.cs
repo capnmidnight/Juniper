@@ -217,7 +217,7 @@ namespace Juniper.UnityAssetStore
             if(res.StatusCode == HttpStatusCode.OK)
             {
                 var doc = new HtmlDocument();
-                var html = res.ReadBody();
+                var html = res.ReadBodyString();
                 doc.LoadHtml(html);
                 var csrfToken = doc
                     .DocumentNode

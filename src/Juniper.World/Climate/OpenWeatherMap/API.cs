@@ -200,7 +200,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
                     var requester = HttpWebRequestExt.Create(url);
                     requester.Accept = "application/json";
                     var response = await requester.Get();
-                    var body = response.ReadBody();
+                    var body = response.ReadBodyString();
                     if(deserializer.TryDeserialize<WeatherReport>(body, out var report))
                     {
                         reportJSON = serializer.Serialize("Weather report", report);

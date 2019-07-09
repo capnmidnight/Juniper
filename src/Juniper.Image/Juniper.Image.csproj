@@ -49,5 +49,10 @@
       <Name>Hjg.Pngcs</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Portable.LibJpeg.NET">
+      <Version>1.5.1.1</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

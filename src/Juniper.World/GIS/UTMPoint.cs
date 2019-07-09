@@ -1,3 +1,4 @@
+using Juniper.Serialization;
 using System;
 using System.Runtime.Serialization;
 
@@ -77,7 +78,7 @@ namespace Juniper.World.GIS
             Y = info.GetSingle(nameof(Y));
             Z = info.GetSingle(nameof(Z));
             Zone = info.GetInt32(nameof(Zone));
-            Hemisphere = (GlobeHemisphere)Enum.Parse(typeof(GlobeHemisphere), info.GetString(nameof(Hemisphere)));
+            Hemisphere = info.GetEnumFromString<GlobeHemisphere>(nameof(Hemisphere));
         }
 
         /// <summary>
