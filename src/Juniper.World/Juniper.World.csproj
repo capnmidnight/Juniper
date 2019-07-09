@@ -38,7 +38,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Climate\GoogleMaps\Example.cs" />
+    <Compile Include="GoogleMaps\Example.cs" />
     <Compile Include="Climate\IWeatherAPI.cs" />
     <Compile Include="Climate\IWeatherReport.cs" />
     <Compile Include="Climate\OpenWeatherMap\API.cs" />
