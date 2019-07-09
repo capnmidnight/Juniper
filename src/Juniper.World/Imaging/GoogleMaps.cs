@@ -441,7 +441,7 @@ namespace Juniper.Imaging
             builder.AddQuery("radius", searchRadius);
         }
 
-        private static void AddOutdoor(UriBuilder builder, bool outdoorOnly)
+        private static void AddSource(UriBuilder builder, bool outdoorOnly)
         {
             if (outdoorOnly)
             {
@@ -455,7 +455,7 @@ namespace Juniper.Imaging
             AddHeading(builder, heading);
             AddPitch(builder, pitch);
             AddRadius(builder, searchRadius);
-            AddOutdoor(builder, outdoorOnly);
+            AddSource(builder, outdoorOnly);
 
             return await GetImage(builder.Uri, signingKey);
         }
@@ -475,7 +475,7 @@ namespace Juniper.Imaging
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddHeading(builder, heading);
             AddPitch(builder, pitch);
-            AddOutdoor(builder, outdoorOnly);
+            AddSource(builder, outdoorOnly);
 
             return await GetImage(builder.Uri, signingKey);
         }
@@ -494,7 +494,7 @@ namespace Juniper.Imaging
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddHeading(builder, heading);
             AddRadius(builder, searchRadius);
-            AddOutdoor(builder, outdoorOnly);
+            AddSource(builder, outdoorOnly);
 
             return await GetImage(builder.Uri, signingKey);
         }
@@ -512,7 +512,7 @@ namespace Juniper.Imaging
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddHeading(builder, heading);
-            AddOutdoor(builder, outdoorOnly);
+            AddSource(builder, outdoorOnly);
 
             return await GetImage(builder.Uri, signingKey);
         }
@@ -530,7 +530,7 @@ namespace Juniper.Imaging
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddPitch(builder, pitch);
             AddRadius(builder, searchRadius);
-            AddOutdoor(builder, outdoorOnly);
+            AddSource(builder, outdoorOnly);
 
             return await GetImage(builder.Uri, signingKey);
         }
@@ -548,7 +548,7 @@ namespace Juniper.Imaging
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddPitch(builder, pitch);
-            AddOutdoor(builder, outdoorOnly);
+            AddSource(builder, outdoorOnly);
 
             return await GetImage(builder.Uri, signingKey);
         }
@@ -565,7 +565,7 @@ namespace Juniper.Imaging
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddRadius(builder, searchRadius);
-            AddOutdoor(builder, outdoorOnly);
+            AddSource(builder, outdoorOnly);
 
             return await GetImage(builder.Uri, signingKey);
         }
@@ -581,7 +581,7 @@ namespace Juniper.Imaging
         private async Task<RawImage> GetImage(string locParam, int width, int height, bool outdoorOnly)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
-            AddOutdoor(builder, outdoorOnly);
+            AddSource(builder, outdoorOnly);
 
             return await GetImage(builder.Uri, signingKey);
         }
