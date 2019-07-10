@@ -5,6 +5,14 @@ namespace Juniper.Image
     /// </summary>
     public struct RawImage
     {
+        public enum ImageSource
+        {
+            None,
+            File,
+            Network
+        }
+
+        public ImageSource source;
         public byte[] data;
         public int width, height;
     }

@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Juniper.HTTP;
+using Juniper.Progress;
 
 namespace System.Net
 {
@@ -155,6 +156,52 @@ namespace System.Net
         {
             request.Method = "HEAD";
             return (HttpWebResponse)await request.GetResponseAsync();
+        }
+
+        public static async Task<T> CachedGet<T>(
+            Uri uri,
+            DirectoryInfo cacheLocation,
+            string fileName,
+            Func<Stream, T> decode,
+            Action<HttpWebRequest> modifyRequest = null)
+        {
+            Stream body = null;
+            FileInfo cacheFile = null;
+
+            if (cacheLocation != null)
+            {
+                cacheFile = new FileInfo(Path.Combine(cacheLocation.FullName, fileName));
+                if (cacheFile.Exists)
+                {
+                    body = File.OpenRead(cacheFile.FullName);
+                }
+            }
+
+            if (body == null)
+            {
+                var request = Create(uri);
+                modifyRequest?.Invoke(request);
+
+                var response = await request.Get();
+                body = response.GetResponseStream();
+            }
+
+            if (body == null)
+            {
+                return default;
+            }
+            else
+            {
+                if (cacheFile?.Exists == false)
+                {
+                    body = new CachingStream(body, cacheFile.FullName);
+                }
+
+                using (body)
+                {
+                    return decode(body);
+                }
+            }
         }
     }
 }

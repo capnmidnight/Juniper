@@ -38,7 +38,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CachingStream.cs" />
     <Compile Include="IInstallable.cs" />
     <Compile Include="IProgress.cs" />
     <Compile Include="ProgressStream.cs" />

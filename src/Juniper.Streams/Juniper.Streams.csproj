@@ -37,6 +37,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CachingStream.cs" />
+    <Compile Include="ErsatzSeekableStream.cs" />
     <Compile Include="StreamExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

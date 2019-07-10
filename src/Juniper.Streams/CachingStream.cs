@@ -1,4 +1,8 @@
+using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Juniper.Progress
 {
@@ -25,7 +29,7 @@ namespace Juniper.Progress
         /// <param name="parent"></param>
         public CachingStream(Stream stream, string filename)
         {
-            inStream = stream;
+            inStream = new ErsatzSeekableStream(stream);
             outStream = File.OpenWrite(filename);
         }
 
@@ -50,6 +54,12 @@ namespace Juniper.Progress
                 inStream.Dispose();
                 outStream.Dispose();
             }
+        }
+
+        public override void Close()
+        {
+            inStream.Close();
+            outStream.Close();
         }
 
         /// <summary>
@@ -81,7 +91,18 @@ namespace Juniper.Progress
         {
             get
             {
-                return inStream.CanWrite;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns true when the underlying stream can time out.
+        /// </summary>
+        public override bool CanTimeout
+        {
+            get
+            {
+                return inStream.CanTimeout;
             }
         }
 
@@ -109,6 +130,7 @@ namespace Juniper.Progress
             set
             {
                 inStream.Position = value;
+                outStream.Position = value;
             }
         }
 
@@ -119,6 +141,14 @@ namespace Juniper.Progress
         {
             inStream.Flush();
             outStream.Flush();
+        }
+
+        [ComVisible(false)]
+        public override Task FlushAsync(CancellationToken cancellationToken)
+        {
+            return Task.WhenAll(
+                inStream.FlushAsync(cancellationToken),
+                outStream.FlushAsync(cancellationToken));
         }
 
         /// <summary>
@@ -160,8 +190,75 @@ namespace Juniper.Progress
         /// <returns></returns>
         public override void Write(byte[] buffer, int offset, int count)
         {
-            inStream.Write(buffer, offset, count);
-            outStream.Write(buffer, offset, count);
+            throw new NotSupportedException();
+        }
+
+        private int lastRead;
+        public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
+        {
+            AsyncCallback wrappedCallback = async (IAsyncResult result) =>
+            {
+                lastRead = inStream.EndRead(result);
+                await outStream.WriteAsync(buffer, offset, lastRead);
+                callback(result);
+            };
+
+            return inStream.BeginRead(buffer, offset, count, wrappedCallback, state);
+        }
+
+        public override int EndRead(IAsyncResult asyncResult)
+        {
+            return lastRead;
+        }
+
+        public override IAsyncResult BeginWrite(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
+        {
+            throw new NotSupportedException();
+        }
+
+        public override void EndWrite(IAsyncResult asyncResult)
+        {
+            throw new NotSupportedException();
+        }
+
+        [ComVisible(false)]
+        public override async Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
+        {
+            var buffer = new byte[bufferSize];
+            int read;
+            while((read = await ReadAsync(buffer, 0, bufferSize, cancellationToken)) > 0)
+            {
+                await destination.WriteAsync(buffer, 0, read, cancellationToken);
+            }
+        }
+
+        [ComVisible(false)]
+        public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            var read = await inStream.ReadAsync(buffer, offset, count, cancellationToken);
+            await outStream.WriteAsync(buffer, offset, read, cancellationToken);
+            return read;
+        }
+
+        public override int ReadByte()
+        {
+            var b = inStream.ReadByte();
+            if (b > -1)
+            {
+                outStream.WriteByte((byte)b);
+            }
+            return b;
+        }
+
+        [ComVisible(false)]
+        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            throw new NotSupportedException();
+        }
+
+        public override void WriteByte(byte value)
+        {
+            throw new NotSupportedException();
         }
     }
 }

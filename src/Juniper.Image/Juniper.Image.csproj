@@ -48,6 +48,14 @@
       <Project>{d1a0316a-2512-4a58-af0d-d4b6943b4992}</Project>
       <Name>Hjg.Pngcs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">
+      <Project>{E8C5E33F-9C4E-4B70-8EFE-974946E59A48}</Project>
+      <Name>Juniper.Progress</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Streams\Juniper.Streams.csproj">
+      <Project>{134d77e1-78d5-4f9b-868f-7ea6e98cec08}</Project>
+      <Name>Juniper.Streams</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Portable.LibJpeg.NET">

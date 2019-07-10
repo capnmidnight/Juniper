@@ -2,6 +2,7 @@ using Juniper.Image;
 using Juniper.Serialization;
 using Juniper.World.GIS;
 using System;
+using System.IO;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
@@ -120,33 +121,38 @@ namespace Juniper.Imaging
         private readonly IDeserializer deserializer;
         private readonly string apiKey;
         private readonly string signingKey;
+        private readonly DirectoryInfo cacheLocation;
 
-        public GoogleMaps(IDeserializer deserializer, string apiKey, string signingKey)
+        public GoogleMaps(IDeserializer deserializer, string apiKey, string signingKey, DirectoryInfo cacheLocation = null)
         {
             this.deserializer = deserializer;
             this.apiKey = apiKey;
             this.signingKey = signingKey;
+            this.cacheLocation = cacheLocation;
         }
 
-        private Uri Sign(Uri inputUri)
+        private Uri Sign(Uri uri)
         {
+            var unsignedUriBuilder = new UriBuilder(uri);
+            unsignedUriBuilder.AddQuery("key", apiKey);
+            var unsignedUri = unsignedUriBuilder.Uri;
+
             var pkBytes = Convert.FromBase64String(signingKey.FromGoogleModifiedBase64());
             var hasher = new HMACSHA1(pkBytes);
 
-            var urlBytes = Encoding.ASCII.GetBytes(inputUri.LocalPath + inputUri.Query);
+            var urlBytes = Encoding.ASCII.GetBytes(unsignedUri.LocalPath + unsignedUri.Query);
             var hash = hasher.ComputeHash(urlBytes);
             var signature = Convert.ToBase64String(hash).ToGoogleModifiedBase64();
 
-            var outputUri = new UriBuilder(inputUri);
-            outputUri.AddQuery("signature", signature);
-            return outputUri.Uri;
+            var signedUri = new UriBuilder(unsignedUri);
+            signedUri.AddQuery("signature", signature);
+            return signedUri.Uri;
         }
 
         private UriBuilder MakeUriBuilder(Uri uriBase, string locParam)
         {
             var builder = new UriBuilder(uriBase);
             builder.AddQuery(locParam);
-            builder.AddQuery("key", apiKey);
             return builder;
         }
 
@@ -162,268 +168,285 @@ namespace Juniper.Imaging
             return builder;
         }
 
-        public async Task<Metadata> GetMetadata(PanoID pano)
+        private static string MakeCacheID(Uri uri, string extension)
         {
-            return await GetMetadata($"pano={pano}");
+            var cacheID = uri.PathAndQuery.Replace('/', '_');
+            cacheID = Path.ChangeExtension(cacheID, extension);
+            return cacheID;
         }
 
-        public async Task<Metadata> GetMetadataAtLocation(LatLngPoint location)
+        private Task<Metadata> GetMetadata(string locParam)
         {
-            return await GetMetadataAtLocation($"{location.Latitude},{location.Longitude}");
+            var uri = MakeMetadatUri(locParam);
+            return HttpWebRequestExt.CachedGet(
+                Sign(uri),
+                cacheLocation,
+                MakeCacheID(uri, "json"),
+                deserializer.Deserialize<Metadata>);
         }
 
-        public async Task<Metadata> GetMetadataAtLocation(string location)
+        private Task<RawImage> GetImage(Uri uri)
         {
-            return await GetMetadata($"location={location}");
+            return HttpWebRequestExt.CachedGet(
+                Sign(uri),
+                cacheLocation,
+                MakeCacheID(uri, "jpeg"),
+                Image.Decoder.DecodeJPEG);
         }
 
-        private async Task<Metadata> GetMetadata(string locParam)
+        public Task<Metadata> GetMetadata(PanoID pano)
         {
-            var uri = Sign(MakeMetadatUri(locParam));
-            var request = HttpWebRequestExt.Create(uri);
-            var response = await request.Get();
-            var body = response.ReadBodyString();
-            return deserializer.Deserialize<Metadata>(body);
+            return GetMetadata($"pano={pano}");
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, Pitch pitch, int searchRadius, bool outdoorOnly)
+        public Task<Metadata> GetMetadataAtLocation(LatLngPoint location)
         {
-            return await GetImage($"pano={pano}", width, height, heading, pitch, searchRadius, outdoorOnly);
+            return GetMetadataAtLocation($"{location.Latitude},{location.Longitude}");
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, Pitch pitch, int searchRadius)
+        public Task<Metadata> GetMetadataAtLocation(string location)
         {
-            return await GetImage($"pano={pano}", width, height, heading, pitch, searchRadius);
+            return GetMetadata($"location={location}");
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, Pitch pitch, bool outdoorOnly)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, Pitch pitch, int searchRadius, bool outdoorOnly)
         {
-            return await GetImage($"pano={pano}", width, height, heading, pitch, outdoorOnly);
+            return GetImage($"pano={pano}", width, height, heading, pitch, searchRadius, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, Pitch pitch)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, Pitch pitch, int searchRadius)
         {
-            return await GetImage($"pano={pano}", width, height, heading, pitch);
+            return GetImage($"pano={pano}", width, height, heading, pitch, searchRadius);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, int searchRadius, bool outdoorOnly)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, Pitch pitch, bool outdoorOnly)
         {
-            return await GetImage($"pano={pano}", width, height, heading, searchRadius, outdoorOnly);
+            return GetImage($"pano={pano}", width, height, heading, pitch, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, int searchRadius)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, Pitch pitch)
         {
-            return await GetImage($"pano={pano}", width, height, heading, searchRadius);
+            return GetImage($"pano={pano}", width, height, heading, pitch);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, bool outdoorOnly)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, int searchRadius, bool outdoorOnly)
         {
-            return await GetImage($"pano={pano}", width, height, heading, outdoorOnly);
+            return GetImage($"pano={pano}", width, height, heading, searchRadius, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, int searchRadius)
         {
-            return await GetImage($"pano={pano}", width, height, heading);
+            return GetImage($"pano={pano}", width, height, heading, searchRadius);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, Pitch pitch, int searchRadius, bool outdoorOnly)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, bool outdoorOnly)
         {
-            return await GetImage($"pano={pano}", width, height, pitch, searchRadius, outdoorOnly);
+            return GetImage($"pano={pano}", width, height, heading, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, Pitch pitch, int searchRadius)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading)
         {
-            return await GetImage($"pano={pano}", width, height, pitch, searchRadius);
+            return GetImage($"pano={pano}", width, height, heading);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, Pitch pitch, bool outdoorOnly)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, Pitch pitch, int searchRadius, bool outdoorOnly)
         {
-            return await GetImage($"pano={pano}", width, height, pitch, outdoorOnly);
+            return GetImage($"pano={pano}", width, height, pitch, searchRadius, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, Pitch pitch)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, Pitch pitch, int searchRadius)
         {
-            return await GetImage($"pano={pano}", width, height, pitch);
+            return GetImage($"pano={pano}", width, height, pitch, searchRadius);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, int searchRadius, bool outdoorOnly)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, Pitch pitch, bool outdoorOnly)
         {
-            return await GetImage($"pano={pano}", width, height, searchRadius, outdoorOnly);
+            return GetImage($"pano={pano}", width, height, pitch, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, int searchRadius)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, Pitch pitch)
         {
-            return await GetImage($"pano={pano}", width, height, searchRadius);
+            return GetImage($"pano={pano}", width, height, pitch);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height, bool outdoorOnly)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, int searchRadius, bool outdoorOnly)
         {
-            return await GetImage($"pano={pano}", width, height, outdoorOnly);
+            return GetImage($"pano={pano}", width, height, searchRadius, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImage(PanoID pano, int width, int height)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, int searchRadius)
         {
-            return await GetImage($"pano={pano}", width, height);
+            return GetImage($"pano={pano}", width, height, searchRadius);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, Pitch pitch, int searchRadius, bool outdoorOnly)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height, bool outdoorOnly)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, pitch, searchRadius, outdoorOnly);
+            return GetImage($"pano={pano}", width, height, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, Pitch pitch, int searchRadius)
+        public Task<RawImage> GetImage(PanoID pano, int width, int height)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, pitch, searchRadius);
+            return GetImage($"pano={pano}", width, height);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, Pitch pitch, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, Pitch pitch, int searchRadius, bool outdoorOnly)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, pitch, outdoorOnly);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, pitch, searchRadius, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, Pitch pitch)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, Pitch pitch, int searchRadius)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, pitch);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, pitch, searchRadius);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, int searchRadius, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, Pitch pitch, bool outdoorOnly)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, searchRadius, outdoorOnly);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, pitch, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, int searchRadius)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, Pitch pitch)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, searchRadius);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, pitch);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, int searchRadius, bool outdoorOnly)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, outdoorOnly);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, searchRadius, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, int searchRadius)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, searchRadius);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Pitch pitch, int searchRadius, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, bool outdoorOnly)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, pitch, searchRadius, outdoorOnly);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Pitch pitch, int searchRadius)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, pitch, searchRadius);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Pitch pitch, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Pitch pitch, int searchRadius, bool outdoorOnly)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, pitch, outdoorOnly);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, pitch, searchRadius, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Pitch pitch)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Pitch pitch, int searchRadius)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, pitch);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, pitch, searchRadius);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, int searchRadius, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Pitch pitch, bool outdoorOnly)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, searchRadius, outdoorOnly);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, pitch, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, int searchRadius)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Pitch pitch)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, searchRadius);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, pitch);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, int searchRadius, bool outdoorOnly)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, outdoorOnly);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, searchRadius, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, int searchRadius)
         {
-            return await GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, searchRadius);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, Pitch pitch, int searchRadius, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, bool outdoorOnly)
         {
-            return await GetImage($"location={locationName}", width, height, heading, pitch, searchRadius, outdoorOnly);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, Pitch pitch, int searchRadius)
+        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height)
         {
-            return await GetImage($"location={locationName}", width, height, heading, pitch, searchRadius);
+            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, Pitch pitch, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, Pitch pitch, int searchRadius, bool outdoorOnly)
         {
-            return await GetImage($"location={locationName}", width, height, heading, pitch, outdoorOnly);
+            return GetImage($"location={locationName}", width, height, heading, pitch, searchRadius, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, Pitch pitch)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, Pitch pitch, int searchRadius)
         {
-            return await GetImage($"location={locationName}", width, height, heading, pitch);
+            return GetImage($"location={locationName}", width, height, heading, pitch, searchRadius);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, int searchRadius, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, Pitch pitch, bool outdoorOnly)
         {
-            return await GetImage($"location={locationName}", width, height, heading, searchRadius, outdoorOnly);
+            return GetImage($"location={locationName}", width, height, heading, pitch, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, int searchRadius)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, Pitch pitch)
         {
-            return await GetImage($"location={locationName}", width, height, heading, searchRadius);
+            return GetImage($"location={locationName}", width, height, heading, pitch);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, int searchRadius, bool outdoorOnly)
         {
-            return await GetImage($"location={locationName}", width, height, heading, outdoorOnly);
+            return GetImage($"location={locationName}", width, height, heading, searchRadius, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, int searchRadius)
         {
-            return await GetImage($"location={locationName}", width, height, heading);
+            return GetImage($"location={locationName}", width, height, heading, searchRadius);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Pitch pitch, int searchRadius, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, bool outdoorOnly)
         {
-            return await GetImage($"location={locationName}", width, height, pitch, searchRadius, outdoorOnly);
+            return GetImage($"location={locationName}", width, height, heading, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Pitch pitch, int searchRadius)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading)
         {
-            return await GetImage($"location={locationName}", width, height, pitch, searchRadius);
+            return GetImage($"location={locationName}", width, height, heading);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Pitch pitch, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Pitch pitch, int searchRadius, bool outdoorOnly)
         {
-            return await GetImage($"location={locationName}", width, height, pitch, outdoorOnly);
+            return GetImage($"location={locationName}", width, height, pitch, searchRadius, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Pitch pitch)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Pitch pitch, int searchRadius)
         {
-            return await GetImage($"location={locationName}", width, height, pitch);
+            return GetImage($"location={locationName}", width, height, pitch, searchRadius);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, int searchRadius, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Pitch pitch, bool outdoorOnly)
         {
-            return await GetImage($"location={locationName}", width, height, searchRadius, outdoorOnly);
+            return GetImage($"location={locationName}", width, height, pitch, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, int searchRadius)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Pitch pitch)
         {
-            return await GetImage($"location={locationName}", width, height, searchRadius);
+            return GetImage($"location={locationName}", width, height, pitch);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height, bool outdoorOnly)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, int searchRadius, bool outdoorOnly)
         {
-            return await GetImage($"location={locationName}", width, height, outdoorOnly);
+            return GetImage($"location={locationName}", width, height, searchRadius, outdoorOnly);
         }
 
-        public async Task<RawImage> GetImageAtLocation(string locationName, int width, int height)
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, int searchRadius)
         {
-            return await GetImage($"location={locationName}", width, height);
+            return GetImage($"location={locationName}", width, height, searchRadius);
+        }
+
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, bool outdoorOnly)
+        {
+            return GetImage($"location={locationName}", width, height, outdoorOnly);
+        }
+
+        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height)
+        {
+            return GetImage($"location={locationName}", width, height);
         }
 
         private static void AddHeading(UriBuilder builder, Heading heading)
@@ -449,7 +472,7 @@ namespace Juniper.Imaging
             }
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, Pitch pitch, int searchRadius, bool outdoorOnly)
+        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, Pitch pitch, int searchRadius, bool outdoorOnly)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddHeading(builder, heading);
@@ -457,146 +480,139 @@ namespace Juniper.Imaging
             AddRadius(builder, searchRadius);
             AddSource(builder, outdoorOnly);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, Pitch pitch, int searchRadius)
+        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, Pitch pitch, int searchRadius)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddHeading(builder, heading);
             AddPitch(builder, pitch);
             AddRadius(builder, searchRadius);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, Pitch pitch, bool outdoorOnly)
+        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, Pitch pitch, bool outdoorOnly)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddHeading(builder, heading);
             AddPitch(builder, pitch);
             AddSource(builder, outdoorOnly);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, Pitch pitch)
+        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, Pitch pitch)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddHeading(builder, heading);
             AddPitch(builder, pitch);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, int searchRadius, bool outdoorOnly)
+        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, int searchRadius, bool outdoorOnly)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddHeading(builder, heading);
             AddRadius(builder, searchRadius);
             AddSource(builder, outdoorOnly);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, int searchRadius)
+        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, int searchRadius)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddHeading(builder, heading);
             AddRadius(builder, searchRadius);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, bool outdoorOnly)
+        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, bool outdoorOnly)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddHeading(builder, heading);
             AddSource(builder, outdoorOnly);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, Heading heading)
+        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddHeading(builder, heading);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, Pitch pitch, int searchRadius, bool outdoorOnly)
+        private Task<RawImage> GetImage(string locParam, int width, int height, Pitch pitch, int searchRadius, bool outdoorOnly)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddPitch(builder, pitch);
             AddRadius(builder, searchRadius);
             AddSource(builder, outdoorOnly);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, Pitch pitch, int searchRadius)
+        private Task<RawImage> GetImage(string locParam, int width, int height, Pitch pitch, int searchRadius)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddPitch(builder, pitch);
             AddRadius(builder, searchRadius);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, Pitch pitch, bool outdoorOnly)
+        private Task<RawImage> GetImage(string locParam, int width, int height, Pitch pitch, bool outdoorOnly)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddPitch(builder, pitch);
             AddSource(builder, outdoorOnly);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, Pitch pitch)
+        private Task<RawImage> GetImage(string locParam, int width, int height, Pitch pitch)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddPitch(builder, pitch);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, int searchRadius, bool outdoorOnly)
+        private Task<RawImage> GetImage(string locParam, int width, int height, int searchRadius, bool outdoorOnly)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddRadius(builder, searchRadius);
             AddSource(builder, outdoorOnly);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, int searchRadius)
+        private Task<RawImage> GetImage(string locParam, int width, int height, int searchRadius)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddRadius(builder, searchRadius);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height, bool outdoorOnly)
+        private Task<RawImage> GetImage(string locParam, int width, int height, bool outdoorOnly)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
             AddSource(builder, outdoorOnly);
 
-            return await GetImage(builder.Uri, signingKey);
+            return GetImage(builder.Uri);
         }
 
-        private async Task<RawImage> GetImage(string locParam, int width, int height)
+        private Task<RawImage> GetImage(string locParam, int width, int height)
         {
             var builder = MakeImageUriBuilder(locParam, width, height);
-            return await GetImage(builder.Uri, signingKey);
-        }
-
-        private async Task<RawImage> GetImage(Uri uri, string signingKey)
-        {
-            var request = HttpWebRequestExt.Create(Sign(uri));
-            var response = await request.Get();
-            return await Image.Decoder.DecodeResponseAsync(response);
+            return GetImage(builder.Uri);
         }
     }
 }
