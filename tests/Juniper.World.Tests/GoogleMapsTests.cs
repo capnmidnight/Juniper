@@ -1,8 +1,6 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using Juniper.Image;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.World.Imaging.Tests
@@ -42,11 +40,9 @@ namespace Juniper.World.Imaging.Tests
         }
 
         [TestMethod]
-        public async Task GetImageFromPanoID()
+        public async Task GetImage()
         {
-            var metadataSearch = new GoogleMaps.MetadataSearch("Washington, DC");
-            var metadata = await gmaps.Get(metadataSearch);
-            var imageSearch = new GoogleMaps.ImageSearch(metadata.pano_id, 640, 640);
+            var imageSearch = new GoogleMaps.ImageSearch("Washington, DC", 640, 640);
             var image = await gmaps.Get(imageSearch);
             Assert.IsTrue(gmaps.IsCached(imageSearch));
             Assert.AreEqual(640, image.width);
@@ -56,9 +52,7 @@ namespace Juniper.World.Imaging.Tests
         [TestMethod]
         public async Task GetCubeMapFromPanoID()
         {
-            var metadataSearch = new GoogleMaps.MetadataSearch("Washington, DC");
-            var metadata = await gmaps.Get(metadataSearch);
-            var cubeMapSearch = new GoogleMaps.CubeMapSearch(metadata.pano_id, 640, 640);
+            var cubeMapSearch = new GoogleMaps.CubeMapSearch("Washington, DC", 640, 640);
             var images = await gmaps.Get(cubeMapSearch);
             Assert.IsTrue(gmaps.IsCached(cubeMapSearch));
             foreach (var image in images)
