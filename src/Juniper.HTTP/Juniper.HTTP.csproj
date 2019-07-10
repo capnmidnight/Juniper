@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BodyInfo.cs" />
+    <Compile Include="Response.cs" />
     <Compile Include="HttpWebResponseExt.cs" />
     <Compile Include="HttpWebRequestExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

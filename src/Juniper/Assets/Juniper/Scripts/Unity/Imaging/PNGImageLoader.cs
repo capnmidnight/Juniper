@@ -43,9 +43,9 @@ namespace Juniper.Imaging
 
             yield return new WaitUntil(() => resultTask.IsCompleted || resultTask.IsFaulted || resultTask.IsCanceled);
 
-            using (resultTask.Result.Value)
+            using (resultTask.Result.Content)
             {
-                var imageTask = Decoder.DecodePNG(resultTask.Result.Value);
+                var imageTask = Decoder.DecodePNGAsync(resultTask.Result.Content);
 
                 yield return new WaitUntil(() => imageTask.IsCompleted || imageTask.IsFaulted || imageTask.IsCanceled);
 

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Juniper.Compression.Tar.GZip;
+using Juniper.Json;
 using Juniper.Progress;
 using Juniper.XR;
 
@@ -83,7 +84,7 @@ namespace Juniper.ConfigurationManagement
 
                 var token = UnityEditorInternal.InternalEditorUtility.GetAuthToken();
                 Task.Run(async () => {
-                    var req = new UnityAssetStore.Requester(new Json.Deserializer());
+                    var req = new UnityAssetStore.Requester(new JsonFactory());
                     const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
                     const string UnityAssetStoreRoot = "https://www.assetstore.unity3d.com/";
                     const string userName = "sean.mcbeth@gmail.com";
@@ -93,7 +94,7 @@ namespace Juniper.ConfigurationManagement
                         var sessionID = await req.Post($"{UnityAssetStoreRoot}login?skip_terms=1", $"user={userName}&pass={password}", UnityAssetStoreToken + token);
                         Debug.Log(sessionID);
                     }
-                    catch(Exception exp)
+                    catch//(Exception exp)
                     {
 
                     }

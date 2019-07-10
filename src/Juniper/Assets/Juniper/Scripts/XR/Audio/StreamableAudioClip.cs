@@ -50,7 +50,7 @@ namespace Juniper.Audio
 
             yield return new WaitUntil(() => audioTask.IsCanceled || audioTask.IsCompleted || audioTask.IsFaulted);
 
-            var audio = decoder(audioTask.Result.Value);
+            var audio = decoder(audioTask.Result.Content);
 
             try
             {

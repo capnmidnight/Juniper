@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Juniper.Json
 {
-    public class JsonFactory : IDeserializer, ISerializer
+    public class JsonFactory : IFactory
     {
         public string Serialize<T>(string name, T value)
         {
