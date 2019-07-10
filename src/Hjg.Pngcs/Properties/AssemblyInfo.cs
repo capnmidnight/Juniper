@@ -1,12 +1,10 @@
 using System;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: CLSCompliant(true)]
 [assembly: AssemblyTitle("Hjg.Pngcs")]
 [assembly: AssemblyDescription("PNGCS: A library for read-write PNG images")]
 [assembly: AssemblyConfiguration("")]
@@ -20,6 +18,7 @@ using System.Runtime.InteropServices;
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
+[assembly: CLSCompliant(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("57660689-c667-4a9e-9b21-ef4e21754425")]
