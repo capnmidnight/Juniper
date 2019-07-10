@@ -3,13 +3,14 @@ using Juniper.Serialization;
 using Juniper.World.GIS;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Juniper.Imaging
+namespace Juniper.World.Imaging
 {
 
     public class GoogleMaps
@@ -19,7 +20,7 @@ namespace Juniper.Imaging
             North = 0,
             East = 90,
             South = 180,
-            West = 360
+            West = 270
         }
 
         public enum Pitch
@@ -69,6 +70,7 @@ namespace Juniper.Imaging
         public class Metadata : ISerializable
         {
             public readonly StatusCode status;
+            public readonly string error_message;
             public readonly string copyright;
             public readonly string date;
             public readonly PanoID pano_id;
@@ -77,22 +79,244 @@ namespace Juniper.Imaging
             public Metadata(SerializationInfo info, StreamingContext context)
             {
                 status = info.GetEnumFromString<StatusCode>(nameof(status));
-                if(status == StatusCode.OK)
+                if (status == StatusCode.OK)
                 {
                     copyright = info.GetString(nameof(copyright));
                     date = info.GetString(nameof(date));
                     pano_id = new PanoID(info.GetString(nameof(pano_id)));
                     location = info.GetValue<MetadataLocation>(nameof(location));
                 }
+                else
+                {
+                    error_message = info.GetString(nameof(error_message));
+                }
             }
 
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
                 info.AddValue(nameof(status), status.ToString());
+                info.MaybeAddValue(nameof(error_message), error_message);
                 info.MaybeAddValue(nameof(copyright), copyright);
                 info.MaybeAddValue(nameof(date), date);
                 info.MaybeAddValue(nameof(pano_id), pano_id.ToString());
                 info.MaybeAddValue(nameof(location), location);
+            }
+        }
+
+
+        public abstract class Search
+        {
+            protected const string baseServiceURI = "https://maps.googleapis.com/maps/api/streetview";
+
+            protected static string MakeCacheID(Uri uri, string extension)
+            {
+                var cacheID = string.Join("_", uri.PathAndQuery
+                    .Substring(1)
+                    .Split(Path.GetInvalidFileNameChars()));
+                cacheID = Path.ChangeExtension(cacheID, extension);
+                return cacheID;
+            }
+
+            protected readonly UriBuilder uriBuilder;
+            private string extension;
+
+            private Search(Uri baseUri, string extension)
+            {
+                uriBuilder = new UriBuilder(baseUri);
+                this.extension = extension;
+            }
+
+            public Search(Uri baseUri, string extension, PanoID pano)
+                : this(baseUri, extension)
+            {
+                uriBuilder.AddQuery("pano", pano);
+            }
+
+            public Search(Uri baseUri, string extension, string placeName)
+                : this(baseUri, extension)
+            {
+                uriBuilder.AddQuery("location", placeName);
+            }
+
+            public Search(Uri baseUri, string extension, LatLngPoint location)
+                : this(baseUri, extension)
+            {
+                uriBuilder.AddQuery("location", $"{location.Latitude},{location.Longitude}");
+            }
+
+            public Uri Uri
+            {
+                get
+                {
+                    return uriBuilder.Uri;
+                }
+            }
+
+            public string CacheFileName
+            {
+                get
+                {
+                    return MakeCacheID(Uri, extension);
+                }
+            }
+        }
+
+        public class MetadataSearch : Search
+        {
+            private static readonly Uri metadataURIBase = new Uri(baseServiceURI + "/metadata");
+
+            public MetadataSearch(PanoID pano)
+                : base(metadataURIBase, "json", pano) { }
+
+            public MetadataSearch(string placeName)
+                : base(metadataURIBase, "json", placeName) { }
+
+            public MetadataSearch(LatLngPoint location)
+                : base(metadataURIBase, "json", location) { }
+        }
+
+        public class ImageSearch : Search
+        {
+            private static readonly Uri imageURIBase = new Uri(baseServiceURI);
+
+            public ImageSearch(PanoID pano, int width, int height)
+                : base(imageURIBase, "jpeg", pano)
+            {
+                SetSize(width, height);
+            }
+
+            public ImageSearch(string placeName, int width, int height)
+                : base(imageURIBase, "jpeg", placeName)
+            {
+                SetSize(width, height);
+            }
+
+            public ImageSearch(LatLngPoint location, int width, int height)
+                : base(imageURIBase, "jpeg", location)
+            {
+                SetSize(width, height);
+            }
+
+            private void SetSize(int width, int height)
+            {
+                uriBuilder.AddQuery("size", $"{width}x{height}");
+            }
+
+            public ImageSearch AddHeading(Heading heading)
+            {
+                uriBuilder.AddQuery("heading", (int)heading);
+                return this;
+            }
+
+            public ImageSearch AddPitch(Pitch pitch)
+            {
+                uriBuilder.AddQuery("pitch", (int)pitch);
+                return this;
+            }
+
+            public ImageSearch AddRadius(int searchRadius)
+            {
+                uriBuilder.AddQuery("radius", searchRadius);
+                return this;
+            }
+
+            public ImageSearch AddSource(bool outdoorOnly)
+            {
+                if (outdoorOnly)
+                {
+                    uriBuilder.AddQuery("source=outdoor");
+                }
+                return this;
+            }
+        }
+
+        public class CubeMapSearch
+        {
+            private CubeMapSearch(ImageSearch[] images)
+            {
+                Images = images;
+
+                images[0].AddHeading(Heading.North).AddPitch(Pitch.Level);
+                images[1].AddHeading(Heading.East).AddPitch(Pitch.Level);
+                images[2].AddHeading(Heading.West).AddPitch(Pitch.Level);
+                images[3].AddHeading(Heading.South).AddPitch(Pitch.Level);
+                images[4].AddHeading(Heading.North).AddPitch(Pitch.Up);
+                images[5].AddHeading(Heading.North).AddPitch(Pitch.Down);
+            }
+
+            public CubeMapSearch(PanoID pano, int width, int height)
+                : this(new[]
+                {
+                    new ImageSearch(pano, width, height),
+                    new ImageSearch(pano, width, height),
+                    new ImageSearch(pano, width, height),
+                    new ImageSearch(pano, width, height),
+                    new ImageSearch(pano, width, height),
+                    new ImageSearch(pano, width, height),
+                })
+            {
+            }
+
+            public CubeMapSearch(string placeName, int width, int height)
+                : this(new[]
+                {
+                    new ImageSearch(placeName, width, height),
+                    new ImageSearch(placeName, width, height),
+                    new ImageSearch(placeName, width, height),
+                    new ImageSearch(placeName, width, height),
+                    new ImageSearch(placeName, width, height),
+                    new ImageSearch(placeName, width, height),
+                })
+            {
+            }
+
+            public CubeMapSearch(LatLngPoint location, int width, int height)
+                : this(new[]
+                {
+                    new ImageSearch(location, width, height),
+                    new ImageSearch(location, width, height),
+                    new ImageSearch(location, width, height),
+                    new ImageSearch(location, width, height),
+                    new ImageSearch(location, width, height),
+                    new ImageSearch(location, width, height),
+                })
+            {
+            }
+
+            public CubeMapSearch AddRadius(int searchRadius)
+            {
+                foreach (var img in Images)
+                {
+                    img.AddRadius(searchRadius);
+                }
+                return this;
+            }
+
+            public CubeMapSearch AddSource(bool outdoorOnly)
+            {
+                foreach (var img in Images)
+                {
+                    img.AddSource(outdoorOnly);
+                }
+                return this;
+            }
+
+            public ImageSearch[] Images { get; }
+
+            public Uri[] Uris
+            {
+                get
+                {
+                    return Images.Select(i => i.Uri).ToArray();
+                }
+            }
+
+            public string[] CacheFileNames
+            {
+                get
+                {
+                    return Images.Select(i => i.CacheFileName).ToArray();
+                }
             }
         }
 
@@ -114,10 +338,6 @@ namespace Juniper.Imaging
             }
         }
 
-        private const string baseURI = "https://maps.googleapis.com/maps/api/streetview";
-        private static readonly Uri imageURIBase = new Uri(baseURI);
-        private static readonly Uri metadataURIBase = new Uri(baseURI + "/metadata");
-
         private readonly IDeserializer deserializer;
         private readonly string apiKey;
         private readonly string signingKey;
@@ -129,6 +349,7 @@ namespace Juniper.Imaging
             this.apiKey = apiKey;
             this.signingKey = signingKey;
             this.cacheLocation = cacheLocation;
+            cacheLocation?.Create();
         }
 
         private Uri Sign(Uri uri)
@@ -149,470 +370,58 @@ namespace Juniper.Imaging
             return signedUri.Uri;
         }
 
-        private UriBuilder MakeUriBuilder(Uri uriBase, string locParam)
+        private string MakeFullCachePath(string cacheFileName)
         {
-            var builder = new UriBuilder(uriBase);
-            builder.AddQuery(locParam);
-            return builder;
-        }
-
-        private Uri MakeMetadatUri(string locParam)
-        {
-            return MakeUriBuilder(metadataURIBase, locParam).Uri;
-        }
-
-        private UriBuilder MakeImageUriBuilder(string locParam, int width, int height)
-        {
-            var builder = MakeUriBuilder(imageURIBase, locParam);
-            builder.AddQuery("size", $"{width}x{height}");
-            return builder;
-        }
-
-        private static string MakeCacheID(Uri uri, string extension)
-        {
-            var cacheID = uri.PathAndQuery.Replace('/', '_');
-            cacheID = Path.ChangeExtension(cacheID, extension);
-            return cacheID;
-        }
-
-        private Task<Metadata> GetMetadata(string locParam)
-        {
-            var uri = MakeMetadatUri(locParam);
-            return HttpWebRequestExt.CachedGet(
-                Sign(uri),
-                cacheLocation,
-                MakeCacheID(uri, "json"),
-                deserializer.Deserialize<Metadata>);
-        }
-
-        private Task<RawImage> GetImage(Uri uri)
-        {
-            return HttpWebRequestExt.CachedGet(
-                Sign(uri),
-                cacheLocation,
-                MakeCacheID(uri, "jpeg"),
-                Image.Decoder.DecodeJPEG);
-        }
-
-        public Task<Metadata> GetMetadata(PanoID pano)
-        {
-            return GetMetadata($"pano={pano}");
-        }
-
-        public Task<Metadata> GetMetadataAtLocation(LatLngPoint location)
-        {
-            return GetMetadataAtLocation($"{location.Latitude},{location.Longitude}");
-        }
-
-        public Task<Metadata> GetMetadataAtLocation(string location)
-        {
-            return GetMetadata($"location={location}");
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, Pitch pitch, int searchRadius, bool outdoorOnly)
-        {
-            return GetImage($"pano={pano}", width, height, heading, pitch, searchRadius, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, Pitch pitch, int searchRadius)
-        {
-            return GetImage($"pano={pano}", width, height, heading, pitch, searchRadius);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, Pitch pitch, bool outdoorOnly)
-        {
-            return GetImage($"pano={pano}", width, height, heading, pitch, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, Pitch pitch)
-        {
-            return GetImage($"pano={pano}", width, height, heading, pitch);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, int searchRadius, bool outdoorOnly)
-        {
-            return GetImage($"pano={pano}", width, height, heading, searchRadius, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, int searchRadius)
-        {
-            return GetImage($"pano={pano}", width, height, heading, searchRadius);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading, bool outdoorOnly)
-        {
-            return GetImage($"pano={pano}", width, height, heading, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, Heading heading)
-        {
-            return GetImage($"pano={pano}", width, height, heading);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, Pitch pitch, int searchRadius, bool outdoorOnly)
-        {
-            return GetImage($"pano={pano}", width, height, pitch, searchRadius, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, Pitch pitch, int searchRadius)
-        {
-            return GetImage($"pano={pano}", width, height, pitch, searchRadius);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, Pitch pitch, bool outdoorOnly)
-        {
-            return GetImage($"pano={pano}", width, height, pitch, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, Pitch pitch)
-        {
-            return GetImage($"pano={pano}", width, height, pitch);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, int searchRadius, bool outdoorOnly)
-        {
-            return GetImage($"pano={pano}", width, height, searchRadius, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, int searchRadius)
-        {
-            return GetImage($"pano={pano}", width, height, searchRadius);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height, bool outdoorOnly)
-        {
-            return GetImage($"pano={pano}", width, height, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImage(PanoID pano, int width, int height)
-        {
-            return GetImage($"pano={pano}", width, height);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, Pitch pitch, int searchRadius, bool outdoorOnly)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, pitch, searchRadius, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, Pitch pitch, int searchRadius)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, pitch, searchRadius);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, Pitch pitch, bool outdoorOnly)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, pitch, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, Pitch pitch)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, pitch);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, int searchRadius, bool outdoorOnly)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, searchRadius, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, int searchRadius)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, searchRadius);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading, bool outdoorOnly)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Heading heading)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, heading);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Pitch pitch, int searchRadius, bool outdoorOnly)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, pitch, searchRadius, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Pitch pitch, int searchRadius)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, pitch, searchRadius);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Pitch pitch, bool outdoorOnly)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, pitch, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, Pitch pitch)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, pitch);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, int searchRadius, bool outdoorOnly)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, searchRadius, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, int searchRadius)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, searchRadius);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height, bool outdoorOnly)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(LatLngPoint location, int width, int height)
-        {
-            return GetImageAtLocation($"{location.Latitude},{location.Longitude}", width, height);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, Pitch pitch, int searchRadius, bool outdoorOnly)
-        {
-            return GetImage($"location={locationName}", width, height, heading, pitch, searchRadius, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, Pitch pitch, int searchRadius)
-        {
-            return GetImage($"location={locationName}", width, height, heading, pitch, searchRadius);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, Pitch pitch, bool outdoorOnly)
-        {
-            return GetImage($"location={locationName}", width, height, heading, pitch, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, Pitch pitch)
-        {
-            return GetImage($"location={locationName}", width, height, heading, pitch);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, int searchRadius, bool outdoorOnly)
-        {
-            return GetImage($"location={locationName}", width, height, heading, searchRadius, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, int searchRadius)
-        {
-            return GetImage($"location={locationName}", width, height, heading, searchRadius);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading, bool outdoorOnly)
-        {
-            return GetImage($"location={locationName}", width, height, heading, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Heading heading)
-        {
-            return GetImage($"location={locationName}", width, height, heading);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Pitch pitch, int searchRadius, bool outdoorOnly)
-        {
-            return GetImage($"location={locationName}", width, height, pitch, searchRadius, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Pitch pitch, int searchRadius)
-        {
-            return GetImage($"location={locationName}", width, height, pitch, searchRadius);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Pitch pitch, bool outdoorOnly)
-        {
-            return GetImage($"location={locationName}", width, height, pitch, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, Pitch pitch)
-        {
-            return GetImage($"location={locationName}", width, height, pitch);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, int searchRadius, bool outdoorOnly)
-        {
-            return GetImage($"location={locationName}", width, height, searchRadius, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, int searchRadius)
-        {
-            return GetImage($"location={locationName}", width, height, searchRadius);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height, bool outdoorOnly)
-        {
-            return GetImage($"location={locationName}", width, height, outdoorOnly);
-        }
-
-        public Task<RawImage> GetImageAtLocation(string locationName, int width, int height)
-        {
-            return GetImage($"location={locationName}", width, height);
-        }
-
-        private static void AddHeading(UriBuilder builder, Heading heading)
-        {
-            builder.AddQuery("heading", (int)heading);
-        }
-
-        private static void AddPitch(UriBuilder builder, Pitch pitch)
-        {
-            builder.AddQuery("pitch", (int)pitch);
-        }
-
-        private static void AddRadius(UriBuilder builder, int searchRadius)
-        {
-            builder.AddQuery("radius", searchRadius);
-        }
-
-        private static void AddSource(UriBuilder builder, bool outdoorOnly)
-        {
-            if (outdoorOnly)
+            if (cacheLocation == null)
             {
-                builder.AddQuery("source=outdoor");
+                return null;
+            }
+            else
+            {
+                return Path.Combine(cacheLocation.FullName, cacheFileName);
             }
         }
 
-        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, Pitch pitch, int searchRadius, bool outdoorOnly)
+        public bool IsCached(MetadataSearch search)
         {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddHeading(builder, heading);
-            AddPitch(builder, pitch);
-            AddRadius(builder, searchRadius);
-            AddSource(builder, outdoorOnly);
-
-            return GetImage(builder.Uri);
+            return File.Exists(MakeFullCachePath(search.CacheFileName));
         }
 
-        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, Pitch pitch, int searchRadius)
+        public bool IsCached(ImageSearch search)
         {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddHeading(builder, heading);
-            AddPitch(builder, pitch);
-            AddRadius(builder, searchRadius);
-
-            return GetImage(builder.Uri);
+            return File.Exists(MakeFullCachePath(search.CacheFileName));
         }
 
-        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, Pitch pitch, bool outdoorOnly)
+        public bool IsCached(CubeMapSearch search)
         {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddHeading(builder, heading);
-            AddPitch(builder, pitch);
-            AddSource(builder, outdoorOnly);
-
-            return GetImage(builder.Uri);
+            return search.CacheFileNames
+                .Select(MakeFullCachePath)
+                .All(File.Exists);
         }
 
-        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, Pitch pitch)
+        private Task<T> Get<T>(Search search, Func<Stream, T> decode)
         {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddHeading(builder, heading);
-            AddPitch(builder, pitch);
-
-            return GetImage(builder.Uri);
+            return HttpWebRequestExt.CachedGet(
+                Sign(search.Uri),
+                decode,
+                MakeFullCachePath(search.CacheFileName));
         }
 
-        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, int searchRadius, bool outdoorOnly)
+        public Task<Metadata> Get(MetadataSearch search)
         {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddHeading(builder, heading);
-            AddRadius(builder, searchRadius);
-            AddSource(builder, outdoorOnly);
-
-            return GetImage(builder.Uri);
+            return Get(search, deserializer.Deserialize<Metadata>);
         }
 
-        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, int searchRadius)
+        public Task<RawImage> Get(ImageSearch search)
         {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddHeading(builder, heading);
-            AddRadius(builder, searchRadius);
-
-            return GetImage(builder.Uri);
+            return Get(search, Image.Decoder.DecodeJPEG);
         }
 
-        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading, bool outdoorOnly)
+        public async Task<RawImage[]> Get(CubeMapSearch search)
         {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddHeading(builder, heading);
-            AddSource(builder, outdoorOnly);
-
-            return GetImage(builder.Uri);
-        }
-
-        private Task<RawImage> GetImage(string locParam, int width, int height, Heading heading)
-        {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddHeading(builder, heading);
-
-            return GetImage(builder.Uri);
-        }
-
-        private Task<RawImage> GetImage(string locParam, int width, int height, Pitch pitch, int searchRadius, bool outdoorOnly)
-        {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddPitch(builder, pitch);
-            AddRadius(builder, searchRadius);
-            AddSource(builder, outdoorOnly);
-
-            return GetImage(builder.Uri);
-        }
-
-        private Task<RawImage> GetImage(string locParam, int width, int height, Pitch pitch, int searchRadius)
-        {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddPitch(builder, pitch);
-            AddRadius(builder, searchRadius);
-
-            return GetImage(builder.Uri);
-        }
-
-        private Task<RawImage> GetImage(string locParam, int width, int height, Pitch pitch, bool outdoorOnly)
-        {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddPitch(builder, pitch);
-            AddSource(builder, outdoorOnly);
-
-            return GetImage(builder.Uri);
-        }
-
-        private Task<RawImage> GetImage(string locParam, int width, int height, Pitch pitch)
-        {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddPitch(builder, pitch);
-
-            return GetImage(builder.Uri);
-        }
-
-        private Task<RawImage> GetImage(string locParam, int width, int height, int searchRadius, bool outdoorOnly)
-        {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddRadius(builder, searchRadius);
-            AddSource(builder, outdoorOnly);
-
-            return GetImage(builder.Uri);
-        }
-
-        private Task<RawImage> GetImage(string locParam, int width, int height, int searchRadius)
-        {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddRadius(builder, searchRadius);
-
-            return GetImage(builder.Uri);
-        }
-
-        private Task<RawImage> GetImage(string locParam, int width, int height, bool outdoorOnly)
-        {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            AddSource(builder, outdoorOnly);
-
-            return GetImage(builder.Uri);
-        }
-
-        private Task<RawImage> GetImage(string locParam, int width, int height)
-        {
-            var builder = MakeImageUriBuilder(locParam, width, height);
-            return GetImage(builder.Uri);
+            var tasks = search.Images.Select(Get);
+            await Task.WhenAll(tasks);
+            return tasks.Select(t => t.Result).ToArray();
         }
     }
 }

@@ -4,12 +4,14 @@ namespace System
     {
         public static void AddQuery(this UriBuilder builder, string keyValue)
         {
-            if(builder.Query.Length > 0)
+            if (builder.Query.Length > 0)
             {
-                builder.Query += "&";
+                builder.Query = builder.Query.Substring(1) + "&" + keyValue;
             }
-
-            builder.Query += keyValue;
+            else
+            {
+                builder.Query += keyValue;
+            }
         }
 
         public static void AddQuery(this UriBuilder builder, string key, string value)

@@ -160,21 +160,15 @@ namespace System.Net
 
         public static async Task<T> CachedGet<T>(
             Uri uri,
-            DirectoryInfo cacheLocation,
-            string fileName,
             Func<Stream, T> decode,
+            string cacheFileName = null,
             Action<HttpWebRequest> modifyRequest = null)
         {
             Stream body = null;
-            FileInfo cacheFile = null;
 
-            if (cacheLocation != null)
+            if (!string.IsNullOrEmpty(cacheFileName) && File.Exists(cacheFileName))
             {
-                cacheFile = new FileInfo(Path.Combine(cacheLocation.FullName, fileName));
-                if (cacheFile.Exists)
-                {
-                    body = File.OpenRead(cacheFile.FullName);
-                }
+                body = File.OpenRead(cacheFileName);
             }
 
             if (body == null)
@@ -192,9 +186,9 @@ namespace System.Net
             }
             else
             {
-                if (cacheFile?.Exists == false)
+                if (!string.IsNullOrEmpty(cacheFileName) && !File.Exists(cacheFileName))
                 {
-                    body = new CachingStream(body, cacheFile.FullName);
+                    body = new CachingStream(body, cacheFileName);
                 }
 
                 using (body)

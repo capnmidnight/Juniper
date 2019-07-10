@@ -36,9 +36,8 @@ namespace Juniper.HTTP.Tests
 
             var actual = await HttpWebRequestExt.CachedGet(
                 new Uri("https://www.seanmcbeth.com/2015-05.min.jpg"),
-                new DirectoryInfo(myPictures),
-                cacheFileName,
-                Decoder.DecodeJPEG);
+                Decoder.DecodeJPEG,
+                Path.Combine(myPictures, cacheFile));
 
             Assert.AreEqual(expectedSource, actual.source);
 
