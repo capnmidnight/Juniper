@@ -50,7 +50,7 @@ namespace Juniper.World.Imaging.Tests
         }
 
         [TestMethod]
-        public async Task GetCubeMapFromPanoID()
+        public async Task GetCubeMap()
         {
             var cubeMapSearch = new GoogleMaps.CubeMapSearch("Washington, DC", 640, 640);
             var images = await gmaps.Get(cubeMapSearch);
