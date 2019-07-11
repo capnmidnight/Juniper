@@ -87,8 +87,11 @@ namespace Juniper.ConfigurationManagement
                     var req = new UnityAssetStore.Requester(new JsonFactory());
                     const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
                     const string UnityAssetStoreRoot = "https://www.assetstore.unity3d.com/";
-                    const string userName = "sean.mcbeth@gmail.com";
-                    const string password = "RzKuj0fd9f";
+                    var myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    var identFile = Path.Combine(myDocuments, "unity.identity.txt");
+                    var lines = File.ReadAllLines(identFile);
+                    var userName = lines[0];
+                    var password = lines[1];
                     try
                     {
                         var sessionID = await req.Post($"{UnityAssetStoreRoot}login?skip_terms=1", $"user={userName}&pass={password}", UnityAssetStoreToken + token);
