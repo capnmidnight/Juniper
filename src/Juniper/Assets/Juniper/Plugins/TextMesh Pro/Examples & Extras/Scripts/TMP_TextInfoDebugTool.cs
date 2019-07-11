@@ -157,7 +157,9 @@ namespace TMPro.Examples
                 Gizmos.DrawLine(descenderStart, descenderEnd);
 
                 // Draw Cap Height
+#pragma warning disable CS0618 // Type or member is obsolete
                 var capHeight = cInfo.baseLine + cInfo.fontAsset.fontInfo.CapHeight * cInfo.scale;
+#pragma warning restore CS0618 // Type or member is obsolete
                 var capHeightStart = new Vector3(topLeft.x, m_Transform.TransformPoint(new Vector3(0, capHeight, 0)).y, 0);
                 var capHeightEnd = new Vector3(topRight.x, m_Transform.TransformPoint(new Vector3(0, capHeight, 0)).y, 0);
 

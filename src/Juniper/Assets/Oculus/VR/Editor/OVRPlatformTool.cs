@@ -875,8 +875,10 @@ namespace Assets.Oculus.VR.Editor
 
 		private static IEnumerator ProvisionPlatformUtil(string dataPath)
 		{
-			using (WWW www = new WWW(urlPlatformUtil))
-			{
+#pragma warning disable CS0618 // Type or member is obsolete
+            using (WWW www = new WWW(urlPlatformUtil))
+#pragma warning restore CS0618 // Type or member is obsolete
+            {
 				UnityEngine.Debug.Log("Started Provisioning Oculus Platform Util");
 				float timer = 0;
 				float timeOut = 60;
