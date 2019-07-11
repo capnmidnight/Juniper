@@ -121,6 +121,42 @@ namespace UnityEngine
                 b = buffer[i + 2];
             return new Color(r / 255f, g / 255f, b / 255f);
         }
+        public static Color GetRGBA32Pixel(this byte[] buffer, int i)
+        {
+            byte r = buffer[i],
+                g = buffer[i + 1],
+                b = buffer[i + 2],
+                a = buffer[i + 3];
+            return new Color32(r, g, b, a);
+        }
+
+        public static Color[] ToColors(this byte[] buffer, int components, bool mirror = false)
+        {
+            var colors = new Color[buffer.Length / components];
+            for(int c = 0; c < colors.Length; ++c)
+            {
+                int b = c * components;
+                Color color = Color.red;
+                if(components == 3)
+                {
+                    color = buffer.GetRGB888Pixel(b);
+                }
+                else if(components == 4)
+                {
+                    color = buffer.GetRGBA32Pixel(b);
+                }
+
+                if (mirror)
+                {
+                    colors[colors.Length - c - 1] = color;
+                }
+                else
+                {
+                    colors[c] = color;
+                }
+            }
+            return colors;
+        }
 
         /// <summary>
         /// Converts three values in a byte buffer into a YUV color.

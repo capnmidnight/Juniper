@@ -9,6 +9,7 @@ using Juniper.Progress;
 using Juniper;
 
 using UnityEngine;
+using Juniper.Unity.Coroutines;
 
 namespace Juniper.Audio
 {
@@ -48,7 +49,7 @@ namespace Juniper.Audio
                 mime,
                 prog);
 
-            yield return new WaitUntil(() => audioTask.IsCanceled || audioTask.IsCompleted || audioTask.IsFaulted);
+            yield return new WaitForTask(audioTask);
 
             var audio = decoder(audioTask.Result.Content);
 
