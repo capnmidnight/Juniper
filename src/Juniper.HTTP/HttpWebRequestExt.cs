@@ -173,11 +173,20 @@ namespace System.Net
             return CachedGet(uri, decode, cacheFile, modifyRequest);
         }
 
-        public static async Task<T> CachedGet<T>(
-        Uri uri,
-        Func<Stream, T> decode,
-        FileInfo cacheFile,
-        Action<HttpWebRequest> modifyRequest = null)
+        public static Task<T> CachedGet<T>(
+            Uri uri,
+            Func<Stream, T> decode,
+            FileInfo cacheFile,
+            Action<HttpWebRequest> modifyRequest = null)
+        {
+            return Task.Run(() => CachedGetAsync(uri, decode, cacheFile, modifyRequest));
+        }
+
+        public static async Task<T> CachedGetAsync<T>(
+            Uri uri,
+            Func<Stream, T> decode,
+            FileInfo cacheFile,
+            Action<HttpWebRequest> modifyRequest = null)
         {
             Stream body = null;
 

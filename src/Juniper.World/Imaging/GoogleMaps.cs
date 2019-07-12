@@ -222,7 +222,7 @@ namespace Juniper.World.Imaging
             private static ImageSearch[] Make(Func<ImageSearch> factory)
             {
                 var searches = new ImageSearch[6];
-                for(int i = 0; i < searches.Length; ++i)
+                for (int i = 0; i < searches.Length; ++i)
                 {
                     searches[i] = factory();
                 }
@@ -351,10 +351,10 @@ namespace Juniper.World.Imaging
 
         private Task<T> Get<T>(Search search, Func<Stream, T> decode)
         {
-            return HttpWebRequestExt.CachedGet(
+            return Task.Run(() => HttpWebRequestExt.CachedGet(
                 Sign(search.Uri),
                 decode,
-                MakeFullCachePath(search));
+                MakeFullCachePath(search)));
         }
 
         public Task<Metadata> Get(MetadataSearch search)
@@ -362,16 +362,26 @@ namespace Juniper.World.Imaging
             return Get(search, deserializer.Deserialize<Metadata>);
         }
 
-        public Task<RawImage> Get(ImageSearch search)
+        private async Task<RawImage> GetAsync(ImageSearch search, bool flip)
         {
-            return Get(search, Image.Decoder.DecodeJPEG);
+            var image = await Get(search, Image.Decoder.DecodeJPEG);
+            if (flip)
+            {
+                await image.FlipAsync();
+            }
+            return image;
         }
 
-        public async Task<RawImage[]> Get(CubeMapSearch search)
+        public Task<RawImage> Get(ImageSearch search, bool flip = false)
         {
-            var tasks = search.SubSearches.Select(Get);
-            await Task.WhenAll(tasks);
-            return tasks.Select(t => t.Result).ToArray();
+            return Task.Run(() => GetAsync(search, flip));
+        }
+
+        public Task<RawImage[]> Get(CubeMapSearch search, bool flip = false)
+        {
+            return Task.WhenAll(search
+                .SubSearches
+                .Select(s => GetAsync(s, flip)));
         }
     }
 }

@@ -25,12 +25,11 @@ namespace Juniper.Image
                 Array.Copy(row, 0, data, i * rows.elementsPerRow, row.Length);
             }
 
-            return new RawImage
-            {
-                width = rows.elementsPerRow / rows.channels,
-                height = rows.Nrows,
-                data = data
-            };
+            return new RawImage(
+                DetermineSource(imageStream),
+                rows.elementsPerRow / rows.channels,
+                rows.Nrows,
+                data);
         }
 
         /// <summary>
@@ -49,26 +48,28 @@ namespace Juniper.Image
                     Array.Copy(row.ToBytes(), 0, data, i * stride, stride);
                 }
 
-                var source = RawImage.ImageSource.None;
-                if(imageStream is FileStream)
-                {
-                    source = RawImage.ImageSource.File;
-                }
-                else if (imageStream is CachingStream)
-                {
-                    source = RawImage.ImageSource.Network;
-                }
-
-                return new RawImage
-                {
-                    source = source,
-                    width = jpeg.Width,
-                    height = jpeg.Height,
-                    data = data
-                };
+                return new RawImage(
+                    DetermineSource(imageStream),
+                    jpeg.Width,
+                    jpeg.Height,
+                    data);
             }
         }
 
+        private static RawImage.ImageSource DetermineSource(Stream imageStream)
+        {
+            var source = RawImage.ImageSource.None;
+            if (imageStream is FileStream)
+            {
+                source = RawImage.ImageSource.File;
+            }
+            else if (imageStream is CachingStream)
+            {
+                source = RawImage.ImageSource.Network;
+            }
+
+            return source;
+        }
 
         public static Task<RawImage> DecodePNGAsync(byte[] bytes)
         {

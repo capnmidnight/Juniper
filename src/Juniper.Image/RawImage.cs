@@ -6,7 +6,7 @@ namespace Juniper.Image
     /// <summary>
     /// The raw bytes and dimensions of an image that has been loaded either off disk or across the 'net.
     /// </summary>
-    public struct RawImage
+    public class RawImage : ICloneable
     {
         public enum ImageSource
         {
@@ -15,30 +15,52 @@ namespace Juniper.Image
             Network
         }
 
-        public ImageSource source;
-        public byte[] data;
-        public int width, height;
+        public readonly ImageSource source;
+        public readonly byte[] data;
+        public readonly int width, height;
+
+        public RawImage(ImageSource source, int width, int height, byte[] data)
+        {
+            this.source = source;
+            this.width = width;
+            this.height = height;
+            this.data = data;
+        }
+
+        public object Clone()
+        {
+            return new RawImage(source, width, height, (byte[])data.Clone());
+        }
+
+        public RawImage CreateCopy()
+        {
+            return (RawImage)Clone();
+        }
 
         public int stride { get { return data.Length / height; } }
         public int components { get { return stride / width; } }
 
-        public void Mirror()
+        public Task FlipAsync()
         {
-            var output = new byte[data.Length];
-            for(int p = 0, c = components; p < data.Length; p += c)
+            return Task.Run(Flip);
+        }
+
+        public void Flip()
+        {
+            var input = (byte[])data.Clone();
+            for(int p = 0, s = stride; p < data.Length; p += s)
             {
-                Array.Copy(data, p, output, data.Length - p - c, c);
+                Array.Copy(input, p, data, data.Length - p - s, s);
             }
-            data = output;
         }
 
 
-        private static Task<RawImage> CombineTilesAsync(int columns, int rows, params RawImage?[] images)
+        private static Task<RawImage> CombineTilesAsync(int columns, int rows, params RawImage[] images)
         {
             return Task.Run(() => CombineTiles(columns, rows, images));
         }
 
-        private static RawImage CombineTiles(int columns, int rows, params RawImage?[] images)
+        private static RawImage CombineTiles(int columns, int rows, params RawImage[] images)
         {
             if (images == null)
             {
@@ -65,7 +87,7 @@ namespace Juniper.Image
                 {
                     if (!anyNotNull)
                     {
-                        firstImage = images[i].Value;
+                        firstImage = images[i];
                     }
 
                     anyNotNull = true;
@@ -92,7 +114,7 @@ namespace Juniper.Image
                     int i = bufferRow * columns + bufferColumn;
                     if (images[i] != null)
                     {
-                        var img = images[i].Value;
+                        var img = images[i];
                         int destinationIndex = bufferRow * bufferStride + bufferColumn * imageStride;
                         for (int imageRow = 0; imageRow < img.data.Length; imageRow += imageStride)
                         {
@@ -102,13 +124,11 @@ namespace Juniper.Image
                 }
             }
 
-            return new RawImage
-            {
-                source = ImageSource.None,
-                width = columns * firstImage.width,
-                height = rows * firstImage.height,
-                data = destinationBuffer
-            };
+            return new RawImage(
+                ImageSource.None,
+                columns * firstImage.width,
+                rows * firstImage.height,
+                destinationBuffer);
         }
 
         public static Task<RawImage> Combine6Squares(RawImage north, RawImage east, RawImage west, RawImage south, RawImage up, RawImage down)
