@@ -326,8 +326,12 @@ namespace Juniper.World.Imaging
                 var cacheID = string.Join("_", search.Uri.PathAndQuery
                     .Substring(1)
                     .Split(Path.GetInvalidFileNameChars()));
-                cacheID = Path.ChangeExtension(cacheID, search.extension);
                 var path = Path.Combine(cacheLocation.FullName, search.locString, cacheID);
+                if (!search.extension.StartsWith("."))
+                {
+                    path += ".";
+                }
+                path += search.extension;
                 return new FileInfo(path);
             }
         }
