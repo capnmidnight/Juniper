@@ -27,10 +27,16 @@ namespace Juniper.Progress
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="parent"></param>
-        public CachingStream(Stream stream, string filename)
+        public CachingStream(Stream stream, FileInfo file)
         {
             inStream = new ErsatzSeekableStream(stream);
-            outStream = File.OpenWrite(filename);
+            file.Directory.Create();
+            outStream = file.OpenWrite();
+        }
+
+        public CachingStream(Stream stream, string fileName)
+            : this(stream, new FileInfo(fileName))
+        {
         }
 
         /// <summary>
