@@ -74,7 +74,7 @@ namespace Juniper.World.Imaging
             public readonly string copyright;
             public readonly string date;
             public readonly PanoID pano_id;
-            public readonly MetadataLocation location;
+            public readonly LatLngPoint location;
 
             public Metadata(SerializationInfo info, StreamingContext context)
             {
@@ -84,7 +84,7 @@ namespace Juniper.World.Imaging
                     copyright = info.GetString(nameof(copyright));
                     date = info.GetString(nameof(date));
                     pano_id = new PanoID(info.GetString(nameof(pano_id)));
-                    location = info.GetValue<MetadataLocation>(nameof(location));
+                    location = info.GetValue<LatLngPoint>(nameof(location));
                 }
                 else
                 {
@@ -99,7 +99,11 @@ namespace Juniper.World.Imaging
                 info.MaybeAddValue(nameof(copyright), copyright);
                 info.MaybeAddValue(nameof(date), date);
                 info.MaybeAddValue(nameof(pano_id), pano_id.ToString());
-                info.MaybeAddValue(nameof(location), location);
+                info.MaybeAddValue(nameof(location), new
+                {
+                    lat = location.Latitude,
+                    lng = location.Longitude
+                });
             }
         }
 
@@ -317,24 +321,6 @@ namespace Juniper.World.Imaging
                 {
                     return Images.Select(i => i.CacheFileName).ToArray();
                 }
-            }
-        }
-
-        [Serializable]
-        public class MetadataLocation : ISerializable
-        {
-            public readonly double lat;
-            public readonly double lng;
-
-            public MetadataLocation(SerializationInfo info, StreamingContext context)
-            {
-                lat = info.GetDouble(nameof(lat));
-                lng = info.GetDouble(nameof(lng));
-            }
-            public void GetObjectData(SerializationInfo info, StreamingContext context)
-            {
-                info.AddValue(nameof(lat), lat);
-                info.AddValue(nameof(lng), lng);
             }
         }
 

@@ -48,6 +48,11 @@ namespace Juniper.World.GIS
             Altitude = alt;
         }
 
+        public LatLngPoint(float lat, float lng)
+            : this(lat, lng, 0)
+        {
+        }
+
         /// <summary>
         /// Deserialze the object.
         /// </summary>
@@ -55,9 +60,15 @@ namespace Juniper.World.GIS
         /// <param name="context"></param>
         protected LatLngPoint(SerializationInfo info, StreamingContext context)
         {
-            Latitude = info.GetSingle(nameof(Latitude));
-            Longitude = info.GetSingle(nameof(Longitude));
-            Altitude = info.GetSingle(nameof(Altitude));
+            foreach (var pair in info)
+            {
+                switch (pair.Name.ToLowerInvariant().Substring(0, 3))
+                {
+                    case "lat": Latitude = info.GetSingle(pair.Name); break;
+                    case "lon": case "lng": Longitude = info.GetSingle(pair.Name); break;
+                    case "alt": Altitude = info.GetSingle(nameof(Altitude)); break;
+                }
+            }
         }
 
         /// <summary>
