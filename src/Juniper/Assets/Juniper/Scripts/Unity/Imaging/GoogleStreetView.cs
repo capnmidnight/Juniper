@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Juniper.Image;
 using Juniper.Imaging;
 using Juniper.Unity.Coroutines;
@@ -35,6 +37,7 @@ namespace Juniper.Images
         private GoogleMaps gmaps;
 
         private string lastLocation;
+
         public string location;
 
         public enum Mode
@@ -60,15 +63,20 @@ namespace Juniper.Images
 
         public void Update()
         {
-            if (location != lastLocation)
+            if (location != lastLocation
+                && (skyboxMaterial != null || images == null))
             {
                 GetImages();
             }
-            else if (layout != lastLayout && images != null)
+            else if (location == lastLocation
+                && layout != lastLayout
+                && images != null)
             {
                 CreateSkyBox();
             }
-            else if (skyboxMaterial != null)
+            else if (location == lastLocation
+                && layout == lastLayout
+                && skyboxMaterial != null)
             {
                 UpdateSkyBox();
             }
@@ -99,7 +107,7 @@ namespace Juniper.Images
                 if (metadataTask.Result.status == GoogleMaps.StatusCode.OK)
                 {
                     var imageSearch = new GoogleMaps.CubeMapSearch(location, 1024, 1024);
-                    var imageTask = gmaps.Get(imageSearch);
+                    var imageTask = gmaps.Get(imageSearch, true);
                     yield return new WaitForTask(imageTask);
                     images = imageTask.Result;
                 }
@@ -135,8 +143,8 @@ namespace Juniper.Images
                     }
                     skyboxMaterial = new Material(Shader.Find("Skybox/6 Sided"));
                     skyboxMaterial.SetTexture("_FrontTex", textures[0]);
-                    skyboxMaterial.SetTexture("_RightTex", textures[1]);
-                    skyboxMaterial.SetTexture("_LeftTex", textures[2]);
+                    skyboxMaterial.SetTexture("_LeftTex", textures[1]);
+                    skyboxMaterial.SetTexture("_RightTex", textures[2]);
                     skyboxMaterial.SetTexture("_BackTex", textures[3]);
                     skyboxMaterial.SetTexture("_UpTex", textures[4]);
                     skyboxMaterial.SetTexture("_DownTex", textures[5]);

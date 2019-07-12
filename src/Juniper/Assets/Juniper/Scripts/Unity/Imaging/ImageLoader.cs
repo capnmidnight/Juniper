@@ -93,7 +93,6 @@ namespace Juniper.Imaging
         public static Texture2D ConstructTexture2D(RawImage image, TextureFormat format, bool mirror = false)
         {
             var texture = new Texture2D(image.width, image.height, format, false);
-            image.Mirror();
             texture.LoadRawTextureData(image.data);
             texture.Apply(false, true);
             return texture;
