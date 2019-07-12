@@ -187,7 +187,8 @@ namespace Juniper.Widgets
         {
             // If the desired state doesn't have a graphics object to display, then just display the
             // default state.
-            if (enabledPart == null || !animator.HasState(enabledPart))
+            if (enabledPart == null
+                || animator != null && !animator.HasState(enabledPart))
             {
                 enabledPart = PART_NAMES[0];
             }
