@@ -112,40 +112,31 @@ namespace Juniper.World.Imaging
         {
             protected const string baseServiceURI = "https://maps.googleapis.com/maps/api/streetview";
 
-            protected static string MakeCacheID(Uri uri, string extension)
-            {
-                var cacheID = string.Join("_", uri.PathAndQuery
-                    .Substring(1)
-                    .Split(Path.GetInvalidFileNameChars()));
-                cacheID = Path.ChangeExtension(cacheID, extension);
-                return cacheID;
-            }
-
             protected readonly UriBuilder uriBuilder;
-            private string extension;
+            internal readonly string locString;
+            internal readonly string extension;
 
-            private Search(Uri baseUri, string extension)
+            private Search(string locString, Uri baseUri, string extension)
             {
+                this.locString = locString;
                 uriBuilder = new UriBuilder(baseUri);
+                uriBuilder.AddQuery(locString);
                 this.extension = extension;
             }
 
             public Search(Uri baseUri, string extension, PanoID pano)
-                : this(baseUri, extension)
+                : this($"pano={pano}", baseUri, extension)
             {
-                uriBuilder.AddQuery("pano", pano);
             }
 
             public Search(Uri baseUri, string extension, string placeName)
-                : this(baseUri, extension)
+                : this($"location={placeName}", baseUri, extension)
             {
-                uriBuilder.AddQuery("location", placeName);
             }
 
             public Search(Uri baseUri, string extension, LatLngPoint location)
-                : this(baseUri, extension)
+                : this($"location={location.Latitude},{location.Longitude}", baseUri, extension)
             {
-                uriBuilder.AddQuery("location", $"{location.Latitude},{location.Longitude}");
             }
 
             public Uri Uri
@@ -153,14 +144,6 @@ namespace Juniper.World.Imaging
                 get
                 {
                     return uriBuilder.Uri;
-                }
-            }
-
-            public string CacheFileName
-            {
-                get
-                {
-                    return MakeCacheID(Uri, extension);
                 }
             }
         }
@@ -236,9 +219,20 @@ namespace Juniper.World.Imaging
 
         public class CubeMapSearch
         {
+            private static ImageSearch[] Make(Func<ImageSearch> factory)
+            {
+                var searches = new ImageSearch[6];
+                for(int i = 0; i < searches.Length; ++i)
+                {
+                    searches[i] = factory();
+                }
+
+                return searches;
+            }
+
             private CubeMapSearch(ImageSearch[] images)
             {
-                Images = images;
+                SubSearches = images;
 
                 images[0].AddHeading(Heading.North).AddPitch(Pitch.Level);
                 images[1].AddHeading(Heading.East).AddPitch(Pitch.Level);
@@ -249,79 +243,39 @@ namespace Juniper.World.Imaging
             }
 
             public CubeMapSearch(PanoID pano, int width, int height)
-                : this(new[]
-                {
-                    new ImageSearch(pano, width, height),
-                    new ImageSearch(pano, width, height),
-                    new ImageSearch(pano, width, height),
-                    new ImageSearch(pano, width, height),
-                    new ImageSearch(pano, width, height),
-                    new ImageSearch(pano, width, height),
-                })
+                : this(Make(() => new ImageSearch(pano, width, height)))
             {
             }
 
             public CubeMapSearch(string placeName, int width, int height)
-                : this(new[]
-                {
-                    new ImageSearch(placeName, width, height),
-                    new ImageSearch(placeName, width, height),
-                    new ImageSearch(placeName, width, height),
-                    new ImageSearch(placeName, width, height),
-                    new ImageSearch(placeName, width, height),
-                    new ImageSearch(placeName, width, height),
-                })
+                : this(Make(() => new ImageSearch(placeName, width, height)))
             {
             }
 
             public CubeMapSearch(LatLngPoint location, int width, int height)
-                : this(new[]
-                {
-                    new ImageSearch(location, width, height),
-                    new ImageSearch(location, width, height),
-                    new ImageSearch(location, width, height),
-                    new ImageSearch(location, width, height),
-                    new ImageSearch(location, width, height),
-                    new ImageSearch(location, width, height),
-                })
+                : this(Make(() => new ImageSearch(location, width, height)))
             {
             }
 
             public CubeMapSearch AddRadius(int searchRadius)
             {
-                foreach (var img in Images)
+                foreach (var search in SubSearches)
                 {
-                    img.AddRadius(searchRadius);
+                    search.AddRadius(searchRadius);
                 }
                 return this;
             }
 
             public CubeMapSearch AddSource(bool outdoorOnly)
             {
-                foreach (var img in Images)
+                foreach (var search in SubSearches)
                 {
-                    img.AddSource(outdoorOnly);
+                    search.AddSource(outdoorOnly);
                 }
                 return this;
             }
 
-            public ImageSearch[] Images { get; }
-
-            public Uri[] Uris
-            {
-                get
-                {
-                    return Images.Select(i => i.Uri).ToArray();
-                }
-            }
-
-            public string[] CacheFileNames
-            {
-                get
-                {
-                    return Images.Select(i => i.CacheFileName).ToArray();
-                }
-            }
+            internal ImageSearch[] SubSearches { get; }
         }
 
         private readonly IDeserializer deserializer;
@@ -336,6 +290,11 @@ namespace Juniper.World.Imaging
             this.signingKey = signingKey;
             this.cacheLocation = cacheLocation;
             cacheLocation?.Create();
+        }
+
+        public GoogleMaps(IDeserializer deserializer, string apiKey, string signingKey, string cacheDirectoryName = null)
+            : this(deserializer, apiKey, signingKey, cacheDirectoryName == null ? null : new DirectoryInfo(cacheDirectoryName))
+        {
         }
 
         private Uri Sign(Uri uri)
@@ -356,33 +315,38 @@ namespace Juniper.World.Imaging
             return signedUri.Uri;
         }
 
-        private string MakeFullCachePath(string cacheFileName)
+        private FileInfo MakeFullCachePath(Search search)
         {
-            if (cacheLocation == null)
+            if (search == null)
             {
                 return null;
             }
             else
             {
-                return Path.Combine(cacheLocation.FullName, cacheFileName);
+                var cacheID = string.Join("_", search.Uri.PathAndQuery
+                    .Substring(1)
+                    .Split(Path.GetInvalidFileNameChars()));
+                cacheID = Path.ChangeExtension(cacheID, search.extension);
+                var path = Path.Combine(cacheLocation.FullName, search.locString, cacheID);
+                return new FileInfo(path);
             }
         }
 
         public bool IsCached(MetadataSearch search)
         {
-            return File.Exists(MakeFullCachePath(search.CacheFileName));
+            return MakeFullCachePath(search).Exists;
         }
 
         public bool IsCached(ImageSearch search)
         {
-            return File.Exists(MakeFullCachePath(search.CacheFileName));
+            return MakeFullCachePath(search).Exists;
         }
 
         public bool IsCached(CubeMapSearch search)
         {
-            return search.CacheFileNames
+            return search.SubSearches
                 .Select(MakeFullCachePath)
-                .All(File.Exists);
+                .All(f => f.Exists);
         }
 
         private Task<T> Get<T>(Search search, Func<Stream, T> decode)
@@ -390,7 +354,7 @@ namespace Juniper.World.Imaging
             return HttpWebRequestExt.CachedGet(
                 Sign(search.Uri),
                 decode,
-                MakeFullCachePath(search.CacheFileName));
+                MakeFullCachePath(search));
         }
 
         public Task<Metadata> Get(MetadataSearch search)
@@ -405,7 +369,7 @@ namespace Juniper.World.Imaging
 
         public async Task<RawImage[]> Get(CubeMapSearch search)
         {
-            var tasks = search.Images.Select(Get);
+            var tasks = search.SubSearches.Select(Get);
             await Task.WhenAll(tasks);
             return tasks.Select(t => t.Result).ToArray();
         }
