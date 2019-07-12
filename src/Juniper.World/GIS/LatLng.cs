@@ -43,108 +43,67 @@ namespace Juniper.Units
         /// <returns>The UTM point</returns>
         public static UTMPoint ToUTM(this LatLngPoint latlng)
         {
-            var long0 = 3 + (6 * Math.Floor((latlng.Longitude + 180) / 6)) - 180;
-            var lat = latlng.Latitude * Math.PI / 180;
-            var lng = (latlng.Longitude - long0) * Math.PI / 180;
-            var lng2 = lng * lng;
-            var lng3 = lng2 * lng;
-            var lng4 = lng3 * lng;
-            var lng5 = lng4 * lng;
-            var lng6 = lng5 * lng;
-            var lng7 = lng6 * lng;
-            var lng8 = lng7 * lng;
-            var s = Math.Sin(lat);
-            var c = Math.Cos(lat);
-            var c2 = c * c;
-            var c3 = c2 * c;
-            var c4 = c3 * c;
-            var c5 = c4 * c;
-            var c6 = c5 * c;
-            var c7 = c6 * c;
-            var c8 = c7 * c;
-            var t = Math.Tan(lat);
-            var t2 = t * t;
-            var t4 = t2 * t2;
-            var t6 = t4 * t2;
-            var v = DatumWGS_84.a / Math.Sqrt(1 - DatumWGS_84.e2 * s * s);
-            var rho = Math.Pow(v, 3) * (1 - DatumWGS_84.e2) / (DatumWGS_84.a * DatumWGS_84.a);
-            var beta = v / rho;
-            var beta2 = beta * beta;
-            var beta3 = beta2 * beta;
-            var beta4 = beta2 * beta2;
-            //var nu2 = beta - 1;
-
-            // the following is actually an infinite series, but to this many terms it should be
-            // accurate to 0.1mm
-            var B0 = DatumWGS_84.b * (1 + DatumWGS_84.n + 5 * (DatumWGS_84.n2 + DatumWGS_84.n3) / 4);
-            var B2 = -DatumWGS_84.b * 3 * (DatumWGS_84.n + DatumWGS_84.n2 + 7 * DatumWGS_84.n3 / 8) / 2;
-            var B4 = DatumWGS_84.b * 15 * (DatumWGS_84.n2 + DatumWGS_84.n3) / 16;
-            var B6 = -DatumWGS_84.b * 35 * DatumWGS_84.n3 / 48;
-            var m = B0 * lat
-                + B2 * Math.Sin(2 * lat)
-                + B4 * Math.Sin(4 * lat)
-                + B6 * Math.Sin(6 * lat);
-            var W3 = beta - t2;
-            var W5 = 4 * beta3 * (1 - 6 * t2) + beta2 * (1 + 8 * t2) - 2 * beta * t2 + t4;
-            var W7 = 61 - 479 * t2 + 179 * t4 - t6 + DatumWGS_84.ep2;
-            var W4 = 4 * beta2 + beta - t2;
-            var W6 = 8 * beta4 * (11 - 24 * t2) - 28 * beta3 * (1 - 6 * t2) + beta2 * (1 - 32 * t2) - 2 * beta * t2 + t4;
-            var W8 = 1385 - 3111 * t2 + 543 * t4 - t6 + DatumWGS_84.ep2;
-            var x = DatumWGS_84.k0 * v * (lng * c + lng3 * c3 * W3 / 6 + lng5 * c5 * W5 / 120 + lng7 * c7 * W7 / 5040);
-            var y = DatumWGS_84.k0 * (m + v * (lng2 * c2 * t / 2 + lng4 * c4 * t * W4 / 24 + lng6 * c6 * t * W6 / 720 + lng8 * c8 * t * W8 / 40320));
-            var z = 0;
-
-            if (latlng.Longitude >= 8
-                && latlng.Longitude <= 13
-                && latlng.Latitude > 54.5
-                && latlng.Latitude < 58)
-            {
-                z = 32;
-            }
-            else if (latlng.Latitude >= 56.0
-                && latlng.Latitude < 64.0
-                && latlng.Longitude >= 3.0
-                && latlng.Longitude < 12.0)
-            {
-                z = 32;
-            }
-            else
-            {
-                z = (int)((latlng.Longitude + 180) / 6) + 1;
-
-                if (latlng.Latitude >= 72.0
-                    && latlng.Latitude < 84.0)
-                {
-                    if (latlng.Longitude >= 0.0
-                        && latlng.Longitude < 9.0)
-                    {
-                        z = 31;
-                    }
-                    else if (latlng.Longitude >= 9.0
-                        && latlng.Longitude < 21.0)
-                    {
-                        z = 33;
-                    }
-                    else if (latlng.Longitude >= 21.0
-                        && latlng.Longitude < 33.0)
-                    {
-                        z = 35;
-                    }
-                    else if (latlng.Longitude >= 33.0
-                        && latlng.Longitude < 42.0)
-                    {
-                        z = 37;
-                    }
-                }
-            }
-            return new UTMPoint(
-                Units.Feet.Meters((float)x),
-                Units.Feet.Meters((float)y),
-                latlng.Altitude,
-                z,
-                latlng.Latitude > 0
+            var hemisphere = latlng.Latitude < 0
                     ? UTMPoint.GlobeHemisphere.Southern
-                    : UTMPoint.GlobeHemisphere.Northern);
+                    : UTMPoint.GlobeHemisphere.Northern;
+
+            double N0 = hemisphere == UTMPoint.GlobeHemisphere.Northern ? 0.0 : 10000000.0;
+
+            int zone = (int)Math.Floor(latlng.Longitude / 6 + 31);
+
+            double a = DatumWGS_84.equatorialRadius_a;
+            double f = DatumWGS_84.flattening_f;
+            double b = a * (1 - f);   // polar radius
+
+            double e = Math.Sqrt(1 - Math.Pow(b, 2) / Math.Pow(a, 2));
+            double k0 = 0.9996;
+
+            double phi = Degrees.Radians(latlng.Latitude);
+            double utmz = 1 + Math.Floor((latlng.Longitude + 180) / 6.0);
+            double zcm = 3 + 6.0 * (utmz - 1) - 180;
+
+            double esq = (1 - (b / a) * (b / a));
+            double e0sq = e * e / (1 - Math.Pow(e, 2));
+
+
+            double N = a / Math.Sqrt(1 - Math.Pow(e * Math.Sin(phi), 2));
+            double T = Math.Pow(Math.Tan(phi), 2);
+            double C = e0sq * Math.Pow(Math.Cos(phi), 2);
+            double A = Degrees.Radians((float)(latlng.Longitude - zcm)) * Math.Cos(phi);
+
+            double M = phi * (1 - esq * (1.0 / 4.0 + esq * (3.0 / 64.0 + 5.0 * esq / 256.0)));
+            M -= Math.Sin(2.0 * phi) * (esq * (3.0 / 8.0 + esq * (3.0 / 32.0 + 45.0 * esq / 1024.0)));
+            M += Math.Sin(4.0 * phi) * (esq * esq * (15.0 / 256.0 + esq * 45.0 / 1024.0));
+            M -= Math.Sin(6.0 * phi) * (esq * esq * esq * (35.0 / 3072.0));
+            M *= a;
+
+            double M0 = 0;
+
+            // Easting
+            var easting = k0 * N * A * (1 + A * A * ((1 - T + C) / 6 + A * A * (5 - 18 * T + T * T + 72.0 * C - 58 * e0sq) / 120.0));
+            easting += DatumWGS_84.E0;
+
+
+            // Northing
+
+            double northing = k0 * (M - M0 + N * Math.Tan(phi) * (A * A * (1 / 2.0 + A * A * ((5 - T + 9 * C + 4 * C * C) / 24.0 + A * A * (61 - 58 * T + T * T + 600 * C - 330 * e0sq) / 720.0))));    // first from the equator
+            if (northing < 0)
+            {
+                northing = N0 + northing;
+            }
+
+
+            return new UTMPoint(
+                (float)easting,
+                (float)northing,
+                latlng.Altitude,
+                zone,
+                hemisphere);
+        }
+
+        private static double Atanh(double value)
+        {
+            return Math.Log((1 + value) / (1 - value)) / 2;
         }
     }
 }

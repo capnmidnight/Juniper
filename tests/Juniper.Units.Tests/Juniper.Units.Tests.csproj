@@ -56,6 +56,10 @@
       <Project>{d1d31fd0-65ee-4576-828b-e0f60e3bf4ae}</Project>
       <Name>Juniper.Units</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Juniper.World\Juniper.World.csproj">
+      <Project>{27B52ADC-CB80-4B77-A0FC-958C0B0D0982}</Project>
+      <Name>Juniper.World</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter">

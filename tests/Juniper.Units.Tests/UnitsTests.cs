@@ -1,4 +1,5 @@
 using System;
+using Juniper.World.GIS;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Units.Tests
@@ -6,6 +7,18 @@ namespace Juniper.Units.Tests
     [TestClass]
     public class UnitsTests
     {
+        [TestMethod]
+        public void LatLng_2_UTM()
+        {
+            var latLng = new LatLngPoint(38.8974146f, -77.0743107f);
+            var utm = latLng.ToUTM();
+            var latLng2 = utm.ToLatLng();
+            var utm2 = latLng2.ToUTM();
+            Assert.AreEqual(latLng.Altitude, latLng2.Altitude, 0.0001);
+            Assert.AreEqual(latLng.Longitude, latLng2.Longitude, 0.0001);
+            Assert.AreEqual(latLng.Latitude, latLng2.Latitude, 0.0001);
+        }
+
         [TestMethod]
         public void farenheit_2_celsius()
         {
