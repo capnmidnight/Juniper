@@ -23,9 +23,9 @@ namespace Juniper.World.GIS
         {
             var lat = Degrees.Radians(value.Latitude);
             var lng = Degrees.Radians(value.Longitude);
-            var x = DatumWGS_84.earthRadius * lng;
-            var y = DatumWGS_84.earthRadius * Math.Log(Math.Tan(Math.PI / 4 + lat / 2));
-            return new Vector3(x, (float)y);
+            var x = DatumWGS_84.equatorialRadius_a * lng;
+            var y = DatumWGS_84.equatorialRadius_a * Math.Log(Math.Tan(Math.PI / 4 + lat / 2));
+            return new Vector3((float)x, (float)y);
         }
 
         /// <summary>

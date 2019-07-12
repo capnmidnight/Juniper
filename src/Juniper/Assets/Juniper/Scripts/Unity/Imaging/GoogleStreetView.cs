@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Juniper.Image;
 using Juniper.Imaging;
+using Juniper.Units;
+using Juniper.Unity;
 using Juniper.Unity.Coroutines;
+using Juniper.World.GIS;
 using Juniper.World.Imaging;
 using UnityEngine;
 
@@ -36,9 +37,13 @@ namespace Juniper.Images
 
         private GoogleMaps gmaps;
 
-        private string lastLocation;
+        public int searchRadius = 50;
 
-        public string location;
+        private string lastLocation;
+        public string Location { get; set; }
+
+        [ReadOnly]
+        public LatLngPoint GPS;
 
         public enum Mode
         {
@@ -48,8 +53,23 @@ namespace Juniper.Images
             LayoutCross
         }
 
+#if UNITY_EDITOR
+
+        private EditorTextInput locationInput;
+
+        public void OnValidate()
+        {
+            locationInput = this.Ensure<EditorTextInput>();
+        }
+#endif
+
         public void Awake()
         {
+#if UNITY_EDITOR
+            locationInput = this.Ensure<EditorTextInput>();
+            locationInput.OnSubmit.AddListener(SetLocation);
+            Location = locationInput.value;
+#endif
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
             var cacheDir = new DirectoryInfo(cacheDirName);
@@ -63,23 +83,28 @@ namespace Juniper.Images
 
         public void Update()
         {
-            if (location != lastLocation
+            if (Location != lastLocation
                 && (skyboxMaterial != null || images == null))
             {
                 GetImages();
             }
-            else if (location == lastLocation
+            else if (Location == lastLocation
                 && layout != lastLayout
                 && images != null)
             {
                 CreateSkyBox();
             }
-            else if (location == lastLocation
+            else if (Location == lastLocation
                 && layout == lastLayout
                 && skyboxMaterial != null)
             {
                 UpdateSkyBox();
             }
+        }
+
+        public void SetLocation(string location)
+        {
+            Location = location;
         }
 
         private void UpdateSkyBox()
@@ -93,28 +118,66 @@ namespace Juniper.Images
         {
             images = null;
             lastLayout = Mode.None;
-            lastLocation = location;
+            lastLocation = Location;
             StartCoroutine(GetImagesCoroutine());
         }
 
         private IEnumerator GetImagesCoroutine()
         {
-            if (!string.IsNullOrEmpty(location))
+            if (!string.IsNullOrEmpty(Location))
             {
-                var metadataSearch = new GoogleMaps.MetadataSearch(location);
+                var metadataSearch = new GoogleMaps.MetadataSearch(Location);
                 var metadataTask = gmaps.Get(metadataSearch);
                 yield return new WaitForTask(metadataTask);
-                if (metadataTask.Result.status == GoogleMaps.StatusCode.OK)
+                var metadata = metadataTask.Result;
+                if (metadata.status == GoogleMaps.StatusCode.OK)
                 {
-                    var imageSearch = new GoogleMaps.CubeMapSearch(location, 1024, 1024);
+                    GPS = metadata.location;
+                    var imageSearch = new GoogleMaps.CubeMapSearch(GPS, 1024, 1024);
+                    imageSearch.AddRadius(searchRadius);
                     var imageTask = gmaps.Get(imageSearch, true);
                     yield return new WaitForTask(imageTask);
                     images = imageTask.Result;
                 }
                 else
                 {
-                    Debug.LogError(metadataTask.Result.error_message);
+                    Debug.LogError(metadata.error_message);
                 }
+            }
+        }
+
+        public void MoveNorth()
+        {
+            Move(Vector2.up * 2 * searchRadius);
+        }
+
+        public void MoveEast()
+        {
+            Move(Vector2.right * 2 * searchRadius);
+        }
+
+        public void MoveWest()
+        {
+            Move(Vector2.left * 2 * searchRadius);
+        }
+
+        public void MoveSouth()
+        {
+            Move(Vector2.down * 2 * searchRadius);
+        }
+
+        public void Move(Vector2 deltaMeters)
+        {
+            if (GPS != null)
+            {
+                deltaMeters /= 10f;
+                var utm = GPS.ToUTM();
+                utm = new UTMPoint(utm.X + deltaMeters.x, utm.Y + deltaMeters.y, utm.Z, utm.Zone, utm.Hemisphere);
+                GPS = utm.ToLatLng();
+                Location = $"{GPS.Latitude},{GPS.Longitude}";
+#if UNITY_EDITOR
+                locationInput.value = Location;
+#endif
             }
         }
 
