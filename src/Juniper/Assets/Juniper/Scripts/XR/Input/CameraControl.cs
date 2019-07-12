@@ -360,7 +360,7 @@ namespace Juniper.Input
         private void CheckMode(Mode mode, bool disableVertical)
         {
             var gest = GestureSatisfied(mode);
-            var wasGest = wasGestureSatisfied[mode];
+            var wasGest = wasGestureSatisfied.ContainsKey(mode) && wasGestureSatisfied[mode];
             if (gest)
             {
                 if (!wasGest)
