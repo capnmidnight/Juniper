@@ -30,7 +30,7 @@ namespace System.Collections.Generic
         /// dict.Get("c"); // --> 0
         /// dict.Get("d", 3); // --> 3
         /// ]]></code></example>
-        public static TValue Get<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default(TValue))
+        public static TValue Get<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue defaultValue = default)
         {
             if (dict?.ContainsKey(key) == true)
             {

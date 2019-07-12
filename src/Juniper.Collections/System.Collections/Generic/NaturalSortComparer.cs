@@ -95,7 +95,7 @@ namespace System.Collections.Generic
         /// <summary>
         /// Used to memoize strings to their split representation.
         /// </summary>
-        private Dictionary<string, string[]> table = new Dictionary<string, string[]>(5);
+        private readonly Dictionary<string, string[]> table = new Dictionary<string, string[]>(5);
 
         /// <summary>
         /// Compares two subparts of a string to see if they are numbers.

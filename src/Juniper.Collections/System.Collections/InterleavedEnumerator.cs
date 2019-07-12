@@ -116,13 +116,13 @@ namespace System.Collections
         /// <summary>
         /// The enumerators to interleave.
         /// </summary>
-        private IEnumerator[] enums;
+        private readonly IEnumerator[] enums;
 
         /// <summary>
         /// The cached state of the previous return value for each enumerators MoveNext method, so we
         /// know whether or not to keep attempting to read from a particular iterator.
         /// </summary>
-        private bool[] stillGoing;
+        private readonly bool[] stillGoing;
 
         /// <summary>
         /// The cached "current" enumerator, which gets replaced when <see cref="MoveNext"/> is called.

@@ -45,7 +45,7 @@ namespace System.Collections.Generic
         /// <summary>
         /// A random number generator to use with the following methods.
         /// </summary>
-        private static Random r = new Random();
+        private static readonly Random r = new Random();
 
         /// <summary>
         /// Get a random item out of the collection.
