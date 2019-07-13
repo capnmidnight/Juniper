@@ -47,49 +47,49 @@ namespace Juniper.Units
                     ? UTMPoint.GlobeHemisphere.Southern
                     : UTMPoint.GlobeHemisphere.Northern;
 
-            double N0 = hemisphere == UTMPoint.GlobeHemisphere.Northern ? 0.0 : 10000000.0;
-
-            int zone = (int)Math.Floor(latlng.Longitude / 6 + 31);
-
-            double a = DatumWGS_84.equatorialRadius_a;
-            double f = DatumWGS_84.flattening_f;
-            double b = a * (1 - f);   // polar radius
-
-            double e = Math.Sqrt(1 - Math.Pow(b, 2) / Math.Pow(a, 2));
             double k0 = 0.9996;
 
             double phi = Degrees.Radians(latlng.Latitude);
-            double utmz = 1 + Math.Floor((latlng.Longitude + 180) / 6.0);
+            double sinPhi = Math.Sin(phi);
+            double cosPhi = Math.Cos(phi);
+            double sin2Phi = 2 * sinPhi * cosPhi;
+            double cos2Phi = 2 * cosPhi * cosPhi -1;
+            double sin4Phi = 2 * sin2Phi * cos2Phi;
+            double cos4Phi = 2 * cos2Phi * cos2Phi - 1;
+            double sin6Phi = sin4Phi * cos2Phi + cos4Phi * sin2Phi;
+            double tanPhi = sinPhi / cosPhi;
+            double ePhi = DatumWGS_84.e * sinPhi;
+            double N = DatumWGS_84.equatorialRadius / Math.Sqrt(1 - ePhi * ePhi);
+
+            int utmz = 1 + (int)Math.Floor((latlng.Longitude + 180) / 6.0);
             double zcm = 3 + 6.0 * (utmz - 1) - 180;
+            double A = Degrees.Radians((float)(latlng.Longitude - zcm)) * cosPhi;
 
-            double esq = (1 - (b / a) * (b / a));
-            double e0sq = e * e / (1 - Math.Pow(e, 2));
-
-
-            double N = a / Math.Sqrt(1 - Math.Pow(e * Math.Sin(phi), 2));
-            double T = Math.Pow(Math.Tan(phi), 2);
-            double C = e0sq * Math.Pow(Math.Cos(phi), 2);
-            double A = Degrees.Radians((float)(latlng.Longitude - zcm)) * Math.Cos(phi);
-
-            double M = phi * (1 - esq * (1.0 / 4.0 + esq * (3.0 / 64.0 + 5.0 * esq / 256.0)));
-            M -= Math.Sin(2.0 * phi) * (esq * (3.0 / 8.0 + esq * (3.0 / 32.0 + 45.0 * esq / 1024.0)));
-            M += Math.Sin(4.0 * phi) * (esq * esq * (15.0 / 256.0 + esq * 45.0 / 1024.0));
-            M -= Math.Sin(6.0 * phi) * (esq * esq * esq * (35.0 / 3072.0));
-            M *= a;
-
-            double M0 = 0;
+            double M = DatumWGS_84.equatorialRadius * (
+                phi * DatumWGS_84.alpha1
+                - sin2Phi * DatumWGS_84.alpha2
+                + sin4Phi * DatumWGS_84.alpha3
+                - sin6Phi * DatumWGS_84.alpha4);
 
             // Easting
-            var easting = k0 * N * A * (1 + A * A * ((1 - T + C) / 6 + A * A * (5 - 18 * T + T * T + 72.0 * C - 58 * e0sq) / 120.0));
+            double T = tanPhi * tanPhi;
+            double C = DatumWGS_84.e0sq * cosPhi * cosPhi;
+            double Asqr = A * A;
+            double Tsqr = T * T;
+            var x0 = 1 - T + C;
+            var x1 = 5 - 18 * T + Tsqr + 72.0 * C - 58 * DatumWGS_84.e0sq;
+            var x2 = Asqr * x1 / 120.0;
+            var x3 = x0 / 6 + x2;
+            var x4 = 1 + Asqr * x3;
+            var easting = k0 * N * A * x4;
             easting += DatumWGS_84.E0;
 
 
             // Northing
-
-            double northing = k0 * (M - M0 + N * Math.Tan(phi) * (A * A * (1 / 2.0 + A * A * ((5 - T + 9 * C + 4 * C * C) / 24.0 + A * A * (61 - 58 * T + T * T + 600 * C - 330 * e0sq) / 720.0))));    // first from the equator
-            if (northing < 0)
+            double northing = k0 * (M + N * tanPhi * (Asqr * (1 / 2.0 + Asqr * ((5 - T + 9 * C + 4 * C * C) / 24.0 + Asqr * (61 - 58 * T + Tsqr + 600 * C - 330 * DatumWGS_84.e0sq) / 720.0))));
+            if (hemisphere == UTMPoint.GlobeHemisphere.Southern)
             {
-                northing = N0 + northing;
+                northing = 10000000.0 + northing;
             }
 
 
@@ -97,13 +97,8 @@ namespace Juniper.Units
                 (float)easting,
                 (float)northing,
                 latlng.Altitude,
-                zone,
+                utmz,
                 hemisphere);
-        }
-
-        private static double Atanh(double value)
-        {
-            return Math.Log((1 + value) / (1 - value)) / 2;
         }
     }
 }
