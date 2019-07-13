@@ -202,12 +202,12 @@ namespace Juniper.Progress
         private int lastRead;
         public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
         {
-            AsyncCallback wrappedCallback = async (IAsyncResult result) =>
+            async void wrappedCallback(IAsyncResult result)
             {
                 lastRead = inStream.EndRead(result);
                 await outStream.WriteAsync(buffer, offset, lastRead);
                 callback(result);
-            };
+            }
 
             return inStream.BeginRead(buffer, offset, count, wrappedCallback, state);
         }

@@ -151,13 +151,23 @@ namespace Juniper.Compression.Zip
         /// </summary>
         /// <param name="zip"></param>
         /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
+        /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
         /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
-        public static void ForEach(this ZipInputStream zip, Action<ZipEntry, ZipInputStream> eachEntry)
+        public static void ForEach(this ZipInputStream zip, Action<ZipEntry, ZipInputStream> eachEntry, Action<Exception> error = null)
         {
             ZipEntry entry;
             while ((entry = zip.GetNextEntry()) != null)
             {
-                eachEntry(entry, zip);
+                try
+                {
+                    eachEntry(entry, zip);
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch (Exception exp)
+                {
+                    error?.Invoke(exp);
+                }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
         }
 
@@ -167,8 +177,9 @@ namespace Juniper.Compression.Zip
         /// </summary>
         /// <param name="inputZipFile">A file-path to the Zip file to scan.</param>
         /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
+        /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
         /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
-        public static void ForEach(string inputZipFile, Action<ZipEntry, ZipInputStream> eachEntry)
+        public static void ForEach(string inputZipFile, Action<ZipEntry, ZipInputStream> eachEntry, Action<Exception> error = null)
         {
             if (!File.Exists(inputZipFile))
             {
@@ -182,7 +193,16 @@ namespace Juniper.Compression.Zip
                     ZipEntry entry;
                     while ((entry = zip.GetNextEntry()) != null)
                     {
-                        eachEntry(entry, zip);
+                        try
+                        {
+                            eachEntry(entry, zip);
+                        }
+#pragma warning disable CA1031 // Do not catch general exception types
+                        catch (Exception exp)
+                        {
+                            error?.Invoke(exp);
+                        }
+#pragma warning restore CA1031 // Do not catch general exception types
                     }
                 }
             }
@@ -223,7 +243,7 @@ namespace Juniper.Compression.Zip
 
                         zipStream.CopyTo(File.Create(fullZipToPath));
                     }
-                });
+                }, error);
             }
         }
 

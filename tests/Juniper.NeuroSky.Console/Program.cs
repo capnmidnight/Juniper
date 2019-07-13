@@ -4,7 +4,7 @@ namespace Juniper.NeuroSky.Console
 {
     internal static class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             WriteLine($"MindWave version {MindWaveAdapter.Version}");
             using (var device = MindWaveAdapter.FindAdapter())

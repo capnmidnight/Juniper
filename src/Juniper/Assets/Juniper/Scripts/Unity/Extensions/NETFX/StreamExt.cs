@@ -20,11 +20,12 @@ namespace Juniper.Json
         /// </summary>
         /// <typeparam name="T">The type of the serialized object.</typeparam>
         /// <param name="stream">The stream to read.</param>
+        /// <param name="length">The length of the content stream.</param>
         /// <param name="prog">A progress tracker. Defaults to null (no progress tracking).</param>
         /// <returns>The value deserialized out of the stream.</returns>
-        public static T ReadObject<T>(this Stream stream, IProgress prog = null)
+        public static T ReadObject<T>(this Stream stream, long length, IProgress prog = null)
         {
-            using (var progStream = new ProgressStream(stream, prog))
+            using (var progStream = new ProgressStream(stream, length, prog))
             using (var reader = new StreamReader(progStream))
             {
                 return JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
@@ -42,7 +43,7 @@ namespace Juniper.Json
         {
             using(var stream = response.GetResponseStream())
             {
-                return stream.ReadObject<T>(prog);
+                return stream.ReadObject<T>(response.ContentLength, prog);
             }
         }
 

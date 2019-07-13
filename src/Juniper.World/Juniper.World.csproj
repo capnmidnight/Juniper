@@ -46,7 +46,7 @@
     <Compile Include="Climate\OpenWeatherMap\OWMSys.cs" />
     <Compile Include="Climate\OpenWeatherMap\OWMWeather.cs" />
     <Compile Include="Climate\OpenWeatherMap\OWMWind.cs" />
-    <Compile Include="Imaging\GoogleMaps.cs" />
+    <Compile Include="Imaging\GoogleMaps\API.cs" />
     <Compile Include="Climate\IWeatherAPI.cs" />
     <Compile Include="Climate\IWeatherReport.cs" />
     <Compile Include="Climate\OpenWeatherMap\API.cs" />
@@ -61,6 +61,14 @@
     <Compile Include="GIS\HorizontalSphericalPosition.cs" />
     <Compile Include="GIS\LatLngPoint.cs" />
     <Compile Include="GIS\UTMPoint.cs" />
+    <Compile Include="Imaging\GoogleMaps\CubeMapSearch.cs" />
+    <Compile Include="Heading.cs" />
+    <Compile Include="Imaging\GoogleMaps\ImageSearch.cs" />
+    <Compile Include="Imaging\GoogleMaps\Metadata.cs" />
+    <Compile Include="Imaging\GoogleMaps\MetadataSearch.cs" />
+    <Compile Include="Imaging\GoogleMaps\PanoID.cs" />
+    <Compile Include="Pitch.cs" />
+    <Compile Include="Imaging\GoogleMaps\Search.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

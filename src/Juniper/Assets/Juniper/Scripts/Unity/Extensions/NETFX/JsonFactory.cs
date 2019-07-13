@@ -23,11 +23,13 @@ namespace Juniper.Json
                 value = Deserialize<T>(text);
                 return true;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch
             {
                 value = default;
                 return false;
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
     }
 }

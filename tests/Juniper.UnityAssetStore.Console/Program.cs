@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Juniper.Json;
@@ -7,7 +6,7 @@ namespace Juniper.UnityAssetStore.Console
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static async Task Main()
         {
             var json = new JsonFactory();
             var req = new Requester(json);

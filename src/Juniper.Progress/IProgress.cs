@@ -72,10 +72,12 @@ namespace Juniper.Progress
                 {
                     throw;
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (System.Exception exp)
                 {
                     error?.Invoke(exp);
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             prog?.Report(1);

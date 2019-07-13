@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using HtmlAgilityPack;
-
+using Juniper.Progress;
 using Juniper.Serialization;
 
 namespace Juniper.UnityAssetStore
@@ -27,47 +27,46 @@ namespace Juniper.UnityAssetStore
             this.deserializer = deserializer;
         }
 
-        private async Task<string> Get(string url, string token = null)
+        private async Task<string> Get(string url, string token = null, IProgress prog = null)
         {
-            return await Get(new Uri(url), token);
+            return await Get(new Uri(url), token, prog);
         }
 
-        private async Task<string> Get(Uri uri, string token = null)
+        private async Task<string> Get(Uri uri, string token = null, IProgress prog = null)
         {
             var code = HttpStatusCode.Redirect;
-            HttpWebResponse response = null;
             while (code == HttpStatusCode.Redirect)
             {
-                response = await HttpWebRequestExt.Create(uri)
+                using (var response = await HttpWebRequestExt.Create(uri)
                     .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
                     .Accept("application/json")
-                    .Get();
-                code = response.StatusCode;
-                if (code == HttpStatusCode.Redirect)
+                    .Get())
                 {
-                    uri = new Uri(response.Headers[HttpResponseHeader.Location]);
-                }
-            }
-
-            if (response != null
-                && response.StatusCode == HttpStatusCode.OK
-                && response.ContentLength > 0)
-            {
-                using (var stream = response.GetResponseStream())
-                {
-                    return stream.ReadString();
+                    code = response.StatusCode;
+                    if (code == HttpStatusCode.Redirect)
+                    {
+                        uri = new Uri(response.Headers[HttpResponseHeader.Location]);
+                    }
+                    else if (response.StatusCode == HttpStatusCode.OK
+                        && response.ContentLength > 0)
+                    {
+                        using (var stream = response.GetResponseStream())
+                        {
+                            return stream.ReadString(response.ContentLength, prog);
+                        }
+                    }
                 }
             }
 
             return default;
         }
 
-        public async Task<string> Post(string url, string data, string token = null)
+        public async Task<string> Post(string url, string data, string token = null, IProgress prog = null)
         {
-            return await Post(new Uri(url), data, token);
+            return await Post(new Uri(url), data, token, prog);
         }
 
-        public async Task<string> Post(Uri uri, string data, string token = null)
+        public async Task<string> Post(Uri uri, string data, string token = null, IProgress prog = null)
         {
             var response = await data.Write(HttpWebRequestExt.Create(uri)
                 .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
@@ -83,7 +82,7 @@ namespace Juniper.UnityAssetStore
             {
                 using (var stream = response.GetResponseStream())
                 {
-                    return stream.ReadString();
+                    return stream.ReadString(response.ContentLength, prog);
                 }
             }
 
@@ -101,109 +100,109 @@ namespace Juniper.UnityAssetStore
             return default;
         }
 
-        private async Task<T> Get<T>(string url, string token = null)
+        private async Task<T> Get<T>(string url, string token = null, IProgress prog = null)
         {
-            return Decode<T>(await Get(url, token));
+            return Decode<T>(await Get(url, token, prog));
         }
 
-        private async Task<T> Get<T>(Uri uri, string token = null)
+        private async Task<T> Get<T>(Uri uri, string token = null, IProgress prog = null)
         {
-            return Decode<T>(await Get(uri, token));
+            return Decode<T>(await Get(uri, token, prog));
         }
 
-        private async Task<T> Post<T>(string url, string data, string token = null)
+        private async Task<T> Post<T>(string url, string data, string token = null, IProgress prog = null)
         {
-            return Decode<T>(await Post(url, data, token));
+            return Decode<T>(await Post(url, data, token, prog));
         }
 
-        private async Task<T> Post<T>(Uri uri, string data, string token = null)
+        private async Task<T> Post<T>(Uri uri, string data, string token = null, IProgress prog = null)
         {
-            return Decode<T>(await Post(uri, data, token));
+            return Decode<T>(await Post(uri, data, token, prog));
         }
 
-        public async Task<Category[]> GetCategories()
+        public async Task<Category[]> GetCategories(IProgress prog = null)
         {
-            var value = await Get<Categories>($"{UnityAssetStoreAPIRoot}home/categories.json");
+            var value = await Get<Categories>($"{UnityAssetStoreAPIRoot}home/categories.json", null, prog);
             return value.categories;
         }
 
-        public async Task<string> GetCategoryName(string categoryID)
+        public async Task<string> GetCategoryName(string categoryID, IProgress prog = null)
         {
-            var value = await Get<Result<Title>>($"{UnityAssetStoreAPIRoot}head/category/{categoryID}.json");
+            var value = await Get<Result<Title>>($"{UnityAssetStoreAPIRoot}head/category/{categoryID}.json", null, prog);
             return value.result.title;
         }
 
-        public async Task<AssetSummary> GetAssetSummary(string assetID)
+        public async Task<AssetSummary> GetAssetSummary(string assetID, IProgress prog = null)
         {
-            var value = await Get<Result<AssetSummary>>($"{UnityAssetStoreAPIRoot}head/package/{assetID}.json");
+            var value = await Get<Result<AssetSummary>>($"{UnityAssetStoreAPIRoot}head/package/{assetID}.json", null, prog);
             return value.result;
         }
 
-        public async Task<AssetDetail> GetAssetDetails(string assetID)
+        public async Task<AssetDetail> GetAssetDetails(string assetID, IProgress prog = null)
         {
-            var value = await Get<Content<AssetDetail>>($"{UnityAssetStoreAPIRoot}content/overview/{assetID}.json");
+            var value = await Get<Content<AssetDetail>>($"{UnityAssetStoreAPIRoot}content/overview/{assetID}.json", null, prog);
             return value.content;
         }
 
-        public async Task<Price> GetAssetPrice(string assetID)
+        public async Task<Price> GetAssetPrice(string assetID, IProgress prog = null)
         {
-            return await Get<Price>($"{UnityAssetStoreAPIRoot}content/price/{assetID}.json");
+            return await Get<Price>($"{UnityAssetStoreAPIRoot}content/price/{assetID}.json", null, prog);
         }
 
-        private async Task<Results<AssetDetail>> GetTopAssets(string type, string categoryID, int count)
+        private async Task<Results<AssetDetail>> GetTopAssets(string type, string categoryID, int count, IProgress prog = null)
         {
-            return await Get<Results<AssetDetail>>($"{UnityAssetStoreAPIRoot}category/top/{type}/{categoryID}/{count}.json");
+            return await Get<Results<AssetDetail>>($"{UnityAssetStoreAPIRoot}category/top/{type}/{categoryID}/{count}.json", null, prog);
         }
 
-        public async Task<Results<AssetDetail>> GetTopLatestAssets(string categoryID, int count = 10)
+        public async Task<Results<AssetDetail>> GetTopLatestAssets(string categoryID, int count = 10, IProgress prog = null)
         {
-            return await GetTopAssets("latest", categoryID, count);
+            return await GetTopAssets("latest", categoryID, count, prog);
         }
 
-        public async Task<Results<AssetDetail>> GetTopGrossingAssets(string categoryID, int count = 10)
+        public async Task<Results<AssetDetail>> GetTopGrossingAssets(string categoryID, int count = 10, IProgress prog = null)
         {
-            return await GetTopAssets("grossing", categoryID, count);
+            return await GetTopAssets("grossing", categoryID, count, prog);
         }
 
-        public async Task<Results<AssetDetail>> GetTopFreeAssets(string categoryID, int count = 10)
+        public async Task<Results<AssetDetail>> GetTopFreeAssets(string categoryID, int count = 10, IProgress prog = null)
         {
-            return await GetTopAssets("free", categoryID, count);
+            return await GetTopAssets("free", categoryID, count, prog);
         }
 
-        public async Task<Results<AssetDetail>> GetTopPaidAssets(string categoryID, int count = 10)
+        public async Task<Results<AssetDetail>> GetTopPaidAssets(string categoryID, int count = 10, IProgress prog = null)
         {
-            return await GetTopAssets("paid", categoryID, count);
+            return await GetTopAssets("paid", categoryID, count, prog);
         }
 
-        public async Task<AssetContent[]> GetAssetContents(string assetID)
+        public async Task<AssetContent[]> GetAssetContents(string assetID, IProgress prog = null)
         {
-            var value = await Get<AssetContents>($"{UnityAssetStoreAPIRoot}content/assets/{assetID}.json");
+            var value = await Get<AssetContents>($"{UnityAssetStoreAPIRoot}content/assets/{assetID}.json", null, prog);
             return value.assets;
         }
 
-        public async Task<string> GetPublisherName(string publisherID)
+        public async Task<string> GetPublisherName(string publisherID, IProgress prog = null)
         {
-            var value = await Get<Result<Title>>($"{UnityAssetStoreAPIRoot}head/publisher/{publisherID}.json");
+            var value = await Get<Result<Title>>($"{UnityAssetStoreAPIRoot}head/publisher/{publisherID}.json", null, prog);
             return value.result.title;
         }
 
-        public async Task<PublisherDetail> GetPublisherDetail(string publisherID)
+        public async Task<PublisherDetail> GetPublisherDetail(string publisherID, IProgress prog = null)
         {
-            var value = await Get<Overview<PublisherDetail>>($"{UnityAssetStoreAPIRoot}publisher/overview/{publisherID}.json");
+            var value = await Get<Overview<PublisherDetail>>($"{UnityAssetStoreAPIRoot}publisher/overview/{publisherID}.json", null, prog);
             return value.overview;
         }
 
-        public async Task<Sale> GetCurrentSale()
+        public async Task<Sale> GetCurrentSale(IProgress prog = null)
         {
-            return await Get<Sale>($"{UnityAssetStoreAPIRoot}sale/results.json");
+            return await Get<Sale>($"{UnityAssetStoreAPIRoot}sale/results.json", null, prog);
         }
 
-        public async Task<StoreSearch.Results> Search(StoreSearch parameters)
+        public async Task<StoreSearch.Results> Search(StoreSearch parameters, IProgress prog = null)
         {
-            return await Get<StoreSearch.Results>($"{UnityAssetStoreAPIRoot}search/results.json?" + parameters.SearchString);
+            return await Get<StoreSearch.Results>($"{UnityAssetStoreAPIRoot}search/results.json?" + parameters.SearchString, null, prog);
         }
 
-        public async Task<AssetDownload[]> GetDownloads(string userName, string password, string token)
+        public async Task<AssetDownload[]> GetDownloads(string userName, string password, string token, IProgress prog = null)
         {
             var req = HttpWebRequestExt.Create($"https://assetstore.unity.com/auth/login?redirect_to=%2F");
             req.Header("Accept-Langage", "en-US,en;q=0.9");
@@ -214,7 +213,7 @@ namespace Juniper.UnityAssetStore
             req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3";
 
             var res = await req.Get();
-            if(res.StatusCode == HttpStatusCode.OK)
+            if (res.StatusCode == HttpStatusCode.OK)
             {
                 var doc = new HtmlDocument();
                 var html = res.ReadBodyString();

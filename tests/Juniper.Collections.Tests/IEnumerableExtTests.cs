@@ -14,7 +14,7 @@ namespace System
         [TestMethod]
         public void MoveNext_Empty()
         {
-            var arr = new IEnumerator[0];
+            var arr = Array.Empty<IEnumerator>();
             Assert.IsFalse(arr.MoveNext());
         }
 
@@ -29,8 +29,8 @@ namespace System
         public void MoveNext_EmptyArr()
         {
             var arr = new[] {
-            new object[0].GetEnumerator()
-        };
+                Array.Empty<object>().GetEnumerator()
+            };
             Assert.IsFalse(arr.MoveNext());
         }
 
@@ -38,8 +38,8 @@ namespace System
         public void MoveNext_OneElementArr()
         {
             var arr = new[] {
-            new []{ 2 }.GetEnumerator()
-        };
+                new []{ 2 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
         }
@@ -48,9 +48,9 @@ namespace System
         public void MoveNext_OneElementArr_Null()
         {
             var arr = new[] {
-            new []{ 2 }.GetEnumerator(),
-            null
-        };
+                new []{ 2 }.GetEnumerator(),
+                null
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
         }
@@ -59,9 +59,9 @@ namespace System
         public void MoveNext_Null_OneElementArr()
         {
             var arr = new[] {
-            null,
-            new []{ 2 }.GetEnumerator()
-        };
+                null,
+                new []{ 2 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
         }
@@ -70,9 +70,9 @@ namespace System
         public void MoveNext_OneElementArr_Empty()
         {
             var arr = new[] {
-            new []{ 2 }.GetEnumerator(),
-            new object[0].GetEnumerator()
-        };
+                new []{ 2 }.GetEnumerator(),
+                Array.Empty<object>().GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
         }
@@ -81,9 +81,9 @@ namespace System
         public void MoveNext_Empty_OneElementArr()
         {
             var arr = new[] {
-            new object[0].GetEnumerator(),
-            new []{ 2 }.GetEnumerator()
-        };
+                Array.Empty<object>().GetEnumerator(),
+                new []{ 2 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
         }
@@ -92,9 +92,9 @@ namespace System
         public void MoveNext_OneElementArr_OneElementArr()
         {
             var arr = new[] {
-            new []{ 2 }.GetEnumerator(),
-            new []{ 3 }.GetEnumerator()
-        };
+                new []{ 2 }.GetEnumerator(),
+                new []{ 3 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
         }
@@ -103,8 +103,8 @@ namespace System
         public void MoveNext_TwoElementArr()
         {
             var arr = new[] {
-            new []{ 2, 3 }.GetEnumerator()
-        };
+                new []{ 2, 3 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
@@ -114,9 +114,9 @@ namespace System
         public void MoveNext_TwoElementArr_Null()
         {
             var arr = new[] {
-            new []{ 2, 3 }.GetEnumerator(),
-            null
-        };
+                new []{ 2, 3 }.GetEnumerator(),
+                null
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
@@ -126,9 +126,9 @@ namespace System
         public void MoveNext_Null_TwoElementArr()
         {
             var arr = new[] {
-            null,
-            new []{ 2, 3 }.GetEnumerator()
-        };
+                null,
+                new []{ 2, 3 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
@@ -138,9 +138,9 @@ namespace System
         public void MoveNext_TwoElementArr_Empty()
         {
             var arr = new[] {
-            new []{ 2, 3 }.GetEnumerator(),
-            new object[0].GetEnumerator()
-        };
+                new []{ 2, 3 }.GetEnumerator(),
+                Array.Empty<object>().GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
@@ -150,9 +150,9 @@ namespace System
         public void MoveNext_Empty_TwoElementArr()
         {
             var arr = new[] {
-            new object[0].GetEnumerator(),
-            new []{ 2, 3 }.GetEnumerator()
-        };
+                Array.Empty<object>().GetEnumerator(),
+                new []{ 2, 3 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
@@ -162,9 +162,9 @@ namespace System
         public void MoveNext_TwoElementArr_OneElementArr()
         {
             var arr = new[] {
-            new []{ 2, 5 }.GetEnumerator(),
-            new []{ 3 }.GetEnumerator()
-        };
+                new []{ 2, 5 }.GetEnumerator(),
+                new []{ 3 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
@@ -174,9 +174,9 @@ namespace System
         public void MoveNext_OneElementArr_TwoElementArr()
         {
             var arr = new[] {
-            new []{ 3 }.GetEnumerator(),
-            new []{ 2, 5 }.GetEnumerator()
-        };
+                new []{ 3 }.GetEnumerator(),
+                new []{ 2, 5 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
@@ -186,9 +186,9 @@ namespace System
         public void MoveNext_TwoElementArr_TwoElementArr()
         {
             var arr = new[] {
-            new []{ 3, 7 }.GetEnumerator(),
-            new []{ 2, 5 }.GetEnumerator()
-        };
+                new []{ 3, 7 }.GetEnumerator(),
+                new []{ 2, 5 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(arr.MoveNext());
             Assert.IsFalse(arr.MoveNext());
@@ -197,7 +197,7 @@ namespace System
         [TestMethod]
         public void Current_Empty()
         {
-            var arr = new IEnumerator[0];
+            var arr = Array.Empty<IEnumerator>();
             Assert.IsTrue(arr.Current().Empty());
         }
 
@@ -212,8 +212,8 @@ namespace System
         public void Current_EmptyArr()
         {
             var arr = new[] {
-            new object[0].GetEnumerator()
-        };
+                Array.Empty<object>().GetEnumerator()
+            };
             Assert.ThrowsException<InvalidOperationException>(() =>
                 arr.Current().Empty());
         }
@@ -222,8 +222,8 @@ namespace System
         public void Current_OneElementArr_NoMove()
         {
             var arr = new[] {
-            new []{ 2 }.GetEnumerator()
-        };
+                new []{ 2 }.GetEnumerator()
+            };
             Assert.ThrowsException<InvalidOperationException>(() =>
                 arr.Current().Empty());
         }
@@ -233,8 +233,8 @@ namespace System
         {
             var elems = new[] { 2 };
             var arr = new[] {
-            elems.GetEnumerator()
-        };
+                elems.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(elems.Matches(arr.Current()));
         }
@@ -244,9 +244,9 @@ namespace System
         {
             var elems = new[] { 2 };
             var arr = new[] {
-            elems.GetEnumerator(),
-            null
-        };
+                elems.GetEnumerator(),
+                null
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(elems.Matches(arr.Current()));
         }
@@ -256,9 +256,9 @@ namespace System
         {
             var elems = new[] { 2 };
             var arr = new[] {
-            null,
-            elems.GetEnumerator()
-        };
+                null,
+                elems.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(elems.Matches(arr.Current()));
         }
@@ -268,9 +268,9 @@ namespace System
         {
             var elems = new[] { 2 };
             var arr = new[] {
-            elems.GetEnumerator(),
-            new object[0].GetEnumerator()
-        };
+                elems.GetEnumerator(),
+                Array.Empty<object>().GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(elems.Matches(arr.Current()));
         }
@@ -280,9 +280,9 @@ namespace System
         {
             var elems = new[] { 2 };
             var arr = new[] {
-            new object[0].GetEnumerator(),
-            elems.GetEnumerator()
-        };
+                Array.Empty<object>().GetEnumerator(),
+                elems.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(elems.Matches(arr.Current()));
         }
@@ -292,9 +292,9 @@ namespace System
         {
             var elems = new[] { 2, 3 };
             var arr = new[] {
-            elems.Take(1).GetEnumerator(),
-            elems.Skip(1).GetEnumerator()
-        };
+                elems.Take(1).GetEnumerator(),
+                elems.Skip(1).GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(elems.Matches(arr.Current()));
         }
@@ -317,9 +317,9 @@ namespace System
         {
             var elems = new[] { 2, 3 };
             var arr = new[] {
-            elems.GetEnumerator(),
-            null
-        };
+                elems.GetEnumerator(),
+                null
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(elems.Take(1).Matches(arr.Current()));
             Assert.IsTrue(arr.MoveNext());
@@ -331,9 +331,9 @@ namespace System
         {
             var elems = new[] { 2, 3 };
             var arr = new[] {
-            null,
-            elems.GetEnumerator()
-        };
+                null,
+                elems.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(elems.Take(1).Matches(arr.Current()));
             Assert.IsTrue(arr.MoveNext());
@@ -345,7 +345,7 @@ namespace System
         {
             var elems = new[] { 2, 3 };
             var arr = new[] {
-                new object[0].GetEnumerator(),
+                Array.Empty<object>().GetEnumerator(),
                 elems.GetEnumerator()
             };
             Assert.IsTrue(arr.MoveNext());
@@ -359,9 +359,9 @@ namespace System
         {
             var elems = new[] { 2, 3 };
             var arr = new[] {
-            elems.GetEnumerator(),
-            new object[0].GetEnumerator()
-        };
+                elems.GetEnumerator(),
+                Array.Empty<object>().GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(elems.Take(1).Matches(arr.Current()));
             Assert.IsTrue(arr.MoveNext());
@@ -372,9 +372,9 @@ namespace System
         public void Current_TwoElementArr_OneElementArr()
         {
             var arr = new[] {
-            new []{ 2, 5 }.GetEnumerator(),
-            new []{ 3 }.GetEnumerator()
-        };
+                new []{ 2, 5 }.GetEnumerator(),
+                new []{ 3 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(new[] { 2, 3 }.Matches(arr.Current()));
             Assert.IsTrue(arr.MoveNext());
@@ -385,9 +385,9 @@ namespace System
         public void Current_OneElementArr_TwoElementArr()
         {
             var arr = new[] {
-            new []{ 3 }.GetEnumerator(),
-            new []{ 2, 5 }.GetEnumerator()
-        };
+                new []{ 3 }.GetEnumerator(),
+                new []{ 2, 5 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(new[] { 3, 2 }.Matches(arr.Current()));
             Assert.IsTrue(arr.MoveNext());
@@ -398,9 +398,9 @@ namespace System
         public void Current_TwoElementArr_TwoElementArr()
         {
             var arr = new[] {
-            new []{ 3, 7 }.GetEnumerator(),
-            new []{ 2, 5 }.GetEnumerator()
-        };
+                new []{ 3, 7 }.GetEnumerator(),
+                new []{ 2, 5 }.GetEnumerator()
+            };
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(new[] { 3, 2 }.Matches(arr.Current()));
             Assert.IsTrue(arr.MoveNext());
@@ -425,7 +425,7 @@ namespace System
         public void Interleave_EmptyArr()
         {
             var arr = new InterleavedEnumerator(
-                new object[0].GetEnumerator()
+                Array.Empty<object>().GetEnumerator()
             );
             Assert.IsFalse(arr.MoveNext());
         }
@@ -480,7 +480,7 @@ namespace System
             var elems = new[] { 2 };
             var arr = new InterleavedEnumerator(
                 elems.GetEnumerator(),
-                new object[0].GetEnumerator()
+                Array.Empty<object>().GetEnumerator()
             );
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(elems.Matches((IEnumerator)arr.Current));
@@ -491,7 +491,7 @@ namespace System
         {
             var elems = new[] { 2 };
             var arr = new InterleavedEnumerator(
-                new object[0].GetEnumerator(),
+                Array.Empty<object>().GetEnumerator(),
                 elems.GetEnumerator()
             );
             Assert.IsTrue(arr.MoveNext());
@@ -556,7 +556,7 @@ namespace System
         {
             var elems = new[] { 2, 3 };
             var arr = new InterleavedEnumerator(
-                new object[0].GetEnumerator(),
+                Array.Empty<object>().GetEnumerator(),
                 elems.GetEnumerator()
             );
             Assert.IsTrue(arr.MoveNext());
@@ -571,7 +571,7 @@ namespace System
             var elems = new[] { 2, 3 };
             var arr = new InterleavedEnumerator(
                 elems.GetEnumerator(),
-                new object[0].GetEnumerator()
+                Array.Empty<object>().GetEnumerator()
             );
             Assert.IsTrue(arr.MoveNext());
             Assert.IsTrue(elems.Take(1).Matches((IEnumerator)arr.Current));

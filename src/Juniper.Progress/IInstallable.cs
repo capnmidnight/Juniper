@@ -67,10 +67,12 @@ namespace Juniper
                             installed.Add(installable);
                             prog?.Report(installed.Count, installables.Count);
                         }
+#pragma warning disable CA1031 // Do not catch general exception types
                         catch (Exception exp)
                         {
                             errored.Add(new KeyValuePair<IInstallable, Exception>(installable, exp));
                         }
+#pragma warning restore CA1031 // Do not catch general exception types
                     }
                 }
             }

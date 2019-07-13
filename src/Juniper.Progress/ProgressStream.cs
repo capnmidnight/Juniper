@@ -14,11 +14,6 @@ namespace Juniper.Progress
         private readonly Stream stream;
 
         /// <summary>
-        /// A flag to indicate that the length of the stream is know.
-        /// </summary>
-        private bool hasLength;
-
-        /// <summary>
         /// The length of the stream being wrapped.
         /// </summary>
         private long length;
@@ -29,45 +24,16 @@ namespace Juniper.Progress
         private readonly IProgress parent;
 
         /// <summary>
-        /// Try to get the length of a stream.
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        private static long? GetStreamLength(Stream stream)
-        {
-            try
-            {
-                return stream.Length;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Creates a progress tracker for a stream, using the stream's own Length property
-        /// to determine the length of the tracking.
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="parent"></param>
-        public ProgressStream(Stream stream, IProgress parent = null)
-            : this(stream, GetStreamLength(stream), parent)
-        {
-        }
-
-        /// <summary>
         /// Creates a progress tracker for a stream, using a set length for the tracking.
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="length"></param>
         /// <param name="parent"></param>
-        public ProgressStream(Stream stream, long? length, IProgress parent = null)
+        public ProgressStream(Stream stream, long length, IProgress parent = null)
         {
             this.parent = parent;
             this.stream = stream;
-            this.length = length ?? 0;
-            hasLength = length != null;
+            this.length = length;
             TotalByteCount = 0;
         }
 
@@ -103,7 +69,6 @@ namespace Juniper.Progress
         {
             stream.SetLength(value);
             length = value;
-            hasLength = true;
             this.Report(totalRead, length);
         }
 
@@ -189,14 +154,7 @@ namespace Juniper.Progress
         {
             get
             {
-                if (hasLength)
-                {
-                    return length;
-                }
-                else
-                {
-                    return TotalByteCount + ((TotalByteCount * 9) / 10);
-                }
+                return length;
             }
         }
 
@@ -237,7 +195,6 @@ namespace Juniper.Progress
             var read = stream.Read(buffer, offset, count);
             if (read == 0)
             {
-                hasLength = true;
                 length = TotalByteCount;
             }
             TotalByteCount += read;

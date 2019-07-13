@@ -8,7 +8,7 @@ namespace System.Collections.Generic
     public static class IEnumerableExt
     {
         /// <summary>
-        /// Creates set-like behaviour for generic lists. If the list already contains
+        /// Creates set-like behavior for generic lists. If the list already contains
         /// the given value, it will not be added to the list again.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -23,7 +23,7 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
-        /// Creates set-like behaviour for generic lists. If any of the items are already
+        /// Creates set-like behavior for generic lists. If any of the items are already
         /// contained in the list, they will not be added. Any items that are not in the list
         /// already will be added. The results are that <paramref name="collect"/> becomes
         /// a union of the previous state of <paramref name="collect"/> and <paramref name="values"/>.
@@ -235,10 +235,12 @@ namespace System.Collections.Generic
                         value = e.Current;
                         anySucceed = true;
                     }
+#pragma warning disable CA1031 // Do not catch general exception types
                     catch (InvalidOperationException)
                     {
                         value = null;
                     }
+#pragma warning restore CA1031 // Do not catch general exception types
 
                     if (value != null)
                     {
@@ -257,7 +259,7 @@ namespace System.Collections.Generic
         /// Filters a collection and checks to see if it would return 0 results.
         /// </summary>
         /// <returns>The empty.</returns>
-        /// <param name="enumer">Enumer.</param>
+        /// <param name="enumer">Enumerator.</param>
         /// <param name="predicate">Predicate.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
         public static bool Empty<T>(this IEnumerable<T> enumer, Func<T, bool> predicate)
@@ -269,7 +271,7 @@ namespace System.Collections.Generic
         /// Evaluates a collection and checks to see if it has 0 items.
         /// </summary>
         /// <returns>The empty.</returns>
-        /// <param name="enumer">Enumer.</param>
+        /// <param name="enumer">Enumerator.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
         public static bool Empty<T>(this IEnumerable<T> enumer)
         {
@@ -280,7 +282,7 @@ namespace System.Collections.Generic
         /// Evaluates a collection and checks to see if it has 0 items.
         /// </summary>
         /// <returns>The empty.</returns>
-        /// <param name="enumer">Enumer.</param>
+        /// <param name="enumer">Enumerator.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
         public static bool Empty(this IEnumerable enumer)
         {
@@ -291,7 +293,7 @@ namespace System.Collections.Generic
         /// Convert an Enumerator collection to an Enumerable collection.
         /// </summary>
         /// <returns>The enumerable.</returns>
-        /// <param name="iter">Iter.</param>
+        /// <param name="iter">Iterator.</param>
         public static IEnumerable AsEnumerable(this IEnumerator iter)
         {
             while (iter?.MoveNext() == true)
@@ -325,7 +327,7 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
-        /// Make Queues usable with collection initializer sytnax.
+        /// Make Queues usable with collection initializer syntax.
         /// </summary>
         /// <typeparam name="T">The type of the elements of the queue</typeparam>
         /// <param name="q">The queue to which to add the item.</param>

@@ -222,7 +222,6 @@ namespace Juniper.XR
     /// All the different configurations of systems, displays, augmented reality types, and options
     /// supported by Juniper.
     /// </summary>
-    [Flags]
     public enum PlatformTypes
     {
         /// <summary>

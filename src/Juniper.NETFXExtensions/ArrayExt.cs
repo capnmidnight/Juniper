@@ -20,11 +20,11 @@ namespace System
         {
             if (items == null)
             {
-                throw new ArgumentNullException("items");
+                throw new ArgumentNullException(nameof(items));
             }
             else if (items.Length == 0)
             {
-                throw new ArgumentOutOfRangeException("items", "items array must have at least one item");
+                throw new ArgumentOutOfRangeException(nameof(items), "items array must have at least one item");
             }
             else
             {
@@ -51,7 +51,7 @@ namespace System
             }
             else
             {
-                return default(T);
+                return default;
             }
         }
 
@@ -97,6 +97,6 @@ namespace System
         /// <summary>
         /// A random number generator to use with the following methods.
         /// </summary>
-        private static Random r = new Random();
+        private static readonly Random r = new Random();
     }
 }

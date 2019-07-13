@@ -62,10 +62,12 @@ namespace System.IO
                 {
                     file.Delete();
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch
                 {
                     allErrors.Add(file.FullName);
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             if (allErrors.Count == 0)

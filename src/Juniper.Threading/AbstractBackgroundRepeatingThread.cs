@@ -55,10 +55,12 @@ namespace Juniper.Threading
                 {
                     Loop();
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
                 {
                     OnError(exp);
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
         }
 

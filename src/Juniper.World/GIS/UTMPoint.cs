@@ -68,7 +68,7 @@ namespace Juniper.World.GIS
         }
 
         /// <summary>
-        /// Deserialze the object.
+        /// Deserialize the object.
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
@@ -102,6 +102,36 @@ namespace Juniper.World.GIS
         public override string ToString()
         {
             return $"({X}, {Y}, {Z}) zone {Zone}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj != null
+                && obj is UTMPoint p
+                && p.Hemisphere.Equals(Hemisphere)
+                && p.X.Equals(X)
+                && p.Y.Equals(Y)
+                && p.Z.Equals(Z)
+                && p.Zone.Equals(Zone);
+        }
+
+        public override int GetHashCode()
+        {
+            return Hemisphere.GetHashCode()
+                ^ X.GetHashCode()
+                ^ Y.GetHashCode()
+                ^ Z.GetHashCode()
+                ^ Zone.GetHashCode();
+        }
+
+        public static bool operator ==(UTMPoint left, UTMPoint right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(UTMPoint left, UTMPoint right)
+        {
+            return !(left == right);
         }
     }
 }

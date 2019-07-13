@@ -68,18 +68,18 @@ namespace System.IO
         /// <returns>A callback function that can be used to write the text when a stream becomes available.</returns>
         public static Task<HttpWebResponse> Write(this FileInfo file, Func<Func<BodyInfo>, Action<Stream>, Task<HttpWebResponse>> writer, string type, IProgress prog = null)
         {
-            Func<BodyInfo> infoGetter = () =>
+            BodyInfo infoGetter()
             {
                 return new BodyInfo(type, file.Length);
-            };
+            }
 
-            Action<Stream> bodyWriter = (outStream) =>
+            void bodyWriter(Stream outStream)
             {
-                using(var inStream = new ProgressStream(file.OpenRead(), file.Length, prog))
+                using (var inStream = new ProgressStream(file.OpenRead(), file.Length, prog))
                 {
                     inStream.CopyTo(outStream);
                 }
-            };
+            }
 
             return writer(infoGetter, bodyWriter);
         }

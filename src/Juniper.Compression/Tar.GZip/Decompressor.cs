@@ -109,8 +109,9 @@ namespace Juniper.Compression.Tar.GZip
         /// </summary>
         /// <param name="inputTarFile">A file-path to the Tar file to scan.</param>
         /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
+        /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
         /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
-        public static void ForEach(string inputTarFile, Action<TarEntry, TarInputStream> eachEntry)
+        public static void ForEach(string inputTarFile, Action<TarEntry, TarInputStream> eachEntry, Action<Exception> error = null)
         {
             if (!File.Exists(inputTarFile))
             {
@@ -124,7 +125,16 @@ namespace Juniper.Compression.Tar.GZip
                     TarEntry entry;
                     while ((entry = tar.GetNextEntry()) != null)
                     {
-                        eachEntry(entry, tar);
+                        try
+                        {
+                            eachEntry(entry, tar);
+                        }
+#pragma warning disable CA1031 // Do not catch general exception types
+                        catch (Exception exp)
+                        {
+                            error?.Invoke(exp);
+                        }
+#pragma warning restore CA1031 // Do not catch general exception types
                     }
                 }
             }
@@ -190,7 +200,7 @@ namespace Juniper.Compression.Tar.GZip
 
                         tarStream.CopyTo(File.Create(fullTarToPath));
                     }
-                });
+                }, error);
             }
         }
 
@@ -256,9 +266,11 @@ namespace Juniper.Compression.Tar.GZip
                             tarInputStream.CopyEntryContents(memoryStream);
                             memoryStream.Flush();
                             memoryStream.Position = 0L;
-                            var streamReader = new StreamReader(memoryStream);
-                            var path = streamReader.ReadLine();
-                            yield return path;
+                            using (var streamReader = new StreamReader(memoryStream))
+                            {
+                                var path = streamReader.ReadLine();
+                                yield return path;
+                            }
                         }
                     }
                 }

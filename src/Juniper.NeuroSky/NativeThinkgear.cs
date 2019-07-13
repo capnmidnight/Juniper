@@ -104,7 +104,9 @@ namespace libStreamSDK
         TG_BAUD_115200 = 115200
     }
 
+#pragma warning disable CA1027 // Mark enums with FlagsAttribute
     public enum SerialDataFormat
+#pragma warning restore CA1027 // Mark enums with FlagsAttribute
     {
         TG_STREAM_PACKETS = 0,
         TG_STREAM_FILE_PACKETS = 2

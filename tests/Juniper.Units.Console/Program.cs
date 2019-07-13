@@ -4,7 +4,7 @@ namespace Juniper.Console
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             var classes = typeof(Units.Converter).GetTypeInfo().Assembly.GetTypes();
             foreach (var c in classes)

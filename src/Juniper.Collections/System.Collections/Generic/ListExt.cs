@@ -32,11 +32,11 @@ namespace System.Collections.Generic
         {
             if (items == null)
             {
-                throw new ArgumentNullException("items");
+                throw new ArgumentNullException(nameof(items));
             }
             else if (items.Count == 0)
             {
-                throw new ArgumentOutOfRangeException("items", "items collection must have at least one item");
+                throw new ArgumentOutOfRangeException(nameof(items), "items collection must have at least one item");
             }
             else
             {
