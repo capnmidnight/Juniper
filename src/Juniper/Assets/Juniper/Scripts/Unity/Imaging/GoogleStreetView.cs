@@ -1,13 +1,15 @@
 using System;
 using System.Collections;
 using System.IO;
+
 using Juniper.Image;
 using Juniper.Imaging;
 using Juniper.Units;
 using Juniper.Unity;
 using Juniper.Unity.Coroutines;
 using Juniper.World.GIS;
-using Juniper.World.Imaging;
+using Juniper.World.Imaging.GoogleMaps;
+
 using UnityEngine;
 
 namespace Juniper.Images
@@ -35,7 +37,7 @@ namespace Juniper.Images
 
         private RawImage[] images;
 
-        private GoogleMaps gmaps;
+        private API gmaps;
 
         public int searchRadius = 50;
 
@@ -78,7 +80,7 @@ namespace Juniper.Images
             var apiKey = lines[0];
             var signingKey = lines[1];
             var json = new Json.JsonFactory();
-            gmaps = new GoogleMaps(json, apiKey, signingKey, cacheDir);
+            gmaps = new API(json, apiKey, signingKey, cacheDir);
         }
 
         public void Update()
@@ -126,14 +128,14 @@ namespace Juniper.Images
         {
             if (!string.IsNullOrEmpty(Location))
             {
-                var metadataSearch = new GoogleMaps.MetadataSearch(Location);
+                var metadataSearch = new MetadataSearch(Location);
                 var metadataTask = gmaps.Get(metadataSearch);
                 yield return new WaitForTask(metadataTask);
                 var metadata = metadataTask.Result;
-                if (metadata.status == GoogleMaps.StatusCode.OK)
+                if (metadata.status == API.StatusCode.OK)
                 {
                     GPS = metadata.location;
-                    var imageSearch = new GoogleMaps.CubeMapSearch(GPS, 1024, 1024);
+                    var imageSearch = new CubeMapSearch(GPS, 1024, 1024);
                     imageSearch.AddRadius(searchRadius);
                     var imageTask = gmaps.Get(imageSearch, true);
                     yield return new WaitForTask(imageTask);
