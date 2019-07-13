@@ -12,7 +12,7 @@ namespace Juniper.UnityAssetStore
         public readonly T result;
         public readonly string error;
 
-        public Result(SerializationInfo info, StreamingContext context)
+        protected Result(SerializationInfo info, StreamingContext context)
         {
             foreach (var field in info)
             {

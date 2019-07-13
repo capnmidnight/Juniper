@@ -33,7 +33,7 @@ namespace Juniper.UnityAssetStore
         public readonly KeyImage keyimage;
         public readonly Rating rating;
 
-        public PublisherDetail(SerializationInfo info, StreamingContext context)
+        protected PublisherDetail(SerializationInfo info, StreamingContext context)
         {
             organization_id = info.GetString(nameof(organization_id));
             name = info.GetString(nameof(name));
@@ -95,7 +95,7 @@ namespace Juniper.UnityAssetStore
             public readonly string support_email;
             public readonly string support_url;
 
-            public PublisherSummary(SerializationInfo info, StreamingContext context)
+            protected PublisherSummary(SerializationInfo info, StreamingContext context)
             {
                 label_english = info.GetString(nameof(label_english));
                 slug = info.GetString(nameof(slug));
@@ -141,7 +141,7 @@ namespace Juniper.UnityAssetStore
             public readonly KeyImage keyimage;
             public readonly Tag[] list;
 
-            public LatestAsset(SerializationInfo info, StreamingContext context)
+            protected LatestAsset(SerializationInfo info, StreamingContext context)
             {
                 icon = info.GetString(nameof(icon));
                 pubdate = info.GetString(nameof(pubdate));
@@ -200,7 +200,7 @@ namespace Juniper.UnityAssetStore
             public readonly string id;
             public readonly string label;
 
-            public CategorySummary(SerializationInfo info, StreamingContext context)
+            protected CategorySummary(SerializationInfo info, StreamingContext context)
             {
                 label_english = info.GetString(nameof(label_english));
                 multiple = info.GetString(nameof(multiple));

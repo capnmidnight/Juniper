@@ -12,7 +12,7 @@ namespace Hjg.Pngcs.Chunks {
     /// sRGB chunk: http://www.w3.org/TR/PNG/#11sRGB
     /// </summary>
     public class PngChunkSRGB : PngChunkSingle {
-        public const String ID = ChunkHelper.sRGB;
+        public const string ID = ChunkHelper.sRGB;
 
         public const int RENDER_INTENT_Perceptual = 0;
         public const int RENDER_INTENT_Relative_colorimetric = 1;

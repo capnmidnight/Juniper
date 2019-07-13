@@ -10,7 +10,7 @@ namespace Juniper.UnityAssetStore
         public readonly string title;
         public readonly string publisher;
 
-        public AssetSummary(SerializationInfo info, StreamingContext context)
+        protected AssetSummary(SerializationInfo info, StreamingContext context)
         {
             foreach (var field in info)
             {

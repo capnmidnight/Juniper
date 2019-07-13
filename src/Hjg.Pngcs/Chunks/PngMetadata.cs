@@ -133,10 +133,10 @@ namespace Hjg.Pngcs.Chunks {
         }
 
         /// <summary>
-        /// Gets image timestamp, TIME chunk, as a String
+        /// Gets image timestamp, TIME chunk, as a string
         /// </summary>
         /// <returns>Formated TIME, empty string if not present</returns>
-        public String GetTimeAsString() {
+        public string GetTimeAsString() {
             PngChunkTIME c = GetTime();
             return c == null ? "" : c.GetAsString();
         }
@@ -151,7 +151,7 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="useLatin1">Flag. If false, will use UTF-8 (iTXt)</param>
         /// <param name="compress">Flag. Uses zTXt chunk.</param>
         /// <returns>The created and enqueued chunk</returns>
-        public PngChunkTextVar SetText(String key, String val, bool useLatin1, bool compress) {
+        public PngChunkTextVar SetText(string key, string val, bool useLatin1, bool compress) {
             if (compress && !useLatin1)
                 throw new PngjException("cannot compress non latin text");
             PngChunkTextVar c;
@@ -176,7 +176,7 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="key">Key</param>
         /// <param name="val">Text</param>
         /// <returns>The created and enqueued chunk</returns>
-        public PngChunkTextVar SetText(String key, String val) {
+        public PngChunkTextVar SetText(string key, string val) {
             return SetText(key, val, false, false);
         }
 
@@ -186,7 +186,7 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="key">Key</param>
         /// <returns>Empty list if nothing found</returns>
         /// <remarks>Can mix tEXt zTXt and iTXt chunks</remarks>
-        public List<PngChunkTextVar> GetTxtsForKey(String key) {
+        public List<PngChunkTextVar> GetTxtsForKey(string key) {
             List<PngChunkTextVar> li = new List<PngChunkTextVar>();
             foreach (PngChunk c in chunkList.GetById(ChunkHelper.tEXt, key))
                 li.Add((PngChunkTextVar)c);
@@ -203,8 +203,8 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="key">Key</param>
         /// <returns>Concatenated (with newlines) if several found, empty string if none</returns>
         /// <remarks>You'd perhaps prefer GetTxtsForKey</remarks>
-        public String GetTxtForKey(String key) {
-            String t = "";
+        public string GetTxtForKey(string key) {
+            string t = "";
             List<PngChunkTextVar> li = GetTxtsForKey(key);
             if (li.Count == 0)
                 return t;

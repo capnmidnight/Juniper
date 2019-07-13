@@ -38,7 +38,7 @@ namespace Juniper.World.GIS
         }
 
         /// <summary>
-        /// Deserialze the object.
+        /// Deserialize the object.
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
@@ -59,6 +59,32 @@ namespace Juniper.World.GIS
             info.AddValue(nameof(RightAscensionDegrees), RightAscensionDegrees);
             info.AddValue(nameof(DeclinationDegrees), DeclinationDegrees);
             info.AddValue(nameof(RadiusAU), RadiusAU);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj != null
+                && obj is EquitorialSphericalPosition eq
+                && eq.RightAscensionDegrees.Equals(RightAscensionDegrees)
+                && eq.DeclinationDegrees.Equals(DeclinationDegrees)
+                && eq.RadiusAU.Equals(RadiusAU);
+        }
+
+        public override int GetHashCode()
+        {
+            return RightAscensionDegrees.GetHashCode()
+                ^ DeclinationDegrees.GetHashCode()
+                ^ RadiusAU.GetHashCode();
+        }
+
+        public static bool operator ==(EquitorialSphericalPosition left, EquitorialSphericalPosition right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(EquitorialSphericalPosition left, EquitorialSphericalPosition right)
+        {
+            return !(left == right);
         }
     }
 }

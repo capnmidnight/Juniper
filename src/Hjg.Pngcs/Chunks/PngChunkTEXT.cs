@@ -12,7 +12,7 @@ namespace Hjg.Pngcs.Chunks {
     /// tEXt chunk: latin1 uncompressed text
     /// </summary>
     public class PngChunkTEXT : PngChunkTextVar {
-        public const String ID = ChunkHelper.tEXt;
+        public const string ID = ChunkHelper.tEXt;
 
         public PngChunkTEXT(ImageInfo info)
             : base(ID, info) {

@@ -11,34 +11,34 @@ namespace Hjg.Pngcs.Chunks {
     /// general class for textual chunks
     /// </summary>
     public abstract class PngChunkTextVar : PngChunkMultiple {
-        protected internal String key; // key/val: only for tEXt. lazy computed
-        protected internal String val;
+        protected internal string key; // key/val: only for tEXt. lazy computed
+        protected internal string val;
 
-        protected internal PngChunkTextVar(String id, ImageInfo info)
+        protected internal PngChunkTextVar(string id, ImageInfo info)
             : base(id, info) {
         }
 
-        public const String KEY_Title = "Title"; // Short (one line) title or caption for image
-        public const String KEY_Author = "Author"; // Name of image's creator
-        public const String KEY_Description = "Description"; // Description of image (possibly long)
-        public const String KEY_Copyright = "Copyright"; // Copyright notice
-        public const String KEY_Creation_Time = "Creation Time"; // Time of original image creation
-        public const String KEY_Software = "Software"; // Software used to create the image
-        public const String KEY_Disclaimer = "Disclaimer"; // Legal disclaimer
-        public const String KEY_Warning = "Warning"; // Warning of nature of content
-        public const String KEY_Source = "Source"; // Device used to create the image
-        public const String KEY_Comment = "Comment"; // Miscellaneous comment
+        public const string KEY_Title = "Title"; // Short (one line) title or caption for image
+        public const string KEY_Author = "Author"; // Name of image's creator
+        public const string KEY_Description = "Description"; // Description of image (possibly long)
+        public const string KEY_Copyright = "Copyright"; // Copyright notice
+        public const string KEY_Creation_Time = "Creation Time"; // Time of original image creation
+        public const string KEY_Software = "Software"; // Software used to create the image
+        public const string KEY_Disclaimer = "Disclaimer"; // Legal disclaimer
+        public const string KEY_Warning = "Warning"; // Warning of nature of content
+        public const string KEY_Source = "Source"; // Device used to create the image
+        public const string KEY_Comment = "Comment"; // Miscellaneous comment
 
         public class PngTxtInfo {
-            public String title;
-            public String author;
-            public String description;
-            public String creation_time;// = (new Date()).toString();
-            public String software;
-            public String disclaimer;
-            public String warning;
-            public String source;
-            public String comment;
+            public string title;
+            public string author;
+            public string description;
+            public string creation_time;// = (new Date()).toString();
+            public string software;
+            public string disclaimer;
+            public string warning;
+            public string source;
+            public string comment;
         }
 
         public override ChunkOrderingConstraint GetOrderingConstraint() {
@@ -49,15 +49,15 @@ namespace Hjg.Pngcs.Chunks {
         /// 
         /// </summary>
         /// <returns></returns>
-        public String GetKey() {
+        public string GetKey() {
             return key;
         }
 
-        public String GetVal() {
+        public string GetVal() {
             return val;
         }
 
-        public void SetKeyVal(String key, String val) {
+        public void SetKeyVal(string key, string val) {
             this.key = key;
             this.val = val;
         }

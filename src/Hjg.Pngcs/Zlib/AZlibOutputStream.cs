@@ -14,8 +14,17 @@ namespace Hjg.Pngcs.Zlib {
         public AZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen) {
             rawStream = st;
             this.leaveOpen = leaveOpen;
-            this.strategy = strat;
+            strategy = strat;
             this.compressLevel = compressLevel;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if(disposing && !leaveOpen)
+            {
+                rawStream.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
         public override void SetLength(long value) {
@@ -67,6 +76,6 @@ namespace Hjg.Pngcs.Zlib {
         /// mainly for debugging
         /// </summary>
         /// <returns></returns>
-        public abstract String getImplementationId();
+        public abstract string getImplementationId();
     }
 }

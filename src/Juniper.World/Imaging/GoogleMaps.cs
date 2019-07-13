@@ -64,6 +64,16 @@ namespace Juniper.World.Imaging
             {
                 return obj is PanoID pano && pano.id == id;
             }
+
+            public static bool operator ==(PanoID left, PanoID right)
+            {
+                return left.Equals(right);
+            }
+
+            public static bool operator !=(PanoID left, PanoID right)
+            {
+                return !(left == right);
+            }
         }
 
         [Serializable]
@@ -76,7 +86,7 @@ namespace Juniper.World.Imaging
             public readonly PanoID pano_id;
             public readonly LatLngPoint location;
 
-            public Metadata(SerializationInfo info, StreamingContext context)
+            protected Metadata(SerializationInfo info, StreamingContext context)
             {
                 status = info.GetEnumFromString<StatusCode>(nameof(status));
                 if (status == StatusCode.OK)
@@ -304,15 +314,17 @@ namespace Juniper.World.Imaging
             var unsignedUri = unsignedUriBuilder.Uri;
 
             var pkBytes = Convert.FromBase64String(signingKey.FromGoogleModifiedBase64());
-            var hasher = new HMACSHA1(pkBytes);
+            using (var hasher = new HMACSHA1(pkBytes))
+            {
 
-            var urlBytes = Encoding.ASCII.GetBytes(unsignedUri.LocalPath + unsignedUri.Query);
-            var hash = hasher.ComputeHash(urlBytes);
-            var signature = Convert.ToBase64String(hash).ToGoogleModifiedBase64();
+                var urlBytes = Encoding.ASCII.GetBytes(unsignedUri.LocalPath + unsignedUri.Query);
+                var hash = hasher.ComputeHash(urlBytes);
+                var signature = Convert.ToBase64String(hash).ToGoogleModifiedBase64();
 
-            var signedUri = new UriBuilder(unsignedUri);
-            signedUri.AddQuery("signature", signature);
-            return signedUri.Uri;
+                var signedUri = new UriBuilder(unsignedUri);
+                signedUri.AddQuery("signature", signature);
+                return signedUri.Uri;
+            }
         }
 
         private FileInfo MakeFullCachePath(Search search)

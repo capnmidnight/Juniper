@@ -5,7 +5,7 @@ namespace libStreamSDK
     /// <summary>
     /// P/Invoke adapter for the MindWave ThinkGear C-API
     /// </summary>
-    public static class NativeThinkgear
+    internal static class NativeThinkgear
     {
 #if WIN64
         const string DLL_NAME = "thinkgear64.dll";
@@ -19,19 +19,19 @@ namespace libStreamSDK
         [DllImport(DLL_NAME, EntryPoint = "TG_GetNewConnectionId", CallingConvention = CallingConvention.Cdecl)]
         public static extern int TG_GetNewConnectionId();
 
-        [DllImport(DLL_NAME, EntryPoint = "TG_SetStreamLog", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLL_NAME, EntryPoint = "TG_SetStreamLog", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TG_SetStreamLog(int connectionId, string filename);
 
-        [DllImport(DLL_NAME, EntryPoint = "TG_SetDataLog", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLL_NAME, EntryPoint = "TG_SetDataLog", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TG_SetDataLog(int connectionId, string filename);
 
-        [DllImport(DLL_NAME, EntryPoint = "TG_WriteStreamLog", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLL_NAME, EntryPoint = "TG_WriteStreamLog", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TG_WriteStreamLog(int connectionId, int insertTimestamp, string msg);
 
-        [DllImport(DLL_NAME, EntryPoint = "TG_WriteDataLog", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLL_NAME, EntryPoint = "TG_WriteDataLog", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TG_WriteDataLog(int connectionId, int insertTimestamp, string msg);
 
-        [DllImport(DLL_NAME, EntryPoint = "TG_Connect", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(DLL_NAME, EntryPoint = "TG_Connect", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern int TG_Connect(int connectionId, string serialPortName, int serialBaudrate,
             int serialDataFormat);
 

@@ -165,7 +165,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             /// <param name="info"></param>
             /// <param name="context"></param>
-            public Error(SerializationInfo info, StreamingContext context)
+            protected Error(SerializationInfo info, StreamingContext context)
             {
                 error = info.GetString(nameof(error));
             }
@@ -199,21 +199,24 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 {
                     var requester = HttpWebRequestExt.Create(url);
                     requester.Accept = "application/json";
-                    var response = await requester.Get();
-                    var body = response.ReadBodyString();
-                    if(deserializer.TryDeserialize<WeatherReport>(body, out var report))
+                    using (var response = await requester.Get())
                     {
-                        reportJSON = serializer.Serialize("Weather report", report);
-                        LastReport = report;
-                    }
-                    else
-                    {
-                        ErrorReport = new Error("GetNewReport", "No response: " + url);
+                        var body = response.ReadBodyString();
+                        if (deserializer.TryDeserialize<WeatherReport>(body, out var report))
+                        {
+                            reportJSON = serializer.Serialize("Weather report", report);
+                            LastReport = report;
+                        }
+                        else
+                        {
+                            ErrorReport = new Error("GetNewReport", "No response: " + url);
+                        }
                     }
                 }
                 catch (Exception exp)
                 {
                     ErrorReport = new Error("GetNewReport", exp.Message + ": " + url);
+                    throw;
                 }
             }
             else

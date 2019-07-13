@@ -8,7 +8,7 @@ namespace Juniper.UnityAssetStore
     {
         public readonly string title;
 
-        public Title(SerializationInfo info, StreamingContext context)
+        protected Title(SerializationInfo info, StreamingContext context)
         {
             title = info.GetString(nameof(title));
         }

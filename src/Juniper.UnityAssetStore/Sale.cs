@@ -22,7 +22,7 @@ namespace Juniper.UnityAssetStore
         public readonly bool countdown;
         public readonly object[] results;
 
-        public Sale(SerializationInfo info, StreamingContext context)
+        protected Sale(SerializationInfo info, StreamingContext context)
         {
             banner = info.GetString(nameof(banner));
 

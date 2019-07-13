@@ -40,7 +40,7 @@ namespace Hjg.Pngcs {
         /// <summary>
         /// filename, or description - merely informative, can be empty
         /// </summary>
-        protected readonly String filename;
+        protected readonly string filename;
 
         /// <summary>
         /// Strategy for chunk loading. Default: LOAD_CHUNK_ALWAYS
@@ -83,7 +83,7 @@ namespace Hjg.Pngcs {
         /// <remarks>
         ///  Default: { "fdAT" }. chunks with these ids will be skipped (nor even CRC checked)
         /// </remarks>
-        public String[] SkipChunkIds { get; set; }
+        public string[] SkipChunkIds { get; set; }
 
         private Dictionary<string, int> skipChunkIdsSet = null; // lazily created
 
@@ -158,7 +158,7 @@ namespace Hjg.Pngcs {
         /// 
         /// <param name="inputStream"></param>
         /// <param name="filename">Optional, can be the filename or a description.</param>
-        public PngReader(Stream inputStream, String filename) {
+        public PngReader(Stream inputStream, string filename) {
             this.filename = (filename == null) ? "" : filename;
             this.inputStream = inputStream;
             this.chunksList = new ChunksList(null);
@@ -342,7 +342,7 @@ namespace Hjg.Pngcs {
                 } else if (PngCsUtils.arraysEqual4(chunkid, Hjg.Pngcs.Chunks.ChunkHelper.b_IEND)) {
                     throw new PngjInputException("END chunk found before image data (IDAT) at offset=" + offset);
                 }
-                String chunkids = ChunkHelper.ToString(chunkid);
+                string chunkids = ChunkHelper.ToString(chunkid);
                 if (chunkids.Equals(ChunkHelper.PLTE))
                     this.CurrentChunkGroup = ChunksList.CHUNK_GROUP_2_PLTE;
                 ReadChunk(chunkid, clen, false);
@@ -410,7 +410,7 @@ namespace Hjg.Pngcs {
                     foreach (string id in SkipChunkIds) skipChunkIdsSet.Add(id, 1);
             }
 
-            String chunkidstr = ChunkHelper.ToString(chunkid);
+            string chunkidstr = ChunkHelper.ToString(chunkid);
             PngChunk pngChunk = null;
             bool critical = ChunkHelper.IsCritical(chunkidstr);
             bool skip = skipforced;
@@ -450,7 +450,7 @@ namespace Hjg.Pngcs {
         /// This happens rarely - most errors are fatal.
         /// </remarks>
         /// <param name="warn"></param>
-        internal void logWarn(String warn) {
+        internal void logWarn(string warn) {
             Console.Error.WriteLine(warn);
         }
 
@@ -723,7 +723,7 @@ namespace Hjg.Pngcs {
         }
 
 
-        public override String ToString() { // basic info
+        public override string ToString() { // basic info
             return "filename=" + filename + " " + ImgInfo.ToString();
         }
         /// <summary>

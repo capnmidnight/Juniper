@@ -11,7 +11,7 @@ namespace Juniper.UnityAssetStore
         public readonly string price;
         public readonly bool is_free;
 
-        public Price(SerializationInfo info, StreamingContext context)
+        protected Price(SerializationInfo info, StreamingContext context)
         {
             vat = info.GetString(nameof(vat));
             price_exvat = info.GetString(nameof(price_exvat));

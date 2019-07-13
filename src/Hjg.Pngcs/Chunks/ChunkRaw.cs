@@ -30,7 +30,7 @@ namespace Hjg.Pngcs.Chunks {
         /// Chunk Id, as array of 4 bytes
         /// </summary>
         public readonly byte[] IdBytes;
-        public readonly String Id;
+        public readonly string Id;
         /// <summary>
         /// Raw data, crc not included
         /// </summary>
@@ -40,7 +40,7 @@ namespace Hjg.Pngcs.Chunks {
         /// <summary>
         /// Creates an empty raw chunk
         /// </summary>
-        internal ChunkRaw(int length, String idb, bool alloc) {
+        internal ChunkRaw(int length, string idb, bool alloc) {
             this.Id = idb;
             this.IdBytes = ChunkHelper.ToBytes(Id);
             this.Data = null;
@@ -108,7 +108,7 @@ namespace Hjg.Pngcs.Chunks {
         /// Just id and length
         /// </summary>
         /// <returns></returns>
-        public override String ToString() {
+        public override string ToString() {
             return "chunkid=" + Hjg.Pngcs.Chunks.ChunkHelper.ToString(IdBytes) + " len=" + Len;
         }
     }

@@ -12,11 +12,11 @@ namespace Hjg.Pngcs.Chunks {
     /// One of the three text chunks
     /// </summary>
     public class PngChunkITXT : PngChunkTextVar {
-        public const String ID = ChunkHelper.iTXt;
+        public const string ID = ChunkHelper.iTXt;
 
         private bool compressed = false;
-        private String langTag = "";
-        private String translatedTag = "";
+        private string langTag = "";
+        private string translatedTag = "";
 
         public PngChunkITXT(ImageInfo info)
             : base(ID, info) {
@@ -94,19 +94,19 @@ namespace Hjg.Pngcs.Chunks {
             this.compressed = compressed;
         }
 
-        public String GetLangtag() {
+        public string GetLangtag() {
             return langTag;
         }
 
-        public void SetLangtag(String langtag) {
+        public void SetLangtag(string langtag) {
             this.langTag = langtag;
         }
 
-        public String GetTranslatedTag() {
+        public string GetTranslatedTag() {
             return translatedTag;
         }
 
-        public void SetTranslatedTag(String translatedTag) {
+        public void SetTranslatedTag(string translatedTag) {
             this.translatedTag = translatedTag;
         }
     }

@@ -10,7 +10,7 @@ namespace Juniper.UnityAssetStore
         public readonly string slug;
         public readonly string id;
 
-        public Kategory(SerializationInfo info, StreamingContext context)
+        protected Kategory(SerializationInfo info, StreamingContext context)
         {
             name = info.GetString(nameof(name));
             slug = info.GetString(nameof(slug));

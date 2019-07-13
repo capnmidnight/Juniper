@@ -14,7 +14,7 @@ namespace Hjg.Pngcs.Chunks {
     /// this chunk structure depends on the image type
     /// </summary>
     public class PngChunkSBIT : PngChunkSingle {
-        public const String ID = ChunkHelper.sBIT;
+        public const string ID = ChunkHelper.sBIT;
 
         //	significant bits
         public int Graysb { get; set; }

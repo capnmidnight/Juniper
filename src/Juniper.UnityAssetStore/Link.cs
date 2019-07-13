@@ -9,7 +9,7 @@ namespace Juniper.UnityAssetStore
         public readonly string id;
         public readonly string type;
 
-        public Link(SerializationInfo info, StreamingContext context)
+        protected Link(SerializationInfo info, StreamingContext context)
         {
             id = info.GetString(nameof(id));
             type = info.GetString(nameof(type));

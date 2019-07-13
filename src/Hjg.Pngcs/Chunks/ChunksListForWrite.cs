@@ -18,12 +18,12 @@ namespace Hjg.Pngcs.Chunks {
         private List<PngChunk> queuedChunks; // chunks not yet writen - does not include IHDR, IDAT, END, perhaps yes PLTE
 
         // redundant, just for eficciency
-        private Dictionary<String, int> alreadyWrittenKeys;
+        private Dictionary<string, int> alreadyWrittenKeys;
 
         internal ChunksListForWrite(ImageInfo info)
             : base(info) {
             this.queuedChunks = new List<PngChunk>();
-            this.alreadyWrittenKeys = new Dictionary<String, int>();
+            this.alreadyWrittenKeys = new Dictionary<string, int>();
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public List<PngChunk> GetQueuedById(String id) {
+        public List<PngChunk> GetQueuedById(string id) {
             return GetQueuedById(id, null);
         }
         /// <summary>
@@ -40,7 +40,7 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="id"></param>
         /// <param name="innerid"></param>
         /// <returns></returns>
-        public List<PngChunk> GetQueuedById(String id, String innerid) {
+        public List<PngChunk> GetQueuedById(string id, string innerid) {
             return GetXById(queuedChunks, id, innerid);
         }
 
@@ -51,7 +51,7 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="innerid"></param>
         /// <param name="failIfMultiple"></param>
         /// <returns></returns>
-        public PngChunk GetQueuedById1(String id, String innerid, bool failIfMultiple) {
+        public PngChunk GetQueuedById1(string id, string innerid, bool failIfMultiple) {
             List<PngChunk> list = GetQueuedById(id, innerid);
             if (list.Count == 0)
                 return null;
@@ -65,7 +65,7 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="id"></param>
         /// <param name="failIfMultiple"></param>
         /// <returns></returns>
-        public PngChunk GetQueuedById1(String id, bool failIfMultiple) {
+        public PngChunk GetQueuedById1(string id, bool failIfMultiple) {
             return GetQueuedById1(id, null, failIfMultiple);
         }
         /// <summary>
@@ -73,7 +73,7 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public PngChunk GetQueuedById1(String id) {
+        public PngChunk GetQueuedById1(string id) {
             return GetQueuedById1(id, false);
         }
 

@@ -10,7 +10,7 @@ namespace Juniper.UnityAssetStore
     {
         public AssetContent[] assets;
 
-        public AssetContents(SerializationInfo info, StreamingContext context)
+        protected AssetContents(SerializationInfo info, StreamingContext context)
         {
             assets = info.GetValue<AssetContent[]>(nameof(assets));
         }
@@ -30,7 +30,7 @@ namespace Juniper.UnityAssetStore
         public readonly string label;
         public readonly int folder;
 
-        public AssetContent(SerializationInfo info, StreamingContext context)
+        protected AssetContent(SerializationInfo info, StreamingContext context)
         {
             foreach (var field in info)
             {

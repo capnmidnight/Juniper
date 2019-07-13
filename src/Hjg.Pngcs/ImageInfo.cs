@@ -161,7 +161,7 @@ namespace Hjg.Pngcs {
         /// General information, for debugging
         /// </summary>
         /// <returns>Summary</returns>
-        public override String ToString() {
+        public override string ToString() {
             return "ImageInfo [cols=" + Cols + ", rows=" + Rows + ", bitDepth=" + BitDepth
                     + ", channels=" + Channels + ", bitspPixel=" + BitspPixel + ", bytesPixel="
                     + BytesPixel + ", bytesPerRow=" + BytesPerRow + ", samplesPerRow="

@@ -22,7 +22,7 @@ namespace Hjg.Pngcs {
         /// <summary>
         /// filename, or description - merely informative, can be empty
         /// </summary>
-        protected readonly String filename;
+        protected readonly string filename;
 
         private FilterWriteStrategy filterStrat;
 
@@ -114,7 +114,7 @@ namespace Hjg.Pngcs {
         /// <param name="imgInfo">Basic image parameters</param>
         /// <param name="filename">Optional, can be the filename or a description.</param>
         public PngWriter(Stream outputStream, ImageInfo imgInfo,
-                String filename) {
+                string filename) {
             this.filename = (filename == null) ? "" : filename;
             this.outputStream = outputStream;
             this.ImgInfo = imgInfo;
@@ -489,7 +489,7 @@ namespace Hjg.Pngcs {
         ///  Filename or description, from the optional constructor argument.
         /// </summary>
         /// <returns></returns>
-        public String GetFilename() {
+        public string GetFilename() {
             return filename;
         }
 

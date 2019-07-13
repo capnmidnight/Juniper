@@ -14,7 +14,7 @@ namespace Hjg.Pngcs.Chunks {
     /// http://www.w3.org/TR/PNG/#11PLTE
     /// </summary>
     public class PngChunkPLTE : PngChunkSingle {
-        public const String ID = ChunkHelper.PLTE;
+        public const string ID = ChunkHelper.PLTE;
 
         private int nentries = 0;
         

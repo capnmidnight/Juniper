@@ -11,7 +11,7 @@ namespace Hjg.Pngcs.Chunks {
     /// IEND chunk  http://www.w3.org/TR/PNG/#11IEND
     /// </summary>
     public class PngChunkIEND : PngChunkSingle {
-        public const String ID = ChunkHelper.IEND;
+        public const string ID = ChunkHelper.IEND;
      
         public PngChunkIEND(ImageInfo info)
             : base(ID, info) {

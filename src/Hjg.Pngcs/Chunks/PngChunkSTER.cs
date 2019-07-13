@@ -12,7 +12,7 @@ namespace Hjg.Pngcs.Chunks {
     /// sTER chunk: http://www.libpng.org/pub/png/spec/register/pngext-1.3.0-pdg.html#C.sTER
     /// </summary>
     public class PngChunkSTER : PngChunkSingle {
-        public const String ID = "sTER";
+        public const string ID = "sTER";
 
         /// <summary>
         /// 0: cross-fuse layout 1: diverging-fuse layout

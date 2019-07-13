@@ -12,7 +12,7 @@ namespace Hjg.Pngcs.Chunks {
     /// IHDR chunk: http://www.w3.org/TR/PNG/#11IHDR
     /// </summary>
     public class PngChunkIHDR : PngChunkSingle {
-        public const String ID = ChunkHelper.IHDR;
+        public const string ID = ChunkHelper.IHDR;
         public int Cols {get;set;}
         public int Rows { get; set; }
         public int Bitspc { get; set; }

@@ -11,7 +11,7 @@ namespace Juniper.UnityAssetStore
         public readonly string slug;
         public readonly string overlay;
 
-        public Tag(SerializationInfo info, StreamingContext context)
+        protected Tag(SerializationInfo info, StreamingContext context)
         {
             name = info.GetString(nameof(name));
             slug_v2 = info.GetString(nameof(slug_v2));

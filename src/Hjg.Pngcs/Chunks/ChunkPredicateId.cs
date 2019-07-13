@@ -9,7 +9,7 @@ namespace Hjg.Pngcs.Chunks {
     /// </summary>
     internal class ChunkPredicateId : ChunkPredicate {
         private readonly string id;
-        public ChunkPredicateId(String id) {
+        public ChunkPredicateId(string id) {
             this.id = id;
         }
         public bool Matches(PngChunk c) {

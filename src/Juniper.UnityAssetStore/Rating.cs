@@ -9,7 +9,7 @@ namespace Juniper.UnityAssetStore
         public readonly int count;
         public readonly double average;
 
-        public Rating(SerializationInfo info, StreamingContext context)
+        protected Rating(SerializationInfo info, StreamingContext context)
         {
             count = info.GetInt32(nameof(count));
             average = info.GetDouble(nameof(average));

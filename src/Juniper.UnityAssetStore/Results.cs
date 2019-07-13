@@ -14,7 +14,7 @@ namespace Juniper.UnityAssetStore
         public readonly bool HasResults;
         public readonly T[] results;
 
-        public Results(SerializationInfo info, StreamingContext context)
+        protected Results(SerializationInfo info, StreamingContext context)
         {
             total = -1;
             feed = null;

@@ -12,7 +12,7 @@ namespace Hjg.Pngcs.Chunks {
     /// gAMA chunk, see http://www.w3.org/TR/PNG/#11gAMA
     /// </summary>
     public class PngChunkGAMA : PngChunkSingle {
-        public const String ID = ChunkHelper.gAMA;
+        public const string ID = ChunkHelper.gAMA;
 
         private double gamma;
 

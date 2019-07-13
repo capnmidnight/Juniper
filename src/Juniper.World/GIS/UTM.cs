@@ -15,8 +15,8 @@ namespace Juniper.Units
         public static LatLngPoint ToLatLng(this UTMPoint utm)
         {
             double N0 = utm.Hemisphere == UTMPoint.GlobeHemisphere.Northern ? 0.0 : 10000000.0;
-            double xi = (utm.Y - N0) / (DatumWGS_84.pointScaleFactor_k0 * DatumWGS_84.A);
-            double eta = (utm.X - DatumWGS_84.E0) / (DatumWGS_84.pointScaleFactor_k0 * DatumWGS_84.A);
+            double xi = (utm.Y - N0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
+            double eta = (utm.X - DatumWGS_84.E0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
             double xiPrime = xi;
             double etaPrime = eta;
             double sigmaPrime = 1;

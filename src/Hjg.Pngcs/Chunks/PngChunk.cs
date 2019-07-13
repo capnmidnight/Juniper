@@ -25,7 +25,7 @@ namespace Hjg.Pngcs.Chunks {
         /// <summary>
         /// 4 letters. The Id almost determines the concrete type (except for PngUKNOWN)
         /// </summary>
-        public readonly String Id;
+        public readonly string Id;
         /// <summary>
         /// Standard basic properties, implicit in the Id
         /// </summary>
@@ -79,7 +79,7 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         /// <param name="id"></param>
         /// <param name="imgInfo"></param>
-        protected PngChunk(String id, ImageInfo imgInfo) {
+        protected PngChunk(string id, ImageInfo imgInfo) {
             this.Id = id;
             this.ImgInfo = imgInfo;
             this.Crit = Hjg.Pngcs.Chunks.ChunkHelper.IsCritical(id);
@@ -91,10 +91,10 @@ namespace Hjg.Pngcs.Chunks {
             this.Offset = 0;
         }
 
-        private static Dictionary<String, Type> factoryMap = initFactory();
+        private static Dictionary<string, Type> factoryMap = initFactory();
 
-        private static Dictionary<String, Type> initFactory() {
-            Dictionary<String, Type> f = new Dictionary<string, System.Type>();
+        private static Dictionary<string, Type> initFactory() {
+            Dictionary<string, Type> f = new Dictionary<string, System.Type>();
             f.Add(ChunkHelper.IDAT, typeof(PngChunkIDAT));
             f.Add(ChunkHelper.IHDR, typeof(PngChunkIHDR));
             f.Add(ChunkHelper.PLTE, typeof(PngChunkPLTE));
@@ -127,11 +127,11 @@ namespace Hjg.Pngcs.Chunks {
         /// </remarks>
         /// <param name="chunkId"></param>
         /// <param name="type">should extend PngChunkSingle or PngChunkMultiple</param>
-        public static void FactoryRegister(String chunkId, Type type) {
+        public static void FactoryRegister(string chunkId, Type type) {
             factoryMap.Add(chunkId, type);
         }
 
-        internal static bool isKnown(String id) {
+        internal static bool isKnown(string id) {
             return factoryMap.ContainsKey(id);
         }
 
@@ -160,7 +160,7 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="cid">Chunk Id</param>
         /// <param name="info"></param>
         /// <returns></returns>
-        internal static PngChunk FactoryFromId(String cid, ImageInfo info) {
+        internal static PngChunk FactoryFromId(string cid, ImageInfo info) {
             PngChunk chunk = null;
             if (factoryMap == null) initFactory();
             if (isKnown(cid)) {
@@ -201,7 +201,7 @@ namespace Hjg.Pngcs.Chunks {
         /// Basic info: Id, length, Type name
         /// </summary>
         /// <returns></returns>
-        public override String ToString() {
+        public override string ToString() {
             return "chunk id= " + Id + " (len=" + Length + " off=" + Offset +") c=" + GetType().Name;
         }
 

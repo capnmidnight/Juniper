@@ -14,7 +14,7 @@ namespace Hjg.Pngcs.Chunks {
 
         private byte[] data;
 
-        public PngChunkUNKNOWN(String id, ImageInfo info)
+        public PngChunkUNKNOWN(string id, ImageInfo info)
             : base(id, info) {
         }
 

@@ -300,7 +300,7 @@ namespace Hjg.Pngcs {
         }
 
 
-        public override String ToString() {
+        public override string ToString() {
             return "row=" + Rown + " cols=" + ImgInfo.Cols + " bpc=" + ImgInfo.BitDepth
                     + " size=" + Scanline.Length;
         }

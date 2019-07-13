@@ -14,7 +14,7 @@ namespace Hjg.Pngcs.Chunks {
     /// Only for palette images
     /// </summary>
     public class PngChunkHIST : PngChunkSingle {
-        public readonly static String ID = ChunkHelper.hIST;
+        public readonly static string ID = ChunkHelper.hIST;
 
         private int[] hist = new int[0]; // should have same lenght as palette
 

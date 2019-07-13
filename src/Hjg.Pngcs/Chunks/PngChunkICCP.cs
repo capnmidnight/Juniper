@@ -12,9 +12,9 @@ namespace Hjg.Pngcs.Chunks {
     /// iCCP Chunk: see http://www.w3.org/TR/PNG/#11iCCP
     /// </summary>
     public class PngChunkICCP : PngChunkSingle {
-        public const String ID = ChunkHelper.iCCP;
+        public const string ID = ChunkHelper.iCCP;
         
-        private String profileName;
+        private string profileName;
         
         private byte[] compressedProfile;
 
@@ -60,7 +60,7 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         /// <param name="name">profile name </param>
         /// <param name="profile">profile (latin1 string)</param>
-        public void SetProfileNameAndContent(String name, String profile) {
+        public void SetProfileNameAndContent(string name, string profile) {
             SetProfileNameAndContent(name, ChunkHelper.ToBytes(profileName));
         }
 
@@ -69,13 +69,13 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         /// <param name="name">profile name </param>
         /// <param name="profile">profile (uncompressed)</param>
-        public void SetProfileNameAndContent(String name, byte[] profile) {
+        public void SetProfileNameAndContent(string name, byte[] profile) {
             profileName = name;
             compressedProfile = ChunkHelper.compressBytes(profile, true);
         }
             
 
-        public String GetProfileName() {
+        public string GetProfileName() {
             return profileName;
         }
 
@@ -87,7 +87,7 @@ namespace Hjg.Pngcs.Chunks {
             return ChunkHelper.compressBytes(compressedProfile, false);
         }
 
-        public String GetProfileAsString() {
+        public string GetProfileAsString() {
             return ChunkHelper.ToString(GetProfile());
         }
 

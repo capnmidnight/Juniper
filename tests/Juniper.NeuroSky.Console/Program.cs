@@ -27,7 +27,7 @@ Baud Rate:       {device.SerialBaudRate}");
                         var packetsRead = device.ReadPackets(1);
                         if (packetsRead > 0)
                         {
-                            var output = string.Format(
+                            var output =
 $@"Packets Read:  {packetsRead}
 Battery:        {device.Battery}
 Signal:         {device.PoorSignal}
@@ -41,7 +41,7 @@ Beta1:          {device.Beta1}
 Beta2:          {device.Beta2}
 Gamma1:         {device.Gamma1}
 Gamma2:         {device.Gamma2}
-");
+";
 
                             if (output != lastOutput)
                             {

@@ -11,7 +11,7 @@ namespace Hjg.Pngcs.Chunks {
     /// pHYs chunk: http://www.w3.org/TR/PNG/#11pHYs
     /// </summary>
     public class PngChunkPHYS : PngChunkSingle {
-        public const String ID = ChunkHelper.pHYs;
+        public const string ID = ChunkHelper.pHYs;
 
         public long PixelsxUnitX { get; set; }
         public long PixelsxUnitY { get; set; }

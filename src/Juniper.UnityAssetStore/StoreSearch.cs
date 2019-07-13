@@ -136,7 +136,7 @@ namespace Juniper.UnityAssetStore
             public readonly bool HasResults;
             public readonly AssetDetail[] results;
 
-            public Results(SerializationInfo info, StreamingContext context)
+            protected Results(SerializationInfo info, StreamingContext context)
             {
                 total = -1;
                 HasResults = false;

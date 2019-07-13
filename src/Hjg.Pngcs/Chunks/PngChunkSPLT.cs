@@ -12,11 +12,11 @@ namespace Hjg.Pngcs.Chunks {
     /// sPLT chunk: http://www.w3.org/TR/PNG/#11sPLT
     /// </summary>
     public class PngChunkSPLT : PngChunkMultiple {
-        public const String ID = ChunkHelper.sPLT;
+        public const string ID = ChunkHelper.sPLT;
         /// <summary>
         /// Must be unique in image
         /// </summary>
-        public String PalName { get; set; }
+        public string PalName { get; set; }
         /// <summary>
         /// 8-16
         /// </summary>

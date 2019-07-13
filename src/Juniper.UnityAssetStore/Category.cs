@@ -10,7 +10,7 @@ namespace Juniper.UnityAssetStore
     {
         public Category[] categories;
 
-        public Categories(SerializationInfo info, StreamingContext context)
+        protected Categories(SerializationInfo info, StreamingContext context)
         {
             categories = info.GetValue<Category[]>(nameof(categories));
         }
@@ -31,7 +31,7 @@ namespace Juniper.UnityAssetStore
 
         public int AssetCount { get; private set; }
 
-        public Category(SerializationInfo info, StreamingContext context)
+        protected Category(SerializationInfo info, StreamingContext context)
         {
             foreach(var field in info)
             {

@@ -11,7 +11,7 @@ namespace Juniper.UnityAssetStore
     {
         public readonly T overview;
 
-        public Overview(SerializationInfo info, StreamingContext context)
+        protected Overview(SerializationInfo info, StreamingContext context)
         {
             overview = info.GetValue<T>(nameof(overview));
         }

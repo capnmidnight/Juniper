@@ -12,7 +12,7 @@ namespace Hjg.Pngcs.Chunks {
     /// tRNS chunk: http://www.w3.org/TR/PNG/#11tRNS
  /// </summary>
     public class PngChunkTRNS : PngChunkSingle {
-        public const String ID = ChunkHelper.tRNS;
+        public const string ID = ChunkHelper.tRNS;
     
         // this chunk structure depends on the image type
         // only one of these is meaningful

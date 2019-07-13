@@ -10,7 +10,7 @@ namespace Juniper.UnityAssetStore
     {
         private readonly List<string> flags;
 
-        public Flags(SerializationInfo info, StreamingContext context)
+        protected Flags(SerializationInfo info, StreamingContext context)
         {
             flags = new List<string>();
             foreach(var field in info)

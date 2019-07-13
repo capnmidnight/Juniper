@@ -16,7 +16,7 @@ namespace Juniper.UnityAssetStore
         public readonly bool IsDeprecated;
         public readonly bool NotFound;
 
-        public Content(SerializationInfo info, StreamingContext context)
+        protected Content(SerializationInfo info, StreamingContext context)
         {
             foreach (var field in info)
             {

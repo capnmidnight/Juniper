@@ -43,7 +43,7 @@ namespace Hjg.Pngcs.Zlib {
             ist.Flush();
         }
 
-        public override String getImplementationId() {
+        public override string GetImplementationId() {
             return "Zlib inflater: SharpZipLib";
         }
     }

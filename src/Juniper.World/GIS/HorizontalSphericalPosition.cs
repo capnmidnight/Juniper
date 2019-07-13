@@ -39,7 +39,7 @@ namespace Juniper.World.GIS
         }
 
         /// <summary>
-        /// Deserialze the object.
+        /// Deserialize the object.
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
@@ -60,6 +60,32 @@ namespace Juniper.World.GIS
             info.AddValue(nameof(AltitudeDegrees), AltitudeDegrees);
             info.AddValue(nameof(AzimuthDegrees), AzimuthDegrees);
             info.AddValue(nameof(RadiusAU), RadiusAU);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj != null
+                && obj is HorizontalSphericalPosition ho
+                && ho.AltitudeDegrees.Equals(AltitudeDegrees)
+                && ho.AzimuthDegrees.Equals(AzimuthDegrees)
+                && ho.RadiusAU.Equals(RadiusAU);
+        }
+
+        public override int GetHashCode()
+        {
+            return AltitudeDegrees.GetHashCode()
+                ^ AzimuthDegrees.GetHashCode()
+                ^ RadiusAU.GetHashCode();
+        }
+
+        public static bool operator ==(HorizontalSphericalPosition left, HorizontalSphericalPosition right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(HorizontalSphericalPosition left, HorizontalSphericalPosition right)
+        {
+            return !(left == right);
         }
     }
 }

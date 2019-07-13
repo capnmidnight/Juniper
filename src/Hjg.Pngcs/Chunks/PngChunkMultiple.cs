@@ -7,7 +7,7 @@ namespace Hjg.Pngcs.Chunks {
     /// A Chunk type that allows duplicate in an image
     /// </summary>
     public abstract class PngChunkMultiple : PngChunk {
-        internal PngChunkMultiple(String id, ImageInfo imgInfo)
+        internal PngChunkMultiple(string id, ImageInfo imgInfo)
             : base(id, imgInfo) {
 
         }

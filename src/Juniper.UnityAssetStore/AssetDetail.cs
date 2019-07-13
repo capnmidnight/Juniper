@@ -50,7 +50,7 @@ namespace Juniper.UnityAssetStore
         // "upgrades": [],
         // "upgradables": [],
 
-        public AssetDetail(SerializationInfo info, StreamingContext context)
+        protected AssetDetail(SerializationInfo info, StreamingContext context)
         {
             foreach (var field in info)
             {
@@ -216,7 +216,7 @@ namespace Juniper.UnityAssetStore
             public readonly string id;
             public readonly string label;
 
-            public CategorySummary(SerializationInfo info, StreamingContext context)
+            protected CategorySummary(SerializationInfo info, StreamingContext context)
             {
                 tree_id = info.GetString(nameof(tree_id));
                 multiple = info.GetString(nameof(multiple));
@@ -243,7 +243,7 @@ namespace Juniper.UnityAssetStore
             public readonly string id;
             public readonly string support_url;
 
-            public PublisherSummary(SerializationInfo info, StreamingContext context)
+            protected PublisherSummary(SerializationInfo info, StreamingContext context)
             {
                 support_email = info.GetString(nameof(support_email));
                 url = info.GetString(nameof(url));
@@ -273,7 +273,7 @@ namespace Juniper.UnityAssetStore
             public readonly string height;
             public readonly string thumb;
 
-            public Image(SerializationInfo info, StreamingContext context)
+            protected Image(SerializationInfo info, StreamingContext context)
             {
                 link = info.GetString(nameof(link));
                 width = info.GetString(nameof(width));

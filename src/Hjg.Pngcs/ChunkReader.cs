@@ -12,7 +12,7 @@ namespace Ar.Com.Hjg.Pngcs
 
 	    protected int read = 0;
 
-        public ChunkReader(int clen, String id, long offsetInPng, ChunkReaderMode mode)
+        public ChunkReader(int clen, string id, long offsetInPng, ChunkReaderMode mode)
         {
             if (mode == ChunkReaderMode.NONE || id.Length != 4 || clen < 0)
                 throw new PngjExceptionInternal("Bad chunk paramenters: " + mode);

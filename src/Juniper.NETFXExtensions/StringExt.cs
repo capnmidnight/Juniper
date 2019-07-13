@@ -3,7 +3,7 @@ using System.IO;
 namespace System
 {
     /// <summary>
-    /// Extension methods for System.String.
+    /// Extension methods for System.string.
     /// </summary>
     public static class StringExt
     {
@@ -67,7 +67,7 @@ namespace System
 
         /// <summary>
         /// An extension method to join an array of strings with a separator. Sort of a fluent
-        /// interface for System.String.Join.
+        /// interface for System.string.Join.
         /// </summary>
         /// <param name="parts">The strings to join.</param>
         /// <param name="separator">The separator to insert between each string value. Defaults to the empty string.</param>

@@ -32,7 +32,7 @@ namespace Juniper.UnityAssetStore
         public readonly int can_update;
         public readonly string type;
 
-        public AssetDownload(SerializationInfo info, StreamingContext context)
+        protected AssetDownload(SerializationInfo info, StreamingContext context)
         {
             icon = info.GetString(nameof(icon));
             local_version_name = info.GetString(nameof(local_version_name));
@@ -93,7 +93,7 @@ namespace Juniper.UnityAssetStore
         public readonly string name;
         public readonly string id;
 
-        public CategorySummary(SerializationInfo info, StreamingContext context)
+        protected CategorySummary(SerializationInfo info, StreamingContext context)
         {
             name = info.GetString(nameof(name));
             id = info.GetString(nameof(id));

@@ -86,7 +86,8 @@ namespace Juniper.Progress
         {
             if (disposing)
             {
-                EitherStream.Dispose();
+                stream?.Dispose();
+                ersatzStream?.Dispose();
             }
         }
 

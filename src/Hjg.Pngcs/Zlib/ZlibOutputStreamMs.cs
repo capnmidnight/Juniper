@@ -86,7 +86,7 @@ namespace Hjg.Pngcs.Zlib {
             if(deflateStream!=null) deflateStream.Flush();
         }
 
-        public override String getImplementationId() {
+        public override string getImplementationId() {
             return "Zlib deflater: .Net CLR 4.5";
         }
 

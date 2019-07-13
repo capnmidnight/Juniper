@@ -38,6 +38,14 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Climate\OpenWeatherMap\OWMClouds.cs" />
+    <Compile Include="Climate\OpenWeatherMap\OWMCoord.cs" />
+    <Compile Include="Climate\OpenWeatherMap\OWMMain.cs" />
+    <Compile Include="Climate\OpenWeatherMap\OWMRain.cs" />
+    <Compile Include="Climate\OpenWeatherMap\OWMSnow.cs" />
+    <Compile Include="Climate\OpenWeatherMap\OWMSys.cs" />
+    <Compile Include="Climate\OpenWeatherMap\OWMWeather.cs" />
+    <Compile Include="Climate\OpenWeatherMap\OWMWind.cs" />
     <Compile Include="Imaging\GoogleMaps.cs" />
     <Compile Include="Climate\IWeatherAPI.cs" />
     <Compile Include="Climate\IWeatherReport.cs" />

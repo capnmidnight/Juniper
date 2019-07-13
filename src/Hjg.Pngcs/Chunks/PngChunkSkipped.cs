@@ -6,7 +6,7 @@ using Hjg.Pngcs;
 
 namespace Hjg.Pngcs.Chunks {
     class PngChunkSkipped : PngChunk {
-        internal PngChunkSkipped(String id, ImageInfo imgInfo, int clen)
+        internal PngChunkSkipped(string id, ImageInfo imgInfo, int clen)
             : base(id, imgInfo) {
             this.Length = clen;
         }

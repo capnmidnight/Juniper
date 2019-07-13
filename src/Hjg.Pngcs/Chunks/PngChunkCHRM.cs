@@ -12,7 +12,7 @@ namespace Hjg.Pngcs.Chunks {
     /// cHRM chunk, see http://www.w3.org/TR/PNG/#11cHRM
     /// </summary>
     public class PngChunkCHRM : PngChunkSingle {
-        public const String ID = ChunkHelper.cHRM;
+        public const string ID = ChunkHelper.cHRM;
 
         private double whitex, whitey;
         private double redx, redy;
