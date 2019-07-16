@@ -1,11 +1,10 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using HtmlAgilityPack;
+
 using Juniper.Progress;
 using Juniper.Serialization;
 

@@ -1,9 +1,10 @@
-using Juniper.Serialization;
-using Juniper.World.GIS;
 using System;
 using System.Runtime.Serialization;
 
-namespace Juniper.World.Imaging.GoogleMaps
+using Juniper.Serialization;
+using Juniper.World.GIS;
+
+namespace Juniper.Google.Maps.StreetView
 {
     [Serializable]
     public class Metadata : ISerializable

@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{27B52ADC-CB80-4B77-A0FC-958C0B0D0982}</ProjectGuid>
+    <ProjectGuid>{8B0F80D8-DD15-4D68-B1D5-17328CDF1DB6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Juniper.World</RootNamespace>
-    <AssemblyName>Juniper.World</AssemblyName>
+    <RootNamespace>Juniper.Google</RootNamespace>
+    <AssemblyName>Juniper.Google</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,30 +37,18 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Climate\OpenWeatherMap\OWMClouds.cs" />
-    <Compile Include="Climate\OpenWeatherMap\OWMCoord.cs" />
-    <Compile Include="Climate\OpenWeatherMap\OWMMain.cs" />
-    <Compile Include="Climate\OpenWeatherMap\OWMRain.cs" />
-    <Compile Include="Climate\OpenWeatherMap\OWMSnow.cs" />
-    <Compile Include="Climate\OpenWeatherMap\OWMSys.cs" />
-    <Compile Include="Climate\OpenWeatherMap\OWMWeather.cs" />
-    <Compile Include="Climate\OpenWeatherMap\OWMWind.cs" />
-    <Compile Include="Climate\IWeatherAPI.cs" />
-    <Compile Include="Climate\IWeatherReport.cs" />
-    <Compile Include="Climate\OpenWeatherMap\API.cs" />
-    <Compile Include="Climate\OpenWeatherMap\WeatherReport.cs" />
-    <Compile Include="GIS\EquitorialSpherical.cs" />
-    <Compile Include="GIS\GeocentricEclipticSpherical.cs" />
-    <Compile Include="GIS\LatLng.cs" />
-    <Compile Include="GIS\UTM.cs" />
-    <Compile Include="GIS\Datum.cs" />
-    <Compile Include="GIS\EquitorialSphericalPosition.cs" />
-    <Compile Include="GIS\GeocentricEclipticSphericalPosition.cs" />
-    <Compile Include="GIS\HorizontalSphericalPosition.cs" />
-    <Compile Include="GIS\LatLngPoint.cs" />
-    <Compile Include="GIS\UTMPoint.cs" />
-    <Compile Include="Heading.cs" />
-    <Compile Include="Pitch.cs" />
+    <Compile Include="Maps\AbstractMapsSearch.cs" />
+    <Compile Include="Maps\Geocoding\API.cs" />
+    <Compile Include="Maps\Geocoding\GeocodingSearch.cs" />
+    <Compile Include="Maps\Geocoding\USAddress.cs" />
+    <Compile Include="Maps\StreetView\API.cs" />
+    <Compile Include="Maps\StreetView\CubeMapSearch.cs" />
+    <Compile Include="Maps\StreetView\ImageSearch.cs" />
+    <Compile Include="Maps\StreetView\Metadata.cs" />
+    <Compile Include="Maps\StreetView\MetadataSearch.cs" />
+    <Compile Include="Maps\StreetView\PlaceName.cs" />
+    <Compile Include="Maps\StreetView\PanoID.cs" />
+    <Compile Include="Maps\StreetView\AbstractStreetViewSearch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,23 +60,30 @@
       <Project>{f951a2e5-078a-413d-966d-c3f4ae5edcab}</Project>
       <Name>Juniper.Image</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Juniper.NETFXExtensions\Juniper.NETFXExtensions.csproj">
-      <Project>{71ce09ef-34ce-4970-a731-593c09a7efb9}</Project>
-      <Name>Juniper.NETFXExtensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">
       <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
       <Name>Juniper.Progress</Name>
     </ProjectReference>
     <ProjectReference Include="..\Juniper.Serialization\Juniper.Serialization.csproj">
-      <Project>{9d6f67cc-8eac-4644-9e20-c18c9d3e58cc}</Project>
+      <Project>{9D6F67CC-8EAC-4644-9E20-C18C9D3E58CC}</Project>
       <Name>Juniper.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Streams\Juniper.Streams.csproj">
+      <Project>{134d77e1-78d5-4f9b-868f-7ea6e98cec08}</Project>
+      <Name>Juniper.Streams</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Threading\Juniper.Threading.csproj">
+      <Project>{4509d93f-515c-4c05-b05d-78cc26e13d84}</Project>
+      <Name>Juniper.Threading</Name>
     </ProjectReference>
     <ProjectReference Include="..\Juniper.Units\Juniper.Units.csproj">
       <Project>{d1d31fd0-65ee-4576-828b-e0f60e3bf4ae}</Project>
       <Name>Juniper.Units</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Juniper.World\Juniper.World.csproj">
+      <Project>{27b52adc-cb80-4b77-a0fc-958c0b0d0982}</Project>
+      <Name>Juniper.World</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

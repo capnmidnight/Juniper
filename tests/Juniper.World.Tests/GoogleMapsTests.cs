@@ -2,10 +2,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Juniper.Image;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Juniper.World.Imaging.GoogleMaps.Tests
+namespace Juniper.Google.Maps.StreetView.Tests
 {
     [TestClass]
     public class GoogleMapsTests
@@ -30,7 +32,7 @@ namespace Juniper.World.Imaging.GoogleMaps.Tests
         [TestMethod]
         public async Task GetMetadata()
         {
-            var metadataSearch = new MetadataSearch("Washington, DC");
+            var metadataSearch = new MetadataSearch((PlaceName)"Washington, DC");
             Assert.IsTrue(gmaps.IsCached(metadataSearch));
             var metadata = await gmaps.Get(metadataSearch);
             Assert.IsTrue(gmaps.IsCached(metadataSearch));
@@ -45,7 +47,7 @@ namespace Juniper.World.Imaging.GoogleMaps.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var imageSearch = new ImageSearch("Washington, DC", 640, 640);
+            var imageSearch = new ImageSearch((PlaceName)"Washington, DC", 640, 640);
             Assert.IsTrue(gmaps.IsCached(imageSearch));
             var image = await gmaps.Get(imageSearch);
             Assert.IsTrue(gmaps.IsCached(imageSearch));
@@ -56,7 +58,7 @@ namespace Juniper.World.Imaging.GoogleMaps.Tests
         [TestMethod]
         public async Task GetImage_10x()
         {
-            var imageSearch = new ImageSearch("Washington, DC", 640, 640);
+            var imageSearch = new ImageSearch((PlaceName)"Washington, DC", 640, 640);
             Assert.IsTrue(gmaps.IsCached(imageSearch));
             var tasks = new Task<RawImage>[10];
             for(int i = 0; i < tasks.Length; ++i)
@@ -74,7 +76,7 @@ namespace Juniper.World.Imaging.GoogleMaps.Tests
         [TestMethod]
         public async Task Flip_10x()
         {
-            var imageSearch = new ImageSearch("Washington, DC", 640, 640);
+            var imageSearch = new ImageSearch((PlaceName)"Washington, DC", 640, 640);
             Assert.IsTrue(gmaps.IsCached(imageSearch));
             var image = await gmaps.Get(imageSearch);
             var images = new RawImage[10];
@@ -94,7 +96,7 @@ namespace Juniper.World.Imaging.GoogleMaps.Tests
         [TestMethod]
         public async Task GetCubeMap()
         {
-            var cubeMapSearch = new CubeMapSearch("Washington, DC", 640, 640);
+            var cubeMapSearch = new CubeMapSearch((PlaceName)"Washington, DC", 640, 640);
             Assert.IsTrue(gmaps.IsCached(cubeMapSearch));
             var images = await gmaps.Get(cubeMapSearch);
             Assert.IsTrue(gmaps.IsCached(cubeMapSearch));
@@ -108,7 +110,7 @@ namespace Juniper.World.Imaging.GoogleMaps.Tests
         [TestMethod]
         public void GetCubeMapWithFlip_10x()
         {
-            var cubeMapSearch = new CubeMapSearch("Washington, DC", 640, 640);
+            var cubeMapSearch = new CubeMapSearch((PlaceName)"Washington, DC", 640, 640);
             Assert.IsTrue(gmaps.IsCached(cubeMapSearch));
             var tasks = new Task<RawImage[]>[10];
             for (int i = 0; i < tasks.Length; ++i)

@@ -19,7 +19,7 @@ namespace Juniper.Threading
         }
 
         /// <summary>
-        /// Signal to the background thread that it should stop the repeatition process and shut down.
+        /// Signal to the background thread that it should stop the repetition process and shut down.
         /// </summary>
         public void Stop()
         {

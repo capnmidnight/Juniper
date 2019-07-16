@@ -1,4 +1,4 @@
-namespace Juniper.World.Imaging.GoogleMaps
+namespace Juniper.Google.Maps.StreetView
 {
     public struct PanoID
     {

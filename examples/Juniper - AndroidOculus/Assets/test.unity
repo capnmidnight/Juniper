@@ -5239,36 +5239,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 258684287}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &269449938
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 269449939}
-  m_Layer: 0
-  m_Name: GearVR
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &269449939
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 269449938}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1077455171}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &273020141
 GameObject:
   m_ObjectHideFlags: 0
@@ -15847,7 +15817,6 @@ GameObject:
   - component: {fileID: 971873918}
   - component: {fileID: 971873917}
   - component: {fileID: 971873916}
-  - component: {fileID: 971873915}
   m_Layer: 2
   m_Name: LeftMotionController
   m_TagString: GameController
@@ -15870,21 +15839,6 @@ Transform:
   m_Father: {fileID: 1077455171}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &971873915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971873913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aed62bf3ae2456c408f247f96808ce96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_modelGearVrController: {fileID: 269449938}
-  m_modelOculusGoController: {fileID: 1654930501}
-  m_controller: 16777216
 --- !u!114 &971873916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17145,8 +17099,6 @@ Transform:
   - {fileID: 1758950114}
   - {fileID: 1647857366}
   - {fileID: 1206896510}
-  - {fileID: 269449939}
-  - {fileID: 1654930502}
   m_Father: {fileID: 489570080}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -20839,7 +20791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b87a634374e4514987063d5b2105c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMixerGroup: {fileID: 0}
+  defaultMixerGroup: {fileID: 24300001, guid: 1dd706bb85d8aef4e83a6229dbd62c36, type: 2}
   volumeSlider: {fileID: 1859214515}
   soundOnClosed: {fileID: 11400000, guid: 01fbf829975312141a055a0c3e95de59, type: 2}
   soundOnDisabled: {fileID: 11400000, guid: 76d7e382511a26e4bb0971f04c1a26b3, type: 2}
@@ -22334,6 +22286,7 @@ MonoBehaviour:
   extraHiddenLayers:
     serializedVersion: 2
     m_Bits: 0
+  externalCompositionBackdropColor: {r: 0, g: 0, b: 0, a: 0}
   capturingCameraDevice: 0
   flipCameraFrameHorizontally: 0
   flipCameraFrameVertically: 0
@@ -22353,6 +22306,7 @@ MonoBehaviour:
   virtualGreenScreenBottomY: -10
   virtualGreenScreenApplyDepthCulling: 0
   virtualGreenScreenDepthTolerance: 0.2
+  mrcActivationMode: 0
   _trackingOriginType: 0
   usePositionTracking: 1
   useRotationTracking: 1
@@ -24194,7 +24148,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1484056654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88a60cfc85785264b91b17ae2c2ac3f3, type: 3}
+  m_Script: {fileID: 11500000, guid: f790db81066d46a428b9ea4f7f824b0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textureFormat: 3
@@ -24203,6 +24157,7 @@ MonoBehaviour:
   rotation: 0
   useMipMap: 1
   layout: 1
+  searchRadius: 50
   GPS:
     Latitude: 0
     Longitude: 0
@@ -24236,7 +24191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0282a0d00fd22394293d28da18c8ad42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 38.8974146,-77.0743107
+  value: 38.89755,-77.07206
   OnSubmit:
     m_PersistentCalls:
       m_Calls: []
@@ -26773,36 +26728,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1652628439}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1654930501
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1654930502}
-  m_Layer: 0
-  m_Name: OculusGo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1654930502
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654930501}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1077455171}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1659267488
 GameObject:
   m_ObjectHideFlags: 0
@@ -28943,7 +28868,6 @@ GameObject:
   - component: {fileID: 1758950118}
   - component: {fileID: 1758950117}
   - component: {fileID: 1758950116}
-  - component: {fileID: 1758950115}
   m_Layer: 2
   m_Name: RightMotionController
   m_TagString: GameController
@@ -28966,21 +28890,6 @@ Transform:
   m_Father: {fileID: 1077455171}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1758950115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1758950113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aed62bf3ae2456c408f247f96808ce96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_modelGearVrController: {fileID: 269449938}
-  m_modelOculusGoController: {fileID: 1654930501}
-  m_controller: 33554432
 --- !u!114 &1758950116
 MonoBehaviour:
   m_ObjectHideFlags: 0

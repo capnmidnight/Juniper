@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
 using System.IO;
-
+using Juniper.Animation;
 using Juniper.Image;
 using Juniper.Imaging;
 using Juniper.Units;
 using Juniper.Unity;
 using Juniper.Unity.Coroutines;
 using Juniper.World.GIS;
-using Juniper.World.Imaging.GoogleMaps;
+using Juniper.Google.Maps.StreetView;
 
 using UnityEngine;
 
@@ -58,6 +58,7 @@ namespace Juniper.Images
 #if UNITY_EDITOR
 
         private EditorTextInput locationInput;
+        private FadeTransition fader;
 
         public void OnValidate()
         {
@@ -72,6 +73,9 @@ namespace Juniper.Images
             locationInput.OnSubmit.AddListener(SetLocation);
             Location = locationInput.value;
 #endif
+
+            fader = ComponentExt.FindAny<FadeTransition>();
+
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
             var cacheDir = new DirectoryInfo(cacheDirName);
@@ -118,6 +122,7 @@ namespace Juniper.Images
 
         private void GetImages()
         {
+            fader.Enter();
             images = null;
             lastLayout = Mode.None;
             lastLocation = Location;
@@ -128,7 +133,7 @@ namespace Juniper.Images
         {
             if (!string.IsNullOrEmpty(Location))
             {
-                var metadataSearch = new MetadataSearch(Location);
+                var metadataSearch = new MetadataSearch((PlaceName)Location);
                 var metadataTask = gmaps.Get(metadataSearch);
                 yield return new WaitForTask(metadataTask);
                 var metadata = metadataTask.Result;
@@ -214,6 +219,7 @@ namespace Juniper.Images
                     skyboxMaterial.SetTexture("_UpTex", textures[4]);
                     skyboxMaterial.SetTexture("_DownTex", textures[5]);
                     RenderSettings.skybox = skyboxMaterial;
+                    fader.Exit();
                 }
                 else if (layout == Mode.LayoutCross)
                 {
@@ -221,6 +227,7 @@ namespace Juniper.Images
                     skyboxMaterial = new Material(Shader.Find("Skybox/Cubemap"));
                     skyboxMaterial.SetTexture("_Tex", texture);
                     RenderSettings.skybox = skyboxMaterial;
+                    fader.Exit();
                 }
                 else if (layout == Mode.Layout6Frames)
                 {
@@ -241,6 +248,7 @@ namespace Juniper.Images
                         skyboxMaterial.SetInt("_Layout", 0);
                         skyboxMaterial.SetTexture("_MainTex", texture);
                         RenderSettings.skybox = skyboxMaterial;
+                        fader.Exit();
                     }, Debug.LogError);
                 }
             }

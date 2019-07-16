@@ -3,9 +3,7 @@ guid: 502f9955918de466a8596d5dce844c4a
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - fadeOutSound: {fileID: 8300000, guid: 51e22f4526aeabe47b3877d75ac05e97, type: 3}
-  - fadeInSound: {fileID: 8300000, guid: 1702d6d492e69544e8299a994653daed, type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

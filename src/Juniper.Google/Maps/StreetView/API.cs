@@ -1,5 +1,3 @@
-using Juniper.Image;
-using Juniper.Serialization;
 using System;
 using System.IO;
 using System.Linq;
@@ -8,9 +6,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Juniper.World.Imaging.GoogleMaps
+using Juniper.Image;
+using Juniper.Serialization;
+
+namespace Juniper.Google.Maps.StreetView
 {
-    public partial class API
+    public class API
     {
         public enum StatusCode
         {
@@ -62,7 +63,7 @@ namespace Juniper.World.Imaging.GoogleMaps
             }
         }
 
-        private FileInfo MakeFullCachePath(Search search)
+        private FileInfo MakeFullCachePath(AbstractStreetViewSearch search)
         {
             if (search == null)
             {
@@ -100,7 +101,7 @@ namespace Juniper.World.Imaging.GoogleMaps
                 .All(f => f.Exists);
         }
 
-        private Task<T> Get<T>(Search search, Func<Stream, T> decode)
+        private Task<T> Get<T>(AbstractStreetViewSearch search, Func<Stream, T> decode)
         {
             return Task.Run(() => HttpWebRequestExt.CachedGet(
                 Sign(search.Uri),

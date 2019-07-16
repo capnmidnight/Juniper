@@ -1,7 +1,9 @@
-using Juniper.World.GIS;
 using System;
 
-namespace Juniper.World.Imaging.GoogleMaps
+using Juniper.World;
+using Juniper.World.GIS;
+
+namespace Juniper.Google.Maps.StreetView
 {
     public class CubeMapSearch
     {
@@ -33,7 +35,7 @@ namespace Juniper.World.Imaging.GoogleMaps
         {
         }
 
-        public CubeMapSearch(string placeName, int width, int height)
+        public CubeMapSearch(PlaceName placeName, int width, int height)
             : this(Make(() => new ImageSearch(placeName, width, height)))
         {
         }

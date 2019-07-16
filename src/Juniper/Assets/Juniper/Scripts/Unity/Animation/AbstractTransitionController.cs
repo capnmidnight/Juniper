@@ -1,7 +1,7 @@
 using System;
 
 using Juniper.Input;
-using Juniper;
+
 using UnityEngine;
 using UnityEngine.Events;
 

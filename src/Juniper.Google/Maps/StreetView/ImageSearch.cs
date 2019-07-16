@@ -1,50 +1,55 @@
+using Juniper.World;
 using Juniper.World.GIS;
 using System;
 
-namespace Juniper.World.Imaging.GoogleMaps
+namespace Juniper.Google.Maps.StreetView
 {
-    public class ImageSearch : Search
+    public class ImageSearch : AbstractStreetViewSearch
     {
-        private static readonly Uri imageURIBase = new Uri(baseServiceURI);
-
         public ImageSearch(PanoID pano, int width, int height)
-            : base(imageURIBase, "jpeg", pano)
+            : base("streetview", "jpeg", pano)
         {
             SetSize(width, height);
         }
 
-        public ImageSearch(string placeName, int width, int height)
-            : base(imageURIBase, "jpeg", placeName)
+        public ImageSearch(PlaceName placeName, int width, int height)
+            : base("streetview", "jpeg", placeName)
         {
             SetSize(width, height);
         }
 
         public ImageSearch(LatLngPoint location, int width, int height)
-            : base(imageURIBase, "jpeg", location)
+            : base("streetview", "jpeg", location)
         {
             SetSize(width, height);
         }
 
-        private void SetSize(int width, int height)
+        public ImageSearch SetSize(int width, int height)
         {
-            uriBuilder.AddQuery("size", $"{width}x{height}");
+            return AddSize($"{width}x{height}");
+        }
+
+        private ImageSearch AddSize(string size)
+        {
+            uriBuilder.AddQuery(nameof(size), size);
+            return this;
         }
 
         public ImageSearch AddHeading(Heading heading)
         {
-            uriBuilder.AddQuery("heading", (int)heading);
+            uriBuilder.AddQuery(nameof(heading), (int)heading);
             return this;
         }
 
         public ImageSearch AddPitch(Pitch pitch)
         {
-            uriBuilder.AddQuery("pitch", (int)pitch);
+            uriBuilder.AddQuery(nameof(pitch), (int)pitch);
             return this;
         }
 
-        public ImageSearch AddRadius(int searchRadius)
+        public ImageSearch AddRadius(int radius)
         {
-            uriBuilder.AddQuery("radius", searchRadius);
+            uriBuilder.AddQuery(nameof(radius), radius);
             return this;
         }
 
