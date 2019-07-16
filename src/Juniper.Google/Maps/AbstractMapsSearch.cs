@@ -2,25 +2,11 @@ using System;
 
 namespace Juniper.Google.Maps
 {
-    public abstract class AbstractMapsSearch
+    public abstract class AbstractMapsSearch<T> : AbstractSingleSearch<T>
     {
-        private const string baseServiceURI = "https://maps.googleapis.com/maps/api/";
+        private static readonly Uri baseServiceURI = new Uri("https://maps.googleapis.com/maps/api/");
 
-        protected readonly UriBuilder uriBuilder;
-        internal readonly string extension;
-
-        protected AbstractMapsSearch(string path, string extension)
-        {
-            uriBuilder = new UriBuilder(baseServiceURI);
-            uriBuilder.Path += path;
-            this.extension = extension;
-        }
-        public Uri Uri
-        {
-            get
-            {
-                return uriBuilder.Uri;
-            }
-        }
+        protected AbstractMapsSearch(string path, string cacheLocString, string extension)
+            : base(baseServiceURI, path, cacheLocString, extension) { }
     }
 }

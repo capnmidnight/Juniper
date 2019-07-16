@@ -37,9 +37,13 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractAPI.cs" />
+    <Compile Include="AbstractMultiSearch.cs" />
+    <Compile Include="AbstractSingleSearch.cs" />
+    <Compile Include="AbstractSearch.cs" />
     <Compile Include="Maps\AbstractMapsSearch.cs" />
     <Compile Include="Maps\Geocoding\API.cs" />
-    <Compile Include="Maps\Geocoding\GeocodingSearch.cs" />
+    <Compile Include="Maps\Geocoding\AbstractGeocodingSearch.cs" />
     <Compile Include="Maps\Geocoding\USAddress.cs" />
     <Compile Include="Maps\StreetView\API.cs" />
     <Compile Include="Maps\StreetView\CubeMapSearch.cs" />

@@ -1,10 +1,13 @@
+using System;
+using System.IO;
+
+using Juniper.Image;
 using Juniper.World;
 using Juniper.World.GIS;
-using System;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class ImageSearch : AbstractStreetViewSearch
+    public class ImageSearch : AbstractStreetViewSearch<RawImage>
     {
         public ImageSearch(PanoID pano, int width, int height)
             : base("streetview", "jpeg", pano)

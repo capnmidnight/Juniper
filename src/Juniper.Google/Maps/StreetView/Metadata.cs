@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Runtime.Serialization;
 
 using Juniper.Serialization;
@@ -9,7 +11,25 @@ namespace Juniper.Google.Maps.StreetView
     [Serializable]
     public class Metadata : ISerializable
     {
-        public readonly API.StatusCode status;
+        private static readonly Dictionary<string, HttpStatusCode> CODE_MAP = new Dictionary<string, HttpStatusCode>
+        {
+            { "OK", HttpStatusCode.OK },
+            { "ZERO_RESULTS", HttpStatusCode.NoContent },
+            { "NOT_FOUND", HttpStatusCode.NotFound },
+            { "OVER_QUERY_LIMIT", (HttpStatusCode)429 },
+            { "REQUEST_DENIED", HttpStatusCode.Forbidden },
+            { "INVALID_REQUEST", HttpStatusCode.BadRequest },
+            { "UNKOWN_ERROR", HttpStatusCode.InternalServerError }
+        };
+
+        private static HttpStatusCode MapStatus(string code)
+        {
+            return CODE_MAP.ContainsKey(code)
+                ? CODE_MAP[code]
+                : HttpStatusCode.InternalServerError;
+        }
+
+        public readonly HttpStatusCode status;
         public readonly string error_message;
         public readonly string copyright;
         public readonly string date;
@@ -18,8 +38,8 @@ namespace Juniper.Google.Maps.StreetView
 
         protected Metadata(SerializationInfo info, StreamingContext context)
         {
-            status = info.GetEnumFromString<API.StatusCode>(nameof(status));
-            if (status == API.StatusCode.OK)
+            status = MapStatus(info.GetString(nameof(status)));
+            if (status == HttpStatusCode.OK)
             {
                 copyright = info.GetString(nameof(copyright));
                 date = info.GetString(nameof(date));

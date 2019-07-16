@@ -36,14 +36,14 @@ namespace Juniper.HTTP.Tests
 
             var actual = await HttpWebRequestExt.CachedGet(
                 new Uri("https://www.seanmcbeth.com/2015-05.min.jpg"),
-                Decoder.DecodeJPEG,
+                stream => Decoder.DecodeJPEG(false, stream),
                 Path.Combine(myPictures, cacheFile));
 
             Assert.AreEqual(expectedSource, actual.source);
 
             if (runTest)
             {
-                var expected = Decoder.DecodeJPEG(File.ReadAllBytes(Path.Combine(myPictures, "portrait-expected.jpg")));
+                var expected = Decoder.DecodeJPEG(false, File.ReadAllBytes(Path.Combine(myPictures, "portrait-expected.jpg")));
                 Assert.AreEqual(expected.width, actual.width);
                 Assert.AreEqual(expected.height, actual.height);
                 Assert.AreEqual(expected.data.Length, actual.data.Length);
