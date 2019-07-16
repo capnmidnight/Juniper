@@ -64,5 +64,19 @@ namespace Juniper.Google.Maps.StreetView
         }
 
         internal ImageSearch[] SubSearches { get; }
+        public bool FlipImages
+        {
+            get
+            {
+                return subSearches.Any(search => search.FlipImage);
+            }
+            set
+            {
+                foreach(var search in subSearches)
+                {
+                    search.FlipImage = value;
+                }
+            }
+        }
     }
 }

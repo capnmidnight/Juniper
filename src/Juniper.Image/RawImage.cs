@@ -40,21 +40,6 @@ namespace Juniper.Image
         public int stride { get { return data.Length / height; } }
         public int components { get { return stride / width; } }
 
-        public Task FlipAsync()
-        {
-            return Task.Run(Flip);
-        }
-
-        public void Flip()
-        {
-            var input = (byte[])data.Clone();
-            for(int p = 0, s = stride; p < data.Length; p += s)
-            {
-                Array.Copy(input, p, data, data.Length - p - s, s);
-            }
-        }
-
-
         private static Task<RawImage> CombineTilesAsync(int columns, int rows, params RawImage[] images)
         {
             return Task.Run(() => CombineTiles(columns, rows, images));

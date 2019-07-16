@@ -9,26 +9,39 @@ namespace Juniper.Image
 {
     public static class Decoder
     {
+        private static int GetRowIndex(int numRows, int i, bool flipImage)
+        {
+            int rowIndex = i;
+            if (flipImage)
+            {
+                rowIndex = numRows - i - 1;
+            }
+
+            return rowIndex;
+        }
+
         /// <summary>
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Png bytes.</param>
-        public static RawImage DecodePNG(Stream imageStream)
+        public static RawImage DecodePNG(bool flipImage, Stream imageStream)
         {
             var png = new Hjg.Pngcs.PngReader(imageStream);
             png.SetUnpackedMode(true);
             var rows = png.ReadRowsByte();
-            var data = new byte[rows.Nrows * rows.elementsPerRow];
-            for (var i = 0; i < rows.Nrows; ++i)
+            int numRows = rows.Nrows;
+            var data = new byte[numRows * rows.elementsPerRow];
+            for (var i = 0; i < numRows; ++i)
             {
-                var row = rows.ScanlinesB[rows.Nrows - i - 1];
+                var rowIndex = GetRowIndex(numRows, i, flipImage);
+                var row = rows.ScanlinesB[rowIndex];
                 Array.Copy(row, 0, data, i * rows.elementsPerRow, row.Length);
             }
 
             return new RawImage(
                 DetermineSource(imageStream),
                 rows.elementsPerRow / rows.channels,
-                rows.Nrows,
+                numRows,
                 data);
         }
 
@@ -36,15 +49,17 @@ namespace Juniper.Image
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Jpeg bytes.</param>
-        public static RawImage DecodeJPEG(Stream imageStream)
+        public static RawImage DecodeJPEG(bool flipImage, Stream imageStream)
         {
             using (var jpeg = new JpegImage(imageStream))
             {
                 var stride = jpeg.Width * jpeg.ComponentsPerSample;
-                var data = new byte[jpeg.Height * stride];
+                int numRows = jpeg.Height;
+                var data = new byte[numRows * stride];
                 for (var i = 0; i < jpeg.Height; ++i)
                 {
-                    var row = jpeg.GetRow(i);
+                    var rowIndex = GetRowIndex(numRows, i, flipImage);
+                    var row = jpeg.GetRow(rowIndex);
                     Array.Copy(row.ToBytes(), 0, data, i * stride, stride);
                 }
 
@@ -71,64 +86,64 @@ namespace Juniper.Image
             return source;
         }
 
-        public static Task<RawImage> DecodePNGAsync(byte[] bytes)
+        public static Task<RawImage> DecodePNGAsync(bool flipImage, byte[] bytes)
         {
             using (var mem = new MemoryStream(bytes))
             {
-                return DecodePNGAsync(mem);
+                return DecodePNGAsync(flipImage, mem);
             }
         }
 
-        public static RawImage DecodePNG(byte[] bytes)
+        public static RawImage DecodePNG(bool flipImage, byte[] bytes)
         {
             using (var mem = new MemoryStream(bytes))
             {
-                return DecodePNG(mem);
+                return DecodePNG(flipImage, mem);
             }
         }
 
-        public static Task<RawImage> DecodePNGAsync(Stream imageStream)
+        public static Task<RawImage> DecodePNGAsync(bool flipImage, Stream imageStream)
         {
-            return Task.Run(() => DecodePNG(imageStream));
+            return Task.Run(() => DecodePNG(flipImage, imageStream));
         }
 
-        public static Task<RawImage> DecodeJPEGAsync(byte[] bytes)
+        public static Task<RawImage> DecodeJPEGAsync(bool flipImage, byte[] bytes)
         {
             using (var mem = new MemoryStream(bytes))
             {
-                return DecodeJPEGAsync(mem);
+                return DecodeJPEGAsync(flipImage, mem);
             }
         }
 
-        public static RawImage DecodeJPEG(byte[] bytes)
+        public static RawImage DecodeJPEG(bool flipImage, byte[] bytes)
         {
             using (var mem = new MemoryStream(bytes))
             {
-                return DecodeJPEG(mem);
+                return DecodeJPEG(flipImage, mem);
             }
         }
 
-        public static Task<RawImage> DecodeJPEGAsync(Stream imageStream)
+        public static Task<RawImage> DecodeJPEGAsync(bool flipImage, Stream imageStream)
         {
-            return Task.Run(() => DecodeJPEG(imageStream));
+            return Task.Run(() => DecodeJPEG(flipImage, imageStream));
         }
 
-        public static Task<RawImage> DecodeResponseAsync(HttpWebResponse response)
+        public static Task<RawImage> DecodeResponseAsync(bool flipImage, HttpWebResponse response)
         {
-            return Task.Run(() => DecodeResponse(response));
+            return Task.Run(() => DecodeResponse(flipImage, response));
         }
 
-        public static RawImage DecodeResponse(HttpWebResponse response)
+        public static RawImage DecodeResponse(bool flipImage, HttpWebResponse response)
         {
             using (var stream = response.GetResponseStream())
             {
                 if (response.ContentType == "image/jpeg")
                 {
-                    return DecodeJPEG(stream);
+                    return DecodeJPEG(flipImage, stream);
                 }
                 else if (response.ContentType == "image/png")
                 {
-                    return DecodePNG(stream);
+                    return DecodePNG(flipImage, stream);
                 }
                 else
                 {

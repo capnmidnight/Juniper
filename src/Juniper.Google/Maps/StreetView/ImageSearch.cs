@@ -61,5 +61,12 @@ namespace Juniper.Google.Maps.StreetView
             }
             return this;
         }
+
+        public bool FlipImage { get; set; }
+
+        internal override Func<Stream, RawImage> GetDecoder(AbstractAPI _)
+        {
+            return stream => Decoder.DecodeJPEG(FlipImage, stream);
+        }
     }
 }
