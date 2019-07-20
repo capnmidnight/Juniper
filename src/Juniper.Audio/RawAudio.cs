@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 
 namespace Juniper.Audio
@@ -5,7 +6,7 @@ namespace Juniper.Audio
     /// <summary>
     /// The raw bytes and dimensions of an audio file that has been loaded either off disk or across the 'net.
     /// </summary>
-    public struct RawAudio
+    public struct RawAudio : IDisposable
     {
         public Stream stream;
         public long samples;
@@ -38,6 +39,11 @@ namespace Juniper.Audio
         public static bool operator !=(RawAudio left, RawAudio right)
         {
             return !(left == right);
+        }
+
+        public void Dispose()
+        {
+            ((IDisposable)stream).Dispose();
         }
     }
 }
