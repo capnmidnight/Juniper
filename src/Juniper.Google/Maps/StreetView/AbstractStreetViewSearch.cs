@@ -4,21 +4,21 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public abstract class AbstractStreetViewSearch<T> : AbstractMapsSearch<T>
+    public abstract class AbstractStreetViewSearch<ResultType> : AbstractMapsSearch<ResultType>
     {
-        private AbstractStreetViewSearch(string path, string cacheLocString, string extension)
-            : base(path, cacheLocString, extension)
+        private AbstractStreetViewSearch(string path, string acceptType, string extension, string locationKey, string locationValue)
+            : base(path, $"{locationKey}={locationValue}", acceptType, extension, true)
         {
-            uriBuilder.AddQuery(cacheLocString);
+            SetQuery(locationKey, locationValue);
         }
 
-        protected AbstractStreetViewSearch(string path, string extension, PanoID pano)
-            : this(path, $"pano={pano}", extension) { }
+        protected AbstractStreetViewSearch(string path, string acceptType, string extension, PanoID pano)
+            : this(path, acceptType, extension, "pano", pano.ToString()) { }
 
-        protected AbstractStreetViewSearch(string path, string extension, PlaceName placeName)
-            : this(path, $"location={placeName}", extension) { }
+        protected AbstractStreetViewSearch(string path, string acceptType, string extension, PlaceName placeName)
+            : this(path, acceptType, extension, "location", placeName.ToString()) { }
 
-        protected AbstractStreetViewSearch(string path, string extension, LatLngPoint location)
-            : this(path, $"location={location.Latitude},{location.Longitude}", extension) { }
+        protected AbstractStreetViewSearch(string path, string acceptType, string extension, LatLngPoint location)
+            : this(path, acceptType, extension, "location", location.ToCSV()) { }
     }
 }

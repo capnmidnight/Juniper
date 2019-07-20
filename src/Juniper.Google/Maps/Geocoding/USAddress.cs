@@ -23,6 +23,11 @@ namespace Juniper.Google.Maps.Geocoding
             return string.Join(", ", street, city, state, zip);
         }
 
+        public static explicit operator string(USAddress value)
+        {
+            return value.ToString();
+        }
+
         public override bool Equals(object obj)
         {
             return obj != null

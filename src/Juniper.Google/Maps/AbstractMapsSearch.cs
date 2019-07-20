@@ -2,11 +2,11 @@ using System;
 
 namespace Juniper.Google.Maps
 {
-    public abstract class AbstractMapsSearch<T> : AbstractSingleSearch<T>
+    public abstract class AbstractMapsSearch<ResultType> : AbstractSingleSearch<ResultType>
     {
         private static readonly Uri baseServiceURI = new Uri("https://maps.googleapis.com/maps/api/");
 
-        protected AbstractMapsSearch(string path, string cacheLocString, string extension)
-            : base(baseServiceURI, path, cacheLocString, extension) { }
+        protected AbstractMapsSearch(string path, string cacheLocString, string acceptType, string extension, bool signRequests)
+            : base(baseServiceURI, path, cacheLocString, acceptType, extension, signRequests) { }
     }
 }

@@ -10,6 +10,24 @@ namespace Juniper.Google
 {
     public class AbstractAPI
     {
+        public static APIType Create<APIType>(IDeserializer deserializer, string apiKey, string signingKey, DirectoryInfo cacheDir)
+        {
+            var type = typeof(APIType);
+            var constructor = type.GetConstructor(new[]
+            {
+                typeof(IDeserializer),
+                typeof(string),
+                typeof(string),
+                typeof(DirectoryInfo)
+            });
+            return (APIType)constructor.Invoke(new object[] {
+                deserializer,
+                apiKey,
+                signingKey,
+                cacheDir
+            });
+        }
+
         private readonly IDeserializer deserializer;
         private readonly string apiKey;
         private readonly string signingKey;
@@ -29,22 +47,28 @@ namespace Juniper.Google
         {
         }
 
-        internal Uri Sign(Uri uri)
+        internal Uri AddCredentials(Uri uri, bool sign)
         {
             var unsignedUriBuilder = new UriBuilder(uri);
             unsignedUriBuilder.AddQuery("key", apiKey);
             var unsignedUri = unsignedUriBuilder.Uri;
-
-            var pkBytes = Convert.FromBase64String(signingKey.FromGoogleModifiedBase64());
-            using (var hasher = new HMACSHA1(pkBytes))
+            if (!sign)
             {
-                var urlBytes = Encoding.ASCII.GetBytes(unsignedUri.LocalPath + unsignedUri.Query);
-                var hash = hasher.ComputeHash(urlBytes);
-                var signature = Convert.ToBase64String(hash).ToGoogleModifiedBase64();
+                return unsignedUri;
+            }
+            else
+            {
+                var pkBytes = Convert.FromBase64String(signingKey.FromGoogleModifiedBase64());
+                using (var hasher = new HMACSHA1(pkBytes))
+                {
+                    var urlBytes = Encoding.ASCII.GetBytes(unsignedUri.LocalPath + unsignedUri.Query);
+                    var hash = hasher.ComputeHash(urlBytes);
+                    var signature = Convert.ToBase64String(hash).ToGoogleModifiedBase64();
 
-                var signedUri = new UriBuilder(unsignedUri);
-                signedUri.AddQuery("signature", signature);
-                return signedUri.Uri;
+                    var signedUri = new UriBuilder(unsignedUri);
+                    signedUri.AddQuery("signature", signature);
+                    return signedUri.Uri;
+                }
             }
         }
 

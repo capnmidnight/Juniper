@@ -36,29 +36,25 @@ namespace Juniper.Imaging
         /// <param name="imagePath">Image path.</param>
         /// <param name="resolve">  Resolve.</param>
         /// <param name="reject">   Reject.</param>
-        public static async Task<RawImage> StreamPNG(string imagePath)
+        public static async Task<RawImage> StreamPNG(string imagePath, bool flipImage = true)
         {
-            var imageFile = await StreamingAssets.GetStream(
+            using (var imageFile = await StreamingAssets.GetStream(
                 Application.temporaryCachePath,
                 StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
-                "image/png");
-
-            using (imageFile.Content)
+                "image/png"))
             {
-                return await Decoder.DecodePNGAsync(imageFile.Content);
+                return await Decoder.DecodePNGAsync(flipImage, imageFile.Content);
             }
         }
 
-        public static async Task<RawImage> StreamJPEG(string imagePath)
+        public static async Task<RawImage> StreamJPEG(string imagePath, bool flipImage = true)
         {
-            var imageFile = await StreamingAssets.GetStream(
+            using (var imageFile = await StreamingAssets.GetStream(
                 Application.temporaryCachePath,
                 StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
-                "image/jpeg");
-
-            using (imageFile.Content)
+                "image/jpeg"))
             {
-                return await Decoder.DecodeJPEGAsync(imageFile.Content);
+                return await Decoder.DecodeJPEGAsync(flipImage, imageFile.Content);
             }
         }
 
@@ -73,6 +69,7 @@ namespace Juniper.Imaging
             catch (Exception exp)
             {
                 reject(exp);
+                throw;
             }
         }
 
@@ -87,10 +84,11 @@ namespace Juniper.Imaging
             catch (Exception exp)
             {
                 reject(exp);
+                throw;
             }
         }
 
-        public static Texture2D ConstructTexture2D(RawImage image, TextureFormat format, bool mirror = false)
+        public static Texture2D ConstructTexture2D(RawImage image, TextureFormat format)
         {
             var texture = new Texture2D(image.width, image.height, format, false);
             texture.LoadRawTextureData(image.data);

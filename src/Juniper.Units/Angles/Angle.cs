@@ -215,23 +215,23 @@ namespace Juniper.Units
         /// <summary>
         /// Compares two angles to see if they represent the same position on a circle.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==(Angle a, Angle b)
+        public static bool operator ==(Angle left, Angle right)
         {
-            return a.Equals(b);
+            return left.Equals(right);
         }
 
         /// <summary>
         /// Compares two angles to see if they do not represent the same position on a circle.
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(Angle a, Angle b)
+        public static bool operator !=(Angle left, Angle right)
         {
-            return !a.Equals(b);
+            return !(left == right);
         }
 
         private static float Repeat(float v)
@@ -320,6 +320,16 @@ namespace Juniper.Units
             } while (d1 > d2 || d1 > d3);
 
             return new Angle(v1 + r, r);
+        }
+
+        public override string ToString()
+        {
+            return Converter.Label(currentValue, UnitOfMeasure.Degrees);
+        }
+
+        public static explicit operator string(Angle value)
+        {
+            return value.ToString();
         }
     }
 }

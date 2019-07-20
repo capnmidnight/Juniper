@@ -1,8 +1,7 @@
-using System;
-using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
+using Juniper.Google.Maps.Tests;
 using Juniper.Image;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,31 +9,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Juniper.Google.Maps.StreetView.Tests
 {
     [TestClass]
-    public class GoogleMapsTests
+    public class GoogleMapsTests : ServicesTests
     {
-        string cacheDirName;
-        API gmaps;
-
-        [TestInitialize]
-        public void Init()
-        {
-            var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            cacheDirName = Path.Combine(myPictures, "GoogleMaps");
-            var cacheDir = new DirectoryInfo(cacheDirName);
-            var keyFile = Path.Combine(cacheDirName, "keys.txt");
-            var lines = File.ReadAllLines(keyFile);
-            var apiKey = lines[0];
-            var signingKey = lines[1];
-            var json = new Json.JsonFactory();
-            gmaps = new API(json, apiKey, signingKey, cacheDir);
-        }
-
         [TestMethod]
         public async Task GetMetadata()
         {
             var metadataSearch = new MetadataSearch((PlaceName)"Washington, DC");
-            var metadata = await gmaps.Get(metadataSearch);
-            Assert.IsTrue(gmaps.IsCached(metadataSearch));
+            var metadata = await service.Get(metadataSearch);
+            Assert.IsTrue(service.IsCached(metadataSearch));
             Assert.AreEqual(HttpStatusCode.OK, metadata.status);
             Assert.IsNull(metadata.error_message);
             Assert.IsNotNull(metadata.copyright);
@@ -47,8 +29,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
         public async Task GetImage()
         {
             var imageSearch = new ImageSearch((PlaceName)"Washington, DC", 640, 640);
-            var image = await gmaps.Get(imageSearch);
-            Assert.IsTrue(gmaps.IsCached(imageSearch));
+            var image = await service.Get(imageSearch);
+            Assert.IsTrue(service.IsCached(imageSearch));
             Assert.AreEqual(640, image.width);
             Assert.AreEqual(640, image.height);
         }
@@ -60,7 +42,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var tasks = new Task<RawImage>[10];
             for (int i = 0; i < tasks.Length; ++i)
             {
-                tasks[i] = gmaps.Get(imageSearch);
+                tasks[i] = service.Get(imageSearch);
             }
             var images = await Task.WhenAll(tasks);
             foreach (var image in images)
@@ -80,7 +62,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var tasks = new Task<RawImage>[10];
             for (int i = 0; i < tasks.Length; ++i)
             {
-                tasks[i] = gmaps.Get(imageSearch);
+                tasks[i] = service.Get(imageSearch);
             }
             var images = await Task.WhenAll(tasks);
             foreach (var image in images)
@@ -94,8 +76,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
         public async Task GetCubeMap()
         {
             var cubeMapSearch = new CubeMapSearch((PlaceName)"Washington, DC", 640, 640);
-            var images = await gmaps.Get(cubeMapSearch);
-            Assert.IsTrue(gmaps.IsCached(cubeMapSearch));
+            var images = await service.Get(cubeMapSearch);
+            Assert.IsTrue(service.IsCached(cubeMapSearch));
             foreach (var image in images)
             {
                 Assert.AreEqual(640, image.width);
@@ -108,11 +90,11 @@ namespace Juniper.Google.Maps.StreetView.Tests
         {
             var cubeMapSearch = new CubeMapSearch((PlaceName)"Washington, DC", 640, 640);
 
-            Assert.IsTrue(gmaps.IsCached(cubeMapSearch));
+            Assert.IsTrue(service.IsCached(cubeMapSearch));
             var tasks = new Task<RawImage[]>[10];
             for (int i = 0; i < tasks.Length; ++i)
             {
-                tasks[i] = gmaps.Get(cubeMapSearch);
+                tasks[i] = service.Get(cubeMapSearch);
             }
 
             Task.WaitAll(tasks);
@@ -120,7 +102,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             foreach (var task in tasks)
             {
                 var images = task.Result;
-                Assert.IsTrue(gmaps.IsCached(cubeMapSearch));
+                Assert.IsTrue(service.IsCached(cubeMapSearch));
                 foreach (var image in images)
                 {
                     Assert.AreEqual(640, image.width);
@@ -137,11 +119,11 @@ namespace Juniper.Google.Maps.StreetView.Tests
                 FlipImages = true
             };
 
-            Assert.IsTrue(gmaps.IsCached(cubeMapSearch));
+            Assert.IsTrue(service.IsCached(cubeMapSearch));
             var tasks = new Task<RawImage[]>[10];
             for (int i = 0; i < tasks.Length; ++i)
             {
-                tasks[i] = gmaps.Get(cubeMapSearch);
+                tasks[i] = service.Get(cubeMapSearch);
             }
 
             Task.WaitAll(tasks);
@@ -149,7 +131,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             foreach(var task in tasks)
             {
                 var images = task.Result;
-                Assert.IsTrue(gmaps.IsCached(cubeMapSearch));
+                Assert.IsTrue(service.IsCached(cubeMapSearch));
                 foreach (var image in images)
                 {
                     Assert.AreEqual(640, image.width);

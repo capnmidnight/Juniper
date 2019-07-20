@@ -1,7 +1,4 @@
-using System;
-using System.Runtime.Serialization;
-
-namespace Juniper.Serialization
+namespace System.Runtime.Serialization
 {
     public static class SerializationInfoExt
     {
@@ -26,7 +23,7 @@ namespace Juniper.Serialization
         public static bool MaybeAddValue<T>(this SerializationInfo info, string name, T value)
             where T : class
         {
-            if(value != null)
+            if (value != null)
             {
                 info.AddValue(name, value);
                 return true;

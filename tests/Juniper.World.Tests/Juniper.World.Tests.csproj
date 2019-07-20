@@ -42,7 +42,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GoogleMapsTests.cs" />
+    <Compile Include="GoogleMaps\ReverseGeocodingTests.cs" />
+    <Compile Include="GoogleMaps\ServicesTest.cs" />
+    <Compile Include="GoogleMaps\GeocodingTests.cs" />
+    <Compile Include="GoogleMaps\MapsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -336,5 +336,15 @@ namespace System.Collections.Generic
         {
             q.Enqueue(value);
         }
+
+        public static string ToString(this IEnumerable<string> enumer, string sep)
+        {
+            return string.Join(sep, enumer);
+        }
+
+        public static string ToString<T>(this IEnumerable<T> enumer, string sep)
+        {
+            return enumer.Select(x => x.ToString()).ToString(sep);
+        }
     }
 }

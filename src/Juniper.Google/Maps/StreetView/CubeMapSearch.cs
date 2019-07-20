@@ -11,12 +11,12 @@ namespace Juniper.Google.Maps.StreetView
         private CubeMapSearch(Func<ImageSearch> factory)
             : base(6, factory)
         {
-            subSearches[0].AddHeading(Heading.North).AddPitch(Pitch.Level);
-            subSearches[1].AddHeading(Heading.East).AddPitch(Pitch.Level);
-            subSearches[2].AddHeading(Heading.West).AddPitch(Pitch.Level);
-            subSearches[3].AddHeading(Heading.South).AddPitch(Pitch.Level);
-            subSearches[4].AddHeading(Heading.North).AddPitch(Pitch.Up);
-            subSearches[5].AddHeading(Heading.North).AddPitch(Pitch.Down);
+            subSearches[0].SetHeading(Heading.North).SetPitch(Pitch.Level);
+            subSearches[1].SetHeading(Heading.East).SetPitch(Pitch.Level);
+            subSearches[2].SetHeading(Heading.West).SetPitch(Pitch.Level);
+            subSearches[3].SetHeading(Heading.South).SetPitch(Pitch.Level);
+            subSearches[4].SetHeading(Heading.North).SetPitch(Pitch.Up);
+            subSearches[5].SetHeading(Heading.North).SetPitch(Pitch.Down);
         }
 
         public CubeMapSearch(PanoID pano, int width, int height)
@@ -34,20 +34,20 @@ namespace Juniper.Google.Maps.StreetView
         {
         }
 
-        public CubeMapSearch AddRadius(int searchRadius)
+        public CubeMapSearch SetRadius(int searchRadius)
         {
             foreach (var search in subSearches)
             {
-                search.AddRadius(searchRadius);
+                search.SetRadius(searchRadius);
             }
             return this;
         }
 
-        public CubeMapSearch AddSource(bool outdoorOnly)
+        public CubeMapSearch SetSource(bool outdoorOnly)
         {
             foreach (var search in subSearches)
             {
-                search.AddSource(outdoorOnly);
+                search.SetSource(outdoorOnly);
             }
             return this;
         }

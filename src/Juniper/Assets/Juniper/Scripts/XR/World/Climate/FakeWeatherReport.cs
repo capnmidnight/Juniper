@@ -101,7 +101,7 @@ namespace Juniper.World.Climate
         /// <summary>
         /// The latitude/longitude for which the report covers.
         /// </summary>
-        public LatLngPoint Location
+        public LatLngPoint? Location
         {
             get
             {

@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace System.Collections.Generic
 {
     /// <summary>
@@ -40,6 +42,24 @@ namespace System.Collections.Generic
             {
                 return defaultValue;
             }
+        }
+
+        public static string ToString<KeyType, ValueType>(this IDictionary<KeyType, ValueType> dict, string kvSeperator, string entrySeperator)
+        {
+            return (from kv in dict
+                    select $"{kv.Key}{kvSeperator}{kv.Value}")
+                .ToString(entrySeperator);
+        }
+
+        public static Dictionary<B, A> Invert<A, B>(this IDictionary<A, B> dict)
+        {
+            var dict2 = new Dictionary<B, A>();
+            foreach(var kv in dict)
+            {
+                dict2[kv.Value] = kv.Key;
+            }
+
+            return dict2;
         }
     }
 }

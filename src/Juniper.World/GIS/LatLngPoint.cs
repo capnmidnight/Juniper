@@ -7,7 +7,7 @@ namespace Juniper.World.GIS
     /// A point in geographic space on a radial coordinate system.
     /// </summary>
     [Serializable]
-    public class LatLngPoint : ISerializable
+    public struct LatLngPoint : ISerializable
     {
         /// <summary>
         /// An altitude value thrown in just for kicks. It makes some calculations and conversions
@@ -19,28 +19,20 @@ namespace Juniper.World.GIS
         /// Lines of latitude run east/west around the globe, parallel to the equator, never
         /// intersecting. They measure angular distance north/south.
         /// </summary>
-        public float Latitude;
+        public readonly float Latitude;
 
         /// <summary>
         /// Lines of longitude run north/south around the globe, intersecting at the poles. They
         /// measure angular distance east/west.
         /// </summary>
-        public float Longitude;
+        public readonly float Longitude;
 
         /// <summary>
         /// Create a new instance of LatLngPoint.
         /// </summary>
-        public LatLngPoint()
-            : this(0, 0, 0)
-        {
-        }
-
-        /// <summary>
-        /// Create a new instance of LatLngPoint.
-        /// </summary>
-        /// <param name="lat">The number of lat</param>
-        /// <param name="lng">The number of lng</param>
-        /// <param name="alt">The number of alt</param>
+        /// <param name="lat">The latitude</param>
+        /// <param name="lng">The longitude</param>
+        /// <param name="alt">The altitude</param>
         public LatLngPoint(float lat, float lng, float alt)
         {
             Latitude = lat;
@@ -54,12 +46,13 @@ namespace Juniper.World.GIS
         }
 
         /// <summary>
-        /// Deserialze the object.
+        /// Deserialize the object.
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
-        protected LatLngPoint(SerializationInfo info, StreamingContext context)
+        private LatLngPoint(SerializationInfo info, StreamingContext context)
         {
+            Latitude = Longitude = Altitude = 0;
             foreach (var pair in info)
             {
                 switch (pair.Name.ToLowerInvariant().Substring(0, 3))
@@ -76,7 +69,7 @@ namespace Juniper.World.GIS
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(Latitude), Latitude);
             info.AddValue(nameof(Longitude), Longitude);
@@ -84,10 +77,10 @@ namespace Juniper.World.GIS
         }
 
         /// <summary>
-        /// Try to parse a string as a Lotitude/Longitude.
+        /// Try to parse a string as a Latitude/Longitude.
         /// </summary>
-        /// <param name="value">The number of value</param>
-        /// <param name="dec">The number of dec</param>
+        /// <param name="value">A degrees/minutes/seconds formated degree value.</param>
+        /// <param name="dec">The decimal degrees formated degree value that the <paramref name="value"/> represents</param>
         /// <returns>Whether or not the degrees/minutes/seconds value parsed correctly</returns>
         public static bool TryParseDMS(string value, out float dec)
         {
@@ -112,7 +105,7 @@ namespace Juniper.World.GIS
         /// <summary>
         /// Pretty-print the Degrees/Minutes/Second version of the Latitude/Longitude angles.
         /// </summary>
-        /// <param name="sigfigs">The number of sigfigs</param>
+        /// <param name="sigfigs">The number of significant figures</param>
         /// <returns>A printed format for the latitude/longitude in degrees/minutes/seconds</returns>
         public string ToDMS(int sigfigs)
         {
@@ -126,6 +119,11 @@ namespace Juniper.World.GIS
         public override string ToString()
         {
             return $"({Latitude}°, {Longitude}°)";
+        }
+
+        public static explicit operator string(LatLngPoint value)
+        {
+            return value.ToCSV();
         }
 
         /// <summary>
@@ -148,6 +146,11 @@ namespace Juniper.World.GIS
             return $"({Latitude.ToString(precision)}°, {Longitude.ToString(precision)}°)";
         }
 
+        public string ToCSV()
+        {
+            return $"{Latitude},{Longitude}";
+        }
+
         /// <summary>
         /// Check two LatLngPoints to see if they overlap.
         /// </summary>
@@ -155,22 +158,32 @@ namespace Juniper.World.GIS
         /// <returns>Whether or not the two values represent the same point on earth.</returns>
         public override bool Equals(object obj)
         {
-            if (obj is LatLngPoint p)
-            {
-                return Latitude.Equals(p.Latitude)
-                    && Longitude.Equals(p.Longitude)
-                    && Altitude.Equals(p.Altitude);
-            }
-            return false;
+            return obj != null
+                && obj is LatLngPoint p
+                && Latitude.Equals(p.Latitude)
+                && Longitude.Equals(p.Longitude)
+                && Altitude.Equals(p.Altitude);
+        }
+
+        public static bool operator ==(LatLngPoint left, LatLngPoint right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(LatLngPoint left, LatLngPoint right)
+        {
+            return !(left == right);
         }
 
         /// <summary>
-        /// The hashcode is used for putting objects into dictionaries.
+        /// The hash code is used for putting objects into dictionaries.
         /// </summary>
-        /// <returns>A hashcode</returns>
+        /// <returns>A hash code</returns>
         public override int GetHashCode()
         {
-            return (ToString() + Altitude).GetHashCode();
+            return Latitude.GetHashCode()
+                ^ Longitude.GetHashCode()
+                ^ Altitude.GetHashCode();
         }
 
         /// <summary>

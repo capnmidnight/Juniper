@@ -11,6 +11,7 @@ using Juniper.World.GIS;
 using Juniper.Google.Maps.StreetView;
 
 using UnityEngine;
+using System.Net;
 
 namespace Juniper.Images
 {
@@ -137,12 +138,15 @@ namespace Juniper.Images
                 var metadataTask = gmaps.Get(metadataSearch);
                 yield return new WaitForTask(metadataTask);
                 var metadata = metadataTask.Result;
-                if (metadata.status == API.StatusCode.OK)
+                if (metadata.status == HttpStatusCode.OK)
                 {
                     GPS = metadata.location;
-                    var imageSearch = new CubeMapSearch(GPS, 1024, 1024);
+                    var imageSearch = new CubeMapSearch(GPS, 1024, 1024)
+                    {
+                        FlipImages = true
+                    };
                     imageSearch.AddRadius(searchRadius);
-                    var imageTask = gmaps.Get(imageSearch, true);
+                    var imageTask = gmaps.Get(imageSearch);
                     yield return new WaitForTask(imageTask);
                     images = imageTask.Result;
                 }

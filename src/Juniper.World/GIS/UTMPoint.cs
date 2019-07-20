@@ -1,4 +1,3 @@
-using Juniper.Serialization;
 using System;
 using System.Runtime.Serialization;
 
@@ -102,6 +101,11 @@ namespace Juniper.World.GIS
         public override string ToString()
         {
             return $"({X}, {Y}, {Z}) zone {Zone}";
+        }
+
+        public static explicit operator string(UTMPoint value)
+        {
+            return value.ToString();
         }
 
         public override bool Equals(object obj)

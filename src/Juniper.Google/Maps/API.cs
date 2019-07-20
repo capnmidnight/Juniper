@@ -2,7 +2,7 @@ using System.IO;
 
 using Juniper.Serialization;
 
-namespace Juniper.Google.Maps.StreetView
+namespace Juniper.Google.Maps
 {
     public class API : AbstractAPI
     {

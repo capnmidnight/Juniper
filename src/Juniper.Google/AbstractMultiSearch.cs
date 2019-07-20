@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 
 namespace Juniper.Google
 {
-    public abstract class AbstractMultiSearch<T, U> : AbstractSearch<T, T[]>
-        where U : AbstractSingleSearch<T>
+    public abstract class AbstractMultiSearch<ResultElementType, SubSearchType> : AbstractSearch<ResultElementType, ResultElementType[]>
+        where SubSearchType : AbstractSingleSearch<ResultElementType>
     {
-        protected readonly U[] subSearches;
+        protected readonly SubSearchType[] subSearches;
 
-        protected AbstractMultiSearch(int n, Func<U> factory)
+        protected AbstractMultiSearch(int n, Func<SubSearchType> factory)
         {
-            subSearches = new U[n];
+            subSearches = new SubSearchType[n];
             for (var i = 0; i < subSearches.Length; ++i)
             {
                 subSearches[i] = factory();
@@ -23,7 +23,7 @@ namespace Juniper.Google
             return subSearches.All(api.IsCached);
         }
 
-        internal override Task<T[]> Get(AbstractAPI api)
+        internal override Task<ResultElementType[]> Get(AbstractAPI api)
         {
             return Task.WhenAll(subSearches
                 .Select(search => search.Get(api))

@@ -42,10 +42,18 @@
     <Compile Include="AbstractSingleSearch.cs" />
     <Compile Include="AbstractSearch.cs" />
     <Compile Include="Maps\AbstractMapsSearch.cs" />
-    <Compile Include="Maps\Geocoding\API.cs" />
+    <Compile Include="Maps\Geocoding\AddressComponent.cs" />
+    <Compile Include="Maps\Geocoding\GeocodingResult.cs" />
+    <Compile Include="Maps\Geocoding\GeocodingResults.cs" />
     <Compile Include="Maps\Geocoding\AbstractGeocodingSearch.cs" />
+    <Compile Include="Maps\Geocoding\ReverseGeocodingSearch.cs" />
+    <Compile Include="Maps\Geocoding\GeocodingSearch.cs" />
+    <Compile Include="Maps\Geocoding\AddressComponentType.cs" />
+    <Compile Include="Maps\Geocoding\GeometryLocationType.cs" />
+    <Compile Include="Maps\Geocoding\GeometryResult.cs" />
+    <Compile Include="Maps\Geocoding\GeometryViewport.cs" />
     <Compile Include="Maps\Geocoding\USAddress.cs" />
-    <Compile Include="Maps\StreetView\API.cs" />
+    <Compile Include="Maps\API.cs" />
     <Compile Include="Maps\StreetView\CubeMapSearch.cs" />
     <Compile Include="Maps\StreetView\ImageSearch.cs" />
     <Compile Include="Maps\StreetView\Metadata.cs" />
@@ -54,8 +62,13 @@
     <Compile Include="Maps\StreetView\PanoID.cs" />
     <Compile Include="Maps\StreetView\AbstractStreetViewSearch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringExt.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.Collections\Juniper.Collections.csproj">
+      <Project>{e7450f17-721d-436b-9ccb-af130da82bf0}</Project>
+      <Name>Juniper.Collections</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.HTTP\Juniper.HTTP.csproj">
       <Project>{888b994c-2ae8-42b2-84f5-b15e11cc4f4f}</Project>
       <Name>Juniper.HTTP</Name>

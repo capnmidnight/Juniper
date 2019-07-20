@@ -32,11 +32,6 @@ namespace Juniper.Image
             return new RawImage(source, width, height, (byte[])data.Clone());
         }
 
-        public RawImage CreateCopy()
-        {
-            return (RawImage)Clone();
-        }
-
         public int stride { get { return data.Length / height; } }
         public int components { get { return stride / width; } }
 

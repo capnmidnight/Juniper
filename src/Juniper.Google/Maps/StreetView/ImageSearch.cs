@@ -10,57 +10,52 @@ namespace Juniper.Google.Maps.StreetView
     public class ImageSearch : AbstractStreetViewSearch<RawImage>
     {
         public ImageSearch(PanoID pano, int width, int height)
-            : base("streetview", "jpeg", pano)
+            : base("streetview", "image/jpeg", "jpeg", pano)
         {
             SetSize(width, height);
         }
 
         public ImageSearch(PlaceName placeName, int width, int height)
-            : base("streetview", "jpeg", placeName)
+            : base("streetview", "image/jpeg", "jpeg", placeName)
         {
             SetSize(width, height);
         }
 
         public ImageSearch(LatLngPoint location, int width, int height)
-            : base("streetview", "jpeg", location)
+            : base("streetview", "image/jpeg", "jpeg", location)
         {
             SetSize(width, height);
         }
 
         public ImageSearch SetSize(int width, int height)
         {
-            return AddSize($"{width}x{height}");
-        }
-
-        private ImageSearch AddSize(string size)
-        {
-            uriBuilder.AddQuery(nameof(size), size);
+            SetQuery("size", $"{width}x{height}");
             return this;
         }
 
-        public ImageSearch AddHeading(Heading heading)
+        public ImageSearch SetHeading(Heading heading)
         {
-            uriBuilder.AddQuery(nameof(heading), (int)heading);
+            SetQuery(nameof(heading), (int)heading);
             return this;
         }
 
-        public ImageSearch AddPitch(Pitch pitch)
+        public ImageSearch SetPitch(Pitch pitch)
         {
-            uriBuilder.AddQuery(nameof(pitch), (int)pitch);
+            SetQuery(nameof(pitch), (int)pitch);
             return this;
         }
 
-        public ImageSearch AddRadius(int radius)
+        public ImageSearch SetRadius(int radius)
         {
-            uriBuilder.AddQuery(nameof(radius), radius);
+            SetQuery(nameof(radius), radius);
             return this;
         }
 
-        public ImageSearch AddSource(bool outdoorOnly)
+        public ImageSearch SetSource(bool outdoorOnly)
         {
             if (outdoorOnly)
             {
-                uriBuilder.AddQuery("source=outdoor");
+                SetQuery("source", "outdoor");
             }
             return this;
         }

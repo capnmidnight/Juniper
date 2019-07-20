@@ -121,10 +121,14 @@ namespace Juniper.World.Climate.OpenWeatherMap
             {
                 return true;
             }
+            else if (LastReport.Location == null)
+            {
+                return true;
+            }
             else
             {
                 var dt = DateTime.Now - LastReport.ReportTime;
-                var distanceMeters = location.Distance(LastReport.Location);
+                var distanceMeters = location.Distance(LastReport.Location.Value);
                 return dt.TotalMinutes >= ReportTTLMinutes || distanceMeters >= ReportRadiusMeters;
             }
         }

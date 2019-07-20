@@ -14,6 +14,11 @@ namespace Juniper.Google.Maps.StreetView
             return place;
         }
 
+        public static explicit operator string(PlaceName value)
+        {
+            return value.ToString();
+        }
+
         public override int GetHashCode()
         {
             return place.GetHashCode();
