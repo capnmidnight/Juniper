@@ -17,23 +17,27 @@ namespace Juniper.Image
 
         public readonly ImageSource source;
         public readonly byte[] data;
-        public readonly int width, height;
+        public readonly Size dimensions;
 
-        public RawImage(ImageSource source, int width, int height, byte[] data)
+        public RawImage(ImageSource source, Size dimensions, byte[] data)
         {
             this.source = source;
-            this.width = width;
-            this.height = height;
+            this.dimensions = dimensions;
             this.data = data;
+        }
+
+        public RawImage(ImageSource source, int width, int height, byte[] data)
+            : this(source, new Size(width, height), data)
+        {
         }
 
         public object Clone()
         {
-            return new RawImage(source, width, height, (byte[])data.Clone());
+            return new RawImage(source, dimensions, (byte[])data.Clone());
         }
 
-        public int stride { get { return data.Length / height; } }
-        public int components { get { return stride / width; } }
+        public int stride { get { return data.Length / dimensions.height; } }
+        public int components { get { return stride / dimensions.width; } }
 
         private static Task<RawImage> CombineTilesAsync(int columns, int rows, params RawImage[] images)
         {
@@ -71,8 +75,7 @@ namespace Juniper.Image
                     }
 
                     anyNotNull = true;
-
-                    if (img?.width != firstImage.width || img?.height != firstImage.height)
+                    if (img?.dimensions.width != firstImage.dimensions.width || img?.dimensions.height != firstImage.dimensions.height)
                     {
                         throw new ArgumentException($"All elements of {nameof(images)} must be the same width and height. Image {i} did not match image 0.");
                     }
@@ -85,7 +88,7 @@ namespace Juniper.Image
             }
 
             var destinationBuffer = new byte[numTiles * firstImage.data.Length];
-            var imageStride = firstImage.data.Length / firstImage.height;
+            var imageStride = firstImage.stride;
             var bufferStride = imageStride * columns;
             for (int bufferRow = 0; bufferRow < rows; ++bufferRow)
             {
@@ -106,8 +109,8 @@ namespace Juniper.Image
 
             return new RawImage(
                 ImageSource.None,
-                columns * firstImage.width,
-                rows * firstImage.height,
+                columns * firstImage.dimensions.width,
+                rows * firstImage.dimensions.height,
                 destinationBuffer);
         }
 

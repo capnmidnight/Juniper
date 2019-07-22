@@ -44,8 +44,8 @@ namespace Juniper.HTTP.Tests
             if (runTest)
             {
                 var expected = Decoder.DecodeJPEG(false, File.ReadAllBytes(Path.Combine(myPictures, "portrait-expected.jpg")));
-                Assert.AreEqual(expected.width, actual.width);
-                Assert.AreEqual(expected.height, actual.height);
+                Assert.AreEqual(expected.dimensions.width, actual.dimensions.width);
+                Assert.AreEqual(expected.dimensions.height, actual.dimensions.height);
                 Assert.AreEqual(expected.data.Length, actual.data.Length);
                 for (int i = 0; i < expected.data.Length; ++i)
                 {

@@ -21,9 +21,9 @@ namespace Juniper.Google.Maps.Geocoding
             return api.DecodeObject<GeocodingResults>;
         }
 
-        public void SetLanguage(string regionCode)
+        public void SetLanguage(string language)
         {
-            SetQuery("language", regionCode);
+            SetQuery(nameof(language), language);
         }
     }
 }

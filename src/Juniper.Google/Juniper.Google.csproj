@@ -54,6 +54,16 @@
     <Compile Include="Maps\Geocoding\GeometryViewport.cs" />
     <Compile Include="Maps\Geocoding\USAddress.cs" />
     <Compile Include="Maps\API.cs" />
+    <Compile Include="Maps\MapTiles\MapImageType.cs" />
+    <Compile Include="Maps\MapTiles\LinePath.cs" />
+    <Compile Include="Maps\MapTiles\Marker.cs" />
+    <Compile Include="Maps\MapTiles\MarkerAnchorPosition.cs" />
+    <Compile Include="Maps\MapTiles\LinePathStyle.cs" />
+    <Compile Include="Maps\MapTiles\MarkerStyle.cs" />
+    <Compile Include="Maps\MapTiles\MarkerSize.cs" />
+    <Compile Include="Maps\MapTiles\TileImageFormat.cs" />
+    <Compile Include="Maps\MapTiles\TileSearch.cs" />
+    <Compile Include="Maps\MapTiles\TileSearch.ImageFormat.cs" />
     <Compile Include="Maps\StreetView\CubeMapSearch.cs" />
     <Compile Include="Maps\StreetView\ImageSearch.cs" />
     <Compile Include="Maps\StreetView\Metadata.cs" />

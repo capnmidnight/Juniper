@@ -1,17 +1,19 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Net;
+
 using Juniper.Animation;
+using Juniper.Google.Maps;
+using Juniper.Google.Maps.StreetView;
 using Juniper.Image;
 using Juniper.Imaging;
 using Juniper.Units;
 using Juniper.Unity;
 using Juniper.Unity.Coroutines;
 using Juniper.World.GIS;
-using Juniper.Google.Maps.StreetView;
 
 using UnityEngine;
-using System.Net;
 
 namespace Juniper.Images
 {
@@ -145,7 +147,7 @@ namespace Juniper.Images
                     {
                         FlipImages = true
                     };
-                    imageSearch.AddRadius(searchRadius);
+                    imageSearch.SetRadius(searchRadius);
                     var imageTask = gmaps.Get(imageSearch);
                     yield return new WaitForTask(imageTask);
                     images = imageTask.Result;

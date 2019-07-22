@@ -8,7 +8,7 @@ namespace Juniper.Google
 {
     public abstract class AbstractSingleSearch<ResultType> : AbstractSearch<ResultType, ResultType>
     {
-        private readonly Dictionary<string, string> queryParams;
+        private readonly Dictionary<string, List<string>> queryParams = new Dictionary<string, List<string>>();
         private readonly UriBuilder uriBuilder;
         private readonly string cacheLocString;
         private readonly string acceptType;
@@ -17,7 +17,6 @@ namespace Juniper.Google
 
         protected AbstractSingleSearch(Uri baseServiceURI, string path, string cacheLocString, string acceptType, string extension, bool signRequests)
         {
-            queryParams = new Dictionary<string, string>();
             uriBuilder = new UriBuilder(baseServiceURI);
             uriBuilder.Path += path;
             this.cacheLocString = cacheLocString;
@@ -31,12 +30,41 @@ namespace Juniper.Google
             SetQuery(key, value.ToString());
         }
 
-        protected void SetQuery(string key, string value)
+        protected void RemoveQuery(string key)
         {
-            queryParams[key] = value;
+            queryParams.Remove(key);
         }
 
-        public Uri Uri
+        private void SetQuery(string key, string value, bool allowMany)
+        {
+            var list = queryParams.Get(key) ?? new List<string>();
+            if (allowMany || list.Count == 0)
+            {
+                list.Add(value);
+            }
+            else if (!allowMany)
+            {
+                list[0] = value;
+            }
+            queryParams[key] = list;
+        }
+
+        protected void SetQuery(string key, string value)
+        {
+            SetQuery(key, value, false);
+        }
+
+        protected void AddQuery(string key, string value)
+        {
+            SetQuery(key, value, true);
+        }
+
+        protected void AddQuery<U>(string key, U value)
+        {
+            SetQuery(key, value.ToString());
+        }
+
+        public virtual Uri Uri
         {
             get
             {

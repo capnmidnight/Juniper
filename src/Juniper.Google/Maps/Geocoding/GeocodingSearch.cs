@@ -29,7 +29,7 @@ namespace Juniper.Google.Maps.Geocoding
 
         private void RefreshComponents()
         {
-            SetQuery("components", components.ToString(":", "|"));
+            SetQuery(nameof(components), components.ToString(":", "|"));
         }
 
         private void SetComponent(AddressComponentType key, string value)
@@ -65,17 +65,17 @@ namespace Juniper.Google.Maps.Geocoding
 
         public void SetBounds(LatLngPoint southWest, LatLngPoint northEast)
         {
-            SetQuery("bounds", $"{southWest.ToCSV()}|{northEast.ToCSV()}");
+            SetBounds(new GeometryViewport(southWest, northEast));
         }
 
-        public void SetBounds(GeometryViewport viewport)
+        public void SetBounds(GeometryViewport bounds)
         {
-            SetQuery("bounds", $"{viewport.southwest.ToCSV()}|{viewport.northeast.ToCSV()}");
+            SetQuery(nameof(bounds), $"{bounds.southwest.ToCSV()}|{bounds.northeast.ToCSV()}");
         }
 
-        public void SetRegion(string regionCode)
+        public void SetRegion(string region)
         {
-            SetQuery("region", regionCode);
+            SetQuery(nameof(region), region);
         }
     }
 }

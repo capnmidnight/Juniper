@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 using Juniper.Google.Maps.Tests;
@@ -9,8 +10,40 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Juniper.Google.Maps.StreetView.Tests
 {
     [TestClass]
-    public class GoogleMapsTests : ServicesTests
+    public class StreetViewTests : ServicesTests
     {
+        [TestMethod]
+        public void EncodeOnePart()
+        {
+            var sb = new StringBuilder();
+            var first = 0;
+            MapTiles.LinePath.EncodePolylinePart(sb, -179.9832104, ref first);
+            var encoded = sb.ToString();
+            Assert.AreEqual("`~oia@", encoded);
+        }
+
+        [TestMethod]
+        public void EncodePair()
+        {
+            var input = "38.5, -120.2";
+            var expected = "_p~iF~ps|U";
+            EncodePolylinePartTest(expected, input);
+        }
+
+        [TestMethod]
+        public void EncodeString()
+        {
+            var input = "38.5, -120.2|40.7, -120.95|43.252, -126.453".Split('|');
+            var expected = "_p~iF~ps|U_ulLnnqC_mqNvxq`@";
+            EncodePolylinePartTest(expected, input);
+        }
+
+        private static void EncodePolylinePartTest(string expected, params string[] input)
+        {
+            var encoded = MapTiles.LinePath.EncodePolyline(input);
+            Assert.AreEqual(expected, encoded);
+        }
+
         [TestMethod]
         public async Task GetMetadata()
         {
@@ -31,8 +64,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var imageSearch = new ImageSearch((PlaceName)"Washington, DC", 640, 640);
             var image = await service.Get(imageSearch);
             Assert.IsTrue(service.IsCached(imageSearch));
-            Assert.AreEqual(640, image.width);
-            Assert.AreEqual(640, image.height);
+            Assert.AreEqual(640, image.dimensions.width);
+            Assert.AreEqual(640, image.dimensions.height);
         }
 
         [TestMethod]
@@ -47,8 +80,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var images = await Task.WhenAll(tasks);
             foreach (var image in images)
             {
-                Assert.AreEqual(640, image.width);
-                Assert.AreEqual(640, image.height);
+                Assert.AreEqual(640, image.dimensions.width);
+                Assert.AreEqual(640, image.dimensions.height);
             }
         }
 
@@ -67,8 +100,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var images = await Task.WhenAll(tasks);
             foreach (var image in images)
             {
-                Assert.AreEqual(640, image.width);
-                Assert.AreEqual(640, image.height);
+                Assert.AreEqual(640, image.dimensions.width);
+                Assert.AreEqual(640, image.dimensions.height);
             }
         }
 
@@ -80,8 +113,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
             Assert.IsTrue(service.IsCached(cubeMapSearch));
             foreach (var image in images)
             {
-                Assert.AreEqual(640, image.width);
-                Assert.AreEqual(640, image.height);
+                Assert.AreEqual(640, image.dimensions.width);
+                Assert.AreEqual(640, image.dimensions.height);
             }
         }
 
@@ -105,8 +138,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
                 Assert.IsTrue(service.IsCached(cubeMapSearch));
                 foreach (var image in images)
                 {
-                    Assert.AreEqual(640, image.width);
-                    Assert.AreEqual(640, image.height);
+                    Assert.AreEqual(640, image.dimensions.width);
+                    Assert.AreEqual(640, image.dimensions.height);
                 }
             }
         }
@@ -134,8 +167,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
                 Assert.IsTrue(service.IsCached(cubeMapSearch));
                 foreach (var image in images)
                 {
-                    Assert.AreEqual(640, image.width);
-                    Assert.AreEqual(640, image.height);
+                    Assert.AreEqual(640, image.dimensions.width);
+                    Assert.AreEqual(640, image.dimensions.height);
                 }
             }
         }

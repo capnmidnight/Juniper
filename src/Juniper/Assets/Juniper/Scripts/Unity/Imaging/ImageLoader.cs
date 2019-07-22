@@ -90,7 +90,7 @@ namespace Juniper.Imaging
 
         public static Texture2D ConstructTexture2D(RawImage image, TextureFormat format)
         {
-            var texture = new Texture2D(image.width, image.height, format, false);
+            var texture = new Texture2D(image.dimensions.width, image.dimensions.height, format, false);
             texture.LoadRawTextureData(image.data);
             texture.Apply(false, true);
             return texture;
@@ -104,7 +104,7 @@ namespace Juniper.Imaging
         public static Cubemap ConstructCubemap(RawImage[] images, TextureFormat format)
         {
             var first = images[0];
-            var texture = new Cubemap(first.width, format, false);
+            var texture = new Cubemap(first.dimensions.width, format, false);
             texture.SetCubemapFace(images[0], CubemapFace.PositiveZ);
             texture.SetCubemapFace(images[1], CubemapFace.PositiveX);
             texture.SetCubemapFace(images[2], CubemapFace.NegativeX);

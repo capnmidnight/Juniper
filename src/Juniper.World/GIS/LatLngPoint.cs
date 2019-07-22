@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Juniper.World.GIS
@@ -102,6 +103,78 @@ namespace Juniper.World.GIS
             return false;
         }
 
+        public static float ParseDMS(string value)
+        {
+            if (TryParseDMS(value, out var dec))
+            {
+                return dec;
+            }
+            else
+            {
+                throw new FormatException("Values need to be in Degrees-Minutes-Seconds format.");
+            }
+        }
+
+        public static bool TryParseDMSPair(string value, out LatLngPoint point)
+        {
+            var parts = value.Split(',');
+            float lat, lng;
+            if(parts.Length != 2
+                || !TryParseDMS(parts[0], out lat)
+                || !TryParseDMS(parts[1], out lng))
+            {
+                point = default;
+                return false;
+            }
+            else
+            {
+                point = new LatLngPoint(lat, lng);
+                return true;
+            }
+        }
+
+        public static LatLngPoint ParseDMSPair(string value)
+        {
+            if(TryParseDMSPair(value, out var point))
+            {
+                return point;
+            }
+            else
+            {
+                throw new FormatException("Value needs to be a pair of Degrees-Minutes-Seconds values, separated by a comma.");
+            }
+        }
+
+        public static bool TryParseDecimal(string value, out LatLngPoint point)
+        {
+            var parts = value.Split(',');
+            float lat, lng;
+            if (parts.Length != 2
+                || !float.TryParse(parts[0].Trim(), out lat)
+                || !float.TryParse(parts[1].Trim(), out lng))
+            {
+                point = default;
+                return false;
+            }
+            else
+            {
+                point = new LatLngPoint(lat, lng);
+                return true;
+            }
+        }
+
+        public static LatLngPoint ParseDecimal(string value)
+        {
+            if (TryParseDecimal(value, out var point))
+            {
+                return point;
+            }
+            else
+            {
+                throw new FormatException("Value needs to be a pair of Decimal-Degrees values, separated by a comma.");
+            }
+        }
+
         /// <summary>
         /// Pretty-print the Degrees/Minutes/Second version of the Latitude/Longitude angles.
         /// </summary>
@@ -148,7 +221,7 @@ namespace Juniper.World.GIS
 
         public string ToCSV()
         {
-            return $"{Latitude},{Longitude}";
+            return $"{Latitude:0.000000},{Longitude:0.000000}";
         }
 
         /// <summary>
