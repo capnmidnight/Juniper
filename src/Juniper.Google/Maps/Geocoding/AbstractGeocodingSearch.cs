@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Juniper.HTTP.REST;
 
 namespace Juniper.Google.Maps.Geocoding
 {
@@ -9,14 +10,14 @@ namespace Juniper.Google.Maps.Geocoding
             : base("geocode/json", "geocoding", "application/json", "json", false)
         {
         }
-        
+
         protected AbstractGeocodingSearch(string paramName, string paramValue)
             : this()
         {
             SetQuery(paramName, paramValue);
-        }        
+        }
 
-        internal override Func<Stream, GeocodingResults> GetDecoder(AbstractAPI api)
+        public override Func<Stream, GeocodingResults> GetDecoder(AbstractEndpoint api)
         {
             return api.DecodeObject<GeocodingResults>;
         }

@@ -4,25 +4,23 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace Juniper.Google
+namespace Juniper.HTTP.REST
 {
-    public abstract class AbstractSingleSearch<ResultType> : AbstractSearch<ResultType, ResultType>
+    public abstract class AbstractSingleRequest<ResponseType> : AbstractRequest<ResponseType, ResponseType>
     {
         private readonly Dictionary<string, List<string>> queryParams = new Dictionary<string, List<string>>();
         private readonly UriBuilder uriBuilder;
         private readonly string cacheLocString;
         private readonly string acceptType;
         private readonly string extension;
-        private readonly bool signRequests;
 
-        protected AbstractSingleSearch(Uri baseServiceURI, string path, string cacheLocString, string acceptType, string extension, bool signRequests)
+        protected AbstractSingleRequest(Uri baseServiceURI, string path, string cacheLocString, string acceptType, string extension)
         {
             uriBuilder = new UriBuilder(baseServiceURI);
             uriBuilder.Path += path;
             this.cacheLocString = cacheLocString;
             this.acceptType = acceptType;
             this.extension = extension;
-            this.signRequests = signRequests;
         }
 
         protected void SetQuery<U>(string key, U value)
@@ -64,7 +62,7 @@ namespace Juniper.Google
             SetQuery(key, value.ToString());
         }
 
-        public virtual Uri Uri
+        public virtual Uri BaseURI
         {
             get
             {
@@ -73,9 +71,14 @@ namespace Juniper.Google
             }
         }
 
-        private FileInfo GetCacheFile(AbstractAPI api)
+        protected virtual Uri MakeAuthenticatedURI(AbstractEndpoint api)
         {
-            var cacheID = string.Join("_", Uri.PathAndQuery
+            return BaseURI;
+        }
+
+        private FileInfo GetCacheFile(AbstractEndpoint api)
+        {
+            var cacheID = string.Join("_", BaseURI.PathAndQuery
                                             .Split(Path.GetInvalidFileNameChars()));
             var path = Path.Combine(api.cacheLocation.FullName, cacheLocString, cacheID);
             if (!extension.StartsWith("."))
@@ -87,21 +90,21 @@ namespace Juniper.Google
             return file;
         }
 
-        internal override bool IsCached(AbstractAPI api)
+        public override bool IsCached(AbstractEndpoint api)
         {
             return GetCacheFile(api).Exists;
         }
 
-        internal abstract Func<Stream, ResultType> GetDecoder(AbstractAPI api);
+        public abstract Func<Stream, ResponseType> GetDecoder(AbstractEndpoint api);
 
         private void SetAcceptType(HttpWebRequest request)
         {
             request.Accept = acceptType;
         }
 
-        internal override Task<ResultType> Get(AbstractAPI api)
+        public override Task<ResponseType> Get(AbstractEndpoint api)
         {
-            var uri = api.AddCredentials(Uri, signRequests);
+            var uri = MakeAuthenticatedURI(api);
             var decoder = GetDecoder(api);
             var file = GetCacheFile(api);
             return Task.Run(() => HttpWebRequestExt.CachedGet(uri, decoder, file, SetAcceptType));

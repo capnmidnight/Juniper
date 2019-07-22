@@ -40,7 +40,7 @@ namespace Juniper.Images
 
         private RawImage[] images;
 
-        private API gmaps;
+        private Endpoint gmaps;
 
         public int searchRadius = 50;
 

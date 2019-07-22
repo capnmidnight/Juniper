@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-
+using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.World;
 using Juniper.World.GIS;
@@ -62,7 +62,7 @@ namespace Juniper.Google.Maps.StreetView
 
         public bool FlipImage { get; set; }
 
-        internal override Func<Stream, RawImage> GetDecoder(AbstractAPI _)
+        public override Func<Stream, RawImage> GetDecoder(AbstractEndpoint _)
         {
             return stream => Decoder.DecodeJPEG(FlipImage, stream);
         }

@@ -39,10 +39,20 @@ namespace Juniper.Compression.Zip
                 if (entryIndex > -1)
                 {
                     var entry = file[entryIndex];
-                    return new ProgressStream(file.GetInputStream(entry), entry.Size, prog);
+                    using (var fileStream = file.GetInputStream(entry))
+                    using (var progStream = new ProgressStream(fileStream, entry.Size, prog))
+                    {
+                        var mem = new MemoryStream();
+                        progStream.CopyTo(mem);
+                        mem.Flush();
+                        mem.Position = 0;
+                        file.Close();
+                        return mem;
+                    }
                 }
                 else
                 {
+                    file.Close();
                     throw new FileNotFoundException($"Could not find file {filePath} in zip file {zipFile}", $"{zipFile}::{filePath}");
                 }
             }

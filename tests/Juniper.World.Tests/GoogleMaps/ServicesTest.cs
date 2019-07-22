@@ -7,7 +7,7 @@ namespace Juniper.Google.Maps.Tests
 {
     public abstract class ServicesTests
     {
-        protected API service;
+        protected Endpoint service;
 
         [TestInitialize]
         public virtual void Init()
@@ -20,7 +20,7 @@ namespace Juniper.Google.Maps.Tests
             var apiKey = lines[0];
             var signingKey = lines[1];
             var json = new Json.JsonFactory();
-            service = new API(json, apiKey, signingKey, cacheDir);
+            service = new Endpoint(json, apiKey, signingKey, cacheDir);
         }        
     }
 }

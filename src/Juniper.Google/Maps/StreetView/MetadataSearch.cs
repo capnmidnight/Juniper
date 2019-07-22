@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Juniper.HTTP.REST;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
@@ -15,7 +16,7 @@ namespace Juniper.Google.Maps.StreetView
         public MetadataSearch(LatLngPoint location)
             : base("streetview/metadata", "application/json", "json", location) { }
 
-        internal override Func<Stream, Metadata> GetDecoder(AbstractAPI api)
+        public override Func<Stream, Metadata> GetDecoder(AbstractEndpoint api)
         {
             return api.DecodeObject<Metadata>;
         }

@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
+using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.World;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class CubeMapSearch : AbstractMultiSearch<RawImage, ImageSearch>
+    public class CubeMapSearch : AbstractMultiRequest<RawImage, ImageSearch>
     {
         private CubeMapSearch(Func<ImageSearch> factory)
             : base(6, factory)

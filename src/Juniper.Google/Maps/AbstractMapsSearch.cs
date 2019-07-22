@@ -2,7 +2,7 @@ using System;
 
 namespace Juniper.Google.Maps
 {
-    public abstract class AbstractMapsSearch<ResultType> : AbstractSingleSearch<ResultType>
+    public abstract class AbstractMapsSearch<ResultType> : AbstractGoogleRequest<ResultType>
     {
         private static readonly Uri baseServiceURI = new Uri("https://maps.googleapis.com/maps/api/");
 

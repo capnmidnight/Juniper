@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-
+using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.World.GIS;
 
@@ -40,7 +40,7 @@ namespace Juniper.Google.Maps.MapTiles
 
         public bool FlipImage { get; set; }
 
-        internal override Func<Stream, RawImage> GetDecoder(AbstractAPI _)
+        public override Func<Stream, RawImage> GetDecoder(AbstractEndpoint _)
         {
             return stream => Image.Decoder.DecodePNG(FlipImage, stream);
         }
@@ -78,7 +78,7 @@ namespace Juniper.Google.Maps.MapTiles
             this.path = path;
         }
 
-        public override Uri Uri
+        public override Uri BaseURI
         {
             get
             {
@@ -92,12 +92,12 @@ namespace Juniper.Google.Maps.MapTiles
                     }
                 }
 
-                if(path != null)
+                if (path != null)
                 {
                     SetQuery(nameof(path), path);
                 }
 
-                return base.Uri;
+                return base.BaseURI;
             }
         }
 
