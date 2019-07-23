@@ -50,6 +50,8 @@
     <Compile Include="Maps\Geocoding\GeometryLocationType.cs" />
     <Compile Include="Maps\Geocoding\GeometryResult.cs" />
     <Compile Include="Maps\Geocoding\GeometryViewport.cs" />
+    <Compile Include="Maps\TimeZone\TimeZoneResult.cs" />
+    <Compile Include="Maps\TimeZone\TimeZoneSearch.cs" />
     <Compile Include="Maps\USAddress.cs" />
     <Compile Include="Maps\Endpoint.cs" />
     <Compile Include="Maps\MapTiles\LocationTypes.cs" />
