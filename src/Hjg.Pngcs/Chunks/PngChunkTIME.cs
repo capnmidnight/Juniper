@@ -1,6 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-
     using System;
 
     using Hjg.Pngcs;
@@ -89,6 +88,5 @@ namespace Hjg.Pngcs.Chunks
         {
             return timestamp.ToString("YYYY/MM/dd HH:mm:ss");
         }
-
     }
 }

@@ -3,7 +3,6 @@ using System.IO;
 
 namespace Hjg.Pngcs.Zlib
 {
-
     public abstract class AZlibInputStream : Stream
     {
         readonly protected Stream rawStream;
@@ -39,7 +38,6 @@ namespace Hjg.Pngcs.Zlib
             throw new NotImplementedException();
         }
 
-
         public override bool CanSeek
         {
             get { return false; }
@@ -67,7 +65,6 @@ namespace Hjg.Pngcs.Zlib
             get { throw new NotImplementedException(); }
         }
 
-
         public override void Write(byte[] buffer, int offset, int count)
         {
             throw new NotImplementedException();
@@ -88,4 +85,3 @@ namespace Hjg.Pngcs.Zlib
         public abstract string GetImplementationId();
     }
 }
-

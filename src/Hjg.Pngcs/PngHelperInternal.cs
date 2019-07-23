@@ -1,6 +1,5 @@
 namespace Hjg.Pngcs
 {
-
     using System;
     using System.IO;
     using System.Text;
@@ -12,12 +11,11 @@ namespace Hjg.Pngcs
     /// </summary>
     public static class PngHelperInternal
     {
-
         [ThreadStatic]
         private static CRC32 crc32Engine = null;
 
         /// <summary>
-        /// thread-singleton crc engine 
+        /// thread-singleton crc engine
         /// </summary>
         ///
         public static CRC32 GetCRC()
@@ -236,8 +234,6 @@ namespace Hjg.Pngcs
             }
         }
 
-
-
         public static int UnfilterRowPaeth(int r, int a, int b, int c)
         { // a = left, b = above, c = upper left
             return (r + FilterPaethPredictor(a, b, c)) & 0xFF;
@@ -267,7 +263,6 @@ namespace Hjg.Pngcs
             }
         }
 
-
         public static void Logdebug(string msg)
         {
             if (DEBUG)
@@ -275,7 +270,6 @@ namespace Hjg.Pngcs
                 Console.WriteLine(msg);
             }
         }
-
 
         public static void InitCrcForTests(PngReader pngr)
         {

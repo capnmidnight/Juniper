@@ -1,16 +1,13 @@
 using Hjg.Pngcs;
 using Hjg.Pngcs.Chunks;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Ar.Com.Hjg.Pngcs
 {
-    class ChunkReader
+    internal class ChunkReader
     {
         protected ChunkReaderMode mode;
 
-	    protected int read = 0;
+        protected int read = 0;
 
         public ChunkReader(int clen, string id, long offsetInPng, ChunkReaderMode mode)
         {

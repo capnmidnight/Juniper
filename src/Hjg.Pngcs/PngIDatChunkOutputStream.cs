@@ -1,6 +1,5 @@
 namespace Hjg.Pngcs
 {
-
     using System.IO;
 
     using Hjg.Pngcs.Chunks;
@@ -17,7 +16,6 @@ namespace Hjg.Pngcs
         public PngIDatChunkOutputStream(Stream outputStream_0)
             : this(outputStream_0, SIZE_DEFAULT)
         {
-
         }
 
         public PngIDatChunkOutputStream(Stream outputStream_0, int size)

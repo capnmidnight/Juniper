@@ -8,13 +8,11 @@ using System.IO.Compression;
 // ONLY FOR .NET 4.5
 namespace Hjg.Pngcs.Zlib
 {
-
     /// <summary>
     /// Zip input (deflater) based on Ms DeflateStream (.net 4.5)
     /// </summary>
     internal class ZlibInputStream : AZlibInputStream
     {
-
         public ZlibInputStream(Stream st, bool leaveOpen)
             : base(st, leaveOpen)
         {
@@ -28,8 +26,6 @@ namespace Hjg.Pngcs.Zlib
         private bool fdict;// merely informational, not used
         private byte[] dictid; // merely informational, not used
         private byte[] crcread = null; // merely informational, not checked
-
-
 
         public override int Read(byte[] array, int offset, int count)
         {
@@ -99,8 +95,6 @@ namespace Hjg.Pngcs.Zlib
         {
             return "Zlib inflater: .Net CLR 4.5";
         }
-
-
     }
 }
 #endif

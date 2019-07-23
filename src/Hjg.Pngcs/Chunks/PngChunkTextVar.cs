@@ -1,21 +1,18 @@
-namespace Hjg.Pngcs.Chunks {
-
+namespace Hjg.Pngcs.Chunks
+{
     using Hjg.Pngcs;
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.IO;
-    using System.Runtime.CompilerServices;
+
     /// <summary>
     /// general class for textual chunks
     /// </summary>
-    public abstract class PngChunkTextVar : PngChunkMultiple {
+    public abstract class PngChunkTextVar : PngChunkMultiple
+    {
         protected internal string key; // key/val: only for tEXt. lazy computed
         protected internal string val;
 
         protected internal PngChunkTextVar(string id, ImageInfo info)
-            : base(id, info) {
+            : base(id, info)
+        {
         }
 
         public const string KEY_Title = "Title"; // Short (one line) title or caption for image
@@ -29,7 +26,8 @@ namespace Hjg.Pngcs.Chunks {
         public const string KEY_Source = "Source"; // Device used to create the image
         public const string KEY_Comment = "Comment"; // Miscellaneous comment
 
-        public class PngTxtInfo {
+        public class PngTxtInfo
+        {
             public string title;
             public string author;
             public string description;
@@ -41,23 +39,27 @@ namespace Hjg.Pngcs.Chunks {
             public string comment;
         }
 
-        public override ChunkOrderingConstraint GetOrderingConstraint() {
+        public override ChunkOrderingConstraint GetOrderingConstraint()
+        {
             return ChunkOrderingConstraint.NONE;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <returns></returns>
-        public string GetKey() {
+        public string GetKey()
+        {
             return key;
         }
 
-        public string GetVal() {
+        public string GetVal()
+        {
             return val;
         }
 
-        public void SetKeyVal(string key, string val) {
+        public void SetKeyVal(string key, string val)
+        {
             this.key = key;
             this.val = val;
         }

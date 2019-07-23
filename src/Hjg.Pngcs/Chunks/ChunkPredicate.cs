@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Hjg.Pngcs.Chunks {
+namespace Hjg.Pngcs.Chunks
+{
     /// <summary>
     /// Decides if another chunk "matches", according to some criterion
     /// </summary>
-    public interface ChunkPredicate {
+    public interface ChunkPredicate
+    {
         /// <summary>
         /// The other chunk matches with this one
         /// </summary>

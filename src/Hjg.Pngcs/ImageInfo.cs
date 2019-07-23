@@ -1,11 +1,6 @@
-namespace Hjg.Pngcs {
-
+namespace Hjg.Pngcs
+{
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.IO;
-    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Simple immutable wrapper for basic image info
@@ -15,7 +10,8 @@ namespace Hjg.Pngcs {
     /// The constructor requires an 'ortogonal' subset
     /// http://www.w3.org/TR/PNG/#11IHDR
     /// </remarks>
-    public class ImageInfo {
+    public class ImageInfo
+    {
         private const int MAX_COLS_ROWS_VAL = 400000; // very big value, but no so ridiculous as 2^32
 
         /// <summary>
@@ -29,17 +25,17 @@ namespace Hjg.Pngcs {
         public readonly int Rows;
 
         /// <summary>
-        /// Bits per sample (per channel) in the buffer. 
+        /// Bits per sample (per channel) in the buffer.
         /// </summary>
         /// <remarks>
-        /// This is 8 or 16 for RGB/ARGB images. 
+        /// This is 8 or 16 for RGB/ARGB images.
         /// For grayscale, it's 8 (or 1 2 4 ).
         /// For indexed images, number of bits per palette index (1 2 4 8).
         ///</remarks>
         public readonly int BitDepth;
 
         /// <summary>
-        /// Number of channels, used in the buffer 
+        /// Number of channels, used in the buffer
         /// </summary>
         /// <remarks>
         /// WARNING: This is 3-4 for rgb/rgba, but 1 for palette/gray !
@@ -47,7 +43,7 @@ namespace Hjg.Pngcs {
         public readonly int Channels;
 
         /// <summary>
-        /// Bits used for each pixel in the buffer 
+        /// Bits used for each pixel in the buffer
         /// </summary>
         /// <remarks>equals <c>channels * bitDepth</c>
         /// </remarks>
@@ -81,29 +77,33 @@ namespace Hjg.Pngcs {
         /// For internal use, mostly.
         /// </remarks>
         public readonly int SamplesPerRowPacked;
+
         /// <summary>
         /// flag: has alpha channel
         /// </summary>
         public readonly bool Alpha;
+
         /// <summary>
         /// flag: is grayscale (G/GA)
         /// </summary>
         public readonly bool Greyscale;
+
         /// <summary>
         /// flag: has palette
         /// </summary>
         public readonly bool Indexed;
+
         /// <summary>
-        /// flag: less than one byte per sample (bit depth 1-2-4) 
+        /// flag: less than one byte per sample (bit depth 1-2-4)
         /// </summary>
         public readonly bool Packed;
-
 
         /// <summary>
         /// Simple constructor: only for RGB/RGBA
         /// </summary>
         public ImageInfo(int cols, int rows, int bitdepth, bool alpha)
-            : this(cols, rows, bitdepth, alpha, false, false) {
+            : this(cols, rows, bitdepth, alpha, false, false)
+        {
         }
 
         /// <summary>
@@ -116,7 +116,8 @@ namespace Hjg.Pngcs {
         /// <param name="grayscale">Is grayscale</param>
         /// <param name="palette">Has palette</param>
         public ImageInfo(int cols, int rows, int bitdepth, bool alpha, bool grayscale,
-                bool palette) {
+                bool palette)
+        {
             this.Cols = cols;
             this.Rows = rows;
             this.Alpha = alpha;
@@ -134,22 +135,26 @@ namespace Hjg.Pngcs {
             this.SamplesPerRow = Channels * this.Cols;
             this.SamplesPerRowPacked = (Packed) ? BytesPerRow : SamplesPerRow;
             // checks
-            switch (this.BitDepth) {
+            switch (this.BitDepth)
+            {
                 case 1:
                 case 2:
                 case 4:
-                    if (!(this.Indexed || this.Greyscale))
-                        throw new PngjException("only indexed or grayscale can have bitdepth="
-                                + this.BitDepth);
-                    break;
+                if (!(this.Indexed || this.Greyscale))
+                    throw new PngjException("only indexed or grayscale can have bitdepth="
+                            + this.BitDepth);
+                break;
+
                 case 8:
-                    break;
+                break;
+
                 case 16:
-                    if (this.Indexed)
-                        throw new PngjException("indexed can't have bitdepth=" + this.BitDepth);
-                    break;
+                if (this.Indexed)
+                    throw new PngjException("indexed can't have bitdepth=" + this.BitDepth);
+                break;
+
                 default:
-                    throw new PngjException("invalid bitdepth=" + this.BitDepth);
+                throw new PngjException("invalid bitdepth=" + this.BitDepth);
             }
             if (cols < 1 || cols > MAX_COLS_ROWS_VAL)
                 throw new PngjException("invalid cols=" + cols + " ???");
@@ -161,7 +166,8 @@ namespace Hjg.Pngcs {
         /// General information, for debugging
         /// </summary>
         /// <returns>Summary</returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return "ImageInfo [cols=" + Cols + ", rows=" + Rows + ", bitDepth=" + BitDepth
                     + ", channels=" + Channels + ", bitspPixel=" + BitspPixel + ", bytesPixel="
                     + BytesPixel + ", bytesPerRow=" + BytesPerRow + ", samplesPerRow="
@@ -170,7 +176,8 @@ namespace Hjg.Pngcs {
                     + "]";
         }
 
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             int prime = 31;
             int result = 1;
             result = prime * result + ((Alpha) ? 1231 : 1237);
@@ -183,7 +190,8 @@ namespace Hjg.Pngcs {
             return result;
         }
 
-        public override bool Equals(Object obj) {
+        public override bool Equals(Object obj)
+        {
             if ((Object)this == obj)
                 return true;
             if (obj == null)

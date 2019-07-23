@@ -1,18 +1,18 @@
-namespace Hjg.Pngcs.Chunks {
-
+namespace Hjg.Pngcs.Chunks
+{
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.IO;
     using Hjg.Pngcs.Zlib;
-    
+
     /// <summary>
     /// Static utility methods for CHunks
     /// </summary>
     /// <remarks>
     /// Client code should rarely need this, see PngMetada and ChunksList
     /// </remarks>
-    public class ChunkHelper {
+    public class ChunkHelper
+    {
         internal const string IHDR = "IHDR";
         internal const string PLTE = "PLTE";
         internal const string IDAT = "IDAT";
@@ -36,14 +36,13 @@ namespace Hjg.Pngcs.Chunks {
         internal static readonly byte[] b_IDAT = ToBytes(IDAT);
         internal static readonly byte[] b_IEND = ToBytes(IEND);
 
-
-
         /// <summary>
         /// Converts to bytes using Latin1 (ISO-8859-1)
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public static byte[] ToBytes(string x) {
+        public static byte[] ToBytes(string x)
+        {
             return Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetBytes(x);
         }
 
@@ -52,9 +51,11 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public static string ToString(byte[] x) {
+        public static string ToString(byte[] x)
+        {
             return Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetString(x);
         }
+
         /// <summary>
         ///  Converts to string using Latin1 (ISO-8859-1)
         /// </summary>
@@ -62,7 +63,8 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="offset"></param>
         /// <param name="len"></param>
         /// <returns></returns>
-        public static string ToString(byte[] x, int offset, int len) {
+        public static string ToString(byte[] x, int offset, int len)
+        {
             return Hjg.Pngcs.PngHelperInternal.charsetLatin1.GetString(x, offset, len);
         }
 
@@ -71,7 +73,8 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public static byte[] ToBytesUTF8(string x) {
+        public static byte[] ToBytesUTF8(string x)
+        {
             return Hjg.Pngcs.PngHelperInternal.charsetUtf8.GetBytes(x);
         }
 
@@ -80,9 +83,11 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        public static string ToStringUTF8(byte[] x) {
+        public static string ToStringUTF8(byte[] x)
+        {
             return Hjg.Pngcs.PngHelperInternal.charsetUtf8.GetString(x);
         }
+
         /// <summary>
         /// Converts to string using UTF-8
         /// </summary>
@@ -90,15 +95,18 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="offset"></param>
         /// <param name="len"></param>
         /// <returns></returns>
-        public static string ToStringUTF8(byte[] x, int offset, int len) {
+        public static string ToStringUTF8(byte[] x, int offset, int len)
+        {
             return Hjg.Pngcs.PngHelperInternal.charsetUtf8.GetString(x, offset, len);
         }
+
         /// <summary>
         /// Writes full array of bytes to stream
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="bytes"></param>
-        public static void WriteBytesToStream(Stream stream, byte[] bytes) {
+        public static void WriteBytesToStream(Stream stream, byte[] bytes)
+        {
             stream.Write(bytes, 0, bytes.Length);
         }
 
@@ -107,7 +115,8 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static bool IsCritical(string id) {
+        public static bool IsCritical(string id)
+        {
             // first letter is uppercase
             return (Char.IsUpper(id[0]));
         }
@@ -117,15 +126,18 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static bool IsPublic(string id) { // public chunk?
+        public static bool IsPublic(string id)
+        { // public chunk?
             return (Char.IsUpper(id[1]));
         }
+
         /// <summary>
         /// Safe to copy chunk: fourth letter is lower case
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static bool IsSafeToCopy(string id) { // safe to copy?
+        public static bool IsSafeToCopy(string id)
+        { // safe to copy?
             // fourth letter is lower case
             return (!Char.IsUpper(id[3]));
         }
@@ -135,7 +147,8 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         /// <param name="chunk"></param>
         /// <returns></returns>
-        public static bool IsUnknown(PngChunk chunk) {
+        public static bool IsUnknown(PngChunk chunk)
+        {
             return chunk is PngChunkUNKNOWN;
         }
 
@@ -144,7 +157,8 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns>-1 if not found</returns>
-        public static int PosNullByte(byte[] bytes) {
+        public static int PosNullByte(byte[] bytes)
+        {
             for (int i = 0; i < bytes.Length; i++)
                 if (bytes[i] == 0)
                     return i;
@@ -157,29 +171,37 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="id"></param>
         /// <param name="behav"></param>
         /// <returns></returns>
-        public static bool ShouldLoad(string id, ChunkLoadBehaviour behav) {
+        public static bool ShouldLoad(string id, ChunkLoadBehaviour behav)
+        {
             if (IsCritical(id))
                 return true;
             bool kwown = PngChunk.isKnown(id);
-            switch (behav) {
+            switch (behav)
+            {
                 case ChunkLoadBehaviour.LOAD_CHUNK_ALWAYS:
-                    return true;
+                return true;
+
                 case ChunkLoadBehaviour.LOAD_CHUNK_IF_SAFE:
-                    return kwown || IsSafeToCopy(id);
+                return kwown || IsSafeToCopy(id);
+
                 case ChunkLoadBehaviour.LOAD_CHUNK_KNOWN:
-                    return kwown;
+                return kwown;
+
                 case ChunkLoadBehaviour.LOAD_CHUNK_NEVER:
-                    return false;
+                return false;
             }
             return false; // should not reach here
         }
 
-        internal static byte[] compressBytes(byte[] ori, bool compress) {
+        internal static byte[] compressBytes(byte[] ori, bool compress)
+        {
             return compressBytes(ori, 0, ori.Length, compress);
         }
 
-        internal static byte[] compressBytes(byte[] ori, int offset, int len, bool compress) {
-            try {
+        internal static byte[] compressBytes(byte[] ori, int offset, int len, bool compress)
+        {
+            try
+            {
                 MemoryStream inb = new MemoryStream(ori, offset, len);
                 Stream inx = inb;
                 if (!compress) inx = ZlibStreamFactory.createZlibInputStream(inb);
@@ -191,20 +213,25 @@ namespace Hjg.Pngcs.Chunks {
                 outx.Close();
                 byte[] res = outb.ToArray();
                 return res;
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 throw new PngjException(e);
             }
         }
 
-        private static void shovelInToOut(Stream inx, Stream outx) {
+        private static void shovelInToOut(Stream inx, Stream outx)
+        {
             byte[] buffer = new byte[1024];
             int len;
-            while ((len = inx.Read(buffer, 0, 1024)) > 0) {
+            while ((len = inx.Read(buffer, 0, 1024)) > 0)
+            {
                 outx.Write(buffer, 0, len);
             }
         }
 
-        internal static bool maskMatch(int v, int mask) {
+        internal static bool maskMatch(int v, int mask)
+        {
             return (v & mask) != 0;
         }
 
@@ -215,15 +242,19 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="list"></param>
         /// <param name="predicateKeep"></param>
         /// <returns></returns>
-        public static List<PngChunk> FilterList(List<PngChunk> list, ChunkPredicate predicateKeep) {
+        public static List<PngChunk> FilterList(List<PngChunk> list, ChunkPredicate predicateKeep)
+        {
             List<PngChunk> result = new List<PngChunk>();
-            foreach (PngChunk element in list) {
-                if (predicateKeep.Matches(element)) {
+            foreach (PngChunk element in list)
+            {
+                if (predicateKeep.Matches(element))
+                {
                     result.Add(element);
                 }
             }
             return result;
         }
+
         /// <summary>
         /// Filters a list of Chunks, removing those which match the predicate
         /// </summary>
@@ -231,17 +262,19 @@ namespace Hjg.Pngcs.Chunks {
         /// <param name="list"></param>
         /// <param name="predicateRemove"></param>
         /// <returns></returns>
-        public static int TrimList(List<PngChunk> list, ChunkPredicate predicateRemove) {
+        public static int TrimList(List<PngChunk> list, ChunkPredicate predicateRemove)
+        {
             int cont = 0;
-            for (int i = list.Count - 1; i >= 0; i--) {
-                if (predicateRemove.Matches(list[i])) {
+            for (int i = list.Count - 1; i >= 0; i--)
+            {
+                if (predicateRemove.Matches(list[i]))
+                {
                     list.RemoveAt(i);
                     cont++;
                 }
             }
             return cont;
         }
-
 
         /// <summary>
         /// Ad-hoc criteria for 'equivalent' chunks.
@@ -254,11 +287,12 @@ namespace Hjg.Pngcs.Chunks {
         /// Bear in mind that this is an ad-hoc, non-standard, nor required (nor wrong)
         /// criterion. Use it only if you find it useful. Notice that PNG allows to have
         /// repeated textual keys with same keys.
-        /// </remarks>        
+        /// </remarks>
         /// <param name="c1">Chunk1</param>
         /// <param name="c2">Chunk1</param>
         /// <returns>true if equivalent</returns>
-        public static bool Equivalent(PngChunk c1, PngChunk c2) {
+        public static bool Equivalent(PngChunk c1, PngChunk c2)
+        {
             if (c1 == c2)
                 return true;
             if (c1 == null || c2 == null || !c1.Id.Equals(c2.Id))
@@ -268,19 +302,21 @@ namespace Hjg.Pngcs.Chunks {
                 return false; // should not happen
             if (!c2.AllowsMultiple())
                 return true;
-            if (c1 is PngChunkTextVar) {
+            if (c1 is PngChunkTextVar)
+            {
                 return ((PngChunkTextVar)c1).GetKey().Equals(((PngChunkTextVar)c2).GetKey());
             }
-            if (c1 is PngChunkSPLT) {
+            if (c1 is PngChunkSPLT)
+            {
                 return ((PngChunkSPLT)c1).PalName.Equals(((PngChunkSPLT)c2).PalName);
             }
             // unknown chunks that allow multiple? consider they don't match
             return false;
         }
 
-	public static bool IsText(PngChunk c) {
-		return c is PngChunkTextVar;
-	}
-
+        public static bool IsText(PngChunk c)
+        {
+            return c is PngChunkTextVar;
+        }
     }
 }

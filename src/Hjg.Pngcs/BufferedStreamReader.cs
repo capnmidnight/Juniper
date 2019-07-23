@@ -1,12 +1,10 @@
-using Hjg.Pngcs;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using Hjg.Pngcs;
 
 namespace Ar.Com.Hjg.Pngcs
 {
-    class BufferedStreamFeeder
+    internal class BufferedStreamFeeder
     {
         private Stream _stream;
         private byte[] buf;
@@ -17,14 +15,15 @@ namespace Ar.Com.Hjg.Pngcs
         private bool failIfNoFeed = false;
         private const int DEFAULTSIZE = 8192;
 
-       	public BufferedStreamFeeder(Stream ist) : this(ist,DEFAULTSIZE) {
-	    }
+        public BufferedStreamFeeder(Stream ist) : this(ist, DEFAULTSIZE)
+        {
+        }
 
-    	public BufferedStreamFeeder(Stream ist, int bufsize) {
-	    	this._stream = ist;
-	    	buf = new byte[bufsize];
-	    }
-
+        public BufferedStreamFeeder(Stream ist, int bufsize)
+        {
+            this._stream = ist;
+            buf = new byte[bufsize];
+        }
 
         /// <summary>
         /// Stream from which bytes are read
@@ -33,8 +32,9 @@ namespace Ar.Com.Hjg.Pngcs
         {
             return _stream;
         }
+
         /// <summary>
-        /// Feeds bytes to the consumer 
+        /// Feeds bytes to the consumer
         ///  Returns bytes actually consumed
         ///  This should return 0 only if the stream is EOF or the consumer is done
         /// </summary>
@@ -88,7 +88,7 @@ namespace Ar.Com.Hjg.Pngcs
             {
                 // try to read
                 offset = 0;
-                pendinglen = _stream.Read(buf,0,buf.Length);
+                pendinglen = _stream.Read(buf, 0, buf.Length);
                 if (pendinglen < 0)
                 {
                     close();
@@ -135,10 +135,11 @@ namespace Ar.Com.Hjg.Pngcs
             _stream = null;
         }
 
-       	public void setInputStream(Stream ist) { // to reuse this object
-		    this._stream = ist;
-		    eof = false;
-	    }
+        public void setInputStream(Stream ist)
+        { // to reuse this object
+            this._stream = ist;
+            eof = false;
+        }
 
         public bool isEof()
         {

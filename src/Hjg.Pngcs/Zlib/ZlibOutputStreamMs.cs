@@ -6,10 +6,8 @@ using System.IO;
 using System.IO.Compression;
 // ONLY FOR .NET 4.5
 namespace Hjg.Pngcs.Zlib {
-
    internal class ZlibOutputStream : AZlibOutputStream {
-
-        public ZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen) : base(st, compressLevel, strat, leaveOpen){ 
+        public ZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen) : base(st, compressLevel, strat, leaveOpen){
         }
 
        private DeflateStream deflateStream; // lazily created, if real read/write is called
@@ -52,7 +50,6 @@ namespace Hjg.Pngcs.Zlib {
             rawStream.WriteByte((byte)((crcv) & 0xFF));
             if (!leaveOpen)
                 rawStream.Close();
-
         }
 
         private void initStream() {
@@ -79,7 +76,6 @@ namespace Hjg.Pngcs.Zlib {
                 if (flg < 0) flg += 31;
                 rawStream.WriteByte((byte)cmf);
                 rawStream.WriteByte((byte)flg);
-            
         }
 
         public override void Flush() {
@@ -89,7 +85,6 @@ namespace Hjg.Pngcs.Zlib {
         public override string getImplementationId() {
             return "Zlib deflater: .Net CLR 4.5";
         }
-
     }
 }
 #endif

@@ -1,26 +1,19 @@
 namespace Hjg.Pngcs
 {
-
-    using Hjg.Pngcs.Chunks;
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.IO;
-    using System.Runtime.CompilerServices;
+    using Hjg.Pngcs.Chunks;
 
     /// <summary>
-    /// Bunch of utility static methods to process/analyze an image line. 
-    /// 
+    /// Bunch of utility static methods to process/analyze an image line.
+    ///
     /// Not essential at all, some methods are probably to be removed if future releases.
-    /// 
+    ///
     /// TODO: document this better
-    /// 
+    ///
     /// </summary>
     ///
     public class ImageLineHelper
     {
-
         /// <summary>
         /// Given an indexed line with a palette, unpacks as a RGB array
         /// </summary>
@@ -71,19 +64,19 @@ namespace Hjg.Pngcs
             return ((a) << 24) | ((r) << 16) | ((g) << 8) | (b);
         }
 
-         public static int ToARGB8(int[] buff, int offset, bool alpha)
-         {
+        public static int ToARGB8(int[] buff, int offset, bool alpha)
+        {
             return alpha
                 ? ToARGB8(buff[offset++], buff[offset++], buff[offset++], buff[offset])
                 : ToARGB8(buff[offset++], buff[offset++], buff[offset]);
-         }
+        }
 
-         public static int ToARGB8(byte[] buff, int offset, bool alpha)
-         {
+        public static int ToARGB8(byte[] buff, int offset, bool alpha)
+        {
             return alpha
                 ? ToARGB8(buff[offset++], buff[offset++], buff[offset++], buff[offset])
                 : ToARGB8(buff[offset++], buff[offset++], buff[offset]);
-         }
+        }
 
         public static void FromARGB8(int val, int[] buff, int offset, bool alpha)
         {
@@ -161,8 +154,6 @@ namespace Hjg.Pngcs
                 line.ScanlineB[pos] = (byte)(d * (line.maxSampleVal + 0.99));
         }
 
-
-
         public static int Interpol(int a, int b, int c, int d, double dx, double dy)
         {
             // a b -> x (0-1)
@@ -172,7 +163,6 @@ namespace Hjg.Pngcs
             return (int)(e * (1 - dy) + f * dy + 0.5);
         }
 
-
         public static int ClampTo_0_255(int i)
         {
             return i > 255 ? 255 : (i < 0 ? 0 : i);
@@ -181,6 +171,7 @@ namespace Hjg.Pngcs
         /**
          * [0,1)
          */
+
         public static double ClampDouble(double i)
         {
             return i < 0 ? 0 : (i >= 1 ? 0.999999 : i);
@@ -245,6 +236,5 @@ namespace Hjg.Pngcs
                 Array.Copy(src, 0, dst, 0, len0);
             return dst;
         }
-
     }
 }

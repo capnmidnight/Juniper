@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Hjg.Pngcs.Chunks {
+namespace Hjg.Pngcs.Chunks
+{
     /// <summary>
     /// Behaviours for chunks transfer when reading and writing.
     /// </summary>
     /// <remarks>
     /// They are bitmasks, can be OR-ed
     /// </remarks>
-    public class ChunkCopyBehaviour {
-
+    public class ChunkCopyBehaviour
+    {
         /// <summary>
         /// Don't copy any chunk
         /// </summary>
@@ -36,7 +33,6 @@ namespace Hjg.Pngcs.Chunks {
         /// </summary>
         public static readonly int COPY_PHYS = 1 << 4;
 
-
         /// <summary>
         /// Copy all textual chunks (not safe)
         /// </summary>
@@ -46,7 +42,6 @@ namespace Hjg.Pngcs.Chunks {
         /// Copy transparency (not safe)
         /// </summary>
         public static readonly int COPY_TRANSPARENCY = 1 << 6; //
-
 
         /// <summary>
         /// Copy chunks unknown by our factory

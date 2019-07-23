@@ -1,17 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
-namespace Hjg.Pngcs.Zlib {
-
-    public abstract class AZlibOutputStream : Stream {
+namespace Hjg.Pngcs.Zlib
+{
+    public abstract class AZlibOutputStream : Stream
+    {
         readonly protected Stream rawStream;
         readonly protected bool leaveOpen;
         protected int compressLevel;
         protected EDeflateCompressStrategy strategy;
 
-        public AZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen) {
+        public AZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen)
+        {
             rawStream = st;
             this.leaveOpen = leaveOpen;
             strategy = strat;
@@ -20,54 +20,64 @@ namespace Hjg.Pngcs.Zlib {
 
         protected override void Dispose(bool disposing)
         {
-            if(disposing && !leaveOpen)
+            if (disposing && !leaveOpen)
             {
                 rawStream.Dispose();
             }
             base.Dispose(disposing);
         }
 
-        public override void SetLength(long value) {
+        public override void SetLength(long value)
+        {
             throw new NotImplementedException();
         }
 
-
-        public override bool CanSeek {
+        public override bool CanSeek
+        {
             get { return false; }
         }
 
-        public override long Seek(long offset, SeekOrigin origin) {
+        public override long Seek(long offset, SeekOrigin origin)
+        {
             throw new NotImplementedException();
         }
 
-        public override long Position {
-            get {
+        public override long Position
+        {
+            get
+            {
                 throw new NotImplementedException();
             }
-            set {
+            set
+            {
                 throw new NotImplementedException();
             }
         }
 
-        public override long Length {
+        public override long Length
+        {
             get { throw new NotImplementedException(); }
         }
 
-
-        public override int Read(byte[] buffer, int offset, int count) {
+        public override int Read(byte[] buffer, int offset, int count)
+        {
             throw new NotImplementedException();
         }
 
-        public override bool CanRead {
+        public override bool CanRead
+        {
             get { return false; }
         }
 
-        public override bool CanWrite {
+        public override bool CanWrite
+        {
             get { return true; }
         }
 
-        public override bool CanTimeout {
-            get {
+        public override bool CanTimeout
+        {
+            get
+            {
                 return false;
             }
         }

@@ -1,6 +1,5 @@
 namespace Hjg.Pngcs
 {
-
     using System;
     using System.Runtime.Serialization;
 

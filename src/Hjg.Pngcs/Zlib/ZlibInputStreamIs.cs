@@ -1,49 +1,49 @@
 #if !NETFX_CORE
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using System.IO.Compression;
-
 
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
+
 // ONLY IF SHARPZIPLIB IS AVAILABLE
 
-namespace Hjg.Pngcs.Zlib {
-
-
+namespace Hjg.Pngcs.Zlib
+{
     /// <summary>
     /// Zip input (inflater) based on ShaprZipLib
     /// </summary>
-    class ZlibInputStream : AZlibInputStream {
-
+    internal class ZlibInputStream : AZlibInputStream
+    {
         private InflaterInputStream ist;
 
         public ZlibInputStream(Stream st, bool leaveOpen)
-            : base(st, leaveOpen) {
+            : base(st, leaveOpen)
+        {
             ist = new InflaterInputStream(st);
             ist.IsStreamOwner = !leaveOpen;
         }
 
-        public override int Read(byte[] array, int offset, int count) {
+        public override int Read(byte[] array, int offset, int count)
+        {
             return ist.Read(array, offset, count);
         }
 
-        public override int ReadByte() {
+        public override int ReadByte()
+        {
             return ist.ReadByte();
         }
 
-        public override void Close() {
+        public override void Close()
+        {
             ist.Close();
         }
 
-
-        public override void Flush() {
+        public override void Flush()
+        {
             ist.Flush();
         }
 
-        public override string GetImplementationId() {
+        public override string GetImplementationId()
+        {
             return "Zlib inflater: SharpZipLib";
         }
     }

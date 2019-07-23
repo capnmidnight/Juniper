@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Hjg.Pngcs.Chunks
 {
     /// <summary>
@@ -13,14 +9,15 @@ namespace Hjg.Pngcs.Chunks
     /// </remarks>
     internal class ChunkPredicateId2 : ChunkPredicate
     {
-
         private readonly string id;
         private readonly string innerid;
+
         public ChunkPredicateId2(string id, string inner)
         {
             this.id = id;
             this.innerid = inner;
         }
+
         public bool Matches(PngChunk c)
         {
             if (!c.Id.Equals(id))
@@ -32,6 +29,5 @@ namespace Hjg.Pngcs.Chunks
 
             return true;
         }
-
     }
 }

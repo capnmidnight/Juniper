@@ -1,6 +1,5 @@
 namespace Hjg.Pngcs
 {
-
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -26,6 +25,7 @@ namespace Hjg.Pngcs
         {
             public readonly int len;
             public readonly long offset;
+
             public IdatChunkInfo(int len_0, long offset_1)
             {
                 len = len_0;
@@ -33,10 +33,23 @@ namespace Hjg.Pngcs
             }
         }
 
-        public override void Write(byte[] buffer, int offset, int count) { }
-        public override void SetLength(long value) { }
-        public override long Seek(long offset, SeekOrigin origin) { return -1; }
-        public override void Flush() { }
+        public override void Write(byte[] buffer, int offset, int count)
+        {
+        }
+
+        public override void SetLength(long value)
+        {
+        }
+
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            return -1;
+        }
+
+        public override void Flush()
+        {
+        }
+
         public override long Position { get; set; }
         public override long Length { get { return 0; } }
         public override bool CanWrite { get { return false; } }
@@ -146,7 +159,7 @@ namespace Hjg.Pngcs
         }
 
         /// <summary>
-        /// This can return less than len, but never 0 Returns -1 nothing more to read, -2 if "pseudo file" 
+        /// This can return less than len, but never 0 Returns -1 nothing more to read, -2 if "pseudo file"
         /// ended prematurely. That is our error.
         /// </summary>
         ///
