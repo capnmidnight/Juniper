@@ -1,7 +1,27 @@
-namespace Juniper.Google.Maps.Geocoding
+namespace Juniper.Google.Maps
 {
     public struct USAddress
     {
+        public static explicit operator string(USAddress value)
+        {
+            return value.ToString();
+        }
+
+        public static bool operator ==(USAddress left, USAddress right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(USAddress left, USAddress right)
+        {
+            return !(left == right);
+        }
+
+        public static implicit operator PlaceName(USAddress address)
+        {
+            return (PlaceName)address.ToString();
+        }
+
         private readonly string street;
         private readonly string city;
         private readonly string state;
@@ -23,19 +43,16 @@ namespace Juniper.Google.Maps.Geocoding
             return string.Join(", ", street, city, state, zip);
         }
 
-        public static explicit operator string(USAddress value)
-        {
-            return value.ToString();
-        }
-
         public override bool Equals(object obj)
         {
             return obj != null
-                && obj is USAddress add
-                && add.street.Equals(street)
-                && add.city.Equals(city)
-                && add.state.Equals(state)
-                && add.zip.Equals(zip);
+                && ((obj is USAddress add
+                        && add.street.Equals(street)
+                        && add.city.Equals(city)
+                        && add.state.Equals(state)
+                        && add.zip.Equals(zip))
+                    || (obj is PlaceName name
+                        && name == this));
         }
 
         public override int GetHashCode()
@@ -44,16 +61,6 @@ namespace Juniper.Google.Maps.Geocoding
                 ^ city.GetHashCode()
                 ^ state.GetHashCode()
                 ^ zip.GetHashCode();
-        }
-
-        public static bool operator ==(USAddress left, USAddress right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(USAddress left, USAddress right)
-        {
-            return !(left == right);
         }
     }
 }

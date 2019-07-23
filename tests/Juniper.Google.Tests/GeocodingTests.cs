@@ -14,7 +14,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task BasicGeocoding()
         {
-            var search = new GeocodingSearch("4909 Rutland Place, Alexandria, VA 22304");
+            var search = new GeocodingSearch((PlaceName)"4909 Rutland Place, Alexandria, VA 22304");
             var results = await service.Get(search);
             Assert.IsTrue(service.IsCached(search));
             Assert.IsNotNull(results);
@@ -26,7 +26,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task BasicComponentFilter()
         {
-            var search = new GeocodingSearch("High St, Hastings");
+            var search = new GeocodingSearch((PlaceName)"High St, Hastings");
             search.SetCountryFilter("GB");
             var results = await service.Get(search);
             Assert.IsTrue(service.IsCached(search));

@@ -43,14 +43,16 @@
     <Compile Include="Maps\Geocoding\GeocodingResult.cs" />
     <Compile Include="Maps\Geocoding\GeocodingResults.cs" />
     <Compile Include="Maps\Geocoding\AbstractGeocodingSearch.cs" />
+    <Compile Include="Maps\Geocoding\LocationTypes.cs" />
     <Compile Include="Maps\Geocoding\ReverseGeocodingSearch.cs" />
     <Compile Include="Maps\Geocoding\GeocodingSearch.cs" />
     <Compile Include="Maps\Geocoding\AddressComponentType.cs" />
     <Compile Include="Maps\Geocoding\GeometryLocationType.cs" />
     <Compile Include="Maps\Geocoding\GeometryResult.cs" />
     <Compile Include="Maps\Geocoding\GeometryViewport.cs" />
-    <Compile Include="Maps\Geocoding\USAddress.cs" />
+    <Compile Include="Maps\USAddress.cs" />
     <Compile Include="Maps\Endpoint.cs" />
+    <Compile Include="Maps\MapTiles\LocationTypes.cs" />
     <Compile Include="Maps\MapTiles\MapImageType.cs" />
     <Compile Include="Maps\MapTiles\LinePath.cs" />
     <Compile Include="Maps\MapTiles\Marker.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Maps\MapTiles\TileSearch.ImageFormat.cs" />
     <Compile Include="Maps\StreetView\CubeMapSearch.cs" />
     <Compile Include="Maps\StreetView\ImageSearch.cs" />
+    <Compile Include="Maps\StreetView\LocationTypes.cs" />
     <Compile Include="Maps\StreetView\Metadata.cs" />
     <Compile Include="Maps\StreetView\MetadataSearch.cs" />
     <Compile Include="Maps\PlaceName.cs" />

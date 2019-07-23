@@ -9,55 +9,87 @@ namespace Juniper.Google.Maps.StreetView
 {
     public class ImageSearch : AbstractStreetViewSearch<RawImage>
     {
-        public ImageSearch(PanoID pano, int width, int height)
+        public static ImageSearch Create(LocationTypes locationType, object value, Size size)
+        {
+            switch (locationType)
+            {
+                case LocationTypes.PanoID: return new ImageSearch((PanoID)value, size);
+                case LocationTypes.PlaceName: return new ImageSearch((PlaceName)value, size);
+                case LocationTypes.LatLngPoint: return new ImageSearch((LatLngPoint)value, size);
+                default: return default;
+            }
+        }
+
+        public static ImageSearch Create(LocationTypes locationType, object value, int width, int height)
+        {
+            return Create(locationType, value, new Size(width, height));
+        }
+
+        public ImageSearch(PanoID pano, Size size)
             : base("streetview", "image/jpeg", "jpeg", pano)
         {
-            SetSize(width, height);
+            SetSize(size);
+        }
+
+        public ImageSearch(PanoID pano, int width, int height)
+            : this(pano, new Size(width, height))
+        {
+        }
+
+        public ImageSearch(PlaceName placeName, Size size)
+            : base("streetview", "image/jpeg", "jpeg", placeName)
+        {
+            SetSize(size);
         }
 
         public ImageSearch(PlaceName placeName, int width, int height)
-            : base("streetview", "image/jpeg", "jpeg", placeName)
+            : this(placeName, new Size(width, height))
         {
-            SetSize(width, height);
+        }
+
+        public ImageSearch(LatLngPoint location, Size size)
+            : base("streetview", "image/jpeg", "jpeg", location)
+        {
+            SetSize(size);
         }
 
         public ImageSearch(LatLngPoint location, int width, int height)
-            : base("streetview", "image/jpeg", "jpeg", location)
+            : this(location, new Size(width, height))
         {
             SetSize(width, height);
         }
 
-        public ImageSearch SetSize(int width, int height)
+        public void SetSize(Size size)
         {
-            SetQuery("size", $"{width}x{height}");
-            return this;
+            SetQuery(nameof(size), size);
         }
 
-        public ImageSearch SetHeading(Heading heading)
+        public void SetSize(int width, int height)
+        {
+            SetSize(new Size(width, height));
+        }
+
+        public void SetHeading(Heading heading)
         {
             SetQuery(nameof(heading), (int)heading);
-            return this;
         }
 
-        public ImageSearch SetPitch(Pitch pitch)
+        public void SetPitch(Pitch pitch)
         {
             SetQuery(nameof(pitch), (int)pitch);
-            return this;
         }
 
-        public ImageSearch SetRadius(int radius)
+        public void SetRadius(int radius)
         {
             SetQuery(nameof(radius), radius);
-            return this;
         }
 
-        public ImageSearch SetSource(bool outdoorOnly)
+        public void SetSource(bool outdoorOnly)
         {
             if (outdoorOnly)
             {
                 SetQuery("source", "outdoor");
             }
-            return this;
         }
 
         public bool FlipImage { get; set; }

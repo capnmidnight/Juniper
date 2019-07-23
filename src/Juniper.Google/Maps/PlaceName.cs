@@ -2,6 +2,16 @@ namespace Juniper.Google.Maps
 {
     public struct PlaceName
     {
+        public static explicit operator string(PlaceName value)
+        {
+            return value.ToString();
+        }
+
+        public static explicit operator PlaceName(string placeName)
+        {
+            return new PlaceName(placeName);
+        }
+
         private readonly string place;
 
         public PlaceName(string place)
@@ -12,11 +22,6 @@ namespace Juniper.Google.Maps
         public override string ToString()
         {
             return place;
-        }
-
-        public static explicit operator string(PlaceName value)
-        {
-            return value.ToString();
         }
 
         public override int GetHashCode()
@@ -37,11 +42,6 @@ namespace Juniper.Google.Maps
         public static bool operator !=(PlaceName left, PlaceName right)
         {
             return !(left == right);
-        }
-
-        public static explicit operator PlaceName(string placeName)
-        {
-            return new PlaceName(placeName);
         }
     }
 }

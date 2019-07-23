@@ -6,19 +6,29 @@ namespace Juniper.Google.Maps.Geocoding
 {
     public class GeocodingSearch : AbstractGeocodingSearch
     {
+        public static GeocodingSearch Create(LocationTypes locationType, object value)
+        {
+            switch (locationType)
+            {
+                case LocationTypes.None: return new GeocodingSearch();
+                case LocationTypes.PlaceName: return new GeocodingSearch((PlaceName)value);
+                default: return default;
+            }
+        }
+
         private readonly Dictionary<AddressComponentType, string> components = new Dictionary<AddressComponentType, string>();
 
-        private GeocodingSearch()
-            : base() { }
+        public GeocodingSearch()
+        {
+        }
 
-        public GeocodingSearch(string address)
+        private GeocodingSearch(string address)
             : base(nameof(address), address) { }
 
-        public GeocodingSearch(USAddress address)
+        public GeocodingSearch(PlaceName address)
             : this((string)address) { }
 
-        public GeocodingSearch(Dictionary<AddressComponentType, string> components)
-            : this()
+        public GeocodingSearch(IDictionary<AddressComponentType, string> components)
         {
             foreach (var kv in components)
             {

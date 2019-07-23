@@ -19,6 +19,11 @@ namespace Juniper.Google.Maps.StreetView
             return value.ToString();
         }
 
+        public static explicit operator PanoID(string value)
+        {
+            return new PanoID(value);
+        }
+
         public override int GetHashCode()
         {
             return id.GetHashCode();

@@ -11,6 +11,21 @@ namespace Juniper.Google.Maps.MapTiles
 {
     public partial class TileSearch : AbstractMapsSearch<RawImage>
     {
+        public static TileSearch Create(LocationTypes locationType, object value, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
+        {
+            switch (locationType)
+            {
+                case LocationTypes.LatLngPoint: return new TileSearch((LatLngPoint)value, zoom, size, format);
+                case LocationTypes.PlaceName: return new TileSearch((PlaceName)value, zoom, size, format);
+                default: return default;
+            }
+        }
+
+        public static TileSearch Create(LocationTypes locationType, object value, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
+        {
+            return Create(locationType, value, zoom, new Size(width, height), format);
+        }
+
         private readonly List<Marker> markers = new List<Marker>();
         private LinePath path;
 
@@ -27,13 +42,13 @@ namespace Juniper.Google.Maps.MapTiles
         }
 
         private TileSearch(string center, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
-            : this(center, zoom, size, FORMAT_DESCRIPTIONS[format]) { }
+            : this(center, zoom, size, FORMAT_DESCRIPTIONS.Get(format, FORMAT_DESCRIPTIONS[TileImageFormat.PNG8])) { }
 
         public TileSearch(PlaceName address, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
-            : this(address.ToString(), zoom, size, FORMAT_DESCRIPTIONS[format]) { }
+            : this((string)address, zoom, size, FORMAT_DESCRIPTIONS[format]) { }
 
         public TileSearch(PlaceName address, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
-            : this(address.ToString(), zoom, new Size(width, height), format) { }
+            : this((string)address, zoom, new Size(width, height), format) { }
 
         public TileSearch(LatLngPoint center, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
             : this(center.ToCSV(), zoom, size, format) { }
