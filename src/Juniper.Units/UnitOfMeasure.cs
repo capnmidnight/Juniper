@@ -44,6 +44,7 @@ namespace Juniper.Units
         /// One thousandth of a meter.
         /// </summary>
         Millimeters,
+
         SquareMillimeters,
         CubicMillimeters,
 
@@ -51,6 +52,7 @@ namespace Juniper.Units
         /// One hundredth of a meter.
         /// </summary>
         Centimeters,
+
         SquareCentimeters,
         CubicCentimeters,
 
@@ -58,6 +60,7 @@ namespace Juniper.Units
         /// The default measure in Unity.
         /// </summary>
         Meters,
+
         SquareMeters,
         CubicMeters,
 
@@ -65,6 +68,7 @@ namespace Juniper.Units
         /// An arcane measure for traveling distance.
         /// </summary>
         Kilometers,
+
         SquareKilometers,
         CubicKilometers,
 
@@ -72,6 +76,7 @@ namespace Juniper.Units
         /// A convenient measure for things that fit in your hand.
         /// </summary>
         Inches,
+
         SquareInches,
         CubicInches,
 
@@ -79,6 +84,7 @@ namespace Juniper.Units
         /// A convenient measure for distances within arm reach.
         /// </summary>
         Feet,
+
         SquareFeet,
         CubicFeet,
 
@@ -86,6 +92,7 @@ namespace Juniper.Units
         /// A weird way to measure traveling distance.
         /// </summary>
         Miles,
+
         SquareMiles,
         CubicMiles,
 

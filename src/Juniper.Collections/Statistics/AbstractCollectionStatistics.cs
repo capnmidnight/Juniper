@@ -625,7 +625,6 @@ namespace Juniper.Collections.Statistics
             }
         }
 
-
         /// <summary>
         /// Coalesces null values for performing <see cref="LessThan(T, T)"/>.
         /// </summary>

@@ -11,7 +11,6 @@ namespace Juniper.Google.Maps.MapTiles
             { TileImageFormat.GIF, new ImageFormat( "image/gif", "gif", "gif") },
             { TileImageFormat.JPEG, new ImageFormat( "image/jpeg", "jpeg", "jpg") },
             { TileImageFormat.JPEGBaseline, new ImageFormat( "image/jpeg", "jpeg", "jpg-baseline") }
-
         };
 
         private struct ImageFormat
@@ -36,12 +35,12 @@ namespace Juniper.Google.Maps.MapTiles
                     && gmapsFieldValue == f.gmapsFieldValue;
             }
 
-            public static bool operator==(ImageFormat left, ImageFormat right)
+            public static bool operator ==(ImageFormat left, ImageFormat right)
             {
                 return left.Equals(right);
             }
 
-            public static bool operator!=(ImageFormat left, ImageFormat right)
+            public static bool operator !=(ImageFormat left, ImageFormat right)
             {
                 return !(left == right);
             }

@@ -48,7 +48,7 @@ namespace Juniper.Google.Maps.Geocoding
 
         public void AddLocationType(GeometryLocationType value)
         {
-            if(value != GeometryLocationType.Unknown)
+            if (value != GeometryLocationType.Unknown)
             {
                 location_type.Add(value);
                 SetQuery(nameof(location_type), location_type.ToString("|"));

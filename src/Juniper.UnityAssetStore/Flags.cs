@@ -13,7 +13,7 @@ namespace Juniper.UnityAssetStore
         protected Flags(SerializationInfo info, StreamingContext context)
         {
             flags = new List<string>();
-            foreach(var field in info)
+            foreach (var field in info)
             {
                 flags.Add(field.Name);
             }
@@ -21,7 +21,7 @@ namespace Juniper.UnityAssetStore
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            foreach(var flag in flags)
+            foreach (var flag in flags)
             {
                 info.AddValue(flag, 1);
             }
@@ -54,7 +54,7 @@ namespace Juniper.UnityAssetStore
 
         public void CopyTo(string[] array, int arrayIndex)
         {
-            for(int i = 0; i < flags.Count; ++i)
+            for (int i = 0; i < flags.Count; ++i)
             {
                 array[arrayIndex + i] = flags[i];
             }

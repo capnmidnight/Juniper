@@ -39,6 +39,7 @@ namespace Juniper.Units
         /// Measures of displacement.
         /// </summary>
         Length,
+
         Area,
         Volume,
 
@@ -46,6 +47,7 @@ namespace Juniper.Units
         /// Very small measures of displacement.
         /// </summary>
         VeryShortLength,
+
         VerySmallArea,
         VerySmallVolume,
 
@@ -53,6 +55,7 @@ namespace Juniper.Units
         /// Small measures of displacement.
         /// </summary>
         ShortLength,
+
         SmallArea,
         SmallVolume,
 
@@ -60,6 +63,7 @@ namespace Juniper.Units
         /// Long measures of displacement.
         /// </summary>
         LongLength,
+
         LargeArea,
         LargeVolume,
 
@@ -67,6 +71,7 @@ namespace Juniper.Units
         /// Measures of displacement.
         /// </summary>
         Distance,
+
         LandMass,
         HugeVolume,
 

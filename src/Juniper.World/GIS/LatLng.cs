@@ -53,7 +53,7 @@ namespace Juniper.Units
             double sinPhi = Math.Sin(phi);
             double cosPhi = Math.Cos(phi);
             double sin2Phi = 2 * sinPhi * cosPhi;
-            double cos2Phi = 2 * cosPhi * cosPhi -1;
+            double cos2Phi = 2 * cosPhi * cosPhi - 1;
             double sin4Phi = 2 * sin2Phi * cos2Phi;
             double cos4Phi = 2 * cos2Phi * cos2Phi - 1;
             double sin6Phi = sin4Phi * cos2Phi + cos4Phi * sin2Phi;
@@ -84,14 +84,12 @@ namespace Juniper.Units
             var easting = k0 * N * A * x4;
             easting += DatumWGS_84.E0;
 
-
             // Northing
             double northing = k0 * (M + N * tanPhi * (Asqr * (1 / 2.0 + Asqr * ((5 - T + 9 * C + 4 * C * C) / 24.0 + Asqr * (61 - 58 * T + Tsqr + 600 * C - 330 * DatumWGS_84.e0sq) / 720.0))));
             if (hemisphere == UTMPoint.GlobeHemisphere.Southern)
             {
                 northing = 10000000.0 + northing;
             }
-
 
             return new UTMPoint(
                 (float)easting,

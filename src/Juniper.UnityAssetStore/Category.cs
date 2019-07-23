@@ -1,8 +1,6 @@
 using System;
 using System.Runtime.Serialization;
 
-using Juniper.Serialization;
-
 namespace Juniper.UnityAssetStore
 {
     [Serializable]
@@ -33,9 +31,9 @@ namespace Juniper.UnityAssetStore
 
         protected Category(SerializationInfo info, StreamingContext context)
         {
-            foreach(var field in info)
+            foreach (var field in info)
             {
-                switch(field.Name)
+                switch (field.Name)
                 {
                     case nameof(id):
                     id = info.GetString(nameof(id));

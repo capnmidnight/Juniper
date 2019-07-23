@@ -44,7 +44,7 @@ namespace Juniper.Progress
                 {
                     return stream;
                 }
-                else if(ersatzStream == null)
+                else if (ersatzStream == null)
                 {
                     ersatzStream = new MemoryStream();
                     using (stream)
@@ -241,7 +241,7 @@ namespace Juniper.Progress
         public override int ReadByte()
         {
             var b = EitherStream.ReadByte();
-            if(b > -1)
+            if (b > -1)
             {
                 ++currentPosition;
             }
@@ -283,4 +283,3 @@ namespace Juniper.Progress
         }
     }
 }
-

@@ -1,11 +1,11 @@
+using System;
+using System.Net;
+using System.Runtime.Serialization;
 using Juniper.Climate;
 using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.Units;
 using Juniper.World.GIS;
-using System;
-using System.Runtime.Serialization;
-using System.Net;
 
 namespace Juniper.World.Climate.OpenWeatherMap
 {
@@ -89,7 +89,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
 
             if (lastReportJSON != null)
             {
-                if(deserializer.TryDeserialize<WeatherReport>(lastReportJSON, out var report))
+                if (deserializer.TryDeserialize<WeatherReport>(lastReportJSON, out var report))
                 {
                     LastReport = report;
                 }

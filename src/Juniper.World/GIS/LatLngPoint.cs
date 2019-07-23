@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Juniper.World.GIS
@@ -119,7 +118,7 @@ namespace Juniper.World.GIS
         {
             var parts = value.Split(',');
             float lat, lng;
-            if(parts.Length != 2
+            if (parts.Length != 2
                 || !TryParseDMS(parts[0], out lat)
                 || !TryParseDMS(parts[1], out lng))
             {
@@ -135,7 +134,7 @@ namespace Juniper.World.GIS
 
         public static LatLngPoint ParseDMSPair(string value)
         {
-            if(TryParseDMSPair(value, out var point))
+            if (TryParseDMSPair(value, out var point))
             {
                 return point;
             }

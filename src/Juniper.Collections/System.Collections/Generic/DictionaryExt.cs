@@ -54,7 +54,7 @@ namespace System.Collections.Generic
         public static Dictionary<B, A> Invert<A, B>(this IDictionary<A, B> dict)
         {
             var dict2 = new Dictionary<B, A>();
-            foreach(var kv in dict)
+            foreach (var kv in dict)
             {
                 dict2[kv.Value] = kv.Key;
             }

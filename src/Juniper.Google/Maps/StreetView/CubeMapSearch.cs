@@ -61,7 +61,7 @@ namespace Juniper.Google.Maps.StreetView
             }
             set
             {
-                foreach(var search in subSearches)
+                foreach (var search in subSearches)
                 {
                     search.FlipImage = value;
                 }

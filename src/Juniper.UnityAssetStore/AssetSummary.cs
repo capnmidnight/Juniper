@@ -31,7 +31,6 @@ namespace Juniper.UnityAssetStore
             }
         }
 
-
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (!string.IsNullOrEmpty(category))

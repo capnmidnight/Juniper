@@ -38,7 +38,6 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var res = results.results.FirstOrDefault();
             Assert.IsNotNull(res);
             Assert.AreEqual("High St, Hastings TN34, UK", res.formatted_address);
-
         }
 
         [TestMethod]
@@ -77,7 +76,6 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var res = results.results.FirstOrDefault();
             var type = res.types.FirstOrDefault();
             Assert.AreEqual(AddressComponentType.premise, type);
-
         }
 
         [TestMethod]
@@ -103,7 +101,6 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             Assert.IsNotNull(streetNumber);
             Assert.AreEqual("4909", streetNumber.long_name);
             Assert.AreEqual("4909", streetNumber.short_name);
-
         }
 
         [TestMethod]
@@ -118,7 +115,6 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             Assert.IsNotNull(route);
             Assert.AreEqual("Rutland Place", route.long_name);
             Assert.AreEqual("Rutland Pl", route.short_name);
-
         }
 
         [TestMethod]
@@ -165,7 +161,6 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             Assert.AreSame(neighborhood, simpNeighborhood);
             Assert.AreEqual("Seminary Hill", neighborhood.long_name);
             Assert.AreEqual("Seminary Hill", neighborhood.short_name);
-
         }
 
         [TestMethod]
@@ -184,7 +179,6 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             Assert.AreSame(locality, simpLocality);
             Assert.AreEqual("Alexandria", locality.long_name);
             Assert.AreEqual("Alexandria", locality.short_name);
-
         }
 
         [TestMethod]
@@ -203,7 +197,6 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             Assert.AreSame(state, simpState);
             Assert.AreEqual("Virginia", state.long_name);
             Assert.AreEqual("VA", state.short_name);
-
         }
 
         [TestMethod]

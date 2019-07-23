@@ -1,8 +1,6 @@
 using System;
 using System.Runtime.Serialization;
 
-using Juniper.Serialization;
-
 namespace Juniper.UnityAssetStore
 {
     [Serializable]
@@ -27,9 +25,11 @@ namespace Juniper.UnityAssetStore
                     case nameof(total):
                     total = info.GetInt32(nameof(total));
                     break;
+
                     case nameof(feed):
                     feed = info.GetString(nameof(feed));
                     break;
+
                     case nameof(results):
                     case "result":
                     HasResults = true;
@@ -41,12 +41,12 @@ namespace Juniper.UnityAssetStore
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            if(total >= 0)
+            if (total >= 0)
             {
                 info.AddValue(nameof(total), total);
             }
 
-            if(!string.IsNullOrEmpty(feed))
+            if (!string.IsNullOrEmpty(feed))
             {
                 info.AddValue(nameof(feed), feed);
             }

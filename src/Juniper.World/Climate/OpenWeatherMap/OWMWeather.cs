@@ -469,5 +469,4 @@ namespace Juniper.World.Climate.OpenWeatherMap
             }
         }
     }
-
 }

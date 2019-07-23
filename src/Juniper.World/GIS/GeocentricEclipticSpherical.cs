@@ -6,7 +6,6 @@ namespace Juniper.Units
 {
     public static class GeocentricEclipticSpherical
     {
-
         /// <summary>
         /// Calculates the position of the Sun on the Ecliptic for the given Julian Day
         /// </summary>

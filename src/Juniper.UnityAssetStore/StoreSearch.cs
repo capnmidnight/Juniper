@@ -4,8 +4,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-using Juniper.Serialization;
-
 namespace Juniper.UnityAssetStore
 {
     public class StoreSearch
@@ -78,8 +76,8 @@ namespace Juniper.UnityAssetStore
         public StoreSearch Phrase(string phrase)
         {
             var parts = from part in phrase.Split(' ', '\t')
-                where !string.IsNullOrWhiteSpace(part)
-                select Uri.EscapeDataString(part);
+                        where !string.IsNullOrWhiteSpace(part)
+                        select Uri.EscapeDataString(part);
             terms.Add("q=" + string.Join("+", parts));
             return this;
         }
@@ -148,6 +146,7 @@ namespace Juniper.UnityAssetStore
                         case nameof(total):
                         total = info.GetInt32(nameof(total));
                         break;
+
                         case nameof(results):
                         case "result":
                         HasResults = true;

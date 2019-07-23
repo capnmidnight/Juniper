@@ -14,7 +14,7 @@ namespace Juniper.UnityAssetStore.Tests
         private const string categoryID = "6";
         private const string assetID = "82022";
 
-        Requester req;
+        private Requester req;
 
         [TestInitialize]
         public void Init()
@@ -38,14 +38,11 @@ namespace Juniper.UnityAssetStore.Tests
             var name = await req.GetCategoryName(categoryID);
         }
 
-
-
         [TestMethod]
         public async Task GetAssetSummary()
         {
             var summary = await req.GetAssetSummary(assetID);
         }
-
 
         [TestMethod]
         public async Task GetAssetDetails()

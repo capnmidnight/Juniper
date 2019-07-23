@@ -8,7 +8,7 @@ namespace libStreamSDK
     internal static class NativeThinkgear
     {
 #if WIN64
-        const string DLL_NAME = "thinkgear64.dll";
+        private const string DLL_NAME = "thinkgear64.dll";
 #else
         private const string DLL_NAME = "thinkgear.dll";
 #endif
@@ -105,6 +105,7 @@ namespace libStreamSDK
     }
 
 #pragma warning disable CA1027 // Mark enums with FlagsAttribute
+
     public enum SerialDataFormat
 #pragma warning restore CA1027 // Mark enums with FlagsAttribute
     {

@@ -41,7 +41,7 @@ namespace Juniper.Json
         /// <returns>The value deserialized out of the stream.</returns>
         public static T ReadObject<T>(this HttpWebResponse response, IProgress prog = null)
         {
-            using(var stream = response.GetResponseStream())
+            using (var stream = response.GetResponseStream())
             {
                 return stream.ReadObject<T>(response.ContentLength, prog);
             }

@@ -41,7 +41,6 @@ namespace Juniper.UnityAssetStore
         private readonly string facebook;
         public Uri Facebook { get; private set; }
 
-
         protected KeyImage(SerializationInfo info, StreamingContext context)
         {
             package_version_id = null;

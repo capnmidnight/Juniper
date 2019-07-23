@@ -1,8 +1,6 @@
 using System;
 using System.Runtime.Serialization;
 
-using Juniper.Serialization;
-
 namespace Juniper.UnityAssetStore
 {
     [Serializable]
@@ -57,7 +55,6 @@ namespace Juniper.UnityAssetStore
                     break;
                 }
             }
-
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)

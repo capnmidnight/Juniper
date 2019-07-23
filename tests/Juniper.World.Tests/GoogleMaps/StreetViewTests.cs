@@ -161,7 +161,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
 
             Task.WaitAll(tasks);
 
-            foreach(var task in tasks)
+            foreach (var task in tasks)
             {
                 var images = task.Result;
                 Assert.IsTrue(service.IsCached(cubeMapSearch));

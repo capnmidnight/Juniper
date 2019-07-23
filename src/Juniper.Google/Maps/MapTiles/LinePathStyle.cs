@@ -31,7 +31,6 @@ namespace Juniper.Google.Maps.MapTiles
             styleDef = sb.ToString();
         }
 
-
         public override string ToString()
         {
             return styleDef;

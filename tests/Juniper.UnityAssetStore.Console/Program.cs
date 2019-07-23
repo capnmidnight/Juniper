@@ -4,9 +4,9 @@ using Juniper.Json;
 
 namespace Juniper.UnityAssetStore.Console
 {
-    class Program
+    internal class Program
     {
-        static async Task Main()
+        private static async Task Main()
         {
             var json = new JsonFactory();
             var req = new Requester(json);

@@ -16,7 +16,7 @@ namespace Juniper.World.GIS
         public const double flattening = 1 / invF;
         private const double n = flattening / (2 - flattening);
         private const double flatteningComp = 1 - flattening;
-        
+
         public static readonly double e = Math.Sqrt(1 - flatteningComp * flatteningComp);
         public static readonly double esq = 1 - flatteningComp * flatteningComp;
         public static readonly double e0sq = e * e / (1 - e * e);
@@ -26,12 +26,12 @@ namespace Juniper.World.GIS
         public static readonly double alpha3 = esq * esq * (15.0 / 256.0 + esq * 45.0 / 1024.0);
         public static readonly double alpha4 = esq * esq * esq * (35.0 / 3072.0);
 
-
         public static readonly double[] beta = {
             n / 2 - 2 * n * n / 3 + 37 * n * n * n / 96,
             n * n / 48 + n * n * n / 15,
             17 * n * n * n / 480
         };
+
         public static readonly double[] delta = {
             2 * n - 2 * n * n / 3,
             7 * n * n / 3 - 8 * n * n * n / 5,

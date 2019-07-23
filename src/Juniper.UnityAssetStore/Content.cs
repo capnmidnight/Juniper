@@ -1,8 +1,6 @@
 using System;
 using System.Runtime.Serialization;
 
-using Juniper.Serialization;
-
 namespace Juniper.UnityAssetStore
 {
     [Serializable]
@@ -27,6 +25,7 @@ namespace Juniper.UnityAssetStore
                     IsDeprecated = error == "deprecated";
                     NotFound = error == "not found";
                     break;
+
                     case nameof(content):
                     HasContent = true;
                     content = info.GetValue<T>(nameof(content));
@@ -42,7 +41,7 @@ namespace Juniper.UnityAssetStore
                 info.AddValue(nameof(content), content);
             }
 
-            if(!string.IsNullOrEmpty(error))
+            if (!string.IsNullOrEmpty(error))
             {
                 info.AddValue(nameof(error), error);
             }

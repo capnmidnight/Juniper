@@ -19,8 +19,6 @@ namespace Juniper.Google.Maps
             this.signingKey = signingKey;
         }
 
-
-
         internal Uri AddCredentials(Uri uri, bool sign)
         {
             var unsignedUriBuilder = new UriBuilder(uri);

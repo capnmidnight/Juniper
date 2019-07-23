@@ -12,10 +12,10 @@ namespace Juniper.UnityAssetStore
 {
     public class Requester
     {
-        const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
-        const string UnityAPIRoot = "https://api.unity.com/";
-        const string UnityAssetStoreRoot = "https://assetstore.unity3d.com/";
-        const string UnityAssetStoreAPIRoot = UnityAssetStoreRoot + "api/en-US/";
+        private const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
+        private const string UnityAPIRoot = "https://api.unity.com/";
+        private const string UnityAssetStoreRoot = "https://assetstore.unity3d.com/";
+        private const string UnityAssetStoreAPIRoot = UnityAssetStoreRoot + "api/en-US/";
 
         private readonly IDeserializer deserializer;
 
@@ -23,6 +23,7 @@ namespace Juniper.UnityAssetStore
 
         public Requester(IDeserializer deserializer)
         {
+            this.sessionID = string.Empty;
             this.deserializer = deserializer;
         }
 
@@ -224,7 +225,6 @@ namespace Juniper.UnityAssetStore
                     .Value;
                 if (csrfToken != null)
                 {
-
                 }
             }
 

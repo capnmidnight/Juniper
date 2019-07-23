@@ -48,7 +48,7 @@ namespace Juniper.Google.Maps.Geocoding
         {
             var key = AddressComponent.HashAddressComponents(types);
             var results = addressComponentLookup.Get(key);
-            if(results == null)
+            if (results == null)
             {
                 var subTypes = types.Append(AddressComponentType.political);
                 var subKey = AddressComponent.HashAddressComponents(subTypes);

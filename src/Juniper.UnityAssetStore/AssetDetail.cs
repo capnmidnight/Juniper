@@ -2,8 +2,6 @@ using System;
 using System.Linq;
 using System.Runtime.Serialization;
 
-using Juniper.Serialization;
-
 namespace Juniper.UnityAssetStore
 {
     [Serializable]
@@ -60,11 +58,9 @@ namespace Juniper.UnityAssetStore
                     pubdate = info.GetString(nameof(pubdate));
                     break;
 
-
                     case nameof(pubdate_iso):
                     pubdate_iso = info.GetDateTime(nameof(pubdate_iso));
                     break;
-
 
                     case nameof(min_unity_version):
                     min_unity_version = info.GetString(nameof(min_unity_version));
@@ -100,7 +96,6 @@ namespace Juniper.UnityAssetStore
                     sizetext = info.GetString(nameof(sizetext));
                     break;
 
-
                     case nameof(version):
                     version = info.GetString(nameof(version));
                     Version = Version.Parse(version);
@@ -125,7 +120,6 @@ namespace Juniper.UnityAssetStore
                     case nameof(publishnotes):
                     publishnotes = info.GetString(nameof(publishnotes));
                     break;
-
 
                     case nameof(short_url):
                     short_url = info.GetString(nameof(short_url));

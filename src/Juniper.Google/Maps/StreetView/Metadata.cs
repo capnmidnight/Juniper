@@ -26,7 +26,7 @@ namespace Juniper.Google.Maps.StreetView
                 pano_id = new PanoID(info.GetString(nameof(pano_id)));
                 location = info.GetValue<LatLngPoint>(nameof(location));
             }
-            else if(status != HttpStatusCode.NoContent)
+            else if (status != HttpStatusCode.NoContent)
             {
                 error_message = info.GetString(nameof(error_message));
             }

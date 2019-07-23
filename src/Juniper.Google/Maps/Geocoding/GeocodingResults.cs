@@ -18,7 +18,7 @@ namespace Juniper.Google.Maps.Geocoding
             {
                 results = info.GetValue<GeocodingResult[]>(nameof(results));
             }
-            else if(status != HttpStatusCode.NoContent)
+            else if (status != HttpStatusCode.NoContent)
             {
                 error_message = info.GetString(nameof(error_message));
             }
@@ -31,7 +31,7 @@ namespace Juniper.Google.Maps.Geocoding
             {
                 info.AddValue(nameof(results), results);
             }
-            else if(status != HttpStatusCode.NoContent)
+            else if (status != HttpStatusCode.NoContent)
             {
                 info.AddValue(nameof(error_message), error_message);
             }

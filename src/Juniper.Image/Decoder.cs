@@ -1,9 +1,9 @@
-using BitMiracle.LibJpeg;
-using Juniper.Progress;
 using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using BitMiracle.LibJpeg;
+using Juniper.Progress;
 
 namespace Juniper.Image
 {

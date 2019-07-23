@@ -151,11 +151,12 @@ namespace System
         /// <returns></returns>
         public static float? Repeat(this float? value, float range)
         {
-            if(value == null)
+            if (value == null)
             {
                 return null;
             }
-            else{
+            else
+            {
                 return value.Value.Repeat(range);
             }
         }

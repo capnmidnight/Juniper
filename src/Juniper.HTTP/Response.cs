@@ -26,7 +26,7 @@ namespace Juniper.HTTP
         {
             var fileInfo = new FileInfo(path);
             StatusCode = fileInfo.Exists ? HttpStatusCode.OK : HttpStatusCode.NotFound;
-            if(StatusCode == HttpStatusCode.OK)
+            if (StatusCode == HttpStatusCode.OK)
             {
                 ContentType = contentType;
                 ContentLength = fileInfo.Length;
@@ -37,13 +37,11 @@ namespace Juniper.HTTP
         public Response(string contentType, long contentLength, Stream content)
             : this(HttpStatusCode.OK, contentType, contentLength, content)
         {
-
         }
 
         public Response(string contentType, Stream content)
             : this(contentType, 0, content)
         {
-
         }
 
         public Response(HttpWebResponse response)
@@ -52,7 +50,7 @@ namespace Juniper.HTTP
                   response.ContentType,
                   response.ContentLength,
                   response.GetResponseStream())
-        { 
+        {
         }
 
         private bool disposedValue = false;

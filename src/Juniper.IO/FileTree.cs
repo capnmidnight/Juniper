@@ -18,7 +18,9 @@ namespace Juniper.Collections
             IsDirectory = isDirectory;
         }
 
-        public FileTree(string root) : this(root, true) { }
+        public FileTree(string root) : this(root, true)
+        {
+        }
 
         public void AddPath(string path, bool isDirectory)
         {

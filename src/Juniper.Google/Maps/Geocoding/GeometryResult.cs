@@ -21,7 +21,7 @@ namespace Juniper.Google.Maps.Geocoding
             location_type = Enum.TryParse<GeometryLocationType>(locationTypeString, out var type)
                 ? type : GeometryLocationType.Unknown;
             viewport = info.GetValue<GeometryViewport>(nameof(viewport));
-            foreach(var field in info)
+            foreach (var field in info)
             {
                 switch (field.Name)
                 {

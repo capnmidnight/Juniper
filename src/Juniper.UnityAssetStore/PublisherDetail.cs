@@ -2,8 +2,6 @@ using System;
 using System.Net.Mail;
 using System.Runtime.Serialization;
 
-using Juniper.Serialization;
-
 namespace Juniper.UnityAssetStore
 {
     [Serializable]
@@ -24,7 +22,6 @@ namespace Juniper.UnityAssetStore
 
         private readonly string short_url;
         public Uri ShortUrl { get; private set; }
-
 
         private readonly string support_url;
         public Uri SupportUrl { get; private set; }

@@ -20,7 +20,7 @@ namespace Juniper.Google.Maps.Geocoding
         public GeocodingSearch(Dictionary<AddressComponentType, string> components)
             : this()
         {
-            foreach(var kv in components)
+            foreach (var kv in components)
             {
                 this.components[kv.Key] = kv.Value;
             }

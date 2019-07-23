@@ -1,10 +1,7 @@
 using System;
 using System.Linq;
-using System.Net;
 using System.Runtime.Serialization;
-using System.Threading.Tasks;
 using Juniper.Climate;
-using Juniper.Image;
 using Juniper.World.GIS;
 
 namespace Juniper.World.Climate.OpenWeatherMap

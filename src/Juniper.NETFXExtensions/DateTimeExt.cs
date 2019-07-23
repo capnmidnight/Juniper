@@ -2,7 +2,6 @@ namespace System
 {
     public static class DateTimeExt
     {
-
         /// <summary>
         /// The minimum time, according to Unix.
         /// </summary>

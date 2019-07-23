@@ -32,7 +32,7 @@ namespace Juniper.Progress
         /// <summary>
         /// The minimum amount of difference to allow between two floats to consider them the same number.
         /// </summary>
-        const float ALPHA = 1e-3f;
+        private const float ALPHA = 1e-3f;
 
         /// <summary>
         /// Check to see <paramref name="prog"/>'s progress is within <see cref="ALPHA"/> of 1.

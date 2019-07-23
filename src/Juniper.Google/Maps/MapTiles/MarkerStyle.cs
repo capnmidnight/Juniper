@@ -29,7 +29,6 @@ namespace Juniper.Google.Maps.MapTiles
 
         public MarkerStyle(string color = null, char label = char.MinValue, MarkerSize size = MarkerSize.normal)
         {
-
             if (label != char.MinValue && !char.IsLetterOrDigit(label))
             {
                 throw new ArgumentException(nameof(label), "Value must be an uppercase letter A-Z or a digit 0-9.");
@@ -56,7 +55,6 @@ namespace Juniper.Google.Maps.MapTiles
 
             styleDef = sb.ToString();
         }
-
 
         public override string ToString()
         {

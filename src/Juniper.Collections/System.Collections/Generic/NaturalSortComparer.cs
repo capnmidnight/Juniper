@@ -38,7 +38,6 @@ namespace System.Collections.Generic
             }
             else
             {
-
                 if (!table.TryGetValue(x, out var x1))
                 {
                     x1 = Regex.Split(x.Replace(" ", ""), "([0-9]+)");

@@ -21,6 +21,6 @@ namespace Juniper.Google.Maps.Tests
             var signingKey = lines[1];
             var json = new Json.JsonFactory();
             service = new Endpoint(json, apiKey, signingKey, cacheDir);
-        }        
+        }
     }
 }

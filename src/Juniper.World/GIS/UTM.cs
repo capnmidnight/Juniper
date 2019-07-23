@@ -22,7 +22,7 @@ namespace Juniper.Units
             double sigmaPrime = 1;
             double tauPrime = 0;
 
-            for(int j = 1; j <= 3; ++j)
+            for (int j = 1; j <= 3; ++j)
             {
                 var beta = DatumWGS_84.beta[j - 1];
                 double je2 = 2 * j * xi;
@@ -40,10 +40,9 @@ namespace Juniper.Units
 
             double chi = Math.Asin(Math.Sin(xiPrime) / Math.Cosh(etaPrime));
 
-
             double lat = chi;
 
-            for(int j = 1; j <= 3; ++j)
+            for (int j = 1; j <= 3; ++j)
             {
                 lat += DatumWGS_84.delta[j - 1] * Math.Sin(2 * j * chi);
             }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Juniper.Units
 {
-
     /// <summary>
     /// TODO: validate this against https://www.nist.gov/sites/default/files/documents/pml/wmd/metric/SP1038.pdf
     /// </summary>

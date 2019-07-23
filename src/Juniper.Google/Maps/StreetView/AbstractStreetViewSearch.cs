@@ -1,5 +1,3 @@
-using System;
-
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView

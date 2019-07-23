@@ -231,17 +231,17 @@ namespace Juniper.Collections
         /// <summary>
         /// Copies the elements of the RingBuffer<T> to an Array, starting at a particular Array index.
         /// </summary>
-        /// <param name="array">           
+        /// <param name="array">
         /// The one-dimensional Array that is the destination of the elements copied from
         /// ICollection{T}. The Array must have zero-based indexing.
         /// </param>
-        /// <param name="startIndex">      
+        /// <param name="startIndex">
         /// The zero-based index in the source buffer at which to start copying.
         /// </param>
         /// <param name="destinationIndex">
         /// The zero-based index in <paramref name="array"/> at which copying begins.
         /// </param>
-        /// <param name="count">           
+        /// <param name="count">
         /// The number of elements out of the source array to copy to the destination array.
         /// </param>
         /// <exception cref="ArgumentNullException"><paramref name="array"/> is <c>null</c></exception>
@@ -257,7 +257,7 @@ namespace Juniper.Collections
         /// var buffer = new RingBuffer<int>(3);
         /// buffer.Add(3);
         /// buffer.Add(1);
-        /// buffer.Add(4); 
+        /// buffer.Add(4);
         /// int[] arr = new int[3]; // arr --> { 0, 0, 0 }
         /// buffer.CopyTo(arr, 0, 0, 3); // arr --> { 3, 1, 4 }
         /// buffer.CopyTo(arr, 1, 0, 2); // arr --> { 1, 4, 4 }
@@ -298,14 +298,14 @@ namespace Juniper.Collections
         /// <summary>
         /// Copies the elements of the RingBuffer{T} to an Array, starting at a particular Array index.
         /// </summary>
-        /// <param name="array">           
+        /// <param name="array">
         /// The one-dimensional Array that is the destination of the elements copied from
         /// ICollection{T}. The Array must have zero-based indexing.
         /// </param>
         /// <param name="destinationIndex">
         /// The zero-based index in <paramref name="array"/> at which copying begins.
         /// </param>
-        /// <param name="count">           
+        /// <param name="count">
         /// The number of elements out of the source array to copy to the destination array.
         /// </param>
         /// <exception cref="ArgumentNullException"><paramref name="array"/> is <c>null</c></exception>
@@ -335,7 +335,7 @@ namespace Juniper.Collections
         /// <summary>
         /// Copies the elements of the RingBuffer{T} to an Array, starting at a particular Array index.
         /// </summary>
-        /// <param name="array">           
+        /// <param name="array">
         /// The one-dimensional Array that is the destination of the elements copied from
         /// ICollection{T}. The Array must have zero-based indexing.
         /// </param>

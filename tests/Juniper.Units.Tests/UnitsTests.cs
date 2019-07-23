@@ -635,6 +635,5 @@ namespace Juniper.Units.Tests
         {
             Assert.AreEqual(SigFig(expected, sigFigs), SigFig(actual, sigFigs), msg, args);
         }
-
     }
 }
