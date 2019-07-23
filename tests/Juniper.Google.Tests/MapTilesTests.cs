@@ -1,9 +1,7 @@
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 using Juniper.Google.Maps.Tests;
-using Juniper.Image;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -47,6 +45,11 @@ namespace Juniper.Google.Maps.MapTiles.Tests
         [TestMethod]
         public async Task GetImage()
         {
+            var search = new TileSearch("4909 Rutland Pl, Alexandria, VA, 22304", 20, 640, 640);
+            var results = await service.Get(search);
+            Assert.IsNotNull(results);
+            Assert.AreEqual(640, results.dimensions.width);
+            Assert.AreEqual(640, results.dimensions.height);
         }
     }
 }
