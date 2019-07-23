@@ -28,6 +28,7 @@ namespace Juniper.Google.Maps.MapTiles
 
         private readonly List<Marker> markers = new List<Marker>();
         private LinePath path;
+        private readonly ImageFormat format;
 
         private TileSearch(string center, int zoom, Size size, ImageFormat format)
             : base("staticmap", "tiles", format.contentType, format.fileExtension, true)
@@ -41,7 +42,7 @@ namespace Juniper.Google.Maps.MapTiles
             }
         }
 
-        private TileSearch(string center, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
+        private TileSearch(string center, int zoom, Size size, TileImageFormat format)
             : this(center, zoom, size, FORMAT_DESCRIPTIONS.Get(format, FORMAT_DESCRIPTIONS[TileImageFormat.PNG8])) { }
 
         public TileSearch(PlaceName address, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
@@ -56,11 +57,26 @@ namespace Juniper.Google.Maps.MapTiles
         public TileSearch(LatLngPoint center, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
             : this(center.ToCSV(), zoom, new Size(width, height), format) { }
 
+        private TileSearch(string center, int zoom, Size size, Image.Decoder.SupportedFormats format)
+            : this(center, zoom, size, FORMAT_MAPPINGS.Get(format, FORMAT_MAPPINGS[Image.Decoder.SupportedFormats.PNG])) { }
+
+        public TileSearch(PlaceName address, int zoom, Size size, Image.Decoder.SupportedFormats format)
+            : this((string)address, zoom, size, format) { }
+
+        public TileSearch(PlaceName address, int zoom, int width, int height, Image.Decoder.SupportedFormats format)
+            : this((string)address, zoom, new Size(width, height), format) { }
+
+        public TileSearch(LatLngPoint center, int zoom, Size size, Image.Decoder.SupportedFormats format)
+            : this(center.ToCSV(), zoom, size, format) { }
+
+        public TileSearch(LatLngPoint center, int zoom, int width, int height, Image.Decoder.SupportedFormats format)
+            : this(center.ToCSV(), zoom, new Size(width, height), format) { }
+
         public bool FlipImage { get; set; }
 
         public override Func<Stream, RawImage> GetDecoder(AbstractEndpoint _)
         {
-            return stream => Image.Decoder.DecodePNG(FlipImage, stream);
+            return stream => Image.Decoder.Decode(format.format, FlipImage, stream);
         }
 
         public void SetScale(int scale)
