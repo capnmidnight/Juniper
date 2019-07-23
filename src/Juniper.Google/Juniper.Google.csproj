@@ -65,7 +65,7 @@
     <Compile Include="Maps\StreetView\ImageSearch.cs" />
     <Compile Include="Maps\StreetView\Metadata.cs" />
     <Compile Include="Maps\StreetView\MetadataSearch.cs" />
-    <Compile Include="Maps\StreetView\PlaceName.cs" />
+    <Compile Include="Maps\PlaceName.cs" />
     <Compile Include="Maps\StreetView\PanoID.cs" />
     <Compile Include="Maps\StreetView\AbstractStreetViewSearch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

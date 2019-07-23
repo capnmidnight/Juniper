@@ -26,11 +26,14 @@ namespace Juniper.Google.Maps.MapTiles
             }
         }
 
-        public TileSearch(string address, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
-            : this(address, zoom, size, FORMAT_DESCRIPTIONS[format]) { }
+        private TileSearch(string center, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
+            : this(center, zoom, size, FORMAT_DESCRIPTIONS[format]) { }
 
-        public TileSearch(string address, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
-            : this(address, zoom, new Size(width, height), format) { }
+        public TileSearch(PlaceName address, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
+            : this(address.ToString(), zoom, size, FORMAT_DESCRIPTIONS[format]) { }
+
+        public TileSearch(PlaceName address, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
+            : this(address.ToString(), zoom, new Size(width, height), format) { }
 
         public TileSearch(LatLngPoint center, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
             : this(center.ToCSV(), zoom, size, format) { }

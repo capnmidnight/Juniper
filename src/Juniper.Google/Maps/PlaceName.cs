@@ -1,4 +1,4 @@
-namespace Juniper.Google.Maps.StreetView
+namespace Juniper.Google.Maps
 {
     public struct PlaceName
     {
