@@ -10,7 +10,6 @@ namespace Juniper.Google.Maps.StreetView
     public class Metadata : ISerializable
     {
         public readonly HttpStatusCode status;
-        public readonly string error_message;
         public readonly string copyright;
         public readonly string date;
         public readonly PanoID pano_id;
@@ -25,10 +24,6 @@ namespace Juniper.Google.Maps.StreetView
                 date = info.GetString(nameof(date));
                 pano_id = new PanoID(info.GetString(nameof(pano_id)));
                 location = info.GetValue<LatLngPoint>(nameof(location));
-            }
-            else if (status != HttpStatusCode.NoContent)
-            {
-                error_message = info.GetString(nameof(error_message));
             }
         }
 
@@ -45,10 +40,6 @@ namespace Juniper.Google.Maps.StreetView
                     lat = location.Latitude,
                     lng = location.Longitude
                 });
-            }
-            else if (status != HttpStatusCode.NoContent)
-            {
-                info.AddValue(nameof(error_message), error_message);
             }
         }
     }

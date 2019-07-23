@@ -18,7 +18,6 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var metadata = await service.Get(metadataSearch);
             Assert.IsTrue(service.IsCached(metadataSearch));
             Assert.AreEqual(HttpStatusCode.OK, metadata.status);
-            Assert.IsNull(metadata.error_message);
             Assert.IsNotNull(metadata.copyright);
             Assert.IsNotNull(metadata.date);
             Assert.IsNotNull(metadata.location);
