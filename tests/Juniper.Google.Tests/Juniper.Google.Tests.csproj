@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\src\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\..\src\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3ED52D4D-7EC1-4044-935A-169995A05A71}</ProjectGuid>
+    <ProjectGuid>{E633EFCD-2CE3-4CA5-ADE0-1661D2A6A670}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Juniper.World.Tests</RootNamespace>
-    <AssemblyName>Juniper.World.Tests</AssemblyName>
+    <RootNamespace>Juniper.Google.Tests</RootNamespace>
+    <AssemblyName>Juniper.Google.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -38,19 +39,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\src\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\src\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeocodingTests.cs" />
+    <Compile Include="ReverseGeocodingTests.cs" />
+    <Compile Include="ServicesTest.cs" />
+    <Compile Include="MapTilesTests.cs" />
+    <Compile Include="StreetViewTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MSTest.TestAdapter">
-      <Version>1.3.2</Version>
-    </PackageReference>
-    <PackageReference Include="MSTest.TestFramework">
-      <Version>1.3.2</Version>
-    </PackageReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Juniper.Google\Juniper.Google.csproj">
@@ -58,11 +65,11 @@
       <Name>Juniper.Google</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.HTTP\Juniper.HTTP.csproj">
-      <Project>{888B994C-2AE8-42B2-84F5-B15E11CC4F4F}</Project>
+      <Project>{888b994c-2ae8-42b2-84f5-b15e11cc4f4f}</Project>
       <Name>Juniper.HTTP</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Image\Juniper.Image.csproj">
-      <Project>{F951A2E5-078A-413D-966D-C3F4AE5EDCAB}</Project>
+      <Project>{f951a2e5-078a-413d-966d-c3f4ae5edcab}</Project>
       <Name>Juniper.Image</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Json\Juniper.Json.csproj">
@@ -70,7 +77,7 @@
       <Name>Juniper.Json</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Serialization\Juniper.Serialization.csproj">
-      <Project>{9D6F67CC-8EAC-4644-9E20-C18C9D3E58CC}</Project>
+      <Project>{9d6f67cc-8eac-4644-9e20-c18c9d3e58cc}</Project>
       <Name>Juniper.Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.World\Juniper.World.csproj">
@@ -80,4 +87,12 @@
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\src\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\src\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props'))" />
+    <Error Condition="!Exists('..\..\src\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\src\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets'))" />
+  </Target>
+  <Import Project="..\..\src\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\..\src\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets')" />
 </Project>
