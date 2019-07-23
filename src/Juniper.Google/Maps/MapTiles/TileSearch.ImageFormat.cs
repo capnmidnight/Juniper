@@ -6,11 +6,16 @@ namespace Juniper.Google.Maps.MapTiles
     {
         private static readonly Dictionary<TileImageFormat, ImageFormat> FORMAT_DESCRIPTIONS = new Dictionary<TileImageFormat, ImageFormat>
         {
-            { TileImageFormat.PNG8, new ImageFormat( "image/png", "png", "png8") },
-            { TileImageFormat.PNG32, new ImageFormat( "image/png", "png", "png32") },
-            { TileImageFormat.GIF, new ImageFormat( "image/gif", "gif", "gif") },
-            { TileImageFormat.JPEG, new ImageFormat( "image/jpeg", "jpeg", "jpg") },
-            { TileImageFormat.JPEGBaseline, new ImageFormat( "image/jpeg", "jpeg", "jpg-baseline") }
+            { TileImageFormat.PNG8, new ImageFormat( "image/png", "png", "png8", Image.Decoder.SupportedFormats.PNG) },
+            { TileImageFormat.PNG32, new ImageFormat( "image/png", "png", "png32", Image.Decoder.SupportedFormats.PNG) },
+            { TileImageFormat.GIF, new ImageFormat( "image/gif", "gif", "gif", Image.Decoder.SupportedFormats.Unsupported) },
+            { TileImageFormat.JPEG, new ImageFormat( "image/jpeg", "jpeg", "jpg", Image.Decoder.SupportedFormats.JPEG) },
+            { TileImageFormat.JPEGBaseline, new ImageFormat( "image/jpeg", "jpeg", "jpg-baseline", Image.Decoder.SupportedFormats.JPEG) }
+        };
+
+        private static readonly Dictionary<Image.Decoder.SupportedFormats, TileImageFormat> FORMAT_MAPPINGS = new Dictionary<Image.Decoder.SupportedFormats, TileImageFormat> {
+            { Image.Decoder.SupportedFormats.JPEG, TileImageFormat.JPEG },
+            { Image.Decoder.SupportedFormats.PNG, TileImageFormat.PNG8 }
         };
 
         private struct ImageFormat
@@ -18,12 +23,14 @@ namespace Juniper.Google.Maps.MapTiles
             public readonly string contentType;
             public readonly string fileExtension;
             public readonly string gmapsFieldValue;
+            public readonly Image.Decoder.SupportedFormats format;
 
-            public ImageFormat(string v1, string v2, string v3)
+            internal ImageFormat(string contentType, string fileExtension, string gmapsFieldValue, Image.Decoder.SupportedFormats format)
             {
-                contentType = v1;
-                fileExtension = v2;
-                gmapsFieldValue = v3;
+                this.contentType = contentType;
+                this.fileExtension = fileExtension;
+                this.gmapsFieldValue = gmapsFieldValue;
+                this.format = format;
             }
 
             public override bool Equals(object obj)

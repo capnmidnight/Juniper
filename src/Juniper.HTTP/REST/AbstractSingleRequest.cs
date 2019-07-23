@@ -102,12 +102,21 @@ namespace Juniper.HTTP.REST
             request.Accept = acceptType;
         }
 
-        public override Task<ResponseType> Get(AbstractEndpoint api)
+        private Task<T> Get<T>(AbstractEndpoint api, Func<Stream, T> decoder)
         {
             var uri = MakeAuthenticatedURI(api);
-            var decoder = GetDecoder(api);
             var file = GetCacheFile(api);
             return Task.Run(() => HttpWebRequestExt.CachedGet(uri, decoder, file, SetAcceptType));
+        }
+
+        public override Task<ResponseType> Get(AbstractEndpoint api)
+        {
+            return Get(api, GetDecoder(api));
+        }
+
+        public Task<Stream> GetRaw(AbstractEndpoint api)
+        {
+            return Get(api, stream => stream);
         }
     }
 }

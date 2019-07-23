@@ -9,6 +9,13 @@ namespace Juniper.Image
 {
     public static class Decoder
     {
+        public enum SupportedFormats
+        {
+            Unsupported,
+            JPEG,
+            PNG
+        }
+
         private static int GetRowIndex(int numRows, int i, bool flipImage)
         {
             int rowIndex = i;
@@ -139,16 +146,32 @@ namespace Juniper.Image
             {
                 if (response.ContentType == "image/jpeg")
                 {
-                    return DecodeJPEG(flipImage, stream);
+                    return Decode(SupportedFormats.JPEG, flipImage, stream);
                 }
                 else if (response.ContentType == "image/png")
                 {
-                    return DecodePNG(flipImage, stream);
+                    return Decode(SupportedFormats.PNG, flipImage, stream);
                 }
                 else
                 {
                     throw new FormatException($"Image format `{response.ContentType}` could not be decoded. Supported formats: JPEG, PNG. Source: {response.ResponseUri}");
                 }
+            }
+        }
+
+        public static RawImage Decode(SupportedFormats format, bool flipImage, Stream stream)
+        {
+            if (format == SupportedFormats.JPEG)
+            {
+                return DecodeJPEG(flipImage, stream);
+            }
+            else if (format == SupportedFormats.PNG)
+            {
+                return DecodePNG(flipImage, stream);
+            }
+            else
+            {
+                throw new ArgumentException($"Image format `{format}` has not been implemented yet.");
             }
         }
     }
