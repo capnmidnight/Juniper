@@ -19,28 +19,25 @@ namespace Juniper.Google.Maps
             this.signingKey = signingKey;
         }
 
-        internal Uri AddCredentials(Uri uri, bool sign)
+        internal Uri AddKey(Uri uri)
         {
             var unsignedUriBuilder = new UriBuilder(uri);
             unsignedUriBuilder.AddQuery("key", apiKey);
-            var unsignedUri = unsignedUriBuilder.Uri;
-            if (!sign)
-            {
-                return unsignedUri;
-            }
-            else
-            {
-                var pkBytes = Convert.FromBase64String(signingKey.FromGoogleModifiedBase64());
-                using (var hasher = new HMACSHA1(pkBytes))
-                {
-                    var urlBytes = Encoding.ASCII.GetBytes(unsignedUri.LocalPath + unsignedUri.Query);
-                    var hash = hasher.ComputeHash(urlBytes);
-                    var signature = Convert.ToBase64String(hash).ToGoogleModifiedBase64();
+            return unsignedUriBuilder.Uri;
+        }
 
-                    var signedUri = new UriBuilder(unsignedUri);
-                    signedUri.AddQuery("signature", signature);
-                    return signedUri.Uri;
-                }
+        internal Uri AddSignature(Uri unsignedUri)
+        {
+            var pkBytes = Convert.FromBase64String(signingKey.FromGoogleModifiedBase64());
+            using (var hasher = new HMACSHA1(pkBytes))
+            {
+                var urlBytes = Encoding.ASCII.GetBytes(unsignedUri.LocalPath + unsignedUri.Query);
+                var hash = hasher.ComputeHash(urlBytes);
+                var signature = Convert.ToBase64String(hash).ToGoogleModifiedBase64();
+
+                var signedUri = new UriBuilder(unsignedUri);
+                signedUri.AddQuery("signature", signature);
+                return signedUri.Uri;
             }
         }
     }

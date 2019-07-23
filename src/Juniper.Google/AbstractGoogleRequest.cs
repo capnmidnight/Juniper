@@ -5,7 +5,7 @@ namespace Juniper.Google
 {
     public abstract class AbstractGoogleRequest<ResultType> : AbstractSingleRequest<ResultType>
     {
-        private bool signRequests;
+        private readonly bool signRequests;
 
         protected AbstractGoogleRequest(Uri baseServiceURI, string path, string cacheLocString, string acceptType, string extension, bool signRequests)
             : base(baseServiceURI, path, cacheLocString, acceptType, extension)
@@ -18,7 +18,11 @@ namespace Juniper.Google
             var uri = base.MakeAuthenticatedURI(api);
             if (api is Maps.Endpoint google)
             {
-                uri = google.AddCredentials(uri, signRequests);
+                uri = google.AddKey(uri);
+                if (signRequests)
+                {
+                    uri = google.AddSignature(uri);
+                }
             }
             return uri;
         }
