@@ -51,6 +51,15 @@ namespace System.Collections.Generic
                 .ToString(entrySeperator);
         }
 
+        public static string ToString<KeyType, ElementType>(this IDictionary<KeyType, List<ElementType>> dict, string kvSeperator, string entrySeperator)
+        {
+            return (from kv in dict
+                    select (from elem in kv.Value
+                            select $"{kv.Key}{kvSeperator}{elem}")
+                        .ToString(entrySeperator))
+                    .ToString(entrySeperator);
+        }
+
         public static Dictionary<B, A> Invert<A, B>(this IDictionary<A, B> dict)
         {
             var dict2 = new Dictionary<B, A>();

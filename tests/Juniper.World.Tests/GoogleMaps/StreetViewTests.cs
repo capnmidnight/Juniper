@@ -122,8 +122,6 @@ namespace Juniper.Google.Maps.StreetView.Tests
         public void GetCubeMap_10x()
         {
             var cubeMapSearch = new CubeMapSearch((PlaceName)"Washington, DC", 640, 640);
-
-            Assert.IsTrue(service.IsCached(cubeMapSearch));
             var tasks = new Task<RawImage[]>[10];
             for (int i = 0; i < tasks.Length; ++i)
             {
@@ -151,8 +149,6 @@ namespace Juniper.Google.Maps.StreetView.Tests
             {
                 FlipImages = true
             };
-
-            Assert.IsTrue(service.IsCached(cubeMapSearch));
             var tasks = new Task<RawImage[]>[10];
             for (int i = 0; i < tasks.Length; ++i)
             {

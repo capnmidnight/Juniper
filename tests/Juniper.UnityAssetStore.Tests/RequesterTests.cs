@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.UnityAssetStore.Tests
 {
+    [Ignore]
     [TestClass]
     public class RequesterTests
     {
