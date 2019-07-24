@@ -36,6 +36,7 @@ namespace Juniper.Google.Maps.MapTiles
             SetQuery(nameof(center), center);
             SetQuery(nameof(zoom), zoom);
             SetQuery(nameof(size), size);
+            this.format = format;
             if (format != FORMAT_DESCRIPTIONS[TileImageFormat.PNG8])
             {
                 SetQuery(nameof(format), format.gmapsFieldValue);
