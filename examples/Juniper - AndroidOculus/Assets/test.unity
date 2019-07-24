@@ -22286,7 +22286,6 @@ MonoBehaviour:
   extraHiddenLayers:
     serializedVersion: 2
     m_Bits: 0
-  externalCompositionBackdropColor: {r: 0, g: 0, b: 0, a: 0}
   capturingCameraDevice: 0
   flipCameraFrameHorizontally: 0
   flipCameraFrameVertically: 0
@@ -22306,7 +22305,6 @@ MonoBehaviour:
   virtualGreenScreenBottomY: -10
   virtualGreenScreenApplyDepthCulling: 0
   virtualGreenScreenDepthTolerance: 0.2
-  mrcActivationMode: 0
   _trackingOriginType: 0
   usePositionTracking: 1
   useRotationTracking: 1
@@ -24158,9 +24156,6 @@ MonoBehaviour:
   useMipMap: 1
   layout: 1
   searchRadius: 50
-  GPS:
-    Latitude: 0
-    Longitude: 0
 --- !u!4 &1484056656
 Transform:
   m_ObjectHideFlags: 0

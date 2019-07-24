@@ -67,6 +67,7 @@ namespace Juniper.Images
         {
             locationInput = this.Ensure<EditorTextInput>();
         }
+
 #endif
 
         public void Awake()
@@ -87,7 +88,7 @@ namespace Juniper.Images
             var apiKey = lines[0];
             var signingKey = lines[1];
             var json = new Json.JsonFactory();
-            gmaps = new API(json, apiKey, signingKey, cacheDir);
+            gmaps = new Endpoint(json, apiKey, signingKey, cacheDir);
         }
 
         public void Update()
@@ -136,7 +137,7 @@ namespace Juniper.Images
         {
             if (!string.IsNullOrEmpty(Location))
             {
-                var metadataSearch = new MetadataSearch((PlaceName)Location);
+                var metadataSearch = new MetadataSearch(LatLngPoint.ParseDecimal(Location));
                 var metadataTask = gmaps.Get(metadataSearch);
                 yield return new WaitForTask(metadataTask);
                 var metadata = metadataTask.Result;
@@ -151,10 +152,6 @@ namespace Juniper.Images
                     var imageTask = gmaps.Get(imageSearch);
                     yield return new WaitForTask(imageTask);
                     images = imageTask.Result;
-                }
-                else
-                {
-                    Debug.LogError(metadata.error_message);
                 }
             }
         }

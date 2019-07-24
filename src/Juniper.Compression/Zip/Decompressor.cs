@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using ICSharpCode.SharpZipLib.Zip;
 
 using Juniper.Progress;
@@ -21,6 +20,46 @@ namespace Juniper.Compression.Zip
         static Decompressor()
         {
             ZipStrings.UseUnicode = true;
+        }
+
+        public static ZipFile OpenZip(FileInfo file)
+        {
+            if (!file.Exists)
+            {
+                throw new FileNotFoundException("File not found!", file.FullName);
+            }
+            else
+            {
+                return new ZipFile(file.OpenRead())
+                {
+                    IsStreamOwner = true
+                };
+            }
+        }
+
+        public static ZipFile OpenZip(string fileName)
+        {
+            return OpenZip(new FileInfo(fileName));
+        }
+
+        public static ZipInputStream OpenStream(FileInfo file)
+        {
+            if (!file.Exists)
+            {
+                throw new FileNotFoundException("File not found!", file.FullName);
+            }
+            else
+            {
+                return new ZipInputStream(file.OpenRead())
+                {
+                    IsStreamOwner = true
+                };
+            }
+        }
+
+        public static ZipInputStream OpenStream(string fileName)
+        {
+            return OpenStream(new FileInfo(fileName));
         }
 
         /// <summary>
@@ -64,18 +103,9 @@ namespace Juniper.Compression.Zip
 
         public static void CopyFile(FileInfo file, string entryPath, Stream copyTo, IProgress prog = null)
         {
-            if (!file.Exists)
+            using (var zip = OpenZip(file))
             {
-                throw new FileNotFoundException("File not found!", file.FullName);
-            }
-            else
-            {
-                using (var fileStream = file.OpenRead())
-                using (var zip = new ZipFile(fileStream))
-                {
-                    zip.IsStreamOwner = true;
-                    zip.CopyFile(entryPath, copyTo, prog);
-                }
+                zip.CopyFile(entryPath, copyTo, prog);
             }
         }
 
@@ -101,18 +131,9 @@ namespace Juniper.Compression.Zip
 
         public static Stream GetFile(FileInfo file, string entryPath, IProgress prog = null)
         {
-            if (!file.Exists)
+            using (var zip = OpenZip(file))
             {
-                throw new FileNotFoundException("File not found!", file.FullName);
-            }
-            else
-            {
-                using (var fileStream = file.OpenRead())
-                using (var zip = new ZipFile(fileStream))
-                {
-                    zip.IsStreamOwner = true;
-                    return zip.GetFile(entryPath, prog);
-                }
+                return zip.GetFile(entryPath, prog);
             }
         }
 
@@ -139,19 +160,11 @@ namespace Juniper.Compression.Zip
 
         public static IEnumerable<Tuple<ZipInputStream, ZipEntry>> Entries(FileInfo zipFile, IProgress prog = null)
         {
-            if (!zipFile.Exists)
+            using (var zip = OpenStream(zipFile))
             {
-                throw new FileNotFoundException("File not found!", zipFile.FullName);
-            }
-            else
-            {
-                using (var zip = new ZipInputStream(zipFile.OpenRead()))
+                foreach (var entry in zip.Entries(prog))
                 {
-                    zip.IsStreamOwner = true;
-                    foreach (var entry in zip.Entries(prog))
-                    {
-                        yield return new Tuple<ZipInputStream, ZipEntry>(zip, entry);
-                    }
+                    yield return new Tuple<ZipInputStream, ZipEntry>(zip, entry);
                 }
             }
         }
@@ -197,17 +210,9 @@ namespace Juniper.Compression.Zip
 
         public static void Decompress(FileInfo zipFile, DirectoryInfo outputDirectory, IProgress prog = null)
         {
-            if (!zipFile.Exists)
+            using (var zip = OpenStream(zipFile))
             {
-                throw new FileNotFoundException("File not found!", zipFile.FullName);
-            }
-            else
-            {
-                using (var zip = new ZipInputStream(zipFile.OpenRead()))
-                {
-                    zip.IsStreamOwner = true;
-                    zip.Decompress(outputDirectory, prog);
-                }
+                zip.Decompress(outputDirectory, prog);
             }
         }
 
@@ -224,6 +229,38 @@ namespace Juniper.Compression.Zip
         public static void Decompress(string zipFileName, string outputDiretoryName, IProgress prog = null)
         {
             Decompress(new FileInfo(zipFileName), new DirectoryInfo(outputDiretoryName), prog);
+        }
+
+        public static IEnumerable<string> FileNames(FileInfo file)
+        {
+            foreach (var entry in Entries(file))
+            {
+                if (entry.Item2.IsFile)
+                {
+                    yield return entry.Item2.Name;
+                }
+            }
+        }
+
+        public static IEnumerable<string> FileNames(string fileName)
+        {
+            return FileNames(new FileInfo(fileName));
+        }
+
+        public static IEnumerable<string> DirectoryNames(FileInfo file)
+        {
+            foreach (var entry in Entries(file))
+            {
+                if (entry.Item2.IsDirectory)
+                {
+                    yield return entry.Item2.Name;
+                }
+            }
+        }
+
+        public static IEnumerable<string> DirectoryNames(string fileName)
+        {
+            return DirectoryNames(new FileInfo(fileName));
         }
     }
 }
