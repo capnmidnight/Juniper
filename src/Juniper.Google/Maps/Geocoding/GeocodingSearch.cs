@@ -25,6 +25,9 @@ namespace Juniper.Google.Maps.Geocoding
         private GeocodingSearch(string address)
             : base(nameof(address), address) { }
 
+        public GeocodingSearch(PlaceID place_id)
+            : base(nameof(place_id), (string)place_id) { }
+
         public GeocodingSearch(PlaceName address)
             : this((string)address) { }
 
@@ -42,10 +45,11 @@ namespace Juniper.Google.Maps.Geocoding
             SetQuery(nameof(components), components.ToString(":", "|"));
         }
 
-        private void SetComponent(AddressComponentType key, string value)
+        private string SetComponent(AddressComponentType key, string value)
         {
             components[key] = value;
             RefreshComponents();
+            return value;
         }
 
         public void SetPostalCodeFilter(string value)
