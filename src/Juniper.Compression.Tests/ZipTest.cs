@@ -13,11 +13,6 @@ namespace Juniper.Compression.Zip.Tests
         private const string TestFile = "PicoMobileSDK/Pvr_Audio3D/API/Pvr_Audio3DAPI.cs";
         private const long TestFileLength = 6792;
 
-        private static void Reject(Exception exp)
-        {
-            Assert.Fail(exp.Message);
-        }
-
         [TestMethod]
         public void GetFile()
         {
@@ -33,7 +28,7 @@ namespace Juniper.Compression.Zip.Tests
         public void DecompressDirectory()
         {
             var outDir = Path.GetTempPath();
-            Decompressor.Decompress(TestZip, outDir, null, Reject);
+            Decompressor.Decompress(TestZip, outDir);
             var outFile = Path.Combine(outDir, TestFile);
             var text = File.ReadAllText(outFile);
             Assert.AreEqual(TestFileLength, text.Length);
