@@ -45,7 +45,7 @@ namespace Juniper.Google.Maps.MapTiles.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var search = new TileSearch((PlaceName)"4909 Rutland Pl, Alexandria, VA, 22304", 20, 640, 640);
+            var search = new TileRequest((PlaceName)"4909 Rutland Pl, Alexandria, VA, 22304", 20, 640, 640);
             var results = await service.Get(search);
             Assert.IsNotNull(results);
             Assert.AreEqual(640, results.dimensions.width);

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Juniper.Google.Maps.MapTiles
 {
-    public partial class TileSearch
+    public partial class TileRequest
     {
         private static readonly Dictionary<TileImageFormat, ImageFormat> FORMAT_DESCRIPTIONS = new Dictionary<TileImageFormat, ImageFormat>
         {

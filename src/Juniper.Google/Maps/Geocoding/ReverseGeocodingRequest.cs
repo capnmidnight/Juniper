@@ -3,7 +3,7 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.Geocoding
 {
-    public class ReverseGeocodingSearch : AbstractGeocodingSearch
+    public class ReverseGeocodingRequest : AbstractGeocodingRequest
     {
         private static readonly HashSet<AddressComponentType> AcceptableResultTypes = new HashSet<AddressComponentType>(new[]{
             AddressComponentType.street_address,
@@ -32,7 +32,7 @@ namespace Juniper.Google.Maps.Geocoding
         private readonly HashSet<AddressComponentType> result_type = new HashSet<AddressComponentType>();
         private readonly HashSet<GeometryLocationType> location_type = new HashSet<GeometryLocationType>();
 
-        public ReverseGeocodingSearch(LatLngPoint latlng)
+        public ReverseGeocodingRequest(LatLngPoint latlng)
             : base("latlng", latlng.ToCSV())
         {
         }

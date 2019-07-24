@@ -9,19 +9,19 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.MapTiles
 {
-    public partial class TileSearch : AbstractMapsSearch<RawImage>
+    public partial class TileRequest : AbstractMapsRequest<RawImage>
     {
-        public static TileSearch Create(LocationTypes locationType, object value, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
+        public static TileRequest Create(LocationTypes locationType, object value, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
         {
             switch (locationType)
             {
-                case LocationTypes.LatLngPoint: return new TileSearch((LatLngPoint)value, zoom, size, format);
-                case LocationTypes.PlaceName: return new TileSearch((PlaceName)value, zoom, size, format);
+                case LocationTypes.LatLngPoint: return new TileRequest((LatLngPoint)value, zoom, size, format);
+                case LocationTypes.PlaceName: return new TileRequest((PlaceName)value, zoom, size, format);
                 default: return default;
             }
         }
 
-        public static TileSearch Create(LocationTypes locationType, object value, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
+        public static TileRequest Create(LocationTypes locationType, object value, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
         {
             return Create(locationType, value, zoom, new Size(width, height), format);
         }
@@ -30,7 +30,7 @@ namespace Juniper.Google.Maps.MapTiles
         private LinePath path;
         private readonly ImageFormat format;
 
-        private TileSearch(string center, int zoom, Size size, ImageFormat format)
+        private TileRequest(string center, int zoom, Size size, ImageFormat format)
             : base("staticmap", "tiles", format.contentType, format.fileExtension, true)
         {
             SetQuery(nameof(center), center);
@@ -43,34 +43,34 @@ namespace Juniper.Google.Maps.MapTiles
             }
         }
 
-        private TileSearch(string center, int zoom, Size size, TileImageFormat format)
+        private TileRequest(string center, int zoom, Size size, TileImageFormat format)
             : this(center, zoom, size, FORMAT_DESCRIPTIONS.Get(format, FORMAT_DESCRIPTIONS[TileImageFormat.PNG8])) { }
 
-        public TileSearch(PlaceName address, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
+        public TileRequest(PlaceName address, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
             : this((string)address, zoom, size, FORMAT_DESCRIPTIONS[format]) { }
 
-        public TileSearch(PlaceName address, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
+        public TileRequest(PlaceName address, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
             : this((string)address, zoom, new Size(width, height), format) { }
 
-        public TileSearch(LatLngPoint center, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
+        public TileRequest(LatLngPoint center, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
             : this(center.ToCSV(), zoom, size, format) { }
 
-        public TileSearch(LatLngPoint center, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
+        public TileRequest(LatLngPoint center, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
             : this(center.ToCSV(), zoom, new Size(width, height), format) { }
 
-        private TileSearch(string center, int zoom, Size size, Image.Decoder.SupportedFormats format)
+        private TileRequest(string center, int zoom, Size size, Image.Decoder.SupportedFormats format)
             : this(center, zoom, size, FORMAT_MAPPINGS.Get(format, FORMAT_MAPPINGS[Image.Decoder.SupportedFormats.PNG])) { }
 
-        public TileSearch(PlaceName address, int zoom, Size size, Image.Decoder.SupportedFormats format)
+        public TileRequest(PlaceName address, int zoom, Size size, Image.Decoder.SupportedFormats format)
             : this((string)address, zoom, size, format) { }
 
-        public TileSearch(PlaceName address, int zoom, int width, int height, Image.Decoder.SupportedFormats format)
+        public TileRequest(PlaceName address, int zoom, int width, int height, Image.Decoder.SupportedFormats format)
             : this((string)address, zoom, new Size(width, height), format) { }
 
-        public TileSearch(LatLngPoint center, int zoom, Size size, Image.Decoder.SupportedFormats format)
+        public TileRequest(LatLngPoint center, int zoom, Size size, Image.Decoder.SupportedFormats format)
             : this(center.ToCSV(), zoom, size, format) { }
 
-        public TileSearch(LatLngPoint center, int zoom, int width, int height, Image.Decoder.SupportedFormats format)
+        public TileRequest(LatLngPoint center, int zoom, int width, int height, Image.Decoder.SupportedFormats format)
             : this(center.ToCSV(), zoom, new Size(width, height), format) { }
 
         public bool FlipImage { get; set; }

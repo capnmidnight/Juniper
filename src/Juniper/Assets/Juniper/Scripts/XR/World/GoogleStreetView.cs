@@ -137,14 +137,14 @@ namespace Juniper.Images
         {
             if (!string.IsNullOrEmpty(Location))
             {
-                var metadataSearch = new MetadataSearch(LatLngPoint.ParseDecimal(Location));
+                var metadataSearch = new MetadataRequest(LatLngPoint.ParseDecimal(Location));
                 var metadataTask = gmaps.Get(metadataSearch);
                 yield return new WaitForTask(metadataTask);
                 var metadata = metadataTask.Result;
                 if (metadata.status == HttpStatusCode.OK)
                 {
                     GPS = metadata.location;
-                    var imageSearch = new CubeMapSearch(GPS, 1024, 1024)
+                    var imageSearch = new CubeMapRequest(GPS, 1024, 1024)
                     {
                         FlipImages = true
                     };

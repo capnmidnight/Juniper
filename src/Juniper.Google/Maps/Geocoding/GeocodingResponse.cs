@@ -5,13 +5,13 @@ using System.Runtime.Serialization;
 namespace Juniper.Google.Maps.Geocoding
 {
     [Serializable]
-    public class GeocodingResults : ISerializable
+    public class GeocodingResponse : ISerializable
     {
         public readonly HttpStatusCode status;
         public readonly GeocodingResult[] results;
         public readonly string error_message;
 
-        protected GeocodingResults(SerializationInfo info, StreamingContext context)
+        protected GeocodingResponse(SerializationInfo info, StreamingContext context)
         {
             status = info.GetString(nameof(status)).MapToStatusCode();
             if (status == HttpStatusCode.OK)

@@ -38,21 +38,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractGoogleRequest.cs" />
-    <Compile Include="Maps\AbstractMapsSearch.cs" />
+    <Compile Include="Maps\AbstractMapsRequest.cs" />
     <Compile Include="Maps\Geocoding\AddressComponent.cs" />
     <Compile Include="Maps\Geocoding\GeocodingResult.cs" />
-    <Compile Include="Maps\Geocoding\GeocodingResults.cs" />
-    <Compile Include="Maps\Geocoding\AbstractGeocodingSearch.cs" />
+    <Compile Include="Maps\Geocoding\GeocodingResponse.cs" />
+    <Compile Include="Maps\Geocoding\AbstractGeocodingRequest.cs" />
     <Compile Include="Maps\Geocoding\LocationTypes.cs" />
-    <Compile Include="Maps\Geocoding\ReverseGeocodingSearch.cs" />
-    <Compile Include="Maps\Geocoding\GeocodingSearch.cs" />
+    <Compile Include="Maps\Geocoding\ReverseGeocodingRequest.cs" />
+    <Compile Include="Maps\Geocoding\GeocodingRequest.cs" />
     <Compile Include="Maps\Geocoding\AddressComponentType.cs" />
     <Compile Include="Maps\Geocoding\GeometryLocationType.cs" />
     <Compile Include="Maps\Geocoding\GeometryResult.cs" />
     <Compile Include="Maps\Geocoding\GeometryViewport.cs" />
     <Compile Include="Maps\PlaceID.cs" />
-    <Compile Include="Maps\TimeZone\TimeZoneResult.cs" />
-    <Compile Include="Maps\TimeZone\TimeZoneSearch.cs" />
+    <Compile Include="Maps\Places\SearchRequest.cs" />
+    <Compile Include="Maps\TimeZone\TimeZoneResponse.cs" />
+    <Compile Include="Maps\TimeZone\TimeZoneRequest.cs" />
     <Compile Include="Maps\USAddress.cs" />
     <Compile Include="Maps\Endpoint.cs" />
     <Compile Include="Maps\MapTiles\LocationTypes.cs" />
@@ -64,16 +65,16 @@
     <Compile Include="Maps\MapTiles\MarkerStyle.cs" />
     <Compile Include="Maps\MapTiles\MarkerSize.cs" />
     <Compile Include="Maps\MapTiles\TileImageFormat.cs" />
-    <Compile Include="Maps\MapTiles\TileSearch.cs" />
-    <Compile Include="Maps\MapTiles\TileSearch.ImageFormat.cs" />
-    <Compile Include="Maps\StreetView\CubeMapSearch.cs" />
-    <Compile Include="Maps\StreetView\ImageSearch.cs" />
+    <Compile Include="Maps\MapTiles\TileRequest.cs" />
+    <Compile Include="Maps\MapTiles\TileRequest.ImageFormat.cs" />
+    <Compile Include="Maps\StreetView\CubeMapRequest.cs" />
+    <Compile Include="Maps\StreetView\ImageRequest.cs" />
     <Compile Include="Maps\StreetView\LocationTypes.cs" />
-    <Compile Include="Maps\StreetView\Metadata.cs" />
-    <Compile Include="Maps\StreetView\MetadataSearch.cs" />
+    <Compile Include="Maps\StreetView\MetadataResponse.cs" />
+    <Compile Include="Maps\StreetView\MetadataRequest.cs" />
     <Compile Include="Maps\PlaceName.cs" />
     <Compile Include="Maps\StreetView\PanoID.cs" />
-    <Compile Include="Maps\StreetView\AbstractStreetViewSearch.cs" />
+    <Compile Include="Maps\StreetView\AbstractStreetViewRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExt.cs" />
   </ItemGroup>

@@ -4,34 +4,34 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.Geocoding
 {
-    public class GeocodingSearch : AbstractGeocodingSearch
+    public class GeocodingRequest : AbstractGeocodingRequest
     {
-        public static GeocodingSearch Create(LocationTypes locationType, object value)
+        public static GeocodingRequest Create(LocationTypes locationType, object value)
         {
             switch (locationType)
             {
-                case LocationTypes.None: return new GeocodingSearch();
-                case LocationTypes.PlaceName: return new GeocodingSearch((PlaceName)value);
+                case LocationTypes.None: return new GeocodingRequest();
+                case LocationTypes.PlaceName: return new GeocodingRequest((PlaceName)value);
                 default: return default;
             }
         }
 
         private readonly Dictionary<AddressComponentType, string> components = new Dictionary<AddressComponentType, string>();
 
-        public GeocodingSearch()
+        public GeocodingRequest()
         {
         }
 
-        private GeocodingSearch(string address)
+        private GeocodingRequest(string address)
             : base(nameof(address), address) { }
 
-        public GeocodingSearch(PlaceID place_id)
+        public GeocodingRequest(PlaceID place_id)
             : base(nameof(place_id), (string)place_id) { }
 
-        public GeocodingSearch(PlaceName address)
+        public GeocodingRequest(PlaceName address)
             : this((string)address) { }
 
-        public GeocodingSearch(IDictionary<AddressComponentType, string> components)
+        public GeocodingRequest(IDictionary<AddressComponentType, string> components)
         {
             foreach (var kv in components)
             {

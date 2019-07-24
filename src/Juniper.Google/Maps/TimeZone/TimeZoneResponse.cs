@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace Juniper.Google.Maps.TimeZone
 {
     [Serializable]
-    public class TimeZoneResult : ISerializable
+    public class TimeZoneResponse : ISerializable
     {
         public readonly HttpStatusCode status;
         public readonly string errorMessage;
@@ -15,7 +15,7 @@ namespace Juniper.Google.Maps.TimeZone
         public readonly string timeZoneId;
         public readonly string timeZoneName;
 
-        protected TimeZoneResult(SerializationInfo info, StreamingContext context)
+        protected TimeZoneResponse(SerializationInfo info, StreamingContext context)
         {
             status = info.GetString(nameof(status)).MapToStatusCode();
             if (status == HttpStatusCode.OK)

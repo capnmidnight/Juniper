@@ -14,7 +14,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetMetadata()
         {
-            var metadataSearch = new MetadataSearch((PlaceName)"Washington, DC");
+            var metadataSearch = new MetadataRequest((PlaceName)"Washington, DC");
             var metadata = await service.Get(metadataSearch);
             Assert.IsTrue(service.IsCached(metadataSearch));
             Assert.AreEqual(HttpStatusCode.OK, metadata.status);
@@ -27,7 +27,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var imageSearch = new ImageSearch((PlaceName)"Washington, DC", 640, 640);
+            var imageSearch = new ImageRequest((PlaceName)"Washington, DC", 640, 640);
             var image = await service.Get(imageSearch);
             Assert.IsTrue(service.IsCached(imageSearch));
             Assert.AreEqual(640, image.dimensions.width);
@@ -37,7 +37,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImage_10x()
         {
-            var imageSearch = new ImageSearch((PlaceName)"Washington, DC", 640, 640);
+            var imageSearch = new ImageRequest((PlaceName)"Washington, DC", 640, 640);
             var tasks = new Task<RawImage>[10];
             for (int i = 0; i < tasks.Length; ++i)
             {
@@ -54,7 +54,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImageWithFlip_10x()
         {
-            var imageSearch = new ImageSearch((PlaceName)"Washington, DC", 640, 640)
+            var imageSearch = new ImageRequest((PlaceName)"Washington, DC", 640, 640)
             {
                 FlipImage = true
             };
@@ -74,7 +74,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetCubeMap()
         {
-            var cubeMapSearch = new CubeMapSearch((PlaceName)"Washington, DC", 640, 640);
+            var cubeMapSearch = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640);
             var images = await service.Get(cubeMapSearch);
             Assert.IsTrue(service.IsCached(cubeMapSearch));
             foreach (var image in images)
@@ -87,7 +87,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public void GetCubeMap_10x()
         {
-            var cubeMapSearch = new CubeMapSearch((PlaceName)"Washington, DC", 640, 640);
+            var cubeMapSearch = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640);
             var tasks = new Task<RawImage[]>[10];
             for (int i = 0; i < tasks.Length; ++i)
             {
@@ -111,7 +111,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public void GetCubeMapWithFlip_10x()
         {
-            var cubeMapSearch = new CubeMapSearch((PlaceName)"Washington, DC", 640, 640)
+            var cubeMapSearch = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640)
             {
                 FlipImages = true
             };

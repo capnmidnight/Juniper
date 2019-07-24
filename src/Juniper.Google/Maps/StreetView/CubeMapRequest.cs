@@ -7,9 +7,9 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class CubeMapSearch : AbstractMultiRequest<RawImage, ImageSearch>
+    public class CubeMapRequest : AbstractMultiRequest<RawImage, ImageRequest>
     {
-        private CubeMapSearch(Func<ImageSearch> factory)
+        private CubeMapRequest(Func<ImageRequest> factory)
             : base(6, factory)
         {
             subSearches[0].SetHeading(Heading.North);
@@ -31,37 +31,37 @@ namespace Juniper.Google.Maps.StreetView
             subSearches[5].SetPitch(Pitch.Down);
         }
 
-        public CubeMapSearch(PanoID pano, Size size)
-            : this(() => new ImageSearch(pano, size))
+        public CubeMapRequest(PanoID pano, Size size)
+            : this(() => new ImageRequest(pano, size))
         {
         }
 
-        public CubeMapSearch(PanoID pano, int width, int height)
-            : this(() => new ImageSearch(pano, new Size(width, height)))
+        public CubeMapRequest(PanoID pano, int width, int height)
+            : this(() => new ImageRequest(pano, new Size(width, height)))
         {
         }
 
-        public CubeMapSearch(PlaceName placeName, Size size)
-            : this(() => new ImageSearch(placeName, size))
+        public CubeMapRequest(PlaceName placeName, Size size)
+            : this(() => new ImageRequest(placeName, size))
         {
         }
 
-        public CubeMapSearch(PlaceName placeName, int width, int height)
-            : this(() => new ImageSearch(placeName, new Size(width, height)))
+        public CubeMapRequest(PlaceName placeName, int width, int height)
+            : this(() => new ImageRequest(placeName, new Size(width, height)))
         {
         }
 
-        public CubeMapSearch(LatLngPoint location, Size size)
-            : this(() => new ImageSearch(location, size))
+        public CubeMapRequest(LatLngPoint location, Size size)
+            : this(() => new ImageRequest(location, size))
         {
         }
 
-        public CubeMapSearch(LatLngPoint location, int width, int height)
-            : this(() => new ImageSearch(location, new Size(width, height)))
+        public CubeMapRequest(LatLngPoint location, int width, int height)
+            : this(() => new ImageRequest(location, new Size(width, height)))
         {
         }
 
-        public CubeMapSearch SetRadius(int searchRadius)
+        public CubeMapRequest SetRadius(int searchRadius)
         {
             foreach (var search in subSearches)
             {
@@ -70,7 +70,7 @@ namespace Juniper.Google.Maps.StreetView
             return this;
         }
 
-        public CubeMapSearch SetSource(bool outdoorOnly)
+        public CubeMapRequest SetSource(bool outdoorOnly)
         {
             foreach (var search in subSearches)
             {

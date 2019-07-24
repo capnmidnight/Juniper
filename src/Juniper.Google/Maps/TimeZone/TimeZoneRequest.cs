@@ -6,9 +6,9 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.TimeZone
 {
-    public class TimeZoneSearch : AbstractMapsSearch<TimeZoneResult>
+    public class TimeZoneRequest : AbstractMapsRequest<TimeZoneResponse>
     {
-        public TimeZoneSearch(LatLngPoint location, DateTime timestamp)
+        public TimeZoneRequest(LatLngPoint location, DateTime timestamp)
             : base("timezone/json", "timezones", "application/json", "json", false)
         {
             SetQuery(nameof(location), location);
@@ -17,9 +17,9 @@ namespace Juniper.Google.Maps.TimeZone
             SetQuery(nameof(timestamp), offset.ToUnixTimeSeconds());
         }
 
-        public override Func<Stream, TimeZoneResult> GetDecoder(AbstractEndpoint api)
+        public override Func<Stream, TimeZoneResponse> GetDecoder(AbstractEndpoint api)
         {
-            return api.DecodeObject<TimeZoneResult>;
+            return api.DecodeObject<TimeZoneResponse>;
         }
     }
 }

@@ -5,20 +5,20 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class MetadataSearch : AbstractStreetViewSearch<Metadata>
+    public class MetadataRequest : AbstractStreetViewRequest<MetadataResponse>
     {
-        public MetadataSearch(PanoID pano)
+        public MetadataRequest(PanoID pano)
             : base("streetview/metadata", "application/json", "json", pano) { }
 
-        public MetadataSearch(PlaceName placeName)
+        public MetadataRequest(PlaceName placeName)
             : base("streetview/metadata", "application/json", "json", placeName) { }
 
-        public MetadataSearch(LatLngPoint location)
+        public MetadataRequest(LatLngPoint location)
             : base("streetview/metadata", "application/json", "json", location) { }
 
-        public override Func<Stream, Metadata> GetDecoder(AbstractEndpoint api)
+        public override Func<Stream, MetadataResponse> GetDecoder(AbstractEndpoint api)
         {
-            return api.DecodeObject<Metadata>;
+            return api.DecodeObject<MetadataResponse>;
         }
     }
 }

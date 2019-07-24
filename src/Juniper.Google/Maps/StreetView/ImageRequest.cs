@@ -7,53 +7,53 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class ImageSearch : AbstractStreetViewSearch<RawImage>
+    public class ImageRequest : AbstractStreetViewRequest<RawImage>
     {
-        public static ImageSearch Create(LocationTypes locationType, object value, Size size)
+        public static ImageRequest Create(LocationTypes locationType, object value, Size size)
         {
             switch (locationType)
             {
-                case LocationTypes.PanoID: return new ImageSearch((PanoID)value, size);
-                case LocationTypes.PlaceName: return new ImageSearch((PlaceName)value, size);
-                case LocationTypes.LatLngPoint: return new ImageSearch((LatLngPoint)value, size);
+                case LocationTypes.PanoID: return new ImageRequest((PanoID)value, size);
+                case LocationTypes.PlaceName: return new ImageRequest((PlaceName)value, size);
+                case LocationTypes.LatLngPoint: return new ImageRequest((LatLngPoint)value, size);
                 default: return default;
             }
         }
 
-        public static ImageSearch Create(LocationTypes locationType, object value, int width, int height)
+        public static ImageRequest Create(LocationTypes locationType, object value, int width, int height)
         {
             return Create(locationType, value, new Size(width, height));
         }
 
-        public ImageSearch(PanoID pano, Size size)
+        public ImageRequest(PanoID pano, Size size)
             : base("streetview", "image/jpeg", "jpeg", pano)
         {
             SetSize(size);
         }
 
-        public ImageSearch(PanoID pano, int width, int height)
+        public ImageRequest(PanoID pano, int width, int height)
             : this(pano, new Size(width, height))
         {
         }
 
-        public ImageSearch(PlaceName placeName, Size size)
+        public ImageRequest(PlaceName placeName, Size size)
             : base("streetview", "image/jpeg", "jpeg", placeName)
         {
             SetSize(size);
         }
 
-        public ImageSearch(PlaceName placeName, int width, int height)
+        public ImageRequest(PlaceName placeName, int width, int height)
             : this(placeName, new Size(width, height))
         {
         }
 
-        public ImageSearch(LatLngPoint location, Size size)
+        public ImageRequest(LatLngPoint location, Size size)
             : base("streetview", "image/jpeg", "jpeg", location)
         {
             SetSize(size);
         }
 
-        public ImageSearch(LatLngPoint location, int width, int height)
+        public ImageRequest(LatLngPoint location, int width, int height)
             : this(location, new Size(width, height))
         {
             SetSize(width, height);

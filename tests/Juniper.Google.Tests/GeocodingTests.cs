@@ -14,7 +14,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task BasicGeocoding()
         {
-            var search = new GeocodingSearch((PlaceName)"4909 Rutland Place, Alexandria, VA 22304");
+            var search = new GeocodingRequest((PlaceName)"4909 Rutland Place, Alexandria, VA 22304");
             var results = await service.Get(search);
             Assert.IsTrue(service.IsCached(search));
             Assert.IsNotNull(results);
@@ -26,7 +26,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task BasicComponentFilter()
         {
-            var search = new GeocodingSearch((PlaceName)"High St, Hastings");
+            var search = new GeocodingRequest((PlaceName)"High St, Hastings");
             search.SetCountryFilter("GB");
             var results = await service.Get(search);
             Assert.IsTrue(service.IsCached(search));
@@ -43,7 +43,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task BasicGeocoding_WithAddressType()
         {
-            var search = new GeocodingSearch(new USAddress(
+            var search = new GeocodingRequest(new USAddress(
                 "4909 Rutland Place",
                 "Alexandria", "VA", "22304"));
             var results = await service.Get(search);
@@ -57,7 +57,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task FormattedAddress()
         {
-            var search = new GeocodingSearch(new USAddress(
+            var search = new GeocodingRequest(new USAddress(
                 "4909 Rutland Place",
                 "Alexandria", "VA", "22304"));
             var results = await service.Get(search);
@@ -69,7 +69,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task AddressType()
         {
-            var search = new GeocodingSearch(new USAddress(
+            var search = new GeocodingRequest(new USAddress(
                 "4909 Rutland Place",
                 "Alexandria", "VA", "22304"));
             var results = await service.Get(search);
@@ -81,7 +81,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task GeomLocationType()
         {
-            var search = new GeocodingSearch(new USAddress(
+            var search = new GeocodingRequest(new USAddress(
                 "4909 Rutland Place",
                 "Alexandria", "VA", "22304"));
             var results = await service.Get(search);
@@ -92,7 +92,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task StreetNumber()
         {
-            var search = new GeocodingSearch(new USAddress(
+            var search = new GeocodingRequest(new USAddress(
                 "4909 Rutland Place",
                 "Alexandria", "VA", "22304"));
             var results = await service.Get(search);
@@ -106,7 +106,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task Route()
         {
-            var search = new GeocodingSearch(new USAddress(
+            var search = new GeocodingRequest(new USAddress(
                 "4909 Rutland Place",
                 "Alexandria", "VA", "22304"));
             var results = await service.Get(search);
@@ -120,7 +120,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task PostalCode()
         {
-            var search = new GeocodingSearch(new USAddress(
+            var search = new GeocodingRequest(new USAddress(
                 "4909 Rutland Place",
                 "Alexandria", "VA", "22304"));
             var results = await service.Get(search);
@@ -134,7 +134,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task PostalCodeSuffix()
         {
-            var search = new GeocodingSearch(new USAddress(
+            var search = new GeocodingRequest(new USAddress(
                 "4909 Rutland Place",
                 "Alexandria", "VA", "22304"));
             var results = await service.Get(search);
@@ -148,7 +148,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task Neighborhood()
         {
-            var search = new GeocodingSearch(new USAddress(
+            var search = new GeocodingRequest(new USAddress(
                 "4909 Rutland Place",
                 "Alexandria", "VA", "22304"));
             var results = await service.Get(search);
@@ -166,7 +166,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task City()
         {
-            var search = new GeocodingSearch(new USAddress(
+            var search = new GeocodingRequest(new USAddress(
                 "4909 Rutland Place",
                 "Alexandria", "VA", "22304"));
             var results = await service.Get(search);
@@ -184,7 +184,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task State()
         {
-            var search = new GeocodingSearch(new USAddress(
+            var search = new GeocodingRequest(new USAddress(
                 "4909 Rutland Place",
                 "Alexandria", "VA", "22304"));
             var results = await service.Get(search);
@@ -202,7 +202,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task Country()
         {
-            var search = new GeocodingSearch(new USAddress(
+            var search = new GeocodingRequest(new USAddress(
                 "4909 Rutland Place",
                 "Alexandria", "VA", "22304"));
             var results = await service.Get(search);

@@ -4,22 +4,22 @@ using Juniper.HTTP.REST;
 
 namespace Juniper.Google.Maps.Geocoding
 {
-    public abstract class AbstractGeocodingSearch : AbstractMapsSearch<GeocodingResults>
+    public abstract class AbstractGeocodingRequest : AbstractMapsRequest<GeocodingResponse>
     {
-        protected AbstractGeocodingSearch()
+        protected AbstractGeocodingRequest()
             : base("geocode/json", "geocoding", "application/json", "json", false)
         {
         }
 
-        protected AbstractGeocodingSearch(string paramName, string paramValue)
+        protected AbstractGeocodingRequest(string paramName, string paramValue)
             : this()
         {
             SetQuery(paramName, paramValue);
         }
 
-        public override Func<Stream, GeocodingResults> GetDecoder(AbstractEndpoint api)
+        public override Func<Stream, GeocodingResponse> GetDecoder(AbstractEndpoint api)
         {
-            return api.DecodeObject<GeocodingResults>;
+            return api.DecodeObject<GeocodingResponse>;
         }
 
         public void SetLanguage(string language)

@@ -7,7 +7,7 @@ using Juniper.World.GIS;
 namespace Juniper.Google.Maps.StreetView
 {
     [Serializable]
-    public class Metadata : ISerializable
+    public class MetadataResponse : ISerializable
     {
         public readonly HttpStatusCode status;
         public readonly string copyright;
@@ -15,7 +15,7 @@ namespace Juniper.Google.Maps.StreetView
         public readonly PanoID pano_id;
         public readonly LatLngPoint location;
 
-        protected Metadata(SerializationInfo info, StreamingContext context)
+        protected MetadataResponse(SerializationInfo info, StreamingContext context)
         {
             status = info.GetString(nameof(status)).MapToStatusCode();
             if (status == HttpStatusCode.OK)
