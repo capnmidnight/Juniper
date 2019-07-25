@@ -22,20 +22,21 @@ namespace Juniper
             childTransitions = GetComponentsInChildren<AbstractTransitionController>(true);
         }
 
-        public virtual void Load(IProgress prog = null)
+        public override bool IsComplete
         {
-            prog?.Report(1);
-        }
-
-        [ContextMenu("Enter")]
-        public override void Enter()
-        {
-            isExitingPreviousScene = true;
-            foreach (var subScene in CurrentSubScenes)
+            get
             {
-                subScene.Exit();
+                var childrenComplete = true;
+                foreach (var child in childTransitions)
+                {
+                    if (!child.IsComplete)
+                    {
+                        childrenComplete = false;
+                        break;
+                    }
+                }
+                return base.IsComplete && childrenComplete;
             }
-            base.Enter();
         }
 
         /// <summary>
@@ -43,38 +44,15 @@ namespace Juniper
         /// </summary>
         /// <returns>The coroutine.</returns>
         [ContextMenu("Exit")]
-        public override void Exit()
+        public override void Exit(IProgress prog = null)
         {
             if (isActiveAndEnabled)
             {
-                foreach (var child in Exitable)
-                {
-                    child.Exit();
-                }
+                prog.ForEach(
+                    Exitable,
+                    (child, p) => child.Exit(p));
             }
-            base.Exit();
-        }
-
-        public override void Update()
-        {
-            if (IsRunning)
-            {
-                if (state == Direction.Forward && !isExitingPreviousScene && AllComplete(Enterable)
-                    || state == Direction.Reverse && AllComplete(Exitable))
-                {
-                    state = Direction.Stopped;
-                }
-                else if (state == Direction.Forward && isExitingPreviousScene && AllComplete(CurrentSubScenes))
-                {
-                    isExitingPreviousScene = false;
-                    foreach (var child in Enterable)
-                    {
-                        child.Enter();
-                    }
-                }
-            }
-
-            base.Update();
+            base.Exit(prog);
         }
 
         /// <summary>
@@ -98,8 +76,6 @@ namespace Juniper
         /// </summary>
         /// <value>The child state controllers.</value>
         private AbstractTransitionController[] childTransitions;
-
-        private bool isExitingPreviousScene;
 
         /// <summary>
         /// <see cref="childTransitions"/> that are not enabled, but exist on active game objects.
@@ -126,20 +102,6 @@ namespace Juniper
                 return from trans in childTransitions
                        where trans.enabled
                        select trans;
-            }
-        }
-
-        /// <summary>
-        /// Get all of the sub scenes that have been entered that are not the current sub scene.
-        /// </summary>
-        /// <value>The current sub scenes.</value>
-        private IEnumerable<SubSceneController> CurrentSubScenes
-        {
-            get
-            {
-                return from scene in FindObjectsOfType<SubSceneController>()
-                       where scene.enabled && scene != this
-                       select scene;
             }
         }
 
