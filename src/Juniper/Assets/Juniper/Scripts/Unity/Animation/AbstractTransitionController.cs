@@ -1,7 +1,7 @@
 using System;
 
 using Juniper.Input;
-
+using Juniper.Progress;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -48,7 +48,7 @@ namespace Juniper.Animation
         /// Attach event handlers at runtime to this field to receive notification when the
         /// transition has updated.
         /// </summary>
-        public event EventHandler<ValueChangedEventArgs> ValueChanged;
+        public event EventHandler<TransitionValueChangedEventArgs> ValueChanged;
 
         /// <summary>
         /// The length of time, in seconds, the transition should take to complete.
@@ -62,30 +62,30 @@ namespace Juniper.Animation
         /// Start the transition animation in the forward direction.
         /// </summary>
         [ContextMenu("Enter")]
-        public override void Enter()
+        public override void Enter(IProgress prog = null)
         {
             StartTransition(Direction.Forward);
-            base.Enter();
+            base.Enter(prog);
         }
 
         /// <summary>
         /// Jump the transition to the ENTERED state, without animating through the ENTERING state.
         /// </summary>
-        public override void SkipEnter()
+        protected override void SkipEnterInternal()
         {
             StartTransition(Direction.Forward);
-            base.SkipEnter();
             SetProgress(0);
+            base.SkipEnterInternal();
         }
 
         /// <summary>
         /// Start the transition animation in the outward direction.
         /// </summary>
         [ContextMenu("Exit")]
-        public override void Exit()
+        public override void Exit(IProgress prog = null)
         {
+            base.Exit(prog);
             StartTransition(Direction.Reverse);
-            base.Exit();
         }
 
         /// <summary>
@@ -117,34 +117,6 @@ namespace Juniper.Animation
             }
 
             base.Update();
-        }
-
-        /// <summary>
-        /// Changes in the transition value can be captured in other scripts by subscribing to the
-        /// ValueChanged event. This EventArgs object includes both the old and the new value.
-        /// </summary>
-        public class ValueChangedEventArgs : EventArgs
-        {
-            /// <summary>
-            /// The value before the change happens.
-            /// </summary>
-            public readonly float OldValue;
-
-            /// <summary>
-            /// The value after the change happens.
-            /// </summary>
-            public readonly float NewValue;
-
-            /// <summary>
-            /// Creates a new transition value change event.
-            /// </summary>
-            /// <param name="oldf">Oldf.</param>
-            /// <param name="newf">Newf.</param>
-            public ValueChangedEventArgs(float oldf, float newf)
-            {
-                OldValue = oldf;
-                NewValue = newf;
-            }
         }
 
         /// <summary>
@@ -189,7 +161,7 @@ namespace Juniper.Animation
         /// <param name="initial"></param>
         private void OnValueChanged(float final, float initial)
         {
-            ValueChanged?.Invoke(this, new ValueChangedEventArgs(initial, final));
+            ValueChanged?.Invoke(this, new TransitionValueChangedEventArgs(initial, final));
             onValueChanged?.Invoke();
         }
 

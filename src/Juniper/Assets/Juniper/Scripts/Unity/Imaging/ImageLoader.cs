@@ -16,8 +16,6 @@ namespace Juniper.Imaging
     /// </summary>
     public static class ImageLoader
     {
-        
-
 #if UNITY_5_3_OR_NEWER
         /// <summary>
         /// The texture format to use for decoding PNGs on the current system.

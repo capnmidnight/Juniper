@@ -180,6 +180,7 @@ namespace Juniper.Display
         }
 
         private JuniperSystem jp;
+
         private JuniperSystem Sys
         {
             get
@@ -418,18 +419,14 @@ namespace Juniper.Display
                         throw new InvalidOperationException("Unsupported platform");
                     }
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
                 {
                     Debug.LogError($"Could not change display type from {lastDisplayType} to {DisplayType}. Reason: {exp.Message}");
                     DisplayType = lastDisplayType;
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
-        }
-
-        [Serializable]
-        [ComVisible(false)]
-        public class DisplayTypeEvent : UnityEvent<DisplayTypes>
-        {
         }
 
         public DisplayTypeEvent onDisplayTypeChange;

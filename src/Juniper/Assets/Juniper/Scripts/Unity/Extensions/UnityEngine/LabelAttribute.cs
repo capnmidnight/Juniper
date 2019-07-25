@@ -3,7 +3,7 @@ namespace UnityEngine
     /// <summary>
     /// Add labels to things.
     /// </summary>
-    public class LabelAttribute : PropertyAttribute
+    public sealed class LabelAttribute : PropertyAttribute
     {
         /// <summary>
         /// The label text.

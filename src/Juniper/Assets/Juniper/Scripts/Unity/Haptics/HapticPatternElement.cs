@@ -161,5 +161,29 @@ namespace Juniper.Haptics
             { HapticExpression.Release, new []{
                 new HapticPatternElement(10, 1f / 6f) } }
         };
+
+        public override bool Equals(object obj)
+        {
+            return obj != null
+                && obj is HapticPatternElement p
+                && p.Amplitude == Amplitude
+                && p.Length == Length;
+        }
+
+        public override int GetHashCode()
+        {
+            return Length.GetHashCode()
+                ^ Amplitude.GetHashCode();
+        }
+
+        public static bool operator ==(HapticPatternElement left, HapticPatternElement right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(HapticPatternElement left, HapticPatternElement right)
+        {
+            return !(left == right);
+        }
     }
 }

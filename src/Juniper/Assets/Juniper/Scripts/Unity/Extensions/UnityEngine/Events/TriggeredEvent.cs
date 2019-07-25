@@ -1,8 +1,5 @@
 #if UNITY_MODULES_PHYSICS
 
-using System;
-using System.Runtime.InteropServices;
-
 namespace UnityEngine.Events
 {
     /// <summary>
@@ -12,15 +9,6 @@ namespace UnityEngine.Events
     [RequireComponent(typeof(Collider))]
     public class TriggeredEvent : MonoBehaviour
     {
-        /// <summary>
-        /// Event callback arguments
-        /// </summary>
-        [Serializable]
-        [ComVisible(false)]
-        public class TriggeredEventDelegate : UnityEvent<Collider>
-        {
-        }
-
         /// <summary>
         /// The event to occur when an object enters the trigger.
         /// </summary>
