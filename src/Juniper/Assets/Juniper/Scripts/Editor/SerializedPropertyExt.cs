@@ -9,34 +9,51 @@ namespace Juniper
 {
     public static class SerializedPropertyExt
     {
+        public static void SetValue<T>(this SerializedProperty property, T value)
+        {
+            var obj = GetObject(property);
+            if (obj != default && obj.Object != default)
+            {
+                obj.Field.SetValue(obj.Object, value);
+            }
+        }
+
         public static T GetValue<T>(this SerializedProperty property) where T : struct
         {
-            var value = GetObject(property);
-            if (value == null)
+            var obj = GetObject(property);
+            if (obj == default || obj.Object == default)
             {
                 return default;
             }
             else
             {
-                return (T)value;
+                return (T)obj.Field.GetValue(obj.Object);
             }
         }
 
         public static T GetObject<T>(this SerializedProperty property) where T : new()
         {
-            return (T)GetObject(property);
+            var obj = GetObject(property);
+            if (obj == default || obj.Object == default)
+            {
+                return default;
+            }
+            else
+            {
+                return (T)obj.Object;
+            }
         }
 
         public static T GetScriptableObject<T>(this SerializedProperty property) where T : ScriptableObject
         {
             var obj = GetObject(property);
-            if (obj == null)
+            if (obj == default || obj.Object == default)
             {
                 return ScriptableObject.CreateInstance<T>();
             }
             else
             {
-                return (T)obj;
+                return (T)obj.Object;
             }
         }
 
@@ -45,7 +62,7 @@ namespace Juniper
         /// </summary>
         private static readonly Regex arrayIndexPattern = new Regex("data\\[(\\w+)\\]", RegexOptions.Compiled);
 
-        private static object GetObject(SerializedProperty property)
+        private static (FieldInfo Field, object Object) GetObject(SerializedProperty property)
         {
             object head = property.serializedObject.targetObject;
             var parts = property.propertyPath.Split('.');
@@ -71,11 +88,11 @@ namespace Juniper
                 {
                     var type = head.GetType();
                     var field = type.GetField(part, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                    head = field.GetValue(head);
+                    return (Field: field, Object: head);
                 }
             }
 
-            return head;
+            return default;
         }
     }
 }

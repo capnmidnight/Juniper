@@ -33,11 +33,18 @@ namespace Juniper.World.GIS
             {
                 var latRect = new Rect(position.x, position.y, position.width / 2, position.height);
                 var lngRect = new Rect(position.x + position.width / 2, position.y, position.width / 2, position.height);
-                var latProp = property.FindPropertyRelative("Latitude");
-                var lngProp = property.FindPropertyRelative("Longitude");
+                var curPoint = property.GetValue<LatLngPoint>();
+                var curLat = curPoint.Latitude.ToString();
+                var curLng = curPoint.Longitude.ToString();
                 EditorGUIUtility.labelWidth = 25;
-                EditorGUI.PropertyField(latRect, latProp, labelLat);
-                EditorGUI.PropertyField(lngRect, lngProp, labelLng);
+                var nextLat = EditorGUI.TextField(latRect, labelLat, curLat);
+                var nextLng = EditorGUI.TextField(lngRect, labelLng, curLng);
+                if (float.TryParse(nextLat, out float lat)
+                    && float.TryParse(nextLng, out float lng))
+                {
+                    curPoint = new LatLngPoint(lat, lng);
+                    property.SetValue(curPoint);
+                }
             }
 
             EditorGUI.indentLevel = indent;
