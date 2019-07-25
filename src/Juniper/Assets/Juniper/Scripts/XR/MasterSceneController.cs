@@ -359,11 +359,9 @@ namespace Juniper
             }
 #endif
 
-
             loadingBar = sys.Query<LoadingBar>("LoadingBar");
 
             splash = sys.Query<UnityImage>("Canvas/SplashImage");
-
 
             optionsInterface = sys.Find("Canvas/Options/OptionsPanel");
             var btnContainer = optionsInterface.Find("Quality/QualityButtons");
@@ -416,11 +414,10 @@ namespace Juniper
 
             if (subSceneNames?.Length > 0)
             {
-                var split = prog.Split(subSceneNames.Length);
-                for (var i = 0; i < subSceneNames.Length; ++i)
-                {
-                    yield return LoadScenePathCoroutine(subSceneNames[i], split[i]);
-                }
+                yield return new InterleavedEnumerator(
+                    prog.Select(subSceneNames,
+                    (subSceneName, p) =>
+                        LoadScenePathCoroutine(subSceneName, p)));
             }
 
             prog?.Report(1);
@@ -523,7 +520,8 @@ namespace Juniper
         /// <returns>The scene.</returns>
         /// <param name="sceneName">Scene name.</param>
         /// <param name="path">     Path.</param>
-        private Scene? GetScene(string sceneName, string path)
+        private static Scene? GetScene(string sceneName, string path)
+
         {
             if (IsScenePathLoaded(path))
             {
@@ -590,12 +588,14 @@ namespace Juniper
                          from subScene in root.GetComponentsInChildren<SubSceneController>(true)
                          select subScene;
 
-            subSceneLoadProg.ForEach(toLoad, (ss, p) => ss.Load(p), Debug.LogException);
-
-            while (prog?.IsComplete() == false)
-            {
-                yield return sceneName + " " + (prog?.Progress).Label(UnitOfMeasure.Percent, 1);
-            }
+            var loading = new InterleavedEnumerator(subSceneLoadProg.Select(
+                toLoad,
+                (ss, p) =>
+                {
+                    ss.Enter(p);
+                    return ss.Waiter;
+                }));
+            yield return loading;
         }
 
 #if UNITY_EDITOR
