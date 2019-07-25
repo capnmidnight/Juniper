@@ -132,21 +132,21 @@ namespace Juniper.World
         public void Awake()
         {
             nextUpdateTime = Time.unscaledTime;
+            OnValidate();
+        }
 
-            if (!UseFakeCoord)
+        public void OnValidate()
+        {
+            if (!HasCoord)
             {
-                if (PlayerPrefs.HasKey(COORD_KEY))
+                if (UseFakeCoord)
+                {
+                    Coord = new LatLngPoint(38.881621f, -77.072478f, 0);
+                }
+                else if (PlayerPrefs.HasKey(COORD_KEY))
                 {
                     Coord = JsonConvert.DeserializeObject<LatLngPoint>(PlayerPrefs.GetString(COORD_KEY));
                 }
-                else
-                {
-                    Coord = new LatLngPoint();
-                }
-            }
-            else if (!HasCoord)
-            {
-                Coord = new LatLngPoint(38.881621f, -77.072478f, 0);
             }
         }
 
@@ -208,7 +208,7 @@ namespace Juniper.World
         }
 
         /// <summary>
-        /// A coroutine that startus up the GPS service and waits for it to either fail (in which
+        /// A coroutine that starts up the GPS service and waits for it to either fail (in which
         /// case, this component will be disabled), or successfully start running.
         /// </summary>
         /// <returns>The GPST racking coroutine.</returns>
