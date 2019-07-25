@@ -8,6 +8,7 @@ using Juniper.XR;
 
 using UnityEngine;
 using UnityEngine.Rendering;
+using Juniper.Progress;
 
 namespace Juniper.Animation
 {
@@ -215,6 +216,11 @@ namespace Juniper.Animation
         /// </summary>
         private int lastCameraCullingMask;
 
+        internal void SkipEnter()
+        {
+            SkipEnterInternal();
+        }
+
         /// <summary>
         /// The layers the controllers are rendered on. This is used to make sure the controllers
         /// are still visible while the scene is faded out.
@@ -273,10 +279,12 @@ namespace Juniper.Animation
                 {
                     action();
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
                 {
                     Debug.LogError(exp);
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             actions.Clear();

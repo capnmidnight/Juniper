@@ -156,8 +156,8 @@ namespace Juniper.Audio
         /// </summary>
         [Header("Configuration")]
         public AudioMixerGroup defaultMixerGroup;
-#endif
 
+#endif
 
         public GameObject volumeSlider;
 
@@ -241,7 +241,6 @@ namespace Juniper.Audio
 
         public virtual void Install(bool reset)
         {
-
 #if UNITY_MODULES_AUDIO
             listener = DisplayManager.MainCamera.Ensure<AudioListener>();
 #endif
@@ -399,7 +398,7 @@ namespace Juniper.Audio
         /// <returns>The wait.</returns>
         /// <param name="seconds">   Seconds.</param>
         /// <param name="onComplete">On complete.</param>
-        private IEnumerator Wait(float seconds, Action onComplete)
+        private static IEnumerator Wait(float seconds, Action onComplete)
         {
             yield return new WaitForSeconds(seconds);
             onComplete();
@@ -443,7 +442,7 @@ namespace Juniper.Audio
         /// </summary>
         /// <param name="action"> Action.</param>
         /// <param name="haptics">Haptics.</param>
-        private void PlayHaptics(Interaction action, AbstractHapticDevice haptics)
+        private static void PlayHaptics(Interaction action, AbstractHapticDevice haptics)
         {
             var expr = GetHapticExpressions(action);
             if (expr != HapticExpression.None)

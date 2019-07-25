@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 
 using Juniper.Input;
+using Juniper.Progress;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -126,6 +128,14 @@ namespace Juniper
         }
 
         /// <summary>
+        /// Finish the transition, whatever is going on.
+        /// </summary>
+        protected void Complete()
+        {
+            state = Direction.Stopped;
+        }
+
+        /// <summary>
         /// Returns true when <see cref="state"/> is not <see cref="Direction.Stopped"/>
         /// </summary>
         public bool IsRunning
@@ -161,7 +171,7 @@ namespace Juniper
         /// <summary>
         /// Jump to the fully entered state without firing any events.
         /// </summary>
-        public virtual void SkipEnter()
+        protected virtual void SkipEnterInternal()
         {
             skipEvents = true;
             lastState = Direction.Stopped;
@@ -173,28 +183,39 @@ namespace Juniper
             skipEvents = false;
         }
 
+        private IProgress progress;
+
         /// <summary>
         /// Fire the OnEnable event and perform the Enter transition.
         /// </summary>
-        public virtual void Enter()
+        public virtual void Enter(IProgress prog = null)
         {
+            progress = prog;
             if (IsExited)
             {
+                progress?.Report(0);
                 state = Direction.Forward;
                 enabled = true;
                 this.SetTreeActive(true);
             }
         }
 
-        /// <summary>
-        /// Called as the object goes from Inactive to Active. Prefer <see cref="Entering"/> if you
-        /// are programmatically adding event handlers at runtime. If you are adding event handlers
-        /// in the Unity Editor, prefer <see cref="onEntering"/>. If you are waiting for this event
-        /// in a subclass of StateController, prefer overriding the <see cref="OnEntering"/> method.
-        /// </summary>
-        public void OnEnable()
+        public void PrintStatus(string label)
         {
-            OnEntering();
+            var status = GetStatus(label);
+            print(status);
+        }
+
+        private string GetStatus(string label)
+        {
+            var fields = new[]{
+                enabled ? "enabled" : "",
+                IsEntered ? "entered" : "",
+                IsExited ? "exited" : "",
+                IsComplete ? "complete" : ""
+            };
+            var full = string.Join(", ", fields.Where(x => !string.IsNullOrEmpty(x)));
+            return $"{label}: {name} is {state} = {full}";
         }
 
         /// <summary>
@@ -245,29 +266,16 @@ namespace Juniper
             {
                 onEntered?.Invoke();
                 Entered?.Invoke(this, EventArgs.Empty);
+                progress?.Report(1);
             }
-        }
-
-        /// <summary>
-        /// Jump to the fully entered state without firing any events.
-        /// </summary>
-        public virtual void SkipExit()
-        {
-            skipEvents = true;
-            lastState = Direction.Stopped;
-            state = Direction.Reverse;
-            OnExiting();
-            lastState = Direction.Reverse;
-            state = Direction.Stopped;
-            Update();
-            skipEvents = false;
         }
 
         /// <summary>
         /// Fire the OnExiting event and perform the Exit transition.
         /// </summary>
-        public virtual void Exit()
+        public virtual void Exit(IProgress prog = null)
         {
+            progress = prog;
             if (IsEntered)
             {
                 state = Direction.Reverse;

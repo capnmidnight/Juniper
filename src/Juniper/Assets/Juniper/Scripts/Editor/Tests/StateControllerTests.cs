@@ -1,8 +1,9 @@
 #if UNITY_2018_1_OR_NEWER
+
 using System.Collections;
 
 using Juniper.Input;
-
+using Juniper.Progress;
 using NUnit.Framework;
 
 using UnityEngine;
@@ -420,12 +421,7 @@ namespace Juniper
                 }
             }
 
-            public void Complete()
-            {
-                state = Direction.Stopped;
-            }
-
-            public override void Exit()
+            public override void Exit(IProgress prog = null)
             {
                 startTime = Time.unscaledTime;
                 FiredEntering = FiredEntered = FiredExiting = FiredExited = false;
@@ -438,7 +434,13 @@ namespace Juniper
                 FiredEntering = FiredEntered = FiredExiting = FiredExited = false;
                 base.OnEntering();
             }
+
+            new public void Complete()
+            {
+                base.Complete();
+            }
         }
     }
 }
+
 #endif

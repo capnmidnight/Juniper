@@ -6,10 +6,9 @@ using System.IO;
 
 using Juniper.Data;
 using Juniper.Progress;
-using Juniper;
+using Juniper.Unity.Coroutines;
 
 using UnityEngine;
-using Juniper.Unity.Coroutines;
 
 namespace Juniper.Audio
 {
@@ -67,10 +66,12 @@ namespace Juniper.Audio
                 prog?.Report(1);
                 resolve(clip);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception exp)
             {
                 reject(exp);
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
     }
 }

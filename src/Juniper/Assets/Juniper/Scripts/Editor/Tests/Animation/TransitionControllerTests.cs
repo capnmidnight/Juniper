@@ -1,7 +1,8 @@
 #if UNITY_2018_1_OR_NEWER
+
 using System.Collections;
 using System.Collections.Generic;
-
+using Juniper.Progress;
 using NUnit.Framework;
 
 using UnityEngine;
@@ -396,11 +397,11 @@ namespace Juniper.Animation
                     ValueChanges.Add(Value));
             }
 
-            public override void Exit()
+            public override void Exit(IProgress prog = null)
             {
                 FiredEntering = FiredEntered = FiredExiting = FiredExited = false;
                 ValueChanges.Clear();
-                base.Exit();
+                base.Exit(prog);
             }
 
             protected override void RenderValue(float value)
@@ -417,4 +418,5 @@ namespace Juniper.Animation
         }
     }
 }
+
 #endif

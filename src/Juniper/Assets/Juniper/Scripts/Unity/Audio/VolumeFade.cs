@@ -70,7 +70,7 @@ namespace Juniper.Audio
         /// </summary>
         /// <param name="data">    </param>
         /// <param name="channels"></param>
-        public void OnAudioFilterRead(float[] data, int channels)
+        public void OnAudioFilterRead(float[] data, int _)
         {
             if (running)
             {

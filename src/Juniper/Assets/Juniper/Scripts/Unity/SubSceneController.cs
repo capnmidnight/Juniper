@@ -159,14 +159,5 @@ namespace Juniper
             }
             return true;
         }
-
-#if UNITY_EDITOR
-
-        [ContextMenu("Copy streaming assets")]
-        public void CopyStreamingAssets()
-        {
-        }
-
-#endif
     }
 }

@@ -21,6 +21,7 @@ namespace Juniper.Audio
 
 #if UNITY_EDITOR
         private bool wasSpatialize;
+
         public void OnValidate()
         {
             if (spatialize != wasSpatialize)
@@ -33,6 +34,7 @@ namespace Juniper.Audio
                 wasSpatialize = spatialize = true;
             }
         }
+
 #endif
 
         public override void Awake()
@@ -48,14 +50,14 @@ namespace Juniper.Audio
             player.spatialBlend = spatialBlend;
         }
 
-        public override void Load(IProgress prog = null)
+        public override void Enter(IProgress prog = null)
         {
-            prog?.Report(0);
-            Enter();
+            base.Enter(prog);
             StartCoroutine(audioClip.Load(
                 clip =>
                 {
                     player.clip = clip;
+                    Complete();
                     player.Play();
                 },
                 exp =>

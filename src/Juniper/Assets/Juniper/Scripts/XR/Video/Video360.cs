@@ -130,7 +130,7 @@ namespace Juniper.Video
             CreateAudioTracks(1);
         }
 
-        public override void Load(IProgress prog = null)
+        public override void Enter(IProgress prog = null)
         {
             prog?.Report(0);
             Enter();
@@ -159,6 +159,7 @@ namespace Juniper.Video
                     skyboxMaterial.SetTexture("_MainTex", renderTexture);
 
                     player.targetTexture = renderTexture;
+                    Complete();
                     Play();
                     prog?.Report(1);
                 }
