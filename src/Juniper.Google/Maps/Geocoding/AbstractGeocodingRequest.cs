@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+
 using Juniper.HTTP.REST;
 
 namespace Juniper.Google.Maps.Geocoding

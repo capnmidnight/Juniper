@@ -25,10 +25,16 @@ namespace Juniper.Google.Maps.StreetView
             return Create(locationType, value, new Size(width, height));
         }
 
+        private Size size;
+        private Heading heading;
+        private Pitch pitch;
+        private int radius;
+        private bool outdoorOnly;
+
         public ImageRequest(PanoID pano, Size size)
             : base("streetview", "image/jpeg", "jpeg", pano)
         {
-            SetSize(size);
+            Size = size;
         }
 
         public ImageRequest(PanoID pano, int width, int height)
@@ -39,7 +45,7 @@ namespace Juniper.Google.Maps.StreetView
         public ImageRequest(PlaceName placeName, Size size)
             : base("streetview", "image/jpeg", "jpeg", placeName)
         {
-            SetSize(size);
+            Size = size;
         }
 
         public ImageRequest(PlaceName placeName, int width, int height)
@@ -50,7 +56,7 @@ namespace Juniper.Google.Maps.StreetView
         public ImageRequest(LatLngPoint location, Size size)
             : base("streetview", "image/jpeg", "jpeg", location)
         {
-            SetSize(size);
+            Size = size;
         }
 
         public ImageRequest(LatLngPoint location, int width, int height)
@@ -59,36 +65,68 @@ namespace Juniper.Google.Maps.StreetView
             SetSize(width, height);
         }
 
-        public void SetSize(Size size)
+        public Size Size
         {
-            SetQuery(nameof(size), size);
+            get
+            {
+                return size;
+            }
+            set
+            {
+                size = SetQuery(nameof(size), value);
+            }
         }
 
         public void SetSize(int width, int height)
         {
-            SetSize(new Size(width, height));
+            Size = new Size(width, height);
         }
 
-        public void SetHeading(Heading heading)
+        public Heading Heading
         {
-            SetQuery(nameof(heading), (int)heading);
+            get { return heading; }
+            set
+            {
+                heading = value;
+                SetQuery(nameof(heading), (int)heading);
+            }
+        }
+
+        public Pitch Pitch
+        {
+            get { return pitch; }
+            set { SetPitch(value); }
         }
 
         public void SetPitch(Pitch pitch)
         {
+            this.pitch = pitch;
             SetQuery(nameof(pitch), (int)pitch);
         }
 
-        public void SetRadius(int radius)
+        public int Radius
         {
-            SetQuery(nameof(radius), radius);
+            get { return radius; }
+            set
+            {
+                radius = SetQuery(nameof(radius), value);
+            }
         }
 
-        public void SetSource(bool outdoorOnly)
+        public bool OutdoorOnly
         {
-            if (outdoorOnly)
+            get { return outdoorOnly; }
+            set
             {
-                SetQuery("source", "outdoor");
+                outdoorOnly = value;
+                if (outdoorOnly)
+                {
+                    SetQuery("source", "outdoor");
+                }
+                else
+                {
+                    RemoveQuery("source");
+                }
             }
         }
 

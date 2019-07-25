@@ -23,9 +23,10 @@ namespace Juniper.HTTP.REST
             this.extension = extension;
         }
 
-        protected void SetQuery<U>(string key, U value)
+        protected U SetQuery<U>(string key, U value)
         {
             SetQuery(key, value.ToString());
+            return value;
         }
 
         protected void RemoveQuery(string key)
@@ -33,7 +34,7 @@ namespace Juniper.HTTP.REST
             queryParams.Remove(key);
         }
 
-        private void SetQuery(string key, string value, bool allowMany)
+        private string SetQuery(string key, string value, bool allowMany)
         {
             var list = queryParams.Get(key) ?? new List<string>();
             if (allowMany || list.Count == 0)
@@ -45,21 +46,24 @@ namespace Juniper.HTTP.REST
                 list[0] = value;
             }
             queryParams[key] = list;
+
+            return value;
         }
 
-        protected void SetQuery(string key, string value)
+        protected string SetQuery(string key, string value)
         {
-            SetQuery(key, value, false);
+            return SetQuery(key, value, false);
         }
 
-        protected void AddQuery(string key, string value)
+        protected string AddQuery(string key, string value)
         {
-            SetQuery(key, value, true);
+            return SetQuery(key, value, true);
         }
 
-        protected void AddQuery<U>(string key, U value)
+        protected U AddQuery<U>(string key, U value)
         {
             SetQuery(key, value.ToString());
+            return value;
         }
 
         public virtual Uri BaseURI

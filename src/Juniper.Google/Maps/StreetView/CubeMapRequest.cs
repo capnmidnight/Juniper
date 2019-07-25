@@ -12,84 +12,131 @@ namespace Juniper.Google.Maps.StreetView
         private CubeMapRequest(Func<ImageRequest> factory)
             : base(6, factory)
         {
-            subSearches[0].SetHeading(Heading.North);
-            subSearches[0].SetPitch(Pitch.Level);
+            subRequests[0].Heading = Heading.North;
+            subRequests[0].Pitch = Pitch.Level;
 
-            subSearches[1].SetHeading(Heading.East);
-            subSearches[1].SetPitch(Pitch.Level);
+            subRequests[1].Heading = Heading.East;
+            subRequests[1].Pitch = Pitch.Level;
 
-            subSearches[2].SetHeading(Heading.West);
-            subSearches[2].SetPitch(Pitch.Level);
+            subRequests[2].Heading = Heading.West;
+            subRequests[2].Pitch = Pitch.Level;
 
-            subSearches[3].SetHeading(Heading.South);
-            subSearches[3].SetPitch(Pitch.Level);
+            subRequests[3].Heading = Heading.South;
+            subRequests[3].Pitch = Pitch.Level;
 
-            subSearches[4].SetHeading(Heading.North);
-            subSearches[4].SetPitch(Pitch.Up);
+            subRequests[4].Heading = Heading.North;
+            subRequests[4].Pitch = Pitch.Up;
 
-            subSearches[5].SetHeading(Heading.North);
-            subSearches[5].SetPitch(Pitch.Down);
+            subRequests[5].Heading = Heading.North;
+            subRequests[5].Pitch = Pitch.Down;
         }
 
         public CubeMapRequest(PanoID pano, Size size)
-            : this(() => new ImageRequest(pano, size))
-        {
-        }
+            : this(() => new ImageRequest(pano, size)) { }
 
         public CubeMapRequest(PanoID pano, int width, int height)
-            : this(() => new ImageRequest(pano, new Size(width, height)))
-        {
-        }
+            : this(() => new ImageRequest(pano, new Size(width, height))) { }
 
         public CubeMapRequest(PlaceName placeName, Size size)
-            : this(() => new ImageRequest(placeName, size))
-        {
-        }
+            : this(() => new ImageRequest(placeName, size)) { }
 
         public CubeMapRequest(PlaceName placeName, int width, int height)
-            : this(() => new ImageRequest(placeName, new Size(width, height)))
-        {
-        }
+            : this(() => new ImageRequest(placeName, new Size(width, height))) { }
 
         public CubeMapRequest(LatLngPoint location, Size size)
-            : this(() => new ImageRequest(location, size))
-        {
-        }
+            : this(() => new ImageRequest(location, size)) { }
 
         public CubeMapRequest(LatLngPoint location, int width, int height)
-            : this(() => new ImageRequest(location, new Size(width, height)))
+            : this(() => new ImageRequest(location, new Size(width, height))) { }
+
+        public Size Size
         {
+            get { return subRequests[0].Size; }
+            set
+            {
+                foreach (var request in subRequests)
+                {
+                    request.Size = value;
+                }
+            }
         }
 
-        public CubeMapRequest SetRadius(int searchRadius)
+        public void SetSize(int width, int height)
         {
-            foreach (var search in subSearches)
-            {
-                search.SetRadius(searchRadius);
-            }
-            return this;
+            Size = new Size(width, height);
         }
 
-        public CubeMapRequest SetSource(bool outdoorOnly)
+        public PanoID Pano
         {
-            foreach (var search in subSearches)
+            get { return subRequests[0].Pano; }
+            set
             {
-                search.SetSource(outdoorOnly);
+                foreach (var request in subRequests)
+                {
+                    request.Pano = value;
+                }
             }
-            return this;
+        }
+
+        public PlaceName Place
+        {
+            get { return subRequests[0].Place; }
+            set
+            {
+                foreach (var request in subRequests)
+                {
+                    request.Place = value;
+                }
+            }
+        }
+
+        public LatLngPoint Location
+        {
+            get { return subRequests[0].Location; }
+            set
+            {
+                foreach (var request in subRequests)
+                {
+                    request.Location = value;
+                }
+            }
+        }
+
+        public int Radius
+        {
+            get { return subRequests[0].Radius; }
+            set
+            {
+                foreach (var request in subRequests)
+                {
+                    request.Radius = value;
+                }
+            }
+        }
+
+        public bool OutdoorOnly
+        {
+            get { return subRequests[0].OutdoorOnly; }
+            set
+            {
+                foreach (var request in subRequests)
+                {
+                    request.OutdoorOnly = value;
+                }
+            }
         }
 
         public bool FlipImages
         {
             get
             {
-                return subSearches.Any(search => search.FlipImage);
+                return subRequests.Any(request => request.FlipImage);
             }
             set
             {
-                foreach (var search in subSearches)
+                foreach (var request in subRequests)
                 {
-                    search.FlipImage = value;
+                    request.FlipImage = value;
                 }
             }
         }

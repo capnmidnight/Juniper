@@ -48,7 +48,34 @@ namespace Juniper.Progress
         /// Perform a series of actions, updating a progress tracker along the way.
         /// </summary>
         /// <typeparam name="T">A type of items in a list of objects to iterate over, for progress tracking</typeparam>
-        /// <param name="prog">The progress tracker that aggregates all of the sub-oparations.</param>
+        /// <param name="prog">The progress tracker that aggregates all of the sub-operations.</param>
+        /// <param name="arr">The list of objects to iterate over, for progress tracking.</param>
+        /// <param name="act">The action to take on each list item.</param>
+        /// <param name="error">A callback to fire if an error occurs when processing a list item.</param>
+        public static IEnumerable<U> Select<T, U>(this IProgress prog, IEnumerable<T> arr, System.Func<T, IProgress, U> act)
+        {
+            prog?.Report(0);
+
+            var len = arr.Count();
+            var progs = prog.Split(len);
+            var index = 0;
+            foreach (var item in arr)
+            {
+                progs[index]?.Report(0);
+                yield return act(item, progs[index]);
+                progs[index]?.Report(1);
+                ++index;
+#pragma warning restore CA1031 // Do not catch general exception types
+            }
+
+            prog?.Report(1);
+        }
+
+        /// <summary>
+        /// Perform a series of actions, updating a progress tracker along the way.
+        /// </summary>
+        /// <typeparam name="T">A type of items in a list of objects to iterate over, for progress tracking</typeparam>
+        /// <param name="prog">The progress tracker that aggregates all of the sub-operations.</param>
         /// <param name="arr">The list of objects to iterate over, for progress tracking.</param>
         /// <param name="act">The action to take on each list item.</param>
         /// <param name="error">A callback to fire if an error occurs when processing a list item.</param>
@@ -114,7 +141,7 @@ namespace Juniper.Progress
         }
 
         /// <summary>
-        /// Split a progress tracker into <paramref name="numParts"/> subtrackers.
+        /// Split a progress tracker into <paramref name="numParts"/> sub-trackers.
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="numParts"></param>
