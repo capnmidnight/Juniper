@@ -176,7 +176,7 @@ namespace Juniper
             skipEvents = true;
             lastState = Direction.Stopped;
             state = Direction.Forward;
-            OnEnable();
+            enabled = true;
             lastState = Direction.Forward;
             state = Direction.Stopped;
             Update();

@@ -8,16 +8,18 @@ using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.Image;
 using Juniper.Imaging;
+using Juniper.Progress;
 using Juniper.Units;
 using Juniper.Unity;
 using Juniper.Unity.Coroutines;
+using Juniper.World;
 using Juniper.World.GIS;
 
 using UnityEngine;
 
 namespace Juniper.Images
 {
-    public class GoogleStreetView : MonoBehaviour
+    public class GoogleStreetView : SubSceneController
     {
         private const string LAT_LON = "_MAPPING_LATITUDE_LONGITUDE_LAYOUT";
         private const string SIDES_6 = "_MAPPING_6_FRAMES_LAYOUT";
@@ -33,22 +35,28 @@ namespace Juniper.Images
 
         public bool useMipMap = true;
 
-        private Mode lastLayout = Mode.None;
-        public Mode layout = Mode.Layout6Frames;
-
         private Material skyboxMaterial;
-
-        private RawImage[] images;
 
         private Endpoint gmaps;
 
         public int searchRadius = 50;
 
         private string lastLocation;
-        public string Location { get; set; }
+
+        public string Location;
+
+        private CubeMapRequest imageRequest;
 
         [ReadOnly]
-        public LatLngPoint GPS;
+        public LatLngPoint LatLngLocation;
+
+        [SerializeField]
+        [HideInNormalInspector]
+        private FadeTransition fader;
+
+        [SerializeField]
+        [HideInNormalInspector]
+        private GPSLocation gps;
 
         public enum Mode
         {
@@ -61,25 +69,35 @@ namespace Juniper.Images
 #if UNITY_EDITOR
 
         private EditorTextInput locationInput;
-        private FadeTransition fader;
 
         public void OnValidate()
         {
             locationInput = this.Ensure<EditorTextInput>();
+            FindComponents();
         }
 
 #endif
 
-        public void Awake()
+        private void FindComponents()
         {
+            fader = ComponentExt.FindAny<FadeTransition>();
+            gps = ComponentExt.FindAny<GPSLocation>();
+        }
+
+        public override void Awake()
+        {
+            base.Awake();
+
+            FindComponents();
+
 #if UNITY_EDITOR
             locationInput = this.Ensure<EditorTextInput>();
             locationInput.OnSubmit.AddListener(SetLocation);
-            Location = locationInput.value;
+            if (!string.IsNullOrEmpty(locationInput.value))
+            {
+                SetLocation(locationInput.value);
+            }
 #endif
-
-            fader = ComponentExt.FindAny<FadeTransition>();
-
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
             var cacheDir = new DirectoryInfo(cacheDirName);
@@ -91,30 +109,106 @@ namespace Juniper.Images
             gmaps = new Endpoint(json, apiKey, signingKey, cacheDir);
         }
 
-        public void Update()
+        public override void Enter(IProgress prog = null)
         {
-            if (Location != lastLocation
-                && (skyboxMaterial != null || images == null))
+            base.Enter(prog);
+            if (string.IsNullOrEmpty(Location) && gps?.HasCoord == true)
             {
-                GetImages();
+                SetLatLngLocation(gps.Coord);
             }
-            else if (Location == lastLocation
-                && layout != lastLayout
-                && images != null)
+            GetImages(false, prog);
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if (IsEntered)
             {
-                CreateSkyBox();
-            }
-            else if (Location == lastLocation
-                && layout == lastLayout
-                && skyboxMaterial != null)
-            {
-                UpdateSkyBox();
+                if (Location != lastLocation)
+                {
+                    print("location changed");
+                    GetImages(true);
+                }
+                else if (Location == lastLocation
+                    && skyboxMaterial != null)
+                {
+                    UpdateSkyBox();
+                }
             }
         }
 
-        public void SetLocation(string location)
+        private Coroutine GetImages(bool fromNavigation, IProgress prog = null)
         {
-            Location = location;
+            lastLocation = Location;
+            if (fromNavigation)
+            {
+                fader.Enter();
+            }
+            return StartCoroutine(GetImagesCoroutine(fromNavigation, prog));
+        }
+
+        private IEnumerator GetImagesCoroutine(bool fromNavigation, IProgress prog)
+        {
+            if (!string.IsNullOrEmpty(Location))
+            {
+                MetadataRequest metadataRequest;
+
+                if (LatLngPoint.TryParseDecimal(Location, out var point))
+                {
+                    metadataRequest = new MetadataRequest(point);
+                }
+                else
+                {
+                    metadataRequest = new MetadataRequest((PlaceName)Location);
+                }
+
+                if (metadataRequest != null)
+                {
+                    var metadataTask = gmaps.Get(metadataRequest);
+                    yield return new WaitForTask(metadataTask);
+                    var metadata = metadataTask.Result;
+                    if (metadata.status != HttpStatusCode.OK)
+                    {
+                        print("no metadata");
+                    }
+                    else
+                    {
+                        SetLatLngLocation(metadata.location);
+                        lastLocation = Location;
+                        imageRequest.Location = LatLngLocation;
+
+                        var imageTask = gmaps.Get(imageRequest);
+                        yield return new WaitForTask(imageTask);
+                        var images = imageTask.Result;
+
+                        var textures = new Texture[images.Length];
+                        for (int i = 0; i < images.Length; ++i)
+                        {
+                            textures[i] = ImageLoader.ConstructTexture2D(images[i], textureFormat);
+                            yield return null;
+                        }
+
+                        var newMaterial = new Material(Shader.Find("Skybox/6 Sided"));
+                        newMaterial.SetTexture("_FrontTex", textures[0]);
+                        newMaterial.SetTexture("_LeftTex", textures[1]);
+                        newMaterial.SetTexture("_RightTex", textures[2]);
+                        newMaterial.SetTexture("_BackTex", textures[3]);
+                        newMaterial.SetTexture("_UpTex", textures[4]);
+                        newMaterial.SetTexture("_DownTex", textures[5]);
+
+                        RenderSettings.skybox = newMaterial;
+                        DestroyImmediate(skyboxMaterial);
+                        skyboxMaterial = newMaterial;
+
+                        Complete();
+                        if (fromNavigation)
+                        {
+                            fader.Exit();
+                        }
+                    }
+                }
+            }
         }
 
         private void UpdateSkyBox()
@@ -124,35 +218,52 @@ namespace Juniper.Images
             skyboxMaterial.SetFloat("_Rotation", rotation);
         }
 
-        private void GetImages()
+        public void SetLatLngLocation(LatLngPoint location)
         {
-            fader.Enter();
-            images = null;
-            lastLayout = Mode.None;
-            lastLocation = Location;
-            StartCoroutine(GetImagesCoroutine());
+            LatLngLocation = location;
+            Location = LatLngLocation.ToCSV();
+            if (imageRequest == null)
+            {
+                imageRequest = new CubeMapRequest(LatLngLocation, 1024, 1024)
+                {
+                    FlipImages = true,
+                    Radius = searchRadius
+                };
+            }
+            else
+            {
+                imageRequest.Location = LatLngLocation;
+                imageRequest.Radius = searchRadius;
+            }
+
+            if (gps != null)
+            {
+                gps.Coord = location;
+            }
+#if UNITY_EDITOR
+            if (locationInput != null)
+            {
+                locationInput.value = Location;
+            }
+#endif
         }
 
-        private IEnumerator GetImagesCoroutine()
+        public void SetLocation(string location)
         {
-            if (!string.IsNullOrEmpty(Location))
+            if (LatLngPoint.TryParseDecimal(location, out var point))
             {
-                var metadataSearch = new MetadataRequest(LatLngPoint.ParseDecimal(Location));
-                var metadataTask = gmaps.Get(metadataSearch);
-                yield return new WaitForTask(metadataTask);
-                var metadata = metadataTask.Result;
-                if (metadata.status == HttpStatusCode.OK)
-                {
-                    GPS = metadata.location;
-                    var imageSearch = new CubeMapRequest(GPS, 1024, 1024)
-                    {
-                        FlipImages = true
-                    };
-                    imageSearch.SetRadius(searchRadius);
-                    var imageTask = gmaps.Get(imageSearch);
-                    yield return new WaitForTask(imageTask);
-                    images = imageTask.Result;
-                }
+                SetLatLngLocation(point);
+            }
+        }
+
+        public void Move(Vector2 deltaMeters)
+        {
+            if (LatLngLocation != null)
+            {
+                deltaMeters /= 10f;
+                var utm = LatLngLocation.ToUTM();
+                utm = new UTMPoint(utm.X + deltaMeters.x, utm.Y + deltaMeters.y, utm.Z, utm.Zone, utm.Hemisphere);
+                SetLatLngLocation(utm.ToLatLng());
             }
         }
 
@@ -174,87 +285,6 @@ namespace Juniper.Images
         public void MoveSouth()
         {
             Move(Vector2.down * 2 * searchRadius);
-        }
-
-        public void Move(Vector2 deltaMeters)
-        {
-            if (GPS != null)
-            {
-                deltaMeters /= 10f;
-                var utm = GPS.ToUTM();
-                utm = new UTMPoint(utm.X + deltaMeters.x, utm.Y + deltaMeters.y, utm.Z, utm.Zone, utm.Hemisphere);
-                GPS = utm.ToLatLng();
-                Location = $"{GPS.Latitude},{GPS.Longitude}";
-#if UNITY_EDITOR
-                locationInput.value = Location;
-#endif
-            }
-        }
-
-        private void CreateSkyBox()
-        {
-            RenderSettings.skybox = null;
-
-            DestroyImmediate(skyboxMaterial);
-            skyboxMaterial = null;
-
-            lastLayout = layout;
-            StartCoroutine(CreateSkyboxCoroutine());
-        }
-
-        private IEnumerator CreateSkyboxCoroutine()
-        {
-            if (layout != Mode.None)
-            {
-                if (layout == Mode.IndividualImages)
-                {
-                    var textures = new Texture[images.Length];
-                    for (int i = 0; i < images.Length; ++i)
-                    {
-                        textures[i] = ImageLoader.ConstructTexture2D(images[i], textureFormat);
-                        yield return null;
-                    }
-                    skyboxMaterial = new Material(Shader.Find("Skybox/6 Sided"));
-                    skyboxMaterial.SetTexture("_FrontTex", textures[0]);
-                    skyboxMaterial.SetTexture("_LeftTex", textures[1]);
-                    skyboxMaterial.SetTexture("_RightTex", textures[2]);
-                    skyboxMaterial.SetTexture("_BackTex", textures[3]);
-                    skyboxMaterial.SetTexture("_UpTex", textures[4]);
-                    skyboxMaterial.SetTexture("_DownTex", textures[5]);
-                    RenderSettings.skybox = skyboxMaterial;
-                    fader.Exit();
-                }
-                else if (layout == Mode.LayoutCross)
-                {
-                    var texture = ImageLoader.ConstructCubemap(images, textureFormat);
-                    skyboxMaterial = new Material(Shader.Find("Skybox/Cubemap"));
-                    skyboxMaterial.SetTexture("_Tex", texture);
-                    RenderSettings.skybox = skyboxMaterial;
-                    fader.Exit();
-                }
-                else if (layout == Mode.Layout6Frames)
-                {
-                    var combinedTask = RawImage.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
-                    yield return ImageLoader.ConstructTexture2D(combinedTask, textureFormat, texture =>
-                    {
-                        skyboxMaterial = new Material(Shader.Find("Skybox/Panoramic"));
-
-                        if (skyboxMaterial.IsKeywordEnabled(LAT_LON))
-                        {
-                            skyboxMaterial.DisableKeyword(LAT_LON);
-                        }
-                        skyboxMaterial.EnableKeyword(SIDES_6);
-
-                        skyboxMaterial.SetInt("_Mapping", 0);
-                        skyboxMaterial.SetInt("_ImageType", 0);
-                        skyboxMaterial.SetInt("_MirrorOnBack", 0);
-                        skyboxMaterial.SetInt("_Layout", 0);
-                        skyboxMaterial.SetTexture("_MainTex", texture);
-                        RenderSettings.skybox = skyboxMaterial;
-                        fader.Exit();
-                    }, Debug.LogError);
-                }
-            }
         }
     }
 }
