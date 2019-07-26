@@ -86,16 +86,21 @@ namespace Juniper.HTTP.REST
 
         public FileInfo GetCacheFile(AbstractEndpoint api)
         {
-            var cacheID = string.Join("_", BaseURI.PathAndQuery
-                                            .Split(Path.GetInvalidFileNameChars()));
+            return new FileInfo(GetChacheFileName(api));
+        }
+
+        protected virtual string GetChacheFileName(AbstractEndpoint api)
+        {
+            var cacheID = string.Join("_", BaseURI.Query
+                            .Substring(1)
+                            .Split(Path.GetInvalidFileNameChars()));
             var path = Path.Combine(api.cacheLocation.FullName, cacheLocString, cacheID);
             if (!extension.StartsWith("."))
             {
                 path += ".";
             }
             path += extension;
-            var file = new FileInfo(path);
-            return file;
+            return path;
         }
 
         public override bool IsCached(AbstractEndpoint api)

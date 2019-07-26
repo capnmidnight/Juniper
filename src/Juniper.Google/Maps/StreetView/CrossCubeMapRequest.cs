@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 using Juniper.HTTP.REST;
@@ -53,10 +54,17 @@ namespace Juniper.Google.Maps.StreetView
                 && base.IsCached(api);
         }
 
+        protected override string GetChacheFileName(AbstractEndpoint api)
+        {
+            var fileName = base.GetChacheFileName(api);
+            var extension = Path.GetExtension(fileName);
+            return Path.ChangeExtension(fileName, "cubemap" + extension);
+        }
+
         public override async Task<RawImage> Get(AbstractEndpoint api)
         {
             var cacheFile = GetCacheFile(api);
-            if (base.IsCached(api))
+            if (IsCached(api))
             {
                 return await factory.DecodeAsync(cacheFile, false);
             }

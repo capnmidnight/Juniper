@@ -65,7 +65,7 @@ namespace Juniper.Image
             return source;
         }
 
-        public static string GetExtension(ImageFormat format)
+        public static string GetContentType(ImageFormat format)
         {
             switch (format)
             {
@@ -75,7 +75,7 @@ namespace Juniper.Image
             }
         }
 
-        public static string GetContentType(ImageFormat format)
+        public static string GetExtension(ImageFormat format)
         {
             switch (format)
             {

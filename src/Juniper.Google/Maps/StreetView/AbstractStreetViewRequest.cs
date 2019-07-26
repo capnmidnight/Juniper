@@ -1,3 +1,4 @@
+using System.IO;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
@@ -9,7 +10,7 @@ namespace Juniper.Google.Maps.StreetView
         private LatLngPoint location;
 
         private AbstractStreetViewRequest(string path, string key)
-            : base(path, key, true)
+            : base(path, Path.Combine("streetview", key), true)
         {
         }
 
