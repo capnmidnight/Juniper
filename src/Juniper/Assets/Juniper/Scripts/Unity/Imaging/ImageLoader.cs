@@ -41,7 +41,8 @@ namespace Juniper.Imaging
                 StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
                 "image/png"))
             {
-                return await Decoder.DecodePNGAsync(flipImage, imageFile.Content);
+                var decoder = new Image.PNG.Factory();
+                return await decoder.DecodeAsync(imageFile.Content, flipImage);
             }
         }
 
@@ -52,7 +53,8 @@ namespace Juniper.Imaging
                 StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
                 "image/jpeg"))
             {
-                return await Decoder.DecodeJPEGAsync(flipImage, imageFile.Content);
+                var decoder = new Image.JPEG.Factory();
+                return await decoder.DecodeAsync(imageFile.Content, flipImage);
             }
         }
 

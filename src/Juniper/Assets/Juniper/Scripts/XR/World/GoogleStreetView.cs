@@ -226,7 +226,7 @@ namespace Juniper.Images
             {
                 imageRequest = new CubeMapRequest(LatLngLocation, 1024, 1024)
                 {
-                    FlipImages = true,
+                    FlipImage = true,
                     Radius = searchRadius
                 };
             }
