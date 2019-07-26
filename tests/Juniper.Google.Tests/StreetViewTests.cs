@@ -15,9 +15,9 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetMetadata()
         {
-            var metadataSearch = new MetadataRequest((PlaceName)"Washington, DC");
-            var metadata = await service.Get(metadataSearch);
-            Assert.IsTrue(service.IsCached(metadataSearch));
+            var metadataRequest = new MetadataRequest((PlaceName)"Washington, DC");
+            var metadata = await service.Get(metadataRequest);
+            Assert.IsTrue(service.IsCached(metadataRequest));
             Assert.AreEqual(HttpStatusCode.OK, metadata.status);
             Assert.IsNotNull(metadata.copyright);
             Assert.IsNotNull(metadata.date);
@@ -28,56 +28,19 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var imageSearch = new ImageRequest((PlaceName)"Washington, DC", 640, 640);
-            var image = await service.Get(imageSearch);
-            Assert.IsTrue(service.IsCached(imageSearch));
+            var imageRequest = new ImageRequest((PlaceName)"Alexandria, VA", 640, 640);
+            var image = await service.Get(imageRequest);
+            Assert.IsTrue(service.IsCached(imageRequest));
             Assert.AreEqual(640, image.dimensions.width);
             Assert.AreEqual(640, image.dimensions.height);
         }
 
         [TestMethod]
-        public async Task GetImage_10x()
-        {
-            var imageSearch = new ImageRequest((PlaceName)"Washington, DC", 640, 640);
-            var tasks = new Task<RawImage>[10];
-            for (int i = 0; i < tasks.Length; ++i)
-            {
-                tasks[i] = service.Get(imageSearch);
-            }
-            var images = await Task.WhenAll(tasks);
-            foreach (var image in images)
-            {
-                Assert.AreEqual(640, image.dimensions.width);
-                Assert.AreEqual(640, image.dimensions.height);
-            }
-        }
-
-        [TestMethod]
-        public async Task GetImageWithFlip_10x()
-        {
-            var imageSearch = new ImageRequest((PlaceName)"Washington, DC", 640, 640)
-            {
-                FlipImage = true
-            };
-            var tasks = new Task<RawImage>[10];
-            for (int i = 0; i < tasks.Length; ++i)
-            {
-                tasks[i] = service.Get(imageSearch);
-            }
-            var images = await Task.WhenAll(tasks);
-            foreach (var image in images)
-            {
-                Assert.AreEqual(640, image.dimensions.width);
-                Assert.AreEqual(640, image.dimensions.height);
-            }
-        }
-
-        [TestMethod]
         public async Task GetCubeMap()
         {
-            var cubeMapSearch = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640);
-            var images = await service.Get(cubeMapSearch);
-            Assert.IsTrue(service.IsCached(cubeMapSearch));
+            var cubeMapRequest = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640);
+            var images = await service.Get(cubeMapRequest);
+            Assert.IsTrue(service.IsCached(cubeMapRequest));
             foreach (var image in images)
             {
                 Assert.AreEqual(640, image.dimensions.width);
@@ -88,8 +51,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task SaveCubeMap6PNG()
         {
-            var cubeMapSearch = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640);
-            var images = await service.Get(cubeMapSearch);
+            var cubeMapRequest = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640);
+            var images = await service.Get(cubeMapRequest);
             var combined = await RawImage.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.png");
             var encoder = new Image.PNG.Factory();
@@ -100,8 +63,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task SaveCubeMap6JPEG()
         {
-            var cubeMapSearch = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640);
-            var images = await service.Get(cubeMapSearch);
+            var cubeMapRequest = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640);
+            var images = await service.Get(cubeMapRequest);
             var combined = await RawImage.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.jpeg");
             var encoder = new Image.PNG.Factory();
@@ -110,70 +73,20 @@ namespace Juniper.Google.Maps.StreetView.Tests
         }
 
         [TestMethod]
-        public async Task SaveCubeMapCrossPNG()
+        public async Task GetCubeMapCrossPNG()
         {
-            var cubeMapSearch = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640, ImageFormat.PNG);
-            var combined = await service.Get(cubeMapSearch);
+            var cubeMapRequest = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640, ImageFormat.PNG);
+            var combined = await service.Get(cubeMapRequest);
             Assert.IsNotNull(combined);
         }
 
         [TestMethod]
-        public async Task SaveCubeMapCrossJPEG()
+        public async Task GetCubeMapCrossJPEG()
         {
-            var cubeMapSearch = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640, ImageFormat.JPEG);
-            var combined = await service.Get(cubeMapSearch);
+            var cubeMapRequest = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640, ImageFormat.JPEG);
+            cubeMapRequest.GetCacheFile(service).Delete();
+            var combined = await service.Get(cubeMapRequest);
             Assert.IsNotNull(combined);
-        }
-
-        [TestMethod]
-        public void GetCubeMap_10x()
-        {
-            var cubeMapSearch = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640);
-            var tasks = new Task<RawImage[]>[10];
-            for (int i = 0; i < tasks.Length; ++i)
-            {
-                tasks[i] = service.Get(cubeMapSearch);
-            }
-
-            Task.WaitAll(tasks);
-
-            foreach (var task in tasks)
-            {
-                var images = task.Result;
-                Assert.IsTrue(service.IsCached(cubeMapSearch));
-                foreach (var image in images)
-                {
-                    Assert.AreEqual(640, image.dimensions.width);
-                    Assert.AreEqual(640, image.dimensions.height);
-                }
-            }
-        }
-
-        [TestMethod]
-        public void GetCubeMapWithFlip_10x()
-        {
-            var cubeMapSearch = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640)
-            {
-                FlipImage = true
-            };
-            var tasks = new Task<RawImage[]>[10];
-            for (int i = 0; i < tasks.Length; ++i)
-            {
-                tasks[i] = service.Get(cubeMapSearch);
-            }
-
-            Task.WaitAll(tasks);
-
-            foreach (var task in tasks)
-            {
-                var images = task.Result;
-                Assert.IsTrue(service.IsCached(cubeMapSearch));
-                foreach (var image in images)
-                {
-                    Assert.AreEqual(640, image.dimensions.width);
-                    Assert.AreEqual(640, image.dimensions.height);
-                }
-            }
         }
     }
 }

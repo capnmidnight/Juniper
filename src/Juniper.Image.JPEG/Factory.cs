@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using BitMiracle.LibJpeg;
 
 namespace Juniper.Image.JPEG
 {
@@ -12,7 +13,7 @@ namespace Juniper.Image.JPEG
         public RawImage Decode(Stream imageStream, bool flipImage)
         {
             var source = RawImage.DetermineSource(imageStream);
-            using (var jpeg = new BitMiracle.LibJpeg.JpegImage(imageStream))
+            using (var jpeg = new JpegImage(imageStream))
             {
                 var stride = jpeg.Width * jpeg.ComponentsPerSample;
                 int numRows = jpeg.Height;
@@ -38,7 +39,7 @@ namespace Juniper.Image.JPEG
         /// <param name="outputStream">Jpeg bytes.</param>
         public void Encode(RawImage image, Stream outputStream, bool flipImage)
         {
-            var rows = new BitMiracle.LibJpeg.SampleRow[image.dimensions.height];
+            var rows = new SampleRow[image.dimensions.height];
             var buf = new byte[image.stride];
             for (int i = 0; i < image.dimensions.height; ++i)
             {
@@ -51,9 +52,9 @@ namespace Juniper.Image.JPEG
                     (byte)image.components);
             }
 
-            using (var jpeg = new BitMiracle.LibJpeg.JpegImage(rows, BitMiracle.LibJpeg.Colorspace.RGB))
+            using (var jpeg = new JpegImage(rows, Colorspace.RGB))
             {
-                var compression = new BitMiracle.LibJpeg.CompressionParameters
+                var compression = new CompressionParameters
                 {
                     Quality = 10,
                     SimpleProgressive = false,
