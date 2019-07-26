@@ -15,15 +15,26 @@ namespace Juniper.Image
             Network
         }
 
+        public const int BytesPerComponent = sizeof(byte);
+        public const int BitsPerComponent = 8 * BytesPerComponent;
+
         public readonly ImageSource source;
         public readonly byte[] data;
         public readonly Size dimensions;
+        public readonly int stride;
+        public readonly int components;
+        public readonly int bytesPerSample;
+        public readonly int bitsPerSample;
 
         public RawImage(ImageSource source, Size dimensions, byte[] data)
         {
             this.source = source;
             this.dimensions = dimensions;
             this.data = data;
+            stride = data.Length / dimensions.height;
+            components = stride / dimensions.width;
+            bytesPerSample = BytesPerComponent * components;
+            bitsPerSample = 8 * bytesPerSample;
         }
 
         public RawImage(ImageSource source, int width, int height, byte[] data)
@@ -35,9 +46,6 @@ namespace Juniper.Image
         {
             return new RawImage(source, dimensions, (byte[])data.Clone());
         }
-
-        public int stride { get { return data.Length / dimensions.height; } }
-        public int components { get { return stride / dimensions.width; } }
 
         private static Task<RawImage> CombineTilesAsync(int columns, int rows, params RawImage[] images)
         {
@@ -87,23 +95,28 @@ namespace Juniper.Image
                 throw new ArgumentNullException($"Expected at least one image in {nameof(images)} to be not null");
             }
 
-            var destinationBuffer = new byte[numTiles * firstImage.data.Length];
             var imageStride = firstImage.stride;
-            var bufferStride = imageStride * columns;
-            for (int bufferRow = 0; bufferRow < rows; ++bufferRow)
+            var imageHeight = firstImage.dimensions.height;
+            var bufferStride = columns * imageStride;
+            var bufferHeight = rows * imageHeight;
+            var bufferLength = bufferStride * bufferHeight;
+            var buffer = new byte[bufferLength];
+            for(
+                int bufferI = 0,
+                    tileX = 0;
+                bufferI < bufferLength;
+                bufferI += imageStride,
+                    tileX = (tileX + 1) % columns)
             {
-                for (int bufferColumn = 0; bufferColumn < columns; ++bufferColumn)
+                var bufferY = bufferI / bufferStride;
+                var tileY = bufferY / imageHeight;
+                var tileI = tileY * columns + tileX;
+                var tile = images[tileI];
+                if (tile != null)
                 {
-                    int i = bufferRow * columns + bufferColumn;
-                    if (images[i] != null)
-                    {
-                        var img = images[i];
-                        int destinationIndex = bufferRow * bufferStride + bufferColumn * imageStride;
-                        for (int imageRow = 0; imageRow < img.data.Length; imageRow += imageStride)
-                        {
-                            Array.Copy(img.data, imageRow, destinationBuffer, destinationIndex, imageStride);
-                        }
-                    }
+                    var imageY = bufferY / columns;
+                    var imageI = imageY * imageStride;
+                    Array.Copy(tile.data, imageI, buffer, bufferI, imageStride);
                 }
             }
 
@@ -111,18 +124,18 @@ namespace Juniper.Image
                 ImageSource.None,
                 columns * firstImage.dimensions.width,
                 rows * firstImage.dimensions.height,
-                destinationBuffer);
+                buffer);
         }
 
         public static Task<RawImage> Combine6Squares(RawImage north, RawImage east, RawImage west, RawImage south, RawImage up, RawImage down)
         {
             return CombineTilesAsync(
                 3, 2,
-                north, east, west,
-                south, up, down);
+                west, south, east,
+                down, up, north);
         }
 
-        public static Task<RawImage> CombineCubemap(RawImage north, RawImage east, RawImage west, RawImage south, RawImage up, RawImage down)
+        public static Task<RawImage> CombineCross(RawImage north, RawImage east, RawImage west, RawImage south, RawImage up, RawImage down)
         {
             return CombineTilesAsync(
                 4, 3,

@@ -52,6 +52,8 @@
     <Compile Include="Maps\Geocoding\GeometryViewport.cs" />
     <Compile Include="Maps\PlaceID.cs" />
     <Compile Include="Maps\Places\SearchRequest.cs" />
+    <Compile Include="Maps\StreetView\CrossCubeMapRequest.cs" />
+    <Compile Include="Maps\StreetView\AbstractImageRequest.cs" />
     <Compile Include="Maps\TimeZone\TimeZoneResponse.cs" />
     <Compile Include="Maps\TimeZone\TimeZoneRequest.cs" />
     <Compile Include="Maps\USAddress.cs" />

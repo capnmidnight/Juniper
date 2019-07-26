@@ -90,6 +90,17 @@ namespace System.Net
         }
 
         /// <summary>
+        /// Perform a POST request, writing the body through a stream, and return the results as a stream.
+        /// </summary>
+        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
+        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
+        public static async Task<HttpWebResponse> Post(this HttpWebRequest request)
+        {
+            request.Method = "POST";
+            return (HttpWebResponse)await request.GetResponseAsync();
+        }
+
+        /// <summary>
         /// Perform a PUT request, writing the body through a stream, and return the results as a stream.
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
@@ -173,6 +184,21 @@ namespace System.Net
             return CachedGet(uri, decode, cacheFile, modifyRequest);
         }
 
+        public static Task<T> CachedPost<T>(
+            Uri uri,
+            Func<Stream, T> decode,
+            string cacheFileName = null,
+            Action<HttpWebRequest> modifyRequest = null)
+        {
+            FileInfo cacheFile = null;
+            if (!string.IsNullOrEmpty(cacheFileName))
+            {
+                cacheFile = new FileInfo(cacheFileName);
+            }
+
+            return CachedPost(uri, decode, cacheFile, modifyRequest);
+        }
+
         public static Task<T> CachedGet<T>(
             Uri uri,
             Func<Stream, T> decode,
@@ -182,7 +208,16 @@ namespace System.Net
             return Task.Run(() => CachedGetAsync(uri, decode, cacheFile, modifyRequest));
         }
 
-        public static async Task<T> CachedGetAsync<T>(
+        public static Task<T> CachedPost<T>(
+            Uri uri,
+            Func<Stream, T> decode,
+            FileInfo cacheFile,
+            Action<HttpWebRequest> modifyRequest = null)
+        {
+            return Task.Run(() => CachedPostAsync(uri, decode, cacheFile, modifyRequest));
+        }
+
+        private static async Task<T> CachedGetAsync<T>(
             Uri uri,
             Func<Stream, T> decode,
             FileInfo cacheFile,
@@ -201,6 +236,46 @@ namespace System.Net
                 modifyRequest?.Invoke(request);
 
                 var response = await request.Get();
+                body = response.GetResponseStream();
+            }
+
+            if (body == null)
+            {
+                return default;
+            }
+            else
+            {
+                if (cacheFile?.Exists == false)
+                {
+                    body = new CachingStream(body, cacheFile);
+                }
+
+                using (body)
+                {
+                    return decode(body);
+                }
+            }
+        }
+
+        private static async Task<T> CachedPostAsync<T>(
+            Uri uri,
+            Func<Stream, T> decode,
+            FileInfo cacheFile,
+            Action<HttpWebRequest> modifyRequest = null)
+        {
+            Stream body = null;
+
+            if (cacheFile?.Exists == true)
+            {
+                body = cacheFile.OpenRead();
+            }
+
+            if (body == null)
+            {
+                var request = Create(uri);
+                modifyRequest?.Invoke(request);
+
+                var response = await request.Post();
                 body = response.GetResponseStream();
             }
 

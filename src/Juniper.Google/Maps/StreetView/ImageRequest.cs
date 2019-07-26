@@ -7,7 +7,7 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class ImageRequest : AbstractStreetViewRequest<RawImage>
+    public class ImageRequest : AbstractImageRequest
     {
         public static ImageRequest Create(LocationTypes locationType, object value, Size size)
         {
@@ -28,113 +28,43 @@ namespace Juniper.Google.Maps.StreetView
         private Size size;
         private Heading heading;
         private Pitch pitch;
-        private int radius;
-        private bool outdoorOnly;
 
         public ImageRequest(PanoID pano, Size size)
-            : base("streetview", "image/jpeg", "jpeg", pano)
-        {
-            Size = size;
-        }
+            : base(pano, size) { }
 
         public ImageRequest(PanoID pano, int width, int height)
-            : this(pano, new Size(width, height))
-        {
-        }
+            : base(pano, width, height) { }
 
         public ImageRequest(PlaceName placeName, Size size)
-            : base("streetview", "image/jpeg", "jpeg", placeName)
-        {
-            Size = size;
-        }
+            : base(placeName, size) { }
 
         public ImageRequest(PlaceName placeName, int width, int height)
-            : this(placeName, new Size(width, height))
-        {
-        }
+            : base(placeName, width, height) { }
 
         public ImageRequest(LatLngPoint location, Size size)
-            : base("streetview", "image/jpeg", "jpeg", location)
-        {
-            Size = size;
-        }
+            : base(location, size) { }
 
         public ImageRequest(LatLngPoint location, int width, int height)
-            : this(location, new Size(width, height))
-        {
-            SetSize(width, height);
-        }
+            : base(location, width, height) { }
 
-        public Size Size
-        {
-            get
-            {
-                return size;
-            }
-            set
-            {
-                size = SetQuery(nameof(size), value);
-            }
-        }
-
-        public void SetSize(int width, int height)
-        {
-            Size = new Size(width, height);
-        }
-
+        
         public Heading Heading
         {
             get { return heading; }
             set
             {
                 heading = value;
-                SetQuery(nameof(heading), (int)heading);
+                SetQuery(nameof(heading), (int)value);
             }
         }
 
         public Pitch Pitch
         {
             get { return pitch; }
-            set { SetPitch(value); }
-        }
-
-        public void SetPitch(Pitch pitch)
-        {
-            this.pitch = pitch;
-            SetQuery(nameof(pitch), (int)pitch);
-        }
-
-        public int Radius
-        {
-            get { return radius; }
-            set
-            {
-                radius = SetQuery(nameof(radius), value);
+            set {
+                pitch = value;
+                SetQuery(nameof(pitch), (int)value);
             }
-        }
-
-        public bool OutdoorOnly
-        {
-            get { return outdoorOnly; }
-            set
-            {
-                outdoorOnly = value;
-                if (outdoorOnly)
-                {
-                    SetQuery("source", "outdoor");
-                }
-                else
-                {
-                    RemoveQuery("source");
-                }
-            }
-        }
-
-        public bool FlipImage { get; set; }
-
-        public override Func<Stream, RawImage> GetDecoder(AbstractEndpoint _)
-        {
-            return stream => Decoder.DecodeJPEG(stream, FlipImage);
         }
     }
 }

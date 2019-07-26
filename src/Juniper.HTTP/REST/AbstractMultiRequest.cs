@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,6 +28,13 @@ namespace Juniper.HTTP.REST
         {
             return Task.WhenAll(subRequests
                 .Select(search => search.Get(api))
+                .ToArray());
+        }
+
+        public override Task<ResponseElementType[]> Post(AbstractEndpoint api)
+        {
+            return Task.WhenAll(subRequests
+                .Select(search => search.Post(api))
                 .ToArray());
         }
     }

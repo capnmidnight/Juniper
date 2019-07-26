@@ -126,7 +126,7 @@ namespace Juniper.Google.Maps.StreetView
             }
         }
 
-        public bool FlipImages
+        public bool FlipImage
         {
             get
             {

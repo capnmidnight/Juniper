@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -85,6 +86,48 @@ namespace Juniper.Google.Maps.StreetView.Tests
         }
 
         [TestMethod]
+        public async Task SaveCubeMap6PNG()
+        {
+            var cubeMapSearch = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640);
+            var images = await service.Get(cubeMapSearch);
+            var combined = await RawImage.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
+            var outputFileName = Path.Combine(cacheDir.FullName, "dc6.png");
+            await Encoder.EncodePNGAsync(combined, outputFileName, false);
+            Assert.IsTrue(File.Exists(outputFileName));
+        }
+
+        [TestMethod]
+        public async Task SaveCubeMap6JPEG()
+        {
+            var cubeMapSearch = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640);
+            var images = await service.Get(cubeMapSearch);
+            var combined = await RawImage.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
+            var outputFileName = Path.Combine(cacheDir.FullName, "dc6.jpeg");
+            await Encoder.EncodePNGAsync(combined, outputFileName, false);
+            Assert.IsTrue(File.Exists(outputFileName));
+        }
+
+        [TestMethod]
+        public async Task SaveCubeMapCrossPNG()
+        {
+            var cubeMapSearch = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640);
+            var combined = await service.Get(cubeMapSearch);
+            var outputFileName = Path.Combine(cacheDir.FullName, "dcCross.png");
+            await Encoder.EncodePNGAsync(combined, outputFileName, false);
+            Assert.IsTrue(File.Exists(outputFileName));
+        }
+
+        [TestMethod]
+        public async Task SaveCubeMapCrossJPEG()
+        {
+            var cubeMapSearch = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640);
+            var combined = await service.Get(cubeMapSearch);
+            var outputFileName = Path.Combine(cacheDir.FullName, "dcCross.jpeg");
+            await Encoder.EncodePNGAsync(combined, outputFileName, false);
+            Assert.IsTrue(File.Exists(outputFileName));
+        }
+
+        [TestMethod]
         public void GetCubeMap_10x()
         {
             var cubeMapSearch = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640);
@@ -113,7 +156,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         {
             var cubeMapSearch = new CubeMapRequest((PlaceName)"Washington, DC", 640, 640)
             {
-                FlipImages = true
+                FlipImage = true
             };
             var tasks = new Task<RawImage[]>[10];
             for (int i = 0; i < tasks.Length; ++i)

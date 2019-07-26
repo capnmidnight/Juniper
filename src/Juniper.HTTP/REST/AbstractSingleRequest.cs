@@ -122,5 +122,22 @@ namespace Juniper.HTTP.REST
         {
             return Get(api, stream => stream);
         }
+
+        private Task<T> Post<T>(AbstractEndpoint api, Func<Stream, T> decoder)
+        {
+            var uri = MakeAuthenticatedURI(api);
+            var file = GetCacheFile(api);
+            return Task.Run(() => HttpWebRequestExt.CachedPost(uri, decoder, file, SetAcceptType));
+        }
+
+        public override Task<ResponseType> Post(AbstractEndpoint api)
+        {
+            return Post(api, GetDecoder(api));
+        }
+
+        public Task<Stream> PostRaw(AbstractEndpoint api)
+        {
+            return Post(api, stream => stream);
+        }
     }
 }
