@@ -26,8 +26,10 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task BasicComponentFilter()
         {
-            var search = new GeocodingRequest((PlaceName)"High St, Hastings");
-            search.SetCountryFilter("GB");
+            var search = new GeocodingRequest((PlaceName)"High St, Hastings")
+            {
+                CountryFilter = "GB"
+            };
             var results = await service.Get(search);
             Assert.IsTrue(service.IsCached(search));
             Assert.IsNotNull(results);

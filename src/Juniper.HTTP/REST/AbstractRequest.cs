@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace Juniper.HTTP.REST
@@ -6,8 +7,14 @@ namespace Juniper.HTTP.REST
     {
         public abstract bool IsCached(AbstractEndpoint api);
 
-        public abstract Task<ResponseType> Get(AbstractEndpoint api);
+        public virtual Task<ResponseType> Get(AbstractEndpoint api)
+        {
+            throw new NotImplementedException();
+        }
 
-        public abstract Task<ResponseType> Post(AbstractEndpoint api);
+        public virtual Task<ResponseType> Post(AbstractEndpoint api)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -33,38 +33,20 @@ namespace Juniper.Google.Maps.StreetView
 
         public PanoID Pano
         {
-            get
-            {
-                return pano;
-            }
-            set
-            {
-                SetLocation(value);
-            }
+            get { return pano; }
+            set { SetLocation(value); }
         }
 
         public PlaceName Place
         {
-            get
-            {
-                return placeName;
-            }
-            set
-            {
-                SetLocation(value);
-            }
+            get { return placeName; }
+            set { SetLocation(value); }
         }
 
         public LatLngPoint Location
         {
-            get
-            {
-                return location;
-            }
-            set
-            {
-                SetLocation(value);
-            }
+            get { return location; }
+            set { SetLocation(value); }
         }
 
         public void SetLocation(PanoID location)

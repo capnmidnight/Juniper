@@ -18,6 +18,9 @@ namespace Juniper.Google.Maps.Geocoding
 
         private readonly Dictionary<AddressComponentType, string> components = new Dictionary<AddressComponentType, string>();
 
+        private GeometryViewport bounds;
+        private string region;
+
         public GeocodingRequest()
         {
         }
@@ -52,44 +55,55 @@ namespace Juniper.Google.Maps.Geocoding
             return value;
         }
 
-        public void SetPostalCodeFilter(string value)
+        public string PostalCodeFilter
         {
-            SetComponent(AddressComponentType.postal_code, value);
+            get { return components.Get(AddressComponentType.postal_code, default); }
+            set { SetComponent(AddressComponentType.postal_code, value); }
         }
 
-        public void SetCountryFilter(string value)
+        public string CountryFilter
         {
-            SetComponent(AddressComponentType.country, value);
+            get { return components.Get(AddressComponentType.country, default); }
+            set { SetComponent(AddressComponentType.country, value); }
         }
 
-        public void SetRouteHint(string value)
+        public string RouteHint
         {
-            SetComponent(AddressComponentType.route, value);
+            get { return components.Get(AddressComponentType.route, default); }
+            set { SetComponent(AddressComponentType.route, value); }
         }
 
-        public void SetLocalityHint(string value)
+        public string LocalityHint
         {
-            SetComponent(AddressComponentType.locality, value);
+            get { return components.Get(AddressComponentType.locality, default); }
+            set { SetComponent(AddressComponentType.locality, value); }
         }
 
-        public void SetAdministrativeAreaHint(string value)
+        public string AdministrativeAreaHint
         {
-            SetComponent(AddressComponentType.administrative_area, value);
+            get { return components.Get(AddressComponentType.administrative_area, default); }
+            set { SetComponent(AddressComponentType.administrative_area, value); }
         }
 
         public void SetBounds(LatLngPoint southWest, LatLngPoint northEast)
         {
-            SetBounds(new GeometryViewport(southWest, northEast));
+            Bounds = new GeometryViewport(southWest, northEast);
         }
 
-        public void SetBounds(GeometryViewport bounds)
+        public GeometryViewport Bounds
         {
-            SetQuery(nameof(bounds), $"{bounds.southwest.ToCSV()}|{bounds.northeast.ToCSV()}");
+            get { return bounds; }
+            set
+            {
+                bounds = value;
+                SetQuery(nameof(bounds), $"{bounds.southwest.ToCSV()}|{bounds.northeast.ToCSV()}");
+            }
         }
 
-        public void SetRegion(string region)
+        public string Region
         {
-            SetQuery(nameof(region), region);
+            get { return region; }
+            set { region = SetQuery(nameof(region), region); }
         }
     }
 }

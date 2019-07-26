@@ -68,10 +68,5 @@ namespace Juniper.Google.Maps.StreetView
                 return combined;
             }
         }
-
-        public override Task<RawImage> Post(AbstractEndpoint api)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

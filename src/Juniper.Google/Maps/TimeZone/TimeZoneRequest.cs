@@ -25,23 +25,13 @@ namespace Juniper.Google.Maps.TimeZone
 
         public LatLngPoint Location
         {
-            get
-            {
-                return location;
-            }
-            set
-            {
-                location = SetQuery(nameof(location), value);
-            }
+            get { return location; }
+            set { location = SetQuery(nameof(location), value); }
         }
 
         public DateTime Timestamp
         {
-            get
-            {
-                return timestamp;
-            }
-
+            get { return timestamp; }
             set
             {
                 timestamp = value;
