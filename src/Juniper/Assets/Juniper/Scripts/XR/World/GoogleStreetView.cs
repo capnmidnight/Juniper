@@ -6,7 +6,6 @@ using System.Net;
 using Juniper.Animation;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
-using Juniper.Image;
 using Juniper.Imaging;
 using Juniper.Progress;
 using Juniper.Units;
@@ -36,6 +35,7 @@ namespace Juniper.Images
         public bool useMipMap = true;
 
         private Material skyboxMaterial;
+        private Material newMaterial;
 
         private Endpoint gmaps;
 
@@ -44,8 +44,6 @@ namespace Juniper.Images
         private string lastLocation;
 
         public string Location;
-
-        private CubeMapRequest imageRequest;
 
         [ReadOnly]
         public LatLngPoint LatLngLocation;
@@ -176,30 +174,23 @@ namespace Juniper.Images
                     {
                         SetLatLngLocation(metadata.location);
                         lastLocation = Location;
-                        imageRequest.Location = LatLngLocation;
+                        newMaterial = null;
 
-                        var imageTask = gmaps.Get(imageRequest);
-                        yield return new WaitForTask(imageTask);
-                        var images = imageTask.Result;
-
-                        var textures = new Texture[images.Length];
-                        for (int i = 0; i < images.Length; ++i)
+                        if (true)
                         {
-                            textures[i] = ImageLoader.ConstructTexture2D(images[i], textureFormat);
-                            yield return null;
+                            yield return Build6SidedMaterial();
+                        }
+                        else
+                        {
+                            yield return BuildCubemapMaterial();
                         }
 
-                        var newMaterial = new Material(Shader.Find("Skybox/6 Sided"));
-                        newMaterial.SetTexture("_FrontTex", textures[0]);
-                        newMaterial.SetTexture("_LeftTex", textures[1]);
-                        newMaterial.SetTexture("_RightTex", textures[2]);
-                        newMaterial.SetTexture("_BackTex", textures[3]);
-                        newMaterial.SetTexture("_UpTex", textures[4]);
-                        newMaterial.SetTexture("_DownTex", textures[5]);
-
-                        RenderSettings.skybox = newMaterial;
-                        DestroyImmediate(skyboxMaterial);
-                        skyboxMaterial = newMaterial;
+                        if (newMaterial != null)
+                        {
+                            RenderSettings.skybox = newMaterial;
+                            DestroyImmediate(skyboxMaterial);
+                            skyboxMaterial = newMaterial;
+                        }
 
                         Complete();
                         if (fromNavigation)
@@ -209,6 +200,75 @@ namespace Juniper.Images
                     }
                 }
             }
+        }
+
+        private static readonly string[] TEXTURE_NAMES =
+        {
+            "_FrontTex",
+            "_LeftTex",
+            "_RightTex",
+            "_BackTex",
+            "_UpTex",
+            "_DownTex"
+        };
+
+        private IEnumerator Build6SidedMaterial()
+        {
+            var imageRequest = new CubeMapRequest(LatLngLocation, 1024, 1024)
+            {
+                FlipImage = true,
+                Radius = searchRadius
+            };
+
+            var imageTask = gmaps.Get(imageRequest);
+            yield return new WaitForTask(imageTask);
+            var images = imageTask.Result;
+
+            newMaterial = new Material(Shader.Find("Skybox/6 Sided"));
+
+            for (int i = 0; i < images.Length; ++i)
+            {
+                var texture = ImageLoader.ConstructTexture2D(images[i], textureFormat);
+                yield return null;
+                newMaterial.SetTexture(TEXTURE_NAMES[i], texture);
+                yield return null;
+            }
+        }
+
+        private IEnumerator BuildCubemapMaterial()
+        {
+            var imageRequest = new CubeMapRequest(LatLngLocation, 1024, 1024);
+
+            var imageTask = gmaps.Get(imageRequest);
+            yield return new WaitForTask(imageTask);
+            var images = imageTask.Result;
+
+            var texture = ImageLoader.ConstructCubemap(images, TextureFormat.RGB24);
+
+            newMaterial = new Material(Shader.Find("Skybox/Cubemap"));
+            newMaterial.SetTexture("_Tex", texture);
+        }
+
+        private IEnumerator BuildPanoramicMaterial()
+        {
+            yield return null;
+            //var imageRequest = new PanoramicCubeMapRequest(LatLngLocation, 1024, 1024, Image.ImageFormat.JPEG);
+            //var imageTask = gmaps.Get(imageRequest);
+            //yield return new WaitForTask(imageTask);
+
+            //skyboxMaterial = new Material(Shader.Find("Skybox/Panoramic"));
+
+            //if (skyboxMaterial.IsKeywordEnabled(LAT_LON))
+            //{
+            //    skyboxMaterial.DisableKeyword(LAT_LON);
+            //}
+            //skyboxMaterial.EnableKeyword(SIDES_6);
+
+            //skyboxMaterial.SetInt("_Mapping", 0);
+            //skyboxMaterial.SetInt("_ImageType", 0);
+            //skyboxMaterial.SetInt("_MirrorOnBack", 0);
+            //skyboxMaterial.SetInt("_Layout", 0);
+            //skyboxMaterial.SetTexture("_MainTex", texture);
         }
 
         private void UpdateSkyBox()
@@ -222,19 +282,6 @@ namespace Juniper.Images
         {
             LatLngLocation = location;
             Location = LatLngLocation.ToCSV();
-            if (imageRequest == null)
-            {
-                imageRequest = new CubeMapRequest(LatLngLocation, 1024, 1024)
-                {
-                    FlipImage = true,
-                    Radius = searchRadius
-                };
-            }
-            else
-            {
-                imageRequest.Location = LatLngLocation;
-                imageRequest.Radius = searchRadius;
-            }
 
             if (gps != null)
             {
@@ -250,10 +297,7 @@ namespace Juniper.Images
 
         public void SetLocation(string location)
         {
-            if (LatLngPoint.TryParseDecimal(location, out var point))
-            {
-                SetLatLngLocation(point);
-            }
+            Location = location;
         }
 
         public void Move(Vector2 deltaMeters)

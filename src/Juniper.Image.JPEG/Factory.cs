@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+
 using BitMiracle.LibJpeg;
 
 namespace Juniper.Image.JPEG
@@ -40,13 +41,14 @@ namespace Juniper.Image.JPEG
         public void Encode(RawImage image, Stream outputStream, bool flipImage)
         {
             var rows = new SampleRow[image.dimensions.height];
-            var buf = new byte[image.stride];
+            var rowBuffer = new byte[image.stride];
             for (int i = 0; i < image.dimensions.height; ++i)
             {
                 var rowIndex = RawImage.GetRowIndex(image.dimensions.height, i, flipImage);
-                Array.Copy(image.data, rowIndex, buf, 0, buf.Length);
-                rows[i] = new BitMiracle.LibJpeg.SampleRow(
-                    buf,
+                var imageDataIndex = rowIndex * image.stride;
+                Array.Copy(image.data, imageDataIndex, rowBuffer, 0, rowBuffer.Length);
+                rows[i] = new SampleRow(
+                    rowBuffer,
                     image.dimensions.width,
                     RawImage.BitsPerComponent,
                     (byte)image.components);
@@ -56,9 +58,9 @@ namespace Juniper.Image.JPEG
             {
                 var compression = new CompressionParameters
                 {
-                    Quality = 10,
+                    Quality = 100,
                     SimpleProgressive = false,
-                    SmoothingFactor = 2
+                    SmoothingFactor = 1
                 };
                 jpeg.WriteJpeg(outputStream, compression);
             }

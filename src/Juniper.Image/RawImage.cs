@@ -52,7 +52,7 @@ namespace Juniper.Image
 
         public static ImageSource DetermineSource(Stream imageStream)
         {
-            var source = RawImage.ImageSource.None;
+            var source = ImageSource.None;
             if (imageStream is FileStream)
             {
                 source = ImageSource.File;

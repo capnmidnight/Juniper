@@ -561,7 +561,7 @@ MonoBehaviour:
   rotation: 0
   useMipMap: 1
   searchRadius: 50
-  Location: 38.89755,-77.07206
+  Location: Washington, DC
   fader: {fileID: 0}
   gps: {fileID: 0}
 --- !u!4 &1484056656
@@ -594,10 +594,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0282a0d00fd22394293d28da18c8ad42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 38.89755,-77.07206
+  value: Washington, DC
   OnSubmit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1484056655}
+        m_MethodName: SetLocation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.StringEvent, Juniper.Unity, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
 --- !u!1 &1937755231

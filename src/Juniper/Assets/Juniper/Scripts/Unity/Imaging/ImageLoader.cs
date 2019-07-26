@@ -92,6 +92,7 @@ namespace Juniper.Imaging
         {
             var texture = new Texture2D(image.dimensions.width, image.dimensions.height, format, false);
             texture.LoadRawTextureData(image.data);
+            texture.Compress(false);
             texture.Apply(false, true);
             return texture;
         }

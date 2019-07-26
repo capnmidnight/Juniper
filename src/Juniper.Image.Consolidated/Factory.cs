@@ -6,9 +6,11 @@ namespace Juniper.Image.Consolidated
     public class Factory : IFactory
     {
         private readonly IFactory factory;
+        private readonly ImageFormat format;
 
         public Factory(ImageFormat format)
         {
+            this.format = format;
             if (format == ImageFormat.PNG)
             {
                 factory = new PNG.Factory();
