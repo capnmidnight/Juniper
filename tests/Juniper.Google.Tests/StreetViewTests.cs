@@ -92,7 +92,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var images = await service.Get(cubeMapSearch);
             var combined = await RawImage.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.png");
-            await Encoder.EncodePNGAsync(combined, outputFileName, false);
+            var encoder = new Image.PNG.Factory();
+            await encoder.EncodeAsync(combined, outputFileName, false);
             Assert.IsTrue(File.Exists(outputFileName));
         }
 
@@ -103,7 +104,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var images = await service.Get(cubeMapSearch);
             var combined = await RawImage.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.jpeg");
-            await Encoder.EncodePNGAsync(combined, outputFileName, false);
+            var encoder = new Image.PNG.Factory();
+            await encoder.EncodeAsync(combined, outputFileName, false);
             Assert.IsTrue(File.Exists(outputFileName));
         }
 

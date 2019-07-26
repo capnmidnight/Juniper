@@ -7,8 +7,8 @@ namespace Juniper.Google
     {
         private readonly bool signRequests;
 
-        protected AbstractGoogleRequest(Uri baseServiceURI, string path, string cacheLocString, string acceptType, string extension, bool signRequests)
-            : base(baseServiceURI, path, cacheLocString, acceptType, extension)
+        protected AbstractGoogleRequest(Uri baseServiceURI, string path, string cacheLocString, bool signRequests)
+            : base(baseServiceURI, path, cacheLocString)
         {
             this.signRequests = signRequests;
         }

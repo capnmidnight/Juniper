@@ -2,6 +2,7 @@ namespace Juniper.Google.Maps.MapTiles
 {
     public enum TileImageFormat
     {
+        Unsupported,
         PNG8,
         PNG32,
         GIF,

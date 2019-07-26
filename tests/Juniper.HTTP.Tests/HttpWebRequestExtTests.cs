@@ -25,6 +25,7 @@ namespace Juniper.HTTP.Tests
 
         private static async Task<RawImage> RunFileTest(bool deleteFile, bool runTest, RawImage.ImageSource expectedSource)
         {
+            var decoder = new Image.JPEG.Factory();
             const string cacheFileName = "portrait.jpg";
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheFile = Path.Combine(myPictures, cacheFileName);
@@ -36,14 +37,14 @@ namespace Juniper.HTTP.Tests
 
             var actual = await HttpWebRequestExt.CachedGet(
                 new Uri("https://www.seanmcbeth.com/2015-05.min.jpg"),
-                stream => Decoder.DecodeJPEG(stream, false),
+                stream => decoder.Decode(stream, false),
                 Path.Combine(myPictures, cacheFile));
 
             Assert.AreEqual(expectedSource, actual.source);
 
             if (runTest)
             {
-                var expected = Decoder.DecodeJPEG(File.ReadAllBytes(Path.Combine(myPictures, "portrait-expected.jpg")), false);
+                var expected = decoder.Decode(File.ReadAllBytes(Path.Combine(myPictures, "portrait-expected.jpg")), false);
                 Assert.AreEqual(expected.dimensions.width, actual.dimensions.width);
                 Assert.AreEqual(expected.dimensions.height, actual.dimensions.height);
                 Assert.AreEqual(expected.data.Length, actual.data.Length);

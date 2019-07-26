@@ -12,7 +12,7 @@ namespace Juniper.Google.Maps.TimeZone
         private DateTime timestamp;
 
         public TimeZoneRequest(LatLngPoint location, DateTime timestamp)
-            : base("timezone/json", "timezones", "application/json", "json", false)
+            : base("timezone/json", "timezones", false)
         {
             Location = location;
             Timestamp = timestamp;

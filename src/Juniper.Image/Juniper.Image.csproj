@@ -38,8 +38,11 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Encoder.cs" />
-    <Compile Include="Decoder.cs" />
+    <Compile Include="IDecoder.cs" />
+    <Compile Include="IDecoderExt.cs" />
+    <Compile Include="IEncoder.cs" />
+    <Compile Include="IEncoderExt.cs" />
+    <Compile Include="IFactory.cs" />
     <Compile Include="Markers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RawImage.cs" />

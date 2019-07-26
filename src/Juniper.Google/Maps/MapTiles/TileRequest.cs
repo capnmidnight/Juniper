@@ -11,7 +11,7 @@ namespace Juniper.Google.Maps.MapTiles
 {
     public partial class TileRequest : AbstractMapsRequest<RawImage>
     {
-        public static TileRequest Create(LocationTypes locationType, object value, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
+        public static TileRequest Create(LocationTypes locationType, object value, int zoom, Size size, ImageFormat format = ImageFormat.PNG)
         {
             switch (locationType)
             {
@@ -21,83 +21,94 @@ namespace Juniper.Google.Maps.MapTiles
             }
         }
 
-        public static TileRequest Create(LocationTypes locationType, object value, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
+        public static TileRequest Create(LocationTypes locationType, object value, int zoom, int width, int height, ImageFormat format = ImageFormat.PNG)
         {
             return Create(locationType, value, zoom, new Size(width, height), format);
         }
 
         private readonly List<Marker> markers = new List<Marker>();
         private LinePath path;
-        private readonly ImageFormat format;
+        private ImageFormat format;
+        private IDecoder decoder;
+        private int scale;
+        private string language;
+        private string region;
+        private MapImageType maptype;
 
         private TileRequest(string center, int zoom, Size size, ImageFormat format)
-            : base("staticmap", "tiles", format.contentType, format.fileExtension, true)
+            : base("staticmap", "tiles", true)
         {
             SetQuery(nameof(center), center);
             SetQuery(nameof(zoom), zoom);
             SetQuery(nameof(size), size);
-            this.format = format;
-            if (format != FORMAT_DESCRIPTIONS[TileImageFormat.PNG8])
-            {
-                SetQuery(nameof(format), format.gmapsFieldValue);
-            }
+            Format = format;
         }
 
-        private TileRequest(string center, int zoom, Size size, TileImageFormat format)
-            : this(center, zoom, size, FORMAT_DESCRIPTIONS.Get(format, FORMAT_DESCRIPTIONS[TileImageFormat.PNG8])) { }
-
-        public TileRequest(PlaceName address, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
-            : this((string)address, zoom, size, FORMAT_DESCRIPTIONS[format]) { }
-
-        public TileRequest(PlaceName address, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
-            : this((string)address, zoom, new Size(width, height), format) { }
-
-        public TileRequest(LatLngPoint center, int zoom, Size size, TileImageFormat format = TileImageFormat.PNG8)
-            : this(center.ToCSV(), zoom, size, format) { }
-
-        public TileRequest(LatLngPoint center, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
-            : this(center.ToCSV(), zoom, new Size(width, height), format) { }
-
-        private TileRequest(string center, int zoom, Size size, Image.ImageFormat format)
-            : this(center, zoom, size, FORMAT_MAPPINGS.Get(format, FORMAT_MAPPINGS[Image.ImageFormat.PNG])) { }
-
-        public TileRequest(PlaceName address, int zoom, Size size, Image.ImageFormat format)
+        public TileRequest(PlaceName address, int zoom, Size size, ImageFormat format)
             : this((string)address, zoom, size, format) { }
 
-        public TileRequest(PlaceName address, int zoom, int width, int height, Image.ImageFormat format)
+        public TileRequest(PlaceName address, int zoom, int width, int height, ImageFormat format)
             : this((string)address, zoom, new Size(width, height), format) { }
 
-        public TileRequest(LatLngPoint center, int zoom, Size size, Image.ImageFormat format)
+        public TileRequest(LatLngPoint center, int zoom, Size size, ImageFormat format)
             : this(center.ToCSV(), zoom, size, format) { }
 
-        public TileRequest(LatLngPoint center, int zoom, int width, int height, Image.ImageFormat format)
+        public TileRequest(LatLngPoint center, int zoom, int width, int height, ImageFormat format)
             : this(center.ToCSV(), zoom, new Size(width, height), format) { }
 
         public bool FlipImage { get; set; }
 
+        public ImageFormat Format
+        {
+            get { return format; }
+            set
+            {
+                var mapping = FORMAT_MAPPINGS.Get(value, default);
+                var description = FORMAT_DESCRIPTIONS.Get(mapping, default);
+                if (mapping == TileImageFormat.Unsupported
+                    || description == default)
+                {
+                    throw new ArgumentException($"{value} is not supported yet.");
+                }
+
+                format = value;
+                decoder = new Image.Consolidated.Factory(format);
+                SetContentType(RawImage.GetContentType(format), RawImage.GetContentType(format));
+
+                if (mapping != TileImageFormat.PNG8)
+                {
+                    SetQuery(nameof(format), description.gmapsFieldValue);
+                }
+            }
+        }
+
         public override Func<Stream, RawImage> GetDecoder(AbstractEndpoint _)
         {
-            return stream => Image.Decoder.Decode(format.format, stream, FlipImage);
+            return stream => decoder.Decode(stream, FlipImage);
         }
 
-        public void SetScale(int scale)
+        public int Scale
         {
-            SetQuery(nameof(scale), scale);
+            get { return scale; }
+            set { scale = SetQuery(nameof(scale), value); }
         }
 
-        public void SetLanguage(string language)
+        public string Language
         {
-            SetQuery(nameof(language), language);
+            get { return language; }
+            set { language = SetQuery(nameof(language), value); }
         }
 
-        public void SetRegion(string region)
+        public string Region
         {
-            SetQuery(nameof(region), region);
+            get { return region; }
+            set { region = SetQuery(nameof(region), value); }
         }
 
-        public void SetMapType(MapImageType maptype)
+        public MapImageType MapType
         {
-            SetQuery(nameof(maptype), maptype);
+            get { return maptype; }
+            set { maptype = SetQuery(nameof(maptype), value); }
         }
 
         public void AddMarker(Marker marker)
@@ -108,9 +119,10 @@ namespace Juniper.Google.Maps.MapTiles
             }
         }
 
-        public void SetPath(LinePath path)
+        public LinePath Path
         {
-            this.path = path;
+            get { return path; }
+            set { path = value; }
         }
 
         public override Uri BaseURI

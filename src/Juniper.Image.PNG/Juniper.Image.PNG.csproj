@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9F045AC7-79A4-4584-809A-DCA6BC6A1446}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Juniper.Image.PNG</RootNamespace>
+    <AssemblyName>Juniper.Image.PNG</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Juniper\Assets\Juniper\Plugins\Juniper\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Juniper\Assets\Juniper\Plugins\Juniper\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Factory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Hjg.Pngcs\Hjg.Pngcs.csproj">
+      <Project>{d1a0316a-2512-4a58-af0d-d4b6943b4992}</Project>
+      <Name>Hjg.Pngcs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Image\Juniper.Image.csproj">
+      <Project>{f951a2e5-078a-413d-966d-c3f4ae5edcab}</Project>
+      <Name>Juniper.Image</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">
+      <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
+      <Name>Juniper.Progress</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Streams\Juniper.Streams.csproj">
+      <Project>{134d77e1-78d5-4f9b-868f-7ea6e98cec08}</Project>
+      <Name>Juniper.Streams</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

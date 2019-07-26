@@ -1,5 +1,8 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
+
+using Juniper.Progress;
 
 namespace Juniper.Image
 {
@@ -45,6 +48,52 @@ namespace Juniper.Image
         public object Clone()
         {
             return new RawImage(source, dimensions, (byte[])data.Clone());
+        }
+
+        public static ImageSource DetermineSource(Stream imageStream)
+        {
+            var source = RawImage.ImageSource.None;
+            if (imageStream is FileStream)
+            {
+                source = ImageSource.File;
+            }
+            else if (imageStream is CachingStream)
+            {
+                source = ImageSource.Network;
+            }
+
+            return source;
+        }
+
+        public static string GetExtension(ImageFormat format)
+        {
+            switch (format)
+            {
+                case ImageFormat.JPEG: return "image/jpeg";
+                case ImageFormat.PNG: return "image/png";
+                default: return "application/unknown";
+            }
+        }
+
+        public static string GetContentType(ImageFormat format)
+        {
+            switch (format)
+            {
+                case ImageFormat.JPEG: return "jpeg";
+                case ImageFormat.PNG: return "png";
+                default: return "raw";
+            }
+        }
+
+        public static int GetRowIndex(int numRows, int i, bool flipImage)
+        {
+            int rowIndex = i;
+            if (flipImage)
+            {
+                rowIndex = numRows - i - 1;
+            }
+
+            return rowIndex;
         }
 
         private static Task<RawImage> CombineTilesAsync(int columns, int rows, params RawImage[] images)
@@ -101,7 +150,7 @@ namespace Juniper.Image
             var bufferHeight = rows * imageHeight;
             var bufferLength = bufferStride * bufferHeight;
             var buffer = new byte[bufferLength];
-            for(
+            for (
                 int bufferI = 0,
                     tileX = 0;
                 bufferI < bufferLength;

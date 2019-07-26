@@ -6,7 +6,7 @@ namespace Juniper.Google.Maps
     {
         private static readonly Uri baseServiceURI = new Uri("https://maps.googleapis.com/maps/api/");
 
-        protected AbstractMapsRequest(string path, string cacheLocString, string acceptType, string extension, bool signRequests)
-            : base(baseServiceURI, path, cacheLocString, acceptType, extension, signRequests) { }
+        protected AbstractMapsRequest(string path, string cacheLocString, bool signRequests)
+            : base(baseServiceURI, path, cacheLocString, signRequests) { }
     }
 }

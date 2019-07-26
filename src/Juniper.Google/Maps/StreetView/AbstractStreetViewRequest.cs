@@ -8,25 +8,25 @@ namespace Juniper.Google.Maps.StreetView
         private PlaceName placeName;
         private LatLngPoint location;
 
-        private AbstractStreetViewRequest(string path, string acceptType, string extension, string key)
-            : base(path, key, acceptType, extension, true)
+        private AbstractStreetViewRequest(string path, string key)
+            : base(path, key, true)
         {
         }
 
-        protected AbstractStreetViewRequest(string path, string acceptType, string extension, PanoID location)
-            : this(path, acceptType, extension, $"pano={location}")
-        {
-            SetLocation(location);
-        }
-
-        protected AbstractStreetViewRequest(string path, string acceptType, string extension, PlaceName location)
-            : this(path, acceptType, extension, $"address={location}")
+        protected AbstractStreetViewRequest(string path, PanoID location)
+            : this(path, $"pano={location}")
         {
             SetLocation(location);
         }
 
-        protected AbstractStreetViewRequest(string path, string acceptType, string extension, LatLngPoint location)
-            : this(path, acceptType, extension, $"latlng={location}")
+        protected AbstractStreetViewRequest(string path, PlaceName location)
+            : this(path, $"address={location}")
+        {
+            SetLocation(location);
+        }
+
+        protected AbstractStreetViewRequest(string path, LatLngPoint location)
+            : this(path, $"latlng={location}")
         {
             SetLocation(location);
         }

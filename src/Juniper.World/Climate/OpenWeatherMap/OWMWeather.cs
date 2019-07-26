@@ -71,12 +71,18 @@ namespace Juniper.World.Climate.OpenWeatherMap
             }
         }
 
+        private static IDecoder decoder;
+
         public async Task<RawImage> GetIcon(bool flipImage)
         {
+            if (decoder == null)
+            {
+                decoder = new Image.PNG.Factory();
+            }
             var request = HttpWebRequestExt.Create(IconURL);
             using (var response = await request.Get())
             {
-                return await Decoder.DecodeAsync(response, flipImage);
+                return await decoder.DecodeAsync(response, flipImage);
             }
         }
 

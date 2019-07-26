@@ -11,14 +11,18 @@ namespace Juniper.HTTP.REST
         private readonly Dictionary<string, List<string>> queryParams = new Dictionary<string, List<string>>();
         private readonly UriBuilder uriBuilder;
         private readonly string cacheLocString;
-        private readonly string acceptType;
-        private readonly string extension;
+        private string acceptType;
+        private string extension;
 
-        protected AbstractSingleRequest(Uri baseServiceURI, string path, string cacheLocString, string acceptType, string extension)
+        protected AbstractSingleRequest(Uri baseServiceURI, string path, string cacheLocString)
         {
             uriBuilder = new UriBuilder(baseServiceURI);
             uriBuilder.Path += path;
             this.cacheLocString = cacheLocString;
+        }
+
+        protected void SetContentType(string acceptType, string extension)
+        {
             this.acceptType = acceptType;
             this.extension = extension;
         }
