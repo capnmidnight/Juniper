@@ -55,9 +55,18 @@ namespace Juniper.Google.Maps.StreetView
 
         public override async Task<RawImage> Get(AbstractEndpoint api)
         {
-            var images = await subRequest.Get(api);
-            var combined = await RawImage.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5]);
-            return combined;
+            var cacheFile = GetCacheFile(api);
+            if (base.IsCached(api))
+            {
+                return await Decoder.DecodeJPEGAsync(cacheFile, false);
+            }
+            else
+            {
+                var images = await subRequest.Get(api);
+                var combined = await RawImage.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5]);
+                await Encoder.EncodeJPEGAsync(combined, cacheFile, false);
+                return combined;
+            }
         }
 
         public override Task<RawImage> Post(AbstractEndpoint api)

@@ -122,9 +122,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         {
             var cubeMapSearch = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640);
             var combined = await service.Get(cubeMapSearch);
-            var outputFileName = Path.Combine(cacheDir.FullName, "dcCross.jpeg");
-            await Encoder.EncodePNGAsync(combined, outputFileName, false);
-            Assert.IsTrue(File.Exists(outputFileName));
+            Assert.IsNotNull(combined);
         }
 
         [TestMethod]

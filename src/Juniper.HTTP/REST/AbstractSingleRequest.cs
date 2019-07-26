@@ -80,7 +80,7 @@ namespace Juniper.HTTP.REST
             return BaseURI;
         }
 
-        private FileInfo GetCacheFile(AbstractEndpoint api)
+        public FileInfo GetCacheFile(AbstractEndpoint api)
         {
             var cacheID = string.Join("_", BaseURI.PathAndQuery
                                             .Split(Path.GetInvalidFileNameChars()));

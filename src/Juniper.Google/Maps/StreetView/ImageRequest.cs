@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.World;
 using Juniper.World.GIS;
@@ -25,7 +22,6 @@ namespace Juniper.Google.Maps.StreetView
             return Create(locationType, value, new Size(width, height));
         }
 
-        private Size size;
         private Heading heading;
         private Pitch pitch;
 
@@ -47,7 +43,6 @@ namespace Juniper.Google.Maps.StreetView
         public ImageRequest(LatLngPoint location, int width, int height)
             : base(location, width, height) { }
 
-        
         public Heading Heading
         {
             get { return heading; }
@@ -61,7 +56,8 @@ namespace Juniper.Google.Maps.StreetView
         public Pitch Pitch
         {
             get { return pitch; }
-            set {
+            set
+            {
                 pitch = value;
                 SetQuery(nameof(pitch), (int)value);
             }
