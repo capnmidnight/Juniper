@@ -151,19 +151,19 @@ namespace Juniper.Image
             var bufferLength = bufferStride * bufferHeight;
             var buffer = new byte[bufferLength];
             for (
-                int bufferI = 0,
-                    tileX = 0;
+                int bufferI = 0;
                 bufferI < bufferLength;
-                bufferI += imageStride,
-                    tileX = (tileX + 1) % columns)
+                bufferI += imageStride)
             {
+                var bufferX = bufferI % bufferStride;
                 var bufferY = bufferI / bufferStride;
+                var tileX = bufferX / imageStride;
                 var tileY = bufferY / imageHeight;
                 var tileI = tileY * columns + tileX;
                 var tile = images[tileI];
                 if (tile != null)
                 {
-                    var imageY = bufferY / columns;
+                    var imageY = bufferY % imageHeight;
                     var imageI = imageY * imageStride;
                     Array.Copy(tile.data, imageI, buffer, bufferI, imageStride);
                 }
