@@ -110,17 +110,15 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task SaveCubeMapCrossPNG()
         {
-            var cubeMapSearch = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640);
+            var cubeMapSearch = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640, ImageFormat.PNG);
             var combined = await service.Get(cubeMapSearch);
-            var outputFileName = Path.Combine(cacheDir.FullName, "dcCross.png");
-            await Encoder.EncodePNGAsync(combined, outputFileName, false);
-            Assert.IsTrue(File.Exists(outputFileName));
+            Assert.IsNotNull(combined);
         }
 
         [TestMethod]
         public async Task SaveCubeMapCrossJPEG()
         {
-            var cubeMapSearch = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640);
+            var cubeMapSearch = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640, ImageFormat.JPEG);
             var combined = await service.Get(cubeMapSearch);
             Assert.IsNotNull(combined);
         }

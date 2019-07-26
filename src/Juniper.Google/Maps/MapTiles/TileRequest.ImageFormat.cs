@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Juniper.Image;
 
 namespace Juniper.Google.Maps.MapTiles
 {
@@ -6,16 +7,16 @@ namespace Juniper.Google.Maps.MapTiles
     {
         private static readonly Dictionary<TileImageFormat, ImageFormat> FORMAT_DESCRIPTIONS = new Dictionary<TileImageFormat, ImageFormat>
         {
-            { TileImageFormat.PNG8, new ImageFormat( "image/png", "png", "png8", Image.Decoder.SupportedFormats.PNG) },
-            { TileImageFormat.PNG32, new ImageFormat( "image/png", "png", "png32", Image.Decoder.SupportedFormats.PNG) },
-            { TileImageFormat.GIF, new ImageFormat( "image/gif", "gif", "gif", Image.Decoder.SupportedFormats.Unsupported) },
-            { TileImageFormat.JPEG, new ImageFormat( "image/jpeg", "jpeg", "jpg", Image.Decoder.SupportedFormats.JPEG) },
-            { TileImageFormat.JPEGBaseline, new ImageFormat( "image/jpeg", "jpeg", "jpg-baseline", Image.Decoder.SupportedFormats.JPEG) }
+            { TileImageFormat.PNG8, new ImageFormat( "image/png", "png", "png8", Image.ImageFormat.PNG) },
+            { TileImageFormat.PNG32, new ImageFormat( "image/png", "png", "png32", Image.ImageFormat.PNG) },
+            { TileImageFormat.GIF, new ImageFormat( "image/gif", "gif", "gif", Image.ImageFormat.Unsupported) },
+            { TileImageFormat.JPEG, new ImageFormat( "image/jpeg", "jpeg", "jpg", Image.ImageFormat.JPEG) },
+            { TileImageFormat.JPEGBaseline, new ImageFormat( "image/jpeg", "jpeg", "jpg-baseline", Image.ImageFormat.JPEG) }
         };
 
-        private static readonly Dictionary<Image.Decoder.SupportedFormats, TileImageFormat> FORMAT_MAPPINGS = new Dictionary<Image.Decoder.SupportedFormats, TileImageFormat> {
-            { Image.Decoder.SupportedFormats.JPEG, TileImageFormat.JPEG },
-            { Image.Decoder.SupportedFormats.PNG, TileImageFormat.PNG8 }
+        private static readonly Dictionary<Image.ImageFormat, TileImageFormat> FORMAT_MAPPINGS = new Dictionary<Image.ImageFormat, TileImageFormat> {
+            { Image.ImageFormat.JPEG, TileImageFormat.JPEG },
+            { Image.ImageFormat.PNG, TileImageFormat.PNG8 }
         };
 
         private struct ImageFormat
@@ -23,9 +24,9 @@ namespace Juniper.Google.Maps.MapTiles
             public readonly string contentType;
             public readonly string fileExtension;
             public readonly string gmapsFieldValue;
-            public readonly Image.Decoder.SupportedFormats format;
+            public readonly Image.ImageFormat format;
 
-            internal ImageFormat(string contentType, string fileExtension, string gmapsFieldValue, Image.Decoder.SupportedFormats format)
+            internal ImageFormat(string contentType, string fileExtension, string gmapsFieldValue, Image.ImageFormat format)
             {
                 this.contentType = contentType;
                 this.fileExtension = fileExtension;

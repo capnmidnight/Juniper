@@ -58,19 +58,19 @@ namespace Juniper.Google.Maps.MapTiles
         public TileRequest(LatLngPoint center, int zoom, int width, int height, TileImageFormat format = TileImageFormat.PNG8)
             : this(center.ToCSV(), zoom, new Size(width, height), format) { }
 
-        private TileRequest(string center, int zoom, Size size, Image.Decoder.SupportedFormats format)
-            : this(center, zoom, size, FORMAT_MAPPINGS.Get(format, FORMAT_MAPPINGS[Image.Decoder.SupportedFormats.PNG])) { }
+        private TileRequest(string center, int zoom, Size size, Image.ImageFormat format)
+            : this(center, zoom, size, FORMAT_MAPPINGS.Get(format, FORMAT_MAPPINGS[Image.ImageFormat.PNG])) { }
 
-        public TileRequest(PlaceName address, int zoom, Size size, Image.Decoder.SupportedFormats format)
+        public TileRequest(PlaceName address, int zoom, Size size, Image.ImageFormat format)
             : this((string)address, zoom, size, format) { }
 
-        public TileRequest(PlaceName address, int zoom, int width, int height, Image.Decoder.SupportedFormats format)
+        public TileRequest(PlaceName address, int zoom, int width, int height, Image.ImageFormat format)
             : this((string)address, zoom, new Size(width, height), format) { }
 
-        public TileRequest(LatLngPoint center, int zoom, Size size, Image.Decoder.SupportedFormats format)
+        public TileRequest(LatLngPoint center, int zoom, Size size, Image.ImageFormat format)
             : this(center.ToCSV(), zoom, size, format) { }
 
-        public TileRequest(LatLngPoint center, int zoom, int width, int height, Image.Decoder.SupportedFormats format)
+        public TileRequest(LatLngPoint center, int zoom, int width, int height, Image.ImageFormat format)
             : this(center.ToCSV(), zoom, new Size(width, height), format) { }
 
         public bool FlipImage { get; set; }

@@ -7,13 +7,6 @@ namespace Juniper.Image
 {
     public static class Encoder
     {
-        public enum SupportedFormats
-        {
-            Unsupported,
-            JPEG,
-            PNG
-        }
-
         private static int GetRowIndex(int numRows, int i, bool flipImage)
         {
             int rowIndex = i;
@@ -197,13 +190,13 @@ namespace Juniper.Image
             return Task.Run(() => EncodeJPEG(image, flipImage));
         }
 
-        public static void Encode(SupportedFormats format, RawImage image, Stream stream, bool flipImage)
+        public static void Encode(ImageFormat format, RawImage image, Stream stream, bool flipImage)
         {
-            if (format == SupportedFormats.JPEG)
+            if (format == ImageFormat.JPEG)
             {
                 EncodeJPEG(image, stream, flipImage);
             }
-            else if (format == SupportedFormats.PNG)
+            else if (format == ImageFormat.PNG)
             {
                 EncodePNG(image, stream, flipImage);
             }
@@ -213,13 +206,13 @@ namespace Juniper.Image
             }
         }
 
-        public static Task EncodeAsync(SupportedFormats format, RawImage image, Stream stream, bool flipImage)
+        public static Task EncodeAsync(ImageFormat format, RawImage image, Stream stream, bool flipImage)
         {
-            if (format == SupportedFormats.JPEG)
+            if (format == ImageFormat.JPEG)
             {
                 return EncodeJPEGAsync(image, stream, flipImage);
             }
-            else if (format == SupportedFormats.PNG)
+            else if (format == ImageFormat.PNG)
             {
                 return EncodePNGAsync(image, stream, flipImage);
             }
@@ -229,7 +222,7 @@ namespace Juniper.Image
             }
         }
 
-        public static void Encode(SupportedFormats format, RawImage image, FileInfo file, bool flipImage)
+        public static void Encode(ImageFormat format, RawImage image, FileInfo file, bool flipImage)
         {
             using (var stream = file.OpenWrite())
             {
@@ -237,13 +230,13 @@ namespace Juniper.Image
             }
         }
 
-        public static Task EncodeAsync(SupportedFormats format, RawImage image, FileInfo file, bool flipImage)
+        public static Task EncodeAsync(ImageFormat format, RawImage image, FileInfo file, bool flipImage)
         {
-            if (format == SupportedFormats.JPEG)
+            if (format == ImageFormat.JPEG)
             {
                 return EncodeJPEGAsync(image, file, flipImage);
             }
-            else if (format == SupportedFormats.PNG)
+            else if (format == ImageFormat.PNG)
             {
                 return EncodePNGAsync(image, file, flipImage);
             }
@@ -253,7 +246,7 @@ namespace Juniper.Image
             }
         }
 
-        public static void Encode(SupportedFormats format, RawImage image, HttpWebRequest request, bool flipImage)
+        public static void Encode(ImageFormat format, RawImage image, HttpWebRequest request, bool flipImage)
         {
             using (var stream = request.GetRequestStream())
             {
@@ -261,13 +254,13 @@ namespace Juniper.Image
             }
         }
 
-        public static Task EncodeAsync(SupportedFormats format, RawImage image, HttpWebRequest request, bool flipImage)
+        public static Task EncodeAsync(ImageFormat format, RawImage image, HttpWebRequest request, bool flipImage)
         {
-            if (format == SupportedFormats.JPEG)
+            if (format == ImageFormat.JPEG)
             {
                 return EncodeJPEGAsync(image, request, flipImage);
             }
-            else if (format == SupportedFormats.PNG)
+            else if (format == ImageFormat.PNG)
             {
                 return EncodePNGAsync(image, request, flipImage);
             }
@@ -277,23 +270,23 @@ namespace Juniper.Image
             }
         }
 
-        public static void Encode(SupportedFormats format, RawImage image, string fileName, bool flipImage)
+        public static void Encode(ImageFormat format, RawImage image, string fileName, bool flipImage)
         {
             Encode(format, image, new FileInfo(fileName), flipImage);
         }
 
-        public static Task EncodeAsync(SupportedFormats format, RawImage image, string fileName, bool flipImage)
+        public static Task EncodeAsync(ImageFormat format, RawImage image, string fileName, bool flipImage)
         {
             return EncodeAsync(format, image, new FileInfo(fileName), flipImage);
         }
 
-        public static byte[] Encode(SupportedFormats format, RawImage image, bool flipImage)
+        public static byte[] Encode(ImageFormat format, RawImage image, bool flipImage)
         {
-            if (format == SupportedFormats.JPEG)
+            if (format == ImageFormat.JPEG)
             {
                 return EncodeJPEG(image, flipImage);
             }
-            else if (format == SupportedFormats.PNG)
+            else if (format == ImageFormat.PNG)
             {
                 return EncodePNG(image, flipImage);
             }
@@ -303,13 +296,13 @@ namespace Juniper.Image
             }
         }
 
-        public static Task<byte[]> EncodeAsync(SupportedFormats format, RawImage image, bool flipImage)
+        public static Task<byte[]> EncodeAsync(ImageFormat format, RawImage image, bool flipImage)
         {
-            if (format == SupportedFormats.JPEG)
+            if (format == ImageFormat.JPEG)
             {
                 return EncodeJPEGAsync(image, flipImage);
             }
-            else if (format == SupportedFormats.PNG)
+            else if (format == ImageFormat.PNG)
             {
                 return EncodePNGAsync(image, flipImage);
             }

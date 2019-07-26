@@ -9,13 +9,6 @@ namespace Juniper.Image
 {
     public static class Decoder
     {
-        public enum SupportedFormats
-        {
-            Unsupported,
-            JPEG,
-            PNG
-        }
-
         private static RawImage.ImageSource DetermineSource(Stream imageStream)
         {
             var source = RawImage.ImageSource.None;
@@ -90,17 +83,7 @@ namespace Juniper.Image
 
         public static Task<RawImage> DecodePNGAsync(FileInfo file, bool flipImage)
         {
-            if (!file.Exists)
-            {
-                throw new FileNotFoundException("File not found!", file.FullName);
-            }
-            else
-            {
-                using (var stream = file.OpenRead())
-                {
-                    return DecodePNGAsync(stream, flipImage);
-                }
-            }
+            return Task.Run(() => DecodePNG(file, flipImage));
         }
 
         public static RawImage DecodePNG(HttpWebResponse response, bool flipImage)
@@ -113,10 +96,7 @@ namespace Juniper.Image
 
         public static Task<RawImage> DecodePNGAsync(HttpWebResponse response, bool flipImage)
         {
-            using (var stream = response.GetResponseStream())
-            {
-                return DecodePNGAsync(stream, flipImage);
-            }
+            return Task.Run(() => DecodePNG(response, flipImage));
         }
 
         public static RawImage DecodePNG(string fileName, bool flipImage)
@@ -139,10 +119,7 @@ namespace Juniper.Image
 
         public static Task<RawImage> DecodePNGAsync(byte[] bytes, bool flipImage)
         {
-            using (var mem = new MemoryStream(bytes))
-            {
-                return DecodePNGAsync(mem, flipImage);
-            }
+            return Task.Run(() => DecodePNG(bytes, flipImage));
         }
 
         /// <summary>
@@ -194,17 +171,7 @@ namespace Juniper.Image
 
         public static Task<RawImage> DecodeJPEGAsync(FileInfo file, bool flipImage)
         {
-            if (!file.Exists)
-            {
-                throw new FileNotFoundException("File not found!", file.FullName);
-            }
-            else
-            {
-                using (var stream = file.OpenRead())
-                {
-                    return DecodeJPEGAsync(stream, flipImage);
-                }
-            }
+            return Task.Run(() => DecodeJPEG(file, flipImage));
         }
 
         public static RawImage DecodeJPEG(HttpWebResponse response, bool flipImage)
@@ -217,10 +184,7 @@ namespace Juniper.Image
 
         public static Task<RawImage> DecodeJPEGAsync(HttpWebResponse response, bool flipImage)
         {
-            using (var stream = response.GetResponseStream())
-            {
-                return DecodeJPEGAsync(stream, flipImage);
-            }
+            return Task.Run(() => DecodeJPEG(response, flipImage));
         }
 
         public static RawImage DecodeJPEG(string fileName, bool flipImage)
@@ -243,10 +207,7 @@ namespace Juniper.Image
 
         public static Task<RawImage> DecodeJPEGAsync(byte[] bytes, bool flipImage)
         {
-            using (var mem = new MemoryStream(bytes))
-            {
-                return DecodeJPEGAsync(mem, flipImage);
-            }
+            return Task.Run(() => DecodeJPEG(bytes, flipImage));
         }
 
         public static RawImage Decode(HttpWebResponse response, bool flipImage)
@@ -271,13 +232,13 @@ namespace Juniper.Image
             return Task.Run(() => Decode(response, flipImage));
         }
 
-        public static RawImage Decode(SupportedFormats format, Stream stream, bool flipImage)
+        public static RawImage Decode(ImageFormat format, Stream stream, bool flipImage)
         {
-            if (format == SupportedFormats.JPEG)
+            if (format == ImageFormat.JPEG)
             {
                 return DecodeJPEG(stream, flipImage);
             }
-            else if (format == SupportedFormats.PNG)
+            else if (format == ImageFormat.PNG)
             {
                 return DecodePNG(stream, flipImage);
             }
@@ -287,23 +248,12 @@ namespace Juniper.Image
             }
         }
 
-        public static Task<RawImage> DecodeAsync(SupportedFormats format, Stream stream, bool flipImage)
+        public static Task<RawImage> DecodeAsync(ImageFormat format, Stream stream, bool flipImage)
         {
-            if (format == SupportedFormats.JPEG)
-            {
-                return DecodeJPEGAsync(stream, flipImage);
-            }
-            else if (format == SupportedFormats.PNG)
-            {
-                return DecodePNGAsync(stream, flipImage);
-            }
-            else
-            {
-                throw new ArgumentException($"Image format `{format}` has not been implemented yet.");
-            }
+            return Task.Run(() => Decode(format, stream, flipImage));
         }
 
-        public static RawImage Decode(SupportedFormats format, FileInfo file, bool flipImage)
+        public static RawImage Decode(ImageFormat format, FileInfo file, bool flipImage)
         {
             if (!file.Exists)
             {
@@ -318,38 +268,28 @@ namespace Juniper.Image
             }
         }
 
-        public static Task<RawImage> DecodeAsync(SupportedFormats format, FileInfo file, bool flipImage)
+        public static Task<RawImage> DecodeAsync(ImageFormat format, FileInfo file, bool flipImage)
         {
-            if (!file.Exists)
-            {
-                throw new FileNotFoundException("File not found!", file.FullName);
-            }
-            else
-            {
-                using (var stream = file.OpenRead())
-                {
-                    return DecodeAsync(format, stream, flipImage);
-                }
-            }
+            return Task.Run(() => Decode(format, file, flipImage));
         }
 
-        public static RawImage Decode(SupportedFormats format, string fileName, bool flipImage)
+        public static RawImage Decode(ImageFormat format, string fileName, bool flipImage)
         {
             return Decode(format, new FileInfo(fileName), flipImage);
         }
 
-        public static Task<RawImage> DecodeAsync(SupportedFormats format, string fileName, bool flipImage)
+        public static Task<RawImage> DecodeAsync(ImageFormat format, string fileName, bool flipImage)
         {
             return DecodeAsync(format, new FileInfo(fileName), flipImage);
         }
 
-        public static RawImage Decode(SupportedFormats format, byte[] data, bool flipImage)
+        public static RawImage Decode(ImageFormat format, byte[] data, bool flipImage)
         {
-            if (format == SupportedFormats.JPEG)
+            if (format == ImageFormat.JPEG)
             {
                 return DecodeJPEG(data, flipImage);
             }
-            else if (format == SupportedFormats.PNG)
+            else if (format == ImageFormat.PNG)
             {
                 return DecodePNG(data, flipImage);
             }
@@ -359,20 +299,9 @@ namespace Juniper.Image
             }
         }
 
-        public static Task<RawImage> DecodeAsync(SupportedFormats format, byte[] data, bool flipImage)
+        public static Task<RawImage> DecodeAsync(ImageFormat format, byte[] data, bool flipImage)
         {
-            if (format == SupportedFormats.JPEG)
-            {
-                return DecodeJPEGAsync(data, flipImage);
-            }
-            else if (format == SupportedFormats.PNG)
-            {
-                return DecodePNGAsync(data, flipImage);
-            }
-            else
-            {
-                throw new ArgumentException($"Image format `{format}` has not been implemented yet.");
-            }
+            return Task.Run(() => Decode(format, data, flipImage));
         }
     }
 }

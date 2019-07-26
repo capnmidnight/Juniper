@@ -1,8 +1,8 @@
 using System;
 using System.IO;
+
 using Juniper.HTTP.REST;
 using Juniper.Image;
-using Juniper.World;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
