@@ -77,7 +77,7 @@ namespace Juniper.Google.Maps.MapTiles
 
         public override Func<Stream, RawImage> GetDecoder(AbstractEndpoint _)
         {
-            return stream => Image.Decoder.Decode(format.format, FlipImage, stream);
+            return stream => Image.Decoder.Decode(format.format, stream, FlipImage);
         }
 
         public void SetScale(int scale)

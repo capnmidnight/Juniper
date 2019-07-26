@@ -134,7 +134,7 @@ namespace Juniper.Google.Maps.StreetView
 
         public override Func<Stream, RawImage> GetDecoder(AbstractEndpoint _)
         {
-            return stream => Decoder.DecodeJPEG(FlipImage, stream);
+            return stream => Decoder.DecodeJPEG(stream, FlipImage);
         }
     }
 }

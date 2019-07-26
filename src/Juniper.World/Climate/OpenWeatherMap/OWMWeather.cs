@@ -76,7 +76,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             var request = HttpWebRequestExt.Create(IconURL);
             using (var response = await request.Get())
             {
-                return await Decoder.DecodeResponseAsync(flipImage, response);
+                return await Decoder.DecodeAsync(response, flipImage);
             }
         }
 
