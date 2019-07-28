@@ -11,7 +11,7 @@ namespace Juniper.Google.Maps.StreetView
     {
         public readonly HttpStatusCode status;
         public readonly string copyright;
-        public readonly string date;
+        public readonly DateTime date;
         public readonly PanoID pano_id;
         public readonly LatLngPoint location;
 
@@ -21,7 +21,7 @@ namespace Juniper.Google.Maps.StreetView
             if (status == HttpStatusCode.OK)
             {
                 copyright = info.GetString(nameof(copyright));
-                date = info.GetString(nameof(date));
+                date = info.GetDateTime(nameof(date));
                 pano_id = new PanoID(info.GetString(nameof(pano_id)));
                 location = info.GetValue<LatLngPoint>(nameof(location));
             }
@@ -33,7 +33,7 @@ namespace Juniper.Google.Maps.StreetView
             if (status == HttpStatusCode.OK)
             {
                 info.MaybeAddValue(nameof(copyright), copyright);
-                info.MaybeAddValue(nameof(date), date);
+                info.MaybeAddValue(nameof(date), date.ToString("yyyy-MM"));
                 info.MaybeAddValue(nameof(pano_id), pano_id.ToString());
                 info.MaybeAddValue(nameof(location), new
                 {

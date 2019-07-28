@@ -20,7 +20,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             Assert.IsTrue(service.IsCached(metadataRequest));
             Assert.AreEqual(HttpStatusCode.OK, metadata.status);
             Assert.IsNotNull(metadata.copyright);
-            Assert.IsNotNull(metadata.date);
+            Assert.IsNotNull("2016-07", metadata.date.ToString("yyyy-MM"));
             Assert.IsNotNull(metadata.location);
             Assert.IsNotNull(metadata.pano_id);
         }
