@@ -34,7 +34,7 @@ namespace Juniper.Imaging
         /// <param name="imagePath">Image path.</param>
         /// <param name="resolve">  Resolve.</param>
         /// <param name="reject">   Reject.</param>
-        public static async Task<RawImage> StreamPNG(string imagePath, bool flipImage = true)
+        public static async Task<RawImage> StreamPNG(string imagePath)
         {
             using (var imageFile = await StreamingAssets.GetStream(
                 Application.temporaryCachePath,
@@ -42,11 +42,11 @@ namespace Juniper.Imaging
                 "image/png"))
             {
                 var decoder = new Image.PNG.Factory();
-                return await decoder.DecodeAsync(imageFile.Content, flipImage);
+                return decoder.Deserialize(imageFile.Content);
             }
         }
 
-        public static async Task<RawImage> StreamJPEG(string imagePath, bool flipImage = true)
+        public static async Task<RawImage> StreamJPEG(string imagePath)
         {
             using (var imageFile = await StreamingAssets.GetStream(
                 Application.temporaryCachePath,
@@ -54,7 +54,7 @@ namespace Juniper.Imaging
                 "image/jpeg"))
             {
                 var decoder = new Image.JPEG.Factory();
-                return await decoder.DecodeAsync(imageFile.Content, flipImage);
+                return decoder.Deserialize(imageFile.Content);
             }
         }
 

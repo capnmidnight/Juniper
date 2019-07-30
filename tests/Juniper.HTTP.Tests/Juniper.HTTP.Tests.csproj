@@ -59,6 +59,10 @@
       <Project>{f951a2e5-078a-413d-966d-c3f4ae5edcab}</Project>
       <Name>Juniper.Image</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Juniper.Serialization\Juniper.Serialization.csproj">
+      <Project>{9d6f67cc-8eac-4644-9e20-c18c9d3e58cc}</Project>
+      <Name>Juniper.Serialization</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter">

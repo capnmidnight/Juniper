@@ -103,8 +103,7 @@ namespace Juniper.Images
             var lines = File.ReadAllLines(keyFile);
             var apiKey = lines[0];
             var signingKey = lines[1];
-            var json = new Json.JsonFactory();
-            gmaps = new Endpoint(json, apiKey, signingKey, cacheDir);
+            gmaps = new Endpoint(apiKey, signingKey, cacheDir);
         }
 
         public override void Enter(IProgress prog = null)
@@ -176,7 +175,7 @@ namespace Juniper.Images
                         lastLocation = Location;
                         newMaterial = null;
 
-                        if (true)
+                        if (false)
                         {
                             yield return Build6SidedMaterial();
                         }
@@ -216,7 +215,6 @@ namespace Juniper.Images
         {
             var imageRequest = new CubeMapRequest(LatLngLocation, 1024, 1024)
             {
-                FlipImage = true,
                 Radius = searchRadius
             };
 
@@ -237,13 +235,12 @@ namespace Juniper.Images
 
         private IEnumerator BuildCubemapMaterial()
         {
-            var imageRequest = new CubeMapRequest(LatLngLocation, 1024, 1024);
-
+            var imageRequest = new CrossCubeMapRequest(LatLngLocation, 1024, 1024);
             var imageTask = gmaps.Get(imageRequest);
             yield return new WaitForTask(imageTask);
-            var images = imageTask.Result;
+            var image = imageTask.Result;
 
-            var texture = ImageLoader.ConstructCubemap(images, TextureFormat.RGB24);
+            var texture = ImageLoader.ConstructTexture2D(image, TextureFormat.RGB24); ;
 
             newMaterial = new Material(Shader.Find("Skybox/Cubemap"));
             newMaterial.SetTexture("_Tex", texture);

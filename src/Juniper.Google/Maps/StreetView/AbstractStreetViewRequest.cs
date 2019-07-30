@@ -1,4 +1,5 @@
 using System.IO;
+using Juniper.Serialization;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
@@ -9,25 +10,25 @@ namespace Juniper.Google.Maps.StreetView
         private PlaceName placeName;
         private LatLngPoint location;
 
-        private AbstractStreetViewRequest(string path, string key)
-            : base(path, Path.Combine("streetview", key), true)
+        private AbstractStreetViewRequest(IDeserializer<ResultType> deserializer, string path, string key)
+            : base(deserializer, path, Path.Combine("streetview", key), true)
         {
         }
 
-        protected AbstractStreetViewRequest(string path, PanoID location)
-            : this(path, $"pano={location}")
-        {
-            SetLocation(location);
-        }
-
-        protected AbstractStreetViewRequest(string path, PlaceName location)
-            : this(path, $"address={location}")
+        protected AbstractStreetViewRequest(IDeserializer<ResultType> deserializer, string path, PanoID location)
+            : this(deserializer, path, $"pano={location}")
         {
             SetLocation(location);
         }
 
-        protected AbstractStreetViewRequest(string path, LatLngPoint location)
-            : this(path, $"latlng={location}")
+        protected AbstractStreetViewRequest(IDeserializer<ResultType> deserializer, string path, PlaceName location)
+            : this(deserializer, path, $"address={location}")
+        {
+            SetLocation(location);
+        }
+
+        protected AbstractStreetViewRequest(IDeserializer<ResultType> deserializer, string path, LatLngPoint location)
+            : this(deserializer, path, $"latlng={location}")
         {
             SetLocation(location);
         }

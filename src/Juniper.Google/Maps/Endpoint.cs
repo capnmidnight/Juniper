@@ -4,7 +4,6 @@ using System.Security.Cryptography;
 using System.Text;
 
 using Juniper.HTTP.REST;
-using Juniper.Serialization;
 
 namespace Juniper.Google.Maps
 {
@@ -13,8 +12,8 @@ namespace Juniper.Google.Maps
         private readonly string apiKey;
         private readonly string signingKey;
 
-        public Endpoint(IDeserializer deserializer, string apiKey, string signingKey, DirectoryInfo cacheLocation = null)
-            : base(deserializer, cacheLocation)
+        public Endpoint(string apiKey, string signingKey, DirectoryInfo cacheLocation = null)
+            : base(cacheLocation)
         {
             this.apiKey = apiKey;
             this.signingKey = signingKey;

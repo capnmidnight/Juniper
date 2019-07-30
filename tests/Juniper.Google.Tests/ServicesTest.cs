@@ -20,8 +20,7 @@ namespace Juniper.Google.Maps.Tests
             var lines = File.ReadAllLines(keyFile);
             var apiKey = lines[0];
             var signingKey = lines[1];
-            var json = new Json.JsonFactory();
-            service = new Endpoint(json, apiKey, signingKey, cacheDir);
+            service = new Endpoint(apiKey, signingKey, cacheDir);
         }
     }
 }

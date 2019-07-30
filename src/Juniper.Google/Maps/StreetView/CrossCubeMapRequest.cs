@@ -1,9 +1,9 @@
-using System;
 using System.IO;
 using System.Threading.Tasks;
 
 using Juniper.HTTP.REST;
 using Juniper.Image;
+using Juniper.Serialization;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
@@ -11,40 +11,47 @@ namespace Juniper.Google.Maps.StreetView
     public class CrossCubeMapRequest : AbstractImageRequest
     {
         private readonly CubeMapRequest subRequest;
+        private readonly IFactory<RawImage> factory;
 
-        public CrossCubeMapRequest(PanoID pano, Size size, ImageFormat format)
-            : base(pano, size, format)
+        public CrossCubeMapRequest(PanoID pano, Size size)
+            : base(pano, size)
         {
+            factory = (IFactory<RawImage>)deserializer;
             subRequest = new CubeMapRequest(pano, size);
         }
 
-        public CrossCubeMapRequest(PanoID pano, int width, int height, ImageFormat format)
-            : base(pano, width, height, format)
+        public CrossCubeMapRequest(PanoID pano, int width, int height)
+            : base(pano, width, height)
         {
+            factory = (IFactory<RawImage>)deserializer;
             subRequest = new CubeMapRequest(pano, new Size(width, height));
         }
 
-        public CrossCubeMapRequest(PlaceName placeName, Size size, ImageFormat format)
-            : base(placeName, size, format)
+        public CrossCubeMapRequest(PlaceName placeName, Size size)
+            : base(placeName, size)
         {
+            factory = (IFactory<RawImage>)deserializer;
             subRequest = new CubeMapRequest(placeName, size);
         }
 
-        public CrossCubeMapRequest(PlaceName placeName, int width, int height, ImageFormat format)
-            : base(placeName, width, height, format)
+        public CrossCubeMapRequest(PlaceName placeName, int width, int height)
+            : base(placeName, width, height)
         {
+            factory = (IFactory<RawImage>)deserializer;
             subRequest = new CubeMapRequest(placeName, new Size(width, height));
         }
 
-        public CrossCubeMapRequest(LatLngPoint location, Size size, ImageFormat format)
-            : base(location, size, format)
+        public CrossCubeMapRequest(LatLngPoint location, Size size)
+            : base(location, size)
         {
+            factory = (IFactory<RawImage>)deserializer;
             subRequest = new CubeMapRequest(location, size);
         }
 
-        public CrossCubeMapRequest(LatLngPoint location, int width, int height, ImageFormat format)
-            : base(location, width, height, format)
+        public CrossCubeMapRequest(LatLngPoint location, int width, int height)
+            : base(location, width, height)
         {
+            factory = (IFactory<RawImage>)deserializer;
             subRequest = new CubeMapRequest(location, new Size(width, height));
         }
 
@@ -66,13 +73,13 @@ namespace Juniper.Google.Maps.StreetView
             var cacheFile = GetCacheFile(api);
             if (IsCached(api))
             {
-                return await factory.DecodeAsync(cacheFile, false);
+                return deserializer.Deserialize(cacheFile);
             }
             else
             {
                 var images = await subRequest.Get(api);
                 var combined = await RawImage.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5]);
-                await factory.EncodeAsync(combined, cacheFile, false);
+                factory.Serialize(cacheFile, combined);
                 return combined;
             }
         }

@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Juniper.Image;
+using Juniper.Serialization;
 
 namespace Juniper.World.Climate.OpenWeatherMap
 {
@@ -71,9 +72,9 @@ namespace Juniper.World.Climate.OpenWeatherMap
             }
         }
 
-        private static IDecoder decoder;
+        private static IDeserializer<RawImage> decoder;
 
-        public async Task<RawImage> GetIcon(bool flipImage)
+        public async Task<RawImage> GetIcon()
         {
             if (decoder == null)
             {
@@ -82,7 +83,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             var request = HttpWebRequestExt.Create(IconURL);
             using (var response = await request.Get())
             {
-                return await decoder.DecodeAsync(response, flipImage);
+                return decoder.Deserialize(response);
             }
         }
 

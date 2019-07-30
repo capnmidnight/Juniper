@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using Juniper.Serialization;
 
 namespace Juniper.HTTP.REST
 {
@@ -11,13 +12,15 @@ namespace Juniper.HTTP.REST
         private readonly Dictionary<string, List<string>> queryParams = new Dictionary<string, List<string>>();
         private readonly UriBuilder uriBuilder;
         private readonly string cacheLocString;
+        protected IDeserializer<ResponseType> deserializer;
         private string acceptType;
         private string extension;
 
-        protected AbstractSingleRequest(Uri baseServiceURI, string path, string cacheLocString)
+        protected AbstractSingleRequest(Uri baseServiceURI, IDeserializer<ResponseType> deserializer, string path, string cacheLocString)
         {
             uriBuilder = new UriBuilder(baseServiceURI);
             uriBuilder.Path += path;
+            this.deserializer = deserializer;
             this.cacheLocString = cacheLocString;
         }
 
@@ -108,8 +111,6 @@ namespace Juniper.HTTP.REST
             return GetCacheFile(api).Exists;
         }
 
-        public abstract Func<Stream, ResponseType> GetDecoder(AbstractEndpoint api);
-
         private void SetAcceptType(HttpWebRequest request)
         {
             request.Accept = acceptType;
@@ -124,7 +125,7 @@ namespace Juniper.HTTP.REST
 
         public override Task<ResponseType> Get(AbstractEndpoint api)
         {
-            return Get(api, GetDecoder(api));
+            return Get(api, deserializer.Deserialize);
         }
 
         public Task<Stream> GetRaw(AbstractEndpoint api)
@@ -141,7 +142,7 @@ namespace Juniper.HTTP.REST
 
         public override Task<ResponseType> Post(AbstractEndpoint api)
         {
-            return Post(api, GetDecoder(api));
+            return Post(api, deserializer.Deserialize);
         }
 
         public Task<Stream> PostRaw(AbstractEndpoint api)

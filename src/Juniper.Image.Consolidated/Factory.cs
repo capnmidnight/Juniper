@@ -1,38 +1,49 @@
 using System;
 using System.IO;
+using Juniper.Serialization;
 
 namespace Juniper.Image.Consolidated
 {
-    public class Factory : IFactory
+    public class Factory : IFactory<RawImage>
     {
-        private readonly IFactory factory;
-        private readonly ImageFormat format;
+        private IFactory<RawImage> factory;
+        private ImageFormat format;
 
         public Factory(ImageFormat format)
         {
-            this.format = format;
-            if (format == ImageFormat.PNG)
+            Format = format;
+        }
+
+        public ImageFormat Format
+        {
+            get { return format; }
+            set
             {
-                factory = new PNG.Factory();
-            }
-            else if (format == ImageFormat.JPEG)
-            {
-                factory = new JPEG.Factory();
-            }
-            else
-            {
-                throw new ArgumentException($"Image format `{format}` has not been implemented yet.");
+                if (value == ImageFormat.PNG)
+                {
+                    format = value;
+                    factory = new PNG.Factory();
+                }
+                else if (value == ImageFormat.JPEG)
+                {
+                    format = value;
+                    factory = new JPEG.Factory();
+                }
+                else
+                {
+                    throw new ArgumentException($"Image format `{format}` has not been implemented yet.");
+                }
             }
         }
 
-        public RawImage Decode(Stream imageStream, bool flipImage)
+        public RawImage Deserialize(Stream imageStream)
         {
-            return factory.Decode(imageStream, flipImage);
+            return factory.Deserialize(imageStream);
         }
 
-        public void Encode(RawImage image, Stream outputStream, bool flipImage)
+        public void Serialize(Stream outputStream, RawImage image)
         {
-            factory.Encode(image, outputStream, flipImage);
+            factory.Serialize(outputStream, image);
         }
     }
 }

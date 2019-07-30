@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using Juniper.Google.Maps.Tests;
 using Juniper.Image;
+using Juniper.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -56,7 +57,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var combined = await RawImage.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.png");
             var encoder = new Image.PNG.Factory();
-            await encoder.EncodeAsync(combined, outputFileName, false);
+            encoder.Serialize(outputFileName, combined);
             Assert.IsTrue(File.Exists(outputFileName));
         }
 
@@ -68,24 +69,17 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var combined = await RawImage.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.jpeg");
             var encoder = new Image.PNG.Factory();
-            await encoder.EncodeAsync(combined, outputFileName, false);
+            encoder.Serialize(outputFileName, combined);
             Assert.IsTrue(File.Exists(outputFileName));
-        }
-
-        [TestMethod]
-        public async Task GetCubeMapCrossPNG()
-        {
-            var cubeMapRequest = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640, ImageFormat.PNG);
-            var combined = await service.Get(cubeMapRequest);
-            Assert.IsNotNull(combined);
         }
 
         [TestMethod]
         public async Task GetCubeMapCrossJPEG()
         {
-            var cubeMapRequest = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640, ImageFormat.JPEG);
+            var cubeMapRequest = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640);
             cubeMapRequest.GetCacheFile(service).Delete();
             var combined = await service.Get(cubeMapRequest);
+            Assert.AreEqual(combined.dimensions.width, combined.dimensions.height);
             Assert.IsNotNull(combined);
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using Juniper.HTTP.REST;
+using Juniper.Serialization;
 
 namespace Juniper.Google
 {
@@ -7,8 +8,8 @@ namespace Juniper.Google
     {
         private readonly bool signRequests;
 
-        protected AbstractGoogleRequest(Uri baseServiceURI, string path, string cacheLocString, bool signRequests)
-            : base(baseServiceURI, path, cacheLocString)
+        protected AbstractGoogleRequest(Uri baseServiceURI, IDeserializer<ResultType> deserializer, string path, string cacheLocString, bool signRequests)
+            : base(baseServiceURI, deserializer, path, cacheLocString)
         {
             this.signRequests = signRequests;
         }

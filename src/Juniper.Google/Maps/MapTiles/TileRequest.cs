@@ -29,14 +29,13 @@ namespace Juniper.Google.Maps.MapTiles
         private readonly List<Marker> markers = new List<Marker>();
         private LinePath path;
         private ImageFormat format;
-        private IDecoder decoder;
         private int scale;
         private string language;
         private string region;
         private MapImageType maptype;
 
         private TileRequest(string center, int zoom, Size size, ImageFormat format)
-            : base("staticmap", "tiles", true)
+            : base(new Image.Consolidated.Factory(format), "staticmap", "tiles", true)
         {
             SetQuery(nameof(center), center);
             SetQuery(nameof(zoom), zoom);
@@ -72,7 +71,7 @@ namespace Juniper.Google.Maps.MapTiles
                 }
 
                 format = value;
-                decoder = new Image.Consolidated.Factory(format);
+                deserializer = new Image.Consolidated.Factory(format);
                 SetContentType(RawImage.GetContentType(format), RawImage.GetContentType(format));
 
                 if (mapping != TileImageFormat.PNG8)
@@ -80,11 +79,6 @@ namespace Juniper.Google.Maps.MapTiles
                     SetQuery(nameof(format), description.gmapsFieldValue);
                 }
             }
-        }
-
-        public override Func<Stream, RawImage> GetDecoder(AbstractEndpoint _)
-        {
-            return stream => decoder.Decode(stream, FlipImage);
         }
 
         public int Scale

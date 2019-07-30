@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Juniper\Assets\Juniper\Plugins\Juniper\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\Juniper\Assets\Juniper\Plugins\Juniper\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -37,11 +37,14 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JsonFactory.cs" />
-    <Compile Include="StreamExt.cs" />
+    <Compile Include="Factory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Json.Net.Unity3D\src\Newtonsoft.Json\Json.Lite.csproj">
+      <Project>{955b96f2-6afb-4c2f-aaa5-9bfd6ddcb3bd}</Project>
+      <Name>Json.Lite</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.HTTP\Juniper.HTTP.csproj">
       <Project>{888b994c-2ae8-42b2-84f5-b15e11cc4f4f}</Project>
       <Name>Juniper.HTTP</Name>
@@ -59,14 +62,9 @@
       <Name>Juniper.Streams</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.2</Version>
-    </PackageReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /V /C /I /K /Y  $(ProjectDir)StreamExt.cs $(SolutionDir)Juniper\Assets\Juniper\Scripts\Unity\Extensions\NETFX
-xcopy /V /C /I /K /Y  $(ProjectDir)JsonFactory.cs $(SolutionDir)Juniper\Assets\Juniper\Scripts\Unity\Extensions\NETFX</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

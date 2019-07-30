@@ -89,7 +89,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
 
             if (lastReportJSON != null)
             {
-                if (deserializer.TryDeserialize<WeatherReport>(lastReportJSON, out var report))
+                if (deserializer.TryParse<WeatherReport>(lastReportJSON, out var report))
                 {
                     LastReport = report;
                 }
@@ -205,10 +205,9 @@ namespace Juniper.World.Climate.OpenWeatherMap
                     requester.Accept = "application/json";
                     using (var response = await requester.Get())
                     {
-                        var body = response.ReadBodyString();
-                        if (deserializer.TryDeserialize<WeatherReport>(body, out var report))
+                        if(deserializer.TryDeserialize<WeatherReport>(response, out var report))
                         {
-                            reportJSON = serializer.Serialize("Weather report", report);
+                            reportJSON = serializer.Serialize(report);
                             LastReport = report;
                         }
                         else
@@ -233,8 +232,8 @@ namespace Juniper.World.Climate.OpenWeatherMap
         {
             set
             {
-                var reportJSON = serializer.Serialize("Weather error", value);
-                deserializer.TryDeserialize<WeatherReport>(reportJSON, out var errorReport);
+                var reportJSON = serializer.Serialize(value);
+                deserializer.TryParse<WeatherReport>(reportJSON, out var errorReport);
                 LastReport = errorReport;
             }
         }

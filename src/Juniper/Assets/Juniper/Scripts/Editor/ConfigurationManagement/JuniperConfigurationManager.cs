@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Json.Lite;
+using Json.Lite.Linq;
+
 using Juniper.Compression.Tar.GZip;
-using Juniper.Json;
 using Juniper.Progress;
 using Juniper.XR;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -84,7 +84,7 @@ namespace Juniper.ConfigurationManagement
 
                 var token = UnityEditorInternal.InternalEditorUtility.GetAuthToken();
                 Task.Run(async () => {
-                    var req = new UnityAssetStore.Requester(new JsonFactory());
+                    var req = new UnityAssetStore.Requester(new Juniper.Json.Factory());
                     const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
                     const string UnityAssetStoreRoot = "https://www.assetstore.unity3d.com/";
                     var myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);

@@ -32,7 +32,8 @@ namespace Juniper.Display
                     OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSHigh;
                 }
 
-                if (OVRManager.display.displayFrequenciesAvailable.Length > 0)
+                if (OVRManager.display != null
+                    && OVRManager.display.displayFrequenciesAvailable.Length > 0)
                 {
                     OVRManager.display.displayFrequency = OVRManager.display.displayFrequenciesAvailable.Max();
                 }

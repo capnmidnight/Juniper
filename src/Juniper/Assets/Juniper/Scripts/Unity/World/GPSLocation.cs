@@ -1,11 +1,9 @@
 using System;
 using System.Collections;
 
+using Juniper.Json;
 using Juniper.Units;
-using Juniper;
 using Juniper.World.GIS;
-
-using Newtonsoft.Json;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -135,6 +133,8 @@ namespace Juniper.World
             OnValidate();
         }
 
+        private Factory<LatLngPoint> coordFactory = new Factory<LatLngPoint>();
+
         public void OnValidate()
         {
             if (!HasCoord)
@@ -145,7 +145,7 @@ namespace Juniper.World
                 }
                 else if (PlayerPrefs.HasKey(COORD_KEY))
                 {
-                    Coord = JsonConvert.DeserializeObject<LatLngPoint>(PlayerPrefs.GetString(COORD_KEY));
+                    Coord = coordFactory.Deserialize(PlayerPrefs.GetString(COORD_KEY));
                 }
             }
         }
@@ -246,7 +246,7 @@ namespace Juniper.World
                 if (newLocation.timestamp > lastLocation.timestamp)
                 {
                     Coord = new LatLngPoint(newLocation.latitude, newLocation.longitude, newLocation.altitude);
-                    PlayerPrefs.SetString(COORD_KEY, JsonConvert.SerializeObject(Coord));
+                    PlayerPrefs.SetString(COORD_KEY, coordFactory.Serialize(Coord));
                     lastLocation = newLocation;
                     OnPositionUpdated();
                 }

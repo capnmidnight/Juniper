@@ -1,24 +1,20 @@
 using System.IO;
 using System.Threading.Tasks;
 
-using Juniper.Serialization;
-
 namespace Juniper.HTTP.REST
 {
     public class AbstractEndpoint
     {
-        private readonly IDeserializer deserializer;
         internal readonly DirectoryInfo cacheLocation;
 
-        protected AbstractEndpoint(IDeserializer deserializer, DirectoryInfo cacheLocation = null)
+        protected AbstractEndpoint(DirectoryInfo cacheLocation = null)
         {
-            this.deserializer = deserializer;
             this.cacheLocation = cacheLocation;
             cacheLocation?.Create();
         }
 
-        protected AbstractEndpoint(IDeserializer deserializer, string cacheDirectoryName = null)
-            : this(deserializer, cacheDirectoryName == null ? null : new DirectoryInfo(cacheDirectoryName))
+        protected AbstractEndpoint(string cacheDirectoryName = null)
+            : this(cacheDirectoryName == null ? null : new DirectoryInfo(cacheDirectoryName))
         {
         }
 
@@ -27,14 +23,14 @@ namespace Juniper.HTTP.REST
             return search.IsCached(this);
         }
 
-        public Task<U> Get<T, U>(AbstractRequest<T, U> search)
+        public Task<U> Get<T, U>(AbstractRequest<T, U> request)
         {
-            return search.Get(this);
+            return request.Get(this);
         }
 
-        public T DecodeObject<T>(Stream stream)
+        public Task<U> Post<T, U>(AbstractRequest<T, U> request)
         {
-            return deserializer.Deserialize<T>(stream);
+            return request.Post(this);
         }
     }
 }

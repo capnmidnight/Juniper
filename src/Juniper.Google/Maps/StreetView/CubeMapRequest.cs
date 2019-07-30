@@ -125,20 +125,5 @@ namespace Juniper.Google.Maps.StreetView
                 }
             }
         }
-
-        public bool FlipImage
-        {
-            get
-            {
-                return subRequests.Any(request => request.FlipImage);
-            }
-            set
-            {
-                foreach (var request in subRequests)
-                {
-                    request.FlipImage = value;
-                }
-            }
-        }
     }
 }

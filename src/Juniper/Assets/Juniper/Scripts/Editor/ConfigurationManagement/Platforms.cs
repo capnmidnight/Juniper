@@ -7,8 +7,8 @@ using Juniper.Compression.Tar.GZip;
 using Juniper.Progress;
 using Juniper.XR;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Json.Lite;
+using Json.Lite.Linq;
 
 using UnityEngine;
 

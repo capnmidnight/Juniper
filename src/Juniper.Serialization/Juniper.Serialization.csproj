@@ -44,6 +44,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializationInfoConsumer.cs" />
     <Compile Include="SerializationInfoExt.cs" />
+    <Compile Include="SpecializedDeserializer.cs" />
+    <Compile Include="SpecializedFactory.cs" />
+    <Compile Include="SpecializedSerializer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">
+      <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
+      <Name>Juniper.Progress</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

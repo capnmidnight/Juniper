@@ -26,22 +26,22 @@ namespace Juniper.Google.Maps.StreetView
         private Pitch pitch;
 
         public ImageRequest(PanoID pano, Size size)
-            : base(pano, size, ImageFormat.JPEG) { }
+            : base(pano, size) { }
 
         public ImageRequest(PanoID pano, int width, int height)
-            : base(pano, width, height, ImageFormat.JPEG) { }
+            : base(pano, width, height) { }
 
         public ImageRequest(PlaceName placeName, Size size)
-            : base(placeName, size, ImageFormat.JPEG) { }
+            : base(placeName, size) { }
 
         public ImageRequest(PlaceName placeName, int width, int height)
-            : base(placeName, width, height, ImageFormat.JPEG) { }
+            : base(placeName, width, height) { }
 
         public ImageRequest(LatLngPoint location, Size size)
-            : base(location, size, ImageFormat.JPEG) { }
+            : base(location, size) { }
 
         public ImageRequest(LatLngPoint location, int width, int height)
-            : base(location, width, height, ImageFormat.JPEG) { }
+            : base(location, width, height) { }
 
         public Heading Heading
         {

@@ -12,53 +12,10 @@ namespace Juniper.UnityAssetStore
 {
     public class Requester
     {
-        private const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
-        private const string UnityAPIRoot = "https://api.unity.com/";
-        private const string UnityAssetStoreRoot = "https://assetstore.unity3d.com/";
-        private const string UnityAssetStoreAPIRoot = UnityAssetStoreRoot + "api/en-US/";
-
-        private readonly IDeserializer deserializer;
-
-        private string sessionID;
-
         public Requester(IDeserializer deserializer)
         {
             this.sessionID = string.Empty;
             this.deserializer = deserializer;
-        }
-
-        private async Task<string> Get(string url, string token = null, IProgress prog = null)
-        {
-            return await Get(new Uri(url), token, prog);
-        }
-
-        private async Task<string> Get(Uri uri, string token = null, IProgress prog = null)
-        {
-            var code = HttpStatusCode.Redirect;
-            while (code == HttpStatusCode.Redirect)
-            {
-                using (var response = await HttpWebRequestExt.Create(uri)
-                    .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
-                    .Accept("application/json")
-                    .Get())
-                {
-                    code = response.StatusCode;
-                    if (code == HttpStatusCode.Redirect)
-                    {
-                        uri = new Uri(response.Headers[HttpResponseHeader.Location]);
-                    }
-                    else if (response.StatusCode == HttpStatusCode.OK
-                        && response.ContentLength > 0)
-                    {
-                        using (var stream = response.GetResponseStream())
-                        {
-                            return stream.ReadString(response.ContentLength, prog);
-                        }
-                    }
-                }
-            }
-
-            return default;
         }
 
         public async Task<string> Post(string url, string data, string token = null, IProgress prog = null)
@@ -81,43 +38,13 @@ namespace Juniper.UnityAssetStore
                 && response.ContentLength > 0)
             {
                 using (var stream = response.GetResponseStream())
+                using (var reader = new StreamReader(stream))
                 {
-                    return stream.ReadString(response.ContentLength, prog);
+                    return reader.ReadToEnd();
                 }
             }
 
             return default;
-        }
-
-        private T Decode<T>(string text)
-        {
-            if (text != null
-                && deserializer.TryDeserialize(text, out T value))
-            {
-                return value;
-            }
-
-            return default;
-        }
-
-        private async Task<T> Get<T>(string url, string token = null, IProgress prog = null)
-        {
-            return Decode<T>(await Get(url, token, prog));
-        }
-
-        private async Task<T> Get<T>(Uri uri, string token = null, IProgress prog = null)
-        {
-            return Decode<T>(await Get(uri, token, prog));
-        }
-
-        private async Task<T> Post<T>(string url, string data, string token = null, IProgress prog = null)
-        {
-            return Decode<T>(await Post(url, data, token, prog));
-        }
-
-        private async Task<T> Post<T>(Uri uri, string data, string token = null, IProgress prog = null)
-        {
-            return Decode<T>(await Post(uri, data, token, prog));
         }
 
         public async Task<Category[]> GetCategories(IProgress prog = null)
@@ -147,11 +74,6 @@ namespace Juniper.UnityAssetStore
         public async Task<Price> GetAssetPrice(string assetID, IProgress prog = null)
         {
             return await Get<Price>($"{UnityAssetStoreAPIRoot}content/price/{assetID}.json", null, prog);
-        }
-
-        private async Task<Results<AssetDetail>> GetTopAssets(string type, string categoryID, int count, IProgress prog = null)
-        {
-            return await Get<Results<AssetDetail>>($"{UnityAssetStoreAPIRoot}category/top/{type}/{categoryID}/{count}.json", null, prog);
         }
 
         public async Task<Results<AssetDetail>> GetTopLatestAssets(string categoryID, int count = 10, IProgress prog = null)
@@ -216,19 +138,103 @@ namespace Juniper.UnityAssetStore
             if (res.StatusCode == HttpStatusCode.OK)
             {
                 var doc = new HtmlDocument();
-                var html = res.ReadBodyString();
-                doc.LoadHtml(html);
-                var csrfToken = doc
-                    .DocumentNode
-                    .SelectSingleNode("//meta[@name='csrf-token']")
-                    .Attributes["content"]
-                    .Value;
-                if (csrfToken != null)
+                using (var stream = res.GetResponseStream())
+                using (var reader = new StreamReader(stream))
                 {
+                    var html = reader.ReadToEnd();
+                    doc.LoadHtml(html);
+                    var csrfToken = doc
+                        .DocumentNode
+                        .SelectSingleNode("//meta[@name='csrf-token']")
+                        .Attributes["content"]
+                        .Value;
+                    if (csrfToken != null)
+                    {
+                    }
                 }
             }
 
             return default;
+        }
+
+        private const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
+        private const string UnityAPIRoot = "https://api.unity.com/";
+        private const string UnityAssetStoreRoot = "https://assetstore.unity3d.com/";
+        private const string UnityAssetStoreAPIRoot = UnityAssetStoreRoot + "api/en-US/";
+
+        private readonly IDeserializer deserializer;
+
+        private string sessionID;
+
+        private async Task<string> Get(string url, string token = null, IProgress prog = null)
+        {
+            return await Get(new Uri(url), token, prog);
+        }
+
+        private async Task<string> Get(Uri uri, string token = null, IProgress prog = null)
+        {
+            var code = HttpStatusCode.Redirect;
+            while (code == HttpStatusCode.Redirect)
+            {
+                using (var response = await HttpWebRequestExt.Create(uri)
+                    .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
+                    .Accept("application/json")
+                    .Get())
+                {
+                    code = response.StatusCode;
+                    if (code == HttpStatusCode.Redirect)
+                    {
+                        uri = new Uri(response.Headers[HttpResponseHeader.Location]);
+                    }
+                    else if (response.StatusCode == HttpStatusCode.OK
+                        && response.ContentLength > 0)
+                    {
+                        using (var stream = response.GetResponseStream())
+                        using (var reader = new StreamReader(stream))
+                        {
+                            return reader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+
+            return default;
+        }
+
+        private T Decode<T>(string text)
+        {
+            if (text != null
+                && deserializer.TryParse(text, out T value))
+            {
+                return value;
+            }
+
+            return default;
+        }
+
+        private async Task<T> Get<T>(string url, string token = null, IProgress prog = null)
+        {
+            return Decode<T>(await Get(url, token, prog));
+        }
+
+        private async Task<T> Get<T>(Uri uri, string token = null, IProgress prog = null)
+        {
+            return Decode<T>(await Get(uri, token, prog));
+        }
+
+        private async Task<T> Post<T>(string url, string data, string token = null, IProgress prog = null)
+        {
+            return Decode<T>(await Post(url, data, token, prog));
+        }
+
+        private async Task<T> Post<T>(Uri uri, string data, string token = null, IProgress prog = null)
+        {
+            return Decode<T>(await Post(uri, data, token, prog));
+        }
+
+        private async Task<Results<AssetDetail>> GetTopAssets(string type, string categoryID, int count, IProgress prog = null)
+        {
+            return await Get<Results<AssetDetail>>($"{UnityAssetStoreAPIRoot}category/top/{type}/{categoryID}/{count}.json", null, prog);
         }
     }
 }

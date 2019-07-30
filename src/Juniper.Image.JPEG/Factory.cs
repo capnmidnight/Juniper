@@ -3,15 +3,17 @@ using System.IO;
 
 using BitMiracle.LibJpeg;
 
+using Juniper.Serialization;
+
 namespace Juniper.Image.JPEG
 {
-    public class Factory : IFactory
+    public class Factory : IFactory<RawImage>
     {
         /// <summary>
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Jpeg bytes.</param>
-        public RawImage Decode(Stream imageStream, bool flipImage)
+        public RawImage Deserialize(Stream imageStream)
         {
             var source = RawImage.DetermineSource(imageStream);
             using (var jpeg = new JpegImage(imageStream))
@@ -21,7 +23,7 @@ namespace Juniper.Image.JPEG
                 var data = new byte[numRows * stride];
                 for (var i = 0; i < jpeg.Height; ++i)
                 {
-                    var rowIndex = RawImage.GetRowIndex(numRows, i, flipImage);
+                    var rowIndex = RawImage.GetRowIndex(numRows, i, true);
                     var row = jpeg.GetRow(rowIndex);
                     Array.Copy(row.ToBytes(), 0, data, i * stride, stride);
                 }
@@ -38,13 +40,13 @@ namespace Juniper.Image.JPEG
         /// Encodes a raw file buffer of image data into a JPEG image.
         /// </summary>
         /// <param name="outputStream">Jpeg bytes.</param>
-        public void Encode(RawImage image, Stream outputStream, bool flipImage)
+        public void Serialize(Stream outputStream, RawImage image)
         {
             var rows = new SampleRow[image.dimensions.height];
             var rowBuffer = new byte[image.stride];
             for (int i = 0; i < image.dimensions.height; ++i)
             {
-                var rowIndex = RawImage.GetRowIndex(image.dimensions.height, i, flipImage);
+                var rowIndex = RawImage.GetRowIndex(image.dimensions.height, i, true);
                 var imageDataIndex = rowIndex * image.stride;
                 Array.Copy(image.data, imageDataIndex, rowBuffer, 0, rowBuffer.Length);
                 rows[i] = new SampleRow(

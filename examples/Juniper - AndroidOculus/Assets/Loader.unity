@@ -12110,7 +12110,7 @@ GameObject:
   - component: {fileID: 864751695}
   - component: {fileID: 864751694}
   m_Layer: 0
-  m_Name: SunRig (1)
+  m_Name: SunRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32574,6 +32574,7 @@ MonoBehaviour:
   extraHiddenLayers:
     serializedVersion: 2
     m_Bits: 0
+  externalCompositionBackdropColor: {r: 0, g: 0, b: 0, a: 0}
   capturingCameraDevice: 0
   flipCameraFrameHorizontally: 0
   flipCameraFrameVertically: 0
@@ -32593,6 +32594,7 @@ MonoBehaviour:
   virtualGreenScreenBottomY: -10
   virtualGreenScreenApplyDepthCulling: 0
   virtualGreenScreenDepthTolerance: 0.2
+  mrcActivationMode: 0
   _trackingOriginType: 0
   usePositionTracking: 1
   useRotationTracking: 1

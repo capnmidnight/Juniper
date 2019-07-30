@@ -144,7 +144,7 @@ namespace Juniper.World.Climate
                 {
                     lastReportJSON = PlayerPrefs.GetString(REPORT_KEY);
                 }
-                weatherService = new OpenWeatherMap.API(new JsonFactory(), OpenWeatherMapAPIKey.Value, lastReportJSON);
+                weatherService = new OpenWeatherMap.API(new Json.Factory(), OpenWeatherMapAPIKey.Value, lastReportJSON);
             }
 
             if (FakeWeather)

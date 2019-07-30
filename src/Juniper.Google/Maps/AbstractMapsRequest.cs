@@ -1,4 +1,5 @@
 using System;
+using Juniper.Serialization;
 
 namespace Juniper.Google.Maps
 {
@@ -6,7 +7,7 @@ namespace Juniper.Google.Maps
     {
         private static readonly Uri baseServiceURI = new Uri("https://maps.googleapis.com/maps/api/");
 
-        protected AbstractMapsRequest(string path, string cacheLocString, bool signRequests)
-            : base(baseServiceURI, path, cacheLocString, signRequests) { }
+        protected AbstractMapsRequest(IDeserializer<ResultType> deserializer, string path, string cacheLocString, bool signRequests)
+            : base(baseServiceURI, deserializer, path, cacheLocString, signRequests) { }
     }
 }

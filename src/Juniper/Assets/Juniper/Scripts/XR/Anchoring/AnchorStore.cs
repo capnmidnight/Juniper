@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-using Newtonsoft.Json;
+using Juniper.Json;
 
 using UnityEngine;
 
@@ -70,6 +70,8 @@ namespace Juniper.Anchoring
             return PlayerPrefs.HasKey(MakeID(name));
         }
 
+        private static Factory json = new Factory();
+
         /// <summary>
         /// Saves a value to the data store.
         /// </summary>
@@ -77,7 +79,7 @@ namespace Juniper.Anchoring
         /// <param name="value">The value to save.</param>
         protected static void SaveValue<T>(string name, T value)
         {
-            PlayerPrefs.SetString(MakeID(name), JsonConvert.SerializeObject(value));
+            PlayerPrefs.SetString(MakeID(name), json.Serialize(value));
 
             var names = NameList;
             if (!names.Contains(name))
@@ -103,7 +105,7 @@ namespace Juniper.Anchoring
             {
                 try
                 {
-                    return JsonConvert.DeserializeObject<T>(PlayerPrefs.GetString(key));
+                    return json.Deserialize<T>(PlayerPrefs.GetString(key));
                 }
                 catch
                 {

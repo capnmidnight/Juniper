@@ -1,7 +1,3 @@
-using System;
-using System.IO;
-
-using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.World.GIS;
 
@@ -12,54 +8,41 @@ namespace Juniper.Google.Maps.StreetView
         private Size size;
         private int radius;
         private bool outdoorOnly;
-        private ImageFormat format;
-        protected IFactory factory;
 
-        public AbstractImageRequest(PanoID pano, Size size, ImageFormat format)
-            : base("streetview", pano)
+        public AbstractImageRequest(PanoID pano, Size size)
+            : base(new Image.JPEG.Factory(), "streetview", pano)
         {
             Size = size;
-            Format = format;
+            SetContentType(RawImage.GetContentType(ImageFormat.JPEG), RawImage.GetExtension(ImageFormat.JPEG));
         }
 
-        public AbstractImageRequest(PanoID pano, int width, int height, ImageFormat format)
-            : this(pano, new Size(width, height), format)
+        public AbstractImageRequest(PanoID pano, int width, int height)
+            : this(pano, new Size(width, height))
         {
         }
 
-        public AbstractImageRequest(PlaceName placeName, Size size, ImageFormat format)
-            : base("streetview", placeName)
-        {
-            Size = size;
-            Format = format;
-        }
-
-        public AbstractImageRequest(PlaceName placeName, int width, int height, ImageFormat format)
-            : this(placeName, new Size(width, height), format)
-        {
-        }
-
-        public AbstractImageRequest(LatLngPoint location, Size size, ImageFormat format)
-            : base("streetview", location)
+        public AbstractImageRequest(PlaceName placeName, Size size)
+            : base(new Image.JPEG.Factory(), "streetview", placeName)
         {
             Size = size;
-            Format = format;
+            SetContentType(RawImage.GetContentType(ImageFormat.JPEG), RawImage.GetExtension(ImageFormat.JPEG));
         }
 
-        public AbstractImageRequest(LatLngPoint location, int width, int height, ImageFormat format)
-            : this(location, new Size(width, height), format)
+        public AbstractImageRequest(PlaceName placeName, int width, int height)
+            : this(placeName, new Size(width, height))
         {
         }
 
-        public ImageFormat Format
+        public AbstractImageRequest(LatLngPoint location, Size size)
+            : base(new Image.JPEG.Factory(), "streetview", location)
         {
-            get { return format; }
-            set
-            {
-                format = value;
-                factory = new Image.Consolidated.Factory(format);
-                SetContentType(RawImage.GetContentType(format), RawImage.GetExtension(format));
-            }
+            Size = size;
+            SetContentType(RawImage.GetContentType(ImageFormat.JPEG), RawImage.GetExtension(ImageFormat.JPEG));
+        }
+
+        public AbstractImageRequest(LatLngPoint location, int width, int height)
+            : this(location, new Size(width, height))
+        {
         }
 
         public Size Size
@@ -94,13 +77,6 @@ namespace Juniper.Google.Maps.StreetView
                     RemoveQuery("source");
                 }
             }
-        }
-
-        public bool FlipImage { get; set; }
-
-        public override Func<Stream, RawImage> GetDecoder(AbstractEndpoint _)
-        {
-            return stream => factory.Decode(stream, FlipImage);
         }
     }
 }
