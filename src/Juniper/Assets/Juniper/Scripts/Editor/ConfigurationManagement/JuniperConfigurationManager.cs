@@ -84,7 +84,7 @@ namespace Juniper.ConfigurationManagement
 
                 var token = UnityEditorInternal.InternalEditorUtility.GetAuthToken();
                 Task.Run(async () => {
-                    var req = new UnityAssetStore.Requester(new Juniper.Json.Factory());
+                    var req = new UnityAssetStore.Requester();
                     const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
                     const string UnityAssetStoreRoot = "https://www.assetstore.unity3d.com/";
                     var myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);

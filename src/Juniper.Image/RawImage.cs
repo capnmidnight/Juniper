@@ -11,49 +11,6 @@ namespace Juniper.Image
     /// </summary>
     public class RawImage : ICloneable
     {
-        public enum ImageSource
-        {
-            None,
-            File,
-            Network
-        }
-
-        public const int BytesPerComponent = sizeof(byte);
-        public const int BitsPerComponent = 8 * BytesPerComponent;
-
-        public readonly ImageSource source;
-        public readonly byte[] data;
-        public readonly Size dimensions;
-        public readonly int stride;
-        public readonly int components;
-        public readonly int bytesPerSample;
-        public readonly int bitsPerSample;
-
-        public RawImage(ImageSource source, Size dimensions, byte[] data)
-        {
-            this.source = source;
-            this.dimensions = dimensions;
-            this.data = data;
-            stride = data.Length / dimensions.height;
-            components = stride / dimensions.width;
-            bytesPerSample = BytesPerComponent * components;
-            bitsPerSample = 8 * bytesPerSample;
-        }
-
-        public RawImage(ImageSource source, int width, int height, byte[] data)
-            : this(source, new Size(width, height), data)
-        {
-        }
-
-        public RawImage(int width, int height, int components)
-            : this(ImageSource.None, width, height, new byte[height * width * components])
-        {}
-
-        public object Clone()
-        {
-            return new RawImage(source, dimensions, (byte[])data.Clone());
-        }
-
         public static ImageSource DetermineSource(Stream imageStream)
         {
             var source = ImageSource.None;
@@ -100,106 +57,43 @@ namespace Juniper.Image
             return rowIndex;
         }
 
-        private static void RGB2HSV(RawImage image, int index, out float h, out float s, out float v)
+        public enum ImageSource
         {
-            float R = image.data[index] / 255f;
-            float G = image.data[index + 1] / 255f;
-            float B = image.data[index + 2] / 255f;
-            float max = R;
-            float min = R;
-
-            if (G > max) max = B;
-            if (G < min) min = B;
-            if (B > max) max = B;
-            if (B < min) min = B;
-
-            float delta = max - min;
-
-            h = 0;
-            if (delta > 0)
-            {
-                if (max == R) h = (G - B) / delta;
-                if (max == G) h = 2 + (B - R) / delta;
-                if (max == B) h = 4 + (R - G) / delta;
-            }
-
-            h *= 60;
-            if (h < 0) h += 360;
-            if (h >= 360) h -= 360;
-
-            s = 0;
-            if (max > 0) s = (max - min) / max;
-
-            v = max;
+            None,
+            File,
+            Network
         }
 
-        private static void HSV2RGB(float h, float s, float v, RawImage image, int index)
-        {
-            float delta = v * s;
-            h /= 60;
-            float x = delta * (1 - Math.Abs((h % 2) - 1));
-            float r = 0;
-            float g = 0;
-            float b = 0;
-            if (h <= 1)
-            {
-                r = delta;
-                g = x;
-            }
-            else if (h <= 2)
-            {
-                r = x;
-                g = delta;
-            }
-            else if (h <= 3)
-            {
-                g = delta;
-                b = x;
-            }
-            else if (h <= 4)
-            {
-                g = x;
-                b = delta;
-            }
-            else if (h <= 5)
-            {
-                r = x;
-                b = delta;
-            }
-            else
-            {
-                r = delta;
-                b = x;
-            }
+        public const int BytesPerComponent = sizeof(byte);
+        public const int BitsPerComponent = 8 * BytesPerComponent;
 
-            float m = v - delta;
-            image.data[index] = (byte)((r + m) * 255f);
-            image.data[index + 1] = (byte)((g + m) * 255f);
-            image.data[index + 2] = (byte)((b + m) * 255f);
+        public readonly ImageSource source;
+        public readonly byte[] data;
+        public readonly Size dimensions;
+        public readonly int stride;
+        public readonly int components;
+        public readonly int bytesPerSample;
+        public readonly int bitsPerSample;
+
+        public RawImage(ImageSource source, Size dimensions, byte[] data)
+        {
+            this.source = source;
+            this.dimensions = dimensions;
+            this.data = data;
+            stride = data.Length / dimensions.height;
+            components = stride / dimensions.width;
+            bytesPerSample = BytesPerComponent * components;
+            bitsPerSample = 8 * bytesPerSample;
         }
 
-        private static void HorizontalLerp(RawImage input, RawImage output, int outputX, int outputY)
+        public RawImage(ImageSource source, int width, int height, byte[] data)
+            : this(source, new Size(width, height), data)
         {
-            float inputX = (float)outputX * input.dimensions.width / output.dimensions.width;
-            int inputXA = (int)inputX;
-            int inputXB = (inputXA + 1) % input.dimensions.width;
-            int inputIA = outputY * input.stride + inputXA * input.components;
-            int inputIB = outputY * input.stride + inputXB * input.components;
-            RGB2HSV(input, inputIA, out var h1, out var s1, out var v1);
-            RGB2HSV(input, inputIB, out var h2, out var s2, out var v2);
-            float p = 1 - inputX + inputXA;
-            float q = 1 - inputXB + inputX;
-            float h = h1 * p + h2 * q;
-            float s = s1 * p + s2 * q;
-            float v = v1 * p + v2 * q;
-
-            int outputIndex = outputY * output.stride + outputX * output.components;
-            HSV2RGB(h, s, v, output, outputIndex);
         }
 
-        private static Task<RawImage> CombineTilesAsync(int columns, int rows, params RawImage[] images)
+        public RawImage(int width, int height, int components)
+            : this(ImageSource.None, width, height, new byte[height * width * components])
         {
-            return Task.Run(() => CombineTiles(columns, rows, images));
         }
 
         private static RawImage CombineTiles(int columns, int rows, params RawImage[] images)
@@ -266,25 +160,12 @@ namespace Juniper.Image
                 }
             }
 
-            return combined; // Squarify(combined);
+            return combined;
         }
 
-        private static RawImage Squarify(RawImage combined)
+        private static Task<RawImage> CombineTilesAsync(int columns, int rows, params RawImage[] images)
         {
-            var resized = new RawImage(
-                            combined.dimensions.height,
-                            combined.dimensions.height,
-                            combined.components);
-
-            for (int y = 0; y < resized.dimensions.height; ++y)
-            {
-                for (int x = 0; x < resized.dimensions.width; ++x)
-                {
-                    HorizontalLerp(combined, resized, x, y);
-                }
-            }
-
-            return resized;
+            return Task.Run(() => CombineTiles(columns, rows, images));
         }
 
         public static Task<RawImage> Combine6Squares(RawImage north, RawImage east, RawImage west, RawImage south, RawImage up, RawImage down)
@@ -302,6 +183,126 @@ namespace Juniper.Image
                 null, up, null, null,
                 west, north, east, south,
                 null, down, null, null);
+        }
+
+        private RawImage Squarify()
+        {
+            var resized = new RawImage(
+                            dimensions.height,
+                            dimensions.height,
+                            components);
+
+            for (int y = 0; y < resized.dimensions.height; ++y)
+            {
+                for (int x = 0; x < resized.dimensions.width; ++x)
+                {
+                    HorizontalLerp(resized, x, y);
+                }
+            }
+
+            return resized;
+        }
+
+        public object Clone()
+        {
+            return new RawImage(source, dimensions, (byte[])data.Clone());
+        }
+
+        private void RGB2HSV(int index, out float h, out float s, out float v)
+        {
+            float R = data[index] / 255f;
+            float G = data[index + 1] / 255f;
+            float B = data[index + 2] / 255f;
+            float max = R;
+            float min = R;
+
+            if (G > max) max = B;
+            if (G < min) min = B;
+            if (B > max) max = B;
+            if (B < min) min = B;
+
+            float delta = max - min;
+
+            h = 0;
+            if (delta > 0)
+            {
+                if (max == R) h = (G - B) / delta;
+                if (max == G) h = 2 + (B - R) / delta;
+                if (max == B) h = 4 + (R - G) / delta;
+            }
+
+            h *= 60;
+            if (h < 0) h += 360;
+            if (h >= 360) h -= 360;
+
+            s = 0;
+            if (max > 0) s = (max - min) / max;
+
+            v = max;
+        }
+
+        private void HSV2RGB(float h, float s, float v, int index)
+        {
+            float delta = v * s;
+            h /= 60;
+            float x = delta * (1 - Math.Abs((h % 2) - 1));
+            float r = 0;
+            float g = 0;
+            float b = 0;
+            if (h <= 1)
+            {
+                r = delta;
+                g = x;
+            }
+            else if (h <= 2)
+            {
+                r = x;
+                g = delta;
+            }
+            else if (h <= 3)
+            {
+                g = delta;
+                b = x;
+            }
+            else if (h <= 4)
+            {
+                g = x;
+                b = delta;
+            }
+            else if (h <= 5)
+            {
+                r = x;
+                b = delta;
+            }
+            else
+            {
+                r = delta;
+                b = x;
+            }
+
+            float m = v - delta;
+            data[index] = (byte)((r + m) * 255f);
+            data[index + 1] = (byte)((g + m) * 255f);
+            data[index + 2] = (byte)((b + m) * 255f);
+        }
+
+        private void HorizontalLerp(RawImage output, int outputX, int outputY)
+        {
+            float inputX = (float)outputX * dimensions.width / output.dimensions.width;
+            int inputXA = (int)inputX;
+            int inputXB = (inputXA + 1) % dimensions.width;
+            int inputIA = outputY * stride + inputXA * components;
+            int inputIB = outputY * stride + inputXB * components;
+            RGB2HSV(inputIA, out var h1, out var s1, out var v1);
+            RGB2HSV(inputIB, out var h2, out var s2, out var v2);
+            float p = 1 - inputX + inputXA;
+            float q = 1 - inputXB + inputX;
+            float h = h1 * p + h2 * q;
+            float s = s1 * p + s2 * q;
+            float v = v1 * p + v2 * q;
+
+            int outputIndex = outputY * output.stride + outputX * output.components;
+            output.HSV2RGB(h, s, v, outputIndex);
         }
     }
 }

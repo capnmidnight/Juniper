@@ -1,8 +1,6 @@
 using System;
 using System.Threading.Tasks;
 
-using Juniper.Json;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.UnityAssetStore.Tests
@@ -20,7 +18,7 @@ namespace Juniper.UnityAssetStore.Tests
         [TestInitialize]
         public void Init()
         {
-            req = new Requester(new Factory());
+            req = new Requester();
         }
 
         [TestMethod]

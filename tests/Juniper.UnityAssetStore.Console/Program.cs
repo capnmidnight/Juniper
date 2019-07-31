@@ -1,15 +1,12 @@
 using System.Threading.Tasks;
 
-using Juniper.Json;
-
 namespace Juniper.UnityAssetStore.Console
 {
     internal class Program
     {
         private static async Task Main()
         {
-            var json = new Factory();
-            var req = new Requester(json);
+            var req = new Requester();
 
             var x = await req.GetTopFreeAssets("6");
 

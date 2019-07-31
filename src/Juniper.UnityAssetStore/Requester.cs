@@ -12,10 +12,10 @@ namespace Juniper.UnityAssetStore
 {
     public class Requester
     {
-        public Requester(IDeserializer deserializer)
+        public Requester()
         {
-            this.sessionID = string.Empty;
-            this.deserializer = deserializer;
+            sessionID = string.Empty;
+            deserializer = new Json.Factory();
         }
 
         public async Task<string> Post(string url, string data, string token = null, IProgress prog = null)
