@@ -6,7 +6,6 @@ using System.Net;
 using Juniper.Animation;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
-using Juniper.Imaging;
 using Juniper.Progress;
 using Juniper.Units;
 using Juniper.Unity;
@@ -45,8 +44,9 @@ namespace Juniper.Images
 
         public string Location;
 
-        [ReadOnly]
         public LatLngPoint LatLngLocation;
+
+        public PanoID pano;
 
         [SerializeField]
         [HideInNormalInspector]
@@ -55,14 +55,6 @@ namespace Juniper.Images
         [SerializeField]
         [HideInNormalInspector]
         private GPSLocation gps;
-
-        public enum Mode
-        {
-            None,
-            IndividualImages,
-            Layout6Frames,
-            LayoutCross
-        }
 
 #if UNITY_EDITOR
 
@@ -172,17 +164,11 @@ namespace Juniper.Images
                     else
                     {
                         SetLatLngLocation(metadata.location);
+                        pano = metadata.pano_id;
                         lastLocation = Location;
                         newMaterial = null;
 
-                        if (false)
-                        {
-                            yield return Build6SidedMaterial();
-                        }
-                        else
-                        {
-                            yield return BuildCubemapMaterial();
-                        }
+                        yield return BuildCubemapMaterial();
 
                         if (newMaterial != null)
                         {
@@ -201,71 +187,43 @@ namespace Juniper.Images
             }
         }
 
-        private static readonly string[] TEXTURE_NAMES =
-        {
-            "_FrontTex",
-            "_LeftTex",
-            "_RightTex",
-            "_BackTex",
-            "_UpTex",
-            "_DownTex"
-        };
-
-        private IEnumerator Build6SidedMaterial()
-        {
-            var imageRequest = new CubeMapRequest(LatLngLocation, 1024, 1024)
-            {
-                Radius = searchRadius
-            };
-
-            var imageTask = gmaps.Get(imageRequest);
-            yield return new WaitForTask(imageTask);
-            var images = imageTask.Result;
-
-            newMaterial = new Material(Shader.Find("Skybox/6 Sided"));
-
-            for (int i = 0; i < images.Length; ++i)
-            {
-                var texture = ImageLoader.ConstructTexture2D(images[i], textureFormat);
-                yield return null;
-                newMaterial.SetTexture(TEXTURE_NAMES[i], texture);
-                yield return null;
-            }
-        }
-
         private IEnumerator BuildCubemapMaterial()
         {
-            var imageRequest = new CrossCubeMapRequest(LatLngLocation, 1024, 1024);
-            var imageTask = gmaps.Get(imageRequest);
+            var imageRequest = new CrossCubeMapRequest(pano, 1024, 1024);
+
+            DateTime start, end;
+
+            print("getting image");
+            yield return null;
+            start = DateTime.Now;
+            var imageTask = imageRequest.GetJPEG(gmaps);
             yield return new WaitForTask(imageTask);
             var image = imageTask.Result;
+            end = DateTime.Now;
+            print($"It took {(end - start).TotalSeconds} seconds to get the image from disk.");
 
-            var texture = ImageLoader.ConstructTexture2D(image, TextureFormat.RGB24); ;
-
-            newMaterial = new Material(Shader.Find("Skybox/Cubemap"));
-            newMaterial.SetTexture("_Tex", texture);
-        }
-
-        private IEnumerator BuildPanoramicMaterial()
-        {
+            print("constructing texture");
             yield return null;
-            //var imageRequest = new PanoramicCubeMapRequest(LatLngLocation, 1024, 1024, Image.ImageFormat.JPEG);
-            //var imageTask = gmaps.Get(imageRequest);
-            //yield return new WaitForTask(imageTask);
+            start = DateTime.Now;
+            var texture = new Texture2D(2560, 1920, TextureFormat.RGB24, false);
+            texture.LoadImage(image);
+            texture.Compress(true);
+            texture.Apply(false, true);
+            end = DateTime.Now;
+            print($"It took {(end - start).TotalSeconds} seconds to make the texture.");
 
-            //skyboxMaterial = new Material(Shader.Find("Skybox/Panoramic"));
+            newMaterial = new Material(Shader.Find("Skybox/Panoramic"));
+            if (newMaterial.IsKeywordEnabled(LAT_LON))
+            {
+                newMaterial.DisableKeyword(LAT_LON);
+            }
+            newMaterial.EnableKeyword(SIDES_6);
 
-            //if (skyboxMaterial.IsKeywordEnabled(LAT_LON))
-            //{
-            //    skyboxMaterial.DisableKeyword(LAT_LON);
-            //}
-            //skyboxMaterial.EnableKeyword(SIDES_6);
-
-            //skyboxMaterial.SetInt("_Mapping", 0);
-            //skyboxMaterial.SetInt("_ImageType", 0);
-            //skyboxMaterial.SetInt("_MirrorOnBack", 0);
-            //skyboxMaterial.SetInt("_Layout", 0);
-            //skyboxMaterial.SetTexture("_MainTex", texture);
+            newMaterial.SetInt("_Mapping", 0);
+            newMaterial.SetInt("_ImageType", 0);
+            newMaterial.SetInt("_MirrorOnBack", 0);
+            newMaterial.SetInt("_Layout", 0);
+            newMaterial.SetTexture("_MainTex", texture);
         }
 
         private void UpdateSkyBox()
