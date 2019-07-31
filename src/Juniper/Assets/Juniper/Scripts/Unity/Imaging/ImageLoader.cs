@@ -58,60 +58,13 @@ namespace Juniper.Imaging
             }
         }
 
-        public static IEnumerator ConstructTexture2D(Task<RawImage> imageTask, TextureFormat format, Action<Texture> resolve, Action<Exception> reject)
-        {
-            yield return new WaitForTask(imageTask);
-
-            try
-            {
-                resolve(ConstructTexture2D(imageTask.Result, format));
-            }
-            catch (Exception exp)
-            {
-                reject(exp);
-                throw;
-            }
-        }
-
-        public static IEnumerator ConstructCubemap(Task<RawImage[]> imageTask, TextureFormat format, Action<Texture> resolve, Action<Exception> reject)
-        {
-            yield return new WaitForTask(imageTask);
-
-            try
-            {
-                resolve(ConstructCubemap(imageTask.Result, format));
-            }
-            catch (Exception exp)
-            {
-                reject(exp);
-                throw;
-            }
-        }
-
         public static Texture2D ConstructTexture2D(RawImage image, TextureFormat format)
         {
             var texture = new Texture2D(image.dimensions.width, image.dimensions.height, format, false);
             texture.LoadRawTextureData(image.data);
             texture.Compress(false);
             texture.Apply(false, true);
-            return texture;
-        }
 
-        private static void SetCubemapFace(this Cubemap texture, RawImage img, CubemapFace face)
-        {
-            texture.SetPixels(img.data.ToColors(img.components, true), face);
-        }
-
-        public static Cubemap ConstructCubemap(RawImage[] images, TextureFormat format)
-        {
-            var first = images[0];
-            var texture = new Cubemap(first.dimensions.width, format, false);
-            texture.SetCubemapFace(images[0], CubemapFace.PositiveZ);
-            texture.SetCubemapFace(images[1], CubemapFace.PositiveX);
-            texture.SetCubemapFace(images[2], CubemapFace.NegativeX);
-            texture.SetCubemapFace(images[3], CubemapFace.NegativeZ);
-            texture.SetCubemapFace(images[4], CubemapFace.PositiveY);
-            texture.SetCubemapFace(images[5], CubemapFace.NegativeY);
             return texture;
         }
 

@@ -83,5 +83,19 @@ namespace Juniper.Google.Maps.StreetView
                 return combined;
             }
         }
+
+        public async Task<byte[]> GetJPEG(AbstractEndpoint api)
+        {
+            var cacheFile = GetCacheFile(api);
+
+            if (!IsCached(api))
+            {
+                var images = await subRequest.Get(api);
+                var combined = await RawImage.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5]);
+                factory.Serialize(cacheFile, combined);
+            }
+
+            return File.ReadAllBytes(cacheFile.FullName);
+        }
     }
 }
