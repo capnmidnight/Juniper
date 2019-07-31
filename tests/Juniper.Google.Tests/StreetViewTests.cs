@@ -79,7 +79,6 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var cubeMapRequest = new CrossCubeMapRequest((PlaceName)"Washington, DC", 640, 640);
             cubeMapRequest.GetCacheFile(service).Delete();
             var combined = await service.Get(cubeMapRequest);
-            Assert.AreEqual(combined.dimensions.width, combined.dimensions.height);
             Assert.IsNotNull(combined);
         }
     }
