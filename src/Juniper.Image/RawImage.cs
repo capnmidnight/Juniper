@@ -179,7 +179,7 @@ namespace Juniper.Image
         public static Task<RawImage> Combine6Squares(RawImage north, RawImage east, RawImage west, RawImage south, RawImage up, RawImage down)
         {
             return CombineTilesAsync(
-                3, 2,
+                1, 6,
                 west, south, east,
                 down, up, north);
         }
