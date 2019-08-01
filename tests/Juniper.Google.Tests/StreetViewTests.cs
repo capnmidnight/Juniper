@@ -14,7 +14,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
     public class StreetViewTests : ServicesTests
     {
         [TestMethod]
-        public async Task ImageSize()
+        public async Task JPEGImageSize()
         {
             var imageRequest = new CrossCubeMapRequest(service, (PlaceName)"Alexandria, VA", 640, 640);
             if (!imageRequest.IsCached)
@@ -24,6 +24,18 @@ namespace Juniper.Google.Maps.StreetView.Tests
 
             var data = File.ReadAllBytes(imageRequest.CacheFile.FullName);
             var size = Image.JPEG.Factory.ReadDimensions(data);
+            Assert.AreEqual(2560, size.width);
+            Assert.AreEqual(1920, size.height);
+        }
+
+        [TestMethod]
+        public async Task PNGImageSize()
+        {
+            var imageRequest = new CrossCubeMapRequest(service, (PlaceName)"Alexandria, VA", 640, 640);
+            var img = await imageRequest.Get();
+            var png = new Image.PNG.Factory();
+            var data = png.Serialize(img);
+            var size = Image.PNG.Factory.ReadDimensions(data);
             Assert.AreEqual(2560, size.width);
             Assert.AreEqual(1920, size.height);
         }

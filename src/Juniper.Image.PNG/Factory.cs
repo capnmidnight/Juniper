@@ -9,6 +9,45 @@ namespace Juniper.Image.PNG
 {
     public class Factory : IFactory<ImageData>
     {
+        public static Size ReadDimensions(byte[] data)
+        {
+            int i = 8; // skip the PNG signature
+
+            while (i < data.Length)
+            {
+                int len = 0;
+                len = len << 8 | data[i++];
+                len = len << 8 | data[i++];
+                len = len << 8 | data[i++];
+                len = len << 8 | data[i++];
+
+                var chunk = System.Text.Encoding.UTF8.GetString(data, i, 4);
+                i += 4;
+
+                if (chunk == "IHDR")
+                {
+                    int width = 0, height = 0;
+                    width = width << 8 | data[i++];
+                    width = width << 8 | data[i++];
+                    width = width << 8 | data[i++];
+                    width = width << 8 | data[i++];
+
+                    height = height << 8 | data[i++];
+                    height = height << 8 | data[i++];
+                    height = height << 8 | data[i++];
+                    height = height << 8 | data[i++];
+
+                    return new Size(width, height);
+                }
+
+                i += len;
+
+                i += 4;
+            }
+
+            return default;
+        }
+
         /// <summary>
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
