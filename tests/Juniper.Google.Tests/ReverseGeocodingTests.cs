@@ -15,9 +15,9 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task BasicReverseGeocoding()
         {
-            var search = new ReverseGeocodingRequest(new LatLngPoint(36.080811f, -75.721568f));
-            var results = await service.Get(search);
-            Assert.IsTrue(service.IsCached(search));
+            var search = new ReverseGeocodingRequest(service, new LatLngPoint(36.080811f, -75.721568f));
+            var results = await search.Get();
+            Assert.IsTrue(search.IsCached);
             Assert.IsNotNull(results);
             Assert.AreEqual(HttpStatusCode.OK, results.status);
             Assert.IsNull(results.error_message);

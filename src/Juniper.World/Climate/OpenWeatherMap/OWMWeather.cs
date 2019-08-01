@@ -72,9 +72,9 @@ namespace Juniper.World.Climate.OpenWeatherMap
             }
         }
 
-        private static IDeserializer<RawImage> decoder;
+        private static IDeserializer<ImageData> decoder;
 
-        public async Task<RawImage> GetIcon()
+        public async Task<ImageData> GetIcon()
         {
             if (decoder == null)
             {

@@ -1,4 +1,5 @@
 using System.IO;
+using Juniper.HTTP.REST;
 using Juniper.Serialization;
 using Juniper.World.GIS;
 
@@ -10,25 +11,25 @@ namespace Juniper.Google.Maps.StreetView
         private PlaceName placeName;
         private LatLngPoint location;
 
-        private AbstractStreetViewRequest(IDeserializer<ResultType> deserializer, string path, string key)
-            : base(deserializer, path, Path.Combine("streetview", key), true)
+        private AbstractStreetViewRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path, string key)
+            : base(api, deserializer, path, Path.Combine("streetview", key), true)
         {
         }
 
-        protected AbstractStreetViewRequest(IDeserializer<ResultType> deserializer, string path, PanoID location)
-            : this(deserializer, path, $"pano={location}")
-        {
-            SetLocation(location);
-        }
-
-        protected AbstractStreetViewRequest(IDeserializer<ResultType> deserializer, string path, PlaceName location)
-            : this(deserializer, path, $"address={location}")
+        protected AbstractStreetViewRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path, PanoID location)
+            : this(api, deserializer, path, $"pano={location}")
         {
             SetLocation(location);
         }
 
-        protected AbstractStreetViewRequest(IDeserializer<ResultType> deserializer, string path, LatLngPoint location)
-            : this(deserializer, path, $"latlng={location}")
+        protected AbstractStreetViewRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path, PlaceName location)
+            : this(api, deserializer, path, $"address={location}")
+        {
+            SetLocation(location);
+        }
+
+        protected AbstractStreetViewRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path, LatLngPoint location)
+            : this(api, deserializer, path, $"latlng={location}")
         {
             SetLocation(location);
         }

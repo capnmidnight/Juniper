@@ -16,7 +16,8 @@ namespace Juniper.HTTP.REST
         private string acceptType;
         private string extension;
 
-        protected AbstractSingleRequest(Uri baseServiceURI, IDeserializer<ResponseType> deserializer, string path, string cacheLocString)
+        protected AbstractSingleRequest(AbstractEndpoint api, Uri baseServiceURI, IDeserializer<ResponseType> deserializer, string path, string cacheLocString)
+            : base(api)
         {
             uriBuilder = new UriBuilder(baseServiceURI);
             uriBuilder.Path += path;
@@ -82,33 +83,45 @@ namespace Juniper.HTTP.REST
             }
         }
 
-        protected virtual Uri MakeAuthenticatedURI(AbstractEndpoint api)
+        protected virtual Uri AuthenticatedURI
         {
-            return BaseURI;
-        }
-
-        public FileInfo GetCacheFile(AbstractEndpoint api)
-        {
-            return new FileInfo(GetChacheFileName(api));
-        }
-
-        protected virtual string GetChacheFileName(AbstractEndpoint api)
-        {
-            var cacheID = string.Join("_", BaseURI.Query
-                            .Substring(1)
-                            .Split(Path.GetInvalidFileNameChars()));
-            var path = Path.Combine(api.cacheLocation.FullName, cacheLocString, cacheID);
-            if (!extension.StartsWith("."))
+            get
             {
-                path += ".";
+                return BaseURI;
             }
-            path += extension;
-            return path;
         }
 
-        public override bool IsCached(AbstractEndpoint api)
+        public FileInfo CacheFile
         {
-            return GetCacheFile(api).Exists;
+            get
+            {
+                return new FileInfo(CacheFileName);
+            }
+        }
+
+        protected virtual string CacheFileName
+        {
+            get
+            {
+                var cacheID = string.Join("_", BaseURI.Query
+                                .Substring(1)
+                                .Split(Path.GetInvalidFileNameChars()));
+                var path = Path.Combine(api.cacheLocation.FullName, cacheLocString, cacheID);
+                if (!extension.StartsWith("."))
+                {
+                    path += ".";
+                }
+                path += extension;
+                return path;
+            }
+        }
+
+        public override bool IsCached
+        {
+            get
+            {
+                return CacheFile.Exists;
+            }
         }
 
         private void SetAcceptType(HttpWebRequest request)
@@ -116,38 +129,38 @@ namespace Juniper.HTTP.REST
             request.Accept = acceptType;
         }
 
-        private Task<T> Get<T>(AbstractEndpoint api, Func<Stream, T> decoder)
+        private Task<T> Get<T>(Func<Stream, T> decoder)
         {
-            var uri = MakeAuthenticatedURI(api);
-            var file = GetCacheFile(api);
+            var uri = AuthenticatedURI;
+            var file = CacheFile;
             return Task.Run(() => HttpWebRequestExt.CachedGet(uri, decoder, file, SetAcceptType));
         }
 
-        public override Task<ResponseType> Get(AbstractEndpoint api)
+        public override Task<ResponseType> Get()
         {
-            return Get(api, deserializer.Deserialize);
+            return Get(deserializer.Deserialize);
         }
 
-        public Task<Stream> GetRaw(AbstractEndpoint api)
+        public Task<Stream> GetRaw()
         {
-            return Get(api, stream => stream);
+            return Get(stream => stream);
         }
 
-        private Task<T> Post<T>(AbstractEndpoint api, Func<Stream, T> decoder)
+        private Task<T> Post<T>(Func<Stream, T> decoder)
         {
-            var uri = MakeAuthenticatedURI(api);
-            var file = GetCacheFile(api);
+            var uri = AuthenticatedURI;
+            var file = CacheFile;
             return Task.Run(() => HttpWebRequestExt.CachedPost(uri, decoder, file, SetAcceptType));
         }
 
-        public override Task<ResponseType> Post(AbstractEndpoint api)
+        public override Task<ResponseType> Post()
         {
-            return Post(api, deserializer.Deserialize);
+            return Post(deserializer.Deserialize);
         }
 
-        public Task<Stream> PostRaw(AbstractEndpoint api)
+        public Task<Stream> PostRaw()
         {
-            return Post(api, stream => stream);
+            return Post(stream => stream);
         }
     }
 }

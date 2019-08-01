@@ -1,17 +1,17 @@
 using System.Collections.Generic;
-
+using Juniper.HTTP.REST;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.Geocoding
 {
     public class GeocodingRequest : AbstractGeocodingRequest
     {
-        public static GeocodingRequest Create(LocationTypes locationType, object value)
+        public static GeocodingRequest Create(AbstractEndpoint api, LocationTypes locationType, object value)
         {
             switch (locationType)
             {
-                case LocationTypes.None: return new GeocodingRequest();
-                case LocationTypes.PlaceName: return new GeocodingRequest((PlaceName)value);
+                case LocationTypes.None: return new GeocodingRequest(api);
+                case LocationTypes.PlaceName: return new GeocodingRequest(api, (PlaceName)value);
                 default: return default;
             }
         }
@@ -21,20 +21,22 @@ namespace Juniper.Google.Maps.Geocoding
         private GeometryViewport bounds;
         private string region;
 
-        public GeocodingRequest()
+        public GeocodingRequest(AbstractEndpoint api)
+            : base(api)
         {
         }
 
-        private GeocodingRequest(string address)
-            : base(nameof(address), address) { }
+        private GeocodingRequest(AbstractEndpoint api, string address)
+            : base(api, nameof(address), address) { }
 
-        public GeocodingRequest(PlaceID place_id)
-            : base(nameof(place_id), (string)place_id) { }
+        public GeocodingRequest(AbstractEndpoint api, PlaceID place_id)
+            : base(api, nameof(place_id), (string)place_id) { }
 
-        public GeocodingRequest(PlaceName address)
-            : this((string)address) { }
+        public GeocodingRequest(AbstractEndpoint api, PlaceName address)
+            : this(api, (string)address) { }
 
-        public GeocodingRequest(IDictionary<AddressComponentType, string> components)
+        public GeocodingRequest(AbstractEndpoint api, IDictionary<AddressComponentType, string> components)
+            : base(api)
         {
             foreach (var kv in components)
             {

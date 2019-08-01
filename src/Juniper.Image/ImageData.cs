@@ -9,7 +9,7 @@ namespace Juniper.Image
     /// <summary>
     /// The raw bytes and dimensions of an image that has been loaded either off disk or across the 'net.
     /// </summary>
-    public class RawImage : ICloneable
+    public partial class ImageData : ICloneable
     {
         public static ImageSource DetermineSource(Stream imageStream)
         {
@@ -46,6 +46,22 @@ namespace Juniper.Image
             }
         }
 
+        private static int GetComponents(ImageFormat format, Size size, byte[] data)
+        {
+            if (format == ImageFormat.None)
+            {
+                return data.Length / (size.width * size.height);
+            }
+            else if (format == ImageFormat.JPEG)
+            {
+                return 3;
+            }
+            else
+            {
+                throw new ArgumentException($"Cannot determine the number of color components for the image format {format}.");
+            }
+        }
+
         public static int GetRowIndex(int numRows, int i, bool flipImage)
         {
             int rowIndex = i;
@@ -57,17 +73,13 @@ namespace Juniper.Image
             return rowIndex;
         }
 
-        public enum ImageSource
-        {
-            None,
-            File,
-            Network
-        }
-
         public const int BytesPerComponent = sizeof(byte);
         public const int BitsPerComponent = 8 * BytesPerComponent;
 
         public readonly ImageSource source;
+        public readonly ImageFormat format;
+        public readonly string contentType;
+        public readonly string extension;
         public readonly byte[] data;
         public readonly Size dimensions;
         public readonly int stride;
@@ -75,28 +87,41 @@ namespace Juniper.Image
         public readonly int bytesPerSample;
         public readonly int bitsPerSample;
 
-        public RawImage(ImageSource source, Size dimensions, byte[] data)
+        public ImageData(ImageSource source, ImageFormat format, Size dimensions, int components, byte[] data)
         {
             this.source = source;
+            this.format = format;
             this.dimensions = dimensions;
             this.data = data;
-            stride = data.Length / dimensions.height;
-            components = stride / dimensions.width;
+            this.components = components;
+            contentType = GetContentType(format);
+            extension = GetExtension(format);
+            stride = dimensions.width * components;
             bytesPerSample = BytesPerComponent * components;
             bitsPerSample = 8 * bytesPerSample;
         }
 
-        public RawImage(ImageSource source, int width, int height, byte[] data)
-            : this(source, new Size(width, height), data)
+        public ImageData(ImageSource source, ImageFormat format, int width, int height, int components, byte[] data)
+            : this(source, format, new Size(width, height), components, data)
         {
         }
 
-        public RawImage(int width, int height, int components)
-            : this(ImageSource.None, width, height, new byte[height * width * components])
+        public ImageData(ImageSource source, ImageFormat format, Size dimensions, byte[] data)
+            : this(source, format, dimensions, GetComponents(format, dimensions, data), data)
         {
         }
 
-        private static RawImage CombineTiles(int columns, int rows, params RawImage[] images)
+        public ImageData(ImageSource source, ImageFormat format, int width, int height, byte[] data)
+            : this(source, format, new Size(width, height), data)
+        {
+        }
+
+        public ImageData(int width, int height, int components)
+            : this(ImageSource.None, ImageFormat.None, width, height, components, new byte[height * width * components])
+        {
+        }
+
+        private static ImageData CombineTiles(int columns, int rows, params ImageData[] images)
         {
             if (images == null)
             {
@@ -115,7 +140,7 @@ namespace Juniper.Image
             }
 
             bool anyNotNull = false;
-            RawImage firstImage = default;
+            ImageData firstImage = default;
             for (int i = 0; i < images.Length; ++i)
             {
                 var img = images[i];
@@ -139,7 +164,7 @@ namespace Juniper.Image
                 throw new ArgumentNullException($"Expected at least one image in {nameof(images)} to be not null");
             }
 
-            var combined = new RawImage(
+            var combined = new ImageData(
                 columns * firstImage.dimensions.width,
                 rows * firstImage.dimensions.height,
                 firstImage.components);
@@ -163,12 +188,12 @@ namespace Juniper.Image
             return combined;
         }
 
-        private static Task<RawImage> CombineTilesAsync(int columns, int rows, params RawImage[] images)
+        private static Task<ImageData> CombineTilesAsync(int columns, int rows, params ImageData[] images)
         {
             return Task.Run(() => CombineTiles(columns, rows, images));
         }
 
-        public static Task<RawImage> Combine6Squares(RawImage north, RawImage east, RawImage west, RawImage south, RawImage up, RawImage down)
+        public static Task<ImageData> Combine6Squares(ImageData north, ImageData east, ImageData west, ImageData south, ImageData up, ImageData down)
         {
             return CombineTilesAsync(
                 1, 6,
@@ -176,7 +201,7 @@ namespace Juniper.Image
                 down, up, north);
         }
 
-        public static Task<RawImage> CombineCross(RawImage north, RawImage east, RawImage west, RawImage south, RawImage down, RawImage up)
+        public static Task<ImageData> CombineCross(ImageData north, ImageData east, ImageData west, ImageData south, ImageData down, ImageData up)
         {
             return CombineTilesAsync(
                 4, 3,
@@ -185,9 +210,9 @@ namespace Juniper.Image
                 null, down, null, null);
         }
 
-        private RawImage Squarify()
+        private ImageData Squarify()
         {
-            var resized = new RawImage(
+            var resized = new ImageData(
                             dimensions.height,
                             dimensions.height,
                             components);
@@ -205,7 +230,7 @@ namespace Juniper.Image
 
         public object Clone()
         {
-            return new RawImage(source, dimensions, (byte[])data.Clone());
+            return new ImageData(source, format, dimensions, (byte[])data.Clone());
         }
 
         private void RGB2HSV(int index, out float h, out float s, out float v)
@@ -215,7 +240,6 @@ namespace Juniper.Image
             float B = data[index + 2] / 255f;
             float max = R;
             float min = R;
-
             if (G > max) max = B;
             if (G < min) min = B;
             if (B > max) max = B;
@@ -286,7 +310,7 @@ namespace Juniper.Image
             data[index + 2] = (byte)((b + m) * 255f);
         }
 
-        private void HorizontalLerp(RawImage output, int outputX, int outputY)
+        private void HorizontalLerp(ImageData output, int outputX, int outputY)
         {
             float inputX = (float)outputX * dimensions.width / output.dimensions.width;
             int inputXA = (int)inputX;

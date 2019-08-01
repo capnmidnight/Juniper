@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+
 using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.World;
@@ -7,10 +7,10 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class CubeMapRequest : AbstractMultiRequest<RawImage, ImageRequest>
+    public class CubeMapRequest : AbstractMultiRequest<ImageData, ImageRequest>
     {
-        private CubeMapRequest(Func<ImageRequest> factory)
-            : base(6, factory)
+        private CubeMapRequest(AbstractEndpoint api, Func<ImageRequest> factory)
+            : base(api, 6, factory)
         {
             subRequests[0].Heading = Heading.North;
             subRequests[0].Pitch = Pitch.Level;
@@ -31,23 +31,23 @@ namespace Juniper.Google.Maps.StreetView
             subRequests[5].Pitch = Pitch.Down;
         }
 
-        public CubeMapRequest(PanoID pano, Size size)
-            : this(() => new ImageRequest(pano, size)) { }
+        public CubeMapRequest(AbstractEndpoint api, PanoID pano, Size size)
+            : this(api, () => new ImageRequest(api, pano, size)) { }
 
-        public CubeMapRequest(PanoID pano, int width, int height)
-            : this(() => new ImageRequest(pano, new Size(width, height))) { }
+        public CubeMapRequest(AbstractEndpoint api, PanoID pano, int width, int height)
+            : this(api, () => new ImageRequest(api, pano, new Size(width, height))) { }
 
-        public CubeMapRequest(PlaceName placeName, Size size)
-            : this(() => new ImageRequest(placeName, size)) { }
+        public CubeMapRequest(AbstractEndpoint api, PlaceName placeName, Size size)
+            : this(api, () => new ImageRequest(api, placeName, size)) { }
 
-        public CubeMapRequest(PlaceName placeName, int width, int height)
-            : this(() => new ImageRequest(placeName, new Size(width, height))) { }
+        public CubeMapRequest(AbstractEndpoint api, PlaceName placeName, int width, int height)
+            : this(api, () => new ImageRequest(api, placeName, new Size(width, height))) { }
 
-        public CubeMapRequest(LatLngPoint location, Size size)
-            : this(() => new ImageRequest(location, size)) { }
+        public CubeMapRequest(AbstractEndpoint api, LatLngPoint location, Size size)
+            : this(api, () => new ImageRequest(api, location, size)) { }
 
-        public CubeMapRequest(LatLngPoint location, int width, int height)
-            : this(() => new ImageRequest(location, new Size(width, height))) { }
+        public CubeMapRequest(AbstractEndpoint api, LatLngPoint location, int width, int height)
+            : this(api, () => new ImageRequest(api, location, new Size(width, height))) { }
 
         public Size Size
         {

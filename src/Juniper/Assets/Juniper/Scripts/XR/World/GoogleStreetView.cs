@@ -56,6 +56,8 @@ namespace Juniper.Images
         [HideInNormalInspector]
         private GPSLocation gps;
 
+        private bool locked;
+
 #if UNITY_EDITOR
 
         private EditorTextInput locationInput;
@@ -112,7 +114,7 @@ namespace Juniper.Images
         {
             base.Update();
 
-            if (IsEntered)
+            if (IsEntered && !locked)
             {
                 if (Location != lastLocation)
                 {
@@ -129,6 +131,7 @@ namespace Juniper.Images
 
         private Coroutine GetImages(bool fromNavigation, IProgress prog = null)
         {
+            locked = true;
             lastLocation = Location;
             if (fromNavigation)
             {
@@ -145,16 +148,16 @@ namespace Juniper.Images
 
                 if (LatLngPoint.TryParseDecimal(Location, out var point))
                 {
-                    metadataRequest = new MetadataRequest(point);
+                    metadataRequest = new MetadataRequest(gmaps, point);
                 }
                 else
                 {
-                    metadataRequest = new MetadataRequest((PlaceName)Location);
+                    metadataRequest = new MetadataRequest(gmaps, (PlaceName)Location);
                 }
 
                 if (metadataRequest != null)
                 {
-                    var metadataTask = gmaps.Get(metadataRequest);
+                    var metadataTask = metadataRequest.Get();
                     yield return new WaitForTask(metadataTask);
                     var metadata = metadataTask.Result;
                     if (metadata.status != HttpStatusCode.OK)
@@ -168,7 +171,45 @@ namespace Juniper.Images
                         lastLocation = Location;
                         newMaterial = null;
 
-                        yield return BuildCubemapMaterial();
+                        var imageRequest = new CrossCubeMapRequest(gmaps, pano, 1024, 1024);
+
+                        DateTime start, end;
+
+                        print("getting image");
+                        start = DateTime.Now;
+                        var imageTask = imageRequest.GetJPEG();
+                        var waiter = new WaitForTask(imageTask);
+                        yield return waiter;
+                        print($"Waited for {waiter.testCount} frames, for a total of {waiter.Elapsed.TotalSeconds} seconds.");
+                        var image = imageTask.Result;
+                        end = DateTime.Now;
+                        print($"It took {(end - start).TotalSeconds} seconds to get the image from disk.");
+
+                        var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
+                        if (image.format == Image.ImageFormat.None)
+                        {
+                            texture.LoadRawTextureData(image.data);
+                        }
+                        else if (image.format != Image.ImageFormat.Unsupported)
+                        {
+                            texture.LoadImage(image.data);
+                        }
+
+                        texture.Compress(true);
+                        texture.Apply(false, true);
+
+                        newMaterial = new Material(Shader.Find("Skybox/Panoramic"));
+                        if (newMaterial.IsKeywordEnabled(LAT_LON))
+                        {
+                            newMaterial.DisableKeyword(LAT_LON);
+                        }
+                        newMaterial.EnableKeyword(SIDES_6);
+
+                        newMaterial.SetInt("_Mapping", 0);
+                        newMaterial.SetInt("_ImageType", 0);
+                        newMaterial.SetInt("_MirrorOnBack", 0);
+                        newMaterial.SetInt("_Layout", 0);
+                        newMaterial.SetTexture("_MainTex", texture);
 
                         if (newMaterial != null)
                         {
@@ -177,6 +218,7 @@ namespace Juniper.Images
                             skyboxMaterial = newMaterial;
                         }
 
+                        locked = false;
                         Complete();
                         if (fromNavigation)
                         {
@@ -185,45 +227,6 @@ namespace Juniper.Images
                     }
                 }
             }
-        }
-
-        private IEnumerator BuildCubemapMaterial()
-        {
-            var imageRequest = new CrossCubeMapRequest(pano, 1024, 1024);
-
-            DateTime start, end;
-
-            print("getting image");
-            yield return null;
-            start = DateTime.Now;
-            var imageTask = imageRequest.GetJPEG(gmaps);
-            yield return new WaitForTask(imageTask);
-            var image = imageTask.Result;
-            end = DateTime.Now;
-            print($"It took {(end - start).TotalSeconds} seconds to get the image from disk.");
-
-            print("constructing texture");
-            yield return null;
-            start = DateTime.Now;
-            var texture = new Texture2D(2560, 1920, TextureFormat.RGB24, false);
-            texture.LoadImage(image);
-            texture.Compress(true);
-            texture.Apply(false, true);
-            end = DateTime.Now;
-            print($"It took {(end - start).TotalSeconds} seconds to make the texture.");
-
-            newMaterial = new Material(Shader.Find("Skybox/Panoramic"));
-            if (newMaterial.IsKeywordEnabled(LAT_LON))
-            {
-                newMaterial.DisableKeyword(LAT_LON);
-            }
-            newMaterial.EnableKeyword(SIDES_6);
-
-            newMaterial.SetInt("_Mapping", 0);
-            newMaterial.SetInt("_ImageType", 0);
-            newMaterial.SetInt("_MirrorOnBack", 0);
-            newMaterial.SetInt("_Layout", 0);
-            newMaterial.SetTexture("_MainTex", texture);
         }
 
         private void UpdateSkyBox()

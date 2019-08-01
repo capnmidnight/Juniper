@@ -7,15 +7,15 @@ using Juniper.Serialization;
 
 namespace Juniper.Image.PNG
 {
-    public class Factory : IFactory<RawImage>
+    public class Factory : IFactory<ImageData>
     {
         /// <summary>
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Png bytes.</param>
-        public RawImage Deserialize(Stream imageStream)
+        public ImageData Deserialize(Stream imageStream)
         {
-            var source = RawImage.DetermineSource(imageStream);
+            var source = ImageData.DetermineSource(imageStream);
             var png = new PngReader(imageStream);
             png.SetUnpackedMode(true);
             var rows = png.ReadRowsByte();
@@ -23,13 +23,14 @@ namespace Juniper.Image.PNG
             var data = new byte[numRows * rows.elementsPerRow];
             for (var i = 0; i < numRows; ++i)
             {
-                var rowIndex = RawImage.GetRowIndex(numRows, i, true);
+                var rowIndex = ImageData.GetRowIndex(numRows, i, true);
                 var row = rows.ScanlinesB[rowIndex];
                 Array.Copy(row, 0, data, i * rows.elementsPerRow, row.Length);
             }
 
-            return new RawImage(
+            return new ImageData(
                 source,
+                ImageFormat.PNG,
                 rows.elementsPerRow / rows.channels,
                 numRows,
                 data);
@@ -39,12 +40,12 @@ namespace Juniper.Image.PNG
         /// Encodes a raw file buffer of image data into a PNG image.
         /// </summary>
         /// <param name="outputStream">Png bytes.</param>
-        public void Serialize(Stream outputStream, RawImage image)
+        public void Serialize(Stream outputStream, ImageData image)
         {
             var info = new ImageInfo(
                 image.dimensions.width,
                 image.dimensions.height,
-                RawImage.BitsPerComponent,
+                ImageData.BitsPerComponent,
                 false);
 
             var png = new PngWriter(outputStream, info)
@@ -61,7 +62,7 @@ namespace Juniper.Image.PNG
             var line = new ImageLine(info, ImageLine.ESampleType.BYTE);
             for (var i = 0; i < image.dimensions.height; ++i)
             {
-                var row = RawImage.GetRowIndex(image.dimensions.height, i, true);
+                var row = ImageData.GetRowIndex(image.dimensions.height, i, true);
                 Array.Copy(image.data, row * image.stride, line.ScanlineB, 0, image.stride);
                 png.WriteRow(line, i);
             }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Juniper.HTTP.REST;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.Geocoding
@@ -32,8 +33,8 @@ namespace Juniper.Google.Maps.Geocoding
         private readonly HashSet<AddressComponentType> result_type = new HashSet<AddressComponentType>();
         private readonly HashSet<GeometryLocationType> location_type = new HashSet<GeometryLocationType>();
 
-        public ReverseGeocodingRequest(LatLngPoint latlng)
-            : base("latlng", latlng.ToCSV())
+        public ReverseGeocodingRequest(AbstractEndpoint api, LatLngPoint latlng)
+            : base(api, "latlng", latlng.ToCSV())
         {
         }
 

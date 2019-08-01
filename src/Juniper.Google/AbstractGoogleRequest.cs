@@ -8,24 +8,27 @@ namespace Juniper.Google
     {
         private readonly bool signRequests;
 
-        protected AbstractGoogleRequest(Uri baseServiceURI, IDeserializer<ResultType> deserializer, string path, string cacheLocString, bool signRequests)
-            : base(baseServiceURI, deserializer, path, cacheLocString)
+        protected AbstractGoogleRequest(AbstractEndpoint api, Uri baseServiceURI, IDeserializer<ResultType> deserializer, string path, string cacheLocString, bool signRequests)
+            : base(api, baseServiceURI, deserializer, path, cacheLocString)
         {
             this.signRequests = signRequests;
         }
 
-        protected override Uri MakeAuthenticatedURI(AbstractEndpoint api)
+        protected override Uri AuthenticatedURI
         {
-            var uri = base.MakeAuthenticatedURI(api);
-            if (api is Maps.Endpoint google)
+            get
             {
-                uri = google.AddKey(uri);
-                if (signRequests)
+                var uri = base.AuthenticatedURI;
+                if (api is Maps.Endpoint google)
                 {
-                    uri = google.AddSignature(uri);
+                    uri = google.AddKey(uri);
+                    if (signRequests)
+                    {
+                        uri = google.AddSignature(uri);
+                    }
                 }
+                return uri;
             }
-            return uri;
         }
     }
 }

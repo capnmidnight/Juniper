@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,7 +9,9 @@ namespace Juniper.HTTP.REST
     {
         protected readonly SubRequestType[] subRequests;
 
-        protected AbstractMultiRequest(int n, Func<SubRequestType> factory)
+        protected AbstractMultiRequest(AbstractEndpoint api, int n, Func<SubRequestType> factory)
+            : base(api)
+
         {
             subRequests = new SubRequestType[n];
             for (var i = 0; i < subRequests.Length; ++i)
@@ -19,22 +20,25 @@ namespace Juniper.HTTP.REST
             }
         }
 
-        public override bool IsCached(AbstractEndpoint api)
+        public override bool IsCached
         {
-            return subRequests.All(api.IsCached);
+            get
+            {
+                return subRequests.All(s => s.IsCached);
+            }
         }
 
-        public override Task<ResponseElementType[]> Get(AbstractEndpoint api)
+        public override Task<ResponseElementType[]> Get()
         {
             return Task.WhenAll(subRequests
-                .Select(search => search.Get(api))
+                .Select(search => search.Get())
                 .ToArray());
         }
 
-        public override Task<ResponseElementType[]> Post(AbstractEndpoint api)
+        public override Task<ResponseElementType[]> Post()
         {
             return Task.WhenAll(subRequests
-                .Select(search => search.Post(api))
+                .Select(search => search.Post())
                 .ToArray());
         }
     }

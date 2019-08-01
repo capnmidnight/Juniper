@@ -34,7 +34,7 @@ namespace Juniper.Imaging
         /// <param name="imagePath">Image path.</param>
         /// <param name="resolve">  Resolve.</param>
         /// <param name="reject">   Reject.</param>
-        public static async Task<RawImage> StreamPNG(string imagePath)
+        public static async Task<ImageData> StreamPNG(string imagePath)
         {
             using (var imageFile = await StreamingAssets.GetStream(
                 Application.temporaryCachePath,
@@ -46,7 +46,7 @@ namespace Juniper.Imaging
             }
         }
 
-        public static async Task<RawImage> StreamJPEG(string imagePath)
+        public static async Task<ImageData> StreamJPEG(string imagePath)
         {
             using (var imageFile = await StreamingAssets.GetStream(
                 Application.temporaryCachePath,
@@ -58,7 +58,7 @@ namespace Juniper.Imaging
             }
         }
 
-        public static Texture2D ConstructTexture2D(RawImage image, TextureFormat format)
+        public static Texture2D ConstructTexture2D(ImageData image, TextureFormat format)
         {
             var texture = new Texture2D(image.dimensions.width, image.dimensions.height, format, false);
             texture.LoadRawTextureData(image.data);

@@ -4,9 +4,9 @@ using Juniper.Serialization;
 
 namespace Juniper.Image.Consolidated
 {
-    public class Factory : IFactory<RawImage>
+    public class Factory : IFactory<ImageData>
     {
-        private IFactory<RawImage> factory;
+        private IFactory<ImageData> factory;
         private ImageFormat format;
 
         public Factory(ImageFormat format)
@@ -36,12 +36,12 @@ namespace Juniper.Image.Consolidated
             }
         }
 
-        public RawImage Deserialize(Stream imageStream)
+        public ImageData Deserialize(Stream imageStream)
         {
             return factory.Deserialize(imageStream);
         }
 
-        public void Serialize(Stream outputStream, RawImage image)
+        public void Serialize(Stream outputStream, ImageData image)
         {
             factory.Serialize(outputStream, image);
         }

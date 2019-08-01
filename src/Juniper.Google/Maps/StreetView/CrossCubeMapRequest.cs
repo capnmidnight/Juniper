@@ -1,6 +1,6 @@
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-
 using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.Serialization;
@@ -11,91 +11,107 @@ namespace Juniper.Google.Maps.StreetView
     public class CrossCubeMapRequest : AbstractImageRequest
     {
         private readonly CubeMapRequest subRequest;
-        private readonly IFactory<RawImage> factory;
+        private readonly IFactory<ImageData> factory;
 
-        public CrossCubeMapRequest(PanoID pano, Size size)
-            : base(pano, size)
+        public CrossCubeMapRequest(AbstractEndpoint api, PanoID pano, Size size)
+            : base(api, pano, size)
         {
-            factory = (IFactory<RawImage>)deserializer;
-            subRequest = new CubeMapRequest(pano, size);
+            factory = (IFactory<ImageData>)deserializer;
+            subRequest = new CubeMapRequest(api, pano, size);
         }
 
-        public CrossCubeMapRequest(PanoID pano, int width, int height)
-            : base(pano, width, height)
+        public CrossCubeMapRequest(AbstractEndpoint api, PanoID pano, int width, int height)
+            : base(api, pano, width, height)
         {
-            factory = (IFactory<RawImage>)deserializer;
-            subRequest = new CubeMapRequest(pano, new Size(width, height));
+            factory = (IFactory<ImageData>)deserializer;
+            subRequest = new CubeMapRequest(api, pano, new Size(width, height));
         }
 
-        public CrossCubeMapRequest(PlaceName placeName, Size size)
-            : base(placeName, size)
+        public CrossCubeMapRequest(AbstractEndpoint api, PlaceName placeName, Size size)
+            : base(api, placeName, size)
         {
-            factory = (IFactory<RawImage>)deserializer;
-            subRequest = new CubeMapRequest(placeName, size);
+            factory = (IFactory<ImageData>)deserializer;
+            subRequest = new CubeMapRequest(api, placeName, size);
         }
 
-        public CrossCubeMapRequest(PlaceName placeName, int width, int height)
-            : base(placeName, width, height)
+        public CrossCubeMapRequest(AbstractEndpoint api, PlaceName placeName, int width, int height)
+            : base(api, placeName, width, height)
         {
-            factory = (IFactory<RawImage>)deserializer;
-            subRequest = new CubeMapRequest(placeName, new Size(width, height));
+            factory = (IFactory<ImageData>)deserializer;
+            subRequest = new CubeMapRequest(api, placeName, new Size(width, height));
         }
 
-        public CrossCubeMapRequest(LatLngPoint location, Size size)
-            : base(location, size)
+        public CrossCubeMapRequest(AbstractEndpoint api, LatLngPoint location, Size size)
+            : base(api, location, size)
         {
-            factory = (IFactory<RawImage>)deserializer;
-            subRequest = new CubeMapRequest(location, size);
+            factory = (IFactory<ImageData>)deserializer;
+            subRequest = new CubeMapRequest(api, location, size);
         }
 
-        public CrossCubeMapRequest(LatLngPoint location, int width, int height)
-            : base(location, width, height)
+        public CrossCubeMapRequest(AbstractEndpoint api, LatLngPoint location, int width, int height)
+            : base(api, location, width, height)
         {
-            factory = (IFactory<RawImage>)deserializer;
-            subRequest = new CubeMapRequest(location, new Size(width, height));
+            factory = (IFactory<ImageData>)deserializer;
+            subRequest = new CubeMapRequest(api, location, new Size(width, height));
         }
 
-        public override bool IsCached(AbstractEndpoint api)
+        public override bool IsCached
         {
-            return subRequest.IsCached(api)
-                && base.IsCached(api);
+            get
+            {
+                return subRequest.IsCached
+                    && base.IsCached;
+            }
         }
 
-        protected override string GetChacheFileName(AbstractEndpoint api)
+        protected override string CacheFileName
         {
-            var fileName = base.GetChacheFileName(api);
-            var extension = Path.GetExtension(fileName);
-            return Path.ChangeExtension(fileName, "cubemap" + extension);
+            get
+            {
+                var fileName = base.CacheFileName;
+                var extension = Path.GetExtension(fileName);
+                return Path.ChangeExtension(fileName, "cubemap" + extension);
+            }
         }
 
-        public override async Task<RawImage> Get(AbstractEndpoint api)
+        public Task<ImageData> GetJPEG()
         {
-            var cacheFile = GetCacheFile(api);
-            if (IsCached(api))
+            return Task.Run(GetJPEGImage);
+        }
+
+        private async Task<ImageData> GetJPEGImage()
+        {
+            var cacheFile = CacheFile;
+
+            if (!IsCached)
+            {
+                await GetImage();
+            }
+
+            var data = File.ReadAllBytes(cacheFile.FullName);
+            var size = Image.JPEG.Factory.ReadDimensions(data);
+            return new ImageData(ImageSource.None, ImageFormat.JPEG, size, data);
+        }
+
+        public override Task<ImageData> Get()
+        {
+            return Task.Run(GetImage);
+        }
+
+        private async Task<ImageData> GetImage()
+        {
+            var cacheFile = CacheFile;
+            if (IsCached)
             {
                 return deserializer.Deserialize(cacheFile);
             }
             else
             {
-                var images = await subRequest.Get(api);
-                var combined = await RawImage.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5]);
+                var images = await subRequest.Get();
+                var combined = await ImageData.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5]);
                 factory.Serialize(cacheFile, combined);
                 return combined;
             }
-        }
-
-        public async Task<byte[]> GetJPEG(AbstractEndpoint api)
-        {
-            var cacheFile = GetCacheFile(api);
-
-            if (!IsCached(api))
-            {
-                var images = await subRequest.Get(api);
-                var combined = await RawImage.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5]);
-                factory.Serialize(cacheFile, combined);
-            }
-
-            return File.ReadAllBytes(cacheFile.FullName);
         }
     }
 }

@@ -17,20 +17,5 @@ namespace Juniper.HTTP.REST
             : this(cacheDirectoryName == null ? null : new DirectoryInfo(cacheDirectoryName))
         {
         }
-
-        public bool IsCached<T, U>(AbstractRequest<T, U> search)
-        {
-            return search.IsCached(this);
-        }
-
-        public Task<U> Get<T, U>(AbstractRequest<T, U> request)
-        {
-            return request.Get(this);
-        }
-
-        public Task<U> Post<T, U>(AbstractRequest<T, U> request)
-        {
-            return request.Post(this);
-        }
     }
 }

@@ -1,51 +1,52 @@
+using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public abstract class AbstractImageRequest : AbstractStreetViewRequest<RawImage>
+    public abstract class AbstractImageRequest : AbstractStreetViewRequest<ImageData>
     {
         private Size size;
         private int radius;
         private bool outdoorOnly;
 
-        public AbstractImageRequest(PanoID pano, Size size)
-            : base(new Image.JPEG.Factory(), "streetview", pano)
+        public AbstractImageRequest(AbstractEndpoint api, PanoID pano, Size size)
+            : base(api, new Image.JPEG.Factory(), "streetview", pano)
         {
             Size = size;
-            SetContentType(RawImage.GetContentType(ImageFormat.JPEG), RawImage.GetExtension(ImageFormat.JPEG));
+            SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));
         }
 
-        public AbstractImageRequest(PanoID pano, int width, int height)
-            : this(pano, new Size(width, height))
+        public AbstractImageRequest(AbstractEndpoint api, PanoID pano, int width, int height)
+            : this(api, pano, new Size(width, height))
         {
         }
 
-        public AbstractImageRequest(PlaceName placeName, Size size)
-            : base(new Image.JPEG.Factory(), "streetview", placeName)
-        {
-            Size = size;
-            SetContentType(RawImage.GetContentType(ImageFormat.JPEG), RawImage.GetExtension(ImageFormat.JPEG));
-        }
-
-        public AbstractImageRequest(PlaceName placeName, int width, int height)
-            : this(placeName, new Size(width, height))
-        {
-        }
-
-        public AbstractImageRequest(LatLngPoint location, Size size)
-            : base(new Image.JPEG.Factory(), "streetview", location)
+        public AbstractImageRequest(AbstractEndpoint api, PlaceName placeName, Size size)
+            : base(api, new Image.JPEG.Factory(), "streetview", placeName)
         {
             Size = size;
-            SetContentType(RawImage.GetContentType(ImageFormat.JPEG), RawImage.GetExtension(ImageFormat.JPEG));
+            SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));
         }
 
-        public AbstractImageRequest(LatLngPoint location, int width, int height)
-            : this(location, new Size(width, height))
+        public AbstractImageRequest(AbstractEndpoint api, PlaceName placeName, int width, int height)
+            : this(api, placeName, new Size(width, height))
         {
         }
 
-        public Size Size
+        public AbstractImageRequest(AbstractEndpoint api, LatLngPoint location, Size size)
+            : base(api, new Image.JPEG.Factory(), "streetview", location)
+        {
+            Size = size;
+            SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));
+        }
+
+        public AbstractImageRequest(AbstractEndpoint api, LatLngPoint location, int width, int height)
+            : this(api, location, new Size(width, height))
+        {
+        }
+
+        public virtual Size Size
         {
             get { return size; }
             set { size = SetQuery(nameof(size), value); }

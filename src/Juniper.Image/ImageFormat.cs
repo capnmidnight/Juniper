@@ -2,8 +2,9 @@ namespace Juniper.Image
 {
     public enum ImageFormat
     {
-        Unsupported,
+        None,
         JPEG,
-        PNG
+        PNG,
+        Unsupported = ~None
     }
 }
