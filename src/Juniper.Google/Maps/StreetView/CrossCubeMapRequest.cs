@@ -8,7 +8,7 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class CrossCubeMapRequest : AbstractImageRequest
+    public class CrossCubeMapRequest : AbstractStreetViewImageRequest
     {
         private readonly CubeMapRequest subRequest;
         private readonly IFactory<ImageData> factory;

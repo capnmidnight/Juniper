@@ -5,7 +5,7 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class ImageRequest : AbstractImageRequest
+    public class ImageRequest : AbstractStreetViewImageRequest
     {
         public static ImageRequest Create(AbstractEndpoint api, LocationTypes locationType, object value, Size size)
         {
