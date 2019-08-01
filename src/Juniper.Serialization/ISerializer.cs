@@ -48,28 +48,36 @@ namespace Juniper.Serialization
             serializer.Serialize(new FileInfo(fileName), value, length, progress);
         }
 
-        public static string Serialize<T>(this ISerializer serializer, T value)
+        public static byte[] Serialize<T>(this ISerializer serializer, T value)
         {
             using (var mem = new MemoryStream())
             {
                 serializer.Serialize(mem, value);
                 mem.Flush();
-                mem.Position = 0;
 
-                return Encoding.UTF8.GetString(mem.GetBuffer());
+                return mem.GetBuffer();
             }
         }
 
-        public static string Serialize<T>(this ISerializer serializer, T value, long length, IProgress progress)
+        public static byte[] Serialize<T>(this ISerializer serializer, T value, long length, IProgress progress)
         {
             using (var mem = new MemoryStream())
             {
                 serializer.Serialize(mem, value, length, progress);
                 mem.Flush();
-                mem.Position = 0;
 
-                return Encoding.UTF8.GetString(mem.GetBuffer());
+                return mem.GetBuffer();
             }
+        }
+
+        public static string ToString<T>(this ISerializer serializer, T value)
+        {
+            return Encoding.UTF8.GetString(serializer.Serialize(value));
+        }
+
+        public static string ToString<T>(this ISerializer serializer, T value, long length, IProgress progress)
+        {
+            return Encoding.UTF8.GetString(serializer.Serialize(value));
         }
 
         public static ISerializer<T> Specialize<T>(this ISerializer serializer)
@@ -108,28 +116,36 @@ namespace Juniper.Serialization
             serializer.Serialize(new FileInfo(fileName), value, length, progress);
         }
 
-        public static string Serialize<T>(this ISerializer<T> serializer, T value)
+        public static byte[] Serialize<T>(this ISerializer<T> serializer, T value)
         {
             using (var mem = new MemoryStream())
             {
                 serializer.Serialize(mem, value);
                 mem.Flush();
-                mem.Position = 0;
 
-                return Encoding.UTF8.GetString(mem.GetBuffer());
+                return mem.GetBuffer();
             }
         }
 
-        public static string Serialize<T>(this ISerializer<T> serializer, T value, long length, IProgress progress)
+        public static byte[] Serialize<T>(this ISerializer<T> serializer, T value, long length, IProgress progress)
         {
             using (var mem = new MemoryStream())
             {
                 serializer.Serialize(mem, value, length, progress);
                 mem.Flush();
-                mem.Position = 0;
 
-                return Encoding.UTF8.GetString(mem.GetBuffer());
+                return mem.GetBuffer();
             }
+        }
+
+        public static string ToString<T>(this ISerializer<T> serializer, T value)
+        {
+            return Encoding.UTF8.GetString(serializer.Serialize(value));
+        }
+
+        public static string ToString<T>(this ISerializer<T> serializer, T value, long length, IProgress progress)
+        {
+            return Encoding.UTF8.GetString(serializer.Serialize(value));
         }
     }
 }

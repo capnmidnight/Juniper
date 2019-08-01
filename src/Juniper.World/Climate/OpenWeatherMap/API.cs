@@ -205,9 +205,9 @@ namespace Juniper.World.Climate.OpenWeatherMap
                     requester.Accept = "application/json";
                     using (var response = await requester.Get())
                     {
-                        if(deserializer.TryDeserialize<WeatherReport>(response, out var report))
+                        if (deserializer.TryDeserialize<WeatherReport>(response, out var report))
                         {
-                            reportJSON = serializer.Serialize(report);
+                            reportJSON = serializer.ToString(report);
                             LastReport = report;
                         }
                         else
@@ -232,7 +232,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         {
             set
             {
-                var reportJSON = serializer.Serialize(value);
+                var reportJSON = serializer.ToString(value);
                 deserializer.TryParse<WeatherReport>(reportJSON, out var errorReport);
                 LastReport = errorReport;
             }
