@@ -265,7 +265,7 @@ namespace Juniper.Compression.Tar.GZip
                             var memoryStream = new MemoryStream((int)item.Size);
                             tarInputStream.CopyEntryContents(memoryStream);
                             memoryStream.Flush();
-                            memoryStream.Position = 0L;
+                            memoryStream.Position = 0;
                             using (var streamReader = new StreamReader(memoryStream))
                             {
                                 var path = streamReader.ReadLine();
