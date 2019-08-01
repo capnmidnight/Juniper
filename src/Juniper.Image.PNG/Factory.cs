@@ -9,8 +9,11 @@ namespace Juniper.Image.PNG
 {
     public class Factory : IFactory<ImageData>
     {
-        public static Size ReadDimensions(byte[] data)
+        public static ImageData Read(byte[] data, ImageSource source = ImageSource.None)
         {
+            int width = 0,
+                height = 0;
+
             int i = 8; // skip the PNG signature
 
             while (i < data.Length)
@@ -26,7 +29,6 @@ namespace Juniper.Image.PNG
 
                 if (chunk == "IHDR")
                 {
-                    int width = 0, height = 0;
                     width = width << 8 | data[i++];
                     width = width << 8 | data[i++];
                     width = width << 8 | data[i++];
@@ -37,15 +39,52 @@ namespace Juniper.Image.PNG
                     height = height << 8 | data[i++];
                     height = height << 8 | data[i++];
 
-                    return new Size(width, height);
+                    var bitDepth = data[i + 9];
+                    var colorType = data[i + 10];
+
+                    int components = 0;
+                    switch (colorType)
+                    {
+                        case 0: components = (int)Math.Ceiling((float)bitDepth / 8); break;
+                        case 2: components = 3; break;
+                        case 3: components = 1; break;
+                        case 4: components = (int)Math.Ceiling((float)bitDepth / 8) + 1; break;
+                        case 6: components = 4; break;
+                    }
+
+                    return new ImageData(
+                        source,
+                        ImageFormat.PNG,
+                        width, height, components,
+                        data);
                 }
 
                 i += len;
-
                 i += 4;
             }
 
             return default;
+        }
+
+        public static ImageData Read(Stream stream)
+        {
+            var source = ImageData.DetermineSource(stream);
+            using (var mem = new MemoryStream())
+            {
+                stream.CopyTo(mem);
+                mem.Flush();
+                return Read(mem.ToArray(), source);
+            }
+        }
+
+        public static ImageData Read(string fileName)
+        {
+            return Read(File.ReadAllBytes(fileName), ImageSource.File);
+        }
+
+        public static ImageData Read(FileInfo file)
+        {
+            return Read(file.FullName);
         }
 
         /// <summary>

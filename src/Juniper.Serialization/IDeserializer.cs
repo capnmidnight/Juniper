@@ -73,7 +73,7 @@ namespace Juniper.Serialization
             }
         }
 
-        public static T Deserialize<T>(this IDeserializer deserializer, FileInfo file)
+        public static T Load<T>(this IDeserializer deserializer, FileInfo file)
         {
             using (var stream = file.OpenRead())
             {
@@ -81,7 +81,7 @@ namespace Juniper.Serialization
             }
         }
 
-        public static T Deserialize<T>(this IDeserializer deserializer, FileInfo file, IProgress progress)
+        public static T Load<T>(this IDeserializer deserializer, FileInfo file, IProgress progress)
         {
             using (var stream = file.OpenRead())
             {
@@ -89,7 +89,7 @@ namespace Juniper.Serialization
             }
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, FileInfo file, out T value)
+        public static bool TryLoad<T>(this IDeserializer deserializer, FileInfo file, out T value)
         {
             using (var stream = file.OpenRead())
             {
@@ -97,7 +97,7 @@ namespace Juniper.Serialization
             }
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, FileInfo file, out T value, IProgress progress)
+        public static bool TryLoad<T>(this IDeserializer deserializer, FileInfo file, out T value, IProgress progress)
         {
             using (var stream = file.OpenRead())
             {
@@ -105,24 +105,24 @@ namespace Juniper.Serialization
             }
         }
 
-        public static T Deserialize<T>(this IDeserializer deserializer, string fileName)
+        public static T Load<T>(this IDeserializer deserializer, string fileName)
         {
-            return deserializer.Deserialize<T>(new FileInfo(fileName));
+            return deserializer.Load<T>(new FileInfo(fileName));
         }
 
-        public static T Deserialize<T>(this IDeserializer deserializer, string fileName, IProgress progress)
+        public static T Load<T>(this IDeserializer deserializer, string fileName, IProgress progress)
         {
-            return deserializer.Deserialize<T>(new FileInfo(fileName), progress);
+            return deserializer.Load<T>(new FileInfo(fileName), progress);
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, string fileName, out T value)
+        public static bool TryLoad<T>(this IDeserializer deserializer, string fileName, out T value)
         {
-            return deserializer.TryDeserialize(new FileInfo(fileName), out value);
+            return deserializer.TryLoad(new FileInfo(fileName), out value);
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, string fileName, out T value, IProgress progress)
+        public static bool TryLoad<T>(this IDeserializer deserializer, string fileName, out T value, IProgress progress)
         {
-            return deserializer.TryDeserialize(new FileInfo(fileName), out value, progress);
+            return deserializer.TryLoad(new FileInfo(fileName), out value, progress);
         }
 
         public static T Parse<T>(this IDeserializer deserializer, string text)
@@ -218,7 +218,7 @@ namespace Juniper.Serialization
             }
         }
 
-        public static T Deserialize<T>(this IDeserializer<T> deserializer, FileInfo file)
+        public static T Load<T>(this IDeserializer<T> deserializer, FileInfo file)
         {
             using (var stream = file.OpenRead())
             {
@@ -226,7 +226,7 @@ namespace Juniper.Serialization
             }
         }
 
-        public static T Deserialize<T>(this IDeserializer<T> deserializer, FileInfo file, IProgress progress)
+        public static T Load<T>(this IDeserializer<T> deserializer, FileInfo file, IProgress progress)
         {
             using (var stream = file.OpenRead())
             {
@@ -234,7 +234,7 @@ namespace Juniper.Serialization
             }
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer<T> deserializer, FileInfo file, out T value)
+        public static bool TryLoad<T>(this IDeserializer<T> deserializer, FileInfo file, out T value)
         {
             using (var stream = file.OpenRead())
             {
@@ -242,7 +242,7 @@ namespace Juniper.Serialization
             }
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer<T> deserializer, FileInfo file, out T value, IProgress progress)
+        public static bool TryLoad<T>(this IDeserializer<T> deserializer, FileInfo file, out T value, IProgress progress)
         {
             using (var stream = file.OpenRead())
             {
@@ -250,24 +250,24 @@ namespace Juniper.Serialization
             }
         }
 
-        public static T Deserialize<T>(this IDeserializer<T> deserializer, string fileName)
+        public static T Load<T>(this IDeserializer<T> deserializer, string fileName)
         {
-            return deserializer.Deserialize(new FileInfo(fileName));
+            return deserializer.Load(new FileInfo(fileName));
         }
 
-        public static T Deserialize<T>(this IDeserializer<T> deserializer, string fileName, IProgress progress)
+        public static T Load<T>(this IDeserializer<T> deserializer, string fileName, IProgress progress)
         {
-            return deserializer.Deserialize(new FileInfo(fileName), progress);
+            return deserializer.Load(new FileInfo(fileName), progress);
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer<T> deserializer, string fileName, out T value)
+        public static bool TryLoad<T>(this IDeserializer<T> deserializer, string fileName, out T value)
         {
-            return deserializer.TryDeserialize(new FileInfo(fileName), out value);
+            return deserializer.TryLoad(new FileInfo(fileName), out value);
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer<T> deserializer, string fileName, out T value, IProgress progress)
+        public static bool TryLoad<T>(this IDeserializer<T> deserializer, string fileName, out T value, IProgress progress)
         {
-            return deserializer.TryDeserialize(new FileInfo(fileName), out value, progress);
+            return deserializer.TryLoad(new FileInfo(fileName), out value, progress);
         }
 
         public static T Parse<T>(this IDeserializer<T> deserializer, string text)

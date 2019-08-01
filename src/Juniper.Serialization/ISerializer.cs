@@ -22,32 +22,6 @@ namespace Juniper.Serialization
             serializer.Serialize(new ProgressStream(stream, length, progress), value);
         }
 
-        public static void Serialize<T>(this ISerializer serializer, FileInfo file, T value)
-        {
-            using (var stream = file.OpenWrite())
-            {
-                serializer.Serialize(stream, value);
-            }
-        }
-
-        public static void Serialize<T>(this ISerializer serializer, FileInfo file, T value, long length, IProgress progress)
-        {
-            using (var stream = file.OpenWrite())
-            {
-                serializer.Serialize(stream, value, length, progress);
-            }
-        }
-
-        public static void Serialize<T>(this ISerializer serializer, string fileName, T value)
-        {
-            serializer.Serialize(new FileInfo(fileName), value);
-        }
-
-        public static void Serialize<T>(this ISerializer serializer, string fileName, T value, long length, IProgress progress)
-        {
-            serializer.Serialize(new FileInfo(fileName), value, length, progress);
-        }
-
         public static byte[] Serialize<T>(this ISerializer serializer, T value)
         {
             using (var mem = new MemoryStream())
@@ -55,7 +29,7 @@ namespace Juniper.Serialization
                 serializer.Serialize(mem, value);
                 mem.Flush();
 
-                return mem.GetBuffer();
+                return mem.ToArray();
             }
         }
 
@@ -66,8 +40,34 @@ namespace Juniper.Serialization
                 serializer.Serialize(mem, value, length, progress);
                 mem.Flush();
 
-                return mem.GetBuffer();
+                return mem.ToArray();
             }
+        }
+
+        public static void Save<T>(this ISerializer serializer, FileInfo file, T value)
+        {
+            using (var stream = file.OpenWrite())
+            {
+                serializer.Serialize(stream, value);
+            }
+        }
+
+        public static void Save<T>(this ISerializer serializer, FileInfo file, T value, long length, IProgress progress)
+        {
+            using (var stream = file.OpenWrite())
+            {
+                serializer.Serialize(stream, value, length, progress);
+            }
+        }
+
+        public static void Save<T>(this ISerializer serializer, string fileName, T value)
+        {
+            serializer.Save(new FileInfo(fileName), value);
+        }
+
+        public static void Save<T>(this ISerializer serializer, string fileName, T value, long length, IProgress progress)
+        {
+            serializer.Save(new FileInfo(fileName), value, length, progress);
         }
 
         public static string ToString<T>(this ISerializer serializer, T value)
@@ -90,32 +90,6 @@ namespace Juniper.Serialization
             serializer.Serialize(new ProgressStream(stream, length, progress), value, length, progress);
         }
 
-        public static void Serialize<T>(this ISerializer<T> serializer, FileInfo file, T value)
-        {
-            using (var stream = file.OpenWrite())
-            {
-                serializer.Serialize(stream, value);
-            }
-        }
-
-        public static void Serialize<T>(this ISerializer<T> serializer, FileInfo file, T value, long length, IProgress progress)
-        {
-            using (var stream = file.OpenWrite())
-            {
-                serializer.Serialize(stream, value, length, progress);
-            }
-        }
-
-        public static void Serialize<T>(this ISerializer<T> serializer, string fileName, T value)
-        {
-            serializer.Serialize(new FileInfo(fileName), value);
-        }
-
-        public static void Serialize<T>(this ISerializer<T> serializer, string fileName, T value, long length, IProgress progress)
-        {
-            serializer.Serialize(new FileInfo(fileName), value, length, progress);
-        }
-
         public static byte[] Serialize<T>(this ISerializer<T> serializer, T value)
         {
             using (var mem = new MemoryStream())
@@ -123,7 +97,7 @@ namespace Juniper.Serialization
                 serializer.Serialize(mem, value);
                 mem.Flush();
 
-                return mem.GetBuffer();
+                return mem.ToArray();
             }
         }
 
@@ -134,8 +108,34 @@ namespace Juniper.Serialization
                 serializer.Serialize(mem, value, length, progress);
                 mem.Flush();
 
-                return mem.GetBuffer();
+                return mem.ToArray();
             }
+        }
+
+        public static void Save<T>(this ISerializer<T> serializer, FileInfo file, T value)
+        {
+            using (var stream = file.OpenWrite())
+            {
+                serializer.Serialize(stream, value);
+            }
+        }
+
+        public static void Save<T>(this ISerializer<T> serializer, FileInfo file, T value, long length, IProgress progress)
+        {
+            using (var stream = file.OpenWrite())
+            {
+                serializer.Serialize(stream, value, length, progress);
+            }
+        }
+
+        public static void Save<T>(this ISerializer<T> serializer, string fileName, T value)
+        {
+            serializer.Save(new FileInfo(fileName), value);
+        }
+
+        public static void Save<T>(this ISerializer<T> serializer, string fileName, T value, long length, IProgress progress)
+        {
+            serializer.Save(new FileInfo(fileName), value, length, progress);
         }
 
         public static string ToString<T>(this ISerializer<T> serializer, T value)

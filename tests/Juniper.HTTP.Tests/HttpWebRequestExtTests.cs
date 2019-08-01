@@ -48,7 +48,7 @@ namespace Juniper.HTTP.Tests
             if (runTest)
             {
                 var path = Path.Combine(myPictures, "portrait-expected.jpg");
-                var expected = decoder.Deserialize(path);
+                var expected = decoder.Load(path);
                 Assert.AreEqual(expected.dimensions.width, actual.dimensions.width);
                 Assert.AreEqual(expected.dimensions.height, actual.dimensions.height);
                 Assert.AreEqual(expected.data.Length, actual.data.Length);

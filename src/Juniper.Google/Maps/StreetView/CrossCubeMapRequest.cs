@@ -88,9 +88,7 @@ namespace Juniper.Google.Maps.StreetView
                 await GetImage();
             }
 
-            var data = File.ReadAllBytes(cacheFile.FullName);
-            var size = Image.JPEG.Factory.ReadDimensions(data);
-            return new ImageData(ImageSource.None, ImageFormat.JPEG, size, data);
+            return Image.JPEG.Factory.Read(cacheFile.FullName);
         }
 
         public override Task<ImageData> Get()
@@ -103,13 +101,13 @@ namespace Juniper.Google.Maps.StreetView
             var cacheFile = CacheFile;
             if (IsCached)
             {
-                return deserializer.Deserialize(cacheFile);
+                return deserializer.Load(cacheFile);
             }
             else
             {
                 var images = await subRequest.Get();
                 var combined = await ImageData.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5]);
-                factory.Serialize(cacheFile, combined);
+                factory.Save(cacheFile, combined);
                 return combined;
             }
         }

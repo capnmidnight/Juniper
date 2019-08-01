@@ -22,22 +22,21 @@ namespace Juniper.Google.Maps.StreetView.Tests
                 await imageRequest.Get();
             }
 
-            var data = File.ReadAllBytes(imageRequest.CacheFile.FullName);
-            var size = Image.JPEG.Factory.ReadDimensions(data);
-            Assert.AreEqual(2560, size.width);
-            Assert.AreEqual(1920, size.height);
+            var img = Image.JPEG.Factory.Read(imageRequest.CacheFile);
+            Assert.AreEqual(2560, img.dimensions.width);
+            Assert.AreEqual(1920, img.dimensions.height);
         }
 
         [TestMethod]
         public async Task PNGImageSize()
         {
             var imageRequest = new CrossCubeMapRequest(service, (PlaceName)"Alexandria, VA", 640, 640);
-            var img = await imageRequest.Get();
+            var rawImg = await imageRequest.Get();
             var png = new Image.PNG.Factory();
-            var data = png.Serialize(img);
-            var size = Image.PNG.Factory.ReadDimensions(data);
-            Assert.AreEqual(2560, size.width);
-            Assert.AreEqual(1920, size.height);
+            var data = png.Serialize(rawImg);
+            var img = Image.PNG.Factory.Read(data, ImageSource.File);
+            Assert.AreEqual(2560, img.dimensions.width);
+            Assert.AreEqual(1920, img.dimensions.height);
         }
 
         [TestMethod]
@@ -84,7 +83,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var combined = await ImageData.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.png");
             var encoder = new Image.PNG.Factory();
-            encoder.Serialize(outputFileName, combined);
+            encoder.Save(outputFileName, combined);
             Assert.IsTrue(File.Exists(outputFileName));
         }
 
@@ -96,7 +95,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var combined = await ImageData.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.jpeg");
             var encoder = new Image.PNG.Factory();
-            encoder.Serialize(outputFileName, combined);
+            encoder.Save(outputFileName, combined);
             Assert.IsTrue(File.Exists(outputFileName));
         }
 

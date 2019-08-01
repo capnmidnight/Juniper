@@ -9,8 +9,11 @@ namespace Juniper.Image.JPEG
 {
     public class Factory : IFactory<ImageData>
     {
-        public static Size ReadDimensions(byte[] data)
+        public static ImageData Read(byte[] data, ImageSource source = ImageSource.None)
         {
+            int width = 0,
+                height = 0;
+
             for (int i = 0; i < data.Length - 1; ++i)
             {
                 var a = data[i];
@@ -22,13 +25,39 @@ namespace Juniper.Image.JPEG
                     var widthHi = data[i + 7];
                     var widthLo = data[i + 8];
 
-                    var width = widthHi << 8 | widthLo;
-                    var height = heightHi << 8 | heightLo;
-                    return new Size(width, height);
+                    width = widthHi << 8 | widthLo;
+                    height = heightHi << 8 | heightLo;
+
+                    return new ImageData(
+                        source,
+                        ImageFormat.JPEG,
+                        width, height, 3,
+                        data);
                 }
             }
 
             return default;
+        }
+
+        public static ImageData Read(Stream stream)
+        {
+            var source = ImageData.DetermineSource(stream);
+            using (var mem = new MemoryStream())
+            {
+                stream.CopyTo(mem);
+                mem.Flush();
+                return Read(mem.ToArray(), source);
+            }
+        }
+
+        public static ImageData Read(string fileName)
+        {
+            return Read(File.ReadAllBytes(fileName), ImageSource.File);
+        }
+
+        public static ImageData Read(FileInfo file)
+        {
+            return Read(file.FullName);
         }
 
         /// <summary>
