@@ -42,11 +42,11 @@ namespace Juniper.Images
 
         private string lastLocation;
 
+        [ReadOnly]
         public string Location;
 
-        public LatLngPoint LatLngLocation;
-
-        public PanoID pano;
+        private LatLngPoint LatLngLocation;
+        private PanoID pano;
 
         [SerializeField]
         [HideInNormalInspector]
@@ -118,7 +118,6 @@ namespace Juniper.Images
             {
                 if (Location != lastLocation)
                 {
-                    print("location changed");
                     GetImages(true);
                 }
                 else if (Location == lastLocation
@@ -172,18 +171,9 @@ namespace Juniper.Images
                         newMaterial = null;
 
                         var imageRequest = new CrossCubeMapRequest(gmaps, pano, 1024, 1024);
-
-                        DateTime start, end;
-
-                        print("getting image");
-                        start = DateTime.Now;
                         var imageTask = imageRequest.GetJPEG();
-                        var waiter = new WaitForTask(imageTask);
-                        yield return waiter;
-                        print($"Waited for {waiter.testCount} frames, for a total of {waiter.Elapsed.TotalSeconds} seconds.");
+                        yield return new WaitForTask(imageTask);
                         var image = imageTask.Result;
-                        end = DateTime.Now;
-                        print($"It took {(end - start).TotalSeconds} seconds to get the image from disk.");
 
                         var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
                         if (image.format == Image.ImageFormat.None)
@@ -195,14 +185,18 @@ namespace Juniper.Images
                             texture.LoadImage(image.data);
                         }
 
+                        yield return null;
+
                         texture.Compress(true);
+
+                        yield return null;
+
                         texture.Apply(false, true);
 
+                        yield return null;
+
                         newMaterial = new Material(Shader.Find("Skybox/Panoramic"));
-                        if (newMaterial.IsKeywordEnabled(LAT_LON))
-                        {
-                            newMaterial.DisableKeyword(LAT_LON);
-                        }
+                        newMaterial.DisableKeyword(LAT_LON);
                         newMaterial.EnableKeyword(SIDES_6);
 
                         newMaterial.SetInt("_Mapping", 0);
@@ -211,19 +205,16 @@ namespace Juniper.Images
                         newMaterial.SetInt("_Layout", 0);
                         newMaterial.SetTexture("_MainTex", texture);
 
-                        if (newMaterial != null)
-                        {
-                            RenderSettings.skybox = newMaterial;
-                            DestroyImmediate(skyboxMaterial);
-                            skyboxMaterial = newMaterial;
-                        }
+                        RenderSettings.skybox = newMaterial;
+                        DestroyImmediate(skyboxMaterial);
+                        skyboxMaterial = newMaterial;
+                    }
 
-                        locked = false;
-                        Complete();
-                        if (fromNavigation)
-                        {
-                            fader.Exit();
-                        }
+                    locked = false;
+                    Complete();
+                    if (fromNavigation)
+                    {
+                        fader.Exit();
                     }
                 }
             }
