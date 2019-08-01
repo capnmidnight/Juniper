@@ -171,7 +171,7 @@ namespace Juniper.Images
                         newMaterial = null;
 
                         var imageRequest = new CrossCubeMapRequest(gmaps, pano, 1024, 1024);
-                        var imageTask = imageRequest.GetJPEG();
+                        var imageTask = imageRequest.GetJPEG(prog);
                         yield return new WaitForTask(imageTask);
                         var image = imageTask.Result;
 

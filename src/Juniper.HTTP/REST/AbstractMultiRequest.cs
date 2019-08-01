@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Juniper.Progress;
 
 namespace Juniper.HTTP.REST
 {
@@ -28,10 +29,10 @@ namespace Juniper.HTTP.REST
             }
         }
 
-        public override Task<ResponseElementType[]> Get()
+        public override Task<ResponseElementType[]> Get(IProgress prog = null)
         {
             return Task.WhenAll(subRequests
-                .Select(search => search.Get())
+                .Select((search, i) => search.Get(prog?.Subdivide(i, subRequests.Length)))
                 .ToArray());
         }
 

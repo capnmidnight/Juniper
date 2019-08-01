@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Juniper.Progress;
 using Juniper.Serialization;
 
 namespace Juniper.Image.Consolidated
@@ -78,9 +79,9 @@ namespace Juniper.Image.Consolidated
             return factory.Deserialize(imageStream);
         }
 
-        public void Serialize(Stream outputStream, ImageData image)
+        public void Serialize(Stream outputStream, ImageData image, IProgress prog = null)
         {
-            factory.Serialize(outputStream, image);
+            factory.Serialize(outputStream, image, prog);
         }
     }
 }

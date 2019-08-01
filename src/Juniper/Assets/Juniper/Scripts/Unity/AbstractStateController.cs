@@ -132,6 +132,7 @@ namespace Juniper
         /// </summary>
         protected void Complete()
         {
+            print($"{name} complete");
             state = Direction.Stopped;
         }
 
@@ -200,6 +201,8 @@ namespace Juniper
             }
         }
 
+#if UNITY_EDITOR
+
         public void PrintStatus(string label)
         {
             var status = GetStatus(label);
@@ -218,6 +221,8 @@ namespace Juniper
             return $"{label}: {name} is {state} = {full}";
         }
 
+#endif
+
         /// <summary>
         /// Called as the object goes from Inactive to Active. Prefer <see cref="Entering"/> if you
         /// are programmatically adding event handlers at runtime. If you are adding event handlers
@@ -226,6 +231,7 @@ namespace Juniper
         /// </summary>
         protected virtual void OnEntering()
         {
+            print($"{name} on entering");
             if (!skipEvents)
             {
                 onEntering?.Invoke();
@@ -262,6 +268,7 @@ namespace Juniper
         /// </summary>
         protected virtual void OnEntered()
         {
+            print($"on entered {name}");
             if (!skipEvents)
             {
                 onEntered?.Invoke();

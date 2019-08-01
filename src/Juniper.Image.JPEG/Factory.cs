@@ -2,7 +2,7 @@ using System;
 using System.IO;
 
 using BitMiracle.LibJpeg;
-
+using Juniper.Progress;
 using Juniper.Serialization;
 
 namespace Juniper.Image.JPEG
@@ -92,7 +92,7 @@ namespace Juniper.Image.JPEG
         /// Encodes a raw file buffer of image data into a JPEG image.
         /// </summary>
         /// <param name="outputStream">Jpeg bytes.</param>
-        public void Serialize(Stream outputStream, ImageData image)
+        public void Serialize(Stream outputStream, ImageData image, IProgress prog = null)
         {
             var rows = new SampleRow[image.dimensions.height];
             var rowBuffer = new byte[image.stride];

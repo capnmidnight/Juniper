@@ -121,8 +121,10 @@ namespace Juniper.Image
         {
         }
 
-        private static ImageData CombineTiles(int columns, int rows, params ImageData[] images)
+        private static ImageData CombineTiles(int columns, int rows, IProgress prog, params ImageData[] images)
         {
+            prog?.Report(0);
+
             if (images == null)
             {
                 throw new ArgumentNullException($"Parameter {nameof(images)} must not be null.");
@@ -183,28 +185,30 @@ namespace Juniper.Image
                     var imageI = imageY * firstImage.stride;
                     Array.Copy(tile.data, imageI, combined.data, i, firstImage.stride);
                 }
+
+                prog?.Report(i, combined.data.Length);
             }
 
             return combined;
         }
 
-        private static Task<ImageData> CombineTilesAsync(int columns, int rows, params ImageData[] images)
+        private static Task<ImageData> CombineTilesAsync(int columns, int rows, IProgress prog, params ImageData[] images)
         {
-            return Task.Run(() => CombineTiles(columns, rows, images));
+            return Task.Run(() => CombineTiles(columns, rows, prog, images));
         }
 
         public static Task<ImageData> Combine6Squares(ImageData north, ImageData east, ImageData west, ImageData south, ImageData up, ImageData down)
         {
             return CombineTilesAsync(
-                1, 6,
+                1, 6, null,
                 west, south, east,
                 down, up, north);
         }
 
-        public static Task<ImageData> CombineCross(ImageData north, ImageData east, ImageData west, ImageData south, ImageData down, ImageData up)
+        public static Task<ImageData> CombineCross(ImageData north, ImageData east, ImageData west, ImageData south, ImageData down, ImageData up, IProgress prog = null)
         {
             return CombineTilesAsync(
-                4, 3,
+                4, 3, prog,
                 null, up, null, null,
                 west, north, east, south,
                 null, down, null, null);

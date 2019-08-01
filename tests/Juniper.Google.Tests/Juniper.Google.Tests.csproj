@@ -88,6 +88,10 @@
       <Project>{b10a2ab6-5677-4f5e-b6fc-d81120787746}</Project>
       <Name>Juniper.Json</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Juniper.Progress\Juniper.Progress.csproj">
+      <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
+      <Name>Juniper.Progress</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Serialization\Juniper.Serialization.csproj">
       <Project>{9d6f67cc-8eac-4644-9e20-c18c9d3e58cc}</Project>
       <Name>Juniper.Serialization</Name>

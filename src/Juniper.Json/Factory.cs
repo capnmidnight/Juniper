@@ -1,7 +1,7 @@
 using System.IO;
 
 using Json.Lite;
-
+using Juniper.Progress;
 using Juniper.Serialization;
 
 namespace Juniper.Json
@@ -18,11 +18,12 @@ namespace Juniper.Json
             return JsonConvert.DeserializeObject<T>(text);
         }
 
-        public void Serialize<T>(Stream stream, T value)
+        public void Serialize<T>(Stream stream, T value, IProgress prog = null)
         {
             using (var writer = new StreamWriter(stream))
             {
-                writer.Write(Serialize(value));
+                var text = Serialize(value);
+                writer.Write(new ProgressStream(stream, System.Text.Encoding.UTF8.GetByteCount(text), prog));
             }
         }
 
@@ -34,7 +35,6 @@ namespace Juniper.Json
             }
         }
     }
-
 
     public class Factory<T> : IFactory<T>
     {
@@ -48,11 +48,12 @@ namespace Juniper.Json
             return JsonConvert.DeserializeObject<T>(text);
         }
 
-        public void Serialize(Stream stream, T value)
+        public void Serialize(Stream stream, T value, IProgress prog = null)
         {
             using (var writer = new StreamWriter(stream))
             {
-                writer.Write(Serialize(value));
+                var text = Serialize(value);
+                writer.Write(new ProgressStream(stream, System.Text.Encoding.UTF8.GetByteCount(text), prog));
             }
         }
 

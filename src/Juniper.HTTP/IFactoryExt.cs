@@ -21,7 +21,7 @@ namespace Juniper.Serialization
         {
             using (var stream = request.GetRequestStream())
             {
-                serializer.Serialize(stream, value, length, progress);
+                serializer.Serialize(stream, value, progress);
             }
         }
 
@@ -37,7 +37,7 @@ namespace Juniper.Serialization
         {
             using (var stream = request.GetRequestStream())
             {
-                serializer.Serialize(stream, value, length, progress);
+                serializer.Serialize(stream, value, progress);
             }
         }
 

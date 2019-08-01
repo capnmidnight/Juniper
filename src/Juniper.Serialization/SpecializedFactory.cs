@@ -1,4 +1,5 @@
-﻿using System.IO;
+using System.IO;
+using Juniper.Progress;
 
 namespace Juniper.Serialization
 {
@@ -11,9 +12,9 @@ namespace Juniper.Serialization
             this.factory = factory;
         }
 
-        public void Serialize(Stream stream, T value)
+        public void Serialize(Stream stream, T value, IProgress prog = null)
         {
-            factory.Serialize(stream, value);
+            factory.Serialize(stream, value, prog);
         }
 
         public T Deserialize(Stream stream)

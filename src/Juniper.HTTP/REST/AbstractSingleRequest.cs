@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using Juniper.Progress;
 using Juniper.Serialization;
 
 namespace Juniper.HTTP.REST
@@ -129,21 +130,21 @@ namespace Juniper.HTTP.REST
             request.Accept = acceptType;
         }
 
-        private Task<T> Get<T>(Func<Stream, T> decoder)
+        private Task<T> Get<T>(Func<Stream, T> decoder, IProgress prog)
         {
             var uri = AuthenticatedURI;
             var file = CacheFile;
             return Task.Run(() => HttpWebRequestExt.CachedGet(uri, decoder, file, SetAcceptType));
         }
 
-        public override Task<ResponseType> Get()
+        public override Task<ResponseType> Get(IProgress prog = null)
         {
-            return Get(deserializer.Deserialize);
+            return Get(deserializer.Deserialize, prog);
         }
 
-        public Task<Stream> GetRaw()
+        public Task<Stream> GetRaw(IProgress prog = null)
         {
-            return Get(stream => stream);
+            return Get(stream => stream, prog);
         }
 
         private Task<T> Post<T>(Func<Stream, T> decoder)

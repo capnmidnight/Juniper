@@ -2,7 +2,7 @@ using System;
 using System.IO;
 
 using Hjg.Pngcs;
-
+using Juniper.Progress;
 using Juniper.Serialization;
 
 namespace Juniper.Image.PNG
@@ -118,7 +118,7 @@ namespace Juniper.Image.PNG
         /// Encodes a raw file buffer of image data into a PNG image.
         /// </summary>
         /// <param name="outputStream">Png bytes.</param>
-        public void Serialize(Stream outputStream, ImageData image)
+        public void Serialize(Stream outputStream, ImageData image, IProgress prog = null)
         {
             var info = new ImageInfo(
                 image.dimensions.width,

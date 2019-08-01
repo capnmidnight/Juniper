@@ -132,8 +132,8 @@ namespace Juniper.Video
 
         public override void Enter(IProgress prog = null)
         {
-            prog?.Report(0);
-            Enter();
+            base.Enter(prog);
+
             if (player != null)
             {
                 void exec(VideoPlayer player)
@@ -161,7 +161,6 @@ namespace Juniper.Video
                     player.targetTexture = renderTexture;
                     Complete();
                     Play();
-                    prog?.Report(1);
                 }
 
                 player.prepareCompleted += exec;

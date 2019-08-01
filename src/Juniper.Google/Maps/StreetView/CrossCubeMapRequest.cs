@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Juniper.HTTP.REST;
 using Juniper.Image;
+using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.World.GIS;
 
@@ -74,40 +75,42 @@ namespace Juniper.Google.Maps.StreetView
             }
         }
 
-        public Task<ImageData> GetJPEG()
+        public Task<ImageData> GetJPEG(IProgress prog = null)
         {
-            return Task.Run(GetJPEGImage);
+            return Task.Run(() => GetJPEGImage(prog));
         }
 
-        private async Task<ImageData> GetJPEGImage()
+        private async Task<ImageData> GetJPEGImage(IProgress prog)
         {
             var cacheFile = CacheFile;
 
             if (!IsCached)
             {
-                await GetImage();
+                await GetImage(prog);
             }
 
             return Image.JPEG.Factory.Read(cacheFile.FullName);
         }
 
-        public override Task<ImageData> Get()
+        public override Task<ImageData> Get(IProgress prog = null)
         {
-            return Task.Run(GetImage);
+            return Task.Run(() => GetImage(prog));
         }
 
-        private async Task<ImageData> GetImage()
+        private async Task<ImageData> GetImage(IProgress prog)
         {
             var cacheFile = CacheFile;
             if (IsCached)
             {
-                return deserializer.Load(cacheFile);
+                return deserializer.Load(cacheFile, prog);
             }
             else
             {
-                var images = await subRequest.Get();
-                var combined = await ImageData.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5]);
+                var progs = prog.Split(3);
+                var images = await subRequest.Get(progs[0]);
+                var combined = await ImageData.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5], progs[1]);
                 factory.Save(cacheFile, combined);
+                progs[2]?.Report(1);
                 return combined;
             }
         }

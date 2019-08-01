@@ -550,9 +550,8 @@ namespace Juniper
             prog?.Report(0);
 
             var sceneName = GetSceneNameFromPath(path);
-            var split = prog.Split(2);
-            var sceneLoadProg = split[0];
-            var subSceneLoadProg = split[1];
+            var sceneLoadProg = prog.Subdivide(0, 0.25f);
+            var subSceneLoadProg = prog.Subdivide(0.25f, 0.75f);
 
             if (IsScenePathLoaded(path))
             {

@@ -221,13 +221,16 @@ namespace System.Net
             Uri uri,
             Func<Stream, T> decode,
             FileInfo cacheFile,
-            Action<HttpWebRequest> modifyRequest = null)
+            Action<HttpWebRequest> modifyRequest = null,
+            IProgress prog = null)
         {
             Stream body = null;
+            long length = 0;
 
             if (cacheFile?.Exists == true)
             {
                 body = cacheFile.OpenRead();
+                length = body.Length;
             }
 
             if (body == null)
@@ -237,6 +240,7 @@ namespace System.Net
 
                 var response = await request.Get();
                 body = response.GetResponseStream();
+                length = response.ContentLength;
             }
 
             if (body == null)
@@ -247,7 +251,7 @@ namespace System.Net
             {
                 if (cacheFile?.Exists == false)
                 {
-                    body = new CachingStream(body, cacheFile);
+                    body = new ProgressStream(new CachingStream(body, cacheFile), length, prog);
                 }
 
                 using (body)
