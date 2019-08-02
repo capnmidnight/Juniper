@@ -35,7 +35,7 @@ namespace Juniper.Google.Maps.MapTiles
         private MapImageType maptype;
 
         private TileRequest(AbstractEndpoint api, string center, int zoom, Size size, ImageFormat format)
-            : base(api, new Image.Consolidated.Factory(format), "staticmap", "tiles", true)
+            : base(api, new Image.Factory(format), "staticmap", "tiles", true)
         {
             SetQuery(nameof(center), center);
             SetQuery(nameof(zoom), zoom);
@@ -71,7 +71,7 @@ namespace Juniper.Google.Maps.MapTiles
                 }
 
                 format = value;
-                deserializer = new Image.Consolidated.Factory(format);
+                deserializer = new Image.Factory(format);
                 SetContentType(ImageData.GetContentType(format), ImageData.GetContentType(format));
 
                 if (mapping != TileImageFormat.PNG8)

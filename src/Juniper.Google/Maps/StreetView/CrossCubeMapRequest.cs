@@ -89,7 +89,7 @@ namespace Juniper.Google.Maps.StreetView
                 await GetImage(prog);
             }
 
-            return Image.JPEG.Factory.Read(cacheFile.FullName);
+            return Image.JPEG.JpegFactory.Read(cacheFile.FullName);
         }
 
         public override Task<ImageData> Get(IProgress prog = null)

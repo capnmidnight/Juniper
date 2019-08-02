@@ -28,7 +28,7 @@ namespace Juniper.HTTP.Tests
 
         private static async Task<ImageData> RunFileTest(bool deleteFile, bool runTest, DataSource expectedSource)
         {
-            var decoder = new Image.JPEG.Factory();
+            var decoder = new Image.JPEG.JpegFactory();
             const string cacheFileName = "portrait.jpg";
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheFile = Path.Combine(myPictures, cacheFileName);

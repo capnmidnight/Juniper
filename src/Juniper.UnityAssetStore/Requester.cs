@@ -15,7 +15,7 @@ namespace Juniper.UnityAssetStore
         public Requester()
         {
             sessionID = string.Empty;
-            deserializer = new Json.Factory();
+            deserializer = new Json.JsonFactory();
         }
 
         public async Task<string> Post(string url, string data, string token = null, IProgress prog = null)

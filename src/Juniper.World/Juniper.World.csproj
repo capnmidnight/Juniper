@@ -69,18 +69,6 @@
       <Project>{888b994c-2ae8-42b2-84f5-b15e11cc4f4f}</Project>
       <Name>Juniper.HTTP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Juniper.Image.Consolidated\Juniper.Image.Consolidated.csproj">
-      <Project>{dd0a281f-e73d-4dbb-a264-f5abee5ea8ff}</Project>
-      <Name>Juniper.Image.Consolidated</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.Image.JPEG\Juniper.Image.JPEG.csproj">
-      <Project>{cc9295ef-770c-4677-87ef-4619d9750b91}</Project>
-      <Name>Juniper.Image.JPEG</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.Image.PNG\Juniper.Image.PNG.csproj">
-      <Project>{9f045ac7-79a4-4584-809a-dca6bc6a1446}</Project>
-      <Name>Juniper.Image.PNG</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Juniper.Image\Juniper.Image.csproj">
       <Project>{f951a2e5-078a-413d-966d-c3f4ae5edcab}</Project>
       <Name>Juniper.Image</Name>

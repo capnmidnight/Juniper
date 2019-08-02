@@ -1,5 +1,4 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 using Juniper.Progress;
@@ -12,21 +11,6 @@ namespace Juniper.Image
     /// </summary>
     public partial class ImageData : ICloneable
     {
-        public static DataSource DetermineSource(Stream imageStream)
-        {
-            var source = DataSource.None;
-            if (imageStream is FileStream)
-            {
-                source = DataSource.File;
-            }
-            else if (imageStream is CachingStream)
-            {
-                source = DataSource.Network;
-            }
-
-            return source;
-        }
-
         public static string GetContentType(ImageFormat format)
         {
             switch (format)

@@ -22,7 +22,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
                 await imageRequest.Get();
             }
 
-            var img = Image.JPEG.Factory.Read(imageRequest.CacheFile);
+            var img = Image.JPEG.JpegFactory.Read(imageRequest.CacheFile);
             Assert.AreEqual(2560, img.dimensions.width);
             Assert.AreEqual(1920, img.dimensions.height);
         }
@@ -32,9 +32,9 @@ namespace Juniper.Google.Maps.StreetView.Tests
         {
             var imageRequest = new CrossCubeMapRequest(service, (PlaceName)"Alexandria, VA", 640, 640);
             var rawImg = await imageRequest.Get();
-            var png = new Image.PNG.Factory();
+            var png = new Image.PNG.PngFactory();
             var data = png.Serialize(rawImg);
-            var img = Image.PNG.Factory.Read(data, DataSource.File);
+            var img = Image.PNG.PngFactory.Read(data, DataSource.File);
             Assert.AreEqual(2560, img.dimensions.width);
             Assert.AreEqual(1920, img.dimensions.height);
         }
@@ -82,7 +82,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var images = await cubeMapRequest.Get();
             var combined = await ImageData.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.png");
-            var encoder = new Image.PNG.Factory();
+            var encoder = new Image.PNG.PngFactory();
             encoder.Save(outputFileName, combined);
             Assert.IsTrue(File.Exists(outputFileName));
         }
@@ -94,7 +94,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var images = await cubeMapRequest.Get();
             var combined = await ImageData.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.jpeg");
-            var encoder = new Image.PNG.Factory();
+            var encoder = new Image.PNG.PngFactory();
             encoder.Save(outputFileName, combined);
             Assert.IsTrue(File.Exists(outputFileName));
         }

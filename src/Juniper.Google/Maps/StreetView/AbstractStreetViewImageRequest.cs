@@ -11,7 +11,7 @@ namespace Juniper.Google.Maps.StreetView
         private bool outdoorOnly;
 
         public AbstractStreetViewImageRequest(AbstractEndpoint api, PanoID pano, Size size)
-            : base(api, new Image.JPEG.Factory(), "streetview", pano)
+            : base(api, new Image.JPEG.JpegFactory(), "streetview", pano)
         {
             Size = size;
             SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));
@@ -23,7 +23,7 @@ namespace Juniper.Google.Maps.StreetView
         }
 
         public AbstractStreetViewImageRequest(AbstractEndpoint api, PlaceName placeName, Size size)
-            : base(api, new Image.JPEG.Factory(), "streetview", placeName)
+            : base(api, new Image.JPEG.JpegFactory(), "streetview", placeName)
         {
             Size = size;
             SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));
@@ -35,7 +35,7 @@ namespace Juniper.Google.Maps.StreetView
         }
 
         public AbstractStreetViewImageRequest(AbstractEndpoint api, LatLngPoint location, Size size)
-            : base(api, new Image.JPEG.Factory(), "streetview", location)
+            : base(api, new Image.JPEG.JpegFactory(), "streetview", location)
         {
             Size = size;
             SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));

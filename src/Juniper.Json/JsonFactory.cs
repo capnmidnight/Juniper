@@ -6,7 +6,7 @@ using Juniper.Serialization;
 
 namespace Juniper.Json
 {
-    public class Factory : IFactory
+    public class JsonFactory : IFactory
     {
         public string Serialize<T>(T value)
         {

@@ -3,7 +3,7 @@ using System.IO;
 using Juniper.Progress;
 using Juniper.Serialization;
 
-namespace Juniper.Image.Consolidated
+namespace Juniper.Image
 {
     public class Factory : IFactory<ImageData>
     {

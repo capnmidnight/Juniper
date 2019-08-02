@@ -7,7 +7,7 @@ using Juniper.Serialization;
 
 namespace Juniper.Image.PNG
 {
-    public class Factory : IFactory<ImageData>
+    public class PngFactory : IFactory<ImageData>
     {
         public static ImageData Read(byte[] data, DataSource source = DataSource.None)
         {
@@ -68,7 +68,7 @@ namespace Juniper.Image.PNG
 
         public static ImageData Read(Stream stream)
         {
-            var source = ImageData.DetermineSource(stream);
+            var source = stream.DetermineSource();
             using (var mem = new MemoryStream())
             {
                 stream.CopyTo(mem);
@@ -93,7 +93,7 @@ namespace Juniper.Image.PNG
         /// <param name="imageStream">Png bytes.</param>
         public ImageData Deserialize(Stream imageStream)
         {
-            var source = ImageData.DetermineSource(imageStream);
+            var source = imageStream.DetermineSource();
             var png = new PngReader(imageStream);
             png.SetUnpackedMode(true);
             var rows = png.ReadRowsByte();

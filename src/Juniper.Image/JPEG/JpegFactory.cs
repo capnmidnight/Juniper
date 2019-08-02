@@ -7,7 +7,7 @@ using Juniper.Serialization;
 
 namespace Juniper.Image.JPEG
 {
-    public class Factory : IFactory<ImageData>
+    public class JpegFactory : IFactory<ImageData>
     {
         public static ImageData Read(byte[] data, DataSource source = DataSource.None)
         {
@@ -41,7 +41,7 @@ namespace Juniper.Image.JPEG
 
         public static ImageData Read(Stream stream)
         {
-            var source = ImageData.DetermineSource(stream);
+            var source = stream.DetermineSource();
             using (var mem = new MemoryStream())
             {
                 stream.CopyTo(mem);
@@ -66,7 +66,7 @@ namespace Juniper.Image.JPEG
         /// <param name="imageStream">Jpeg bytes.</param>
         public ImageData Deserialize(Stream imageStream)
         {
-            var source = ImageData.DetermineSource(imageStream);
+            var source = imageStream.DetermineSource();
             using (var jpeg = new JpegImage(imageStream))
             {
                 var stride = jpeg.Width * jpeg.ComponentsPerSample;
