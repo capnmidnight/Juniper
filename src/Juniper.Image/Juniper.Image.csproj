@@ -38,7 +38,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractFactory.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="JPEG\JpegFactory.cs" />
     <Compile Include="Markers.cs" />
