@@ -8,8 +8,8 @@ namespace Juniper.Google
     {
         private readonly bool signRequests;
 
-        protected AbstractGoogleRequest(AbstractEndpoint api, Uri baseServiceURI, IDeserializer<ResultType> deserializer, string path, bool signRequests)
-            : base(api, baseServiceURI, deserializer, path)
+        protected AbstractGoogleRequest(AbstractEndpoint api, Uri baseServiceURI, IDeserializer<ResultType> deserializer, string path, string cacheSubDirectoryName, bool signRequests)
+            : base(api, baseServiceURI, deserializer, path, cacheSubDirectoryName)
         {
             this.signRequests = signRequests;
         }

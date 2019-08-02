@@ -13,17 +13,18 @@ namespace Juniper.HTTP.REST
     {
         private readonly Dictionary<string, List<string>> queryParams = new Dictionary<string, List<string>>();
         private readonly UriBuilder uriBuilder;
+        private readonly string cacheSubDirectoryName;
         private string acceptType;
         private string extension;
-        protected string cacheLocString;
         protected IDeserializer<ResponseType> deserializer;
 
-        protected AbstractSingleRequest(AbstractEndpoint api, Uri baseServiceURI, IDeserializer<ResponseType> deserializer, string path)
+        protected AbstractSingleRequest(AbstractEndpoint api, Uri baseServiceURI, IDeserializer<ResponseType> deserializer, string path, string cacheSubDirectoryName)
             : base(api)
         {
             uriBuilder = new UriBuilder(baseServiceURI);
             uriBuilder.Path += path;
             this.deserializer = deserializer;
+            this.cacheSubDirectoryName = cacheSubDirectoryName;
         }
 
         protected void SetContentType(string acceptType, string extension)
@@ -107,7 +108,7 @@ namespace Juniper.HTTP.REST
                 var cacheID = string.Join("_", BaseURI.Query
                                 .Substring(1)
                                 .Split(Path.GetInvalidFileNameChars()));
-                var path = Path.Combine(api.cacheLocation.FullName, cacheLocString, cacheID);
+                var path = Path.Combine(api.cacheLocation.FullName, cacheSubDirectoryName, cacheID);
                 if (!extension.StartsWith("."))
                 {
                     path += ".";

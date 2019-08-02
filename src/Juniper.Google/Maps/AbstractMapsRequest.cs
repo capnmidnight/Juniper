@@ -9,7 +9,7 @@ namespace Juniper.Google.Maps
     {
         private static readonly Uri baseServiceURI = new Uri("https://maps.googleapis.com/maps/api/");
 
-        protected AbstractMapsRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path, bool signRequests)
-            : base(api, baseServiceURI, deserializer, path, signRequests) { }
+        protected AbstractMapsRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path, string cacheSubDirectoryName, bool signRequests)
+            : base(api, baseServiceURI, deserializer, path, cacheSubDirectoryName, signRequests) { }
     }
 }

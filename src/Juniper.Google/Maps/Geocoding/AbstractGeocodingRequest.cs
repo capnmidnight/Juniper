@@ -7,9 +7,8 @@ namespace Juniper.Google.Maps.Geocoding
     public abstract class AbstractGeocodingRequest : AbstractMapsRequest<GeocodingResponse>
     {
         protected AbstractGeocodingRequest(AbstractEndpoint api)
-            : base(api, new JsonFactory().Specialize<GeocodingResponse>(), "geocode/json", false)
+            : base(api, new JsonFactory().Specialize<GeocodingResponse>(), "geocode/json", "geocoding", false)
         {
-            cacheLocString = "geocoding";
             SetContentType("application/json", "json");
         }
 

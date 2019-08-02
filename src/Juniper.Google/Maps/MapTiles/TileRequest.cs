@@ -35,9 +35,8 @@ namespace Juniper.Google.Maps.MapTiles
         private MapImageType maptype;
 
         private TileRequest(AbstractEndpoint api, string center, int zoom, Size size, ImageFormat format)
-            : base(api, new Image.Factory(format), "staticmap", true)
+            : base(api, new Factory(format), "staticmap", "tiles", true)
         {
-            cacheLocString = "tiles";
             SetQuery(nameof(center), center);
             SetQuery(nameof(zoom), zoom);
             SetQuery(nameof(size), size);

@@ -13,9 +13,8 @@ namespace Juniper.Google.Maps.TimeZone
         private DateTime timestamp;
 
         public TimeZoneRequest(AbstractEndpoint api, LatLngPoint location, DateTime timestamp)
-            : base(api, new JsonFactory().Specialize<TimeZoneResponse>(), "timezone/json", false)
+            : base(api, new JsonFactory().Specialize<TimeZoneResponse>(), "timezone/json", "timezones", false)
         {
-            cacheLocString = "timezones";
             Location = location;
             Timestamp = timestamp;
         }

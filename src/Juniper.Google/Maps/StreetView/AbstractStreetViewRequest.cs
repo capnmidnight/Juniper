@@ -1,3 +1,4 @@
+using System.IO;
 using Juniper.HTTP.REST;
 using Juniper.Serialization;
 using Juniper.World.GIS;
@@ -11,7 +12,7 @@ namespace Juniper.Google.Maps.StreetView
         private LatLngPoint location;
 
         protected AbstractStreetViewRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path)
-            : base(api, deserializer, path, true)
+            : base(api, deserializer, path, "streetview", true)
         {
         }
 
@@ -38,7 +39,6 @@ namespace Juniper.Google.Maps.StreetView
             placeName = default;
             this.location = default;
             pano = location;
-            cacheLocString = $"pano={location}";
             SetQuery(nameof(pano), (string)location);
         }
 
@@ -47,7 +47,6 @@ namespace Juniper.Google.Maps.StreetView
             placeName = location;
             this.location = default;
             pano = default;
-            cacheLocString = $"address={location}";
             SetQuery(nameof(location), (string)location);
         }
 
@@ -56,7 +55,6 @@ namespace Juniper.Google.Maps.StreetView
             placeName = default;
             this.location = location;
             pano = default;
-            cacheLocString = $"latlng={location}";
             SetQuery(nameof(location), (string)location);
         }
     }
