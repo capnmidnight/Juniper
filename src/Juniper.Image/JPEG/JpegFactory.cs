@@ -30,8 +30,8 @@ namespace Juniper.Image.JPEG
 
                     return new ImageData(
                         source,
-                        ImageFormat.JPEG,
-                        width, height, 3,
+                        width,
+                        height, 3, ImageFormat.JPEG,
                         data);
                 }
             }
@@ -81,10 +81,10 @@ namespace Juniper.Image.JPEG
 
                 return new ImageData(
                     source,
-                    ImageFormat.JPEG,
                     jpeg.Width,
                     jpeg.Height,
                     jpeg.ComponentsPerSample,
+                    ImageFormat.JPEG,
                     data);
             }
         }

@@ -173,7 +173,8 @@ namespace System.Net
             Uri uri,
             Func<Stream, T> decode,
             string cacheFileName = null,
-            Action<HttpWebRequest> modifyRequest = null)
+            Action<HttpWebRequest> modifyRequest = null,
+            IProgress prog = null)
         {
             FileInfo cacheFile = null;
             if (!string.IsNullOrEmpty(cacheFileName))
@@ -181,7 +182,7 @@ namespace System.Net
                 cacheFile = new FileInfo(cacheFileName);
             }
 
-            return CachedGet(uri, decode, cacheFile, modifyRequest);
+            return CachedGet(uri, decode, cacheFile, modifyRequest, prog);
         }
 
         public static Task<T> CachedPost<T>(
@@ -203,9 +204,10 @@ namespace System.Net
             Uri uri,
             Func<Stream, T> decode,
             FileInfo cacheFile,
-            Action<HttpWebRequest> modifyRequest = null)
+            Action<HttpWebRequest> modifyRequest = null,
+            IProgress prog = null)
         {
-            return Task.Run(() => CachedGetAsync(uri, decode, cacheFile, modifyRequest));
+            return Task.Run(() => CachedGetAsync(uri, decode, cacheFile, modifyRequest, prog));
         }
 
         public static Task<T> CachedPost<T>(
@@ -251,8 +253,14 @@ namespace System.Net
             {
                 if (cacheFile?.Exists == false)
                 {
-                    body = new ProgressStream(new CachingStream(body, cacheFile), length, prog);
+                    body = new CachingStream(body, cacheFile);
                 }
+                else
+                {
+                    body = new ErsatzSeekableStream(body);
+                }
+
+                body = new ProgressStream(body, length, prog);
 
                 using (body)
                 {

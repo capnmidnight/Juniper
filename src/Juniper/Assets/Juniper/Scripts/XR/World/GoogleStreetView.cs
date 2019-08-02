@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
@@ -34,7 +35,6 @@ namespace Juniper.Images
         public bool useMipMap = true;
 
         private Material skyboxMaterial;
-        private Material newMaterial;
 
         private Endpoint gmaps;
 
@@ -57,6 +57,9 @@ namespace Juniper.Images
         private GPSLocation gps;
 
         private bool locked;
+
+        private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
+        private readonly Dictionary<string, Texture2D> textureCache = new Dictionary<string, Texture2D>();
 
 #if UNITY_EDITOR
 
@@ -97,7 +100,7 @@ namespace Juniper.Images
             var lines = File.ReadAllLines(keyFile);
             var apiKey = lines[0];
             var signingKey = lines[1];
-            gmaps = new Endpoint(apiKey, signingKey, cacheDir);
+            gmaps = new Endpoint(apiKey, signingKey);
         }
 
         public override void Enter(IProgress prog = null)
@@ -156,9 +159,19 @@ namespace Juniper.Images
 
                 if (metadataRequest != null)
                 {
-                    var metadataTask = metadataRequest.Get();
-                    yield return new WaitForTask(metadataTask);
-                    var metadata = metadataTask.Result;
+                    MetadataResponse metadata;
+                    if (metadataCache.ContainsKey(metadataRequest.CacheID))
+                    {
+                        metadata = metadataCache[metadataRequest.CacheID];
+                    }
+                    else
+                    {
+                        var metadataTask = metadataRequest.Get();
+                        yield return new WaitForTask(metadataTask);
+                        metadata = metadataTask.Result;
+                        metadataCache.Add(metadataRequest.CacheID, metadata);
+                    }
+
                     if (metadata.status != HttpStatusCode.OK)
                     {
                         print("no metadata");
@@ -168,46 +181,46 @@ namespace Juniper.Images
                         SetLatLngLocation(metadata.location);
                         pano = metadata.pano_id;
                         lastLocation = Location;
-                        newMaterial = null;
 
                         var imageRequest = new CrossCubeMapRequest(gmaps, pano, 1024, 1024);
-                        var imageTask = imageRequest.GetJPEG(prog);
-                        yield return new WaitForTask(imageTask);
-                        var image = imageTask.Result;
 
-                        var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
-                        if (image.format == Image.ImageFormat.None)
+                        if (textureCache.ContainsKey(imageRequest.CacheID))
                         {
-                            texture.LoadRawTextureData(image.data);
+                            print("got from memory");
+                            SetSkyboxTexture(textureCache[imageRequest.CacheID]);
                         }
-                        else if (image.format != Image.ImageFormat.Unsupported)
+                        else
                         {
-                            texture.LoadImage(image.data);
+                            var imageTask = imageRequest.GetJPEG(prog);
+                            yield return new WaitForTask(imageTask);
+                            var image = imageTask.Result;
+
+                            print($"got from {image.source}");
+
+                            var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
+                            if (image.format == Image.ImageFormat.None)
+                            {
+                                texture.LoadRawTextureData(image.data);
+                            }
+                            else if (image.format != Image.ImageFormat.Unsupported)
+                            {
+                                texture.LoadImage(image.data);
+                            }
+
+                            yield return null;
+
+                            texture.Compress(true);
+
+                            yield return null;
+
+                            texture.Apply(false, true);
+
+                            yield return null;
+
+                            textureCache.Add(imageRequest.CacheID, texture);
+
+                            SetSkyboxTexture(texture);
                         }
-
-                        yield return null;
-
-                        texture.Compress(true);
-
-                        yield return null;
-
-                        texture.Apply(false, true);
-
-                        yield return null;
-
-                        newMaterial = new Material(Shader.Find("Skybox/Panoramic"));
-                        newMaterial.DisableKeyword(LAT_LON);
-                        newMaterial.EnableKeyword(SIDES_6);
-
-                        newMaterial.SetInt("_Mapping", 0);
-                        newMaterial.SetInt("_ImageType", 0);
-                        newMaterial.SetInt("_MirrorOnBack", 0);
-                        newMaterial.SetInt("_Layout", 0);
-                        newMaterial.SetTexture("_MainTex", texture);
-
-                        RenderSettings.skybox = newMaterial;
-                        DestroyImmediate(skyboxMaterial);
-                        skyboxMaterial = newMaterial;
                     }
 
                     locked = false;
@@ -218,6 +231,24 @@ namespace Juniper.Images
                     }
                 }
             }
+        }
+
+        private void SetSkyboxTexture(Texture value)
+        {
+            if (skyboxMaterial == null)
+            {
+                skyboxMaterial = new Material(Shader.Find("Skybox/Panoramic"));
+                skyboxMaterial.DisableKeyword(LAT_LON);
+                skyboxMaterial.EnableKeyword(SIDES_6);
+
+                skyboxMaterial.SetInt("_Mapping", 0);
+                skyboxMaterial.SetInt("_ImageType", 0);
+                skyboxMaterial.SetInt("_MirrorOnBack", 0);
+                skyboxMaterial.SetInt("_Layout", 0);
+                RenderSettings.skybox = skyboxMaterial;
+            }
+
+            skyboxMaterial.SetTexture("_MainTex", value);
         }
 
         private void UpdateSkyBox()

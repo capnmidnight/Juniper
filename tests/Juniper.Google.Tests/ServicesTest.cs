@@ -8,6 +8,7 @@ namespace Juniper.Google.Maps.Tests
     public abstract class ServicesTests
     {
         protected Endpoint service;
+        protected Endpoint noCacheService;
         protected DirectoryInfo cacheDir;
 
         [TestInitialize]
@@ -21,6 +22,7 @@ namespace Juniper.Google.Maps.Tests
             var apiKey = lines[0];
             var signingKey = lines[1];
             service = new Endpoint(apiKey, signingKey, cacheDir);
+            noCacheService = new Endpoint(apiKey, signingKey);
         }
     }
 }

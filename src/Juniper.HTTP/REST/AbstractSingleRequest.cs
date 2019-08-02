@@ -97,7 +97,15 @@ namespace Juniper.HTTP.REST
         {
             get
             {
-                return new FileInfo(CacheFileName);
+                var fileName = CacheFileName;
+                if (fileName == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return new FileInfo(fileName);
+                }
             }
         }
 
@@ -105,16 +113,31 @@ namespace Juniper.HTTP.REST
         {
             get
             {
-                var cacheID = string.Join("_", BaseURI.Query
-                                .Substring(1)
-                                .Split(Path.GetInvalidFileNameChars()));
-                var path = Path.Combine(api.cacheLocation.FullName, cacheSubDirectoryName, cacheID);
-                if (!extension.StartsWith("."))
+                if (api.cacheLocation == null)
                 {
-                    path += ".";
+                    return null;
                 }
-                path += extension;
-                return path;
+                else
+                {
+                    var path = Path.Combine(api.cacheLocation.FullName, CacheID);
+                    if (!extension.StartsWith("."))
+                    {
+                        path += ".";
+                    }
+                    path += extension;
+                    return path;
+                }
+            }
+        }
+
+        public string CacheID
+        {
+            get
+            {
+                var id = string.Join("_", BaseURI.Query
+                    .Substring(1)
+                    .Split(Path.GetInvalidFileNameChars()));
+                return Path.Combine(cacheSubDirectoryName, id);
             }
         }
 
@@ -134,7 +157,7 @@ namespace Juniper.HTTP.REST
         {
             get
             {
-                return CacheFile.Exists;
+                return CacheFile?.Exists == true;
             }
         }
 
@@ -145,9 +168,7 @@ namespace Juniper.HTTP.REST
 
         private Task<T> Get<T>(Func<Stream, T> decoder, IProgress prog)
         {
-            var uri = AuthenticatedURI;
-            var file = CacheFile;
-            return Task.Run(() => HttpWebRequestExt.CachedGet(uri, decoder, file, SetAcceptType));
+            return Task.Run(() => HttpWebRequestExt.CachedGet(AuthenticatedURI, decoder, CacheFile, SetAcceptType, prog));
         }
 
         public override Task<ResponseType> Get(IProgress prog = null)
@@ -162,9 +183,7 @@ namespace Juniper.HTTP.REST
 
         private Task<T> Post<T>(Func<Stream, T> decoder)
         {
-            var uri = AuthenticatedURI;
-            var file = CacheFile;
-            return Task.Run(() => HttpWebRequestExt.CachedPost(uri, decoder, file, SetAcceptType));
+            return Task.Run(() => HttpWebRequestExt.CachedPost(AuthenticatedURI, decoder, CacheFile, SetAcceptType));
         }
 
         public override Task<ResponseType> Post()

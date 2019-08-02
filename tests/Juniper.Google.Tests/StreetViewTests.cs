@@ -63,6 +63,16 @@ namespace Juniper.Google.Maps.StreetView.Tests
         }
 
         [TestMethod]
+        public async Task GetImageWithoutCaching()
+        {
+            var imageRequest = new ImageRequest(noCacheService, (PlaceName)"Alexandria, VA", 640, 640);
+            var image = await imageRequest.Get();
+            Assert.IsFalse(imageRequest.IsCached);
+            Assert.AreEqual(640, image.dimensions.width);
+            Assert.AreEqual(640, image.dimensions.height);
+        }
+
+        [TestMethod]
         public async Task GetCubeMap()
         {
             var cubeMapRequest = new CubeMapRequest(service, (PlaceName)"Washington, DC", 640, 640);

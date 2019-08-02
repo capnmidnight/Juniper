@@ -56,27 +56,32 @@ namespace Juniper.Image
         public readonly int bytesPerSample;
         public readonly int bitsPerSample;
 
-        public ImageData(DataSource source, ImageFormat format, Size dimensions, int components, byte[] data)
+        public ImageData(DataSource source, Size size, int components, ImageFormat format, byte[] data)
         {
             this.source = source;
             this.format = format;
-            this.dimensions = dimensions;
             this.data = data;
             this.components = components;
+            dimensions = size;
             contentType = GetContentType(format);
             extension = GetExtension(format);
-            stride = dimensions.width * components;
+            stride = size.width * components;
             bytesPerSample = BytesPerComponent * components;
             bitsPerSample = 8 * bytesPerSample;
         }
 
-        public ImageData(DataSource source, ImageFormat format, int width, int height, int components, byte[] data)
-            : this(source, format, new Size(width, height), components, data)
+        public ImageData(DataSource source, int width, int height, int components, ImageFormat format, byte[] data)
+            : this(source, new Size(width, height), components, format, data)
         {
         }
 
-        public ImageData(int width, int height, int components)
-            : this(DataSource.None, ImageFormat.None, width, height, components, new byte[height * width * components])
+        public ImageData(DataSource source, Size size, int components)
+            : this(source, size, components, ImageFormat.None, new byte[size.height * size.width * components])
+        {
+        }
+
+        public ImageData(DataSource source, int width, int height, int components)
+            : this(source, new Size(width, height), components)
         {
         }
 
@@ -126,6 +131,7 @@ namespace Juniper.Image
             }
 
             var combined = new ImageData(
+                firstImage.source,
                 columns * firstImage.dimensions.width,
                 rows * firstImage.dimensions.height,
                 firstImage.components);
@@ -176,9 +182,9 @@ namespace Juniper.Image
         private ImageData Squarify()
         {
             var resized = new ImageData(
-                            dimensions.height,
-                            dimensions.height,
-                            components);
+                source,
+                dimensions,
+                components);
 
             for (int y = 0; y < resized.dimensions.height; ++y)
             {
@@ -193,7 +199,7 @@ namespace Juniper.Image
 
         public object Clone()
         {
-            return new ImageData(source, format, dimensions, components, (byte[])data.Clone());
+            return new ImageData(source, dimensions, components, format, (byte[])data.Clone());
         }
 
         private void RGB2HSV(int index, out float h, out float s, out float v)

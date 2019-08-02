@@ -55,6 +55,10 @@
       <Project>{f951a2e5-078a-413d-966d-c3f4ae5edcab}</Project>
       <Name>Juniper.Image</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Juniper.Progress\Juniper.Progress.csproj">
+      <Project>{E8C5E33F-9C4E-4B70-8EFE-974946E59A48}</Project>
+      <Name>Juniper.Progress</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Serialization\Juniper.Serialization.csproj">
       <Project>{9d6f67cc-8eac-4644-9e20-c18c9d3e58cc}</Project>
       <Name>Juniper.Serialization</Name>

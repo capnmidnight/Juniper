@@ -54,8 +54,8 @@ namespace Juniper.Image.PNG
 
                     return new ImageData(
                         source,
-                        ImageFormat.PNG,
-                        width, height, components,
+                        width,
+                        height, components, ImageFormat.PNG,
                         data);
                 }
 
@@ -108,10 +108,10 @@ namespace Juniper.Image.PNG
 
             return new ImageData(
                 source,
-                ImageFormat.PNG,
                 rows.elementsPerRow / rows.channels,
                 numRows,
                 rows.channels,
+                ImageFormat.PNG,
                 data);
         }
 

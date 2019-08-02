@@ -82,14 +82,20 @@ namespace Juniper.Google.Maps.StreetView
 
         private async Task<ImageData> GetJPEGImage(IProgress prog)
         {
-            var cacheFile = CacheFile;
-
-            if (!IsCached)
+            if (IsCached)
             {
-                await GetImage(prog);
+                return Image.JPEG.JpegFactory.Read(CacheFile.FullName);
             }
-
-            return Image.JPEG.JpegFactory.Read(cacheFile.FullName);
+            else
+            {
+                var image = await GetImage(prog);
+                return new ImageData(
+                    image.source,
+                    image.dimensions,
+                    image.components,
+                    ImageFormat.JPEG,
+                    factory.Serialize(image, prog));
+            }
         }
 
         public override Task<ImageData> Get(IProgress prog = null)
@@ -109,7 +115,10 @@ namespace Juniper.Google.Maps.StreetView
                 var progs = prog.Split(3);
                 var images = await subRequest.Get(progs[0]);
                 var combined = await ImageData.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5], progs[1]);
-                factory.Save(cacheFile, combined);
+                if (cacheFile != null)
+                {
+                    factory.Save(cacheFile, combined);
+                }
                 progs[2]?.Report(1);
                 return combined;
             }
