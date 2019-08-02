@@ -1,12 +1,12 @@
-using System;
-using System.Collections;
 
-using Juniper.Image;
+using System.Threading.Tasks;
+
 using Juniper.Data;
+using Juniper.Image;
+using Juniper.Image.JPEG;
+using Juniper.Image.PNG;
 
 using UnityEngine;
-using System.Threading.Tasks;
-using Juniper.Unity.Coroutines;
 
 namespace Juniper.Imaging
 {
@@ -41,7 +41,7 @@ namespace Juniper.Imaging
                 StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
                 "image/png"))
             {
-                var decoder = new Image.PNG.Factory();
+                var decoder = new PngFactory();
                 return decoder.Deserialize(imageFile.Content);
             }
         }
@@ -53,7 +53,7 @@ namespace Juniper.Imaging
                 StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
                 "image/jpeg"))
             {
-                var decoder = new Image.JPEG.Factory();
+                var decoder = new JpegFactory();
                 return decoder.Deserialize(imageFile.Content);
             }
         }

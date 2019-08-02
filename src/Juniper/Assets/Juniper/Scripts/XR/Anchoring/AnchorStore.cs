@@ -70,7 +70,7 @@ namespace Juniper.Anchoring
             return PlayerPrefs.HasKey(MakeID(name));
         }
 
-        private static Factory json = new Factory();
+        private static JsonFactory json = new JsonFactory();
 
         /// <summary>
         /// Saves a value to the data store.

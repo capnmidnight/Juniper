@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 
 using Juniper.Json;
+using Juniper.Serialization;
 using Juniper.Units;
 using Juniper.World.GIS;
 
@@ -133,7 +134,7 @@ namespace Juniper.World
             OnValidate();
         }
 
-        private Factory<LatLngPoint> coordFactory = new Factory<LatLngPoint>();
+        private IFactory<LatLngPoint> coordFactory = new JsonFactory().Specialize<LatLngPoint>();
 
         public void OnValidate()
         {
@@ -145,7 +146,7 @@ namespace Juniper.World
                 }
                 else if (PlayerPrefs.HasKey(COORD_KEY))
                 {
-                    Coord = coordFactory.Deserialize(PlayerPrefs.GetString(COORD_KEY));
+                    Coord = coordFactory.Parse(PlayerPrefs.GetString(COORD_KEY));
                 }
             }
         }
@@ -246,7 +247,7 @@ namespace Juniper.World
                 if (newLocation.timestamp > lastLocation.timestamp)
                 {
                     Coord = new LatLngPoint(newLocation.latitude, newLocation.longitude, newLocation.altitude);
-                    PlayerPrefs.SetString(COORD_KEY, coordFactory.Serialize(Coord));
+                    PlayerPrefs.SetString(COORD_KEY, coordFactory.ToString(Coord));
                     lastLocation = newLocation;
                     OnPositionUpdated();
                 }

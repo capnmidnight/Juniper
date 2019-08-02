@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+
 using Juniper.Progress;
 using Juniper.Serialization;
 
@@ -12,18 +13,17 @@ namespace Juniper.HTTP.REST
     {
         private readonly Dictionary<string, List<string>> queryParams = new Dictionary<string, List<string>>();
         private readonly UriBuilder uriBuilder;
-        private readonly string cacheLocString;
-        protected IDeserializer<ResponseType> deserializer;
         private string acceptType;
         private string extension;
+        protected string cacheLocString;
+        protected IDeserializer<ResponseType> deserializer;
 
-        protected AbstractSingleRequest(AbstractEndpoint api, Uri baseServiceURI, IDeserializer<ResponseType> deserializer, string path, string cacheLocString)
+        protected AbstractSingleRequest(AbstractEndpoint api, Uri baseServiceURI, IDeserializer<ResponseType> deserializer, string path)
             : base(api)
         {
             uriBuilder = new UriBuilder(baseServiceURI);
             uriBuilder.Path += path;
             this.deserializer = deserializer;
-            this.cacheLocString = cacheLocString;
         }
 
         protected void SetContentType(string acceptType, string extension)

@@ -23,7 +23,8 @@ namespace Juniper.Json
             using (var writer = new StreamWriter(stream))
             {
                 var text = Serialize(value);
-                writer.Write(new ProgressStream(stream, System.Text.Encoding.UTF8.GetByteCount(text), prog));
+                var length = System.Text.Encoding.UTF8.GetByteCount(text);
+                writer.Write(new ProgressStream(stream, length, prog));
             }
         }
 
@@ -32,36 +33,6 @@ namespace Juniper.Json
             using (var reader = new StreamReader(stream))
             {
                 return Deserialize<T>(reader.ReadToEnd());
-            }
-        }
-    }
-
-    public class Factory<T> : IFactory<T>
-    {
-        public string Serialize(T value)
-        {
-            return JsonConvert.SerializeObject(value);
-        }
-
-        public T Deserialize(string text)
-        {
-            return JsonConvert.DeserializeObject<T>(text);
-        }
-
-        public void Serialize(Stream stream, T value, IProgress prog = null)
-        {
-            using (var writer = new StreamWriter(stream))
-            {
-                var text = Serialize(value);
-                writer.Write(new ProgressStream(stream, System.Text.Encoding.UTF8.GetByteCount(text), prog));
-            }
-        }
-
-        public T Deserialize(Stream stream)
-        {
-            using (var reader = new StreamReader(stream))
-            {
-                return Deserialize(reader.ReadToEnd());
             }
         }
     }

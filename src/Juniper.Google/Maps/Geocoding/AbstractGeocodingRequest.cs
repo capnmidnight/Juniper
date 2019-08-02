@@ -1,12 +1,15 @@
 using Juniper.HTTP.REST;
+using Juniper.Json;
+using Juniper.Serialization;
 
 namespace Juniper.Google.Maps.Geocoding
 {
     public abstract class AbstractGeocodingRequest : AbstractMapsRequest<GeocodingResponse>
     {
         protected AbstractGeocodingRequest(AbstractEndpoint api)
-            : base(api, new Json.Factory<GeocodingResponse>(), "geocode/json", "geocoding", false)
+            : base(api, new JsonFactory().Specialize<GeocodingResponse>(), "geocode/json", false)
         {
+            cacheLocString = "geocoding";
             SetContentType("application/json", "json");
         }
 

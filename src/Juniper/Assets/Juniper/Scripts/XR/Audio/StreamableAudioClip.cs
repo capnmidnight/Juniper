@@ -18,60 +18,57 @@ namespace Juniper.Audio
         public IEnumerator Load(Action<AudioClip> resolve, Action<Exception> reject, IProgress prog = null)
         {
             var info = new FileInfo(LoadPath);
-            var ext = info.Extension.ToLowerInvariant();
-            string mime = null;
-            Func<Stream, RawAudio> decoder;
+            var ext = info.Extension.Substring(1).ToLowerInvariant();
 
-            if (ext == ".mp3")
+            var format = AudioFormat.Unsupported;
+            foreach (AudioFormat value in Enum.GetValues(typeof(AudioFormat)))
             {
-                mime = "audio/mpeg";
-                decoder = Decoder.DecodeMP3;
+                if (ext == AudioData.GetExtension(value))
+                {
+                    format = value;
+                }
             }
-            else if (ext == ".wav")
-            {
-                mime = "audio/wav";
-                decoder = Decoder.DecodeWAV;
-            }
-            else if (ext == ".ogg")
-            {
-                mime = "audio/ogg";
-                decoder = Decoder.DecodeVorbis;
-            }
-            else
+
+            if (format == AudioFormat.Unsupported)
             {
                 throw new InvalidOperationException($"{ext} is not a recognized audio format ({LoadPath}).");
             }
-
-            var audioTask = StreamingAssets.GetStream(
-                Application.temporaryCachePath,
-                LoadPath,
-                mime,
-                prog);
-
-            yield return new WaitForTask(audioTask);
-
-            var audio = decoder(audioTask.Result.Content);
-
-            try
+            else
             {
-                var clip = AudioClip.Create(
-                    info.Name,
-                    (int)audio.samples,
-                    audio.channels,
-                    audio.frequency,
-                    true,
-                    data => Decoder.FillBuffer(audio.stream, data));
+                var decoder = new Decoder(format);
+                string mime = AudioData.GetContentType(format);
 
-                clip.LoadAudioData();
-                prog?.Report(1);
-                resolve(clip);
-            }
+                var audioTask = StreamingAssets.GetStream(
+                    Application.temporaryCachePath,
+                    LoadPath,
+                    mime,
+                    prog);
+
+                yield return new WaitForTask(audioTask);
+
+                var audio = decoder.Deserialize(audioTask.Result.Content);
+
+                try
+                {
+                    var clip = AudioClip.Create(
+                        info.Name,
+                        (int)audio.samples,
+                        audio.channels,
+                        audio.frequency,
+                        true,
+                        data => AudioData.FillBuffer(audio.stream, data));
+
+                    clip.LoadAudioData();
+                    prog?.Report(1);
+                    resolve(clip);
+                }
 #pragma warning disable CA1031 // Do not catch general exception types
-            catch (Exception exp)
-            {
-                reject(exp);
-            }
+                catch (Exception exp)
+                {
+                    reject(exp);
+                }
 #pragma warning restore CA1031 // Do not catch general exception types
+            }
         }
     }
 }

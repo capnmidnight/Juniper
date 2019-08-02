@@ -1,15 +1,13 @@
 using System;
 using System.Collections;
+
 using Juniper.Climate;
+using Juniper.Json;
 using Juniper.Progress;
 using Juniper.Units;
-using Juniper;
-using Juniper.World.Climate;
 using Juniper.World.GIS;
-using Juniper.World;
+
 using UnityEngine;
-using Juniper.Json;
-using Juniper.Serialization;
 
 namespace Juniper.World.Climate
 {
@@ -144,7 +142,7 @@ namespace Juniper.World.Climate
                 {
                     lastReportJSON = PlayerPrefs.GetString(REPORT_KEY);
                 }
-                weatherService = new OpenWeatherMap.API(new Json.Factory(), OpenWeatherMapAPIKey.Value, lastReportJSON);
+                weatherService = new OpenWeatherMap.API(new JsonFactory(), OpenWeatherMapAPIKey.Value, lastReportJSON);
             }
 
             if (FakeWeather)

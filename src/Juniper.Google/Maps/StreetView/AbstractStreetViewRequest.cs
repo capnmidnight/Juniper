@@ -1,4 +1,3 @@
-using System.IO;
 using Juniper.HTTP.REST;
 using Juniper.Serialization;
 using Juniper.World.GIS;
@@ -11,27 +10,9 @@ namespace Juniper.Google.Maps.StreetView
         private PlaceName placeName;
         private LatLngPoint location;
 
-        private AbstractStreetViewRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path, string key)
-            : base(api, deserializer, path, Path.Combine("streetview", key), true)
+        protected AbstractStreetViewRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path)
+            : base(api, deserializer, path, true)
         {
-        }
-
-        protected AbstractStreetViewRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path, PanoID location)
-            : this(api, deserializer, path, $"pano={location}")
-        {
-            SetLocation(location);
-        }
-
-        protected AbstractStreetViewRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path, PlaceName location)
-            : this(api, deserializer, path, $"address={location}")
-        {
-            SetLocation(location);
-        }
-
-        protected AbstractStreetViewRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path, LatLngPoint location)
-            : this(api, deserializer, path, $"latlng={location}")
-        {
-            SetLocation(location);
         }
 
         public PanoID Pano
@@ -57,6 +38,7 @@ namespace Juniper.Google.Maps.StreetView
             placeName = default;
             this.location = default;
             pano = location;
+            cacheLocString = $"pano={location}";
             SetQuery(nameof(pano), (string)location);
         }
 
@@ -65,6 +47,7 @@ namespace Juniper.Google.Maps.StreetView
             placeName = location;
             this.location = default;
             pano = default;
+            cacheLocString = $"address={location}";
             SetQuery(nameof(location), (string)location);
         }
 
@@ -73,6 +56,7 @@ namespace Juniper.Google.Maps.StreetView
             placeName = default;
             this.location = location;
             pano = default;
+            cacheLocString = $"latlng={location}";
             SetQuery(nameof(location), (string)location);
         }
     }
