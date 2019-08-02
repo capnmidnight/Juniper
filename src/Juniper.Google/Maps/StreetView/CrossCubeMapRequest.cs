@@ -1,6 +1,6 @@
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.Progress;

@@ -118,6 +118,18 @@ namespace Juniper.HTTP.REST
             }
         }
 
+        public override int GetHashCode()
+        {
+            return CacheFileName.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj != null
+                && obj is AbstractSingleRequest<ResponseType> req
+                && req.CacheFileName == CacheFileName;
+        }
+
         public override bool IsCached
         {
             get
