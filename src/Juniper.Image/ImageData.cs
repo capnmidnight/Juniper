@@ -31,22 +31,6 @@ namespace Juniper.Image
             }
         }
 
-        private static int GetComponents(ImageFormat format, Size size, byte[] data)
-        {
-            if (format == ImageFormat.None)
-            {
-                return data.Length / (size.width * size.height);
-            }
-            else if (format == ImageFormat.JPEG)
-            {
-                return 3;
-            }
-            else
-            {
-                throw new ArgumentException($"Cannot determine the number of color components for the image format {format}.");
-            }
-        }
-
         public static int GetRowIndex(int numRows, int i, bool flipImage)
         {
             int rowIndex = i;
@@ -88,16 +72,6 @@ namespace Juniper.Image
 
         public ImageData(DataSource source, ImageFormat format, int width, int height, int components, byte[] data)
             : this(source, format, new Size(width, height), components, data)
-        {
-        }
-
-        public ImageData(DataSource source, ImageFormat format, Size dimensions, byte[] data)
-            : this(source, format, dimensions, GetComponents(format, dimensions, data), data)
-        {
-        }
-
-        public ImageData(DataSource source, ImageFormat format, int width, int height, byte[] data)
-            : this(source, format, new Size(width, height), data)
         {
         }
 
@@ -219,7 +193,7 @@ namespace Juniper.Image
 
         public object Clone()
         {
-            return new ImageData(source, format, dimensions, (byte[])data.Clone());
+            return new ImageData(source, format, dimensions, components, (byte[])data.Clone());
         }
 
         private void RGB2HSV(int index, out float h, out float s, out float v)

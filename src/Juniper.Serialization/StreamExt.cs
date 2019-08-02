@@ -16,6 +16,10 @@ namespace System.IO
             {
                 source = DataSource.Network;
             }
+            else if (imageStream is ProgressStream prog)
+            {
+                source = prog.stream.DetermineSource();
+            }
 
             return source;
         }

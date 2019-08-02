@@ -111,6 +111,7 @@ namespace Juniper.Image.PNG
                 ImageFormat.PNG,
                 rows.elementsPerRow / rows.channels,
                 numRows,
+                rows.channels,
                 data);
         }
 

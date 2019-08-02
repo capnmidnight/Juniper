@@ -84,6 +84,7 @@ namespace Juniper.Image.JPEG
                     ImageFormat.JPEG,
                     jpeg.Width,
                     jpeg.Height,
+                    jpeg.ComponentsPerSample,
                     data);
             }
         }

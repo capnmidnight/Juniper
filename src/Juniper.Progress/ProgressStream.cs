@@ -10,7 +10,7 @@ namespace Juniper.Progress
         /// <summary>
         /// The stream to wrap.
         /// </summary>
-        private readonly Stream stream;
+        public readonly Stream stream;
 
         /// <summary>
         /// The length of the stream being wrapped.
