@@ -1,5 +1,5 @@
-using Juniper.Progress;
 using Juniper.Serialization;
+using Juniper.Streams;
 
 namespace System.IO
 {
@@ -8,17 +8,13 @@ namespace System.IO
         public static DataSource DetermineSource(this Stream imageStream)
         {
             var source = DataSource.None;
-            if (imageStream is FileStream)
+            if (imageStream is IStreamWrapper wrapper)
+            {
+                source = wrapper.UnderlyingStream.DetermineSource();
+            }
+            else if (imageStream is FileStream)
             {
                 source = DataSource.File;
-            }
-            else if (imageStream is CachingStream)
-            {
-                source = DataSource.Network;
-            }
-            else if (imageStream is ProgressStream prog)
-            {
-                source = prog.stream.DetermineSource();
             }
 
             return source;

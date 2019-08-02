@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Juniper.Progress
+namespace Juniper.Streams
 {
     /// <summary>
     /// A stream that can cache contents out to a file.
     /// </summary>
-    public class CachingStream : Stream
+    public class CachingStream : Stream, IStreamWrapper
     {
         /// <summary>
         /// The stream to wrap.
@@ -38,6 +38,8 @@ namespace Juniper.Progress
             : this(stream, new FileInfo(fileName))
         {
         }
+
+        public Stream UnderlyingStream { get { return inStream; } }
 
         /// <summary>
         /// Reset the length of the stream. This will change the progress of

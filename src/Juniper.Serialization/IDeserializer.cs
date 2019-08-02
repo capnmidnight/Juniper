@@ -2,6 +2,7 @@ using System.IO;
 using System.Text;
 
 using Juniper.Progress;
+using Juniper.Streams;
 
 namespace Juniper.Serialization
 {

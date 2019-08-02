@@ -39,6 +39,8 @@
   <ItemGroup>
     <Compile Include="CachingStream.cs" />
     <Compile Include="ErsatzSeekableStream.cs" />
+    <Compile Include="IStreamWrapper.cs" />
+    <Compile Include="ProgressStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

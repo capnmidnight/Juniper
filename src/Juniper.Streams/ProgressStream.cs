@@ -1,11 +1,12 @@
 using System.IO;
+using Juniper.Progress;
 
-namespace Juniper.Progress
+namespace Juniper.Streams
 {
     /// <summary>
     /// A stream that can report progress on how much it has been consumed.
     /// </summary>
-    public class ProgressStream : Stream, IProgress
+    public class ProgressStream : Stream, IProgress, IStreamWrapper
     {
         /// <summary>
         /// The stream to wrap.
@@ -35,6 +36,8 @@ namespace Juniper.Progress
             this.length = length;
             TotalByteCount = 0;
         }
+
+        public Stream UnderlyingStream { get { return stream; } }
 
         /// <summary>
         /// Backing field for <see cref="TotalByteCount"/>.

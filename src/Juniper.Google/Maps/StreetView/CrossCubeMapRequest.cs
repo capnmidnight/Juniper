@@ -77,51 +77,47 @@ namespace Juniper.Google.Maps.StreetView
 
         public Task<ImageData> GetJPEG(IProgress prog = null)
         {
-            return Task.Run(() => GetJPEGImage(prog));
-        }
-
-        private async Task<ImageData> GetJPEGImage(IProgress prog)
-        {
-            if (IsCached)
+            return Task.Run(async () =>
             {
-                return Image.JPEG.JpegFactory.Read(CacheFile.FullName);
-            }
-            else
-            {
-                var image = await GetImage(prog);
-                return new ImageData(
-                    image.source,
-                    image.dimensions,
-                    image.components,
-                    ImageFormat.JPEG,
-                    factory.Serialize(image, prog));
-            }
+                if (IsCached)
+                {
+                    return Image.JPEG.JpegFactory.Read(CacheFile.FullName);
+                }
+                else
+                {
+                    var image = await Get(prog);
+                    return new ImageData(
+                        image.source,
+                        image.dimensions,
+                        image.components,
+                        ImageFormat.JPEG,
+                        factory.Serialize(image, prog));
+                }
+            });
         }
 
         public override Task<ImageData> Get(IProgress prog = null)
         {
-            return Task.Run(() => GetImage(prog));
-        }
-
-        private async Task<ImageData> GetImage(IProgress prog)
-        {
-            var cacheFile = CacheFile;
-            if (IsCached)
+            return Task.Run(async () =>
             {
-                return deserializer.Load(cacheFile, prog);
-            }
-            else
-            {
-                var progs = prog.Split(3);
-                var images = await subRequest.Get(progs[0]);
-                var combined = await ImageData.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5], progs[1]);
-                if (cacheFile != null)
+                var cacheFile = CacheFile;
+                if (IsCached)
                 {
-                    factory.Save(cacheFile, combined);
+                    return deserializer.Load(cacheFile, prog);
                 }
-                progs[2]?.Report(1);
-                return combined;
-            }
+                else
+                {
+                    var progs = prog.Split(3);
+                    var images = await subRequest.Get(progs[0]);
+                    var combined = await ImageData.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5], progs[1]);
+                    if (cacheFile != null)
+                    {
+                        factory.Save(cacheFile, combined);
+                    }
+                    progs[2]?.Report(1);
+                    return combined;
+                }
+            });
         }
     }
 }

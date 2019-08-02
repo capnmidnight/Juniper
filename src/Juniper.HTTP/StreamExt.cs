@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 using Juniper.HTTP;
 using Juniper.Progress;
+using Juniper.Streams;
 
 namespace System.IO
 {

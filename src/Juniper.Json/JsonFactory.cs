@@ -1,8 +1,10 @@
 using System.IO;
 
 using Json.Lite;
+
 using Juniper.Progress;
 using Juniper.Serialization;
+using Juniper.Streams;
 
 namespace Juniper.Json
 {

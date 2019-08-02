@@ -85,7 +85,7 @@ namespace Juniper.Image
         {
         }
 
-        private static ImageData CombineTiles(int columns, int rows, IProgress prog, params ImageData[] images)
+        private static ImageData Concatenate(int columns, int rows, IProgress prog, params ImageData[] images)
         {
             prog?.Report(0);
 
@@ -157,44 +157,21 @@ namespace Juniper.Image
             return combined;
         }
 
-        private static Task<ImageData> CombineTilesAsync(int columns, int rows, IProgress prog, params ImageData[] images)
-        {
-            return Task.Run(() => CombineTiles(columns, rows, prog, images));
-        }
-
         public static Task<ImageData> Combine6Squares(ImageData north, ImageData east, ImageData west, ImageData south, ImageData up, ImageData down)
         {
-            return CombineTilesAsync(
+            return Task.Run(() => Concatenate(
                 1, 6, null,
                 west, south, east,
-                down, up, north);
+                down, up, north));
         }
 
         public static Task<ImageData> CombineCross(ImageData north, ImageData east, ImageData west, ImageData south, ImageData down, ImageData up, IProgress prog = null)
         {
-            return CombineTilesAsync(
+            return Task.Run(() => Concatenate(
                 4, 3, prog,
                 null, up, null, null,
                 west, north, east, south,
-                null, down, null, null);
-        }
-
-        private ImageData Squarify()
-        {
-            var resized = new ImageData(
-                source,
-                dimensions,
-                components);
-
-            for (int y = 0; y < resized.dimensions.height; ++y)
-            {
-                for (int x = 0; x < resized.dimensions.width; ++x)
-                {
-                    HorizontalLerp(resized, x, y);
-                }
-            }
-
-            return resized;
+                null, down, null, null));
         }
 
         public object Clone()
@@ -279,15 +256,38 @@ namespace Juniper.Image
             data[index + 2] = (byte)((b + m) * 255f);
         }
 
+        private ImageData HorizontalSqueeze()
+        {
+            var resized = new ImageData(
+                source,
+                dimensions.height,
+                dimensions.height,
+                components);
+
+            for (int y = 0; y < resized.dimensions.height; ++y)
+            {
+                for (int x = 0; x < resized.dimensions.width; ++x)
+                {
+                    HorizontalLerp(resized, x, y);
+                }
+            }
+
+            return resized;
+        }
+
         private void HorizontalLerp(ImageData output, int outputX, int outputY)
         {
             float inputX = (float)outputX * dimensions.width / output.dimensions.width;
+            int inputY = outputY;
+
             int inputXA = (int)inputX;
-            int inputXB = (inputXA + 1) % dimensions.width;
-            int inputIA = outputY * stride + inputXA * components;
-            int inputIB = outputY * stride + inputXB * components;
+            int inputIA = inputY * stride + inputXA * components;
             RGB2HSV(inputIA, out var h1, out var s1, out var v1);
+
+            int inputXB = (int)(inputX + 1) % dimensions.width;
+            int inputIB = inputY * stride + inputXB * components;
             RGB2HSV(inputIB, out var h2, out var s2, out var v2);
+
             float p = 1 - inputX + inputXA;
             float q = 1 - inputXB + inputX;
             float h = h1 * p + h2 * q;
@@ -296,6 +296,64 @@ namespace Juniper.Image
 
             int outputIndex = outputY * output.stride + outputX * output.components;
             output.HSV2RGB(h, s, v, outputIndex);
+        }
+
+        private ImageData VerticalSqueeze()
+        {
+            var resized = new ImageData(
+                source,
+                dimensions.width,
+                dimensions.width,
+                components);
+
+            for (int y = 0; y < resized.dimensions.height; ++y)
+            {
+                for (int x = 0; x < resized.dimensions.width; ++x)
+                {
+                    VerticalLerp(resized, x, y);
+                }
+            }
+
+            return resized;
+        }
+
+        private void VerticalLerp(ImageData output, int outputX, int outputY)
+        {
+            int inputX = outputX;
+            float inputY = (float)outputY * dimensions.height / output.dimensions.height;
+
+            int inputYA = (int)inputY;
+            int inputIA = inputYA * stride + inputX * components;
+            RGB2HSV(inputIA, out var h1, out var s1, out var v1);
+
+            int inputYB = (int)(inputY + 1) % dimensions.height;
+            int inputIB = inputYB * stride + inputX * components;
+            RGB2HSV(inputIB, out var h2, out var s2, out var v2);
+
+            float p = 1 - inputY + inputYA;
+            float q = 1 - inputYB + inputY;
+            float h = h1 * p + h2 * q;
+            float s = s1 * p + s2 * q;
+            float v = v1 * p + v2 * q;
+
+            int outputIndex = outputY * output.stride + outputX * output.components;
+            output.HSV2RGB(h, s, v, outputIndex);
+        }
+
+        public ImageData Squarify()
+        {
+            if (dimensions.width < dimensions.height)
+            {
+                return VerticalSqueeze();
+            }
+            else if (dimensions.width > dimensions.height)
+            {
+                return HorizontalSqueeze();
+            }
+            else
+            {
+                return this.Copy();
+            }
         }
     }
 }

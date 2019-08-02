@@ -4,13 +4,13 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Juniper.Progress
+namespace Juniper.Streams
 {
     /// <summary>
     /// Wraps a non-seekable stream (like <see cref="System.Net.ConnectStream"/>) for use
     /// with poorly-designed libraries that expect seekable streams.
     /// </summary>
-    public class ErsatzSeekableStream : Stream
+    public class ErsatzSeekableStream : Stream, IStreamWrapper
     {
         /// <summary>
         /// The stream to wrap.
@@ -51,7 +51,6 @@ namespace Juniper.Progress
                     {
                         stream.CopyTo(ersatzStream);
                     }
-                    stream = null;
                     ersatzStream.Flush();
                     ersatzStream.Position = currentPosition;
                 }
@@ -60,11 +59,13 @@ namespace Juniper.Progress
             }
         }
 
+        public Stream UnderlyingStream { get { return stream; } }
+
         private Stream EitherStream
         {
             get
             {
-                return stream ?? ersatzStream;
+                return ersatzStream ?? stream;
             }
         }
 

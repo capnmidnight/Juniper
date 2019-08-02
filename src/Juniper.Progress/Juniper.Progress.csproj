@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="IInstallable.cs" />
     <Compile Include="IProgress.cs" />
-    <Compile Include="ProgressStream.cs" />
     <Compile Include="ProgressSubdivision.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

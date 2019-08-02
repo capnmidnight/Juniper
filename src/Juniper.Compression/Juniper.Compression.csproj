@@ -61,6 +61,10 @@
       <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
       <Name>Juniper.Progress</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Juniper.Streams\Juniper.Streams.csproj">
+      <Project>{134d77e1-78d5-4f9b-868f-7ea6e98cec08}</Project>
+      <Name>Juniper.Streams</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
