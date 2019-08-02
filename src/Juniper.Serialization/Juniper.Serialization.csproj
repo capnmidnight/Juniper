@@ -37,7 +37,6 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICloneableExt.cs" />
     <Compile Include="DataSource.cs" />
     <Compile Include="IDeserializer.cs" />
     <Compile Include="IFactory.cs" />

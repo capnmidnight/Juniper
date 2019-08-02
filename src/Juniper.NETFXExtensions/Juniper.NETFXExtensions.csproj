@@ -42,6 +42,7 @@
     <Compile Include="DateTimeExt.cs" />
     <Compile Include="ErrorHandler.cs" />
     <Compile Include="ExceptionExt.cs" />
+    <Compile Include="ICloneableExt.cs" />
     <Compile Include="Months.cs" />
     <Compile Include="NullableExt.cs" />
     <Compile Include="NumberExt.cs" />
