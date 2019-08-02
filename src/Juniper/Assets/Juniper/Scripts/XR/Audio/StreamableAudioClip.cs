@@ -59,7 +59,6 @@ namespace Juniper.Audio
                         data => AudioData.FillBuffer(audio.stream, data));
 
                     clip.LoadAudioData();
-                    prog?.Report(1);
                     resolve(clip);
                 }
 #pragma warning disable CA1031 // Do not catch general exception types

@@ -132,7 +132,6 @@ namespace Juniper
         /// </summary>
         protected void Complete()
         {
-            print($"{name} complete");
             state = Direction.Stopped;
         }
 
@@ -194,7 +193,6 @@ namespace Juniper
             progress = prog;
             if (IsExited)
             {
-                progress?.Report(0);
                 state = Direction.Forward;
                 enabled = true;
                 this.SetTreeActive(true);
@@ -231,7 +229,6 @@ namespace Juniper
         /// </summary>
         protected virtual void OnEntering()
         {
-            print($"{name} on entering");
             if (!skipEvents)
             {
                 onEntering?.Invoke();
@@ -268,12 +265,10 @@ namespace Juniper
         /// </summary>
         protected virtual void OnEntered()
         {
-            print($"on entered {name}");
             if (!skipEvents)
             {
                 onEntered?.Invoke();
                 Entered?.Invoke(this, EventArgs.Empty);
-                progress?.Report(1);
             }
         }
 

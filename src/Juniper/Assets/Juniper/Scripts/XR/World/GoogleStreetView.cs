@@ -100,7 +100,7 @@ namespace Juniper.Images
             var lines = File.ReadAllLines(keyFile);
             var apiKey = lines[0];
             var signingKey = lines[1];
-            gmaps = new Endpoint(apiKey, signingKey);
+            gmaps = new Endpoint(apiKey, signingKey, cacheDir);
         }
 
         public override void Enter(IProgress prog = null)
@@ -170,6 +170,11 @@ namespace Juniper.Images
                         yield return new WaitForTask(metadataTask);
                         metadata = metadataTask.Result;
                         metadataCache.Add(metadataRequest.CacheID, metadata);
+                    }
+
+                    if (fader.IsRunning)
+                    {
+                        yield return fader.Waiter;
                     }
 
                     if (metadata.status != HttpStatusCode.OK)

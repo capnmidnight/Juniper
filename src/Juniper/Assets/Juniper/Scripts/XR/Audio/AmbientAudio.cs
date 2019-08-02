@@ -1,8 +1,9 @@
 #if UNITY_MODULES_AUDIO
 
 using System;
+
 using Juniper.Progress;
-using Juniper;
+
 using UnityEngine;
 
 namespace Juniper.Audio
@@ -63,7 +64,6 @@ namespace Juniper.Audio
                 exp =>
                 {
                     ScreenDebugger.PrintException(exp, "AmbientAudio");
-                    prog?.Report(1);
                 },
                 prog));
         }

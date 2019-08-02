@@ -5,19 +5,22 @@ namespace System.IO
 {
     public static class StreamExt
     {
-        public static DataSource DetermineSource(this Stream imageStream)
+        public static DataSource DetermineSource(this Stream stream)
         {
-            var source = DataSource.None;
-            if (imageStream is IStreamWrapper wrapper)
+            if (stream is CachingStream)
             {
-                source = wrapper.UnderlyingStream.DetermineSource();
+                return DataSource.Network;
             }
-            else if (imageStream is FileStream)
+            else if (stream is IStreamWrapper wrapper)
             {
-                source = DataSource.File;
+                return wrapper.UnderlyingStream.DetermineSource();
+            }
+            else if (stream is FileStream)
+            {
+                return DataSource.File;
             }
 
-            return source;
+            return DataSource.None;
         }
     }
 }

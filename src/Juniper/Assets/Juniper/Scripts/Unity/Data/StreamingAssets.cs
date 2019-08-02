@@ -60,53 +60,45 @@ namespace Juniper.Data
         /// <returns>Progress tracking object</returns>
         public static async Task<Response> GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog = null)
         {
-            prog?.Report(0);
-            try
+            if (NetworkPathPattern.IsMatch(path))
             {
-                if (NetworkPathPattern.IsMatch(path))
+                var uri = new Uri(path);
+                var cachePath = Uri.EscapeUriString(Path.Combine(cacheDirectory, uri.PathAndQuery));
+                if (FileIsGood(cachePath, ttl))
                 {
-                    var uri = new Uri(path);
-                    var cachePath = Uri.EscapeUriString(Path.Combine(cacheDirectory, uri.PathAndQuery));
-                    if (FileIsGood(cachePath, ttl))
-                    {
-                        return new Response(mime, cachePath);
-                    }
-                    else
-                    {
-                        var requester = HttpWebRequestExt.Create(uri).Accept(mime);
-                        return new Response(await requester.Get());
-                    }
-                }
-#if UNITY_ANDROID
-                else if (AndroidJarPattern.IsMatch(path))
-                {
-                    var match = AndroidJarPattern.Match(path);
-                    var apk = match.Groups[1].Value;
-                    path = match.Groups[2].Value;
-                    var cachePath = Uri.EscapeUriString(Path.Combine(cacheDirectory, path));
-                    if (FileIsGood(cachePath, ttl))
-                    {
-                        return new Response(mime, cachePath);
-                    }
-                    else
-                    {
-                        var stream = Compression.Zip.Decompressor.GetFile(apk, path, prog);
-                        return new Response(mime, new CachingStream(stream, cachePath));
-                    }
-                }
-#endif
-                else if (File.Exists(path))
-                {
-                    return new Response(mime, path);
+                    return new Response(mime, cachePath);
                 }
                 else
                 {
-                    throw new FileNotFoundException("Could not find file " + path, path);
+                    var requester = HttpWebRequestExt.Create(uri).Accept(mime);
+                    return new Response(await requester.Get());
                 }
             }
-            finally
+#if UNITY_ANDROID
+            else if (AndroidJarPattern.IsMatch(path))
             {
-                prog?.Report(1);
+                var match = AndroidJarPattern.Match(path);
+                var apk = match.Groups[1].Value;
+                path = match.Groups[2].Value;
+                var cachePath = Uri.EscapeUriString(Path.Combine(cacheDirectory, path));
+                if (FileIsGood(cachePath, ttl))
+                {
+                    return new Response(mime, cachePath);
+                }
+                else
+                {
+                    var stream = Compression.Zip.Decompressor.GetFile(apk, path, prog);
+                    return new Response(mime, new CachingStream(stream, cachePath));
+                }
+            }
+#endif
+            else if (File.Exists(path))
+            {
+                return new Response(mime, path);
+            }
+            else
+            {
+                throw new FileNotFoundException("Could not find file " + path, path);
             }
         }
 

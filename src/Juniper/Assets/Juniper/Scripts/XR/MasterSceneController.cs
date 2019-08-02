@@ -252,7 +252,6 @@ namespace Juniper
 
             ComponentExt.FindAny<KeywordRecognizer>()?.RefreshKeywords();
 
-            loadingBar?.Report(1);
             yield return loadingBar?.Waiter;
             splash?.Deactivate();
             loadingBar?.Deactivate();
@@ -410,8 +409,6 @@ namespace Juniper
         /// </summary>
         private IEnumerator LoadAllScenesCoroutine(IProgress prog = null)
         {
-            prog?.Report(0);
-
             if (subSceneNames?.Length > 0)
             {
                 yield return new InterleavedEnumerator(
@@ -419,8 +416,6 @@ namespace Juniper
                     (subSceneName, p) =>
                         LoadScenePathCoroutine(subSceneName, p)));
             }
-
-            prog?.Report(1);
         }
 
         private void LoadFirstScene()
@@ -555,7 +550,6 @@ namespace Juniper
 
             if (IsScenePathLoaded(path))
             {
-                sceneLoadProg?.Report(1);
                 yield return sceneName + " already loaded.";
             }
             else
@@ -563,7 +557,6 @@ namespace Juniper
                 var op = LoadScene(path, sceneName);
                 if (op == null)
                 {
-                    sceneLoadProg?.Report(1);
                     yield return sceneName + " 100%";
                 }
                 else
