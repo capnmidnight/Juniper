@@ -16,17 +16,17 @@ namespace Juniper.HTTP.Tests
         [TestMethod]
         public async Task TestGetting()
         {
-            await RunFileTest(true, true, ImageSource.Network);
+            await RunFileTest(true, true, DataSource.Network);
         }
 
         [TestMethod]
         public async Task TestCaching()
         {
-            await RunFileTest(true, false, ImageSource.Network);
-            await RunFileTest(false, true, ImageSource.File);
+            await RunFileTest(true, false, DataSource.Network);
+            await RunFileTest(false, true, DataSource.File);
         }
 
-        private static async Task<ImageData> RunFileTest(bool deleteFile, bool runTest, ImageSource expectedSource)
+        private static async Task<ImageData> RunFileTest(bool deleteFile, bool runTest, DataSource expectedSource)
         {
             var decoder = new Image.JPEG.Factory();
             const string cacheFileName = "portrait.jpg";

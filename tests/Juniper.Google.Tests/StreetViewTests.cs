@@ -34,7 +34,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var rawImg = await imageRequest.Get();
             var png = new Image.PNG.Factory();
             var data = png.Serialize(rawImg);
-            var img = Image.PNG.Factory.Read(data, ImageSource.File);
+            var img = Image.PNG.Factory.Read(data, DataSource.File);
             Assert.AreEqual(2560, img.dimensions.width);
             Assert.AreEqual(1920, img.dimensions.height);
         }

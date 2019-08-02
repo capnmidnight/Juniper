@@ -4,15 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{706D2F39-A6BE-48CB-8442-AC0EAC207F2A}</ProjectGuid>
+    <ProjectGuid>{AE095312-16B4-4579-A9C8-941119CFECF7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Juniper.Audio</RootNamespace>
-    <AssemblyName>Juniper.Audio</AssemblyName>
+    <RootNamespace>Juniper.Audio.Vorbis</RootNamespace>
+    <AssemblyName>Juniper.Audio.Vorbis</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,7 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -38,42 +36,28 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioFormat.cs" />
-    <Compile Include="AbstractDecoder.cs" />
-    <Compile Include="MP3\Decoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AudioData.cs" />
-    <Compile Include="Vorbis\Decoder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NAudio">
-      <Version>1.9.0</Version>
-    </PackageReference>
-    <PackageReference Include="NAudio.Vorbis">
-      <Version>1.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="NLayer">
-      <Version>1.12.0</Version>
-    </PackageReference>
-    <PackageReference Include="NLayer.NAudioSupport">
-      <Version>1.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="NVorbis">
-      <Version>0.8.6</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Juniper.Audio\Juniper.Audio.csproj">
+      <Project>{706d2f39-a6be-48cb-8442-ac0eac207f2a}</Project>
+      <Name>Juniper.Audio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.NETFXExtensions\Juniper.NETFXExtensions.csproj">
       <Project>{71ce09ef-34ce-4970-a731-593c09a7efb9}</Project>
       <Name>Juniper.NETFXExtensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">
-      <Project>{E8C5E33F-9C4E-4B70-8EFE-974946E59A48}</Project>
+      <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
       <Name>Juniper.Progress</Name>
     </ProjectReference>
     <ProjectReference Include="..\Juniper.Serialization\Juniper.Serialization.csproj">
-      <Project>{9D6F67CC-8EAC-4644-9E20-C18C9D3E58CC}</Project>
+      <Project>{9d6f67cc-8eac-4644-9e20-c18c9d3e58cc}</Project>
       <Name>Juniper.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Streams\Juniper.Streams.csproj">
+      <Project>{134d77e1-78d5-4f9b-868f-7ea6e98cec08}</Project>
+      <Name>Juniper.Streams</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -9,7 +9,7 @@ namespace Juniper.Image.PNG
 {
     public class Factory : IFactory<ImageData>
     {
-        public static ImageData Read(byte[] data, ImageSource source = ImageSource.None)
+        public static ImageData Read(byte[] data, DataSource source = DataSource.None)
         {
             int width = 0,
                 height = 0;
@@ -79,7 +79,7 @@ namespace Juniper.Image.PNG
 
         public static ImageData Read(string fileName)
         {
-            return Read(File.ReadAllBytes(fileName), ImageSource.File);
+            return Read(File.ReadAllBytes(fileName), DataSource.File);
         }
 
         public static ImageData Read(FileInfo file)

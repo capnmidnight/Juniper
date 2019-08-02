@@ -1,27 +1,26 @@
 using System;
 using System.IO;
 
-using NAudio.Vorbis;
-using NAudio.Wave;
+using Juniper.Serialization;
 
-using NLayer.NAudioSupport;
+using NAudio.Wave;
 
 namespace Juniper.Audio
 {
     /// <summary>
     /// Decoders for a few types of audio files.
     /// </summary>
-    public static class Decoder
+    public abstract class AbstractDecoder : IDeserializer<AudioData>
     {
         /// <summary>
         /// Run the decoder and return the audio data with information.
         /// </summary>
         /// <param name="reader"></param>
-        private static RawAudio Decode(WaveStream reader)
+        protected static AudioData Decode(WaveStream reader)
         {
             var format = reader.WaveFormat;
             var bytesPerSample = format.Channels * format.BitsPerSample / 8;
-            return new RawAudio
+            return new AudioData
             {
                 stream = reader,
                 samples = reader.Length / bytesPerSample,
@@ -30,35 +29,12 @@ namespace Juniper.Audio
             };
         }
 
-        /// <summary>
-        /// Decodes MP3 files into a raw stream of PCM bytes.
-        /// </summary>
-        /// <param name="audioStream"></param>
-        /// <returns></returns>
-        public static RawAudio DecodeMP3(Stream audioStream)
+        public AudioData Deserialize(Stream stream)
         {
-            return Decode(new Mp3FileReader(audioStream, wf => new Mp3FrameDecompressor(wf)));
+            return Decode(MakeDecodingStream(stream));
         }
 
-        /// <summary>
-        /// Decodes WAV files into a raw stream of PCM bytes.
-        /// </summary>
-        /// <param name="audioStream"></param>
-        /// <returns></returns>
-        public static RawAudio DecodeWAV(Stream audioStream)
-        {
-            return Decode(new WaveFileReader(audioStream));
-        }
-
-        /// <summary>
-        /// Decodes OGG files into a raw stream of PCM bytes.
-        /// </summary>
-        /// <param name="audioStream"></param>
-        /// <returns></returns>
-        public static RawAudio DecodeVorbis(Stream audioStream)
-        {
-            return Decode(new VorbisWaveReader(audioStream));
-        }
+        protected abstract WaveStream MakeDecodingStream(Stream stream);
 
         /// <summary>
         /// Reads a stream and fills a PCM buffer with data.

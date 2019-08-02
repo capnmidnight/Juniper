@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 
 using Juniper.Progress;
+using Juniper.Serialization;
 
 namespace Juniper.Image
 {
@@ -11,16 +12,16 @@ namespace Juniper.Image
     /// </summary>
     public partial class ImageData : ICloneable
     {
-        public static ImageSource DetermineSource(Stream imageStream)
+        public static DataSource DetermineSource(Stream imageStream)
         {
-            var source = ImageSource.None;
+            var source = DataSource.None;
             if (imageStream is FileStream)
             {
-                source = ImageSource.File;
+                source = DataSource.File;
             }
             else if (imageStream is CachingStream)
             {
-                source = ImageSource.Network;
+                source = DataSource.Network;
             }
 
             return source;
@@ -76,7 +77,7 @@ namespace Juniper.Image
         public const int BytesPerComponent = sizeof(byte);
         public const int BitsPerComponent = 8 * BytesPerComponent;
 
-        public readonly ImageSource source;
+        public readonly DataSource source;
         public readonly ImageFormat format;
         public readonly string contentType;
         public readonly string extension;
@@ -87,7 +88,7 @@ namespace Juniper.Image
         public readonly int bytesPerSample;
         public readonly int bitsPerSample;
 
-        public ImageData(ImageSource source, ImageFormat format, Size dimensions, int components, byte[] data)
+        public ImageData(DataSource source, ImageFormat format, Size dimensions, int components, byte[] data)
         {
             this.source = source;
             this.format = format;
@@ -101,23 +102,23 @@ namespace Juniper.Image
             bitsPerSample = 8 * bytesPerSample;
         }
 
-        public ImageData(ImageSource source, ImageFormat format, int width, int height, int components, byte[] data)
+        public ImageData(DataSource source, ImageFormat format, int width, int height, int components, byte[] data)
             : this(source, format, new Size(width, height), components, data)
         {
         }
 
-        public ImageData(ImageSource source, ImageFormat format, Size dimensions, byte[] data)
+        public ImageData(DataSource source, ImageFormat format, Size dimensions, byte[] data)
             : this(source, format, dimensions, GetComponents(format, dimensions, data), data)
         {
         }
 
-        public ImageData(ImageSource source, ImageFormat format, int width, int height, byte[] data)
+        public ImageData(DataSource source, ImageFormat format, int width, int height, byte[] data)
             : this(source, format, new Size(width, height), data)
         {
         }
 
         public ImageData(int width, int height, int components)
-            : this(ImageSource.None, ImageFormat.None, width, height, components, new byte[height * width * components])
+            : this(DataSource.None, ImageFormat.None, width, height, components, new byte[height * width * components])
         {
         }
 

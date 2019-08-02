@@ -6,7 +6,7 @@ namespace Juniper.Audio
     /// <summary>
     /// The raw bytes and dimensions of an audio file that has been loaded either off disk or across the 'net.
     /// </summary>
-    public struct RawAudio : IDisposable
+    public struct AudioData : IDisposable
     {
         public Stream stream;
         public long samples;
@@ -16,7 +16,7 @@ namespace Juniper.Audio
         public override bool Equals(object obj)
         {
             return obj != null
-                && obj is RawAudio aud
+                && obj is AudioData aud
                 && aud.stream.Equals(stream)
                 && aud.samples.Equals(samples)
                 && aud.channels.Equals(channels)
@@ -31,12 +31,12 @@ namespace Juniper.Audio
                 ^ frequency.GetHashCode();
         }
 
-        public static bool operator ==(RawAudio left, RawAudio right)
+        public static bool operator ==(AudioData left, AudioData right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(RawAudio left, RawAudio right)
+        public static bool operator !=(AudioData left, AudioData right)
         {
             return !(left == right);
         }

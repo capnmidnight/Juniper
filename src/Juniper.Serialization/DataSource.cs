@@ -1,6 +1,6 @@
-namespace Juniper.Image
+namespace Juniper.Serialization
 {
-    public enum ImageSource
+    public enum DataSource
     {
         None,
         File,

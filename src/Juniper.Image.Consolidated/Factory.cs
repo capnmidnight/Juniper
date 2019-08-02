@@ -7,7 +7,7 @@ namespace Juniper.Image.Consolidated
 {
     public class Factory : IFactory<ImageData>
     {
-        public static ImageData Read(ImageFormat format, byte[] data, ImageSource source = ImageSource.None)
+        public static ImageData Read(ImageFormat format, byte[] data, DataSource source = DataSource.None)
         {
             if (format == ImageFormat.JPEG)
             {
@@ -36,7 +36,7 @@ namespace Juniper.Image.Consolidated
 
         public static ImageData Read(ImageFormat format, string fileName)
         {
-            return Read(format, File.ReadAllBytes(fileName), ImageSource.File);
+            return Read(format, File.ReadAllBytes(fileName), DataSource.File);
         }
 
         public static ImageData Read(ImageFormat format, FileInfo file)
