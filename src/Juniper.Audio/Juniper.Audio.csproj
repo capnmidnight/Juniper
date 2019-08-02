@@ -40,10 +40,12 @@
   <ItemGroup>
     <Compile Include="AudioFormat.cs" />
     <Compile Include="AbstractDecoder.cs" />
-    <Compile Include="MP3\Decoder.cs" />
+    <Compile Include="Decoder.cs" />
+    <Compile Include="MP3\Mp3Decoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AudioData.cs" />
-    <Compile Include="Vorbis\Decoder.cs" />
+    <Compile Include="Vorbis\VorbisDecoder.cs" />
+    <Compile Include="WAV\WavDecoder.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NAudio">

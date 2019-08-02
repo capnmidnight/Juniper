@@ -5,8 +5,11 @@ using NAudio.Wave;
 
 namespace Juniper.Audio.Vorbis
 {
-    public class Decoder : AbstractDecoder
+    public class VorbisDecoder : AbstractDecoder
     {
+        public VorbisDecoder()
+            : base(AudioFormat.Vorbis) { }
+
         /// <summary>
         /// Decodes OGG files into a raw stream of PCM bytes.
         /// </summary>
