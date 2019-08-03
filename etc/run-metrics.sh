@@ -1,8 +1,12 @@
 scc \
 -c -i="cs,shader" \
 --exclude-dir="\
+..\\docs,\
+..\\etc,\
+..\\examples,\
 ..\\src\\accord-net-extensions,\
 ..\\src\\Hjg.Pngcs,\
+..\\src\\Json.Net.Unity3D,\
 ..\\src\\packages,\
 ..\\src\\TestResults,\
 ..\\src\\Juniper\\Library,\
@@ -22,4 +26,4 @@ scc \
 ..\\src\\Juniper\\Assets\\WaveVR,\
 ..\\src\\Juniper\\Assets\\Juniper\\Plugins,\
 ..\\src\\Juniper\\Assets\\Juniper\\ThirdParty"\
-    --avg-wage 150000 ../src/
+    --avg-wage 150000 ../
