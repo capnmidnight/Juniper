@@ -54,7 +54,7 @@ namespace Juniper.UnityAssetStore
 
         public void CopyTo(string[] array, int arrayIndex)
         {
-            for (int i = 0; i < flags.Count; ++i)
+            for (var i = 0; i < flags.Count; ++i)
             {
                 array[arrayIndex + i] = flags[i];
             }

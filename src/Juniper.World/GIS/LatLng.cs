@@ -47,35 +47,35 @@ namespace Juniper.Units
                     ? UTMPoint.GlobeHemisphere.Southern
                     : UTMPoint.GlobeHemisphere.Northern;
 
-            double k0 = 0.9996;
+            var k0 = 0.9996;
 
             double phi = Degrees.Radians(latlng.Latitude);
-            double sinPhi = Math.Sin(phi);
-            double cosPhi = Math.Cos(phi);
-            double sin2Phi = 2 * sinPhi * cosPhi;
-            double cos2Phi = 2 * cosPhi * cosPhi - 1;
-            double sin4Phi = 2 * sin2Phi * cos2Phi;
-            double cos4Phi = 2 * cos2Phi * cos2Phi - 1;
-            double sin6Phi = sin4Phi * cos2Phi + cos4Phi * sin2Phi;
-            double tanPhi = sinPhi / cosPhi;
-            double ePhi = DatumWGS_84.e * sinPhi;
-            double N = DatumWGS_84.equatorialRadius / Math.Sqrt(1 - ePhi * ePhi);
+            var sinPhi = Math.Sin(phi);
+            var cosPhi = Math.Cos(phi);
+            var sin2Phi = 2 * sinPhi * cosPhi;
+            var cos2Phi = 2 * cosPhi * cosPhi - 1;
+            var sin4Phi = 2 * sin2Phi * cos2Phi;
+            var cos4Phi = 2 * cos2Phi * cos2Phi - 1;
+            var sin6Phi = sin4Phi * cos2Phi + cos4Phi * sin2Phi;
+            var tanPhi = sinPhi / cosPhi;
+            var ePhi = DatumWGS_84.e * sinPhi;
+            var N = DatumWGS_84.equatorialRadius / Math.Sqrt(1 - ePhi * ePhi);
 
-            int utmz = 1 + (int)Math.Floor((latlng.Longitude + 180) / 6.0);
-            double zcm = 3 + 6.0 * (utmz - 1) - 180;
-            double A = Degrees.Radians((float)(latlng.Longitude - zcm)) * cosPhi;
+            var utmz = 1 + (int)Math.Floor((latlng.Longitude + 180) / 6.0);
+            var zcm = 3 + 6.0 * (utmz - 1) - 180;
+            var A = Degrees.Radians((float)(latlng.Longitude - zcm)) * cosPhi;
 
-            double M = DatumWGS_84.equatorialRadius * (
+            var M = DatumWGS_84.equatorialRadius * (
                 phi * DatumWGS_84.alpha1
                 - sin2Phi * DatumWGS_84.alpha2
                 + sin4Phi * DatumWGS_84.alpha3
                 - sin6Phi * DatumWGS_84.alpha4);
 
             // Easting
-            double T = tanPhi * tanPhi;
-            double C = DatumWGS_84.e0sq * cosPhi * cosPhi;
-            double Asqr = A * A;
-            double Tsqr = T * T;
+            var T = tanPhi * tanPhi;
+            var C = DatumWGS_84.e0sq * cosPhi * cosPhi;
+            var Asqr = A * A;
+            var Tsqr = T * T;
             var x0 = 1 - T + C;
             var x1 = 5 - 18 * T + Tsqr + 72.0 * C - 58 * DatumWGS_84.e0sq;
             var x2 = Asqr * x1 / 120.0;
@@ -85,7 +85,7 @@ namespace Juniper.Units
             easting += DatumWGS_84.E0;
 
             // Northing
-            double northing = k0 * (M + N * tanPhi * (Asqr * (1 / 2.0 + Asqr * ((5 - T + 9 * C + 4 * C * C) / 24.0 + Asqr * (61 - 58 * T + Tsqr + 600 * C - 330 * DatumWGS_84.e0sq) / 720.0))));
+            var northing = k0 * (M + N * tanPhi * (Asqr * (1 / 2.0 + Asqr * ((5 - T + 9 * C + 4 * C * C) / 24.0 + Asqr * (61 - 58 * T + Tsqr + 600 * C - 330 * DatumWGS_84.e0sq) / 720.0))));
             if (hemisphere == UTMPoint.GlobeHemisphere.Southern)
             {
                 northing = 10000000.0 + northing;

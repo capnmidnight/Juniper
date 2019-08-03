@@ -14,23 +14,23 @@ namespace Juniper.Units
         /// <returns>The latitude/longitude</returns>
         public static LatLngPoint ToLatLng(this UTMPoint utm)
         {
-            double N0 = utm.Hemisphere == UTMPoint.GlobeHemisphere.Northern ? 0.0 : 10000000.0;
-            double xi = (utm.Y - N0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
-            double eta = (utm.X - DatumWGS_84.E0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
-            double xiPrime = xi;
-            double etaPrime = eta;
+            var N0 = utm.Hemisphere == UTMPoint.GlobeHemisphere.Northern ? 0.0 : 10000000.0;
+            var xi = (utm.Y - N0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
+            var eta = (utm.X - DatumWGS_84.E0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
+            var xiPrime = xi;
+            var etaPrime = eta;
             double sigmaPrime = 1;
             double tauPrime = 0;
 
-            for (int j = 1; j <= 3; ++j)
+            for (var j = 1; j <= 3; ++j)
             {
                 var beta = DatumWGS_84.beta[j - 1];
-                double je2 = 2 * j * xi;
-                double jn2 = 2 * j * eta;
-                double sinje2 = Math.Sin(je2);
-                double coshjn2 = Math.Cosh(jn2);
-                double cosje2 = Math.Cos(je2);
-                double sinhjn2 = Math.Sinh(jn2);
+                var je2 = 2 * j * xi;
+                var jn2 = 2 * j * eta;
+                var sinje2 = Math.Sin(je2);
+                var coshjn2 = Math.Cosh(jn2);
+                var cosje2 = Math.Cos(je2);
+                var sinhjn2 = Math.Sinh(jn2);
 
                 xiPrime -= beta * sinje2 * coshjn2;
                 etaPrime -= beta * cosje2 * sinhjn2;
@@ -38,17 +38,17 @@ namespace Juniper.Units
                 tauPrime -= 2 * j * beta * sinje2 * sinhjn2;
             }
 
-            double chi = Math.Asin(Math.Sin(xiPrime) / Math.Cosh(etaPrime));
+            var chi = Math.Asin(Math.Sin(xiPrime) / Math.Cosh(etaPrime));
 
-            double lat = chi;
+            var lat = chi;
 
-            for (int j = 1; j <= 3; ++j)
+            for (var j = 1; j <= 3; ++j)
             {
                 lat += DatumWGS_84.delta[j - 1] * Math.Sin(2 * j * chi);
             }
 
             float long0 = utm.Zone * 6 - 183;
-            double lng = Math.Atan(Math.Sinh(etaPrime) / Math.Cos(xiPrime));
+            var lng = Math.Atan(Math.Sinh(etaPrime) / Math.Cos(xiPrime));
 
             return new LatLngPoint(
                 Radians.Degrees((float)lat),

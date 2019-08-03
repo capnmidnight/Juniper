@@ -33,7 +33,7 @@ namespace Juniper.Image
 
         public static int GetRowIndex(int numRows, int i, bool flipImage)
         {
-            int rowIndex = i;
+            var rowIndex = i;
             if (flipImage)
             {
                 rowIndex = numRows - i - 1;
@@ -105,9 +105,9 @@ namespace Juniper.Image
                 throw new ArgumentException($"Expected {nameof(images)} parameter to be {numTiles} long, but it was {images.Length} long.");
             }
 
-            bool anyNotNull = false;
+            var anyNotNull = false;
             ImageData firstImage = default;
-            for (int i = 0; i < images.Length; ++i)
+            for (var i = 0; i < images.Length; ++i)
             {
                 var img = images[i];
                 if (img != null)
@@ -136,7 +136,7 @@ namespace Juniper.Image
                 rows * firstImage.dimensions.height,
                 firstImage.components);
 
-            for (int i = 0; i < combined.data.Length; i += firstImage.stride)
+            for (var i = 0; i < combined.data.Length; i += firstImage.stride)
             {
                 var bufferX = i % combined.stride;
                 var bufferY = i / combined.stride;
@@ -181,41 +181,77 @@ namespace Juniper.Image
 
         private void RGB2HSV(int index, out float h, out float s, out float v)
         {
-            float R = data[index] / 255f;
-            float G = data[index + 1] / 255f;
-            float B = data[index + 2] / 255f;
-            float max = R;
-            float min = R;
-            if (G > max) max = B;
-            if (G < min) min = B;
-            if (B > max) max = B;
-            if (B < min) min = B;
+            var R = data[index] / 255f;
+            var G = data[index + 1] / 255f;
+            var B = data[index + 2] / 255f;
+            var max = R;
+            var min = R;
+            if (G > max)
+            {
+                max = B;
+            }
 
-            float delta = max - min;
+            if (G < min)
+            {
+                min = B;
+            }
+
+            if (B > max)
+            {
+                max = B;
+            }
+
+            if (B < min)
+            {
+                min = B;
+            }
+
+            var delta = max - min;
 
             h = 0;
             if (delta > 0)
             {
-                if (max == R) h = (G - B) / delta;
-                if (max == G) h = 2 + (B - R) / delta;
-                if (max == B) h = 4 + (R - G) / delta;
+                if (max == R)
+                {
+                    h = (G - B) / delta;
+                }
+
+                if (max == G)
+                {
+                    h = 2 + (B - R) / delta;
+                }
+
+                if (max == B)
+                {
+                    h = 4 + (R - G) / delta;
+                }
             }
 
             h *= 60;
-            if (h < 0) h += 360;
-            if (h >= 360) h -= 360;
+            if (h < 0)
+            {
+                h += 360;
+            }
+
+            if (h >= 360)
+            {
+                h -= 360;
+            }
 
             s = 0;
-            if (max > 0) s = (max - min) / max;
+            if (max > 0)
+            {
+                s = (max - min) / max;
+            }
 
             v = max;
         }
 
         private void HSV2RGB(float h, float s, float v, int index)
         {
-            float delta = v * s;
+            var delta = v * s;
             h /= 60;
-            float x = delta * (1 - Math.Abs((h % 2) - 1));
+            var x = delta * (1 - Math.Abs((h % 2) - 1));
             float r = 0;
             float g = 0;
             float b = 0;
@@ -250,7 +286,7 @@ namespace Juniper.Image
                 b = x;
             }
 
-            float m = v - delta;
+            var m = v - delta;
             data[index] = (byte)((r + m) * 255f);
             data[index + 1] = (byte)((g + m) * 255f);
             data[index + 2] = (byte)((b + m) * 255f);
@@ -264,9 +300,9 @@ namespace Juniper.Image
                 dimensions.height,
                 components);
 
-            for (int y = 0; y < resized.dimensions.height; ++y)
+            for (var y = 0; y < resized.dimensions.height; ++y)
             {
-                for (int x = 0; x < resized.dimensions.width; ++x)
+                for (var x = 0; x < resized.dimensions.width; ++x)
                 {
                     HorizontalLerp(resized, x, y);
                 }
@@ -277,24 +313,24 @@ namespace Juniper.Image
 
         private void HorizontalLerp(ImageData output, int outputX, int outputY)
         {
-            float inputX = (float)outputX * dimensions.width / output.dimensions.width;
-            int inputY = outputY;
+            var inputX = (float)outputX * dimensions.width / output.dimensions.width;
+            var inputY = outputY;
 
-            int inputXA = (int)inputX;
-            int inputIA = inputY * stride + inputXA * components;
+            var inputXA = (int)inputX;
+            var inputIA = inputY * stride + inputXA * components;
             RGB2HSV(inputIA, out var h1, out var s1, out var v1);
 
-            int inputXB = (int)(inputX + 1) % dimensions.width;
-            int inputIB = inputY * stride + inputXB * components;
+            var inputXB = (int)(inputX + 1) % dimensions.width;
+            var inputIB = inputY * stride + inputXB * components;
             RGB2HSV(inputIB, out var h2, out var s2, out var v2);
 
-            float p = 1 - inputX + inputXA;
-            float q = 1 - inputXB + inputX;
-            float h = h1 * p + h2 * q;
-            float s = s1 * p + s2 * q;
-            float v = v1 * p + v2 * q;
+            var p = 1 - inputX + inputXA;
+            var q = 1 - inputXB + inputX;
+            var h = h1 * p + h2 * q;
+            var s = s1 * p + s2 * q;
+            var v = v1 * p + v2 * q;
 
-            int outputIndex = outputY * output.stride + outputX * output.components;
+            var outputIndex = outputY * output.stride + outputX * output.components;
             output.HSV2RGB(h, s, v, outputIndex);
         }
 
@@ -306,9 +342,9 @@ namespace Juniper.Image
                 dimensions.width,
                 components);
 
-            for (int y = 0; y < resized.dimensions.height; ++y)
+            for (var y = 0; y < resized.dimensions.height; ++y)
             {
-                for (int x = 0; x < resized.dimensions.width; ++x)
+                for (var x = 0; x < resized.dimensions.width; ++x)
                 {
                     VerticalLerp(resized, x, y);
                 }
@@ -319,24 +355,24 @@ namespace Juniper.Image
 
         private void VerticalLerp(ImageData output, int outputX, int outputY)
         {
-            int inputX = outputX;
-            float inputY = (float)outputY * dimensions.height / output.dimensions.height;
+            var inputX = outputX;
+            var inputY = (float)outputY * dimensions.height / output.dimensions.height;
 
-            int inputYA = (int)inputY;
-            int inputIA = inputYA * stride + inputX * components;
+            var inputYA = (int)inputY;
+            var inputIA = inputYA * stride + inputX * components;
             RGB2HSV(inputIA, out var h1, out var s1, out var v1);
 
-            int inputYB = (int)(inputY + 1) % dimensions.height;
-            int inputIB = inputYB * stride + inputX * components;
+            var inputYB = (int)(inputY + 1) % dimensions.height;
+            var inputIB = inputYB * stride + inputX * components;
             RGB2HSV(inputIB, out var h2, out var s2, out var v2);
 
-            float p = 1 - inputY + inputYA;
-            float q = 1 - inputYB + inputY;
-            float h = h1 * p + h2 * q;
-            float s = s1 * p + s2 * q;
-            float v = v1 * p + v2 * q;
+            var p = 1 - inputY + inputYA;
+            var q = 1 - inputYB + inputY;
+            var h = h1 * p + h2 * q;
+            var s = s1 * p + s2 * q;
+            var v = v1 * p + v2 * q;
 
-            int outputIndex = outputY * output.stride + outputX * output.components;
+            var outputIndex = outputY * output.stride + outputX * output.components;
             output.HSV2RGB(h, s, v, outputIndex);
         }
 

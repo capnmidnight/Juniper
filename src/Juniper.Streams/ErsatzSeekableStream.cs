@@ -15,7 +15,7 @@ namespace Juniper.Streams
         /// <summary>
         /// The stream to wrap.
         /// </summary>
-        private Stream stream;
+        private readonly Stream stream;
 
         private long currentPosition;
 

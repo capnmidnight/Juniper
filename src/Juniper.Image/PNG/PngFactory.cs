@@ -2,6 +2,7 @@ using System;
 using System.IO;
 
 using Hjg.Pngcs;
+
 using Juniper.Progress;
 using Juniper.Serialization;
 
@@ -14,11 +15,11 @@ namespace Juniper.Image.PNG
             int width = 0,
                 height = 0;
 
-            int i = 8; // skip the PNG signature
+            var i = 8; // skip the PNG signature
 
             while (i < data.Length)
             {
-                int len = 0;
+                var len = 0;
                 len = len << 8 | data[i++];
                 len = len << 8 | data[i++];
                 len = len << 8 | data[i++];
@@ -42,7 +43,7 @@ namespace Juniper.Image.PNG
                     var bitDepth = data[i + 9];
                     var colorType = data[i + 10];
 
-                    int components = 0;
+                    var components = 0;
                     switch (colorType)
                     {
                         case 0: components = (int)Math.Ceiling((float)bitDepth / 8); break;
@@ -97,7 +98,7 @@ namespace Juniper.Image.PNG
             var png = new PngReader(imageStream);
             png.SetUnpackedMode(true);
             var rows = png.ReadRowsByte();
-            int numRows = rows.Nrows;
+            var numRows = rows.Nrows;
             var data = new byte[numRows * rows.elementsPerRow];
             for (var i = 0; i < numRows; ++i)
             {

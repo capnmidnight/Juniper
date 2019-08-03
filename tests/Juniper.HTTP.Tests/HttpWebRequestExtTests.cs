@@ -52,7 +52,7 @@ namespace Juniper.HTTP.Tests
                 Assert.AreEqual(expected.dimensions.width, actual.dimensions.width);
                 Assert.AreEqual(expected.dimensions.height, actual.dimensions.height);
                 Assert.AreEqual(expected.data.Length, actual.data.Length);
-                for (int i = 0; i < expected.data.Length; ++i)
+                for (var i = 0; i < expected.data.Length; ++i)
                 {
                     Assert.AreEqual(expected.data[i], actual.data[i]);
                 }

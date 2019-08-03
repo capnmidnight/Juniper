@@ -112,7 +112,7 @@ namespace Juniper.Google.Maps.MapTiles
             var numGroups = (int)Math.Ceiling((float)binString.Length / CHUNK_SIZE);
             var paddedLen = numGroups * CHUNK_SIZE;
             binString = binString.PadLeft(paddedLen, '0');
-            for (int i = numGroups - 1; i >= 0; --i)
+            for (var i = numGroups - 1; i >= 0; --i)
             {
                 var chunk = binString.Substring(i * CHUNK_SIZE, CHUNK_SIZE);
                 var dec = Convert.ToInt32(chunk, 2);

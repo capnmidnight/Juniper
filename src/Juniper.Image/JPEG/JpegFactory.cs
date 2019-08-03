@@ -14,7 +14,7 @@ namespace Juniper.Image.JPEG
             int width = 0,
                 height = 0;
 
-            for (int i = 0; i < data.Length - 1; ++i)
+            for (var i = 0; i < data.Length - 1; ++i)
             {
                 var a = data[i];
                 var b = data[i + 1];
@@ -70,7 +70,7 @@ namespace Juniper.Image.JPEG
             using (var jpeg = new JpegImage(imageStream))
             {
                 var stride = jpeg.Width * jpeg.ComponentsPerSample;
-                int numRows = jpeg.Height;
+                var numRows = jpeg.Height;
                 var data = new byte[numRows * stride];
                 for (var i = 0; i < jpeg.Height; ++i)
                 {
@@ -97,7 +97,7 @@ namespace Juniper.Image.JPEG
         {
             var rows = new SampleRow[image.dimensions.height];
             var rowBuffer = new byte[image.stride];
-            for (int i = 0; i < image.dimensions.height; ++i)
+            for (var i = 0; i < image.dimensions.height; ++i)
             {
                 var rowIndex = ImageData.GetRowIndex(image.dimensions.height, i, true);
                 var imageDataIndex = rowIndex * image.stride;

@@ -164,7 +164,7 @@ namespace Juniper.UnityAssetStore
 
         private readonly IDeserializer deserializer;
 
-        private string sessionID;
+        private readonly string sessionID;
 
         private async Task<string> Get(string url, string token = null, IProgress prog = null)
         {
