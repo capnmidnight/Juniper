@@ -7,23 +7,24 @@ using Juniper.Serialization;
 
 namespace Juniper.Google.Maps.Places
 {
-    public class PlaceSearchRequest : AbstractMapsRequest<PlaceSearchResponse>
+    class PlaceSearchRequest : AbstractMapsRequest<PlaceSearchResponse>
     {
         private string input;
         private PlaceSearchInputType inputtype;
         private string language;
         private readonly HashSet<PlaceSearchField> fields = new HashSet<PlaceSearchField>();
 
-        private PlaceSearchRequest(AbstractEndpoint api)
+        private PlaceSearchRequest(AbstractEndpoint api, string input, PlaceSearchInputType inputtype)
             : base(api, new JsonFactory().Specialize<PlaceSearchResponse>(), "place/findplacefromtext/json", "places", false)
-        {
-        }
-
-        public PlaceSearchRequest(AbstractEndpoint api, string input, PlaceSearchInputType inputtype)
-            : this(api)
         {
             SetInput(input, inputtype);
         }
+
+        public PlaceSearchRequest(AbstractEndpoint api, PhoneNumber phoneNumber)
+            : this(api, (string)phoneNumber, PlaceSearchInputType.phonenumber) { }
+
+        public PlaceSearchRequest(AbstractEndpoint api, string textQuery)
+            : this(api, textQuery, PlaceSearchInputType.textquery) { }
 
         public void SetInput(string input, PlaceSearchInputType inputtype)
         {

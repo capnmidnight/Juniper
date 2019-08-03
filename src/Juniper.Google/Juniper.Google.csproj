@@ -50,6 +50,7 @@
     <Compile Include="Maps\Geocoding\GeometryLocationType.cs" />
     <Compile Include="Maps\Geocoding\GeometryResult.cs" />
     <Compile Include="Maps\Geocoding\GeometryViewport.cs" />
+    <Compile Include="Maps\PhoneNumber.cs" />
     <Compile Include="Maps\PlaceID.cs" />
     <Compile Include="Maps\Places\PlaceSearchField.cs" />
     <Compile Include="Maps\Places\PlaceSearchInputType.cs" />
@@ -124,11 +125,6 @@
       <Project>{27b52adc-cb80-4b77-a0fc-958c0b0d0982}</Project>
       <Name>Juniper.World</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="libphonenumber-csharp">
-      <Version>8.10.15</Version>
-    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
