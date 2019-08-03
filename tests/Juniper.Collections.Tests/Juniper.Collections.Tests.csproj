@@ -44,6 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IEnumerableExtTests.cs" />
+    <Compile Include="PriorityQueueEnumeratorTests.cs" />
+    <Compile Include="PriorityQueueTests.cs" />
     <Compile Include="SingleStatisticsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
