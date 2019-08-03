@@ -191,7 +191,6 @@ namespace Juniper.Images
 
                         if (textureCache.ContainsKey(imageRequest.CacheID))
                         {
-                            print("got from memory");
                             SetSkyboxTexture(textureCache[imageRequest.CacheID]);
                         }
                         else
@@ -199,8 +198,6 @@ namespace Juniper.Images
                             var imageTask = imageRequest.GetJPEG(prog);
                             yield return new WaitForTask(imageTask);
                             var image = imageTask.Result;
-
-                            print($"got from {image.source}");
 
                             var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
                             if (image.format == Image.ImageFormat.None)
