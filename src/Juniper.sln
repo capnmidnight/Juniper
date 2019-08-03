@@ -83,6 +83,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Google.Tests", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Json.Lite", "Json.Net.Unity3D\src\Newtonsoft.Json\Json.Lite.csproj", "{955B96F2-6AFB-4C2F-AAA5-9BFD6DDCB3BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Serial", "Juniper.Serial\Juniper.Serial.csproj", "{FF10FD3D-7753-4600-86A2-DFEBC101209E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -744,6 +746,24 @@ Global
 		{955B96F2-6AFB-4C2F-AAA5-9BFD6DDCB3BD}.ReleaseLite|x64.Build.0 = ReleaseLite|Any CPU
 		{955B96F2-6AFB-4C2F-AAA5-9BFD6DDCB3BD}.ReleaseLite|x86.ActiveCfg = ReleaseLite|Any CPU
 		{955B96F2-6AFB-4C2F-AAA5-9BFD6DDCB3BD}.ReleaseLite|x86.Build.0 = ReleaseLite|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.Debug|x64.Build.0 = Debug|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.Debug|x86.Build.0 = Debug|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.Release|x64.ActiveCfg = Release|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.Release|x64.Build.0 = Release|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.Release|x86.ActiveCfg = Release|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.Release|x86.Build.0 = Release|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.ReleaseLite|Any CPU.ActiveCfg = Release|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.ReleaseLite|Any CPU.Build.0 = Release|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.ReleaseLite|x64.ActiveCfg = Release|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.ReleaseLite|x64.Build.0 = Release|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.ReleaseLite|x86.ActiveCfg = Release|Any CPU
+		{FF10FD3D-7753-4600-86A2-DFEBC101209E}.ReleaseLite|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
