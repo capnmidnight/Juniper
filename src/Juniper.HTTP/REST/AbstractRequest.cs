@@ -7,9 +7,9 @@ namespace Juniper.HTTP.REST
 {
     public abstract class AbstractRequest<IntermediateType, ResponseType>
     {
-        protected readonly AbstractEndpoint api;
+        protected readonly AbstractRequestConfiguration api;
 
-        protected AbstractRequest(AbstractEndpoint api)
+        protected AbstractRequest(AbstractRequestConfiguration api)
         {
             this.api = api;
         }

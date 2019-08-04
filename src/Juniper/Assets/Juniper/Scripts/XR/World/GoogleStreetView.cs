@@ -36,7 +36,7 @@ namespace Juniper.Images
 
         private Material skyboxMaterial;
 
-        private Endpoint gmaps;
+        private GoogleMapsRequestConfiguration gmaps;
 
         public int searchRadius = 50;
 
@@ -100,7 +100,7 @@ namespace Juniper.Images
             var lines = File.ReadAllLines(keyFile);
             var apiKey = lines[0];
             var signingKey = lines[1];
-            gmaps = new Endpoint(apiKey, signingKey, cacheDir);
+            gmaps = new GoogleMapsRequestConfiguration(apiKey, signingKey, cacheDir);
         }
 
         public override void Enter(IProgress prog = null)

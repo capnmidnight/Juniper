@@ -1,4 +1,3 @@
-using Juniper.HTTP.REST;
 using Juniper.Serialization;
 using Juniper.World.GIS;
 
@@ -10,7 +9,7 @@ namespace Juniper.Google.Maps.StreetView
         private PlaceName placeName;
         private LatLngPoint location;
 
-        protected AbstractStreetViewRequest(AbstractEndpoint api, IDeserializer<ResultType> deserializer, string path)
+        protected AbstractStreetViewRequest(GoogleMapsRequestConfiguration api, IDeserializer<ResultType> deserializer, string path)
             : base(api, deserializer, path, "streetview", true)
         {
         }

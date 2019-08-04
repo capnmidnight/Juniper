@@ -38,7 +38,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="REST\AbstractEndpoint.cs" />
+    <Compile Include="REST\AbstractRequestConfiguration.cs" />
     <Compile Include="REST\AbstractMultiRequest.cs" />
     <Compile Include="REST\AbstractRequest.cs" />
     <Compile Include="REST\AbstractSingleRequest.cs" />

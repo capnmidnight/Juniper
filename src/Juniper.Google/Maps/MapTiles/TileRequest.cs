@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.World.GIS;
 
@@ -11,7 +10,7 @@ namespace Juniper.Google.Maps.MapTiles
 {
     public partial class TileRequest : AbstractMapsRequest<ImageData>
     {
-        public static TileRequest Create(AbstractEndpoint api, LocationTypes locationType, object value, int zoom, Size size, ImageFormat format = ImageFormat.PNG)
+        public static TileRequest Create(GoogleMapsRequestConfiguration api, LocationTypes locationType, object value, int zoom, Size size, ImageFormat format = ImageFormat.PNG)
         {
             switch (locationType)
             {
@@ -21,7 +20,7 @@ namespace Juniper.Google.Maps.MapTiles
             }
         }
 
-        public static TileRequest Create(AbstractEndpoint api, LocationTypes locationType, object value, int zoom, int width, int height, ImageFormat format = ImageFormat.PNG)
+        public static TileRequest Create(GoogleMapsRequestConfiguration api, LocationTypes locationType, object value, int zoom, int width, int height, ImageFormat format = ImageFormat.PNG)
         {
             return Create(api, locationType, value, zoom, new Size(width, height), format);
         }
@@ -34,7 +33,7 @@ namespace Juniper.Google.Maps.MapTiles
         private string region;
         private MapImageType maptype;
 
-        private TileRequest(AbstractEndpoint api, string center, int zoom, Size size, ImageFormat format)
+        private TileRequest(GoogleMapsRequestConfiguration api, string center, int zoom, Size size, ImageFormat format)
             : base(api, new Factory(format), "staticmap", "tiles", true)
         {
             SetQuery(nameof(center), center);
@@ -43,16 +42,16 @@ namespace Juniper.Google.Maps.MapTiles
             Format = format;
         }
 
-        public TileRequest(AbstractEndpoint api, PlaceName address, int zoom, Size size, ImageFormat format)
+        public TileRequest(GoogleMapsRequestConfiguration api, PlaceName address, int zoom, Size size, ImageFormat format)
             : this(api, (string)address, zoom, size, format) { }
 
-        public TileRequest(AbstractEndpoint api, PlaceName address, int zoom, int width, int height, ImageFormat format)
+        public TileRequest(GoogleMapsRequestConfiguration api, PlaceName address, int zoom, int width, int height, ImageFormat format)
             : this(api, (string)address, zoom, new Size(width, height), format) { }
 
-        public TileRequest(AbstractEndpoint api, LatLngPoint center, int zoom, Size size, ImageFormat format)
+        public TileRequest(GoogleMapsRequestConfiguration api, LatLngPoint center, int zoom, Size size, ImageFormat format)
             : this(api, center.ToCSV(), zoom, size, format) { }
 
-        public TileRequest(AbstractEndpoint api, LatLngPoint center, int zoom, int width, int height, ImageFormat format)
+        public TileRequest(GoogleMapsRequestConfiguration api, LatLngPoint center, int zoom, int width, int height, ImageFormat format)
             : this(api, center.ToCSV(), zoom, new Size(width, height), format) { }
 
         public bool FlipImage { get; set; }

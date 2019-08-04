@@ -1,4 +1,5 @@
 using System;
+
 using Juniper.HTTP.REST;
 using Juniper.Serialization;
 
@@ -8,7 +9,7 @@ namespace Juniper.Google
     {
         private readonly bool signRequests;
 
-        protected AbstractGoogleRequest(AbstractEndpoint api, Uri baseServiceURI, IDeserializer<ResultType> deserializer, string path, string cacheSubDirectoryName, bool signRequests)
+        protected AbstractGoogleRequest(AbstractRequestConfiguration api, Uri baseServiceURI, IDeserializer<ResultType> deserializer, string path, string cacheSubDirectoryName, bool signRequests)
             : base(api, baseServiceURI, deserializer, path, cacheSubDirectoryName)
         {
             this.signRequests = signRequests;
@@ -19,7 +20,7 @@ namespace Juniper.Google
             get
             {
                 var uri = base.AuthenticatedURI;
-                if (api is Maps.Endpoint google)
+                if (api is Maps.GoogleMapsRequestConfiguration google)
                 {
                     uri = google.AddKey(uri);
                     if (signRequests)

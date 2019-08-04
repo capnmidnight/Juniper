@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using Juniper.HTTP.REST;
+
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.Geocoding
 {
     public class GeocodingRequest : AbstractGeocodingRequest
     {
-        public static GeocodingRequest Create(AbstractEndpoint api, LocationTypes locationType, object value)
+        public static GeocodingRequest Create(GoogleMapsRequestConfiguration api, LocationTypes locationType, object value)
         {
             switch (locationType)
             {
@@ -21,21 +21,21 @@ namespace Juniper.Google.Maps.Geocoding
         private GeometryViewport bounds;
         private string region;
 
-        public GeocodingRequest(AbstractEndpoint api)
+        public GeocodingRequest(GoogleMapsRequestConfiguration api)
             : base(api)
         {
         }
 
-        private GeocodingRequest(AbstractEndpoint api, string address)
+        private GeocodingRequest(GoogleMapsRequestConfiguration api, string address)
             : base(api, nameof(address), address) { }
 
-        public GeocodingRequest(AbstractEndpoint api, PlaceID place_id)
+        public GeocodingRequest(GoogleMapsRequestConfiguration api, PlaceID place_id)
             : base(api, nameof(place_id), (string)place_id) { }
 
-        public GeocodingRequest(AbstractEndpoint api, PlaceName address)
+        public GeocodingRequest(GoogleMapsRequestConfiguration api, PlaceName address)
             : this(api, (string)address) { }
 
-        public GeocodingRequest(AbstractEndpoint api, IDictionary<AddressComponentType, string> components)
+        public GeocodingRequest(GoogleMapsRequestConfiguration api, IDictionary<AddressComponentType, string> components)
             : base(api)
         {
             foreach (var kv in components)

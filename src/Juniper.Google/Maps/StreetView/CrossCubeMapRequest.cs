@@ -1,7 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
 
-using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.Progress;
 using Juniper.Serialization;
@@ -14,42 +13,42 @@ namespace Juniper.Google.Maps.StreetView
         private readonly CubeMapRequest subRequest;
         private readonly IFactory<ImageData> factory;
 
-        public CrossCubeMapRequest(AbstractEndpoint api, PanoID pano, Size size)
+        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, PanoID pano, Size size)
             : base(api, pano, size)
         {
             factory = (IFactory<ImageData>)deserializer;
             subRequest = new CubeMapRequest(api, pano, size);
         }
 
-        public CrossCubeMapRequest(AbstractEndpoint api, PanoID pano, int width, int height)
+        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, PanoID pano, int width, int height)
             : base(api, pano, width, height)
         {
             factory = (IFactory<ImageData>)deserializer;
             subRequest = new CubeMapRequest(api, pano, new Size(width, height));
         }
 
-        public CrossCubeMapRequest(AbstractEndpoint api, PlaceName placeName, Size size)
+        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, Size size)
             : base(api, placeName, size)
         {
             factory = (IFactory<ImageData>)deserializer;
             subRequest = new CubeMapRequest(api, placeName, size);
         }
 
-        public CrossCubeMapRequest(AbstractEndpoint api, PlaceName placeName, int width, int height)
+        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, int width, int height)
             : base(api, placeName, width, height)
         {
             factory = (IFactory<ImageData>)deserializer;
             subRequest = new CubeMapRequest(api, placeName, new Size(width, height));
         }
 
-        public CrossCubeMapRequest(AbstractEndpoint api, LatLngPoint location, Size size)
+        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, Size size)
             : base(api, location, size)
         {
             factory = (IFactory<ImageData>)deserializer;
             subRequest = new CubeMapRequest(api, location, size);
         }
 
-        public CrossCubeMapRequest(AbstractEndpoint api, LatLngPoint location, int width, int height)
+        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, int width, int height)
             : base(api, location, width, height)
         {
             factory = (IFactory<ImageData>)deserializer;

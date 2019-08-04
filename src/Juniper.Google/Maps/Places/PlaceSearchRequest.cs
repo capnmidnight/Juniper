@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-using Juniper.HTTP.REST;
 using Juniper.Json;
 using Juniper.Serialization;
 
@@ -14,16 +13,16 @@ namespace Juniper.Google.Maps.Places
         private string language;
         private readonly HashSet<PlaceSearchField> fields = new HashSet<PlaceSearchField>();
 
-        private PlaceSearchRequest(AbstractEndpoint api, string input, PlaceSearchInputType inputtype)
+        private PlaceSearchRequest(GoogleMapsRequestConfiguration api, string input, PlaceSearchInputType inputtype)
             : base(api, new JsonFactory().Specialize<PlaceSearchResponse>(), "place/findplacefromtext/json", "places", false)
         {
             SetInput(input, inputtype);
         }
 
-        public PlaceSearchRequest(AbstractEndpoint api, PhoneNumber phoneNumber)
+        public PlaceSearchRequest(GoogleMapsRequestConfiguration api, PhoneNumber phoneNumber)
             : this(api, (string)phoneNumber, PlaceSearchInputType.phonenumber) { }
 
-        public PlaceSearchRequest(AbstractEndpoint api, string textQuery)
+        public PlaceSearchRequest(GoogleMapsRequestConfiguration api, string textQuery)
             : this(api, textQuery, PlaceSearchInputType.textquery) { }
 
         public void SetInput(string input, PlaceSearchInputType inputtype)

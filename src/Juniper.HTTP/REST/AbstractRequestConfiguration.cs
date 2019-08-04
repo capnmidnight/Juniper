@@ -1,20 +1,26 @@
+using System;
 using System.IO;
 
 namespace Juniper.HTTP.REST
 {
-    public class AbstractEndpoint
+    public class AbstractRequestConfiguration
     {
         internal readonly DirectoryInfo cacheLocation;
 
-        protected AbstractEndpoint(DirectoryInfo cacheLocation = null)
+        protected AbstractRequestConfiguration(DirectoryInfo cacheLocation = null)
         {
             this.cacheLocation = cacheLocation;
             cacheLocation?.Create();
         }
 
-        protected AbstractEndpoint(string cacheDirectoryName = null)
+        protected AbstractRequestConfiguration(string cacheDirectoryName = null)
             : this(cacheDirectoryName == null ? null : new DirectoryInfo(cacheDirectoryName))
         {
+        }
+
+        public virtual Uri ModifyURI(Uri uri)
+        {
+            return uri;
         }
     }
 }

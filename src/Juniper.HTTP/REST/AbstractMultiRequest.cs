@@ -10,7 +10,7 @@ namespace Juniper.HTTP.REST
     {
         protected readonly SubRequestType[] subRequests;
 
-        protected AbstractMultiRequest(AbstractEndpoint api, int n, Func<SubRequestType> factory)
+        protected AbstractMultiRequest(AbstractRequestConfiguration api, int n, Func<SubRequestType> factory)
             : base(api)
 
         {

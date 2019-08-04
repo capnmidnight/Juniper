@@ -1,4 +1,3 @@
-using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.World.GIS;
 
@@ -10,7 +9,7 @@ namespace Juniper.Google.Maps.StreetView
         private int radius;
         private bool outdoorOnly;
 
-        public AbstractStreetViewImageRequest(AbstractEndpoint api, PanoID pano, Size size)
+        public AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, PanoID pano, Size size)
             : base(api, new Image.JPEG.JpegFactory(), "streetview")
         {
             Pano = pano;
@@ -18,12 +17,12 @@ namespace Juniper.Google.Maps.StreetView
             SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));
         }
 
-        public AbstractStreetViewImageRequest(AbstractEndpoint api, PanoID pano, int width, int height)
+        public AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, PanoID pano, int width, int height)
             : this(api, pano, new Size(width, height))
         {
         }
 
-        public AbstractStreetViewImageRequest(AbstractEndpoint api, PlaceName placeName, Size size)
+        public AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, Size size)
             : base(api, new Image.JPEG.JpegFactory(), "streetview")
         {
             Place = placeName;
@@ -31,12 +30,12 @@ namespace Juniper.Google.Maps.StreetView
             SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));
         }
 
-        public AbstractStreetViewImageRequest(AbstractEndpoint api, PlaceName placeName, int width, int height)
+        public AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, int width, int height)
             : this(api, placeName, new Size(width, height))
         {
         }
 
-        public AbstractStreetViewImageRequest(AbstractEndpoint api, LatLngPoint location, Size size)
+        public AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, Size size)
             : base(api, new Image.JPEG.JpegFactory(), "streetview")
         {
             Location = location;
@@ -44,7 +43,7 @@ namespace Juniper.Google.Maps.StreetView
             SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));
         }
 
-        public AbstractStreetViewImageRequest(AbstractEndpoint api, LatLngPoint location, int width, int height)
+        public AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, int width, int height)
             : this(api, location, new Size(width, height))
         {
         }

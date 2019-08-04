@@ -1,4 +1,3 @@
-using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.World;
 using Juniper.World.GIS;
@@ -7,7 +6,7 @@ namespace Juniper.Google.Maps.StreetView
 {
     public class ImageRequest : AbstractStreetViewImageRequest
     {
-        public static ImageRequest Create(AbstractEndpoint api, LocationTypes locationType, object value, Size size)
+        public static ImageRequest Create(GoogleMapsRequestConfiguration api, LocationTypes locationType, object value, Size size)
         {
             switch (locationType)
             {
@@ -18,7 +17,7 @@ namespace Juniper.Google.Maps.StreetView
             }
         }
 
-        public static ImageRequest Create(AbstractEndpoint api, LocationTypes locationType, object value, int width, int height)
+        public static ImageRequest Create(GoogleMapsRequestConfiguration api, LocationTypes locationType, object value, int width, int height)
         {
             return Create(api, locationType, value, new Size(width, height));
         }
@@ -26,22 +25,22 @@ namespace Juniper.Google.Maps.StreetView
         private Heading heading;
         private Pitch pitch;
 
-        public ImageRequest(AbstractEndpoint api, PanoID pano, Size size)
+        public ImageRequest(GoogleMapsRequestConfiguration api, PanoID pano, Size size)
             : base(api, pano, size) { }
 
-        public ImageRequest(AbstractEndpoint api, PanoID pano, int width, int height)
+        public ImageRequest(GoogleMapsRequestConfiguration api, PanoID pano, int width, int height)
             : base(api, pano, width, height) { }
 
-        public ImageRequest(AbstractEndpoint api, PlaceName placeName, Size size)
+        public ImageRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, Size size)
             : base(api, placeName, size) { }
 
-        public ImageRequest(AbstractEndpoint api, PlaceName placeName, int width, int height)
+        public ImageRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, int width, int height)
             : base(api, placeName, width, height) { }
 
-        public ImageRequest(AbstractEndpoint api, LatLngPoint location, Size size)
+        public ImageRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, Size size)
             : base(api, location, size) { }
 
-        public ImageRequest(AbstractEndpoint api, LatLngPoint location, int width, int height)
+        public ImageRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, int width, int height)
             : base(api, location, width, height) { }
 
         public Heading Heading

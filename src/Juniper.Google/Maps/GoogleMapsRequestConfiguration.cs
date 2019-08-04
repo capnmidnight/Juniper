@@ -7,12 +7,12 @@ using Juniper.HTTP.REST;
 
 namespace Juniper.Google.Maps
 {
-    public class Endpoint : AbstractEndpoint
+    public class GoogleMapsRequestConfiguration : AbstractRequestConfiguration
     {
         private readonly string apiKey;
         private readonly string signingKey;
 
-        public Endpoint(string apiKey, string signingKey, DirectoryInfo cacheLocation = null)
+        public GoogleMapsRequestConfiguration(string apiKey, string signingKey, DirectoryInfo cacheLocation = null)
             : base(cacheLocation)
         {
             this.apiKey = apiKey;

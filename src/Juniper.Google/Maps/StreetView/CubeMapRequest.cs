@@ -9,7 +9,7 @@ namespace Juniper.Google.Maps.StreetView
 {
     public class CubeMapRequest : AbstractMultiRequest<ImageData, ImageRequest>
     {
-        private CubeMapRequest(AbstractEndpoint api, Func<ImageRequest> factory)
+        private CubeMapRequest(GoogleMapsRequestConfiguration api, Func<ImageRequest> factory)
             : base(api, 6, factory)
         {
             subRequests[0].Heading = Heading.North;
@@ -31,22 +31,22 @@ namespace Juniper.Google.Maps.StreetView
             subRequests[5].Pitch = Pitch.Down;
         }
 
-        public CubeMapRequest(AbstractEndpoint api, PanoID pano, Size size)
+        public CubeMapRequest(GoogleMapsRequestConfiguration api, PanoID pano, Size size)
             : this(api, () => new ImageRequest(api, pano, size)) { }
 
-        public CubeMapRequest(AbstractEndpoint api, PanoID pano, int width, int height)
+        public CubeMapRequest(GoogleMapsRequestConfiguration api, PanoID pano, int width, int height)
             : this(api, () => new ImageRequest(api, pano, new Size(width, height))) { }
 
-        public CubeMapRequest(AbstractEndpoint api, PlaceName placeName, Size size)
+        public CubeMapRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, Size size)
             : this(api, () => new ImageRequest(api, placeName, size)) { }
 
-        public CubeMapRequest(AbstractEndpoint api, PlaceName placeName, int width, int height)
+        public CubeMapRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, int width, int height)
             : this(api, () => new ImageRequest(api, placeName, new Size(width, height))) { }
 
-        public CubeMapRequest(AbstractEndpoint api, LatLngPoint location, Size size)
+        public CubeMapRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, Size size)
             : this(api, () => new ImageRequest(api, location, size)) { }
 
-        public CubeMapRequest(AbstractEndpoint api, LatLngPoint location, int width, int height)
+        public CubeMapRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, int width, int height)
             : this(api, () => new ImageRequest(api, location, new Size(width, height))) { }
 
         public Size Size

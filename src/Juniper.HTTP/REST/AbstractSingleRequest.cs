@@ -18,7 +18,7 @@ namespace Juniper.HTTP.REST
         private string extension;
         protected IDeserializer<ResponseType> deserializer;
 
-        protected AbstractSingleRequest(AbstractEndpoint api, Uri baseServiceURI, IDeserializer<ResponseType> deserializer, string path, string cacheSubDirectoryName)
+        protected AbstractSingleRequest(AbstractRequestConfiguration api, Uri baseServiceURI, IDeserializer<ResponseType> deserializer, string path, string cacheSubDirectoryName)
             : base(api)
         {
             uriBuilder = new UriBuilder(baseServiceURI);
