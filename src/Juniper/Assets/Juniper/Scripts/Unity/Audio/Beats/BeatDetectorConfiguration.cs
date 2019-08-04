@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using UnityEngine;
 
@@ -9,18 +9,18 @@ public class BeatDetectorConfiguration
     {
         get
         {
-            return PathX.Combine(Application.dataPath, "StreamingAssets", "Music");
+            return Path.Combine(Application.dataPath, "StreamingAssets", "Music");
         }
     }
 
     public static string SongFile(string name)
     {
-        return PathX.Combine(BaseMusicDirectory, name);
+        return Path.Combine(BaseMusicDirectory, name);
     }
 
     public static string MetadataFile(string name)
     {
-        return PathX.Combine(BaseMusicDirectory, "Metadata", name + ".json");
+        return Path.Combine(BaseMusicDirectory, "Metadata", name + ".json");
     }
 
     [Header("FFT")]
