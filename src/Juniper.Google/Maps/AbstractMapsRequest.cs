@@ -4,7 +4,7 @@ using Juniper.Serialization;
 
 namespace Juniper.Google.Maps
 {
-    public abstract class AbstractMapsRequest<ResultType> : AbstractGoogleRequest<ResultType>
+    public abstract class AbstractMapsRequest<ResultType> : AbstractGoogleMapsRequest<ResultType>
     {
         private static readonly Uri baseServiceURI = new Uri("https://maps.googleapis.com/maps/api/");
 

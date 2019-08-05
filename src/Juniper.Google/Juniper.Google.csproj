@@ -37,7 +37,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractGoogleRequest.cs" />
+    <Compile Include="Maps\AbstractGoogleMapsRequest.cs" />
     <Compile Include="Maps\AbstractMapsRequest.cs" />
     <Compile Include="Maps\Geocoding\AddressComponent.cs" />
     <Compile Include="Maps\Geocoding\GeocodingResult.cs" />
