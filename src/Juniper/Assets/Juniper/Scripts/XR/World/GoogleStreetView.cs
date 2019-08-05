@@ -10,7 +10,6 @@ using Juniper.Google.Maps.StreetView;
 using Juniper.Progress;
 using Juniper.Units;
 using Juniper.Unity;
-using Juniper.Unity.Coroutines;
 using Juniper.World;
 using Juniper.World.GIS;
 
@@ -36,7 +35,7 @@ namespace Juniper.Images
 
         private Material skyboxMaterial;
 
-        private GoogleMapsRequestConfiguration gmaps;
+        private GoogleMapsController<Texture> gmaps;
 
         public int searchRadius = 50;
 
@@ -97,10 +96,11 @@ namespace Juniper.Images
             var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
             var cacheDir = new DirectoryInfo(cacheDirName);
             var keyFile = Path.Combine(cacheDirName, "keys.txt");
-            var lines = File.ReadAllLines(keyFile);
-            var apiKey = lines[0];
-            var signingKey = lines[1];
-            gmaps = new GoogleMapsRequestConfiguration(apiKey, signingKey, cacheDir);
+            gmaps = GoogleMapsController<Texture>.CreateController(
+                keyFile,
+                new Image.Size(640, 640),
+                CreateTexture,
+                cacheDir);
         }
 
         public override void Enter(IProgress prog = null)
@@ -146,98 +146,83 @@ namespace Juniper.Images
         {
             if (!string.IsNullOrEmpty(Location))
             {
-                MetadataRequest metadataRequest;
+                if (fader.IsRunning)
+                {
+                    yield return fader.Waiter;
+                }
 
+                IEnumerator<MetadataResponse> metadataRequest;
+                var metadataProg = prog.Subdivide(0, 0.1f);
+                var textureProg = prog.Subdivide(0.1f, 0.9f);
                 if (LatLngPoint.TryParseDecimal(Location, out var point))
                 {
-                    metadataRequest = new MetadataRequest(gmaps, point);
+                    metadataRequest = gmaps.GetMetadata(point, metadataProg);
                 }
                 else
                 {
-                    metadataRequest = new MetadataRequest(gmaps, (PlaceName)Location);
+                    metadataRequest = gmaps.GetMetadata((PlaceName)Location, metadataProg);
                 }
 
-                if (metadataRequest != null)
+                while (metadataRequest.MoveNext()) { yield return null; }
+
+                var metadata = metadataRequest.Current;
+                if (metadata?.status != HttpStatusCode.OK)
                 {
-                    MetadataResponse metadata;
-                    if (metadataCache.ContainsKey(metadataRequest.CacheID))
+                    print("no metadata");
+                }
+                else
+                {
+                    print($"Pano ID = {metadata.pano_id}");
+                    SetLatLngLocation(metadata.location);
+                    pano = metadata.pano_id;
+                    lastLocation = Location;
+
+                    var textureRequest = gmaps.GetTexture(metadata.pano_id, textureProg);
+                    while (textureRequest.MoveNext()) { yield return null; }
+
+                    var texture = textureRequest.Current;
+
+                    if (texture != null)
                     {
-                        metadata = metadataCache[metadataRequest.CacheID];
+                        SetSkyboxTexture(texture);
                     }
-                    else
-                    {
-                        var metadataTask = metadataRequest.Get();
-                        yield return new WaitForTask(metadataTask);
-                        metadata = metadataTask.Result;
-                        metadataCache.Add(metadataRequest.CacheID, metadata);
-                    }
+                }
 
-                    if (fader.IsRunning)
-                    {
-                        yield return fader.Waiter;
-                    }
+                locked = false;
+                Complete();
+                if (fromNavigation)
+                {
+                    fader.Exit();
+                }
+            }
+        }
 
-                    if (metadata.status != HttpStatusCode.OK)
-                    {
-                        print("no metadata");
-                    }
-                    else
-                    {
-                        SetLatLngLocation(metadata.location);
-                        pano = metadata.pano_id;
-                        lastLocation = Location;
-
-                        var imageRequest = new CrossCubeMapRequest(gmaps, pano, 1024, 1024);
-
-                        if (textureCache.ContainsKey(imageRequest.CacheID))
-                        {
-                            SetSkyboxTexture(textureCache[imageRequest.CacheID]);
-                        }
-                        else
-                        {
-                            var imageTask = imageRequest.GetJPEG(prog);
-                            yield return new WaitForTask(imageTask);
-                            var image = imageTask.Result;
-
-                            var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
-                            if (image.format == Image.ImageFormat.None)
-                            {
-                                texture.LoadRawTextureData(image.data);
-                            }
-                            else if (image.format != Image.ImageFormat.Unsupported)
-                            {
-                                texture.LoadImage(image.data);
-                            }
-
-                            yield return null;
-
-                            texture.Compress(true);
-
-                            yield return null;
-
-                            texture.Apply(false, true);
-
-                            yield return null;
-
-                            textureCache.Add(imageRequest.CacheID, texture);
-
-                            SetSkyboxTexture(texture);
-                        }
-                    }
         protected override void OnExiting()
         {
             base.OnExiting();
             Complete();
         }
 
-                    locked = false;
-                    Complete();
-                    if (fromNavigation)
-                    {
-                        fader.Exit();
-                    }
-                }
+        private static IEnumerator<Texture> CreateTexture(Image.ImageData image, IProgress prog)
+        {
+            prog?.Report(0);
+            var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
+            if (image.format == Image.ImageFormat.None)
+            {
+                texture.LoadRawTextureData(image.data);
             }
+            else if (image.format != Image.ImageFormat.Unsupported)
+            {
+                texture.LoadImage(image.data);
+            }
+            prog?.Report(0.3333f);
+            yield return null;
+            texture.Compress(true);
+            prog?.Report(0.66667f);
+            yield return null;
+            texture.Apply(false, true);
+            prog?.Report(1);
+            yield return texture;
         }
 
         private void SetSkyboxTexture(Texture value)

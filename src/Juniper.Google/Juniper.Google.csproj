@@ -50,6 +50,7 @@
     <Compile Include="Maps\Geocoding\GeometryLocationType.cs" />
     <Compile Include="Maps\Geocoding\GeometryResult.cs" />
     <Compile Include="Maps\Geocoding\GeometryViewport.cs" />
+    <Compile Include="Maps\GoogleMapsController.cs" />
     <Compile Include="Maps\PhoneNumber.cs" />
     <Compile Include="Maps\PlaceID.cs" />
     <Compile Include="Maps\Places\PlaceSearchField.cs" />
@@ -100,6 +101,10 @@
     <ProjectReference Include="..\Juniper.Json\Juniper.Json.csproj">
       <Project>{b10a2ab6-5677-4f5e-b6fc-d81120787746}</Project>
       <Name>Juniper.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.NETFXExtensions\Juniper.NETFXExtensions.csproj">
+      <Project>{71CE09EF-34CE-4970-A731-593C09A7EFB9}</Project>
+      <Name>Juniper.NETFXExtensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">
       <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>

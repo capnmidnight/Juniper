@@ -130,7 +130,7 @@ namespace Juniper.HTTP.REST
             }
         }
 
-        public string CacheID
+        public virtual string CacheID
         {
             get
             {
