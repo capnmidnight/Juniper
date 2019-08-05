@@ -224,6 +224,11 @@ namespace Juniper.Images
                             SetSkyboxTexture(texture);
                         }
                     }
+        protected override void OnExiting()
+        {
+            base.OnExiting();
+            Complete();
+        }
 
                     locked = false;
                     Complete();

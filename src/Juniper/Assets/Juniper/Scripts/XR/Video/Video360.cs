@@ -171,6 +171,12 @@ namespace Juniper.Video
             }
         }
 
+        protected override void OnExiting()
+        {
+            base.OnExiting();
+            Complete();
+        }
+
         public void Play()
         {
             if (audioTracks?.Length != player.audioTrackCount)

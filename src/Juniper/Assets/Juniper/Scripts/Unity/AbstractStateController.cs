@@ -183,14 +183,11 @@ namespace Juniper
             skipEvents = false;
         }
 
-        private IProgress progress;
-
         /// <summary>
         /// Fire the OnEnable event and perform the Enter transition.
         /// </summary>
         public virtual void Enter(IProgress prog = null)
         {
-            progress = prog;
             if (IsExited)
             {
                 state = Direction.Forward;
@@ -277,7 +274,6 @@ namespace Juniper
         /// </summary>
         public virtual void Exit(IProgress prog = null)
         {
-            progress = prog;
             if (IsEntered)
             {
                 state = Direction.Reverse;

@@ -67,6 +67,12 @@ namespace Juniper.Audio
                 },
                 prog));
         }
+
+        protected override void OnExiting()
+        {
+            base.OnExiting();
+            Complete();
+        }
     }
 }
 
