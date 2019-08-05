@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-
+using System.Threading.Tasks;
 using Juniper.Animation;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.Progress;
 using Juniper.Units;
 using Juniper.Unity;
+using Juniper.Unity.Coroutines;
 using Juniper.World;
 using Juniper.World.GIS;
 
@@ -35,7 +36,7 @@ namespace Juniper.Images
 
         private Material skyboxMaterial;
 
-        private GoogleMapsController<Texture> gmaps;
+        private GoogleMapsController gmaps;
 
         public int searchRadius = 50;
 
@@ -57,8 +58,7 @@ namespace Juniper.Images
 
         private bool locked;
 
-        private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
-        private readonly Dictionary<string, Texture2D> textureCache = new Dictionary<string, Texture2D>();
+        private readonly Dictionary<PanoID, Texture> textureCache = new Dictionary<PanoID, Texture>();
 
 #if UNITY_EDITOR
 
@@ -96,10 +96,9 @@ namespace Juniper.Images
             var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
             var cacheDir = new DirectoryInfo(cacheDirName);
             var keyFile = Path.Combine(cacheDirName, "keys.txt");
-            gmaps = GoogleMapsController<Texture>.CreateController(
+            gmaps = GoogleMapsController.CreateController(
                 keyFile,
                 new Image.Size(640, 640),
-                CreateTexture,
                 cacheDir);
         }
 
@@ -151,21 +150,22 @@ namespace Juniper.Images
                     yield return fader.Waiter;
                 }
 
-                IEnumerator<MetadataResponse> metadataRequest;
                 var metadataProg = prog.Subdivide(0, 0.1f);
-                var textureProg = prog.Subdivide(0.1f, 0.9f);
+                var imageProg = prog.Subdivide(0.1f, 0.8f);
+                var textureProg = prog.Subdivide(0.9f, 0.1f);
+                Task<MetadataResponse> metadataTask;
                 if (LatLngPoint.TryParseDecimal(Location, out var point))
                 {
-                    metadataRequest = gmaps.GetMetadata(point, metadataProg);
+                    metadataTask = gmaps.GetMetadata(point, metadataProg);
                 }
                 else
                 {
-                    metadataRequest = gmaps.GetMetadata((PlaceName)Location, metadataProg);
+                    metadataTask = gmaps.GetMetadata((PlaceName)Location, metadataProg);
                 }
 
-                while (metadataRequest.MoveNext()) { yield return null; }
+                yield return new WaitForTask(metadataTask);
+                var metadata = metadataTask.Result;
 
-                var metadata = metadataRequest.Current;
                 if (metadata?.status != HttpStatusCode.OK)
                 {
                     print("no metadata");
@@ -177,15 +177,34 @@ namespace Juniper.Images
                     pano = metadata.pano_id;
                     lastLocation = Location;
 
-                    var textureRequest = gmaps.GetTexture(metadata.pano_id, textureProg);
-                    while (textureRequest.MoveNext()) { yield return null; }
-
-                    var texture = textureRequest.Current;
-
-                    if (texture != null)
+                    if (!textureCache.ContainsKey(metadata.pano_id))
                     {
-                        SetSkyboxTexture(texture);
+                        var imageTask = gmaps.GetImage(metadata.pano_id, imageProg);
+                        yield return new WaitForTask(imageTask);
+                        var image = imageTask.Result;
+
+                        textureProg?.Report(0f);
+                        var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
+                        if (image.format == Image.ImageFormat.None)
+                        {
+                            texture.LoadRawTextureData(image.data);
+                        }
+                        else if (image.format != Image.ImageFormat.Unsupported)
+                        {
+                            texture.LoadImage(image.data);
+                        }
+                        textureProg?.Report(0.3333f);
+                        yield return null;
+                        texture.Compress(true);
+                        textureProg?.Report(0.66667f);
+                        yield return null;
+                        texture.Apply(false, true);
+                        textureProg?.Report(1);
+
+                        textureCache[metadata.pano_id] = texture;
                     }
+
+                    SetSkyboxTexture(textureCache[metadata.pano_id]);
                 }
 
                 locked = false;
@@ -201,28 +220,6 @@ namespace Juniper.Images
         {
             base.OnExiting();
             Complete();
-        }
-
-        private static IEnumerator<Texture> CreateTexture(Image.ImageData image, IProgress prog)
-        {
-            prog?.Report(0);
-            var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
-            if (image.format == Image.ImageFormat.None)
-            {
-                texture.LoadRawTextureData(image.data);
-            }
-            else if (image.format != Image.ImageFormat.Unsupported)
-            {
-                texture.LoadImage(image.data);
-            }
-            prog?.Report(0.3333f);
-            yield return null;
-            texture.Compress(true);
-            prog?.Report(0.66667f);
-            yield return null;
-            texture.Apply(false, true);
-            prog?.Report(1);
-            yield return texture;
         }
 
         private void SetSkyboxTexture(Texture value)
