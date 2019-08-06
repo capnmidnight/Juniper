@@ -55,15 +55,6 @@ namespace Juniper.Google.Maps.StreetView
             subRequest = new CubeMapRequest(api, location, new Size(width, height));
         }
 
-        public override bool IsCached
-        {
-            get
-            {
-                return subRequest.IsCached
-                    && base.IsCached;
-            }
-        }
-
         protected override string CacheFileName
         {
             get
