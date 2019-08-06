@@ -235,14 +235,17 @@ namespace System.Net
                 body = cacheFile.OpenRead();
                 length = body.Length;
             }
-
-            if (body == null)
+            else
             {
                 var request = Create(uri);
                 modifyRequest?.Invoke(request);
 
                 var response = await request.Get();
                 body = response.GetResponseStream();
+                if (cacheFile != null)
+                {
+                    body = new CachingStream(body, cacheFile);
+                }
                 length = response.ContentLength;
             }
 
@@ -252,15 +255,6 @@ namespace System.Net
             }
             else
             {
-                if (cacheFile?.Exists == false)
-                {
-                    body = new CachingStream(body, cacheFile);
-                }
-                else
-                {
-                    body = new ErsatzSeekableStream(body);
-                }
-
                 body = new ProgressStream(body, length, prog);
 
                 using (body)

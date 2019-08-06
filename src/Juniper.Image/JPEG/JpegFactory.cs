@@ -4,6 +4,7 @@ using System.IO;
 using BitMiracle.LibJpeg;
 using Juniper.Progress;
 using Juniper.Serialization;
+using Juniper.Streams;
 
 namespace Juniper.Image.JPEG
 {
@@ -11,9 +12,6 @@ namespace Juniper.Image.JPEG
     {
         public static ImageData Read(byte[] data, DataSource source = DataSource.None)
         {
-            int width = 0,
-                height = 0;
-
             for (var i = 0; i < data.Length - 1; ++i)
             {
                 var a = data[i];
@@ -25,8 +23,8 @@ namespace Juniper.Image.JPEG
                     var widthHi = data[i + 7];
                     var widthLo = data[i + 8];
 
-                    width = widthHi << 8 | widthLo;
-                    height = heightHi << 8 | heightLo;
+                    var width = widthHi << 8 | widthLo;
+                    var height = heightHi << 8 | heightLo;
 
                     return new ImageData(
                         source,
@@ -67,7 +65,8 @@ namespace Juniper.Image.JPEG
         public ImageData Deserialize(Stream imageStream)
         {
             var source = imageStream.DetermineSource();
-            using (var jpeg = new JpegImage(imageStream))
+            using (var seekable = new ErsatzSeekableStream(imageStream))
+            using (var jpeg = new JpegImage(seekable))
             {
                 var stride = jpeg.Width * jpeg.ComponentsPerSample;
                 var numRows = jpeg.Height;
