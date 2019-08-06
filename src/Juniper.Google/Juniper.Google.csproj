@@ -38,7 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Maps\AbstractGoogleMapsRequest.cs" />
-    <Compile Include="Maps\AbstractMapsRequest.cs" />
     <Compile Include="Maps\Geocoding\AddressComponent.cs" />
     <Compile Include="Maps\Geocoding\GeocodingResult.cs" />
     <Compile Include="Maps\Geocoding\GeocodingResponse.cs" />

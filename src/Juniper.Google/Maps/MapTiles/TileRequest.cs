@@ -8,7 +8,7 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.MapTiles
 {
-    public partial class TileRequest : AbstractMapsRequest<ImageData>
+    public partial class TileRequest : AbstractGoogleMapsRequest<ImageData>
     {
         public static TileRequest Create(GoogleMapsRequestConfiguration api, LocationTypes locationType, object value, int zoom, Size size, ImageFormat format = ImageFormat.PNG)
         {

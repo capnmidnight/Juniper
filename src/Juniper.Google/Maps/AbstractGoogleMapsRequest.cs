@@ -1,5 +1,4 @@
 using System;
-
 using Juniper.HTTP.REST;
 using Juniper.Serialization;
 
@@ -7,10 +6,11 @@ namespace Juniper.Google.Maps
 {
     public abstract class AbstractGoogleMapsRequest<ResultType> : AbstractSingleRequest<ResultType>
     {
+        private static readonly Uri baseServiceURI = new Uri("https://maps.googleapis.com/maps/api/");
         private readonly bool signRequests;
         private readonly GoogleMapsRequestConfiguration google;
 
-        protected AbstractGoogleMapsRequest(GoogleMapsRequestConfiguration api, Uri baseServiceURI, IDeserializer<ResultType> deserializer, string path, string cacheSubDirectoryName, bool signRequests)
+        protected AbstractGoogleMapsRequest(GoogleMapsRequestConfiguration api, IDeserializer<ResultType> deserializer, string path, string cacheSubDirectoryName, bool signRequests)
             : base(api, baseServiceURI, deserializer, path, cacheSubDirectoryName)
         {
             google = api;
@@ -21,8 +21,7 @@ namespace Juniper.Google.Maps
         {
             get
             {
-                var uri = base.AuthenticatedURI;
-                uri = google.AddKey(uri);
+                var uri = google.AddKey(base.AuthenticatedURI);
                 if (signRequests)
                 {
                     uri = google.AddSignature(uri);

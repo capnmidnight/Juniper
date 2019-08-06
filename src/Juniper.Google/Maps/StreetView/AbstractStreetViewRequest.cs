@@ -3,7 +3,7 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public abstract class AbstractStreetViewRequest<ResultType> : AbstractMapsRequest<ResultType>
+    public abstract class AbstractStreetViewRequest<ResultType> : AbstractGoogleMapsRequest<ResultType>
     {
         private PanoID pano;
         private PlaceName placeName;

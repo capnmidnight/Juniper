@@ -6,7 +6,7 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.TimeZone
 {
-    public class TimeZoneRequest : AbstractMapsRequest<TimeZoneResponse>
+    public class TimeZoneRequest : AbstractGoogleMapsRequest<TimeZoneResponse>
     {
         private LatLngPoint location;
         private DateTime timestamp;

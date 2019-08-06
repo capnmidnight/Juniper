@@ -3,7 +3,7 @@ using Juniper.Serialization;
 
 namespace Juniper.Google.Maps.Geocoding
 {
-    public abstract class AbstractGeocodingRequest : AbstractMapsRequest<GeocodingResponse>
+    public abstract class AbstractGeocodingRequest : AbstractGoogleMapsRequest<GeocodingResponse>
     {
         protected AbstractGeocodingRequest(GoogleMapsRequestConfiguration api)
             : base(api, new JsonFactory().Specialize<GeocodingResponse>(), "geocode/json", "geocoding", false)
