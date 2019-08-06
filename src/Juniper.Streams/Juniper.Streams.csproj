@@ -42,6 +42,7 @@
     <Compile Include="IStreamWrapper.cs" />
     <Compile Include="ProgressStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StreamExt.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">

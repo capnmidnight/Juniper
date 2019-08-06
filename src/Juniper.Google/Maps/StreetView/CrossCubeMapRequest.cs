@@ -95,6 +95,25 @@ namespace Juniper.Google.Maps.StreetView
             });
         }
 
+        public Task CopyJPEG(Stream outStream, IProgress prog = null)
+        {
+            return Task.Run(async () =>
+            {
+                if (IsCached)
+                {
+                    CacheFile.CopyTo(outStream);
+                }
+                else
+                {
+                    var image = await Get(prog);
+                    using (var mem = new MemoryStream(image.data))
+                    {
+                        mem.CopyTo(outStream);
+                    }
+                }
+            });
+        }
+
         public override Task<ImageData> Get(IProgress prog = null)
         {
             return Task.Run(async () =>

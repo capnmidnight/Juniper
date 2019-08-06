@@ -181,6 +181,12 @@ namespace Juniper.HTTP.REST
             return Get(stream => stream, prog);
         }
 
+        public async Task CopyRaw(Stream outStream, IProgress prog = null)
+        {
+            var inStream = await GetRaw(prog);
+            inStream.CopyTo(outStream);
+        }
+
         private Task<T> Post<T>(Func<Stream, T> decoder)
         {
             return Task.Run(() => HttpWebRequestExt.CachedPost(AuthenticatedURI, decoder, CacheFile, SetAcceptType));
