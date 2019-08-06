@@ -17,7 +17,7 @@ namespace Juniper.Serialization
             }
         }
 
-        public static void Serialize<T>(this ISerializer serializer, HttpWebRequest request, T value, long length, IProgress progress)
+        public static void Serialize<T>(this ISerializer serializer, HttpWebRequest request, T value, IProgress progress)
         {
             using (var stream = request.GetRequestStream())
             {
@@ -33,7 +33,7 @@ namespace Juniper.Serialization
             }
         }
 
-        public static void Serialize<T>(this ISerializer<T> serializer, HttpWebRequest request, T value, long length, IProgress progress)
+        public static void Serialize<T>(this ISerializer<T> serializer, HttpWebRequest request, T value, IProgress progress)
         {
             using (var stream = request.GetRequestStream())
             {
