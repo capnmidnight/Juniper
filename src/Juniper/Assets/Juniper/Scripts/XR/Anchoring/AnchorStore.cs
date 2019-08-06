@@ -79,7 +79,7 @@ namespace Juniper.Anchoring
         /// <param name="value">The value to save.</param>
         protected static void SaveValue<T>(string name, T value)
         {
-            PlayerPrefs.SetString(MakeID(name), json.Serialize(value));
+            PlayerPrefs.SetString(MakeID(name), json.ToString(value));
 
             var names = NameList;
             if (!names.Contains(name))
@@ -105,7 +105,7 @@ namespace Juniper.Anchoring
             {
                 try
                 {
-                    return json.Deserialize<T>(PlayerPrefs.GetString(key));
+                    return json.Parse<T>(PlayerPrefs.GetString(key));
                 }
                 catch
                 {
