@@ -1,8 +1,7 @@
-using System.Net;
-
 using Juniper.Progress;
+using Juniper.Serialization;
 
-namespace Juniper.Serialization
+namespace System.Net
 {
     /// <summary>
     /// Perform HTTP queries
@@ -39,6 +38,26 @@ namespace Juniper.Serialization
             {
                 serializer.Serialize(stream, value, progress);
             }
+        }
+
+        public static void Serialize<T>(this ISerializer serializer, HttpListenerResponse response, T value)
+        {
+            serializer.Serialize(response.OutputStream, value);
+        }
+
+        public static void Serialize<T>(this ISerializer serializer, HttpListenerResponse response, T value, IProgress progress)
+        {
+            serializer.Serialize(response.OutputStream, value, progress);
+        }
+
+        public static void Serialize<T>(this ISerializer<T> serializer, HttpListenerResponse response, T value)
+        {
+            serializer.Serialize(response.OutputStream, value);
+        }
+
+        public static void Serialize<T>(this ISerializer<T> serializer, HttpListenerResponse response, T value, IProgress progress)
+        {
+            serializer.Serialize(response.OutputStream, value, progress);
         }
 
         public static T Deserialize<T>(this IDeserializer deserializer, HttpWebResponse response)
