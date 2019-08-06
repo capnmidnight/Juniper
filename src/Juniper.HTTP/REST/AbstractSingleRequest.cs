@@ -12,18 +12,17 @@ namespace Juniper.HTTP.REST
     public abstract class AbstractSingleRequest<ResponseType> : AbstractRequest<ResponseType, ResponseType>
     {
         private readonly Dictionary<string, List<string>> queryParams = new Dictionary<string, List<string>>();
-        private readonly UriBuilder uriBuilder;
         private readonly string cacheSubDirectoryName;
+        private readonly string path;
         private string acceptType;
         private string extension;
         protected IDeserializer<ResponseType> deserializer;
 
-        protected AbstractSingleRequest(AbstractRequestConfiguration api, Uri baseServiceURI, IDeserializer<ResponseType> deserializer, string path, string cacheSubDirectoryName)
+        protected AbstractSingleRequest(AbstractRequestConfiguration api, IDeserializer<ResponseType> deserializer, string path, string cacheSubDirectoryName)
             : base(api)
         {
-            uriBuilder = new UriBuilder(baseServiceURI);
-            uriBuilder.Path += path;
             this.deserializer = deserializer;
+            this.path = path;
             this.cacheSubDirectoryName = cacheSubDirectoryName;
         }
 
@@ -80,6 +79,8 @@ namespace Juniper.HTTP.REST
         {
             get
             {
+                var uriBuilder = new UriBuilder(api.baseServiceURI);
+                uriBuilder.Path += path;
                 uriBuilder.Query = queryParams.ToString("=", "&");
                 return uriBuilder.Uri;
             }

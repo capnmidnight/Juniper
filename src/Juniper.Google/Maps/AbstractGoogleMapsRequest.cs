@@ -6,12 +6,11 @@ namespace Juniper.Google.Maps
 {
     public abstract class AbstractGoogleMapsRequest<ResultType> : AbstractSingleRequest<ResultType>
     {
-        private static readonly Uri baseServiceURI = new Uri("https://maps.googleapis.com/maps/api/");
         private readonly bool signRequests;
         private readonly GoogleMapsRequestConfiguration google;
 
         protected AbstractGoogleMapsRequest(GoogleMapsRequestConfiguration api, IDeserializer<ResultType> deserializer, string path, string cacheSubDirectoryName, bool signRequests)
-            : base(api, baseServiceURI, deserializer, path, cacheSubDirectoryName)
+            : base(api, deserializer, path, cacheSubDirectoryName)
         {
             google = api;
             this.signRequests = signRequests;
