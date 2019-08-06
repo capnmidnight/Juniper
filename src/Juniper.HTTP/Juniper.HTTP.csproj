@@ -43,7 +43,6 @@
     <Compile Include="REST\AbstractRequest.cs" />
     <Compile Include="REST\AbstractSingleRequest.cs" />
     <Compile Include="BodyInfo.cs" />
-    <Compile Include="Response.cs" />
     <Compile Include="IFactoryExt.cs" />
     <Compile Include="HttpWebRequestExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
