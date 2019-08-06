@@ -10,12 +10,12 @@ namespace Juniper.Json
 {
     public class JsonFactory : IFactory
     {
-        public string Serialize<T>(T value)
+        public string ToString<T>(T value)
         {
             return JsonConvert.SerializeObject(value);
         }
 
-        public T Deserialize<T>(string text)
+        public T Parse<T>(string text)
         {
             return JsonConvert.DeserializeObject<T>(text);
         }
@@ -24,7 +24,7 @@ namespace Juniper.Json
         {
             using (var writer = new StreamWriter(stream))
             {
-                var text = Serialize(value);
+                var text = ToString(value);
                 var length = System.Text.Encoding.UTF8.GetByteCount(text);
                 writer.Write(new ProgressStream(stream, length, prog));
             }
@@ -34,7 +34,7 @@ namespace Juniper.Json
         {
             using (var reader = new StreamReader(stream))
             {
-                return Deserialize<T>(reader.ReadToEnd());
+                return Parse<T>(reader.ReadToEnd());
             }
         }
     }
