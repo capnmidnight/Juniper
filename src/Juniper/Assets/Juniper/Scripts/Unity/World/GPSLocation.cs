@@ -124,6 +124,8 @@ namespace Juniper.World
             }
         }
 
+        private bool lastUseFakeCoord;
+
         /// <summary>
         /// Enables the compass (which is necessary for GPS updates), and attempts to retrieve the
         /// last GPS report value from the previous session out of PlayerPrefs.
@@ -148,14 +150,6 @@ namespace Juniper.World
                 {
                     Coord = coordFactory.Parse(PlayerPrefs.GetString(COORD_KEY));
                 }
-            }
-        }
-
-        public void Start()
-        {
-            if (!UseFakeCoord)
-            {
-                UnityInput.compass.enabled = true;
             }
         }
 
@@ -238,6 +232,13 @@ namespace Juniper.World
         /// </summary>
         public void Update()
         {
+            if (UseFakeCoord != lastUseFakeCoord)
+            {
+                UnityInput.compass.enabled = !UseFakeCoord;
+            }
+
+            lastUseFakeCoord = UseFakeCoord;
+
             if (Status == LocationServiceStatus.Running
                 && !UseFakeCoord
                 && Time.unscaledTime >= nextUpdateTime)

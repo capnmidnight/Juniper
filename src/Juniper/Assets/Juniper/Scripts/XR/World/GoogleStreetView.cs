@@ -249,6 +249,7 @@ namespace Juniper.Images
 
             if (gps != null)
             {
+                gps.FakeCoord = true;
                 gps.Coord = location;
             }
 #if UNITY_EDITOR
