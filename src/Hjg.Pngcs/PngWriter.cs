@@ -1,6 +1,5 @@
 namespace Hjg.Pngcs
 {
-    using System.Collections.Generic;
     using System.IO;
     using Chunks;
     using Hjg.Pngcs.Zlib;
@@ -87,7 +86,7 @@ namespace Hjg.Pngcs
         private PngIDatChunkOutputStream datStream;
         private AZlibOutputStream datStreamDeflated;
 
-        private int[] histox = new int[256]; // auxiliar buffer, histogram, only used by reportResultsForFilter
+        private readonly int[] histox = new int[256]; // auxiliar buffer, histogram, only used by reportResultsForFilter
 
         // this only influences the 1-2-4 bitdepth format - and if we pass a ImageLine to writeRow, this is ignored
         private bool unpackedMode;
@@ -121,12 +120,12 @@ namespace Hjg.Pngcs
         {
             this.filename = (filename == null) ? "" : filename;
             this.outputStream = outputStream;
-            this.ImgInfo = imgInfo;
+            ImgInfo = imgInfo;
             // defaults settings
-            this.CompLevel = 6;
-            this.ShouldCloseStream = true;
-            this.IdatMaxSize = 0; // use default
-            this.CompressionStrategy = EDeflateCompressStrategy.Filtered;
+            CompLevel = 6;
+            ShouldCloseStream = true;
+            IdatMaxSize = 0; // use default
+            CompressionStrategy = EDeflateCompressStrategy.Filtered;
             // prealloc
             //scanline = new int[imgInfo.SamplesPerRowPacked];
             rowb = new byte[imgInfo.BytesPerRow + 1];
@@ -144,24 +143,32 @@ namespace Hjg.Pngcs
         /// </summary>
         private void init()
         {
-            datStream = new PngIDatChunkOutputStream(this.outputStream, this.IdatMaxSize);
-            datStreamDeflated = ZlibStreamFactory.createZlibOutputStream(datStream, this.CompLevel, this.CompressionStrategy, true);
+            datStream = new PngIDatChunkOutputStream(outputStream, IdatMaxSize);
+            datStreamDeflated = ZlibStreamFactory.createZlibOutputStream(datStream, CompLevel, CompressionStrategy, true);
             WriteSignatureAndIHDR();
             WriteFirstChunks();
         }
 
         private void reportResultsForFilter(int rown, FilterType type, bool tentative)
         {
-            for (int i = 0; i < histox.Length; i++)
+            for (var i = 0; i < histox.Length; i++)
+            {
                 histox[i] = 0;
+            }
+
             int s = 0, v;
-            for (int i = 1; i <= ImgInfo.BytesPerRow; i++)
+            for (var i = 1; i <= ImgInfo.BytesPerRow; i++)
             {
                 v = rowbfilter[i];
                 if (v < 0)
-                    s -= (int)v;
+                {
+                    s -= v;
+                }
                 else
-                    s += (int)v;
+                {
+                    s += v;
+                }
+
                 histox[v & 0xFF]++;
             }
             filterStrat.fillResultsForFilter(rown, type, s, histox, tentative);
@@ -169,21 +176,27 @@ namespace Hjg.Pngcs
 
         private void WriteEndChunk()
         {
-            PngChunkIEND c = new PngChunkIEND(ImgInfo);
+            var c = new PngChunkIEND(ImgInfo);
             c.CreateRawChunk().WriteChunk(outputStream);
         }
 
         private void WriteFirstChunks()
         {
-            int nw = 0;
+            var nw = 0;
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_1_AFTERIDHR;
             nw = chunksList.writeChunks(outputStream, CurrentChunkGroup);
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_2_PLTE;
             nw = chunksList.writeChunks(outputStream, CurrentChunkGroup);
             if (nw > 0 && ImgInfo.Greyscale)
+            {
                 throw new PngjOutputException("cannot write palette for this format");
+            }
+
             if (nw == 0 && ImgInfo.Indexed)
+            {
                 throw new PngjOutputException("missing palette");
+            }
+
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_3_AFTERPLTE;
             nw = chunksList.writeChunks(outputStream, CurrentChunkGroup);
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_4_IDAT;
@@ -194,9 +207,12 @@ namespace Hjg.Pngcs
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_5_AFTERIDAT;
             chunksList.writeChunks(outputStream, CurrentChunkGroup);
             // should not be unwriten chunks
-            List<PngChunk> pending = chunksList.GetQueuedChunks();
+            var pending = chunksList.GetQueuedChunks();
             if (pending.Count > 0)
+            {
                 throw new PngjOutputException(pending.Count + " chunks were not written! Eg: " + pending[0].ToString());
+            }
+
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_6_END;
         }
 
@@ -208,18 +224,29 @@ namespace Hjg.Pngcs
         {
             CurrentChunkGroup = ChunksList.CHUNK_GROUP_0_IDHR;
             PngHelperInternal.WriteBytes(outputStream, Hjg.Pngcs.PngHelperInternal.PNG_ID_SIGNATURE); // signature
-            PngChunkIHDR ihdr = new PngChunkIHDR(ImgInfo);
-            // http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
-            ihdr.Cols = ImgInfo.Cols;
-            ihdr.Rows = ImgInfo.Rows;
-            ihdr.Bitspc = ImgInfo.BitDepth;
-            int colormodel = 0;
+            var ihdr = new PngChunkIHDR(ImgInfo)
+            {
+                // http://www.libpng.org/pub/png/spec/1.2/PNG-Chunks.html
+                Cols = ImgInfo.Cols,
+                Rows = ImgInfo.Rows,
+                Bitspc = ImgInfo.BitDepth
+            };
+            var colormodel = 0;
             if (ImgInfo.Alpha)
+            {
                 colormodel += 0x04;
+            }
+
             if (ImgInfo.Indexed)
+            {
                 colormodel += 0x01;
+            }
+
             if (!ImgInfo.Greyscale)
+            {
                 colormodel += 0x02;
+            }
+
             ihdr.Colormodel = colormodel;
             ihdr.Compmeth = 0; // compression method 0=deflate
             ihdr.Filmeth = 0; // filter method (0)
@@ -232,17 +259,17 @@ namespace Hjg.Pngcs
             if (row.Length == ImgInfo.SamplesPerRowPacked && !needsPack)
             {
                 // some duplication of code - because this case is typical and it works faster this way
-                int j = 1;
+                var j = 1;
                 if (ImgInfo.BitDepth <= 8)
                 {
-                    foreach (byte x in row)
+                    foreach (var x in row)
                     { // optimized
                         rowb[j++] = x;
                     }
                 }
                 else
                 { // 16 bitspc
-                    foreach (byte x in row)
+                    foreach (var x in row)
                     { // optimized
                         rowb[j] = x;
                         j += 2;
@@ -253,7 +280,10 @@ namespace Hjg.Pngcs
             {
                 // perhaps we need to pack?
                 if (row.Length >= ImgInfo.SamplesPerRow && needsPack)
+                {
                     ImageLine.packInplaceByte(ImgInfo, row, row, false); // row is packed in place!
+                }
+
                 if (ImgInfo.BitDepth <= 8)
                 {
                     for (int i = 0, j = 1; i < ImgInfo.SamplesPerRowPacked; i++)
@@ -277,17 +307,17 @@ namespace Hjg.Pngcs
             if (row.Length == ImgInfo.SamplesPerRowPacked && !needsPack)
             {
                 // some duplication of code - because this case is typical and it works faster this way
-                int j = 1;
+                var j = 1;
                 if (ImgInfo.BitDepth <= 8)
                 {
-                    foreach (int x in row)
+                    foreach (var x in row)
                     { // optimized
                         rowb[j++] = (byte)x;
                     }
                 }
                 else
                 { // 16 bitspc
-                    foreach (int x in row)
+                    foreach (var x in row)
                     { // optimized
                         rowb[j++] = (byte)(x >> 8);
                         rowb[j++] = (byte)(x);
@@ -298,7 +328,10 @@ namespace Hjg.Pngcs
             {
                 // perhaps we need to pack?
                 if (row.Length >= ImgInfo.SamplesPerRow && needsPack)
+                {
                     ImageLine.packInplaceInt(ImgInfo, row, row, false); // row is packed in place!
+                }
+
                 if (ImgInfo.BitDepth <= 8)
                 {
                     for (int i = 0, j = 1; i < ImgInfo.SamplesPerRowPacked; i++)
@@ -334,7 +367,7 @@ namespace Hjg.Pngcs
                 FilterRowPaeth();
                 reportResultsForFilter(rown, FilterType.FILTER_PAETH, true);
             }
-            FilterType filterType = filterStrat.gimmeFilterType(rown, true);
+            var filterType = filterStrat.gimmeFilterType(rown, true);
             rowbfilter[0] = (byte)(int)filterType;
             switch (filterType)
             {
@@ -367,13 +400,18 @@ namespace Hjg.Pngcs
         private void prepareEncodeRow(int rown)
         {
             if (datStream == null)
+            {
                 init();
+            }
+
             rowNum++;
             if (rown >= 0 && rowNum != rown)
+            {
                 throw new PngjOutputException("rows must be written in order: expected:" + rowNum
                         + " passed:" + rown);
+            }
             // swap
-            byte[] tmp = rowb;
+            var tmp = rowb;
             rowb = rowbprev;
             rowbprev = tmp;
         }
@@ -390,15 +428,15 @@ namespace Hjg.Pngcs
             imax = ImgInfo.BytesPerRow;
             for (j = 1 - ImgInfo.BytesPixel, i = 1; i <= imax; i++, j++)
             {
-                rowbfilter[i] = (byte)(rowb[i] - ((rowbprev[i]) + (j > 0 ? rowb[j] : (byte)0)) / 2);
+                rowbfilter[i] = (byte)(rowb[i] - ((rowbprev[i]) + (j > 0 ? rowb[j] : 0)) / 2);
             }
         }
 
         private void FilterRowNone()
         {
-            for (int i = 1; i <= ImgInfo.BytesPerRow; i++)
+            for (var i = 1; i <= ImgInfo.BytesPerRow; i++)
             {
-                rowbfilter[i] = (byte)rowb[i];
+                rowbfilter[i] = rowb[i];
             }
         }
 
@@ -408,8 +446,8 @@ namespace Hjg.Pngcs
             imax = ImgInfo.BytesPerRow;
             for (j = 1 - ImgInfo.BytesPixel, i = 1; i <= imax; i++, j++)
             {
-                rowbfilter[i] = (byte)(rowb[i] - PngHelperInternal.FilterPaethPredictor(j > 0 ? rowb[j] : (byte)0,
-                        rowbprev[i], j > 0 ? rowbprev[j] : (byte)0));
+                rowbfilter[i] = (byte)(rowb[i] - PngHelperInternal.FilterPaethPredictor(j > 0 ? rowb[j] : 0,
+                        rowbprev[i], j > 0 ? rowbprev[j] : 0));
             }
         }
 
@@ -418,7 +456,7 @@ namespace Hjg.Pngcs
             int i, j;
             for (i = 1; i <= ImgInfo.BytesPixel; i++)
             {
-                rowbfilter[i] = (byte)rowb[i];
+                rowbfilter[i] = rowb[i];
             }
             for (j = 1, i = ImgInfo.BytesPixel + 1; i <= ImgInfo.BytesPerRow; i++, j++)
             {
@@ -428,7 +466,7 @@ namespace Hjg.Pngcs
 
         private void FilterRowUp()
         {
-            for (int i = 1; i <= ImgInfo.BytesPerRow; i++)
+            for (var i = 1; i <= ImgInfo.BytesPerRow; i++)
             {
                 rowbfilter[i] = (byte)(rowb[i] - rowbprev[i]);
             }
@@ -437,11 +475,18 @@ namespace Hjg.Pngcs
         private long SumRowbfilter()
         { // sums absolute value
             long s = 0;
-            for (int i = 1; i <= ImgInfo.BytesPerRow; i++)
+            for (var i = 1; i <= ImgInfo.BytesPerRow; i++)
+            {
                 if (rowbfilter[i] < 0)
-                    s -= (long)rowbfilter[i];
+                {
+                    s -= rowbfilter[i];
+                }
                 else
-                    s += (long)rowbfilter[i];
+                {
+                    s += rowbfilter[i];
+                }
+            }
+
             return s;
         }
 
@@ -453,46 +498,78 @@ namespace Hjg.Pngcs
         ///
         private void CopyChunks(PngReader reader, int copy_mask, bool onlyAfterIdat)
         {
-            bool idatDone = CurrentChunkGroup >= ChunksList.CHUNK_GROUP_4_IDAT;
-            if (onlyAfterIdat && reader.CurrentChunkGroup < ChunksList.CHUNK_GROUP_6_END) throw new PngjException("tried to copy last chunks but reader has not ended");
-            foreach (PngChunk chunk in reader.GetChunksList().GetChunks())
+            var idatDone = CurrentChunkGroup >= ChunksList.CHUNK_GROUP_4_IDAT;
+            if (onlyAfterIdat && reader.CurrentChunkGroup < ChunksList.CHUNK_GROUP_6_END)
             {
-                int group = chunk.ChunkGroup;
+                throw new PngjException("tried to copy last chunks but reader has not ended");
+            }
+
+            foreach (var chunk in reader.GetChunksList().GetChunks())
+            {
+                var group = chunk.ChunkGroup;
                 if (group < ChunksList.CHUNK_GROUP_4_IDAT && idatDone)
+                {
                     continue;
-                bool copy = false;
+                }
+
+                var copy = false;
                 if (chunk.Crit)
                 {
                     if (chunk.Id.Equals(ChunkHelper.PLTE))
                     {
                         if (ImgInfo.Indexed && ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_PALETTE))
+                        {
                             copy = true;
+                        }
+
                         if (!ImgInfo.Greyscale && ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALL))
+                        {
                             copy = true;
+                        }
                     }
                 }
                 else
                 { // ancillary
-                    bool text = (chunk is PngChunkTextVar);
-                    bool safe = chunk.Safe;
+                    var text = (chunk is PngChunkTextVar);
+                    var safe = chunk.Safe;
                     // notice that these if are not exclusive
                     if (ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALL))
+                    {
                         copy = true;
+                    }
+
                     if (safe && ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALL_SAFE))
+                    {
                         copy = true;
+                    }
+
                     if (chunk.Id.Equals(ChunkHelper.tRNS)
                             && ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_TRANSPARENCY))
+                    {
                         copy = true;
+                    }
+
                     if (chunk.Id.Equals(ChunkHelper.pHYs) && ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_PHYS))
+                    {
                         copy = true;
+                    }
+
                     if (text && ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_TEXTUAL))
+                    {
                         copy = true;
+                    }
+
                     if (ChunkHelper.maskMatch(copy_mask, ChunkCopyBehaviour.COPY_ALMOSTALL)
                             && !(ChunkHelper.IsUnknown(chunk) || text || chunk.Id.Equals(ChunkHelper.hIST) || chunk.Id
                                     .Equals(ChunkHelper.tIME)))
+                    {
                         copy = true;
+                    }
+
                     if (chunk is PngChunkSkipped)
+                    {
                         copy = false;
+                    }
                 }
                 if (copy)
                 {
@@ -520,8 +597,11 @@ namespace Hjg.Pngcs
         public double ComputeCompressionRatio()
         {
             if (CurrentChunkGroup < ChunksList.CHUNK_GROUP_6_END)
+            {
                 throw new PngjException("must be called after End()");
-            double compressed = (double)datStream.GetCountFlushed();
+            }
+
+            var compressed = (double)datStream.GetCountFlushed();
             double raw = (ImgInfo.BytesPerRow + 1) * ImgInfo.Rows;
             return compressed / raw;
         }
@@ -535,15 +615,20 @@ namespace Hjg.Pngcs
         public void End()
         {
             if (rowNum != ImgInfo.Rows - 1)
+            {
                 throw new PngjOutputException("all rows have not been written");
+            }
+
             try
             {
                 datStreamDeflated.Close();
                 datStream.Close();
                 WriteLastChunks();
                 WriteEndChunk();
-                if (this.ShouldCloseStream)
+                if (ShouldCloseStream)
+                {
                     outputStream.Close();
+                }
             }
             catch (IOException e)
             {
@@ -568,9 +653,13 @@ namespace Hjg.Pngcs
         {
             SetUseUnPackedMode(imgline.SamplesUnpacked);
             if (imgline.SampleType == ImageLine.ESampleType.INT)
+            {
                 WriteRowInt(imgline.Scanline, rownumber);
+            }
             else
+            {
                 WriteRowByte(imgline.ScanlineB, rownumber);
+            }
         }
 
         public void WriteRow(int[] newrow)
@@ -615,8 +704,10 @@ namespace Hjg.Pngcs
 
         public void WriteRowsInt(int[][] image)
         {
-            for (int i = 0; i < ImgInfo.Rows; i++)
+            for (var i = 0; i < ImgInfo.Rows; i++)
+            {
                 WriteRowInt(image[i], i);
+            }
         }
 
         /**
@@ -625,8 +716,10 @@ namespace Hjg.Pngcs
 
         public void WriteRowsByte(byte[][] image)
         {
-            for (int i = 0; i < ImgInfo.Rows; i++)
+            for (var i = 0; i < ImgInfo.Rows; i++)
+            {
                 WriteRowByte(image[i], i);
+            }
         }
 
         public PngMetadata GetMetadata()
@@ -660,7 +753,7 @@ namespace Hjg.Pngcs
 
         public void SetUseUnPackedMode(bool useUnpackedMode)
         {
-            this.unpackedMode = useUnpackedMode;
+            unpackedMode = useUnpackedMode;
             needsPack = unpackedMode && ImgInfo.Packed;
         }
     }

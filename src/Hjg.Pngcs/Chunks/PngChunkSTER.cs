@@ -24,22 +24,25 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = createEmptyChunk(1, true);
-            c.Data[0] = (byte)Mode;
+            var c = createEmptyChunk(1, true);
+            c.Data[0] = Mode;
             return c;
         }
 
         public override void ParseFromRaw(ChunkRaw chunk)
         {
             if (chunk.Len != 1)
+            {
                 throw new PngjException("bad chunk length " + chunk);
+            }
+
             Mode = chunk.Data[0];
         }
 
         public override void CloneDataFromRead(PngChunk other)
         {
-            PngChunkSTER otherx = (PngChunkSTER)other;
-            this.Mode = otherx.Mode;
+            var otherx = (PngChunkSTER)other;
+            Mode = otherx.Mode;
         }
     }
 }

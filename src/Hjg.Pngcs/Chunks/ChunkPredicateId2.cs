@@ -15,17 +15,25 @@ namespace Hjg.Pngcs.Chunks
         public ChunkPredicateId2(string id, string inner)
         {
             this.id = id;
-            this.innerid = inner;
+            innerid = inner;
         }
 
         public bool Matches(PngChunk c)
         {
             if (!c.Id.Equals(id))
+            {
                 return false;
+            }
+
             if (c is PngChunkTextVar && !((PngChunkTextVar)c).GetKey().Equals(innerid))
+            {
                 return false;
+            }
+
             if (c is PngChunkSPLT && !((PngChunkSPLT)c).PalName.Equals(innerid))
+            {
                 return false;
+            }
 
             return true;
         }

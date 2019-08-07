@@ -1,5 +1,3 @@
-using Juniper.HTTP;
-
 namespace Yarrow.Server.Console
 {
     internal class Program

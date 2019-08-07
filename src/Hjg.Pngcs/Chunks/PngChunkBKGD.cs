@@ -57,7 +57,7 @@ namespace Hjg.Pngcs.Chunks
             }
             else if (ImgInfo.Indexed)
             {
-                paletteIndex = (int)(c.Data[0] & 0xff);
+                paletteIndex = c.Data[0] & 0xff;
             }
             else
             {
@@ -69,7 +69,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(PngChunk other)
         {
-            PngChunkBKGD otherx = (PngChunkBKGD)other;
+            var otherx = (PngChunkBKGD)other;
             gray = otherx.gray;
             red = otherx.red;
             green = otherx.red;
@@ -84,7 +84,10 @@ namespace Hjg.Pngcs.Chunks
         public void SetGray(int gray)
         {
             if (!ImgInfo.Greyscale)
+            {
                 throw new PngjException("only gray images support this");
+            }
+
             this.gray = gray;
         }
 
@@ -95,7 +98,10 @@ namespace Hjg.Pngcs.Chunks
         public int GetGray()
         {
             if (!ImgInfo.Greyscale)
+            {
                 throw new PngjException("only gray images support this");
+            }
+
             return gray;
         }
 
@@ -106,8 +112,11 @@ namespace Hjg.Pngcs.Chunks
         public void SetPaletteIndex(int index)
         {
             if (!ImgInfo.Indexed)
+            {
                 throw new PngjException("only indexed (pallete) images support this");
-            this.paletteIndex = index;
+            }
+
+            paletteIndex = index;
         }
 
         /// <summary>
@@ -117,7 +126,10 @@ namespace Hjg.Pngcs.Chunks
         public int GetPaletteIndex()
         {
             if (!ImgInfo.Indexed)
+            {
                 throw new PngjException("only indexed (pallete) images support this");
+            }
+
             return paletteIndex;
         }
 
@@ -130,7 +142,10 @@ namespace Hjg.Pngcs.Chunks
         public void SetRGB(int r, int g, int b)
         {
             if (ImgInfo.Greyscale || ImgInfo.Indexed)
+            {
                 throw new PngjException("only rgb or rgba images support this");
+            }
+
             red = r;
             green = g;
             blue = b;
@@ -143,7 +158,10 @@ namespace Hjg.Pngcs.Chunks
         public int[] GetRGB()
         {
             if (ImgInfo.Greyscale || ImgInfo.Indexed)
+            {
                 throw new PngjException("only rgb or rgba images support this");
+            }
+
             return new int[] { red, green, blue };
         }
     }

@@ -32,12 +32,17 @@ namespace Hjg.Pngcs.Chunks
         public override void ParseFromRaw(ChunkRaw c)
         {
             if (c.Len != GetLen())
+            {
                 throw new PngjException("bad chunk length " + c);
+            }
+
             if (ImgInfo.Greyscale)
             {
                 Graysb = PngHelperInternal.ReadInt1fromByte(c.Data, 0);
                 if (ImgInfo.Alpha)
+                {
                     Alphasb = PngHelperInternal.ReadInt1fromByte(c.Data, 1);
+                }
             }
             else
             {
@@ -45,7 +50,9 @@ namespace Hjg.Pngcs.Chunks
                 Greensb = PngHelperInternal.ReadInt1fromByte(c.Data, 1);
                 Bluesb = PngHelperInternal.ReadInt1fromByte(c.Data, 2);
                 if (ImgInfo.Alpha)
+                {
                     Alphasb = PngHelperInternal.ReadInt1fromByte(c.Data, 3);
+                }
             }
         }
 
@@ -57,7 +64,9 @@ namespace Hjg.Pngcs.Chunks
             {
                 c.Data[0] = (byte)Graysb;
                 if (ImgInfo.Alpha)
+                {
                     c.Data[1] = (byte)Alphasb;
+                }
             }
             else
             {
@@ -65,14 +74,16 @@ namespace Hjg.Pngcs.Chunks
                 c.Data[1] = (byte)Greensb;
                 c.Data[2] = (byte)Bluesb;
                 if (ImgInfo.Alpha)
+                {
                     c.Data[3] = (byte)Alphasb;
+                }
             }
             return c;
         }
 
         public override void CloneDataFromRead(PngChunk other)
         {
-            PngChunkSBIT otherx = (PngChunkSBIT)other;
+            var otherx = (PngChunkSBIT)other;
             Graysb = otherx.Graysb;
             Redsb = otherx.Redsb;
             Greensb = otherx.Greensb;
@@ -82,8 +93,12 @@ namespace Hjg.Pngcs.Chunks
 
         private int GetLen()
         {
-            int len = ImgInfo.Greyscale ? 1 : 3;
-            if (ImgInfo.Alpha) len += 1;
+            var len = ImgInfo.Greyscale ? 1 : 3;
+            if (ImgInfo.Alpha)
+            {
+                len += 1;
+            }
+
             return len;
         }
     }

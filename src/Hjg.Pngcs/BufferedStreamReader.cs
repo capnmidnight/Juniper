@@ -21,7 +21,7 @@ namespace Ar.Com.Hjg.Pngcs
 
         public BufferedStreamFeeder(Stream ist, int bufsize)
         {
-            this._stream = ist;
+            _stream = ist;
             buf = new byte[bufsize];
         }
 
@@ -47,12 +47,12 @@ namespace Ar.Com.Hjg.Pngcs
 
         public int feed(IBytesConsumer consumer, int maxbytes)
         {
-            int n = 0;
+            var n = 0;
             if (pendinglen == 0)
             {
                 refillBuffer();
             }
-            int tofeed = maxbytes > 0 && maxbytes < pendinglen ? maxbytes : pendinglen;
+            var tofeed = maxbytes > 0 && maxbytes < pendinglen ? maxbytes : pendinglen;
             if (tofeed > 0)
             {
                 n = consumer.consume(buf, offset, tofeed);
@@ -63,18 +63,24 @@ namespace Ar.Com.Hjg.Pngcs
                 }
             }
             if (n < 1 && failIfNoFeed)
+            {
                 throw new PngjInputException("failed feed bytes");
+            }
+
             return n;
         }
 
         public bool feedFixed(IBytesConsumer consumer, int nbytes)
         {
-            int remain = nbytes;
+            var remain = nbytes;
             while (remain > 0)
             {
-                int n = feed(consumer, remain);
+                var n = feed(consumer, remain);
                 if (n < 1)
+                {
                     return false;
+                }
+
                 remain -= n;
             }
             return true;
@@ -83,7 +89,10 @@ namespace Ar.Com.Hjg.Pngcs
         protected void refillBuffer()
         {
             if (pendinglen > 0 || eof)
+            {
                 return; // only if not pending data
+            }
+
             try
             {
                 // try to read
@@ -95,7 +104,9 @@ namespace Ar.Com.Hjg.Pngcs
                     return;
                 }
                 else
+                {
                     return;
+                }
             }
             catch (IOException e)
             {
@@ -106,9 +117,14 @@ namespace Ar.Com.Hjg.Pngcs
         public bool hasMoreToFeed()
         {
             if (eof)
+            {
                 return pendinglen > 0;
+            }
             else
+            {
                 refillBuffer();
+            }
+
             return pendinglen > 0;
         }
 
@@ -126,7 +142,9 @@ namespace Ar.Com.Hjg.Pngcs
             try
             {
                 if (_stream != null && closeStream)
+                {
                     _stream.Close();
+                }
             }
             catch (Exception e)
             {
@@ -137,7 +155,7 @@ namespace Ar.Com.Hjg.Pngcs
 
         public void setInputStream(Stream ist)
         { // to reuse this object
-            this._stream = ist;
+            _stream = ist;
             eof = false;
         }
 

@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs
 {
-    using System;
-
     /// <summary>
     /// Lightweight wrapper for an image scanline, for read and write
     /// </summary>
@@ -104,13 +102,13 @@ namespace Hjg.Pngcs
 
         internal ImageLine(ImageInfo imgInfo, ESampleType stype, bool unpackedMode, int[] sci, byte[] scb)
         {
-            this.ImgInfo = imgInfo;
+            ImgInfo = imgInfo;
             channels = imgInfo.Channels;
-            this.bitDepth = imgInfo.BitDepth;
-            this.FilterUsed = FilterType.FILTER_UNKNOWN;
-            this.SampleType = stype;
-            this.SamplesUnpacked = unpackedMode || !imgInfo.Packed;
-            ElementsPerRow = this.SamplesUnpacked ? imgInfo.SamplesPerRow
+            bitDepth = imgInfo.BitDepth;
+            FilterUsed = FilterType.FILTER_UNKNOWN;
+            SampleType = stype;
+            SamplesUnpacked = unpackedMode || !imgInfo.Packed;
+            ElementsPerRow = SamplesUnpacked ? imgInfo.SamplesPerRow
                 : imgInfo.SamplesPerRowPacked;
             if (stype == ESampleType.INT)
             {
@@ -125,19 +123,25 @@ namespace Hjg.Pngcs
                 maxSampleVal = bitDepth == 16 ? 0xFF : GetMaskForPackedFormatsLs(bitDepth);
             }
             else
+            {
                 throw new PngjExceptionInternal("bad ImageLine initialization");
-            this.Rown = -1;
+            }
+
+            Rown = -1;
         }
 
         static internal void unpackInplaceInt(ImageInfo iminfo, int[] src, int[] dst,
             bool Scale)
         {
-            int bitDepth = iminfo.BitDepth;
+            var bitDepth = iminfo.BitDepth;
             if (bitDepth >= 8)
+            {
                 return; // nothing to do
-            int mask0 = GetMaskForPackedFormatsLs(bitDepth);
-            int scalefactor = 8 - bitDepth;
-            int offset0 = 8 * iminfo.SamplesPerRowPacked - bitDepth * iminfo.SamplesPerRow;
+            }
+
+            var mask0 = GetMaskForPackedFormatsLs(bitDepth);
+            var scalefactor = 8 - bitDepth;
+            var offset0 = 8 * iminfo.SamplesPerRowPacked - bitDepth * iminfo.SamplesPerRow;
             int mask, offset, v;
             if (offset0 != 8)
             {
@@ -153,7 +157,10 @@ namespace Hjg.Pngcs
             {
                 v = (src[i] & mask) >> offset;
                 if (Scale)
+                {
                     v <<= scalefactor;
+                }
+
                 dst[j] = v;
                 mask <<= bitDepth;
                 offset += bitDepth;
@@ -169,24 +176,33 @@ namespace Hjg.Pngcs
         static internal void packInplaceInt(ImageInfo iminfo, int[] src, int[] dst,
             bool scaled)
         {
-            int bitDepth = iminfo.BitDepth;
+            var bitDepth = iminfo.BitDepth;
             if (bitDepth >= 8)
+            {
                 return; // nothing to do
-            int mask0 = GetMaskForPackedFormatsLs(bitDepth);
-            int scalefactor = 8 - bitDepth;
-            int offset0 = 8 - bitDepth;
+            }
+
+            var mask0 = GetMaskForPackedFormatsLs(bitDepth);
+            var scalefactor = 8 - bitDepth;
+            var offset0 = 8 - bitDepth;
             int v, v0;
-            int offset = 8 - bitDepth;
+            var offset = 8 - bitDepth;
             v0 = src[0]; // first value is special for in place
             dst[0] = 0;
             if (scaled)
+            {
                 v0 >>= scalefactor;
+            }
+
             v0 = ((v0 & mask0) << offset);
             for (int i = 0, j = 0; j < iminfo.SamplesPerRow; j++)
             {
                 v = src[j];
                 if (scaled)
+                {
                     v >>= scalefactor;
+                }
+
                 dst[i] |= ((v & mask0) << offset);
                 offset -= bitDepth;
                 if (offset < 0)
@@ -202,12 +218,15 @@ namespace Hjg.Pngcs
         static internal void unpackInplaceByte(ImageInfo iminfo, byte[] src,
              byte[] dst, bool scale)
         {
-            int bitDepth = iminfo.BitDepth;
+            var bitDepth = iminfo.BitDepth;
             if (bitDepth >= 8)
+            {
                 return; // nothing to do
-            int mask0 = GetMaskForPackedFormatsLs(bitDepth);
-            int scalefactor = 8 - bitDepth;
-            int offset0 = 8 * iminfo.SamplesPerRowPacked - bitDepth * iminfo.SamplesPerRow;
+            }
+
+            var mask0 = GetMaskForPackedFormatsLs(bitDepth);
+            var scalefactor = 8 - bitDepth;
+            var offset0 = 8 * iminfo.SamplesPerRowPacked - bitDepth * iminfo.SamplesPerRow;
             int mask, offset, v;
             if (offset0 != 8)
             {
@@ -223,7 +242,10 @@ namespace Hjg.Pngcs
             {
                 v = (src[i] & mask) >> offset;
                 if (scale)
+                {
                     v <<= scalefactor;
+                }
+
                 dst[j] = (byte)v;
                 mask <<= bitDepth;
                 offset += bitDepth;
@@ -241,24 +263,33 @@ namespace Hjg.Pngcs
         static internal void packInplaceByte(ImageInfo iminfo, byte[] src, byte[] dst,
                  bool scaled)
         {
-            int bitDepth = iminfo.BitDepth;
+            var bitDepth = iminfo.BitDepth;
             if (bitDepth >= 8)
+            {
                 return; // nothing to do
-            byte mask0 = (byte)GetMaskForPackedFormatsLs(bitDepth);
-            byte scalefactor = (byte)(8 - bitDepth);
-            byte offset0 = (byte)(8 - bitDepth);
+            }
+
+            var mask0 = (byte)GetMaskForPackedFormatsLs(bitDepth);
+            var scalefactor = (byte)(8 - bitDepth);
+            var offset0 = (byte)(8 - bitDepth);
             byte v, v0;
-            int offset = 8 - bitDepth;
+            var offset = 8 - bitDepth;
             v0 = src[0]; // first value is special
             dst[0] = 0;
             if (scaled)
+            {
                 v0 >>= scalefactor;
+            }
+
             v0 = (byte)((v0 & mask0) << offset);
             for (int i = 0, j = 0; j < iminfo.SamplesPerRow; j++)
             {
                 v = src[j];
                 if (scaled)
+                {
                     v >>= scalefactor;
+                }
+
                 dst[i] |= (byte)((v & mask0) << offset);
                 offset -= bitDepth;
                 if (offset < 0)
@@ -278,7 +309,7 @@ namespace Hjg.Pngcs
         /// <param name="b"></param>
         internal void SetScanLine(int[] b)
         { // makes copy
-            System.Array.Copy((Array)(b), 0, (Array)(Scanline), 0, Scanline.Length);
+            System.Array.Copy(b, 0, Scanline, 0, Scanline.Length);
         }
 
         /// <summary>
@@ -289,28 +320,41 @@ namespace Hjg.Pngcs
         internal int[] GetScanLineCopy(int[] b)
         {
             if (b == null || b.Length < Scanline.Length)
+            {
                 b = new int[Scanline.Length];
-            System.Array.Copy((Array)(Scanline), 0, (Array)(b), 0, Scanline.Length);
+            }
+
+            System.Array.Copy(Scanline, 0, b, 0, Scanline.Length);
             return b;
         }
 
         public ImageLine unpackToNewImageLine()
         {
-            ImageLine newline = new ImageLine(ImgInfo, SampleType, true);
+            var newline = new ImageLine(ImgInfo, SampleType, true);
             if (SampleType == ESampleType.INT)
+            {
                 unpackInplaceInt(ImgInfo, Scanline, newline.Scanline, false);
+            }
             else
+            {
                 unpackInplaceByte(ImgInfo, ScanlineB, newline.ScanlineB, false);
+            }
+
             return newline;
         }
 
         public ImageLine packToNewImageLine()
         {
-            ImageLine newline = new ImageLine(ImgInfo, SampleType, false);
+            var newline = new ImageLine(ImgInfo, SampleType, false);
             if (SampleType == ESampleType.INT)
+            {
                 packInplaceInt(ImgInfo, Scanline, newline.Scanline, false);
+            }
             else
+            {
                 packInplaceByte(ImgInfo, ScanlineB, newline.ScanlineB, false);
+            }
+
             return newline;
         }
 
@@ -342,18 +386,42 @@ namespace Hjg.Pngcs
 
         internal static int GetMaskForPackedFormats(int bitDepth)
         { // Utility function for pack/unpack
-            if (bitDepth == 4) return 0xf0;
-            else if (bitDepth == 2) return 0xc0;
-            else if (bitDepth == 1) return 0x80;
-            else return 0xff;
+            if (bitDepth == 4)
+            {
+                return 0xf0;
+            }
+            else if (bitDepth == 2)
+            {
+                return 0xc0;
+            }
+            else if (bitDepth == 1)
+            {
+                return 0x80;
+            }
+            else
+            {
+                return 0xff;
+            }
         }
 
         internal static int GetMaskForPackedFormatsLs(int bitDepth)
         { // Utility function for pack/unpack
-            if (bitDepth == 4) return 0x0f;
-            else if (bitDepth == 2) return 0x03;
-            else if (bitDepth == 1) return 0x01;
-            else return 0xff;
+            if (bitDepth == 4)
+            {
+                return 0x0f;
+            }
+            else if (bitDepth == 2)
+            {
+                return 0x03;
+            }
+            else if (bitDepth == 1)
+            {
+                return 0x01;
+            }
+            else
+            {
+                return 0xff;
+            }
         }
     }
 }

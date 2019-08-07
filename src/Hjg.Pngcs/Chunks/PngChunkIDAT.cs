@@ -14,8 +14,8 @@ namespace Hjg.Pngcs.Chunks
         public PngChunkIDAT(ImageInfo i, int len, long offset)
             : base(ID, i)
         {
-            this.Length = len;
-            this.Offset = offset;
+            Length = len;
+            Offset = offset;
         }
 
         public override ChunkOrderingConstraint GetOrderingConstraint()

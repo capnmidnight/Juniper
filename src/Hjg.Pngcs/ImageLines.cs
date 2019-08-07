@@ -27,25 +27,35 @@ namespace Hjg.Pngcs
             channels = ImgInfo.Channels;
             bitDepth = ImgInfo.BitDepth;
             this.sampleType = sampleType;
-            this.SamplesUnpacked = unpackedMode || !ImgInfo.Packed;
-            this.RowOffset = rowOffset;
-            this.Nrows = nRows;
-            this.RowStep = rowStep;
+            SamplesUnpacked = unpackedMode || !ImgInfo.Packed;
+            RowOffset = rowOffset;
+            Nrows = nRows;
+            RowStep = rowStep;
             elementsPerRow = unpackedMode ? ImgInfo.SamplesPerRow : ImgInfo.SamplesPerRowPacked;
             if (sampleType == ImageLine.ESampleType.INT)
             {
                 Scanlines = new int[nRows][];
-                for (int i = 0; i < nRows; i++) Scanlines[i] = new int[elementsPerRow];
+                for (var i = 0; i < nRows; i++)
+                {
+                    Scanlines[i] = new int[elementsPerRow];
+                }
+
                 ScanlinesB = null;
             }
             else if (sampleType == ImageLine.ESampleType.BYTE)
             {
                 ScanlinesB = new byte[nRows][];
-                for (int i = 0; i < nRows; i++) ScanlinesB[i] = new byte[elementsPerRow];
+                for (var i = 0; i < nRows; i++)
+                {
+                    ScanlinesB[i] = new byte[elementsPerRow];
+                }
+
                 Scanlines = null;
             }
             else
+            {
                 throw new PngjExceptionInternal("bad ImageLine initialization");
+            }
         }
 
         /// <summary>
@@ -57,7 +67,7 @@ namespace Hjg.Pngcs
         /// <returns>Row number in the wrapped matrix. Undefined result if invalid</returns>
         public int ImageRowToMatrixRow(int imrow)
         {
-            int r = (imrow - RowOffset) / RowStep;
+            var r = (imrow - RowOffset) / RowStep;
             return r < 0 ? 0 : (r < Nrows ? r : Nrows - 1);
         }
 
@@ -69,7 +79,7 @@ namespace Hjg.Pngcs
         public int ImageRowToMatrixRowStrict(int imrow)
         {
             imrow -= RowOffset;
-            int mrow = imrow >= 0 && imrow % RowStep == 0 ? imrow / RowStep : -1;
+            var mrow = imrow >= 0 && imrow % RowStep == 0 ? imrow / RowStep : -1;
             return mrow < Nrows ? mrow : -1;
         }
 
@@ -92,9 +102,12 @@ namespace Hjg.Pngcs
         public ImageLine GetImageLineAtMatrixRow(int mrow)
         {
             if (mrow < 0 || mrow > Nrows)
+            {
                 throw new PngjException("Bad row " + mrow + ". Should be positive and less than "
                         + Nrows);
-            ImageLine imline = sampleType == ImageLine.ESampleType.INT ? new ImageLine(ImgInfo, sampleType,
+            }
+
+            var imline = sampleType == ImageLine.ESampleType.INT ? new ImageLine(ImgInfo, sampleType,
                     SamplesUnpacked, Scanlines[mrow], null) : new ImageLine(ImgInfo, sampleType,
                     SamplesUnpacked, null, ScanlinesB[mrow]);
             imline.Rown = MatrixRowToImageRow(mrow);

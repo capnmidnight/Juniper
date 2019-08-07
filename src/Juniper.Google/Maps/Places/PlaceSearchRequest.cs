@@ -6,7 +6,7 @@ using Juniper.Serialization;
 
 namespace Juniper.Google.Maps.Places
 {
-    class PlaceSearchRequest : AbstractGoogleMapsRequest<PlaceSearchResponse>
+    internal class PlaceSearchRequest : AbstractGoogleMapsRequest<PlaceSearchResponse>
     {
         private string input;
         private PlaceSearchInputType inputtype;

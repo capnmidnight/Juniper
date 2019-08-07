@@ -27,8 +27,8 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw p = createEmptyChunk(data.Length, false);
-            p.Data = this.data;
+            var p = createEmptyChunk(data.Length, false);
+            p.Data = data;
             return p;
         }
 
@@ -48,13 +48,13 @@ namespace Hjg.Pngcs.Chunks
 
         public void SetData(byte[] data_0)
         {
-            this.data = data_0;
+            data = data_0;
         }
 
         public override void CloneDataFromRead(PngChunk other)
         {
             // THIS SHOULD NOT BE CALLED IF ALREADY CLONED WITH COPY CONSTRUCTOR
-            PngChunkUNKNOWN c = (PngChunkUNKNOWN)other;
+            var c = (PngChunkUNKNOWN)other;
             data = c.data; // not deep copy
         }
     }

@@ -1,6 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using System;
     using Hjg.Pngcs;
 
     /// <summary>
@@ -25,10 +24,12 @@ namespace Hjg.Pngcs.Chunks
         {
             ChunkRaw c = null;
             if (!ImgInfo.Indexed)
+            {
                 throw new PngjException("only indexed images accept a HIST chunk");
+            }
 
             c = createEmptyChunk(hist.Length * 2, true);
-            for (int i = 0; i < hist.Length; i++)
+            for (var i = 0; i < hist.Length; i++)
             {
                 PngHelperInternal.WriteInt2tobytes(hist[i], c.Data, i * 2);
             }
@@ -38,10 +39,13 @@ namespace Hjg.Pngcs.Chunks
         public override void ParseFromRaw(ChunkRaw c)
         {
             if (!ImgInfo.Indexed)
+            {
                 throw new PngjException("only indexed images accept a HIST chunk");
-            int nentries = c.Data.Length / 2;
+            }
+
+            var nentries = c.Data.Length / 2;
             hist = new int[nentries];
-            for (int i = 0; i < hist.Length; i++)
+            for (var i = 0; i < hist.Length; i++)
             {
                 hist[i] = PngHelperInternal.ReadInt2fromBytes(c.Data, i * 2);
             }
@@ -49,9 +53,9 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(PngChunk other)
         {
-            PngChunkHIST otherx = (PngChunkHIST)other;
+            var otherx = (PngChunkHIST)other;
             hist = new int[otherx.hist.Length];
-            System.Array.Copy((Array)(otherx.hist), 0, (Array)(this.hist), 0, otherx.hist.Length);
+            System.Array.Copy(otherx.hist, 0, hist, 0, otherx.hist.Length);
         }
 
         public int[] GetHist()

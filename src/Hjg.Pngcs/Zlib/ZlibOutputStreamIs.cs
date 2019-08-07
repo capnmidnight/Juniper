@@ -14,25 +14,34 @@ namespace Hjg.Pngcs.Zlib
     /// </summary>
     internal class ZlibOutputStream : AZlibOutputStream
     {
-        private DeflaterOutputStream ost;
-        private Deflater deflater;
+        private readonly DeflaterOutputStream ost;
+        private readonly Deflater deflater;
 
         public ZlibOutputStream(Stream st, int compressLevel, EDeflateCompressStrategy strat, bool leaveOpen)
             : base(st, compressLevel, strat, leaveOpen)
         {
             deflater = new Deflater(compressLevel);
             setStrat(strat);
-            ost = new DeflaterOutputStream(st, deflater);
-            ost.IsStreamOwner = !leaveOpen;
+            ost = new DeflaterOutputStream(st, deflater)
+            {
+                IsStreamOwner = !leaveOpen
+            };
         }
 
         public void setStrat(EDeflateCompressStrategy strat)
         {
             if (strat == EDeflateCompressStrategy.Filtered)
+            {
                 deflater.SetStrategy(DeflateStrategy.Filtered);
+            }
             else if (strat == EDeflateCompressStrategy.Huffman)
+            {
                 deflater.SetStrategy(DeflateStrategy.HuffmanOnly);
-            else deflater.SetStrategy(DeflateStrategy.Default);
+            }
+            else
+            {
+                deflater.SetStrategy(DeflateStrategy.Default);
+            }
         }
 
         public override void Write(byte[] buffer, int offset, int count)

@@ -28,8 +28,8 @@ namespace Hjg.Pngcs.Chunks
 
         internal ChunksList(ImageInfo imfinfo)
         {
-            this.chunks = new List<PngChunk>();
-            this.imageInfo = imfinfo;
+            chunks = new List<PngChunk>();
+            imageInfo = imfinfo;
         }
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace Hjg.Pngcs.Chunks
         /// <returns>key:chunk id, val: number of occurrences</returns>
         public Dictionary<string, int> GetChunksKeys()
         {
-            Dictionary<string, int> ck = new Dictionary<string, int>();
-            foreach (PngChunk c in chunks)
+            var ck = new Dictionary<string, int>();
+            foreach (var c in chunks)
             {
                 ck[c.Id] = ck.ContainsKey(c.Id) ? ck[c.Id] + 1 : 1;
             }
@@ -60,9 +60,13 @@ namespace Hjg.Pngcs.Chunks
         internal static List<PngChunk> GetXById(List<PngChunk> list, string id, string innerid)
         {
             if (innerid == null)
+            {
                 return ChunkHelper.FilterList(list, new ChunkPredicateId(id));
+            }
             else
+            {
                 return ChunkHelper.FilterList(list, new ChunkPredicateId2(id, innerid));
+            }
         }
 
         /// <summary>
@@ -129,11 +133,17 @@ namespace Hjg.Pngcs.Chunks
         /// <returns>null if not found</returns>
         public PngChunk GetById1(string id, string innerid, bool failIfMultiple)
         {
-            List<PngChunk> list = GetById(id, innerid);
+            var list = GetById(id, innerid);
             if (list.Count == 0)
+            {
                 return null;
+            }
+
             if (list.Count > 1 && (failIfMultiple || !list[0].AllowsMultiple()))
+            {
                 throw new PngjException("unexpected multiple chunks id=" + id);
+            }
+
             return list[list.Count - 1];
         }
 
@@ -162,9 +172,9 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public string ToStringFull()
         {
-            StringBuilder sb = new StringBuilder(ToString());
+            var sb = new StringBuilder(ToString());
             sb.Append("\n Read:\n");
-            foreach (PngChunk chunk in chunks)
+            foreach (var chunk in chunks)
             {
                 sb.Append(chunk).Append(" G=" + chunk.ChunkGroup + "\n");
             }

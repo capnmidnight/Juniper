@@ -11,16 +11,16 @@ namespace Hjg.Pngcs.Chunks
     ///
     public class ChunksListForWrite : ChunksList
     {
-        private List<PngChunk> queuedChunks; // chunks not yet writen - does not include IHDR, IDAT, END, perhaps yes PLTE
+        private readonly List<PngChunk> queuedChunks; // chunks not yet writen - does not include IHDR, IDAT, END, perhaps yes PLTE
 
         // redundant, just for eficciency
-        private Dictionary<string, int> alreadyWrittenKeys;
+        private readonly Dictionary<string, int> alreadyWrittenKeys;
 
         internal ChunksListForWrite(ImageInfo info)
             : base(info)
         {
-            this.queuedChunks = new List<PngChunk>();
-            this.alreadyWrittenKeys = new Dictionary<string, int>();
+            queuedChunks = new List<PngChunk>();
+            alreadyWrittenKeys = new Dictionary<string, int>();
         }
 
         /// <summary>
@@ -53,11 +53,17 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public PngChunk GetQueuedById1(string id, string innerid, bool failIfMultiple)
         {
-            List<PngChunk> list = GetQueuedById(id, innerid);
+            var list = GetQueuedById(id, innerid);
             if (list.Count == 0)
+            {
                 return null;
+            }
+
             if (list.Count > 1 && (failIfMultiple || !list[0].AllowsMultiple()))
+            {
                 throw new PngjException("unexpected multiple chunks id=" + id);
+            }
+
             return list[list.Count - 1];
         }
 
@@ -115,12 +121,20 @@ namespace Hjg.Pngcs.Chunks
         private static bool shouldWrite(PngChunk c, int currentGroup)
         {
             if (currentGroup == CHUNK_GROUP_2_PLTE)
+            {
                 return c.Id.Equals(ChunkHelper.PLTE);
+            }
+
             if (currentGroup % 2 == 0)
+            {
                 throw new PngjOutputException("bad chunk group?");
+            }
+
             int minChunkGroup, maxChunkGroup;
             if (c.mustGoBeforePLTE())
+            {
                 minChunkGroup = maxChunkGroup = ChunksList.CHUNK_GROUP_1_AFTERIDHR;
+            }
             else if (c.mustGoBeforeIDAT())
             {
                 maxChunkGroup = ChunksList.CHUNK_GROUP_3_AFTERPLTE;
@@ -133,37 +147,58 @@ namespace Hjg.Pngcs.Chunks
                 minChunkGroup = ChunksList.CHUNK_GROUP_1_AFTERIDHR;
             }
 
-            int preferred = maxChunkGroup;
+            var preferred = maxChunkGroup;
             if (c.Priority)
+            {
                 preferred = minChunkGroup;
+            }
+
             if (ChunkHelper.IsUnknown(c) && c.ChunkGroup > 0)
+            {
                 preferred = c.ChunkGroup;
+            }
+
             if (currentGroup == preferred)
+            {
                 return true;
+            }
+
             if (currentGroup > preferred && currentGroup <= maxChunkGroup)
+            {
                 return true;
+            }
+
             return false;
         }
 
         internal int writeChunks(Stream os, int currentGroup)
         {
-            List<int> written = new List<int>();
-            for (int i = 0; i < queuedChunks.Count; i++)
+            var written = new List<int>();
+            for (var i = 0; i < queuedChunks.Count; i++)
             {
-                PngChunk c = queuedChunks[i];
+                var c = queuedChunks[i];
                 if (!shouldWrite(c, currentGroup))
+                {
                     continue;
+                }
+
                 if (ChunkHelper.IsCritical(c.Id) && !c.Id.Equals(ChunkHelper.PLTE))
+                {
                     throw new PngjOutputException("bad chunk queued: " + c);
+                }
+
                 if (alreadyWrittenKeys.ContainsKey(c.Id) && !c.AllowsMultiple())
+                {
                     throw new PngjOutputException("duplicated chunk does not allow multiple: " + c);
+                }
+
                 c.write(os);
                 chunks.Add(c);
                 alreadyWrittenKeys[c.Id] = alreadyWrittenKeys.ContainsKey(c.Id) ? alreadyWrittenKeys[c.Id] + 1 : 1;
                 written.Add(i);
                 c.ChunkGroup = currentGroup;
             }
-            for (int k = written.Count - 1; k >= 0; k--)
+            for (var k = written.Count - 1; k >= 0; k--)
             {
                 queuedChunks.RemoveAt(written[k]);
             }

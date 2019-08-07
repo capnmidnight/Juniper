@@ -1,6 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using System.IO;
     using Hjg.Pngcs;
 
     /// <summary>
@@ -29,8 +28,8 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = new ChunkRaw(13, ChunkHelper.b_IHDR, true);
-            int offset = 0;
+            var c = new ChunkRaw(13, ChunkHelper.b_IHDR, true);
+            var offset = 0;
             Hjg.Pngcs.PngHelperInternal.WriteInt4tobytes(Cols, c.Data, offset);
             offset += 4;
             Hjg.Pngcs.PngHelperInternal.WriteInt4tobytes(Rows, c.Data, offset);
@@ -46,8 +45,11 @@ namespace Hjg.Pngcs.Chunks
         public override void ParseFromRaw(ChunkRaw c)
         {
             if (c.Len != 13)
+            {
                 throw new PngjException("Bad IDHR len " + c.Len);
-            MemoryStream st = c.GetAsByteStream();
+            }
+
+            var st = c.GetAsByteStream();
             Cols = Hjg.Pngcs.PngHelperInternal.ReadInt4(st);
             Rows = Hjg.Pngcs.PngHelperInternal.ReadInt4(st);
             // bit depth: number of bits per channel
@@ -60,7 +62,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(PngChunk other)
         {
-            PngChunkIHDR otherx = (PngChunkIHDR)other;
+            var otherx = (PngChunkIHDR)other;
             Cols = otherx.Cols;
             Rows = otherx.Rows;
             Bitspc = otherx.Bitspc;

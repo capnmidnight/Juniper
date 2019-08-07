@@ -5,7 +5,7 @@ namespace Hjg.Pngcs.Chunks
         internal PngChunkSkipped(string id, ImageInfo imgInfo, int clen)
             : base(id, imgInfo)
         {
-            this.Length = clen;
+            Length = clen;
         }
 
         public sealed override bool AllowsMultiple()

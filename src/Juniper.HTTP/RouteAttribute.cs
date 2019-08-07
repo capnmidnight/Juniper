@@ -52,7 +52,7 @@ namespace Juniper.HTTP
                 }
             }
         }
-        
+
         public void Invoke(HttpListenerContext context, string[] argValues)
         {
             var args = argValues

@@ -1,7 +1,5 @@
 namespace Hjg.Pngcs
 {
-    using System;
-
     /// <summary>
     /// Simple immutable wrapper for basic image info
     /// </summary>
@@ -118,48 +116,62 @@ namespace Hjg.Pngcs
         public ImageInfo(int cols, int rows, int bitdepth, bool alpha, bool grayscale,
                 bool palette)
         {
-            this.Cols = cols;
-            this.Rows = rows;
-            this.Alpha = alpha;
-            this.Indexed = palette;
-            this.Greyscale = grayscale;
+            Cols = cols;
+            Rows = rows;
+            Alpha = alpha;
+            Indexed = palette;
+            Greyscale = grayscale;
             if (Greyscale && palette)
+            {
                 throw new PngjException("palette and greyscale are exclusive");
-            this.Channels = (grayscale || palette) ? ((alpha) ? 2 : 1) : ((alpha) ? 4 : 3);
+            }
+
+            Channels = (grayscale || palette) ? ((alpha) ? 2 : 1) : ((alpha) ? 4 : 3);
             // http://www.w3.org/TR/PNG/#11IHDR
-            this.BitDepth = bitdepth;
-            this.Packed = bitdepth < 8;
-            this.BitspPixel = (Channels * this.BitDepth);
-            this.BytesPixel = (BitspPixel + 7) / 8;
-            this.BytesPerRow = (BitspPixel * cols + 7) / 8;
-            this.SamplesPerRow = Channels * this.Cols;
-            this.SamplesPerRowPacked = (Packed) ? BytesPerRow : SamplesPerRow;
+            BitDepth = bitdepth;
+            Packed = bitdepth < 8;
+            BitspPixel = (Channels * BitDepth);
+            BytesPixel = (BitspPixel + 7) / 8;
+            BytesPerRow = (BitspPixel * cols + 7) / 8;
+            SamplesPerRow = Channels * Cols;
+            SamplesPerRowPacked = (Packed) ? BytesPerRow : SamplesPerRow;
             // checks
-            switch (this.BitDepth)
+            switch (BitDepth)
             {
                 case 1:
                 case 2:
                 case 4:
-                if (!(this.Indexed || this.Greyscale))
+                if (!(Indexed || Greyscale))
+                {
                     throw new PngjException("only indexed or grayscale can have bitdepth="
-                            + this.BitDepth);
+                            + BitDepth);
+                }
+
                 break;
 
                 case 8:
                 break;
 
                 case 16:
-                if (this.Indexed)
-                    throw new PngjException("indexed can't have bitdepth=" + this.BitDepth);
+                if (Indexed)
+                {
+                    throw new PngjException("indexed can't have bitdepth=" + BitDepth);
+                }
+
                 break;
 
                 default:
-                throw new PngjException("invalid bitdepth=" + this.BitDepth);
+                throw new PngjException("invalid bitdepth=" + BitDepth);
             }
             if (cols < 1 || cols > MAX_COLS_ROWS_VAL)
+            {
                 throw new PngjException("invalid cols=" + cols + " ???");
+            }
+
             if (rows < 1 || rows > MAX_COLS_ROWS_VAL)
+            {
                 throw new PngjException("invalid rows=" + rows + " ???");
+            }
         }
 
         /// <summary>
@@ -178,8 +190,8 @@ namespace Hjg.Pngcs
 
         public override int GetHashCode()
         {
-            int prime = 31;
-            int result = 1;
+            var prime = 31;
+            var result = 1;
             result = prime * result + ((Alpha) ? 1231 : 1237);
             result = prime * result + BitDepth;
             result = prime * result + Channels;
@@ -190,29 +202,59 @@ namespace Hjg.Pngcs
             return result;
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
-            if ((Object)this == obj)
+            if ((object)this == obj)
+            {
                 return true;
+            }
+
             if (obj == null)
+            {
                 return false;
-            if ((Object)GetType() != (Object)obj.GetType())
+            }
+
+            if (GetType() != (object)obj.GetType())
+            {
                 return false;
-            ImageInfo other = (ImageInfo)obj;
+            }
+
+            var other = (ImageInfo)obj;
             if (Alpha != other.Alpha)
+            {
                 return false;
+            }
+
             if (BitDepth != other.BitDepth)
+            {
                 return false;
+            }
+
             if (Channels != other.Channels)
+            {
                 return false;
+            }
+
             if (Cols != other.Cols)
+            {
                 return false;
+            }
+
             if (Greyscale != other.Greyscale)
+            {
                 return false;
+            }
+
             if (Indexed != other.Indexed)
+            {
                 return false;
+            }
+
             if (Rows != other.Rows)
+            {
                 return false;
+            }
+
             return true;
         }
     }

@@ -37,7 +37,7 @@ namespace Hjg.Pngcs.Chunks
             else if (ImgInfo.Indexed)
             {
                 c = createEmptyChunk(paletteAlpha.Length, true);
-                for (int n = 0; n < c.Len; n++)
+                for (var n = 0; n < c.Len; n++)
                 {
                     c.Data[n] = (byte)paletteAlpha[n];
                 }
@@ -60,11 +60,11 @@ namespace Hjg.Pngcs.Chunks
             }
             else if (ImgInfo.Indexed)
             {
-                int nentries = c.Data.Length;
+                var nentries = c.Data.Length;
                 paletteAlpha = new int[nentries];
-                for (int n = 0; n < nentries; n++)
+                for (var n = 0; n < nentries; n++)
                 {
-                    paletteAlpha[n] = (int)(c.Data[n] & 0xff);
+                    paletteAlpha[n] = c.Data[n] & 0xff;
                 }
             }
             else
@@ -77,7 +77,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(PngChunk other)
         {
-            PngChunkTRNS otherx = (PngChunkTRNS)other;
+            var otherx = (PngChunkTRNS)other;
             gray = otherx.gray;
             red = otherx.red;
             green = otherx.green;
@@ -92,7 +92,10 @@ namespace Hjg.Pngcs.Chunks
         public void SetRGB(int r, int g, int b)
         {
             if (ImgInfo.Greyscale || ImgInfo.Indexed)
+            {
                 throw new PngjException("only rgb or rgba images support this");
+            }
+
             red = r;
             green = g;
             blue = b;
@@ -101,21 +104,30 @@ namespace Hjg.Pngcs.Chunks
         public int[] GetRGB()
         {
             if (ImgInfo.Greyscale || ImgInfo.Indexed)
+            {
                 throw new PngjException("only rgb or rgba images support this");
+            }
+
             return new int[] { red, green, blue };
         }
 
         public void SetGray(int g)
         {
             if (!ImgInfo.Greyscale)
+            {
                 throw new PngjException("only grayscale images support this");
+            }
+
             gray = g;
         }
 
         public int GetGray()
         {
             if (!ImgInfo.Greyscale)
+            {
                 throw new PngjException("only grayscale images support this");
+            }
+
             return gray;
         }
 
@@ -126,7 +138,10 @@ namespace Hjg.Pngcs.Chunks
         public void SetPalletteAlpha(int[] palAlpha)
         {
             if (!ImgInfo.Indexed)
+            {
                 throw new PngjException("only indexed images support this");
+            }
+
             paletteAlpha = palAlpha;
         }
 
@@ -137,10 +152,16 @@ namespace Hjg.Pngcs.Chunks
         public void setIndexEntryAsTransparent(int palAlphaIndex)
         {
             if (!ImgInfo.Indexed)
+            {
                 throw new PngjException("only indexed images support this");
+            }
+
             paletteAlpha = new int[] { palAlphaIndex + 1 };
-            for (int i = 0; i < palAlphaIndex; i++)
+            for (var i = 0; i < palAlphaIndex; i++)
+            {
                 paletteAlpha[i] = 255;
+            }
+
             paletteAlpha[palAlphaIndex] = 0;
         }
 
@@ -151,7 +172,10 @@ namespace Hjg.Pngcs.Chunks
         public int[] GetPalletteAlpha()
         {
             if (!ImgInfo.Indexed)
+            {
                 throw new PngjException("only indexed images support this");
+            }
+
             return paletteAlpha;
         }
     }

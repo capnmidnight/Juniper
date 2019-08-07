@@ -1,6 +1,5 @@
 namespace Hjg.Pngcs
 {
-    using System;
     using System.IO;
 
     /// <summary>
@@ -15,8 +14,11 @@ namespace Hjg.Pngcs
 
         public ProgressiveOutputStream(int size_0)
         {
-            this.size = size_0;
-            if (size < 8) throw new PngjException("bad size for ProgressiveOutputStream: " + size);
+            size = size_0;
+            if (size < 8)
+            {
+                throw new PngjException("bad size for ProgressiveOutputStream: " + size);
+            }
         }
 
         public override void Close()
@@ -50,22 +52,30 @@ namespace Hjg.Pngcs
         ///
         private void CheckFlushBuffer(bool forced)
         {
-            int count = (int)Position;
-            byte[] buf = GetBuffer();
+            var count = (int)Position;
+            var buf = GetBuffer();
             while (forced || count >= size)
             {
-                int nb = size;
+                var nb = size;
                 if (nb > count)
+                {
                     nb = count;
+                }
+
                 if (nb == 0)
+                {
                     return;
+                }
+
                 FlushBuffer(buf, nb);
                 countFlushed += nb;
-                int bytesleft = count - nb;
+                var bytesleft = count - nb;
                 count = bytesleft;
                 Position = count;
                 if (bytesleft > 0)
-                    System.Array.Copy((Array)(buf), nb, (Array)(buf), 0, bytesleft);
+                {
+                    System.Array.Copy(buf, nb, buf, 0, bytesleft);
+                }
             }
         }
 

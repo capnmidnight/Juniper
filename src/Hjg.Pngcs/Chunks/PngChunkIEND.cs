@@ -21,7 +21,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = new ChunkRaw(0, ChunkHelper.b_IEND, false);
+            var c = new ChunkRaw(0, ChunkHelper.b_IEND, false);
             return c;
         }
 

@@ -76,7 +76,7 @@ namespace Hjg.Pngcs
             lenLastChunk = lenFirstChunk;
             toReadThisChunk = lenFirstChunk;
             // we know it's a IDAT
-            Array.Copy(Chunks.ChunkHelper.b_IDAT, 0, (Array)idLastChunk, 0, 4);
+            Array.Copy(Chunks.ChunkHelper.b_IDAT, 0, idLastChunk, 0, 4);
             crcEngine.Update(idLastChunk, 0, 4);
             foundChunksInfo.Add(new IdatChunkInfo(lenLastChunk, offset_0 - 8));
             // PngHelper.logdebug("IDAT Initial fragment: len=" + lenLastChunk);
@@ -103,11 +103,11 @@ namespace Hjg.Pngcs
             // Skips empty IDATS
             do
             {
-                int crc = PngHelperInternal.ReadInt4(inputStream);
+                var crc = PngHelperInternal.ReadInt4(inputStream);
                 offset += 4;
                 if (checkCrc)
                 {
-                    int crccalc = (int)crcEngine.GetValue();
+                    var crccalc = (int)crcEngine.GetValue();
                     if (lenLastChunk > 0 && crc != crccalc)
                     {
                         throw new PngjBadCrcException("error reading idat; offset: " + offset);
@@ -147,7 +147,7 @@ namespace Hjg.Pngcs
         {
             if (!ended)
             {
-                byte[] dummy = new byte[toReadThisChunk];
+                var dummy = new byte[toReadThisChunk];
                 PngHelperInternal.ReadBytes(inputStream, dummy, 0, toReadThisChunk);
                 if (checkCrc)
                 {
@@ -175,7 +175,7 @@ namespace Hjg.Pngcs
                 throw new Exception("this should not happen");
             }
 
-            int n = inputStream.Read(b, off, (len_0 >= toReadThisChunk) ? toReadThisChunk : len_0);
+            var n = inputStream.Read(b, off, (len_0 >= toReadThisChunk) ? toReadThisChunk : len_0);
             if (n == -1)
             {
                 n = -2;
@@ -209,8 +209,8 @@ namespace Hjg.Pngcs
         {
             // PngHelper.logdebug("read() should go here");
             // inneficient - but this should be used rarely
-            byte[] b1 = new byte[1];
-            int r = Read(b1, 0, 1);
+            var b1 = new byte[1];
+            var r = Read(b1, 0, 1);
             return (r < 0) ? -1 : b1[0];
         }
 

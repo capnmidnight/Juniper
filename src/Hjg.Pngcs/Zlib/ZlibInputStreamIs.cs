@@ -13,13 +13,15 @@ namespace Hjg.Pngcs.Zlib
     /// </summary>
     internal class ZlibInputStream : AZlibInputStream
     {
-        private InflaterInputStream ist;
+        private readonly InflaterInputStream ist;
 
         public ZlibInputStream(Stream st, bool leaveOpen)
             : base(st, leaveOpen)
         {
-            ist = new InflaterInputStream(st);
-            ist.IsStreamOwner = !leaveOpen;
+            ist = new InflaterInputStream(st)
+            {
+                IsStreamOwner = !leaveOpen
+            };
         }
 
         public override int Read(byte[] array, int offset, int count)

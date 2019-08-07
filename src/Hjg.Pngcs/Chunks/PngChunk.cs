@@ -85,43 +85,45 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="imgInfo"></param>
         protected PngChunk(string id, ImageInfo imgInfo)
         {
-            this.Id = id;
-            this.ImgInfo = imgInfo;
-            this.Crit = Hjg.Pngcs.Chunks.ChunkHelper.IsCritical(id);
-            this.Pub = Hjg.Pngcs.Chunks.ChunkHelper.IsPublic(id);
-            this.Safe = Hjg.Pngcs.Chunks.ChunkHelper.IsSafeToCopy(id);
-            this.Priority = false;
-            this.ChunkGroup = -1;
-            this.Length = -1;
-            this.Offset = 0;
+            Id = id;
+            ImgInfo = imgInfo;
+            Crit = Hjg.Pngcs.Chunks.ChunkHelper.IsCritical(id);
+            Pub = Hjg.Pngcs.Chunks.ChunkHelper.IsPublic(id);
+            Safe = Hjg.Pngcs.Chunks.ChunkHelper.IsSafeToCopy(id);
+            Priority = false;
+            ChunkGroup = -1;
+            Length = -1;
+            Offset = 0;
         }
 
-        private static Dictionary<string, Type> factoryMap = initFactory();
+        private static readonly Dictionary<string, Type> factoryMap = initFactory();
 
         private static Dictionary<string, Type> initFactory()
         {
-            Dictionary<string, Type> f = new Dictionary<string, System.Type>();
-            f.Add(ChunkHelper.IDAT, typeof(PngChunkIDAT));
-            f.Add(ChunkHelper.IHDR, typeof(PngChunkIHDR));
-            f.Add(ChunkHelper.PLTE, typeof(PngChunkPLTE));
-            f.Add(ChunkHelper.IEND, typeof(PngChunkIEND));
-            f.Add(ChunkHelper.tEXt, typeof(PngChunkTEXT));
-            f.Add(ChunkHelper.iTXt, typeof(PngChunkITXT));
-            f.Add(ChunkHelper.zTXt, typeof(PngChunkZTXT));
-            f.Add(ChunkHelper.bKGD, typeof(PngChunkBKGD));
-            f.Add(ChunkHelper.gAMA, typeof(PngChunkGAMA));
-            f.Add(ChunkHelper.pHYs, typeof(PngChunkPHYS));
-            f.Add(ChunkHelper.iCCP, typeof(PngChunkICCP));
-            f.Add(ChunkHelper.tIME, typeof(PngChunkTIME));
-            f.Add(ChunkHelper.tRNS, typeof(PngChunkTRNS));
-            f.Add(ChunkHelper.cHRM, typeof(PngChunkCHRM));
-            f.Add(ChunkHelper.sBIT, typeof(PngChunkSBIT));
-            f.Add(ChunkHelper.sRGB, typeof(PngChunkSRGB));
-            f.Add(ChunkHelper.hIST, typeof(PngChunkHIST));
-            f.Add(ChunkHelper.sPLT, typeof(PngChunkSPLT));
-            // extended
-            f.Add(PngChunkOFFS.ID, typeof(PngChunkOFFS));
-            f.Add(PngChunkSTER.ID, typeof(PngChunkSTER));
+            var f = new Dictionary<string, System.Type>
+            {
+                { ChunkHelper.IDAT, typeof(PngChunkIDAT) },
+                { ChunkHelper.IHDR, typeof(PngChunkIHDR) },
+                { ChunkHelper.PLTE, typeof(PngChunkPLTE) },
+                { ChunkHelper.IEND, typeof(PngChunkIEND) },
+                { ChunkHelper.tEXt, typeof(PngChunkTEXT) },
+                { ChunkHelper.iTXt, typeof(PngChunkITXT) },
+                { ChunkHelper.zTXt, typeof(PngChunkZTXT) },
+                { ChunkHelper.bKGD, typeof(PngChunkBKGD) },
+                { ChunkHelper.gAMA, typeof(PngChunkGAMA) },
+                { ChunkHelper.pHYs, typeof(PngChunkPHYS) },
+                { ChunkHelper.iCCP, typeof(PngChunkICCP) },
+                { ChunkHelper.tIME, typeof(PngChunkTIME) },
+                { ChunkHelper.tRNS, typeof(PngChunkTRNS) },
+                { ChunkHelper.cHRM, typeof(PngChunkCHRM) },
+                { ChunkHelper.sBIT, typeof(PngChunkSBIT) },
+                { ChunkHelper.sRGB, typeof(PngChunkSRGB) },
+                { ChunkHelper.hIST, typeof(PngChunkHIST) },
+                { ChunkHelper.sPLT, typeof(PngChunkSPLT) },
+                // extended
+                { PngChunkOFFS.ID, typeof(PngChunkOFFS) },
+                { PngChunkSTER.ID, typeof(PngChunkSTER) }
+            };
             return f;
         }
 
@@ -150,7 +152,7 @@ namespace Hjg.Pngcs.Chunks
 
         internal bool mustGoBeforeIDAT()
         {
-            ChunkOrderingConstraint oc = GetOrderingConstraint();
+            var oc = GetOrderingConstraint();
             return oc == ChunkOrderingConstraint.BEFORE_IDAT || oc == ChunkOrderingConstraint.BEFORE_PLTE_AND_IDAT || oc == ChunkOrderingConstraint.AFTER_PLTE_BEFORE_IDAT;
         }
 
@@ -161,7 +163,7 @@ namespace Hjg.Pngcs.Chunks
 
         internal static PngChunk Factory(ChunkRaw chunk, ImageInfo info)
         {
-            PngChunk c = FactoryFromId(Hjg.Pngcs.Chunks.ChunkHelper.ToString(chunk.IdBytes), info);
+            var c = FactoryFromId(Hjg.Pngcs.Chunks.ChunkHelper.ToString(chunk.IdBytes), info);
             c.Length = chunk.Len;
             c.ParseFromRaw(chunk);
             return c;
@@ -176,24 +178,34 @@ namespace Hjg.Pngcs.Chunks
         internal static PngChunk FactoryFromId(string cid, ImageInfo info)
         {
             PngChunk chunk = null;
-            if (factoryMap == null) initFactory();
+            if (factoryMap == null)
+            {
+                initFactory();
+            }
+
             if (isKnown(cid))
             {
-                Type t = factoryMap[cid];
-                if (t == null) Console.Error.WriteLine("What?? " + cid);
-                System.Reflection.ConstructorInfo cons = t.GetConstructor(new Type[] { typeof(ImageInfo) });
-                object o = cons.Invoke(new object[] { info });
+                var t = factoryMap[cid];
+                if (t == null)
+                {
+                    Console.Error.WriteLine("What?? " + cid);
+                }
+
+                var cons = t.GetConstructor(new Type[] { typeof(ImageInfo) });
+                var o = cons.Invoke(new object[] { info });
                 chunk = (PngChunk)o;
             }
             if (chunk == null)
+            {
                 chunk = new PngChunkUNKNOWN(cid, info);
+            }
 
             return chunk;
         }
 
         public ChunkRaw createEmptyChunk(int len, bool alloc)
         {
-            ChunkRaw c = new ChunkRaw(len, ChunkHelper.ToBytes(Id), alloc);
+            var c = new ChunkRaw(len, ChunkHelper.ToBytes(Id), alloc);
             return c;
         }
 
@@ -201,19 +213,25 @@ namespace Hjg.Pngcs.Chunks
 
         public static T CloneChunk<T>(T chunk, ImageInfo info) where T : PngChunk
         {
-            PngChunk cn = FactoryFromId(chunk.Id, info);
-            if ((Object)cn.GetType() != (Object)chunk.GetType())
+            var cn = FactoryFromId(chunk.Id, info);
+            if (cn.GetType() != (object)chunk.GetType())
+            {
                 throw new PngjException("bad class cloning chunk: " + cn.GetType() + " "
                         + chunk.GetType());
+            }
+
             cn.CloneDataFromRead(chunk);
             return (T)cn;
         }
 
         internal void write(Stream os)
         {
-            ChunkRaw c = CreateRawChunk();
+            var c = CreateRawChunk();
             if (c == null)
+            {
                 throw new PngjException("null chunk ! creation failed for " + this);
+            }
+
             c.WriteChunk(os);
         }
 

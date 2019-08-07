@@ -12,9 +12,9 @@ namespace Yarrow.Client
 {
     public class YarrowClient
     {
-        private YarrowRequestConfiguration api;
-        private YarrowMetadataRequest metadataRequest;
-        private YarrowImageRequest imageRequest;
+        private readonly YarrowRequestConfiguration api;
+        private readonly YarrowMetadataRequest metadataRequest;
+        private readonly YarrowImageRequest imageRequest;
 
         public YarrowClient()
         {

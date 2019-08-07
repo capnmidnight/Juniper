@@ -23,8 +23,8 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            ChunkRaw c = createEmptyChunk(4, true);
-            int g = (int)(gamma * 100000 + 0.5d);
+            var c = createEmptyChunk(4, true);
+            var g = (int)(gamma * 100000 + 0.5d);
             Hjg.Pngcs.PngHelperInternal.WriteInt4tobytes(g, c.Data, 0);
             return c;
         }
@@ -32,9 +32,12 @@ namespace Hjg.Pngcs.Chunks
         public override void ParseFromRaw(ChunkRaw chunk)
         {
             if (chunk.Len != 4)
+            {
                 throw new PngjException("bad chunk " + chunk);
-            int g = Hjg.Pngcs.PngHelperInternal.ReadInt4fromBytes(chunk.Data, 0);
-            gamma = ((double)g) / 100000.0d;
+            }
+
+            var g = Hjg.Pngcs.PngHelperInternal.ReadInt4fromBytes(chunk.Data, 0);
+            gamma = g / 100000.0d;
         }
 
         public override void CloneDataFromRead(PngChunk other)

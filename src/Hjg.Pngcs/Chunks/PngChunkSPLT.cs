@@ -38,32 +38,36 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            MemoryStream ba = new MemoryStream();
+            var ba = new MemoryStream();
             ChunkHelper.WriteBytesToStream(ba, ChunkHelper.ToBytes(PalName));
             ba.WriteByte(0); // separator
             ba.WriteByte((byte)SampleDepth);
-            int nentries = GetNentries();
-            for (int n = 0; n < nentries; n++)
+            var nentries = GetNentries();
+            for (var n = 0; n < nentries; n++)
             {
-                for (int i = 0; i < 4; i++)
+                for (var i = 0; i < 4; i++)
                 {
                     if (SampleDepth == 8)
+                    {
                         PngHelperInternal.WriteByte(ba, (byte)Palette[n * 5 + i]);
+                    }
                     else
+                    {
                         PngHelperInternal.WriteInt2(ba, Palette[n * 5 + i]);
+                    }
                 }
                 PngHelperInternal.WriteInt2(ba, Palette[n * 5 + 4]);
             }
-            byte[] b = ba.ToArray();
-            ChunkRaw chunk = createEmptyChunk(b.Length, false);
+            var b = ba.ToArray();
+            var chunk = createEmptyChunk(b.Length, false);
             chunk.Data = b;
             return chunk;
         }
 
         public override void ParseFromRaw(ChunkRaw c)
         {
-            int t = -1;
-            for (int i = 0; i < c.Data.Length; i++)
+            var t = -1;
+            for (var i = 0; i < c.Data.Length; i++)
             { // look for first zero
                 if (c.Data[i] == 0)
                 {
@@ -72,15 +76,18 @@ namespace Hjg.Pngcs.Chunks
                 }
             }
             if (t <= 0 || t > c.Data.Length - 2)
+            {
                 throw new PngjException("bad sPLT chunk: no separator found");
+            }
+
             PalName = ChunkHelper.ToString(c.Data, 0, t);
             SampleDepth = PngHelperInternal.ReadInt1fromByte(c.Data, t + 1);
             t += 2;
-            int nentries = (c.Data.Length - t) / (SampleDepth == 8 ? 6 : 10);
+            var nentries = (c.Data.Length - t) / (SampleDepth == 8 ? 6 : 10);
             Palette = new int[nentries * 5];
             int r, g, b, a, f, ne;
             ne = 0;
-            for (int i = 0; i < nentries; i++)
+            for (var i = 0; i < nentries; i++)
             {
                 if (SampleDepth == 8)
                 {
@@ -112,7 +119,7 @@ namespace Hjg.Pngcs.Chunks
 
         public override void CloneDataFromRead(PngChunk other)
         {
-            PngChunkSPLT otherx = (PngChunkSPLT)other;
+            var otherx = (PngChunkSPLT)other;
             PalName = otherx.PalName;
             SampleDepth = otherx.SampleDepth;
             Palette = new int[otherx.Palette.Length];

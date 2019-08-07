@@ -17,8 +17,8 @@ namespace Hjg.Pngcs.Chunks
 
         public override int GetHashCode()
         {
-            int prime = 31;
-            int result = 1;
+            var prime = 31;
+            var result = 1;
             result = prime * result + ((Id == null) ? 0 : Id.GetHashCode());
             return result;
         }

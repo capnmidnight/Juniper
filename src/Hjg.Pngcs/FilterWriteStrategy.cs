@@ -13,11 +13,11 @@ namespace Hjg.Pngcs
         private readonly FilterType configuredType; // can be negative (fin dout)
         private FilterType currentType; // 0-4
         private int lastRowTested = -1000000;
-        private double[] lastSums = new double[5];// performance of each filter (less is better) (can be negative)
-        private double[] lastEntropies = new double[5];
+        private readonly double[] lastSums = new double[5];// performance of each filter (less is better) (can be negative)
+        private readonly double[] lastEntropies = new double[5];
         private double[] preference = new double[] { 1.1, 1.1, 1.1, 1.1, 1.2 }; // a priori preference (NONE SUB UP AVERAGE PAETH)
-        private int discoverEachLines = -1;
-        private double[] histogram1 = new double[256];
+        private readonly int discoverEachLines = -1;
+        private readonly double[] histogram1 = new double[256];
 
         internal FilterWriteStrategy(ImageInfo imgInfo, FilterType configuredType)
         {
@@ -27,18 +27,27 @@ namespace Hjg.Pngcs
             { // first guess
                 if ((imgInfo.Rows < 8 && imgInfo.Cols < 8) || imgInfo.Indexed
                         || imgInfo.BitDepth < 8)
+                {
                     currentType = FilterType.FILTER_NONE;
+                }
                 else
+                {
                     currentType = FilterType.FILTER_PAETH;
+                }
             }
             else
             {
                 currentType = configuredType;
             }
             if (configuredType == FilterType.FILTER_AGGRESSIVE)
+            {
                 discoverEachLines = COMPUTE_STATS_EVERY_N_LINES;
+            }
+
             if (configuredType == FilterType.FILTER_VERYAGGRESSIVE)
+            {
                 discoverEachLines = 1;
+            }
         }
 
         internal bool shouldTestAll(int rown)
@@ -49,7 +58,9 @@ namespace Hjg.Pngcs
                 return true;
             }
             else
+            {
                 return false;
+            }
         }
 
         internal void setPreference(double none, double sub, double up, double ave, double paeth)
@@ -72,14 +83,18 @@ namespace Hjg.Pngcs
                 alfa = rown == 0 ? 0.0 : 0.3;
                 beta = 1 - alfa;
                 e = 0.0;
-                for (int i = 0; i < 256; i++)
+                for (var i = 0; i < 256; i++)
                 {
                     v = ((double)histo[i]) / imgInfo.Cols;
                     v = histogram1[i] * alfa + v * beta;
                     if (tentative)
+                    {
                         e += v > 0.00000001 ? v * Math.Log(v) : 0.0;
+                    }
                     else
+                    {
                         histogram1[i] = v;
+                    }
                 }
                 lastEntropies[(int)type] = (-e);
             }
@@ -90,12 +105,14 @@ namespace Hjg.Pngcs
             if (currentType == FilterType.FILTER_UNKNOWN)
             { // get better
                 if (rown == 0)
+                {
                     currentType = FilterType.FILTER_SUB;
+                }
                 else
                 {
-                    double bestval = Double.MaxValue;
+                    var bestval = double.MaxValue;
                     double val;
-                    for (int i = 0; i < 5; i++)
+                    for (var i = 0; i < 5; i++)
                     {
                         val = useEntropy ? lastEntropies[i] : lastSums[i];
                         val /= preference[i];

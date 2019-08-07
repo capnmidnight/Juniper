@@ -54,8 +54,8 @@ namespace Hjg.Pngcs
         {
             try
             {
-                int b1 = mask0.ReadByte();
-                int b2 = mask0.ReadByte();
+                var b1 = mask0.ReadByte();
+                var b2 = mask0.ReadByte();
                 if (b1 == -1 || b2 == -1)
                 {
                     return -1;
@@ -77,10 +77,10 @@ namespace Hjg.Pngcs
         {
             try
             {
-                int b1 = mask0.ReadByte();
-                int b2 = mask0.ReadByte();
-                int b3 = mask0.ReadByte();
-                int b4 = mask0.ReadByte();
+                var b1 = mask0.ReadByte();
+                var b2 = mask0.ReadByte();
+                var b3 = mask0.ReadByte();
+                var b4 = mask0.ReadByte();
                 if (b1 == -1 || b2 == -1 || b3 == -1 || b4 == -1)
                 {
                     return -1;
@@ -126,7 +126,7 @@ namespace Hjg.Pngcs
 
         public static void WriteInt4(Stream os, int n)
         {
-            byte[] temp = new byte[4];
+            var temp = new byte[4];
             WriteInt4tobytes(n, temp, 0);
             WriteBytes(os, temp);
             //Console.WriteLine("writing int " + n + " b=" + (sbyte)temp[0] + "," + (sbyte)temp[1] + "," + (sbyte)temp[2] + "," + (sbyte)temp[3]);
@@ -145,10 +145,10 @@ namespace Hjg.Pngcs
 
             try
             {
-                int read = 0;
+                var read = 0;
                 while (read < len)
                 {
-                    int n = mask0.Read(b, offset + read, len - read);
+                    var n = mask0.Read(b, offset + read, len - read);
                     if (n < 1)
                     {
                         throw new Exception("error reading, " + n + " !=" + len);
@@ -165,7 +165,7 @@ namespace Hjg.Pngcs
 
         public static void SkipBytes(Stream ist, int len)
         {
-            byte[] buf = new byte[8192 * 4];
+            var buf = new byte[8192 * 4];
             int read, remain = len;
             try
             {
@@ -226,7 +226,7 @@ namespace Hjg.Pngcs
         {
             try
             {
-                os.WriteByte((byte)b);
+                os.WriteByte(b);
             }
             catch (IOException e)
             {
@@ -243,10 +243,10 @@ namespace Hjg.Pngcs
         {
             // from http://www.libpng.org/pub/png/spec/1.2/PNG-Filters.html
             // a = left, b = above, c = upper left
-            int p = a + b - c;// ; initial estimate
-            int pa = p >= a ? p - a : a - p;
-            int pb = p >= b ? p - b : b - p;
-            int pc = p >= c ? p - c : c - p;
+            var p = a + b - c;// ; initial estimate
+            var pa = p >= a ? p - a : a - p;
+            var pb = p >= b ? p - b : b - p;
+            var pc = p >= c ? p - c : c - p;
             // ; return nearest of a,b,c,
             // ; breaking ties in order a,b,c.
             if (pa <= pb && pa <= pc)

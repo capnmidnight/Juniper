@@ -12,7 +12,10 @@ namespace Hjg.Pngcs
         {
             Stream isx = null;
             if (file == null || !File.Exists(file))
+            {
                 throw new PngjInputException("Cannot open file for reading (" + file + ")");
+            }
+
             isx = new FileStream(file, FileMode.Open);
             return isx;
         }
@@ -21,7 +24,10 @@ namespace Hjg.Pngcs
         {
             Stream osx = null;
             if (File.Exists(file) && !allowOverwrite)
+            {
                 throw new PngjOutputException("File already exists (" + file + ") and overwrite=false");
+            }
+
             osx = new FileStream(file, FileMode.Create);
             return osx;
         }

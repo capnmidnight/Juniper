@@ -1,18 +1,20 @@
-using System;
-
 namespace Hjg.Pngcs.Zlib
 {
     public class Adler32
     {
-        private UInt32 a = 1;
-        private UInt32 b = 0;
+        private uint a = 1;
+        private uint b = 0;
         private const int _base = 65521; /* largest prime smaller than 65536 */
         private const int _nmax = 5550;
         private int pend = 0; // how many bytes have I read witouth computing modulus
 
         public void Update(byte data)
         {
-            if (pend >= _nmax) updateModulus();
+            if (pend >= _nmax)
+            {
+                updateModulus();
+            }
+
             a += data;
             b += a;
             pend++;
@@ -25,8 +27,8 @@ namespace Hjg.Pngcs.Zlib
 
         public void Update(byte[] data, int offset, int length)
         {
-            int nextJToComputeModulus = _nmax - pend;
-            for (int j = 0; j < length; j++)
+            var nextJToComputeModulus = _nmax - pend;
+            for (var j = 0; j < length; j++)
             {
                 if (j == nextJToComputeModulus)
                 {
@@ -56,9 +58,13 @@ namespace Hjg.Pngcs.Zlib
             pend = 0;
         }
 
-        public UInt32 GetValue()
+        public uint GetValue()
         {
-            if (pend > 0) updateModulus();
+            if (pend > 0)
+            {
+                updateModulus();
+            }
+
             return (b << 16) | a;
         }
     }

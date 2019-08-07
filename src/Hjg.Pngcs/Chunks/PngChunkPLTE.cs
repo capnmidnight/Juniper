@@ -1,6 +1,5 @@
 namespace Hjg.Pngcs.Chunks
 {
-    using System;
     using Hjg.Pngcs;
 
     /// <summary>
@@ -22,7 +21,7 @@ namespace Hjg.Pngcs.Chunks
         public PngChunkPLTE(ImageInfo info)
             : base(ID, info)
         {
-            this.nentries = 0;
+            nentries = 0;
         }
 
         public override ChunkOrderingConstraint GetOrderingConstraint()
@@ -32,9 +31,9 @@ namespace Hjg.Pngcs.Chunks
 
         public override ChunkRaw CreateRawChunk()
         {
-            int len = 3 * nentries;
-            int[] rgb = new int[3];
-            ChunkRaw c = createEmptyChunk(len, true);
+            var len = 3 * nentries;
+            var rgb = new int[3];
+            var c = createEmptyChunk(len, true);
             for (int n = 0, i = 0; n < nentries; n++)
             {
                 GetEntryRgb(n, rgb);
@@ -50,16 +49,16 @@ namespace Hjg.Pngcs.Chunks
             SetNentries(chunk.Len / 3);
             for (int n = 0, i = 0; n < nentries; n++)
             {
-                SetEntry(n, (int)(chunk.Data[i++] & 0xff), (int)(chunk.Data[i++] & 0xff),
-                        (int)(chunk.Data[i++] & 0xff));
+                SetEntry(n, chunk.Data[i++] & 0xff, chunk.Data[i++] & 0xff,
+                        chunk.Data[i++] & 0xff);
             }
         }
 
         public override void CloneDataFromRead(PngChunk other)
         {
-            PngChunkPLTE otherx = (PngChunkPLTE)other;
-            this.SetNentries(otherx.GetNentries());
-            System.Array.Copy((Array)(otherx.entries), 0, (Array)(entries), 0, nentries);
+            var otherx = (PngChunkPLTE)other;
+            SetNentries(otherx.GetNentries());
+            System.Array.Copy(otherx.entries, 0, entries, 0, nentries);
         }
 
         /// <summary>
@@ -70,7 +69,10 @@ namespace Hjg.Pngcs.Chunks
         {
             this.nentries = nentries;
             if (nentries < 1 || nentries > 256)
+            {
                 throw new PngjException("invalid pallette - nentries=" + nentries);
+            }
+
             if (entries == null || entries.Length != nentries)
             { // alloc
                 entries = new int[nentries];
@@ -105,7 +107,7 @@ namespace Hjg.Pngcs.Chunks
         /// <param name="offset"></param>
         public void GetEntryRgb(int index, int[] rgb, int offset)
         {
-            int v = entries[index];
+            var v = entries[index];
             rgb[offset] = ((v & 0xff0000) >> 16);
             rgb[offset + 1] = ((v & 0xff00) >> 8);
             rgb[offset + 2] = (v & 0xff);
@@ -128,13 +130,21 @@ namespace Hjg.Pngcs.Chunks
         public int MinBitDepth()
         {
             if (nentries <= 2)
+            {
                 return 1;
+            }
             else if (nentries <= 4)
+            {
                 return 2;
+            }
             else if (nentries <= 16)
+            {
                 return 4;
+            }
             else
+            {
                 return 8;
+            }
         }
     }
 }

@@ -118,7 +118,7 @@ namespace Hjg.Pngcs.Chunks
         public static bool IsCritical(string id)
         {
             // first letter is uppercase
-            return (Char.IsUpper(id[0]));
+            return (char.IsUpper(id[0]));
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public static bool IsPublic(string id)
         { // public chunk?
-            return (Char.IsUpper(id[1]));
+            return (char.IsUpper(id[1]));
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Hjg.Pngcs.Chunks
         public static bool IsSafeToCopy(string id)
         { // safe to copy?
             // fourth letter is lower case
-            return (!Char.IsUpper(id[3]));
+            return (!char.IsUpper(id[3]));
         }
 
         /// <summary>
@@ -159,9 +159,14 @@ namespace Hjg.Pngcs.Chunks
         /// <returns>-1 if not found</returns>
         public static int PosNullByte(byte[] bytes)
         {
-            for (int i = 0; i < bytes.Length; i++)
+            for (var i = 0; i < bytes.Length; i++)
+            {
                 if (bytes[i] == 0)
+                {
                     return i;
+                }
+            }
+
             return -1;
         }
 
@@ -174,8 +179,11 @@ namespace Hjg.Pngcs.Chunks
         public static bool ShouldLoad(string id, ChunkLoadBehaviour behav)
         {
             if (IsCritical(id))
+            {
                 return true;
-            bool kwown = PngChunk.isKnown(id);
+            }
+
+            var kwown = PngChunk.isKnown(id);
             switch (behav)
             {
                 case ChunkLoadBehaviour.LOAD_CHUNK_ALWAYS:
@@ -202,16 +210,24 @@ namespace Hjg.Pngcs.Chunks
         {
             try
             {
-                MemoryStream inb = new MemoryStream(ori, offset, len);
+                var inb = new MemoryStream(ori, offset, len);
                 Stream inx = inb;
-                if (!compress) inx = ZlibStreamFactory.createZlibInputStream(inb);
-                MemoryStream outb = new MemoryStream();
+                if (!compress)
+                {
+                    inx = ZlibStreamFactory.createZlibInputStream(inb);
+                }
+
+                var outb = new MemoryStream();
                 Stream outx = outb;
-                if (compress) outx = ZlibStreamFactory.createZlibOutputStream(outb);
+                if (compress)
+                {
+                    outx = ZlibStreamFactory.createZlibOutputStream(outb);
+                }
+
                 shovelInToOut(inx, outx);
                 inx.Close();
                 outx.Close();
-                byte[] res = outb.ToArray();
+                var res = outb.ToArray();
                 return res;
             }
             catch (Exception e)
@@ -222,7 +238,7 @@ namespace Hjg.Pngcs.Chunks
 
         private static void shovelInToOut(Stream inx, Stream outx)
         {
-            byte[] buffer = new byte[1024];
+            var buffer = new byte[1024];
             int len;
             while ((len = inx.Read(buffer, 0, 1024)) > 0)
             {
@@ -244,8 +260,8 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public static List<PngChunk> FilterList(List<PngChunk> list, ChunkPredicate predicateKeep)
         {
-            List<PngChunk> result = new List<PngChunk>();
-            foreach (PngChunk element in list)
+            var result = new List<PngChunk>();
+            foreach (var element in list)
             {
                 if (predicateKeep.Matches(element))
                 {
@@ -264,8 +280,8 @@ namespace Hjg.Pngcs.Chunks
         /// <returns></returns>
         public static int TrimList(List<PngChunk> list, ChunkPredicate predicateRemove)
         {
-            int cont = 0;
-            for (int i = list.Count - 1; i >= 0; i--)
+            var cont = 0;
+            for (var i = list.Count - 1; i >= 0; i--)
             {
                 if (predicateRemove.Matches(list[i]))
                 {
@@ -294,14 +310,25 @@ namespace Hjg.Pngcs.Chunks
         public static bool Equivalent(PngChunk c1, PngChunk c2)
         {
             if (c1 == c2)
+            {
                 return true;
+            }
+
             if (c1 == null || c2 == null || !c1.Id.Equals(c2.Id))
+            {
                 return false;
+            }
             // same id
             if (c1.GetType() != c2.GetType())
+            {
                 return false; // should not happen
+            }
+
             if (!c2.AllowsMultiple())
+            {
                 return true;
+            }
+
             if (c1 is PngChunkTextVar)
             {
                 return ((PngChunkTextVar)c1).GetKey().Equals(((PngChunkTextVar)c2).GetKey());

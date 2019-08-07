@@ -37,13 +37,16 @@ namespace Hjg.Pngcs.Chunks
         public override void ParseFromRaw(ChunkRaw c)
         {
             if (c.Len != 1)
+            {
                 throw new PngjException("bad chunk length " + c);
+            }
+
             Intent = PngHelperInternal.ReadInt1fromByte(c.Data, 0);
         }
 
         public override void CloneDataFromRead(PngChunk other)
         {
-            PngChunkSRGB otherx = (PngChunkSRGB)other;
+            var otherx = (PngChunkSRGB)other;
             Intent = otherx.Intent;
         }
     }
