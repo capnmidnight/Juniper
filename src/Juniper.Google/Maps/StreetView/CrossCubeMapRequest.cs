@@ -98,7 +98,7 @@ namespace Juniper.Google.Maps.StreetView
                 }
                 else
                 {
-                    var image = await Get();
+                    var image = await GetJPEG();
                     response.ContentType = image.contentType;
                     response.ContentLength64 = image.data.Length;
                     response.OutputStream.Write(image.data, 0, image.data.Length);

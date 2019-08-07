@@ -30,10 +30,11 @@ namespace Yarrow.Client
             return metadataRequest.Get();
         }
 
-        public Task<ImageData> GetImage(PanoID pano)
+        public async Task<FileInfo> GetImage(PanoID pano)
         {
             imageRequest.Pano = pano;
-            return imageRequest.GetJPEG();
+            await imageRequest.GetJPEG();
+            return imageRequest.CacheFile;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Yarrow.Client
         private PanoID pano;
 
         public YarrowImageRequest(YarrowRequestConfiguration api)
-            : base(api, new JpegFactory(), "api/image", "metadata")
+            : base(api, new JpegFactory(), "api/image", "images")
         {
             SetContentType("image/jpeg", "jpeg");
         }

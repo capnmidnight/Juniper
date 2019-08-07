@@ -23,8 +23,10 @@ namespace System.IO
         {
             return (stream) =>
             {
-                var progStream = new ProgressStream(stream, value.Length, prog);
-                progStream.Write(value, 0, value.Length);
+                using (var progStream = new ProgressStream(stream, value.Length, prog))
+                {
+                    progStream.Write(value, 0, value.Length);
+                }
             };
         }
 

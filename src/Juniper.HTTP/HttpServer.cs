@@ -167,6 +167,7 @@ namespace Juniper.HTTP
         private void Process(HttpListenerContext context)
         {
             var handled = false;
+            info?.Invoke($"Serving request {context.Request.Url.PathAndQuery}");
             foreach (var route in routes)
             {
                 var args = route.GetParams(context);

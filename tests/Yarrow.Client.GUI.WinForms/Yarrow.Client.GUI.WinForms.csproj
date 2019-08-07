@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6E00DF2B-11D1-483C-A283-22B12096BE22}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Yarrow.Client.GUI</RootNamespace>
-    <AssemblyName>Yarrow.Client.GUI</AssemblyName>
+    <RootNamespace>Yarrow.Client.GUI.WinForms</RootNamespace>
+    <AssemblyName>Yarrow.Client.GUI.WinForms</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Yarrow.Client.GUI.WinForms.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

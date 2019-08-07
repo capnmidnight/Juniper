@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 using Juniper.Google.Maps;
 
-namespace Yarrow.Client.GUI
+namespace Yarrow.Client.GUI.WinForms
 {
     internal static class Program
     {
@@ -23,7 +23,7 @@ namespace Yarrow.Client.GUI
 
             yarrow = new YarrowClient();
             form = new ImageViewer();
-            form.VisibleChanged += Form_VisibleChanged;
+            form.LocationSubmitted += Form_LocationSubmitted;
 
             using (form)
             {
@@ -31,20 +31,15 @@ namespace Yarrow.Client.GUI
             }
         }
 
-        private static void Form_VisibleChanged(object sender, EventArgs e)
+        private static void Form_LocationSubmitted(object sender, string location)
         {
-            if (form.Visible)
+            Task.Run(async () =>
             {
-                var task = Task.Run(async () =>
-                {
-                    await Task.Delay(1000);
-                    var metadata = await yarrow.GetMetadata((PlaceName)"Alexandria, VA");
-                    var pano = metadata.pano_id;
-                    var image = await yarrow.GetImage(pano);
-                    form.SetImage(image);
-                });
-                Task.WaitAll(task);
-            }
+                var metadata = await yarrow.GetMetadata((PlaceName)location);
+                var pano = metadata.pano_id;
+                var imageFile = await yarrow.GetImage(pano);
+                form.SetImage(imageFile);
+            });
         }
 
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
