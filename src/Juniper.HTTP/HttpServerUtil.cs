@@ -95,8 +95,8 @@ namespace Juniper.HTTP
             var arguments = new Dictionary<string, string>();
             SetDefaults(arguments);
             ReadCommandLine(args, arguments);
-            string path = arguments["path"],
-                    portDef = arguments["port"];
+            var path = arguments["path"];
+            var portDef = arguments["port"];
 
             int port;
             if (!int.TryParse(portDef, out port))

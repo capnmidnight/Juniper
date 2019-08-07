@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading;
@@ -74,11 +75,12 @@ namespace Juniper.HTTP
                     if (route != null)
                     {
                         var parameters = method.GetParameters();
-                        if (parameters.Length == 2
+                        if (parameters.Length == route.parameterCount
                             && parameters[0].ParameterType == typeof(HttpListenerContext)
-                            && parameters[1].ParameterType == typeof(string[])
+                            && parameters.Skip(1).All(p => p.ParameterType == typeof(string))
                             && method.ReturnType == typeof(void))
                         {
+                            info($"Found controller {type.Name}::{method.Name} > {route.Priority}.");
                             route.source = controller;
                             route.method = method;
                             routes.Add(route);
@@ -91,8 +93,7 @@ namespace Juniper.HTTP
                 }
             }
 
-            routes.Sort(new Comparison<RouteAttribute>((a, b) =>
-                a.Priority - b.Priority));
+            routes.Sort((a, b) => a.Priority - b.Priority);
         }
 
         /// <summary>
@@ -121,29 +122,32 @@ namespace Juniper.HTTP
         }
 
         [Route(".*", Priority = int.MaxValue)]
-        public void ServeFile(HttpListenerContext context, string[] args)
+        public void ServeFile(HttpListenerContext context)
         {
             var request = context.Request;
             var response = context.Response;
-            string requestPath = request.Url.AbsolutePath,
-                requestFile = MassageRequestPath(requestPath),
-                filename = Path.Combine(rootDirectory, requestFile);
+            var requestPath = request.Url.AbsolutePath;
+            var requestFile = MassageRequestPath(requestPath);
+            var filename = Path.Combine(rootDirectory, requestFile);
             var isDirectory = Directory.Exists(filename);
+
             if (isDirectory)
             {
                 filename = FindDefaultFile(filename);
             }
+
+            var file = new FileInfo(filename);
             var shortName = MakeShortName(rootDirectory, filename);
 
             if (isDirectory && requestPath[requestPath.Length - 1] != '/')
             {
                 response.Redirect(requestPath + "/");
             }
-            else if (File.Exists(filename))
+            else if (file.Exists)
             {
                 try
                 {
-                    response.SendFile(filename);
+                    response.SendFile(file);
                 }
                 catch (Exception exp)
                 {
@@ -162,7 +166,7 @@ namespace Juniper.HTTP
 
         private void Process(HttpListenerContext context)
         {
-            bool handled = false;
+            var handled = false;
             foreach (var route in routes)
             {
                 var args = route.GetParams(context);

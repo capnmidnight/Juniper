@@ -177,30 +177,20 @@ namespace Juniper.HTTP.REST
             return Get(deserializer.Deserialize, prog);
         }
 
-        public Task<Stream> GetRaw(IProgress prog = null)
+        public override Task Proxy(HttpListenerResponse response)
         {
-            return Get(stream => stream, prog);
+            return Task.Run(() => HttpWebRequestExt.CachedProxy(response, AuthenticatedURI, CacheFile, SetAcceptType));
         }
 
-        public async Task CopyRaw(Stream outStream, IProgress prog = null)
+        public Task<Stream> GetRaw()
         {
-            var inStream = await GetRaw(prog);
+            return Task.Run(() => HttpWebRequestExt.CachedGetRaw(AuthenticatedURI, CacheFile, SetAcceptType));
+        }
+
+        public async Task CopyRaw(Stream outStream)
+        {
+            var inStream = await GetRaw();
             inStream.CopyTo(outStream);
-        }
-
-        private Task<T> Post<T>(Func<Stream, T> decoder)
-        {
-            return Task.Run(() => HttpWebRequestExt.CachedPost(AuthenticatedURI, decoder, CacheFile, SetAcceptType));
-        }
-
-        public override Task<ResponseType> Post()
-        {
-            return Post(deserializer.Deserialize);
-        }
-
-        public Task<Stream> PostRaw()
-        {
-            return Post(stream => stream);
         }
     }
 }

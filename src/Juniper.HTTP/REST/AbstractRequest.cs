@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Progress;
@@ -21,7 +22,7 @@ namespace Juniper.HTTP.REST
             throw new NotImplementedException();
         }
 
-        public virtual Task<ResponseType> Post()
+        public virtual Task Proxy(HttpListenerResponse response)
         {
             throw new NotImplementedException();
         }

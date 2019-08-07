@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.Image;
@@ -32,7 +33,7 @@ namespace Yarrow.Client
         public Task<ImageData> GetImage(PanoID pano)
         {
             imageRequest.Pano = pano;
-            return imageRequest.Get();
+            return imageRequest.GetJPEG();
         }
     }
 }

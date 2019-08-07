@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Juniper.Progress;
 
 namespace Juniper.HTTP.REST
@@ -33,13 +34,6 @@ namespace Juniper.HTTP.REST
         {
             return Task.WhenAll(subRequests
                 .Select((search, i) => search.Get(prog?.Subdivide(i, subRequests.Length)))
-                .ToArray());
-        }
-
-        public override Task<ResponseElementType[]> Post()
-        {
-            return Task.WhenAll(subRequests
-                .Select(search => search.Post())
                 .ToArray());
         }
     }

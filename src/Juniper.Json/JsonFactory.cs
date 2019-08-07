@@ -22,11 +22,12 @@ namespace Juniper.Json
 
         public void Serialize<T>(Stream stream, T value, IProgress prog = null)
         {
-            using (var writer = new StreamWriter(stream))
+            var text = ToString(value);
+            var length = System.Text.Encoding.UTF8.GetByteCount(text);
+            using (var progress = new ProgressStream(stream, length, prog))
+            using (var writer = new StreamWriter(progress))
             {
-                var text = ToString(value);
-                var length = System.Text.Encoding.UTF8.GetByteCount(text);
-                writer.Write(new ProgressStream(stream, length, prog));
+                writer.Write(text);
             }
         }
 

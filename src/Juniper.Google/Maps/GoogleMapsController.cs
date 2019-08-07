@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
+
 using Juniper.Google.Maps.StreetView;
 using Juniper.Image;
 using Juniper.Progress;
-using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps
 {
@@ -66,24 +67,19 @@ namespace Juniper.Google.Maps
             return iter;
         }
 
-        private Task<MetadataResponse> GetMetadata(MetadataRequest request, IProgress prog)
-        {
-            return GetCachedResponse(
-                request,
-                metadataRequestCache,
-                () => request.Get(prog));
-        }
-
-        public Task<MetadataResponse> GetMetadata(LatLngPoint position, IProgress prog = null)
-        {
-            var metadataRequest = new MetadataRequest(gmaps, position);
-            return GetMetadata(metadataRequest, prog);
-        }
-
         public Task<MetadataResponse> GetMetadata(PlaceName position, IProgress prog = null)
         {
             var metadataRequest = new MetadataRequest(gmaps, position);
-            return GetMetadata(metadataRequest, prog);
+            return GetCachedResponse(
+                metadataRequest,
+                metadataRequestCache,
+                () => metadataRequest.Get(prog));
+        }
+
+        public Task ProxyMetadata(HttpListenerResponse response, PlaceName position)
+        {
+            var metadataRequest = new MetadataRequest(gmaps, position);
+            return metadataRequest.Proxy(response);
         }
 
         public Task<ImageData> GetImage(PanoID pano, IProgress prog = null)
@@ -93,6 +89,12 @@ namespace Juniper.Google.Maps
                 imageRequest,
                 imageRequestCache,
                 () => imageRequest.GetJPEG(prog));
+        }
+
+        public Task ProxyImage(HttpListenerResponse response, PanoID pano)
+        {
+            var imageRequest = new CrossCubeMapRequest(gmaps, pano, imageSize);
+            return imageRequest.ProxyJPEG(response);
         }
     }
 }

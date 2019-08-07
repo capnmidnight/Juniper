@@ -36,6 +36,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="YarrowController.cs" />
     <Compile Include="YarrowServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

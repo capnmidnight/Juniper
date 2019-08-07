@@ -186,21 +186,6 @@ namespace System.Net
             return CachedGet(uri, decode, cacheFile, modifyRequest, prog);
         }
 
-        public static Task<T> CachedPost<T>(
-            Uri uri,
-            Func<Stream, T> decode,
-            string cacheFileName = null,
-            Action<HttpWebRequest> modifyRequest = null)
-        {
-            FileInfo cacheFile = null;
-            if (!string.IsNullOrEmpty(cacheFileName))
-            {
-                cacheFile = new FileInfo(cacheFileName);
-            }
-
-            return CachedPost(uri, decode, cacheFile, modifyRequest);
-        }
-
         public static Task<T> CachedGet<T>(
             Uri uri,
             Func<Stream, T> decode,
@@ -208,100 +193,112 @@ namespace System.Net
             Action<HttpWebRequest> modifyRequest = null,
             IProgress prog = null)
         {
-            return Task.Run(() => CachedGetAsync(uri, decode, cacheFile, modifyRequest, prog));
+            return Task.Run(async () =>
+            {
+                Stream body = null;
+                long length = 0;
+
+                if (cacheFile?.Exists == true)
+                {
+                    body = cacheFile.OpenRead();
+                    length = body.Length;
+                }
+                else
+                {
+                    var request = Create(uri);
+                    modifyRequest?.Invoke(request);
+
+                    var response = await request.Get();
+                    body = response.GetResponseStream();
+                    if (cacheFile != null)
+                    {
+                        body = new CachingStream(body, cacheFile);
+                    }
+                    length = response.ContentLength;
+                }
+
+                if (body == null)
+                {
+                    return default;
+                }
+                else
+                {
+                    body = new ProgressStream(body, length, prog);
+
+                    using (body)
+                    {
+                        return decode(body);
+                    }
+                }
+            });
         }
 
-        public static Task<T> CachedPost<T>(
+        public static Task<Stream> CachedGetRaw(
             Uri uri,
-            Func<Stream, T> decode,
             FileInfo cacheFile,
             Action<HttpWebRequest> modifyRequest = null)
         {
-            return Task.Run(() => CachedPostAsync(uri, decode, cacheFile, modifyRequest));
+            return Task.Run(async () =>
+            {
+                if (cacheFile?.Exists == true)
+                {
+                    return cacheFile.OpenRead();
+                }
+                else
+                {
+                    var request = Create(uri);
+                    modifyRequest?.Invoke(request);
+
+                    var response = await request.Get();
+                    var body = response.GetResponseStream();
+                    if (cacheFile != null)
+                    {
+                        body = new CachingStream(body, cacheFile);
+                    }
+                    return body;
+                }
+            });
         }
 
-        private static async Task<T> CachedGetAsync<T>(
+        public static Task CachedProxy(
+            HttpListenerResponse outResponse,
             Uri uri,
-            Func<Stream, T> decode,
-            FileInfo cacheFile,
-            Action<HttpWebRequest> modifyRequest = null,
-            IProgress prog = null)
-        {
-            Stream body = null;
-            long length = 0;
-
-            if (cacheFile?.Exists == true)
-            {
-                body = cacheFile.OpenRead();
-                length = body.Length;
-            }
-            else
-            {
-                var request = Create(uri);
-                modifyRequest?.Invoke(request);
-
-                var response = await request.Get();
-                body = response.GetResponseStream();
-                if (cacheFile != null)
-                {
-                    body = new CachingStream(body, cacheFile);
-                }
-                length = response.ContentLength;
-            }
-
-            if (body == null)
-            {
-                return default;
-            }
-            else
-            {
-                body = new ProgressStream(body, length, prog);
-
-                using (body)
-                {
-                    return decode(body);
-                }
-            }
-        }
-
-        private static async Task<T> CachedPostAsync<T>(
-            Uri uri,
-            Func<Stream, T> decode,
             FileInfo cacheFile,
             Action<HttpWebRequest> modifyRequest = null)
         {
-            Stream body = null;
-
-            if (cacheFile?.Exists == true)
+            return Task.Run(async () =>
             {
-                body = cacheFile.OpenRead();
-            }
-
-            if (body == null)
-            {
-                var request = Create(uri);
-                modifyRequest?.Invoke(request);
-
-                var response = await request.Post();
-                body = response.GetResponseStream();
-            }
-
-            if (body == null)
-            {
-                return default;
-            }
-            else
-            {
-                if (cacheFile?.Exists == false)
+                if (cacheFile?.Exists == true)
                 {
-                    body = new CachingStream(body, cacheFile);
+                    outResponse.SetStatus(HttpStatusCode.OK);
+                    outResponse.ContentType = cacheFile.GetContentType();
+                    outResponse.ContentLength64 = cacheFile.Length;
+                    outResponse.SendFile(cacheFile);
                 }
-
-                using (body)
+                else
                 {
-                    return decode(body);
+                    var request = Create(uri);
+                    modifyRequest?.Invoke(request);
+
+                    var inResponse = await request.Get();
+                    var body = inResponse.GetResponseStream();
+                    if (cacheFile != null)
+                    {
+                        body = new CachingStream(body, cacheFile);
+                    }
+                    using (body)
+                    {
+                        outResponse.SetStatus(inResponse.StatusCode);
+                        outResponse.ContentType = inResponse.ContentType;
+                        outResponse.ContentLength64 = inResponse.ContentLength;
+                        foreach (var header in inResponse.Headers.AllKeys)
+                        {
+                            outResponse.AddHeader(header, inResponse.Headers[header]);
+                        }
+                        body.CopyTo(outResponse.OutputStream);
+                    }
                 }
-            }
+            });
         }
     }
 }

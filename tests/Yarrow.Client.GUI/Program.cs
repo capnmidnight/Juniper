@@ -23,7 +23,7 @@ namespace Yarrow.Client.GUI
 
             yarrow = new YarrowClient();
             form = new ImageViewer();
-            form.VisibleChanged += Form_Activated;
+            form.VisibleChanged += Form_VisibleChanged;
 
             using (form)
             {
@@ -31,18 +31,19 @@ namespace Yarrow.Client.GUI
             }
         }
 
-        private static void Form_Activated(object sender, EventArgs e)
+        private static void Form_VisibleChanged(object sender, EventArgs e)
         {
             if (form.Visible)
             {
-                Task.Run(async () =>
+                var task = Task.Run(async () =>
                 {
-                    await Task.Delay(2000);
+                    await Task.Delay(1000);
                     var metadata = await yarrow.GetMetadata((PlaceName)"Alexandria, VA");
                     var pano = metadata.pano_id;
                     var image = await yarrow.GetImage(pano);
                     form.SetImage(image);
                 });
+                Task.WaitAll(task);
             }
         }
 

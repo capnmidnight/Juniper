@@ -1,13 +1,11 @@
 using System.Diagnostics;
 using System.ServiceProcess;
 
-using Juniper.HTTP;
-
 namespace Yarrow.Server
 {
     public partial class YarrowServerService : ServiceBase
     {
-        private HttpServer server;
+        private YarrowServer server;
 
         public YarrowServerService()
         {
@@ -32,15 +30,12 @@ namespace Yarrow.Server
 
         protected override void OnStart(string[] args)
         {
-            HttpServerUtil.Start(args, Info, Warning, Error);
+            server = new YarrowServer(args, Info, Warning, Error);
         }
 
         protected override void OnStop()
         {
-            if (server != null)
-            {
-                server.Stop();
-            }
+            server?.Stop();
         }
     }
 }

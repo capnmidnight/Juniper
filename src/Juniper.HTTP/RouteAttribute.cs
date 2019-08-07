@@ -9,6 +9,7 @@ namespace Juniper.HTTP
     public sealed class RouteAttribute : Attribute
     {
         private readonly Regex pattern;
+        public readonly int parameterCount;
 
         public int Priority = 50;
         public string Method = "GET";
@@ -20,6 +21,7 @@ namespace Juniper.HTTP
         public RouteAttribute(Regex pattern)
         {
             this.pattern = pattern;
+            parameterCount = pattern.GetGroupNames().Length;
         }
 
         public RouteAttribute(string pattern)
@@ -44,18 +46,19 @@ namespace Juniper.HTTP
                     return match
                         .Groups
                         .Cast<Group>()
+                        .Skip(1)
                         .Select(g => g.Value)
                         .ToArray();
                 }
             }
         }
-
-        private object[] args = new object[2];
-
+        
         public void Invoke(HttpListenerContext context, string[] argValues)
         {
-            args[0] = context;
-            args[1] = argValues;
+            var args = argValues
+                .Cast<object>()
+                .Prepend(context)
+                .ToArray();
             method.Invoke(source, args);
         }
     }

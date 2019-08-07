@@ -1,6 +1,8 @@
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 
+using Juniper.HTTP;
 using Juniper.Image;
 using Juniper.Progress;
 using Juniper.Serialization;
@@ -86,21 +88,20 @@ namespace Juniper.Google.Maps.StreetView
             });
         }
 
-        public Task CopyJPEG(Stream outStream, IProgress prog = null)
+        public Task ProxyJPEG(HttpListenerResponse response)
         {
             return Task.Run(async () =>
             {
                 if (IsCached)
                 {
-                    CacheFile.CopyTo(outStream);
+                    response.SendFile(CacheFile);
                 }
                 else
                 {
-                    var image = await Get(prog);
-                    using (var mem = new MemoryStream(image.data))
-                    {
-                        mem.CopyTo(outStream);
-                    }
+                    var image = await Get();
+                    response.ContentType = image.contentType;
+                    response.ContentLength64 = image.data.Length;
+                    response.OutputStream.Write(image.data, 0, image.data.Length);
                 }
             });
         }
