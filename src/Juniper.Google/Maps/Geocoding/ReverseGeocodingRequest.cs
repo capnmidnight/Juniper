@@ -34,7 +34,7 @@ namespace Juniper.Google.Maps.Geocoding
         private readonly HashSet<GeometryLocationType> location_type = new HashSet<GeometryLocationType>();
 
         public ReverseGeocodingRequest(GoogleMapsRequestConfiguration api, LatLngPoint latlng)
-            : base(api, "latlng", latlng.ToCSV())
+            : base(api, "latlng", latlng.ToString())
         {
         }
 

@@ -14,7 +14,7 @@ namespace Juniper.Google.Maps.MapTiles
         }
 
         public Marker(LatLngPoint center, MarkerStyle style = default)
-            : this(center.ToCSV(), style) { }
+            : this(center.ToString(), style) { }
 
         public override bool Equals(object obj)
         {

@@ -211,7 +211,7 @@ namespace Juniper.Images
         public void SetLatLngLocation(LatLngPoint location)
         {
             LatLngLocation = location;
-            Location = LatLngLocation.ToCSV();
+            Location = LatLngLocation.ToString();
 
             if (gps != null)
             {

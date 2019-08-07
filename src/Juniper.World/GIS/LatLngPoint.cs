@@ -190,12 +190,12 @@ namespace Juniper.World.GIS
         /// <returns>A decimal degrees printed format with no rounding</returns>
         public override string ToString()
         {
-            return $"({Latitude}°, {Longitude}°)";
+            return $"{Latitude:0.000000},{Longitude:0.000000}";
         }
 
         public static explicit operator string(LatLngPoint value)
         {
-            return value.ToCSV();
+            return value.ToString();
         }
 
         /// <summary>
@@ -216,11 +216,6 @@ namespace Juniper.World.GIS
         public string ToString(string precision)
         {
             return $"({Latitude.ToString(precision)}°, {Longitude.ToString(precision)}°)";
-        }
-
-        public string ToCSV()
-        {
-            return $"{Latitude:0.000000},{Longitude:0.000000}";
         }
 
         /// <summary>

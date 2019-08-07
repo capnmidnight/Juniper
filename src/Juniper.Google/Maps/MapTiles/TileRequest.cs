@@ -49,10 +49,10 @@ namespace Juniper.Google.Maps.MapTiles
             : this(api, (string)address, zoom, new Size(width, height), format) { }
 
         public TileRequest(GoogleMapsRequestConfiguration api, LatLngPoint center, int zoom, Size size, ImageFormat format)
-            : this(api, center.ToCSV(), zoom, size, format) { }
+            : this(api, center.ToString(), zoom, size, format) { }
 
         public TileRequest(GoogleMapsRequestConfiguration api, LatLngPoint center, int zoom, int width, int height, ImageFormat format)
-            : this(api, center.ToCSV(), zoom, new Size(width, height), format) { }
+            : this(api, center.ToString(), zoom, new Size(width, height), format) { }
 
         public bool FlipImage { get; set; }
 

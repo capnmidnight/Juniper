@@ -28,7 +28,7 @@ namespace Juniper.Google.Maps.MapTiles
             : this(style, encodePath, points.AsEnumerable()) { }
 
         public LinePath(LinePathStyle style, bool encodePath, IEnumerable<LatLngPoint> points)
-            : this(style, encodePath, points.Select(p => p.ToCSV())) { }
+            : this(style, encodePath, points.Select(p => p.ToString())) { }
 
         public LinePath(LinePathStyle style, bool encodePath, params LatLngPoint[] points)
             : this(style, encodePath, points.AsEnumerable()) { }
@@ -159,7 +159,7 @@ namespace Juniper.Google.Maps.MapTiles
 
         public void Insert(int index, LatLngPoint item)
         {
-            points.Insert(index, item.ToCSV());
+            points.Insert(index, item.ToString());
         }
 
         public void RemoveAt(int index)
@@ -187,7 +187,7 @@ namespace Juniper.Google.Maps.MapTiles
 
         public void Add(LatLngPoint item)
         {
-            points.Add(item.ToCSV());
+            points.Add(item.ToString());
         }
 
         public void Clear()
@@ -202,7 +202,7 @@ namespace Juniper.Google.Maps.MapTiles
 
         public bool Contains(LatLngPoint item)
         {
-            return Contains(item.ToCSV());
+            return Contains(item.ToString());
         }
 
         public void CopyTo(string[] array, int arrayIndex)
@@ -217,7 +217,7 @@ namespace Juniper.Google.Maps.MapTiles
 
         public bool Remove(LatLngPoint item)
         {
-            return Remove(item.ToCSV());
+            return Remove(item.ToString());
         }
 
         public int Count
