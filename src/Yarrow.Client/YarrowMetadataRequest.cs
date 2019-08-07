@@ -1,21 +1,19 @@
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.HTTP.REST;
-using Juniper.Json;
-using Juniper.Serialization;
 using Juniper.World.GIS;
 
 namespace Yarrow.Client
 {
-    public class YarrowMetadataRequest : AbstractSingleRequest<MetadataResponse>
+    public class YarrowMetadataRequest : AbstractJsonRequest<MetadataResponse>
     {
         private PlaceName location;
         private LatLngPoint latlng;
+        private PanoID pano;
 
         public YarrowMetadataRequest(YarrowRequestConfiguration api)
-            : base(api, new JsonFactory().Specialize<MetadataResponse>(), "api/metadata", "metadata")
+            : base(api, "api/metadata", "metadata")
         {
-            SetContentType("application/json", "json");
         }
 
         public PlaceName Location
@@ -24,8 +22,13 @@ namespace Yarrow.Client
             set
             {
                 location = value;
+                SetQuery(nameof(location), location);
+
                 latlng = default;
-                SetQuery(nameof(location), (string)location);
+                RemoveQuery(nameof(latlng));
+
+                pano = default;
+                RemoveQuery(nameof(pano));
             }
         }
 
@@ -35,8 +38,29 @@ namespace Yarrow.Client
             set
             {
                 location = default;
+                RemoveQuery(nameof(location));
+
                 latlng = value;
-                SetQuery(nameof(latlng), (string)latlng);
+                SetQuery(nameof(latlng), latlng);
+
+                pano = default;
+                RemoveQuery(nameof(pano));
+            }
+        }
+
+        public PanoID Pano
+        {
+            get { return pano; }
+            set
+            {
+                location = default;
+                RemoveQuery(nameof(location));
+
+                latlng = default;
+                RemoveQuery(nameof(latlng));
+
+                pano = value;
+                SetQuery(nameof(pano), pano);
             }
         }
     }
