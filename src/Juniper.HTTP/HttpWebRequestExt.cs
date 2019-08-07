@@ -254,10 +254,9 @@ namespace System.Net
                     {
                         outResponse.SetStatus(inResponse.StatusCode);
                         outResponse.ContentType = inResponse.ContentType;
-                        outResponse.ContentLength64 = inResponse.ContentLength;
-                        foreach (var header in inResponse.Headers.AllKeys)
+                        if (inResponse.ContentLength >= 0)
                         {
-                            outResponse.AddHeader(header, inResponse.Headers[header]);
+                            outResponse.ContentLength64 = inResponse.ContentLength;
                         }
                         body.CopyTo(outResponse.OutputStream);
                     }
