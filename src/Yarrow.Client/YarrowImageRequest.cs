@@ -4,6 +4,7 @@ using Juniper.Google.Maps.StreetView;
 using Juniper.HTTP.REST;
 using Juniper.Image;
 using Juniper.Image.JPEG;
+using Juniper.Progress;
 
 namespace Yarrow.Client
 {
@@ -27,9 +28,9 @@ namespace Yarrow.Client
             }
         }
 
-        public async Task<ImageData> GetJPEG()
+        public async Task<ImageData> GetJPEG(IProgress prog = null)
         {
-            using (var stream = await GetRaw())
+            using (var stream = await GetRaw(prog))
             {
                 return JpegFactory.Read(stream);
             }

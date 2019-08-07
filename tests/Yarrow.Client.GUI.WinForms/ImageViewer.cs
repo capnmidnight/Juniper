@@ -2,12 +2,13 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Juniper.Image;
 
 namespace Yarrow.Client.GUI.WinForms
 {
     public partial class ImageViewer : Form
     {
-        private readonly Action<FileInfo> SetImageDelegate;
+        private readonly Action<ImageData> SetImageDelegate;
 
         public ImageViewer()
         {
@@ -15,17 +16,19 @@ namespace Yarrow.Client.GUI.WinForms
             SetImageDelegate = SetImage;
         }
 
-        public void SetImage(FileInfo file)
+        public void SetImage(ImageData image)
         {
             if (InvokeRequired)
             {
-                Invoke(SetImageDelegate, file);
+                Invoke(SetImageDelegate, image);
             }
             else
             {
                 cubeMapPictureBox.Image?.Dispose();
-                var image = Image.FromFile(file.FullName);
-                cubeMapPictureBox.Image = image;
+                using (var mem = new MemoryStream(image.data))
+                {
+                    cubeMapPictureBox.Image = Image.FromStream(mem);
+                }
             }
         }
 

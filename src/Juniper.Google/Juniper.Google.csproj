@@ -49,7 +49,6 @@
     <Compile Include="Maps\Geocoding\GeometryLocationType.cs" />
     <Compile Include="Maps\Geocoding\GeometryResult.cs" />
     <Compile Include="Maps\Geocoding\GeometryViewport.cs" />
-    <Compile Include="Maps\GoogleMapsController.cs" />
     <Compile Include="Maps\PhoneNumber.cs" />
     <Compile Include="Maps\PlaceID.cs" />
     <Compile Include="Maps\Places\PlaceSearchField.cs" />

@@ -15,6 +15,7 @@ using Juniper.World;
 using Juniper.World.GIS;
 
 using UnityEngine;
+using Yarrow.Client;
 
 namespace Juniper.Images
 {
@@ -36,7 +37,7 @@ namespace Juniper.Images
 
         private Material skyboxMaterial;
 
-        private GoogleMapsController gmaps;
+        private YarrowClient yarrow;
 
         public int searchRadius = 50;
 
@@ -92,14 +93,8 @@ namespace Juniper.Images
                 SetLocation(locationInput.value);
             }
 #endif
-            var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
-            var cacheDir = new DirectoryInfo(cacheDirName);
-            var keyFile = Path.Combine(cacheDirName, "keys.txt");
-            gmaps = GoogleMapsController.CreateController(
-                keyFile,
-                new Image.Size(640, 640),
-                cacheDir);
+
+            yarrow = new YarrowClient();
         }
 
         public override void Enter(IProgress prog = null)
@@ -156,11 +151,11 @@ namespace Juniper.Images
                 Task<MetadataResponse> metadataTask;
                 if (LatLngPoint.TryParseDecimal(Location, out var point))
                 {
-                    metadataTask = gmaps.GetMetadata(point, metadataProg);
+                    metadataTask = yarrow.GetMetadata(point, metadataProg);
                 }
                 else
                 {
-                    metadataTask = gmaps.GetMetadata((PlaceName)Location, metadataProg);
+                    metadataTask = yarrow.GetMetadata((PlaceName)Location, metadataProg);
                 }
 
                 yield return new WaitForTask(metadataTask);
@@ -179,7 +174,7 @@ namespace Juniper.Images
 
                     if (!textureCache.ContainsKey(metadata.pano_id))
                     {
-                        var imageTask = gmaps.GetImage(metadata.pano_id, imageProg);
+                        var imageTask = yarrow.GetImage(metadata.pano_id, imageProg);
                         yield return new WaitForTask(imageTask);
                         var image = imageTask.Result;
 

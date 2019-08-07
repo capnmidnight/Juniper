@@ -85,6 +85,14 @@
       <Project>{F951A2E5-078A-413D-966D-C3F4AE5EDCAB}</Project>
       <Name>Juniper.Image</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Juniper.Progress\Juniper.Progress.csproj">
+      <Project>{E8C5E33F-9C4E-4B70-8EFE-974946E59A48}</Project>
+      <Name>Juniper.Progress</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Juniper.World\Juniper.World.csproj">
+      <Project>{27b52adc-cb80-4b77-a0fc-958c0b0d0982}</Project>
+      <Name>Juniper.World</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Yarrow.Client\Yarrow.Client.csproj">
       <Project>{53613b75-93e8-48a1-9bed-fba12473c0db}</Project>
       <Name>Yarrow.Client</Name>

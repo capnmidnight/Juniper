@@ -182,9 +182,9 @@ namespace Juniper.HTTP.REST
             return Task.Run(() => HttpWebRequestExt.CachedProxy(response, AuthenticatedURI, CacheFile, SetAcceptType));
         }
 
-        public Task<Stream> GetRaw()
+        public Task<Stream> GetRaw(IProgress prog = null)
         {
-            return Task.Run(() => HttpWebRequestExt.CachedGetRaw(AuthenticatedURI, CacheFile, SetAcceptType));
+            return Task.Run(() => HttpWebRequestExt.CachedGetRaw(AuthenticatedURI, CacheFile, SetAcceptType, prog));
         }
 
         public async Task CopyRaw(Stream outStream)

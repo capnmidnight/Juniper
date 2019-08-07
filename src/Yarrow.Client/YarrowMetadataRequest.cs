@@ -9,9 +9,8 @@ namespace Yarrow.Client
 {
     public class YarrowMetadataRequest : AbstractSingleRequest<MetadataResponse>
     {
-        private PanoID pano;
-        private PlaceName placeName;
-        private LatLngPoint location;
+        private PlaceName location;
+        private LatLngPoint latlng;
 
         public YarrowMetadataRequest(YarrowRequestConfiguration api)
             : base(api, new JsonFactory().Specialize<MetadataResponse>(), "api/metadata", "metadata")
@@ -19,64 +18,26 @@ namespace Yarrow.Client
             SetContentType("application/json", "json");
         }
 
-        public YarrowMetadataRequest(YarrowRequestConfiguration api, PanoID pano)
-            : this(api)
-        {
-            Pano = pano;
-        }
-
-        public YarrowMetadataRequest(YarrowRequestConfiguration api, PlaceName placeName)
-            : this(api)
-        {
-            Place = placeName;
-        }
-
-        public YarrowMetadataRequest(YarrowRequestConfiguration api, LatLngPoint location)
-            : this(api)
-        {
-            Location = location;
-        }
-
-        public PanoID Pano
-        {
-            get { return pano; }
-            set { SetLocation(value); }
-        }
-
-        public PlaceName Place
-        {
-            get { return placeName; }
-            set { SetLocation(value); }
-        }
-
-        public LatLngPoint Location
+        public PlaceName Location
         {
             get { return location; }
-            set { SetLocation(value); }
+            set
+            {
+                location = value;
+                latlng = default;
+                SetQuery(nameof(location), (string)location);
+            }
         }
 
-        public void SetLocation(PanoID location)
+        public LatLngPoint LatLng
         {
-            placeName = default;
-            this.location = default;
-            pano = location;
-            SetQuery(nameof(pano), (string)location);
-        }
-
-        public void SetLocation(PlaceName location)
-        {
-            placeName = location;
-            this.location = default;
-            pano = default;
-            SetQuery(nameof(location), (string)location);
-        }
-
-        public void SetLocation(LatLngPoint location)
-        {
-            placeName = default;
-            this.location = location;
-            pano = default;
-            SetQuery(nameof(location), (string)location);
+            get { return latlng; }
+            set
+            {
+                location = default;
+                latlng = value;
+                SetQuery(nameof(latlng), (string)latlng);
+            }
         }
     }
 }

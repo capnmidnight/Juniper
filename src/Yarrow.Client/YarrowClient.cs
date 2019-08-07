@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.Image;
+using Juniper.Progress;
+using Juniper.World.GIS;
 
 namespace Yarrow.Client
 {
@@ -24,17 +26,22 @@ namespace Yarrow.Client
             imageRequest = new YarrowImageRequest(api);
         }
 
-        public Task<MetadataResponse> GetMetadata(PlaceName placeName)
+        public Task<MetadataResponse> GetMetadata(PlaceName placeName, IProgress prog = null)
         {
-            metadataRequest.Place = placeName;
-            return metadataRequest.Get();
+            metadataRequest.Location = placeName;
+            return metadataRequest.Get(prog);
         }
 
-        public async Task<FileInfo> GetImage(PanoID pano)
+        public Task<MetadataResponse> GetMetadata(LatLngPoint latLng, IProgress prog = null)
+        {
+            metadataRequest.LatLng = latLng;
+            return metadataRequest.Get(prog);
+        }
+
+        public Task<ImageData> GetImage(PanoID pano, IProgress prog = null)
         {
             imageRequest.Pano = pano;
-            await imageRequest.GetJPEG();
-            return imageRequest.CacheFile;
+            return imageRequest.GetJPEG(prog);
         }
     }
 }

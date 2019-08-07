@@ -236,13 +236,17 @@ namespace System.Net
         public static Task<Stream> CachedGetRaw(
             Uri uri,
             FileInfo cacheFile,
-            Action<HttpWebRequest> modifyRequest = null)
+            Action<HttpWebRequest> modifyRequest = null,
+            IProgress prog = null)
         {
             return Task.Run(async () =>
             {
+                Stream body;
+                long length;
                 if (cacheFile?.Exists == true)
                 {
-                    return cacheFile.OpenRead();
+                    length = cacheFile.Length;
+                    body = cacheFile.OpenRead();
                 }
                 else
                 {
@@ -250,13 +254,16 @@ namespace System.Net
                     modifyRequest?.Invoke(request);
 
                     var response = await request.Get();
-                    var body = response.GetResponseStream();
+                    length = response.ContentLength;
+                    body = response.GetResponseStream();
                     if (cacheFile != null)
                     {
                         body = new CachingStream(body, cacheFile);
                     }
-                    return body;
                 }
+
+                body = new ProgressStream(body, length, prog);
+                return body;
             });
         }
 
