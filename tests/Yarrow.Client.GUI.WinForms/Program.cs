@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Juniper.Google.Maps;
+using Juniper.Google.Maps.StreetView;
+using Juniper.World.GIS;
 
 namespace Yarrow.Client.GUI.WinForms
 {
@@ -24,11 +26,19 @@ namespace Yarrow.Client.GUI.WinForms
             yarrow = new YarrowClient();
             form = new ImageViewer();
             form.LocationSubmitted += Form_LocationSubmitted;
-
+            form.LatLngSubmitted += Form_LatLngSubmitted;
+            form.PanoSubmitted += Form_PanoSubmitted;
             using (form)
             {
                 Application.Run(form);
             }
+        }
+
+        private static async Task GetImageData(MetadataResponse metadata)
+        {
+            var geo = await yarrow.ReverseGeocode(metadata.location);
+            var imageFile = await yarrow.GetImage(metadata.pano_id);
+            form.SetImage(metadata, geo, imageFile);
         }
 
         private static void Form_LocationSubmitted(object sender, string location)
@@ -36,9 +46,25 @@ namespace Yarrow.Client.GUI.WinForms
             Task.Run(async () =>
             {
                 var metadata = await yarrow.GetMetadata((PlaceName)location);
-                var pano = metadata.pano_id;
-                var imageFile = await yarrow.GetImage(pano);
-                form.SetImage(imageFile);
+                await GetImageData(metadata);
+            });
+        }
+
+        private static void Form_LatLngSubmitted(object sender, string latlng)
+        {
+            Task.Run(async () =>
+            {
+                var metadata = await yarrow.GetMetadata(LatLngPoint.ParseDecimal(latlng));
+                await GetImageData(metadata);
+            });
+        }
+
+        private static void Form_PanoSubmitted(object sender, string pano)
+        {
+            Task.Run(async () =>
+            {
+                var metadata = await yarrow.GetMetadata((PanoID)pano);
+                await GetImageData(metadata);
             });
         }
 
