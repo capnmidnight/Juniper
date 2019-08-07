@@ -37,12 +37,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="YarrowGeocodingRequest.cs" />
     <Compile Include="YarrowClient.cs" />
     <Compile Include="YarrowImageRequest.cs" />
     <Compile Include="YarrowMetadataRequest.cs" />
     <Compile Include="YarrowRequestConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Juniper.Collections\Juniper.Collections.csproj">
+      <Project>{e7450f17-721d-436b-9ccb-af130da82bf0}</Project>
+      <Name>Juniper.Collections</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.Google\Juniper.Google.csproj">
       <Project>{8b0f80d8-dd15-4d68-b1d5-17328cdf1db6}</Project>
       <Name>Juniper.Google</Name>
@@ -58,6 +63,10 @@
     <ProjectReference Include="..\Juniper.Json\Juniper.Json.csproj">
       <Project>{b10a2ab6-5677-4f5e-b6fc-d81120787746}</Project>
       <Name>Juniper.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.NETFXExtensions\Juniper.NETFXExtensions.csproj">
+      <Project>{71ce09ef-34ce-4970-a731-593c09a7efb9}</Project>
+      <Name>Juniper.NETFXExtensions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">
       <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>

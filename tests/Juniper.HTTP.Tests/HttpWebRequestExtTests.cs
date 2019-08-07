@@ -29,19 +29,20 @@ namespace Juniper.HTTP.Tests
         private static async Task<ImageData> RunFileTest(bool deleteFile, bool runTest, DataSource expectedSource)
         {
             var decoder = new Image.JPEG.JpegFactory();
-            const string cacheFileName = "portrait.jpg";
+            const string imageFileName = "portrait.jpg";
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            var cacheFile = Path.Combine(myPictures, cacheFileName);
+            var cacheFileName = Path.Combine(myPictures, imageFileName);
+            var cacheFile = new FileInfo(cacheFileName);
 
-            if (deleteFile && File.Exists(cacheFile))
+            if (deleteFile && cacheFile.Exists)
             {
-                File.Delete(cacheFile);
+                cacheFile.Delete();
             }
 
             var actual = await HttpWebRequestExt.CachedGet(
                 new Uri("https://www.seanmcbeth.com/2015-05.min.jpg"),
                 decoder.Deserialize,
-                Path.Combine(myPictures, cacheFile));
+                cacheFile);
 
             Assert.AreEqual(expectedSource, actual.source);
 
