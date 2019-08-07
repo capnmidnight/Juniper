@@ -43,18 +43,41 @@ namespace Juniper.HTTP.REST
             queryParams.Remove(key);
         }
 
+        protected bool RemoveQuery(string key, string value)
+        {
+            var removed = false;
+            if (queryParams.ContainsKey(key))
+            {
+                var list = queryParams[key];
+                removed = list.Remove(value);
+                if (list.Count == 0)
+                {
+                    queryParams.Remove(key);
+                }
+            }
+
+            return removed;
+        }
+
         private string SetQuery(string key, string value, bool allowMany)
         {
-            var list = queryParams.Get(key) ?? new List<string>();
-            if (allowMany || list.Count == 0)
+            if (value == default && !allowMany)
             {
-                list.Add(value);
+                RemoveQuery(key);
             }
-            else if (!allowMany)
+            else
             {
-                list[0] = value;
+                var list = queryParams.Get(key) ?? new List<string>();
+                if (allowMany || list.Count == 0)
+                {
+                    list.Add(value);
+                }
+                else if (!allowMany)
+                {
+                    list[0] = value;
+                }
+                queryParams[key] = list;
             }
-            queryParams[key] = list;
 
             return value;
         }
@@ -73,6 +96,11 @@ namespace Juniper.HTTP.REST
         {
             SetQuery(key, value.ToString());
             return value;
+        }
+
+        protected bool RemoveQuery<U>(string key, U value)
+        {
+            return RemoveQuery(key, value.ToString());
         }
 
         public virtual Uri BaseURI
