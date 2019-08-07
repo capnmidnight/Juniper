@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+
 using Juniper.Animation;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
@@ -15,6 +14,7 @@ using Juniper.World;
 using Juniper.World.GIS;
 
 using UnityEngine;
+
 using Yarrow.Client;
 
 namespace Juniper.Images
@@ -35,7 +35,7 @@ namespace Juniper.Images
 
         public bool useMipMap = true;
 
-        private Material skyboxMaterial;
+        private SkyboxManager skybox;
 
         private YarrowClient yarrow;
 
@@ -47,7 +47,6 @@ namespace Juniper.Images
         public string Location;
 
         private LatLngPoint LatLngLocation;
-        private PanoID pano;
 
         [SerializeField]
         [HideInNormalInspector]
@@ -77,6 +76,7 @@ namespace Juniper.Images
         {
             fader = ComponentExt.FindAny<FadeTransition>();
             gps = ComponentExt.FindAny<GPSLocation>();
+            skybox = ComponentExt.FindAny<SkyboxManager>();
         }
 
         public override void Awake()
@@ -111,17 +111,9 @@ namespace Juniper.Images
         {
             base.Update();
 
-            if (IsEntered && !locked)
+            if (IsEntered && !locked && Location != lastLocation)
             {
-                if (Location != lastLocation)
-                {
-                    GetImages(true);
-                }
-                else if (Location == lastLocation
-                    && skyboxMaterial != null)
-                {
-                    UpdateSkyBox();
-                }
+                GetImages(true);
             }
         }
 
@@ -169,7 +161,6 @@ namespace Juniper.Images
                 {
                     print($"Pano ID = {metadata.pano_id}");
                     SetLatLngLocation(metadata.location);
-                    pano = metadata.pano_id;
                     lastLocation = Location;
 
                     if (!textureCache.ContainsKey(metadata.pano_id))
@@ -199,7 +190,7 @@ namespace Juniper.Images
                         textureCache[metadata.pano_id] = texture;
                     }
 
-                    SetSkyboxTexture(textureCache[metadata.pano_id]);
+                    skybox.SetTexture(textureCache[metadata.pano_id]);
                 }
 
                 locked = false;
@@ -215,31 +206,6 @@ namespace Juniper.Images
         {
             base.OnExiting();
             Complete();
-        }
-
-        private void SetSkyboxTexture(Texture value)
-        {
-            if (skyboxMaterial == null)
-            {
-                skyboxMaterial = new Material(Shader.Find("Skybox/Panoramic"));
-                skyboxMaterial.DisableKeyword(LAT_LON);
-                skyboxMaterial.EnableKeyword(SIDES_6);
-
-                skyboxMaterial.SetInt("_Mapping", 0);
-                skyboxMaterial.SetInt("_ImageType", 0);
-                skyboxMaterial.SetInt("_MirrorOnBack", 0);
-                skyboxMaterial.SetInt("_Layout", 0);
-                RenderSettings.skybox = skyboxMaterial;
-            }
-
-            skyboxMaterial.SetTexture("_MainTex", value);
-        }
-
-        private void UpdateSkyBox()
-        {
-            skyboxMaterial.SetColor("_Tint", tint);
-            skyboxMaterial.SetFloat("_Exposure", exposure);
-            skyboxMaterial.SetFloat("_Rotation", rotation);
         }
 
         public void SetLatLngLocation(LatLngPoint location)
