@@ -170,69 +170,6 @@ namespace System.Net
             return (HttpWebResponse)await request.GetResponseAsync();
         }
 
-        public static Task<T> CachedGet<T>(
-            Uri uri,
-            Func<Stream, T> decode,
-            string cacheFileName = null,
-            Action<HttpWebRequest> modifyRequest = null,
-            IProgress prog = null)
-        {
-            FileInfo cacheFile = null;
-            if (!string.IsNullOrEmpty(cacheFileName))
-            {
-                cacheFile = new FileInfo(cacheFileName);
-            }
-
-            return CachedGet(uri, decode, cacheFile, modifyRequest, prog);
-        }
-
-        public static Task<T> CachedGet<T>(
-            Uri uri,
-            Func<Stream, T> decode,
-            FileInfo cacheFile,
-            Action<HttpWebRequest> modifyRequest = null,
-            IProgress prog = null)
-        {
-            return Task.Run(async () =>
-            {
-                Stream body = null;
-                long length = 0;
-
-                if (cacheFile?.Exists == true)
-                {
-                    body = cacheFile.OpenRead();
-                    length = body.Length;
-                }
-                else
-                {
-                    var request = Create(uri);
-                    modifyRequest?.Invoke(request);
-
-                    var response = await request.Get();
-                    body = response.GetResponseStream();
-                    if (cacheFile != null)
-                    {
-                        body = new CachingStream(body, cacheFile);
-                    }
-                    length = response.ContentLength;
-                }
-
-                if (body == null)
-                {
-                    return default;
-                }
-                else
-                {
-                    body = new ProgressStream(body, length, prog);
-
-                    using (body)
-                    {
-                        return decode(body);
-                    }
-                }
-            });
-        }
-
         public static Task<Stream> CachedGetRaw(
             Uri uri,
             FileInfo cacheFile,
@@ -243,7 +180,9 @@ namespace System.Net
             {
                 Stream body;
                 long length;
-                if (cacheFile?.Exists == true)
+
+                if (cacheFile?.Exists == true
+                    && cacheFile.Length > 0)
                 {
                     length = cacheFile.Length;
                     body = cacheFile.OpenRead();
@@ -267,6 +206,23 @@ namespace System.Net
             });
         }
 
+        public static Task<T> CachedGet<T>(
+            Uri uri,
+            Func<Stream, T> decode,
+            FileInfo cacheFile = null,
+            Action<HttpWebRequest> modifyRequest = null,
+            IProgress prog = null)
+        {
+            return Task.Run(async () =>
+            {
+                var stream = await CachedGetRaw(uri, cacheFile, modifyRequest, prog);
+                using (stream)
+                {
+                    return decode(stream);
+                }
+            });
+        }
+
         public static Task CachedProxy(
             HttpListenerResponse outResponse,
             Uri uri,
@@ -275,7 +231,8 @@ namespace System.Net
         {
             return Task.Run(async () =>
             {
-                if (cacheFile?.Exists == true)
+                if (cacheFile?.Exists == true
+                    && cacheFile.Length > 0)
                 {
                     outResponse.SetStatus(HttpStatusCode.OK);
                     outResponse.ContentType = cacheFile.GetContentType();
