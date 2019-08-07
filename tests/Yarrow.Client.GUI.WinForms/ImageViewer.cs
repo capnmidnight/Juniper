@@ -46,58 +46,43 @@ namespace Yarrow.Client.GUI.WinForms
 
         public event EventHandler<string> LocationSubmitted;
 
-        private void OnLocationSubmitted()
-        {
-            locationTextBox.Text = locationTextBox.Text.Trim();
-            if (locationTextBox.Text.Length > 0)
-            {
-                LocationSubmitted?.Invoke(this, locationTextBox.Text);
-            }
-        }
-
         private void LocationTextBox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                OnLocationSubmitted();
+                locationTextBox.Text = locationTextBox.Text.Trim();
+                if (locationTextBox.Text.Length > 0)
+                {
+                    LocationSubmitted?.Invoke(this, locationTextBox.Text);
+                }
             }
         }
 
         public event EventHandler<string> PanoSubmitted;
 
-        private void OnPanoSubmitted()
-        {
-            panoTextbox.Text = panoTextbox.Text.Trim();
-            if (panoTextbox.Text.Length > 0)
-            {
-                PanoSubmitted?.Invoke(this, panoTextbox.Text);
-            }
-        }
-
         private void PanoTextbox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                OnPanoSubmitted();
+                panoTextbox.Text = panoTextbox.Text.Trim();
+                if (panoTextbox.Text.Length > 0)
+                {
+                    PanoSubmitted?.Invoke(this, panoTextbox.Text);
+                }
             }
         }
 
         public event EventHandler<string> LatLngSubmitted;
 
-        private void OnLatLngSubmitted()
-        {
-            latLngTextbox.Text = latLngTextbox.Text.Trim();
-            if (latLngTextbox.Text.Length > 0)
-            {
-                LatLngSubmitted?.Invoke(this, latLngTextbox.Text);
-            }
-        }
-
         private void LatLngTextbox_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                OnLatLngSubmitted();
+                latLngTextbox.Text = latLngTextbox.Text.Trim();
+                if (latLngTextbox.Text.Length > 0)
+                {
+                    LatLngSubmitted?.Invoke(this, latLngTextbox.Text);
+                }
             }
         }
     }
