@@ -190,6 +190,10 @@ namespace Juniper.Images
                         textureCache[metadata.pano_id] = texture;
                     }
 
+                    skybox.layout = SkyboxManager.Mode.Cube;
+                    skybox.imageType = SkyboxManager.ImageType.Degrees360;
+                    skybox.stereoLayout = SkyboxManager.StereoLayout.None;
+                    skybox.useMipMap = false;
                     skybox.SetTexture(textureCache[metadata.pano_id]);
                 }
 
