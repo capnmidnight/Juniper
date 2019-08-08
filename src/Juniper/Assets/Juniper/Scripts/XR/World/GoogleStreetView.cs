@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -24,6 +26,8 @@ namespace Juniper.Imaging
     {
         private const string LAT_LON = "_MAPPING_LATITUDE_LONGITUDE_LAYOUT";
         private const string SIDES_6 = "_MAPPING_6_FRAMES_LAYOUT";
+
+        public string yarrowServerHost = "http://localhost:8000";
 
         public TextureFormat textureFormat = TextureFormat.RGB24;
         public Color tint = Color.gray;
@@ -95,7 +99,22 @@ namespace Juniper.Imaging
             }
 #endif
 
-            yarrow = new YarrowClient<ImageData>(new JpegDecoder());
+            var uri = new Uri(yarrowServerHost);
+            var decoder = new JpegDecoder();
+            var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            var yarrowCacheDirName = Path.Combine(myPictures, "Yarrow");
+            var yarrowCacheDir = new DirectoryInfo(yarrowCacheDirName);
+            var gmapsCacheDirName = Path.Combine(myPictures, "GoogleMaps");
+            var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
+            var gmapsKeyFileName = Path.Combine(gmapsCacheDirName, "keys.txt");
+            var gmapsKeyFile = new FileInfo(gmapsKeyFileName);
+            using (var fileStream = gmapsKeyFile.OpenRead())
+            using (var reader = new StreamReader(fileStream))
+            {
+                var apiKey = reader.ReadLine();
+                var signingKey = reader.ReadLine();
+                yarrow = new YarrowClient<ImageData>(uri, decoder, yarrowCacheDir, apiKey, signingKey, gmapsCacheDir);
+            }
         }
 
         public override void Enter(IProgress prog = null)
@@ -112,7 +131,7 @@ namespace Juniper.Imaging
         {
             base.Update();
 
-            if (IsEntered && !locked && Location != lastLocation)
+            if (IsEntered && IsComplete && !locked && Location != lastLocation)
             {
                 GetImages(true);
             }
