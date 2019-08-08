@@ -46,7 +46,7 @@ namespace Yarrow.Client
             gmapsReverseGeocodeRequest = new ReverseGeocodingRequest(gmaps);
         }
 
-        private async Task<ResultT> Cascade<YarrowRequestT, GmapsRequestT, ResultT>(
+        private Task<ResultT> Cascade<YarrowRequestT, GmapsRequestT, ResultT>(
             YarrowRequestT yarrowRequest,
             GmapsRequestT gmapsRequest,
             Func<AbstractRequest<ResultT>, IProgress, Task<ResultT>> getter,
@@ -54,26 +54,29 @@ namespace Yarrow.Client
             where YarrowRequestT : AbstractRequest<ResultT>
             where GmapsRequestT : AbstractRequest<ResultT>
         {
-            if (!useGoogleMaps)
+            return Task.Run(async () =>
             {
-                try
+                if (!useGoogleMaps)
                 {
-                    return await getter(yarrowRequest, prog);
+                    try
+                    {
+                        return await getter(yarrowRequest, prog);
+                    }
+                    catch (WebException)
+                    {
+                        useGoogleMaps = true;
+                    }
                 }
-                catch (WebException)
-                {
-                    useGoogleMaps = true;
-                }
-            }
 
-            if (useGoogleMaps)
-            {
-                return await getter(gmapsRequest, prog);
-            }
-            else
-            {
-                return default;
-            }
+                if (useGoogleMaps)
+                {
+                    return await getter(gmapsRequest, prog);
+                }
+                else
+                {
+                    return default;
+                }
+            });
         }
 
         public Task<MetadataResponse> GetMetadata(PanoID pano, IProgress prog = null)
