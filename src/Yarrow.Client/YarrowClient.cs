@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Google.Maps;
@@ -54,7 +53,11 @@ namespace Yarrow.Client
         {
             return Task.Run(async () =>
             {
-                if (!useGoogleMaps)
+                if (useGoogleMaps)
+                {
+                    return await getter(gmapsRequest, prog);
+                }
+                else
                 {
                     try
                     {
@@ -64,17 +67,9 @@ namespace Yarrow.Client
                     catch
                     {
                         useGoogleMaps = true;
+                        return await Cascade(yarrowRequest, gmapsRequest, getter, prog);
                     }
 #pragma warning restore CA1031 // Do not catch general exception types
-                }
-
-                if (useGoogleMaps)
-                {
-                    return await getter(gmapsRequest, prog);
-                }
-                else
-                {
-                    return default;
                 }
             });
         }
