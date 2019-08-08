@@ -10,7 +10,9 @@ namespace Juniper.Input
 
             if (!reset && mode == Mode.Auto)
             {
-#if UNITY_XR_OCULUS_ANDROID
+#if UNITY_EDITOR
+                mode = Mode.Desktop;
+#elif UNITY_XR_OCULUS_ANDROID
                 mode = Mode.SeatedVR;
 #else
                 mode = Mode.StandingVR;
@@ -19,4 +21,5 @@ namespace Juniper.Input
         }
     }
 }
+
 #endif

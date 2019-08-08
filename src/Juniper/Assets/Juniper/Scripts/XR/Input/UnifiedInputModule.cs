@@ -13,7 +13,9 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 #if UNITY_MODULES_UI
+
 using UnityEngine.UI;
+
 #endif
 
 namespace Juniper.Input
@@ -52,13 +54,13 @@ namespace Juniper.Input
         public enum Mode
         {
             None,
-            Auto = ~None,
-            Mouse = 1,
-            Touch = 2,
-            Gaze = 4,
-            Motion = 8,
-            Hands = 16,
-            HasFloorPosition = 32,
+            Auto = 1,
+            Mouse = 2,
+            Touch = 4,
+            Gaze = 8,
+            Motion = 16,
+            Hands = 32,
+            HasFloorPosition = 64,
             Desktop = Mouse,
             Touchscreen = Touch | Gaze,
             SeatedVR = Mouse | Gaze | Motion,
@@ -176,6 +178,7 @@ namespace Juniper.Input
 #if UNITY_MODULES_UI
 
 #if UNITY_EDITOR
+
         private static void NormalizeToggleField(ref Toggle toggle, ref GameObject obj)
         {
             if (toggle != null)
@@ -197,6 +200,7 @@ namespace Juniper.Input
             NormalizeToggleField(ref enableTouchToggle, ref enableTouchObject);
             NormalizeToggleField(ref enableGazeToggle, ref enableGazeObject);
         }
+
 #endif
 
         private void SetupDevice(string key, Toggle toggle, Action<bool, bool> onEnable)
@@ -207,6 +211,7 @@ namespace Juniper.Input
                 toggle.isOn = GetBool(key);
             }
         }
+
 #endif
 
         public virtual void Reinstall()
@@ -284,6 +289,7 @@ namespace Juniper.Input
 #endif
 
         private bool wasTouchAvailable = false;
+
         private bool TouchConnected
         {
             get
@@ -511,6 +517,7 @@ namespace Juniper.Input
         }
 
 #if UNITY_MODULES_UI
+
         private void EnableDevice(string key, bool value, IPointerDevice pointer, bool savePref, Action<bool> setActive, Toggle toggle)
         {
             if (toggle != null && toggle.isOn != value)

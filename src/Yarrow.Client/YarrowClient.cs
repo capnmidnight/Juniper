@@ -25,6 +25,7 @@ namespace Yarrow.Client
         private readonly ReverseGeocodingRequest gmapsReverseGeocodeRequest;
 
         private bool useGoogleMaps = false;
+        private Exception lastError;
 
         public YarrowClient(Uri yarrowServerUri, IImageDecoder<T> decoder, DirectoryInfo yarrowCacheDir)
         {
@@ -41,6 +42,15 @@ namespace Yarrow.Client
             gmapsMetadataRequest = new MetadataRequest(gmaps);
             gmapsImageRequest = new CrossCubeMapRequest<T>(gmaps, decoder, new Size(640, 640));
             gmapsReverseGeocodeRequest = new ReverseGeocodingRequest(gmaps);
+        }
+
+        public string Status
+        {
+            get
+            {
+                var errorMsg = lastError?.Message ?? "NONE";
+                return $"Using google maps directly: {useGoogleMaps}. Last error: {errorMsg}";
+            }
         }
 
         private Task<ResultT> Cascade<YarrowRequestT, GmapsRequestT, ResultT>(
@@ -64,8 +74,9 @@ namespace Yarrow.Client
                         return await getter(yarrowRequest, prog);
                     }
 #pragma warning disable CA1031 // Do not catch general exception types
-                    catch
+                    catch (Exception exp)
                     {
+                        lastError = exp;
                         useGoogleMaps = true;
                         return await Cascade(yarrowRequest, gmapsRequest, getter, prog);
                     }

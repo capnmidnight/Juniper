@@ -1,7 +1,7 @@
 #if UNITY_XR_OCULUS
 
 using System.Linq;
-
+using Juniper.Input;
 using UnityEngine;
 
 namespace Juniper.Display
@@ -11,6 +11,16 @@ namespace Juniper.Display
         public override void Install(bool reset)
         {
             base.Install(reset);
+
+            if (cameraCtrl.mode == CameraControl.Mode.Auto)
+            {
+                var input = ComponentExt.FindAny<UnifiedInputModule>();
+#if UNITY_EDITOR
+                cameraCtrl.mode = CameraControl.Mode.MouseLocked;
+#else
+                cameraCtrl.mode = CameraControl.Mode.None;
+#endif
+            }
 
             var mgr = this.Ensure<OVRManager>();
             if (mgr.IsNew)

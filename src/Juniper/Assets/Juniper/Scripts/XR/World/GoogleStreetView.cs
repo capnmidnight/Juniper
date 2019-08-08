@@ -28,6 +28,8 @@ namespace Juniper.Imaging
         private const string SIDES_6 = "_MAPPING_6_FRAMES_LAYOUT";
 
         public string yarrowServerHost = "http://localhost:8000";
+        public string gmapsApiKey;
+        public string gmapsSigningKey;
 
         public TextureFormat textureFormat = TextureFormat.RGB24;
         public Color tint = Color.gray;
@@ -72,7 +74,6 @@ namespace Juniper.Imaging
         public void OnValidate()
         {
             locationInput = this.Ensure<EditorTextInput>();
-            FindComponents();
         }
 
 #endif
@@ -101,20 +102,16 @@ namespace Juniper.Imaging
 
             var uri = new Uri(yarrowServerHost);
             var decoder = new JpegDecoder();
-            var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            var yarrowCacheDirName = Path.Combine(myPictures, "Yarrow");
+#if UNITY_EDITOR
+            var baseCachePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+#else
+            var baseCachePath = Application.persistentDataPath;
+#endif
+            var yarrowCacheDirName = Path.Combine(baseCachePath, "Yarrow");
             var yarrowCacheDir = new DirectoryInfo(yarrowCacheDirName);
-            var gmapsCacheDirName = Path.Combine(myPictures, "GoogleMaps");
+            var gmapsCacheDirName = Path.Combine(baseCachePath, "GoogleMaps");
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
-            var gmapsKeyFileName = Path.Combine(gmapsCacheDirName, "keys.txt");
-            var gmapsKeyFile = new FileInfo(gmapsKeyFileName);
-            using (var fileStream = gmapsKeyFile.OpenRead())
-            using (var reader = new StreamReader(fileStream))
-            {
-                var apiKey = reader.ReadLine();
-                var signingKey = reader.ReadLine();
-                yarrow = new YarrowClient<ImageData>(uri, decoder, yarrowCacheDir, apiKey, signingKey, gmapsCacheDir);
-            }
+            yarrow = new YarrowClient<ImageData>(uri, decoder, yarrowCacheDir, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
         }
 
         public override void Enter(IProgress prog = null)
@@ -127,10 +124,16 @@ namespace Juniper.Imaging
             GetImages(false, prog);
         }
 
+        private string lastStatus;
+
         public override void Update()
         {
             base.Update();
-
+            if (yarrow.Status != lastStatus)
+            {
+                ScreenDebugger.Print(yarrow.Status);
+                lastStatus = yarrow.Status;
+            }
             if (IsEntered && IsComplete && !locked && Location != lastLocation)
             {
                 GetImages(true);
