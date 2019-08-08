@@ -1,8 +1,6 @@
 using System;
 using System.IO;
 using System.Net;
-using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading.Tasks;
 
 using Juniper.Google.Maps;
@@ -62,10 +60,12 @@ namespace Yarrow.Client
                     {
                         return await getter(yarrowRequest, prog);
                     }
-                    catch (WebException)
+#pragma warning disable CA1031 // Do not catch general exception types
+                    catch
                     {
                         useGoogleMaps = true;
                     }
+#pragma warning restore CA1031 // Do not catch general exception types
                 }
 
                 if (useGoogleMaps)
