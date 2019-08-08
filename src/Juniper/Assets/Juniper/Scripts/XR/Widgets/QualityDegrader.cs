@@ -7,7 +7,6 @@ using Juniper.Units;
 
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 #if UNITY_POSTPROCESSING
 using UnityEngine.Rendering.PostProcessing;
@@ -22,8 +21,6 @@ namespace Juniper.Widgets
     [DisallowMultipleComponent]
     public class QualityDegrader : MonoBehaviour
     {
-        public Button[] qualityButtons;
-
         private TerrainManager ground;
 
         /// <summary>
@@ -66,8 +63,6 @@ namespace Juniper.Widgets
                     PlayerPrefs.SetInt(GRAPHICS_QUALITY_KEY, value);
                     PlayerPrefs.Save();
                 }
-
-                UpdateButtons(value);
             }
         }
 
@@ -135,16 +130,7 @@ namespace Juniper.Widgets
 
             display = ComponentExt.FindAny<DisplayManager>();
 
-            if (qualityButtons != null)
-            {
-                for (int i = 0; i < qualityButtons.Length; ++i)
-                {
-                    qualityButtons[i].onClick.AddListener(QualityValueChange(i));
-                }
-            }
-
             QualityLevel = PlayerPrefs.GetInt(GRAPHICS_QUALITY_KEY, QualityLevel);
-            UpdateButtons(QualityLevel);
         }
 
         private UnityAction QualityValueChange(int i)
@@ -166,17 +152,6 @@ namespace Juniper.Widgets
 
                 ScreenDebugger.Print(QualityName);
                 frameStats.Clear();
-            }
-        }
-
-        private void UpdateButtons(int value)
-        {
-            if (qualityButtons != null)
-            {
-                for (int i = 0; i < qualityButtons.Length; ++i)
-                {
-                    qualityButtons[i].interactable = value != i;
-                }
             }
         }
     }

@@ -159,8 +159,6 @@ namespace Juniper.Audio
 
 #endif
 
-        public GameObject volumeSlider;
-
         /// <summary>
         /// The sound to play when an <see cref="Widgets.Openable"/> object has been closed.
         /// </summary>
@@ -290,12 +288,6 @@ namespace Juniper.Audio
                 shutDown = new SingleAudioClipCollection(soundOnShutDown, false);
 
                 audioSources = new List<AudioSource>(10);
-
-                if (volumeSlider != null)
-                {
-                    volume = volumeSlider.GetSlider();
-                    volume.ValueChange += Volume_ValueChange;
-                }
 #endif
             }
         }

@@ -85,8 +85,6 @@ namespace Juniper
 
         public UnityImage splash;
 
-        public Transform optionsInterface;
-
         /// <summary>
         /// The material to apply to Darth Fader.
         /// </summary>
@@ -255,7 +253,6 @@ namespace Juniper
             yield return loadingBar?.Waiter;
             splash?.Deactivate();
             loadingBar?.Deactivate();
-            optionsInterface?.Activate();
             darth?.Exit();
             yield return darth?.Waiter;
         }
@@ -281,12 +278,6 @@ namespace Juniper
                 splash = null;
             }
 
-            if (optionsInterface == null)
-            {
-                optionsInterface = null;
-            }
-
-            optionsInterface?.Deactivate();
             splash?.Activate();
 
             darth = ComponentExt.FindAny<FadeTransition>();
@@ -361,13 +352,6 @@ namespace Juniper
             loadingBar = sys.Query<LoadingBar>("LoadingBar");
 
             splash = sys.Query<UnityImage>("Canvas/SplashImage");
-
-            optionsInterface = sys.Find("Canvas/Options/OptionsPanel");
-            var btnContainer = optionsInterface.Find("Quality/QualityButtons");
-
-            qualityDegrader.qualityButtons = btnContainer.GetComponentsInChildren<Button>();
-
-            aud.volumeSlider = optionsInterface.Query<Slider>("Volume/VolumeSlider").gameObject;
         }
 
         public void Uninstall()
