@@ -16,7 +16,7 @@ namespace Yarrow.Client
         {
         }
 
-        public PlaceName Location
+        public PlaceName Place
         {
             get { return location; }
             set
@@ -32,7 +32,7 @@ namespace Yarrow.Client
             }
         }
 
-        public LatLngPoint LatLng
+        public LatLngPoint Location
         {
             get { return latlng; }
             set

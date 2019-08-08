@@ -10,7 +10,7 @@ namespace Yarrow.Client
     public class YarrowImageRequest<T> : AbstractSingleRequest<T>
     {
         private PanoID pano;
-        private IImageDecoder<T> decoder;
+        private readonly IImageDecoder<T> decoder;
 
         public YarrowImageRequest(YarrowRequestConfiguration api, IImageDecoder<T> decoder)
             : base(api, decoder, "api/image", "images")
@@ -29,7 +29,7 @@ namespace Yarrow.Client
             }
         }
 
-        public async Task<T> GetJPEG(IProgress prog = null)
+        public override async Task<T> GetJPEG(IProgress prog = null)
         {
             using (var stream = await GetRaw(prog))
             {

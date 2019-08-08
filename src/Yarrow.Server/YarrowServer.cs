@@ -12,25 +12,19 @@ namespace Yarrow.Server
     {
         private readonly HttpServer server;
 
-        public YarrowServer(string[] args, Action<string> info, Action<string> warning, Action<string> error)
+        public YarrowServer(string[] args, Action<string> info, Action<string> warning, Action<string> error, string apiKey, string signingKey, DirectoryInfo cacheDir)
         {
-            var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
-            var cacheDir = new DirectoryInfo(cacheDirName);
-            var keyFileName = Path.Combine(cacheDirName, "keys.txt");
-            var keyFile = new FileInfo(keyFileName);
-            using (var fileStream = keyFile.OpenRead())
-            using (var reader = new StreamReader(fileStream))
-            {
-                var apiKey = reader.ReadLine();
-                var signingKey = reader.ReadLine();
-                var gmaps = new GoogleMapsRequestConfiguration(apiKey, signingKey, cacheDir);
-                server = HttpServerUtil.Start(
-                    args, info, warning, error,
-                    new YarrowMetadataController(gmaps),
-                    new YarrowGeocodingController(gmaps),
-                    new YarrowImageController<Image>(gmaps, new GDIImageDecoder(System.Drawing.Imaging.ImageFormat.Jpeg)));
-            }
+            var gmaps = new GoogleMapsRequestConfiguration(apiKey, signingKey, cacheDir);
+            server = HttpServerUtil.Create(
+                args, info, warning, error,
+                new YarrowMetadataController(gmaps),
+                new YarrowGeocodingController(gmaps),
+                new YarrowImageController<Image>(gmaps, new GDIImageDecoder(System.Drawing.Imaging.ImageFormat.Jpeg)));
+        }
+
+        public void Start()
+        {
+            server.Start();
         }
 
         public void Stop()

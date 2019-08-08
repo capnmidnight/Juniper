@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,6 +13,8 @@ namespace Yarrow.Client.GUI.WinForms
 {
     internal static class Program
     {
+        private static readonly string MY_PICTURES = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+
         private static ImageViewer form;
         private static YarrowClient<Image> yarrow;
 
@@ -25,7 +28,21 @@ namespace Yarrow.Client.GUI.WinForms
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
 
-            yarrow = new YarrowClient<Image>(new GDIImageDecoder(System.Drawing.Imaging.ImageFormat.Jpeg));
+            var uri = new Uri(Properties.Settings.Default.YarrowServerHost);
+            var decoder = new GDIImageDecoder(System.Drawing.Imaging.ImageFormat.Jpeg);
+            var yarrowCacheDirName = Path.Combine(MY_PICTURES, "Yarrow");
+            var yarrowCacheDir = new DirectoryInfo(yarrowCacheDirName);
+            var gmapsCacheDirName = Path.Combine(MY_PICTURES, "GoogleMaps");
+            var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
+            var gmapsKeyFileName = Path.Combine(gmapsCacheDirName, "keys.txt");
+            var gmapsKeyFile = new FileInfo(gmapsKeyFileName);
+            using (var fileStream = gmapsKeyFile.OpenRead())
+            using (var reader = new StreamReader(fileStream))
+            {
+                var apiKey = reader.ReadLine();
+                var signingKey = reader.ReadLine();
+                yarrow = new YarrowClient<Image>(uri, decoder, yarrowCacheDir, apiKey, signingKey, gmapsCacheDir);
+            }
             form = new ImageViewer();
             form.LocationSubmitted += Form_LocationSubmitted;
             form.LatLngSubmitted += Form_LatLngSubmitted;
