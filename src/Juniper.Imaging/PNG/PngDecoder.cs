@@ -6,11 +6,11 @@ using Hjg.Pngcs;
 using Juniper.Progress;
 using Juniper.Serialization;
 
-namespace Juniper.Image.PNG
+namespace Juniper.Imaging.PNG
 {
-    public class PngFactory : IFactory<ImageData>
+    public class PngDecoder : AbstractImageDataDecoder
     {
-        public static ImageData Read(byte[] data, DataSource source = DataSource.None)
+        public override ImageData Read(byte[] data, DataSource source = DataSource.None)
         {
             int width = 0,
                 height = 0;
@@ -67,32 +67,11 @@ namespace Juniper.Image.PNG
             return default;
         }
 
-        public static ImageData Read(Stream stream)
-        {
-            var source = stream.DetermineSource();
-            using (var mem = new MemoryStream())
-            {
-                stream.CopyTo(mem);
-                mem.Flush();
-                return Read(mem.ToArray(), source);
-            }
-        }
-
-        public static ImageData Read(string fileName)
-        {
-            return Read(File.ReadAllBytes(fileName), DataSource.File);
-        }
-
-        public static ImageData Read(FileInfo file)
-        {
-            return Read(file.FullName);
-        }
-
         /// <summary>
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Png bytes.</param>
-        public ImageData Deserialize(Stream imageStream)
+        public override ImageData Deserialize(Stream imageStream)
         {
             var source = imageStream.DetermineSource();
             var png = new PngReader(imageStream);
@@ -120,7 +99,7 @@ namespace Juniper.Image.PNG
         /// Encodes a raw file buffer of image data into a PNG image.
         /// </summary>
         /// <param name="outputStream">Png bytes.</param>
-        public void Serialize(Stream outputStream, ImageData image, IProgress prog = null)
+        public override void Serialize(Stream outputStream, ImageData image, IProgress prog = null)
         {
             var info = new ImageInfo(
                 image.dimensions.width,

@@ -6,7 +6,7 @@ using Juniper.Progress;
 
 namespace Juniper.HTTP.REST
 {
-    public abstract class AbstractRequest<IntermediateType, ResponseType>
+    public abstract class AbstractRequest<ResponseType>
     {
         protected readonly AbstractRequestConfiguration api;
 

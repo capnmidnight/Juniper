@@ -37,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Compression", "Juni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.NETFXExtensions", "Juniper.NETFXExtensions\Juniper.NETFXExtensions.csproj", "{71CE09EF-34CE-4970-A731-593C09A7EFB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Image", "Juniper.Image\Juniper.Image.csproj", "{F951A2E5-078A-413D-966D-C3F4AE5EDCAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Imaging", "Juniper.Imaging\Juniper.Imaging.csproj", "{F951A2E5-078A-413D-966D-C3F4AE5EDCAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Threading", "Juniper.Threading\Juniper.Threading.csproj", "{4509D93F-515C-4C05-B05D-78CC26E13D84}"
 EndProject
@@ -104,6 +104,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Juniper", "Juniper", "{C87096B7-6095-4F03-B024-CAED5AD31E9D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Yarrow", "Yarrow", "{F4DDC38D-5F4B-4024-A73E-E77919F6541D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Imaging.Windows", "Juniper.Imaging.Windows\Juniper.Imaging.Windows.csproj", "{F3190C12-08B7-42CB-A294-0D4F49A00851}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -874,6 +876,24 @@ Global
 		{6E00DF2B-11D1-483C-A283-22B12096BE22}.ReleaseLite|x64.Build.0 = Release|Any CPU
 		{6E00DF2B-11D1-483C-A283-22B12096BE22}.ReleaseLite|x86.ActiveCfg = Release|Any CPU
 		{6E00DF2B-11D1-483C-A283-22B12096BE22}.ReleaseLite|x86.Build.0 = Release|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.Debug|x64.Build.0 = Debug|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.Debug|x86.Build.0 = Debug|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.Release|x64.ActiveCfg = Release|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.Release|x64.Build.0 = Release|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.Release|x86.ActiveCfg = Release|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.Release|x86.Build.0 = Release|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.ReleaseLite|Any CPU.ActiveCfg = Release|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.ReleaseLite|Any CPU.Build.0 = Release|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.ReleaseLite|x64.ActiveCfg = Release|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.ReleaseLite|x64.Build.0 = Release|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.ReleaseLite|x86.ActiveCfg = Release|Any CPU
+		{F3190C12-08B7-42CB-A294-0D4F49A00851}.ReleaseLite|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -926,6 +946,7 @@ Global
 		{ADB8DBA8-8606-4919-8238-FF05DB96F54C} = {3F72C92A-C800-432F-A47D-359B8C938849}
 		{C87096B7-6095-4F03-B024-CAED5AD31E9D} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
 		{F4DDC38D-5F4B-4024-A73E-E77919F6541D} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
+		{F3190C12-08B7-42CB-A294-0D4F49A00851} = {69F5ADE9-DF68-423D-898C-8041D9FCED3C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26853D06-2187-498D-81B8-5BF110E83214}

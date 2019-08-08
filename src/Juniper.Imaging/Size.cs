@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace Juniper.Image
+namespace Juniper.Imaging
 {
     public struct Size
     {

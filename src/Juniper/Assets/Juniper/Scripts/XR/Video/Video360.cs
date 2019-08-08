@@ -2,7 +2,7 @@
 
 using System;
 using Juniper.Audio;
-using Juniper.Images;
+using Juniper.Imaging;
 using Juniper.Progress;
 using UnityEngine;
 using UnityEngine.Events;

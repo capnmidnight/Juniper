@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="YarrowGeocodingController.cs" />
@@ -51,9 +52,13 @@
       <Project>{888b994c-2ae8-42b2-84f5-b15e11cc4f4f}</Project>
       <Name>Juniper.HTTP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Juniper.Image\Juniper.Image.csproj">
+    <ProjectReference Include="..\Juniper.Imaging.Windows\Juniper.Imaging.Windows.csproj">
+      <Project>{f3190c12-08b7-42cb-a294-0d4f49a00851}</Project>
+      <Name>Juniper.Imaging.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj">
       <Project>{F951A2E5-078A-413D-966D-C3F4AE5EDCAB}</Project>
-      <Name>Juniper.Image</Name>
+      <Name>Juniper.Imaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Juniper.Json\Juniper.Json.csproj">
       <Project>{B10A2AB6-5677-4F5E-B6FC-D81120787746}</Project>

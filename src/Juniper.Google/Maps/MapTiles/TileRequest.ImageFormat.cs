@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-using Juniper.Image;
+using Juniper.Imaging;
 
 namespace Juniper.Google.Maps.MapTiles
 {

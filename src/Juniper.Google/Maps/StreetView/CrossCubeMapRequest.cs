@@ -3,58 +3,44 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.HTTP;
-using Juniper.Image;
+using Juniper.Imaging;
 using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class CrossCubeMapRequest : AbstractStreetViewImageRequest
+    public class CrossCubeMapRequest<T> : AbstractStreetViewImageRequest<T>
     {
-        private readonly CubeMapRequest subRequest;
-        private readonly IFactory<ImageData> factory;
+        private readonly GoogleMapsRequestConfiguration gmaps;
+        private readonly IImageDecoder<T> decoder;
 
-        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, PanoID pano, Size size)
-            : base(api, pano, size)
+        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size)
+            : base(api, decoder, size)
         {
-            factory = (IFactory<ImageData>)deserializer;
-            subRequest = new CubeMapRequest(api, pano, size);
+            gmaps = api;
+            this.decoder = decoder;
         }
 
-        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, PanoID pano, int width, int height)
-            : base(api, pano, width, height)
+        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size, PanoID pano)
+            : base(api, decoder, size, pano)
         {
-            factory = (IFactory<ImageData>)deserializer;
-            subRequest = new CubeMapRequest(api, pano, new Size(width, height));
+            gmaps = api;
+            this.decoder = decoder;
         }
 
-        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, Size size)
-            : base(api, placeName, size)
+        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size, PlaceName placeName)
+            : base(api, decoder, size, placeName)
         {
-            factory = (IFactory<ImageData>)deserializer;
-            subRequest = new CubeMapRequest(api, placeName, size);
+            gmaps = api;
+            this.decoder = decoder;
         }
 
-        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, int width, int height)
-            : base(api, placeName, width, height)
+        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size, LatLngPoint location)
+            : base(api, decoder, size, location)
         {
-            factory = (IFactory<ImageData>)deserializer;
-            subRequest = new CubeMapRequest(api, placeName, new Size(width, height));
-        }
-
-        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, Size size)
-            : base(api, location, size)
-        {
-            factory = (IFactory<ImageData>)deserializer;
-            subRequest = new CubeMapRequest(api, location, size);
-        }
-
-        public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, int width, int height)
-            : base(api, location, width, height)
-        {
-            factory = (IFactory<ImageData>)deserializer;
-            subRequest = new CubeMapRequest(api, location, new Size(width, height));
+            gmaps = api;
+            this.decoder = decoder;
         }
 
         protected override string CacheFileName
@@ -67,67 +53,66 @@ namespace Juniper.Google.Maps.StreetView
             }
         }
 
-        public Task<ImageData> GetJPEG(IProgress prog = null)
+        public async Task<T> GetJPEG(IProgress prog = null)
         {
-            return Task.Run(async () =>
+            if (!IsCached)
             {
-                if (IsCached)
-                {
-                    return Image.JPEG.JpegFactory.Read(CacheFile.FullName);
-                }
-                else
-                {
-                    var image = await Get(prog);
-                    return new ImageData(
-                        image.source,
-                        image.dimensions,
-                        image.components,
-                        ImageFormat.JPEG,
-                        factory.Serialize(image, prog));
-                }
-            });
+                await Get(prog);
+            }
+
+            return decoder.Read(CacheFile.FullName);
         }
 
-        public Task ProxyJPEG(HttpListenerResponse response)
+        public async Task ProxyJPEG(HttpListenerResponse response, IProgress prog = null)
         {
-            return Task.Run(async () =>
+            if (!IsCached)
             {
-                if (IsCached)
-                {
-                    response.SendFile(CacheFile);
-                }
-                else
-                {
-                    var image = await GetJPEG();
-                    response.ContentType = image.contentType;
-                    response.ContentLength64 = image.data.Length;
-                    response.OutputStream.Write(image.data, 0, image.data.Length);
-                }
-            });
+                await Get(prog);
+            }
+
+            response.SendFile(CacheFile);
         }
 
-        public override Task<ImageData> Get(IProgress prog = null)
+        public override async Task<T> Get(IProgress prog = null)
         {
-            return Task.Run(async () =>
+            var cacheFile = CacheFile;
+            if (IsCached)
             {
-                var cacheFile = CacheFile;
-                if (IsCached)
+                return deserializer.Load(cacheFile, prog);
+            }
+            else
+            {
+                var progs = prog.Split(3);
+                var subRequest = new CubeMapRequest<T>(gmaps, decoder, Size);
+
+                if (Pano != default)
                 {
-                    return deserializer.Load(cacheFile, prog);
+                    subRequest.Pano = Pano;
                 }
-                else
+                else if (Place != default)
                 {
-                    var progs = prog.Split(3);
-                    var images = await subRequest.Get(progs[0]);
-                    var combined = await ImageData.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5], progs[1]);
-                    if (cacheFile != null)
-                    {
-                        factory.Save(cacheFile, combined);
-                    }
-                    progs[2]?.Report(1);
-                    return combined;
+                    subRequest.Place = Place;
                 }
-            });
+                else if (Location != default)
+                {
+                    subRequest.Location = Location;
+                }
+
+                if (Radius != default)
+                {
+                    subRequest.Radius = Radius;
+                }
+
+                subRequest.OutdoorOnly = OutdoorOnly;
+                var images = await subRequest.Get(progs[0]);
+                var combined = await decoder.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5], progs[1]);
+                if (cacheFile != null)
+                {
+                    decoder.Save(cacheFile, combined);
+                }
+                progs[2]?.Report(1);
+                return combined;
+            }
         }
     }
 }

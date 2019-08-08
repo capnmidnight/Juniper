@@ -1,4 +1,4 @@
-namespace Juniper.Image
+namespace Juniper.Imaging
 {
     public enum ImageFormat
     {

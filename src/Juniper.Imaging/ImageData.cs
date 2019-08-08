@@ -1,10 +1,7 @@
 using System;
-using System.Threading.Tasks;
-
-using Juniper.Progress;
 using Juniper.Serialization;
 
-namespace Juniper.Image
+namespace Juniper.Imaging
 {
     /// <summary>
     /// The raw bytes and dimensions of an image that has been loaded either off disk or across the 'net.
@@ -83,95 +80,6 @@ namespace Juniper.Image
         public ImageData(DataSource source, int width, int height, int components)
             : this(source, new Size(width, height), components)
         {
-        }
-
-        private static ImageData Concatenate(int columns, int rows, IProgress prog, params ImageData[] images)
-        {
-            prog?.Report(0);
-
-            if (images == null)
-            {
-                throw new ArgumentNullException($"Parameter {nameof(images)} must not be null.");
-            }
-
-            if (images.Length == 0)
-            {
-                throw new ArgumentException($"Parameter {nameof(images)} must have at least one image.");
-            }
-
-            var numTiles = columns * rows;
-            if (images.Length != numTiles)
-            {
-                throw new ArgumentException($"Expected {nameof(images)} parameter to be {numTiles} long, but it was {images.Length} long.");
-            }
-
-            var anyNotNull = false;
-            ImageData firstImage = default;
-            for (var i = 0; i < images.Length; ++i)
-            {
-                var img = images[i];
-                if (img != null)
-                {
-                    if (!anyNotNull)
-                    {
-                        firstImage = images[i];
-                    }
-
-                    anyNotNull = true;
-                    if (img?.dimensions.width != firstImage.dimensions.width || img?.dimensions.height != firstImage.dimensions.height)
-                    {
-                        throw new ArgumentException($"All elements of {nameof(images)} must be the same width and height. Image {i} did not match image 0.");
-                    }
-                }
-            }
-
-            if (!anyNotNull)
-            {
-                throw new ArgumentNullException($"Expected at least one image in {nameof(images)} to be not null");
-            }
-
-            var combined = new ImageData(
-                firstImage.source,
-                columns * firstImage.dimensions.width,
-                rows * firstImage.dimensions.height,
-                firstImage.components);
-
-            for (var i = 0; i < combined.data.Length; i += firstImage.stride)
-            {
-                var bufferX = i % combined.stride;
-                var bufferY = i / combined.stride;
-                var tileX = bufferX / firstImage.stride;
-                var tileY = bufferY / firstImage.dimensions.height;
-                var tileI = tileY * columns + tileX;
-                var tile = images[tileI];
-                if (tile != null)
-                {
-                    var imageY = bufferY % firstImage.dimensions.height;
-                    var imageI = imageY * firstImage.stride;
-                    Array.Copy(tile.data, imageI, combined.data, i, firstImage.stride);
-                }
-
-                prog?.Report(i, combined.data.Length);
-            }
-
-            return combined;
-        }
-
-        public static Task<ImageData> Combine6Squares(ImageData north, ImageData east, ImageData west, ImageData south, ImageData up, ImageData down)
-        {
-            return Task.Run(() => Concatenate(
-                1, 6, null,
-                west, south, east,
-                down, up, north));
-        }
-
-        public static Task<ImageData> CombineCross(ImageData north, ImageData east, ImageData west, ImageData south, ImageData down, ImageData up, IProgress prog = null)
-        {
-            return Task.Run(() => Concatenate(
-                4, 3, prog,
-                null, up, null, null,
-                west, north, east, south,
-                null, down, null, null));
         }
 
         public object Clone()

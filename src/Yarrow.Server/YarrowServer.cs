@@ -1,7 +1,10 @@
 using System;
+using System.Drawing;
 using System.IO;
+
 using Juniper.Google.Maps;
 using Juniper.HTTP;
+using Juniper.Imaging.Windows;
 
 namespace Yarrow.Server
 {
@@ -26,7 +29,7 @@ namespace Yarrow.Server
                     args, info, warning, error,
                     new YarrowMetadataController(gmaps),
                     new YarrowGeocodingController(gmaps),
-                    new YarrowImageController(gmaps));
+                    new YarrowImageController<Image>(gmaps, new GDIImageDecoder(System.Drawing.Imaging.ImageFormat.Jpeg)));
             }
         }
 

@@ -9,7 +9,7 @@ using Juniper.Serialization;
 
 namespace Juniper.HTTP.REST
 {
-    public abstract class AbstractSingleRequest<ResponseType> : AbstractRequest<ResponseType, ResponseType>
+    public abstract class AbstractSingleRequest<ResponseType> : AbstractRequest<ResponseType>
     {
         private readonly Dictionary<string, List<string>> queryParams = new Dictionary<string, List<string>>();
         private readonly string cacheSubDirectoryName;
@@ -197,7 +197,7 @@ namespace Juniper.HTTP.REST
 
         private Task<T> Get<T>(Func<Stream, T> decoder, IProgress prog)
         {
-            return Task.Run(() => HttpWebRequestExt.CachedGet(AuthenticatedURI, decoder, CacheFile, SetAcceptType, prog));
+            return HttpWebRequestExt.CachedGet(AuthenticatedURI, decoder, CacheFile, SetAcceptType, prog);
         }
 
         public override Task<ResponseType> Get(IProgress prog = null)
@@ -207,12 +207,12 @@ namespace Juniper.HTTP.REST
 
         public override Task Proxy(HttpListenerResponse response)
         {
-            return Task.Run(() => HttpWebRequestExt.CachedProxy(response, AuthenticatedURI, CacheFile, SetAcceptType));
+            return HttpWebRequestExt.CachedProxy(response, AuthenticatedURI, CacheFile, SetAcceptType);
         }
 
         public Task<Stream> GetRaw(IProgress prog = null)
         {
-            return Task.Run(() => HttpWebRequestExt.CachedGetRaw(AuthenticatedURI, CacheFile, SetAcceptType, prog));
+            return HttpWebRequestExt.CachedGetRaw(AuthenticatedURI, CacheFile, SetAcceptType, prog);
         }
 
         public async Task CopyRaw(Stream outStream)

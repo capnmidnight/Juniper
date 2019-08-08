@@ -17,7 +17,7 @@ using UnityEngine;
 
 using Yarrow.Client;
 
-namespace Juniper.Images
+namespace Juniper.Imaging
 {
     public class GoogleStreetView : SubSceneController
     {

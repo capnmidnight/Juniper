@@ -5,27 +5,27 @@ using System.Threading.Tasks;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.Geocoding;
 using Juniper.Google.Maps.StreetView;
-using Juniper.Image;
+using Juniper.Imaging;
 using Juniper.Progress;
 using Juniper.World.GIS;
 
 namespace Yarrow.Client
 {
-    public class YarrowClient
+    public class YarrowClient<T>
     {
         private readonly YarrowRequestConfiguration api;
         private readonly YarrowMetadataRequest metadataRequest;
-        private readonly YarrowImageRequest imageRequest;
+        private readonly YarrowImageRequest<T> imageRequest;
         private readonly YarrowGeocodingRequest reverseGeocodeRequest;
 
-        public YarrowClient()
+        public YarrowClient(IImageDecoder<T> decoder)
         {
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheDirName = Path.Combine(myPictures, "Yarrow");
             var cacheDir = new DirectoryInfo(cacheDirName);
             api = new YarrowRequestConfiguration(new Uri("http://localhost:8000"), cacheDir);
             metadataRequest = new YarrowMetadataRequest(api);
-            imageRequest = new YarrowImageRequest(api);
+            imageRequest = new YarrowImageRequest<T>(api, decoder);
             reverseGeocodeRequest = new YarrowGeocodingRequest(api);
         }
 
@@ -47,7 +47,7 @@ namespace Yarrow.Client
             return metadataRequest.Get(prog);
         }
 
-        public Task<ImageData> GetImage(PanoID pano, IProgress prog = null)
+        public Task<T> GetImage(PanoID pano, IProgress prog = null)
         {
             imageRequest.Pano = pano;
             return imageRequest.GetJPEG(prog);

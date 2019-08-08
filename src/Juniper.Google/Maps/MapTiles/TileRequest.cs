@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Juniper.Image;
+using Juniper.Imaging;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.MapTiles
@@ -34,7 +34,7 @@ namespace Juniper.Google.Maps.MapTiles
         private MapImageType maptype;
 
         private TileRequest(GoogleMapsRequestConfiguration api, string center, int zoom, Size size, ImageFormat format)
-            : base(api, new Factory(format), "staticmap", "tiles", true)
+            : base(api, new ImageFactory(format), "staticmap", "tiles", true)
         {
             SetQuery(nameof(center), center);
             SetQuery(nameof(zoom), zoom);
@@ -70,7 +70,7 @@ namespace Juniper.Google.Maps.MapTiles
                 }
 
                 format = value;
-                deserializer = new Image.Factory(format);
+                deserializer = new ImageFactory(format);
                 SetContentType(ImageData.GetContentType(format), ImageData.GetContentType(format));
 
                 if (mapping != TileImageFormat.PNG8)

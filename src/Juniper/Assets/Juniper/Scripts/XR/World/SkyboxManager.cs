@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Juniper.Images
+namespace Juniper.Imaging
 {
     public class SkyboxManager : MonoBehaviour
     {

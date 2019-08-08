@@ -3,7 +3,8 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-using Juniper.Image;
+using Juniper.Imaging;
+using Juniper.Imaging.PNG;
 using Juniper.Serialization;
 
 namespace Juniper.World.Climate.OpenWeatherMap
@@ -78,7 +79,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         {
             if (decoder == null)
             {
-                decoder = new Image.PNG.PngFactory();
+                decoder = new PngDecoder();
             }
             var request = HttpWebRequestExt.Create(IconURL);
             using (var response = await request.Get())

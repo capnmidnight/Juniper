@@ -3,7 +3,8 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-using Juniper.Image;
+using Juniper.Imaging;
+using Juniper.Imaging.JPEG;
 using Juniper.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,7 +29,7 @@ namespace Juniper.HTTP.Tests
 
         private static async Task<ImageData> RunFileTest(bool deleteFile, bool runTest, DataSource expectedSource)
         {
-            var decoder = new Image.JPEG.JpegFactory();
+            var decoder = new JpegDecoder();
             const string imageFileName = "portrait.jpg";
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheFileName = Path.Combine(myPictures, imageFileName);

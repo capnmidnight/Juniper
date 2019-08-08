@@ -1,15 +1,15 @@
 using System;
 
 using Juniper.HTTP.REST;
-using Juniper.Image;
+using Juniper.Imaging;
 using Juniper.World;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class CubeMapRequest : AbstractMultiRequest<ImageData, ImageRequest>
+    public class CubeMapRequest<T> : AbstractMultiRequest<T, ImageRequest<T>>
     {
-        private CubeMapRequest(GoogleMapsRequestConfiguration api, Func<ImageRequest> factory)
+        private CubeMapRequest(GoogleMapsRequestConfiguration api, Func<ImageRequest<T>> factory)
             : base(api, 6, factory)
         {
             subRequests[0].Heading = Heading.North;
@@ -31,23 +31,17 @@ namespace Juniper.Google.Maps.StreetView
             subRequests[5].Pitch = Pitch.Down;
         }
 
-        public CubeMapRequest(GoogleMapsRequestConfiguration api, PanoID pano, Size size)
-            : this(api, () => new ImageRequest(api, pano, size)) { }
+        public CubeMapRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size)
+            : this(api, () => new ImageRequest<T>(api, decoder, size)) { }
 
-        public CubeMapRequest(GoogleMapsRequestConfiguration api, PanoID pano, int width, int height)
-            : this(api, () => new ImageRequest(api, pano, new Size(width, height))) { }
+        public CubeMapRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size, PanoID pano)
+            : this(api, () => new ImageRequest<T>(api, decoder, size, pano)) { }
 
-        public CubeMapRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, Size size)
-            : this(api, () => new ImageRequest(api, placeName, size)) { }
+        public CubeMapRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size, PlaceName placeName)
+            : this(api, () => new ImageRequest<T>(api, decoder, size, placeName)) { }
 
-        public CubeMapRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, int width, int height)
-            : this(api, () => new ImageRequest(api, placeName, new Size(width, height))) { }
-
-        public CubeMapRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, Size size)
-            : this(api, () => new ImageRequest(api, location, size)) { }
-
-        public CubeMapRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, int width, int height)
-            : this(api, () => new ImageRequest(api, location, new Size(width, height))) { }
+        public CubeMapRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size, LatLngPoint location)
+            : this(api, () => new ImageRequest<T>(api, decoder, size, location)) { }
 
         public Size Size
         {

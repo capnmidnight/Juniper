@@ -2,15 +2,16 @@ using System;
 using System.IO;
 
 using BitMiracle.LibJpeg;
+
 using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.Streams;
 
-namespace Juniper.Image.JPEG
+namespace Juniper.Imaging.JPEG
 {
-    public class JpegFactory : IFactory<ImageData>
+    public class JpegDecoder : AbstractImageDataDecoder
     {
-        public static ImageData Read(byte[] data, DataSource source = DataSource.None)
+        public override ImageData Read(byte[] data, DataSource source = DataSource.None)
         {
             for (var i = 0; i < data.Length - 1; ++i)
             {
@@ -37,32 +38,11 @@ namespace Juniper.Image.JPEG
             return default;
         }
 
-        public static ImageData Read(Stream stream)
-        {
-            var source = stream.DetermineSource();
-            using (var mem = new MemoryStream())
-            {
-                stream.CopyTo(mem);
-                mem.Flush();
-                return Read(mem.ToArray(), source);
-            }
-        }
-
-        public static ImageData Read(string fileName)
-        {
-            return Read(File.ReadAllBytes(fileName), DataSource.File);
-        }
-
-        public static ImageData Read(FileInfo file)
-        {
-            return Read(file.FullName);
-        }
-
         /// <summary>
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Jpeg bytes.</param>
-        public ImageData Deserialize(Stream imageStream)
+        public override ImageData Deserialize(Stream imageStream)
         {
             var source = imageStream.DetermineSource();
             using (var seekable = new ErsatzSeekableStream(imageStream))
@@ -92,7 +72,7 @@ namespace Juniper.Image.JPEG
         /// Encodes a raw file buffer of image data into a JPEG image.
         /// </summary>
         /// <param name="outputStream">Jpeg bytes.</param>
-        public void Serialize(Stream outputStream, ImageData image, IProgress prog = null)
+        public override void Serialize(Stream outputStream, ImageData image, IProgress prog = null)
         {
             var rows = new SampleRow[image.dimensions.height];
             var rowBuffer = new byte[image.stride];

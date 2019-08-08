@@ -6,7 +6,7 @@ using Juniper.Progress;
 
 namespace Juniper.HTTP.REST
 {
-    public abstract class AbstractMultiRequest<ResponseElementType, SubRequestType> : AbstractRequest<ResponseElementType, ResponseElementType[]>
+    public abstract class AbstractMultiRequest<ResponseElementType, SubRequestType> : AbstractRequest<ResponseElementType[]>
         where SubRequestType : AbstractSingleRequest<ResponseElementType>
     {
         protected readonly SubRequestType[] subRequests;

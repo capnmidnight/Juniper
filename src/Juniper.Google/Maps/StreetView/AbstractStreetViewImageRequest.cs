@@ -1,68 +1,57 @@
-using Juniper.Image;
+using Juniper.Imaging;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public abstract class AbstractStreetViewImageRequest : AbstractStreetViewRequest<ImageData>
+    public abstract class AbstractStreetViewImageRequest<T> : AbstractStreetViewRequest<T>
     {
         private Size size;
         private int radius;
         private bool outdoorOnly;
 
-        public AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, PanoID pano, Size size)
-            : base(api, new Image.JPEG.JpegFactory(), "streetview")
+        protected AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size)
+            : base(api, decoder, "streetview")
+        {
+            Size = size;
+            SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));
+        }
+
+        protected AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size, PanoID pano)
+            : this(api, decoder, size)
         {
             Pano = pano;
-            Size = size;
-            SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));
         }
 
-        public AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, PanoID pano, int width, int height)
-            : this(api, pano, new Size(width, height))
-        {
-        }
-
-        public AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, Size size)
-            : base(api, new Image.JPEG.JpegFactory(), "streetview")
+        protected AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size, PlaceName placeName)
+            : this(api, decoder, size)
         {
             Place = placeName;
-            Size = size;
-            SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));
         }
 
-        public AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, PlaceName placeName, int width, int height)
-            : this(api, placeName, new Size(width, height))
-        {
-        }
-
-        public AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, Size size)
-            : base(api, new Image.JPEG.JpegFactory(), "streetview")
+        protected AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size, LatLngPoint location)
+            : this(api, decoder, size)
         {
             Location = location;
-            Size = size;
-            SetContentType(ImageData.GetContentType(ImageFormat.JPEG), ImageData.GetExtension(ImageFormat.JPEG));
         }
 
-        public AbstractStreetViewImageRequest(GoogleMapsRequestConfiguration api, LatLngPoint location, int width, int height)
-            : this(api, location, new Size(width, height))
-        {
-        }
-
-        public virtual Size Size
+        public Size Size
         {
             get { return size; }
-            set { size = SetQuery(nameof(size), value); }
-        }
-
-        public void SetSize(int width, int height)
-        {
-            Size = new Size(width, height);
+            set
+            {
+                size = value;
+                SetQuery(nameof(size), value);
+            }
         }
 
         public int Radius
         {
             get { return radius; }
-            set { radius = SetQuery(nameof(radius), value); }
+            set
+            {
+                radius = value;
+                SetQuery(nameof(radius), value);
+            }
         }
 
         public bool OutdoorOnly

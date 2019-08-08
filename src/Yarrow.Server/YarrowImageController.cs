@@ -4,25 +4,23 @@ using System.Threading.Tasks;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.HTTP;
-using Juniper.Image;
+using Juniper.Imaging;
 
 namespace Yarrow.Server
 {
-    public class YarrowImageController
+    public class YarrowImageController<T>
     {
-        private readonly GoogleMapsRequestConfiguration gmaps;
-        private readonly Size imageSize;
+        private readonly CrossCubeMapRequest<T> imageRequest;
 
-        public YarrowImageController(GoogleMapsRequestConfiguration gmaps)
+        public YarrowImageController(GoogleMapsRequestConfiguration gmaps, IImageDecoder<T> decoder)
         {
-            this.gmaps = gmaps;
-            imageSize = new Size(640, 640);
+            imageRequest = new CrossCubeMapRequest<T>(gmaps, decoder, new Size(640, 640));
         }
 
         [Route("/api/image\\?pano=([^/]+)")]
         public void GetImage(HttpListenerContext context, string pano)
         {
-            var imageRequest = new CrossCubeMapRequest(gmaps, (PanoID)pano, imageSize);
+            imageRequest.Pano = (PanoID)pano;
             Task.WaitAll(imageRequest.ProxyJPEG(context.Response));
         }
     }

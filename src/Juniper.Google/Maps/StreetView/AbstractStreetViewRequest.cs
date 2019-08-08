@@ -17,43 +17,40 @@ namespace Juniper.Google.Maps.StreetView
         public PanoID Pano
         {
             get { return pano; }
-            set { SetLocation(value); }
+            set
+            {
+                placeName = default;
+                location = default;
+                pano = value;
+                RemoveQuery(nameof(location));
+                SetQuery(nameof(pano), (string)value);
+            }
         }
 
         public PlaceName Place
         {
             get { return placeName; }
-            set { SetLocation(value); }
+            set
+            {
+                placeName = value;
+                location = default;
+                pano = default;
+                RemoveQuery(nameof(pano));
+                SetQuery(nameof(location), (string)value);
+            }
         }
 
         public LatLngPoint Location
         {
             get { return location; }
-            set { SetLocation(value); }
-        }
-
-        public void SetLocation(PanoID location)
-        {
-            placeName = default;
-            this.location = default;
-            pano = location;
-            SetQuery(nameof(pano), (string)location);
-        }
-
-        public void SetLocation(PlaceName location)
-        {
-            placeName = location;
-            this.location = default;
-            pano = default;
-            SetQuery(nameof(location), (string)location);
-        }
-
-        public void SetLocation(LatLngPoint location)
-        {
-            placeName = default;
-            this.location = location;
-            pano = default;
-            SetQuery(nameof(location), (string)location);
+            set
+            {
+                placeName = default;
+                location = value;
+                pano = default;
+                RemoveQuery(nameof(pano));
+                SetQuery(nameof(location), (string)value);
+            }
         }
     }
 }

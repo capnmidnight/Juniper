@@ -1,9 +1,11 @@
 using System;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
+using Juniper.Imaging.Windows;
 using Juniper.World.GIS;
 
 namespace Yarrow.Client.GUI.WinForms
@@ -11,7 +13,7 @@ namespace Yarrow.Client.GUI.WinForms
     internal static class Program
     {
         private static ImageViewer form;
-        private static YarrowClient yarrow;
+        private static YarrowClient<Image> yarrow;
 
         /// <summary>
         /// The main entry point for the application.
@@ -23,7 +25,7 @@ namespace Yarrow.Client.GUI.WinForms
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
 
-            yarrow = new YarrowClient();
+            yarrow = new YarrowClient<Image>(new GDIImageDecoder(System.Drawing.Imaging.ImageFormat.Jpeg));
             form = new ImageViewer();
             form.LocationSubmitted += Form_LocationSubmitted;
             form.LatLngSubmitted += Form_LatLngSubmitted;
@@ -36,9 +38,16 @@ namespace Yarrow.Client.GUI.WinForms
 
         private static async Task GetImageData(MetadataResponse metadata)
         {
-            var geo = await yarrow.ReverseGeocode(metadata.location);
-            var imageFile = await yarrow.GetImage(metadata.pano_id);
-            form.SetImage(metadata, geo, imageFile);
+            if (metadata.status == System.Net.HttpStatusCode.OK)
+            {
+                var geo = await yarrow.ReverseGeocode(metadata.location);
+                var imageFile = await yarrow.GetImage(metadata.pano_id);
+                form.SetImage(metadata, geo, imageFile);
+            }
+            else
+            {
+                form.ShowError();
+            }
         }
 
         private static void Form_LocationSubmitted(object sender, string location)

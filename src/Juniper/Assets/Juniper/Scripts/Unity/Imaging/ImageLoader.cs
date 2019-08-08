@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 
 using Juniper.Data;
-using Juniper.Image;
-using Juniper.Image.JPEG;
-using Juniper.Image.PNG;
+using Juniper.Imaging;
+using Juniper.Imaging.JPEG;
+using Juniper.Imaging.PNG;
 
 using UnityEngine;
 

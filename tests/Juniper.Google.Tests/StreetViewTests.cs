@@ -3,7 +3,9 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Google.Maps.Tests;
-using Juniper.Image;
+using Juniper.Imaging;
+using Juniper.Imaging.JPEG;
+using Juniper.Imaging.PNG;
 using Juniper.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,13 +18,14 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task JPEGImageSize()
         {
-            var imageRequest = new CrossCubeMapRequest(service, (PlaceName)"Alexandria, VA", 640, 640);
+            var decoder = new JpegDecoder();
+            var imageRequest = new CrossCubeMapRequest<ImageData>(service, decoder, new Size(640, 640), (PlaceName)"Alexandria, VA");
             if (!imageRequest.IsCached)
             {
                 await imageRequest.Get();
             }
 
-            var img = Image.JPEG.JpegFactory.Read(imageRequest.CacheFile);
+            var img = decoder.Read(imageRequest.CacheFile);
             Assert.AreEqual(2560, img.dimensions.width);
             Assert.AreEqual(1920, img.dimensions.height);
         }
@@ -30,11 +33,12 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task PNGImageSize()
         {
-            var imageRequest = new CrossCubeMapRequest(service, (PlaceName)"Alexandria, VA", 640, 640);
+            var decoder = new JpegDecoder();
+            var imageRequest = new CrossCubeMapRequest<ImageData>(service, decoder, new Size(640, 640), (PlaceName)"Alexandria, VA");
             var rawImg = await imageRequest.Get();
-            var png = new Image.PNG.PngFactory();
+            var png = new PngDecoder();
             var data = png.Serialize(rawImg);
-            var img = Image.PNG.PngFactory.Read(data, DataSource.File);
+            var img = png.Read(data, DataSource.File);
             Assert.AreEqual(2560, img.dimensions.width);
             Assert.AreEqual(1920, img.dimensions.height);
         }
@@ -55,7 +59,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var imageRequest = new ImageRequest(service, (PlaceName)"Alexandria, VA", 640, 640);
+            var decoder = new JpegDecoder();
+            var imageRequest = new ImageRequest<ImageData>(service, decoder, new Size(640, 640), (PlaceName)"Alexandria, VA");
             var image = await imageRequest.Get();
             Assert.IsTrue(imageRequest.IsCached);
             Assert.AreEqual(640, image.dimensions.width);
@@ -65,7 +70,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImageWithoutCaching()
         {
-            var imageRequest = new ImageRequest(noCacheService, (PlaceName)"Alexandria, VA", 640, 640);
+            var decoder = new JpegDecoder();
+            var imageRequest = new ImageRequest<ImageData>(noCacheService, decoder, new Size(640, 640), (PlaceName)"Alexandria, VA");
             var image = await imageRequest.Get();
             Assert.IsFalse(imageRequest.IsCached);
             Assert.AreEqual(640, image.dimensions.width);
@@ -75,7 +81,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetCubeMap()
         {
-            var cubeMapRequest = new CubeMapRequest(service, (PlaceName)"Washington, DC", 640, 640);
+            var decoder = new JpegDecoder();
+            var cubeMapRequest = new CubeMapRequest<ImageData>(service, decoder, new Size(640, 640), (PlaceName)"Washington, DC");
             var images = await cubeMapRequest.Get();
             Assert.IsTrue(cubeMapRequest.IsCached);
             foreach (var image in images)
@@ -88,11 +95,13 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task SaveCubeMap6PNG()
         {
-            var cubeMapRequest = new CubeMapRequest(service, (PlaceName)"Washington, DC", 640, 640);
+            var decoder = new JpegDecoder();
+            var cubeMapRequest = new CubeMapRequest<ImageData>(service, decoder, new Size(640, 640), (PlaceName)"Washington, DC");
             var images = await cubeMapRequest.Get();
-            var combined = await ImageData.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
+            var concator = new JpegDecoder();
+            var combined = await concator.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.png");
-            var encoder = new Image.PNG.PngFactory();
+            var encoder = new PngDecoder();
             encoder.Save(outputFileName, combined);
             Assert.IsTrue(File.Exists(outputFileName));
         }
@@ -100,11 +109,13 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task SaveCubeMap6JPEG()
         {
-            var cubeMapRequest = new CubeMapRequest(service, (PlaceName)"Washington, DC", 640, 640);
+            var decoder = new JpegDecoder();
+            var cubeMapRequest = new CubeMapRequest<ImageData>(service, decoder, new Size(640, 640), (PlaceName)"Washington, DC");
             var images = await cubeMapRequest.Get();
-            var combined = await ImageData.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
+            var concator = new JpegDecoder();
+            var combined = await concator.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.jpeg");
-            var encoder = new Image.PNG.PngFactory();
+            var encoder = new PngDecoder();
             encoder.Save(outputFileName, combined);
             Assert.IsTrue(File.Exists(outputFileName));
         }
@@ -112,7 +123,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetCubeMapCrossJPEG()
         {
-            var cubeMapRequest = new CrossCubeMapRequest(service, (PlaceName)"Washington, DC", 640, 640);
+            var decoder = new JpegDecoder();
+            var cubeMapRequest = new CrossCubeMapRequest<ImageData>(service, decoder, new Size(640, 640), (PlaceName)"Washington, DC");
             cubeMapRequest.CacheFile.Delete();
             var combined = await cubeMapRequest.Get();
             Assert.IsNotNull(combined);

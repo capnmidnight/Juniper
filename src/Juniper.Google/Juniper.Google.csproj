@@ -55,8 +55,8 @@
     <Compile Include="Maps\Places\PlaceSearchInputType.cs" />
     <Compile Include="Maps\Places\PlaceSearchRequest.cs" />
     <Compile Include="Maps\Places\PlaceSearchResponse.cs" />
-    <Compile Include="Maps\StreetView\CrossCubeMapRequest.cs" />
     <Compile Include="Maps\StreetView\AbstractStreetViewImageRequest.cs" />
+    <Compile Include="Maps\StreetView\CrossCubeMapRequest.cs" />
     <Compile Include="Maps\TimeZone\TimeZoneResponse.cs" />
     <Compile Include="Maps\TimeZone\TimeZoneRequest.cs" />
     <Compile Include="Maps\USAddress.cs" />
@@ -92,9 +92,9 @@
       <Project>{888b994c-2ae8-42b2-84f5-b15e11cc4f4f}</Project>
       <Name>Juniper.HTTP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Juniper.Image\Juniper.Image.csproj">
+    <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj">
       <Project>{f951a2e5-078a-413d-966d-c3f4ae5edcab}</Project>
-      <Name>Juniper.Image</Name>
+      <Name>Juniper.Imaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Juniper.Json\Juniper.Json.csproj">
       <Project>{b10a2ab6-5677-4f5e-b6fc-d81120787746}</Project>

@@ -2,19 +2,20 @@ using System.Threading.Tasks;
 
 using Juniper.Google.Maps.StreetView;
 using Juniper.HTTP.REST;
-using Juniper.Image;
-using Juniper.Image.JPEG;
+using Juniper.Imaging;
 using Juniper.Progress;
 
 namespace Yarrow.Client
 {
-    public class YarrowImageRequest : AbstractSingleRequest<ImageData>
+    public class YarrowImageRequest<T> : AbstractSingleRequest<T>
     {
         private PanoID pano;
+        private IImageDecoder<T> decoder;
 
-        public YarrowImageRequest(YarrowRequestConfiguration api)
-            : base(api, new JpegFactory(), "api/image", "images")
+        public YarrowImageRequest(YarrowRequestConfiguration api, IImageDecoder<T> decoder)
+            : base(api, decoder, "api/image", "images")
         {
+            this.decoder = decoder;
             SetContentType("image/jpeg", "jpeg");
         }
 
@@ -28,11 +29,11 @@ namespace Yarrow.Client
             }
         }
 
-        public async Task<ImageData> GetJPEG(IProgress prog = null)
+        public async Task<T> GetJPEG(IProgress prog = null)
         {
             using (var stream = await GetRaw(prog))
             {
-                return JpegFactory.Read(stream);
+                return decoder.Read(stream);
             }
         }
     }
