@@ -36,12 +36,18 @@ namespace Juniper.Imaging.Windows
             }
         }
 
+#pragma warning disable CA1822 // Mark members as static
+
         public Image Read(Stream stream)
+#pragma warning restore CA1822 // Mark members as static
         {
             return Image.FromStream(stream);
         }
 
+#pragma warning disable CA1822 // Mark members as static
+
         public Image Read(string fileName)
+#pragma warning restore CA1822 // Mark members as static
         {
             return Image.FromFile(fileName);
         }

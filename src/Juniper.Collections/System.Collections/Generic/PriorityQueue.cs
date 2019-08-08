@@ -213,10 +213,11 @@ namespace System.Collections.Generic
                         }
                     }
                 }
-                if (added)
-                {
-                    InvalidateEnumerators();
-                }
+            }
+
+            if (added)
+            {
+                InvalidateEnumerators();
             }
         }
 

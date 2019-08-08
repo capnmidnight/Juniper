@@ -31,7 +31,7 @@ namespace System
         {
         }
 
-        public EnumeratorTask(IEnumerator<T> iter, CancellationToken cancellationToken, TaskCreationOptions creationOptions) : base(CreateFromEnumerator(iter), cancellationToken, creationOptions)
+        public EnumeratorTask(IEnumerator<T> iter, TaskCreationOptions creationOptions, CancellationToken cancellationToken) : base(CreateFromEnumerator(iter), cancellationToken, creationOptions)
         {
         }
     }

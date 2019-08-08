@@ -41,7 +41,7 @@ namespace Juniper.Imaging
                 StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
                 "image/png"))
             {
-                var decoder = new PngFactory();
+                var decoder = new PngDecoder();
                 return decoder.Deserialize(imageFile.Content);
             }
         }
@@ -53,7 +53,7 @@ namespace Juniper.Imaging
                 StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
                 "image/jpeg"))
             {
-                var decoder = new JpegFactory();
+                var decoder = new JpegDecoder();
                 return decoder.Deserialize(imageFile.Content);
             }
         }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Juniper.Animation;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
+using Juniper.Imaging.JPEG;
 using Juniper.Progress;
 using Juniper.Units;
 using Juniper.Unity;
@@ -37,7 +38,7 @@ namespace Juniper.Imaging
 
         private SkyboxManager skybox;
 
-        private YarrowClient yarrow;
+        private YarrowClient<ImageData> yarrow;
 
         public int searchRadius = 50;
 
@@ -94,7 +95,7 @@ namespace Juniper.Imaging
             }
 #endif
 
-            yarrow = new YarrowClient();
+            yarrow = new YarrowClient<ImageData>(new JpegDecoder());
         }
 
         public override void Enter(IProgress prog = null)
@@ -171,11 +172,11 @@ namespace Juniper.Imaging
 
                         textureProg?.Report(0f);
                         var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
-                        if (image.format == Image.ImageFormat.None)
+                        if (image.format == ImageFormat.None)
                         {
                             texture.LoadRawTextureData(image.data);
                         }
-                        else if (image.format != Image.ImageFormat.Unsupported)
+                        else if (image.format != ImageFormat.Unsupported)
                         {
                             texture.LoadImage(image.data);
                         }

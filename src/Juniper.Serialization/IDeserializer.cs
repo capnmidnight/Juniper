@@ -30,11 +30,13 @@ namespace Juniper.Serialization
                 value = deserializer.Deserialize<T>(stream);
                 return true;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch
             {
                 value = default;
                 return false;
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         public static bool TryDeserialize<T>(this IDeserializer deserializer, Stream stream, out T value, long length, IProgress progress)
@@ -175,11 +177,13 @@ namespace Juniper.Serialization
                 value = deserializer.Deserialize(stream);
                 return true;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch
             {
                 value = default;
                 return false;
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         public static bool TryDeserialize<T>(this IDeserializer<T> deserializer, Stream stream, out T value, long length, IProgress progress)
