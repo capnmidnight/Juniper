@@ -9,13 +9,13 @@ namespace Juniper.Google.Maps
 {
     public class GoogleMapsRequestConfiguration : AbstractRequestConfiguration
     {
-        private static readonly Uri baseServiceURI = new Uri("https://maps.googleapis.com/maps/api/");
+        private static readonly Uri gmaps = new Uri("https://maps.googleapis.com/maps/api/");
 
         private readonly string apiKey;
         private readonly string signingKey;
 
         public GoogleMapsRequestConfiguration(string apiKey, string signingKey, DirectoryInfo cacheLocation = null)
-            : base(baseServiceURI, cacheLocation)
+            : base(gmaps, cacheLocation)
         {
             this.apiKey = apiKey;
             this.signingKey = signingKey;

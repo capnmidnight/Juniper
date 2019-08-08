@@ -32,10 +32,45 @@ namespace Juniper.HTTP.REST
             this.extension = extension;
         }
 
-        protected U SetQuery<U>(string key, U value)
+        private void SetQuery(string key, string value, bool allowMany)
+        {
+            if (value == default && !allowMany)
+            {
+                RemoveQuery(key);
+            }
+            else
+            {
+                var list = queryParams.Get(key) ?? new List<string>();
+                if (allowMany || list.Count == 0)
+                {
+                    list.Add(value);
+                }
+                else if (!allowMany)
+                {
+                    list[0] = value;
+                }
+                queryParams[key] = list;
+            }
+        }
+
+        protected void SetQuery(string key, string value)
+        {
+            SetQuery(key, value, false);
+        }
+
+        protected void SetQuery<U>(string key, U value)
         {
             SetQuery(key, value.ToString());
-            return value;
+        }
+
+        protected void AddQuery(string key, string value)
+        {
+            SetQuery(key, value, true);
+        }
+
+        protected void AddQuery<U>(string key, U value)
+        {
+            SetQuery(key, value.ToString());
         }
 
         protected void RemoveQuery(string key)
@@ -57,45 +92,6 @@ namespace Juniper.HTTP.REST
             }
 
             return removed;
-        }
-
-        private string SetQuery(string key, string value, bool allowMany)
-        {
-            if (value == default && !allowMany)
-            {
-                RemoveQuery(key);
-            }
-            else
-            {
-                var list = queryParams.Get(key) ?? new List<string>();
-                if (allowMany || list.Count == 0)
-                {
-                    list.Add(value);
-                }
-                else if (!allowMany)
-                {
-                    list[0] = value;
-                }
-                queryParams[key] = list;
-            }
-
-            return value;
-        }
-
-        protected string SetQuery(string key, string value)
-        {
-            return SetQuery(key, value, false);
-        }
-
-        protected string AddQuery(string key, string value)
-        {
-            return SetQuery(key, value, true);
-        }
-
-        protected U AddQuery<U>(string key, U value)
-        {
-            SetQuery(key, value.ToString());
-            return value;
         }
 
         protected bool RemoveQuery<U>(string key, U value)

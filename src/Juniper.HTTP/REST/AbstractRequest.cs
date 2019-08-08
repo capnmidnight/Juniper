@@ -22,6 +22,11 @@ namespace Juniper.HTTP.REST
             throw new NotImplementedException();
         }
 
+        public virtual Task<ResponseType> GetJPEG(IProgress prog = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual Task Proxy(HttpListenerResponse response)
         {
             throw new NotImplementedException();

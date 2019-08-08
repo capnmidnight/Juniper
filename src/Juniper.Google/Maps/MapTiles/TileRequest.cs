@@ -83,25 +83,41 @@ namespace Juniper.Google.Maps.MapTiles
         public int Scale
         {
             get { return scale; }
-            set { scale = SetQuery(nameof(scale), value); }
+            set
+            {
+                scale = value;
+                SetQuery(nameof(scale), scale);
+            }
         }
 
         public string Language
         {
             get { return language; }
-            set { language = SetQuery(nameof(language), value); }
+            set
+            {
+                language = value;
+                SetQuery(nameof(language), language);
+            }
         }
 
         public string Region
         {
             get { return region; }
-            set { region = SetQuery(nameof(region), value); }
+            set
+            {
+                region = value;
+                SetQuery(nameof(region), region);
+            }
         }
 
         public MapImageType MapType
         {
             get { return maptype; }
-            set { maptype = SetQuery(nameof(maptype), value); }
+            set
+            {
+                maptype = value;
+                SetQuery(nameof(maptype), maptype);
+            }
         }
 
         public void AddMarker(Marker marker)

@@ -53,7 +53,7 @@ namespace Juniper.Google.Maps.StreetView
             }
         }
 
-        public async Task<T> GetJPEG(IProgress prog = null)
+        public override async Task<T> GetJPEG(IProgress prog = null)
         {
             if (!IsCached)
             {

@@ -6,6 +6,9 @@ namespace Juniper.Google.Maps.Geocoding
 {
     public class GeocodingRequest : AbstractGeocodingRequest
     {
+        private PlaceID place_id;
+        private PlaceName address;
+
         public static GeocodingRequest Create(GoogleMapsRequestConfiguration api, LocationTypes locationType, object value)
         {
             switch (locationType)
@@ -26,14 +29,43 @@ namespace Juniper.Google.Maps.Geocoding
         {
         }
 
-        private GeocodingRequest(GoogleMapsRequestConfiguration api, string address)
-            : base(api, nameof(address), address) { }
-
         public GeocodingRequest(GoogleMapsRequestConfiguration api, PlaceID place_id)
-            : base(api, nameof(place_id), (string)place_id) { }
+            : this(api)
+        {
+            Place = place_id;
+        }
 
         public GeocodingRequest(GoogleMapsRequestConfiguration api, PlaceName address)
-            : this(api, (string)address) { }
+            : this(api)
+        {
+            Address = address;
+        }
+
+        public PlaceID Place
+        {
+            get { return place_id; }
+            set
+            {
+                place_id = value;
+                SetQuery(nameof(place_id), place_id);
+
+                address = default;
+                RemoveQuery(nameof(address));
+            }
+        }
+
+        public PlaceName Address
+        {
+            get { return address; }
+            set
+            {
+                address = value;
+                SetQuery(nameof(address), address);
+
+                place_id = default;
+                RemoveQuery(nameof(place_id));
+            }
+        }
 
         public GeocodingRequest(GoogleMapsRequestConfiguration api, IDictionary<AddressComponentType, string> components)
             : base(api)
@@ -105,7 +137,11 @@ namespace Juniper.Google.Maps.Geocoding
         public string Region
         {
             get { return region; }
-            set { region = SetQuery(nameof(region), region); }
+            set
+            {
+                region = value;
+                SetQuery(nameof(region), region);
+            }
         }
     }
 }

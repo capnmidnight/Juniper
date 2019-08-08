@@ -5,21 +5,22 @@ namespace Juniper.Google.Maps.Geocoding
 {
     public abstract class AbstractGeocodingRequest : AbstractGoogleMapsRequest<GeocodingResponse>
     {
+        private string language;
+
         protected AbstractGeocodingRequest(GoogleMapsRequestConfiguration api)
             : base(api, new JsonFactory().Specialize<GeocodingResponse>(), "geocode/json", "geocoding", false)
         {
             SetContentType("application/json", "json");
         }
 
-        protected AbstractGeocodingRequest(GoogleMapsRequestConfiguration api, string paramName, string paramValue)
-            : this(api)
+        public string Language
         {
-            SetQuery(paramName, paramValue);
-        }
-
-        public void SetLanguage(string language)
-        {
-            SetQuery(nameof(language), language);
+            get { return language; }
+            set
+            {
+                language = value;
+                SetQuery(nameof(language), language);
+            }
         }
     }
 }

@@ -27,8 +27,11 @@ namespace Juniper.Google.Maps.Places
 
         public void SetInput(string input, PlaceSearchInputType inputtype)
         {
-            this.input = SetQuery(nameof(input), input);
-            this.inputtype = SetQuery(nameof(inputtype), inputtype);
+            this.input = input;
+            SetQuery(nameof(input), input);
+
+            this.inputtype = inputtype;
+            SetQuery(nameof(inputtype), inputtype);
         }
 
         public string Input { get { return input; } }
@@ -66,7 +69,11 @@ namespace Juniper.Google.Maps.Places
         public string Language
         {
             get { return language; }
-            set { language = SetQuery(nameof(language), value); }
+            set
+            {
+                language = value;
+                SetQuery(nameof(language), language);
+            }
         }
     }
 }

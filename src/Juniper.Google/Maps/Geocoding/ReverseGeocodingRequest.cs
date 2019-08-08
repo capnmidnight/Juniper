@@ -32,10 +32,25 @@ namespace Juniper.Google.Maps.Geocoding
 
         private readonly HashSet<AddressComponentType> result_type = new HashSet<AddressComponentType>();
         private readonly HashSet<GeometryLocationType> location_type = new HashSet<GeometryLocationType>();
+        private LatLngPoint latlng;
+
+        public ReverseGeocodingRequest(GoogleMapsRequestConfiguration api)
+            : base(api) { }
 
         public ReverseGeocodingRequest(GoogleMapsRequestConfiguration api, LatLngPoint latlng)
-            : base(api, "latlng", latlng.ToString())
+            : this(api)
         {
+            Location = latlng;
+        }
+
+        public LatLngPoint Location
+        {
+            get { return latlng; }
+            set
+            {
+                latlng = value;
+                SetQuery(nameof(latlng), latlng);
+            }
         }
 
         public void AddResultType(AddressComponentType value)
