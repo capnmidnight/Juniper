@@ -38,6 +38,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultFileController.cs" />
     <Compile Include="FileInfoExt.cs" />
     <Compile Include="HttpListenerResponseExt.cs" />
     <Compile Include="HttpServer.cs" />

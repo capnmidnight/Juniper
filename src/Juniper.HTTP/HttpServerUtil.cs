@@ -89,7 +89,7 @@ namespace Juniper.HTTP
             }
         }
 
-        public static HttpServer Start(string[] args, Action<string> Info, Action<string> Warning, Action<string> Error, params object[] controllers)
+        public static HttpServer Create(string[] args, Action<string> Info, Action<string> Warning, Action<string> Error, params object[] controllers)
         {
             HttpServer server = null;
             var arguments = new Dictionary<string, string>();
@@ -121,10 +121,12 @@ namespace Juniper.HTTP
                         Info($"Listening on port {port}");
                         break;
                     }
+#pragma warning disable CA1031 // Do not catch general exception types
                     catch
                     {
                         Warning($"Port {p} is already in use. Trying another one.");
                     }
+#pragma warning restore CA1031 // Do not catch general exception types
                 }
 
                 if (server == null)

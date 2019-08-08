@@ -10,15 +10,6 @@ namespace Juniper.HTTP
 {
     public class HttpServer
     {
-        private static readonly string[] INDEX_FILES = {
-            "index.html",
-            "index.htm",
-            "default.html",
-            "default.htm"
-        };
-
-        private readonly string rootDirectory;
-
         private readonly Thread serverThread;
         private readonly HttpListener listener;
         private readonly List<RouteAttribute> routes = new List<RouteAttribute>();
@@ -44,23 +35,27 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="path">Directory path to serve.</param>
         /// <param name="port">Port of the server.</param>
-        public HttpServer(string path, int port, Action<string> info, Action<string> warning, Action<string> error, params object[] controllers)
+        public HttpServer(int port, Action<string> info, Action<string> warning, Action<string> error, params object[] controllers)
         {
             this.info = info;
             this.warning = warning;
             this.error = error;
 
-            rootDirectory = path;
             Port = port;
 
             AddRoutesFrom(controllers);
-            AddRoutesFrom(this);
 
             listener = new HttpListener();
             listener.Prefixes.Add(string.Format("http://*:{0}/", Port));
             listener.Start();
             serverThread = new Thread(Listen);
             serverThread.Start();
+        }
+
+        public HttpServer(string path, int port, Action<string> info, Action<string> warning, Action<string> error, params object[] controllers)
+            : this(port, info, warning, error, controllers)
+        {
+            AddRoutesFrom(new DefaultFileController(path, warning));
         }
 
         private void AddRoutesFrom(params object[] controllers)
@@ -96,6 +91,21 @@ namespace Juniper.HTTP
             routes.Sort((a, b) => a.Priority - b.Priority);
         }
 
+        public void Start()
+        {
+            if (!listener.IsListening)
+            {
+                listener.Start();
+            }
+
+            if (!serverThread.IsAlive)
+            {
+                serverThread.Start();
+            }
+
+            Done = false;
+        }
+
         /// <summary>
         /// Stop server and dispose all functions.
         /// </summary>
@@ -115,52 +125,12 @@ namespace Juniper.HTTP
                     var context = listener.GetContext();
                     Process(context);
                 }
-                catch
-                {
-                }
-            }
-        }
-
-        [Route(".*", Priority = int.MaxValue)]
-        public void ServeFile(HttpListenerContext context)
-        {
-            var request = context.Request;
-            var response = context.Response;
-            var requestPath = request.Url.AbsolutePath;
-            var requestFile = MassageRequestPath(requestPath);
-            var filename = Path.Combine(rootDirectory, requestFile);
-            var isDirectory = Directory.Exists(filename);
-
-            if (isDirectory)
-            {
-                filename = FindDefaultFile(filename);
-            }
-
-            var file = new FileInfo(filename);
-            var shortName = MakeShortName(rootDirectory, filename);
-
-            if (isDirectory && requestPath[requestPath.Length - 1] != '/')
-            {
-                response.Redirect(requestPath + "/");
-            }
-            else if (file.Exists)
-            {
-                try
-                {
-                    response.SendFile(file);
-                }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
                 {
-                    var message = $"ERRRRRROR: '{shortName}' > {exp.Message}";
-                    warning(message);
-                    response.Error(HttpStatusCode.InternalServerError, message);
+                    error($"ERRROR: {exp.Message}");
                 }
-            }
-            else
-            {
-                var message = $"request '{shortName}'";
-                warning(message);
-                response.Error(HttpStatusCode.NotFound, message);
+#pragma warning restore CA1031 // Do not catch general exception types
             }
         }
 
@@ -195,48 +165,6 @@ namespace Juniper.HTTP
             response.OutputStream.Close();
             response.OutputStream.Dispose();
             response.Close();
-        }
-
-        private static string MakeShortName(string rootDirectory, string filename)
-        {
-            var shortName = filename.Replace(rootDirectory, "");
-            if (shortName.Length > 0 && shortName[0] == Path.DirectorySeparatorChar)
-            {
-                shortName = shortName.Substring(1);
-            }
-
-            return shortName;
-        }
-
-        private static string FindDefaultFile(string filename)
-        {
-            if (Directory.Exists(filename))
-            {
-                for (var i = 0; i < INDEX_FILES.Length; ++i)
-                {
-                    var test = Path.Combine(filename, INDEX_FILES[i]);
-                    if (File.Exists(test))
-                    {
-                        filename = test;
-                        break;
-                    }
-                }
-            }
-
-            return filename;
-        }
-
-        private static string MassageRequestPath(string requestPath)
-        {
-            requestPath = requestPath.Substring(1);
-
-            if (requestPath.Length > 0 && requestPath[requestPath.Length - 1] == '/')
-            {
-                requestPath = requestPath.Substring(0, requestPath.Length - 1);
-            }
-
-            requestPath = requestPath.Replace('/', Path.DirectorySeparatorChar);
-            return requestPath;
         }
     }
 }
