@@ -20,6 +20,11 @@ namespace Juniper.Security
             receiver.ReceiveCredentials(File.ReadAllLines(fileName));
         }
 
+        public static void ReceiveCredentials(this ICredentialReceiver receiver)
+        {
+            receiver.ReceiveCredentials(receiver.CredentialFile);
+        }
+
         public static void ReceiveCredentials(this ICredentialReceiver receiver, FileInfo file)
         {
             receiver.ReceiveCredentials(file.FullName);

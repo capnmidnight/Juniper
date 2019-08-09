@@ -116,7 +116,7 @@ namespace Juniper.Imaging
             FindComponents();
 
 #if UNITY_EDITOR
-            this.ReceiveCredentials(CredentialFile);
+            this.ReceiveCredentials();
 
             locationInput = this.Ensure<EditorTextInput>();
             locationInput.OnSubmit.AddListener(SetLocation);

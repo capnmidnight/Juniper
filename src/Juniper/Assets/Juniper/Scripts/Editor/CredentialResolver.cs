@@ -20,7 +20,7 @@ namespace Juniper
                 .OfType<ICredentialReceiver>();
             foreach (var receiver in receivers)
             {
-                receiver.ReceiveCredentials(receiver.CredentialFile);
+                receiver.ReceiveCredentials();
             }
         }
 
