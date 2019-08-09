@@ -28,7 +28,7 @@ namespace Juniper.Imaging
         private const string LAT_LON = "_MAPPING_LATITUDE_LONGITUDE_LAYOUT";
         private const string SIDES_6 = "_MAPPING_6_FRAMES_LAYOUT";
 
-        public string yarrowServerHost = "http://localhost:8000";
+        public string yarrowServerHost = "http://localhost";
         public string gmapsApiKey;
         public string gmapsSigningKey;
 

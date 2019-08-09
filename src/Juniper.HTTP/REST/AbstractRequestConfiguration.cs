@@ -6,7 +6,7 @@ namespace Juniper.HTTP.REST
     public class AbstractRequestConfiguration
     {
         internal readonly DirectoryInfo cacheLocation;
-        internal readonly Uri baseServiceURI;
+        public readonly Uri baseServiceURI;
 
         protected AbstractRequestConfiguration(Uri baseServiceURI, DirectoryInfo cacheLocation = null)
         {

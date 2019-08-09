@@ -53,6 +53,26 @@ namespace Yarrow.Client
             }
         }
 
+        public void ClearError()
+        {
+            lastError = null;
+        }
+
+        public string ServiceURL
+        {
+            get
+            {
+                if (useGoogleMaps)
+                {
+                    return gmaps.baseServiceURI.ToString();
+                }
+                else
+                {
+                    return yarrow.baseServiceURI.ToString();
+                }
+            }
+        }
+
         private Task<ResultT> Cascade<YarrowRequestT, GmapsRequestT, ResultT>(
             YarrowRequestT yarrowRequest,
             GmapsRequestT gmapsRequest,
