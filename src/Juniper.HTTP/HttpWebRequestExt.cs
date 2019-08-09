@@ -179,7 +179,8 @@ namespace System.Net
             Stream body;
             long length;
 
-            if (cacheFile?.Exists == true
+            if (cacheFile != null
+                && File.Exists(cacheFile?.FullName)
                 && cacheFile.Length > 0)
             {
                 length = cacheFile.Length;
