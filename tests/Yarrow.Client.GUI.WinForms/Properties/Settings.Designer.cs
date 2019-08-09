@@ -25,7 +25,7 @@ namespace Yarrow.Client.GUI.WinForms.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:8000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://localhost")]
         public string YarrowServerHost {
             get {
                 return ((string)(this["YarrowServerHost"]));

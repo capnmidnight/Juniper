@@ -59,7 +59,7 @@ namespace Yarrow.Client.GUI.WinForms
             {
                 var geo = await yarrow.ReverseGeocode(metadata.location);
                 var imageFile = await yarrow.GetImage(metadata.pano_id);
-                form.SetImage(metadata, geo, imageFile);
+                form.SetImage(yarrow.ServiceURL, metadata, geo, imageFile);
             }
             else
             {

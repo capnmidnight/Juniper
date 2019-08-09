@@ -17,23 +17,24 @@ namespace Yarrow.Client.GUI.WinForms
             InitializeComponent();
         }
 
-        public void SetImage(MetadataResponse metadata, GeocodingResponse geocode, Image image)
+        public void SetImage(string server, MetadataResponse metadata, GeocodingResponse geocode, Image image)
         {
             var address = (from result in geocode.results
                            orderby result.formatted_address.Length descending
                            select result.formatted_address)
                         .FirstOrDefault();
-            SetControls(metadata, image, address);
+            SetControls(server, metadata, image, address);
         }
 
-        private void SetControls(MetadataResponse metadata, Image image, string address)
+        private void SetControls(string server, MetadataResponse metadata, Image image, string address)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action<MetadataResponse, Image, string>(SetControls), metadata, image, address);
+                Invoke(new Action<string, MetadataResponse, Image, string>(SetControls), server, metadata, image, address);
             }
             else
             {
+                serverTextbox.Text = server;
                 locationTextBox.Text = address ?? string.Empty;
                 panoTextbox.Text = metadata.pano_id.ToString();
                 latLngTextbox.Text = metadata.location.ToString();
@@ -42,11 +43,11 @@ namespace Yarrow.Client.GUI.WinForms
             }
         }
 
-        public void SetImage(MetadataResponse metadata, GeocodingResponse geocode, ImageData image)
+        public void SetImage(string server, MetadataResponse metadata, GeocodingResponse geocode, ImageData image)
         {
             using (var mem = new MemoryStream(image.data))
             {
-                SetImage(metadata, geocode, Image.FromStream(mem));
+                SetImage(server, metadata, geocode, Image.FromStream(mem));
             }
         }
 

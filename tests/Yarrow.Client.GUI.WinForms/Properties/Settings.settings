@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="YarrowServerHost" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://localhost:8000</Value>
+      <Value Profile="(Default)">https://localhost</Value>
     </Setting>
   </Settings>
 </SettingsFile>
