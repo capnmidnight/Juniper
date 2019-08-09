@@ -78,3 +78,4 @@ tobii_gameintegration_*.dll
 **/Assets/Plugins/iOS/PicoVRSDK.framework/
 /src/packages/
 **/StreamingAssets/Juniper.meta
+/src/MigrationBackup/
