@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Juniper.HTTP
 {
@@ -65,7 +66,7 @@ namespace Juniper.HTTP
         }
 
         [Route(".*", Priority = int.MaxValue)]
-        public void ServeFile(HttpListenerContext context)
+        public Task ServeFile(HttpListenerContext context)
         {
             var request = context.Request;
             var response = context.Response;
@@ -107,6 +108,8 @@ namespace Juniper.HTTP
                 warning(message);
                 response.Error(HttpStatusCode.NotFound, message);
             }
+
+            return Task.CompletedTask;
         }
     }
 }

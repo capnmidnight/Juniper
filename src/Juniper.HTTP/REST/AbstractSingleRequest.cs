@@ -14,6 +14,8 @@ namespace Juniper.HTTP.REST
         private readonly Dictionary<string, List<string>> queryParams = new Dictionary<string, List<string>>();
         private readonly string cacheSubDirectoryName;
         private readonly string path;
+        private readonly Func<Stream, ResponseType> deserialize;
+        private readonly Action<HttpWebRequest> setAcceptType;
         private string acceptType;
         private string extension;
         protected IDeserializer<ResponseType> deserializer;
@@ -22,6 +24,8 @@ namespace Juniper.HTTP.REST
             : base(api)
         {
             this.deserializer = deserializer;
+            deserialize = deserializer.Deserialize;
+            setAcceptType = SetAcceptType;
             this.path = path;
             this.cacheSubDirectoryName = cacheSubDirectoryName;
         }
@@ -118,19 +122,18 @@ namespace Juniper.HTTP.REST
             }
         }
 
+        private FileInfo cacheFile;
+
         public FileInfo CacheFile
         {
             get
             {
                 var fileName = CacheFileName;
-                if (fileName == null)
+                if (cacheFile?.FullName != fileName)
                 {
-                    return null;
+                    return cacheFile = new FileInfo(fileName);
                 }
-                else
-                {
-                    return new FileInfo(fileName);
-                }
+                return cacheFile;
             }
         }
 
@@ -193,22 +196,22 @@ namespace Juniper.HTTP.REST
 
         private Task<T> Get<T>(Func<Stream, T> decoder, IProgress prog)
         {
-            return HttpWebRequestExt.CachedGet(AuthenticatedURI, decoder, CacheFile, SetAcceptType, prog);
+            return HttpWebRequestExt.CachedGet(AuthenticatedURI, decoder, CacheFile, setAcceptType, prog);
         }
 
         public override Task<ResponseType> Get(IProgress prog = null)
         {
-            return Get(deserializer.Deserialize, prog);
+            return Get(deserialize, prog);
         }
 
         public override Task Proxy(HttpListenerResponse response)
         {
-            return HttpWebRequestExt.CachedProxy(response, AuthenticatedURI, CacheFile, SetAcceptType);
+            return HttpWebRequestExt.CachedProxy(response, AuthenticatedURI, CacheFile, setAcceptType);
         }
 
         public Task<Stream> GetRaw(IProgress prog = null)
         {
-            return HttpWebRequestExt.CachedGetRaw(AuthenticatedURI, CacheFile, SetAcceptType, prog);
+            return HttpWebRequestExt.CachedGetRaw(AuthenticatedURI, CacheFile, setAcceptType, prog);
         }
 
         public async Task CopyRaw(Stream outStream)

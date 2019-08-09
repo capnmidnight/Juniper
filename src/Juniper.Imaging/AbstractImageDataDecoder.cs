@@ -8,7 +8,7 @@ namespace Juniper.Imaging
 {
     public abstract class AbstractImageDataDecoder : IImageDecoder<ImageData>
     {
-        public ImageData Concatenate(int columns, int rows, IProgress prog, params ImageData[] images)
+        public ImageData Concatenate(ImageData[,] images, IProgress prog = null)
         {
             prog?.Report(0);
 
@@ -22,28 +22,29 @@ namespace Juniper.Imaging
                 throw new ArgumentException($"Parameter {nameof(images)} must have at least one image.");
             }
 
+            var rows = images.GetLength(0);
+            var columns = images.GetLength(1);
             var numTiles = columns * rows;
-            if (images.Length != numTiles)
-            {
-                throw new ArgumentException($"Expected {nameof(images)} parameter to be {numTiles} long, but it was {images.Length} long.");
-            }
 
             var anyNotNull = false;
             ImageData firstImage = default;
-            for (var i = 0; i < images.Length; ++i)
+            for (int y = 0; y < rows; ++y)
             {
-                var img = images[i];
-                if (img != null)
+                for (int x = 0; x < columns; ++x)
                 {
-                    if (!anyNotNull)
+                    var img = images[y, x];
+                    if (img != null)
                     {
-                        firstImage = images[i];
-                    }
+                        if (!anyNotNull)
+                        {
+                            firstImage = img;
+                        }
 
-                    anyNotNull = true;
-                    if (img?.dimensions.width != firstImage.dimensions.width || img?.dimensions.height != firstImage.dimensions.height)
-                    {
-                        throw new ArgumentException($"All elements of {nameof(images)} must be the same width and height. Image {i} did not match image 0.");
+                        anyNotNull = true;
+                        if (img?.dimensions.width != firstImage.dimensions.width || img?.dimensions.height != firstImage.dimensions.height)
+                        {
+                            throw new ArgumentException($"All elements of {nameof(images)} must be the same width and height. Image [{y},{x}] did not match image 0.");
+                        }
                     }
                 }
             }
@@ -65,8 +66,7 @@ namespace Juniper.Imaging
                 var bufferY = i / combined.stride;
                 var tileX = bufferX / firstImage.stride;
                 var tileY = bufferY / firstImage.dimensions.height;
-                var tileI = tileY * columns + tileX;
-                var tile = images[tileI];
+                var tile = images[tileY, tileX];
                 if (tile != null)
                 {
                     var imageY = bufferY % firstImage.dimensions.height;

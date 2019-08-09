@@ -1,7 +1,6 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.HTTP;
@@ -11,35 +10,34 @@ namespace Yarrow.Server
 {
     public class YarrowMetadataController
     {
-        private readonly GoogleMapsRequestConfiguration gmaps;
+        private readonly MetadataRequest metadataRequest;
 
         public YarrowMetadataController(GoogleMapsRequestConfiguration gmaps)
         {
-            this.gmaps = gmaps;
+            metadataRequest = new MetadataRequest(gmaps);
         }
 
         [Route("/api/metadata\\?location=([^/]+)")]
-        public void GetMetadataFromPlaceName(HttpListenerContext context, string location)
+        public Task GetMetadataFromPlaceName(HttpListenerContext context, string locationString)
         {
-            var metadataRequest = new MetadataRequest(gmaps, (PlaceName)location);
-            Task.WaitAll(metadataRequest.Proxy(context.Response));
+            metadataRequest.Place = (PlaceName)locationString;
+            return metadataRequest.Proxy(context.Response);
         }
 
         [Route("/api/metadata\\?latlng=([^/]+)")]
-        public void GetMetadataFromLatLng(HttpListenerContext context, string location)
+        public Task GetMetadataFromLatLng(HttpListenerContext context, string latLngString)
         {
-            var latlngString = Uri.UnescapeDataString(location);
-            var latLng = LatLngPoint.ParseDecimal(latlngString);
-            var metadataRequest = new MetadataRequest(gmaps, latLng);
-            Task.WaitAll(metadataRequest.Proxy(context.Response));
+            latLngString = Uri.UnescapeDataString(latLngString);
+            var latLng = LatLngPoint.ParseDecimal(latLngString);
+            metadataRequest.Location = latLng;
+            return metadataRequest.Proxy(context.Response);
         }
 
         [Route("/api/metadata\\?pano=([^/]+)")]
-        public void GetMetadataFromPano(HttpListenerContext context, string panoString)
+        public Task GetMetadataFromPano(HttpListenerContext context, string panoString)
         {
-            var pano = (PanoID)panoString;
-            var metadataRequest = new MetadataRequest(gmaps, pano);
-            Task.WaitAll(metadataRequest.Proxy(context.Response));
+            metadataRequest.Pano = (PanoID)panoString;
+            return metadataRequest.Proxy(context.Response);
         }
     }
 }

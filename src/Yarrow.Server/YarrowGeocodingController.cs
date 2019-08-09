@@ -1,7 +1,6 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
-
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.Geocoding;
 using Juniper.HTTP;
@@ -11,20 +10,20 @@ namespace Yarrow.Server
 {
     public class YarrowGeocodingController
     {
-        private readonly GoogleMapsRequestConfiguration gmaps;
+        private readonly ReverseGeocodingRequest revGeocodeRequest;
 
         public YarrowGeocodingController(GoogleMapsRequestConfiguration gmaps)
         {
-            this.gmaps = gmaps;
+            revGeocodeRequest = new ReverseGeocodingRequest(gmaps);
         }
 
         [Route("/api/geocode\\?latlng=([^/]+)")]
-        public void ReverseGeocodeLatLng(HttpListenerContext context, string location)
+        public Task ReverseGeocodeLatLng(HttpListenerContext context, string latLngString)
         {
-            var latlngString = Uri.UnescapeDataString(location);
-            var latLng = LatLngPoint.ParseDecimal(latlngString);
-            var revGeocodeRequest = new ReverseGeocodingRequest(gmaps, latLng);
-            Task.WaitAll(revGeocodeRequest.Proxy(context.Response));
+            latLngString = Uri.UnescapeDataString(latLngString);
+            var latLng = LatLngPoint.ParseDecimal(latLngString);
+            revGeocodeRequest.Location = latLng;
+            return revGeocodeRequest.Proxy(context.Response);
         }
     }
 }

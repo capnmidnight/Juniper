@@ -23,13 +23,11 @@ namespace Juniper.HTTP
         /// </summary>
         /// <param name="path">Directory path to serve.</param>
         /// <param name="httpPort">Port of the server.</param>
-        public HttpServer(int httpPort, int httpsPort, Action<string> info, Action<string> warning, Action<string> error, params object[] controllers)
+        public HttpServer(int httpPort, int httpsPort, Action<string> info, Action<string> warning, Action<string> error)
         {
             this.info = info;
             this.warning = warning;
             this.error = error;
-
-            AddRoutesFrom(controllers);
 
             listener = new HttpListener();
             listener.Prefixes.Add($"http://*:{httpPort}/");
@@ -38,8 +36,8 @@ namespace Juniper.HTTP
             serverThread = new Thread(Listen);
         }
 
-        public HttpServer(string path, int httpPort, int httpsPort, Action<string> info, Action<string> warning, Action<string> error, params object[] controllers)
-            : this(httpPort, httpsPort, info, warning, error, controllers)
+        public HttpServer(string path, int httpPort, int httpsPort, Action<string> info, Action<string> warning, Action<string> error)
+            : this(httpPort, httpsPort, info, warning, error)
         {
             AddRoutesFrom(new DefaultFileController(path, warning));
         }
@@ -57,32 +55,29 @@ namespace Juniper.HTTP
             return AuthenticationSchemes.None;
         }
 
-        private void AddRoutesFrom(params object[] controllers)
+        public void AddRoutesFrom(object controller)
         {
-            foreach (var controller in controllers)
+            var type = controller.GetType();
+            var methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public);
+            foreach (var method in methods)
             {
-                var type = controller.GetType();
-                var methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public);
-                foreach (var method in methods)
+                var route = method.GetCustomAttribute<RouteAttribute>();
+                if (route != null)
                 {
-                    var route = method.GetCustomAttribute<RouteAttribute>();
-                    if (route != null)
+                    var parameters = method.GetParameters();
+                    if (parameters.Length == route.parameterCount
+                        && parameters[0].ParameterType == typeof(HttpListenerContext)
+                        && parameters.Skip(1).All(p => p.ParameterType == typeof(string))
+                        && method.ReturnType == typeof(Task))
                     {
-                        var parameters = method.GetParameters();
-                        if (parameters.Length == route.parameterCount
-                            && parameters[0].ParameterType == typeof(HttpListenerContext)
-                            && parameters.Skip(1).All(p => p.ParameterType == typeof(string))
-                            && method.ReturnType == typeof(void))
-                        {
-                            info($"Found controller {type.Name}::{method.Name} > {route.Priority}.");
-                            route.source = controller;
-                            route.method = method;
-                            routes.Add(route);
-                        }
-                        else
-                        {
-                            error($"Method {type.Name}::{method.Name} must signature (System.Net.HttpListenerContext, string[]) => void.");
-                        }
+                        info($"Found controller {type.Name}::{method.Name} > {route.Priority}.");
+                        route.source = controller;
+                        route.method = method;
+                        routes.Add(route);
+                    }
+                    else
+                    {
+                        error($"Method {type.Name}::{method.Name} must signature (System.Net.HttpListenerContext, string[]) => void.");
                     }
                 }
             }
@@ -109,6 +104,7 @@ namespace Juniper.HTTP
         public void Stop()
         {
             listener.Stop();
+            listener.Close();
             serverThread.Abort();
         }
 
@@ -118,7 +114,7 @@ namespace Juniper.HTTP
             {
                 try
                 {
-                    listener.BeginGetContext(ReceiveContext, this);
+                    Process(listener.GetContext());
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
@@ -129,43 +125,44 @@ namespace Juniper.HTTP
             }
         }
 
-        private void ReceiveContext(IAsyncResult result)
+        private void Process(HttpListenerContext context)
         {
-            var context = listener.EndGetContext(result);
-            var handled = false;
-            info?.Invoke($"Serving request {context.Request.Url.PathAndQuery}");
-            foreach (var route in routes)
+            Task.Run(async () =>
             {
-                if (route.IsMatch(context.Request))
-                {
-                    route.Invoke(context);
-                    handled = true;
-                    if (!route.Continue)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            try
-            {
-                using (context.Request.InputStream) { }
+                using (context.Request.InputStream)
                 using (context.Response.OutputStream)
                 {
-                    if (!handled)
+                    try
                     {
-                        var message = $"Not found: {context.Request.Url.PathAndQuery}";
-                        warning(message);
-                        context.Response.Error(HttpStatusCode.NotFound, message);
-                    }
+                        var handled = false;
+                        info?.Invoke($"Serving request {context.Request.Url.PathAndQuery}");
+                        foreach (var route in routes)
+                        {
+                            if (route.IsMatch(context.Request))
+                            {
+                                await route.Invoke(context);
+                                handled = true;
+                                if (!route.Continue)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                        if (!handled)
+                        {
+                            var message = $"Not found: {context.Request.Url.PathAndQuery}";
+                            warning(message);
+                            context.Response.Error(HttpStatusCode.NotFound, message);
+                        }
 
-                    context.Response.OutputStream.Flush();
+                        context.Response.OutputStream.Flush();
+                    }
+                    finally
+                    {
+                        context.Response.Close();
+                    }
                 }
-            }
-            finally
-            {
-                context.Response.Close();
-            }
+            });
         }
     }
 }

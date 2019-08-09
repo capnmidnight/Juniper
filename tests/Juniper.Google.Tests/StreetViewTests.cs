@@ -99,7 +99,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var cubeMapRequest = new CubeMapRequest<ImageData>(service, decoder, new Size(640, 640), (PlaceName)"Washington, DC");
             var images = await cubeMapRequest.Get();
             var concator = new JpegDecoder();
-            var combined = await concator.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
+            var combined = concator.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.png");
             var encoder = new PngDecoder();
             encoder.Save(outputFileName, combined);
@@ -113,7 +113,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             var cubeMapRequest = new CubeMapRequest<ImageData>(service, decoder, new Size(640, 640), (PlaceName)"Washington, DC");
             var images = await cubeMapRequest.Get();
             var concator = new JpegDecoder();
-            var combined = await concator.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
+            var combined = concator.Combine6Squares(images[0], images[1], images[2], images[3], images[4], images[5]);
             var outputFileName = Path.Combine(cacheDir.FullName, "dc6.jpeg");
             var encoder = new PngDecoder();
             encoder.Save(outputFileName, combined);

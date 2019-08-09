@@ -1,6 +1,5 @@
 using System.Net;
 using System.Threading.Tasks;
-
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.HTTP;
@@ -18,10 +17,10 @@ namespace Yarrow.Server
         }
 
         [Route("/api/image\\?pano=([^/]+)")]
-        public void GetImage(HttpListenerContext context, string pano)
+        public Task GetImage(HttpListenerContext context, string pano)
         {
             imageRequest.Pano = (PanoID)pano;
-            Task.WaitAll(imageRequest.ProxyJPEG(context.Response));
+            return imageRequest.ProxyJPEG(context.Response);
         }
     }
 }

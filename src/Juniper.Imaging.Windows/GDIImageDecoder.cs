@@ -52,7 +52,7 @@ namespace Juniper.Imaging.Windows
             return Image.FromFile(fileName);
         }
 
-        public Image Concatenate(int columns, int rows, IProgress prog, params Image[] images)
+        public Image Concatenate(Image[,] images, IProgress prog = null)
         {
             prog?.Report(0);
 
@@ -66,28 +66,28 @@ namespace Juniper.Imaging.Windows
                 throw new ArgumentException($"Parameter {nameof(images)} must have at least one image.");
             }
 
-            var numTiles = columns * rows;
-            if (images.Length != numTiles)
-            {
-                throw new ArgumentException($"Expected {nameof(images)} parameter to be {numTiles} long, but it was {images.Length} long.");
-            }
+            var rows = images.GetLength(0);
+            var columns = images.GetLength(1);
 
             var anyNotNull = false;
             Image firstImage = default;
-            for (var i = 0; i < images.Length; ++i)
+            for (int y = 0; y < rows; ++y)
             {
-                var img = images[i];
-                if (img != null)
+                for (int x = 0; x < columns; ++x)
                 {
-                    if (!anyNotNull)
+                    var img = images[y, x];
+                    if (img != null)
                     {
-                        firstImage = images[i];
-                    }
+                        if (!anyNotNull)
+                        {
+                            firstImage = img;
+                        }
 
-                    anyNotNull = true;
-                    if (img?.Width != firstImage.Width || img?.Height != firstImage.Height)
-                    {
-                        throw new ArgumentException($"All elements of {nameof(images)} must be the same width and height. Image {i} did not match image 0.");
+                        anyNotNull = true;
+                        if (img?.Width != firstImage.Width || img?.Height != firstImage.Height)
+                        {
+                            throw new ArgumentException($"All elements of {nameof(images)} must be the same width and height. Image [{y},{x}] did not match image 0.");
+                        }
                     }
                 }
             }
@@ -108,11 +108,11 @@ namespace Juniper.Imaging.Windows
 
                 for (var i = 0; i < images.Length; ++i)
                 {
-                    var img = images[i];
+                    var tileX = i % columns;
+                    var tileY = rows - (i / columns) - 1;
+                    var img = images[tileY, tileX];
                     if (img != null)
                     {
-                        var tileX = i % columns;
-                        var tileY = rows - (i / columns) - 1;
                         var imageX = tileX * firstImage.Width;
                         var imageY = tileY * firstImage.Height;
                         g.DrawImageUnscaled(img, imageX, imageY);
@@ -122,6 +122,12 @@ namespace Juniper.Imaging.Windows
 
                 g.Flush();
             }
+
+            foreach (var img in images)
+            {
+                img.Dispose();
+            }
+
             return combined;
         }
     }

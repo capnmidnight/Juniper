@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Juniper.HTTP
 {
@@ -34,7 +35,7 @@ namespace Juniper.HTTP
                 && pattern.IsMatch(request.Url.PathAndQuery);
         }
 
-        public void Invoke(HttpListenerContext context)
+        public Task Invoke(HttpListenerContext context)
         {
             var path = context.Request.Url.PathAndQuery;
             var match = pattern.Match(path);
@@ -46,7 +47,7 @@ namespace Juniper.HTTP
                 .Cast<object>()
                 .Prepend(context)
                 .ToArray();
-            method.Invoke(source, args);
+            return (Task)method.Invoke(source, args);
         }
     }
 }

@@ -14,33 +14,32 @@ namespace Juniper.Google.Maps.StreetView
     {
         private readonly GoogleMapsRequestConfiguration gmaps;
         private readonly IImageDecoder<T> decoder;
+        private readonly CubeMapRequest<T> subRequest;
 
         public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size)
             : base(api, decoder, size)
         {
             gmaps = api;
             this.decoder = decoder;
+            subRequest = new CubeMapRequest<T>(api, decoder, size);
         }
 
         public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size, PanoID pano)
-            : base(api, decoder, size, pano)
+            : this(api, decoder, size)
         {
-            gmaps = api;
-            this.decoder = decoder;
+            Pano = pano;
         }
 
         public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size, PlaceName placeName)
-            : base(api, decoder, size, placeName)
+            : this(api, decoder, size)
         {
-            gmaps = api;
-            this.decoder = decoder;
+            Place = placeName;
         }
 
         public CrossCubeMapRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size, LatLngPoint location)
-            : base(api, decoder, size, location)
+            : this(api, decoder, size)
         {
-            gmaps = api;
-            this.decoder = decoder;
+            Location = location;
         }
 
         protected override string CacheFileName
@@ -83,8 +82,6 @@ namespace Juniper.Google.Maps.StreetView
             else
             {
                 var progs = prog.Split(3);
-                var subRequest = new CubeMapRequest<T>(gmaps, decoder, Size);
-
                 if (Pano != default)
                 {
                     subRequest.Pano = Pano;
@@ -105,7 +102,7 @@ namespace Juniper.Google.Maps.StreetView
 
                 subRequest.OutdoorOnly = OutdoorOnly;
                 var images = await subRequest.Get(progs[0]);
-                var combined = await decoder.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5], progs[1]);
+                var combined = decoder.CombineCross(images[0], images[1], images[2], images[3], images[4], images[5], progs[1]);
                 if (cacheFile != null)
                 {
                     decoder.Save(cacheFile, combined);

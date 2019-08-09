@@ -17,10 +17,12 @@ namespace Yarrow.Server
             var gmaps = new GoogleMapsRequestConfiguration(apiKey, signingKey, cacheDir);
             server = new HttpServer(
                 httpPort, httpsPort,
-                info, warning, error,
-                new YarrowMetadataController(gmaps),
-                new YarrowGeocodingController(gmaps),
-                new YarrowImageController<Image>(gmaps, new GDIImageDecoder(System.Drawing.Imaging.ImageFormat.Jpeg)));
+                info, warning, error);
+
+            var decoder = new GDIImageDecoder(System.Drawing.Imaging.ImageFormat.Jpeg);
+            server.AddRoutesFrom(new YarrowImageController<Image>(gmaps, decoder));
+            server.AddRoutesFrom(new YarrowMetadataController(gmaps));
+            server.AddRoutesFrom(new YarrowGeocodingController(gmaps));
         }
 
         public void Start()
