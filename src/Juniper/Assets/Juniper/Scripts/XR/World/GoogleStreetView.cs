@@ -286,6 +286,7 @@ namespace Juniper.Imaging
         {
             if (LatLngLocation != null)
             {
+                yarrow.ClearError();
                 deltaMeters /= 10f;
                 var utm = LatLngLocation.ToUTM();
                 utm = new UTMPoint(utm.X + deltaMeters.x, utm.Y + deltaMeters.y, utm.Z, utm.Zone, utm.Hemisphere);
