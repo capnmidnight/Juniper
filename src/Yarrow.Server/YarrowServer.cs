@@ -12,11 +12,12 @@ namespace Yarrow.Server
     {
         private readonly HttpServer server;
 
-        public YarrowServer(string[] args, Action<string> info, Action<string> warning, Action<string> error, string apiKey, string signingKey, DirectoryInfo cacheDir)
+        public YarrowServer(int httpPort, int httpsPort, Action<string> info, Action<string> warning, Action<string> error, string apiKey, string signingKey, DirectoryInfo cacheDir)
         {
             var gmaps = new GoogleMapsRequestConfiguration(apiKey, signingKey, cacheDir);
-            server = HttpServerUtil.Create(
-                args, info, warning, error,
+            server = new HttpServer(
+                httpPort, httpsPort,
+                info, warning, error,
                 new YarrowMetadataController(gmaps),
                 new YarrowGeocodingController(gmaps),
                 new YarrowImageController<Image>(gmaps, new GDIImageDecoder(System.Drawing.Imaging.ImageFormat.Jpeg)));

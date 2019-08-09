@@ -42,7 +42,11 @@ namespace Yarrow.Server
             {
                 var apiKey = reader.ReadLine();
                 var signingKey = reader.ReadLine();
-                server = new YarrowServer(args, Info, Warning, Error, apiKey, signingKey, cacheDir);
+                server = new YarrowServer(
+                    80, 443,
+                    Info, Warning, Error,
+                    apiKey, signingKey,
+                    cacheDir);
                 server.Start();
             }
         }

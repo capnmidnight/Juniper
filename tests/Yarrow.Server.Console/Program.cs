@@ -5,7 +5,7 @@ namespace Yarrow.Server.Console
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
@@ -18,12 +18,11 @@ namespace Yarrow.Server.Console
                 var apiKey = reader.ReadLine();
                 var signingKey = reader.ReadLine();
                 var server = new YarrowServer(
-                    args,
+                    80, 443,
                     System.Console.WriteLine,
-                    System.Console.WriteLine,
+                    msg => System.Console.WriteLine($"WARNING: {msg}"),
                     System.Console.Error.WriteLine,
-                    apiKey,
-                    signingKey,
+                    apiKey, signingKey,
                     cacheDir);
                 server.Start();
             }

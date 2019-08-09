@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Juniper.HTTP
 {
@@ -17,42 +18,27 @@ namespace Juniper.HTTP
         private readonly Action<string> info;
         private readonly Action<string> warning;
 
-        public int Port
-        {
-            get;
-            private set;
-        }
-
-        public bool Done
-        {
-            get;
-            private set;
-        }
-
         /// <summary>
         /// Construct server with given port.
         /// </summary>
         /// <param name="path">Directory path to serve.</param>
-        /// <param name="port">Port of the server.</param>
-        public HttpServer(int port, Action<string> info, Action<string> warning, Action<string> error, params object[] controllers)
+        /// <param name="httpPort">Port of the server.</param>
+        public HttpServer(int httpPort, int httpsPort, Action<string> info, Action<string> warning, Action<string> error, params object[] controllers)
         {
             this.info = info;
             this.warning = warning;
             this.error = error;
 
-            Port = port;
-
             AddRoutesFrom(controllers);
 
             listener = new HttpListener();
-            listener.Prefixes.Add(string.Format("http://*:{0}/", Port));
-            listener.Start();
+            listener.Prefixes.Add($"http://*:{httpPort}/");
+            listener.Prefixes.Add($"https://*:{httpsPort}/");
             serverThread = new Thread(Listen);
-            serverThread.Start();
         }
 
-        public HttpServer(string path, int port, Action<string> info, Action<string> warning, Action<string> error, params object[] controllers)
-            : this(port, info, warning, error, controllers)
+        public HttpServer(string path, int httpPort, int httpsPort, Action<string> info, Action<string> warning, Action<string> error, params object[] controllers)
+            : this(httpPort, httpsPort, info, warning, error, controllers)
         {
             AddRoutesFrom(new DefaultFileController(path, warning));
         }
@@ -101,8 +87,6 @@ namespace Juniper.HTTP
             {
                 serverThread.Start();
             }
-
-            Done = false;
         }
 
         /// <summary>
@@ -110,19 +94,17 @@ namespace Juniper.HTTP
         /// </summary>
         public void Stop()
         {
-            serverThread.Abort();
             listener.Stop();
-            Done = true;
+            serverThread.Abort();
         }
 
         private void Listen()
         {
-            while (!Done)
+            while (listener.IsListening)
             {
                 try
                 {
-                    var context = listener.GetContext();
-                    Process(context);
+                    Process(listener.GetContextAsync());
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
@@ -133,37 +115,47 @@ namespace Juniper.HTTP
             }
         }
 
-        private void Process(HttpListenerContext context)
+        private void Process(Task<HttpListenerContext> contextTask)
         {
-            var handled = false;
-            info?.Invoke($"Serving request {context.Request.Url.PathAndQuery}");
-            foreach (var route in routes)
+            Task.Run(async () =>
             {
-                var args = route.GetParams(context);
-                if (args != null)
+                var context = await contextTask;
+                var handled = false;
+                info?.Invoke($"Serving request {context.Request.Url.PathAndQuery}");
+                foreach (var route in routes)
                 {
-                    route.Invoke(context, args);
-                    handled = true;
-                    if (!route.Continue)
+                    var args = route.GetParams(context);
+                    if (args != null)
                     {
-                        break;
+                        route.Invoke(context, args);
+                        handled = true;
+                        if (!route.Continue)
+                        {
+                            break;
+                        }
                     }
                 }
-            }
 
-            var response = context.Response;
+                var response = context.Response;
+                try
+                {
+                    using (response.OutputStream)
+                    {
+                        if (!handled)
+                        {
+                            var message = $"Not found: {context.Request.Url.PathAndQuery}";
+                            warning(message);
+                            response.Error(HttpStatusCode.NotFound, message);
+                        }
 
-            if (!handled)
-            {
-                var message = $"Not found: {context.Request.Url.PathAndQuery}";
-                warning(message);
-                response.Error(HttpStatusCode.NotFound, message);
-            }
-
-            response.OutputStream.Flush();
-            response.OutputStream.Close();
-            response.OutputStream.Dispose();
-            response.Close();
+                        response.OutputStream.Flush();
+                    }
+                }
+                finally
+                {
+                    response.Close();
+                }
+            });
         }
     }
 }

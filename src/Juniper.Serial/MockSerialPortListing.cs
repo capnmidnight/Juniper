@@ -32,7 +32,7 @@ namespace Juniper.Serial
                     max = Math.Max(max, number);
                 }
             }
-            return string.Format("COM{0}", max + offset);
+            return $"COM{max + offset}";
         }
 
         internal static List<string> FakePortNames = new List<string>();
