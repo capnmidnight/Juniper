@@ -134,8 +134,9 @@ namespace Juniper.HTTP
                 {
                     try
                     {
+                        info($"Serving request {context.Request.Url.PathAndQuery}");
+
                         var handled = false;
-                        info?.Invoke($"Serving request {context.Request.Url.PathAndQuery}");
                         foreach (var route in routes)
                         {
                             if (route.IsMatch(context.Request))
@@ -148,6 +149,7 @@ namespace Juniper.HTTP
                                 }
                             }
                         }
+
                         if (!handled)
                         {
                             var message = $"Not found: {context.Request.Url.PathAndQuery}";

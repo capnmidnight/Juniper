@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.bovinelabs.analyzers": "https://github.com/tertle/com.bovinelabs.analyzers.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.ext.nunit": "1.0.0",
