@@ -107,7 +107,6 @@ namespace Juniper.Imaging
             fader = ComponentExt.FindAny<FadeTransition>();
             gps = ComponentExt.FindAny<GPSLocation>();
             skybox = ComponentExt.FindAny<SkyboxManager>();
-            this.ReceiveCredentials(CredentialFile);
         }
 
         public override void Awake()
@@ -117,17 +116,15 @@ namespace Juniper.Imaging
             FindComponents();
 
 #if UNITY_EDITOR
+            this.ReceiveCredentials(CredentialFile);
+
             locationInput = this.Ensure<EditorTextInput>();
             locationInput.OnSubmit.AddListener(SetLocation);
             if (!string.IsNullOrEmpty(locationInput.value))
             {
                 SetLocation(locationInput.value);
             }
-#endif
 
-            var uri = new Uri(yarrowServerHost);
-            var decoder = new JpegDecoder();
-#if UNITY_EDITOR
             var baseCachePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 #else
             var baseCachePath = Application.persistentDataPath;
@@ -136,6 +133,8 @@ namespace Juniper.Imaging
             var yarrowCacheDir = new DirectoryInfo(yarrowCacheDirName);
             var gmapsCacheDirName = Path.Combine(baseCachePath, "GoogleMaps");
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
+            var uri = new Uri(yarrowServerHost);
+            var decoder = new JpegDecoder();
             yarrow = new YarrowClient<ImageData>(uri, decoder, yarrowCacheDir, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
         }
 
