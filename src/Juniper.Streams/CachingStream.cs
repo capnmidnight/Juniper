@@ -29,7 +29,7 @@ namespace Juniper.Streams
         /// <param name="parent"></param>
         public CachingStream(Stream stream, FileInfo file)
         {
-            inStream = new ErsatzSeekableStream(stream);
+            inStream = stream;
             file.Directory.Create();
             outStream = file.OpenWrite();
         }
