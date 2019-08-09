@@ -34,6 +34,7 @@ namespace Juniper.HTTP
             listener = new HttpListener();
             listener.Prefixes.Add($"http://*:{httpPort}/");
             listener.Prefixes.Add($"https://*:{httpsPort}/");
+            listener.AuthenticationSchemeSelectorDelegate = GetAuthenticationSchemeForRequest;
             serverThread = new Thread(Listen);
         }
 
@@ -41,6 +42,19 @@ namespace Juniper.HTTP
             : this(httpPort, httpsPort, info, warning, error, controllers)
         {
             AddRoutesFrom(new DefaultFileController(path, warning));
+        }
+
+        private AuthenticationSchemes GetAuthenticationSchemeForRequest(HttpListenerRequest request)
+        {
+            foreach (var route in routes)
+            {
+                if (route.IsMatch(request))
+                {
+                    return route.Authentication;
+                }
+            }
+
+            return AuthenticationSchemes.None;
         }
 
         private void AddRoutesFrom(params object[] controllers)
@@ -104,7 +118,7 @@ namespace Juniper.HTTP
             {
                 try
                 {
-                    Process(listener.GetContextAsync());
+                    listener.BeginGetContext(ReceiveContext, this);
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
@@ -115,47 +129,43 @@ namespace Juniper.HTTP
             }
         }
 
-        private void Process(Task<HttpListenerContext> contextTask)
+        private void ReceiveContext(IAsyncResult result)
         {
-            Task.Run(async () =>
+            var context = listener.EndGetContext(result);
+            var handled = false;
+            info?.Invoke($"Serving request {context.Request.Url.PathAndQuery}");
+            foreach (var route in routes)
             {
-                var context = await contextTask;
-                var handled = false;
-                info?.Invoke($"Serving request {context.Request.Url.PathAndQuery}");
-                foreach (var route in routes)
+                if (route.IsMatch(context.Request))
                 {
-                    var args = route.GetParams(context);
-                    if (args != null)
+                    route.Invoke(context);
+                    handled = true;
+                    if (!route.Continue)
                     {
-                        route.Invoke(context, args);
-                        handled = true;
-                        if (!route.Continue)
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
+            }
 
-                var response = context.Response;
-                try
+            try
+            {
+                using (context.Request.InputStream) { }
+                using (context.Response.OutputStream)
                 {
-                    using (response.OutputStream)
+                    if (!handled)
                     {
-                        if (!handled)
-                        {
-                            var message = $"Not found: {context.Request.Url.PathAndQuery}";
-                            warning(message);
-                            response.Error(HttpStatusCode.NotFound, message);
-                        }
-
-                        response.OutputStream.Flush();
+                        var message = $"Not found: {context.Request.Url.PathAndQuery}";
+                        warning(message);
+                        context.Response.Error(HttpStatusCode.NotFound, message);
                     }
+
+                    context.Response.OutputStream.Flush();
                 }
-                finally
-                {
-                    response.Close();
-                }
-            });
+            }
+            finally
+            {
+                context.Response.Close();
+            }
         }
     }
 }
