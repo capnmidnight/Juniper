@@ -600,7 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0282a0d00fd22394293d28da18c8ad42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: Boise, OH
+  value: Washington, DC
   OnSubmit:
     m_PersistentCalls:
       m_Calls:
