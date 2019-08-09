@@ -107,6 +107,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Yarrow", "Yarrow", "{F4DDC3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Imaging.Windows", "Juniper.Imaging.Windows\Juniper.Imaging.Windows.csproj", "{F3190C12-08B7-42CB-A294-0D4F49A00851}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Security", "Juniper.Security\Juniper.Security.csproj", "{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -894,6 +896,24 @@ Global
 		{F3190C12-08B7-42CB-A294-0D4F49A00851}.ReleaseLite|x64.Build.0 = Release|Any CPU
 		{F3190C12-08B7-42CB-A294-0D4F49A00851}.ReleaseLite|x86.ActiveCfg = Release|Any CPU
 		{F3190C12-08B7-42CB-A294-0D4F49A00851}.ReleaseLite|x86.Build.0 = Release|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.Debug|x64.Build.0 = Debug|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.Debug|x86.Build.0 = Debug|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.Release|x64.ActiveCfg = Release|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.Release|x64.Build.0 = Release|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.Release|x86.ActiveCfg = Release|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.Release|x86.Build.0 = Release|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.ReleaseLite|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.ReleaseLite|Any CPU.Build.0 = Release|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.ReleaseLite|x64.ActiveCfg = Release|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.ReleaseLite|x64.Build.0 = Release|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.ReleaseLite|x86.ActiveCfg = Release|Any CPU
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2}.ReleaseLite|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -947,6 +967,7 @@ Global
 		{C87096B7-6095-4F03-B024-CAED5AD31E9D} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
 		{F4DDC38D-5F4B-4024-A73E-E77919F6541D} = {9A01F9FD-B141-4584-92DE-9BFCEEA3A7E9}
 		{F3190C12-08B7-42CB-A294-0D4F49A00851} = {69F5ADE9-DF68-423D-898C-8041D9FCED3C}
+		{CFF19B45-8B33-40E0-9C52-0BB1B96F2DF2} = {69F5ADE9-DF68-423D-898C-8041D9FCED3C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26853D06-2187-498D-81B8-5BF110E83214}

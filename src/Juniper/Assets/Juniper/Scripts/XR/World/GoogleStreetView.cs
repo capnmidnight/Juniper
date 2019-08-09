@@ -10,6 +10,7 @@ using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.Imaging.JPEG;
 using Juniper.Progress;
+using Juniper.Security;
 using Juniper.Units;
 using Juniper.Unity;
 using Juniper.Unity.Coroutines;
@@ -22,7 +23,7 @@ using Yarrow.Client;
 
 namespace Juniper.Imaging
 {
-    public class GoogleStreetView : SubSceneController
+    public class GoogleStreetView : SubSceneController, ICredentialReceiver
     {
         private const string LAT_LON = "_MAPPING_LATITUDE_LONGITUDE_LAYOUT";
         private const string SIDES_6 = "_MAPPING_6_FRAMES_LAYOUT";
@@ -74,15 +75,39 @@ namespace Juniper.Imaging
         public void OnValidate()
         {
             locationInput = this.Ensure<EditorTextInput>();
+            ClearCredentials();
         }
 
 #endif
+
+        public string CredentialFile
+        {
+            get
+            {
+                var baseCachePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                var keyFile = Path.Combine(baseCachePath, "GoogleMaps", "keys.txt");
+                return keyFile;
+            }
+        }
+
+        public void ReceiveCredentials(string[] args)
+        {
+            gmapsApiKey = args[0];
+            gmapsSigningKey = args[1];
+        }
+
+        public void ClearCredentials()
+        {
+            gmapsApiKey = null;
+            gmapsSigningKey = null;
+        }
 
         private void FindComponents()
         {
             fader = ComponentExt.FindAny<FadeTransition>();
             gps = ComponentExt.FindAny<GPSLocation>();
             skybox = ComponentExt.FindAny<SkyboxManager>();
+            this.ReceiveCredentials(CredentialFile);
         }
 
         public override void Awake()

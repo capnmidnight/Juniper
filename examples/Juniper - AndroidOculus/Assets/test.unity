@@ -558,6 +558,9 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   state: 0
+  yarrowServerHost: http://10.20.22.185:8000
+  gmapsApiKey: 
+  gmapsSigningKey: 
   textureFormat: 3
   tint: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   exposure: 1
@@ -597,7 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0282a0d00fd22394293d28da18c8ad42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: Washington, DC
+  value: Boise, OH
   OnSubmit:
     m_PersistentCalls:
       m_Calls:
