@@ -358,7 +358,7 @@ namespace Juniper.Imaging
             if (!panoDetailSliceFrameContainerCache.ContainsKey(panoid))
             {
                 var pano = new GameObject(panoid.ToString()).transform;
-                pano.position = transform.position;
+                pano.position = avatar.Head.position;
                 panoContainerCache[panoid] = pano;
                 panoDetailContainerCache[panoid] = new Dictionary<int, Transform>();
                 panoDetailSliceContainerCache[panoid] = new Dictionary<int, Dictionary<int, Transform>>();
