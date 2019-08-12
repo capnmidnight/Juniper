@@ -13,7 +13,7 @@ namespace Juniper.HTTP.REST
         where DecoderType : IDeserializer<ResponseType>
     {
         private readonly AbstractRequestConfiguration api;
-        private readonly Dictionary<string, List<string>> queryParams = new Dictionary<string, List<string>>();
+        private readonly IDictionary<string, List<string>> queryParams = new SortedDictionary<string, List<string>>();
         private readonly string cacheSubDirectoryName;
         private readonly string path;
         private readonly Func<Stream, ResponseType> deserialize;
