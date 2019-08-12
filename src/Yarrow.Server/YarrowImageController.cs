@@ -19,8 +19,8 @@ namespace Yarrow.Server
             this.decoder = decoder;
         }
 
-        [Route("/api/image\\?pano=([^/]+)&fov=(\\d+)&heading=(\\d+)&pitch=(-?\\d+)")]
-        public Task GetImage(HttpListenerContext context, string pano, string fovString, string headingString, string pitchString)
+        [Route("/api/image\\?fov=(\\d+)&heading=(\\d+)&pano=([^/]+)&pitch=(-?\\d+)")]
+        public Task GetImage(HttpListenerContext context, string fovString, string headingString, string pano, string pitchString)
         {
             if (int.TryParse(fovString, out var fov)
                 && int.TryParse(headingString, out var heading)
@@ -37,7 +37,7 @@ namespace Yarrow.Server
             }
             else
             {
-                context.Response.Error(HttpStatusCode.BadRequest, "Excepted parameters [pano:string, fov:int, heading:int, pitch:int]");
+                context.Response.Error(HttpStatusCode.BadRequest, "Excepted parameters [fov:int, heading:int, pano:string, pitch:int]");
                 return Task.CompletedTask;
             }
         }

@@ -30,11 +30,19 @@ namespace Yarrow.Server
         [Route("/api/metadata\\?latlng=([^/]+)")]
         public Task GetMetadataFromLatLng(HttpListenerContext context, string latLngString)
         {
-            var metadataRequest = new MetadataRequest(gmaps)
+            if (LatLngPoint.TryParseDecimal(latLngString, out var point))
             {
-                Location = LatLngPoint.ParseDecimal(latLngString)
-            };
-            return metadataRequest.Proxy(context.Response);
+                var metadataRequest = new MetadataRequest(gmaps)
+                {
+                    Location = point
+                };
+                return metadataRequest.Proxy(context.Response);
+            }
+            else
+            {
+                context.Response.Error(HttpStatusCode.BadRequest, "Excepted parameter [latlng:(decimal latitude, decimal longitude)]");
+                return Task.CompletedTask;
+            }
         }
 
         [Route("/api/metadata\\?pano=([^/]+)")]

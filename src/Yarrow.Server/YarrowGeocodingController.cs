@@ -20,11 +20,19 @@ namespace Yarrow.Server
         [Route("/api/geocode\\?latlng=([^/]+)")]
         public Task ReverseGeocodeLatLng(HttpListenerContext context, string latLngString)
         {
-            var revGeocodeRequest = new ReverseGeocodingRequest(gmaps)
+            if (LatLngPoint.TryParseDecimal(latLngString, out var point))
             {
-                Location = LatLngPoint.ParseDecimal(latLngString)
-            };
-            return revGeocodeRequest.Proxy(context.Response);
+                var revGeocodeRequest = new ReverseGeocodingRequest(gmaps)
+                {
+                    Location = point
+                };
+                return revGeocodeRequest.Proxy(context.Response);
+            }
+            else
+            {
+                context.Response.Error(HttpStatusCode.BadRequest, "Excepted parameter [latlng:(decimal latitude, decimal longitude)]");
+                return Task.CompletedTask;
+            }
         }
     }
 }
