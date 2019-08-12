@@ -261,7 +261,7 @@ namespace Juniper.Imaging
                             var subFOV = FOVs[f];
                             var overlap = FOVs.Length - f;
                             var fov = subFOV + 2 * overlap;
-                            var radius = 20f - 5 * f + 2;
+                            var radius = 5 * overlap + 2;
                             var scale = 2 * radius * Mathf.Tan(Degrees.Radians(fov / 2));
                             var tileDim = 3;
                             var dTileDim = Mathf.Floor(tileDim / 2.0f);
