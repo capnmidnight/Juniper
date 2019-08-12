@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Threading.Tasks;
+
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.HTTP;

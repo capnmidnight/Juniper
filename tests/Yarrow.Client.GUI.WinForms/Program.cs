@@ -37,8 +37,8 @@ namespace Yarrow.Client.GUI.WinForms
             var gmapsKeyFileName = Path.Combine(gmapsCacheDirName, "keys.txt");
             var gmapsKeyFile = new FileInfo(gmapsKeyFileName);
             using (var fileStream = gmapsKeyFile.OpenRead())
-            using (var reader = new StreamReader(fileStream))
             {
+                var reader = new StreamReader(fileStream);
                 var apiKey = reader.ReadLine();
                 var signingKey = reader.ReadLine();
                 yarrow = new YarrowClient<Image>(uri, decoder, yarrowCacheDir, apiKey, signingKey, gmapsCacheDir);

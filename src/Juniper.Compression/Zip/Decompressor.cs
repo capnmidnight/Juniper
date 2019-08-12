@@ -58,8 +58,8 @@ namespace Juniper.Compression.Zip
             {
                 var entry = zip[entryIndex];
                 using (var fileStream = zip.GetInputStream(entry))
-                using (var progStream = new ProgressStream(fileStream, entry.Size, prog))
                 {
+                    var progStream = new ProgressStream(fileStream, entry.Size, prog);
                     progStream.CopyTo(copyTo);
                 }
             }

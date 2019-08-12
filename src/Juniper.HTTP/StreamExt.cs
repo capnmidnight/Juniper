@@ -23,19 +23,14 @@ namespace System.IO
         {
             return (stream) =>
             {
-                using (var progStream = new ProgressStream(stream, value.Length, prog))
-                {
-                    progStream.Write(value, 0, value.Length);
-                }
+                var progStream = new ProgressStream(stream, value.Length, prog);
+                progStream.Write(value, 0, value.Length);
             };
         }
 
         private static Func<BodyInfo> BytesInfoGetter(this byte[] value, string type)
         {
-            return () =>
-            {
-                return new BodyInfo(type ?? "application/octet-stream", value.Length);
-            };
+            return () => new BodyInfo(type ?? "application/octet-stream", value.Length);
         }
 
         /// <summary>
@@ -78,9 +73,10 @@ namespace System.IO
 
             void bodyWriter(Stream outStream)
             {
-                using (var inStream = new ProgressStream(file.OpenRead(), file.Length, prog))
+                using (var inStream = file.OpenRead())
                 {
-                    inStream.CopyTo(outStream);
+                    var progress = new ProgressStream(inStream, file.Length, prog);
+                    progress.CopyTo(outStream);
                 }
             }
 

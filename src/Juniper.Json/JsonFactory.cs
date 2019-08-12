@@ -11,7 +11,6 @@ namespace Juniper.Json
     public class JsonFactory : IFactory
     {
 #pragma warning disable CA1822 // Mark members as static
-
         public string ToString<T>(T value)
 #pragma warning restore CA1822 // Mark members as static
         {
@@ -19,7 +18,6 @@ namespace Juniper.Json
         }
 
 #pragma warning disable CA1822 // Mark members as static
-
         public T Parse<T>(string text)
 #pragma warning restore CA1822 // Mark members as static
         {
@@ -30,19 +28,15 @@ namespace Juniper.Json
         {
             var text = ToString(value);
             var length = System.Text.Encoding.UTF8.GetByteCount(text);
-            using (var progress = new ProgressStream(stream, length, prog))
-            using (var writer = new StreamWriter(progress))
-            {
-                writer.Write(text);
-            }
+            var progress = new ProgressStream(stream, length, prog);
+            var writer = new StreamWriter(progress);
+            writer.Write(text);
         }
 
         public T Deserialize<T>(Stream stream)
         {
-            using (var reader = new StreamReader(stream))
-            {
-                return Parse<T>(reader.ReadToEnd());
-            }
+            var reader = new StreamReader(stream);
+            return Parse<T>(reader.ReadToEnd());
         }
     }
 }

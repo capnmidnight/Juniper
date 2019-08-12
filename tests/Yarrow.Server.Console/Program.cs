@@ -13,8 +13,8 @@ namespace Yarrow.Server.Console
             var keyFileName = Path.Combine(cacheDirName, "keys.txt");
             var keyFile = new FileInfo(keyFileName);
             using (var fileStream = keyFile.OpenRead())
-            using (var reader = new StreamReader(fileStream))
             {
+                var reader = new StreamReader(fileStream);
                 var apiKey = reader.ReadLine();
                 var signingKey = reader.ReadLine();
                 var server = new YarrowServer(

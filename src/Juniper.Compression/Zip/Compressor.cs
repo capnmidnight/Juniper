@@ -65,8 +65,8 @@ namespace Juniper.Compression.Zip
 
                         zipStream.PutNextEntry(newEntry);
                         using (var entryStream = fi.OpenRead())
-                        using (var progress = new ProgressStream(entryStream, fi.Length, p))
                         {
+                            var progress = new ProgressStream(entryStream, fi.Length, p);
                             progress.CopyTo(zipStream);
                         }
                         zipStream.CloseEntry();
