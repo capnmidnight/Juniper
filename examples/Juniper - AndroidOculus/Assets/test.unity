@@ -558,7 +558,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   state: 0
-  yarrowServerHost: http://10.20.22.185:8000
+  yarrowServerHost: http://localhost
   gmapsApiKey: 
   gmapsSigningKey: 
   textureFormat: 3
