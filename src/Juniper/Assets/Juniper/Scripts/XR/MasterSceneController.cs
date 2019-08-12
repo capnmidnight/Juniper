@@ -250,7 +250,6 @@ namespace Juniper
 
             ComponentExt.FindAny<KeywordRecognizer>()?.RefreshKeywords();
 
-            yield return loadingBar?.Waiter;
             splash?.Deactivate();
             loadingBar?.Deactivate();
             darth?.Exit();
