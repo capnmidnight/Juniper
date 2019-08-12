@@ -6,7 +6,6 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Animation;
-using Juniper.Display;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.Imaging.JPEG;
@@ -19,7 +18,7 @@ using Juniper.World;
 using Juniper.World.GIS;
 
 using UnityEngine;
-
+using UnityEngine.Events;
 using Yarrow.Client;
 
 namespace Juniper.Imaging
@@ -123,7 +122,7 @@ namespace Juniper.Imaging
             this.ReceiveCredentials();
 
             locationInput = this.Ensure<EditorTextInput>();
-            locationInput.OnSubmit.AddListener(SetLocation);
+            locationInput.OnSubmit.AddListener(new UnityAction<string>(SetLocation));
             if (!string.IsNullOrEmpty(locationInput.value))
             {
                 SetLocation(locationInput.value);
@@ -203,133 +202,149 @@ namespace Juniper.Imaging
                         metadataTask = yarrow.GetMetadata((PlaceName)Location, metadataProg);
                     }
 
-                    yield return new WaitForTask(metadataTask);
-                    var m = metadataTask.Result;
-                    metadataCache[Location] = m;
-
-                    if (m.pano_id != curPano)
+                    while (!metadataTask.IsCompleted && !metadataTask.IsCanceled && !metadataTask.IsFaulted)
                     {
-                        curPano = m.pano_id;
-                        print($"Pano ID = {curPano.ToString()}");
-                        if (fromNavigation)
-                        {
-                            fader.Enter();
-                            yield return fader.Waiter;
-                        }
+                        yield return null;
+                    }
 
-                        var cur = m.location.ToUTM();
-                        if (last != null)
+                    if (metadataTask.IsCompleted)
+                    {
+                        var m = metadataTask.Result;
+                        metadataCache[Location] = m;
+
+                        if (m.pano_id != curPano)
                         {
-                            var delta = 20 * cur.Subtract(last.Value);
-                            if (delta.magnitude > 0)
+                            curPano = m.pano_id;
+                            print($"Pano ID = {curPano.ToString()}");
+                            if (fromNavigation)
                             {
-                                avatar.transform.position += delta;
-                                transform.position += delta;
+                                fader.Enter();
+                                yield return fader.Waiter;
                             }
-                        }
 
-                        last = cur;
+                            var cur = m.location.ToUTM();
+                            if (last != null)
+                            {
+                                var delta = 20 * cur.Subtract(last.Value);
+                                if (delta.magnitude > 0)
+                                {
+                                    avatar.transform.position += delta;
+                                    transform.position += delta;
+                                }
+                            }
+
+                            last = cur;
+                        }
                     }
                 }
 
-                var metadata = metadataCache[Location];
-
-                if (metadata?.status != HttpStatusCode.OK)
+                if (metadataCache.ContainsKey(Location))
                 {
-                    print("no metadata");
-                }
-                else
-                {
-                    SetLatLngLocation(metadata.location);
+                    var metadata = metadataCache[Location];
 
-                    var panoid = metadata.pano_id;
-                    var euler = avatar.Head.rotation.eulerAngles;
-                    var heading = euler.y;
-                    var pitch = euler.x;
-
-                    for (int f = 0; f < FOVs.Length; ++f)
+                    if (metadata?.status != HttpStatusCode.OK)
                     {
-                        var faceProg = subProg.Subdivide(f, FOVs.Length);
-                        var subFOV = FOVs[f];
-                        var overlap = FOVs.Length - f;
-                        var fov = subFOV + 2 * overlap;
-                        var radius = 20f - 5 * f + 2;
-                        var scale = 2 * radius * Mathf.Tan(Degrees.Radians(fov / 2));
-                        var tileDim = 3;
-                        var dTileDim = Mathf.Floor(tileDim / 2.0f);
-                        for (int y = 0; y < tileDim; ++y)
+                        print("no metadata");
+                    }
+                    else
+                    {
+                        SetLatLngLocation(metadata.location);
+
+                        var panoid = metadata.pano_id;
+                        var euler = avatar.Head.rotation.eulerAngles;
+                        var heading = euler.y;
+                        var pitch = euler.x;
+
+                        for (var f = 0; f < FOVs.Length; ++f)
                         {
-                            var sliceProg = faceProg.Subdivide(y, tileDim);
-                            var dy = y - dTileDim;
-                            var subPitch = pitch + dy * subFOV;
-                            var unityPitch = (int)Mathf.Repeat(subFOV * Mathf.RoundToInt(subPitch / subFOV), 360);
-                            var requestPitch = (int)Mathf.Repeat(360 - unityPitch, 360);
-
-                            while (requestPitch > 90)
+                            var faceProg = subProg.Subdivide(f, FOVs.Length);
+                            var subFOV = FOVs[f];
+                            var overlap = FOVs.Length - f;
+                            var fov = subFOV + 2 * overlap;
+                            var radius = 20f - 5 * f + 2;
+                            var scale = 2 * radius * Mathf.Tan(Degrees.Radians(fov / 2));
+                            var tileDim = 3;
+                            var dTileDim = Mathf.Floor(tileDim / 2.0f);
+                            for (var y = 0; y < tileDim; ++y)
                             {
-                                requestPitch -= 360;
-                            }
+                                var sliceProg = faceProg.Subdivide(y, tileDim);
+                                var dy = y - dTileDim;
+                                var subPitch = pitch + dy * subFOV;
+                                var unityPitch = (int)Mathf.Repeat(subFOV * Mathf.RoundToInt(subPitch / subFOV), 360);
+                                var requestPitch = (int)Mathf.Repeat(360 - unityPitch, 360);
 
-                            for (int x = 0; x < tileDim; ++x)
-                            {
-                                var patchProg = sliceProg.Subdivide(x, tileDim);
-                                var dx = x - dTileDim;
-                                var subHeading = heading + dx * subFOV;
-                                var requestHeading = (int)Mathf.Repeat(subFOV * Mathf.Round(subHeading / subFOV), 360);
-
-                                if (requestPitch == 90 || requestPitch == -90)
+                                while (requestPitch > 90)
                                 {
-                                    requestHeading = 0;
+                                    requestPitch -= 360;
                                 }
 
-                                if (0 <= requestHeading && requestHeading < 360
-                                    && -90 <= requestPitch && requestPitch <= 90
-                                    && FillCaches(panoid, f, radius, requestHeading, requestPitch))
+                                for (var x = 0; x < tileDim; ++x)
                                 {
-                                    var imageTask = yarrow.GetImage(panoid, (int)fov, requestHeading, requestPitch, patchProg.Subdivide(0f, 0.9f));
-                                    yield return new WaitForTask(imageTask);
+                                    var patchProg = sliceProg.Subdivide(x, tileDim);
+                                    var dx = x - dTileDim;
+                                    var subHeading = heading + dx * subFOV;
+                                    var requestHeading = (int)Mathf.Repeat(subFOV * Mathf.Round(subHeading / subFOV), 360);
 
-                                    var image = imageTask.Result;
-                                    if (image != null)
+                                    if (requestPitch == 90 || requestPitch == -90)
                                     {
-                                        var textureProg = patchProg.Subdivide(0.9f, 0.1f);
-                                        var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
-                                        if (image.format == ImageFormat.None)
-                                        {
-                                            texture.LoadRawTextureData(image.data);
-                                        }
-                                        else if (image.format != ImageFormat.Unsupported)
-                                        {
-                                            texture.LoadImage(image.data);
-                                        }
-                                        textureProg?.Report(0.3333f);
-                                        yield return null;
-                                        texture.Compress(true);
-                                        textureProg?.Report(0.66667f);
-                                        yield return null;
-                                        texture.Apply(false, true);
-                                        textureProg?.Report(1);
+                                        requestHeading = 0;
+                                    }
 
-                                        var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                                        var renderer = frame.GetComponent<MeshRenderer>();
-                                        var material = new Material(Shader.Find("Unlit/Texture"));
-                                        material.SetTexture("_MainTex", texture);
-                                        renderer.SetMaterial(material);
+                                    if (0 <= requestHeading && requestHeading < 360
+                                        && -90 <= requestPitch && requestPitch <= 90
+                                        && FillCaches(panoid, f, radius, requestHeading, requestPitch))
+                                    {
+                                        var imageTask = yarrow.GetImage(panoid, (int)fov, requestHeading, requestPitch, patchProg.Subdivide(0f, 0.9f));
+                                        while (!imageTask.IsCanceled && !imageTask.IsFaulted && !imageTask.IsCompleted)
+                                        {
+                                            yield return null;
+                                        }
 
-                                        frame.transform.SetParent(panoDetailSliceFrameContainerCache[panoid][f][requestHeading][requestPitch], false);
-                                        frame.transform.localScale = scale * Vector3.one;
+                                        if (imageTask.IsCompleted)
+                                        {
+                                            var image = imageTask.Result;
+                                            if (image != null)
+                                            {
+                                                var textureProg = patchProg.Subdivide(0.9f, 0.1f);
+                                                var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
+                                                if (image.format == ImageFormat.None)
+                                                {
+                                                    texture.LoadRawTextureData(image.data);
+                                                }
+                                                else if (image.format != ImageFormat.Unsupported)
+                                                {
+                                                    texture.LoadImage(image.data);
+                                                }
+                                                textureProg?.Report(0.3333f);
+                                                yield return null;
+                                                texture.Compress(true);
+                                                textureProg?.Report(0.66667f);
+                                                yield return null;
+                                                texture.Apply(false, true);
+                                                textureProg?.Report(1);
+
+                                                var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                                                var renderer = frame.GetComponent<MeshRenderer>();
+                                                var material = new Material(Shader.Find("Unlit/Texture"));
+                                                material.SetTexture("_MainTex", texture);
+                                                renderer.SetMaterial(material);
+
+                                                frame.transform.SetParent(panoDetailSliceFrameContainerCache[panoid][f][requestHeading][requestPitch], false);
+                                                frame.transform.localScale = scale * Vector3.one;
+                                            }
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        if (f == 0)
-                        {
-                            Complete();
-
-                            if (fromNavigation && fader.IsEntered && fader.IsComplete)
+                            if (f == 0)
                             {
-                                fader.Exit();
+                                Complete();
+
+                                if (fromNavigation && fader.IsEntered && fader.IsComplete)
+                                {
+                                    fader.Exit();
+                                }
                             }
                         }
                     }
@@ -343,7 +358,7 @@ namespace Juniper.Imaging
             if (!panoDetailSliceFrameContainerCache.ContainsKey(panoid))
             {
                 var pano = new GameObject(panoid.ToString()).transform;
-                pano.position = avatar.Head.position;
+                pano.position = transform.position;
                 panoContainerCache[panoid] = pano;
                 panoDetailContainerCache[panoid] = new Dictionary<int, Transform>();
                 panoDetailSliceContainerCache[panoid] = new Dictionary<int, Dictionary<int, Transform>>();
@@ -357,9 +372,9 @@ namespace Juniper.Imaging
 
             if (!detailContainerCache.ContainsKey(f))
             {
-                var d = new GameObject(f.ToString()).transform;
-                d.SetParent(panoContainer, false);
-                detailContainerCache[f] = d;
+                var detail = new GameObject(f.ToString()).transform;
+                detail.SetParent(panoContainer, false);
+                detailContainerCache[f] = detail;
                 detailSliceContainerCache[f] = new Dictionary<int, Transform>();
                 detailSliceFrameContainerCache[f] = new Dictionary<int, Dictionary<int, Transform>>();
             }
