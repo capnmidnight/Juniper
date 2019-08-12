@@ -15,7 +15,7 @@ namespace Juniper.World.GIS
         /// <returns></returns>
         public static Vector3 ToVector3(this UTMPoint value)
         {
-            return new Vector3(value.X, value.Y, value.Z);
+            return new Vector3(value.X, value.Z, value.Y);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Juniper.World.GIS
         /// <returns></returns>
         public static Vector3 Subtract(this UTMPoint a, UTMPoint b)
         {
-            return new Vector3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+            return new Vector3(a.X - b.X, a.Z - b.Z, a.Y - b.Y);
         }
     }
 }
