@@ -66,14 +66,16 @@ namespace Yarrow.Client.GUI.WinForms
                     panoTextbox.Text = msg;
                 }
 
-                if (locationTextBox.Text.Length == 0)
-                {
-                    locationTextBox.Text = msg;
-                }
-
                 if (latLngTextbox.Text.Length == 0)
                 {
                     latLngTextbox.Text = msg;
+                }
+
+                if (locationTextBox.Text.Length == 0
+                    || (panoTextbox.Text.Length > 0
+                        && latLngTextbox.Text.Length > 0))
+                {
+                    locationTextBox.Text = msg;
                 }
 
                 cubeMapPictureBox.Image?.Dispose();

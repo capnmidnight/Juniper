@@ -60,8 +60,8 @@ namespace Yarrow.Client.GUI.WinForms
                 var geo = await yarrow.ReverseGeocode(metadata.location);
                 try
                 {
-                    var imageFile = await yarrow.GetImage(metadata.pano_id);
-                    form.SetImage(yarrow.ServiceURL, metadata, geo, imageFile);
+                    var image = await yarrow.GetImage(metadata.pano_id, 20, 0, 0);
+                    form.SetImage(yarrow.ServiceURL, metadata, geo, image);
                 }
                 catch (Exception exp)
                 {
@@ -74,36 +74,27 @@ namespace Yarrow.Client.GUI.WinForms
             }
         }
 
-        private static void Form_LocationSubmitted(object sender, string location)
+        private static async void Form_LocationSubmitted(object sender, string location)
         {
-            Task.Run(async () =>
-            {
-                var metadata = await yarrow.GetMetadata((PlaceName)location);
-                await GetImageData(metadata);
-            });
+            var metadata = await yarrow.GetMetadata((PlaceName)location);
+            await GetImageData(metadata);
         }
 
-        private static void Form_LatLngSubmitted(object sender, string latlng)
+        private static async void Form_LatLngSubmitted(object sender, string latlng)
         {
-            Task.Run(async () =>
-            {
-                var metadata = await yarrow.GetMetadata(LatLngPoint.ParseDecimal(latlng));
-                await GetImageData(metadata);
-            });
+            var metadata = await yarrow.GetMetadata(LatLngPoint.ParseDecimal(latlng));
+            await GetImageData(metadata);
         }
 
-        private static void Form_PanoSubmitted(object sender, string pano)
+        private static async void Form_PanoSubmitted(object sender, string pano)
         {
-            Task.Run(async () =>
-            {
-                var metadata = await yarrow.GetMetadata((PanoID)pano);
-                await GetImageData(metadata);
-            });
+            var metadata = await yarrow.GetMetadata((PanoID)pano);
+            await GetImageData(metadata);
         }
 
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            throw new NotImplementedException();
+            form.SetError(e.Exception);
         }
     }
 }
