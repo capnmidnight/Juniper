@@ -63,7 +63,7 @@ namespace Juniper.Input
         /// <summary>
         /// Minimum vertical value
         /// </summary>
-        public float minimumY = -45F;
+        public float minimumY = -85F;
 
         /// <summary>
         /// Maximum vertical value
