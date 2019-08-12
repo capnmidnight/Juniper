@@ -7,8 +7,7 @@ namespace Juniper.HTTP.REST
 {
     public static class AbstractRequestExt
     {
-        public static async Task<ResponseType> GetImage<DecoderType, ResponseType>(this AbstractRequest<DecoderType, ResponseType> request, IProgress prog = null)
-            where DecoderType : IImageDecoder<ResponseType>
+        public static async Task<ResponseType> GetImage<ResponseType>(this AbstractRequest<IImageDecoder<ResponseType>, ResponseType> request, IProgress prog = null)
         {
             using (var stream = await request.GetRaw(prog))
             {

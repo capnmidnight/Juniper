@@ -43,7 +43,7 @@ namespace Juniper.HTTP
                 .Groups
                 .Cast<Group>()
                 .Skip(1)
-                .Select(g => g.Value)
+                .Select(g => Uri.UnescapeDataString(g.Value))
                 .Cast<object>()
                 .Prepend(context)
                 .ToArray();

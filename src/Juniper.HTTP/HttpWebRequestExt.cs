@@ -13,7 +13,7 @@ namespace System.Net
     /// </summary>
     public static class HttpWebRequestExt
     {
-        public static HttpWebRequest Header(this HttpWebRequest request, string name, object value)
+        public static HttpWebRequest Header<T>(this HttpWebRequest request, string name, T value)
         {
             request.Headers.Add(name, value.ToString());
             return request;

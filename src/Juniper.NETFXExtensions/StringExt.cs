@@ -25,7 +25,7 @@ namespace System
         }
 
         /// <summary>
-        /// Perforum `Uri.EscapeDataString(value)` on this string.
+        /// Perform `Uri.EscapeDataString(value)` on this string.
         /// </summary>
         /// <param name="value">The string to add escape sequences from.</param>
         /// <returns>The escaped string.</returns>

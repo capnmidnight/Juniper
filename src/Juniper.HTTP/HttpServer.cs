@@ -70,7 +70,7 @@ namespace Juniper.HTTP
                         && parameters.Skip(1).All(p => p.ParameterType == typeof(string))
                         && method.ReturnType == typeof(Task))
                     {
-                        info($"Found controller {type.Name}::{method.Name} > {route.Priority}.");
+                        info($"Found controller {type.Name}::{method.Name} > {route.Priority.ToString()}.");
                         route.source = controller;
                         route.method = method;
                         routes.Add(route);
@@ -127,44 +127,46 @@ namespace Juniper.HTTP
 
         private void Process(HttpListenerContext context)
         {
-            Task.Run(async () =>
-            {
-                using (context.Request.InputStream)
-                using (context.Response.OutputStream)
-                {
-                    try
-                    {
-                        info($"Serving request {context.Request.Url.PathAndQuery}");
+            ProcessAsync(context);
+        }
 
-                        var handled = false;
-                        foreach (var route in routes)
+        private async Task ProcessAsync(HttpListenerContext context)
+        {
+            using (context.Request.InputStream)
+            using (context.Response.OutputStream)
+            {
+                try
+                {
+                    info($"Serving request {context.Request.Url.PathAndQuery}");
+
+                    var handled = false;
+                    foreach (var route in routes)
+                    {
+                        if (route.IsMatch(context.Request))
                         {
-                            if (route.IsMatch(context.Request))
+                            await route.Invoke(context);
+                            handled = true;
+                            if (!route.Continue)
                             {
-                                await route.Invoke(context);
-                                handled = true;
-                                if (!route.Continue)
-                                {
-                                    break;
-                                }
+                                break;
                             }
                         }
-
-                        if (!handled)
-                        {
-                            var message = $"Not found: {context.Request.Url.PathAndQuery}";
-                            warning(message);
-                            context.Response.Error(HttpStatusCode.NotFound, message);
-                        }
-
-                        context.Response.OutputStream.Flush();
                     }
-                    finally
+
+                    if (!handled)
                     {
-                        context.Response.Close();
+                        var message = $"Not found: {context.Request.Url.PathAndQuery}";
+                        warning(message);
+                        context.Response.Error(HttpStatusCode.NotFound, message);
                     }
+
+                    context.Response.OutputStream.Flush();
                 }
-            });
+                finally
+                {
+                    context.Response.Close();
+                }
+            }
         }
     }
 }
