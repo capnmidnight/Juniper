@@ -70,7 +70,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         public async Task GetImage()
         {
             var decoder = new JpegDecoder();
-            var imageRequest = new ImageRequest<ImageData>(service, decoder, new Size(640, 640))
+            var imageRequest = new ImageRequest<ImageData>(service, decoder, new Size(4096, 4096))
             {
                 Place = (PlaceName)"Alexandria, VA"
             };

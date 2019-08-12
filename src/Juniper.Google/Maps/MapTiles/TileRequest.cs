@@ -21,11 +21,12 @@ namespace Juniper.Google.Maps.MapTiles
         private int zoom;
         private PlaceName address;
         private LatLngPoint center;
+        private Size size;
 
         private TileRequest(GoogleMapsRequestConfiguration api, IImageDecoder<ImageData> decoder, Size size)
             : base(api, decoder, "staticmap", "tiles", true)
         {
-            SetQuery(nameof(size), size);
+            Size = size;
             var format = decoder.Format;
             var acceptType = ImageData.GetContentType(format);
             var extension = ImageData.GetExtension(format);
@@ -35,6 +36,16 @@ namespace Juniper.Google.Maps.MapTiles
         public TileRequest(GoogleMapsRequestConfiguration api, Size size)
             : this(api, new PngDecoder(), size)
         {
+        }
+
+        public Size Size
+        {
+            get { return size; }
+            set
+            {
+                size = value;
+                SetQuery(nameof(size), size);
+            }
         }
 
         public int Zoom
