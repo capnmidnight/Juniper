@@ -4,6 +4,7 @@ using System.IO;
 
 using Juniper.Google.Maps;
 using Juniper.HTTP;
+using Juniper.Imaging;
 using Juniper.Imaging.Windows;
 
 namespace Yarrow.Server
@@ -19,7 +20,7 @@ namespace Yarrow.Server
                 httpPort, httpsPort,
                 info, warning, error);
 
-            var decoder = new GDIImageDecoder(System.Drawing.Imaging.ImageFormat.Jpeg);
+            var decoder = new GDIImageDecoder(ImageFormat.JPEG);
             server.AddRoutesFrom(new YarrowImageController<Image>(gmaps, decoder));
             server.AddRoutesFrom(new YarrowMetadataController(gmaps));
             server.AddRoutesFrom(new YarrowGeocodingController(gmaps));

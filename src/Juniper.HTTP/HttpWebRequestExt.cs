@@ -204,27 +204,14 @@ namespace System.Net
             return body;
         }
 
-        public static async Task<T> CachedGet<T>(
-            Uri uri,
-            Func<Stream, T> decode,
-            FileInfo cacheFile = null,
-            Action<HttpWebRequest> modifyRequest = null,
-            IProgress prog = null)
-        {
-            var stream = await CachedGetRaw(uri, cacheFile, modifyRequest, prog);
-            using (stream)
-            {
-                return decode(stream);
-            }
-        }
-
         public static async Task CachedProxy(
             HttpListenerResponse outResponse,
             Uri uri,
             FileInfo cacheFile,
             Action<HttpWebRequest> modifyRequest = null)
         {
-            if (cacheFile?.Exists == true
+            if (cacheFile != null
+                && File.Exists(cacheFile?.FullName)
                 && cacheFile.Length > 0)
             {
                 outResponse.SetStatus(HttpStatusCode.OK);
@@ -237,22 +224,37 @@ namespace System.Net
                 var request = Create(uri);
                 modifyRequest?.Invoke(request);
 
-                var inResponse = await request.Get();
-                var body = inResponse.GetResponseStream();
-                if (cacheFile != null)
+                using (var inResponse = await request.Get())
                 {
-                    body = new CachingStream(body, cacheFile);
-                }
-                using (body)
-                {
-                    outResponse.SetStatus(inResponse.StatusCode);
-                    outResponse.ContentType = inResponse.ContentType;
-                    if (inResponse.ContentLength >= 0)
+                    var body = inResponse.GetResponseStream();
+                    if (cacheFile != null)
                     {
-                        outResponse.ContentLength64 = inResponse.ContentLength;
+                        body = new CachingStream(body, cacheFile);
                     }
-                    body.CopyTo(outResponse.OutputStream);
+                    using (body)
+                    {
+                        outResponse.SetStatus(inResponse.StatusCode);
+                        outResponse.ContentType = inResponse.ContentType;
+                        if (inResponse.ContentLength >= 0)
+                        {
+                            outResponse.ContentLength64 = inResponse.ContentLength;
+                        }
+                        body.CopyTo(outResponse.OutputStream);
+                    }
                 }
+            }
+        }
+
+        public static async Task<T> CachedGet<T>(
+            Uri uri,
+            Func<Stream, T> decode,
+            FileInfo cacheFile = null,
+            Action<HttpWebRequest> modifyRequest = null,
+            IProgress prog = null)
+        {
+            using (var stream = await CachedGetRaw(uri, cacheFile, modifyRequest, prog))
+            {
+                return decode(stream);
             }
         }
     }

@@ -2,6 +2,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Juniper.Google.Maps.Tests;
+using Juniper.HTTP.REST;
 using Juniper.Imaging;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -46,7 +47,11 @@ namespace Juniper.Google.Maps.MapTiles.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var search = new TileRequest(service, (PlaceName)"4909 Rutland Pl, Alexandria, VA, 22304", 20, 640, 640, ImageFormat.PNG);
+            var search = new TileRequest(service, new Size(640, 640))
+            {
+                Zoom = 20,
+                Address = (PlaceName)"4909 Rutland Pl, Alexandria, VA, 22304"
+            };
             var results = await search.Get();
             Assert.IsNotNull(results);
             Assert.AreEqual(640, results.dimensions.width);

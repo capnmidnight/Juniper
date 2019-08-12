@@ -37,12 +37,6 @@ namespace Juniper.Google.Maps.Geocoding
         public ReverseGeocodingRequest(GoogleMapsRequestConfiguration api)
             : base(api) { }
 
-        public ReverseGeocodingRequest(GoogleMapsRequestConfiguration api, LatLngPoint latlng)
-            : this(api)
-        {
-            Location = latlng;
-        }
-
         public LatLngPoint Location
         {
             get { return latlng; }

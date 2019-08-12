@@ -6,26 +6,38 @@ using Juniper.Serialization;
 
 namespace Juniper.Google.Maps.Places
 {
-    internal class PlaceSearchRequest : AbstractGoogleMapsRequest<PlaceSearchResponse>
+    internal class PlaceSearchRequest : AbstractGoogleMapsRequest<IDeserializer<PlaceSearchResponse>, PlaceSearchResponse>
     {
         private string input;
         private PlaceSearchInputType inputtype;
         private string language;
         private readonly HashSet<PlaceSearchField> fields = new HashSet<PlaceSearchField>();
 
-        private PlaceSearchRequest(GoogleMapsRequestConfiguration api, string input, PlaceSearchInputType inputtype)
+        public PlaceSearchRequest(GoogleMapsRequestConfiguration api)
             : base(api, new JsonFactory().Specialize<PlaceSearchResponse>(), "place/findplacefromtext/json", "places", false)
         {
-            SetInput(input, inputtype);
+            SetContentType("application/json", "json");
         }
 
-        public PlaceSearchRequest(GoogleMapsRequestConfiguration api, PhoneNumber phoneNumber)
-            : this(api, (string)phoneNumber, PlaceSearchInputType.phonenumber) { }
+        public PhoneNumber PhoneNumber
+        {
+            get { return inputtype == PlaceSearchInputType.phonenumber ? (PhoneNumber)input : default; }
+            set
+            {
+                SetInput((string)value, PlaceSearchInputType.phonenumber);
+            }
+        }
 
-        public PlaceSearchRequest(GoogleMapsRequestConfiguration api, string textQuery)
-            : this(api, textQuery, PlaceSearchInputType.textquery) { }
+        public string TextQuery
+        {
+            get { return inputtype == PlaceSearchInputType.textquery ? input : default; }
+            set
+            {
+                SetInput(value, PlaceSearchInputType.textquery);
+            }
+        }
 
-        public void SetInput(string input, PlaceSearchInputType inputtype)
+        private void SetInput(string input, PlaceSearchInputType inputtype)
         {
             this.input = input;
             SetQuery(nameof(input), input);
@@ -33,10 +45,6 @@ namespace Juniper.Google.Maps.Places
             this.inputtype = inputtype;
             SetQuery(nameof(inputtype), inputtype);
         }
-
-        public string Input { get { return input; } }
-
-        public PlaceSearchInputType InputType { get { return inputtype; } }
 
         public void ClearFields()
         {

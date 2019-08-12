@@ -42,5 +42,11 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
+  },
+  "lock": {
+    "com.bovinelabs.analyzers": {
+      "hash": "2438b172dafce64f942b98aa8ed3c2c663dacf7c",
+      "revision": "HEAD"
+    }
   }
 }

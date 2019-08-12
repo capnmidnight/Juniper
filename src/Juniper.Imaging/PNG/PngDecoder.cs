@@ -10,6 +10,8 @@ namespace Juniper.Imaging.PNG
 {
     public class PngDecoder : AbstractImageDataDecoder
     {
+        public override ImageFormat Format { get { return ImageFormat.PNG; } }
+
         public override ImageData Read(byte[] data, DataSource source = DataSource.None)
         {
             int width = 0,

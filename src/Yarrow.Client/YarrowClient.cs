@@ -8,6 +8,7 @@ using Juniper.Google.Maps.StreetView;
 using Juniper.HTTP.REST;
 using Juniper.Imaging;
 using Juniper.Progress;
+using Juniper.Serialization;
 using Juniper.World.GIS;
 
 namespace Yarrow.Client
@@ -21,7 +22,7 @@ namespace Yarrow.Client
 
         private readonly GoogleMapsRequestConfiguration gmaps;
         private readonly MetadataRequest gmapsMetadataRequest;
-        private readonly CrossCubeMapRequest<T> gmapsImageRequest;
+        private readonly ImageRequest<T> gmapsImageRequest;
         private readonly ReverseGeocodingRequest gmapsReverseGeocodeRequest;
 
         private bool useGoogleMaps = false;
@@ -40,8 +41,10 @@ namespace Yarrow.Client
         {
             gmaps = new GoogleMapsRequestConfiguration(gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
             gmapsMetadataRequest = new MetadataRequest(gmaps);
-            gmapsImageRequest = new CrossCubeMapRequest<T>(gmaps, decoder, new Size(640, 640));
+            gmapsImageRequest = new ImageRequest<T>(gmaps, decoder, new Size(640, 640));
             gmapsReverseGeocodeRequest = new ReverseGeocodingRequest(gmaps);
+
+            useGoogleMaps = true;
         }
 
         public string Status
@@ -73,13 +76,14 @@ namespace Yarrow.Client
             }
         }
 
-        private Task<ResultT> Cascade<YarrowRequestT, GmapsRequestT, ResultT>(
+        private Task<ResultT> Cascade<YarrowRequestT, GmapsRequestT, DecoderT, ResultT>(
             YarrowRequestT yarrowRequest,
             GmapsRequestT gmapsRequest,
-            Func<AbstractRequest<ResultT>, IProgress, Task<ResultT>> getter,
+            Func<AbstractRequest<DecoderT, ResultT>, IProgress, Task<ResultT>> getter,
             IProgress prog)
-            where YarrowRequestT : AbstractRequest<ResultT>
-            where GmapsRequestT : AbstractRequest<ResultT>
+            where DecoderT : IDeserializer<ResultT>
+            where YarrowRequestT : AbstractRequest<DecoderT, ResultT>
+            where GmapsRequestT : AbstractRequest<DecoderT, ResultT>
         {
             return Task.Run(async () =>
             {
@@ -108,35 +112,35 @@ namespace Yarrow.Client
         public Task<MetadataResponse> GetMetadata(PanoID pano, IProgress prog = null)
         {
             yarrowMetadataRequest.Pano = gmapsMetadataRequest.Pano = pano;
-            return Cascade<YarrowMetadataRequest, MetadataRequest, MetadataResponse>
+            return Cascade<YarrowMetadataRequest, MetadataRequest, IDeserializer<MetadataResponse>, MetadataResponse>
                 (yarrowMetadataRequest, gmapsMetadataRequest, (req, p) => req.Get(p), prog);
         }
 
         public Task<MetadataResponse> GetMetadata(PlaceName placeName, IProgress prog = null)
         {
             yarrowMetadataRequest.Place = gmapsMetadataRequest.Place = placeName;
-            return Cascade<YarrowMetadataRequest, MetadataRequest, MetadataResponse>
+            return Cascade<YarrowMetadataRequest, MetadataRequest, IDeserializer<MetadataResponse>, MetadataResponse>
                 (yarrowMetadataRequest, gmapsMetadataRequest, (req, p) => req.Get(p), prog);
         }
 
         public Task<MetadataResponse> GetMetadata(LatLngPoint latLng, IProgress prog = null)
         {
             yarrowMetadataRequest.Location = gmapsMetadataRequest.Location = latLng;
-            return Cascade<YarrowMetadataRequest, MetadataRequest, MetadataResponse>
+            return Cascade<YarrowMetadataRequest, MetadataRequest, IDeserializer<MetadataResponse>, MetadataResponse>
                 (yarrowMetadataRequest, gmapsMetadataRequest, (req, p) => req.Get(p), prog);
         }
 
         public Task<T> GetImage(PanoID pano, IProgress prog = null)
         {
             yarrowImageRequest.Pano = gmapsImageRequest.Pano = pano;
-            return Cascade<YarrowImageRequest<T>, CrossCubeMapRequest<T>, T>
-                (yarrowImageRequest, gmapsImageRequest, (req, p) => req.GetJPEG(p), prog);
+            return Cascade<YarrowImageRequest<T>, ImageRequest<T>, IImageDecoder<T>, T>
+                (yarrowImageRequest, gmapsImageRequest, (req, p) => req.GetImage(p), prog);
         }
 
         public Task<GeocodingResponse> ReverseGeocode(LatLngPoint latLng, IProgress prog = null)
         {
             yarrowReverseGeocodeRequest.Location = gmapsReverseGeocodeRequest.Location = latLng;
-            return Cascade<YarrowGeocodingRequest, ReverseGeocodingRequest, GeocodingResponse>
+            return Cascade<YarrowGeocodingRequest, ReverseGeocodingRequest, IDeserializer<GeocodingResponse>, GeocodingResponse>
                 (yarrowReverseGeocodeRequest, gmapsReverseGeocodeRequest, (req, p) => req.Get(p), prog);
         }
     }

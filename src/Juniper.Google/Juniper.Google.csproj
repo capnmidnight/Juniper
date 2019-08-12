@@ -55,8 +55,6 @@
     <Compile Include="Maps\Places\PlaceSearchInputType.cs" />
     <Compile Include="Maps\Places\PlaceSearchRequest.cs" />
     <Compile Include="Maps\Places\PlaceSearchResponse.cs" />
-    <Compile Include="Maps\StreetView\AbstractStreetViewImageRequest.cs" />
-    <Compile Include="Maps\StreetView\CrossCubeMapRequest.cs" />
     <Compile Include="Maps\TimeZone\TimeZoneResponse.cs" />
     <Compile Include="Maps\TimeZone\TimeZoneRequest.cs" />
     <Compile Include="Maps\USAddress.cs" />
@@ -71,8 +69,6 @@
     <Compile Include="Maps\MapTiles\MarkerSize.cs" />
     <Compile Include="Maps\MapTiles\TileImageFormat.cs" />
     <Compile Include="Maps\MapTiles\TileRequest.cs" />
-    <Compile Include="Maps\MapTiles\TileRequest.ImageFormat.cs" />
-    <Compile Include="Maps\StreetView\CubeMapRequest.cs" />
     <Compile Include="Maps\StreetView\ImageRequest.cs" />
     <Compile Include="Maps\StreetView\LocationTypes.cs" />
     <Compile Include="Maps\StreetView\MetadataResponse.cs" />

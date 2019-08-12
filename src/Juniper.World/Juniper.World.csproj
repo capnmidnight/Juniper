@@ -60,8 +60,6 @@
     <Compile Include="GIS\HorizontalSphericalPosition.cs" />
     <Compile Include="GIS\LatLngPoint.cs" />
     <Compile Include="GIS\UTMPoint.cs" />
-    <Compile Include="Heading.cs" />
-    <Compile Include="Pitch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

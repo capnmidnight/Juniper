@@ -3,13 +3,14 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public abstract class AbstractStreetViewRequest<ResultType> : AbstractGoogleMapsRequest<ResultType>
+    public abstract class AbstractStreetViewRequest<DecoderType, ResultType> : AbstractGoogleMapsRequest<DecoderType, ResultType>
+        where DecoderType : IDeserializer<ResultType>
     {
         private PanoID pano;
         private PlaceName placeName;
         private LatLngPoint location;
 
-        protected AbstractStreetViewRequest(GoogleMapsRequestConfiguration api, IDeserializer<ResultType> deserializer, string path)
+        protected AbstractStreetViewRequest(GoogleMapsRequestConfiguration api, DecoderType deserializer, string path)
             : base(api, deserializer, path, "streetview", true)
         {
         }

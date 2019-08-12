@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="AbstractImageDataDecoder.cs" />
     <Compile Include="IImageDecoder.cs" />
-    <Compile Include="ImageFactory.cs" />
     <Compile Include="JPEG\JpegDecoder.cs" />
     <Compile Include="Markers.cs" />
     <Compile Include="PNG\PngDecoder.cs" />

@@ -1,12 +1,12 @@
 using System;
-using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
-using Juniper.Imaging.Windows;
+using Juniper.Imaging;
+using Juniper.Imaging.JPEG;
 using Juniper.World.GIS;
 
 namespace Yarrow.Client.GUI.WinForms
@@ -16,7 +16,7 @@ namespace Yarrow.Client.GUI.WinForms
         private static readonly string MY_PICTURES = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
         private static ImageViewer form;
-        private static YarrowClient<Image> yarrow;
+        private static YarrowClient<ImageData> yarrow;
 
         /// <summary>
         /// The main entry point for the application.
@@ -29,7 +29,7 @@ namespace Yarrow.Client.GUI.WinForms
             Application.ThreadException += Application_ThreadException;
 
             var uri = new Uri(Properties.Settings.Default.YarrowServerHost);
-            var decoder = new GDIImageDecoder(System.Drawing.Imaging.ImageFormat.Jpeg);
+            var decoder = new JpegDecoder();
             var yarrowCacheDirName = Path.Combine(MY_PICTURES, "Yarrow");
             var yarrowCacheDir = new DirectoryInfo(yarrowCacheDirName);
             var gmapsCacheDirName = Path.Combine(MY_PICTURES, "GoogleMaps");
@@ -41,7 +41,7 @@ namespace Yarrow.Client.GUI.WinForms
                 var reader = new StreamReader(fileStream);
                 var apiKey = reader.ReadLine();
                 var signingKey = reader.ReadLine();
-                yarrow = new YarrowClient<Image>(uri, decoder, yarrowCacheDir, apiKey, signingKey, gmapsCacheDir);
+                yarrow = new YarrowClient<ImageData>(uri, decoder, yarrowCacheDir, apiKey, signingKey, gmapsCacheDir);
             }
             form = new ImageViewer();
             form.LocationSubmitted += Form_LocationSubmitted;
@@ -58,12 +58,19 @@ namespace Yarrow.Client.GUI.WinForms
             if (metadata.status == System.Net.HttpStatusCode.OK)
             {
                 var geo = await yarrow.ReverseGeocode(metadata.location);
-                var imageFile = await yarrow.GetImage(metadata.pano_id);
-                form.SetImage(yarrow.ServiceURL, metadata, geo, imageFile);
+                try
+                {
+                    var imageFile = await yarrow.GetImage(metadata.pano_id);
+                    form.SetImage(yarrow.ServiceURL, metadata, geo, imageFile);
+                }
+                catch (Exception exp)
+                {
+                    form.SetError(exp);
+                }
             }
             else
             {
-                form.ShowError();
+                form.SetError();
             }
         }
 

@@ -4,79 +4,68 @@ using System.Linq;
 using System.Text;
 
 using Juniper.Imaging;
+using Juniper.Imaging.PNG;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.MapTiles
 {
-    public partial class TileRequest : AbstractGoogleMapsRequest<ImageData>
+    public class TileRequest : AbstractGoogleMapsRequest<IImageDecoder<ImageData>, ImageData>
     {
-        public static TileRequest Create(GoogleMapsRequestConfiguration api, LocationTypes locationType, object value, int zoom, Size size, ImageFormat format = ImageFormat.PNG)
-        {
-            switch (locationType)
-            {
-                case LocationTypes.LatLngPoint: return new TileRequest(api, (LatLngPoint)value, zoom, size, format);
-                case LocationTypes.PlaceName: return new TileRequest(api, (PlaceName)value, zoom, size, format);
-                default: return default;
-            }
-        }
-
-        public static TileRequest Create(GoogleMapsRequestConfiguration api, LocationTypes locationType, object value, int zoom, int width, int height, ImageFormat format = ImageFormat.PNG)
-        {
-            return Create(api, locationType, value, zoom, new Size(width, height), format);
-        }
-
         private readonly List<Marker> markers = new List<Marker>();
         private LinePath path;
-        private ImageFormat format;
         private int scale;
         private string language;
         private string region;
         private MapImageType maptype;
 
-        private TileRequest(GoogleMapsRequestConfiguration api, string center, int zoom, Size size, ImageFormat format)
-            : base(api, new ImageFactory(format), "staticmap", "tiles", true)
+        private int zoom;
+        private PlaceName address;
+        private LatLngPoint center;
+
+        private TileRequest(GoogleMapsRequestConfiguration api, IImageDecoder<ImageData> decoder, Size size)
+            : base(api, decoder, "staticmap", "tiles", true)
         {
-            SetQuery(nameof(center), center);
-            SetQuery(nameof(zoom), zoom);
             SetQuery(nameof(size), size);
-            Format = format;
+            var format = decoder.Format;
+            var acceptType = ImageData.GetContentType(format);
+            var extension = ImageData.GetExtension(format);
+            SetContentType(acceptType, extension);
         }
 
-        public TileRequest(GoogleMapsRequestConfiguration api, PlaceName address, int zoom, Size size, ImageFormat format)
-            : this(api, (string)address, zoom, size, format) { }
-
-        public TileRequest(GoogleMapsRequestConfiguration api, PlaceName address, int zoom, int width, int height, ImageFormat format)
-            : this(api, (string)address, zoom, new Size(width, height), format) { }
-
-        public TileRequest(GoogleMapsRequestConfiguration api, LatLngPoint center, int zoom, Size size, ImageFormat format)
-            : this(api, center.ToString(), zoom, size, format) { }
-
-        public TileRequest(GoogleMapsRequestConfiguration api, LatLngPoint center, int zoom, int width, int height, ImageFormat format)
-            : this(api, center.ToString(), zoom, new Size(width, height), format) { }
-
-        public bool FlipImage { get; set; }
-
-        public ImageFormat Format
+        public TileRequest(GoogleMapsRequestConfiguration api, Size size)
+            : this(api, new PngDecoder(), size)
         {
-            get { return format; }
+        }
+
+        public int Zoom
+        {
+            get { return zoom; }
             set
             {
-                var mapping = FORMAT_MAPPINGS.Get(value, default);
-                var description = FORMAT_DESCRIPTIONS.Get(mapping, default);
-                if (mapping == TileImageFormat.Unsupported
-                    || description == default)
-                {
-                    throw new ArgumentException($"{value} is not supported yet.");
-                }
+                zoom = value;
+                SetQuery(nameof(zoom), zoom);
+            }
+        }
 
-                format = value;
-                deserializer = new ImageFactory(format);
-                SetContentType(ImageData.GetContentType(format), ImageData.GetContentType(format));
+        public PlaceName Address
+        {
+            get { return address; }
+            set
+            {
+                address = value;
+                center = default;
+                SetQuery(nameof(center), (string)address);
+            }
+        }
 
-                if (mapping != TileImageFormat.PNG8)
-                {
-                    SetQuery(nameof(format), description.gmapsFieldValue);
-                }
+        public LatLngPoint Center
+        {
+            get { return center; }
+            set
+            {
+                address = default;
+                center = value;
+                SetQuery(nameof(center), (string)center);
             }
         }
 

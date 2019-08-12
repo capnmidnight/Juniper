@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Google.Maps.Tests;
+using Juniper.HTTP.REST;
 using Juniper.World.GIS;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,7 +16,10 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task BasicReverseGeocoding()
         {
-            var search = new ReverseGeocodingRequest(service, new LatLngPoint(36.080811f, -75.721568f));
+            var search = new ReverseGeocodingRequest(service)
+            {
+                Location = new LatLngPoint(36.080811f, -75.721568f)
+            };
             var results = await search.Get();
             Assert.IsTrue(search.IsCached);
             Assert.IsNotNull(results);

@@ -38,6 +38,8 @@ namespace Juniper.Imaging.JPEG
             return default;
         }
 
+        public override ImageFormat Format { get { return ImageFormat.JPEG; } }
+
         /// <summary>
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>

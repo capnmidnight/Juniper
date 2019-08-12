@@ -9,16 +9,6 @@ namespace Juniper.Google.Maps.Geocoding
         private PlaceID place_id;
         private PlaceName address;
 
-        public static GeocodingRequest Create(GoogleMapsRequestConfiguration api, LocationTypes locationType, object value)
-        {
-            switch (locationType)
-            {
-                case LocationTypes.None: return new GeocodingRequest(api);
-                case LocationTypes.PlaceName: return new GeocodingRequest(api, (PlaceName)value);
-                default: return default;
-            }
-        }
-
         private readonly Dictionary<AddressComponentType, string> components = new Dictionary<AddressComponentType, string>();
 
         private GeometryViewport bounds;
@@ -27,18 +17,6 @@ namespace Juniper.Google.Maps.Geocoding
         public GeocodingRequest(GoogleMapsRequestConfiguration api)
             : base(api)
         {
-        }
-
-        public GeocodingRequest(GoogleMapsRequestConfiguration api, PlaceID place_id)
-            : this(api)
-        {
-            Place = place_id;
-        }
-
-        public GeocodingRequest(GoogleMapsRequestConfiguration api, PlaceName address)
-            : this(api)
-        {
-            Address = address;
         }
 
         public PlaceID Place

@@ -51,27 +51,29 @@ namespace Yarrow.Client.GUI.WinForms
             }
         }
 
-        public void ShowError()
+        public void SetError(Exception exp = null)
         {
             if (InvokeRequired)
             {
-                Invoke(new Action(ShowError));
+                Invoke(new Action<Exception>(SetError), exp);
             }
             else
             {
+                var msg = exp?.Message ?? "ERROR";
+
                 if (panoTextbox.Text.Length == 0)
                 {
-                    panoTextbox.Text = "ERROR";
+                    panoTextbox.Text = msg;
                 }
 
                 if (locationTextBox.Text.Length == 0)
                 {
-                    locationTextBox.Text = "ERROR";
+                    locationTextBox.Text = msg;
                 }
 
                 if (latLngTextbox.Text.Length == 0)
                 {
-                    latLngTextbox.Text = "ERROR";
+                    latLngTextbox.Text = msg;
                 }
 
                 cubeMapPictureBox.Image?.Dispose();

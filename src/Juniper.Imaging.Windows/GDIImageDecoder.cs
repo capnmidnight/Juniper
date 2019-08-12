@@ -11,16 +11,30 @@ namespace Juniper.Imaging.Windows
 {
     public class GDIImageDecoder : IImageDecoder<Image>
     {
-        private readonly GDIImageFormat serializationFormat;
+        private readonly GDIImageFormat gdiFormat;
 
-        public GDIImageDecoder(GDIImageFormat serializationFormat)
+        public ImageFormat Format { get; private set; }
+
+        public GDIImageDecoder(ImageFormat format)
         {
-            this.serializationFormat = serializationFormat;
+            Format = format;
+            if (format == ImageFormat.JPEG)
+            {
+                gdiFormat = GDIImageFormat.Jpeg;
+            }
+            else if(format == ImageFormat.PNG)
+            {
+                gdiFormat = GDIImageFormat.Png;
+            }
+            else
+            {
+                throw new NotSupportedException(format.ToString());
+            }
         }
 
         public void Serialize(Stream stream, Image value, IProgress prog = null)
         {
-            value.Save(stream, serializationFormat);
+            value.Save(stream, gdiFormat);
         }
 
         public Image Deserialize(Stream stream)
@@ -52,59 +66,40 @@ namespace Juniper.Imaging.Windows
             return Image.FromFile(fileName);
         }
 
+        public int GetWidth(Image img)
+        {
+            return img.Width;
+        }
+
+        public int GetHeight(Image img)
+        {
+            return img.Height;
+        }
+
         public Image Concatenate(Image[,] images, IProgress prog = null)
         {
-            prog?.Report(0);
-
-            if (images == null)
-            {
-                throw new ArgumentNullException($"Parameter {nameof(images)} must not be null.");
-            }
-
-            if (images.Length == 0)
-            {
-                throw new ArgumentException($"Parameter {nameof(images)} must have at least one image.");
-            }
-
-            var rows = images.GetLength(0);
-            var columns = images.GetLength(1);
-
-            var anyNotNull = false;
-            Image firstImage = default;
-            for (int y = 0; y < rows; ++y)
-            {
-                for (int x = 0; x < columns; ++x)
-                {
-                    var img = images[y, x];
-                    if (img != null)
-                    {
-                        if (!anyNotNull)
-                        {
-                            firstImage = img;
-                        }
-
-                        anyNotNull = true;
-                        if (img?.Width != firstImage.Width || img?.Height != firstImage.Height)
-                        {
-                            throw new ArgumentException($"All elements of {nameof(images)} must be the same width and height. Image [{y},{x}] did not match image 0.");
-                        }
-                    }
-                }
-            }
-
-            if (!anyNotNull)
-            {
-                throw new ArgumentNullException($"Expected at least one image in {nameof(images)} to be not null");
-            }
+            this.ValidateImages(images, prog,
+                out var rows, out var columns,
+#pragma warning disable IDE0067 // Dispose objects before losing scope
+                out var firstImage,
+#pragma warning restore IDE0067 // Dispose objects before losing scope
+                out var tileWidth, out var tileHeight);
 
             var combined = new Bitmap(
-                columns * firstImage.Width,
-                rows * firstImage.Height,
+                columns * tileWidth,
+                rows * tileHeight,
                 firstImage.PixelFormat);
 
             using (var g = Graphics.FromImage(combined))
             {
-                g.Clear(Color.Black);
+                if (firstImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+                {
+                    g.Clear(Color.Transparent);
+                }
+                else
+                {
+                    g.Clear(Color.Black);
+                }
 
                 for (var i = 0; i < images.Length; ++i)
                 {
@@ -113,19 +108,17 @@ namespace Juniper.Imaging.Windows
                     var img = images[tileY, tileX];
                     if (img != null)
                     {
-                        var imageX = tileX * firstImage.Width;
-                        var imageY = tileY * firstImage.Height;
+                        images[tileX, tileY] = null;
+                        var imageX = tileX * tileWidth;
+                        var imageY = tileY * tileHeight;
                         g.DrawImageUnscaled(img, imageX, imageY);
+                        img.Dispose();
+                        GC.Collect();
                     }
                     prog?.Report(i, images.Length);
                 }
 
                 g.Flush();
-            }
-
-            foreach (var img in images)
-            {
-                img.Dispose();
             }
 
             return combined;
