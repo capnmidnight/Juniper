@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -11,19 +10,20 @@ namespace Yarrow.Server
 {
     public class YarrowGeocodingController
     {
-        private readonly ReverseGeocodingRequest revGeocodeRequest;
+        private readonly GoogleMapsRequestConfiguration gmaps;
 
         public YarrowGeocodingController(GoogleMapsRequestConfiguration gmaps)
         {
-            revGeocodeRequest = new ReverseGeocodingRequest(gmaps);
+            this.gmaps = gmaps;
         }
 
         [Route("/api/geocode\\?latlng=([^/]+)")]
         public Task ReverseGeocodeLatLng(HttpListenerContext context, string latLngString)
         {
-            latLngString = Uri.UnescapeDataString(latLngString);
-            var latLng = LatLngPoint.ParseDecimal(latLngString);
-            revGeocodeRequest.Location = latLng;
+            var revGeocodeRequest = new ReverseGeocodingRequest(gmaps)
+            {
+                Location = LatLngPoint.ParseDecimal(latLngString)
+            };
             return revGeocodeRequest.Proxy(context.Response);
         }
     }

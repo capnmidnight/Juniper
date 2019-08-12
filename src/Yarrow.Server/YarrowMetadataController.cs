@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -11,33 +10,40 @@ namespace Yarrow.Server
 {
     public class YarrowMetadataController
     {
-        private readonly MetadataRequest metadataRequest;
+        private readonly GoogleMapsRequestConfiguration gmaps;
 
         public YarrowMetadataController(GoogleMapsRequestConfiguration gmaps)
         {
-            metadataRequest = new MetadataRequest(gmaps);
+            this.gmaps = gmaps;
         }
 
         [Route("/api/metadata\\?location=([^/]+)")]
         public Task GetMetadataFromPlaceName(HttpListenerContext context, string locationString)
         {
-            metadataRequest.Place = (PlaceName)locationString;
+            var metadataRequest = new MetadataRequest(gmaps)
+            {
+                Place = (PlaceName)locationString
+            };
             return metadataRequest.Proxy(context.Response);
         }
 
         [Route("/api/metadata\\?latlng=([^/]+)")]
         public Task GetMetadataFromLatLng(HttpListenerContext context, string latLngString)
         {
-            latLngString = Uri.UnescapeDataString(latLngString);
-            var latLng = LatLngPoint.ParseDecimal(latLngString);
-            metadataRequest.Location = latLng;
+            var metadataRequest = new MetadataRequest(gmaps)
+            {
+                Location = LatLngPoint.ParseDecimal(latLngString)
+            };
             return metadataRequest.Proxy(context.Response);
         }
 
         [Route("/api/metadata\\?pano=([^/]+)")]
         public Task GetMetadataFromPano(HttpListenerContext context, string panoString)
         {
-            metadataRequest.Pano = (PanoID)panoString;
+            var metadataRequest = new MetadataRequest(gmaps)
+            {
+                Pano = (PanoID)panoString
+            };
             return metadataRequest.Proxy(context.Response);
         }
     }

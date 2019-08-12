@@ -14,37 +14,26 @@ using Juniper.World.GIS;
 namespace Yarrow.Client
 {
     public class YarrowClient<T>
+        where T : class
     {
+        private readonly IImageDecoder<T> decoder;
         private readonly YarrowRequestConfiguration yarrow;
-        private readonly YarrowMetadataRequest yarrowMetadataRequest;
-        private readonly YarrowImageRequest<T> yarrowImageRequest;
-        private readonly YarrowGeocodingRequest yarrowReverseGeocodeRequest;
 
         private readonly GoogleMapsRequestConfiguration gmaps;
-        private readonly MetadataRequest gmapsMetadataRequest;
-        private readonly ImageRequest<T> gmapsImageRequest;
-        private readonly ReverseGeocodingRequest gmapsReverseGeocodeRequest;
 
         private bool useGoogleMaps = false;
         private Exception lastError;
 
         public YarrowClient(Uri yarrowServerUri, IImageDecoder<T> decoder, DirectoryInfo yarrowCacheDir)
         {
+            this.decoder = decoder;
             yarrow = new YarrowRequestConfiguration(yarrowServerUri, yarrowCacheDir);
-            yarrowMetadataRequest = new YarrowMetadataRequest(yarrow);
-            yarrowImageRequest = new YarrowImageRequest<T>(yarrow, decoder);
-            yarrowReverseGeocodeRequest = new YarrowGeocodingRequest(yarrow);
         }
 
         public YarrowClient(Uri yarrowServerUri, IImageDecoder<T> decoder, DirectoryInfo yarrowCacheDir, string gmapsApiKey, string gmapsSigningKey, DirectoryInfo gmapsCacheDir)
             : this(yarrowServerUri, decoder, yarrowCacheDir)
         {
             gmaps = new GoogleMapsRequestConfiguration(gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
-            gmapsMetadataRequest = new MetadataRequest(gmaps);
-            gmapsImageRequest = new ImageRequest<T>(gmaps, decoder, new Size(640, 640));
-            gmapsReverseGeocodeRequest = new ReverseGeocodingRequest(gmaps);
-
-            useGoogleMaps = true;
         }
 
         public string Status
@@ -52,7 +41,7 @@ namespace Yarrow.Client
             get
             {
                 var errorMsg = lastError?.Message ?? "NONE";
-                return $"Using google maps directly: {useGoogleMaps}. Last error: {errorMsg}";
+                return $"Using google maps directly: {useGoogleMaps.ToString()}. Last error: {errorMsg}";
             }
         }
 
@@ -102,46 +91,63 @@ namespace Yarrow.Client
                     {
                         lastError = exp;
                         useGoogleMaps = true;
-                        return await Cascade(yarrowRequest, gmapsRequest, getter, prog);
+                        return await getter(gmapsRequest, prog);
                     }
 #pragma warning restore CA1031 // Do not catch general exception types
                 }
             });
         }
 
+        private static readonly Func<AbstractRequest<IDeserializer<MetadataResponse>, MetadataResponse>, IProgress, Task<MetadataResponse>> getMetadata =
+            new Func<AbstractRequest<IDeserializer<MetadataResponse>, MetadataResponse>, IProgress, Task<MetadataResponse>>((req, p) => req.Get(p));
+
         public Task<MetadataResponse> GetMetadata(PanoID pano, IProgress prog = null)
         {
+            var yarrowMetadataRequest = new YarrowMetadataRequest(yarrow);
+            var gmapsMetadataRequest = new MetadataRequest(gmaps);
             yarrowMetadataRequest.Pano = gmapsMetadataRequest.Pano = pano;
-            return Cascade<YarrowMetadataRequest, MetadataRequest, IDeserializer<MetadataResponse>, MetadataResponse>
-                (yarrowMetadataRequest, gmapsMetadataRequest, (req, p) => req.Get(p), prog);
+            return Cascade(yarrowMetadataRequest, gmapsMetadataRequest, getMetadata, prog);
         }
 
         public Task<MetadataResponse> GetMetadata(PlaceName placeName, IProgress prog = null)
         {
+            var yarrowMetadataRequest = new YarrowMetadataRequest(yarrow);
+            var gmapsMetadataRequest = new MetadataRequest(gmaps);
             yarrowMetadataRequest.Place = gmapsMetadataRequest.Place = placeName;
-            return Cascade<YarrowMetadataRequest, MetadataRequest, IDeserializer<MetadataResponse>, MetadataResponse>
-                (yarrowMetadataRequest, gmapsMetadataRequest, (req, p) => req.Get(p), prog);
+            return Cascade(yarrowMetadataRequest, gmapsMetadataRequest, getMetadata, prog);
         }
 
         public Task<MetadataResponse> GetMetadata(LatLngPoint latLng, IProgress prog = null)
         {
+            var yarrowMetadataRequest = new YarrowMetadataRequest(yarrow);
+            var gmapsMetadataRequest = new MetadataRequest(gmaps);
             yarrowMetadataRequest.Location = gmapsMetadataRequest.Location = latLng;
-            return Cascade<YarrowMetadataRequest, MetadataRequest, IDeserializer<MetadataResponse>, MetadataResponse>
-                (yarrowMetadataRequest, gmapsMetadataRequest, (req, p) => req.Get(p), prog);
+            return Cascade(yarrowMetadataRequest, gmapsMetadataRequest, getMetadata, prog);
         }
 
-        public Task<T> GetImage(PanoID pano, IProgress prog = null)
+        private static readonly Func<AbstractRequest<IImageDecoder<T>, T>, IProgress, Task<T>> getImage =
+            new Func<AbstractRequest<IImageDecoder<T>, T>, IProgress, Task<T>>(AbstractRequestExt.GetImage);
+
+        public Task<T> GetImage(PanoID pano, int fov, int heading, int pitch, IProgress prog = null)
         {
+            var yarrowImageRequest = new YarrowImageRequest<T>(yarrow, decoder);
+            var gmapsImageRequest = new ImageRequest<T>(gmaps, decoder, new Size(640, 640));
             yarrowImageRequest.Pano = gmapsImageRequest.Pano = pano;
-            return Cascade<YarrowImageRequest<T>, ImageRequest<T>, IImageDecoder<T>, T>
-                (yarrowImageRequest, gmapsImageRequest, (req, p) => req.GetImage(p), prog);
+            yarrowImageRequest.FOV = gmapsImageRequest.FOV = fov;
+            yarrowImageRequest.Heading = gmapsImageRequest.Heading = heading;
+            yarrowImageRequest.Pitch = gmapsImageRequest.Pitch = pitch;
+            return Cascade(yarrowImageRequest, gmapsImageRequest, getImage, prog);
         }
+
+        private static readonly Func<AbstractRequest<IDeserializer<GeocodingResponse>, GeocodingResponse>, IProgress, Task<GeocodingResponse>> getGeocode =
+            new Func<AbstractRequest<IDeserializer<GeocodingResponse>, GeocodingResponse>, IProgress, Task<GeocodingResponse>>((req, p) => req.Get(p));
 
         public Task<GeocodingResponse> ReverseGeocode(LatLngPoint latLng, IProgress prog = null)
         {
+            var yarrowReverseGeocodeRequest = new YarrowGeocodingRequest(yarrow);
+            var gmapsReverseGeocodeRequest = new ReverseGeocodingRequest(gmaps);
             yarrowReverseGeocodeRequest.Location = gmapsReverseGeocodeRequest.Location = latLng;
-            return Cascade<YarrowGeocodingRequest, ReverseGeocodingRequest, IDeserializer<GeocodingResponse>, GeocodingResponse>
-                (yarrowReverseGeocodeRequest, gmapsReverseGeocodeRequest, (req, p) => req.Get(p), prog);
+            return Cascade(yarrowReverseGeocodeRequest, gmapsReverseGeocodeRequest, getGeocode, prog);
         }
     }
 }
