@@ -242,10 +242,10 @@ namespace UnityEngine
             return obj.gameObject.Ensure<T>();
         }
 
-        public static PooledComponent<Transform> EnsureParent(this Component obj, string name, params Transform[] exclusionList)
+        public static PooledComponent<Transform> EnsureParent(this Component obj, string name, Transform skip)
         {
             var parent = obj.transform.parent;
-            if (parent == null || exclusionList.Contains(parent))
+            if (parent == null || parent == skip)
             {
                 parent = new GameObject(name).transform;
                 obj.transform.SetParent(parent, false);

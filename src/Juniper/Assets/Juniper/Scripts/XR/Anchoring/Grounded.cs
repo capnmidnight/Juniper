@@ -20,12 +20,6 @@ namespace Juniper.Anchoring
         /// </summary>
         private Vector3? groundPoint;
 
-        /// <summary>
-        /// Before the object is actually grounded, other entities may wish to know when it is. This
-        /// queue holds callbacks to those entities to execute once the object is grounded.
-        /// </summary>
-        private readonly Queue<Action> q = new Queue<Action>();
-
 #if UNITY_MODULES_PHYSICS
 
         /// <summary>
@@ -121,19 +115,6 @@ namespace Juniper.Anchoring
         }
 
         /// <summary>
-        /// Execute any <see cref="WhenGrounded(Action)"/> callbacks that were registered before the
-        /// object was grounded.
-        /// </summary>
-        private void EmptyJobQueue()
-        {
-            while (q.Count > 0)
-            {
-                var act = q.Dequeue();
-                act();
-            }
-        }
-
-        /// <summary>
         /// If the test timeout has passed, raycast for the ground mesh under and over the object. If
         /// it's found, move the object to that point and unfreeze it.
         /// </summary>
@@ -151,7 +132,7 @@ namespace Juniper.Anchoring
                 {
                     transform.position = groundPoint.Value;
                     Unfreeze();
-                    EmptyJobQueue();
+                    onGroundFound?.Invoke();
                 }
             }
 
@@ -212,20 +193,22 @@ namespace Juniper.Anchoring
         [ReadOnly]
         public bool isFrozen = false;
 
-        /// <summary>
-        /// Check to see if the object is grounded, and call the callback if it is. If it's not, put
-        /// the callback into a queue for execution later in <see cref="EmptyJobQueue"/>.
-        /// </summary>
-        /// <param name="p">P.</param>
-        public void WhenGrounded(Action p)
+        private event Action onGroundFound;
+
+        public event Action GroundFound
         {
-            if (groundPoint != null)
+            add
             {
-                p();
+                onGroundFound += value;
+                if (groundPoint != null)
+                {
+                    value.Invoke();
+                }
             }
-            else
+
+            remove
             {
-                q.Enqueue(p);
+                onGroundFound -= value;
             }
         }
     }

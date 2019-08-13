@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Juniper
 {
-    public struct PooledComponent<T> where T : Component
+    public class PooledComponent<T> where T : Component
     {
         public readonly T Value;
         public readonly bool IsNew;
@@ -436,9 +436,9 @@ namespace Juniper
             return Value.Ensure<U>(path, creationPath, create);
         }
 
-        public PooledComponent<Transform> EnsureParent(string name, params Transform[] exclusionList)
+        public PooledComponent<Transform> EnsureParent(string name, Transform skip)
         {
-            return Value.EnsureParent(name, exclusionList);
+            return Value.EnsureParent(name, skip);
         }
 
         public U Query<U>(string path)

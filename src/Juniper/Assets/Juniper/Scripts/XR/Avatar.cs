@@ -18,7 +18,7 @@ namespace Juniper
             var sys = ComponentExt.FindAny<JuniperSystem>();
             var sysT = sys.transform;
             var head = DisplayManager.MainCamera.transform;
-            
+
             var pivot = head.EnsureParent("Pivot", sysT);
             var neck = pivot.EnsureParent("Neck", sysT);
 
@@ -26,6 +26,7 @@ namespace Juniper
             stage.Ensure<Avatar>();
             stage.transform.SetParent(sysT, false);
         }
+
         /// <summary>
         /// When running on systems that do not understand the relationship between the camera and
         /// the ground (marker-tracking AR, 3DOF VR), this is the height that is used for the camera
@@ -111,6 +112,7 @@ namespace Juniper
         [HideInNormalInspector]
         [SerializeField]
         private CapsuleCollider bodyShape;
+
 #endif
 
         [HideInNormalInspector]
@@ -144,6 +146,7 @@ namespace Juniper
         }
 
         private bool isIndependentHead;
+
         public bool IndependentHead
         {
             get
@@ -166,7 +169,8 @@ namespace Juniper
             Install(false);
 
             var casters = headShadow.GetComponentsInChildren<Renderer>()
-                .Union(body.GetComponentsInChildren<Renderer>());
+                .Union(body.GetComponentsInChildren<Renderer>())
+                .ToArray();
             foreach (var caster in casters)
             {
                 caster.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
@@ -267,17 +271,20 @@ namespace Juniper
             BodyPhysics.Ensure<DefaultLocomotion>();
 
             grounder = this.Ensure<Grounded>();
-            grounder.WhenGrounded(() =>
-            {
-                grounder.Destroy();
-                grounder = null;
-                BodyPhysics.useGravity = true;
-                BodyPhysics.isKinematic = false;
-                BodyPhysics.velocity = Vector3.zero;
-            });
+            grounder.GroundFound += DestroyGrounder;
 #endif
 
             SetBodyPositionAndShape();
+        }
+
+        private void DestroyGrounder()
+        {
+            grounder.GroundFound -= DestroyGrounder;
+            grounder.Destroy();
+            grounder = null;
+            BodyPhysics.useGravity = true;
+            BodyPhysics.isKinematic = false;
+            BodyPhysics.velocity = Vector3.zero;
         }
 
         private void SetBodyPositionAndShape()

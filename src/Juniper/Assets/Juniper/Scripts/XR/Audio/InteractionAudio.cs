@@ -292,11 +292,6 @@ namespace Juniper.Audio
             }
         }
 
-        private void Volume_ValueChange(object sender, float value)
-        {
-            Volume = value;
-        }
-
         private static AbstractInteractionAudio instance;
 
 #if UNITY_MODULES_AUDIO
@@ -462,6 +457,14 @@ namespace Juniper.Audio
                     audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
                 }
                 audioSource.transform.position = pose.position;
+                var deltaP = listener.transform.position - audioSource.transform.position;
+                if (deltaP.sqrMagnitude < 0.0625f)
+                {
+                    audioSource.transform.position +=
+                        0.25f * listener.transform.forward
+                        + 0.125f * listener.transform.up
+                        + 0.05f * listener.transform.right;
+                }
                 audioSource.transform.rotation = pose.rotation;
                 audioSource.Play();
 
@@ -522,12 +525,23 @@ namespace Juniper.Audio
         /// <returns>The audio source.</returns>
         private AudioSource GetAudioSource(AudioClip clip)
         {
-            var source = audioSources
-                .Where(a => !a.isPlaying)
-                .OrderByDescending(a => a.clip == clip)
-                .FirstOrDefault()
-                ?? CreateNewAudioSource();
+            AudioSource source = null;
+            foreach (var a in audioSources)
+            {
+                if (source == null && !a.isPlaying
+                    || source != null && a.clip == clip && source.clip != clip)
+                {
+                    source = a;
+                }
+            }
+
+            if (source == null)
+            {
+                source = CreateNewAudioSource();
+            }
+
             source.clip = clip;
+
             return source;
         }
 
