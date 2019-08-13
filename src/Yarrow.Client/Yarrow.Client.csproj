@@ -34,14 +34,20 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="YarrowAudioSource.cs" />
+    <Compile Include="YarrowEnvironment.cs" />
     <Compile Include="YarrowGeocodingRequest.cs" />
     <Compile Include="YarrowClient.cs" />
     <Compile Include="YarrowImageRequest.cs" />
+    <Compile Include="YarrowInteractionPoint.cs" />
+    <Compile Include="YarrowInteractionStation.cs" />
     <Compile Include="YarrowMetadataRequest.cs" />
     <Compile Include="YarrowRequestConfiguration.cs" />
+    <Compile Include="YarrowStaticImages.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Collections\Juniper.Collections.csproj">

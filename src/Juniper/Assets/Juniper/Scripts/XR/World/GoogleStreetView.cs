@@ -145,10 +145,7 @@ namespace Juniper.Imaging
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
             var uri = new Uri(yarrowServerHost);
             var decoder = new JpegDecoder();
-            yarrow = new YarrowClient<ImageData>(uri, decoder, yarrowCacheDir, gmapsApiKey, gmapsSigningKey, gmapsCacheDir)
-            {
-                UseGoogleMaps = true
-            };
+            yarrow = new YarrowClient<ImageData>(uri, decoder, yarrowCacheDir, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
         }
 
         public override void Enter(IProgress prog = null)
