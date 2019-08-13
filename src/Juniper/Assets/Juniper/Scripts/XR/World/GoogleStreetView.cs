@@ -13,12 +13,12 @@ using Juniper.Progress;
 using Juniper.Security;
 using Juniper.Units;
 using Juniper.Unity;
-using Juniper.Unity.Coroutines;
 using Juniper.World;
 using Juniper.World.GIS;
 
 using UnityEngine;
 using UnityEngine.Events;
+
 using Yarrow.Client;
 
 namespace Juniper.Imaging
@@ -53,7 +53,7 @@ namespace Juniper.Imaging
         public string Location;
 
         private LatLngPoint LatLngLocation;
-        private PanoID curPano;
+        private PanoID lastPano;
 
         [SerializeField]
         [HideInNormalInspector]
@@ -175,13 +175,14 @@ namespace Juniper.Imaging
 
         private static readonly float[] FOVs =
         {
+            120,
             90,
             60,
             45,
             30
         };
 
-        private UTMPoint? last;
+        private MetadataResponse lastMetadata;
 
         private IEnumerator GetImagesCoroutine(bool fromNavigation, IProgress prog)
         {
@@ -209,23 +210,31 @@ namespace Juniper.Imaging
 
                     if (metadataTask.IsCompleted)
                     {
-                        var m = metadataTask.Result;
-                        metadataCache[Location] = m;
+                        var curMetadata = metadataTask.Result;
+                        metadataCache[Location] = curMetadata;
 
-                        if (m.pano_id != curPano)
+                        if (curMetadata.pano_id != lastPano)
                         {
-                            curPano = m.pano_id;
-                            print($"Pano ID = {curPano.ToString()}");
                             if (fromNavigation)
                             {
                                 fader.Enter();
                                 yield return fader.Waiter;
                             }
 
-                            var cur = m.location.ToUTM();
-                            if (last != null)
+                            if (lastMetadata != null && panoContainerCache.ContainsKey(lastMetadata.pano_id))
                             {
-                                var delta = 20 * cur.Subtract(last.Value);
+                                var panoContainer = panoContainerCache[lastMetadata.pano_id];
+                                panoContainer.Deactivate();
+                            }
+
+                            lastPano = curMetadata.pano_id;
+                            print($"Pano ID = {lastPano.ToString()}");
+
+                            var curUTM = curMetadata.location.ToUTM();
+                            if (lastMetadata != null)
+                            {
+                                var lastUTM = lastMetadata.location.ToUTM();
+                                var delta = 20 * curUTM.Subtract(lastUTM);
                                 if (delta.magnitude > 0)
                                 {
                                     avatar.transform.position += delta;
@@ -233,7 +242,7 @@ namespace Juniper.Imaging
                                 }
                             }
 
-                            last = cur;
+                            lastMetadata = curMetadata;
                         }
                     }
                 }
@@ -258,10 +267,15 @@ namespace Juniper.Imaging
                         for (var f = 0; f < FOVs.Length; ++f)
                         {
                             var faceProg = subProg.Subdivide(f, FOVs.Length);
-                            var subFOV = FOVs[f];
                             var overlap = FOVs.Length - f;
-                            var fov = subFOV + 2 * overlap;
                             var radius = 5 * overlap + 2;
+                            if (f == 0)
+                            {
+                                overlap = 0;
+                            }
+
+                            var subFOV = FOVs[f];
+                            var fov = subFOV + 2 * overlap;
                             var scale = 2 * radius * Mathf.Tan(Degrees.Radians(fov / 2));
                             var tileDim = 3;
                             var dTileDim = Mathf.Floor(tileDim / 2.0f);
@@ -369,6 +383,8 @@ namespace Juniper.Imaging
             var detailContainerCache = panoDetailContainerCache[panoid];
             var detailSliceContainerCache = panoDetailSliceContainerCache[panoid];
             var detailSliceFrameContainerCache = panoDetailSliceFrameContainerCache[panoid];
+
+            panoContainer.Activate();
 
             if (!detailContainerCache.ContainsKey(f))
             {
