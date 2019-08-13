@@ -275,7 +275,7 @@ namespace Juniper.Imaging
                         {
                             var faceProg = subProg.Subdivide(f, FOVs.Length);
                             var overlap = FOVs.Length - f;
-                            var radius = 5 * overlap + 2;
+                            var radius = 5 * overlap + 50;
                             if (f == 0)
                             {
                                 overlap = 0;
