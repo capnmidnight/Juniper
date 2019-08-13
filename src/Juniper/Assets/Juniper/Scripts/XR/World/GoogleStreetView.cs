@@ -29,8 +29,14 @@ namespace Juniper.Imaging
         private const string SIDES_6 = "_MAPPING_6_FRAMES_LAYOUT";
 
         public string yarrowServerHost = "http://localhost";
-        public string gmapsApiKey;
-        public string gmapsSigningKey;
+
+        [SerializeField]
+        [HideInInspector]
+        private string gmapsApiKey;
+
+        [SerializeField]
+        [HideInInspector]
+        private string gmapsSigningKey;
 
         public TextureFormat textureFormat = TextureFormat.RGB24;
         public Color tint = Color.gray;
@@ -78,7 +84,6 @@ namespace Juniper.Imaging
         public void OnValidate()
         {
             locationInput = this.Ensure<EditorTextInput>();
-            ClearCredentials();
         }
 
 #endif
@@ -95,14 +100,16 @@ namespace Juniper.Imaging
 
         public void ReceiveCredentials(string[] args)
         {
-            gmapsApiKey = args[0];
-            gmapsSigningKey = args[1];
-        }
-
-        public void ClearCredentials()
-        {
-            gmapsApiKey = null;
-            gmapsSigningKey = null;
+            if (args == null)
+            {
+                gmapsApiKey = null;
+                gmapsSigningKey = null;
+            }
+            else
+            {
+                gmapsApiKey = args[0];
+                gmapsSigningKey = args[1];
+            }
         }
 
         private void FindComponents()

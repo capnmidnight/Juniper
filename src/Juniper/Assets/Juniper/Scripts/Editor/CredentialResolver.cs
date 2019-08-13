@@ -20,8 +20,9 @@ namespace Juniper
                 .ToArray();
             foreach (var receiver in receivers)
             {
-                receiver.ReceiveCredentials();
+                receiver.ClearCredentials();
             }
+            Debug.Log("<== Juniper.CredentialResolver ==>: Credentials cleared");
         }
 
         public void OnPreprocessBuild(BuildReport report)
@@ -30,8 +31,9 @@ namespace Juniper
                 .ToArray();
             foreach (var receiver in receivers)
             {
-                receiver.ClearCredentials();
+                receiver.ReceiveCredentials();
             }
+            Debug.Log("<== Juniper.CredentialResolver ==>: Credentials set");
         }
     }
 }

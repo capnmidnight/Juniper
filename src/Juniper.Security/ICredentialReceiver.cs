@@ -9,20 +9,23 @@ namespace Juniper.Security
         string CredentialFile { get; }
 
         void ReceiveCredentials(string[] args);
-
-        void ClearCredentials();
     }
 
     public static class ICredentialReceiverExt
     {
-        public static void ReceiveCredentials(this ICredentialReceiver receiver, string fileName)
+        public static void ClearCredentials(this ICredentialReceiver receiver)
         {
-            receiver.ReceiveCredentials(File.ReadAllLines(fileName));
+            receiver.ReceiveCredentials(null);
         }
 
         public static void ReceiveCredentials(this ICredentialReceiver receiver)
         {
             receiver.ReceiveCredentials(receiver.CredentialFile);
+        }
+
+        public static void ReceiveCredentials(this ICredentialReceiver receiver, string fileName)
+        {
+            receiver.ReceiveCredentials(File.ReadAllLines(fileName));
         }
 
         public static void ReceiveCredentials(this ICredentialReceiver receiver, FileInfo file)
