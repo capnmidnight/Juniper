@@ -13,8 +13,7 @@ namespace Juniper
         private static List<IInstallable> GetInstallables()
         {
             return ComponentExt
-                .FindAll<Component>()
-                .OfType<IInstallable>()
+                .FindAll<IInstallable>()
                 .ToList();
         }
 

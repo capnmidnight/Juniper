@@ -346,7 +346,7 @@ namespace UnityEngine
         /// <typeparam name="T"></typeparam>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public static T FindAny<T>(Func<T, bool> filter = null) where T : Component
+        public static T FindAny<T>(Func<T, bool> filter = null)
         {
             return FindAll(filter).FirstOrDefault();
         }
@@ -358,7 +358,7 @@ namespace UnityEngine
         /// <param name="scene"></param>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public static T FindAny<T>(this Scene scene, Func<T, bool> filter = null) where T : Component
+        public static T FindAny<T>(this Scene scene, Func<T, bool> filter = null)
         {
             return scene.FindAll(filter).FirstOrDefault();
         }
@@ -369,7 +369,7 @@ namespace UnityEngine
         /// <typeparam name="T"></typeparam>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public static IEnumerable<T> FindAll<T>(Func<T, bool> filter = null) where T : Component
+        public static IEnumerable<T> FindAll<T>(Func<T, bool> filter = null)
         {
             for (var i = 0; i < SceneManager.sceneCount; ++i)
             {
@@ -388,7 +388,7 @@ namespace UnityEngine
         /// <param name="scene"></param>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public static IEnumerable<T> FindAll<T>(this Scene scene, Func<T, bool> filter = null) where T : Component
+        public static IEnumerable<T> FindAll<T>(this Scene scene, Func<T, bool> filter = null)
         {
             if (scene.isLoaded || !string.IsNullOrEmpty(scene.name))
             {

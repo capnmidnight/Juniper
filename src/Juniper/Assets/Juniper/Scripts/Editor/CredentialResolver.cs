@@ -16,8 +16,8 @@ namespace Juniper
 
         public void OnPostprocessBuild(BuildReport report)
         {
-            var receivers = ComponentExt.FindAll<MonoBehaviour>()
-                .OfType<ICredentialReceiver>();
+            var receivers = ComponentExt.FindAll<ICredentialReceiver>()
+                .ToArray();
             foreach (var receiver in receivers)
             {
                 receiver.ReceiveCredentials();
@@ -26,8 +26,8 @@ namespace Juniper
 
         public void OnPreprocessBuild(BuildReport report)
         {
-            var receivers = ComponentExt.FindAll<MonoBehaviour>()
-                .OfType<ICredentialReceiver>();
+            var receivers = ComponentExt.FindAll<ICredentialReceiver>()
+                .ToArray();
             foreach (var receiver in receivers)
             {
                 receiver.ClearCredentials();

@@ -13,7 +13,6 @@ namespace Juniper.Speech
         NoKeywordRecognizer
 #endif
     {
-
     }
 
     /// <summary>
@@ -60,9 +59,7 @@ namespace Juniper.Speech
         public void RefreshKeywords()
         {
             TearDown();
-            keywords = (from comp in ComponentExt.FindAll<MonoBehaviour>()
-                        where comp is IKeywordTriggered
-                        let trigger = (IKeywordTriggered)comp
+            keywords = (from trigger in ComponentExt.FindAll<IKeywordTriggered>()
                         where trigger.Keywords != null
                         from keyword in trigger.Keywords
                         where !string.IsNullOrEmpty(keyword)
