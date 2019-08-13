@@ -76,25 +76,29 @@ namespace Yarrow.Client
         {
             return Task.Run(async () =>
             {
-                if (useGoogleMaps)
+                var request = useGoogleMaps
+                    ? (AbstractRequest<DecoderT, ResultT>)gmapsRequest
+                    : yarrowRequest;
+
+                try
                 {
-                    return await getter(gmapsRequest, prog);
+                    return await getter(request, prog);
                 }
-                else
-                {
-                    try
-                    {
-                        return await getter(yarrowRequest, prog);
-                    }
 #pragma warning disable CA1031 // Do not catch general exception types
-                    catch (Exception exp)
+                catch (Exception exp)
+                {
+                    lastError = exp;
+                    if (useGoogleMaps)
                     {
-                        lastError = exp;
-                        useGoogleMaps = true;
-                        return await getter(gmapsRequest, prog);
+                        throw;
                     }
-#pragma warning restore CA1031 // Do not catch general exception types
+                    else
+                    {
+                        useGoogleMaps = true;
+                        return await Cascade(yarrowRequest, gmapsRequest, getter, prog);
+                    }
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
             });
         }
 
