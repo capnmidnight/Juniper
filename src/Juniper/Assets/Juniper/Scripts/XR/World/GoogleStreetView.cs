@@ -345,6 +345,7 @@ namespace Juniper.Imaging
                                                 material.SetTexture("_MainTex", texture);
                                                 renderer.SetMaterial(material);
 
+                                                frame.layer = LayerMask.NameToLayer("Photospheres");
                                                 frame.transform.SetParent(panoDetailSliceFrameContainerCache[panoid][f][requestHeading][requestPitch], false);
                                                 frame.transform.localScale = scale * Vector3.one;
                                             }
