@@ -1,9 +1,0 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Yarrow.Client.GUI.WinForms.Properties" GeneratedClassName="Settings">
-  <Profiles />
-  <Settings>
-    <Setting Name="YarrowServerHost" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://localhost</Value>
-    </Setting>
-  </Settings>
-</SettingsFile>
