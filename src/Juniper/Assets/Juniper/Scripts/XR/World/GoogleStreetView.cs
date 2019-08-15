@@ -7,9 +7,11 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Animation;
+using Juniper.Data;
 using Juniper.Display;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
+using Juniper.Imaging;
 using Juniper.Imaging.JPEG;
 using Juniper.Progress;
 using Juniper.Security;
@@ -21,7 +23,7 @@ using Juniper.World.GIS;
 
 using UnityEngine;
 using UnityEngine.Events;
-
+using UnityEngine.Rendering;
 using Yarrow.Client;
 
 namespace Juniper.Imaging
@@ -52,10 +54,6 @@ namespace Juniper.Imaging
 
         public bool useMipMap = true;
 
-        private Avatar avatar;
-
-        private YarrowClient<ImageData> yarrow;
-
         public int searchRadius = 50;
 
         [ReadOnly]
@@ -64,21 +62,53 @@ namespace Juniper.Imaging
         private LatLngPoint LatLngLocation;
         private PanoID lastPano;
 
-        [SerializeField]
-        [HideInNormalInspector]
+        private YarrowClient<ImageData> yarrow;
         private FadeTransition fader;
-
-        [SerializeField]
-        [HideInNormalInspector]
         private GPSLocation gps;
-
+        private Avatar avatar;
+        private SkyboxManager skybox;
+        private JpegDecoder encoder;
+        private bool trySkybox;
+        private bool skyboxFound;
         private bool locked;
+        private bool firstLoad;
 
         private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
         private readonly Dictionary<PanoID, Transform> panoContainerCache = new Dictionary<PanoID, Transform>();
         private readonly Dictionary<PanoID, Dictionary<int, Transform>> panoDetailContainerCache = new Dictionary<PanoID, Dictionary<int, Transform>>();
         private readonly Dictionary<PanoID, Dictionary<int, Dictionary<int, Transform>>> panoDetailSliceContainerCache = new Dictionary<PanoID, Dictionary<int, Dictionary<int, Transform>>>();
         private readonly Dictionary<PanoID, Dictionary<int, Dictionary<int, Dictionary<int, Transform>>>> panoDetailSliceFrameContainerCache = new Dictionary<PanoID, Dictionary<int, Dictionary<int, Dictionary<int, Transform>>>>();
+
+        private static readonly float[] FOVs =
+        {
+            120,
+            90,
+            60,
+            45,
+            30
+        };
+
+        private static readonly Vector2[][] TEST_ANGLES = FOVs.Select(MakeTestAngles).ToArray();
+
+        private static Vector2[] MakeTestAngles(float fov)
+        {
+            var list = new List<Vector2>();
+            for (float ax = 0; ax <= 360; ax += fov)
+            {
+                for (float ay = 0; ay <= 180; ay += fov)
+                {
+                    list.Add(new Vector2(ax, ay));
+                }
+            }
+
+            return list
+                .Distinct()
+                .OrderBy(x => x.magnitude)
+                .ToArray();
+        }
+
+        private MetadataResponse lastMetadata;
+        private const int MAX_REQUESTS = 4;
 
 #if UNITY_EDITOR
 
@@ -120,6 +150,7 @@ namespace Juniper.Imaging
             fader = ComponentExt.FindAny<FadeTransition>();
             gps = ComponentExt.FindAny<GPSLocation>();
             avatar = ComponentExt.FindAny<Avatar>();
+            skybox = ComponentExt.FindAny<SkyboxManager>();
         }
 
         public override void Awake()
@@ -147,8 +178,8 @@ namespace Juniper.Imaging
             var gmapsCacheDirName = Path.Combine(baseCachePath, "GoogleMaps");
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
             var uri = new Uri(yarrowServerHost);
-            var decoder = new JpegDecoder();
-            yarrow = new YarrowClient<ImageData>(uri, decoder, yarrowCacheDir, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
+            encoder = new JpegDecoder(80, 2);
+            yarrow = new YarrowClient<ImageData>(uri, encoder, yarrowCacheDir, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
         }
 
         public override void Enter(IProgress prog = null)
@@ -158,7 +189,9 @@ namespace Juniper.Imaging
             {
                 SetLatLngLocation(gps.Coord);
             }
-            GetImages(false, prog);
+
+            firstLoad = true;
+            SynchronizeData(prog);
         }
 
         private readonly string lastStatus;
@@ -168,123 +201,62 @@ namespace Juniper.Imaging
             base.Update();
             if (IsEntered && IsComplete && !locked)
             {
-                GetImages(true);
+                SynchronizeData();
             }
         }
 
-        private Coroutine GetImages(bool fromNavigation, IProgress prog = null)
+        private Coroutine SynchronizeData(IProgress prog = null)
         {
             locked = true;
-            return StartCoroutine(GetImagesCoroutine(fromNavigation, prog));
+            return StartCoroutine(SynchronizeDataCoroutine(prog));
         }
 
-        private static readonly float[] FOVs =
-        {
-            120,
-            90,
-            60,
-            45,
-            30
-        };
-
-        private static readonly Vector2[][] TEST_ANGLES = FOVs.Select(MakeTestAngles).ToArray();
-
-        private static Vector2[] MakeTestAngles(float fov)
-        {
-            var list = new List<Vector2>();
-            for (float ax = 0; ax <= 360; ax += fov)
-            {
-                for (float ay = 0; ay <= 180; ay += fov)
-                {
-                    list.Add(new Vector2(ax, ay));
-                }
-            }
-
-            return list
-                .Distinct()
-                .OrderBy(x => x.magnitude)
-                .ToArray();
-        }
-
-        private MetadataResponse lastMetadata;
-        private const int MAX_REQUESTS = 1;
-
-        private IEnumerator GetImagesCoroutine(bool fromNavigation, IProgress prog)
+        private IEnumerator SynchronizeDataCoroutine(IProgress prog)
         {
             if (!string.IsNullOrEmpty(Location))
             {
                 var metadataProg = prog.Subdivide(0, 0.1f);
                 var subProg = prog.Subdivide(0.1f, 0.9f);
 
-                if (!metadataCache.ContainsKey(Location))
+                if (lastMetadata == null || lastMetadata.location != LatLngLocation)
                 {
-                    Task<MetadataResponse> metadataTask;
-                    if (LatLngPoint.TryParseDecimal(Location, out var point))
-                    {
-                        metadataTask = yarrow.GetMetadata(point, metadataProg);
-                    }
-                    else
-                    {
-                        metadataTask = yarrow.GetMetadata((PlaceName)Location, metadataProg);
-                    }
-
-                    while (!metadataTask.IsCompleted && !metadataTask.IsCanceled && !metadataTask.IsFaulted)
-                    {
-                        yield return null;
-                    }
-
-                    if (metadataTask.IsCompleted)
-                    {
-                        var curMetadata = metadataTask.Result;
-                        metadataCache[Location] = curMetadata;
-
-                        if (curMetadata.pano_id != lastPano)
-                        {
-                            if (fromNavigation)
-                            {
-                                fader.Enter();
-                                yield return fader.Waiter;
-                            }
-
-                            if (lastMetadata != null && panoContainerCache.ContainsKey(lastMetadata.pano_id))
-                            {
-                                var panoContainer = panoContainerCache[lastMetadata.pano_id];
-                                panoContainer.Deactivate();
-                            }
-
-                            lastPano = curMetadata.pano_id;
-                            print($"Pano ID = {lastPano.ToString()}");
-
-                            var curUTM = curMetadata.location.ToUTM();
-                            if (lastMetadata != null)
-                            {
-                                var lastUTM = lastMetadata.location.ToUTM();
-                                var delta = 20 * curUTM.Subtract(lastUTM);
-                                if (delta.magnitude > 0)
-                                {
-                                    avatar.transform.position += delta;
-                                    transform.position += delta;
-                                }
-                            }
-
-                            lastMetadata = curMetadata;
-                        }
-                    }
+                    yield return GetMetadata(metadataProg);
                 }
 
-                if (metadataCache.ContainsKey(Location))
+                if (lastMetadata != null && lastMetadata.pano_id != lastPano)
                 {
-                    var metadata = metadataCache[Location];
+                    var curPano = lastMetadata.pano_id;
 
-                    if (metadata?.status != HttpStatusCode.OK)
+                    if (trySkybox)
                     {
-                        print("no metadata");
+                        var path = StreamingAssets.FormatPath(Application.streamingAssetsPath, $"{curPano}.jpeg");
+                        var streamTask = StreamingAssets.GetStream(Application.persistentDataPath, path);
+                        while (streamTask.IsRunning())
+                        {
+                            yield return null;
+                        }
+
+                        if (streamTask.IsCompleted && streamTask.Result != null)
+                        {
+                            using (var stream = streamTask.Result.Content)
+                            {
+                                var image = encoder.Read(stream);
+                                var texture = image.ToTexture();
+                                skybox.imageType = SkyboxManager.ImageType.Degrees360;
+                                skybox.layout = SkyboxManager.Mode.Cube;
+                                skybox.useMipMap = false;
+                                skybox.SetTexture(texture);
+
+                                skyboxFound = true;
+                                lastPano = curPano;
+                            }
+                        }
+
+                        trySkybox = false;
                     }
-                    else
-                    {
-                        SetLatLngLocation(metadata.location);
 
-                        var panoid = metadata.pano_id;
+                    if (!skyboxFound)
+                    {
                         var euler = (Vector2)avatar.Head.rotation.eulerAngles;
 
                         var lodProgs = subProg.Split(2);
@@ -299,7 +271,7 @@ namespace Juniper.Imaging
                             {
                                 var testAngle = euler + testAngles[a];
                                 CalcRequestParameters(testAngle, f, out var fov, out var radius, out var scale, out var requestHeading, out var requestPitch);
-                                if (FillCaches(panoid, f, radius, requestHeading, requestPitch))
+                                if (FillCaches(curPano, f, radius, requestHeading, requestPitch))
                                 {
                                     IProgress imageProg;
                                     if (f == 0)
@@ -310,7 +282,7 @@ namespace Juniper.Imaging
                                     {
                                         imageProg = otherLevelProgs[numRequests++];
                                     }
-                                    yield return GetImage(panoid, f, (int)fov, scale, requestHeading, requestPitch, imageProg);
+                                    yield return GetImage(curPano, f, (int)fov, scale, requestHeading, requestPitch, imageProg);
 
                                     if (f > 0)
                                     {
@@ -320,25 +292,93 @@ namespace Juniper.Imaging
                             }
                         }
 
-#if UNITY_EDITOR
                         if (numRequests == 0)
                         {
-                            CaptureCubemap(panoid);
-                        }
+#if UNITY_EDITOR
+                            CaptureCubemap(curPano);
 #endif
+                            print("nothing left to do");
+                            lastPano = curPano;
+                        }
+                    }
 
-                        if (!fromNavigation)
-                        {
-                            Complete();
-                        }
-                        else if (fader.IsEntered && fader.IsComplete)
-                        {
-                            fader.Exit();
-                        }
+                    if (firstLoad)
+                    {
+                        Complete();
+                        firstLoad = false;
+                    }
+                    else if (fader.IsEntered && fader.IsComplete)
+                    {
+                        fader.Exit();
                     }
                 }
             }
             locked = false;
+        }
+
+        private IEnumerator GetMetadata(IProgress metadataProg)
+        {
+            if (metadataCache.ContainsKey(Location))
+            {
+                lastMetadata = metadataCache[Location];
+                SetLatLngLocation(lastMetadata.location);
+            }
+            else
+            {
+                print("Getting metadata " + Location);
+                Task<MetadataResponse> metadataTask;
+                if (LatLngPoint.TryParseDecimal(Location, out var point))
+                {
+                    metadataTask = yarrow.GetMetadata(point, metadataProg);
+                }
+                else
+                {
+                    metadataTask = yarrow.GetMetadata((PlaceName)Location, metadataProg);
+                }
+
+                while (metadataTask.IsRunning())
+                {
+                    yield return null;
+                }
+
+                if (metadataTask.IsCompleted)
+                {
+                    print("metadata found");
+                    var curMetadata = metadataTask.Result;
+                    metadataCache[Location] = curMetadata;
+                    trySkybox = skybox != null;
+                    skyboxFound = false;
+
+                    if (curMetadata.status == HttpStatusCode.OK && curMetadata.pano_id != lastPano)
+                    {
+                        if (!firstLoad)
+                        {
+                            fader.Enter();
+                            yield return fader.Waiter;
+                        }
+
+                        if (lastMetadata != null)
+                        {
+                            if (panoContainerCache.ContainsKey(lastMetadata.pano_id))
+                            {
+                                var panoContainer = panoContainerCache[lastMetadata.pano_id];
+                                panoContainer.Deactivate();
+                            }
+                            var curUTM = curMetadata.location.ToUTM();
+                            var lastUTM = lastMetadata.location.ToUTM();
+                            var delta = 20 * curUTM.Subtract(lastUTM);
+                            if (delta.magnitude > 0)
+                            {
+                                avatar.transform.position += delta;
+                                transform.position += delta;
+                            }
+                        }
+
+                        lastMetadata = curMetadata;
+                        SetLatLngLocation(lastMetadata.location);
+                    }
+                }
+            }
         }
 
         private static void CalcRequestParameters(Vector2 testAngle, int f, out float fov, out int radius, out float scale, out int requestHeading, out int requestPitch)
@@ -373,8 +413,8 @@ namespace Juniper.Imaging
 
         private IEnumerator GetImage(PanoID panoid, int f, int fov, float scale, int requestHeading, int requestPitch, IProgress imageProg)
         {
-            var imageTask = yarrow.GetImage(panoid, (int)fov, requestHeading, requestPitch, imageProg);
-            while (!imageTask.IsCanceled && !imageTask.IsFaulted && !imageTask.IsCompleted)
+            var imageTask = yarrow.GetImage(panoid, (int)fov, requestHeading, requestPitch, imageProg.Subdivide(0f, 0.9f));
+            while (imageTask.IsRunning())
             {
                 yield return null;
             }
@@ -384,24 +424,7 @@ namespace Juniper.Imaging
                 var image = imageTask.Result;
                 if (image != null)
                 {
-                    //var textureProg = patchProg.Subdivide(0.9f, 0.1f);
-                    var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
-                    if (image.format == ImageFormat.None)
-                    {
-                        texture.LoadRawTextureData(image.data);
-                    }
-                    else if (image.format != ImageFormat.Unsupported)
-                    {
-                        texture.LoadImage(image.data);
-                    }
-                    //textureProg?.Report(0.3333f);
-                    yield return null;
-                    texture.Compress(true);
-                    //textureProg?.Report(0.66667f);
-                    yield return null;
-                    texture.Apply(false, true);
-                    //textureProg?.Report(1);
-
+                    var texture = image.ToTexture();
                     var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
                     var renderer = frame.GetComponent<MeshRenderer>();
                     var material = new Material(Shader.Find("Unlit/Texture"));
@@ -417,8 +440,7 @@ namespace Juniper.Imaging
 
         private void CaptureCubemap(PanoID panoid)
         {
-            var dir = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            var fileName = Path.Combine(dir, "GoogleMaps", "streetview", $"{panoid.ToString()}.cubemap.jpeg");
+            var fileName = Path.Combine("Assets", "StreamingAssets", $"{panoid.ToString()}.jpeg");
             if (!File.Exists(fileName))
             {
                 const int dim = 2048;
@@ -467,7 +489,6 @@ namespace Juniper.Imaging
                     images[f] = new ImageData(DataSource.None, cubemap.width, cubemap.height, 3, ImageFormat.None, buf);
                 }
 
-                var encoder = new JpegDecoder(80, 2);
                 var img = encoder.Concatenate(new ImageData[,]
                 {
                     { null, images[0], null, null },
