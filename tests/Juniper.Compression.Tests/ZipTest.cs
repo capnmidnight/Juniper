@@ -8,10 +8,8 @@ namespace Juniper.Compression.Zip.Tests
     [TestClass]
     public class ZipTest
     {
-        private static readonly string Root = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        private static readonly string TestZip = Root + "\\Projects\\Juniper\\src\\Juniper\\Assets\\Juniper\\ThirdParty\\Optional\\PicoMobileSDK.zip";
-        private const string TestFile = "PicoMobileSDK/Pvr_Audio3D/API/Pvr_Audio3DAPI.cs";
-        private const long TestFileLength = 6792;
+        private static readonly string TestZip = Path.Combine("..", "..", "..", "test.zip");
+        private const string TestFile = "test.txt";
 
         [TestMethod]
         public void GetFile()
@@ -20,7 +18,7 @@ namespace Juniper.Compression.Zip.Tests
             {
                 var text = reader.ReadToEnd();
 
-                Assert.AreEqual(TestFileLength, text.Length);
+                Assert.AreEqual("test", text);
             }
         }
 
@@ -31,7 +29,7 @@ namespace Juniper.Compression.Zip.Tests
             Decompressor.Decompress(TestZip, outDir);
             var outFile = Path.Combine(outDir, TestFile);
             var text = File.ReadAllText(outFile);
-            Assert.AreEqual(TestFileLength, text.Length);
+            Assert.AreEqual("test", text);
         }
     }
 }
