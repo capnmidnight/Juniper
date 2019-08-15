@@ -11,6 +11,18 @@ namespace Juniper.Imaging.JPEG
 {
     public class JpegDecoder : AbstractImageDataDecoder
     {
+        private readonly CompressionParameters compressionParams;
+
+        public JpegDecoder(int quality = 100, int smoothingFactor = 1, bool progressive = false)
+        {
+            compressionParams = new CompressionParameters
+            {
+                Quality = quality,
+                SimpleProgressive = progressive,
+                SmoothingFactor = smoothingFactor
+            };
+        }
+
         public override ImageData Read(byte[] data, DataSource source = DataSource.None)
         {
             for (var i = 0; i < data.Length - 1; ++i)
@@ -92,13 +104,7 @@ namespace Juniper.Imaging.JPEG
 
             using (var jpeg = new JpegImage(rows, Colorspace.RGB))
             {
-                var compression = new CompressionParameters
-                {
-                    Quality = 100,
-                    SimpleProgressive = false,
-                    SmoothingFactor = 1
-                };
-                jpeg.WriteJpeg(outputStream, compression);
+                jpeg.WriteJpeg(outputStream, compressionParams);
             }
         }
     }

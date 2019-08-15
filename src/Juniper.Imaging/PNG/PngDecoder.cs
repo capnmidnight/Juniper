@@ -10,6 +10,20 @@ namespace Juniper.Imaging.PNG
 {
     public class PngDecoder : AbstractImageDataDecoder
     {
+        private readonly int compressionLevel;
+        private readonly int IDATMaxSize;
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="compressionLevel">values 0 - 9</param>
+        /// <param name="IDATMaxSize"></param>
+        public PngDecoder(int compressionLevel = 9, int IDATMaxSize = 0x1000)
+        {
+            this.compressionLevel = compressionLevel;
+            this.IDATMaxSize = IDATMaxSize;
+        }
+
         public override ImageFormat Format { get { return ImageFormat.PNG; } }
 
         public override ImageData Read(byte[] data, DataSource source = DataSource.None)
@@ -111,8 +125,8 @@ namespace Juniper.Imaging.PNG
 
             var png = new PngWriter(outputStream, info)
             {
-                IdatMaxSize = 0x1000,
-                CompLevel = 8
+                CompLevel = compressionLevel,
+                IdatMaxSize = IDATMaxSize
             };
 
             png.SetFilterType(FilterType.FILTER_PAETH);
