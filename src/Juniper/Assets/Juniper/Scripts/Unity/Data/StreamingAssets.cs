@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -18,34 +19,23 @@ namespace Juniper.Data
     {
         public static TimeSpan DEFAULT_TTL = TimeSpan.Zero;
 
-        public static string FormatPath(string streamingAssetsPath, string dataPath, string subPath)
+        public static string FormatPath(string streamingAssetsPath, string subPath)
         {
-            var parts = new List<string>(4);
+            var parts = streamingAssetsPath.Split('/')
+                .Union(subPath.Split('/'))
+                .ToArray();
             var pathSep = '/';
-            if (!NetworkPathPattern.IsMatch(subPath))
+            if (!NetworkPathPattern.IsMatch(streamingAssetsPath))
             {
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WSA
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WSA || UNITY_IOS
                 pathSep = Path.DirectorySeparatorChar;
-                parts.Add(dataPath);
-                parts.Add("StreamingAssets");
-#elif UNITY_ANDROID || PLATFORM_LUMIN
-                parts.Add("jar:file:/");
-                parts.Add(dataPath + "!");
-                parts.Add("assets");
-#elif UNITY_IOS
-                pathSep = Path.DirectorySeparatorChar;
-                parts.Add(dataPath);
-                parts.Add("Raw");
 #elif UNITY_WEBGL
-                UnityEngine.Debug.Log(dataPath);
-                parts.Add(dataPath);
-                parts.Add("StreamingAssets");
+                UnityEngine.Debug.Log(streamingAssetsPath);
 #endif
             }
 
-            parts.Add(subPath);
-            var path = parts.ToArray().Join(pathSep);
-            UnityEngine.Debug.Log(streamingAssetsPath);
+            var path = parts.Join(pathSep);
+
             UnityEngine.Debug.Log(path);
             return path;
         }
@@ -98,7 +88,7 @@ namespace Juniper.Data
             }
             else
             {
-                throw new FileNotFoundException("Could not find file " + path, path);
+                return null;
             }
         }
 

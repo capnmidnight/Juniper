@@ -1,8 +1,6 @@
-
 using System.Threading.Tasks;
 
 using Juniper.Data;
-using Juniper.Imaging;
 using Juniper.Imaging.JPEG;
 using Juniper.Imaging.PNG;
 
@@ -38,7 +36,7 @@ namespace Juniper.Imaging
         {
             using (var imageFile = await StreamingAssets.GetStream(
                 Application.temporaryCachePath,
-                StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
+                StreamingAssets.FormatPath(Application.streamingAssetsPath, imagePath),
                 "image/png"))
             {
                 var decoder = new PngDecoder();
@@ -50,7 +48,7 @@ namespace Juniper.Imaging
         {
             using (var imageFile = await StreamingAssets.GetStream(
                 Application.temporaryCachePath,
-                StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, imagePath),
+                StreamingAssets.FormatPath(Application.streamingAssetsPath, imagePath),
                 "image/jpeg"))
             {
                 var decoder = new JpegDecoder();
