@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Juniper.Animation;
@@ -11,7 +12,6 @@ using Juniper.Data;
 using Juniper.Display;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
-using Juniper.Imaging;
 using Juniper.Imaging.JPEG;
 using Juniper.Progress;
 using Juniper.Security;
@@ -23,15 +23,46 @@ using Juniper.World.GIS;
 
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Rendering;
+
 using Yarrow.Client;
 
 namespace Juniper.Imaging
 {
     public class GoogleStreetView : SubSceneController, ICredentialReceiver
     {
-        private const string LAT_LON = "_MAPPING_LATITUDE_LONGITUDE_LAYOUT";
-        private const string SIDES_6 = "_MAPPING_6_FRAMES_LAYOUT";
+        private const int MAX_REQUESTS = 4;
+
+        private static readonly float[] FOVs =
+        {
+            120,
+            90,
+            60,
+            45,
+            30
+        };
+
+        private static readonly Vector2[][] TEST_ANGLES = FOVs.Select(MakeTestAngles).ToArray();
+
+        private static Vector2[] MakeTestAngles(float fov)
+        {
+            var list = new List<Vector2>();
+            var minX = Mathf.Floor(-180 / fov) * fov;
+            var maxX = Mathf.Ceil(180 / fov) * fov;
+            var minY = Mathf.Floor(-90 / fov) * fov;
+            var maxY = Mathf.Ceil(90 / fov) * fov;
+            for (float ax = minX; ax <= maxX; ax += fov)
+            {
+                for (float ay = minY; ay <= maxY; ay += fov)
+                {
+                    list.Add(new Vector2(ax, ay));
+                }
+            }
+
+            return list
+                .Distinct()
+                .OrderBy(x => x.magnitude)
+                .ToArray();
+        }
 
         public string yarrowServerHost = "http://localhost";
 
@@ -57,10 +88,16 @@ namespace Juniper.Imaging
         public int searchRadius = 50;
 
         [ReadOnly]
-        public string Location;
+        public string inputSearchLocation;
 
-        private LatLngPoint LatLngLocation;
-        private PanoID lastPano;
+        private MetadataResponse lastMetadata;
+        private string lastSearchLocation = string.Empty;
+        private PanoID curPano = (PanoID)string.Empty;
+
+        private bool trySkybox;
+        private bool skyboxFound;
+        private bool locked;
+        private bool firstLoad;
 
         private YarrowClient<ImageData> yarrow;
         private FadeTransition fader;
@@ -68,50 +105,8 @@ namespace Juniper.Imaging
         private Avatar avatar;
         private SkyboxManager skybox;
         private JpegDecoder encoder;
-        private bool trySkybox;
-        private bool skyboxFound;
-        private bool locked;
-        private bool firstLoad;
-
-        private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
-        private readonly Dictionary<PanoID, Transform> panoContainerCache = new Dictionary<PanoID, Transform>();
-        private readonly Dictionary<PanoID, Dictionary<int, Transform>> panoDetailContainerCache = new Dictionary<PanoID, Dictionary<int, Transform>>();
-        private readonly Dictionary<PanoID, Dictionary<int, Dictionary<int, Transform>>> panoDetailSliceContainerCache = new Dictionary<PanoID, Dictionary<int, Dictionary<int, Transform>>>();
-        private readonly Dictionary<PanoID, Dictionary<int, Dictionary<int, Dictionary<int, Transform>>>> panoDetailSliceFrameContainerCache = new Dictionary<PanoID, Dictionary<int, Dictionary<int, Dictionary<int, Transform>>>>();
-
-        private static readonly float[] FOVs =
-        {
-            120,
-            90,
-            60,
-            45,
-            30
-        };
-
-        private static readonly Vector2[][] TEST_ANGLES = FOVs.Select(MakeTestAngles).ToArray();
-
-        private static Vector2[] MakeTestAngles(float fov)
-        {
-            var list = new List<Vector2>();
-            for (float ax = 0; ax <= 360; ax += fov)
-            {
-                for (float ay = 0; ay <= 180; ay += fov)
-                {
-                    list.Add(new Vector2(ax, ay));
-                }
-            }
-
-            return list
-                .Distinct()
-                .OrderBy(x => x.magnitude)
-                .ToArray();
-        }
-
-        private MetadataResponse lastMetadata;
-        private const int MAX_REQUESTS = 4;
 
 #if UNITY_EDITOR
-
         private EditorTextInput locationInput;
 
         public void OnValidate()
@@ -120,6 +115,12 @@ namespace Juniper.Imaging
         }
 
 #endif
+
+        private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
+        private readonly Dictionary<PanoID, Transform> panoContainerCache = new Dictionary<PanoID, Transform>();
+        private readonly Dictionary<PanoID, Dictionary<int, Transform>> panoDetailContainerCache = new Dictionary<PanoID, Dictionary<int, Transform>>();
+        private readonly Dictionary<PanoID, Dictionary<int, Dictionary<int, Transform>>> panoDetailSliceContainerCache = new Dictionary<PanoID, Dictionary<int, Dictionary<int, Transform>>>();
+        private readonly Dictionary<PanoID, Dictionary<int, Dictionary<int, Dictionary<int, Transform>>>> panoDetailSliceFrameContainerCache = new Dictionary<PanoID, Dictionary<int, Dictionary<int, Dictionary<int, Transform>>>>();
 
         public string CredentialFile
         {
@@ -185,7 +186,7 @@ namespace Juniper.Imaging
         public override void Enter(IProgress prog = null)
         {
             base.Enter(prog);
-            if (string.IsNullOrEmpty(Location) && gps?.HasCoord == true)
+            if (string.IsNullOrEmpty(inputSearchLocation) && gps?.HasCoord == true)
             {
                 SetLatLngLocation(gps.Coord);
             }
@@ -193,8 +194,6 @@ namespace Juniper.Imaging
             firstLoad = true;
             SynchronizeData(prog);
         }
-
-        private readonly string lastStatus;
 
         public override void Update()
         {
@@ -208,28 +207,33 @@ namespace Juniper.Imaging
         private Coroutine SynchronizeData(IProgress prog = null)
         {
             locked = true;
+            var gmapsMatch = GMAPS_URL_PATTERN.Match(inputSearchLocation);
+            if (gmapsMatch.Success)
+            {
+                inputSearchLocation = gmapsMatch.Groups[1].Value;
+            }
             return StartCoroutine(SynchronizeDataCoroutine(prog));
         }
 
         private IEnumerator SynchronizeDataCoroutine(IProgress prog)
         {
-            if (!string.IsNullOrEmpty(Location))
+            if (!string.IsNullOrEmpty(inputSearchLocation))
             {
                 var metadataProg = prog.Subdivide(0, 0.1f);
                 var subProg = prog.Subdivide(0.1f, 0.9f);
 
-                if (lastMetadata == null || lastMetadata.location != LatLngLocation)
+                if (lastMetadata == null || lastSearchLocation != inputSearchLocation)
                 {
                     yield return GetMetadata(metadataProg);
                 }
 
-                if (lastMetadata != null && lastMetadata.pano_id != lastPano)
+                if (lastMetadata != null && lastMetadata.pano_id != curPano)
                 {
-                    var curPano = lastMetadata.pano_id;
+                    var nextPano = lastMetadata.pano_id;
 
                     if (trySkybox)
                     {
-                        var path = StreamingAssets.FormatPath(Application.streamingAssetsPath, $"{curPano}.jpeg");
+                        var path = StreamingAssets.FormatPath(Application.streamingAssetsPath, $"{nextPano}.jpeg");
                         var streamTask = StreamingAssets.GetStream(Application.persistentDataPath, path);
                         while (streamTask.IsRunning())
                         {
@@ -248,7 +252,7 @@ namespace Juniper.Imaging
                                 skybox.SetTexture(texture);
 
                                 skyboxFound = true;
-                                lastPano = curPano;
+                                curPano = nextPano;
                             }
                         }
 
@@ -271,7 +275,7 @@ namespace Juniper.Imaging
                             {
                                 var testAngle = euler + testAngles[a];
                                 CalcRequestParameters(testAngle, f, out var fov, out var radius, out var scale, out var requestHeading, out var requestPitch);
-                                if (FillCaches(curPano, f, radius, requestHeading, requestPitch))
+                                if (FillCaches(nextPano, f, radius, requestHeading, requestPitch))
                                 {
                                     IProgress imageProg;
                                     if (f == 0)
@@ -282,7 +286,7 @@ namespace Juniper.Imaging
                                     {
                                         imageProg = otherLevelProgs[numRequests++];
                                     }
-                                    yield return GetImage(curPano, f, (int)fov, scale, requestHeading, requestPitch, imageProg);
+                                    yield return GetImage(nextPano, f, (int)fov, scale, requestHeading, requestPitch, imageProg);
 
                                     if (f > 0)
                                     {
@@ -295,10 +299,12 @@ namespace Juniper.Imaging
                         if (numRequests == 0)
                         {
 #if UNITY_EDITOR
-                            CaptureCubemap(curPano);
+                            print("Saving skybox " + nextPano);
+                            yield return null;
+                            CaptureCubemap(nextPano);
 #endif
                             print("nothing left to do");
-                            lastPano = curPano;
+                            curPano = nextPano;
                         }
                     }
 
@@ -316,24 +322,30 @@ namespace Juniper.Imaging
             locked = false;
         }
 
+        private static readonly Regex GMAPS_URL_PATTERN = new Regex("https?://www\\.google\\.com/maps/@-?\\d+\\.\\d+,\\d+\\.\\d+(?:,[a-zA-Z0-9.]+)*/data=(?:![a-z0-9]+)*!1s([a-zA-Z0-9_\\-]+)(?:![a-z0-9]+)*", RegexOptions.Compiled);
+
         private IEnumerator GetMetadata(IProgress metadataProg)
         {
-            if (metadataCache.ContainsKey(Location))
+            Task<MetadataResponse> metadataTask;
+
+            if (metadataCache.ContainsKey(inputSearchLocation))
             {
-                lastMetadata = metadataCache[Location];
-                SetLatLngLocation(lastMetadata.location);
+                SetMetadata(inputSearchLocation, metadataCache[inputSearchLocation]);
             }
             else
             {
-                print("Getting metadata " + Location);
-                Task<MetadataResponse> metadataTask;
-                if (LatLngPoint.TryParseDecimal(Location, out var point))
+                print("Getting metadata " + inputSearchLocation);
+                if (PanoID.TryParse(inputSearchLocation, out var pano2))
+                {
+                    metadataTask = yarrow.GetMetadata(pano2, metadataProg);
+                }
+                else if (LatLngPoint.TryParseDecimal(inputSearchLocation, out var point))
                 {
                     metadataTask = yarrow.GetMetadata(point, metadataProg);
                 }
                 else
                 {
-                    metadataTask = yarrow.GetMetadata((PlaceName)Location, metadataProg);
+                    metadataTask = yarrow.GetMetadata((PlaceName)inputSearchLocation, metadataProg);
                 }
 
                 while (metadataTask.IsRunning())
@@ -345,11 +357,11 @@ namespace Juniper.Imaging
                 {
                     print("metadata found");
                     var curMetadata = metadataTask.Result;
-                    metadataCache[Location] = curMetadata;
+                    metadataCache[inputSearchLocation] = curMetadata;
                     trySkybox = skybox != null;
                     skyboxFound = false;
 
-                    if (curMetadata.status == HttpStatusCode.OK && curMetadata.pano_id != lastPano)
+                    if (curMetadata.status == HttpStatusCode.OK && curMetadata.pano_id != curPano)
                     {
                         if (!firstLoad)
                         {
@@ -364,21 +376,25 @@ namespace Juniper.Imaging
                                 var panoContainer = panoContainerCache[lastMetadata.pano_id];
                                 panoContainer.Deactivate();
                             }
-                            var curUTM = curMetadata.location.ToUTM();
-                            var lastUTM = lastMetadata.location.ToUTM();
-                            var delta = 20 * curUTM.Subtract(lastUTM);
-                            if (delta.magnitude > 0)
-                            {
-                                avatar.transform.position += delta;
-                                transform.position += delta;
-                            }
                         }
 
-                        lastMetadata = curMetadata;
-                        SetLatLngLocation(lastMetadata.location);
+                        SetMetadata(inputSearchLocation, curMetadata);
                     }
                 }
             }
+        }
+
+        private void SetMetadata(string inputSearchLocation, MetadataResponse metadata)
+        {
+            lastMetadata = metadata;
+            lastSearchLocation = inputSearchLocation;
+#if UNITY_EDITOR
+            if (locationInput != null)
+            {
+                locationInput.value = inputSearchLocation;
+            }
+#endif
+            SetLatLngLocation(metadata.location);
         }
 
         private static void CalcRequestParameters(Vector2 testAngle, int f, out float fov, out int radius, out float scale, out int requestHeading, out int requestPitch)
@@ -565,36 +581,27 @@ namespace Juniper.Imaging
 
         public void SetLatLngLocation(LatLngPoint location)
         {
-            LatLngLocation = location;
-            Location = LatLngLocation.ToString();
-
             if (gps != null)
             {
                 gps.FakeCoord = true;
                 gps.Coord = location;
             }
-#if UNITY_EDITOR
-            if (locationInput != null)
-            {
-                locationInput.value = Location;
-            }
-#endif
         }
 
         public void SetLocation(string location)
         {
-            Location = location;
+            inputSearchLocation = location;
         }
 
         public void Move(Vector2 deltaMeters)
         {
-            if (LatLngLocation != null)
+            if (lastMetadata?.location != null)
             {
                 yarrow.ClearError();
                 deltaMeters /= 10f;
-                var utm = LatLngLocation.ToUTM();
+                var utm = lastMetadata.location.ToUTM();
                 utm = new UTMPoint(utm.X + deltaMeters.x, utm.Y + deltaMeters.y, utm.Z, utm.Zone, utm.Hemisphere);
-                SetLatLngLocation(utm.ToLatLng());
+                inputSearchLocation = utm.ToLatLng().ToString();
             }
         }
 
