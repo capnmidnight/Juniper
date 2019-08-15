@@ -2,15 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Animation;
+using Juniper.Display;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.Imaging.JPEG;
 using Juniper.Progress;
 using Juniper.Security;
+using Juniper.Serialization;
 using Juniper.Units;
 using Juniper.Unity;
 using Juniper.World;
@@ -158,7 +161,7 @@ namespace Juniper.Imaging
             GetImages(false, prog);
         }
 
-        private string lastStatus;
+        private readonly string lastStatus;
 
         public override void Update()
         {
@@ -184,7 +187,27 @@ namespace Juniper.Imaging
             30
         };
 
+        private static readonly Vector2[][] TEST_ANGLES = FOVs.Select(MakeTestAngles).ToArray();
+
+        private static Vector2[] MakeTestAngles(float fov)
+        {
+            var list = new List<Vector2>();
+            for (float ax = 0; ax <= 360; ax += fov)
+            {
+                for (float ay = 0; ay <= 180; ay += fov)
+                {
+                    list.Add(new Vector2(ax, ay));
+                }
+            }
+
+            return list
+                .Distinct()
+                .OrderBy(x => x.magnitude)
+                .ToArray();
+        }
+
         private MetadataResponse lastMetadata;
+        private const int MAX_REQUESTS = 1;
 
         private IEnumerator GetImagesCoroutine(bool fromNavigation, IProgress prog)
         {
@@ -262,107 +285,55 @@ namespace Juniper.Imaging
                         SetLatLngLocation(metadata.location);
 
                         var panoid = metadata.pano_id;
-                        var euler = avatar.Head.rotation.eulerAngles;
-                        var heading = euler.y;
-                        var pitch = euler.x;
+                        var euler = (Vector2)avatar.Head.rotation.eulerAngles;
 
-                        for (var f = 0; f < FOVs.Length; ++f)
+                        var lodProgs = subProg.Split(2);
+                        var topLevelProgs = lodProgs[0].Split(TEST_ANGLES[0].Length);
+                        var otherLevelProgs = lodProgs[1].Split(MAX_REQUESTS);
+
+                        var numRequests = 0;
+                        for (var f = 0; f < FOVs.Length && numRequests < MAX_REQUESTS; ++f)
                         {
-                            var faceProg = subProg.Subdivide(f, FOVs.Length);
-                            var overlap = FOVs.Length - f;
-                            var radius = 5 * overlap + 50;
-                            if (f == 0)
+                            var testAngles = TEST_ANGLES[f];
+                            for (var a = 0; a < testAngles.Length && numRequests < MAX_REQUESTS; ++a)
                             {
-                                overlap = 0;
-                            }
-
-                            var subFOV = FOVs[f];
-                            var fov = subFOV + 2 * overlap;
-                            var scale = 2 * radius * Mathf.Tan(Degrees.Radians(fov / 2));
-                            var tileDim = 3;
-                            var dTileDim = Mathf.Floor(tileDim / 2.0f);
-                            for (var y = 0; y < tileDim; ++y)
-                            {
-                                var sliceProg = faceProg.Subdivide(y, tileDim);
-                                var dy = y - dTileDim;
-                                var subPitch = pitch + dy * subFOV;
-                                var unityPitch = (int)Mathf.Repeat(subFOV * Mathf.RoundToInt(subPitch / subFOV), 360);
-                                var requestPitch = (int)Mathf.Repeat(360 - unityPitch, 360);
-
-                                while (requestPitch > 90)
+                                var testAngle = euler + testAngles[a];
+                                CalcRequestParameters(testAngle, f, out var fov, out var radius, out var scale, out var requestHeading, out var requestPitch);
+                                if (FillCaches(panoid, f, radius, requestHeading, requestPitch))
                                 {
-                                    requestPitch -= 360;
-                                }
-
-                                for (var x = 0; x < tileDim; ++x)
-                                {
-                                    var patchProg = sliceProg.Subdivide(x, tileDim);
-                                    var dx = x - dTileDim;
-                                    var subHeading = heading + dx * subFOV;
-                                    var requestHeading = (int)Mathf.Repeat(subFOV * Mathf.Round(subHeading / subFOV), 360);
-
-                                    if (requestPitch == 90 || requestPitch == -90)
+                                    IProgress imageProg;
+                                    if (f == 0)
                                     {
-                                        requestHeading = 0;
+                                        imageProg = topLevelProgs[a];
                                     }
-
-                                    if (0 <= requestHeading && requestHeading < 360
-                                        && -90 <= requestPitch && requestPitch <= 90
-                                        && FillCaches(panoid, f, radius, requestHeading, requestPitch))
+                                    else
                                     {
-                                        var imageTask = yarrow.GetImage(panoid, (int)fov, requestHeading, requestPitch, patchProg.Subdivide(0f, 0.9f));
-                                        while (!imageTask.IsCanceled && !imageTask.IsFaulted && !imageTask.IsCompleted)
-                                        {
-                                            yield return null;
-                                        }
+                                        imageProg = otherLevelProgs[numRequests++];
+                                    }
+                                    yield return GetImage(panoid, f, (int)fov, scale, requestHeading, requestPitch, imageProg);
 
-                                        if (imageTask.IsCompleted)
-                                        {
-                                            var image = imageTask.Result;
-                                            if (image != null)
-                                            {
-                                                var textureProg = patchProg.Subdivide(0.9f, 0.1f);
-                                                var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
-                                                if (image.format == ImageFormat.None)
-                                                {
-                                                    texture.LoadRawTextureData(image.data);
-                                                }
-                                                else if (image.format != ImageFormat.Unsupported)
-                                                {
-                                                    texture.LoadImage(image.data);
-                                                }
-                                                textureProg?.Report(0.3333f);
-                                                yield return null;
-                                                texture.Compress(true);
-                                                textureProg?.Report(0.66667f);
-                                                yield return null;
-                                                texture.Apply(false, true);
-                                                textureProg?.Report(1);
-
-                                                var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                                                var renderer = frame.GetComponent<MeshRenderer>();
-                                                var material = new Material(Shader.Find("Unlit/Texture"));
-                                                material.SetTexture("_MainTex", texture);
-                                                renderer.SetMaterial(material);
-
-                                                frame.layer = LayerMask.NameToLayer("Photospheres");
-                                                frame.transform.SetParent(panoDetailSliceFrameContainerCache[panoid][f][requestHeading][requestPitch], false);
-                                                frame.transform.localScale = scale * Vector3.one;
-                                            }
-                                        }
+                                    if (f > 0)
+                                    {
+                                        break;
                                     }
                                 }
                             }
+                        }
 
-                            if (f == 0)
-                            {
-                                Complete();
+#if UNITY_EDITOR
+                        if (numRequests == 0)
+                        {
+                            CaptureCubemap(panoid);
+                        }
+#endif
 
-                                if (fromNavigation && fader.IsEntered && fader.IsComplete)
-                                {
-                                    fader.Exit();
-                                }
-                            }
+                        if (!fromNavigation)
+                        {
+                            Complete();
+                        }
+                        else if (fader.IsEntered && fader.IsComplete)
+                        {
+                            fader.Exit();
                         }
                     }
                 }
@@ -370,6 +341,79 @@ namespace Juniper.Imaging
             locked = false;
         }
 
+        private static void CalcRequestParameters(Vector2 testAngle, int f, out float fov, out int radius, out float scale, out int requestHeading, out int requestPitch)
+        {
+            var overlap = FOVs.Length - f;
+            radius = 5 * overlap + 50;
+            if (f == 0)
+            {
+                overlap = 0;
+            }
+
+            var subFOV = FOVs[f];
+            fov = subFOV + 2 * overlap;
+            scale = 2 * radius * Mathf.Tan(Degrees.Radians(fov / 2));
+            requestHeading = (int)Mathf.Repeat(fov * Mathf.Round(testAngle.y / fov), 360);
+            var unityPitch = (int)Mathf.Repeat(fov * Mathf.Round(testAngle.x / fov), 360);
+            requestPitch = -unityPitch;
+            if (unityPitch >= 270)
+            {
+                requestPitch += 360;
+            }
+            else if (unityPitch > 90)
+            {
+                requestPitch += 180;
+            }
+
+            if (90 < unityPitch && unityPitch < 270)
+            {
+                requestHeading = (int)Mathf.Repeat(requestHeading + 180, 360);
+            }
+        }
+
+        private IEnumerator GetImage(PanoID panoid, int f, int fov, float scale, int requestHeading, int requestPitch, IProgress imageProg)
+        {
+            var imageTask = yarrow.GetImage(panoid, (int)fov, requestHeading, requestPitch, imageProg);
+            while (!imageTask.IsCanceled && !imageTask.IsFaulted && !imageTask.IsCompleted)
+            {
+                yield return null;
+            }
+
+            if (imageTask.IsCompleted)
+            {
+                var image = imageTask.Result;
+                if (image != null)
+                {
+                    //var textureProg = patchProg.Subdivide(0.9f, 0.1f);
+                    var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
+                    if (image.format == ImageFormat.None)
+                    {
+                        texture.LoadRawTextureData(image.data);
+                    }
+                    else if (image.format != ImageFormat.Unsupported)
+                    {
+                        texture.LoadImage(image.data);
+                    }
+                    //textureProg?.Report(0.3333f);
+                    yield return null;
+                    texture.Compress(true);
+                    //textureProg?.Report(0.66667f);
+                    yield return null;
+                    texture.Apply(false, true);
+                    //textureProg?.Report(1);
+
+                    var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                    var renderer = frame.GetComponent<MeshRenderer>();
+                    var material = new Material(Shader.Find("Unlit/Texture"));
+                    material.SetTexture("_MainTex", texture);
+                    renderer.SetMaterial(material);
+
+                    frame.layer = LayerMask.NameToLayer("Photospheres");
+                    frame.transform.SetParent(panoDetailSliceFrameContainerCache[panoid][f][requestHeading][requestPitch], false);
+                    frame.transform.localScale = scale * Vector3.one;
+                }
+            }
+        }
 
         private void CaptureCubemap(PanoID panoid)
         {
