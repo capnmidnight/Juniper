@@ -46,6 +46,7 @@
     <Compile Include="ManagedRequestReady.cs" />
     <Compile Include="OneShotThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskExt.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
