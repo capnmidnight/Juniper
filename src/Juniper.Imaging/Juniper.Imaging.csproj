@@ -40,19 +40,13 @@
   <ItemGroup>
     <Compile Include="AbstractImageDataDecoder.cs" />
     <Compile Include="IImageDecoder.cs" />
-    <Compile Include="JPEG\JpegDecoder.cs" />
     <Compile Include="Markers.cs" />
-    <Compile Include="PNG\PngDecoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ImageData.cs" />
     <Compile Include="Size.cs" />
     <Compile Include="ImageFormat.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hjg.Pngcs\Hjg.Pngcs.csproj">
-      <Project>{d1a0316a-2512-4a58-af0d-d4b6943b4992}</Project>
-      <Name>Hjg.Pngcs</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Juniper.NETFXExtensions\Juniper.NETFXExtensions.csproj">
       <Project>{71ce09ef-34ce-4970-a731-593c09a7efb9}</Project>
       <Name>Juniper.NETFXExtensions</Name>
@@ -69,11 +63,6 @@
       <Project>{134d77e1-78d5-4f9b-868f-7ea6e98cec08}</Project>
       <Name>Juniper.Streams</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Portable.LibJpeg.NET">
-      <Version>1.5.1.1</Version>
-    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

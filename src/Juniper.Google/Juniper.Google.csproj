@@ -88,6 +88,10 @@
       <Project>{888b994c-2ae8-42b2-84f5-b15e11cc4f4f}</Project>
       <Name>Juniper.HTTP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Juniper.Imaging.PNG\Juniper.Imaging.PNG.csproj">
+      <Project>{1a8d6a33-7144-4789-95ad-4bbc025ab100}</Project>
+      <Name>Juniper.Imaging.PNG</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj">
       <Project>{f951a2e5-078a-413d-966d-c3f4ae5edcab}</Project>
       <Name>Juniper.Imaging</Name>
