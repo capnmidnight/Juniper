@@ -48,7 +48,6 @@ namespace Juniper.Ground
                     {
                         var terrainT = this.Ensure<Transform>("Terrain");
                         terrain = terrainT.Ensure<Terrain>();
-                        terrain.materialType = Terrain.MaterialType.Custom;
                         terrain.materialTemplate = CurrentMaterial;
                         terrain.terrainData = terrainData;
                     }
@@ -79,9 +78,7 @@ namespace Juniper.Ground
         {
             base.VisualizationChanged();
 
-            if (terrain != null
-                && !preexistingTerrain
-                && terrain.materialType == Terrain.MaterialType.Custom)
+            if (terrain != null && !preexistingTerrain)
             {
                 terrain.materialTemplate = CurrentMaterial;
             }
