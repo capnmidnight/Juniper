@@ -8,6 +8,16 @@ namespace Juniper.Imaging
     /// </summary>
     public partial class ImageData : ICloneable
     {
+        public static T[,] CubeCross<T>(T[] images)
+        {
+            return new T[,]
+            {
+                { default, images[0], default, default },
+                { images[1], images[2], images[3], images[4] },
+                { default, images[5], default, default }
+            };
+        }
+
         public static string GetContentType(ImageFormat format)
         {
             switch (format)
