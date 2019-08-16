@@ -137,9 +137,11 @@ namespace Juniper.Imaging.PNG
             var line = new ImageLine(info, ImageLine.ESampleType.BYTE);
             for (var i = 0; i < image.dimensions.height; ++i)
             {
+                prog?.Report(i, image.dimensions.height);
                 var row = ImageData.GetRowIndex(image.dimensions.height, i, true);
                 Array.Copy(image.data, row * image.stride, line.ScanlineB, 0, image.stride);
                 png.WriteRow(line, i);
+                prog?.Report(i + 1, image.dimensions.height);
             }
 
             png.End();

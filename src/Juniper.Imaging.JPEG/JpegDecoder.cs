@@ -92,6 +92,7 @@ namespace Juniper.Imaging.JPEG
             var rowBuffer = new byte[image.stride];
             for (var i = 0; i < image.dimensions.height; ++i)
             {
+                prog.Report(i, image.dimensions.height);
                 var rowIndex = ImageData.GetRowIndex(image.dimensions.height, i, true);
                 var imageDataIndex = rowIndex * image.stride;
                 Array.Copy(image.data, imageDataIndex, rowBuffer, 0, rowBuffer.Length);
@@ -100,6 +101,7 @@ namespace Juniper.Imaging.JPEG
                     image.dimensions.width,
                     ImageData.BitsPerComponent,
                     (byte)image.components);
+                prog.Report(i + 1, image.dimensions.height);
             }
 
             using (var jpeg = new JpegImage(rows, Colorspace.RGB))
