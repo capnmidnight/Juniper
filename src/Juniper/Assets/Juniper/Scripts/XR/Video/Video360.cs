@@ -31,7 +31,7 @@ namespace Juniper.Video
         private RenderTexture renderTexture;
         public bool useMipMap = true;
 
-        private readonly SkyboxManager skybox;
+        private SkyboxManager skybox;
 
         private InteractionAudio interaction;
 
@@ -39,6 +39,7 @@ namespace Juniper.Video
         {
             base.Awake();
 
+            skybox = ComponentExt.FindAny<SkyboxManager>();
             interaction = ComponentExt.FindAny<InteractionAudio>();
 
             player = this.Ensure<VideoPlayer>();
