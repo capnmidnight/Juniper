@@ -230,10 +230,6 @@ namespace Juniper.Audio
         /// </summary>
         public AudioClip soundOnShutDown;
 
-        private const string MASTER_VOLUME_KEY = "MasterVolume";
-
-        private IValuedControl<float> volume;
-
         protected AudioListener listener;
 #endif
 
@@ -484,13 +480,6 @@ namespace Juniper.Audio
             {
                 CreateNewAudioSource();
             }
-
-            Volume = PlayerPrefs.GetFloat(MASTER_VOLUME_KEY, 1);
-
-            if (volume != null)
-            {
-                volume.value = Volume;
-            }
         }
 
         protected virtual string DefaultAudioMixer
@@ -511,11 +500,6 @@ namespace Juniper.Audio
                      orderby g.name == "Master" descending
                      select g)
                         .FirstOrDefault();
-            }
-
-            if (defaultMixerGroup != null)
-            {
-                Volume = PlayerPrefs.GetFloat(MASTER_VOLUME_KEY, 1);
             }
         }
 
@@ -555,43 +539,6 @@ namespace Juniper.Audio
             audioSource.name = "AudioSource" + audioSources.Count.ToString("00");
             return audioSource;
         }
-
-#endif
-
-        public float Volume
-        {
-            set
-            {
-#if UNITY_MODULES_AUDIO
-                PlayerPrefs.SetFloat(MASTER_VOLUME_KEY, value);
-                PlayerPrefs.Save();
-
-                var log = Mathf.Log(value) * 11.5f;
-                if (float.IsInfinity(log))
-                {
-                    log = -1000;
-                }
-
-                defaultMixerGroup
-                    ?.audioMixer
-                    ?.SetFloat("Volume", log);
-#endif
-            }
-
-            get
-            {
-                float value = 0;
-#if UNITY_MODULES_AUDIO
-                if (defaultMixerGroup?.audioMixer?.GetFloat("Volume", out value) == true)
-                {
-                    value = Mathf.Pow(E, value / 11.5f);
-                }
-#endif
-                return value;
-            }
-        }
-
-#if UNITY_MODULES_AUDIO
 
         /// <summary>
         /// Set the common spatialization parameters for an AudioSource, including adding the
