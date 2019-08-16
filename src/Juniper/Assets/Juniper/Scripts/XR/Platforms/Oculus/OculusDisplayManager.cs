@@ -37,9 +37,9 @@ namespace Juniper.Display
 
             if (Application.isPlaying)
             {
-                if (OVRManager.tiledMultiResSupported)
+                if (OVRManager.fixedFoveatedRenderingSupported)
                 {
-                    OVRManager.tiledMultiResLevel = OVRManager.TiledMultiResLevel.LMSHigh;
+                    OVRManager.fixedFoveatedRenderingLevel = OVRManager.FixedFoveatedRenderingLevel.High;
                 }
 
                 if (OVRManager.display != null
