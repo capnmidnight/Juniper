@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,7 +7,7 @@ namespace Juniper.Progress
     /// <summary>
     /// Progress reporting interface for asynchronous operations.
     /// </summary>
-    public interface IProgress : System.IProgress<float>
+    public interface IProgress : IProgress<float>
     {
         /// <summary>
         /// The value of the most recent progress report.
@@ -41,7 +42,7 @@ namespace Juniper.Progress
         /// <returns>True when progress is reasonably close to 1</returns>
         public static bool IsComplete(this IProgress prog)
         {
-            return System.Math.Abs(prog.Progress - 1) < ALPHA;
+            return Math.Abs(prog.Progress - 1) < ALPHA;
         }
 
         /// <summary>
@@ -52,20 +53,23 @@ namespace Juniper.Progress
         /// <param name="arr">The list of objects to iterate over, for progress tracking.</param>
         /// <param name="act">The action to take on each list item.</param>
         /// <param name="error">A callback to fire if an error occurs when processing a list item.</param>
-        public static IEnumerable<U> Select<T, U>(this IProgress prog, IEnumerable<T> arr, System.Func<T, IProgress, U> act)
+        public static IEnumerable<U> Select<T, U>(this IProgress prog, IEnumerable<T> arr, Func<T, IProgress, U> act)
         {
             prog?.Report(0);
 
             var len = arr.Count();
-            var progs = prog.Split(len);
-            var index = 0;
-            foreach (var item in arr)
+            if (len > 0)
             {
-                progs[index]?.Report(0);
-                yield return act(item, progs[index]);
-                progs[index]?.Report(1);
-                ++index;
+                var progs = prog.Split(len);
+                var index = 0;
+                foreach (var item in arr)
+                {
+                    progs[index]?.Report(0);
+                    yield return act(item, progs[index]);
+                    progs[index]?.Report(1);
+                    ++index;
 #pragma warning restore CA1031 // Do not catch general exception types
+                }
             }
 
             prog?.Report(1);
@@ -79,34 +83,36 @@ namespace Juniper.Progress
         /// <param name="arr">The list of objects to iterate over, for progress tracking.</param>
         /// <param name="act">The action to take on each list item.</param>
         /// <param name="error">A callback to fire if an error occurs when processing a list item.</param>
-        public static void ForEach<T>(this IProgress prog, IEnumerable<T> arr, System.Action<T, IProgress> act, System.Action<System.Exception> error = null)
+        public static void ForEach<T>(this IProgress prog, IEnumerable<T> arr, Action<T, IProgress> act, Action<Exception> error = null)
         {
             prog?.Report(0);
 
             var len = arr.Count();
-            var progs = prog.Split(len);
-            var index = 0;
-            foreach (var item in arr)
+            if (len > 0)
             {
-                try
+                var progs = prog.Split(len);
+                var index = 0;
+                foreach (var item in arr)
                 {
-                    progs[index]?.Report(0);
-                    act(item, progs[index]);
-                    progs[index]?.Report(1);
-                    ++index;
-                }
-                catch (System.OperationCanceledException)
-                {
-                    throw;
-                }
+                    try
+                    {
+                        progs[index]?.Report(0);
+                        act(item, progs[index]);
+                        progs[index]?.Report(1);
+                        ++index;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        throw;
+                    }
 #pragma warning disable CA1031 // Do not catch general exception types
-                catch (System.Exception exp)
-                {
-                    error?.Invoke(exp);
-                }
+                    catch (Exception exp)
+                    {
+                        error?.Invoke(exp);
+                    }
 #pragma warning restore CA1031 // Do not catch general exception types
+                }
             }
-
             prog?.Report(1);
         }
 
@@ -147,13 +153,46 @@ namespace Juniper.Progress
         /// <param name="numParts"></param>
         /// <param name="prefix"></param>
         /// <returns></returns>
-        public static IProgress[] Split(this IProgress parent, long numParts, string prefix = null)
+        public static IProgress[] Split(this IProgress parent, long numParts)
         {
+            if (numParts <= 0)
+            {
+                throw new ArgumentException("Number of subdivisions must be at least 1.", nameof(numParts));
+            }
+
             var arr = new IProgress[numParts];
             var length = 1.0f / numParts;
             for (var i = 0; i < numParts; ++i)
             {
-                arr[i] = parent?.Subdivide(i * length, length, prefix);
+                arr[i] = parent?.Subdivide(i * length, length);
+            }
+
+            return arr;
+        }
+
+        /// <summary>
+        /// Split a progress tracker into sub-trackers with the provided prefixes, one per prefix.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="prefixes"></param>
+        /// <returns></returns>
+        public static IProgress[] Split(this IProgress parent, params string[] prefixes)
+        {
+            if (prefixes == null)
+            {
+                throw new ArgumentNullException(nameof(prefixes));
+            }
+
+            if (prefixes.Length == 0)
+            {
+                throw new ArgumentException("Must provide at least one prefix", nameof(prefixes));
+            }
+
+            var arr = new IProgress[prefixes.Length];
+            var length = 1.0f / prefixes.Length;
+            for (var i = 0; i < prefixes.Length; ++i)
+            {
+                arr[i] = parent?.Subdivide(i * length, length);
             }
 
             return arr;
