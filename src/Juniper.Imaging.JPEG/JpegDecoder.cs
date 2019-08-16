@@ -88,11 +88,14 @@ namespace Juniper.Imaging.JPEG
         /// <param name="outputStream">Jpeg bytes.</param>
         public override void Serialize(Stream outputStream, ImageData image, IProgress prog = null)
         {
+            var subProgs = prog.Split("Copying", "Saving");
+            var copyProg = subProgs[0];
+            var saveProg = subProgs[1];
             var rows = new SampleRow[image.dimensions.height];
             var rowBuffer = new byte[image.stride];
             for (var i = 0; i < image.dimensions.height; ++i)
             {
-                prog.Report(i, image.dimensions.height);
+                copyProg.Report(i, image.dimensions.height);
                 var rowIndex = ImageData.GetRowIndex(image.dimensions.height, i, true);
                 var imageDataIndex = rowIndex * image.stride;
                 Array.Copy(image.data, imageDataIndex, rowBuffer, 0, rowBuffer.Length);
@@ -101,13 +104,15 @@ namespace Juniper.Imaging.JPEG
                     image.dimensions.width,
                     ImageData.BitsPerComponent,
                     (byte)image.components);
-                prog.Report(i + 1, image.dimensions.height);
+                copyProg.Report(i + 1, image.dimensions.height);
             }
 
+            saveProg.Report(0);
             using (var jpeg = new JpegImage(rows, Colorspace.RGB))
             {
                 jpeg.WriteJpeg(outputStream, compressionParams);
             }
+            saveProg.Report(1);
         }
     }
 }

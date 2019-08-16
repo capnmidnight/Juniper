@@ -117,6 +117,9 @@ namespace Juniper.Imaging.PNG
         /// <param name="outputStream">Png bytes.</param>
         public override void Serialize(Stream outputStream, ImageData image, IProgress prog = null)
         {
+            var subProgs = prog.Split("Copying", "Saving");
+            var copyProg = subProgs[0];
+            var saveProg = subProgs[1];
             var info = new ImageInfo(
                 image.dimensions.width,
                 image.dimensions.height,
@@ -137,14 +140,16 @@ namespace Juniper.Imaging.PNG
             var line = new ImageLine(info, ImageLine.ESampleType.BYTE);
             for (var i = 0; i < image.dimensions.height; ++i)
             {
-                prog?.Report(i, image.dimensions.height);
+                copyProg?.Report(i, image.dimensions.height);
                 var row = ImageData.GetRowIndex(image.dimensions.height, i, true);
                 Array.Copy(image.data, row * image.stride, line.ScanlineB, 0, image.stride);
                 png.WriteRow(line, i);
-                prog?.Report(i + 1, image.dimensions.height);
+                copyProg?.Report(i + 1, image.dimensions.height);
             }
 
+            saveProg.Report(0);
             png.End();
+            saveProg.Report(1);
         }
     }
 }
