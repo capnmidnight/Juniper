@@ -20,7 +20,7 @@ using Juniper.Units;
 using Juniper.Unity;
 using Juniper.World;
 using Juniper.World.GIS;
-
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -50,9 +50,9 @@ namespace Juniper.Imaging
             var maxX = Mathf.Ceil(180 / fov) * fov;
             var minY = Mathf.Floor(-90 / fov) * fov;
             var maxY = Mathf.Ceil(90 / fov) * fov;
-            for (float ax = minX; ax <= maxX; ax += fov)
+            for (var ax = minX; ax <= maxX; ax += fov)
             {
-                for (float ay = minY; ay <= maxY; ay += fov)
+                for (var ay = minY; ay <= maxY; ay += fov)
                 {
                     list.Add(new Vector2(ax, ay));
                 }
@@ -299,7 +299,6 @@ namespace Juniper.Imaging
                         if (numRequests == 0)
                         {
 #if UNITY_EDITOR
-                            print("Saving skybox " + nextPano);
                             yield return null;
                             CaptureCubemap(nextPano);
 #endif
@@ -429,7 +428,7 @@ namespace Juniper.Imaging
 
         private IEnumerator GetImage(PanoID panoid, int f, int fov, float scale, int requestHeading, int requestPitch, IProgress imageProg)
         {
-            var imageTask = yarrow.GetImage(panoid, (int)fov, requestHeading, requestPitch, imageProg.Subdivide(0f, 0.9f));
+            var imageTask = yarrow.GetImage(panoid, fov, requestHeading, requestPitch, imageProg.Subdivide(0f, 0.9f));
             while (imageTask.IsRunning())
             {
                 yield return null;
@@ -454,66 +453,128 @@ namespace Juniper.Imaging
             }
         }
 
+#if UNITY_EDITOR
+        private bool cubemapLock;
+
         private void CaptureCubemap(PanoID panoid)
+        {
+            if (!cubemapLock)
+            {
+                cubemapLock = true;
+                StartCoroutine(CaptureCubemapCoroutine(panoid));
+            }
+        }
+
+        private IEnumerator CaptureCubemapCoroutine(PanoID panoid)
         {
             var fileName = Path.Combine("Assets", "StreamingAssets", $"{panoid.ToString()}.jpeg");
             if (!File.Exists(fileName))
             {
-                const int dim = 2048;
-                var cubemap = new Cubemap(dim, TextureFormat.RGB24, false);
-                cubemap.Apply();
-
-                var curMask = DisplayManager.MainCamera.cullingMask;
-                DisplayManager.MainCamera.cullingMask = LayerMask.GetMask("Photospheres");
-
-                var curRotation = DisplayManager.MainCamera.transform.rotation;
-                DisplayManager.MainCamera.transform.rotation = Quaternion.identity;
-
-                DisplayManager.MainCamera.RenderToCubemap(cubemap, 63);
-
-                DisplayManager.MainCamera.cullingMask = curMask;
-                DisplayManager.MainCamera.transform.rotation = curRotation;
-
-                var faces = new[]
+                using (var prog = new UnityEditorProgressDialog("Saving cubemap " + panoid))
                 {
-                    CubemapFace.NegativeY,
-                    CubemapFace.NegativeX,
-                    CubemapFace.PositiveZ,
-                    CubemapFace.PositiveX,
-                    CubemapFace.NegativeZ,
-                    CubemapFace.PositiveY
-                };
+                    var subProgs = prog.Split(
+                        "Rendering cubemap",
+                        "Copying cubemap faces",
+                        "Concatenating faces",
+                        "Saving image");
 
-                var images = new ImageData[faces.Length];
+                    subProgs[0].Report(0);
+                    const int dim = 2048;
+                    var cubemap = new Cubemap(dim, TextureFormat.RGB24, false);
+                    cubemap.Apply();
 
-                for (var f = 0; f < faces.Length; ++f)
-                {
-                    var pixels = cubemap.GetPixels(faces[f]);
-                    var buf = new byte[pixels.Length * 3];
-                    for (var y = 0; y < cubemap.height; ++y)
+                    var curMask = DisplayManager.MainCamera.cullingMask;
+                    DisplayManager.MainCamera.cullingMask = LayerMask.GetMask("Photospheres");
+
+                    var curRotation = DisplayManager.MainCamera.transform.rotation;
+                    DisplayManager.MainCamera.transform.rotation = Quaternion.identity;
+
+                    DisplayManager.MainCamera.RenderToCubemap(cubemap, 63);
+
+                    DisplayManager.MainCamera.cullingMask = curMask;
+                    DisplayManager.MainCamera.transform.rotation = curRotation;
+                    subProgs[0].Report(1);
+
+                    var faces = new[]
                     {
-                        for (var x = 0; x < cubemap.width; ++x)
+                        CubemapFace.NegativeY,
+                        CubemapFace.NegativeX,
+                        CubemapFace.PositiveZ,
+                        CubemapFace.PositiveX,
+                        CubemapFace.NegativeZ,
+                        CubemapFace.PositiveY
+                    };
+
+                    var images = new ImageData[faces.Length];
+
+                    for (var f = 0; f < faces.Length; ++f)
+                    {
+                        subProgs[1].Report(f, faces.Length);
+                        try
                         {
-                            var bufI = y * cubemap.width + x;
-                            var pixI = (cubemap.height - 1 - y) * cubemap.width + x;
-                            buf[bufI * 3 + 0] = (byte)(255 * pixels[pixI].r);
-                            buf[bufI * 3 + 1] = (byte)(255 * pixels[pixI].g);
-                            buf[bufI * 3 + 2] = (byte)(255 * pixels[pixI].b);
+                            var pixels = cubemap.GetPixels(faces[f]);
+                            var buf = new byte[pixels.Length * 3];
+                            for (var y = 0; y < cubemap.height; ++y)
+                            {
+                                for (var x = 0; x < cubemap.width; ++x)
+                                {
+                                    var bufI = y * cubemap.width + x;
+                                    var pixI = (cubemap.height - 1 - y) * cubemap.width + x;
+                                    buf[bufI * 3 + 0] = (byte)(255 * pixels[pixI].r);
+                                    buf[bufI * 3 + 1] = (byte)(255 * pixels[pixI].g);
+                                    buf[bufI * 3 + 2] = (byte)(255 * pixels[pixI].b);
+                                }
+                            }
+
+                            images[f] = new ImageData(DataSource.None, cubemap.width, cubemap.height, 3, ImageFormat.None, buf);
                         }
+                        catch
+                        {
+                            cubemapLock = false;
+                            throw;
+                        }
+                        subProgs[1].Report(f + 1, faces.Length);
+                        yield return null;
                     }
 
-                    images[f] = new ImageData(DataSource.None, cubemap.width, cubemap.height, 3, ImageFormat.None, buf);
-                }
+                    var saveTask = Task.Run(() =>
+                    {
+                        try
+                        {
+                            var img = encoder.Concatenate(ImageData.CubeCross(images), subProgs[2]);
+                            encoder.Save(fileName, img, subProgs[3]);
+                        }
+                        catch
+                        {
+                            cubemapLock = false;
+                            throw;
+                        }
+                    });
 
-                var img = encoder.Concatenate(new ImageData[,]
-                {
-                    { null, images[0], null, null },
-                    { images[1], images[2], images[3], images[4] },
-                    { null, images[5], null, null }
-                });
-                encoder.Save(fileName, img);
+                    while (saveTask.IsRunning())
+                    {
+                        yield return null;
+                    }
+
+                    if (saveTask.IsCompleted)
+                    {
+                        Debug.Log("Cubemap saved");
+                    }
+                    else if (saveTask.IsFaulted)
+                    {
+                        Debug.Log("Cubemap save error");
+                    }
+                    else
+                    {
+                        Debug.Log("Cubemap cancelled");
+                    }
+                }
             }
+
+            cubemapLock = false;
         }
+
+#endif
 
         private bool FillCaches(PanoID panoid, int f, float radius, int requestHeading, int requestPitch)
         {
