@@ -20,7 +20,7 @@ using Juniper.Units;
 using Juniper.Unity;
 using Juniper.World;
 using Juniper.World.GIS;
-using UnityEditor;
+
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -105,6 +105,7 @@ namespace Juniper.Imaging
         private Avatar avatar;
         private SkyboxManager skybox;
         private JpegDecoder encoder;
+        private PhotosphereManager photospheres;
 
 #if UNITY_EDITOR
         private EditorTextInput locationInput;
@@ -151,7 +152,10 @@ namespace Juniper.Imaging
             fader = ComponentExt.FindAny<FadeTransition>();
             gps = ComponentExt.FindAny<GPSLocation>();
             avatar = ComponentExt.FindAny<Avatar>();
-            skybox = ComponentExt.FindAny<SkyboxManager>();
+            skybox = ComponentExt.FindAny<SkyboxManager>()
+                ?? this.Ensure<SkyboxManager>();
+            photospheres = ComponentExt.FindAny<PhotosphereManager>()
+                ?? this.Ensure<PhotosphereManager>();
         }
 
         public override void Awake()
@@ -181,6 +185,22 @@ namespace Juniper.Imaging
             var uri = new Uri(yarrowServerHost);
             encoder = new JpegDecoder(80, 2);
             yarrow = new YarrowClient<ImageData>(uri, encoder, yarrowCacheDir, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
+
+            photospheres.ImageNeeded += Photospheres_ImageNeeded;
+            photospheres.PhotosphereReady += Photospheres_PhotosphereReady;
+            photospheres.PhotosphereComplete += Photospheres_PhotosphereComplete;
+
+            photospheres.AddDetailLevels(FOVs);
+        }
+
+        private void Photospheres_PhotosphereComplete(Photosphere obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Photospheres_PhotosphereReady(Photosphere obj)
+        {
+            throw new NotImplementedException();
         }
 
         public override void Enter(IProgress prog = null)
@@ -263,6 +283,26 @@ namespace Juniper.Imaging
                     {
                         var euler = (Vector2)avatar.Head.rotation.eulerAngles;
 
+                        var photosphere = photospheres[nextPano.ToString()];
+                        if (photosphere.IsComplete
+                            || photospheres.Count == 1 && photosphere.IsDetailLevelComplete(0))
+                        {
+                            if (firstLoad)
+                            {
+                                Complete();
+                                firstLoad = false;
+                            }
+                            else if (fader.IsEntered && fader.IsComplete)
+                            {
+                                fader.Exit();
+                            }
+
+                            if (photosphere.IsComplete)
+                            {
+                                curPano = nextPano;
+                            }
+                        }
+
                         var lodProgs = subProg.Split(2);
                         var topLevelProgs = lodProgs[0].Split(TEST_ANGLES[0].Length);
                         var otherLevelProgs = lodProgs[1].Split(MAX_REQUESTS);
@@ -286,7 +326,7 @@ namespace Juniper.Imaging
                                     {
                                         imageProg = otherLevelProgs[numRequests++];
                                     }
-                                    yield return GetImage(nextPano, f, (int)fov, scale, requestHeading, requestPitch, imageProg);
+                                    yield return CreateImage(nextPano, f, (int)fov, scale, requestHeading, requestPitch, imageProg);
 
                                     if (f > 0)
                                     {
@@ -319,6 +359,11 @@ namespace Juniper.Imaging
                 }
             }
             locked = false;
+        }
+
+        private Task<ImageData> Photospheres_ImageNeeded(Photosphere source, int fov, int heading, int pitch)
+        {
+            return yarrow.GetImage((PanoID)source.name, fov, heading, pitch);
         }
 
         private static readonly Regex GMAPS_URL_PATTERN = new Regex("https?://www\\.google\\.com/maps/@-?\\d+\\.\\d+,\\d+\\.\\d+(?:,[a-zA-Z0-9.]+)*/data=(?:![a-z0-9]+)*!1s([a-zA-Z0-9_\\-]+)(?:![a-z0-9]+)*", RegexOptions.Compiled);
@@ -426,7 +471,7 @@ namespace Juniper.Imaging
             }
         }
 
-        private IEnumerator GetImage(PanoID panoid, int f, int fov, float scale, int requestHeading, int requestPitch, IProgress imageProg)
+        private IEnumerator CreateImage(PanoID panoid, int f, int fov, float scale, int requestHeading, int requestPitch, IProgress imageProg)
         {
             var imageTask = yarrow.GetImage(panoid, fov, requestHeading, requestPitch, imageProg.Subdivide(0f, 0.9f));
             while (imageTask.IsRunning())
