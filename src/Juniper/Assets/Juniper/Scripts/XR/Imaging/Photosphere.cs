@@ -3,21 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-
+using Juniper.Data;
 using Juniper.Display;
 using Juniper.Progress;
 using Juniper.Serialization;
+using Juniper.Streams;
 using Juniper.Units;
 
 using UnityEngine;
 
 namespace Juniper.Imaging
 {
-    public delegate Task<ImageData> CubemapImageNeeded(Photosphere source);
+    public delegate string CubemapImageNeeded(Photosphere source);
 
     public delegate Task<ImageData> PhotosphereImageNeeded(Photosphere source, int fov, int heading, int pitch);
 
-    public class Photosphere : MonoBehaviour
+    public class Photosphere : MonoBehaviour, IProgress
     {
         private const int MAX_REQUESTS = 4;
 
@@ -52,6 +53,8 @@ namespace Juniper.Imaging
 
         public event Action<Photosphere> Ready;
 
+        internal IImageDecoder<ImageData> encoder;
+
         public void Awake()
         {
             avatar = ComponentExt.FindAny<Avatar>();
@@ -68,8 +71,8 @@ namespace Juniper.Imaging
             {
                 trySkybox = false;
                 locked = true;
-                var imageTask = CubemapNeeded?.Invoke(this);
-                StartCoroutine(ReadCubemapCoroutine(imageTask));
+                var filename = CubemapNeeded?.Invoke(this);
+                StartCoroutine(ReadCubemapCoroutine(filename));
             }
             else if (skyboxCubemap != null)
             {
@@ -91,7 +94,7 @@ namespace Juniper.Imaging
                     if (detailContainerCache.ContainsKey(lodLevel))
                     {
                         detailContainerCache[lodLevel].Activate();
-                        if (DetailLevelCompleteCount(f) == lodLevelRequirements[lodLevel])
+                        if (DetailLevelCompleteCount(f) == lodLevelRequirements[f])
                         {
                             break;
                         }
@@ -100,14 +103,17 @@ namespace Juniper.Imaging
             }
         }
 
-        private IEnumerator ReadCubemapCoroutine(Task<ImageData> imageTask)
+        private IEnumerator ReadCubemapCoroutine(string filePath)
         {
+            var subProgs = this.Split("Get image", "Read image");
+            var imageTask = StreamingAssets.ReadImage(encoder, Application.persistentDataPath, filePath, subProgs[0]);
             while (imageTask.IsRunning())
             {
                 yield return null;
             }
 
-            if (imageTask.IsCompleted && imageTask.Result != null)
+            if (imageTask.IsCompleted
+                && imageTask.Result != null)
             {
                 Debug.Log("Cubemap saved");
                 skyboxCubemap = imageTask.Result.ToTexture();
@@ -115,16 +121,26 @@ namespace Juniper.Imaging
                 OnEnable();
                 Update();
             }
-            else if (imageTask.IsFaulted)
-            {
-                Debug.Log("Cubemap save error");
-            }
-            else
+            else if (imageTask.IsCanceled)
             {
                 Debug.Log("Cubemap canceled");
             }
+            else
+            {
+                Debug.Log("Cubemap save error");
+            }
 
             locked = false;
+        }
+
+        public void Report(float progress, string status)
+        {
+            ProgressToReady = progress;
+        }
+
+        public void Report(float progress)
+        {
+            Report(progress, null);
         }
 
         public void OnDisable()
@@ -144,6 +160,7 @@ namespace Juniper.Imaging
 
         public void Update()
         {
+            transform.position = avatar.Head.position;
             if (!wasComplete)
             {
                 var isComplete = false;
@@ -159,18 +176,33 @@ namespace Juniper.Imaging
                     var totalNeeded = 0;
                     for (var f = 0; f < lodLevelRequirements.Length; ++f)
                     {
-                        totalCompleted = DetailLevelCompleteCount(f);
-                        totalNeeded = lodLevelRequirements[f];
+                        var t = DetailLevelCompleteCount(f);
+                        var n = lodLevelRequirements[f];
 
                         if (f == 0)
                         {
-                            ProgressToReady = totalCompleted / (float)totalNeeded;
+                            ProgressToReady = t / (float)n;
 
-                            if (totalCompleted == totalNeeded)
+                            if (t == n)
                             {
                                 isReady = true;
                             }
                         }
+
+                        if (t == n)
+                        {
+                            if (f == 0)
+                            {
+                                isReady = true;
+                            }
+                            else
+                            {
+                                detailContainerCache[FOVs[f - 1]].Deactivate();
+                            }
+                        }
+
+                        totalCompleted += t;
+                        totalNeeded += n;
                     }
 
                     ProgressToComplete = totalCompleted / (float)totalNeeded;
@@ -381,6 +413,14 @@ namespace Juniper.Imaging
             }
         }
 
+        public float Progress
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
 #if UNITY_EDITOR
         private bool cubemapLock;
 
@@ -408,31 +448,29 @@ namespace Juniper.Imaging
         private IEnumerator CaptureCubemapCoroutine()
         {
             var fileName = Path.Combine("Assets", "StreamingAssets", $"{name}.jpeg");
-            if (!File.Exists(fileName))
+            using (var prog = new UnityEditorProgressDialog("Saving cubemap " + name))
             {
-                using (var prog = new UnityEditorProgressDialog("Saving cubemap " + name))
+                var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
+
+                subProgs[0].Report(0);
+                const int dim = 2048;
+                var cubemap = new Cubemap(dim, TextureFormat.RGB24, false);
+                cubemap.Apply();
+
+                var curMask = DisplayManager.MainCamera.cullingMask;
+                DisplayManager.MainCamera.cullingMask = LayerMask.GetMask(PHOTOSPHERE_LAYER_ARR);
+
+                var curRotation = DisplayManager.MainCamera.transform.rotation;
+                DisplayManager.MainCamera.transform.rotation = Quaternion.identity;
+
+                DisplayManager.MainCamera.RenderToCubemap(cubemap, 63);
+
+                DisplayManager.MainCamera.cullingMask = curMask;
+                DisplayManager.MainCamera.transform.rotation = curRotation;
+                subProgs[0].Report(1);
+
+                var faces = new[]
                 {
-                    var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
-
-                    subProgs[0].Report(0);
-                    const int dim = 2048;
-                    var cubemap = new Cubemap(dim, TextureFormat.RGB24, false);
-                    cubemap.Apply();
-
-                    var curMask = DisplayManager.MainCamera.cullingMask;
-                    DisplayManager.MainCamera.cullingMask = LayerMask.GetMask(PHOTOSPHERE_LAYER_ARR);
-
-                    var curRotation = DisplayManager.MainCamera.transform.rotation;
-                    DisplayManager.MainCamera.transform.rotation = Quaternion.identity;
-
-                    DisplayManager.MainCamera.RenderToCubemap(cubemap, 63);
-
-                    DisplayManager.MainCamera.cullingMask = curMask;
-                    DisplayManager.MainCamera.transform.rotation = curRotation;
-                    subProgs[0].Report(1);
-
-                    var faces = new[]
-                    {
                         CubemapFace.NegativeY,
                         CubemapFace.NegativeX,
                         CubemapFace.PositiveZ,
@@ -441,56 +479,58 @@ namespace Juniper.Imaging
                         CubemapFace.PositiveY
                     };
 
-                    var images = new ImageData[faces.Length];
+                var images = new ImageData[faces.Length];
 
-                    for (var f = 0; f < faces.Length; ++f)
+                for (var f = 0; f < faces.Length; ++f)
+                {
+                    subProgs[1].Report(f, faces.Length);
+                    try
                     {
-                        subProgs[1].Report(f, faces.Length);
-                        try
+                        var pixels = cubemap.GetPixels(faces[f]);
+                        var buf = new byte[pixels.Length * 3];
+                        for (var y = 0; y < cubemap.height; ++y)
                         {
-                            var pixels = cubemap.GetPixels(faces[f]);
-                            var buf = new byte[pixels.Length * 3];
-                            for (var y = 0; y < cubemap.height; ++y)
+                            for (var x = 0; x < cubemap.width; ++x)
                             {
-                                for (var x = 0; x < cubemap.width; ++x)
-                                {
-                                    var bufI = y * cubemap.width + x;
-                                    var pixI = (cubemap.height - 1 - y) * cubemap.width + x;
-                                    buf[bufI * 3 + 0] = (byte)(255 * pixels[pixI].r);
-                                    buf[bufI * 3 + 1] = (byte)(255 * pixels[pixI].g);
-                                    buf[bufI * 3 + 2] = (byte)(255 * pixels[pixI].b);
-                                }
+                                var bufI = y * cubemap.width + x;
+                                var pixI = (cubemap.height - 1 - y) * cubemap.width + x;
+                                buf[bufI * 3 + 0] = (byte)(255 * pixels[pixI].r);
+                                buf[bufI * 3 + 1] = (byte)(255 * pixels[pixI].g);
+                                buf[bufI * 3 + 2] = (byte)(255 * pixels[pixI].b);
                             }
+                        }
 
-                            images[f] = new ImageData(DataSource.None, cubemap.width, cubemap.height, 3, ImageFormat.None, buf);
-                        }
-                        catch
-                        {
-                            cubemapLock = false;
-                            throw;
-                        }
-                        subProgs[1].Report(f + 1, faces.Length);
-                        yield return null;
+                        images[f] = new ImageData(DataSource.None, cubemap.width, cubemap.height, 3, ImageFormat.None, buf);
                     }
-
-                    var saveTask = Task.Run(() =>
+                    catch
                     {
-                        try
-                        {
-                            var encoder = new JPEG.JpegDecoder(80);
-                            var img = encoder.Concatenate(ImageData.CubeCross(images), subProgs[2]);
-                            encoder.Save(fileName, img, subProgs[3]);
-                            return encoder.Read(fileName);
-                        }
-                        catch
-                        {
-                            cubemapLock = false;
-                            throw;
-                        }
-                    });
-
-                    yield return ReadCubemapCoroutine(saveTask);
+                        cubemapLock = false;
+                        throw;
+                    }
+                    subProgs[1].Report(f + 1, faces.Length);
+                    yield return null;
                 }
+
+                var saveTask = Task.Run(() =>
+                {
+                    try
+                    {
+                        var img = encoder.Concatenate(ImageData.CubeCross(images), subProgs[2]);
+                        encoder.Save(fileName, img, subProgs[3]);
+                    }
+                    catch
+                    {
+                        cubemapLock = false;
+                        throw;
+                    }
+                });
+
+                while (saveTask.IsRunning())
+                {
+                    yield return null;
+                }
+
+                yield return ReadCubemapCoroutine(fileName);
             }
 
             cubemapLock = false;

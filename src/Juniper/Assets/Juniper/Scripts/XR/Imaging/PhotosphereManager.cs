@@ -50,6 +50,8 @@ namespace Juniper.Imaging
 
         public event Action<Photosphere> PhotosphereReady;
 
+        public IImageDecoder<ImageData> encoder;
+
         public void SetDetailLevels(float[] fovs)
         {
             FOVs = new int[fovs.Length];
@@ -89,6 +91,7 @@ namespace Juniper.Imaging
                         photo.ImageNeeded += Photo_ImageNeeded;
                         photo.Complete += Photo_Complete;
                         photo.Ready += Photo_Ready;
+                        photo.encoder = encoder;
                         photo.SetDetailRequirements(FOVs, fovTestAngles, lodLevelRequirements);
                         photospheres.Add(key, photo);
                     }
@@ -101,7 +104,7 @@ namespace Juniper.Imaging
             }
         }
 
-        private Task<ImageData> Photo_CubemapNeeded(Photosphere source)
+        private string Photo_CubemapNeeded(Photosphere source)
         {
             return CubemapNeeded?.Invoke(source);
         }

@@ -33,6 +33,12 @@ namespace Juniper.Imaging
             }
         }
 
+        public static T Read<T>(this IImageDecoder<T> decoder, Stream stream, long length, IProgress prog)
+        {
+            var progStream = new ProgressStream(stream, length, prog);
+            return decoder.Read(progStream);
+        }
+
         public static T Read<T>(this IImageDecoder<T> decoder, string fileName, IProgress prog = null)
         {
             return decoder.Read(new FileInfo(fileName), prog);
@@ -40,8 +46,7 @@ namespace Juniper.Imaging
 
         public static T Read<T>(this IImageDecoder<T> decoder, FileInfo file, IProgress prog = null)
         {
-            var progStream = new ProgressStream(file.OpenRead(), file.Length, prog);
-            return decoder.Read(progStream);
+            return decoder.Read(file.OpenRead(), file.Length, prog);
         }
 
         public static void ValidateImages<T>(this IImageDecoder<T> decoder, T[,] images, IProgress prog, out int rows, out int columns, out T firstImage, out int tileWidth, out int tileHeight)

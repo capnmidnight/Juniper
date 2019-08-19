@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Net;
+using Juniper.Progress;
+using Juniper.Streams;
 
 namespace Juniper.HTTP
 {
@@ -14,44 +16,32 @@ namespace Juniper.HTTP
 
         public readonly Stream Content;
 
-        private Response(HttpStatusCode statusCode, string contentType, long contentLength, Stream content)
+        public Response(Stream content, HttpStatusCode statusCode, string contentType, long contentLength, IProgress prog = null)
         {
             StatusCode = statusCode;
             ContentType = contentType;
             ContentLength = contentLength;
-            Content = content;
-        }
-
-        public Response(string contentType, string path)
-        {
-            var fileInfo = new FileInfo(path);
-            StatusCode = fileInfo.Exists ? HttpStatusCode.OK : HttpStatusCode.NotFound;
-            if (StatusCode == HttpStatusCode.OK)
+            if (prog != null)
             {
-                ContentType = contentType;
-                ContentLength = fileInfo.Length;
-                Content = fileInfo.OpenRead();
+                Content = new ProgressStream(content, contentLength, prog);
+            }
+            else
+            {
+                Content = content;
             }
         }
 
-        public Response(string contentType, long contentLength, Stream content)
-            : this(HttpStatusCode.OK, contentType, contentLength, content)
-        {
-        }
+        public Response(FileInfo file, string contentType, IProgress prog = null)
+            : this(file.OpenRead(), file.Exists ? HttpStatusCode.OK : HttpStatusCode.NotFound, contentType, file.Length, prog)
+        { }
 
-        public Response(string contentType, Stream content)
-            : this(contentType, 0, content)
-        {
-        }
+        public Response(string path, string contentType, IProgress prog = null)
+            : this(new FileInfo(path), contentType, prog)
+        { }
 
-        public Response(HttpWebResponse response)
-            : this(
-                  response.StatusCode,
-                  response.ContentType,
-                  response.ContentLength,
-                  response.GetResponseStream())
-        {
-        }
+        public Response(HttpWebResponse response, IProgress prog = null)
+            : this(response.GetResponseStream(), response.StatusCode, response.ContentType, response.ContentLength, prog)
+        { }
 
         private bool disposedValue = false;
 

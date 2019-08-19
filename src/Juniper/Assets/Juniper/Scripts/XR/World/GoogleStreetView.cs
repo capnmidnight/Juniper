@@ -140,25 +140,14 @@ namespace Juniper.Imaging
             photospheres.ImageNeeded += Photospheres_ImageNeeded;
             photospheres.PhotosphereReady += Photospheres_PhotosphereReady;
             photospheres.PhotosphereComplete += Photospheres_PhotosphereComplete;
+            photospheres.encoder = encoder;
 
             photospheres.SetDetailLevels(searchFOVs);
         }
 
-        private async Task<ImageData> Photospheres_CubemapNeeded(Photosphere source)
+        private string Photospheres_CubemapNeeded(Photosphere source)
         {
-            var path = StreamingAssets.FormatPath(Application.streamingAssetsPath, $"{source.name}.jpeg");
-            var response = await StreamingAssets.GetStream(Application.persistentDataPath, path);
-            if (response?.Content != null)
-            {
-                using (var stream = response.Content)
-                {
-                    return encoder.Read(stream);
-                }
-            }
-            else
-            {
-                return null;
-            }
+            return StreamingAssets.FormatPath(Application.streamingAssetsPath, $"{source.name}.jpeg");
         }
 
         private void Photospheres_PhotosphereComplete(Photosphere obj)
