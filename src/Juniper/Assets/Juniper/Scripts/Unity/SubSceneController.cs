@@ -27,12 +27,15 @@ namespace Juniper
             get
             {
                 var childrenComplete = true;
-                foreach (var child in childTransitions)
+                if (childTransitions != null)
                 {
-                    if (!child.IsComplete)
+                    foreach (var child in childTransitions)
                     {
-                        childrenComplete = false;
-                        break;
+                        if (!child.IsComplete)
+                        {
+                            childrenComplete = false;
+                            break;
+                        }
                     }
                 }
                 return base.IsComplete && childrenComplete;
