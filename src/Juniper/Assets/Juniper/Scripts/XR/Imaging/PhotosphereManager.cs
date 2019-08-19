@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Juniper.Units;
 
 using UnityEngine;
@@ -16,15 +17,15 @@ namespace Juniper.Imaging
         private static Vector2[] MakeTestAngles(float fov)
         {
             var list = new List<Vector2>();
-            var minX = Mathf.Floor(-180 / fov) * fov;
-            var maxX = Mathf.Ceil(180 / fov) * fov;
-            var minY = Mathf.Floor(-90 / fov) * fov;
-            var maxY = Mathf.Ceil(90 / fov) * fov;
-            for (var ax = minX; ax <= maxX; ax += fov)
+
+            for (var ay = -180f; ay < 180; ay += fov)
             {
-                for (var ay = minY; ay <= maxY; ay += fov)
+                for (var ax = -90f; ax <= 90f; ax += fov)
                 {
-                    list.Add(new Vector2(ax, ay));
+                    if ((int)Mathf.Abs(ax) != 90 || ay == 0)
+                    {
+                        list.Add(new Vector2(ay, ax));
+                    }
                 }
             }
 
