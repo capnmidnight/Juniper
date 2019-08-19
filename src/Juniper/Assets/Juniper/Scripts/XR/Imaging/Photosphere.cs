@@ -60,7 +60,17 @@ namespace Juniper.Imaging
 
         public void OnEnable()
         {
-            if (skybox != null && skyboxCubemap != null)
+            wasReady = false;
+            wasComplete = false;
+
+            if (trySkybox)
+            {
+                trySkybox = false;
+                locked = true;
+                var imageTask = CubemapNeeded?.Invoke(this);
+                StartCoroutine(ReadCubemapCoroutine(imageTask));
+            }
+            else if (skyboxCubemap != null)
             {
                 skybox.exposure = 1;
                 skybox.imageType = SkyboxManager.ImageType.Degrees360;
@@ -71,13 +81,6 @@ namespace Juniper.Imaging
                 skybox.tint = Color.gray;
                 skybox.useMipMap = false;
                 skybox.SetTexture(skyboxCubemap);
-            }
-            else if (trySkybox)
-            {
-                trySkybox = false;
-                locked = true;
-                var imageTask = CubemapNeeded?.Invoke(this);
-                StartCoroutine(ReadCubemapCoroutine(imageTask));
             }
             else if (lodLevelRequirements != null)
             {
@@ -306,6 +309,9 @@ namespace Juniper.Imaging
                             }
                         }
 
+                        // For the lowest detail level, we fill out all of the image angles immediately.
+                        // For all other detail levels, we break out of testing angles and continue to
+                        // next highest detail level.
                         if (f > 0)
                         {
                             break;

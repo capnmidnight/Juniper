@@ -120,8 +120,6 @@ namespace Juniper.Imaging
         {
             obj.CubemapNeeded -= Photo_CubemapNeeded;
             obj.ImageNeeded -= Photo_ImageNeeded;
-            obj.Ready -= Photo_Ready;
-            obj.Complete -= Photo_Complete;
             PhotosphereComplete?.Invoke(obj);
         }
     }
