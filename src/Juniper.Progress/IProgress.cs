@@ -55,10 +55,12 @@ namespace Juniper.Progress
         /// <param name="error">A callback to fire if an error occurs when processing a list item.</param>
         public static IEnumerable<U> Select<T, U>(this IProgress prog, IEnumerable<T> arr, Func<T, IProgress, U> act)
         {
-            prog?.Report(0);
-
             var len = arr.Count();
-            if (len > 0)
+            if (len == 0)
+            {
+                prog?.Report(1, "Nothing to do");
+            }
+            else
             {
                 var progs = prog.Split(len);
                 var index = 0;
@@ -71,8 +73,6 @@ namespace Juniper.Progress
 #pragma warning restore CA1031 // Do not catch general exception types
                 }
             }
-
-            prog?.Report(1);
         }
 
         /// <summary>
@@ -85,10 +85,12 @@ namespace Juniper.Progress
         /// <param name="error">A callback to fire if an error occurs when processing a list item.</param>
         public static void ForEach<T>(this IProgress prog, IEnumerable<T> arr, Action<T, IProgress> act, Action<Exception> error = null)
         {
-            prog?.Report(0);
-
             var len = arr.Count();
-            if (len > 0)
+            if (len == 0)
+            {
+                prog?.Report(1, "Nothing to do");
+            }
+            else
             {
                 var progs = prog.Split(len);
                 var index = 0;
@@ -113,7 +115,6 @@ namespace Juniper.Progress
 #pragma warning restore CA1031 // Do not catch general exception types
                 }
             }
-            prog?.Report(1);
         }
 
         /// <summary>

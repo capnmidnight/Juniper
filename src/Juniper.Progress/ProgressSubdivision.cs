@@ -72,13 +72,17 @@ namespace Juniper.Progress
         {
             Progress = progress;
             var prog = start + (progress * length);
-            if (prefix == null)
+            if (prefix != null && status != null)
+            {
+                parent?.Report(prog, prefix + " " + status);
+            }
+            else if (status != null)
             {
                 parent?.Report(prog, status);
             }
             else
             {
-                parent?.Report(prog, prefix + " " + status);
+                parent?.Report(prog, prefix);
             }
         }
     }

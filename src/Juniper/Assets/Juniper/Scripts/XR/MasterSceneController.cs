@@ -205,7 +205,7 @@ namespace Juniper
         private IEnumerator SwitchToSceneNameCoroutine(string subSceneName, bool skipFadeOut)
         {
             loadingBar?.Activate();
-            loadingBar?.Report(0);
+            loadingBar?.Report(0, "Loading scene " + subSceneName);
 
             if (!skipFadeOut)
             {
@@ -216,7 +216,20 @@ namespace Juniper
             var parts = subSceneName.Split('.');
             var sceneName = parts[0];
             var sceneFileName = sceneName + ".unity";
-            var scenePath = Array.Find(subSceneNames, s => s.EndsWith(sceneFileName));
+            string scenePath = null;
+            foreach (var s in subSceneNames)
+            {
+                if (s.EndsWith(sceneFileName))
+                {
+                    scenePath = s;
+                    break;
+                }
+            }
+
+            if (scenePath == null)
+            {
+                throw new Exception("Couldn't find scene: " + subSceneName);
+            }
 
             yield return LoadScenePathCoroutine(scenePath, loadingBar);
             yield return LoadingCompleteCoroutine();
@@ -451,8 +464,7 @@ namespace Juniper
         [ContextMenu("Load Scenes")]
         private void LoadScenes_MenuItem()
         {
-            var iter = LoadAllScenesCoroutine(
-                new Progress.UnityEditorProgressDialog("Loading scenes"));
+            var iter = LoadAllScenesCoroutine(new UnityEditorProgressDialog("Loading scenes"));
             while (iter.MoveNext())
             {
                 var obj = iter.Current;
@@ -525,11 +537,9 @@ namespace Juniper
 
         private IEnumerator LoadScenePathCoroutine(string path, IProgress prog)
         {
-            prog?.Report(0);
-
             var sceneName = GetSceneNameFromPath(path);
-            var sceneLoadProg = prog.Subdivide(0, 0.25f);
-            var subSceneLoadProg = prog.Subdivide(0.25f, 0.75f);
+            var sceneLoadProg = prog.Subdivide(0, 0.25f, "Loading scene " + sceneName);
+            var subSceneLoadProg = prog.Subdivide(0.25f, 0.75f, "Loading scene components (" + sceneName + ")");
 
             if (IsScenePathLoaded(path))
             {
@@ -546,7 +556,7 @@ namespace Juniper
                 {
                     while (!op.isDone)
                     {
-                        sceneLoadProg?.Report(op.progress);
+                        sceneLoadProg?.Report(op.progress, "Scene loading");
                         yield return sceneName + " " + (prog?.Progress).Label(UnitOfMeasure.Percent, 1);
                     }
                 }
@@ -559,17 +569,18 @@ namespace Juniper
                 yield return sceneName + " " + (prog?.Progress).Label(UnitOfMeasure.Percent, 1);
             }
 
-            var toLoad = from root in scene.Value.GetRootGameObjects()
-                         from subScene in root.GetComponentsInChildren<SubSceneController>(true)
-                         select subScene;
+            var toLoad = (from root in scene.Value.GetRootGameObjects()
+                          from subScene in root.GetComponentsInChildren<SubSceneController>(true)
+                          select subScene)
+                        .ToArray();
 
-            var loading = new InterleavedEnumerator(subSceneLoadProg.Select(
-                toLoad,
-                (ss, p) =>
-                {
-                    ss.Enter(p);
-                    return ss.Waiter;
-                }));
+            var enumers = new IEnumerator[toLoad.Length];
+            for (int i = 0; i < toLoad.Length; ++i)
+            {
+                toLoad[i].Enter(subSceneLoadProg.Subdivide(i, toLoad.Length, toLoad[i].name));
+                enumers[i] = toLoad[i].Waiter;
+            }
+            var loading = new InterleavedEnumerator(enumers);
             yield return loading;
         }
 

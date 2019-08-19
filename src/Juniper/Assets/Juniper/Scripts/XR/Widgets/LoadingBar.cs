@@ -8,6 +8,9 @@ namespace Juniper.Widgets
 {
     public class LoadingBar : MonoBehaviour, IProgress
     {
+        private string currentStatus;
+        private TextComponentWrapper text;
+
         public static PooledComponent<LoadingBar> Ensure(Transform parent, int transparentLayer)
         {
             var bar = parent.Ensure<Transform>("LoadingBar/Center/Indicator", () =>
@@ -50,11 +53,17 @@ namespace Juniper.Widgets
         public void Report(float progress, string status)
         {
             TargetValue = progress;
+            currentStatus = status ?? string.Empty;
         }
 
         public void Awake()
         {
             indicator = this.Query("Center/Indicator");
+            var t = transform.Find("LoadingStatus");
+            if (t != null)
+            {
+                text = t.Ensure<TextComponentWrapper>();
+            }
         }
 
         public void Update()
@@ -64,6 +73,7 @@ namespace Juniper.Widgets
             s.x = Progress;
             indicator.transform.localScale = s;
             indicator.transform.localPosition = new Vector3(0.5f * (Progress - 1), 0, 0);
+            text.text = currentStatus;
         }
 
         private Transform indicator;
