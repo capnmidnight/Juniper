@@ -2,20 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Juniper.Animation;
 using Juniper.Data;
-using Juniper.Display;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
 using Juniper.Imaging.JPEG;
 using Juniper.Progress;
 using Juniper.Security;
-using Juniper.Serialization;
 using Juniper.Units;
 using Juniper.Unity;
 using Juniper.World;
@@ -30,13 +27,7 @@ namespace Juniper.Imaging
 {
     public class GoogleStreetView : SubSceneController, ICredentialReceiver
     {
-        private static readonly float[] FOVs =
-        {
-            90,
-            60,
-            45,
-            30
-        };
+        private static readonly Regex GMAPS_URL_PATTERN = new Regex("https?://www\\.google\\.com/maps/@-?\\d+\\.\\d+,\\d+\\.\\d+(?:,[a-zA-Z0-9.]+)*/data=(?:![a-z0-9]+)*!1s([a-zA-Z0-9_\\-]+)(?:![a-z0-9]+)*", RegexOptions.Compiled);
 
         public string yarrowServerHost = "http://localhost";
 
@@ -48,23 +39,19 @@ namespace Juniper.Imaging
         [HideInInspector]
         private string gmapsSigningKey;
 
-        public TextureFormat textureFormat = TextureFormat.RGB24;
-        public Color tint = Color.gray;
-
-        [Range(0, 8)]
-        public float exposure = 1;
-
-        [Range(0, 360)]
-        public float rotation;
-
-        public bool useMipMap = true;
-
         public int searchRadius = 50;
+
+        public float[] searchFOVs =
+        {
+            90,
+            60,
+            30
+        };
 
         [ReadOnly]
         public string inputSearchLocation;
 
-        private MetadataResponse lastMetadata;
+        private MetadataResponse curMetadata;
         private string lastSearchLocation = string.Empty;
         private PanoID curPano = (PanoID)string.Empty;
 
@@ -88,10 +75,6 @@ namespace Juniper.Imaging
 #endif
 
         private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
-        private readonly Dictionary<PanoID, Transform> panoContainerCache = new Dictionary<PanoID, Transform>();
-        private readonly Dictionary<PanoID, Dictionary<int, Transform>> panoDetailContainerCache = new Dictionary<PanoID, Dictionary<int, Transform>>();
-        private readonly Dictionary<PanoID, Dictionary<int, Dictionary<int, Transform>>> panoDetailSliceContainerCache = new Dictionary<PanoID, Dictionary<int, Dictionary<int, Transform>>>();
-        private readonly Dictionary<PanoID, Dictionary<int, Dictionary<int, Dictionary<int, Transform>>>> panoDetailSliceFrameContainerCache = new Dictionary<PanoID, Dictionary<int, Dictionary<int, Dictionary<int, Transform>>>>();
 
         public string CredentialFile
         {
@@ -158,7 +141,7 @@ namespace Juniper.Imaging
             photospheres.PhotosphereReady += Photospheres_PhotosphereReady;
             photospheres.PhotosphereComplete += Photospheres_PhotosphereComplete;
 
-            photospheres.SetDetailLevels(FOVs);
+            photospheres.SetDetailLevels(searchFOVs);
         }
 
         private async Task<ImageData> Photospheres_CubemapNeeded(Photosphere source)
@@ -236,16 +219,15 @@ namespace Juniper.Imaging
             var metadataProg = prog.Subdivide(0, 0.1f);
             var subProg = prog.Subdivide(0.1f, 0.9f);
 
-            if (lastMetadata == null || lastSearchLocation != inputSearchLocation)
+            if (curMetadata == null || lastSearchLocation != inputSearchLocation)
             {
                 yield return GetMetadata(metadataProg);
             }
 
-            if (lastMetadata != null && lastMetadata.pano_id != curPano)
+            if (curMetadata != null && curMetadata.pano_id != curPano)
             {
-                var nextPano = lastMetadata.pano_id;
-                var photosphere = photospheres[nextPano.ToString()];
-                subProg?.Report(photosphere.ProgressToReady);
+                var photosphere = photospheres[curMetadata.pano_id.ToString()];
+                subProg?.Report(photosphere.ProgressToReady, "Loading photosphere");
             }
 
             locked = false;
@@ -256,11 +238,13 @@ namespace Juniper.Imaging
             return yarrow.GetImage((PanoID)source.name, fov, heading, pitch);
         }
 
-        private static readonly Regex GMAPS_URL_PATTERN = new Regex("https?://www\\.google\\.com/maps/@-?\\d+\\.\\d+,\\d+\\.\\d+(?:,[a-zA-Z0-9.]+)*/data=(?:![a-z0-9]+)*!1s([a-zA-Z0-9_\\-]+)(?:![a-z0-9]+)*", RegexOptions.Compiled);
-
         private IEnumerator GetMetadata(IProgress metadataProg)
         {
-            Task<MetadataResponse> metadataTask;
+            if (!firstLoad)
+            {
+                fader.Enter();
+                yield return fader.Waiter;
+            }
 
             if (metadataCache.ContainsKey(inputSearchLocation))
             {
@@ -268,7 +252,7 @@ namespace Juniper.Imaging
             }
             else
             {
-                print("Getting metadata " + inputSearchLocation);
+                Task<MetadataResponse> metadataTask;
                 if (PanoID.TryParse(inputSearchLocation, out var pano2))
                 {
                     metadataTask = yarrow.GetMetadata(pano2, metadataProg);
@@ -295,21 +279,6 @@ namespace Juniper.Imaging
 
                     if (curMetadata.status == HttpStatusCode.OK && curMetadata.pano_id != curPano)
                     {
-                        if (!firstLoad)
-                        {
-                            fader.Enter();
-                            yield return fader.Waiter;
-                        }
-
-                        if (lastMetadata != null)
-                        {
-                            if (panoContainerCache.ContainsKey(lastMetadata.pano_id))
-                            {
-                                var panoContainer = panoContainerCache[lastMetadata.pano_id];
-                                panoContainer.Deactivate();
-                            }
-                        }
-
                         SetMetadata(inputSearchLocation, curMetadata);
                     }
                 }
@@ -318,7 +287,7 @@ namespace Juniper.Imaging
 
         private void SetMetadata(string inputSearchLocation, MetadataResponse metadata)
         {
-            lastMetadata = metadata;
+            curMetadata = metadata;
             lastSearchLocation = inputSearchLocation;
 #if UNITY_EDITOR
             if (locationInput != null)
@@ -351,11 +320,11 @@ namespace Juniper.Imaging
 
         public void Move(Vector2 deltaMeters)
         {
-            if (lastMetadata?.location != null)
+            if (curMetadata?.location != null)
             {
                 yarrow.ClearError();
                 deltaMeters /= 10f;
-                var utm = lastMetadata.location.ToUTM();
+                var utm = curMetadata.location.ToUTM();
                 utm = new UTMPoint(utm.X + deltaMeters.x, utm.Y + deltaMeters.y, utm.Z, utm.Zone, utm.Hemisphere);
                 inputSearchLocation = utm.ToLatLng().ToString();
             }
