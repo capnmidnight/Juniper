@@ -71,7 +71,7 @@ namespace Juniper.Display
 
         private static Camera MakeCamera(string tag, string name)
         {
-            TagManager.Normalize(tag);
+            ConfigurationManagement.TagManager.NormalizeTag(tag);
             var cam = ComponentExt.FindAny<Camera>(camera => camera.CompareTag(tag));
             if (cam == null)
             {
