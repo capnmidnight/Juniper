@@ -303,16 +303,6 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
-        /// Create an <see cref="InterleavedEnumerator"/> out of a sequence of enumerators.
-        /// </summary>
-        /// <param name="iters">The enumerators to interleave</param>
-        /// <returns>The interleaved enumerator</returns>
-        public static IEnumerator Interleave(this IEnumerable<IEnumerator> iters)
-        {
-            return new InterleavedEnumerator(iters);
-        }
-
-        /// <summary>
         /// Add an entire collection to a queue.
         /// </summary>
         /// <typeparam name="T">The type of elements in the queue.</typeparam>

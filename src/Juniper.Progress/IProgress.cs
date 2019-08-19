@@ -53,36 +53,6 @@ namespace Juniper.Progress
         /// <param name="arr">The list of objects to iterate over, for progress tracking.</param>
         /// <param name="act">The action to take on each list item.</param>
         /// <param name="error">A callback to fire if an error occurs when processing a list item.</param>
-        public static IEnumerable<U> Select<T, U>(this IProgress prog, IEnumerable<T> arr, Func<T, IProgress, U> act)
-        {
-            var len = arr.Count();
-            if (len == 0)
-            {
-                prog?.Report(1, "Nothing to do");
-            }
-            else
-            {
-                var progs = prog.Split(len);
-                var index = 0;
-                foreach (var item in arr)
-                {
-                    progs[index]?.Report(0);
-                    yield return act(item, progs[index]);
-                    progs[index]?.Report(1);
-                    ++index;
-#pragma warning restore CA1031 // Do not catch general exception types
-                }
-            }
-        }
-
-        /// <summary>
-        /// Perform a series of actions, updating a progress tracker along the way.
-        /// </summary>
-        /// <typeparam name="T">A type of items in a list of objects to iterate over, for progress tracking</typeparam>
-        /// <param name="prog">The progress tracker that aggregates all of the sub-operations.</param>
-        /// <param name="arr">The list of objects to iterate over, for progress tracking.</param>
-        /// <param name="act">The action to take on each list item.</param>
-        /// <param name="error">A callback to fire if an error occurs when processing a list item.</param>
         public static void ForEach<T>(this IProgress prog, IEnumerable<T> arr, Action<T, IProgress> act, Action<Exception> error = null)
         {
             var len = arr.Count();
