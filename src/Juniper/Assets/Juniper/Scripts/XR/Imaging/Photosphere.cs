@@ -158,8 +158,9 @@ namespace Juniper.Imaging
                     wasComplete = true;
                     Complete?.Invoke(this);
                 }
-                else if (IsDetailLevelComplete(0))
+                else if (!wasReady && IsDetailLevelComplete(0))
                 {
+                    wasReady = true;
                     Ready?.Invoke(this);
                 }
             }
