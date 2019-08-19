@@ -7,23 +7,43 @@ using System.Threading.Tasks;
 using Juniper.Display;
 using Juniper.Progress;
 using Juniper.Serialization;
+using Juniper.Units;
 
 using UnityEngine;
 
 namespace Juniper.Imaging
 {
+    public delegate Task<ImageData> CubemapImageNeeded(Photosphere source);
+
     public delegate Task<ImageData> PhotosphereImageNeeded(Photosphere source, int fov, int heading, int pitch);
 
     public class Photosphere : MonoBehaviour
     {
+        private const int MAX_REQUESTS = 4;
+
+        private const string PHOTOSPHERE_LAYER = "Photospheres";
+
         private readonly Dictionary<int, Transform> detailContainerCache = new Dictionary<int, Transform>();
         private readonly Dictionary<int, Dictionary<int, Transform>> detailSliceContainerCache = new Dictionary<int, Dictionary<int, Transform>>();
         private readonly Dictionary<int, Dictionary<int, Dictionary<int, Transform>>> detailSliceFrameContainerCache = new Dictionary<int, Dictionary<int, Dictionary<int, Transform>>>();
 
+        private int[] FOVs;
+        private Vector2[][] fovTestAngles;
         private int[] lodLevelRequirements;
 
+        public float ProgressToReady;
+        public float ProgressToComplete;
+
+        private bool locked;
         private bool wasComplete;
         private bool wasReady;
+
+        private Avatar avatar;
+        private bool trySkybox = true;
+        private SkyboxManager skybox;
+        private Texture skyboxCubemap;
+
+        public event CubemapImageNeeded CubemapNeeded;
 
         public event PhotosphereImageNeeded ImageNeeded;
 
@@ -31,17 +51,290 @@ namespace Juniper.Imaging
 
         public event Action<Photosphere> Ready;
 
-        public void SetDetailRequirements(int[] lodLevels)
+        public void Awake()
         {
+            avatar = ComponentExt.FindAny<Avatar>();
+            skybox = ComponentExt.FindAny<SkyboxManager>()
+                ?? this.Ensure<SkyboxManager>();
+        }
+
+        public void OnEnable()
+        {
+            if (skybox != null && skyboxCubemap != null)
+            {
+                skybox.exposure = 1;
+                skybox.imageType = SkyboxManager.ImageType.Degrees360;
+                skybox.layout = SkyboxManager.Mode.Cube;
+                skybox.mirror180OnBack = false;
+                skybox.rotation = 0;
+                skybox.stereoLayout = SkyboxManager.StereoLayout.None;
+                skybox.tint = Color.gray;
+                skybox.useMipMap = false;
+                skybox.SetTexture(skyboxCubemap);
+            }
+            else if (trySkybox)
+            {
+                trySkybox = false;
+                locked = true;
+                var imageTask = CubemapNeeded?.Invoke(this);
+                StartCoroutine(ReadCubemapCoroutine(imageTask));
+            }
+            else if (lodLevelRequirements != null)
+            {
+                for (var f = lodLevelRequirements.Length - 1; f >= 0; ++f)
+                {
+                    var lodLevel = FOVs[f];
+                    if (detailContainerCache.ContainsKey(lodLevel))
+                    {
+                        detailContainerCache[lodLevel].Activate();
+                        if (DetailLevelCompleteCount(f) == lodLevelRequirements[lodLevel])
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private IEnumerator ReadCubemapCoroutine(Task<ImageData> imageTask)
+        {
+            while (imageTask.IsRunning())
+            {
+                yield return null;
+            }
+
+            if (imageTask.IsCompleted && imageTask.Result != null)
+            {
+                Debug.Log("Cubemap saved");
+                skyboxCubemap = imageTask.Result.ToTexture();
+                OnDisable();
+                OnEnable();
+                Update();
+            }
+            else if (imageTask.IsFaulted)
+            {
+                Debug.Log("Cubemap save error");
+            }
+            else
+            {
+                Debug.Log("Cubemap canceled");
+            }
+
+            locked = false;
+        }
+
+        public void OnDisable()
+        {
+            if (lodLevelRequirements != null)
+            {
+                for (var f = 0; f < lodLevelRequirements.Length; ++f)
+                {
+                    var lodLevel = FOVs[f];
+                    if (detailContainerCache.ContainsKey(lodLevel))
+                    {
+                        detailContainerCache[lodLevel].Deactivate();
+                    }
+                }
+            }
+        }
+
+        public void Update()
+        {
+            if (!wasComplete)
+            {
+                var isComplete = false;
+                var isReady = wasReady;
+                if (skyboxCubemap != null)
+                {
+                    isReady = true;
+                    isComplete = true;
+                }
+                else if (lodLevelRequirements != null)
+                {
+                    var totalCompleted = 0;
+                    var totalNeeded = 0;
+                    for (var f = 0; f < lodLevelRequirements.Length; ++f)
+                    {
+                        totalCompleted = DetailLevelCompleteCount(f);
+                        totalNeeded = lodLevelRequirements[f];
+
+                        if (f == 0)
+                        {
+                            ProgressToReady = totalCompleted / (float)totalNeeded;
+
+                            if (totalCompleted == totalNeeded)
+                            {
+                                isReady = true;
+                            }
+                        }
+                    }
+
+                    ProgressToComplete = totalCompleted / (float)totalNeeded;
+
+                    if (totalCompleted == totalNeeded)
+                    {
+                        isComplete = true;
+                    }
+                }
+
+                if (!wasReady && isReady)
+                {
+                    ProgressToReady = 1;
+                    Ready?.Invoke(this);
+                }
+
+                if (isComplete)
+                {
+                    ProgressToComplete = 1;
+                    Complete?.Invoke(this);
+#if UNITY_EDITOR
+                    CaptureCubemap();
+#endif
+                }
+                else if (!locked)
+                {
+                    locked = true;
+                    StartCoroutine(UpdateSphereCoroutine());
+                }
+
+                wasComplete = isComplete;
+                wasReady = isReady;
+            }
+        }
+
+        private IEnumerator UpdateSphereCoroutine()
+        {
+            var euler = (Vector2)avatar.Head.rotation.eulerAngles;
+
+            var numRequests = 0;
+            for (var f = 0; f < FOVs.Length && numRequests < MAX_REQUESTS; ++f)
+            {
+                var fov = FOVs[f];
+                var overlap = FOVs.Length - f;
+                var radius = 10 * overlap + 50;
+                var overlapFOV = fov + 2f * overlap;
+                var scale = 2 * radius * Mathf.Tan(Degrees.Radians(overlapFOV / 2));
+
+                var testAngles = fovTestAngles[f];
+                for (var a = 0; a < testAngles.Length && numRequests < MAX_REQUESTS; ++a)
+                {
+                    var testAngle = euler + testAngles[a];
+                    var heading = (int)Mathf.Repeat(fov * Mathf.Round(testAngle.y / fov), 360);
+                    var unityPitch = (int)Mathf.Repeat(fov * Mathf.Round(testAngle.x / fov), 360);
+                    var pitch = -unityPitch;
+                    if (unityPitch >= 270)
+                    {
+                        pitch += 360;
+                    }
+                    else if (unityPitch > 90)
+                    {
+                        pitch += 180;
+                    }
+
+                    if (90 < unityPitch && unityPitch < 270)
+                    {
+                        heading = (int)Mathf.Repeat(heading + 180, 360);
+                    }
+
+                    if (Mathf.Abs(pitch) == 90)
+                    {
+                        heading = 0;
+                    }
+
+                    var needLodLevel = !detailContainerCache.ContainsKey(fov);
+                    var needSlice = needLodLevel || !detailSliceContainerCache[fov].ContainsKey(heading);
+                    var needFrame = needSlice || !detailSliceFrameContainerCache[fov][heading].ContainsKey(pitch);
+                    if (needLodLevel || needSlice || needFrame)
+                    {
+                        if (needLodLevel)
+                        {
+                            var detail = new GameObject(fov.ToString()).transform;
+                            detail.SetParent(transform, false);
+                            detailContainerCache[fov] = detail;
+                            detailSliceContainerCache[fov] = new Dictionary<int, Transform>();
+                            detailSliceFrameContainerCache[fov] = new Dictionary<int, Dictionary<int, Transform>>();
+                        }
+
+                        var detailContainer = detailContainerCache[fov];
+                        var sliceContainerCache = detailSliceContainerCache[fov];
+                        var sliceFrameContainerCache = detailSliceFrameContainerCache[fov];
+
+                        if (needSlice)
+                        {
+                            var slice = new GameObject(heading.ToString()).transform;
+                            slice.SetParent(detailContainer, false);
+                            sliceContainerCache[heading] = slice;
+                            sliceFrameContainerCache[heading] = new Dictionary<int, Transform>();
+                        }
+
+                        var sliceContainer = sliceContainerCache[heading];
+                        var frameContainerCache = sliceFrameContainerCache[heading];
+
+                        if (needFrame)
+                        {
+                            var frame = new GameObject(pitch.ToString()).transform;
+                            frame.rotation = Quaternion.Euler(-pitch, heading, 0);
+                            frame.position = frame.rotation * (radius * Vector3.forward);
+                            frame.SetParent(sliceContainer, false);
+                            frameContainerCache[pitch] = frame;
+                        }
+
+                        var frameContainer = frameContainerCache[pitch];
+
+                        var imageTask = ImageNeeded?.Invoke(this, (int)overlapFOV, heading, pitch);
+
+                        while (imageTask.IsRunning())
+                        {
+                            yield return null;
+                        }
+
+                        if (imageTask.IsCompleted)
+                        {
+                            var image = imageTask.Result;
+                            if (image != null)
+                            {
+                                var texture = image.ToTexture();
+                                var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                                var renderer = frame.GetComponent<MeshRenderer>();
+                                var material = new Material(Shader.Find("Unlit/Texture"));
+                                material.SetTexture("_MainTex", texture);
+                                renderer.SetMaterial(material);
+
+                                frame.layer = LayerMask.NameToLayer(PHOTOSPHERE_LAYER);
+                                frame.transform.SetParent(frameContainer, false);
+                                frame.transform.localScale = scale * Vector3.one;
+                            }
+                        }
+
+                        if (f > 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            locked = false;
+        }
+
+        public void SetDetailRequirements(int[] FOVs, Vector2[][] testAngles, int[] lodLevels)
+        {
+            this.FOVs = FOVs;
+            fovTestAngles = testAngles;
             lodLevelRequirements = lodLevels;
         }
 
-        public bool IsDetailLevelComplete(int lodLevel)
+        public int DetailLevelCompleteCount(int f)
         {
-            if (lodLevelRequirements == null
-                || !detailSliceFrameContainerCache.ContainsKey(lodLevel))
+            if (lodLevelRequirements == null)
             {
-                return false;
+                return 0;
+            }
+
+            var lodLevel = FOVs[f];
+            if (!detailSliceFrameContainerCache.ContainsKey(lodLevel))
+            {
+                return 0;
             }
             else
             {
@@ -51,7 +344,7 @@ namespace Juniper.Imaging
                     frameCount += sliceFrameContainer.Value.Count;
                 }
 
-                return frameCount == lodLevelRequirements[lodLevel];
+                return frameCount;
             }
         }
 
@@ -59,15 +352,19 @@ namespace Juniper.Imaging
         {
             get
             {
-                if (detailSliceFrameContainerCache.Count == 0)
+                if (wasComplete)
+                {
+                    return true;
+                }
+                else if (lodLevelRequirements == null)
                 {
                     return false;
                 }
                 else
                 {
-                    foreach (var lodLevel in detailSliceFrameContainerCache.Keys)
+                    for (var f = 0; f < lodLevelRequirements.Length; ++f)
                     {
-                        if (!IsDetailLevelComplete(lodLevel))
+                        if (DetailLevelCompleteCount(f) != lodLevelRequirements[f])
                         {
                             return false;
                         }
@@ -77,108 +374,24 @@ namespace Juniper.Imaging
             }
         }
 
-        public bool HasDetailLevel(int lodLevel, int heading, int pitch)
-        {
-            return detailContainerCache.ContainsKey(lodLevel)
-                && detailSliceContainerCache[lodLevel].ContainsKey(heading)
-                && detailSliceFrameContainerCache[lodLevel][heading].ContainsKey(pitch);
-        }
-
-        public bool DetailLevelNeeded(int lodLevel, int heading, int pitch)
-        {
-            return !HasDetailLevel(lodLevel, heading, pitch);
-        }
-
-        public IEnumerator CreateDetailLevel(int lodLevel, int heading, int pitch, float radius, float scale)
-        {
-            if (!detailContainerCache.ContainsKey(lodLevel))
-            {
-                var detail = new GameObject(lodLevel.ToString()).transform;
-                detail.SetParent(transform, false);
-                detailContainerCache[lodLevel] = detail;
-                detailSliceContainerCache[lodLevel] = new Dictionary<int, Transform>();
-                detailSliceFrameContainerCache[lodLevel] = new Dictionary<int, Dictionary<int, Transform>>();
-            }
-
-            var detailContainer = detailContainerCache[lodLevel];
-            var sliceContainerCache = detailSliceContainerCache[lodLevel];
-            var sliceFrameContainerCache = detailSliceFrameContainerCache[lodLevel];
-
-            if (!sliceContainerCache.ContainsKey(heading))
-            {
-                var slice = new GameObject(heading.ToString()).transform;
-                slice.SetParent(detailContainer, false);
-                sliceContainerCache[heading] = slice;
-                sliceFrameContainerCache[heading] = new Dictionary<int, Transform>();
-            }
-
-            var sliceContainer = sliceContainerCache[heading];
-            var frameContainerCache = sliceFrameContainerCache[heading];
-
-            if (!frameContainerCache.ContainsKey(pitch))
-            {
-                var frame = new GameObject(pitch.ToString()).transform;
-                frame.rotation = Quaternion.Euler(-pitch, heading, 0);
-                frame.position = frame.rotation * (radius * Vector3.forward);
-                frame.SetParent(sliceContainer, false);
-                frameContainerCache[pitch] = frame;
-            }
-
-            var frameContainer = frameContainerCache[pitch];
-
-            var imageTask = ImageNeeded?.Invoke(this, lodLevel, heading, pitch);
-
-            while (imageTask.IsRunning())
-            {
-                yield return null;
-            }
-
-            if (imageTask.IsCompleted)
-            {
-                var image = imageTask.Result;
-                if (image != null)
-                {
-                    var texture = image.ToTexture();
-                    var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                    var renderer = frame.GetComponent<MeshRenderer>();
-                    var material = new Material(Shader.Find("Unlit/Texture"));
-                    material.SetTexture("_MainTex", texture);
-                    renderer.SetMaterial(material);
-
-                    frame.layer = LayerMask.NameToLayer("Photospheres");
-                    frame.transform.SetParent(frameContainer, false);
-                    frame.transform.localScale = scale * Vector3.one;
-                }
-            }
-
-            if (!wasComplete)
-            {
-                if (IsComplete)
-                {
-                    wasComplete = true;
-                    Complete?.Invoke(this);
-                }
-                else if (!wasReady && IsDetailLevelComplete(0))
-                {
-                    wasReady = true;
-                    Ready?.Invoke(this);
-                }
-            }
-        }
-
 #if UNITY_EDITOR
         private bool cubemapLock;
 
-        public void CaptureCubemap(IImageDecoder<ImageData> encoder)
+        public void OnValidate()
         {
-            if (!cubemapLock)
+            ConfigurationManagement.TagManager.NormalizeLayer(PHOTOSPHERE_LAYER);
+        }
+
+        private void CaptureCubemap()
+        {
+            if (skyboxCubemap == null && !cubemapLock)
             {
                 cubemapLock = true;
-                StartCoroutine(CaptureCubemapCoroutine(encoder));
+                StartCoroutine(CaptureCubemapCoroutine());
             }
         }
 
-        private IEnumerator CaptureCubemapCoroutine(IImageDecoder<ImageData> encoder)
+        private IEnumerator CaptureCubemapCoroutine()
         {
             var fileName = Path.Combine("Assets", "StreamingAssets", $"{name}.jpeg");
             if (!File.Exists(fileName))
@@ -197,7 +410,7 @@ namespace Juniper.Imaging
                     cubemap.Apply();
 
                     var curMask = DisplayManager.MainCamera.cullingMask;
-                    DisplayManager.MainCamera.cullingMask = LayerMask.GetMask("Photosphere");
+                    DisplayManager.MainCamera.cullingMask = LayerMask.GetMask(PHOTOSPHERE_LAYER);
 
                     var curRotation = DisplayManager.MainCamera.transform.rotation;
                     DisplayManager.MainCamera.transform.rotation = Quaternion.identity;
@@ -254,8 +467,10 @@ namespace Juniper.Imaging
                     {
                         try
                         {
+                            var encoder = new JPEG.JpegDecoder(80);
                             var img = encoder.Concatenate(ImageData.CubeCross(images), subProgs[2]);
                             encoder.Save(fileName, img, subProgs[3]);
+                            return encoder.Read(fileName);
                         }
                         catch
                         {
@@ -264,23 +479,7 @@ namespace Juniper.Imaging
                         }
                     });
 
-                    while (saveTask.IsRunning())
-                    {
-                        yield return null;
-                    }
-
-                    if (saveTask.IsCompleted)
-                    {
-                        Debug.Log("Cubemap saved");
-                    }
-                    else if (saveTask.IsFaulted)
-                    {
-                        Debug.Log("Cubemap save error");
-                    }
-                    else
-                    {
-                        Debug.Log("Cubemap canceled");
-                    }
+                    yield return ReadCubemapCoroutine(saveTask);
                 }
             }
 
