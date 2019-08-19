@@ -22,6 +22,7 @@ namespace Juniper.Imaging
         private const int MAX_REQUESTS = 4;
 
         private const string PHOTOSPHERE_LAYER = "Photospheres";
+        private static readonly string[] PHOTOSPHERE_LAYER_ARR = { PHOTOSPHERE_LAYER };
 
         private readonly Dictionary<int, Transform> detailContainerCache = new Dictionary<int, Transform>();
         private readonly Dictionary<int, Dictionary<int, Transform>> detailSliceContainerCache = new Dictionary<int, Dictionary<int, Transform>>();
@@ -397,6 +398,13 @@ namespace Juniper.Imaging
             }
         }
 
+        private static readonly string[] CAPTURE_CUBEMAP_FIELDS = {
+            "Rendering cubemap",
+            "Copying cubemap faces",
+            "Concatenating faces",
+            "Saving image"
+        };
+
         private IEnumerator CaptureCubemapCoroutine()
         {
             var fileName = Path.Combine("Assets", "StreamingAssets", $"{name}.jpeg");
@@ -404,11 +412,7 @@ namespace Juniper.Imaging
             {
                 using (var prog = new UnityEditorProgressDialog("Saving cubemap " + name))
                 {
-                    var subProgs = prog.Split(
-                        "Rendering cubemap",
-                        "Copying cubemap faces",
-                        "Concatenating faces",
-                        "Saving image");
+                    var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
 
                     subProgs[0].Report(0);
                     const int dim = 2048;
@@ -416,7 +420,7 @@ namespace Juniper.Imaging
                     cubemap.Apply();
 
                     var curMask = DisplayManager.MainCamera.cullingMask;
-                    DisplayManager.MainCamera.cullingMask = LayerMask.GetMask(PHOTOSPHERE_LAYER);
+                    DisplayManager.MainCamera.cullingMask = LayerMask.GetMask(PHOTOSPHERE_LAYER_ARR);
 
                     var curRotation = DisplayManager.MainCamera.transform.rotation;
                     DisplayManager.MainCamera.transform.rotation = Quaternion.identity;
