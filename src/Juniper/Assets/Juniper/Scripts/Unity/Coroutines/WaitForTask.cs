@@ -41,7 +41,7 @@ namespace Juniper.Unity.Coroutines
                 }
 
                 end = DateTime.Now;
-                return !waiting.IsCompleted && !waiting.IsCanceled;
+                return !waiting.IsCompleted;
             }
         }
     }

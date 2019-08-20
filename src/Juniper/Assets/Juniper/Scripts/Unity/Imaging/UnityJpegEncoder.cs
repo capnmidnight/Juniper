@@ -16,7 +16,7 @@ namespace Juniper.Imaging
         {
             this.encodingQuality = encodingQuality;
         }
-        
+
         public int GetWidth(Texture2D img)
         {
             return img.width;
@@ -52,21 +52,27 @@ namespace Juniper.Imaging
 
         public Texture2D Concatenate(Texture2D[,] images, IProgress prog = null)
         {
-            this.ValidateImages(images, prog, 
-                out var rows, out var columns, 
-                out var firstImage, 
+            this.ValidateImages(images, prog,
+                out var rows, out var columns,
+                out var firstImage,
                 out var tileWidth, out var tileHeight);
 
+            var totalLen = rows * tileHeight * columns * tileWidth;
+
             var outputImage = new Texture2D(columns * tileWidth, rows * tileHeight);
-            for(int y = 0; y < rows; ++y)
+            for (var r = 0; r < rows; ++r)
             {
-                for(int x = 0; x < columns; ++x)
+                for (var c = 0; c < columns; ++c)
                 {
-                    var img = images[y, x];
-                    if(img != null)
+                    var img = images[r, c];
+                    if (img != null)
                     {
-                        var pixels = img.GetPixels();
-                        outputImage.SetPixels(x * tileWidth, y * tileHeight, tileWidth, tileHeight, pixels);
+                        for (var y = 0; y < tileHeight; ++y)
+                        {
+                            var pixels = img.GetPixels(0, tileHeight - y - 1, tileWidth, 1);
+                            outputImage.SetPixels(c * tileWidth, r * tileHeight + y, tileWidth, 1, pixels);
+                            prog?.Report(tileWidth * (r * tileHeight * columns + c * tileHeight + y), totalLen);
+                        }
                     }
                 }
             }

@@ -256,7 +256,7 @@ namespace Juniper.Imaging
 
                 yield return metadataTask.Waiter();
 
-                if (metadataTask.IsCompleted)
+                if (metadataTask.IsSuccessful())
                 {
                     print("metadata found");
                     var curMetadata = metadataTask.Result;

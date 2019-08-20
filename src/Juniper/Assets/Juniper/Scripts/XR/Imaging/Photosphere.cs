@@ -88,7 +88,7 @@ namespace Juniper.Imaging
             }
             else if (lodLevelRequirements != null)
             {
-                for (var f = lodLevelRequirements.Length - 1; f >= 0; ++f)
+                for (var f = lodLevelRequirements.Length - 1; f >= 0; --f)
                 {
                     var lodLevel = FOVs[f];
                     if (detailContainerCache.ContainsKey(lodLevel))
@@ -108,7 +108,7 @@ namespace Juniper.Imaging
             var imageTask = StreamingAssets.ReadImage(encoder, Application.persistentDataPath, filePath, this);
             yield return imageTask.Waiter();
 
-            if (imageTask.IsCompleted
+            if (imageTask.IsSuccessful()
                 && imageTask.Result != null)
             {
                 Debug.Log("Cubemap saved");
@@ -317,7 +317,7 @@ namespace Juniper.Imaging
 
                         yield return imageTask.Waiter();
 
-                        if (imageTask.IsCompleted)
+                        if (imageTask.IsSuccessful())
                         {
                             var image = imageTask.Result;
                             if (image != null)
@@ -485,8 +485,9 @@ namespace Juniper.Imaging
                         texture.Apply();
                         images[f] = texture;
                     }
-                    catch
+                    catch (Exception exp)
                     {
+                        Debug.LogException(exp);
                         cubemapLock = false;
                         throw;
                     }
@@ -494,22 +495,17 @@ namespace Juniper.Imaging
                     yield return null;
                 }
 
-                var saveTask = Task.Run(() =>
+                try
                 {
-                    try
-                    {
-                        var img = encoder.Concatenate(ImageData.CubeCross(images), subProgs[2]);
-                        encoder.Save(fileName, img, subProgs[3]);
-                    }
-                    catch
-                    {
-                        cubemapLock = false;
-                        throw;
-                    }
-                });
-
-
-                yield return saveTask.Waiter();
+                    var img = encoder.Concatenate(ImageData.CubeCross(images), subProgs[2]);
+                    encoder.Save(fileName, img, subProgs[3]);
+                }
+                catch (Exception exp)
+                {
+                    Debug.LogException(exp);
+                    cubemapLock = false;
+                    throw;
+                }
 
                 yield return ReadCubemapCoroutine(fileName);
             }

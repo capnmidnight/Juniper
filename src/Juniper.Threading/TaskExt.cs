@@ -6,7 +6,12 @@ namespace System.Threading.Tasks
     {
         public static bool IsRunning(this Task task)
         {
-            return !(task == null || task.IsCompleted || task.IsCanceled || task.IsFaulted);
+            return task?.IsCompleted == false;
+        }
+
+        public static bool IsSuccessful(this Task task)
+        {
+            return task.Status == TaskStatus.RanToCompletion;
         }
 
         public static IEnumerator Waiter(this Task task)
