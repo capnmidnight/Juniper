@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+
 using Juniper.Progress;
 using Juniper.Streams;
 
@@ -16,7 +17,7 @@ namespace Juniper.HTTP
 
         public readonly Stream Content;
 
-        public Response(Stream content, HttpStatusCode statusCode, string contentType, long contentLength, IProgress prog = null)
+        public Response(Stream content, HttpStatusCode statusCode, string contentType, long contentLength, IProgress prog)
         {
             StatusCode = statusCode;
             ContentType = contentType;
@@ -31,15 +32,15 @@ namespace Juniper.HTTP
             }
         }
 
-        public Response(FileInfo file, string contentType, IProgress prog = null)
+        public Response(FileInfo file, string contentType, IProgress prog)
             : this(file.OpenRead(), file.Exists ? HttpStatusCode.OK : HttpStatusCode.NotFound, contentType, file.Length, prog)
         { }
 
-        public Response(string path, string contentType, IProgress prog = null)
+        public Response(string path, string contentType, IProgress prog)
             : this(new FileInfo(path), contentType, prog)
         { }
 
-        public Response(HttpWebResponse response, IProgress prog = null)
+        public Response(HttpWebResponse response, IProgress prog)
             : this(response.GetResponseStream(), response.StatusCode, response.ContentType, response.ContentLength, prog)
         { }
 

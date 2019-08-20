@@ -10,7 +10,6 @@ using Juniper.Animation;
 using Juniper.Data;
 using Juniper.Google.Maps;
 using Juniper.Google.Maps.StreetView;
-using Juniper.Imaging.JPEG;
 using Juniper.Progress;
 using Juniper.Security;
 using Juniper.Units;
@@ -58,8 +57,8 @@ namespace Juniper.Imaging
         private bool locked;
         private bool firstLoad;
 
-        private IImageDecoder<ImageData> encoder;
-        private YarrowClient<ImageData> yarrow;
+        private IImageDecoder<Texture2D> encoder;
+        private YarrowClient<Texture2D> yarrow;
         private FadeTransition fader;
         private GPSLocation gps;
         private PhotosphereManager photospheres;
@@ -133,8 +132,8 @@ namespace Juniper.Imaging
             var gmapsCacheDirName = Path.Combine(baseCachePath, "GoogleMaps");
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
             var uri = new Uri(yarrowServerHost);
-            encoder = new JpegDecoder(80, 2);
-            yarrow = new YarrowClient<ImageData>(uri, encoder, yarrowCacheDir, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
+            encoder = new UnityJpegEncoder(80);
+            yarrow = new YarrowClient<Texture2D>(uri, encoder, yarrowCacheDir, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
 
             photospheres.CubemapNeeded += Photospheres_CubemapNeeded;
             photospheres.ImageNeeded += Photospheres_ImageNeeded;
@@ -148,6 +147,11 @@ namespace Juniper.Imaging
         private string Photospheres_CubemapNeeded(Photosphere source)
         {
             return StreamingAssets.FormatPath(Application.streamingAssetsPath, $"{source.name}.jpeg");
+        }
+
+        private Task<Stream> Photospheres_ImageNeeded(Photosphere source, int fov, int heading, int pitch)
+        {
+            return yarrow.GetImageStream((PanoID)source.name, fov, heading, pitch);
         }
 
         private void Photospheres_PhotosphereComplete(Photosphere obj)
@@ -222,11 +226,6 @@ namespace Juniper.Imaging
             locked = false;
         }
 
-        private Task<ImageData> Photospheres_ImageNeeded(Photosphere source, int fov, int heading, int pitch)
-        {
-            return yarrow.GetImage((PanoID)source.name, fov, heading, pitch);
-        }
-
         private IEnumerator GetMetadata(IProgress metadataProg)
         {
             if (!firstLoad)
@@ -255,10 +254,7 @@ namespace Juniper.Imaging
                     metadataTask = yarrow.GetMetadata((PlaceName)inputSearchLocation, metadataProg);
                 }
 
-                while (metadataTask.IsRunning())
-                {
-                    yield return null;
-                }
+                yield return metadataTask.Waiter();
 
                 if (metadataTask.IsCompleted)
                 {

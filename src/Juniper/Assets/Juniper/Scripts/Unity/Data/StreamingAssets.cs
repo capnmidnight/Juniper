@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 using Juniper.HTTP;
 using Juniper.Imaging;
 using Juniper.Progress;
@@ -110,7 +111,7 @@ namespace Juniper.Data
             }
             else if (File.Exists(path))
             {
-                return new Response(path, mime);
+                return new Response(path, mime, prog);
             }
             else
             {

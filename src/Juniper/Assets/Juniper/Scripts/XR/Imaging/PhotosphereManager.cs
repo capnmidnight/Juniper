@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Juniper.Units;
 
 using UnityEngine;
 
@@ -50,7 +48,7 @@ namespace Juniper.Imaging
 
         public event Action<Photosphere> PhotosphereReady;
 
-        public IImageDecoder<ImageData> encoder;
+        public IImageDecoder<Texture2D> encoder;
 
         public void SetDetailLevels(float[] fovs)
         {
@@ -109,7 +107,7 @@ namespace Juniper.Imaging
             return CubemapNeeded?.Invoke(source);
         }
 
-        private Task<ImageData> Photo_ImageNeeded(Photosphere source, int lodLevel, int heading, int pitch)
+        private Task<Stream> Photo_ImageNeeded(Photosphere source, int lodLevel, int heading, int pitch)
         {
             return ImageNeeded?.Invoke(source, lodLevel, heading, pitch);
         }

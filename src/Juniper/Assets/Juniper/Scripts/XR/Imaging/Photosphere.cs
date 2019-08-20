@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+
 using Juniper.Data;
 using Juniper.Display;
 using Juniper.Progress;
 using Juniper.Serialization;
-using Juniper.Streams;
 using Juniper.Units;
 
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace Juniper.Imaging
 {
     public delegate string CubemapImageNeeded(Photosphere source);
 
-    public delegate Task<ImageData> PhotosphereImageNeeded(Photosphere source, int fov, int heading, int pitch);
+    public delegate Task<Stream> PhotosphereImageNeeded(Photosphere source, int fov, int heading, int pitch);
 
     public class Photosphere : MonoBehaviour, IProgress
     {
@@ -53,7 +53,7 @@ namespace Juniper.Imaging
 
         public event Action<Photosphere> Ready;
 
-        internal IImageDecoder<ImageData> encoder;
+        internal IImageDecoder<Texture2D> encoder;
 
         public void Awake()
         {
@@ -105,18 +105,14 @@ namespace Juniper.Imaging
 
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
-            var subProgs = this.Split("Get image", "Read image");
-            var imageTask = StreamingAssets.ReadImage(encoder, Application.persistentDataPath, filePath, subProgs[0]);
-            while (imageTask.IsRunning())
-            {
-                yield return null;
-            }
+            var imageTask = StreamingAssets.ReadImage(encoder, Application.persistentDataPath, filePath, this);
+            yield return imageTask.Waiter();
 
             if (imageTask.IsCompleted
                 && imageTask.Result != null)
             {
                 Debug.Log("Cubemap saved");
-                skyboxCubemap = imageTask.Result.ToTexture();
+                skyboxCubemap = imageTask.Result;
                 OnDisable();
                 OnEnable();
                 Update();
@@ -319,20 +315,17 @@ namespace Juniper.Imaging
 
                         var imageTask = ImageNeeded?.Invoke(this, (int)overlapFOV, heading, pitch);
 
-                        while (imageTask.IsRunning())
-                        {
-                            yield return null;
-                        }
+                        yield return imageTask.Waiter();
 
                         if (imageTask.IsCompleted)
                         {
                             var image = imageTask.Result;
                             if (image != null)
                             {
-                                var texture = image.ToTexture();
                                 var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
                                 var renderer = frame.GetComponent<MeshRenderer>();
                                 var material = new Material(Shader.Find("Unlit/Texture"));
+                                var texture = encoder.Read(image);
                                 material.SetTexture("_MainTex", texture);
                                 renderer.SetMaterial(material);
 
@@ -471,15 +464,15 @@ namespace Juniper.Imaging
 
                 var faces = new[]
                 {
-                        CubemapFace.NegativeY,
-                        CubemapFace.NegativeX,
-                        CubemapFace.PositiveZ,
-                        CubemapFace.PositiveX,
-                        CubemapFace.NegativeZ,
-                        CubemapFace.PositiveY
-                    };
+                    CubemapFace.NegativeY,
+                    CubemapFace.NegativeX,
+                    CubemapFace.PositiveZ,
+                    CubemapFace.PositiveX,
+                    CubemapFace.NegativeZ,
+                    CubemapFace.PositiveY
+                };
 
-                var images = new ImageData[faces.Length];
+                var images = new Texture2D[faces.Length];
 
                 for (var f = 0; f < faces.Length; ++f)
                 {
@@ -487,20 +480,10 @@ namespace Juniper.Imaging
                     try
                     {
                         var pixels = cubemap.GetPixels(faces[f]);
-                        var buf = new byte[pixels.Length * 3];
-                        for (var y = 0; y < cubemap.height; ++y)
-                        {
-                            for (var x = 0; x < cubemap.width; ++x)
-                            {
-                                var bufI = y * cubemap.width + x;
-                                var pixI = (cubemap.height - 1 - y) * cubemap.width + x;
-                                buf[bufI * 3 + 0] = (byte)(255 * pixels[pixI].r);
-                                buf[bufI * 3 + 1] = (byte)(255 * pixels[pixI].g);
-                                buf[bufI * 3 + 2] = (byte)(255 * pixels[pixI].b);
-                            }
-                        }
-
-                        images[f] = new ImageData(DataSource.None, cubemap.width, cubemap.height, 3, ImageFormat.None, buf);
+                        var texture = new Texture2D(cubemap.width, cubemap.height);
+                        texture.SetPixels(pixels);
+                        texture.Apply();
+                        images[f] = texture;
                     }
                     catch
                     {
@@ -525,10 +508,8 @@ namespace Juniper.Imaging
                     }
                 });
 
-                while (saveTask.IsRunning())
-                {
-                    yield return null;
-                }
+
+                yield return saveTask.Waiter();
 
                 yield return ReadCubemapCoroutine(fileName);
             }
