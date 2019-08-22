@@ -36,12 +36,22 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultFileController.cs" />
     <Compile Include="FileInfoExt.cs" />
     <Compile Include="HttpListenerResponseExt.cs" />
     <Compile Include="HttpServer.cs" />
+    <Compile Include="MediaTypes\Application.cs" />
+    <Compile Include="MediaTypes\Audio.cs" />
+    <Compile Include="MediaTypes\Font.cs" />
+    <Compile Include="MediaTypes\Image.cs" />
+    <Compile Include="MediaTypes\Message.cs" />
+    <Compile Include="MediaTypes\Model.cs" />
+    <Compile Include="MediaTypes\Multipart.cs" />
+    <Compile Include="MediaTypes\Text.cs" />
+    <Compile Include="MediaTypes\Video.cs" />
     <Compile Include="REST\AbstractRequestConfiguration.cs" />
     <Compile Include="REST\AbstractRequest.cs" />
     <Compile Include="BodyInfo.cs" />
