@@ -241,9 +241,9 @@ namespace Juniper.Imaging
             else
             {
                 Task<MetadataResponse> metadataTask;
-                if (PanoID.TryParse(inputSearchLocation, out var pano2))
+                if (PanoID.TryParse(inputSearchLocation, out var pano))
                 {
-                    metadataTask = yarrow.GetMetadata(pano2, metadataProg);
+                    metadataTask = yarrow.GetMetadata(pano, metadataProg);
                 }
                 else if (LatLngPoint.TryParseDecimal(inputSearchLocation, out var point))
                 {
