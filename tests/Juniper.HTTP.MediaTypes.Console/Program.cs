@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Juniper.HTTP.MediaTypes.Console
@@ -14,7 +15,7 @@ namespace Juniper.HTTP.MediaTypes.Console
         private static void Main()
         {
             var groups = new Dictionary<string, Group>();
-            ParseApacheConf(groups);
+            ParseApacheConf(groups).Wait();
             ParseIANAXml(groups);
 
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -27,9 +28,28 @@ namespace Juniper.HTTP.MediaTypes.Console
             }
         }
 
-        private static void ParseApacheConf(Dictionary<string, Group> groups)
+        private static async Task ParseApacheConf(Dictionary<string, Group> groups)
         {
-            var response = HttpWebRequestExt
+            var response = await HttpWebRequestExt.Create("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co")
+                .Accept("text/plain")
+                .Get();
+            var searching = true;
+            using (var stream = response.GetResponseStream())
+            using (var reader = new StreamReader(stream))
+            {
+                var line = reader.ReadLine();
+                if(line.StartsWith("# "))
+                {
+                    line = line.Substring(2);
+                }
+
+                if (!searching) {
+                }
+                else if (line.StartsWith("===================="))
+                {
+                    searching = false;
+                }
+            }
         }
 
         private static void ParseIANAXml(Dictionary<string, Group> groups)

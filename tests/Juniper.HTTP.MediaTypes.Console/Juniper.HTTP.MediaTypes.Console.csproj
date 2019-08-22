@@ -49,5 +49,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Juniper.Core\Juniper.Core.csproj">
+      <Project>{CF395BB3-8967-44E3-8A02-3B570E218A83}</Project>
+      <Name>Juniper.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
