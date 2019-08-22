@@ -80,53 +80,17 @@
     <Compile Include="StringExt.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Collections\Juniper.Collections.csproj">
-      <Project>{e7450f17-721d-436b-9ccb-af130da82bf0}</Project>
-      <Name>Juniper.Collections</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.HTTP\Juniper.HTTP.csproj">
-      <Project>{888b994c-2ae8-42b2-84f5-b15e11cc4f4f}</Project>
-      <Name>Juniper.HTTP</Name>
+    <ProjectReference Include="..\Juniper.Core\Juniper.Core.csproj">
+      <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
+      <Name>Juniper.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Juniper.Imaging.PNG\Juniper.Imaging.PNG.csproj">
       <Project>{1a8d6a33-7144-4789-95ad-4bbc025ab100}</Project>
       <Name>Juniper.Imaging.PNG</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Juniper.Imaging\Juniper.Imaging.csproj">
-      <Project>{f951a2e5-078a-413d-966d-c3f4ae5edcab}</Project>
-      <Name>Juniper.Imaging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Juniper.Json\Juniper.Json.csproj">
       <Project>{b10a2ab6-5677-4f5e-b6fc-d81120787746}</Project>
       <Name>Juniper.Json</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.NETFXExtensions\Juniper.NETFXExtensions.csproj">
-      <Project>{71CE09EF-34CE-4970-A731-593C09A7EFB9}</Project>
-      <Name>Juniper.NETFXExtensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">
-      <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
-      <Name>Juniper.Progress</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.Serialization\Juniper.Serialization.csproj">
-      <Project>{9D6F67CC-8EAC-4644-9E20-C18C9D3E58CC}</Project>
-      <Name>Juniper.Serialization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.Streams\Juniper.Streams.csproj">
-      <Project>{134d77e1-78d5-4f9b-868f-7ea6e98cec08}</Project>
-      <Name>Juniper.Streams</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.Threading\Juniper.Threading.csproj">
-      <Project>{4509d93f-515c-4c05-b05d-78cc26e13d84}</Project>
-      <Name>Juniper.Threading</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.Units\Juniper.Units.csproj">
-      <Project>{d1d31fd0-65ee-4576-828b-e0f60e3bf4ae}</Project>
-      <Name>Juniper.Units</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.World\Juniper.World.csproj">
-      <Project>{27b52adc-cb80-4b77-a0fc-958c0b0d0982}</Project>
-      <Name>Juniper.World</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

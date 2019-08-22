@@ -49,21 +49,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Collections\Juniper.Collections.csproj">
-      <Project>{e7450f17-721d-436b-9ccb-af130da82bf0}</Project>
-      <Name>Juniper.Collections</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.IO\Juniper.IO.csproj">
-      <Project>{7294af0e-1edb-44ba-a655-b469f37fc7d0}</Project>
-      <Name>Juniper.IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.Progress\Juniper.Progress.csproj">
-      <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
-      <Name>Juniper.Progress</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Juniper.Streams\Juniper.Streams.csproj">
-      <Project>{134d77e1-78d5-4f9b-868f-7ea6e98cec08}</Project>
-      <Name>Juniper.Streams</Name>
+    <ProjectReference Include="..\Juniper.Core\Juniper.Core.csproj">
+      <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
+      <Name>Juniper.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

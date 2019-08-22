@@ -55,21 +55,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Juniper.Collections\Juniper.Collections.csproj">
-      <Project>{e7450f17-721d-436b-9ccb-af130da82bf0}</Project>
-      <Name>Juniper.Collections</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Compression\Juniper.Compression.csproj">
       <Project>{10db1b9b-3fe1-4e78-9056-32dc9e5dff8d}</Project>
       <Name>Juniper.Compression</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.IO\Juniper.IO.csproj">
-      <Project>{7294af0e-1edb-44ba-a655-b469f37fc7d0}</Project>
-      <Name>Juniper.IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Progress\Juniper.Progress.csproj">
-      <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
-      <Name>Juniper.Progress</Name>
+    <ProjectReference Include="..\..\src\Juniper.Core\Juniper.Core.csproj">
+      <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
+      <Name>Juniper.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

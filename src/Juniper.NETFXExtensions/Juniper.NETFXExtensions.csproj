@@ -38,26 +38,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArrayExt.cs" />
-    <Compile Include="DateTimeExt.cs" />
-    <Compile Include="EnumeratorTask.cs" />
-    <Compile Include="ErrorHandler.cs" />
-    <Compile Include="ExceptionExt.cs" />
-    <Compile Include="ICloneableExt.cs" />
-    <Compile Include="Months.cs" />
-    <Compile Include="NullableExt.cs" />
-    <Compile Include="NumberExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringExt.cs" />
-    <Compile Include="TaskEnumerator.cs" />
-    <Compile Include="Text\StringBuilderExt.cs" />
-    <Compile Include="TrackedValue.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Juniper.Collections\Juniper.Collections.csproj">
-      <Project>{e7450f17-721d-436b-9ccb-af130da82bf0}</Project>
-      <Name>Juniper.Collections</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

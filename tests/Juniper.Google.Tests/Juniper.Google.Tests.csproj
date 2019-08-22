@@ -60,13 +60,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Juniper.Core\Juniper.Core.csproj">
+      <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
+      <Name>Juniper.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Google\Juniper.Google.csproj">
       <Project>{8b0f80d8-dd15-4d68-b1d5-17328cdf1db6}</Project>
       <Name>Juniper.Google</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.HTTP\Juniper.HTTP.csproj">
-      <Project>{888b994c-2ae8-42b2-84f5-b15e11cc4f4f}</Project>
-      <Name>Juniper.HTTP</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Imaging.JPEG\Juniper.Imaging.JPEG.csproj">
       <Project>{a4d1924d-4417-48c8-8e1a-34b1af30c85a}</Project>
@@ -76,25 +76,9 @@
       <Project>{1a8d6a33-7144-4789-95ad-4bbc025ab100}</Project>
       <Name>Juniper.Imaging.PNG</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Imaging\Juniper.Imaging.csproj">
-      <Project>{f951a2e5-078a-413d-966d-c3f4ae5edcab}</Project>
-      <Name>Juniper.Imaging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Json\Juniper.Json.csproj">
       <Project>{b10a2ab6-5677-4f5e-b6fc-d81120787746}</Project>
       <Name>Juniper.Json</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Progress\Juniper.Progress.csproj">
-      <Project>{e8c5e33f-9c4e-4b70-8efe-974946e59a48}</Project>
-      <Name>Juniper.Progress</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Serialization\Juniper.Serialization.csproj">
-      <Project>{9d6f67cc-8eac-4644-9e20-c18c9d3e58cc}</Project>
-      <Name>Juniper.Serialization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.World\Juniper.World.csproj">
-      <Project>{27b52adc-cb80-4b77-a0fc-958c0b0d0982}</Project>
-      <Name>Juniper.World</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

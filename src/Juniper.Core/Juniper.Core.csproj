@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CF395BB3-8967-44E3-8A02-3B570E218A83}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Juniper</RootNamespace>
+    <AssemblyName>Juniper.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Juniper\Assets\Juniper\Plugins\Juniper\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Juniper\Assets\Juniper\Plugins\Juniper\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audio\AudioData.cs" />
+    <Compile Include="Audio\AudioFormat.cs" />
+    <Compile Include="Collections\NAryTree.cs" />
+    <Compile Include="Collections\RingBuffer.cs" />
+    <Compile Include="Collections\Statistics\AbstractCollectionStatistics.cs" />
+    <Compile Include="Collections\Statistics\SingleStatistics.cs" />
+    <Compile Include="Collections\System.Collections\Generic\DictionaryExt.cs" />
+    <Compile Include="Collections\System.Collections\Generic\IEnumerableExt.cs" />
+    <Compile Include="Collections\System.Collections\Generic\ListExt.cs" />
+    <Compile Include="Collections\System.Collections\Generic\NaturalSortComparer.cs" />
+    <Compile Include="Collections\System.Collections\Generic\PriorityQueue.cs" />
+    <Compile Include="Collections\System.Collections\Generic\PriorityQueueEnumerator.cs" />
+    <Compile Include="HTTP\BodyInfo.cs" />
+    <Compile Include="HTTP\DefaultFileController.cs" />
+    <Compile Include="HTTP\FileInfoExt.cs" />
+    <Compile Include="HTTP\HttpListenerResponseExt.cs" />
+    <Compile Include="HTTP\HttpServer.cs" />
+    <Compile Include="HTTP\HttpWebRequestExt.cs" />
+    <Compile Include="HTTP\IFactoryExt.cs" />
+    <Compile Include="HTTP\MediaTypes\Application.cs" />
+    <Compile Include="HTTP\MediaTypes\Audio.cs" />
+    <Compile Include="HTTP\MediaTypes\Font.cs" />
+    <Compile Include="HTTP\MediaTypes\Image.cs" />
+    <Compile Include="HTTP\MediaTypes\Message.cs" />
+    <Compile Include="HTTP\MediaTypes\Model.cs" />
+    <Compile Include="HTTP\MediaTypes\Multipart.cs" />
+    <Compile Include="HTTP\MediaTypes\Text.cs" />
+    <Compile Include="HTTP\MediaTypes\Video.cs" />
+    <Compile Include="HTTP\REST\AbstractRequest.cs" />
+    <Compile Include="HTTP\REST\AbstractRequestConfiguration.cs" />
+    <Compile Include="HTTP\REST\AbstractRequestExt.cs" />
+    <Compile Include="HTTP\RouteAttribute.cs" />
+    <Compile Include="HTTP\HttpStreamExt.cs" />
+    <Compile Include="HTTP\HttpStringExt.cs" />
+    <Compile Include="HTTP\UriBuilderExt.cs" />
+    <Compile Include="Imaging\AbstractImageDataDecoder.cs" />
+    <Compile Include="Imaging\IImageDecoder.cs" />
+    <Compile Include="Imaging\ImageData.cs" />
+    <Compile Include="Imaging\ImageFormat.cs" />
+    <Compile Include="Imaging\Markers.cs" />
+    <Compile Include="Imaging\Size.cs" />
+    <Compile Include="Input\Direction.cs" />
+    <Compile Include="Input\Hands.cs" />
+    <Compile Include="Input\InputEventButton.cs" />
+    <Compile Include="Input\Interaction.cs" />
+    <Compile Include="Input\IPointerButtons.cs" />
+    <Compile Include="IO\DirectoryExt.cs" />
+    <Compile Include="IO\DirectoryInfoExt.cs" />
+    <Compile Include="IO\FileExt.cs" />
+    <Compile Include="IO\FileTree.cs" />
+    <Compile Include="IO\PathExt.cs" />
+    <Compile Include="NETFX\ArrayExt.cs" />
+    <Compile Include="NETFX\DateTimeExt.cs" />
+    <Compile Include="NETFX\EnumeratorTask.cs" />
+    <Compile Include="NETFX\ErrorHandler.cs" />
+    <Compile Include="NETFX\ExceptionExt.cs" />
+    <Compile Include="NETFX\ICloneableExt.cs" />
+    <Compile Include="NETFX\Months.cs" />
+    <Compile Include="NETFX\NullableExt.cs" />
+    <Compile Include="NETFX\NumberExt.cs" />
+    <Compile Include="NETFX\StringExt.cs" />
+    <Compile Include="NETFX\TaskEnumerator.cs" />
+    <Compile Include="NETFX\Text\StringBuilderExt.cs" />
+    <Compile Include="NETFX\TrackedValue.cs" />
+    <Compile Include="Progress\IInstallable.cs" />
+    <Compile Include="Progress\IProgress.cs" />
+    <Compile Include="Progress\ProgressSubdivision.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\ICredentialReceiver.cs" />
+    <Compile Include="Serialization\DataSource.cs" />
+    <Compile Include="Serialization\IDeserializer.cs" />
+    <Compile Include="Serialization\IFactory.cs" />
+    <Compile Include="Serialization\ISerializer.cs" />
+    <Compile Include="Serialization\SerializationInfoExt.cs" />
+    <Compile Include="Serialization\SpecializedDeserializer.cs" />
+    <Compile Include="Serialization\SpecializedFactory.cs" />
+    <Compile Include="Serialization\SpecializedSerializer.cs" />
+    <Compile Include="Serialization\SerializationStreamExt.cs" />
+    <Compile Include="Serial\ISerialPort.cs" />
+    <Compile Include="Serial\ISerialPortFactory.cs" />
+    <Compile Include="Serial\ISerialPortListing.cs" />
+    <Compile Include="Serial\MockSerialPort.cs" />
+    <Compile Include="Serial\MockSerialPortListing.cs" />
+    <Compile Include="Serial\SafeSerialPort.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Serial\SafeSerialPortFactory.cs" />
+    <Compile Include="Serial\SafeSerialPortListing.cs" />
+    <Compile Include="Serial\SerialPortDevice.cs" />
+    <Compile Include="Speech\IKeywordTriggered.cs" />
+    <Compile Include="Speech\KeywordRecognizedEventArgs.cs" />
+    <Compile Include="Streams\CachingStream.cs" />
+    <Compile Include="Streams\ErsatzSeekableStream.cs" />
+    <Compile Include="Streams\IStreamWrapper.cs" />
+    <Compile Include="Streams\ProgressStream.cs" />
+    <Compile Include="Streams\StreamExt.cs" />
+    <Compile Include="Threading\AbstractBackgroundRepeatingThread.cs" />
+    <Compile Include="Threading\AbstractBackgroundThread.cs" />
+    <Compile Include="Threading\BackgroundThreadError.cs" />
+    <Compile Include="Threading\ManagedRequest.cs" />
+    <Compile Include="Threading\ManagedRequestMessage.cs" />
+    <Compile Include="Threading\ManagedRequestReady.cs" />
+    <Compile Include="Threading\OneShotThread.cs" />
+    <Compile Include="Threading\TaskExt.cs" />
+    <Compile Include="Units\Acceleration\FeetPerSecondSquared.cs" />
+    <Compile Include="Units\Acceleration\MetersPerSecondSquared.cs" />
+    <Compile Include="Units\Angles\Angle.cs" />
+    <Compile Include="Units\Angles\Degrees.cs" />
+    <Compile Include="Units\Angles\Gradians.cs" />
+    <Compile Include="Units\Angles\Radians.cs" />
+    <Compile Include="Units\Area\SquareCentimeters.cs" />
+    <Compile Include="Units\Area\SquareFeet.cs" />
+    <Compile Include="Units\Area\SquareInches.cs" />
+    <Compile Include="Units\Area\SquareKilometers.cs" />
+    <Compile Include="Units\Area\SquareMeters.cs" />
+    <Compile Include="Units\Area\SquareMiles.cs" />
+    <Compile Include="Units\Area\SquareMillimeters.cs" />
+    <Compile Include="Units\CartesianAxis.cs" />
+    <Compile Include="Units\Category.cs" />
+    <Compile Include="Units\Converter.cs" />
+    <Compile Include="Units\FileSize\Bytes.cs" />
+    <Compile Include="Units\FileSize\Exabytes.cs" />
+    <Compile Include="Units\FileSize\Exbibytes.cs" />
+    <Compile Include="Units\FileSize\Gibibytes.cs" />
+    <Compile Include="Units\FileSize\Gigabytes.cs" />
+    <Compile Include="Units\FileSize\Kibibytes.cs" />
+    <Compile Include="Units\FileSize\Kilobytes.cs" />
+    <Compile Include="Units\FileSize\Megabytes.cs" />
+    <Compile Include="Units\FileSize\Mibibytes.cs" />
+    <Compile Include="Units\FileSize\Pebibytes.cs" />
+    <Compile Include="Units\FileSize\Petabytes.cs" />
+    <Compile Include="Units\FileSize\Tebibytes.cs" />
+    <Compile Include="Units\FileSize\Terabytes.cs" />
+    <Compile Include="Units\FileSize\Yobibytes.cs" />
+    <Compile Include="Units\FileSize\Yotabytes.cs" />
+    <Compile Include="Units\FileSize\Zebibytes.cs" />
+    <Compile Include="Units\FileSize\Zettabytes.cs" />
+    <Compile Include="Units\Length\Centimeters.cs" />
+    <Compile Include="Units\Length\Feet.cs" />
+    <Compile Include="Units\Length\Inches.cs" />
+    <Compile Include="Units\Length\Kilometers.cs" />
+    <Compile Include="Units\Length\Meters.cs" />
+    <Compile Include="Units\Length\Miles.cs" />
+    <Compile Include="Units\Length\Millimeters.cs" />
+    <Compile Include="Units\Level.cs" />
+    <Compile Include="Units\Light\Brightness.cs" />
+    <Compile Include="Units\Light\Lumens.cs" />
+    <Compile Include="Units\Light\Nits.cs" />
+    <Compile Include="Units\Mass\Grams.cs" />
+    <Compile Include="Units\Mass\Kilograms.cs" />
+    <Compile Include="Units\Mass\Ounces.cs" />
+    <Compile Include="Units\Mass\Pounds.cs" />
+    <Compile Include="Units\Mass\Tons.cs" />
+    <Compile Include="Units\Pressure\Hectopascals.cs" />
+    <Compile Include="Units\Pressure\Kilopascals.cs" />
+    <Compile Include="Units\Pressure\Millibars.cs" />
+    <Compile Include="Units\Pressure\Pascals.cs" />
+    <Compile Include="Units\Pressure\PoundsPerSquareInch.cs" />
+    <Compile Include="Units\Proportion\Percent.cs" />
+    <Compile Include="Units\Proportion\Proportion.cs" />
+    <Compile Include="Units\Proportion\Ratio.cs" />
+    <Compile Include="Units\Speed\FeetPerSecond.cs" />
+    <Compile Include="Units\Speed\KilometersPerHour.cs" />
+    <Compile Include="Units\Speed\MetersPerSecond.cs" />
+    <Compile Include="Units\Speed\MilesPerHour.cs" />
+    <Compile Include="Units\Speed\MillimetersPerSecond.cs" />
+    <Compile Include="Units\SystemOfMeasure.cs" />
+    <Compile Include="Units\Temperature\Celsius.cs" />
+    <Compile Include="Units\Temperature\Farenheit.cs" />
+    <Compile Include="Units\Temperature\Kelvin.cs" />
+    <Compile Include="Units\Time\Days.cs" />
+    <Compile Include="Units\Time\Hertz.cs" />
+    <Compile Include="Units\Time\Hours.cs" />
+    <Compile Include="Units\Time\Milliseconds.cs" />
+    <Compile Include="Units\Time\Minutes.cs" />
+    <Compile Include="Units\Time\Seconds.cs" />
+    <Compile Include="Units\Unary.cs" />
+    <Compile Include="Units\UnitOfMeasure.cs" />
+    <Compile Include="Units\Volume\CubicCentimeters.cs" />
+    <Compile Include="Units\Volume\CubicFeet.cs" />
+    <Compile Include="Units\Volume\CubicInches.cs" />
+    <Compile Include="Units\Volume\CubicKilometers.cs" />
+    <Compile Include="Units\Volume\CubicMeters.cs" />
+    <Compile Include="Units\Volume\CubicMiles.cs" />
+    <Compile Include="Units\Volume\CubicMillimeters.cs" />
+    <Compile Include="World\Climate\IWeatherAPI.cs" />
+    <Compile Include="World\Climate\IWeatherReport.cs" />
+    <Compile Include="World\GIS\Datum.cs" />
+    <Compile Include="World\GIS\EquitorialSpherical.cs" />
+    <Compile Include="World\GIS\EquitorialSphericalPosition.cs" />
+    <Compile Include="World\GIS\GeocentricEclipticSpherical.cs" />
+    <Compile Include="World\GIS\GeocentricEclipticSphericalPosition.cs" />
+    <Compile Include="World\GIS\HorizontalSphericalPosition.cs" />
+    <Compile Include="World\GIS\LatLng.cs" />
+    <Compile Include="World\GIS\LatLngPoint.cs" />
+    <Compile Include="World\GIS\UTM.cs" />
+    <Compile Include="World\GIS\UTMPoint.cs" />
+    <Compile Include="XR\GroundMeshVisualization.cs" />
+    <Compile Include="XR\PlatformEnums.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

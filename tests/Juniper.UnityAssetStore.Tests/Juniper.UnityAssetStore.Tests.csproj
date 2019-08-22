@@ -54,17 +54,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Juniper.Core\Juniper.Core.csproj">
+      <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
+      <Name>Juniper.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Json\Juniper.Json.csproj">
       <Project>{B10A2AB6-5677-4F5E-B6FC-D81120787746}</Project>
       <Name>Juniper.Json</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Progress\Juniper.Progress.csproj">
-      <Project>{E8C5E33F-9C4E-4B70-8EFE-974946E59A48}</Project>
-      <Name>Juniper.Progress</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Serialization\Juniper.Serialization.csproj">
-      <Project>{9D6F67CC-8EAC-4644-9E20-C18C9D3E58CC}</Project>
-      <Name>Juniper.Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.UnityAssetStore\Juniper.UnityAssetStore.csproj">
       <Project>{d1fbfa8a-db69-4cc3-94c8-cd921e1af4cf}</Project>

@@ -47,25 +47,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Juniper.HTTP\Juniper.HTTP.csproj">
-      <Project>{888b994c-2ae8-42b2-84f5-b15e11cc4f4f}</Project>
-      <Name>Juniper.HTTP</Name>
+    <ProjectReference Include="..\..\src\Juniper.Core\Juniper.Core.csproj">
+      <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
+      <Name>Juniper.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Imaging.JPEG\Juniper.Imaging.JPEG.csproj">
       <Project>{a4d1924d-4417-48c8-8e1a-34b1af30c85a}</Project>
       <Name>Juniper.Imaging.JPEG</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Imaging\Juniper.Imaging.csproj">
-      <Project>{f951a2e5-078a-413d-966d-c3f4ae5edcab}</Project>
-      <Name>Juniper.Imaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Progress\Juniper.Progress.csproj">
-      <Project>{E8C5E33F-9C4E-4B70-8EFE-974946E59A48}</Project>
-      <Name>Juniper.Progress</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Serialization\Juniper.Serialization.csproj">
-      <Project>{9d6f67cc-8eac-4644-9e20-c18c9d3e58cc}</Project>
-      <Name>Juniper.Serialization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

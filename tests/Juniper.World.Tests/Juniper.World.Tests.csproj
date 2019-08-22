@@ -57,25 +57,9 @@
       <Project>{8b0f80d8-dd15-4d68-b1d5-17328cdf1db6}</Project>
       <Name>Juniper.Google</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.HTTP\Juniper.HTTP.csproj">
-      <Project>{888B994C-2AE8-42B2-84F5-B15E11CC4F4F}</Project>
-      <Name>Juniper.HTTP</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Imaging\Juniper.Imaging.csproj">
-      <Project>{F951A2E5-078A-413D-966D-C3F4AE5EDCAB}</Project>
-      <Name>Juniper.Imaging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Json\Juniper.Json.csproj">
       <Project>{b10a2ab6-5677-4f5e-b6fc-d81120787746}</Project>
       <Name>Juniper.Json</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Serialization\Juniper.Serialization.csproj">
-      <Project>{9D6F67CC-8EAC-4644-9E20-C18C9D3E58CC}</Project>
-      <Name>Juniper.Serialization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.World\Juniper.World.csproj">
-      <Project>{27b52adc-cb80-4b77-a0fc-958c0b0d0982}</Project>
-      <Name>Juniper.World</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
