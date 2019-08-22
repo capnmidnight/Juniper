@@ -23,6 +23,7 @@ namespace Juniper.HTTP.MediaTypes
         public const string Hsj2 = "image/hsj2";
         public const string Jls = "image/jls";
         public const string Jp2 = "image/jp2";
+        public const string Jpeg = "image/jpeg";
         public const string Jph = "image/jph";
         public const string Jphc = "image/jphc";
         public const string Jpm = "image/jpm";

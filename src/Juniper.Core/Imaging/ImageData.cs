@@ -22,9 +22,9 @@ namespace Juniper.Imaging
         {
             switch (format)
             {
-                case ImageFormat.JPEG: return "image/jpeg";
-                case ImageFormat.PNG: return "image/png";
-                default: return "application/unknown";
+                case ImageFormat.JPEG: return HTTP.MediaTypes.Image.Jpeg;
+                case ImageFormat.PNG: return HTTP.MediaTypes.Image.Png;
+                default: return HTTP.MediaTypes.Application.OctetStream;
             }
         }
 

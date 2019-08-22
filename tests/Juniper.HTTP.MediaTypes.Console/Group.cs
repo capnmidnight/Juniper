@@ -25,14 +25,19 @@ namespace Juniper.HTTP.MediaTypes.Console
             using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             using (var writer = new StreamWriter(stream))
             {
-                writer.WriteLine("namespace Juniper.HTTP.MediaTypes");
+                writer.WriteLine("namespace Juniper.HTTP");
                 writer.WriteLine("{");
                 {
-                    writer.WriteLine("    public static class {0}", className);
+                    writer.WriteLine("    public partial class MediaType");
                     writer.WriteLine("    {");
-                    foreach (var entry in entries.Values.OrderBy(e => e.fieldName))
                     {
-                        entry.Write(writer);
+                        writer.WriteLine("        public static class {0}", className);
+                        writer.WriteLine("        {");
+                        foreach (var entry in entries.Values.OrderBy(e => e.FieldName))
+                        {
+                            entry.Write(writer);
+                        }
+                        writer.WriteLine("        }");
                     }
                     writer.WriteLine("    }");
                 }

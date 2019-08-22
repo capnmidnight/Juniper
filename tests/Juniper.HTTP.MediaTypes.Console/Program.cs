@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Xml.Linq;
 
 namespace Juniper.HTTP.MediaTypes.Console
@@ -13,6 +14,26 @@ namespace Juniper.HTTP.MediaTypes.Console
         private static void Main()
         {
             var groups = new Dictionary<string, Group>();
+            ParseApacheConf(groups);
+            ParseIANAXml(groups);
+
+            var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var outDir = Path.Combine(home, "Projects", "Yarrow", "Juniper");
+            outDir = Path.Combine(outDir, "src", "Juniper.Core", "HTTP");
+            outDir = Path.Combine(outDir, "MediaType");
+            foreach (var group in groups.Values)
+            {
+                group.Write(outDir);
+            }
+        }
+
+        private static void ParseApacheConf(Dictionary<string, Group> groups)
+        {
+            var response = HttpWebRequestExt
+        }
+
+        private static void ParseIANAXml(Dictionary<string, Group> groups)
+        {
             var myDocs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             var mediaTypesFileName = Path.Combine(myDocs, "media-types.xml");
             var fullRegistry = XElement.Load(mediaTypesFileName);
@@ -24,15 +45,6 @@ namespace Juniper.HTTP.MediaTypes.Console
                 var nameAndDescription = file.Parent.Element(ns + "name").Value;
                 var groupAndName = file.Value;
                 Parse(groups, groupName, nameAndDescription, groupAndName);
-            }
-
-            var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var outDir = Path.Combine(home, "Projects", "Yarrow", "Juniper");
-            outDir = Path.Combine(outDir, "src", "Juniper.Core", "HTTP");
-            outDir = Path.Combine(outDir, "MediaTypes");
-            foreach (var group in groups.Values)
-            {
-                group.Write(outDir);
             }
         }
 
