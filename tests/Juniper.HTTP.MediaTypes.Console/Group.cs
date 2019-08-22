@@ -28,42 +28,15 @@ namespace Juniper.HTTP.MediaTypes.Console
                 writer.WriteLine("namespace Juniper.HTTP.MediaTypes");
                 writer.WriteLine("{");
                 {
-                    WriteClass(writer, string.Empty);
+                    writer.WriteLine("    public static class {0}", className);
+                    writer.WriteLine("    {");
+                    foreach (var entry in entries.Values.OrderBy(e => e.fieldName))
+                    {
+                        entry.Write(writer);
+                    }
+                    writer.WriteLine("    }");
                 }
                 writer.WriteLine("}");
-            }
-        }
-
-        private void WriteClass(StreamWriter writer, string prefix)
-        {
-            prefix += "    ";
-            writer.Write(prefix);
-            writer.WriteLine("public static class {0}", className);
-            writer.Write(prefix);
-            writer.WriteLine("{");
-            WriteFields(writer, prefix);
-            writer.Write(prefix);
-            writer.WriteLine("}");
-        }
-
-        private void WriteFields(StreamWriter writer, string prefix)
-        {
-            prefix += "    ";
-            foreach (var entry in entries.Values.OrderBy(e => e.fieldName))
-            {
-                if (entry.deprecationMessage != null)
-                {
-                    writer.WriteLine();
-                    writer.Write(prefix);
-                    writer.WriteLine("[System.Obsolete(\"{0}\")]", entry.deprecationMessage);
-                }
-                var fieldName = entry.fieldName;
-                writer.Write(prefix);
-                writer.WriteLine("public const string {0} = \"{1}\";", fieldName, entry.value);
-                if (entry.deprecationMessage != null)
-                {
-                    writer.WriteLine();
-                }
             }
         }
     }

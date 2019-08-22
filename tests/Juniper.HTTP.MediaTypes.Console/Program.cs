@@ -20,24 +20,49 @@ namespace Juniper.HTTP.MediaTypes.Console
             var files = fullRegistry.Descendants(ns + "file");
             foreach (var file in files)
             {
-                Parse(groups, file);
+                var groupName = file.Parent.Parent.Attribute("id").Value;
+                var nameAndDescription = file.Parent.Element(ns + "name").Value;
+                var groupAndName = file.Value;
+                Parse(groups, groupName, nameAndDescription, groupAndName);
             }
 
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var outDir = Path.Combine(home, "Projects", "Yarrow", "Juniper", "src", "Juniper.HTTP", "MediaTypes");
+            var outDir = Path.Combine(home, "Projects", "Yarrow", "Juniper");
+            outDir = Path.Combine(outDir, "src", "Juniper.Core", "HTTP");
+            outDir = Path.Combine(outDir, "MediaTypes");
             foreach (var group in groups.Values)
             {
                 group.Write(outDir);
             }
         }
 
-        private static void Parse(Dictionary<string, Group> groups, XElement file)
+        public static void Parse(Dictionary<string, Group> groups, string groupName, string nameAndDescription, string groupAndName)
         {
-            var groupName = file.Parent.Parent.Attribute("id").Value;
-            var nameAndDescription = file.Parent.Element(ns + "name").Value;
-            var groupAndName = file.Value;
+            var name = groupAndName.Substring(groupName.Length + 1);
+            var value = $"{groupName}/{name}";
 
-            Entry.Parse(groups, groupName, nameAndDescription, groupAndName);
+            var isDeprecated = nameAndDescription.Length > name.Length;
+            string deprecationMessage = null;
+            if (isDeprecated)
+            {
+                deprecationMessage = nameAndDescription.Substring(name.Length + 2).Trim();
+                if (deprecationMessage.StartsWith("-"))
+                {
+                    deprecationMessage = deprecationMessage.Substring(1).Trim();
+                }
+            }
+
+            if (!groups.ContainsKey(groupName))
+            {
+                groups[groupName] = new Group(groupName);
+            }
+
+            var group = groups[groupName];
+
+            if (!group.entries.ContainsKey(name) || deprecationMessage != null)
+            {
+                group.entries[name] = new Entry(name, value, deprecationMessage);
+            }
         }
 
         public static string UpperFirst(this string s)
