@@ -2,7 +2,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Juniper.Google.Maps.Tests;
-using Juniper.HTTP.REST;
 using Juniper.Imaging;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -54,8 +53,8 @@ namespace Juniper.Google.Maps.MapTiles.Tests
             };
             var results = await search.Get();
             Assert.IsNotNull(results);
-            Assert.AreEqual(640, results.dimensions.width);
-            Assert.AreEqual(640, results.dimensions.height);
+            Assert.AreEqual(640, results.info.dimensions.width);
+            Assert.AreEqual(640, results.info.dimensions.height);
         }
     }
 }

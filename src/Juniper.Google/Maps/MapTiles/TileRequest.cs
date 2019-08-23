@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Juniper.Imaging;
-using Juniper.Imaging.PNG;
+using Juniper.Imaging.HjgPngcs;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.MapTiles
@@ -31,7 +31,7 @@ namespace Juniper.Google.Maps.MapTiles
         }
 
         public TileRequest(GoogleMapsRequestConfiguration api, Size size)
-            : this(api, new PngDecoder(), size)
+            : this(api, new HjgPngcsImageDataCodec(), size)
         {
         }
 

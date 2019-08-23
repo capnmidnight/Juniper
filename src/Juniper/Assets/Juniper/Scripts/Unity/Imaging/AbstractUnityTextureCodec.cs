@@ -8,15 +8,8 @@ using UnityEngine;
 
 namespace Juniper.Imaging
 {
-    public class UnityJpegEncoder : IImageDecoder<Texture2D>
+    public abstract class AbstractUnityTextureCodec : IImageDecoder<Texture2D>
     {
-        private readonly int encodingQuality;
-
-        public UnityJpegEncoder(int encodingQuality = 100)
-        {
-            this.encodingQuality = encodingQuality;
-        }
-
         public int GetWidth(Texture2D img)
         {
             return img.width;
@@ -25,29 +18,6 @@ namespace Juniper.Imaging
         public int GetHeight(Texture2D img)
         {
             return img.height;
-        }
-
-        public Texture2D Read(byte[] data, DataSource source = DataSource.None)
-        {
-            for (var i = 0; i < data.Length - 1; i++)
-            {
-                var b = data[i];
-                var b2 = data[i + 1];
-                if (b == byte.MaxValue && b2 == 192)
-                {
-                    var b3 = data[i + 5];
-                    var b4 = data[i + 6];
-                    var b5 = data[i + 7];
-                    var b6 = data[i + 8];
-                    var width = (b5 << 8) | b6;
-                    var height = (b3 << 8) | b4;
-                    var texture = new Texture2D(width, height);
-                    texture.LoadImage(data);
-                    return texture;
-                }
-            }
-
-            return null;
         }
 
         public Texture2D Concatenate(Texture2D[,] images, IProgress prog = null)
@@ -80,20 +50,31 @@ namespace Juniper.Imaging
             return outputImage;
         }
 
-        public HTTP.MediaType.Image Format { get { return HTTP.MediaType.Image.Jpeg; } }
-
         public void Serialize(Stream stream, Texture2D value, IProgress prog = null)
         {
-            var buf = value.EncodeToJPG(encodingQuality);
+            var buf = Encode(value);
             var progStream = new ProgressStream(stream, buf.Length, prog);
             progStream.Write(buf, 0, buf.Length);
         }
 
         public Texture2D Deserialize(Stream stream)
         {
-            var mem = new MemoryStream();
-            stream.CopyTo(mem);
-            return Read(mem.ToArray(), stream.DetermineSource());
+            using (var mem = new MemoryStream())
+            {
+                stream.CopyTo(mem);
+                stream.Flush();
+                var buffer = mem.ToArray();
+                var info = GetImageInfo(buffer);
+                var texture = new Texture2D(info.dimensions.width, info.dimensions.height);
+                texture.LoadImage(buffer);
+                return texture;
+            }
         }
+
+        protected abstract byte[] Encode(Texture2D value);
+
+        public abstract ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None);
+
+        public abstract HTTP.MediaType.Image Format { get; }
     }
 }

@@ -325,7 +325,7 @@ namespace Juniper.Imaging
                                 var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
                                 var renderer = frame.GetComponent<MeshRenderer>();
                                 var material = new Material(Shader.Find("Unlit/Texture"));
-                                var texture = encoder.Read(image);
+                                var texture = encoder.Deserialize(image);
                                 material.SetTexture("_MainTex", texture);
                                 renderer.SetMaterial(material);
 

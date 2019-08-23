@@ -192,7 +192,7 @@ namespace Juniper.Data
                    && imageFile.ContentLength > 0
                    && imageFile.Content != null)
                 {
-                    return decoder.Read(imageFile.Content, imageFile.ContentLength, subProgs[1]);
+                    return decoder.Deserialize(imageFile.Content, imageFile.ContentLength, subProgs[1]);
                 }
                 else
                 {

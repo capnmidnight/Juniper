@@ -19,7 +19,8 @@ namespace Juniper.HTTP.MediaTypes.Console
             ParseApacheConf(groups).Wait();
             ParseIANAXml(groups).Wait();
 
-            groups["Image"].entries["Raw"] = new Entry(groups["Image"], "Raw", "image/raw", null, new string[] { "raw" });
+            groups["Image"].entries["Raw"] = new Entry(groups["Image"], "Raw", "image/x-raw", null, new string[] { "raw" });
+            groups["Image"].entries["Exr"] = new Entry(groups["Image"], "EXR", "image/x-exr", null, new string[] { "exr" });
 
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var outDir = Path.Combine(home, "Projects", "Yarrow", "Juniper");

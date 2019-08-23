@@ -9,27 +9,16 @@ using GDIImageFormat = System.Drawing.Imaging.ImageFormat;
 
 namespace Juniper.Imaging.Windows
 {
-    public class GDIImageDecoder : IImageDecoder<Image>
+    public class GDICodec : IImageDecoder<Image>
     {
         private readonly GDIImageFormat gdiFormat;
 
         public HTTP.MediaType.Image Format { get; private set; }
 
-        public GDIImageDecoder(HTTP.MediaType.Image format)
+        public GDICodec(HTTP.MediaType.Image format)
         {
             Format = format;
-            if (format == HTTP.MediaType.Image.Jpeg)
-            {
-                gdiFormat = GDIImageFormat.Jpeg;
-            }
-            else if(format == HTTP.MediaType.Image.Png)
-            {
-                gdiFormat = GDIImageFormat.Png;
-            }
-            else
-            {
-                throw new NotSupportedException(format.ToString());
-            }
+            gdiFormat = format.ToGDIImageFormat();
         }
 
         public void Serialize(Stream stream, Image value, IProgress prog = null)
@@ -42,28 +31,27 @@ namespace Juniper.Imaging.Windows
             return Image.FromStream(stream);
         }
 
-        public Image Read(byte[] data, DataSource source = DataSource.None)
+        public ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None)
         {
-            using (var mem = new MemoryStream(data))
+            if(Format == HTTP.MediaType.Image.Jpeg)
             {
-                return Read(mem);
+                return ImageInfo.ReadJPEG(data, source);
             }
-        }
-
-#pragma warning disable CA1822 // Mark members as static
-
-        public Image Read(Stream stream)
-#pragma warning restore CA1822 // Mark members as static
-        {
-            return Image.FromStream(stream);
-        }
-
-#pragma warning disable CA1822 // Mark members as static
-
-        public Image Read(string fileName)
-#pragma warning restore CA1822 // Mark members as static
-        {
-            return Image.FromFile(fileName);
+            else if (Format == HTTP.MediaType.Image.Png)
+            {
+                return ImageInfo.ReadPNG(data, source);
+            }
+            else
+            {
+                using(var image = this.Deserialize(data))
+                {
+                    return new ImageInfo(
+                        source,
+                        image.Width, image.Height,
+                        image.PixelFormat.ToComponentCount(),
+                        image.RawFormat.ToMediaType());
+                }
+            }
         }
 
         public int GetWidth(Image img)

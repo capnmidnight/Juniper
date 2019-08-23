@@ -1,108 +1,118 @@
 using System;
-using System.IO;
-using System.Runtime.InteropServices;
-using Juniper.Serialization;
 
 namespace Juniper.Imaging.Windows
 {
     public static class ImageDataExt
     {
-        public static System.Drawing.Image ToGDI(this ImageData value)
+        public static int ToComponentCount(this System.Drawing.Imaging.PixelFormat format)
         {
-            var outImage = new System.Drawing.Bitmap(value.dimensions.width, value.dimensions.height);
-            if (value.contentType == HTTP.MediaType.Image.Raw)
+            if (format == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
             {
-                var pixelFormat = value.components == 4
-                    ? System.Drawing.Imaging.PixelFormat.Format32bppArgb
-                    : System.Drawing.Imaging.PixelFormat.Format24bppRgb;
-
-                var imageData = outImage.LockBits(
-                    new System.Drawing.Rectangle(0, 0, value.dimensions.width, value.dimensions.height),
-                    System.Drawing.Imaging.ImageLockMode.WriteOnly,
-                    pixelFormat);
-
-                Marshal.Copy(value.data, 0, imageData.Scan0, value.data.Length);
-
-                outImage.UnlockBits(imageData);
+                return 4;
+            }
+            else if (format == System.Drawing.Imaging.PixelFormat.Format24bppRgb)
+            {
+                return 3;
             }
             else
             {
-                using (var mem = new MemoryStream(value.data))
-                using (var inImage = System.Drawing.Image.FromStream(mem))
-                using (var g = System.Drawing.Graphics.FromImage(outImage))
-                {
-                    g.DrawImageUnscaled(inImage, 0, 0);
-                    g.Flush();
-                }
+                throw new NotSupportedException($"Pixel format {format}");
             }
-
-            return outImage;
         }
 
-        public static ImageData ToJuniper(this System.Drawing.Image image, DataSource source = DataSource.None)
+        public static System.Drawing.Imaging.PixelFormat ToGDIPixelFormat(this int componentCount)
         {
-            int components;
-            if (image.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+            if (componentCount == 4)
             {
-                components = 4;
+                return System.Drawing.Imaging.PixelFormat.Format32bppArgb;
             }
-            else if (image.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb)
+            else if (componentCount == 3)
             {
-                components = 3;
-            }
-            else
-            {
-                throw new NotSupportedException($"Pixel format {image.PixelFormat}");
-            }
-
-            HTTP.MediaType.Image imageFormat;
-            if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Bmp)
-            {
-                imageFormat = HTTP.MediaType.Image.Bmp;
-            }
-            else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Emf)
-            {
-                imageFormat = HTTP.MediaType.Image.Emf;
-            }
-            else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Gif)
-            {
-                imageFormat = HTTP.MediaType.Image.Gif;
-            }
-            else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Icon)
-            {
-                imageFormat = HTTP.MediaType.Image.XIcon;
-            }
-            else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Jpeg)
-            {
-                imageFormat = HTTP.MediaType.Image.Jpeg;
-            }
-            else if(image.RawFormat == System.Drawing.Imaging.ImageFormat.Png)
-            {
-                imageFormat = HTTP.MediaType.Image.Png;
-            }
-            else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Tiff)
-            {
-                imageFormat = HTTP.MediaType.Image.Tiff;
-            }
-            else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Wmf)
-            {
-                imageFormat = HTTP.MediaType.Image.Wmf;
+                return System.Drawing.Imaging.PixelFormat.Format24bppRgb;
             }
             else
             {
-                throw new NotSupportedException($"Format {image.RawFormat}");
+                throw new NotSupportedException($"Component count {componentCount}");
             }
+        }
 
-            using (var mem = new MemoryStream())
+        public static HTTP.MediaType.Image ToMediaType(this System.Drawing.Imaging.ImageFormat format)
+        {
+            if (format == System.Drawing.Imaging.ImageFormat.Bmp)
             {
-                image.Save(mem, image.RawFormat);
+                return HTTP.MediaType.Image.Bmp;
+            }
+            else if (format == System.Drawing.Imaging.ImageFormat.Emf)
+            {
+                return HTTP.MediaType.Image.Emf;
+            }
+            else if (format == System.Drawing.Imaging.ImageFormat.Gif)
+            {
+                return HTTP.MediaType.Image.Gif;
+            }
+            else if (format == System.Drawing.Imaging.ImageFormat.Icon)
+            {
+                return HTTP.MediaType.Image.XIcon;
+            }
+            else if (format == System.Drawing.Imaging.ImageFormat.Jpeg)
+            {
+                return HTTP.MediaType.Image.Jpeg;
+            }
+            else if (format == System.Drawing.Imaging.ImageFormat.Png)
+            {
+                return HTTP.MediaType.Image.Png;
+            }
+            else if (format == System.Drawing.Imaging.ImageFormat.Tiff)
+            {
+                return HTTP.MediaType.Image.Tiff;
+            }
+            else if (format == System.Drawing.Imaging.ImageFormat.Wmf)
+            {
+                return HTTP.MediaType.Image.Wmf;
+            }
+            else
+            {
+                throw new NotSupportedException($"Format {format}");
+            }
+        }
 
-                return new ImageData(
-                    source,
-                    image.Width, image.Height,
-                    components,
-                    imageFormat,
-                    mem.ToArray());
+        public static System.Drawing.Imaging.ImageFormat ToGDIImageFormat(this HTTP.MediaType.Image format)
+        {
+            if (format == HTTP.MediaType.Image.Bmp)
+            {
+                return System.Drawing.Imaging.ImageFormat.Bmp;
+            }
+            else if (format == HTTP.MediaType.Image.Emf)
+            {
+                return System.Drawing.Imaging.ImageFormat.Emf;
+            }
+            else if (format == HTTP.MediaType.Image.Gif)
+            {
+                return System.Drawing.Imaging.ImageFormat.Gif;
+            }
+            else if (format == HTTP.MediaType.Image.XIcon)
+            {
+                return System.Drawing.Imaging.ImageFormat.Icon;
+            }
+            else if (format == HTTP.MediaType.Image.Jpeg)
+            {
+                return System.Drawing.Imaging.ImageFormat.Jpeg;
+            }
+            else if (format == HTTP.MediaType.Image.Png)
+            {
+                return System.Drawing.Imaging.ImageFormat.Png;
+            }
+            else if (format == HTTP.MediaType.Image.Tiff)
+            {
+                return System.Drawing.Imaging.ImageFormat.Tiff;
+            }
+            else if (format == HTTP.MediaType.Image.Wmf)
+            {
+                return System.Drawing.Imaging.ImageFormat.Wmf;
+            }
+            else
+            {
+                throw new NotSupportedException($"Format {format}");
             }
         }
     }

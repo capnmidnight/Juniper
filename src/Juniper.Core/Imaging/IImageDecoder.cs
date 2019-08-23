@@ -13,7 +13,7 @@ namespace Juniper.Imaging
 
         int GetHeight(T img);
 
-        T Read(byte[] data, DataSource source = DataSource.None);
+        ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None);
 
         T Concatenate(T[,] images, IProgress prog = null);
 
@@ -22,31 +22,33 @@ namespace Juniper.Imaging
 
     public static class IImageDecoderExt
     {
-        public static T Read<T>(this IImageDecoder<T> decoder, Stream stream)
+        public static ImageData Read<T>(this IImageDecoder<T> decoder, Stream stream)
         {
             var source = stream.DetermineSource();
             using (var mem = new MemoryStream())
             {
                 stream.CopyTo(mem);
                 mem.Flush();
-                return decoder.Read(mem.ToArray(), source);
+                var buffer = mem.ToArray();
+                var info = decoder.GetImageInfo(buffer, source);
+                return new ImageData(info, buffer);
             }
         }
 
-        public static T Read<T>(this IImageDecoder<T> decoder, Stream stream, long length, IProgress prog)
+        public static ImageData Read<T>(this IImageDecoder<T> decoder, Stream stream, long length, IProgress prog)
         {
             var progStream = new ProgressStream(stream, length, prog);
             return decoder.Read(progStream);
         }
 
-        public static T Read<T>(this IImageDecoder<T> decoder, string fileName, IProgress prog = null)
-        {
-            return decoder.Read(new FileInfo(fileName), prog);
-        }
-
-        public static T Read<T>(this IImageDecoder<T> decoder, FileInfo file, IProgress prog = null)
+        public static ImageData Read<T>(this IImageDecoder<T> decoder, FileInfo file, IProgress prog = null)
         {
             return decoder.Read(file.OpenRead(), file.Length, prog);
+        }
+
+        public static ImageData Read<T>(this IImageDecoder<T> decoder, string fileName, IProgress prog = null)
+        {
+            return decoder.Read(new FileInfo(fileName), prog);
         }
 
         public static void ValidateImages<T>(this IImageDecoder<T> decoder, T[,] images, IProgress prog, out int rows, out int columns, out T firstImage, out int tileWidth, out int tileHeight)

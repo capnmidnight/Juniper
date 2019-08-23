@@ -132,7 +132,7 @@ namespace Juniper.Imaging
             var gmapsCacheDirName = Path.Combine(baseCachePath, "GoogleMaps");
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
             var uri = new Uri(yarrowServerHost);
-            encoder = new UnityJpegEncoder(80);
+            encoder = new UnityJpegCodec(80);
             yarrow = new YarrowClient<Texture2D>(uri, encoder, yarrowCacheDir, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
 
             photospheres.CubemapNeeded += Photospheres_CubemapNeeded;

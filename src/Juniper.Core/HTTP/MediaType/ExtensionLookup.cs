@@ -225,6 +225,7 @@ namespace Juniper.HTTP
             { "evy", Application.XEnvoy },
             { "exe", Application.XMsdownload },
             { "exi", Application.Exi },
+            { "exr", Image.EXR },
             { "ext", Application.VendorNovadigmEXT },
             { "ez", Application.AndrewInset },
             { "ez2", Application.VendorEzpixAlbum },

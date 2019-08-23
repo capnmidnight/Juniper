@@ -6,9 +6,9 @@ using Hjg.Pngcs;
 using Juniper.Progress;
 using Juniper.Serialization;
 
-namespace Juniper.Imaging.PNG
+namespace Juniper.Imaging.HjgPngcs
 {
-    public class PngDecoder : AbstractImageDataDecoder
+    public class HjgPngcsImageDataCodec : AbstractImageDataDecoder
     {
         private readonly int compressionLevel;
         private readonly int IDATMaxSize;
@@ -18,7 +18,7 @@ namespace Juniper.Imaging.PNG
         /// </summary>
         /// <param name="compressionLevel">values 0 - 9</param>
         /// <param name="IDATMaxSize"></param>
-        public PngDecoder(int compressionLevel = 9, int IDATMaxSize = 0x1000)
+        public HjgPngcsImageDataCodec(int compressionLevel = 9, int IDATMaxSize = 0x1000)
         {
             this.compressionLevel = compressionLevel;
             this.IDATMaxSize = IDATMaxSize;
@@ -26,61 +26,9 @@ namespace Juniper.Imaging.PNG
 
         public override HTTP.MediaType.Image Format { get { return HTTP.MediaType.Image.Png; } }
 
-        public override ImageData Read(byte[] data, DataSource source = DataSource.None)
+        public override ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None)
         {
-            int width = 0,
-                height = 0;
-
-            var i = 8; // skip the PNG signature
-
-            while (i < data.Length)
-            {
-                var len = 0;
-                len = len << 8 | data[i++];
-                len = len << 8 | data[i++];
-                len = len << 8 | data[i++];
-                len = len << 8 | data[i++];
-
-                var chunk = System.Text.Encoding.UTF8.GetString(data, i, 4);
-                i += 4;
-
-                if (chunk == "IHDR")
-                {
-                    width = width << 8 | data[i++];
-                    width = width << 8 | data[i++];
-                    width = width << 8 | data[i++];
-                    width = width << 8 | data[i++];
-
-                    height = height << 8 | data[i++];
-                    height = height << 8 | data[i++];
-                    height = height << 8 | data[i++];
-                    height = height << 8 | data[i++];
-
-                    var bitDepth = data[i + 9];
-                    var colorType = data[i + 10];
-
-                    var components = 0;
-                    switch (colorType)
-                    {
-                        case 0: components = (int)Math.Ceiling((float)bitDepth / 8); break;
-                        case 2: components = 3; break;
-                        case 3: components = 1; break;
-                        case 4: components = (int)Math.Ceiling((float)bitDepth / 8) + 1; break;
-                        case 6: components = 4; break;
-                    }
-
-                    return new ImageData(
-                        source,
-                        width,
-                        height, components, HTTP.MediaType.Image.Png,
-                        data);
-                }
-
-                i += len;
-                i += 4;
-            }
-
-            return default;
+            return ImageInfo.ReadPNG(data, source);
         }
 
         /// <summary>
@@ -120,9 +68,9 @@ namespace Juniper.Imaging.PNG
             var subProgs = prog.Split("Copying", "Saving");
             var copyProg = subProgs[0];
             var saveProg = subProgs[1];
-            var info = new ImageInfo(
-                image.dimensions.width,
-                image.dimensions.height,
+            var info = new Hjg.Pngcs.ImageInfo(
+                image.info.dimensions.width,
+                image.info.dimensions.height,
                 ImageData.BitsPerComponent,
                 false);
 
@@ -138,18 +86,18 @@ namespace Juniper.Imaging.PNG
             metadata.SetDpi(100);
 
             var line = new ImageLine(info, ImageLine.ESampleType.BYTE);
-            for (var i = 0; i < image.dimensions.height; ++i)
+            for (var i = 0; i < image.info.dimensions.height; ++i)
             {
-                copyProg?.Report(i, image.dimensions.height);
-                var row = ImageData.GetRowIndex(image.dimensions.height, i, true);
-                Array.Copy(image.data, row * image.stride, line.ScanlineB, 0, image.stride);
+                copyProg?.Report(i, image.info.dimensions.height);
+                var row = ImageData.GetRowIndex(image.info.dimensions.height, i, true);
+                Array.Copy(image.data, row * image.info.stride, line.ScanlineB, 0, image.info.stride);
                 png.WriteRow(line, i);
-                copyProg?.Report(i + 1, image.dimensions.height);
+                copyProg?.Report(i + 1, image.info.dimensions.height);
             }
 
-            saveProg.Report(0);
+            saveProg?.Report(0);
             png.End();
-            saveProg.Report(1);
+            saveProg?.Report(1);
         }
     }
 }

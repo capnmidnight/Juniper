@@ -14,6 +14,7 @@ namespace Juniper.HTTP
             public static readonly Image DicomRle = new Image("dicom-rle");
             public static readonly Image Emf = new Image("emf");
             public static readonly Image Example = new Image("example");
+            public static readonly Image EXR = new Image("x-exr", new string[] {"exr"});
             public static readonly Image Fits = new Image("fits");
             public static readonly Image G3fax = new Image("g3fax", new string[] {"g3"});
             public static readonly Image Gif = new Image("gif", new string[] {"gif"});
@@ -42,7 +43,7 @@ namespace Juniper.HTTP
             public static readonly Image PrsBtif = new Image("prs.btif", new string[] {"btif"});
             public static readonly Image PrsPti = new Image("prs.pti");
             public static readonly Image PwgRaster = new Image("pwg-raster");
-            public static readonly Image Raw = new Image("raw", new string[] {"raw"});
+            public static readonly Image Raw = new Image("x-raw", new string[] {"raw"});
             public static readonly Image Sgi = new Image("sgi", new string[] {"sgi"});
             public static readonly Image SvgXml = new Image("svg+xml", new string[] {"svg", "svgz"});
             public static readonly Image T38 = new Image("t38");

@@ -4,7 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Imaging;
-using Juniper.Imaging.JPEG;
+using Juniper.Imaging.LibJpegNET;
 using Juniper.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -29,7 +29,7 @@ namespace Juniper.HTTP.Tests
 
         private static async Task<ImageData> RunFileTest(string imageFileName, bool deleteFile, bool runTest, DataSource expectedSource)
         {
-            var decoder = new JpegDecoder();
+            var decoder = new LibJpegNETImageDataCodec();
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheFileName = Path.Combine(myPictures, imageFileName);
             var cacheFile = new FileInfo(cacheFileName);
@@ -44,14 +44,14 @@ namespace Juniper.HTTP.Tests
                 decoder.Deserialize,
                 cacheFile);
 
-            Assert.AreEqual(expectedSource, actual.source);
+            Assert.AreEqual(expectedSource, actual.info.source);
 
             if (runTest)
             {
                 var path = Path.Combine(myPictures, "portrait-expected.jpg");
                 var expected = decoder.Load(path);
-                Assert.AreEqual(expected.dimensions.width, actual.dimensions.width);
-                Assert.AreEqual(expected.dimensions.height, actual.dimensions.height);
+                Assert.AreEqual(expected.info.dimensions.width, actual.info.dimensions.width);
+                Assert.AreEqual(expected.info.dimensions.height, actual.info.dimensions.height);
                 Assert.AreEqual(expected.data.Length, actual.data.Length);
                 for (var i = 0; i < expected.data.Length; ++i)
                 {

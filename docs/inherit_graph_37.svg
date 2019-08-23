@@ -13,7 +13,7 @@
 <g id="node1" class="node"><title>Node0</title>
 <g id="a_node1"><a xlink:href="d8/d77/class_juniper_1_1_imaging_1_1_p_n_g_image_loader.html" target="_top" xlink:title="Load PNG images from disk or the &#39;net, and decode them in a background thread, so the rendering threa...">
 <polygon fill="white" stroke="black" points="0,-0.5 0,-30.5 132,-30.5 132,-0.5 0,-0.5"/>
-<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">Juniper.Imaging.PNGImage</text>
+<text text-anchor="start" x="8" y="-18.5" font-family="SegoeUI" font-size="10.00">Juniper.Imaging.HjgPngcsImage</text>
 <text text-anchor="middle" x="66" y="-7.5" font-family="SegoeUI" font-size="10.00">Loader</text>
 </a>
 </g>

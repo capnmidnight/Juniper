@@ -10,12 +10,12 @@ namespace Juniper.Imaging
     {
         public int GetWidth(ImageData img)
         {
-            return img.dimensions.width;
+            return img.info.dimensions.width;
         }
 
         public int GetHeight(ImageData img)
         {
-            return img.dimensions.height;
+            return img.info.dimensions.height;
         }
 
         public ImageData Concatenate(ImageData[,] images, IProgress prog = null)
@@ -26,23 +26,23 @@ namespace Juniper.Imaging
                 out var tileWidth, out var tileHeight);
 
             var combined = new ImageData(
-                firstImage.source,
+                firstImage.info.source,
                 columns * tileWidth,
                 rows * tileHeight,
-                firstImage.components);
+                firstImage.info.components);
 
-            for (var i = 0; i < combined.data.Length; i += firstImage.stride)
+            for (var i = 0; i < combined.data.Length; i += firstImage.info.stride)
             {
-                var bufferX = i % combined.stride;
-                var bufferY = i / combined.stride;
-                var tileX = bufferX / firstImage.stride;
+                var bufferX = i % combined.info.stride;
+                var bufferY = i / combined.info.stride;
+                var tileX = bufferX / firstImage.info.stride;
                 var tileY = bufferY / tileHeight;
                 var tile = images[tileY, tileX];
                 if (tile != null)
                 {
                     var imageY = bufferY % tileHeight;
-                    var imageI = imageY * firstImage.stride;
-                    Array.Copy(tile.data, imageI, combined.data, i, firstImage.stride);
+                    var imageI = imageY * firstImage.info.stride;
+                    Array.Copy(tile.data, imageI, combined.data, i, firstImage.info.stride);
                 }
 
                 prog?.Report(i, combined.data.Length);
@@ -53,7 +53,7 @@ namespace Juniper.Imaging
 
         public abstract HTTP.MediaType.Image Format { get; }
 
-        public abstract ImageData Read(byte[] data, DataSource source = DataSource.None);
+        public abstract ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None);
 
         public abstract void Serialize(Stream stream, ImageData value, IProgress prog = null);
 

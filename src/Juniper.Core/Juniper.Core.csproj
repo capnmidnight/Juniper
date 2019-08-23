@@ -80,6 +80,7 @@
     <Compile Include="Imaging\AbstractImageDataDecoder.cs" />
     <Compile Include="Imaging\IImageDecoder.cs" />
     <Compile Include="Imaging\ImageData.cs" />
+    <Compile Include="Imaging\ImageInfo.cs" />
     <Compile Include="Imaging\Markers.cs" />
     <Compile Include="Imaging\Size.cs" />
     <Compile Include="Input\Direction.cs" />

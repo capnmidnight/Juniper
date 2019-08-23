@@ -2,10 +2,9 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Google.Maps.Tests;
-using Juniper.HTTP.REST;
 using Juniper.Imaging;
-using Juniper.Imaging.JPEG;
-using Juniper.Imaging.PNG;
+using Juniper.Imaging.LibJpegNET;
+using Juniper.Imaging.HjgPngcs;
 using Juniper.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,7 +17,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task JPEGImageSize()
         {
-            var decoder = new JpegDecoder();
+            var decoder = new LibJpegNETImageDataCodec();
             var imageRequest = new ImageRequest<ImageData>(service, decoder, new Size(640, 640))
             {
                 Place = (PlaceName)"Alexandria, VA"
@@ -30,24 +29,24 @@ namespace Juniper.Google.Maps.StreetView.Tests
             }
 
             var img = decoder.Read(imageRequest.CacheFile);
-            Assert.AreEqual(640, img.dimensions.width);
-            Assert.AreEqual(640, img.dimensions.height);
+            Assert.AreEqual(640, img.info.dimensions.width);
+            Assert.AreEqual(640, img.info.dimensions.height);
         }
 
         [TestMethod]
         public async Task PNGImageSize()
         {
-            var decoder = new JpegDecoder();
+            var decoder = new LibJpegNETImageDataCodec();
             var imageRequest = new ImageRequest<ImageData>(service, decoder, new Size(640, 640))
             {
                 Place = (PlaceName)"Alexandria, VA"
             };
             var rawImg = await imageRequest.Get();
-            var png = new PngDecoder();
+            var png = new HjgPngcsImageDataCodec();
             var data = png.Serialize(rawImg);
-            var img = png.Read(data, DataSource.File);
-            Assert.AreEqual(640, img.dimensions.width);
-            Assert.AreEqual(640, img.dimensions.height);
+            var info = png.GetImageInfo(data, DataSource.File);
+            Assert.AreEqual(640, info.dimensions.width);
+            Assert.AreEqual(640, info.dimensions.height);
         }
 
         [TestMethod]
@@ -69,29 +68,29 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var decoder = new JpegDecoder();
+            var decoder = new LibJpegNETImageDataCodec();
             var imageRequest = new ImageRequest<ImageData>(service, decoder, new Size(4096, 4096))
             {
                 Place = (PlaceName)"Alexandria, VA"
             };
             var image = await imageRequest.Get();
             Assert.IsTrue(imageRequest.IsCached);
-            Assert.AreEqual(640, image.dimensions.width);
-            Assert.AreEqual(640, image.dimensions.height);
+            Assert.AreEqual(640, image.info.dimensions.width);
+            Assert.AreEqual(640, image.info.dimensions.height);
         }
 
         [TestMethod]
         public async Task GetImageWithoutCaching()
         {
-            var decoder = new JpegDecoder();
+            var decoder = new LibJpegNETImageDataCodec();
             var imageRequest = new ImageRequest<ImageData>(noCacheService, decoder, new Size(640, 640))
             {
                 Place = (PlaceName)"Alexandria, VA"
             };
             var image = await imageRequest.Get();
             Assert.IsFalse(imageRequest.IsCached);
-            Assert.AreEqual(640, image.dimensions.width);
-            Assert.AreEqual(640, image.dimensions.height);
+            Assert.AreEqual(640, image.info.dimensions.width);
+            Assert.AreEqual(640, image.info.dimensions.height);
         }
     }
 }

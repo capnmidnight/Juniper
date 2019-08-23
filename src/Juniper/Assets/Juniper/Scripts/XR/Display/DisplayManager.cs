@@ -15,7 +15,7 @@ using Juniper.Imaging;
 using Juniper.Serialization;
 
 using System.IO;
-using Juniper.Imaging.JPEG;
+using Juniper.Imaging.LibJpegNET;
 
 #if UNITY_MODULES_XR
 
