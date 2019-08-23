@@ -45,6 +45,7 @@ namespace Juniper.HTTP.MediaTypes.Console
             var byValue =
               from g in groups.Values
               from e in g.entries.Values
+              where e.DeprecationMessage == null
               select e;
             "Lookup.cs".MakeFile(outDir, (writer) =>
             {
@@ -63,6 +64,7 @@ namespace Juniper.HTTP.MediaTypes.Console
               from grp in groups.Values
               from entry in grp.entries.Values
               where entry.Extensions != null
+                && entry.DeprecationMessage == null
               from extension in entry.Extensions
               orderby entry.Value.IndexOf('+')
               group (entry, extension) by extension into L
