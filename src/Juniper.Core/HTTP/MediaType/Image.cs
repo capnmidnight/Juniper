@@ -12,10 +12,7 @@ namespace Juniper.HTTP
             public static readonly Image Bmp = new Image("bmp", new string[] {"bmp"});
             public static readonly Image Cgm = new Image("cgm", new string[] {"cgm"});
             public static readonly Image DicomRle = new Image("dicom-rle");
-
-            [System.Obsolete("DEPRECATED in favor of image/emf")]
             public static readonly Image Emf = new Image("emf");
-
             public static readonly Image Example = new Image("example");
             public static readonly Image Fits = new Image("fits");
             public static readonly Image G3fax = new Image("g3fax", new string[] {"g3"});
@@ -82,13 +79,14 @@ namespace Juniper.HTTP
             public static readonly Image VendorXiff = new Image("vnd.xiff", new string[] {"xif"});
             public static readonly Image VendorZbrushPcx = new Image("vnd.zbrush.pcx");
             public static readonly Image Webp = new Image("webp", new string[] {"webp"});
-
-            [System.Obsolete("DEPRECATED in favor of image/wmf")]
             public static readonly Image Wmf = new Image("wmf");
-
             public static readonly Image X3ds = new Image("x-3ds", new string[] {"3ds"});
             public static readonly Image XCmuRaster = new Image("x-cmu-raster", new string[] {"ras"});
             public static readonly Image XCmx = new Image("x-cmx", new string[] {"cmx"});
+
+            [System.Obsolete("DEPRECATED in favor of image/emf")]
+            public static readonly Image XEmf = new Image("x-emf");
+
             public static readonly Image XFreehand = new Image("x-freehand", new string[] {"fh", "fhc", "fh4", "fh5", "fh7"});
             public static readonly Image XIcon = new Image("x-icon", new string[] {"ico"});
             public static readonly Image XMrsidImage = new Image("x-mrsid-image", new string[] {"sid"});
@@ -100,6 +98,10 @@ namespace Juniper.HTTP
             public static readonly Image XPortablePixmap = new Image("x-portable-pixmap", new string[] {"ppm"});
             public static readonly Image XRgb = new Image("x-rgb", new string[] {"rgb"});
             public static readonly Image XTga = new Image("x-tga", new string[] {"tga"});
+
+            [System.Obsolete("DEPRECATED in favor of image/wmf")]
+            public static readonly Image XWmf = new Image("x-wmf");
+
             public static readonly Image XXbitmap = new Image("x-xbitmap", new string[] {"xbm"});
             public static readonly Image XXpixmap = new Image("x-xpixmap", new string[] {"xpm"});
             public static readonly Image XXwindowdump = new Image("x-xwindowdump", new string[] {"xwd"});

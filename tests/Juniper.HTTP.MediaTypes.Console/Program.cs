@@ -142,20 +142,22 @@ namespace Juniper.HTTP.MediaTypes.Console
                     var groupName = file.Parent.Parent.Attribute("id").Value;
                     var nameAndDescription = file.Parent.Element(ns + "name").Value;
                     var groupAndName = file.Value;
-                    var name = groupAndName.Substring(groupName.Length + 1);
-                    var value = $"{groupName}/{name}";
+                    var name = nameAndDescription;
 
-                    var isDeprecated = nameAndDescription.Length > name.Length;
+                    var deprecationMessageIndex = nameAndDescription.IndexOf(" ");
+                    var isDeprecated = deprecationMessageIndex >= 0;
                     string deprecationMessage = null;
                     if (isDeprecated)
                     {
-                        deprecationMessage = nameAndDescription.Substring(name.Length + 2).Trim();
+                        deprecationMessage = nameAndDescription.Substring(deprecationMessageIndex + 1).Trim();
+                        name = nameAndDescription.Substring(0, deprecationMessageIndex);
                         if (deprecationMessage.StartsWith("-"))
                         {
                             deprecationMessage = deprecationMessage.Substring(1).Trim();
                         }
                     }
 
+                    var value = $"{groupName}/{name}";
                     var group = groups.GetGroup(groupName);
 
                     name = name.CamelCase();

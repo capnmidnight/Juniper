@@ -1812,6 +1812,8 @@ namespace Juniper.HTTP
             { "image/jxrS", Image.JxrS },
             { "image/jxsi", Image.Jxsi },
             { "image/jxss", Image.Jxss },
+            { "image/x-emf", Image.XEmf },
+            { "image/x-wmf", Image.XWmf },
             { "image/raw", Image.Raw },
             { "message/cpim", Message.Cpim },
             { "message/delivery-status", Message.DeliveryStatus },

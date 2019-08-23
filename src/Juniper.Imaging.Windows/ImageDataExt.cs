@@ -56,13 +56,37 @@ namespace Juniper.Imaging.Windows
             }
 
             HTTP.MediaType.Image imageFormat;
-            if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Png)
+            if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Bmp)
             {
-                imageFormat = HTTP.MediaType.Image.Png;
+                imageFormat = HTTP.MediaType.Image.Bmp;
+            }
+            else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Emf)
+            {
+                imageFormat = HTTP.MediaType.Image.Emf;
+            }
+            else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Gif)
+            {
+                imageFormat = HTTP.MediaType.Image.Gif;
+            }
+            else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Icon)
+            {
+                imageFormat = HTTP.MediaType.Image.XIcon;
             }
             else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Jpeg)
             {
                 imageFormat = HTTP.MediaType.Image.Jpeg;
+            }
+            else if(image.RawFormat == System.Drawing.Imaging.ImageFormat.Png)
+            {
+                imageFormat = HTTP.MediaType.Image.Png;
+            }
+            else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Tiff)
+            {
+                imageFormat = HTTP.MediaType.Image.Tiff;
+            }
+            else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Wmf)
+            {
+                imageFormat = HTTP.MediaType.Image.Wmf;
             }
             else
             {

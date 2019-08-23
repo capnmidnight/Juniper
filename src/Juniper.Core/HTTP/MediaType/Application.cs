@@ -735,7 +735,7 @@ namespace Juniper.HTTP
             public static readonly Application VendorGeogebraFile = new Application("vnd.geogebra.file", new string[] {"ggb"});
             public static readonly Application VendorGeogebraTool = new Application("vnd.geogebra.tool", new string[] {"ggt"});
 
-            [System.Obsolete("OBSOLETED by  in favor of application/geo+json)")]
+            [System.Obsolete("(OBSOLETED by  in favor of application/geo+json)")]
             public static readonly Application VendorGeoJson = new Application("vnd.geo+json");
 
             public static readonly Application VendorGeometryExplorer = new Application("vnd.geometry-explorer", new string[] {"gex", "gre"});
