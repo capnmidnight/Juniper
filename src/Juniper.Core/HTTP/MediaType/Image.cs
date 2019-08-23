@@ -32,8 +32,8 @@ namespace Juniper.HTTP
             public static readonly Image Jpm = new Image("jpm");
             public static readonly Image Jpx = new Image("jpx");
             public static readonly Image Jxr = new Image("jxr");
-            public static readonly Image JxrA = new Image("jxrA");
-            public static readonly Image JxrS = new Image("jxrS");
+            public static readonly Image JxrA = new Image("jxra");
+            public static readonly Image JxrS = new Image("jxrs");
             public static readonly Image Jxsi = new Image("jxsi");
             public static readonly Image Jxss = new Image("jxss");
             public static readonly Image Ktx = new Image("ktx", new string[] {"ktx"});

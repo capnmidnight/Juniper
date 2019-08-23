@@ -31,7 +31,7 @@ namespace Juniper.HTTP
             public static readonly Model Vrml = new Model("vrml", new string[] {"wrl", "vrml"});
             public static readonly Model X3dBinary = new Model("x3d+binary", new string[] {"x3db", "x3dbz"});
             public static readonly Model X3dFastinfoset = new Model("x3d+fastinfoset", new string[] {"fastinfoset"});
-            public static readonly Model X3dVrml = new Model("x3d+vrml", new string[] {"x3dv", "x3dvz"});
+            public static readonly Model X3dVrml = new Model("x3d-vrml", new string[] {"x3dv", "x3dvz"});
             public static readonly Model X3dXml = new Model("x3d+xml", new string[] {"x3d", "x3dz"});
         }
     }

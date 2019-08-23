@@ -6,7 +6,7 @@ namespace Juniper.HTTP
         {
             public Message(string value, string[] extensions = null) : base("message/" + value, extensions) {}
 
-            public static readonly Message Cpim = new Message("cpim");
+            public static readonly Message CPIM = new Message("cpim");
             public static readonly Message DeliveryStatus = new Message("delivery-status");
             public static readonly Message DispositionNotification = new Message("disposition-notification");
             public static readonly Message Example = new Message("example");

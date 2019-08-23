@@ -59,20 +59,21 @@ namespace Juniper.HTTP.MediaTypes.Console
         private static void WriteExtensionLookup(Dictionary<string, Group> groups, string outDir)
         {
             var byExtension =
-              from g in groups.Values
-              from e in g.entries.Values
-              where e.PrimaryExtension != null
-              orderby e.Value.IndexOf('+')
-              group e by e.PrimaryExtension into l
-              let p = l.FirstOrDefault()
-              orderby p.PrimaryExtension
-              select p;
+              from grp in groups.Values
+              from entry in grp.entries.Values
+              where entry.Extensions != null
+              from extension in entry.Extensions
+              orderby entry.Value.IndexOf('+')
+              group (entry, extension) by extension into L
+              let first = L.First()
+              orderby first.extension
+              select first;
             "ExtensionLookup.cs".MakeFile(outDir, (writer) =>
             {
                 writer.WriteLine("        private static readonly Dictionary<string, MediaType> byExtensions = new Dictionary<string, MediaType>() {");
                 foreach (var ext in byExtension)
                 {
-                    writer.WriteLine("            {{ \"{0}\", {1}.{2} }},", ext.PrimaryExtension, ext.Group.ClassName, ext.FieldName);
+                    writer.WriteLine("            {{ \"{0}\", {1}.{2} }},", ext.extension, ext.entry.Group.ClassName, ext.entry.FieldName);
                 }
                 writer.WriteLine("        };");
             }, "using System.Collections.Generic;");
@@ -117,16 +118,14 @@ namespace Juniper.HTTP.MediaTypes.Console
                         if (extensions == null)
                         {
                             var plusIndex = value.IndexOf('+');
-                            if (plusIndex >= 0)
+                            if (0 <= plusIndex && plusIndex < value.Length - 1)
                             {
                                 extensions = new string[] { value.Substring(plusIndex + 1) };
                             }
                         }
 
-                        if (!group.entries.ContainsKey(name))
-                        {
-                            group.entries[name] = new Entry(group, name, value, null, extensions);
-                        }
+                        string deprecationMessage = null;
+                        AddEntry(group, name, value, deprecationMessage, extensions);
                     }
                     else if (line.StartsWith("===================="))
                     {
@@ -168,23 +167,61 @@ namespace Juniper.HTTP.MediaTypes.Console
                         }
                     }
 
-                    var value = $"{groupName}/{name}";
+                    var value = $"{groupName}/{name.ToLowerInvariant()}";
                     var group = groups.GetGroup(groupName);
 
                     var plusIndex = value.IndexOf('+');
                     string[] extensions = null;
-                    if(plusIndex >= 0)
+                    if (0 <= plusIndex && plusIndex < value.Length - 1)
                     {
                         extensions = new string[] { value.Substring(plusIndex + 1) };
                     }
 
                     name = name.CamelCase();
-                    if (!group.entries.ContainsKey(name) || deprecationMessage != null)
+                    AddEntry(group, name, value, deprecationMessage, extensions);
+                }
+            }
+        }
+
+        private static void AddEntry(Group group, string name, string value, string deprecationMessage, string[] extensions)
+        {
+            if (group.entries.ContainsKey(name))
+            {
+                var oldGroup = group.entries[name];
+                deprecationMessage = deprecationMessage ?? oldGroup.DeprecationMessage;
+
+                if(extensions == null)
+                {
+                    extensions = oldGroup.Extensions;
+                }
+                else if(oldGroup.Extensions != null)
+                {
+                    if(oldGroup.Extensions.Length > extensions.Length)
                     {
-                        group.entries[name] = new Entry(group, name, value, deprecationMessage, extensions);
+                        extensions = oldGroup.Extensions;
+                    }
+                    else if(oldGroup.Extensions.Length == extensions.Length)
+                    {
+                        var newExtensions = new string[extensions.Length];
+                        for(int i = 0; i < extensions.Length; ++i)
+                        {
+                            if(extensions[i].Length > oldGroup.Extensions[i].Length
+                                && !value.EndsWith("+" + extensions[i]))
+                            {
+                                newExtensions[i] = extensions[i];
+                            }
+                            else
+                            {
+                                newExtensions[i] = oldGroup.Extensions[i];
+                            }
+                        }
+
+                        extensions = newExtensions;
                     }
                 }
             }
+
+            group.entries[name] = new Entry(group, name, value, deprecationMessage, extensions);
         }
 
         private static Group GetGroup(this Dictionary<string, Group> groups, string name)

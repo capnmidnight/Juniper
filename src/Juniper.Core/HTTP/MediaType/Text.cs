@@ -43,7 +43,7 @@ namespace Juniper.HTTP
             public static readonly Text PrsLinesTag = new Text("prs.lines.tag", new string[] {"dsc"});
             public static readonly Text PrsPropLogic = new Text("prs.prop.logic");
             public static readonly Text Raptorfec = new Text("raptorfec");
-            public static readonly Text Red = new Text("red");
+            public static readonly Text RED = new Text("red");
             public static readonly Text Rfc822Headers = new Text("rfc822-headers");
             public static readonly Text Richtext = new Text("richtext", new string[] {"rtx"});
             public static readonly Text Rtf = new Text("rtf");
@@ -68,7 +68,7 @@ namespace Juniper.HTTP
             public static readonly Text VendorCurlMcurl = new Text("vnd.curl.mcurl", new string[] {"mcurl"});
             public static readonly Text VendorCurlScurl = new Text("vnd.curl.scurl", new string[] {"scurl"});
             public static readonly Text VendorDebianCopyright = new Text("vnd.debian.copyright");
-            public static readonly Text VendorDmclientscript = new Text("vnd.dmclientscript");
+            public static readonly Text VendorDMClientScript = new Text("vnd.dmclientscript");
             public static readonly Text VendorDvbSubtitle = new Text("vnd.dvb.subtitle", new string[] {"sub"});
             public static readonly Text VendorEsmertecThemeDescriptor = new Text("vnd.esmertec.theme-descriptor");
             public static readonly Text VendorFly = new Text("vnd.fly", new string[] {"fly"});
@@ -78,8 +78,8 @@ namespace Juniper.HTTP
             public static readonly Text VendorHgl = new Text("vnd.hgl");
             public static readonly Text VendorIn3d3dml = new Text("vnd.in3d.3dml", new string[] {"3dml"});
             public static readonly Text VendorIn3dSpot = new Text("vnd.in3d.spot", new string[] {"spot"});
-            public static readonly Text VendorIptcNewsml = new Text("vnd.iptc.newsml");
-            public static readonly Text VendorIptcNitf = new Text("vnd.iptc.nitf");
+            public static readonly Text VendorIPTCNewsML = new Text("vnd.iptc.newsml");
+            public static readonly Text VendorIPTCNITF = new Text("vnd.iptc.nitf");
             public static readonly Text VendorLatexZ = new Text("vnd.latex-z");
             public static readonly Text VendorMotorolaReflex = new Text("vnd.motorola.reflex");
             public static readonly Text VendorMsMediapackage = new Text("vnd.ms-mediapackage");

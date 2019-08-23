@@ -6,10 +6,10 @@ namespace Juniper.HTTP
         {
             public Video(string value, string[] extensions = null) : base("video/" + value, extensions) {}
 
-            public static readonly Video Bmpeg = new Video("bmpeg");
-            public static readonly Video Bt656 = new Video("bt656");
-            public static readonly Video Celb = new Video("celb");
-            public static readonly Video Dv = new Video("dv");
+            public static readonly Video BMPEG = new Video("bmpeg");
+            public static readonly Video BT656 = new Video("bt656");
+            public static readonly Video CelB = new Video("celb");
+            public static readonly Video DV = new Video("dv");
             public static readonly Video Encaprtp = new Video("encaprtp");
             public static readonly Video Example = new Video("example");
             public static readonly Video Flexfec = new Video("flexfec");
@@ -18,22 +18,22 @@ namespace Juniper.HTTP
             public static readonly Video H2631998 = new Video("h263-1998");
             public static readonly Video H2632000 = new Video("h263-2000");
             public static readonly Video H264 = new Video("h264", new string[] {"h264"});
-            public static readonly Video H264Rcdo = new Video("h264-rcdo");
-            public static readonly Video H264Svc = new Video("h264-svc");
+            public static readonly Video H264RCDO = new Video("h264-rcdo");
+            public static readonly Video H264SVC = new Video("h264-svc");
             public static readonly Video H265 = new Video("h265");
             public static readonly Video IsoSegment = new Video("iso.segment");
-            public static readonly Video Jpeg = new Video("jpeg", new string[] {"jpgv"});
+            public static readonly Video JPEG = new Video("jpeg", new string[] {"jpgv"});
             public static readonly Video Jpeg2000 = new Video("jpeg2000");
             public static readonly Video Jpm = new Video("jpm", new string[] {"jpm", "jpgm"});
             public static readonly Video Mj2 = new Video("mj2", new string[] {"mj2", "mjp2"});
-            public static readonly Video Mp1s = new Video("mp1s");
-            public static readonly Video Mp2p = new Video("mp2p");
-            public static readonly Video Mp2t = new Video("mp2t");
+            public static readonly Video MP1S = new Video("mp1s");
+            public static readonly Video MP2P = new Video("mp2p");
+            public static readonly Video MP2T = new Video("mp2t");
             public static readonly Video Mp4 = new Video("mp4", new string[] {"mp4", "mp4v", "mpg4"});
-            public static readonly Video Mp4vEs = new Video("mp4v-es");
+            public static readonly Video MP4VES = new Video("mp4v-es");
             public static readonly Video Mpeg = new Video("mpeg", new string[] {"mpeg", "mpg", "mpe", "m1v", "m2v"});
             public static readonly Video Mpeg4Generic = new Video("mpeg4-generic");
-            public static readonly Video Mpv = new Video("mpv");
+            public static readonly Video MPV = new Video("mpv");
             public static readonly Video Nv = new Video("nv");
             public static readonly Video Ogg = new Video("ogg", new string[] {"ogv"});
             public static readonly Video Parityfec = new Video("parityfec");
@@ -45,7 +45,7 @@ namespace Juniper.HTTP
             public static readonly Video Rtploopback = new Video("rtploopback");
             public static readonly Video Rtx = new Video("rtx");
             public static readonly Video Smpte291 = new Video("smpte291");
-            public static readonly Video Smpte292m = new Video("smpte292m");
+            public static readonly Video SMPTE292M = new Video("smpte292m");
             public static readonly Video Ulpfec = new Video("ulpfec");
             public static readonly Video Vc1 = new Video("vc1");
             public static readonly Video Vc2 = new Video("vc2");
@@ -53,7 +53,7 @@ namespace Juniper.HTTP
             public static readonly Video Vendor3gpp = new Video("3gpp", new string[] {"3gp"});
             public static readonly Video Vendor3gpp2 = new Video("3gpp2", new string[] {"3g2"});
             public static readonly Video Vendor3gppTt = new Video("3gpp-tt");
-            public static readonly Video VendorCctv = new Video("vnd.cctv");
+            public static readonly Video VendorCCTV = new Video("vnd.cctv");
             public static readonly Video VendorDeceHd = new Video("vnd.dece.hd", new string[] {"uvh", "uvvh"});
             public static readonly Video VendorDeceMobile = new Video("vnd.dece.mobile", new string[] {"uvm", "uvvm"});
             public static readonly Video VendorDeceMp4 = new Video("vnd.dece.mp4");
@@ -89,7 +89,7 @@ namespace Juniper.HTTP
             public static readonly Video VendorUvvuMp4 = new Video("vnd.uvvu.mp4", new string[] {"uvu", "uvvu"});
             public static readonly Video VendorVivo = new Video("vnd.vivo", new string[] {"viv"});
             public static readonly Video VendorYoutubeYt = new Video("vnd.youtube.yt");
-            public static readonly Video Vp8 = new Video("vp8");
+            public static readonly Video VP8 = new Video("vp8");
             public static readonly Video Webm = new Video("webm", new string[] {"webm"});
             public static readonly Video XF4v = new Video("x-f4v", new string[] {"f4v"});
             public static readonly Video XFli = new Video("x-fli", new string[] {"fli"});
