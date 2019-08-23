@@ -62,6 +62,7 @@ namespace Juniper.HTTP.MediaTypes.Console
               from g in groups.Values
               from e in g.entries.Values
               where e.PrimaryExtension != null
+              orderby e.Value.IndexOf('+')
               group e by e.PrimaryExtension into l
               let p = l.FirstOrDefault()
               orderby p.PrimaryExtension
