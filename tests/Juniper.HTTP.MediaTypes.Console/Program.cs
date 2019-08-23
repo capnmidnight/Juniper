@@ -19,7 +19,7 @@ namespace Juniper.HTTP.MediaTypes.Console
             ParseApacheConf(groups).Wait();
             ParseIANAXml(groups).Wait();
 
-            groups["Image"].entries["Raw"] = new Entry(groups["Image"], "Raw", "image/raw", new string[] { "raw" });
+            groups["Image"].entries["Raw"] = new Entry(groups["Image"], "Raw", "image/raw", null, new string[] { "raw" });
 
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var outDir = Path.Combine(home, "Projects", "Yarrow", "Juniper");
@@ -112,9 +112,19 @@ namespace Juniper.HTTP.MediaTypes.Console
 
                         var group = groups.GetGroup(groupName);
                         name = name.CamelCase();
+
+                        if (extensions == null)
+                        {
+                            var plusIndex = value.IndexOf('+');
+                            if (plusIndex >= 0)
+                            {
+                                extensions = new string[] { value.Substring(plusIndex + 1) };
+                            }
+                        }
+
                         if (!group.entries.ContainsKey(name))
                         {
-                            group.entries[name] = new Entry(group, name, value, extensions);
+                            group.entries[name] = new Entry(group, name, value, null, extensions);
                         }
                     }
                     else if (line.StartsWith("===================="))
@@ -160,10 +170,17 @@ namespace Juniper.HTTP.MediaTypes.Console
                     var value = $"{groupName}/{name}";
                     var group = groups.GetGroup(groupName);
 
+                    var plusIndex = value.IndexOf('+');
+                    string[] extensions = null;
+                    if(plusIndex >= 0)
+                    {
+                        extensions = new string[] { value.Substring(plusIndex + 1) };
+                    }
+
                     name = name.CamelCase();
                     if (!group.entries.ContainsKey(name) || deprecationMessage != null)
                     {
-                        group.entries[name] = new Entry(group, name, value, deprecationMessage);
+                        group.entries[name] = new Entry(group, name, value, deprecationMessage, extensions);
                     }
                 }
             }

@@ -11,7 +11,7 @@ namespace Juniper.HTTP
             public static readonly Audio Adpcm = new Audio("adpcm", new string[] {"adp"});
             public static readonly Audio Amr = new Audio("amr");
             public static readonly Audio AmrWb = new Audio("amr-wb");
-            public static readonly Audio AmrWbPlus = new Audio("amr-wb+");
+            public static readonly Audio AmrWbPlus = new Audio("amr-wb+", new string[] {""});
             public static readonly Audio Aptx = new Audio("aptx");
             public static readonly Audio Asc = new Audio("asc");
             public static readonly Audio Atrac3 = new Audio("atrac3");

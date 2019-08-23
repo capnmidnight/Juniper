@@ -13,21 +13,12 @@ namespace Juniper.HTTP.MediaTypes.Console
         private readonly string deprecationMessage;
         private readonly string[] extensions;
 
-        public Entry(Group group, string fieldName, string value, string deprecationMessage)
+        public Entry(Group group, string fieldName, string value, string deprecationMessage, string[] extensions)
         {
             Group = group;
             Value = value;
             FieldName = fieldName;
             this.deprecationMessage = deprecationMessage;
-            extensions = null;
-        }
-
-        public Entry(Group group, string fieldName, string value, string[] extensions)
-        {
-            Group = group;
-            Value = value;
-            FieldName = fieldName;
-            deprecationMessage = null;
             this.extensions = extensions;
             if(extensions?.Length >= 1)
             {

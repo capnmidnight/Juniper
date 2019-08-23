@@ -17,7 +17,7 @@ namespace Juniper.HTTP
             public static readonly Message GlobalDispositionNotification = new Message("global-disposition-notification");
             public static readonly Message GlobalHeaders = new Message("global-headers");
             public static readonly Message Http = new Message("http");
-            public static readonly Message ImdnXml = new Message("imdn+xml");
+            public static readonly Message ImdnXml = new Message("imdn+xml", new string[] {"xml"});
 
             [System.Obsolete("OBSOLETED by RFC5537")]
             public static readonly Message News = new Message("news");
