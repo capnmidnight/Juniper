@@ -14,7 +14,8 @@ namespace Juniper.Imaging
             var texture = new Texture2D(image.dimensions.width, image.dimensions.height, TextureFormat.RGB24, false);
             prog?.Report(0.25f);
             yield return null;
-            if (image.format == ImageFormat.None)
+            if (image.contentType == HTTP.MediaType.Image.Jpeg
+                || image.contentType == HTTP.MediaType.Image.Png)
             {
                 texture.LoadRawTextureData(image.data);
                 prog?.Report(0.5f);
@@ -23,7 +24,7 @@ namespace Juniper.Imaging
                 prog?.Report(0.75f);
                 yield return null;
             }
-            else if (image.format != ImageFormat.Unsupported)
+            else if (image.contentType == HTTP.MediaType.Image.Raw)
             {
                 texture.LoadImage(image.data);
                 prog?.Report(0.5f);

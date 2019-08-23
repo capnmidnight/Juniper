@@ -17,7 +17,7 @@ namespace Juniper.Imaging
 
         T Concatenate(T[,] images, IProgress prog = null);
 
-        ImageFormat Format { get; }
+        HTTP.MediaType.Image Format { get; }
     }
 
     public static class IImageDecoderExt

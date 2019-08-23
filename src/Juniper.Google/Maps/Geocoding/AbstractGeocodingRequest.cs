@@ -10,7 +10,7 @@ namespace Juniper.Google.Maps.Geocoding
         protected AbstractGeocodingRequest(GoogleMapsRequestConfiguration api)
             : base(api, new JsonFactory().Specialize<GeocodingResponse>(), "geocode/json", "geocoding", false)
         {
-            SetContentType("application/json", "json");
+            SetContentType(HTTP.MediaType.Application.Json);
         }
 
         public string Language

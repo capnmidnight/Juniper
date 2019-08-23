@@ -24,7 +24,7 @@ namespace Juniper.Imaging.PNG
             this.IDATMaxSize = IDATMaxSize;
         }
 
-        public override ImageFormat Format { get { return ImageFormat.PNG; } }
+        public override HTTP.MediaType.Image Format { get { return HTTP.MediaType.Image.Png; } }
 
         public override ImageData Read(byte[] data, DataSource source = DataSource.None)
         {
@@ -72,7 +72,7 @@ namespace Juniper.Imaging.PNG
                     return new ImageData(
                         source,
                         width,
-                        height, components, ImageFormat.PNG,
+                        height, components, HTTP.MediaType.Image.Png,
                         data);
                 }
 
@@ -107,7 +107,7 @@ namespace Juniper.Imaging.PNG
                 rows.elementsPerRow / rows.channels,
                 numRows,
                 rows.channels,
-                ImageFormat.PNG,
+                HTTP.MediaType.Image.Png,
                 data);
         }
 

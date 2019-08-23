@@ -14,87 +14,169 @@ namespace Juniper.HTTP.MediaTypes.Console
 
         private static void Main()
         {
-            var groups = new Dictionary<string, Group>();
+            var groups = new Dictionary<string, Group>(StringComparer.InvariantCultureIgnoreCase);
+
             ParseApacheConf(groups).Wait();
-            ParseIANAXml(groups);
+            ParseIANAXml(groups).Wait();
+
+            groups["Image"].entries["Raw"] = new Entry(groups["Image"], "Raw", "image/raw", new string[] { "raw" });
 
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var outDir = Path.Combine(home, "Projects", "Yarrow", "Juniper");
             outDir = Path.Combine(outDir, "src", "Juniper.Core", "HTTP");
             outDir = Path.Combine(outDir, "MediaType");
+
+            WriteGroups(groups, outDir);
+            WriteLookup(groups, outDir);
+            WriteExtensionLookup(groups, outDir);
+        }
+
+        private static void WriteGroups(Dictionary<string, Group> groups, string outDir)
+        {
             foreach (var group in groups.Values)
             {
                 group.Write(outDir);
             }
         }
 
+        private static void WriteLookup(Dictionary<string, Group> groups, string outDir)
+        {
+            var byValue =
+              from g in groups.Values
+              from e in g.entries.Values
+              select e;
+            "Lookup.cs".MakeFile(outDir, (writer) =>
+            {
+                writer.WriteLine("        private static readonly Dictionary<string, MediaType> byValue = new Dictionary<string, MediaType>() {");
+                foreach (var ext in byValue)
+                {
+                    writer.WriteLine("            {{ \"{0}\", {1}.{2} }},", ext.Value, ext.Group.ClassName, ext.FieldName);
+                }
+                writer.WriteLine("        };");
+            }, "using System.Collections.Generic;");
+        }
+
+        private static void WriteExtensionLookup(Dictionary<string, Group> groups, string outDir)
+        {
+            var byExtension =
+              from g in groups.Values
+              from e in g.entries.Values
+              where e.PrimaryExtension != null
+              group e by e.PrimaryExtension into l
+              let p = l.FirstOrDefault()
+              orderby p.PrimaryExtension
+              select p;
+            "ExtensionLookup.cs".MakeFile(outDir, (writer) =>
+            {
+                writer.WriteLine("        private static readonly Dictionary<string, MediaType> byExtensions = new Dictionary<string, MediaType>() {");
+                foreach (var ext in byExtension)
+                {
+                    writer.WriteLine("            {{ \"{0}\", {1}.{2} }},", ext.PrimaryExtension, ext.Group.ClassName, ext.FieldName);
+                }
+                writer.WriteLine("        };");
+            }, "using System.Collections.Generic;");
+        }
+
         private static async Task ParseApacheConf(Dictionary<string, Group> groups)
         {
-            var response = await HttpWebRequestExt.Create("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co")
+            using (var response = await HttpWebRequestExt.Create("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co")
                 .Accept("text/plain")
-                .Get();
-            var searching = true;
-            using (var stream = response.GetResponseStream())
-            using (var reader = new StreamReader(stream))
+                .Get())
             {
-                var line = reader.ReadLine();
-                if(line.StartsWith("# "))
-                {
-                    line = line.Substring(2);
-                }
 
-                if (!searching) {
-                }
-                else if (line.StartsWith("===================="))
+                var searching = true;
+                using (var stream = response.GetResponseStream())
+                using (var reader = new StreamReader(stream))
                 {
-                    searching = false;
+                    while (!reader.EndOfStream)
+                    {
+                        var line = reader.ReadLine();
+                        if (line.StartsWith("# "))
+                        {
+                            line = line.Substring(2);
+                        }
+
+                        if (!searching)
+                        {
+                            var parts = line.Split(' ', '\t')
+                                .Where(p => p.Length > 0);
+
+                            var value = parts.First();
+                            var extensions = parts.Skip(1).ToArray();
+                            if (extensions.Length == 0)
+                            {
+                                extensions = null;
+                            }
+                            var slashIndex = value.IndexOf('/');
+                            var groupName = value.Substring(0, slashIndex);
+                            var name = value.Substring(slashIndex + 1);
+
+                            var group = groups.GetGroup(groupName);
+                            name = name.CamelCase();
+                            if (!group.entries.ContainsKey(name))
+                            {
+                                group.entries[name] = new Entry(group, name, value, extensions);
+                            }
+                        }
+                        else if (line.StartsWith("===================="))
+                        {
+                            searching = false;
+                        }
+                    }
                 }
             }
         }
 
-        private static void ParseIANAXml(Dictionary<string, Group> groups)
+        private static async Task ParseIANAXml(Dictionary<string, Group> groups)
         {
-            var myDocs = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var mediaTypesFileName = Path.Combine(myDocs, "media-types.xml");
-            var fullRegistry = XElement.Load(mediaTypesFileName);
-            ns = fullRegistry.GetDefaultNamespace();
-            var files = fullRegistry.Descendants(ns + "file");
-            foreach (var file in files)
+            using (var response = await HttpWebRequestExt.Create("https://www.iana.org/assignments/media-types/media-types.xml")
+                .UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36")
+                .Get())
+            using(var stream = response.GetResponseStream())
             {
-                var groupName = file.Parent.Parent.Attribute("id").Value;
-                var nameAndDescription = file.Parent.Element(ns + "name").Value;
-                var groupAndName = file.Value;
-                Parse(groups, groupName, nameAndDescription, groupAndName);
+                var fullRegistry = XElement.Load(stream);
+                ns = fullRegistry.GetDefaultNamespace();
+                var files = fullRegistry.Descendants(ns + "file");
+                foreach (var file in files)
+                {
+                    var groupName = file.Parent.Parent.Attribute("id").Value;
+                    var nameAndDescription = file.Parent.Element(ns + "name").Value;
+                    var groupAndName = file.Value;
+                    var name = groupAndName.Substring(groupName.Length + 1);
+                    var value = $"{groupName}/{name}";
+
+                    var isDeprecated = nameAndDescription.Length > name.Length;
+                    string deprecationMessage = null;
+                    if (isDeprecated)
+                    {
+                        deprecationMessage = nameAndDescription.Substring(name.Length + 2).Trim();
+                        if (deprecationMessage.StartsWith("-"))
+                        {
+                            deprecationMessage = deprecationMessage.Substring(1).Trim();
+                        }
+                    }
+
+                    var group = groups.GetGroup(groupName);
+
+                    name = name.CamelCase();
+                    if (!group.entries.ContainsKey(name) || deprecationMessage != null)
+                    {
+                        group.entries[name] = new Entry(group, name, value, deprecationMessage);
+                    }
+                }
             }
         }
 
-        public static void Parse(Dictionary<string, Group> groups, string groupName, string nameAndDescription, string groupAndName)
+        private static Group GetGroup(this Dictionary<string, Group> groups, string name)
         {
-            var name = groupAndName.Substring(groupName.Length + 1);
-            var value = $"{groupName}/{name}";
-
-            var isDeprecated = nameAndDescription.Length > name.Length;
-            string deprecationMessage = null;
-            if (isDeprecated)
-            {
-                deprecationMessage = nameAndDescription.Substring(name.Length + 2).Trim();
-                if (deprecationMessage.StartsWith("-"))
-                {
-                    deprecationMessage = deprecationMessage.Substring(1).Trim();
-                }
-            }
-
+            var groupName = name.CamelCase();
             if (!groups.ContainsKey(groupName))
             {
                 groups[groupName] = new Group(groupName);
             }
 
             var group = groups[groupName];
-
-            if (!group.entries.ContainsKey(name) || deprecationMessage != null)
-            {
-                group.entries[name] = new Entry(name, value, deprecationMessage);
-            }
+            return group;
         }
 
         public static string UpperFirst(this string s)
@@ -123,6 +205,31 @@ namespace Juniper.HTTP.MediaTypes.Console
 
             var words = s.Split('+', '-', '.');
             return string.Join(string.Empty, words.Select(UpperFirst));
+        }
+
+        public static void MakeFile(this string fileName, string directoryName, Action<StreamWriter> act, string usingBlock = null)
+        {
+            var filePath = Path.Combine(directoryName, fileName);
+            using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            using (var writer = new StreamWriter(stream))
+            {
+                if(usingBlock != null)
+                {
+                    writer.WriteLine(usingBlock);
+                    writer.WriteLine();
+                }
+                writer.WriteLine("namespace Juniper.HTTP");
+                writer.WriteLine("{");
+                {
+                    writer.WriteLine("    public partial class MediaType");
+                    writer.WriteLine("    {");
+                    {
+                        act(writer);
+                    }
+                    writer.WriteLine("    }");
+                }
+                writer.WriteLine("}");
+            }
         }
     }
 }

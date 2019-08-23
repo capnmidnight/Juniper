@@ -153,7 +153,7 @@ namespace Juniper.Data
             using (var imageFile = await StreamingAssets.GetStream(
                 cacheDirectory,
                 imagePath,
-                ImageData.GetContentType(decoder.Format),
+                decoder.Format.Value,
                 subProgs[0]))
             {
                 if (imageFile != null
@@ -184,7 +184,7 @@ namespace Juniper.Data
             using (var imageFile = await StreamingAssets.GetStream(
                 cacheDirectory,
                 imagePath,
-                ImageData.GetContentType(decoder.Format),
+                decoder.Format.Value,
                 subProgs[0]))
             {
                 if (imageFile != null

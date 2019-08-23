@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using Juniper.Serialization;
@@ -10,7 +10,7 @@ namespace Juniper.Imaging.Windows
         public static System.Drawing.Image ToGDI(this ImageData value)
         {
             var outImage = new System.Drawing.Bitmap(value.dimensions.width, value.dimensions.height);
-            if (value.format == ImageFormat.None)
+            if (value.contentType == HTTP.MediaType.Image.Raw)
             {
                 var pixelFormat = value.components == 4
                     ? System.Drawing.Imaging.PixelFormat.Format32bppArgb
@@ -55,14 +55,14 @@ namespace Juniper.Imaging.Windows
                 throw new NotSupportedException($"Pixel format {image.PixelFormat}");
             }
 
-            ImageFormat imageFormat;
+            HTTP.MediaType.Image imageFormat;
             if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Png)
             {
-                imageFormat = ImageFormat.PNG;
+                imageFormat = HTTP.MediaType.Image.Png;
             }
             else if (image.RawFormat == System.Drawing.Imaging.ImageFormat.Jpeg)
             {
-                imageFormat = ImageFormat.JPEG;
+                imageFormat = HTTP.MediaType.Image.Jpeg;
             }
             else
             {

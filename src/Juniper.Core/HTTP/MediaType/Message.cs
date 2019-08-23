@@ -1,30 +1,38 @@
-namespace Juniper.HTTP.MediaTypes
+namespace Juniper.HTTP
 {
-    public static class Message
+    public partial class MediaType
     {
-        public const string CPIM = "message/CPIM";
-        public const string DeliveryStatus = "message/delivery-status";
-        public const string DispositionNotification = "message/disposition-notification";
-        public const string Example = "message/example";
-        public const string FeedbackReport = "message/feedback-report";
-        public const string Global = "message/global";
-        public const string GlobalDeliveryStatus = "message/global-delivery-status";
-        public const string GlobalDispositionNotification = "message/global-disposition-notification";
-        public const string GlobalHeaders = "message/global-headers";
-        public const string Http = "message/http";
-        public const string ImdnXml = "message/imdn+xml";
+        public sealed class Message : MediaType
+        {
+            public Message(string value, string[] extensions = null) : base("message/" + value, extensions) {}
 
-        [System.Obsolete("OBSOLETED by RFC5537")]
-        public const string News = "message/news";
+            public static readonly Message Cpim = new Message("cpim");
+            public static readonly Message DeliveryStatus = new Message("delivery-status");
+            public static readonly Message DispositionNotification = new Message("disposition-notification");
+            public static readonly Message Example = new Message("example");
+            public static readonly Message ExternalBody = new Message("external-body");
+            public static readonly Message FeedbackReport = new Message("feedback-report");
+            public static readonly Message Global = new Message("global");
+            public static readonly Message GlobalDeliveryStatus = new Message("global-delivery-status");
+            public static readonly Message GlobalDispositionNotification = new Message("global-disposition-notification");
+            public static readonly Message GlobalHeaders = new Message("global-headers");
+            public static readonly Message Http = new Message("http");
+            public static readonly Message ImdnXml = new Message("imdn+xml");
 
-        public const string SHttp = "message/s-http";
-        public const string Sip = "message/sip";
-        public const string Sipfrag = "message/sipfrag";
-        public const string TrackingStatus = "message/tracking-status";
+            [System.Obsolete("OBSOLETED by RFC5537")]
+            public static readonly Message News = new Message("news");
 
-        [System.Obsolete("OBSOLETED by request")]
-        public const string VendorSiSimp = "message/vnd.si.simp";
+            public static readonly Message Partial = new Message("partial");
+            public static readonly Message Rfc822 = new Message("rfc822", new string[] {"eml", "mime"});
+            public static readonly Message SHttp = new Message("s-http");
+            public static readonly Message Sip = new Message("sip");
+            public static readonly Message Sipfrag = new Message("sipfrag");
+            public static readonly Message TrackingStatus = new Message("tracking-status");
 
-        public const string VendorWfaWsc = "message/vnd.wfa.wsc";
+            [System.Obsolete("OBSOLETED by request")]
+            public static readonly Message VendorSiSimp = new Message("vnd.si.simp");
+
+            public static readonly Message VendorWfaWsc = new Message("vnd.wfa.wsc");
+        }
     }
 }

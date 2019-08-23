@@ -5,27 +5,28 @@ namespace Juniper.HTTP.MediaTypes.Console
 {
     public class Entry
     {
-        private static readonly string[] EMPTY_STRING_ARRAY = new string[0];
-
+        public readonly Group Group;
+        public readonly string Value;
         public readonly string FieldName;
         public readonly string PrimaryExtension;
 
-        private readonly string value;
         private readonly string deprecationMessage;
         private readonly string[] extensions;
 
-        public Entry(string name, string value, string deprecationMessage)
+        public Entry(Group group, string fieldName, string value, string deprecationMessage)
         {
-            FieldName = name.CamelCase();
-            this.value = value;
+            Group = group;
+            Value = value;
+            FieldName = fieldName;
             this.deprecationMessage = deprecationMessage;
             extensions = null;
         }
 
-        public Entry(string name, string value, string[] extensions)
+        public Entry(Group group, string fieldName, string value, string[] extensions)
         {
-            FieldName = name.CamelCase();
-            this.value = value;
+            Group = group;
+            Value = value;
+            FieldName = fieldName;
             deprecationMessage = null;
             this.extensions = extensions;
             if(extensions?.Length >= 1)
@@ -41,8 +42,8 @@ namespace Juniper.HTTP.MediaTypes.Console
                 writer.WriteLine();
                 writer.WriteLine("            [System.Obsolete(\"{0}\")]", deprecationMessage);
             }
-
-            writer.Write("            public static readonly MediaType {0} = new MediaType(\"{1}\"", FieldName, value);
+            var shortName = Value.Substring(Group.ClassName.Length + 1);
+            writer.Write("            public static readonly {0} {1} = new {0}(\"{2}\"", Group.ClassName, FieldName, shortName);
             if(extensions != null)
             {
                 writer.Write(", new string[] {{{0}}}", string.Join(", ", extensions.Select(e => $"\"{e}\"")));

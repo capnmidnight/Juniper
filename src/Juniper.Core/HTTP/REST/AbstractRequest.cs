@@ -19,8 +19,7 @@ namespace Juniper.HTTP.REST
         private readonly Func<Stream, ResponseType> deserialize;
         private readonly Action<HttpWebRequest> setAcceptType;
         internal readonly DecoderType deserializer;
-        private string acceptType;
-        private string extension;
+        private MediaType acceptType;
 
         protected AbstractRequest(AbstractRequestConfiguration api, DecoderType deserializer, string path, string cacheSubDirectoryName)
         {
@@ -33,10 +32,14 @@ namespace Juniper.HTTP.REST
             setAcceptType = SetAcceptType;
         }
 
-        protected void SetContentType(string acceptType, string extension)
+        protected void SetContentType(MediaType mediaType)
         {
-            this.acceptType = acceptType;
-            this.extension = extension;
+            acceptType = mediaType;
+        }
+
+        protected void SetContentType(string acceptType)
+        {
+            SetContentType(MediaType.Lookup(acceptType));
         }
 
         private void SetQuery(string key, string value, bool allowMany)
@@ -151,11 +154,16 @@ namespace Juniper.HTTP.REST
                 else
                 {
                     var path = Path.Combine(api.cacheLocation.FullName, CacheID);
-                    if (!extension.StartsWith("."))
+
+                    if (acceptType.PrimaryExtension != null)
                     {
-                        path += ".";
+                        if (!acceptType.PrimaryExtension.StartsWith("."))
+                        {
+                            path += ".";
+                        }
+                        path += acceptType.PrimaryExtension;
                     }
-                    path += extension;
+
                     return path;
                 }
             }

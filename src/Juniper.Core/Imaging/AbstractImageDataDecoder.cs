@@ -51,7 +51,7 @@ namespace Juniper.Imaging
             return combined;
         }
 
-        public abstract ImageFormat Format { get; }
+        public abstract HTTP.MediaType.Image Format { get; }
 
         public abstract ImageData Read(byte[] data, DataSource source = DataSource.None);
 

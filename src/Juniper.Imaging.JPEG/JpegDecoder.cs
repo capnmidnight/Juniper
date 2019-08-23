@@ -42,7 +42,7 @@ namespace Juniper.Imaging.JPEG
                     return new ImageData(
                         source,
                         width,
-                        height, 3, ImageFormat.JPEG,
+                        height, 3, HTTP.MediaType.Image.Jpeg,
                         data);
                 }
             }
@@ -50,7 +50,7 @@ namespace Juniper.Imaging.JPEG
             return default;
         }
 
-        public override ImageFormat Format { get { return ImageFormat.JPEG; } }
+        public override HTTP.MediaType.Image Format { get { return HTTP.MediaType.Image.Jpeg; } }
 
         /// <summary>
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
@@ -77,7 +77,7 @@ namespace Juniper.Imaging.JPEG
                     jpeg.Width,
                     jpeg.Height,
                     jpeg.ComponentsPerSample,
-                    ImageFormat.JPEG,
+                    HTTP.MediaType.Image.Jpeg,
                     data);
             }
         }

@@ -13,16 +13,16 @@ namespace Juniper.Imaging.Windows
     {
         private readonly GDIImageFormat gdiFormat;
 
-        public ImageFormat Format { get; private set; }
+        public HTTP.MediaType.Image Format { get; private set; }
 
-        public GDIImageDecoder(ImageFormat format)
+        public GDIImageDecoder(HTTP.MediaType.Image format)
         {
             Format = format;
-            if (format == ImageFormat.JPEG)
+            if (format == HTTP.MediaType.Image.Jpeg)
             {
                 gdiFormat = GDIImageFormat.Jpeg;
             }
-            else if(format == ImageFormat.PNG)
+            else if(format == HTTP.MediaType.Image.Png)
             {
                 gdiFormat = GDIImageFormat.Png;
             }

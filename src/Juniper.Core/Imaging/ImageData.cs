@@ -1,4 +1,5 @@
 using System;
+using Juniper.HTTP;
 using Juniper.Serialization;
 
 namespace Juniper.Imaging
@@ -18,26 +19,6 @@ namespace Juniper.Imaging
             };
         }
 
-        public static string GetContentType(ImageFormat format)
-        {
-            switch (format)
-            {
-                case ImageFormat.JPEG: return HTTP.MediaTypes.Image.Jpeg;
-                case ImageFormat.PNG: return HTTP.MediaTypes.Image.Png;
-                default: return HTTP.MediaTypes.Application.OctetStream;
-            }
-        }
-
-        public static string GetExtension(ImageFormat format)
-        {
-            switch (format)
-            {
-                case ImageFormat.JPEG: return "jpeg";
-                case ImageFormat.PNG: return "png";
-                default: return "raw";
-            }
-        }
-
         public static int GetRowIndex(int numRows, int i, bool flipImage)
         {
             var rowIndex = i;
@@ -53,8 +34,7 @@ namespace Juniper.Imaging
         public const int BitsPerComponent = 8 * BytesPerComponent;
 
         public readonly DataSource source;
-        public readonly ImageFormat format;
-        public readonly string contentType;
+        public readonly MediaType.Image contentType;
         public readonly string extension;
         public readonly byte[] data;
         public readonly Size dimensions;
@@ -63,27 +43,25 @@ namespace Juniper.Imaging
         public readonly int bytesPerSample;
         public readonly int bitsPerSample;
 
-        public ImageData(DataSource source, Size size, int components, ImageFormat format, byte[] data)
+        public ImageData(DataSource source, Size size, int components, MediaType.Image contentType, byte[] data)
         {
             this.source = source;
-            this.format = format;
             this.data = data;
             this.components = components;
             dimensions = size;
-            contentType = GetContentType(format);
-            extension = GetExtension(format);
+            this.contentType = contentType;
             stride = size.width * components;
             bytesPerSample = BytesPerComponent * components;
             bitsPerSample = 8 * bytesPerSample;
         }
 
-        public ImageData(DataSource source, int width, int height, int components, ImageFormat format, byte[] data)
-            : this(source, new Size(width, height), components, format, data)
+        public ImageData(DataSource source, int width, int height, int components, MediaType.Image contentType, byte[] data)
+            : this(source, new Size(width, height), components, contentType, data)
         {
         }
 
         public ImageData(DataSource source, Size size, int components)
-            : this(source, size, components, ImageFormat.None, new byte[size.height * size.width * components])
+            : this(source, size, components, MediaType.Image.Raw, new byte[size.height * size.width * components])
         {
         }
 
@@ -94,7 +72,7 @@ namespace Juniper.Imaging
 
         public object Clone()
         {
-            return new ImageData(source, dimensions, components, format, (byte[])data.Clone());
+            return new ImageData(source, dimensions, components, contentType, (byte[])data.Clone());
         }
 
         private void RGB2HSV(int index, out float h, out float s, out float v)

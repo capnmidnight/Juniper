@@ -1,48 +1,36 @@
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Juniper.HTTP.MediaTypes.Console
 {
     public class Group
     {
-        public readonly string name;
         public readonly string fileName;
-        public readonly string className;
-        public readonly Dictionary<string, Entry> entries = new Dictionary<string, Entry>();
+        public readonly string ClassName;
+        public readonly Dictionary<string, Entry> entries = new Dictionary<string, Entry>(StringComparer.InvariantCultureIgnoreCase);
 
-        public Group(string name)
+        public Group(string className)
         {
-            this.name = name;
-
-            className = name.CamelCase();
+            this.ClassName = className;
             fileName = className + ".cs";
         }
 
         public void Write(string directoryName)
         {
-            var filePath = Path.Combine(directoryName, fileName);
-            using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-            using (var writer = new StreamWriter(stream))
+            fileName.MakeFile(directoryName, (writer) =>
             {
-                writer.WriteLine("namespace Juniper.HTTP");
-                writer.WriteLine("{");
+                writer.WriteLine("        public sealed class {0} : MediaType", ClassName);
+                writer.WriteLine("        {");
+                writer.Write("            public {0}(string value, string[] extensions = null)", ClassName);
+                writer.WriteLine(" : base(\"{0}/\" + value, extensions) {{}}", ClassName.ToLowerInvariant());
+                writer.WriteLine();
+                foreach (var entry in entries.Values.OrderBy(e => e.FieldName))
                 {
-                    writer.WriteLine("    public partial class MediaType");
-                    writer.WriteLine("    {");
-                    {
-                        writer.WriteLine("        public static class {0}", className);
-                        writer.WriteLine("        {");
-                        foreach (var entry in entries.Values.OrderBy(e => e.FieldName))
-                        {
-                            entry.Write(writer);
-                        }
-                        writer.WriteLine("        }");
-                    }
-                    writer.WriteLine("    }");
+                    entry.Write(writer);
                 }
-                writer.WriteLine("}");
-            }
+                writer.WriteLine("        }");
+            });
         }
     }
 }

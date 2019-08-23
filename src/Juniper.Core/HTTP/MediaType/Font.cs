@@ -1,12 +1,17 @@
-namespace Juniper.HTTP.MediaTypes
+namespace Juniper.HTTP
 {
-    public static class Font
+    public partial class MediaType
     {
-        public const string Collection = "font/collection";
-        public const string Otf = "font/otf";
-        public const string Sfnt = "font/sfnt";
-        public const string Ttf = "font/ttf";
-        public const string Woff = "font/woff";
-        public const string Woff2 = "font/woff2";
+        public sealed class Font : MediaType
+        {
+            public Font(string value, string[] extensions = null) : base("font/" + value, extensions) {}
+
+            public static readonly Font Collection = new Font("collection", new string[] {"ttc"});
+            public static readonly Font Otf = new Font("otf", new string[] {"otf"});
+            public static readonly Font Sfnt = new Font("sfnt");
+            public static readonly Font Ttf = new Font("ttf", new string[] {"ttf"});
+            public static readonly Font Woff = new Font("woff", new string[] {"woff"});
+            public static readonly Font Woff2 = new Font("woff2", new string[] {"woff2"});
+        }
     }
 }

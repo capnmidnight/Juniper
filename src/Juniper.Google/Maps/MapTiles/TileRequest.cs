@@ -27,10 +27,7 @@ namespace Juniper.Google.Maps.MapTiles
             : base(api, decoder, "staticmap", "tiles", true)
         {
             Size = size;
-            var format = decoder.Format;
-            var acceptType = ImageData.GetContentType(format);
-            var extension = ImageData.GetExtension(format);
-            SetContentType(acceptType, extension);
+            SetContentType(decoder.Format);
         }
 
         public TileRequest(GoogleMapsRequestConfiguration api, Size size)

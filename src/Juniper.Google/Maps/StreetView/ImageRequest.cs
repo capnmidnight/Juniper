@@ -13,10 +13,7 @@ namespace Juniper.Google.Maps.StreetView
             : base(api, decoder, "streetview")
         {
             Size = size;
-            var format = decoder.Format;
-            var acceptType = ImageData.GetContentType(format);
-            var extension = ImageData.GetExtension(format);
-            SetContentType(acceptType, extension);
+            SetContentType(decoder.Format);
         }
 
         public Size Size

@@ -16,7 +16,7 @@ namespace Juniper.Google.Maps.Places
         public PlaceSearchRequest(GoogleMapsRequestConfiguration api)
             : base(api, new JsonFactory().Specialize<PlaceSearchResponse>(), "place/findplacefromtext/json", "places", false)
         {
-            SetContentType("application/json", "json");
+            SetContentType(HTTP.MediaType.Application.Json);
         }
 
         public PhoneNumber PhoneNumber

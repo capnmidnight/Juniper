@@ -8,7 +8,7 @@ namespace Juniper.HTTP.REST
         protected AbstractJsonRequest(AbstractRequestConfiguration api, string path, string cacheSubDirectoryName)
             : base(api, new JsonFactory().Specialize<T>(), path, cacheSubDirectoryName)
         {
-            SetContentType("application/json", "json");
+            SetContentType(MediaType.Application.Json);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Juniper.Google.Maps.StreetView
         public MetadataRequest(GoogleMapsRequestConfiguration api)
             : base(api, new JsonFactory().Specialize<MetadataResponse>(), "streetview/metadata")
         {
-            SetContentType("application/json", "json");
+            SetContentType(HTTP.MediaType.Application.Json);
         }
     }
 }

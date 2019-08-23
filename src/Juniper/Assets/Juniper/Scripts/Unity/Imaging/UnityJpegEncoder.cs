@@ -80,7 +80,7 @@ namespace Juniper.Imaging
             return outputImage;
         }
 
-        public ImageFormat Format { get { return ImageFormat.JPEG; } }
+        public HTTP.MediaType.Image Format { get { return HTTP.MediaType.Image.Jpeg; } }
 
         public void Serialize(Stream stream, Texture2D value, IProgress prog = null)
         {

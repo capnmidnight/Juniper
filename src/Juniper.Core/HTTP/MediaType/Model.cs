@@ -1,30 +1,38 @@
-namespace Juniper.HTTP.MediaTypes
+namespace Juniper.HTTP
 {
-    public static class Model
+    public partial class MediaType
     {
-        public const string Example = "model/example";
-        public const string GltfBinary = "model/gltf-binary";
-        public const string GltfJson = "model/gltf+json";
-        public const string Iges = "model/iges";
-        public const string Stl = "model/stl";
-        public const string Vendor3mf = "model/3mf";
-        public const string VendorColladaXml = "model/vnd.collada+xml";
-        public const string VendorDwf = "model/vnd.dwf";
-        public const string VendorFlatland3dml = "model/vnd.flatland.3dml";
-        public const string VendorGdl = "model/vnd.gdl";
-        public const string VendorGsGdl = "model/vnd.gs-gdl";
-        public const string VendorGtw = "model/vnd.gtw";
-        public const string VendorMomlXml = "model/vnd.moml+xml";
-        public const string VendorMts = "model/vnd.mts";
-        public const string VendorOpengex = "model/vnd.opengex";
-        public const string VendorParasolidTransmitBinary = "model/vnd.parasolid.transmit.binary";
-        public const string VendorParasolidTransmitText = "model/vnd.parasolid.transmit.text";
-        public const string VendorRosetteAnnotatedDataModel = "model/vnd.rosette.annotated-data-model";
-        public const string VendorUsdzZip = "model/vnd.usdz+zip";
-        public const string VendorValveSourceCompiledMap = "model/vnd.valve.source.compiled-map";
-        public const string VendorVtu = "model/vnd.vtu";
-        public const string X3dFastinfoset = "model/x3d+fastinfoset";
-        public const string X3dVrml = "model/x3d-vrml";
-        public const string X3dXml = "model/x3d+xml";
+        public sealed class Model : MediaType
+        {
+            public Model(string value, string[] extensions = null) : base("model/" + value, extensions) {}
+
+            public static readonly Model Example = new Model("example");
+            public static readonly Model GltfBinary = new Model("gltf-binary");
+            public static readonly Model GltfJson = new Model("gltf+json");
+            public static readonly Model Iges = new Model("iges", new string[] {"igs", "iges"});
+            public static readonly Model Mesh = new Model("mesh", new string[] {"msh", "mesh", "silo"});
+            public static readonly Model Stl = new Model("stl");
+            public static readonly Model Vendor3mf = new Model("3mf");
+            public static readonly Model VendorColladaXml = new Model("vnd.collada+xml", new string[] {"dae"});
+            public static readonly Model VendorDwf = new Model("vnd.dwf", new string[] {"dwf"});
+            public static readonly Model VendorFlatland3dml = new Model("vnd.flatland.3dml");
+            public static readonly Model VendorGdl = new Model("vnd.gdl", new string[] {"gdl"});
+            public static readonly Model VendorGsGdl = new Model("vnd.gs-gdl");
+            public static readonly Model VendorGtw = new Model("vnd.gtw", new string[] {"gtw"});
+            public static readonly Model VendorMomlXml = new Model("vnd.moml+xml");
+            public static readonly Model VendorMts = new Model("vnd.mts", new string[] {"mts"});
+            public static readonly Model VendorOpengex = new Model("vnd.opengex");
+            public static readonly Model VendorParasolidTransmitBinary = new Model("vnd.parasolid.transmit.binary");
+            public static readonly Model VendorParasolidTransmitText = new Model("vnd.parasolid.transmit.text");
+            public static readonly Model VendorRosetteAnnotatedDataModel = new Model("vnd.rosette.annotated-data-model");
+            public static readonly Model VendorUsdzZip = new Model("vnd.usdz+zip");
+            public static readonly Model VendorValveSourceCompiledMap = new Model("vnd.valve.source.compiled-map");
+            public static readonly Model VendorVtu = new Model("vnd.vtu", new string[] {"vtu"});
+            public static readonly Model Vrml = new Model("vrml", new string[] {"wrl", "vrml"});
+            public static readonly Model X3dBinary = new Model("x3d+binary", new string[] {"x3db", "x3dbz"});
+            public static readonly Model X3dFastinfoset = new Model("x3d+fastinfoset");
+            public static readonly Model X3dVrml = new Model("x3d+vrml", new string[] {"x3dv", "x3dvz"});
+            public static readonly Model X3dXml = new Model("x3d+xml", new string[] {"x3d", "x3dz"});
+        }
     }
 }

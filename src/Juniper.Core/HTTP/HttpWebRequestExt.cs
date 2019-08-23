@@ -86,6 +86,18 @@ namespace System.Net
             return request;
         }
 
+        public static HttpWebRequest Host(this HttpWebRequest request, string host)
+        {
+            request.Host = host;
+            return request;
+        }
+
+        public static HttpWebRequest UserAgent(this HttpWebRequest request, string agent)
+        {
+            request.UserAgent = agent;
+            return request;
+        }
+
         /// <summary>
         /// Sets the Accept header for the HTTP request.
         /// </summary>

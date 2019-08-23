@@ -14,7 +14,7 @@ namespace Juniper.Google.Maps.TimeZone
         public TimeZoneRequest(GoogleMapsRequestConfiguration api)
             : base(api, new JsonFactory().Specialize<TimeZoneResponse>(), "timezone/json", "timezones", false)
         {
-            SetContentType("application/json", "json");
+            SetContentType(HTTP.MediaType.Application.Json);
         }
 
         public LatLngPoint Location

@@ -59,14 +59,17 @@
     <Compile Include="HTTP\IFactoryExt.cs" />
     <Compile Include="HTTP\MediaType\Application.cs" />
     <Compile Include="HTTP\MediaType\Audio.cs" />
+    <Compile Include="HTTP\MediaType\Chemical.cs" />
     <Compile Include="HTTP\MediaType\Font.cs" />
     <Compile Include="HTTP\MediaType\Image.cs" />
+    <Compile Include="HTTP\MediaType\Lookup.cs" />
     <Compile Include="HTTP\MediaType\MediaType.cs" />
     <Compile Include="HTTP\MediaType\Message.cs" />
     <Compile Include="HTTP\MediaType\Model.cs" />
     <Compile Include="HTTP\MediaType\Multipart.cs" />
     <Compile Include="HTTP\MediaType\Text.cs" />
     <Compile Include="HTTP\MediaType\Video.cs" />
+    <Compile Include="HTTP\MediaType\XConference.cs" />
     <Compile Include="HTTP\REST\AbstractRequest.cs" />
     <Compile Include="HTTP\REST\AbstractRequestConfiguration.cs" />
     <Compile Include="HTTP\REST\AbstractRequestExt.cs" />
@@ -77,7 +80,6 @@
     <Compile Include="Imaging\AbstractImageDataDecoder.cs" />
     <Compile Include="Imaging\IImageDecoder.cs" />
     <Compile Include="Imaging\ImageData.cs" />
-    <Compile Include="Imaging\ImageFormat.cs" />
     <Compile Include="Imaging\Markers.cs" />
     <Compile Include="Imaging\Size.cs" />
     <Compile Include="Input\Direction.cs" />
@@ -239,6 +241,8 @@
     <Compile Include="XR\GroundMeshVisualization.cs" />
     <Compile Include="XR\PlatformEnums.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="HTTP\MediaType\ExtensionLookup.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
