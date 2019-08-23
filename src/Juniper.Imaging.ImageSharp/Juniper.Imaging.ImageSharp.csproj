@@ -54,6 +54,9 @@
     <PackageReference Include="SixLabors.ImageSharp">
       <Version>1.0.0-dev002868</Version>
     </PackageReference>
+    <PackageReference Include="SixLabors.ImageSharp.Drawing">
+      <Version>1.0.0-beta0006</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Core\Juniper.Core.csproj">

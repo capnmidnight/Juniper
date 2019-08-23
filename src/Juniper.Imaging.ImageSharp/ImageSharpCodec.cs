@@ -6,6 +6,9 @@ using Juniper.Progress;
 using Juniper.Serialization;
 
 using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.Primitives;
 
 namespace Juniper.Imaging.ImageSharp
 {
@@ -68,7 +71,29 @@ namespace Juniper.Imaging.ImageSharp
 
         public Image Concatenate(Image[,] images, IProgress prog = null)
         {
-            throw new NotImplementedException();
+            this.ValidateImages(images, prog,
+                out var rows, out var columns,
+                out var firstImage,
+                out var tileWidth, out var tileHeight);
+
+            var combined = new Image<Rgba32>(columns * tileWidth, rows * tileHeight);
+
+            combined.Mutate(o =>
+            {
+                for (int y = 0; y < rows; ++y)
+                {
+                    for (int x = 0; x < columns; ++x)
+                    {
+                        var tile = images[y, x];
+                        if (tile != null)
+                        {
+                            o.DrawImage(tile, new Point(x * tileWidth, y * tileHeight), 1);
+                        }
+                    }
+                }
+            });
+
+            return combined;
         }
 
         public Image Deserialize(Stream stream)
