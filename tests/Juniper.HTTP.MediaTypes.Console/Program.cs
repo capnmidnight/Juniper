@@ -79,49 +79,47 @@ namespace Juniper.HTTP.MediaTypes.Console
 
         private static async Task ParseApacheConf(Dictionary<string, Group> groups)
         {
-            using (var response = await HttpWebRequestExt.Create("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co")
+            using (var response = await HttpWebRequestExt
+                .Create("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co")
                 .Accept("text/plain")
                 .Get())
+            using (var stream = response.GetResponseStream())
+            using (var reader = new StreamReader(stream))
             {
-
                 var searching = true;
-                using (var stream = response.GetResponseStream())
-                using (var reader = new StreamReader(stream))
+                while (!reader.EndOfStream)
                 {
-                    while (!reader.EndOfStream)
+                    var line = reader.ReadLine();
+                    if (line.StartsWith("# "))
                     {
-                        var line = reader.ReadLine();
-                        if (line.StartsWith("# "))
-                        {
-                            line = line.Substring(2);
-                        }
+                        line = line.Substring(2);
+                    }
 
-                        if (!searching)
-                        {
-                            var parts = line.Split(' ', '\t')
-                                .Where(p => p.Length > 0);
+                    if (!searching)
+                    {
+                        var parts = line.Split(' ', '\t')
+                            .Where(p => p.Length > 0);
 
-                            var value = parts.First();
-                            var extensions = parts.Skip(1).ToArray();
-                            if (extensions.Length == 0)
-                            {
-                                extensions = null;
-                            }
-                            var slashIndex = value.IndexOf('/');
-                            var groupName = value.Substring(0, slashIndex);
-                            var name = value.Substring(slashIndex + 1);
-
-                            var group = groups.GetGroup(groupName);
-                            name = name.CamelCase();
-                            if (!group.entries.ContainsKey(name))
-                            {
-                                group.entries[name] = new Entry(group, name, value, extensions);
-                            }
-                        }
-                        else if (line.StartsWith("===================="))
+                        var value = parts.First();
+                        var extensions = parts.Skip(1).ToArray();
+                        if (extensions.Length == 0)
                         {
-                            searching = false;
+                            extensions = null;
                         }
+                        var slashIndex = value.IndexOf('/');
+                        var groupName = value.Substring(0, slashIndex);
+                        var name = value.Substring(slashIndex + 1);
+
+                        var group = groups.GetGroup(groupName);
+                        name = name.CamelCase();
+                        if (!group.entries.ContainsKey(name))
+                        {
+                            group.entries[name] = new Entry(group, name, value, extensions);
+                        }
+                    }
+                    else if (line.StartsWith("===================="))
+                    {
+                        searching = false;
                     }
                 }
             }
@@ -129,10 +127,12 @@ namespace Juniper.HTTP.MediaTypes.Console
 
         private static async Task ParseIANAXml(Dictionary<string, Group> groups)
         {
-            using (var response = await HttpWebRequestExt.Create("https://www.iana.org/assignments/media-types/media-types.xml")
+            using (var response = await HttpWebRequestExt
+                .Create("https://www.iana.org/assignments/media-types/media-types.xml")
                 .UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36")
+                .Accept("text/xml")
                 .Get())
-            using(var stream = response.GetResponseStream())
+            using (var stream = response.GetResponseStream())
             {
                 var fullRegistry = XElement.Load(stream);
                 ns = fullRegistry.GetDefaultNamespace();
@@ -215,7 +215,7 @@ namespace Juniper.HTTP.MediaTypes.Console
             using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             using (var writer = new StreamWriter(stream))
             {
-                if(usingBlock != null)
+                if (usingBlock != null)
                 {
                     writer.WriteLine(usingBlock);
                     writer.WriteLine();
