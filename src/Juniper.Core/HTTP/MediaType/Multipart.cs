@@ -12,17 +12,17 @@ namespace Juniper.HTTP
             public static readonly Multipart Digest = new Multipart("digest");
             public static readonly Multipart Encrypted = new Multipart("encrypted");
             public static readonly Multipart Example = new Multipart("example");
-            public static readonly Multipart FormData = new Multipart("form-data");
-            public static readonly Multipart HeaderSet = new Multipart("header-set");
+            public static readonly Multipart Form_Data = new Multipart("form-data");
+            public static readonly Multipart Header_Set = new Multipart("header-set");
             public static readonly Multipart Mixed = new Multipart("mixed");
             public static readonly Multipart Multilingual = new Multipart("multilingual");
             public static readonly Multipart Parallel = new Multipart("parallel");
             public static readonly Multipart Related = new Multipart("related");
             public static readonly Multipart Report = new Multipart("report");
             public static readonly Multipart Signed = new Multipart("signed");
-            public static readonly Multipart VendorBintMedPlus = new Multipart("vnd.bint.med-plus");
-            public static readonly Multipart VoiceMessage = new Multipart("voice-message");
-            public static readonly Multipart XMixedReplace = new Multipart("x-mixed-replace");
+            public static readonly Multipart VendorBintMed_Plus = new Multipart("vnd.bint.med-plus");
+            public static readonly Multipart Voice_Message = new Multipart("voice-message");
+            public static readonly Multipart X_Mixed_Replace = new Multipart("x-mixed-replace");
         }
     }
 }

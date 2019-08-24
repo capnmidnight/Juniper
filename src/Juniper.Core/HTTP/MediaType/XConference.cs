@@ -6,7 +6,7 @@ namespace Juniper.HTTP
         {
             public XConference(string value, string[] extensions = null) : base("xconference/" + value, extensions) {}
 
-            public static readonly XConference XCooltalk = new XConference("/x-cooltalk", new string[] {"ice"});
+            public static readonly XConference X_Cooltalk = new XConference("/x-cooltalk", new string[] {"ice"});
         }
     }
 }

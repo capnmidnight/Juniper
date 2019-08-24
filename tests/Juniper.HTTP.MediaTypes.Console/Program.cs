@@ -229,7 +229,7 @@ namespace Juniper.HTTP.MediaTypes.Console
 
         private static Group GetGroup(this Dictionary<string, Group> groups, string name)
         {
-            var groupName = name.CamelCase();
+            var groupName = name.CamelCase(true);
             if (!groups.ContainsKey(groupName))
             {
                 groups[groupName] = new Group(groupName);
@@ -246,7 +246,7 @@ namespace Juniper.HTTP.MediaTypes.Console
             return new string(chars);
         }
 
-        public static string CamelCase(this string s)
+        public static string CamelCase(this string s, bool stripUnderscores = false)
         {
             if (!char.IsLetter(s[0]))
             {
@@ -263,8 +263,17 @@ namespace Juniper.HTTP.MediaTypes.Console
                 s = s.Substring(0, s.Length - 1) + ".plus";
             }
 
-            var words = s.Split('+', '-', '.');
-            return string.Join(string.Empty, words.Select(UpperFirst));
+            var words = s.Split('+', '.');
+            s = string.Join(string.Empty, words.Select(UpperFirst));
+            words = s.Split('-');
+            s = string.Join("_", words.Select(UpperFirst));
+
+            if (stripUnderscores)
+            {
+                return s.Replace("_", "");
+            }
+
+            return s;
         }
 
         public static void MakeFile(this string fileName, string directoryName, Action<StreamWriter> act, string usingBlock = null)
