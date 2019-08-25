@@ -23,16 +23,18 @@ namespace Juniper.Imaging
         public const int BitsPerComponent = 8 * BytesPerComponent;
 
         public readonly ImageInfo info;
+        public readonly MediaType.Image contentType;
         public readonly byte[] data;
 
-        public ImageData(ImageInfo info, byte[] data)
+        public ImageData(ImageInfo info, MediaType.Image contentType, byte[] data)
         {
             this.info = info;
+            this.contentType = contentType;
             this.data = data;
         }
 
         public ImageData(Size size, int components, MediaType.Image contentType, byte[] data)
-            : this(new ImageInfo(size, components, contentType), data) { }
+            : this(new ImageInfo(size, components), contentType, data) { }
 
         public ImageData(int width, int height, int components, MediaType.Image contentType, byte[] data)
             : this(new Size(width, height), components, contentType, data)
@@ -51,7 +53,7 @@ namespace Juniper.Imaging
 
         public object Clone()
         {
-            return new ImageData(info.dimensions, info.components, info.contentType, (byte[])data.Clone());
+            return new ImageData(info.dimensions, info.components, contentType, (byte[])data.Clone());
         }
 
         private void RGB2HSV(int index, out float h, out float s, out float v)

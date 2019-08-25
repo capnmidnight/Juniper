@@ -43,8 +43,7 @@ namespace Juniper.Imaging.ImageSharp
                 return new ImageInfo(
                     imageInfo.Width,
                     imageInfo.Height,
-                    imageInfo.PixelType.BitsPerPixel / 8,
-                    Format);
+                    imageInfo.PixelType.BitsPerPixel / 8);
             }
         }
 

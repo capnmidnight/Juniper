@@ -23,15 +23,15 @@ namespace Juniper.Imaging
             prog?.Report(0);
             var texture = new Texture2D(image.info.dimensions.width, image.info.dimensions.height, TextureFormat.RGB24, false);
             prog?.Report(0.25f);
-            if (image.info.contentType == HTTP.MediaType.Image.Jpeg
-                || image.info.contentType == HTTP.MediaType.Image.Png)
+            if (image.contentType == HTTP.MediaType.Image.Jpeg
+                || image.contentType == HTTP.MediaType.Image.Png)
             {
                 texture.LoadRawTextureData(image.data);
                 prog?.Report(0.5f);
                 texture.Compress(true);
                 prog?.Report(0.75f);
             }
-            else if (image.info.contentType == HTTP.MediaType.Image.Raw)
+            else if (image.contentType == HTTP.MediaType.Image.Raw)
             {
                 texture.LoadImage(image.data);
                 prog?.Report(0.5f);
@@ -60,7 +60,8 @@ namespace Juniper.Imaging
             }
 
             return new ImageData(
-                new ImageInfo(image.width, image.height, components, Format),
+                new ImageInfo(image.width, image.height, components), 
+                Format,
                 subCodec.Encode(image));
         }
     }

@@ -1,7 +1,5 @@
 using System;
 
-using Juniper.HTTP;
-
 namespace Juniper.Imaging
 {
     public sealed class ImageInfo
@@ -48,7 +46,7 @@ namespace Juniper.Imaging
                         case 6: components = 4; break;
                     }
 
-                    return new ImageInfo(height, width, components, HTTP.MediaType.Image.Png);
+                    return new ImageInfo(height, width, components);
                 }
 
                 i += len;
@@ -74,31 +72,29 @@ namespace Juniper.Imaging
                     var width = widthHi << 8 | widthLo;
                     var height = heightHi << 8 | heightLo;
 
-                    return new ImageInfo(width, height, 3, MediaType.Image.Jpeg);
+                    return new ImageInfo(width, height, 3);
                 }
             }
 
             return default;
         }
 
-        public readonly MediaType.Image contentType;
         public readonly Size dimensions;
         public readonly int stride;
         public readonly int components;
         public readonly int bytesPerSample;
         public readonly int bitsPerSample;
 
-        public ImageInfo(Size size, int components, MediaType.Image contentType)
+        public ImageInfo(Size size, int components)
         {
             this.components = components;
             dimensions = size;
-            this.contentType = contentType;
             stride = size.width * components;
             bytesPerSample = ImageData.BytesPerComponent * components;
             bitsPerSample = 8 * bytesPerSample;
         }
 
-        public ImageInfo(int width, int height, int components, MediaType.Image contentType)
-            : this(new Size(width, height), components, contentType) { }
+        public ImageInfo(int width, int height, int components)
+            : this(new Size(width, height), components) { }
     }
 }

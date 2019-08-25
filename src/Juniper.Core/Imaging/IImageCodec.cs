@@ -56,7 +56,7 @@ namespace Juniper.Imaging
                 mem.Flush();
                 var buffer = mem.ToArray();
                 var info = decoder.GetImageInfo(buffer);
-                return new ImageData(info, buffer);
+                return new ImageData(info, decoder.Format, buffer);
             }
         }
 

@@ -15,7 +15,7 @@ namespace Juniper.Imaging.ImageSharp
 
         public override Image TranslateTo(ImageData value, IProgress prog = null)
         {
-            if (value.info.contentType != HTTP.MediaType.Image.Raw)
+            if (value.contentType != HTTP.MediaType.Image.Raw)
             {
                 return Image.Load(value.data);
             }

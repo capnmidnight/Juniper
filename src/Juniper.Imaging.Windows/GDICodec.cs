@@ -74,8 +74,7 @@ namespace Juniper.Imaging.Windows
                     return new ImageInfo(
                         image.Width,
                         image.Height,
-                        GetComponents(image),
-                        image.RawFormat.ToMediaType());
+                        GetComponents(image));
                 }
             }
         }

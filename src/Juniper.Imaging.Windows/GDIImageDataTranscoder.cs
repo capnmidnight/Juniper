@@ -14,7 +14,7 @@ namespace Juniper.Imaging.Windows
         public override Image TranslateTo(ImageData image, IProgress prog = null)
         {
             var outImage = new Bitmap(image.info.dimensions.width, image.info.dimensions.height);
-            if (image.info.contentType == HTTP.MediaType.Image.Raw)
+            if (image.contentType == HTTP.MediaType.Image.Raw)
             {
                 var imageData = outImage.LockBits(
                     new Rectangle(0, 0, image.info.dimensions.width, image.info.dimensions.height),
