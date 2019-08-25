@@ -6,9 +6,9 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging.Windows
 {
-    public class GDIImageDataCodec : AbstractImageDataDecoder<GDICodec, Image>
+    public class GDIImageDataTranscoder : AbstractImageDataTranscoder<GDICodec, Image>
     {
-        public GDIImageDataCodec(HTTP.MediaType.Image format)
+        public GDIImageDataTranscoder(HTTP.MediaType.Image format)
             : base(new GDICodec(format)) { }
 
         public override Image TranslateTo(ImageData image, IProgress prog = null)

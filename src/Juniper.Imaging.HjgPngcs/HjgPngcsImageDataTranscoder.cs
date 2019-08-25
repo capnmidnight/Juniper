@@ -6,14 +6,14 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging.HjgPngcs
 {
-    public class HjgPngcsImageDataCodec : AbstractImageDataDecoder<HjgPngcsCodec, ImageLines>
+    public class HjgPngcsImageDataTranscoder : AbstractImageDataTranscoder<HjgPngcsCodec, ImageLines>
     {
         /// <summary>
         ///
         /// </summary>
         /// <param name="compressionLevel">values 0 - 9</param>
         /// <param name="IDATMaxSize"></param>
-        public HjgPngcsImageDataCodec(int compressionLevel = 9, int IDATMaxSize = 0x1000)
+        public HjgPngcsImageDataTranscoder(int compressionLevel = 9, int IDATMaxSize = 0x1000)
             : base(new HjgPngcsCodec(compressionLevel, IDATMaxSize)) { }
       
         /// <summary>

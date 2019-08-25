@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HjgPngcsCodec.cs" />
-    <Compile Include="HjgPngcsImageDataCodec.cs" />
+    <Compile Include="HjgPngcsImageDataTranscoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

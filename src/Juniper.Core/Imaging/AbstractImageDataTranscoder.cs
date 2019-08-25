@@ -6,13 +6,13 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
-    public abstract class AbstractImageDataDecoder<SubDecoderT, SubDecoderImageT>
+    public abstract class AbstractImageDataTranscoder<SubDecoderT, SubDecoderImageT>
         : IImageDecoder<ImageData>, IImageTranscoder<ImageData, SubDecoderImageT>
         where SubDecoderT : IImageDecoder<SubDecoderImageT>
     {
         protected readonly SubDecoderT subCodec;
 
-        protected AbstractImageDataDecoder(SubDecoderT subCodec)
+        protected AbstractImageDataTranscoder(SubDecoderT subCodec)
         {
             this.subCodec = subCodec;
         }

@@ -17,7 +17,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task JPEGImageSize()
         {
-            var decoder = new LibJpegNETImageDataCodec();
+            var decoder = new LibJpegNETImageDataTranscoder();
             var imageRequest = new ImageRequest<ImageData>(service, decoder, new Size(640, 640))
             {
                 Place = (PlaceName)"Alexandria, VA"
@@ -36,13 +36,13 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task PNGImageSize()
         {
-            var decoder = new LibJpegNETImageDataCodec();
+            var decoder = new LibJpegNETImageDataTranscoder();
             var imageRequest = new ImageRequest<ImageData>(service, decoder, new Size(640, 640))
             {
                 Place = (PlaceName)"Alexandria, VA"
             };
             var rawImg = await imageRequest.Get();
-            var png = new HjgPngcsImageDataCodec();
+            var png = new HjgPngcsImageDataTranscoder();
             var data = png.Serialize(rawImg);
             var info = png.GetImageInfo(data);
             Assert.AreEqual(640, info.dimensions.width);
@@ -68,7 +68,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var decoder = new LibJpegNETImageDataCodec();
+            var decoder = new LibJpegNETImageDataTranscoder();
             var imageRequest = new ImageRequest<ImageData>(service, decoder, new Size(4096, 4096))
             {
                 Place = (PlaceName)"Alexandria, VA"
@@ -82,7 +82,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImageWithoutCaching()
         {
-            var decoder = new LibJpegNETImageDataCodec();
+            var decoder = new LibJpegNETImageDataTranscoder();
             var imageRequest = new ImageRequest<ImageData>(noCacheService, decoder, new Size(640, 640))
             {
                 Place = (PlaceName)"Alexandria, VA"

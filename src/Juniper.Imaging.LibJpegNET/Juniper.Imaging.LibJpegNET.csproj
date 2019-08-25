@@ -37,7 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LibJpegNETCodec.cs" />
-    <Compile Include="LibJpegNETImageDataCodec.cs" />
+    <Compile Include="LibJpegNETImageDataTranscoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

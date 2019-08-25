@@ -31,7 +31,7 @@ namespace Juniper.Google.Maps.MapTiles
         }
 
         public TileRequest(GoogleMapsRequestConfiguration api, Size size)
-            : this(api, new HjgPngcsImageDataCodec(), size)
+            : this(api, new HjgPngcsImageDataTranscoder(), size)
         {
         }
 

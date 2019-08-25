@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GDIImageDataCodec.cs" />
+    <Compile Include="GDIImageDataTranscoder.cs" />
     <Compile Include="GDICodec.cs" />
     <Compile Include="ImageDataExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

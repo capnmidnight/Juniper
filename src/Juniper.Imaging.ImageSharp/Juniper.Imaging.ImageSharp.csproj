@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImageSharpCodec.cs" />
-    <Compile Include="ImageSharpImageDataCodec.cs" />
+    <Compile Include="ImageSharpImageDataTranscoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

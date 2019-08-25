@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Juniper.Imaging
 {
-    public class UnityTextureImageDataCodec : AbstractImageDataDecoder<UnityTextureCodec, Texture2D>
+    public class UnityTextureImageDataCodec : AbstractImageDataTranscoder<UnityTextureCodec, Texture2D>
     {
         public UnityTextureImageDataCodec(HTTP.MediaType.Image format)
             : base(new UnityTextureCodec(format)) { }

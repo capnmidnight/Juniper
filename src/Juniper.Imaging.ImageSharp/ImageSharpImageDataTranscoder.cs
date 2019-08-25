@@ -8,9 +8,9 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace Juniper.Imaging.ImageSharp
 {
-    public class ImageSharpImageDataCodec : AbstractImageDataDecoder<ImageSharpCodec, Image>
+    public class ImageSharpImageDataTranscoder : AbstractImageDataTranscoder<ImageSharpCodec, Image>
     {
-        public ImageSharpImageDataCodec(HTTP.MediaType.Image format)
+        public ImageSharpImageDataTranscoder(HTTP.MediaType.Image format)
             : base(new ImageSharpCodec(format)) { }
 
         public override Image TranslateTo(ImageData value, IProgress prog = null)
