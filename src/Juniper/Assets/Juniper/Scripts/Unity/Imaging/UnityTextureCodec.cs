@@ -54,7 +54,7 @@ namespace Juniper.Imaging
             }
             else
             {
-                throw new NotSupportedException($"Don't know ho to read the raw image information from an {Format.Value} file.");
+                throw new NotSupportedException($"Don't know how to read the raw image information from an {Format.Value} file.");
             }
         }
 
@@ -68,10 +68,28 @@ namespace Juniper.Imaging
             return img.height;
         }
 
+        public int GetComponents(Texture2D img)
+        {
+            if(img.format == TextureFormat.ARGB32
+                || img.format == TextureFormat.RGBA32
+                || img.format == TextureFormat.BGRA32)
+            {
+                return 4;
+            }
+            else if(img.format == TextureFormat.RGB24)
+            {
+                return 3;
+            }
+            else
+            {
+                throw new NotSupportedException($"Don't know how to handle pixel format {img.format}.");
+            }
+        }
+
         public Texture2D Concatenate(Texture2D[,] images, IProgress prog = null)
         {
             this.ValidateImages(images, prog,
-                out var rows, out var columns,
+                out var rows, out var columns, out var components,
                 out var tileWidth, out var tileHeight);
 
             var totalLen = rows * tileHeight * columns * tileWidth;

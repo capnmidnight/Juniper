@@ -1,7 +1,6 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 
 using Juniper.Progress;
 using Juniper.Serialization;
@@ -20,6 +19,32 @@ namespace Juniper.Imaging.Windows
         {
             Format = format;
             gdiFormat = format.ToGDIImageFormat();
+        }
+
+        public int GetWidth(Image img)
+        {
+            return img.Width;
+        }
+
+        public int GetHeight(Image img)
+        {
+            return img.Height;
+        }
+
+        public int GetComponents(Image img)
+        {
+            if (img.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+            {
+                return 4;
+            }
+            else if (img.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb)
+            {
+                return 3;
+            }
+            else
+            {
+                throw new NotSupportedException($"Pixel format {img.PixelFormat}");
+            }
         }
 
         public void Serialize(Stream stream, Image value, IProgress prog = null)
@@ -49,40 +74,27 @@ namespace Juniper.Imaging.Windows
                     return new ImageInfo(
                         image.Width,
                         image.Height,
-                        image.PixelFormat.ToComponentCount(),
+                        GetComponents(image),
                         image.RawFormat.ToMediaType());
                 }
             }
         }
 
-        public int GetWidth(Image img)
-        {
-            return img.Width;
-        }
-
-        public int GetHeight(Image img)
-        {
-            return img.Height;
-        }
-
         public Image Concatenate(Image[,] images, IProgress prog = null)
         {
             this.ValidateImages(images, prog,
-                out var rows, out var columns,
-#pragma warning restore IDE0067 // Dispose objects before losing scope
+                out var rows, out var columns, out var components,
                 out var tileWidth,
                 out var tileHeight);
-
-            var firstImage = images.Where(img => img != null).First();
 
             var combined = new Bitmap(
                 columns * tileWidth,
                 rows * tileHeight,
-                firstImage.PixelFormat);
+                components.ToGDIPixelFormat());
 
             using (var g = Graphics.FromImage(combined))
             {
-                if (firstImage.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+                if (components == 4)
                 {
                     g.Clear(Color.Transparent);
                 }

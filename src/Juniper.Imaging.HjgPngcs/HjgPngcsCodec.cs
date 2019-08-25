@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 
 using Hjg.Pngcs;
 
@@ -39,6 +38,11 @@ namespace Juniper.Imaging.HjgPngcs
         public int GetHeight(ImageLines image)
         {
             return image.Nrows;
+        }
+
+        public int GetComponents(ImageLines image)
+        {
+            return image.ImgInfo.BytesPerRow / image.ImgInfo.BytesPixel;
         }
 
         /// <summary>
@@ -92,49 +96,38 @@ namespace Juniper.Imaging.HjgPngcs
         public ImageLines Concatenate(ImageLines[,] images, IProgress prog)
         {
             this.ValidateImages(images, prog,
-                out var rows, out var columns,
+                out var rows, out var columns, out var components,
                 out var tileWidth,
                 out var tileHeight);
-
-            var firstImage = images.Where(img => img != null).First();
 
             var combinedInfo = new Hjg.Pngcs.ImageInfo(
                 columns * tileWidth,
                 rows * tileHeight,
-                firstImage.bitDepth,
-                firstImage.ImgInfo.Alpha);
+                8,
+                components == 4);
 
             var combinedLines = new ImageLines(
                 combinedInfo,
-                firstImage.sampleType,
-                firstImage.SamplesUnpacked,
+                ImageLine.ESampleType.BYTE,
+                true,
                 0,
                 rows * tileHeight,
-                combinedInfo.SamplesPerRow);
+                rows * tileHeight * components);
 
-            for(var y = 0; y < rows; ++y)
+            for (var y = 0; y < rows; ++y)
             {
-                for(var x = 0; x < columns; ++x)
+                for (var x = 0; x < columns; ++x)
                 {
                     var tile = images[y, x];
-                    if(tile != null)
+                    if (tile != null)
                     {
-                        for(var i = 0; i < tileHeight; ++i)
+                        for (var i = 0; i < tileHeight; ++i)
                         {
                             var bufferY = y * tileHeight + i;
                             var bufferX = x * tileWidth;
-                            if (firstImage.sampleType == ImageLine.ESampleType.INT)
-                            {
-                                var bufferLine = combinedLines.Scanlines[bufferY];
-                                var tileLine = tile.Scanlines[i];
-                                Array.Copy(tileLine, 0, bufferLine, bufferX, tileLine.Length);
-                            }
-                            else
-                            {
-                                var bufferLine = combinedLines.ScanlinesB[bufferY];
-                                var tileLine = tile.ScanlinesB[i];
-                                Array.Copy(tileLine, 0, bufferLine, bufferX, tileLine.Length);
-                            }
+                            var bufferLine = combinedLines.ScanlinesB[bufferY];
+                            var tileLine = tile.ScanlinesB[i];
+                            Array.Copy(tileLine, 0, bufferLine, bufferX, tileLine.Length);
                         }
                     }
                 }

@@ -30,6 +30,11 @@ namespace Juniper.Imaging.ImageSharp
             return img.Height;
         }
 
+        public int GetComponents(Image img)
+        {
+            return img.PixelType.BitsPerPixel / 8;
+        }
+
         public ImageInfo GetImageInfo(byte[] data)
         {
             using (var mem = new MemoryStream(data))
@@ -75,7 +80,7 @@ namespace Juniper.Imaging.ImageSharp
         public Image Concatenate(Image[,] images, IProgress prog = null)
         {
             this.ValidateImages(images, prog,
-                out var rows, out var columns,
+                out var rows, out var columns, out var components,
                 out var tileWidth,
                 out var tileHeight);
 

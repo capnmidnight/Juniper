@@ -34,32 +34,37 @@ namespace Juniper.Imaging
             return img.info.dimensions.height;
         }
 
+        public int GetComponents(ImageData img)
+        {
+            return img.info.components;
+        }
+
         public ImageData Concatenate(ImageData[,] images, IProgress prog = null)
         {
             this.ValidateImages(images, prog,
-                out var rows, out var columns,
+                out var rows, out var columns, out var components,
                 out var tileWidth,
                 out var tileHeight);
 
-            var firstImage = images.Where(img => img != null).First();
+            var stride = columns * tileWidth * components;
 
             var combined = new ImageData(
                 columns * tileWidth,
                 rows * tileHeight,
-                firstImage.info.components);
+                components);
 
-            for (var i = 0; i < combined.data.Length; i += firstImage.info.stride)
+            for (var i = 0; i < combined.data.Length; i += stride)
             {
                 var bufferX = i % combined.info.stride;
                 var bufferY = i / combined.info.stride;
-                var tileX = bufferX / firstImage.info.stride;
+                var tileX = bufferX / stride;
                 var tileY = bufferY / tileHeight;
                 var tile = images[tileY, tileX];
                 if (tile != null)
                 {
                     var imageY = bufferY % tileHeight;
-                    var imageI = imageY * firstImage.info.stride;
-                    Array.Copy(tile.data, imageI, combined.data, i, firstImage.info.stride);
+                    var imageI = imageY * stride;
+                    Array.Copy(tile.data, imageI, combined.data, i, stride);
                 }
 
                 prog?.Report(i, combined.data.Length);

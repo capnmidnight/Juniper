@@ -48,7 +48,7 @@ namespace Juniper.Imaging.Windows
                 return new ImageData(
                     image.Width,
                     image.Height,
-                    image.PixelFormat.ToComponentCount(),
+                    subCodec.GetComponents(image),
                     image.RawFormat.ToMediaType(),
                     mem.ToArray());
             }

@@ -13,6 +13,8 @@ namespace Juniper.Imaging
 
         int GetHeight(T img);
 
+        int GetComponents(T img);
+
         ImageInfo GetImageInfo(byte[] data);
 
         T Concatenate(T[,] images, IProgress prog = null);
@@ -74,7 +76,7 @@ namespace Juniper.Imaging
             return decoder.ReadRaw(new FileInfo(fileName), prog);
         }
 
-        public static void ValidateImages<T>(this IImageDecoder<T> decoder, T[,] images, IProgress prog, out int rows, out int columns, out int tileWidth, out int tileHeight)
+        public static void ValidateImages<T>(this IImageDecoder<T> decoder, T[,] images, IProgress prog, out int rows, out int columns, out int components, out int tileWidth, out int tileHeight)
         {
             prog?.Report(0);
 
@@ -90,6 +92,7 @@ namespace Juniper.Imaging
 
             rows = images.GetLength(0);
             columns = images.GetLength(1);
+            components = 0;
             tileWidth = 0;
             tileHeight = 0;
 
@@ -105,6 +108,7 @@ namespace Juniper.Imaging
                         {
                             tileWidth = decoder.GetWidth(img);
                             tileHeight = decoder.GetHeight(img);
+                            components = decoder.GetComponents(img);
                         }
 
                         anyNotNull = true;

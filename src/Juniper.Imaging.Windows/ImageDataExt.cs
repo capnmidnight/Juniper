@@ -4,22 +4,6 @@ namespace Juniper.Imaging.Windows
 {
     public static class ImageDataExt
     {
-        public static int ToComponentCount(this System.Drawing.Imaging.PixelFormat format)
-        {
-            if (format == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
-            {
-                return 4;
-            }
-            else if (format == System.Drawing.Imaging.PixelFormat.Format24bppRgb)
-            {
-                return 3;
-            }
-            else
-            {
-                throw new NotSupportedException($"Pixel format {format}");
-            }
-        }
-
         public static System.Drawing.Imaging.PixelFormat ToGDIPixelFormat(this int componentCount)
         {
             if (componentCount == 4)

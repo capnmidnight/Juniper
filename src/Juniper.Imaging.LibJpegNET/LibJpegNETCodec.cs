@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 
 using BitMiracle.LibJpeg;
 
@@ -63,14 +62,17 @@ namespace Juniper.Imaging.LibJpegNET
             return img.Height;
         }
 
+        public int GetComponents(JpegImage img)
+        {
+            return img.ComponentsPerSample;
+        }
+
         public JpegImage Concatenate(JpegImage[,] images, IProgress prog = null)
         {
             this.ValidateImages(images, prog,
-                out var rows, out var columns,
+                out var rows, out var columns, out var components,
                 out var tileWidth,
                 out var tileHeight);
-
-            var firstImage = images.Where(img => img != null).First();
 
             var bufferWidth = columns * tileWidth;
             var bufferHeight = rows * tileHeight;
@@ -84,13 +86,13 @@ namespace Juniper.Imaging.LibJpegNET
                     {
                         var tile = images[tileY, tileX];
                         var tileRowBuffer = tile.GetRow(y).ToBytes();
-                        Array.Copy(tileRowBuffer, 0, rowBuffer, tileX * tileWidth * firstImage.ComponentsPerSample, tileRowBuffer.Length);
+                        Array.Copy(tileRowBuffer, 0, rowBuffer, tileX * tileWidth * components, tileRowBuffer.Length);
                     }
-                    combined[tileY * tileHeight + y] = new SampleRow(rowBuffer, bufferWidth, firstImage.BitsPerComponent, firstImage.ComponentsPerSample);
+                    combined[tileY * tileHeight + y] = new SampleRow(rowBuffer, bufferWidth, 8, (byte)components);
                 }
             }
 
-            return new JpegImage(combined, firstImage.Colorspace);
+            return new JpegImage(combined, Colorspace.RGB);
         }
     }
 }
