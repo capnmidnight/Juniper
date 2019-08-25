@@ -103,21 +103,23 @@ namespace Juniper.Imaging.Windows
                     g.Clear(Color.Black);
                 }
 
-                for (var i = 0; i < images.Length; ++i)
+                for(var y = 0; y < rows; ++y)
                 {
-                    var tileX = i % columns;
-                    var tileY = rows - (i / columns) - 1;
-                    var img = images[tileY, tileX];
-                    if (img != null)
+                    for(var x = 0; x < columns; ++x)
                     {
-                        images[tileX, tileY] = null;
-                        var imageX = tileX * tileWidth;
-                        var imageY = tileY * tileHeight;
-                        g.DrawImageUnscaled(img, imageX, imageY);
-                        img.Dispose();
-                        GC.Collect();
+                        prog?.Report(y * columns + x, rows * columns);
+                        var img = images[y, x];
+                        if(img != null)
+                        {
+                            images[y, x] = null;
+                            var imageX = y * tileWidth;
+                            var imageY = x * tileHeight;
+                            g.DrawImageUnscaled(img, imageX, imageY);
+                            img.Dispose();
+                            GC.Collect();
+                        }
+                        prog?.Report(y * columns + x + 1, rows * columns);
                     }
-                    prog?.Report(i, images.Length);
                 }
 
                 g.Flush();

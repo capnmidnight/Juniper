@@ -95,6 +95,7 @@ namespace Juniper.Imaging.ImageSharp
                         var tile = images[y, x];
                         if (tile != null)
                         {
+                            images[y, x] = null;
                             o.DrawImage(tile, new Point(x * tileWidth, y * tileHeight), 1);
                             tile.Dispose();
                             GC.Collect();
