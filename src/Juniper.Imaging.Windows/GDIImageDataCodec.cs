@@ -41,9 +41,6 @@ namespace Juniper.Imaging.Windows
 
         public override ImageData TranslateFrom(Image image)
         {
-            var components = image.PixelFormat.ToComponentCount();
-            var imageFormat = image.RawFormat.ToMediaType();
-
             using (var mem = new MemoryStream())
             {
                 image.Save(mem, image.RawFormat);
@@ -52,7 +49,7 @@ namespace Juniper.Imaging.Windows
                     image.Width,
                     image.Height,
                     image.PixelFormat.ToComponentCount(),
-                    imageFormat,
+                    image.RawFormat.ToMediaType(),
                     mem.ToArray());
             }
         }
