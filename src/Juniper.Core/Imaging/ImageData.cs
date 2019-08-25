@@ -19,17 +19,6 @@ namespace Juniper.Imaging
             };
         }
 
-        public static int GetRowIndex(int numRows, int i, bool flipImage)
-        {
-            var rowIndex = i;
-            if (flipImage)
-            {
-                rowIndex = numRows - i - 1;
-            }
-
-            return rowIndex;
-        }
-
         public const int BytesPerComponent = sizeof(byte);
         public const int BitsPerComponent = 8 * BytesPerComponent;
 

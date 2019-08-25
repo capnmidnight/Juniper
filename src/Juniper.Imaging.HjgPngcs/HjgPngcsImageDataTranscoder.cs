@@ -26,8 +26,7 @@ namespace Juniper.Imaging.HjgPngcs
             var data = new byte[numRows * rows.elementsPerRow];
             for (var i = 0; i < numRows; ++i)
             {
-                var rowIndex = ImageData.GetRowIndex(numRows, i, true);
-                var row = rows.ScanlinesB[rowIndex];
+                var row = rows.ScanlinesB[i];
                 Array.Copy(row, 0, data, i * rows.elementsPerRow, row.Length);
             }
 

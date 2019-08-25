@@ -22,8 +22,7 @@ namespace Juniper.Imaging.LibJpegNET
             var data = new byte[numRows * stride];
             for (var i = 0; i < jpeg.Height; ++i)
             {
-                var rowIndex = ImageData.GetRowIndex(numRows, i, true);
-                var row = jpeg.GetRow(rowIndex);
+                var row = jpeg.GetRow(i);
                 Array.Copy(row.ToBytes(), 0, data, i * stride, stride);
             }
 
@@ -49,8 +48,7 @@ namespace Juniper.Imaging.LibJpegNET
             for (var i = 0; i < image.info.dimensions.height; ++i)
             {
                 copyProg.Report(i, image.info.dimensions.height);
-                var rowIndex = ImageData.GetRowIndex(image.info.dimensions.height, i, true);
-                var imageDataIndex = rowIndex * image.info.stride;
+                var imageDataIndex = i * image.info.stride;
                 Array.Copy(image.data, imageDataIndex, rowBuffer, 0, rowBuffer.Length);
                 rows[i] = new SampleRow(
                     rowBuffer,

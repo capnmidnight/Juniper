@@ -85,8 +85,14 @@ namespace Juniper.Imaging.LibJpegNET
                     for (var tileX = 0; tileX < columns; ++tileX)
                     {
                         var tile = images[tileY, tileX];
-                        var tileRowBuffer = tile.GetRow(y).ToBytes();
-                        Array.Copy(tileRowBuffer, 0, rowBuffer, tileX * tileWidth * components, tileRowBuffer.Length);
+                        if (tile != null)
+                        {
+                            images[tileY, tileX] = null;
+                            var tileRowBuffer = tile.GetRow(y).ToBytes();
+                            Array.Copy(tileRowBuffer, 0, rowBuffer, tileX * tileWidth * components, tileRowBuffer.Length);
+                            tile.Dispose();
+                            GC.Collect();
+                        }
                     }
                     combined[tileY * tileHeight + y] = new SampleRow(rowBuffer, bufferWidth, 8, (byte)components);
                 }
