@@ -22,7 +22,32 @@ namespace Juniper.Imaging
 
     public static class IImageDecoderExt
     {
-        public static ImageData Read<T>(this IImageDecoder<T> decoder, Stream stream)
+        public static ImageInfo GetImageInfo<T>(this IImageDecoder<T> decoder, Stream stream)
+        {
+            var source = stream.DetermineSource();
+            using (var mem = new MemoryStream())
+            {
+                stream.CopyTo(mem);
+                mem.Flush();
+                var buffer = mem.ToArray();
+                return decoder.GetImageInfo(buffer, source);
+            }
+        }
+
+        public static ImageInfo GetImageInfo<T>(this IImageDecoder<T> decoder, FileInfo file)
+        {
+            using (var stream = file.OpenRead())
+            {
+                return decoder.GetImageInfo(stream);
+            }
+        }
+
+        public static ImageInfo GetImageInfo<T>(this IImageDecoder<T> decoder, string fileName)
+        {
+            return decoder.GetImageInfo(new FileInfo(fileName));
+        }
+
+        public static ImageData ReadRaw<T>(this IImageDecoder<T> decoder, Stream stream)
         {
             var source = stream.DetermineSource();
             using (var mem = new MemoryStream())
@@ -35,23 +60,23 @@ namespace Juniper.Imaging
             }
         }
 
-        public static ImageData Read<T>(this IImageDecoder<T> decoder, Stream stream, long length, IProgress prog)
+        public static ImageData ReadRaw<T>(this IImageDecoder<T> decoder, Stream stream, long length, IProgress prog)
         {
             var progStream = new ProgressStream(stream, length, prog);
-            return decoder.Read(progStream);
+            return decoder.ReadRaw(progStream);
         }
 
-        public static ImageData Read<T>(this IImageDecoder<T> decoder, FileInfo file, IProgress prog = null)
+        public static ImageData ReadRaw<T>(this IImageDecoder<T> decoder, FileInfo file, IProgress prog = null)
         {
-            return decoder.Read(file.OpenRead(), file.Length, prog);
+            return decoder.ReadRaw(file.OpenRead(), file.Length, prog);
         }
 
         public static ImageData Read<T>(this IImageDecoder<T> decoder, string fileName, IProgress prog = null)
         {
-            return decoder.Read(new FileInfo(fileName), prog);
+            return decoder.ReadRaw(new FileInfo(fileName), prog);
         }
 
-        public static void ValidateImages<T>(this IImageDecoder<T> decoder, T[,] images, IProgress prog, out int rows, out int columns, out T firstImage, out int tileWidth, out int tileHeight)
+        public static void ValidateImages<T>(this IImageDecoder<T> decoder, T[,] images, IProgress prog, out int rows, out int columns, out int tileWidth, out int tileHeight)
         {
             prog?.Report(0);
 
@@ -67,10 +92,10 @@ namespace Juniper.Imaging
 
             rows = images.GetLength(0);
             columns = images.GetLength(1);
-            var anyNotNull = false;
-            firstImage = default;
             tileWidth = 0;
             tileHeight = 0;
+
+            var anyNotNull = false;
             for (var y = 0; y < rows; ++y)
             {
                 for (var x = 0; x < columns; ++x)
@@ -80,7 +105,6 @@ namespace Juniper.Imaging
                     {
                         if (!anyNotNull)
                         {
-                            firstImage = img;
                             tileWidth = decoder.GetWidth(img);
                             tileHeight = decoder.GetHeight(img);
                         }

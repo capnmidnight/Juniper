@@ -24,7 +24,6 @@ namespace Juniper.Imaging
         {
             this.ValidateImages(images, prog,
                 out var rows, out var columns,
-                out var firstImage,
                 out var tileWidth, out var tileHeight);
 
             var totalLen = rows * tileHeight * columns * tileWidth;

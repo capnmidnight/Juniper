@@ -99,6 +99,7 @@
     <Compile Include="NETFX\ErrorHandler.cs" />
     <Compile Include="NETFX\ExceptionExt.cs" />
     <Compile Include="NETFX\ICloneableExt.cs" />
+    <Compile Include="NETFX\Linq\LinqArraryExt.cs" />
     <Compile Include="NETFX\Months.cs" />
     <Compile Include="NETFX\NullableExt.cs" />
     <Compile Include="NETFX\NumberExt.cs" />

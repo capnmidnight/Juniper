@@ -11,7 +11,7 @@ namespace Juniper.HTTP.REST
         {
             using (var stream = await request.GetRaw(prog))
             {
-                return request.deserializer.Read(stream);
+                return request.deserializer.ReadRaw(stream);
             }
         }
     }

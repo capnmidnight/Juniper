@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 
 using BitMiracle.LibJpeg;
 
@@ -67,8 +68,10 @@ namespace Juniper.Imaging.LibJpegNET
         {
             this.ValidateImages(images, prog,
                 out var rows, out var columns,
-                out var firstImage,
-                out var tileWidth, out var tileHeight);
+                out var tileWidth,
+                out var tileHeight);
+
+            var firstImage = images.Where(img => img != null).First();
 
             var bufferWidth = columns * tileWidth;
             var bufferHeight = rows * tileHeight;

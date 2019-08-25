@@ -16,7 +16,7 @@ namespace Juniper.Imaging
         {
             throw new NotSupportedException("Don't know ho to read the raw image information from an EXR file.");
         }
-        public override HTTP.MediaType.Image Format { get { return HTTP.MediaType.Image.XTga; } }
+        public override HTTP.MediaType.Image Format { get { return HTTP.MediaType.Image.X_Tga; } }
         protected override byte[] Encode(Texture2D value)
         {
             return value.EncodeToTGA();

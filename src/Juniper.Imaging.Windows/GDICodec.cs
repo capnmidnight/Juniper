@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 using Juniper.Progress;
 using Juniper.Serialization;
@@ -68,10 +69,11 @@ namespace Juniper.Imaging.Windows
         {
             this.ValidateImages(images, prog,
                 out var rows, out var columns,
-#pragma warning disable IDE0067 // Dispose objects before losing scope
-                out var firstImage,
 #pragma warning restore IDE0067 // Dispose objects before losing scope
-                out var tileWidth, out var tileHeight);
+                out var tileWidth,
+                out var tileHeight);
+
+            var firstImage = images.Where(img => img != null).First();
 
             var combined = new Bitmap(
                 columns * tileWidth,

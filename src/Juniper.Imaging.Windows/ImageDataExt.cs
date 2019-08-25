@@ -52,7 +52,7 @@ namespace Juniper.Imaging.Windows
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Icon)
             {
-                return HTTP.MediaType.Image.XIcon;
+                return HTTP.MediaType.Image.X_Icon;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Jpeg)
             {
@@ -90,7 +90,7 @@ namespace Juniper.Imaging.Windows
             {
                 return System.Drawing.Imaging.ImageFormat.Gif;
             }
-            else if (format == HTTP.MediaType.Image.XIcon)
+            else if (format == HTTP.MediaType.Image.X_Icon)
             {
                 return System.Drawing.Imaging.ImageFormat.Icon;
             }

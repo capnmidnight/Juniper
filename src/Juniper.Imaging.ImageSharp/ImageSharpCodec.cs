@@ -33,7 +33,7 @@ namespace Juniper.Imaging.ImageSharp
 
         public ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None)
         {
-            using(var mem = new MemoryStream(data))
+            using (var mem = new MemoryStream(data))
             {
                 var imageInfo = Image.Identify(mem);
                 return new ImageInfo(
@@ -43,6 +43,11 @@ namespace Juniper.Imaging.ImageSharp
                     imageInfo.PixelType.BitsPerPixel / 8,
                     Format);
             }
+        }
+
+        public Image Deserialize(Stream stream)
+        {
+            return Image.Load(stream);
         }
 
         public void Serialize(Stream stream, Image value, IProgress prog = null)
@@ -73,32 +78,29 @@ namespace Juniper.Imaging.ImageSharp
         {
             this.ValidateImages(images, prog,
                 out var rows, out var columns,
-                out var firstImage,
-                out var tileWidth, out var tileHeight);
+                out var tileWidth,
+                out var tileHeight);
 
             var combined = new Image<Rgba32>(columns * tileWidth, rows * tileHeight);
 
             combined.Mutate(o =>
             {
-                for (int y = 0; y < rows; ++y)
+                for (var y = 0; y < rows; ++y)
                 {
-                    for (int x = 0; x < columns; ++x)
+                    for (var x = 0; x < columns; ++x)
                     {
                         var tile = images[y, x];
                         if (tile != null)
                         {
                             o.DrawImage(tile, new Point(x * tileWidth, y * tileHeight), 1);
+                            tile.Dispose();
+                            GC.Collect();
                         }
                     }
                 }
             });
 
             return combined;
-        }
-
-        public Image Deserialize(Stream stream)
-        {
-            return Image.Load(stream);
         }
     }
 }

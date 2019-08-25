@@ -39,6 +39,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BitMiracle.LibJpeg.NetCore, Version=1.5.1.0, Culture=neutral, PublicKeyToken=d69f732e552243f5" />
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\src\packages\MSTest.TestFramework.1.4.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
     </Reference>
@@ -60,6 +61,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Hjg.Pngcs\Hjg.Pngcs.csproj">
+      <Project>{D1A0316A-2512-4A58-AF0D-D4B6943B4992}</Project>
+      <Name>Hjg.Pngcs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Core\Juniper.Core.csproj">
       <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
       <Name>Juniper.Core</Name>

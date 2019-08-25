@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 using Juniper.Google.Maps.Tests;
 using Juniper.Imaging;
-using Juniper.Imaging.LibJpegNET;
 using Juniper.Imaging.HjgPngcs;
+using Juniper.Imaging.LibJpegNET;
 using Juniper.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -28,9 +28,9 @@ namespace Juniper.Google.Maps.StreetView.Tests
                 await imageRequest.Get();
             }
 
-            var img = decoder.Read(imageRequest.CacheFile);
-            Assert.AreEqual(640, img.info.dimensions.width);
-            Assert.AreEqual(640, img.info.dimensions.height);
+            var info = decoder.GetImageInfo(imageRequest.CacheFile);
+            Assert.AreEqual(640, info.dimensions.width);
+            Assert.AreEqual(640, info.dimensions.height);
         }
 
         [TestMethod]

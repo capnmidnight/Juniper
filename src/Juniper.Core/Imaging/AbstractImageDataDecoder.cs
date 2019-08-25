@@ -1,13 +1,28 @@
 using System;
 using System.IO;
+using System.Linq;
 
 using Juniper.Progress;
 using Juniper.Serialization;
 
 namespace Juniper.Imaging
 {
-    public abstract class AbstractImageDataDecoder : IImageDecoder<ImageData>
+    public abstract class AbstractImageDataDecoder<SubDecoderImageT> : IImageDecoder<ImageData>
     {
+        private readonly IImageDecoder<SubDecoderImageT> subCodec;
+
+        protected AbstractImageDataDecoder(IImageDecoder<SubDecoderImageT> subCodec)
+        {
+            this.subCodec = subCodec;
+        }
+
+        public HTTP.MediaType.Image Format { get { return subCodec.Format; } }
+
+        public ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None)
+        {
+            return subCodec.GetImageInfo(data, source);
+        }
+
         public int GetWidth(ImageData img)
         {
             return img.info.dimensions.width;
@@ -22,8 +37,10 @@ namespace Juniper.Imaging
         {
             this.ValidateImages(images, prog,
                 out var rows, out var columns,
-                out var firstImage,
-                out var tileWidth, out var tileHeight);
+                out var tileWidth,
+                out var tileHeight);
+
+            var firstImage = images.Where(img => img != null).First();
 
             var combined = new ImageData(
                 firstImage.info.source,
@@ -51,12 +68,42 @@ namespace Juniper.Imaging
             return combined;
         }
 
-        public abstract HTTP.MediaType.Image Format { get; }
+        public void Serialize(Stream stream, ImageData value, IProgress prog = null)
+        {
+            var subProgs = prog.Split("Translate image", "Write image");
+            var subImage = TranslateTo(value, subProgs[0]);
+            try
+            {
+                subCodec.Serialize(stream, subImage, subProgs[1]);
+            }
+            finally
+            {
+                if(subImage is IDisposable d)
+                {
+                    d.Dispose();
+                }
+            }
+        }
 
-        public abstract ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None);
+        public ImageData Deserialize(Stream stream)
+        {
+            var source = stream.DetermineSource();
+            var subImage = subCodec.Deserialize(stream);
+            try
+            {
+                return TranslateFrom(subImage, source);
+            }
+            finally
+            {
+                if (subImage is IDisposable d)
+                {
+                    d.Dispose();
+                }
+            }
+        }
 
-        public abstract void Serialize(Stream stream, ImageData value, IProgress prog = null);
+        public abstract SubDecoderImageT TranslateTo(ImageData value, IProgress prog = null);
 
-        public abstract ImageData Deserialize(Stream stream);
+        public abstract ImageData TranslateFrom(SubDecoderImageT image, DataSource source);
     }
 }
