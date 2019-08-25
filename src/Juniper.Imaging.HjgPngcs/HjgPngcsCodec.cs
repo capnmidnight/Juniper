@@ -5,7 +5,6 @@ using System.Linq;
 using Hjg.Pngcs;
 
 using Juniper.Progress;
-using Juniper.Serialization;
 
 namespace Juniper.Imaging.HjgPngcs
 {
@@ -27,9 +26,9 @@ namespace Juniper.Imaging.HjgPngcs
 
         public HTTP.MediaType.Image Format { get { return HTTP.MediaType.Image.Png; } }
 
-        public ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None)
+        public ImageInfo GetImageInfo(byte[] data)
         {
-            return ImageInfo.ReadPNG(data, source);
+            return ImageInfo.ReadPNG(data);
         }
 
         public int GetWidth(ImageLines image)
@@ -48,7 +47,6 @@ namespace Juniper.Imaging.HjgPngcs
         /// <param name="imageStream">Png bytes.</param>
         public ImageLines Deserialize(Stream imageStream)
         {
-            var source = imageStream.DetermineSource();
             var png = new PngReader(imageStream);
             png.SetUnpackedMode(true);
             var lines = png.ReadRowsByte();

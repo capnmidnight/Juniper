@@ -3,16 +3,15 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 using Juniper.Progress;
-using Juniper.Serialization;
 
 namespace Juniper.Imaging.Windows
 {
-    public class GDIImageDataCodec : AbstractImageDataDecoder<Image>
+    public class GDIImageDataCodec : AbstractImageDataDecoder<GDICodec, Image>
     {
         public GDIImageDataCodec(HTTP.MediaType.Image format)
             : base(new GDICodec(format)) { }
 
-        protected override Image TranslateTo(ImageData image, IProgress prog = null)
+        public override Image TranslateTo(ImageData image, IProgress prog = null)
         {
             var outImage = new Bitmap(image.info.dimensions.width, image.info.dimensions.height);
             if (image.info.contentType == HTTP.MediaType.Image.Raw)
@@ -40,7 +39,7 @@ namespace Juniper.Imaging.Windows
             return outImage;
         }
 
-        protected override ImageData TranslateFrom(Image image, DataSource source)
+        public override ImageData TranslateFrom(Image image)
         {
             var components = image.PixelFormat.ToComponentCount();
             var imageFormat = image.RawFormat.ToMediaType();
@@ -50,9 +49,9 @@ namespace Juniper.Imaging.Windows
                 image.Save(mem, image.RawFormat);
 
                 return new ImageData(
-                    source,
-                    image.Width, image.Height,
-                    components,
+                    image.Width,
+                    image.Height,
+                    image.PixelFormat.ToComponentCount(),
                     imageFormat,
                     mem.ToArray());
             }

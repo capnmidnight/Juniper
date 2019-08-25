@@ -3,24 +3,25 @@ using System.IO;
 using System.Linq;
 
 using Juniper.Progress;
-using Juniper.Serialization;
 
 namespace Juniper.Imaging
 {
-    public abstract class AbstractImageDataDecoder<SubDecoderImageT> : IImageDecoder<ImageData>
+    public abstract class AbstractImageDataDecoder<SubDecoderT, SubDecoderImageT>
+        : IImageDecoder<ImageData>, IImageTranscoder<ImageData, SubDecoderImageT>
+        where SubDecoderT : IImageDecoder<SubDecoderImageT>
     {
-        private readonly IImageDecoder<SubDecoderImageT> subCodec;
+        protected readonly SubDecoderT subCodec;
 
-        protected AbstractImageDataDecoder(IImageDecoder<SubDecoderImageT> subCodec)
+        protected AbstractImageDataDecoder(SubDecoderT subCodec)
         {
             this.subCodec = subCodec;
         }
 
         public HTTP.MediaType.Image Format { get { return subCodec.Format; } }
 
-        public ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None)
+        public ImageInfo GetImageInfo(byte[] data)
         {
-            return subCodec.GetImageInfo(data, source);
+            return subCodec.GetImageInfo(data);
         }
 
         public int GetWidth(ImageData img)
@@ -43,7 +44,6 @@ namespace Juniper.Imaging
             var firstImage = images.Where(img => img != null).First();
 
             var combined = new ImageData(
-                firstImage.info.source,
                 columns * tileWidth,
                 rows * tileHeight,
                 firstImage.info.components);
@@ -87,11 +87,10 @@ namespace Juniper.Imaging
 
         public ImageData Deserialize(Stream stream)
         {
-            var source = stream.DetermineSource();
             var subImage = subCodec.Deserialize(stream);
             try
             {
-                return TranslateFrom(subImage, source);
+                return TranslateFrom(subImage);
             }
             finally
             {
@@ -104,6 +103,6 @@ namespace Juniper.Imaging
 
         public abstract SubDecoderImageT TranslateTo(ImageData value, IProgress prog = null);
 
-        public abstract ImageData TranslateFrom(SubDecoderImageT image, DataSource source);
+        public abstract ImageData TranslateFrom(SubDecoderImageT image);
     }
 }

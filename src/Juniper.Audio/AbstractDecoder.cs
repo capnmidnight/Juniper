@@ -22,7 +22,7 @@ namespace Juniper.Audio
         /// Run the decoder and return the audio data with information.
         /// </summary>
         /// <param name="stream"></param>
-        private AudioData Decode(DataSource source, WaveStream stream)
+        private AudioData Decode(WaveStream stream)
         {
             var format = stream.WaveFormat;
             var bytesPerSample = format.Channels * format.BitsPerSample / 8;
@@ -30,13 +30,12 @@ namespace Juniper.Audio
             var samples = stream.Length / bytesPerSample;
             var channels = format.Channels;
             var frequency = format.SampleRate;
-            return new AudioData(source, this.format, samples, channels, frequency, stream);
+            return new AudioData(this.format, samples, channels, frequency, stream);
         }
 
         public AudioData Deserialize(Stream stream)
         {
-            var source = stream.DetermineSource();
-            return Decode(source, MakeDecodingStream(stream));
+            return Decode(MakeDecodingStream(stream));
         }
 
         protected abstract WaveStream MakeDecodingStream(Stream stream);

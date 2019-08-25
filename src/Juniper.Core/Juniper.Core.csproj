@@ -79,6 +79,7 @@
     <Compile Include="HTTP\UriBuilderExt.cs" />
     <Compile Include="Imaging\AbstractImageDataDecoder.cs" />
     <Compile Include="Imaging\IImageDecoder.cs" />
+    <Compile Include="Imaging\IImageTranscoder.cs" />
     <Compile Include="Imaging\ImageData.cs" />
     <Compile Include="Imaging\ImageInfo.cs" />
     <Compile Include="Imaging\Markers.cs" />
@@ -112,7 +113,6 @@
     <Compile Include="Progress\ProgressSubdivision.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ICredentialReceiver.cs" />
-    <Compile Include="Serialization\DataSource.cs" />
     <Compile Include="Serialization\IDeserializer.cs" />
     <Compile Include="Serialization\IFactory.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
@@ -120,7 +120,6 @@
     <Compile Include="Serialization\SpecializedDeserializer.cs" />
     <Compile Include="Serialization\SpecializedFactory.cs" />
     <Compile Include="Serialization\SpecializedSerializer.cs" />
-    <Compile Include="Serialization\SerializationStreamExt.cs" />
     <Compile Include="Serial\ISerialPort.cs" />
     <Compile Include="Serial\ISerialPortFactory.cs" />
     <Compile Include="Serial\ISerialPortListing.cs" />

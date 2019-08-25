@@ -5,7 +5,6 @@ using System.Linq;
 using BitMiracle.LibJpeg;
 
 using Juniper.Progress;
-using Juniper.Serialization;
 using Juniper.Streams;
 
 namespace Juniper.Imaging.LibJpegNET
@@ -24,9 +23,9 @@ namespace Juniper.Imaging.LibJpegNET
             };
         }
 
-        public ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None)
+        public ImageInfo GetImageInfo(byte[] data)
         {
-            return ImageInfo.ReadJPEG(data, source);
+            return ImageInfo.ReadJPEG(data);
         }
 
         public HTTP.MediaType.Image Format { get { return HTTP.MediaType.Image.Jpeg; } }

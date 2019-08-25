@@ -1,7 +1,6 @@
 using System;
 
 using Juniper.Progress;
-using Juniper.Serialization;
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
@@ -9,12 +8,12 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace Juniper.Imaging.ImageSharp
 {
-    public class ImageSharpImageDataCodec : AbstractImageDataDecoder<SixLabors.ImageSharp.Image>
+    public class ImageSharpImageDataCodec : AbstractImageDataDecoder<ImageSharpCodec, Image>
     {
         public ImageSharpImageDataCodec(HTTP.MediaType.Image format)
             : base(new ImageSharpCodec(format)) { }
 
-        protected override Image TranslateTo(ImageData value, IProgress prog = null)
+        public override Image TranslateTo(ImageData value, IProgress prog = null)
         {
             if (value.info.contentType != HTTP.MediaType.Image.Raw)
             {
@@ -34,7 +33,7 @@ namespace Juniper.Imaging.ImageSharp
             }
         }
 
-        protected override ImageData TranslateFrom(Image image, DataSource source)
+        public override ImageData TranslateFrom(Image image)
         {
             var components = image.PixelType.BitsPerPixel / 8;
             if(components == 3)
@@ -49,8 +48,8 @@ namespace Juniper.Imaging.ImageSharp
                     data[i * 3 + 2] = span[i].B;
                 }
                 return new ImageData(
-                    source,
-                    image.Width, image.Height,
+                    image.Width,
+                    image.Height,
                     3,
                     HTTP.MediaType.Image.Raw,
                     data);
@@ -68,9 +67,9 @@ namespace Juniper.Imaging.ImageSharp
                     data[i * 4 + 3] = span[i].A;
                 }
                 return new ImageData(
-                    source,
-                    image.Width, image.Height,
-                    3,
+                    image.Width,
+                    image.Height,
+                    4,
                     HTTP.MediaType.Image.Raw,
                     data);
             }

@@ -1,12 +1,12 @@
 using System;
+
 using Juniper.HTTP;
-using Juniper.Serialization;
 
 namespace Juniper.Imaging
 {
     public sealed class ImageInfo
     {
-        public static ImageInfo ReadPNG(byte[] data, DataSource source)
+        public static ImageInfo ReadPNG(byte[] data)
         {
             int width = 0, height = 0;
 
@@ -48,7 +48,7 @@ namespace Juniper.Imaging
                         case 6: components = 4; break;
                     }
 
-                    return new ImageInfo(source, height, width, components, HTTP.MediaType.Image.Png);
+                    return new ImageInfo(height, width, components, HTTP.MediaType.Image.Png);
                 }
 
                 i += len;
@@ -58,7 +58,7 @@ namespace Juniper.Imaging
             return default;
         }
 
-        public static ImageInfo ReadJPEG(byte[] data, DataSource source)
+        public static ImageInfo ReadJPEG(byte[] data)
         {
             for (var i = 0; i < data.Length - 1; ++i)
             {
@@ -74,14 +74,13 @@ namespace Juniper.Imaging
                     var width = widthHi << 8 | widthLo;
                     var height = heightHi << 8 | heightLo;
 
-                    return new ImageInfo(source, width, height, 3, MediaType.Image.Jpeg);
+                    return new ImageInfo(width, height, 3, MediaType.Image.Jpeg);
                 }
             }
 
             return default;
         }
 
-        public readonly DataSource source;
         public readonly MediaType.Image contentType;
         public readonly Size dimensions;
         public readonly int stride;
@@ -89,9 +88,8 @@ namespace Juniper.Imaging
         public readonly int bytesPerSample;
         public readonly int bitsPerSample;
 
-        public ImageInfo(DataSource source, Size size, int components, MediaType.Image contentType)
+        public ImageInfo(Size size, int components, MediaType.Image contentType)
         {
-            this.source = source;
             this.components = components;
             dimensions = size;
             this.contentType = contentType;
@@ -100,7 +98,7 @@ namespace Juniper.Imaging
             bitsPerSample = 8 * bytesPerSample;
         }
 
-        public ImageInfo(DataSource source, int width, int height, int components, MediaType.Image contentType)
-            : this(source, new Size(width, height), components, contentType) { }
+        public ImageInfo(int width, int height, int components, MediaType.Image contentType)
+            : this(new Size(width, height), components, contentType) { }
     }
 }

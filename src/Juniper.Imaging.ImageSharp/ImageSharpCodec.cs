@@ -3,7 +3,6 @@ using System.IO;
 
 using Juniper.HTTP;
 using Juniper.Progress;
-using Juniper.Serialization;
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -31,13 +30,12 @@ namespace Juniper.Imaging.ImageSharp
             return img.Height;
         }
 
-        public ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None)
+        public ImageInfo GetImageInfo(byte[] data)
         {
             using (var mem = new MemoryStream(data))
             {
                 var imageInfo = Image.Identify(mem);
                 return new ImageInfo(
-                    source,
                     imageInfo.Width,
                     imageInfo.Height,
                     imageInfo.PixelType.BitsPerPixel / 8,

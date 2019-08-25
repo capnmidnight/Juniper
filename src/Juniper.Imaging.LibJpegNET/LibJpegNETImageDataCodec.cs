@@ -3,11 +3,10 @@ using System;
 using BitMiracle.LibJpeg;
 
 using Juniper.Progress;
-using Juniper.Serialization;
 
 namespace Juniper.Imaging.LibJpegNET
 {
-    public class LibJpegNETImageDataCodec : AbstractImageDataDecoder<JpegImage>
+    public class LibJpegNETImageDataCodec : AbstractImageDataDecoder<LibJpegNETCodec, JpegImage>
     {
         public LibJpegNETImageDataCodec(int quality = 100, int smoothingFactor = 1, bool progressive = false)
             : base(new LibJpegNETCodec(quality, smoothingFactor, progressive)) { }
@@ -16,7 +15,7 @@ namespace Juniper.Imaging.LibJpegNET
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Jpeg bytes.</param>
-        protected override ImageData TranslateFrom(JpegImage jpeg, DataSource source)
+        public override ImageData TranslateFrom(JpegImage jpeg)
         {
             var stride = jpeg.Width * jpeg.ComponentsPerSample;
             var numRows = jpeg.Height;
@@ -29,7 +28,6 @@ namespace Juniper.Imaging.LibJpegNET
             }
 
             return new ImageData(
-                source,
                 jpeg.Width,
                 jpeg.Height,
                 jpeg.ComponentsPerSample,
@@ -41,7 +39,7 @@ namespace Juniper.Imaging.LibJpegNET
         /// Encodes a raw file buffer of image data into a JPEG image.
         /// </summary>
         /// <param name="outputStream">Jpeg bytes.</param>
-        protected override JpegImage TranslateTo(ImageData image, IProgress prog = null)
+        public override JpegImage TranslateTo(ImageData image, IProgress prog = null)
         {
             var subProgs = prog.Split("Copying", "Saving");
             var copyProg = subProgs[0];

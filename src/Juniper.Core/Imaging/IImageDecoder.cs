@@ -13,7 +13,7 @@ namespace Juniper.Imaging
 
         int GetHeight(T img);
 
-        ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None);
+        ImageInfo GetImageInfo(byte[] data);
 
         T Concatenate(T[,] images, IProgress prog = null);
 
@@ -24,13 +24,12 @@ namespace Juniper.Imaging
     {
         public static ImageInfo GetImageInfo<T>(this IImageDecoder<T> decoder, Stream stream)
         {
-            var source = stream.DetermineSource();
             using (var mem = new MemoryStream())
             {
                 stream.CopyTo(mem);
                 mem.Flush();
                 var buffer = mem.ToArray();
-                return decoder.GetImageInfo(buffer, source);
+                return decoder.GetImageInfo(buffer);
             }
         }
 
@@ -49,13 +48,12 @@ namespace Juniper.Imaging
 
         public static ImageData ReadRaw<T>(this IImageDecoder<T> decoder, Stream stream)
         {
-            var source = stream.DetermineSource();
             using (var mem = new MemoryStream())
             {
                 stream.CopyTo(mem);
                 mem.Flush();
                 var buffer = mem.ToArray();
-                var info = decoder.GetImageInfo(buffer, source);
+                var info = decoder.GetImageInfo(buffer);
                 return new ImageData(info, buffer);
             }
         }

@@ -17,17 +17,17 @@ namespace Juniper.HTTP.Tests
         [TestMethod]
         public async Task TestGetting()
         {
-            await RunFileTest("portrait-testgetting.jpg", true, true, DataSource.Network);
+            await RunFileTest("portrait-testgetting.jpg", true, true);
         }
 
         [TestMethod]
         public async Task TestCaching()
         {
-            await RunFileTest("portrait-testcaching.jpg", true, false, DataSource.Network);
-            await RunFileTest("portrait-testcaching.jpg", false, true, DataSource.File);
+            await RunFileTest("portrait-testcaching.jpg", true, false);
+            await RunFileTest("portrait-testcaching.jpg", false, true);
         }
 
-        private static async Task<ImageData> RunFileTest(string imageFileName, bool deleteFile, bool runTest, DataSource expectedSource)
+        private static async Task<ImageData> RunFileTest(string imageFileName, bool deleteFile, bool runTest)
         {
             var decoder = new LibJpegNETImageDataCodec();
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
@@ -43,8 +43,6 @@ namespace Juniper.HTTP.Tests
                 new Uri("https://www.seanmcbeth.com/2015-05.min.jpg"),
                 decoder.Deserialize,
                 cacheFile);
-
-            Assert.AreEqual(expectedSource, actual.info.source);
 
             if (runTest)
             {

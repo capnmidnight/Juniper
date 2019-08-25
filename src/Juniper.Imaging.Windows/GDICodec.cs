@@ -32,23 +32,23 @@ namespace Juniper.Imaging.Windows
             return Image.FromStream(stream);
         }
 
-        public ImageInfo GetImageInfo(byte[] data, DataSource source = DataSource.None)
+        public ImageInfo GetImageInfo(byte[] data)
         {
             if(Format == HTTP.MediaType.Image.Jpeg)
             {
-                return ImageInfo.ReadJPEG(data, source);
+                return ImageInfo.ReadJPEG(data);
             }
             else if (Format == HTTP.MediaType.Image.Png)
             {
-                return ImageInfo.ReadPNG(data, source);
+                return ImageInfo.ReadPNG(data);
             }
             else
             {
                 using(var image = this.Deserialize(data))
                 {
                     return new ImageInfo(
-                        source,
-                        image.Width, image.Height,
+                        image.Width,
+                        image.Height,
                         image.PixelFormat.ToComponentCount(),
                         image.RawFormat.ToMediaType());
                 }

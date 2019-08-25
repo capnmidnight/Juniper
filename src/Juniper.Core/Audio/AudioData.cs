@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using Juniper.Serialization;
 
 namespace Juniper.Audio
 {
@@ -47,7 +46,6 @@ namespace Juniper.Audio
         }
 
         public readonly AudioFormat format;
-        public readonly DataSource source;
         public readonly string contentType;
         public readonly string extension;
         public readonly Stream stream;
@@ -55,11 +53,10 @@ namespace Juniper.Audio
         public readonly int channels;
         public readonly int frequency;
 
-        public AudioData(DataSource source, AudioFormat format, long samples, int channels, int frequency, Stream stream)
+        public AudioData(AudioFormat format, long samples, int channels, int frequency, Stream stream)
         {
             contentType = GetContentType(format);
             extension = GetExtension(format);
-            this.source = source;
             this.format = format;
             this.samples = samples;
             this.channels = channels;

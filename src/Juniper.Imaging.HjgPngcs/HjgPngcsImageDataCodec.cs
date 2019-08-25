@@ -3,11 +3,10 @@ using System;
 using Hjg.Pngcs;
 
 using Juniper.Progress;
-using Juniper.Serialization;
 
 namespace Juniper.Imaging.HjgPngcs
 {
-    public class HjgPngcsImageDataCodec : AbstractImageDataDecoder<ImageLines>
+    public class HjgPngcsImageDataCodec : AbstractImageDataDecoder<HjgPngcsCodec, ImageLines>
     {
         /// <summary>
         ///
@@ -21,7 +20,7 @@ namespace Juniper.Imaging.HjgPngcs
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Png bytes.</param>
-        protected override ImageData TranslateFrom(ImageLines rows, DataSource source)
+        public override ImageData TranslateFrom(ImageLines rows)
         {
             var numRows = rows.Nrows;
             var data = new byte[numRows * rows.elementsPerRow];
@@ -33,9 +32,8 @@ namespace Juniper.Imaging.HjgPngcs
             }
 
             return new ImageData(
-                source,
-                rows.elementsPerRow / rows.channels,
-                numRows,
+                rows.ImgInfo.BytesPerRow / rows.ImgInfo.BytesPixel,
+                rows.Nrows,
                 rows.channels,
                 HTTP.MediaType.Image.Png,
                 data);
@@ -45,7 +43,7 @@ namespace Juniper.Imaging.HjgPngcs
         /// Encodes a raw file buffer of image data into a PNG image.
         /// </summary>
         /// <param name="outputStream">Png bytes.</param>
-        protected override ImageLines TranslateTo(ImageData image, IProgress prog)
+        public override ImageLines TranslateTo(ImageData image, IProgress prog)
         {
             var imageInfo = new Hjg.Pngcs.ImageInfo(
                 image.info.dimensions.width,

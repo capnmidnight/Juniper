@@ -1,6 +1,6 @@
 using System;
+
 using Juniper.HTTP;
-using Juniper.Serialization;
 
 namespace Juniper.Imaging
 {
@@ -42,27 +42,27 @@ namespace Juniper.Imaging
             this.data = data;
         }
 
-        public ImageData(DataSource source, Size size, int components, MediaType.Image contentType, byte[] data)
-            : this(new ImageInfo(source, size, components, contentType), data) { }
+        public ImageData(Size size, int components, MediaType.Image contentType, byte[] data)
+            : this(new ImageInfo(size, components, contentType), data) { }
 
-        public ImageData(DataSource source, int width, int height, int components, MediaType.Image contentType, byte[] data)
-            : this(source, new Size(width, height), components, contentType, data)
+        public ImageData(int width, int height, int components, MediaType.Image contentType, byte[] data)
+            : this(new Size(width, height), components, contentType, data)
         {
         }
 
-        public ImageData(DataSource source, Size size, int components)
-            : this(source, size, components, MediaType.Image.Raw, new byte[size.height * size.width * components])
+        public ImageData(Size size, int components)
+            : this(size, components, MediaType.Image.Raw, new byte[size.height * size.width * components])
         {
         }
 
-        public ImageData(DataSource source, int width, int height, int components)
-            : this(source, new Size(width, height), components)
+        public ImageData(int width, int height, int components)
+            : this(new Size(width, height), components)
         {
         }
 
         public object Clone()
         {
-            return new ImageData(info.source, info.dimensions, info.components, info.contentType, (byte[])data.Clone());
+            return new ImageData(info.dimensions, info.components, info.contentType, (byte[])data.Clone());
         }
 
         private void RGB2HSV(int index, out float h, out float s, out float v)
@@ -181,7 +181,6 @@ namespace Juniper.Imaging
         private ImageData HorizontalSqueeze()
         {
             var resized = new ImageData(
-                info.source,
                 info.dimensions.height,
                 info.dimensions.height,
                 info.components);
@@ -223,7 +222,6 @@ namespace Juniper.Imaging
         private ImageData VerticalSqueeze()
         {
             var resized = new ImageData(
-                info.source,
                 info.dimensions.width,
                 info.dimensions.width,
                 info.components);
