@@ -30,7 +30,7 @@ namespace System.IO
 
         private static Func<BodyInfo> BytesInfoGetter(this byte[] value, string type)
         {
-            return () => new BodyInfo(type ?? "application/octet-stream", value.Length);
+            return () => new BodyInfo(type ?? MediaType.Application.Octet_Stream, value.Length);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace System.IO
         /// <returns>A callback function that can be used to write the text when a stream becomes available.</returns>
         public static Task<HttpWebResponse> Write(this byte[] bytes, Func<Func<BodyInfo>, Action<Stream>, Task<HttpWebResponse>> writer, string type = null, IProgress prog = null)
         {
-            var infoGetter = bytes.BytesInfoGetter(type ?? "text/plain");
+            var infoGetter = bytes.BytesInfoGetter(type ?? MediaType.Text.Plain);
             var bodyWriter = bytes.BytesWriter(prog);
             return writer(infoGetter, bodyWriter);
         }
@@ -55,7 +55,7 @@ namespace System.IO
         public static Task<HttpWebResponse> Write(this string value, Func<Func<BodyInfo>, Action<Stream>, Task<HttpWebResponse>> writer, string type = null, IProgress prog = null)
         {
             var bytes = Encoding.Unicode.GetBytes(value);
-            return bytes.Write(writer, type ?? "text/plain", prog);
+            return bytes.Write(writer, type ?? MediaType.Text.Plain, prog);
         }
 
         /// <summary>

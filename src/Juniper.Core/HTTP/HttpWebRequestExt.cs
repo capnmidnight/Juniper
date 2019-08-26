@@ -52,7 +52,7 @@ namespace System.Net
         /// var request = HttpWebRequestExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
-        ///     .Header("Accept", "text/plain");
+        ///     .Header("Accept", MediaType.Text.Plain");
         /// ]]></example>
         public static HttpWebRequest Header<T>(this HttpWebRequest request, string name, T value)
         {
@@ -78,7 +78,7 @@ namespace System.Net
         /// var request = HttpWebRequestExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .DoNotTrack()
-        ///     .Header("Accept", "text/plain");
+        ///     .Header("Accept", MediaType.Text.Plain");
         /// ]]></example>
         public static HttpWebRequest DoNotTrack(this HttpWebRequest request)
         {
@@ -108,7 +108,7 @@ namespace System.Net
         /// var request = HttpWebRequestExt.Create("https://www.example.com");
         /// request.Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
-        ///     .Accept("text/plain");
+        ///     .Accept(MediaType.Text.Plain");
         /// ]]></example>
         public static HttpWebRequest Accept(this HttpWebRequest request, string type)
         {
@@ -127,7 +127,7 @@ namespace System.Net
         /// request.Method("GET")
         ///     .Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
-        ///     .Accept("text/plain");
+        ///     .Accept(MediaType.Text.Plain");
         /// ]]></example>
         public static HttpWebRequest Method(this HttpWebRequest request, string verb)
         {

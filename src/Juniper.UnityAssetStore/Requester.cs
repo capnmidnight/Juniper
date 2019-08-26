@@ -4,7 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 
 using HtmlAgilityPack;
-
+using Juniper.HTTP;
 using Juniper.Progress;
 using Juniper.Serialization;
 
@@ -178,7 +178,7 @@ namespace Juniper.UnityAssetStore
             {
                 using (var response = await HttpWebRequestExt.Create(uri)
                     .Header("X-Unity-Session", token ?? sessionID ?? UnityAssetStoreToken)
-                    .Accept("application/json")
+                    .Accept(MediaType.Application.Json)
                     .Get())
                 {
                     code = response.StatusCode;

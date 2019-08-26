@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Runtime.Serialization;
 using Juniper.Climate;
+using Juniper.HTTP;
 using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.Units;
@@ -202,7 +203,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 try
                 {
                     var requester = HttpWebRequestExt.Create(url);
-                    requester.Accept = "application/json";
+                    requester.Accept = MediaType.Application.Json;
                     using (var response = await requester.Get())
                     {
                         if (deserializer.TryDeserialize<WeatherReport>(response, out var report))
