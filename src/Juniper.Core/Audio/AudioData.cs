@@ -6,7 +6,7 @@ namespace Juniper.Audio
     /// <summary>
     /// The raw bytes and dimensions of an audio file that has been loaded either off disk or across the 'net.
     /// </summary>
-    public struct AudioData : IDisposable
+    public class AudioData : IDisposable
     {
         /// <summary>
         /// Reads a stream and fills a PCM buffer with data.
@@ -23,78 +23,45 @@ namespace Juniper.Audio
             }
         }
 
-        public static string GetContentType(AudioFormat format)
-        {
-            switch (format)
-            {
-                case AudioFormat.WAV: return "audio/vnd.wav";
-                case AudioFormat.MP3: return "audio/mpeg";
-                case AudioFormat.Vorbis: return "audio/ogg";
-                default: return "application/unknown";
-            }
-        }
-
-        public static string GetExtension(AudioFormat format)
-        {
-            switch (format)
-            {
-                case AudioFormat.WAV: return "wav";
-                case AudioFormat.MP3: return "mp3";
-                case AudioFormat.Vorbis: return "ogg";
-                default: return "raw";
-            }
-        }
-
-        public readonly AudioFormat format;
-        public readonly string contentType;
-        public readonly string extension;
+        public readonly HTTP.MediaType.Audio contentType;
         public readonly Stream stream;
         public readonly long samples;
         public readonly int channels;
         public readonly int frequency;
 
-        public AudioData(AudioFormat format, long samples, int channels, int frequency, Stream stream)
+        public AudioData(HTTP.MediaType.Audio contentType, long samples, int channels, int frequency, Stream stream)
         {
-            contentType = GetContentType(format);
-            extension = GetExtension(format);
-            this.format = format;
+            this.contentType = contentType;
             this.samples = samples;
             this.channels = channels;
             this.frequency = frequency;
             this.stream = stream;
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    stream.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
-            stream.Dispose();
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
         }
-
-        public override bool Equals(object obj)
-        {
-            return obj != null
-                && obj is AudioData aud
-                && aud.stream.Equals(stream)
-                && aud.samples.Equals(samples)
-                && aud.channels.Equals(channels)
-                && aud.frequency.Equals(frequency);
-        }
-
-        public override int GetHashCode()
-        {
-            return stream?.GetHashCode() ?? 0
-                ^ samples.GetHashCode()
-                ^ channels.GetHashCode()
-                ^ frequency.GetHashCode();
-        }
-
-        public static bool operator ==(AudioData left, AudioData right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(AudioData left, AudioData right)
-        {
-            return !(left == right);
-        }
+        #endregion
     }
 }

@@ -7,8 +7,8 @@
     <ProjectGuid>{706D2F39-A6BE-48CB-8442-AC0EAC207F2A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Juniper.Audio</RootNamespace>
-    <AssemblyName>Juniper.Audio</AssemblyName>
+    <RootNamespace>Juniper.Audio.NAudio</RootNamespace>
+    <AssemblyName>Juniper.Audio.NAudio</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -38,12 +38,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractDecoder.cs" />
-    <Compile Include="Decoder.cs" />
-    <Compile Include="MP3\Mp3Decoder.cs" />
+    <Compile Include="NAudioAudioDataDecoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Vorbis\VorbisDecoder.cs" />
-    <Compile Include="WAV\WavDecoder.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="NAudio">
