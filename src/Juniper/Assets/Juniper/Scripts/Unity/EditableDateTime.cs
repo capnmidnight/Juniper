@@ -102,10 +102,14 @@ namespace Juniper
             {
                 if (Changed)
                 {
-                    while (Day > DateTime.DaysInMonth(Year, (int)Month))
+                    if((int)Month < 1 || 12 < (int)Month
+                        || Year < 1 || 9999 < Year
+                        || Day == 0)
                     {
-                        --Day;
+                        Value = DateTime.Now;
                     }
+
+                    Day = Math.Min(Day, DateTime.DaysInMonth(Year, (int)Month));
 
                     lastValue = new DateTime(Year, (int)Month, Day, Hour, Minute, Second, Millisecond, Kind);
                 }
