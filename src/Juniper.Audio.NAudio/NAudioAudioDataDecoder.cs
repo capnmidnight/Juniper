@@ -1,6 +1,7 @@
 using System;
 using System.IO;
-
+using System.Linq;
+using Juniper.HTTP;
 using Juniper.Serialization;
 
 using NAudio.Vorbis;
@@ -12,30 +13,35 @@ namespace Juniper.Audio.NAudio
 {
     public class NAudioAudioDataDecoder : IDeserializer<AudioData>
     {
-        public NAudioAudioDataDecoder(HTTP.MediaType.Audio format)
+        public static readonly MediaType.Audio[] SupportedFormats =
+        {
+            MediaType.Audio.X_Wav,
+            MediaType.Audio.Mpeg,
+            MediaType.Audio.Vorbis
+        };
+
+        public NAudioAudioDataDecoder(MediaType.Audio format)
         {
             Format = format;
-            if (Format != HTTP.MediaType.Audio.X_Wav
-                && Format != HTTP.MediaType.Audio.Mpeg
-                && Format != HTTP.MediaType.Audio.Vorbis)
+            if (!SupportedFormats.Contains(Format))
             {
                 throw new NotSupportedException($"Don't know how to decode audio format {Format}");
             }
         }
 
-        public HTTP.MediaType.Audio Format { get; private set; }
+        public MediaType.Audio Format { get; private set; }
 
         private WaveStream MakeDecodingStream(Stream stream)
         {
-            if (Format == HTTP.MediaType.Audio.X_Wav)
+            if (Format == MediaType.Audio.X_Wav)
             {
                 return new WaveFileReader(stream);
             }
-            else if(Format == HTTP.MediaType.Audio.Mpeg)
+            else if(Format == MediaType.Audio.Mpeg)
             {
                 return new Mp3FileReader(stream, wf => new Mp3FrameDecompressor(wf));
             }
-            else if(Format == HTTP.MediaType.Audio.Vorbis)
+            else if(Format == MediaType.Audio.Vorbis)
             {
                 return new VorbisWaveReader(stream);
             }

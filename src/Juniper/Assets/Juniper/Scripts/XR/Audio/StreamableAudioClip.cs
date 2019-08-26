@@ -3,8 +3,10 @@
 using System;
 using System.Collections;
 using System.IO;
-
+using System.Linq;
+using Juniper.Audio.NAudio;
 using Juniper.Data;
+using Juniper.HTTP;
 using Juniper.Progress;
 using Juniper.Unity.Coroutines;
 
@@ -19,29 +21,20 @@ namespace Juniper.Audio
         {
             var info = new FileInfo(LoadPath);
             var ext = info.Extension.Substring(1).ToLowerInvariant();
+            var format = MediaType.LookupExtension(ext) as MediaType.Audio;
 
-            var format = AudioFormat.Unsupported;
-            foreach (AudioFormat value in Enum.GetValues(typeof(AudioFormat)))
-            {
-                if (ext == AudioData.GetExtension(value))
-                {
-                    format = value;
-                }
-            }
-
-            if (format == AudioFormat.Unsupported)
+            if (!NAudioAudioDataDecoder.SupportedFormats.Contains(format))
             {
                 throw new InvalidOperationException($"{ext} is not a recognized audio format ({LoadPath}).");
             }
             else
             {
-                var decoder = new Decoder(format);
-                string mime = AudioData.GetContentType(format);
+                var decoder = new NAudioAudioDataDecoder(format);
 
                 var audioTask = StreamingAssets.GetStream(
                     Application.temporaryCachePath,
                     LoadPath,
-                    mime,
+                    format,
                     prog);
 
                 yield return new WaitForTask(audioTask);
