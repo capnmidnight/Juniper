@@ -4,7 +4,7 @@ namespace Juniper.HTTP
     {
         public sealed class Chemical : MediaType
         {
-            public Chemical(string value, string[] extensions = null) : base("chemical" + value, extensions) {}
+            public Chemical(string value, string[] extensions = null) : base("chemical/" + value, extensions) {}
 
             public static readonly Chemical X_Cdx = new Chemical("x-cdx", new string[] {"cdx"});
             public static readonly Chemical X_Cif = new Chemical("x-cif", new string[] {"cif"});
@@ -14,7 +14,7 @@ namespace Juniper.HTTP
             public static readonly Chemical X_Pdb = new Chemical("x-pdb");
             public static readonly Chemical X_Xyz = new Chemical("x-xyz", new string[] {"xyz"});
 
-            public static readonly Chemical[] Values = {
+            public static readonly new Chemical[] Values = {
                 X_Cdx,
                 X_Cif,
                 X_Cmdf,

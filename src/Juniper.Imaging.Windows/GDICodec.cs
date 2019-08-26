@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
 using System.IO;
-
+using Juniper.HTTP;
 using Juniper.Progress;
 using Juniper.Serialization;
 
@@ -9,15 +9,15 @@ using GDIImageFormat = System.Drawing.Imaging.ImageFormat;
 
 namespace Juniper.Imaging.Windows
 {
-    public class GDICodec : IImageDecoder<Image>
+    public class GDICodec : IImageCodec<Image>
     {
         private readonly GDIImageFormat gdiFormat;
 
-        public HTTP.MediaType.Image Format { get; private set; }
+        public MediaType ContentType { get; private set; }
 
-        public GDICodec(HTTP.MediaType.Image format)
+        public GDICodec(MediaType.Image format)
         {
-            Format = format;
+            ContentType = format;
             gdiFormat = format.ToGDIImageFormat();
         }
 
@@ -59,11 +59,11 @@ namespace Juniper.Imaging.Windows
 
         public ImageInfo GetImageInfo(byte[] data)
         {
-            if(Format == HTTP.MediaType.Image.Jpeg)
+            if(ContentType == MediaType.Image.Jpeg)
             {
                 return ImageInfo.ReadJPEG(data);
             }
-            else if (Format == HTTP.MediaType.Image.Png)
+            else if (ContentType == MediaType.Image.Png)
             {
                 return ImageInfo.ReadPNG(data);
             }

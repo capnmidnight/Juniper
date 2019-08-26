@@ -1,17 +1,15 @@
-using Juniper.Serialization;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public abstract class AbstractStreetViewRequest<DecoderType, ResultType> : AbstractGoogleMapsRequest<DecoderType, ResultType>
-        where DecoderType : IDeserializer<ResultType>
+    public abstract class AbstractStreetViewRequest : AbstractGoogleMapsRequest
     {
         private PanoID pano;
         private PlaceName placeName;
         private LatLngPoint location;
 
-        protected AbstractStreetViewRequest(GoogleMapsRequestConfiguration api, DecoderType deserializer, string path)
-            : base(api, deserializer, path, "streetview", true)
+        protected AbstractStreetViewRequest(GoogleMapsRequestConfiguration api, string path)
+            : base(api, path, "streetview", true)
         {
         }
 

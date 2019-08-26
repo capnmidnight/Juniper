@@ -1,8 +1,8 @@
 using System;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 
+using Juniper.HTTP.REST;
 using Juniper.Imaging;
 using Juniper.Imaging.LibJpegNET;
 using Juniper.Serialization;
@@ -27,6 +27,18 @@ namespace Juniper.HTTP.Tests
             await RunFileTest("portrait-testcaching.jpg", false, true);
         }
 
+        private class ImageRequest : AbstractRequest
+        {
+            private class ImageRequestConfiguration : AbstractRequestConfiguration
+            {
+                public ImageRequestConfiguration(DirectoryInfo cacheDir)
+                    : base(new Uri("https://www.seanmcbeth.com"), cacheDir) { }
+            }
+
+            public ImageRequest(DirectoryInfo cacheDir)
+                : base(new ImageRequestConfiguration(cacheDir), "2015-05.min.jpg") { }
+        }
+
         private static async Task<ImageData> RunFileTest(string imageFileName, bool deleteFile, bool runTest)
         {
             var decoder = new LibJpegNETImageDataTranscoder();
@@ -39,10 +51,7 @@ namespace Juniper.HTTP.Tests
                 cacheFile.Delete();
             }
 
-            var actual = await HttpWebRequestExt.CachedGet(
-                new Uri("https://www.seanmcbeth.com/2015-05.min.jpg"),
-                decoder.Deserialize,
-                cacheFile);
+            var actual = await new ImageRequest(cacheFile.Directory).GetDecoded(decoder);
 
             if (runTest)
             {

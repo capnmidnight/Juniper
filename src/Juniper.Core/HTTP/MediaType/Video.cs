@@ -4,7 +4,7 @@ namespace Juniper.HTTP
     {
         public sealed class Video : MediaType
         {
-            public Video(string value, string[] extensions = null) : base("video" + value, extensions) {}
+            public Video(string value, string[] extensions = null) : base("video/" + value, extensions) {}
 
             public static readonly Video BMPEG = new Video("bmpeg");
             public static readonly Video BT656 = new Video("bt656");
@@ -107,7 +107,7 @@ namespace Juniper.HTTP
             public static readonly Video X_Sgi_Movie = new Video("x-sgi-movie", new string[] {"movie"});
             public static readonly Video X_Smv = new Video("x-smv", new string[] {"smv"});
 
-            public static readonly Video[] Values = {
+            public static readonly new Video[] Values = {
                 BMPEG,
                 BT656,
                 CelB,

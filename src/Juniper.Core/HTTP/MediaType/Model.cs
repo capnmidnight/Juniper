@@ -4,7 +4,7 @@ namespace Juniper.HTTP
     {
         public sealed class Model : MediaType
         {
-            public Model(string value, string[] extensions = null) : base("model" + value, extensions) {}
+            public Model(string value, string[] extensions = null) : base("model/" + value, extensions) {}
 
             public static readonly Model Example = new Model("example");
             public static readonly Model Gltf_Binary = new Model("gltf-binary");
@@ -36,7 +36,7 @@ namespace Juniper.HTTP
             public static readonly Model X3dVrml = new Model("x3d+vrml", new string[] {"x3dv", "x3dvz"});
             public static readonly Model X3dXml = new Model("x3d+xml", new string[] {"x3d", "x3dz"});
 
-            public static readonly Model[] Values = {
+            public static readonly new Model[] Values = {
                 Example,
                 Gltf_Binary,
                 GltfJson,

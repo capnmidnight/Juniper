@@ -2,12 +2,12 @@ using System;
 using System.IO;
 
 using Hjg.Pngcs;
-
+using Juniper.HTTP;
 using Juniper.Progress;
 
 namespace Juniper.Imaging.HjgPngcs
 {
-    public class HjgPngcsCodec : IImageDecoder<ImageLines>
+    public class HjgPngcsCodec : IImageCodec<ImageLines>
     {
         private readonly int compressionLevel;
         private readonly int IDATMaxSize;
@@ -23,7 +23,7 @@ namespace Juniper.Imaging.HjgPngcs
             this.IDATMaxSize = IDATMaxSize;
         }
 
-        public HTTP.MediaType.Image Format { get { return HTTP.MediaType.Image.Png; } }
+        public MediaType ContentType { get { return MediaType.Image.Png; } }
 
         public ImageInfo GetImageInfo(byte[] data)
         {

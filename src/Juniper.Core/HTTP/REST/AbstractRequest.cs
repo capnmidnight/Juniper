@@ -6,40 +6,22 @@ using System.Threading.Tasks;
 
 using Juniper.Progress;
 using Juniper.Serialization;
+using Juniper.Streams;
 
 namespace Juniper.HTTP.REST
 {
-    public abstract class AbstractRequest<DecoderType, ResponseType>
-        where DecoderType : IDeserializer<ResponseType>
+    public abstract class AbstractRequest
     {
         private readonly AbstractRequestConfiguration api;
         private readonly IDictionary<string, List<string>> queryParams = new SortedDictionary<string, List<string>>();
         private readonly string cacheSubDirectoryName;
         private readonly string path;
-        private readonly Func<Stream, ResponseType> deserialize;
-        private readonly Action<HttpWebRequest> setAcceptType;
-        internal readonly DecoderType deserializer;
-        private MediaType acceptType;
 
-        protected AbstractRequest(AbstractRequestConfiguration api, DecoderType deserializer, string path, string cacheSubDirectoryName)
+        protected AbstractRequest(AbstractRequestConfiguration api, string path, string cacheSubDirectoryName = null)
         {
             this.api = api;
-            this.deserializer = deserializer;
             this.path = path;
             this.cacheSubDirectoryName = cacheSubDirectoryName;
-
-            deserialize = deserializer.Deserialize;
-            setAcceptType = SetAcceptType;
-        }
-
-        protected void SetContentType(MediaType mediaType)
-        {
-            acceptType = mediaType;
-        }
-
-        protected void SetContentType(string acceptType)
-        {
-            SetContentType(MediaType.Lookup(acceptType));
         }
 
         private void SetQuery(string key, string value, bool allowMany)
@@ -128,21 +110,6 @@ namespace Juniper.HTTP.REST
             }
         }
 
-        private FileInfo cacheFile;
-
-        public FileInfo CacheFile
-        {
-            get
-            {
-                var fileName = CacheFileName;
-                if (cacheFile?.FullName != fileName)
-                {
-                    return cacheFile = new FileInfo(fileName);
-                }
-                return cacheFile;
-            }
-        }
-
         protected virtual string CacheFileName
         {
             get
@@ -153,18 +120,7 @@ namespace Juniper.HTTP.REST
                 }
                 else
                 {
-                    var path = Path.Combine(api.cacheLocation.FullName, CacheID);
-
-                    if (acceptType.PrimaryExtension != null)
-                    {
-                        if (!acceptType.PrimaryExtension.StartsWith("."))
-                        {
-                            path += ".";
-                        }
-                        path += acceptType.PrimaryExtension;
-                    }
-
-                    return path;
+                    return Path.Combine(api.cacheLocation.FullName, CacheID);
                 }
             }
         }
@@ -173,10 +129,17 @@ namespace Juniper.HTTP.REST
         {
             get
             {
-                var id = string.Join("_", BaseURI.Query
+                string id = string.Join("_", BaseURI.PathAndQuery
                     .Substring(1)
                     .Split(Path.GetInvalidFileNameChars()));
-                return Path.Combine(cacheSubDirectoryName, id);
+                if (cacheSubDirectoryName == null)
+                {
+                    return id;
+                }
+                else
+                {
+                    return Path.Combine(cacheSubDirectoryName, id);
+                }
             }
         }
 
@@ -188,36 +151,112 @@ namespace Juniper.HTTP.REST
         public override bool Equals(object obj)
         {
             return obj != null
-                && obj is AbstractRequest<DecoderType, ResponseType> req
+                && obj is AbstractRequest req
                 && req.CacheFileName == CacheFileName;
         }
 
-        public virtual bool IsCached
+        public async Task Proxy(HttpListenerResponse outResponse, MediaType acceptType = null)
         {
-            get
+            var cacheFileName = CacheFileName;
+            if (acceptType != null)
             {
-                return CacheFile?.Exists == true;
+                if (acceptType.PrimaryExtension != null)
+                {
+                    cacheFileName += ".";
+                    cacheFileName += acceptType.PrimaryExtension;
+                }
+            }
+
+            var cacheFile = new FileInfo(cacheFileName);
+
+            if (cacheFile != null
+                && File.Exists(cacheFile.FullName)
+                && cacheFile.Length > 0)
+            {
+                outResponse.SetStatus(HttpStatusCode.OK);
+                outResponse.ContentType = cacheFile.GetContentType();
+                outResponse.ContentLength64 = cacheFile.Length;
+                outResponse.SendFile(cacheFile);
+            }
+            else
+            {
+                var request = HttpWebRequestExt.Create(AuthenticatedURI);
+                if (acceptType != null)
+                {
+                    request.Accept = acceptType;
+                }
+
+                using (var inResponse = await request.Get())
+                {
+                    var body = inResponse.GetResponseStream();
+                    if (cacheFile != null)
+                    {
+                        body = new CachingStream(body, cacheFile);
+                    }
+                    using (body)
+                    {
+                        outResponse.SetStatus(inResponse.StatusCode);
+                        outResponse.ContentType = inResponse.ContentType;
+                        if (inResponse.ContentLength >= 0)
+                        {
+                            outResponse.ContentLength64 = inResponse.ContentLength;
+                        }
+                        body.CopyTo(outResponse.OutputStream);
+                    }
+                }
             }
         }
 
-        private void SetAcceptType(HttpWebRequest request)
+        public async Task<Stream> GetStream(MediaType acceptType = null, IProgress prog = null)
         {
-            request.Accept = acceptType;
+            Stream body;
+            long length;
+
+            var cacheFileName = CacheFileName;
+            if (acceptType?.PrimaryExtension != null)
+            {
+                var expectedExt = "." + acceptType.PrimaryExtension;
+                if (Path.GetExtension(cacheFileName) != expectedExt)
+                {
+                    cacheFileName += expectedExt;
+                }
+            }
+
+            var cacheFile = new FileInfo(cacheFileName);
+
+            if (cacheFile != null
+                && File.Exists(cacheFile.FullName)
+                && cacheFile.Length > 0)
+            {
+                length = cacheFile.Length;
+                body = cacheFile.OpenRead();
+            }
+            else
+            {
+                var request = HttpWebRequestExt.Create(AuthenticatedURI);
+                if (acceptType != null)
+                {
+                    request.Accept = acceptType;
+                }
+
+                var response = await request.Get();
+                length = response.ContentLength;
+                body = response.GetResponseStream();
+                if (cacheFile != null)
+                {
+                    body = new CachingStream(body, cacheFile);
+                }
+            }
+
+            return new ProgressStream(body, length, prog);
         }
 
-        public Task<ResponseType> Get(IProgress prog = null)
+        public async Task<T> GetDecoded<T>(IDeserializer<T> deserializer, IProgress prog = null)
         {
-            return HttpWebRequestExt.CachedGet(AuthenticatedURI, deserialize, CacheFile, setAcceptType, prog);
-        }
-
-        public Task Proxy(HttpListenerResponse response)
-        {
-            return HttpWebRequestExt.CachedProxy(response, AuthenticatedURI, CacheFile, setAcceptType);
-        }
-
-        public Task<Stream> GetRaw(IProgress prog = null)
-        {
-            return HttpWebRequestExt.CachedGetRaw(AuthenticatedURI, CacheFile, setAcceptType, prog);
+            using (var stream = await GetStream(deserializer.ContentType, prog))
+            {
+                return deserializer.Deserialize(stream);
+            }
         }
     }
 }

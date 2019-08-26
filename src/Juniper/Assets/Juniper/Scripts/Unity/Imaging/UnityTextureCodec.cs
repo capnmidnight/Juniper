@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
-
+using Juniper.HTTP;
+using Juniper.HTTP.REST;
 using Juniper.Progress;
 using Juniper.Streams;
 
@@ -8,53 +9,53 @@ using UnityEngine;
 
 namespace Juniper.Imaging
 {
-    public class UnityTextureCodec : IImageDecoder<Texture2D>
+    public class UnityTextureCodec : IImageCodec<Texture2D>
     {
         private readonly Texture2D.EXRFlags exrFlags;
         private readonly int jpegEncodingQuality;
 
-        public UnityTextureCodec(HTTP.MediaType.Image format)
+        public UnityTextureCodec(MediaType.Image format)
         {
-            if (format != HTTP.MediaType.Image.EXR
-                && format != HTTP.MediaType.Image.Jpeg
-                && format != HTTP.MediaType.Image.Png
-                && format != HTTP.MediaType.Image.X_Tga)
+            if (format != MediaType.Image.EXR
+                && format != MediaType.Image.Jpeg
+                && format != MediaType.Image.Png
+                && format != MediaType.Image.X_Tga)
             {
-                throw new NotSupportedException($"Unity doesn't know how to encode {Format.Value} image data.");
+                throw new NotSupportedException($"Unity doesn't know how to encode {ContentType.Value} image data.");
             }
 
-            Format = format;
+            ContentType = format;
             exrFlags = Texture2D.EXRFlags.None;
             jpegEncodingQuality = 80;
         }
 
         public UnityTextureCodec(Texture2D.EXRFlags exrFlags)
-            : this(HTTP.MediaType.Image.EXR)
+            : this(MediaType.Image.EXR)
         {
             this.exrFlags = exrFlags;
         }
 
         public UnityTextureCodec(int jpegEncodingQuality = 80)
-            : this(HTTP.MediaType.Image.Jpeg)
+            : this(MediaType.Image.Jpeg)
         {
             this.jpegEncodingQuality = jpegEncodingQuality;
         }
 
-        public HTTP.MediaType.Image Format { get; private set; }
+        public MediaType ContentType { get; private set; }
 
         public ImageInfo GetImageInfo(byte[] data)
         {
-            if (Format == HTTP.MediaType.Image.Jpeg)
+            if (ContentType == MediaType.Image.Jpeg)
             {
                 return ImageInfo.ReadJPEG(data);
             }
-            else if (Format == HTTP.MediaType.Image.Png)
+            else if (ContentType == MediaType.Image.Png)
             {
                 return ImageInfo.ReadPNG(data);
             }
             else
             {
-                throw new NotSupportedException($"Don't know how to read the raw image information from an {Format.Value} file.");
+                throw new NotSupportedException($"Don't know how to read the raw image information from an {ContentType.Value} file.");
             }
         }
 
@@ -117,25 +118,25 @@ namespace Juniper.Imaging
 
         public byte[] Encode(Texture2D value)
         {
-            if (Format == HTTP.MediaType.Image.EXR)
+            if (ContentType == MediaType.Image.EXR)
             {
                 return value.EncodeToEXR(exrFlags);
             }
-            else if (Format == HTTP.MediaType.Image.Jpeg)
+            else if (ContentType == MediaType.Image.Jpeg)
             {
                 return value.EncodeToJPG(jpegEncodingQuality);
             }
-            else if (Format == HTTP.MediaType.Image.Png)
+            else if (ContentType == MediaType.Image.Png)
             {
                 return value.EncodeToPNG();
             }
-            else if (Format == HTTP.MediaType.Image.X_Tga)
+            else if (ContentType == MediaType.Image.X_Tga)
             {
                 return value.EncodeToTGA();
             }
             else
             {
-                throw new NotSupportedException($"Unity doesn't know how to encode {Format.Value} image data.");
+                throw new NotSupportedException($"Unity doesn't know how to encode {ContentType.Value} image data.");
             }
         }
 

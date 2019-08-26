@@ -4,7 +4,7 @@ namespace Juniper.HTTP
     {
         public sealed class Audio : MediaType
         {
-            public Audio(string value, string[] extensions = null) : base("audio" + value, extensions) {}
+            public Audio(string value, string[] extensions = null) : base("audio/" + value, extensions) {}
 
             public static readonly Audio Aac = new Audio("aac");
             public static readonly Audio Ac3 = new Audio("ac3");
@@ -183,7 +183,7 @@ namespace Juniper.HTTP
             public static readonly Audio X_Wav = new Audio("x-wav", new string[] {"wav"});
             public static readonly Audio Xm = new Audio("xm", new string[] {"xm"});
 
-            public static readonly Audio[] Values = {
+            public static readonly new Audio[] Values = {
                 Aac,
                 Ac3,
                 Adpcm,
@@ -335,7 +335,6 @@ namespace Juniper.HTTP
                 VendorNueraEcelp9600,
                 VendorOctelSbc,
                 VendorPresonusMultitrack,
-                VendorQcelp,
                 VendorRhetorex32kadpcm,
                 VendorRip,
                 VendorSealedmediaSoftsealMpeg,

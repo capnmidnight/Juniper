@@ -2,18 +2,17 @@ using Juniper.Imaging;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class ImageRequest<T> : AbstractStreetViewRequest<IImageDecoder<T>, T>
+    public class ImageRequest : AbstractStreetViewRequest
     {
         private int heading;
         private int pitch;
         private int fov;
         private Size size;
 
-        public ImageRequest(GoogleMapsRequestConfiguration api, IImageDecoder<T> decoder, Size size)
-            : base(api, decoder, "streetview")
+        public ImageRequest(GoogleMapsRequestConfiguration api, Size size)
+            : base(api, "streetview")
         {
             Size = size;
-            SetContentType(decoder.Format);
         }
 
         public Size Size

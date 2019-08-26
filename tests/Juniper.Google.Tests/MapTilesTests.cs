@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Juniper.Google.Maps.Tests;
 using Juniper.Imaging;
-
+using Juniper.Imaging.HjgPngcs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Google.Maps.MapTiles.Tests
@@ -51,7 +51,7 @@ namespace Juniper.Google.Maps.MapTiles.Tests
                 Zoom = 20,
                 Address = (PlaceName)"4909 Rutland Pl, Alexandria, VA, 22304"
             };
-            var results = await search.Get();
+            var results = await search.GetDecoded(new HjgPngcsImageDataTranscoder());
             Assert.IsNotNull(results);
             Assert.AreEqual(640, results.info.dimensions.width);
             Assert.AreEqual(640, results.info.dimensions.height);

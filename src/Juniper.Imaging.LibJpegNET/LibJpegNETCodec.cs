@@ -2,13 +2,13 @@ using System;
 using System.IO;
 
 using BitMiracle.LibJpeg;
-
+using Juniper.HTTP;
 using Juniper.Progress;
 using Juniper.Streams;
 
 namespace Juniper.Imaging.LibJpegNET
 {
-    public class LibJpegNETCodec : IImageDecoder<JpegImage>
+    public class LibJpegNETCodec : IImageCodec<JpegImage>
     {
         private readonly CompressionParameters compressionParams;
 
@@ -27,7 +27,7 @@ namespace Juniper.Imaging.LibJpegNET
             return ImageInfo.ReadJPEG(data);
         }
 
-        public HTTP.MediaType.Image Format { get { return HTTP.MediaType.Image.Jpeg; } }
+        public MediaType ContentType { get { return MediaType.Image.Jpeg; } }
 
         /// <summary>
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.

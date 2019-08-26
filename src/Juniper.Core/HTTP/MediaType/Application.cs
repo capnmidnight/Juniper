@@ -4,7 +4,7 @@ namespace Juniper.HTTP
     {
         public sealed class Application : MediaType
         {
-            public Application(string value, string[] extensions = null) : base("application" + value, extensions) {}
+            public Application(string value, string[] extensions = null) : base("application/" + value, extensions) {}
 
             public static readonly Application A2L = new Application("a2l");
             public static readonly Application Activemessage = new Application("activemessage");
@@ -1577,7 +1577,7 @@ namespace Juniper.HTTP
             public static readonly Application Zlib = new Application("zlib");
             public static readonly Application Zstd = new Application("zstd");
 
-            public static readonly Application[] Values = {
+            public static readonly new Application[] Values = {
                 A2L,
                 Activemessage,
                 ActivityJson,
@@ -1696,9 +1696,7 @@ namespace Juniper.HTTP
                 FhirXml,
                 Fits,
                 Flexfec,
-                Font_Sfnt,
                 Font_Tdpfr,
-                Font_Woff,
                 Framework_AttributesXml,
                 GeoJson,
                 GeoJson_Seq,
@@ -1926,7 +1924,6 @@ namespace Juniper.HTTP
                 SimpleSymbolContainer,
                 Sipc,
                 Slate,
-                Smil,
                 SmilXml,
                 Smpte336m,
                 SoapFastinfoset,
@@ -2008,7 +2005,6 @@ namespace Juniper.HTTP
                 Vendor3gppMcptt_Ue_Init_ConfigXml,
                 Vendor3gppMcptt_User_ProfileXml,
                 Vendor3gppMcvideo_Affiliation_CommandXml,
-                Vendor3gppMcvideo_Affiliation_InfoXml,
                 Vendor3gppMcvideo_InfoXml,
                 Vendor3gppMcvideo_Location_InfoXml,
                 Vendor3gppMcvideo_Mbms_Usage_InfoXml,
@@ -2068,7 +2064,6 @@ namespace Juniper.HTTP
                 VendorAppleMpegurl,
                 VendorAppleNumbers,
                 VendorApplePages,
-                VendorArastraSwi,
                 VendorAristanetworksSwi,
                 VendorArtisanJson,
                 VendorArtsquare,
@@ -2285,10 +2280,8 @@ namespace Juniper.HTTP
                 VendorFutoinJson,
                 VendorFuzzysheet,
                 VendorGenomatixTuxedo,
-                VendorGeocubeXml,
                 VendorGeogebraFile,
                 VendorGeogebraTool,
-                VendorGeoJson,
                 VendorGeometry_Explorer,
                 VendorGeonext,
                 VendorGeoplan,
@@ -2296,7 +2289,6 @@ namespace Juniper.HTTP
                 VendorGerber,
                 VendorGlobalplatformCard_Content_Mgt,
                 VendorGlobalplatformCard_Content_Mgt_Response,
-                VendorGmx,
                 VendorGoogle_EarthKmlXml,
                 VendorGoogle_EarthKmz,
                 VendorGovSkE_FormXml,
@@ -2332,10 +2324,8 @@ namespace Juniper.HTTP
                 VendorHyperdriveJson,
                 VendorHyperJson,
                 VendorHzn_3d_Crossword,
-                VendorIbmAfplinedata,
                 VendorIbmElectronic_Media,
                 VendorIbmMiniPay,
-                VendorIbmModcap,
                 VendorIbmRights_Management,
                 VendorIbmSecure_Container,
                 VendorIccprofile,
@@ -2355,7 +2345,6 @@ namespace Juniper.HTTP
                 VendorImsLtiV2ToolsettingsJson,
                 VendorImsLtiV2ToolsettingsSimpleJson,
                 VendorInformedcontrolRmsXml,
-                VendorInformix_Visionary,
                 VendorInfotechProject,
                 VendorInfotechProjectXml,
                 VendorInnopathWampNotification,
@@ -2540,7 +2529,6 @@ namespace Juniper.HTTP
                 VendorNokiaLandmarkXml,
                 VendorNokiaN_GageAcXml,
                 VendorNokiaN_GageData,
-                VendorNokiaN_GageSymbianInstall,
                 VendorNokiaNcd,
                 VendorNokiaPcdWbxml,
                 VendorNokiaPcdXml,
@@ -2947,7 +2935,6 @@ namespace Juniper.HTTP
                 VendorYamahaTunnel_Udpencap,
                 VendorYaoweme,
                 VendorYellowriver_Custom_Menu,
-                VendorYoutubeYt,
                 VendorZul,
                 VendorZzazzDeckXml,
                 VividenceScriptfile,

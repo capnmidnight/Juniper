@@ -11,14 +11,14 @@ using SixLabors.Primitives;
 
 namespace Juniper.Imaging.ImageSharp
 {
-    public class ImageSharpCodec : IImageDecoder<Image>
+    public class ImageSharpCodec : IImageCodec<Image>
     {
         public ImageSharpCodec(MediaType.Image format)
         {
-            Format = format;
+            ContentType = format;
         }
 
-        public MediaType.Image Format { get; private set; }
+        public MediaType ContentType { get; private set; }
 
         public int GetWidth(Image img)
         {
@@ -54,25 +54,25 @@ namespace Juniper.Imaging.ImageSharp
 
         public void Serialize(Stream stream, Image value, IProgress prog = null)
         {
-            if (Format == MediaType.Image.Bmp)
+            if (ContentType == MediaType.Image.Bmp)
             {
                 value.SaveAsBmp(stream);
             }
-            else if (Format == MediaType.Image.Gif)
+            else if (ContentType == MediaType.Image.Gif)
             {
                 value.SaveAsGif(stream);
             }
-            else if (Format == MediaType.Image.Jpeg)
+            else if (ContentType == MediaType.Image.Jpeg)
             {
                 value.SaveAsJpeg(stream);
             }
-            else if (Format == MediaType.Image.Png)
+            else if (ContentType == MediaType.Image.Png)
             {
                 value.SaveAsPng(stream);
             }
             else
             {
-                throw new NotSupportedException($"Don't know how to save format {Format}");
+                throw new NotSupportedException($"Don't know how to save format {ContentType}");
             }
         }
 

@@ -22,7 +22,7 @@ namespace Juniper.HTTP.MediaTypes.Console
             {
                 writer.WriteLine("        public sealed class {0} : MediaType", ClassName);
                 writer.WriteLine("        {");
-                writer.WriteLine("            public {0}(string value, string[] extensions = null) : base(\"{1}\" + value, extensions) {{}}", ClassName, ClassName.ToLowerInvariant());
+                writer.WriteLine("            public {0}(string value, string[] extensions = null) : base(\"{1}/\" + value, extensions) {{}}", ClassName, ClassName.ToLowerInvariant());
                 writer.WriteLine();
                 var sortedEntries = entries.Values.OrderBy(e => e.FieldName);
                 foreach (var entry in sortedEntries)
@@ -30,8 +30,8 @@ namespace Juniper.HTTP.MediaTypes.Console
                     entry.Write(writer);
                 }
                 writer.WriteLine();
-                writer.WriteLine("            public static readonly {0}[] Values = {{", ClassName);
-                foreach (var entry in sortedEntries)
+                writer.WriteLine("            public static readonly new {0}[] Values = {{", ClassName);
+                foreach (var entry in sortedEntries.Where(e => e.DeprecationMessage == null))
                 {
                     writer.WriteLine("                {0},", entry.FieldName);
                 }

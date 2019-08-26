@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 
 using Juniper.Imaging;
-using Juniper.Imaging.HjgPngcs;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.MapTiles
 {
-    public class TileRequest : AbstractGoogleMapsRequest<IImageDecoder<ImageData>, ImageData>
+    public class TileRequest : AbstractGoogleMapsRequest
     {
         private readonly List<Marker> markers = new List<Marker>();
         private LinePath path;
@@ -23,16 +22,10 @@ namespace Juniper.Google.Maps.MapTiles
         private LatLngPoint center;
         private Size size;
 
-        private TileRequest(GoogleMapsRequestConfiguration api, IImageDecoder<ImageData> decoder, Size size)
-            : base(api, decoder, "staticmap", "tiles", true)
+        public TileRequest(GoogleMapsRequestConfiguration api, Size size)
+            : base(api, "staticmap", "tiles", true)
         {
             Size = size;
-            SetContentType(decoder.Format);
-        }
-
-        public TileRequest(GoogleMapsRequestConfiguration api, Size size)
-            : this(api, new HjgPngcsImageDataTranscoder(), size)
-        {
         }
 
         public Size Size

@@ -4,7 +4,7 @@ namespace Juniper.HTTP
     {
         public sealed class Multipart : MediaType
         {
-            public Multipart(string value, string[] extensions = null) : base("multipart" + value, extensions) {}
+            public Multipart(string value, string[] extensions = null) : base("multipart/" + value, extensions) {}
 
             public static readonly Multipart Alternative = new Multipart("alternative");
             public static readonly Multipart Appledouble = new Multipart("appledouble");
@@ -24,7 +24,7 @@ namespace Juniper.HTTP
             public static readonly Multipart Voice_Message = new Multipart("voice-message");
             public static readonly Multipart X_Mixed_Replace = new Multipart("x-mixed-replace");
 
-            public static readonly Multipart[] Values = {
+            public static readonly new Multipart[] Values = {
                 Alternative,
                 Appledouble,
                 Byteranges,

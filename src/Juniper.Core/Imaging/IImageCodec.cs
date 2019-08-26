@@ -1,13 +1,13 @@
 using System;
 using System.IO;
-
+using Juniper.HTTP;
 using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.Streams;
 
 namespace Juniper.Imaging
 {
-    public interface IImageDecoder<T> : IFactory<T>
+    public interface IImageCodec<T> : IFactory<T>
     {
         int GetWidth(T img);
 
@@ -18,13 +18,11 @@ namespace Juniper.Imaging
         ImageInfo GetImageInfo(byte[] data);
 
         T Concatenate(T[,] images, IProgress prog = null);
-
-        HTTP.MediaType.Image Format { get; }
     }
 
     public static class IImageDecoderExt
     {
-        public static ImageInfo GetImageInfo<T>(this IImageDecoder<T> decoder, Stream stream)
+        public static ImageInfo GetImageInfo<T>(this IImageCodec<T> decoder, Stream stream)
         {
             using (var mem = new MemoryStream())
             {
@@ -35,7 +33,7 @@ namespace Juniper.Imaging
             }
         }
 
-        public static ImageInfo GetImageInfo<T>(this IImageDecoder<T> decoder, FileInfo file)
+        public static ImageInfo GetImageInfo<T>(this IImageCodec<T> decoder, FileInfo file)
         {
             using (var stream = file.OpenRead())
             {
@@ -43,12 +41,12 @@ namespace Juniper.Imaging
             }
         }
 
-        public static ImageInfo GetImageInfo<T>(this IImageDecoder<T> decoder, string fileName)
+        public static ImageInfo GetImageInfo<T>(this IImageCodec<T> decoder, string fileName)
         {
             return decoder.GetImageInfo(new FileInfo(fileName));
         }
 
-        public static ImageData ReadRaw<T>(this IImageDecoder<T> decoder, Stream stream)
+        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> decoder, Stream stream)
         {
             using (var mem = new MemoryStream())
             {
@@ -56,27 +54,27 @@ namespace Juniper.Imaging
                 mem.Flush();
                 var buffer = mem.ToArray();
                 var info = decoder.GetImageInfo(buffer);
-                return new ImageData(info, decoder.Format, buffer);
+                return new ImageData(info, (MediaType.Image)decoder.ContentType, buffer);
             }
         }
 
-        public static ImageData ReadRaw<T>(this IImageDecoder<T> decoder, Stream stream, long length, IProgress prog)
+        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> decoder, Stream stream, long length, IProgress prog)
         {
             var progStream = new ProgressStream(stream, length, prog);
-            return decoder.ReadRaw(progStream);
+            return decoder.GetUndecodedImage(progStream);
         }
 
-        public static ImageData ReadRaw<T>(this IImageDecoder<T> decoder, FileInfo file, IProgress prog = null)
+        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> decoder, FileInfo file, IProgress prog = null)
         {
-            return decoder.ReadRaw(file.OpenRead(), file.Length, prog);
+            return decoder.GetUndecodedImage(file.OpenRead(), file.Length, prog);
         }
 
-        public static ImageData Read<T>(this IImageDecoder<T> decoder, string fileName, IProgress prog = null)
+        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> decoder, string fileName, IProgress prog = null)
         {
-            return decoder.ReadRaw(new FileInfo(fileName), prog);
+            return decoder.GetUndecodedImage(new FileInfo(fileName), prog);
         }
 
-        public static void ValidateImages<T>(this IImageDecoder<T> decoder, T[,] images, IProgress prog, out int rows, out int columns, out int components, out int tileWidth, out int tileHeight)
+        public static void ValidateImages<T>(this IImageCodec<T> decoder, T[,] images, IProgress prog, out int rows, out int columns, out int components, out int tileWidth, out int tileHeight)
         {
             prog?.Report(0);
 

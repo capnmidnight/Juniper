@@ -48,7 +48,7 @@ namespace Juniper.Imaging
 
         public event Action<Photosphere> PhotosphereReady;
 
-        public IImageDecoder<Texture2D> encoder;
+        public IImageCodec<Texture2D> codec;
 
         public void SetDetailLevels(float[] fovs)
         {
@@ -89,7 +89,7 @@ namespace Juniper.Imaging
                         photo.ImageNeeded += Photo_ImageNeeded;
                         photo.Complete += Photo_Complete;
                         photo.Ready += Photo_Ready;
-                        photo.encoder = encoder;
+                        photo.codec = codec;
                         photo.SetDetailRequirements(FOVs, fovTestAngles, lodLevelRequirements);
                         photospheres.Add(key, photo);
                     }

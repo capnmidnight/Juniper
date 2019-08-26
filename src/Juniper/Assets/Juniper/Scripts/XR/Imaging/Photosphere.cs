@@ -53,7 +53,7 @@ namespace Juniper.Imaging
 
         public event Action<Photosphere> Ready;
 
-        internal IImageDecoder<Texture2D> encoder;
+        internal IImageCodec<Texture2D> codec;
 
         public void Awake()
         {
@@ -105,7 +105,7 @@ namespace Juniper.Imaging
 
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
-            var imageTask = StreamingAssets.ReadImage(encoder, Application.persistentDataPath, filePath, this);
+            var imageTask = StreamingAssets.ReadImage(codec, Application.persistentDataPath, filePath, this);
             yield return imageTask.Waiter();
 
             if (imageTask.IsSuccessful()
@@ -325,7 +325,7 @@ namespace Juniper.Imaging
                                 var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
                                 var renderer = frame.GetComponent<MeshRenderer>();
                                 var material = new Material(Shader.Find("Unlit/Texture"));
-                                var texture = encoder.Deserialize(image);
+                                var texture = codec.Deserialize(image);
                                 material.SetTexture("_MainTex", texture);
                                 renderer.SetMaterial(material);
 
@@ -497,8 +497,8 @@ namespace Juniper.Imaging
 
                 try
                 {
-                    var img = encoder.Concatenate(ImageData.CubeCross(images), subProgs[2]);
-                    encoder.Save(fileName, img, subProgs[3]);
+                    var img = codec.Concatenate(ImageData.CubeCross(images), subProgs[2]);
+                    codec.Save(fileName, img, subProgs[3]);
                 }
                 catch (Exception exp)
                 {

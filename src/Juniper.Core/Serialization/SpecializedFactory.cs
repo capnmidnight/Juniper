@@ -1,4 +1,5 @@
 using System.IO;
+using Juniper.HTTP;
 using Juniper.Progress;
 
 namespace Juniper.Serialization
@@ -21,5 +22,7 @@ namespace Juniper.Serialization
         {
             return factory.Deserialize<T>(stream);
         }
+
+        public MediaType ContentType { get { return factory.ContentType; } }
     }
 }

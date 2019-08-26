@@ -4,7 +4,7 @@ namespace Juniper.HTTP
     {
         public sealed class Image : MediaType
         {
-            public Image(string value, string[] extensions = null) : base("image" + value, extensions) {}
+            public Image(string value, string[] extensions = null) : base("image/" + value, extensions) {}
 
             public static readonly Image Aces = new Image("aces");
             public static readonly Image Avci = new Image("avci");
@@ -107,7 +107,7 @@ namespace Juniper.HTTP
             public static readonly Image X_Xpixmap = new Image("x-xpixmap", new string[] {"xpm"});
             public static readonly Image X_Xwindowdump = new Image("x-xwindowdump", new string[] {"xwd"});
 
-            public static readonly Image[] Values = {
+            public static readonly new Image[] Values = {
                 Aces,
                 Avci,
                 Avcs,
@@ -186,7 +186,6 @@ namespace Juniper.HTTP
                 X_3ds,
                 X_Cmu_Raster,
                 X_Cmx,
-                X_Emf,
                 X_Freehand,
                 X_Icon,
                 X_Mrsid_Image,
@@ -198,7 +197,6 @@ namespace Juniper.HTTP
                 X_Portable_Pixmap,
                 X_Rgb,
                 X_Tga,
-                X_Wmf,
                 X_Xbitmap,
                 X_Xpixmap,
                 X_Xwindowdump,

@@ -1,6 +1,6 @@
 ﻿
 using System;
-
+using Juniper.HTTP;
 using Juniper.Progress;
 
 using UnityEngine;
@@ -9,7 +9,7 @@ namespace Juniper.Imaging
 {
     public class UnityTextureImageDataCodec : AbstractImageDataTranscoder<UnityTextureCodec, Texture2D>
     {
-        public UnityTextureImageDataCodec(HTTP.MediaType.Image format)
+        public UnityTextureImageDataCodec(MediaType.Image format)
             : base(new UnityTextureCodec(format)) { }
 
         public UnityTextureImageDataCodec(Texture2D.EXRFlags exrFlags)
@@ -23,15 +23,15 @@ namespace Juniper.Imaging
             prog?.Report(0);
             var texture = new Texture2D(image.info.dimensions.width, image.info.dimensions.height, TextureFormat.RGB24, false);
             prog?.Report(0.25f);
-            if (image.contentType == HTTP.MediaType.Image.Jpeg
-                || image.contentType == HTTP.MediaType.Image.Png)
+            if (image.contentType == MediaType.Image.Jpeg
+                || image.contentType == MediaType.Image.Png)
             {
                 texture.LoadRawTextureData(image.data);
                 prog?.Report(0.5f);
                 texture.Compress(true);
                 prog?.Report(0.75f);
             }
-            else if (image.contentType == HTTP.MediaType.Image.Raw)
+            else if (image.contentType == MediaType.Image.Raw)
             {
                 texture.LoadImage(image.data);
                 prog?.Report(0.5f);
@@ -60,8 +60,8 @@ namespace Juniper.Imaging
             }
 
             return new ImageData(
-                new ImageInfo(image.width, image.height, components), 
-                Format,
+                new ImageInfo(image.width, image.height, components),
+                (MediaType.Image)ContentType,
                 subCodec.Encode(image));
         }
     }

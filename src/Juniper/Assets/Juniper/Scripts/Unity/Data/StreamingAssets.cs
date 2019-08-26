@@ -147,13 +147,13 @@ namespace Juniper.Data
         /// <param name="imagePath">Image path.</param>
         /// <param name="resolve">  Resolve.</param>
         /// <param name="reject">   Reject.</param>
-        public static async Task<T> GetImage<T>(IImageDecoder<T> decoder, string cacheDirectory, string imagePath, IProgress prog = null)
+        public static async Task<T> GetImage<T>(IImageCodec<T> decoder, string cacheDirectory, string imagePath, IProgress prog = null)
         {
             var subProgs = prog?.Split("Read", "Deserialize");
-            using (var imageFile = await StreamingAssets.GetStream(
+            using (var imageFile = await GetStream(
                 cacheDirectory,
                 imagePath,
-                decoder.Format.Value,
+                decoder.ContentType,
                 subProgs[0]))
             {
                 if (imageFile != null
@@ -178,13 +178,13 @@ namespace Juniper.Data
         /// <param name="imagePath">Image path.</param>
         /// <param name="resolve">  Resolve.</param>
         /// <param name="reject">   Reject.</param>
-        public static async Task<T> ReadImage<T>(IImageDecoder<T> decoder, string cacheDirectory, string imagePath, IProgress prog = null)
+        public static async Task<T> ReadImage<T>(IImageCodec<T> decoder, string cacheDirectory, string imagePath, IProgress prog = null)
         {
             var subProgs = prog?.Split("Read", "Deserialize");
-            using (var imageFile = await StreamingAssets.GetStream(
+            using (var imageFile = await GetStream(
                 cacheDirectory,
                 imagePath,
-                decoder.Format.Value,
+                decoder.ContentType,
                 subProgs[0]))
             {
                 if (imageFile != null

@@ -1,6 +1,6 @@
 using System.IO;
 using System.Text;
-
+using Juniper.HTTP;
 using Juniper.Progress;
 using Juniper.Streams;
 
@@ -8,11 +8,15 @@ namespace Juniper.Serialization
 {
     public interface IDeserializer
     {
+        MediaType ContentType { get; }
+
         T Deserialize<T>(Stream stream);
     }
 
     public interface IDeserializer<T>
     {
+        MediaType ContentType { get; }
+
         T Deserialize(Stream stream);
     }
 

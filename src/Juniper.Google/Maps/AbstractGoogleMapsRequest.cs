@@ -1,18 +1,16 @@
 using System;
 
 using Juniper.HTTP.REST;
-using Juniper.Serialization;
 
 namespace Juniper.Google.Maps
 {
-    public abstract class AbstractGoogleMapsRequest<DecoderType, ResultType> : AbstractRequest<DecoderType, ResultType>
-        where DecoderType : IDeserializer<ResultType>
+    public abstract class AbstractGoogleMapsRequest : AbstractRequest
     {
         private readonly bool signRequests;
         private readonly GoogleMapsRequestConfiguration google;
 
-        protected AbstractGoogleMapsRequest(GoogleMapsRequestConfiguration api, DecoderType deserializer, string path, string cacheSubDirectoryName, bool signRequests)
-            : base(api, deserializer, path, cacheSubDirectoryName)
+        protected AbstractGoogleMapsRequest(GoogleMapsRequestConfiguration api, string path, string cacheSubDirectoryName, bool signRequests)
+            : base(api, path, cacheSubDirectoryName)
         {
             google = api;
             this.signRequests = signRequests;

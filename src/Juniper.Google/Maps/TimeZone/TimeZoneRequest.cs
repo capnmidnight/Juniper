@@ -1,21 +1,16 @@
 using System;
 
-using Juniper.Json;
-using Juniper.Serialization;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.TimeZone
 {
-    public class TimeZoneRequest : AbstractGoogleMapsRequest<IDeserializer<TimeZoneResponse>, TimeZoneResponse>
+    public class TimeZoneRequest : AbstractGoogleMapsRequest
     {
         private LatLngPoint location;
         private DateTime timestamp;
 
         public TimeZoneRequest(GoogleMapsRequestConfiguration api)
-            : base(api, new JsonFactory().Specialize<TimeZoneResponse>(), "timezone/json", "timezones", false)
-        {
-            SetContentType(HTTP.MediaType.Application.Json);
-        }
+            : base(api, "timezone/json", "timezones", false) { }
 
         public LatLngPoint Location
         {

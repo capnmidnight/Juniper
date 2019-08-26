@@ -9,9 +9,12 @@ using System.Threading.Tasks;
 using Juniper.Animation;
 using Juniper.Data;
 using Juniper.Google.Maps;
+using Juniper.Google.Maps.Geocoding;
 using Juniper.Google.Maps.StreetView;
+using Juniper.Json;
 using Juniper.Progress;
 using Juniper.Security;
+using Juniper.Serialization;
 using Juniper.Units;
 using Juniper.Unity;
 using Juniper.World;
@@ -57,7 +60,7 @@ namespace Juniper.Imaging
         private bool locked;
         private bool firstLoad;
 
-        private IImageDecoder<Texture2D> encoder;
+        private IImageCodec<Texture2D> imageCodec;
         private YarrowClient<Texture2D> yarrow;
         private FadeTransition fader;
         private GPSLocation gps;
@@ -132,14 +135,17 @@ namespace Juniper.Imaging
             var gmapsCacheDirName = Path.Combine(baseCachePath, "GoogleMaps");
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
             var uri = new Uri(yarrowServerHost);
-            encoder = new UnityTextureCodec();
-            yarrow = new YarrowClient<Texture2D>(uri, encoder, yarrowCacheDir, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
+            imageCodec = new UnityTextureCodec();
+            var json = new JsonFactory();
+            var metadataDecoder = json.Specialize<MetadataResponse>();
+            var geocodingDecoder = json.Specialize<GeocodingResponse>();
+            yarrow = new YarrowClient<Texture2D>(uri, yarrowCacheDir, imageCodec, metadataDecoder, geocodingDecoder, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
 
             photospheres.CubemapNeeded += Photospheres_CubemapNeeded;
             photospheres.ImageNeeded += Photospheres_ImageNeeded;
             photospheres.PhotosphereReady += Photospheres_PhotosphereReady;
             photospheres.PhotosphereComplete += Photospheres_PhotosphereComplete;
-            photospheres.encoder = encoder;
+            photospheres.codec = imageCodec;
 
             photospheres.SetDetailLevels(searchFOVs);
         }

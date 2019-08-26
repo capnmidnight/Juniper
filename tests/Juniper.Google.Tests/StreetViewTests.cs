@@ -5,6 +5,7 @@ using Juniper.Google.Maps.Tests;
 using Juniper.Imaging;
 using Juniper.Imaging.HjgPngcs;
 using Juniper.Imaging.LibJpegNET;
+using Juniper.Json;
 using Juniper.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,18 +18,14 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task JPEGImageSize()
         {
-            var decoder = new LibJpegNETImageDataTranscoder();
-            var imageRequest = new ImageRequest<ImageData>(service, decoder, new Size(640, 640))
+            var imageRequest = new ImageRequest(service, new Size(640, 640))
             {
                 Place = (PlaceName)"Alexandria, VA"
             };
 
-            if (!imageRequest.IsCached)
-            {
-                await imageRequest.Get();
-            }
-
-            var info = decoder.GetImageInfo(imageRequest.CacheFile);
+            var decoder = new LibJpegNETImageDataTranscoder();
+            var image = await imageRequest.GetDecoded(decoder);
+            var info = image.info;
             Assert.AreEqual(640, info.dimensions.width);
             Assert.AreEqual(640, info.dimensions.height);
         }
@@ -36,12 +33,13 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task PNGImageSize()
         {
-            var decoder = new LibJpegNETImageDataTranscoder();
-            var imageRequest = new ImageRequest<ImageData>(service, decoder, new Size(640, 640))
+            var imageRequest = new ImageRequest(service, new Size(640, 640))
             {
                 Place = (PlaceName)"Alexandria, VA"
             };
-            var rawImg = await imageRequest.Get();
+
+            var jpeg = new LibJpegNETImageDataTranscoder();
+            var rawImg = await imageRequest.GetDecoded(jpeg);
             var png = new HjgPngcsImageDataTranscoder();
             var data = png.Serialize(rawImg);
             var info = png.GetImageInfo(data);
@@ -56,8 +54,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             {
                 Place = (PlaceName)"Washington, DC"
             };
-            var metadata = await metadataRequest.Get();
-            Assert.IsTrue(metadataRequest.IsCached);
+            var metadata = await metadataRequest.GetDecoded(new JsonFactory().Specialize<MetadataResponse>());
             Assert.AreEqual(HttpStatusCode.OK, metadata.status);
             Assert.IsNotNull(metadata.copyright);
             Assert.IsNotNull("2016-07", metadata.date.ToString("yyyy-MM"));
@@ -68,13 +65,12 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var decoder = new LibJpegNETImageDataTranscoder();
-            var imageRequest = new ImageRequest<ImageData>(service, decoder, new Size(4096, 4096))
+            var imageRequest = new ImageRequest(service, new Size(4096, 4096))
             {
                 Place = (PlaceName)"Alexandria, VA"
             };
-            var image = await imageRequest.Get();
-            Assert.IsTrue(imageRequest.IsCached);
+            var decoder = new LibJpegNETImageDataTranscoder();
+            var image = await imageRequest.GetDecoded(decoder);
             Assert.AreEqual(640, image.info.dimensions.width);
             Assert.AreEqual(640, image.info.dimensions.height);
         }
@@ -82,13 +78,12 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImageWithoutCaching()
         {
-            var decoder = new LibJpegNETImageDataTranscoder();
-            var imageRequest = new ImageRequest<ImageData>(noCacheService, decoder, new Size(640, 640))
+            var imageRequest = new ImageRequest(noCacheService, new Size(640, 640))
             {
                 Place = (PlaceName)"Alexandria, VA"
             };
-            var image = await imageRequest.Get();
-            Assert.IsFalse(imageRequest.IsCached);
+            var decoder = new LibJpegNETImageDataTranscoder();
+            var image = await imageRequest.GetDecoded(decoder);
             Assert.AreEqual(640, image.info.dimensions.width);
             Assert.AreEqual(640, image.info.dimensions.height);
         }

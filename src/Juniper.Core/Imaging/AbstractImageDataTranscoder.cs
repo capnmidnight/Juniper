@@ -1,14 +1,14 @@
 using System;
 using System.IO;
-using System.Linq;
 
+using Juniper.HTTP;
 using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
     public abstract class AbstractImageDataTranscoder<SubDecoderT, SubDecoderImageT>
-        : IImageDecoder<ImageData>, IImageTranscoder<ImageData, SubDecoderImageT>
-        where SubDecoderT : IImageDecoder<SubDecoderImageT>
+        : IImageCodec<ImageData>, IImageTranscoder<ImageData, SubDecoderImageT>
+        where SubDecoderT : IImageCodec<SubDecoderImageT>
     {
         protected readonly SubDecoderT subCodec;
 
@@ -17,7 +17,7 @@ namespace Juniper.Imaging
             this.subCodec = subCodec;
         }
 
-        public HTTP.MediaType.Image Format { get { return subCodec.Format; } }
+        public MediaType ContentType { get { return subCodec.ContentType; } }
 
         public ImageInfo GetImageInfo(byte[] data)
         {

@@ -1,7 +1,7 @@
 using System.IO;
 
 using Json.Lite;
-
+using Juniper.HTTP;
 using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.Streams;
@@ -10,16 +10,21 @@ namespace Juniper.Json
 {
     public class JsonFactory : IFactory
     {
-#pragma warning disable CA1822 // Mark members as static
+        public MediaType ContentType { get; private set; }
+
+        public JsonFactory(MediaType contentType)
+        {
+            ContentType = contentType;
+        }
+
+        public JsonFactory() : this(MediaType.Application.Json) { }
+
         public string ToString<T>(T value)
-#pragma warning restore CA1822 // Mark members as static
         {
             return JsonConvert.SerializeObject(value);
         }
 
-#pragma warning disable CA1822 // Mark members as static
         public T Parse<T>(string text)
-#pragma warning restore CA1822 // Mark members as static
         {
             return JsonConvert.DeserializeObject<T>(text);
         }

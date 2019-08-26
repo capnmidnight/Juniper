@@ -4,7 +4,7 @@ namespace Juniper.HTTP
     {
         public sealed class Text : MediaType
         {
-            public Text(string value, string[] extensions = null) : base("text" + value, extensions) {}
+            public Text(string value, string[] extensions = null) : base("text/" + value, extensions) {}
 
             public static readonly Text Cache_Manifest = new Text("cache-manifest", new string[] {"appcache"});
             public static readonly Text Calendar = new Text("calendar", new string[] {"ics", "ifb"});
@@ -112,15 +112,13 @@ namespace Juniper.HTTP
             public static readonly Text Xml = new Text("xml");
             public static readonly Text Xml_External_Parsed_Entity = new Text("xml-external-parsed-entity");
 
-            public static readonly Text[] Values = {
+            public static readonly new Text[] Values = {
                 Cache_Manifest,
                 Calendar,
                 Css,
                 Csv,
                 Csv_Schema,
-                Directory,
                 Dns,
-                Ecmascript,
                 Encaprtp,
                 Enriched,
                 Example,
@@ -128,7 +126,6 @@ namespace Juniper.HTTP
                 Fwdred,
                 Grammar_Ref_List,
                 Html,
-                Javascript,
                 Jcr_Cnd,
                 Markdown,
                 Mizar,
@@ -184,7 +181,6 @@ namespace Juniper.HTTP
                 VendorNet2phoneCommcenterCommand,
                 VendorRadisysMsml_Basic_Layout,
                 VendorSenxWarpscript,
-                VendorSiUricatalogue,
                 VendorSosi,
                 VendorSunJ2meApp_Descriptor,
                 VendorTrolltechLinguist,

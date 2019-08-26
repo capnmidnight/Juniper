@@ -1,4 +1,5 @@
-﻿using System.IO;
+using System.IO;
+using Juniper.HTTP;
 
 namespace Juniper.Serialization
 {
@@ -15,5 +16,7 @@ namespace Juniper.Serialization
         {
             return deserializer.Deserialize<T>(stream);
         }
+
+        public MediaType ContentType { get { return deserializer.ContentType; } }
     }
 }
