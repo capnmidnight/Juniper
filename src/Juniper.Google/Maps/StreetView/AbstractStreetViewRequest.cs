@@ -7,6 +7,7 @@ namespace Juniper.Google.Maps.StreetView
         private PanoID pano;
         private PlaceName placeName;
         private LatLngPoint location;
+        private int radius;
 
         protected AbstractStreetViewRequest(GoogleMapsRequestConfiguration api, string path)
             : base(api, path, "streetview", true)
@@ -49,6 +50,16 @@ namespace Juniper.Google.Maps.StreetView
                 pano = default;
                 RemoveQuery(nameof(pano));
                 SetQuery(nameof(location), (string)value);
+            }
+        }
+
+        public int Radius
+        {
+            get { return radius; }
+            set
+            {
+                radius = value;
+                SetQuery(nameof(radius), radius);
             }
         }
     }

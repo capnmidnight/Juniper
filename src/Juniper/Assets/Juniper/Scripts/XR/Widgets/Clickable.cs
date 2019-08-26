@@ -44,6 +44,7 @@ namespace Juniper.Widgets
         {
             if (eventData.button == clickButton && !IsDisabled)
             {
+                GetPosition(eventData);
                 OnClick();
             }
         }

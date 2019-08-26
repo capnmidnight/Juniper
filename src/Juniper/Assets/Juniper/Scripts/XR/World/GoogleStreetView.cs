@@ -17,6 +17,7 @@ using Juniper.Security;
 using Juniper.Serialization;
 using Juniper.Units;
 using Juniper.Unity;
+using Juniper.Widgets;
 using Juniper.World;
 using Juniper.World.GIS;
 
@@ -65,6 +66,7 @@ namespace Juniper.Imaging
         private FadeTransition fader;
         private GPSLocation gps;
         private PhotosphereManager photospheres;
+        private Clickable navPlane;
 
 #if UNITY_EDITOR
         private EditorTextInput locationInput;
@@ -108,6 +110,7 @@ namespace Juniper.Imaging
             gps = ComponentExt.FindAny<GPSLocation>();
             photospheres = ComponentExt.FindAny<PhotosphereManager>()
                 ?? this.Ensure<PhotosphereManager>();
+            navPlane = transform.Find("NavPlane").Ensure<Clickable>();
         }
 
         public override void Awake()
@@ -148,6 +151,14 @@ namespace Juniper.Imaging
             photospheres.codec = imageCodec;
 
             photospheres.SetDetailLevels(searchFOVs);
+
+            var renderer = navPlane.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                renderer.enabled = false;
+            }
+
+            navPlane.Click += NavPlane_Click;
         }
 
         private string Photospheres_CubemapNeeded(Photosphere source)
@@ -234,11 +245,7 @@ namespace Juniper.Imaging
 
         private IEnumerator GetMetadata(IProgress metadataProg)
         {
-            if (!firstLoad)
-            {
-                fader.Enter();
-                yield return fader.Waiter;
-            }
+            int searchRadius = 50;
 
             if (metadataCache.ContainsKey(inputSearchLocation))
             {
@@ -249,15 +256,15 @@ namespace Juniper.Imaging
                 Task<MetadataResponse> metadataTask;
                 if (PanoID.TryParse(inputSearchLocation, out var pano))
                 {
-                    metadataTask = yarrow.GetMetadata(pano, metadataProg);
+                    metadataTask = yarrow.GetMetadata(pano, searchRadius, metadataProg);
                 }
                 else if (LatLngPoint.TryParseDecimal(inputSearchLocation, out var point))
                 {
-                    metadataTask = yarrow.GetMetadata(point, metadataProg);
+                    metadataTask = yarrow.GetMetadata(point, searchRadius, metadataProg);
                 }
                 else
                 {
-                    metadataTask = yarrow.GetMetadata((PlaceName)inputSearchLocation, metadataProg);
+                    metadataTask = yarrow.GetMetadata((PlaceName)inputSearchLocation, searchRadius, metadataProg);
                 }
 
                 yield return metadataTask.Waiter();
@@ -266,10 +273,14 @@ namespace Juniper.Imaging
                 {
                     print("metadata found");
                     var curMetadata = metadataTask.Result;
-                    metadataCache[inputSearchLocation] = curMetadata;
-
                     if (curMetadata.status == HttpStatusCode.OK && curMetadata.pano_id != curPano)
                     {
+                        if (!firstLoad)
+                        {
+                            fader.Enter();
+                            yield return fader.Waiter;
+                        }
+                        metadataCache[inputSearchLocation] = curMetadata;
                         SetMetadata(inputSearchLocation, curMetadata);
                     }
                 }
@@ -309,15 +320,23 @@ namespace Juniper.Imaging
             inputSearchLocation = location;
         }
 
+        private void NavPlane_Click(object sender, EventArgs e)
+        {
+            var delta = navPlane.pointerPosition - transform.position;
+            var deltaMove = new Vector2(delta.x, delta.z);
+            Move(deltaMove);
+        }
+
         public void Move(Vector2 deltaMeters)
         {
             if (curMetadata?.location != null)
             {
                 yarrow.ClearError();
-                deltaMeters /= 10f;
                 var utm = curMetadata.location.ToUTM();
-                utm = new UTMPoint(utm.X + deltaMeters.x, utm.Y + deltaMeters.y, utm.Z, utm.Zone, utm.Hemisphere);
-                inputSearchLocation = utm.ToLatLng().ToString();
+                var nextUtm = new UTMPoint(utm.X + deltaMeters.x, utm.Y + deltaMeters.y, utm.Z, utm.Zone, utm.Hemisphere);
+                var point = nextUtm.ToLatLng();
+                var delta = new Vector2(nextUtm.X - utm.X, nextUtm.Y - utm.Y);
+                inputSearchLocation = point.ToString();
             }
         }
 

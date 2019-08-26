@@ -64,7 +64,7 @@ namespace Juniper.Input.Pointers
         {
             get
             {
-                return Mathf.Max(1.5f, 1.1f * DisplayManager.MainCamera.nearClipPlane);
+                return Mathf.Max(eventManager.minPointerDistance, 1.1f * DisplayManager.MainCamera.nearClipPlane);
             }
         }
 
@@ -74,7 +74,7 @@ namespace Juniper.Input.Pointers
         {
             get
             {
-                return Mathf.Min(10f, 0.9f * DisplayManager.MainCamera.farClipPlane);
+                return Mathf.Min(eventManager.maxPointerDistance, 0.9f * DisplayManager.MainCamera.farClipPlane);
             }
         }
 

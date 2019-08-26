@@ -106,6 +106,8 @@ namespace Juniper.Input
         public TouchPoint[] touches;
         public MotionController[] motionControllers;
         public HandTracker[] handTrackers;
+        public float minPointerDistance = 1.5f;
+        public float maxPointerDistance = 25f;
 
         public void AddPointer(IPointerDevice pointer)
         {
