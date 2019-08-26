@@ -4,7 +4,7 @@ namespace Juniper.HTTP
     {
         public sealed class Model : MediaType
         {
-            public Model(string value, string[] extensions = null) : base("model/" + value, extensions) {}
+            public Model(string value, string[] extensions = null) : base("model" + value, extensions) {}
 
             public static readonly Model Example = new Model("example");
             public static readonly Model Gltf_Binary = new Model("gltf-binary");
@@ -35,6 +35,38 @@ namespace Juniper.HTTP
             public static readonly Model X3dFastinfoset = new Model("x3d+fastinfoset", new string[] {"fastinfoset"});
             public static readonly Model X3dVrml = new Model("x3d+vrml", new string[] {"x3dv", "x3dvz"});
             public static readonly Model X3dXml = new Model("x3d+xml", new string[] {"x3d", "x3dz"});
+
+            public static readonly Model[] Values = {
+                Example,
+                Gltf_Binary,
+                GltfJson,
+                Iges,
+                Mesh,
+                Stl,
+                Vendor3mf,
+                VendorColladaXml,
+                VendorDwf,
+                VendorFlatland3dml,
+                VendorGdl,
+                VendorGs_Gdl,
+                VendorGsGdl,
+                VendorGtw,
+                VendorMomlXml,
+                VendorMts,
+                VendorOpengex,
+                VendorParasolidTransmitBinary,
+                VendorParasolidTransmitText,
+                VendorRosetteAnnotated_Data_Model,
+                VendorUsdzZip,
+                VendorValveSourceCompiled_Map,
+                VendorVtu,
+                Vrml,
+                X3d_Vrml,
+                X3dBinary,
+                X3dFastinfoset,
+                X3dVrml,
+                X3dXml,
+            };
         }
     }
 }

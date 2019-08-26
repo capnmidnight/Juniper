@@ -4,7 +4,7 @@ namespace Juniper.HTTP
     {
         public sealed class Multipart : MediaType
         {
-            public Multipart(string value, string[] extensions = null) : base("multipart/" + value, extensions) {}
+            public Multipart(string value, string[] extensions = null) : base("multipart" + value, extensions) {}
 
             public static readonly Multipart Alternative = new Multipart("alternative");
             public static readonly Multipart Appledouble = new Multipart("appledouble");
@@ -23,6 +23,26 @@ namespace Juniper.HTTP
             public static readonly Multipart VendorBintMed_Plus = new Multipart("vnd.bint.med-plus");
             public static readonly Multipart Voice_Message = new Multipart("voice-message");
             public static readonly Multipart X_Mixed_Replace = new Multipart("x-mixed-replace");
+
+            public static readonly Multipart[] Values = {
+                Alternative,
+                Appledouble,
+                Byteranges,
+                Digest,
+                Encrypted,
+                Example,
+                Form_Data,
+                Header_Set,
+                Mixed,
+                Multilingual,
+                Parallel,
+                Related,
+                Report,
+                Signed,
+                VendorBintMed_Plus,
+                Voice_Message,
+                X_Mixed_Replace,
+            };
         }
     }
 }

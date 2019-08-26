@@ -12,7 +12,7 @@ namespace Juniper.HTTP.MediaTypes.Console
 
         public Group(string className)
         {
-            this.ClassName = className;
+            ClassName = className;
             fileName = className + ".cs";
         }
 
@@ -22,13 +22,20 @@ namespace Juniper.HTTP.MediaTypes.Console
             {
                 writer.WriteLine("        public sealed class {0} : MediaType", ClassName);
                 writer.WriteLine("        {");
-                writer.Write("            public {0}(string value, string[] extensions = null)", ClassName);
-                writer.WriteLine(" : base(\"{0}/\" + value, extensions) {{}}", ClassName.ToLowerInvariant());
+                writer.WriteLine("            public {0}(string value, string[] extensions = null) : base(\"{1}\" + value, extensions) {{}}", ClassName, ClassName.ToLowerInvariant());
                 writer.WriteLine();
-                foreach (var entry in entries.Values.OrderBy(e => e.FieldName))
+                var sortedEntries = entries.Values.OrderBy(e => e.FieldName);
+                foreach (var entry in sortedEntries)
                 {
                     entry.Write(writer);
                 }
+                writer.WriteLine();
+                writer.WriteLine("            public static readonly {0}[] Values = {{", ClassName);
+                foreach (var entry in sortedEntries)
+                {
+                    writer.WriteLine("                {0},", entry.FieldName);
+                }
+                writer.WriteLine("            };");
                 writer.WriteLine("        }");
             });
         }

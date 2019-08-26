@@ -4,7 +4,7 @@ namespace Juniper.HTTP
     {
         public sealed class Message : MediaType
         {
-            public Message(string value, string[] extensions = null) : base("message/" + value, extensions) {}
+            public Message(string value, string[] extensions = null) : base("message" + value, extensions) {}
 
             public static readonly Message CPIM = new Message("cpim");
             public static readonly Message Delivery_Status = new Message("delivery-status");
@@ -33,6 +33,30 @@ namespace Juniper.HTTP
             public static readonly Message VendorSiSimp = new Message("vnd.si.simp");
 
             public static readonly Message VendorWfaWsc = new Message("vnd.wfa.wsc");
+
+            public static readonly Message[] Values = {
+                CPIM,
+                Delivery_Status,
+                Disposition_Notification,
+                Example,
+                External_Body,
+                Feedback_Report,
+                Global,
+                Global_Delivery_Status,
+                Global_Disposition_Notification,
+                Global_Headers,
+                Http,
+                ImdnXml,
+                News,
+                Partial,
+                Rfc822,
+                S_Http,
+                Sip,
+                Sipfrag,
+                Tracking_Status,
+                VendorSiSimp,
+                VendorWfaWsc,
+            };
         }
     }
 }

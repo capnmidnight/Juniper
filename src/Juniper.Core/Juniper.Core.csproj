@@ -67,6 +67,7 @@
     <Compile Include="HTTP\MediaType\Model.cs" />
     <Compile Include="HTTP\MediaType\Multipart.cs" />
     <Compile Include="HTTP\MediaType\Text.cs" />
+    <Compile Include="HTTP\MediaType\Values.cs" />
     <Compile Include="HTTP\MediaType\Video.cs" />
     <Compile Include="HTTP\MediaType\XConference.cs" />
     <Compile Include="HTTP\REST\AbstractRequest.cs" />

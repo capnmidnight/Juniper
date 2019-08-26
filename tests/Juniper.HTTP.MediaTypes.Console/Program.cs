@@ -30,6 +30,7 @@ namespace Juniper.HTTP.MediaTypes.Console
             WriteGroups(groups, outDir);
             WriteLookup(groups, outDir);
             WriteExtensionLookup(groups, outDir);
+            WriteValues(groups, outDir);
         }
 
         private static void WriteGroups(Dictionary<string, Group> groups, string outDir)
@@ -80,6 +81,27 @@ namespace Juniper.HTTP.MediaTypes.Console
                 }
                 writer.WriteLine("        };");
             }, "using System.Collections.Generic;");
+        }
+
+        private static void WriteValues(Dictionary<string, Group> groups, string outDir)
+        {
+            var allValues =
+                from grp in groups.Values
+                from entry in grp.entries.Values
+                where entry.DeprecationMessage == null
+                let value = $"{grp.ClassName}.{entry.FieldName}"
+                orderby value
+                select value;
+
+            "Values.cs".MakeFile(outDir, (writer) =>
+            {
+                writer.WriteLine("        public static readonly MediaType[] Values = {");
+                foreach(var value in allValues)
+                {
+                    writer.WriteLine("            {0},", value);
+                }
+                writer.WriteLine("        };");
+            });
         }
 
         private static async Task ParseApacheConf(Dictionary<string, Group> groups)
