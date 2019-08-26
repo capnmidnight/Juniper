@@ -37,8 +37,9 @@ namespace Juniper.Units
         /// <summary>
         /// Converts this LatLngPoint to a Universal Transverse Mercator point using the WGS-84
         /// datum. The coordinate pair's units will be in meters, and should be usable to make
-        /// distance calculations over short distances. /// reference: http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm
+        /// distance calculations over short distances.
         /// </summary>
+        /// <seealso cref="http://www.uwgb.edu/dutchs/usefuldata/utmformulas.htm"/>
         /// <param name="latlng">The point on Earth to convert to UTM</param>
         /// <returns>The UTM point</returns>
         public static UTMPoint ToUTM(this LatLngPoint latlng)
@@ -84,11 +85,11 @@ namespace Juniper.Units
             var easting = k0 * N * A * x4;
             easting += DatumWGS_84.E0;
 
-            // Northing
-            var northing = k0 * (M + N * tanPhi * (Asqr * (1 / 2.0 + Asqr * ((5 - T + 9 * C + 4 * C * C) / 24.0 + Asqr * (61 - 58 * T + Tsqr + 600 * C - 330 * DatumWGS_84.e0sq) / 720.0))));
+             // Northing
+             var northing = k0 * (M + N * tanPhi * (Asqr * (1 / 2.0 + Asqr * ((5 - T + 9 * C + 4 * C * C) / 24.0 + Asqr * (61 - 58 * T + Tsqr + 600 * C - 330 * DatumWGS_84.e0sq) / 720.0))));
             if (hemisphere == UTMPoint.GlobeHemisphere.Southern)
             {
-                northing = 10000000.0 + northing;
+                northing += DatumWGS_84.FalseNorthing;
             }
 
             return new UTMPoint(

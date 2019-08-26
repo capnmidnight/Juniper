@@ -14,7 +14,7 @@ namespace Juniper.Units
         /// <returns>The latitude/longitude</returns>
         public static LatLngPoint ToLatLng(this UTMPoint utm)
         {
-            var N0 = utm.Hemisphere == UTMPoint.GlobeHemisphere.Northern ? 0.0 : 10000000.0;
+            var N0 = utm.Hemisphere == UTMPoint.GlobeHemisphere.Northern ? 0.0 : DatumWGS_84.FalseNorthing;
             var xi = (utm.Y - N0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
             var eta = (utm.X - DatumWGS_84.E0) / (DatumWGS_84.pointScaleFactor * DatumWGS_84.A);
             var xiPrime = xi;

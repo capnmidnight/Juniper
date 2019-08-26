@@ -7,6 +7,7 @@ namespace Juniper.World.GIS
     /// </summary>
     public static class DatumWGS_84
     {
+        public const double FalseNorthing = 10000000.0;
         private const double invF = 298.257223563;
         public const double equatorialRadius = 6378137;
         public const double pointScaleFactor = 0.9996;
