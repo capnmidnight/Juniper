@@ -208,7 +208,7 @@ namespace Juniper.Input.Pointers
         /// The cursor probe that shows the physical location of the current selection.
         /// </summary>
         [SerializeField]
-        protected IProbe probe;
+        public IProbe probe;
 
         public virtual void OnProbeFound()
         {

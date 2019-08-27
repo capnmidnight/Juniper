@@ -69,37 +69,34 @@ namespace Juniper.Imaging
 
         public int Count { get { return photospheres.Count; } }
 
-        public Photosphere this[string key]
+        public Photosphere GetPhotosphere(string key)
         {
-            get
+            if (curSphere?.name != key)
             {
-                if (curSphere?.name != key)
+                if (curSphere != null)
                 {
-                    if (curSphere != null)
-                    {
-                        curSphere.Deactivate();
-                    }
-
-                    if (!photospheres.ContainsKey(key))
-                    {
-                        var photoGo = new GameObject(key);
-                        photoGo.Deactivate();
-                        var photo = photoGo.Ensure<Photosphere>().Value;
-                        photo.CubemapNeeded += Photo_CubemapNeeded;
-                        photo.ImageNeeded += Photo_ImageNeeded;
-                        photo.Complete += Photo_Complete;
-                        photo.Ready += Photo_Ready;
-                        photo.codec = codec;
-                        photo.SetDetailRequirements(FOVs, fovTestAngles, lodLevelRequirements);
-                        photospheres.Add(key, photo);
-                    }
-
-                    curSphere = photospheres[key];
-                    curSphere.Activate();
+                    curSphere.Deactivate();
                 }
 
-                return curSphere;
+                if (!photospheres.ContainsKey(key))
+                {
+                    var photoGo = new GameObject(key);
+                    photoGo.Deactivate();
+                    var photo = photoGo.Ensure<Photosphere>().Value;
+                    photo.CubemapNeeded += Photo_CubemapNeeded;
+                    photo.ImageNeeded += Photo_ImageNeeded;
+                    photo.Complete += Photo_Complete;
+                    photo.Ready += Photo_Ready;
+                    photo.codec = codec;
+                    photo.SetDetailRequirements(FOVs, fovTestAngles, lodLevelRequirements);
+                    photospheres.Add(key, photo);
+                }
+
+                curSphere = photospheres[key];
+                curSphere.Activate();
             }
+
+            return curSphere;
         }
 
         private string Photo_CubemapNeeded(Photosphere source)

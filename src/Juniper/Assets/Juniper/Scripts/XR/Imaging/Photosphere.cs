@@ -55,6 +55,8 @@ namespace Juniper.Imaging
 
         internal IImageCodec<Texture2D> codec;
 
+        public bool IsReady { get { return wasReady; } }
+
         public void Awake()
         {
             avatar = ComponentExt.FindAny<Avatar>();
@@ -62,29 +64,38 @@ namespace Juniper.Imaging
                 ?? this.Ensure<SkyboxManager>();
         }
 
+        public void OnDisable()
+        {
+            HideTessalation();
+        }
+
+        private void HideTessalation()
+        {
+            if (lodLevelRequirements != null)
+            {
+                for (var f = 0; f < lodLevelRequirements.Length; ++f)
+                {
+                    var lodLevel = FOVs[f];
+                    if (detailContainerCache.ContainsKey(lodLevel))
+                    {
+                        detailContainerCache[lodLevel].Deactivate();
+                    }
+                }
+            }
+        }
+
         public void OnEnable()
         {
-            wasReady = false;
-            wasComplete = false;
-
-            if (trySkybox)
+            if (skyboxCubemap != null)
+            {
+                ShowSkybox();
+            }
+            else if (trySkybox)
             {
                 trySkybox = false;
                 locked = true;
                 var filename = CubemapNeeded?.Invoke(this);
                 StartCoroutine(ReadCubemapCoroutine(filename));
-            }
-            else if (skyboxCubemap != null)
-            {
-                skybox.exposure = 1;
-                skybox.imageType = SkyboxManager.ImageType.Degrees360;
-                skybox.layout = SkyboxManager.Mode.Cube;
-                skybox.mirror180OnBack = false;
-                skybox.rotation = 0;
-                skybox.stereoLayout = SkyboxManager.StereoLayout.None;
-                skybox.tint = Color.gray;
-                skybox.useMipMap = false;
-                skybox.SetTexture(skyboxCubemap);
             }
             else if (lodLevelRequirements != null)
             {
@@ -103,6 +114,22 @@ namespace Juniper.Imaging
             }
         }
 
+        private void ShowSkybox()
+        {
+            HideTessalation();
+            skybox.exposure = 1;
+            skybox.imageType = SkyboxManager.ImageType.Degrees360;
+            skybox.layout = SkyboxManager.Mode.Cube;
+            skybox.mirror180OnBack = false;
+            skybox.rotation = 0;
+            skybox.stereoLayout = SkyboxManager.StereoLayout.None;
+            skybox.tint = Color.gray;
+            skybox.useMipMap = false;
+            skybox.SetTexture(skyboxCubemap);
+            wasReady = wasComplete = true;
+            Ready?.Invoke(this);
+        }
+
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
             var imageTask = StreamingAssets.ReadImage(codec, Application.persistentDataPath, filePath, this);
@@ -113,9 +140,7 @@ namespace Juniper.Imaging
             {
                 Debug.Log("Cubemap saved");
                 skyboxCubemap = imageTask.Result;
-                OnDisable();
-                OnEnable();
-                Update();
+                ShowSkybox();
             }
             else if (imageTask.IsCanceled)
             {
@@ -139,34 +164,13 @@ namespace Juniper.Imaging
             Report(progress, null);
         }
 
-        public void OnDisable()
-        {
-            if (lodLevelRequirements != null)
-            {
-                for (var f = 0; f < lodLevelRequirements.Length; ++f)
-                {
-                    var lodLevel = FOVs[f];
-                    if (detailContainerCache.ContainsKey(lodLevel))
-                    {
-                        detailContainerCache[lodLevel].Deactivate();
-                    }
-                }
-            }
-        }
-
         public void Update()
         {
-            transform.position = avatar.Head.position;
             if (!wasComplete)
             {
                 var isComplete = false;
                 var isReady = wasReady;
-                if (skyboxCubemap != null)
-                {
-                    isReady = true;
-                    isComplete = true;
-                }
-                else if (lodLevelRequirements != null)
+                if (lodLevelRequirements != null)
                 {
                     var totalCompleted = 0;
                     var totalNeeded = 0;

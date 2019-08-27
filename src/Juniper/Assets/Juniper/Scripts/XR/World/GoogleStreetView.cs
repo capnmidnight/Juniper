@@ -31,7 +31,8 @@ namespace Juniper.Imaging
 {
     public class GoogleStreetView : SubSceneController, ICredentialReceiver
     {
-        private static readonly Regex GMAPS_URL_PATTERN = new Regex("https?://www\\.google\\.com/maps/@-?\\d+\\.\\d+,\\d+\\.\\d+(?:,[a-zA-Z0-9.]+)*/data=(?:![a-z0-9]+)*!1s([a-zA-Z0-9_\\-]+)(?:![a-z0-9]+)*", RegexOptions.Compiled);
+        private static readonly Regex GMAPS_URL_PATTERN =
+            new Regex("https?://www\\.google\\.com/maps/@-?\\d+\\.\\d+,\\d+\\.\\d+(?:,[a-zA-Z0-9.]+)*/data=(?:![a-z0-9]+)*!1s([a-zA-Z0-9_\\-]+)(?:![a-z0-9]+)*", RegexOptions.Compiled);
 
         private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
 
@@ -56,25 +57,30 @@ namespace Juniper.Imaging
 
         [ReadOnly]
         public string searchLocation;
-
         private string lastSearchLocation = string.Empty;
-        private PanoID lastPano = (PanoID)string.Empty;
-        private PanoID curPano = (PanoID)string.Empty;
-        private PanoID nextPano = (PanoID)string.Empty;
-        public LatLngPoint curPoint;
-        public LatLngPoint nextPoint;
+
+        private MetadataResponse nextMetadata;
+        private MetadataResponse curMetadata;
+
+        private PanoID? nextPano { get { return nextMetadata?.pano_id; } }
+        private PanoID? curPano { get { return curMetadata?.pano_id; } }
+
+        private LatLngPoint? nextPoint { get { return nextMetadata?.location; } }
+        private LatLngPoint? curPoint { get { return curMetadata?.location; } }
+
+
+        private Vector3 origin;
 
         private bool locked;
-        private bool firstLoad;
 
-        private IImageCodec<Texture2D> imageCodec;
         private YarrowClient<Texture2D> yarrow;
         private FadeTransition fader;
         private GPSLocation gps;
         private PhotosphereManager photospheres;
         private Clickable navPlane;
-        private UnifiedInputModule input;
+        private Avatar avatar;
         private Transform navPointer;
+        private UnifiedInputModule input;
 
 #if UNITY_EDITOR
         private EditorTextInput locationInput;
@@ -117,8 +123,9 @@ namespace Juniper.Imaging
             photospheres = ComponentExt.FindAny<PhotosphereManager>()
                 ?? this.Ensure<PhotosphereManager>();
             navPlane = transform.Find("NavPlane").Ensure<Clickable>();
-            input = ComponentExt.FindAny<UnifiedInputModule>();
+            avatar = ComponentExt.FindAny<Avatar>();
             navPointer = transform.Find("NavPointer");
+            input = ComponentExt.FindAny<UnifiedInputModule>();
         }
 
         public override void Awake()
@@ -131,14 +138,22 @@ namespace Juniper.Imaging
             this.ReceiveCredentials();
 
             locationInput = this.Ensure<EditorTextInput>();
-            locationInput.OnSubmit.AddListener(new UnityAction<string>(LocationInput_SetLocation));
+            locationInput.OnSubmit.AddListener(new UnityAction<string>(SetLocation));
             if (!string.IsNullOrEmpty(locationInput.value))
             {
-                LocationInput_SetLocation(locationInput.value);
+                SetLocation(locationInput.value);
+            }
+            else if (gps != null && gps.HasCoord)
+            {
+                SetLocation(gps.Coord.ToString());
             }
 
             var baseCachePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 #else
+            if(gps != null && gps.HasCoord)
+            {
+                SetLocation(gps.Coord.ToString());
+            }
             var baseCachePath = Application.persistentDataPath;
 #endif
             var yarrowCacheDirName = Path.Combine(baseCachePath, "Yarrow");
@@ -146,32 +161,24 @@ namespace Juniper.Imaging
             var gmapsCacheDirName = Path.Combine(baseCachePath, "GoogleMaps");
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
             var uri = new Uri(yarrowServerHost);
-            imageCodec = new UnityTextureCodec();
+            var imageCodec = new UnityTextureCodec();
             var json = new JsonFactory();
             var metadataDecoder = json.Specialize<MetadataResponse>();
             var geocodingDecoder = json.Specialize<GeocodingResponse>();
-            yarrow = new YarrowClient<Texture2D>(uri, yarrowCacheDir, imageCodec, metadataDecoder, geocodingDecoder, gmapsApiKey, gmapsSigningKey, gmapsCacheDir, true);
+            yarrow = new YarrowClient<Texture2D>(uri, yarrowCacheDir, imageCodec, metadataDecoder, geocodingDecoder, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
 
             photospheres.CubemapNeeded += Photospheres_CubemapNeeded;
             photospheres.ImageNeeded += Photospheres_ImageNeeded;
-            photospheres.PhotosphereReady += Photospheres_PhotosphereReady;
-            photospheres.PhotosphereComplete += Photospheres_PhotosphereComplete;
             photospheres.codec = imageCodec;
 
             photospheres.SetDetailLevels(searchFOVs);
 
+            navPlane.Click += NavPlane_Click;
             var renderer = navPlane.GetComponent<Renderer>();
             if (renderer != null)
             {
                 renderer.enabled = false;
             }
-
-            navPlane.Click += NavPlane_Click;
-        }
-
-        public void LocationInput_SetLocation(string location)
-        {
-            searchLocation = location;
         }
 
         private string Photospheres_CubemapNeeded(Photosphere source)
@@ -184,43 +191,10 @@ namespace Juniper.Imaging
             return yarrow.GetImageStream((PanoID)source.name, fov, heading, pitch);
         }
 
-        private void Photospheres_PhotosphereReady(Photosphere obj)
-        {
-            lastPano = curPano;
-#if UNITY_EDITOR
-            if (locationInput != null)
-            {
-                locationInput.value = searchLocation;
-            }
-#endif
-            curPoint = nextPoint;
-            SetLatLngLocation(curPoint);
-            if (firstLoad)
-            {
-                Complete();
-                firstLoad = false;
-            }
-            else if (fader.IsEntered && fader.IsComplete)
-            {
-                fader.Exit();
-            }
-        }
-
-        private void Photospheres_PhotosphereComplete(Photosphere obj)
-        {
-            lastPano = curPano = nextPano = (PanoID)obj.name;
-        }
-
         public override void Enter(IProgress prog = null)
         {
             base.Enter(prog);
-            if (string.IsNullOrEmpty(searchLocation) && gps?.HasCoord == true)
-            {
-                SetLatLngLocation(gps.Coord);
-            }
-
-            firstLoad = true;
-            SynchronizeData(prog);
+            SynchronizeData(true, prog);
         }
 
         public override void Update()
@@ -228,172 +202,156 @@ namespace Juniper.Imaging
             base.Update();
             if (IsEntered && IsComplete && !locked)
             {
-                SynchronizeData();
+                SynchronizeData(false);
             }
         }
 
-        private void SynchronizeData(IProgress prog = null)
+        private void SynchronizeData(bool firstLoad, IProgress prog = null)
         {
+            locked = true;
             var gmapsMatch = GMAPS_URL_PATTERN.Match(searchLocation);
             if (gmapsMatch.Success)
             {
                 searchLocation = gmapsMatch.Groups[1].Value;
             }
+
+            if (!firstLoad)
+            {
+                var nextVec = input.mouse.probe.Cursor.position + origin;
+                nextVec.y = 0;
+                var curUTM = curPoint.Value.ToUTM();
+                var nextPoint = nextVec.ToUTM(curUTM.Zone, curUTM.Hemisphere).ToLatLng();
+                searchLocation = nextPoint.ToString();
+            }
+
             if (!string.IsNullOrEmpty(searchLocation) && searchLocation != lastSearchLocation)
             {
-                print("searching");
-                locked = true;
                 lastSearchLocation = searchLocation;
-                StartCoroutine(GetMetadataCoroutine(prog));
-            }
-            else if (curPano == lastPano)
-            {
-                StartCoroutine(GetMetadataCoroutine(input.mouse.SmoothedWorldPoint));
+                StartCoroutine(SynchronizeDataCoroutine(firstLoad, prog));
             }
             else
             {
-                var photosphere = photospheres[curPano.ToString()];
+                locked = false;
             }
         }
 
-        private IEnumerator GetMetadataCoroutine(IProgress prog)
+        private IEnumerator SynchronizeDataCoroutine(bool firstLoad, IProgress prog)
         {
-            print("Getting metadata");
-            var metadataProg = prog.Subdivide(0, 0.1f, "Getting metadata");
-            var imageProg = prog.Subdivide(0.1f, 0.9f, "Loading image");
+            var metadataProg = prog.Subdivide(0, 0.1f);
+            var subProg = prog.Subdivide(0.1f, 0.9f);
             if (metadataCache.ContainsKey(searchLocation))
             {
-                yield return SetMetadataCoroutine(metadataCache[searchLocation], imageProg);
-            }
-            else if (PanoID.TryParse(searchLocation, out var pano))
-            {
-                yield return GetMetadataCoroutine(pano, metadataProg, imageProg);
-            }
-            else if (LatLngPoint.TryParseDecimal(searchLocation, out var point))
-            {
-                yield return GetMetadataCoroutine(point, metadataProg, imageProg);
+                yield return SetMetadata(firstLoad, metadataCache[searchLocation], subProg);
             }
             else
             {
-                yield return GetMetadataCoroutine((PlaceName)searchLocation, metadataProg, imageProg);
-            }
-        }
-
-        private IEnumerator GetMetadataCoroutine(Vector3 point)
-        {
-            print("GetMetadata:Vector3");
-            yield return GetMetadataCoroutine(Vector3ToLatLngPoint(point), null, null);
-        }
-
-        private IEnumerator GetMetadataCoroutine(PanoID pano, IProgress metadataProg, IProgress imageProg)
-        {
-            print("GetMetadata:PanoID");
-            yield return ResolveMetadataCoroutine(yarrow.GetMetadata(pano, searchRadius, metadataProg), imageProg);
-        }
-
-        private IEnumerator GetMetadataCoroutine(LatLngPoint point, IProgress metadataProg, IProgress imageProg)
-        {
-            print("GetMetadata:LatLngPoint");
-            yield return ResolveMetadataCoroutine(yarrow.GetMetadata(point, searchRadius, metadataProg), imageProg);
-        }
-
-        private IEnumerator GetMetadataCoroutine(PlaceName place, IProgress metadataProg, IProgress imageProg)
-        {
-            print("GetMetadata:PlaceName");
-            yield return ResolveMetadataCoroutine(yarrow.GetMetadata(place, searchRadius, metadataProg), imageProg);
-        }
-
-        private IEnumerator ResolveMetadataCoroutine(Task<MetadataResponse> metadataTask, IProgress imageProg)
-        {
-            print("ResolveMetadata");
-            yield return metadataTask.Waiter();
-
-            if (metadataTask.IsSuccessful())
-            {
-                yield return SetMetadataCoroutine(metadataTask.Result, imageProg);
-            }
-            else
-            {
-                print("Failed to get metadata");
-            }
-        }
-
-        private IEnumerator SetMetadataCoroutine(MetadataResponse metadata, IProgress imageProg)
-        {
-            print("metadata found " + metadata.pano_id);
-            if (metadata.status == HttpStatusCode.OK)
-            {
-                nextPano = metadata.pano_id;
-                nextPoint = metadata.location;
-                navPointer.position = LatLngPointToVector3(nextPoint);
-
-                if (firstLoad)
+                Task<MetadataResponse> metadataTask;
+                if (PanoID.TryParse(searchLocation, out var pano))
                 {
-                    print("Loading next pano");
-                    curPano = nextPano;
-                    curPoint = nextPoint;
-                    var photosphere = photospheres[curPano.ToString()];
-                    yield return new WaitUntil(() =>
-                    {
-                        imageProg?.Report(photosphere.ProgressToReady, "Loading photosphere");
-                        return lastPano == curPano;
-                    });
+                    metadataTask = yarrow.GetMetadata(pano, searchRadius, metadataProg);
+                }
+                else if (LatLngPoint.TryParseDecimal(searchLocation, out var point))
+                {
+                    metadataTask = yarrow.GetMetadata(point, searchRadius, metadataProg);
                 }
                 else
                 {
-                    print("Not first load");
+                    metadataTask = yarrow.GetMetadata((PlaceName)searchLocation, searchRadius, metadataProg);
+                }
+
+                yield return metadataTask.Waiter();
+
+                if (metadataTask.IsSuccessful())
+                {
+                    var metadata = metadataTask.Result;
+                    if (metadata.status == HttpStatusCode.OK && metadata.pano_id != curPano)
+                    {
+                        yield return SetMetadata(firstLoad, metadata, subProg);
+                    }
                 }
             }
             locked = false;
         }
 
-        private void NavPlane_Click(object sender, EventArgs e)
+        private IEnumerator SetMetadata(bool firstLoad, MetadataResponse metadata, IProgress subProg)
         {
-            StartCoroutine(LoadNewPanoCoroutine());
-        }
-
-        private IEnumerator LoadNewPanoCoroutine()
-        {
-            fader.Enter();
-            yield return fader.Waiter;
-            curPano = nextPano;
-        }
-
-        public void SetLatLngLocation(LatLngPoint location)
-        {
+            metadataCache[metadata.pano_id.ToString()] = metadata;
+            metadataCache[metadata.location.ToString()] = metadata;
+            metadataCache[searchLocation] = metadata;
+            nextMetadata = metadata;
             if (gps != null)
             {
                 gps.FakeCoord = true;
-                gps.Coord = location;
+                gps.Coord = metadata.location;
+            }
+#if UNITY_EDITOR
+            if (locationInput != null)
+            {
+                locationInput.value = searchLocation;
+            }
+#endif
+
+            var nextVec = nextPoint.Value.ToVector3();
+            if (firstLoad)
+            {
+                origin = nextVec;
+                yield return LoadPhotosphere(firstLoad, subProg);
+            }
+            else if (nextPoint != null)
+            {
+                navPointer.position = nextVec - origin;
             }
         }
 
-        private LatLngPoint Vector3ToLatLngPoint(Vector3 vec)
+        private void NavPlane_Click(object sender, EventArgs e)
         {
-            var delta = vec - transform.position;
-            var curUtm = curPoint.ToUTM();
-            var curVec = curUtm.ToVector3();
-            var nextVec = curVec + delta;
-            var nextUtm = nextVec.ToUTM(curUtm.Zone, curUtm.Hemisphere);
-            var nextPoint = nextUtm.ToLatLng();
-            return nextPoint;
+            StartCoroutine(LoadPhotosphere(false));
         }
 
-        private Vector3 LatLngPointToVector3(LatLngPoint nextPoint)
+        private IEnumerator LoadPhotosphere(bool firstLoad, IProgress subProg = null)
         {
-            var curUtm = curPoint.ToUTM();
-            var curVec = curUtm.ToVector3();
-            var nextUtm = nextPoint.ToUTM();
-            var nextVec = nextUtm.ToVector3();
-            var delta = nextVec - curVec;
-            var vec = transform.position + delta;
-            return vec;
+            if (nextPano != null)
+            {
+                if (!firstLoad)
+                {
+                    fader.Enter();
+                    yield return fader.Waiter;
+                }
+
+                var photosphere = photospheres.GetPhotosphere(nextPano.Value.ToString());
+                while (!photosphere.IsReady)
+                {
+                    subProg?.Report(photosphere.ProgressToReady, "Loading photosphere");
+                    yield return null;
+                }
+
+                var nextVec = nextPoint.Value.ToVector3();
+                var delta = nextVec - origin;
+                transform.position = avatar.transform.position = delta;
+                photosphere.transform.position = avatar.Head.position;
+                curMetadata = nextMetadata;
+                nextMetadata = null;
+
+                if (firstLoad)
+                {
+                    Complete();
+                }
+                else
+                {
+                    fader.Exit();
+                }
+            }
         }
 
         protected override void OnExiting()
         {
             base.OnExiting();
             Complete();
+        }
+
+        public void SetLocation(string location)
+        {
+            searchLocation = location;
         }
     }
 }
