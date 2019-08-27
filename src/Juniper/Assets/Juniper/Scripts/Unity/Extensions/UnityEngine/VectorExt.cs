@@ -18,7 +18,7 @@ namespace UnityEngine
         /// <param name="donatedZone">Donated zone.</param>
         public static UTMPoint ToUTM(this Vector3 value, int donatedZone, UTMPoint.GlobeHemisphere hemisphere)
         {
-            return new UTMPoint(value.x, value.y, value.z, donatedZone, hemisphere);
+            return new UTMPoint(value.x, value.z, value.y, donatedZone, hemisphere);
         }
 
         /// <summary>
