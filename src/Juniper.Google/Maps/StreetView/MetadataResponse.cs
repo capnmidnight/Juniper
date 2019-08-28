@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 using System.Runtime.Serialization;
-
+using System.Text.RegularExpressions;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
@@ -9,10 +9,17 @@ namespace Juniper.Google.Maps.StreetView
     [Serializable]
     public class MetadataResponse : ISerializable
     {
+        private static readonly Regex PANO_PATTERN = new Regex("^[a-zA-Z0-9_\\-]+$", RegexOptions.Compiled);
+
+        public static bool IsPano(string panoString)
+        {
+            return PANO_PATTERN.IsMatch(panoString);
+        }
+
         public readonly HttpStatusCode status;
         public readonly string copyright;
         public readonly DateTime date;
-        public readonly PanoID pano_id;
+        public readonly string pano_id;
         public readonly LatLngPoint location;
 
         protected MetadataResponse(SerializationInfo info, StreamingContext context)
@@ -22,7 +29,7 @@ namespace Juniper.Google.Maps.StreetView
             {
                 copyright = info.GetString(nameof(copyright));
                 date = info.GetDateTime(nameof(date));
-                pano_id = new PanoID(info.GetString(nameof(pano_id)));
+                pano_id = info.GetString(nameof(pano_id));
                 location = info.GetValue<LatLngPoint>(nameof(location));
             }
         }
@@ -34,7 +41,7 @@ namespace Juniper.Google.Maps.StreetView
             {
                 info.MaybeAddValue(nameof(copyright), copyright);
                 info.MaybeAddValue(nameof(date), date.ToString("yyyy-MM"));
-                info.MaybeAddValue(nameof(pano_id), pano_id.ToString());
+                info.MaybeAddValue(nameof(pano_id), pano_id);
                 info.MaybeAddValue(nameof(location), new
                 {
                     lat = location.Latitude,

@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Google.Maps.Tests;
-using Juniper.HTTP.REST;
 using Juniper.Json;
 using Juniper.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,7 +18,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         {
             var search = new GeocodingRequest(service)
             {
-                Address = (PlaceName)"4909 Rutland Place, Alexandria, VA 22304"
+                Address = "4909 Rutland Place, Alexandria, VA 22304"
             };
             var results = await search.GetDecoded(decoder);
             Assert.IsNotNull(results);
@@ -33,7 +32,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         {
             var search = new GeocodingRequest(service)
             {
-                Address = (PlaceName)"High St, Hastings",
+                Address = "High St, Hastings",
                 CountryFilter = "GB"
             };
             var results = await search.GetDecoded(decoder);
@@ -53,8 +52,9 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var search = new GeocodingRequest(service)
             {
                 Address = new USAddress(
-                "4909 Rutland Place",
-                "Alexandria", "VA", "22304")
+                    "4909 Rutland Place",
+                    "Alexandria", "VA", "22304")
+                .ToString()
             };
             var results = await search.GetDecoded(decoder);
             Assert.IsNotNull(results);
@@ -66,10 +66,12 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task FormattedAddress()
         {
-            var search = new GeocodingRequest(service) {
+            var search = new GeocodingRequest(service)
+            {
                 Address = new USAddress(
-                "4909 Rutland Place",
-                "Alexandria", "VA", "22304")
+                    "4909 Rutland Place",
+                    "Alexandria", "VA", "22304")
+                .ToString()
             };
             var results = await search.GetDecoded(decoder);
             var res = results.results.FirstOrDefault();
@@ -83,8 +85,9 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var search = new GeocodingRequest(service)
             {
                 Address = new USAddress(
-                "4909 Rutland Place",
-                "Alexandria", "VA", "22304")
+                    "4909 Rutland Place",
+                    "Alexandria", "VA", "22304")
+                .ToString()
             };
             var results = await search.GetDecoded(decoder);
             var res = results.results.FirstOrDefault();
@@ -98,8 +101,9 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var search = new GeocodingRequest(service)
             {
                 Address = new USAddress(
-                "4909 Rutland Place",
-                "Alexandria", "VA", "22304")
+                    "4909 Rutland Place",
+                    "Alexandria", "VA", "22304")
+                .ToString()
             };
             var results = await search.GetDecoded(decoder);
             var res = results.results.FirstOrDefault();
@@ -112,8 +116,9 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var search = new GeocodingRequest(service)
             {
                 Address = new USAddress(
-                "4909 Rutland Place",
-                "Alexandria", "VA", "22304")
+                    "4909 Rutland Place",
+                    "Alexandria", "VA", "22304")
+                .ToString()
             };
             var results = await search.GetDecoded(decoder);
             var res = results.results.FirstOrDefault();
@@ -129,8 +134,9 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var search = new GeocodingRequest(service)
             {
                 Address = new USAddress(
-                "4909 Rutland Place",
-                "Alexandria", "VA", "22304")
+                    "4909 Rutland Place",
+                    "Alexandria", "VA", "22304")
+                .ToString()
             };
             var results = await search.GetDecoded(decoder);
             var res = results.results.FirstOrDefault();
@@ -146,8 +152,9 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var search = new GeocodingRequest(service)
             {
                 Address = new USAddress(
-                "4909 Rutland Place",
-                "Alexandria", "VA", "22304")
+                    "4909 Rutland Place",
+                    "Alexandria", "VA", "22304")
+                .ToString()
             };
             var results = await search.GetDecoded(decoder);
             var res = results.results.FirstOrDefault();
@@ -163,8 +170,9 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var search = new GeocodingRequest(service)
             {
                 Address = new USAddress(
-                "4909 Rutland Place",
-                "Alexandria", "VA", "22304")
+                    "4909 Rutland Place",
+                    "Alexandria", "VA", "22304")
+                .ToString()
             };
             var results = await search.GetDecoded(decoder);
             var res = results.results.FirstOrDefault();
@@ -180,8 +188,9 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var search = new GeocodingRequest(service)
             {
                 Address = new USAddress(
-                "4909 Rutland Place",
-                "Alexandria", "VA", "22304")
+                    "4909 Rutland Place",
+                    "Alexandria", "VA", "22304")
+                .ToString()
             };
             var results = await search.GetDecoded(decoder);
             var res = results.results.FirstOrDefault();
@@ -201,8 +210,9 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var search = new GeocodingRequest(service)
             {
                 Address = new USAddress(
-                "4909 Rutland Place",
-                "Alexandria", "VA", "22304")
+                    "4909 Rutland Place",
+                    "Alexandria", "VA", "22304")
+                .ToString()
             };
             var results = await search.GetDecoded(decoder);
             var res = results.results.FirstOrDefault();
@@ -222,8 +232,9 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var search = new GeocodingRequest(service)
             {
                 Address = new USAddress(
-                "4909 Rutland Place",
-                "Alexandria", "VA", "22304")
+                    "4909 Rutland Place",
+                    "Alexandria", "VA", "22304")
+                .ToString()
             };
             var results = await search.GetDecoded(decoder);
             var res = results.results.FirstOrDefault();
@@ -243,8 +254,9 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             var search = new GeocodingRequest(service)
             {
                 Address = new USAddress(
-                "4909 Rutland Place",
-                "Alexandria", "VA", "22304")
+                    "4909 Rutland Place",
+                    "Alexandria", "VA", "22304")
+                .ToString()
             };
             var results = await search.GetDecoded(decoder);
             var res = results.results.FirstOrDefault();

@@ -18,7 +18,7 @@ namespace Juniper.Google.Maps.MapTiles
         private MapImageType maptype;
 
         private int zoom;
-        private PlaceName address;
+        private string address;
         private LatLngPoint center;
         private Size size;
 
@@ -48,14 +48,14 @@ namespace Juniper.Google.Maps.MapTiles
             }
         }
 
-        public PlaceName Address
+        public string Address
         {
             get { return address; }
             set
             {
                 address = value;
                 center = default;
-                SetQuery(nameof(center), (string)address);
+                SetQuery(nameof(center), address);
             }
         }
 
@@ -66,7 +66,7 @@ namespace Juniper.Google.Maps.MapTiles
             {
                 address = default;
                 center = value;
-                SetQuery(nameof(center), (string)center);
+                SetQuery(nameof(center), center.ToString());
             }
         }
 

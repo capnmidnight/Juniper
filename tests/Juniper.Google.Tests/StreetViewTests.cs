@@ -20,7 +20,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         {
             var imageRequest = new ImageRequest(service, new Size(640, 640))
             {
-                Place = (PlaceName)"Alexandria, VA"
+                Place = "Alexandria, VA"
             };
 
             var decoder = new LibJpegNETImageDataTranscoder();
@@ -35,7 +35,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         {
             var imageRequest = new ImageRequest(service, new Size(640, 640))
             {
-                Place = (PlaceName)"Alexandria, VA"
+                Place = "Alexandria, VA"
             };
 
             var jpeg = new LibJpegNETImageDataTranscoder();
@@ -52,7 +52,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         {
             var metadataRequest = new MetadataRequest(service)
             {
-                Place = (PlaceName)"Washington, DC"
+                Place = "Washington, DC"
             };
             var metadata = await metadataRequest.GetDecoded(new JsonFactory().Specialize<MetadataResponse>());
             Assert.AreEqual(HttpStatusCode.OK, metadata.status);
@@ -67,7 +67,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         {
             var imageRequest = new ImageRequest(service, new Size(4096, 4096))
             {
-                Place = (PlaceName)"Alexandria, VA"
+                Place = "Alexandria, VA"
             };
             var decoder = new LibJpegNETImageDataTranscoder();
             var image = await imageRequest.GetDecoded(decoder);
@@ -80,7 +80,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         {
             var imageRequest = new ImageRequest(noCacheService, new Size(640, 640))
             {
-                Place = (PlaceName)"Alexandria, VA"
+                Place = "Alexandria, VA"
             };
             var decoder = new LibJpegNETImageDataTranscoder();
             var image = await imageRequest.GetDecoded(decoder);

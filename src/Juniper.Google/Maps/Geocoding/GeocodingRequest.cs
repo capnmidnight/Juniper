@@ -6,8 +6,8 @@ namespace Juniper.Google.Maps.Geocoding
 {
     public class GeocodingRequest : AbstractGeocodingRequest
     {
-        private PlaceID place_id;
-        private PlaceName address;
+        private string place_id;
+        private string address;
 
         private readonly Dictionary<AddressComponentType, string> components = new Dictionary<AddressComponentType, string>();
 
@@ -19,7 +19,7 @@ namespace Juniper.Google.Maps.Geocoding
         {
         }
 
-        public PlaceID Place
+        public string Place
         {
             get { return place_id; }
             set
@@ -32,7 +32,7 @@ namespace Juniper.Google.Maps.Geocoding
             }
         }
 
-        public PlaceName Address
+        public string Address
         {
             get { return address; }
             set

@@ -49,8 +49,6 @@
     <Compile Include="Maps\Geocoding\GeometryLocationType.cs" />
     <Compile Include="Maps\Geocoding\GeometryResult.cs" />
     <Compile Include="Maps\Geocoding\GeometryViewport.cs" />
-    <Compile Include="Maps\PhoneNumber.cs" />
-    <Compile Include="Maps\PlaceID.cs" />
     <Compile Include="Maps\Places\PlaceSearchField.cs" />
     <Compile Include="Maps\Places\PlaceSearchInputType.cs" />
     <Compile Include="Maps\Places\PlaceSearchRequest.cs" />
@@ -73,8 +71,6 @@
     <Compile Include="Maps\StreetView\LocationTypes.cs" />
     <Compile Include="Maps\StreetView\MetadataResponse.cs" />
     <Compile Include="Maps\StreetView\MetadataRequest.cs" />
-    <Compile Include="Maps\PlaceName.cs" />
-    <Compile Include="Maps\StreetView\PanoID.cs" />
     <Compile Include="Maps\StreetView\AbstractStreetViewRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExt.cs" />

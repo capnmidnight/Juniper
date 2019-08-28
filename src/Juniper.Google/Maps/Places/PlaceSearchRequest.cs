@@ -17,12 +17,12 @@ namespace Juniper.Google.Maps.Places
         {
         }
 
-        public PhoneNumber PhoneNumber
+        public string PhoneNumber
         {
-            get { return inputtype == PlaceSearchInputType.phonenumber ? (PhoneNumber)input : default; }
+            get { return inputtype == PlaceSearchInputType.phonenumber ? input : default; }
             set
             {
-                SetInput((string)value, PlaceSearchInputType.phonenumber);
+                SetInput(value, PlaceSearchInputType.phonenumber);
             }
         }
 

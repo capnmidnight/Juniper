@@ -49,7 +49,7 @@ namespace Juniper.Google.Maps.MapTiles.Tests
             var search = new TileRequest(service, new Size(640, 640))
             {
                 Zoom = 20,
-                Address = (PlaceName)"4909 Rutland Pl, Alexandria, VA, 22304"
+                Address = (string)"4909 Rutland Pl, Alexandria, VA, 22304"
             };
             var results = await search.GetDecoded(new HjgPngcsImageDataTranscoder());
             Assert.IsNotNull(results);

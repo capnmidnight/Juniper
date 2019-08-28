@@ -1,12 +1,7 @@
 namespace Juniper.Google.Maps
 {
-    public struct USAddress
+    public class USAddress
     {
-        public static explicit operator string(USAddress value)
-        {
-            return value.ToString();
-        }
-
         public static bool operator ==(USAddress left, USAddress right)
         {
             return left.Equals(right);
@@ -15,11 +10,6 @@ namespace Juniper.Google.Maps
         public static bool operator !=(USAddress left, USAddress right)
         {
             return !(left == right);
-        }
-
-        public static implicit operator PlaceName(USAddress address)
-        {
-            return (PlaceName)address.ToString();
         }
 
         private readonly string street;
@@ -51,8 +41,8 @@ namespace Juniper.Google.Maps
                         && add.city.Equals(city)
                         && add.state.Equals(state)
                         && add.zip.Equals(zip))
-                    || (obj is PlaceName name
-                        && name == this));
+                    || (obj is string name
+                        && name == this.ToString()));
         }
 
         public override int GetHashCode()
