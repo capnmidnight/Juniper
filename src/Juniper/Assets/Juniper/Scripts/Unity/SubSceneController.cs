@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 using Juniper.Animation;
 using Juniper.Progress;
@@ -88,9 +87,16 @@ namespace Juniper
         {
             get
             {
-                return from trans in childTransitions
-                       where !trans.enabled
-                       select trans;
+                if (childTransitions != null)
+                {
+                    foreach (var trans in childTransitions)
+                    {
+                        if (!trans.enabled)
+                        {
+                            yield return trans;
+                        }
+                    }
+                }
             }
         }
 
@@ -102,9 +108,16 @@ namespace Juniper
         {
             get
             {
-                return from trans in childTransitions
-                       where trans.enabled
-                       select trans;
+                if (childTransitions != null)
+                {
+                    foreach (var trans in childTransitions)
+                    {
+                        if (trans.enabled)
+                        {
+                            yield return trans;
+                        }
+                    }
+                }
             }
         }
 
