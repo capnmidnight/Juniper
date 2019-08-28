@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -36,7 +38,9 @@ namespace Juniper.Imaging
         private Vector2[][] fovTestAngles;
         private int[] lodLevelRequirements;
 
-        private readonly Dictionary<string, Photosphere> photospheres = new Dictionary<string, Photosphere>();
+
+        private readonly ConcurrentQueue<string> phoQ = new ConcurrentQueue<string>();
+        private readonly ConcurrentDictionary<string, Photosphere> photospheres = new ConcurrentDictionary<string, Photosphere>();
 
         private Photosphere curSphere;
 
@@ -69,7 +73,7 @@ namespace Juniper.Imaging
 
         public int Count { get { return photospheres.Count; } }
 
-        public Photosphere GetPhotosphere(string key)
+        public async Task<Photosphere> GetPhotosphere(string key)
         {
             if (curSphere?.name != key)
             {
@@ -80,23 +84,44 @@ namespace Juniper.Imaging
 
                 if (!photospheres.ContainsKey(key))
                 {
-                    var photoGo = new GameObject(key);
-                    photoGo.Deactivate();
-                    var photo = photoGo.Ensure<Photosphere>().Value;
-                    photo.CubemapNeeded += Photo_CubemapNeeded;
-                    photo.ImageNeeded += Photo_ImageNeeded;
-                    photo.Complete += Photo_Complete;
-                    photo.Ready += Photo_Ready;
-                    photo.codec = codec;
-                    photo.SetDetailRequirements(FOVs, fovTestAngles, lodLevelRequirements);
-                    photospheres.Add(key, photo);
+                    phoQ.Enqueue(key);
+                    while (!photospheres.ContainsKey(key))
+                    {
+                        await Task.Yield();
+                    }
                 }
 
                 curSphere = photospheres[key];
-                curSphere.Activate();
             }
 
             return curSphere;
+        }
+
+        public void Update()
+        {
+            curSphere?.Activate();
+
+            while (phoQ.TryDequeue(out var key))
+            {
+                var photoGo = new GameObject(key);
+                photoGo.Deactivate();
+                var photo = photoGo.Ensure<Photosphere>().Value;
+                photo.CubemapNeeded += Photo_CubemapNeeded;
+                photo.ImageNeeded += Photo_ImageNeeded;
+                photo.Complete += Photo_Complete;
+                photo.Ready += Photo_Ready;
+                photo.codec = codec;
+                photo.SetDetailRequirements(FOVs, fovTestAngles, lodLevelRequirements);
+                StartCoroutine(AddPhotosphere(key, photo));
+            }
+        }
+
+        private IEnumerator AddPhotosphere(string key, Photosphere photo)
+        {
+            while (!photospheres.TryAdd(key, photo))
+            {
+                yield return null;
+            }
         }
 
         private string Photo_CubemapNeeded(Photosphere source)
