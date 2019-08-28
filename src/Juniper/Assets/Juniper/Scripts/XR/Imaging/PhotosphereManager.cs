@@ -39,8 +39,7 @@ namespace Juniper.Imaging
         private int[] lodLevelRequirements;
 
 
-        private readonly ConcurrentQueue<string> phoQ = new ConcurrentQueue<string>();
-        private readonly ConcurrentDictionary<string, Photosphere> photospheres = new ConcurrentDictionary<string, Photosphere>();
+        private readonly Dictionary<string, Photosphere> photospheres = new Dictionary<string, Photosphere>();
 
         private Photosphere curSphere;
 
@@ -73,55 +72,65 @@ namespace Juniper.Imaging
 
         public int Count { get { return photospheres.Count; } }
 
-        public async Task<Photosphere> GetPhotosphere(string key)
+        public T GetPhotosphere<T>(string key) where T : Photosphere
         {
-            if (curSphere?.name != key)
+            if (curSphere == null || curSphere.Key != key)
             {
-                if (curSphere != null)
+                if(curSphere != null)
                 {
-                    curSphere.Deactivate();
+                    curSphere.enabled = false;
                 }
 
                 if (!photospheres.ContainsKey(key))
                 {
-                    phoQ.Enqueue(key);
-                    while (!photospheres.ContainsKey(key))
-                    {
-                        await Task.Yield();
-                    }
+                    var photo = CreatePhotosphere<Photosphere>(key);
+                    photospheres.Add(key, photo);
                 }
 
                 curSphere = photospheres[key];
             }
 
-            return curSphere;
+            return (T)curSphere;
         }
 
-        public void Update()
+        public void Awake()
         {
-            curSphere?.Activate();
-
-            while (phoQ.TryDequeue(out var key))
+            var existing = GetComponentsInChildren<Photosphere>();
+            foreach(var photo in existing)
             {
-                var photoGo = new GameObject(key);
-                photoGo.Deactivate();
-                var photo = photoGo.Ensure<Photosphere>().Value;
+                photo.Ready += Photo_Ready;
+                photo.Complete += Photo_Complete;
                 photo.CubemapNeeded += Photo_CubemapNeeded;
                 photo.ImageNeeded += Photo_ImageNeeded;
-                photo.Complete += Photo_Complete;
-                photo.Ready += Photo_Ready;
-                photo.codec = codec;
-                photo.SetDetailRequirements(FOVs, fovTestAngles, lodLevelRequirements);
-                StartCoroutine(AddPhotosphere(key, photo));
+                photo.enabled = false;
+                photospheres.Add(photo.Key, photo);
             }
         }
 
-        private IEnumerator AddPhotosphere(string key, Photosphere photo)
+        public void Start()
         {
-            while (!photospheres.TryAdd(key, photo))
+            var existing = GetComponentsInChildren<Photosphere>();
+            foreach (var photo in existing)
             {
-                yield return null;
+                photo.codec = codec;
             }
+        }
+
+        public T CreatePhotosphere<T>(string key)
+            where T : Photosphere
+        {
+            var photoGo = new GameObject(key);
+            photoGo.Deactivate();
+            photoGo.transform.SetParent(transform, true);
+            var photo = photoGo.Ensure<T>().Value;
+            photo.Key = key;
+            photo.CubemapNeeded += Photo_CubemapNeeded;
+            photo.ImageNeeded += Photo_ImageNeeded;
+            photo.Complete += Photo_Complete;
+            photo.Ready += Photo_Ready;
+            photo.codec = codec;
+            photo.SetDetailRequirements(FOVs, fovTestAngles, lodLevelRequirements);
+            return photo;
         }
 
         private string Photo_CubemapNeeded(Photosphere source)

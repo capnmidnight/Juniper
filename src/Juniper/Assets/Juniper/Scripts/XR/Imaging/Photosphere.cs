@@ -33,13 +33,13 @@ namespace Juniper.Imaging
         private Vector2[][] fovTestAngles;
         private int[] lodLevelRequirements;
 
+        public string Key;
+        public string CubemapPath;
         public float ProgressToReady;
         public float ProgressToComplete;
 
         private bool locked;
         private bool wasComplete;
-        private bool wasReady;
-
         private Avatar avatar;
         private bool trySkybox = true;
         private SkyboxManager skybox;
@@ -55,7 +55,7 @@ namespace Juniper.Imaging
 
         internal IImageCodec<Texture2D> codec;
 
-        public bool IsReady { get { return wasReady; } }
+        public bool IsReady { get; private set; }
 
         public void Awake()
         {
@@ -66,21 +66,9 @@ namespace Juniper.Imaging
 
         public void OnDisable()
         {
-            HideTessalation();
-        }
-
-        private void HideTessalation()
-        {
-            if (lodLevelRequirements != null)
+            foreach (var child in transform.Children())
             {
-                for (var f = 0; f < lodLevelRequirements.Length; ++f)
-                {
-                    var lodLevel = FOVs[f];
-                    if (detailContainerCache.ContainsKey(lodLevel))
-                    {
-                        detailContainerCache[lodLevel].Deactivate();
-                    }
-                }
+                child.Deactivate();
             }
         }
 
@@ -94,29 +82,34 @@ namespace Juniper.Imaging
             {
                 trySkybox = false;
                 locked = true;
-                var filename = CubemapNeeded?.Invoke(this);
-                StartCoroutine(ReadCubemapCoroutine(filename));
-            }
-            else if (lodLevelRequirements != null)
-            {
-                for (var f = lodLevelRequirements.Length - 1; f >= 0; --f)
+                if (string.IsNullOrEmpty(CubemapPath))
                 {
-                    var lodLevel = FOVs[f];
-                    if (detailContainerCache.ContainsKey(lodLevel))
-                    {
-                        detailContainerCache[lodLevel].Activate();
-                        if (DetailLevelCompleteCount(f) == lodLevelRequirements[f])
-                        {
-                            break;
-                        }
-                    }
+                    CubemapPath = CubemapNeeded?.Invoke(this);
                 }
+                var path = StreamingAssets.FormatPath(Application.streamingAssetsPath, CubemapPath);
+                StartCoroutine(ReadCubemapCoroutine(path));
+            }
+
+            foreach (var child in transform.Children())
+            {
+                child.Activate();
             }
         }
 
         private void ShowSkybox()
         {
-            HideTessalation();
+            if (lodLevelRequirements != null && FOVs != null)
+            {
+                for (var f = 0; f < lodLevelRequirements.Length; ++f)
+                {
+                    var lodLevel = FOVs[f];
+                    if (detailContainerCache.ContainsKey(lodLevel))
+                    {
+                        detailContainerCache[lodLevel].Deactivate();
+                    }
+                }
+            }
+
             skybox.exposure = 1;
             skybox.imageType = SkyboxManager.ImageType.Degrees360;
             skybox.layout = SkyboxManager.Mode.Cube;
@@ -126,23 +119,24 @@ namespace Juniper.Imaging
             skybox.tint = Color.gray;
             skybox.useMipMap = false;
             skybox.SetTexture(skyboxCubemap);
-            wasReady = wasComplete = true;
+            IsReady = wasComplete = true;
             Ready?.Invoke(this);
         }
 
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
-            var imageTask = StreamingAssets.ReadImage(codec, Application.persistentDataPath, filePath, this);
-            yield return imageTask.Waiter();
+            print("Loading cubemap " + filePath);
+            var streamTask = StreamingAssets.GetStream(Application.persistentDataPath, filePath, this);
+            yield return streamTask.Waiter();
 
-            if (imageTask.IsSuccessful()
-                && imageTask.Result != null)
+            if (streamTask.IsSuccessful()
+                && streamTask.Result != null)
             {
                 Debug.Log("Cubemap saved");
-                skyboxCubemap = imageTask.Result;
+                skyboxCubemap = codec.Deserialize(streamTask.Result.Content);
                 ShowSkybox();
             }
-            else if (imageTask.IsCanceled)
+            else if (streamTask.IsCanceled)
             {
                 Debug.Log("Cubemap canceled");
             }
@@ -166,76 +160,92 @@ namespace Juniper.Imaging
 
         public void Update()
         {
-            if (!wasComplete)
+            if (lodLevelRequirements != null && lodLevelRequirements.Length > 0)
             {
-                var isComplete = false;
-                var isReady = wasReady;
-                if (lodLevelRequirements != null)
+                if (!wasComplete)
                 {
-                    var totalCompleted = 0;
-                    var totalNeeded = 0;
-                    for (var f = 0; f < lodLevelRequirements.Length; ++f)
+                    var isComplete = false;
+                    var isReady = IsReady;
+                    if (lodLevelRequirements != null)
                     {
-                        var t = DetailLevelCompleteCount(f);
-                        var n = lodLevelRequirements[f];
-
-                        if (f == 0)
+                        var totalCompleted = 0;
+                        var totalNeeded = 0;
+                        for (var f = 0; f < lodLevelRequirements.Length; ++f)
                         {
-                            ProgressToReady = t / (float)n;
+                            var t = DetailLevelCompleteCount(f);
+                            var n = lodLevelRequirements[f];
+
+                            if (f == 0)
+                            {
+                                ProgressToReady = t / (float)n;
+
+                                if (t == n)
+                                {
+                                    isReady = true;
+                                }
+                            }
 
                             if (t == n)
                             {
-                                isReady = true;
+                                if (f == 0)
+                                {
+                                    isReady = true;
+                                }
+                                else
+                                {
+                                    detailContainerCache[FOVs[f - 1]].Deactivate();
+                                }
                             }
+
+                            totalCompleted += t;
+                            totalNeeded += n;
                         }
 
-                        if (t == n)
+                        ProgressToComplete = totalCompleted / (float)totalNeeded;
+
+                        if (totalCompleted == totalNeeded)
                         {
-                            if (f == 0)
-                            {
-                                isReady = true;
-                            }
-                            else
-                            {
-                                detailContainerCache[FOVs[f - 1]].Deactivate();
-                            }
+                            isComplete = true;
                         }
-
-                        totalCompleted += t;
-                        totalNeeded += n;
                     }
 
-                    ProgressToComplete = totalCompleted / (float)totalNeeded;
-
-                    if (totalCompleted == totalNeeded)
+                    if (!IsReady && isReady)
                     {
-                        isComplete = true;
+                        ProgressToReady = 1;
+                        Ready?.Invoke(this);
                     }
-                }
 
-                if (!wasReady && isReady)
-                {
-                    ProgressToReady = 1;
-                    Ready?.Invoke(this);
-                }
-
-                if (isComplete)
-                {
-                    ProgressToComplete = 1;
-                    Complete?.Invoke(this);
+                    if (isComplete)
+                    {
+                        ProgressToComplete = 1;
+                        Complete?.Invoke(this);
 #if UNITY_EDITOR
-                    CaptureCubemap();
+                        CaptureCubemap();
 #endif
-                }
-                else if (!locked)
-                {
-                    locked = true;
-                    StartCoroutine(UpdateSphereCoroutine());
-                }
+                    }
+                    else if (!locked)
+                    {
+                        locked = true;
+                        StartCoroutine(UpdateSphereCoroutine());
+                    }
 
-                wasComplete = isComplete;
-                wasReady = isReady;
+                    wasComplete = isComplete;
+                    IsReady = isReady;
+                }
             }
+        }
+
+        protected virtual void OnDrawGizmos()
+        {
+            var gizmoPath = Path.Combine("Assets", "Gizmos", CubemapPath);
+            if (!File.Exists(gizmoPath))
+            {
+                var gizmoFile = new FileInfo(gizmoPath);
+                gizmoFile.Directory.Create();
+                File.Copy(StreamingAssets.FormatPath(Application.streamingAssetsPath, CubemapPath), gizmoPath);
+            }
+            Gizmos.DrawIcon(transform.position + Vector3.up, CubemapPath);
+            Gizmos.DrawSphere(transform.position, 1);
         }
 
         private IEnumerator UpdateSphereCoroutine()
@@ -421,7 +431,7 @@ namespace Juniper.Imaging
 #if UNITY_EDITOR
         private bool cubemapLock;
 
-        public void OnValidate()
+        public virtual void OnValidate()
         {
             ConfigurationManagement.TagManager.NormalizeLayer(PHOTOSPHERE_LAYER);
         }
@@ -444,8 +454,8 @@ namespace Juniper.Imaging
 
         private IEnumerator CaptureCubemapCoroutine()
         {
-            var fileName = Path.Combine("Assets", "StreamingAssets", $"{name}.jpeg");
-            using (var prog = new UnityEditorProgressDialog("Saving cubemap " + name))
+            var fileName = StreamingAssets.FormatPath(Application.streamingAssetsPath, Key + ".jpeg");
+            using (var prog = new UnityEditorProgressDialog("Saving cubemap " + Key))
             {
                 var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
 

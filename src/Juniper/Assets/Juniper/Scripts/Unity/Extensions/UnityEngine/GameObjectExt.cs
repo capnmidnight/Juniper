@@ -37,7 +37,7 @@ namespace UnityEngine
         }
 
         /// <summary>
-        /// Dectivate a game object and all of its parent objects in the scene graph.
+        /// Deactivate a game object and all of its parent objects in the scene graph.
         /// </summary>
         /// <param name="obj">Object.</param>
         public static void Deactivate(this GameObject obj)
@@ -45,9 +45,14 @@ namespace UnityEngine
             obj.SetActive(false);
         }
 
-        public static void Destroy(this GameObject obj)
+        public static void DestroyImmediate(this GameObject obj)
         {
             Object.DestroyImmediate(obj);
+        }
+
+        public static void Destroy(this GameObject obj)
+        {
+            Object.Destroy(obj);
         }
 
         /// <summary>
