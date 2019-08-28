@@ -209,16 +209,18 @@ namespace Juniper.Imaging
             dataSync = Task.Run((Func<Task>)(async () =>
             {
                 PanoID? searchPano = null;
-                var gmapsMatch = GMAPS_URL_PANO_PATTERN.Match(searchLocation);
-                if (gmapsMatch.Success && PanoID.TryParse(gmapsMatch.Groups[1].Value, out var pano))
+                var panoMatch = GMAPS_URL_PANO_PATTERN.Match(searchLocation);
+                if (panoMatch.Success && PanoID.TryParse(panoMatch.Groups[1].Value, out var pano))
                 {
+                    print(pano);
                     searchPano = pano;
                 }
 
                 LatLngPoint? searchPoint = null;
-                gmapsMatch = GMAPS_URL_LATLNG_PATTERN.Match(searchLocation);
-                if (gmapsMatch.Success && LatLngPoint.TryParseDecimal(searchLocation, out var point))
+                var latLngMatch = GMAPS_URL_LATLNG_PATTERN.Match(searchLocation);
+                if (latLngMatch.Success && LatLngPoint.TryParseDecimal(latLngMatch.Groups[1].Value, out var point))
                 {
+                    print(point);
                     searchPoint = point;
                 }
 
