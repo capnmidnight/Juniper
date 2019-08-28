@@ -21,7 +21,7 @@ namespace Juniper.Json
 
         public string ToString<T>(T value)
         {
-            return JsonConvert.SerializeObject(value);
+            return JsonConvert.SerializeObject(value, Formatting.Indented);
         }
 
         public T Parse<T>(string text)
@@ -36,6 +36,8 @@ namespace Juniper.Json
             var progress = new ProgressStream(stream, length, prog);
             var writer = new StreamWriter(progress);
             writer.Write(text);
+            writer.Flush();
+            stream.Flush();
         }
 
         public T Deserialize<T>(Stream stream)
