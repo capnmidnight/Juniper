@@ -1,5 +1,6 @@
 ﻿
 using System;
+
 using Juniper.HTTP;
 using Juniper.Progress;
 
@@ -41,7 +42,7 @@ namespace Juniper.Imaging
             return texture;
         }
 
-        public override ImageData TranslateFrom(Texture2D image)
+        public override ImageData TranslateFrom(Texture2D image, IProgress prog = null)
         {
             int components;
             if (image.format == TextureFormat.RGBA32

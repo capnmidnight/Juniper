@@ -134,6 +134,10 @@ namespace Juniper.Imaging
             {
                 return value.EncodeToTGA();
             }
+            else if(ContentType == MediaType.Image.Raw)
+            {
+                return value.GetRawTextureData();
+            }
             else
             {
                 throw new NotSupportedException($"Unity doesn't know how to encode {ContentType.Value} image data.");
