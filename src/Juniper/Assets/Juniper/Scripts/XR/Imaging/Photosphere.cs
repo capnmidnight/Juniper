@@ -10,6 +10,8 @@ using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.Units;
 
+using SixLabors.ImageSharp;
+
 using UnityEngine;
 
 namespace Juniper.Imaging
@@ -116,7 +118,7 @@ namespace Juniper.Imaging
             skybox.mirror180OnBack = false;
             skybox.rotation = 0;
             skybox.stereoLayout = SkyboxManager.StereoLayout.None;
-            skybox.tint = Color.gray;
+            skybox.tint = UnityEngine.Color.gray;
             skybox.useMipMap = false;
             skybox.SetTexture(skyboxCubemap);
             IsReady = wasComplete = true;
@@ -238,13 +240,10 @@ namespace Juniper.Imaging
         protected virtual void OnDrawGizmos()
         {
             var gizmoPath = Path.Combine("Assets", "Gizmos", CubemapPath);
-            if (!File.Exists(gizmoPath))
+            if (File.Exists(gizmoPath))
             {
-                var gizmoFile = new FileInfo(gizmoPath);
-                gizmoFile.Directory.Create();
-                File.Copy(StreamingAssets.FormatPath(Application.streamingAssetsPath, CubemapPath), gizmoPath);
+                Gizmos.DrawIcon(transform.position + Vector3.up, CubemapPath);
             }
-            Gizmos.DrawIcon(transform.position + Vector3.up, CubemapPath);
             Gizmos.DrawSphere(transform.position, 1);
         }
 
