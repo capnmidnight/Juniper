@@ -66,14 +66,6 @@ namespace Juniper.Imaging
                 ?? this.Ensure<SkyboxManager>();
         }
 
-        public void OnDisable()
-        {
-            foreach (var child in transform.Children())
-            {
-                child.Deactivate();
-            }
-        }
-
         public void OnEnable()
         {
             if (skyboxCubemap != null)
@@ -95,6 +87,14 @@ namespace Juniper.Imaging
             foreach (var child in transform.Children())
             {
                 child.Activate();
+            }
+        }
+
+        public void OnDisable()
+        {
+            foreach (var child in transform.Children())
+            {
+                child.Deactivate();
             }
         }
 

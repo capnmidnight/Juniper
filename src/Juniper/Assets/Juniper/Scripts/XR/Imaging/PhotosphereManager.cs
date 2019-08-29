@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -102,7 +100,6 @@ namespace Juniper.Imaging
                 photo.Complete += Photo_Complete;
                 photo.CubemapNeeded += Photo_CubemapNeeded;
                 photo.ImageNeeded += Photo_ImageNeeded;
-                photo.enabled = false;
                 photospheres.Add(photo.Key, photo);
             }
         }
@@ -113,6 +110,7 @@ namespace Juniper.Imaging
             foreach (var photo in existing)
             {
                 photo.codec = codec;
+                photo.enabled = false;
             }
         }
 
