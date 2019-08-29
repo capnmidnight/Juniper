@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 263a4b2269c980b4f993abdceea5f72c
+guid: 3f8b11e1e0db709489b1b8e4fbf831b8
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -18,9 +18,7 @@ PluginImporter:
       settings:
         Exclude Android: 0
         Exclude Editor: 1
-        Exclude Linux: 0
         Exclude Linux64: 0
-        Exclude LinuxUniversal: 0
         Exclude Lumin: 0
         Exclude OSXUniversal: 0
         Exclude WebGL: 0
@@ -32,7 +30,8 @@ PluginImporter:
       Android: Android
     second:
       enabled: 1
-      settings: {}
+      settings:
+        CPU: ARMv7
   - first:
       Any: 
     second:
@@ -43,14 +42,23 @@ PluginImporter:
     second:
       enabled: 0
       settings:
+        CPU: AnyCPU
         DefaultValueInitialized: true
+        OS: AnyOS
+  - first:
+      Facebook: Win
+    second:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
+  - first:
+      Facebook: Win64
+    second:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
   - first:
       Lumin: Lumin
-    second:
-      enabled: 1
-      settings: {}
-  - first:
-      Standalone: Linux
     second:
       enabled: 1
       settings: {}
@@ -58,27 +66,26 @@ PluginImporter:
       Standalone: Linux64
     second:
       enabled: 1
-      settings: {}
-  - first:
-      Standalone: LinuxUniversal
-    second:
-      enabled: 1
-      settings: {}
+      settings:
+        CPU: AnyCPU
   - first:
       Standalone: OSXUniversal
     second:
       enabled: 1
-      settings: {}
+      settings:
+        CPU: AnyCPU
   - first:
       Standalone: Win
     second:
       enabled: 1
-      settings: {}
+      settings:
+        CPU: AnyCPU
   - first:
       Standalone: Win64
     second:
       enabled: 1
-      settings: {}
+      settings:
+        CPU: AnyCPU
   - first:
       WebGL: WebGL
     second:
@@ -90,11 +97,19 @@ PluginImporter:
       enabled: 1
       settings:
         CPU: AnyCPU
+        DontProcess: false
+        PlaceholderPath: 
+        SDK: AnySDK
+        ScriptingBackend: AnyScriptingBackend
   - first:
       iPhone: iOS
     second:
       enabled: 1
-      settings: {}
+      settings:
+        AddToEmbeddedBinaries: false
+        CPU: AnyCPU
+        CompileFlags: 
+        FrameworkDependencies: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 

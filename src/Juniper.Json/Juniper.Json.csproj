@@ -41,14 +41,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Json.Net.Unity3D\src\Newtonsoft.Json\Json.Lite.csproj">
-      <Project>{955b96f2-6afb-4c2f-aaa5-9bfd6ddcb3bd}</Project>
-      <Name>Json.Lite</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Juniper.Core\Juniper.Core.csproj">
       <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
       <Name>Juniper.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Unity.Newtonsoft.Json">
+      <Version>7.0.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

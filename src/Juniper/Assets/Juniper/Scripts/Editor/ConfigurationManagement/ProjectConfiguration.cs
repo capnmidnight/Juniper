@@ -3,7 +3,7 @@ using System.IO;
 
 using Juniper.XR;
 
-using Json.Lite;
+using Newtonsoft.Json;
 
 namespace Juniper.ConfigurationManagement
 {

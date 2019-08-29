@@ -2,7 +2,7 @@ using System.Linq;
 
 using Juniper.Progress;
 
-using Json.Lite.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Juniper.ConfigurationManagement
 {

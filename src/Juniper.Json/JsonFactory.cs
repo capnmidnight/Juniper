@@ -1,10 +1,11 @@
 using System.IO;
 
-using Json.Lite;
 using Juniper.HTTP;
 using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.Streams;
+
+using Newtonsoft.Json;
 
 namespace Juniper.Json
 {

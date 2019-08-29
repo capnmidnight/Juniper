@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Juniper.Compression.Tar.GZip;
 using Juniper.Progress;
 using Juniper.XR;
 
-using Json.Lite;
-using Json.Lite.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using UnityEngine;
 
