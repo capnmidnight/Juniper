@@ -19,7 +19,8 @@ namespace Juniper.Imaging
             if (format != MediaType.Image.EXR
                 && format != MediaType.Image.Jpeg
                 && format != MediaType.Image.Png
-                && format != MediaType.Image.X_Tga)
+                && format != MediaType.Image.X_Tga
+                && format != MediaType.Image.Raw)
             {
                 throw new NotSupportedException($"Unity doesn't know how to encode {ContentType.Value} image data.");
             }

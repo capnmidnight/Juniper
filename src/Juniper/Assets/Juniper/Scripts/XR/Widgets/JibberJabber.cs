@@ -26,6 +26,11 @@ namespace Juniper.Widgets
         public float timeBetweenClips = 1;
 
         /// <summary>
+        /// The number of seconds to wait before starting the jibber-jabber;
+        /// </summary>
+        public float delayBeforeStart = 0;
+
+        /// <summary>
         /// The number of seconds before the next audioClip should be played.
         /// </summary>
         private float time;
@@ -75,7 +80,7 @@ namespace Juniper.Widgets
                 }
 #endif
 
-                time -= Time.deltaTime;
+                time -= Time.unscaledDeltaTime;
             }
         }
 
@@ -85,7 +90,7 @@ namespace Juniper.Widgets
         public void Play()
         {
             playing = true;
-            time = 0;
+            time = delayBeforeStart;
         }
 
         /// <summary>
