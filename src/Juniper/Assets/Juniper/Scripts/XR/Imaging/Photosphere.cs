@@ -31,10 +31,6 @@ namespace Juniper.Imaging
         private readonly Dictionary<int, Dictionary<int, Transform>> detailSliceContainerCache = new Dictionary<int, Dictionary<int, Transform>>();
         private readonly Dictionary<int, Dictionary<int, Dictionary<int, Transform>>> detailSliceFrameContainerCache = new Dictionary<int, Dictionary<int, Dictionary<int, Transform>>>();
 
-        private int[] FOVs;
-        private Vector2[][] fovTestAngles;
-        private int[] lodLevelRequirements;
-
         public string Key;
         public string CubemapPath;
         public float ProgressToReady;
@@ -42,8 +38,10 @@ namespace Juniper.Imaging
 
         private bool locked;
         private bool wasComplete;
-        private Avatar avatar;
         private bool trySkybox = true;
+
+        private PhotosphereManager mgr;
+        private Avatar avatar;
         private SkyboxManager skybox;
         private Texture skyboxCubemap;
 
@@ -61,6 +59,7 @@ namespace Juniper.Imaging
 
         public void Awake()
         {
+            mgr = ComponentExt.FindAny<PhotosphereManager>();
             avatar = ComponentExt.FindAny<Avatar>();
             skybox = ComponentExt.FindAny<SkyboxManager>()
                 ?? this.Ensure<SkyboxManager>();
@@ -100,11 +99,11 @@ namespace Juniper.Imaging
 
         private void ShowSkybox()
         {
-            if (lodLevelRequirements != null && FOVs != null)
+            if (mgr != null && mgr.lodLevelRequirements != null && mgr.FOVs != null)
             {
-                for (var f = 0; f < lodLevelRequirements.Length; ++f)
+                for (var f = 0; f < mgr.lodLevelRequirements.Length; ++f)
                 {
-                    var lodLevel = FOVs[f];
+                    var lodLevel = mgr.FOVs[f];
                     if (detailContainerCache.ContainsKey(lodLevel))
                     {
                         detailContainerCache[lodLevel].Deactivate();
@@ -162,20 +161,20 @@ namespace Juniper.Imaging
 
         public void Update()
         {
-            if (lodLevelRequirements != null && lodLevelRequirements.Length > 0)
+            if (mgr != null && mgr.lodLevelRequirements != null && mgr.lodLevelRequirements.Length > 0)
             {
                 if (!wasComplete)
                 {
                     var isComplete = false;
                     var isReady = IsReady;
-                    if (lodLevelRequirements != null)
+                    if (mgr.lodLevelRequirements != null)
                     {
                         var totalCompleted = 0;
                         var totalNeeded = 0;
-                        for (var f = 0; f < lodLevelRequirements.Length; ++f)
+                        for (var f = 0; f < mgr.lodLevelRequirements.Length; ++f)
                         {
                             var t = DetailLevelCompleteCount(f);
-                            var n = lodLevelRequirements[f];
+                            var n = mgr.lodLevelRequirements[f];
 
                             if (f == 0)
                             {
@@ -195,7 +194,7 @@ namespace Juniper.Imaging
                                 }
                                 else
                                 {
-                                    detailContainerCache[FOVs[f - 1]].Deactivate();
+                                    detailContainerCache[mgr.FOVs[f - 1]].Deactivate();
                                 }
                             }
 
@@ -252,15 +251,15 @@ namespace Juniper.Imaging
             var euler = (Vector2)avatar.Head.rotation.eulerAngles;
 
             var numRequests = 0;
-            for (var f = 0; f < FOVs.Length && numRequests < MAX_REQUESTS; ++f)
+            for (var f = 0; f < mgr.FOVs.Length && numRequests < MAX_REQUESTS; ++f)
             {
-                var fov = FOVs[f];
-                var overlap = FOVs.Length - f;
+                var fov = mgr.FOVs[f];
+                var overlap = mgr.FOVs.Length - f;
                 var radius = 10 * overlap + 50;
                 var overlapFOV = fov + 2f * overlap;
                 var scale = 2 * radius * Mathf.Tan(Degrees.Radians(overlapFOV / 2));
 
-                var testAngles = fovTestAngles[f];
+                var testAngles = mgr.fovTestAngles[f];
                 for (var a = 0; a < testAngles.Length && numRequests < MAX_REQUESTS; ++a)
                 {
                     var testAngle = euler + testAngles[a];
@@ -362,21 +361,14 @@ namespace Juniper.Imaging
             locked = false;
         }
 
-        public void SetDetailRequirements(int[] FOVs, Vector2[][] testAngles, int[] lodLevels)
-        {
-            this.FOVs = FOVs;
-            fovTestAngles = testAngles;
-            lodLevelRequirements = lodLevels;
-        }
-
         public int DetailLevelCompleteCount(int f)
         {
-            if (lodLevelRequirements == null)
+            if (mgr == null || mgr.lodLevelRequirements == null)
             {
                 return 0;
             }
 
-            var lodLevel = FOVs[f];
+            var lodLevel = mgr.FOVs[f];
             if (!detailSliceFrameContainerCache.ContainsKey(lodLevel))
             {
                 return 0;
@@ -401,15 +393,15 @@ namespace Juniper.Imaging
                 {
                     return true;
                 }
-                else if (lodLevelRequirements == null)
+                else if (mgr == null || mgr.lodLevelRequirements == null)
                 {
                     return false;
                 }
                 else
                 {
-                    for (var f = 0; f < lodLevelRequirements.Length; ++f)
+                    for (var f = 0; f < mgr.lodLevelRequirements.Length; ++f)
                     {
-                        if (DetailLevelCompleteCount(f) != lodLevelRequirements[f])
+                        if (DetailLevelCompleteCount(f) != mgr.lodLevelRequirements[f])
                         {
                             return false;
                         }

@@ -31,10 +31,9 @@ namespace Juniper.Imaging
                 .ToArray();
         }
 
-        private int[] FOVs;
-
-        private Vector2[][] fovTestAngles;
-        private int[] lodLevelRequirements;
+        internal int[] FOVs;
+        internal Vector2[][] fovTestAngles;
+        internal int[] lodLevelRequirements;
 
 
         private readonly Dictionary<string, Photosphere> photospheres = new Dictionary<string, Photosphere>();
