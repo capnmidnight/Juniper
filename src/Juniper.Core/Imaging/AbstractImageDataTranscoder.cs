@@ -108,6 +108,6 @@ namespace Juniper.Imaging
 
         public abstract SubDecoderImageT TranslateTo(ImageData value, IProgress prog = null);
 
-        public abstract ImageData TranslateFrom(SubDecoderImageT image);
+        public abstract ImageData TranslateFrom(SubDecoderImageT image, IProgress prog = null);
     }
 }

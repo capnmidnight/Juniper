@@ -20,14 +20,16 @@ namespace Juniper.Imaging.HjgPngcs
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Png bytes.</param>
-        public override ImageData TranslateFrom(ImageLines rows)
+        public override ImageData TranslateFrom(ImageLines rows, IProgress prog = null)
         {
             var numRows = rows.Nrows;
             var data = new byte[numRows * rows.elementsPerRow];
             for (var i = 0; i < numRows; ++i)
             {
+                prog?.Report(i, numRows);
                 var row = rows.ScanlinesB[i];
                 Array.Copy(row, 0, data, i * rows.elementsPerRow, row.Length);
+                prog?.Report(i + 1, numRows);
             }
 
             return new ImageData(

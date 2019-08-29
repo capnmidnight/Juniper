@@ -1,5 +1,4 @@
 using Juniper.Progress;
-using Juniper.Serialization;
 
 namespace Juniper.Imaging
 {
@@ -7,6 +6,6 @@ namespace Juniper.Imaging
     {
         FromImageT TranslateTo(ToImageT value, IProgress prog = null);
 
-        ToImageT TranslateFrom(FromImageT image);
+        ToImageT TranslateFrom(FromImageT image, IProgress prog = null);
     }
 }

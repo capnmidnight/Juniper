@@ -39,18 +39,21 @@ namespace Juniper.Imaging.Windows
             return outImage;
         }
 
-        public override ImageData TranslateFrom(Image image)
+        public override ImageData TranslateFrom(Image image, IProgress prog = null)
         {
             using (var mem = new MemoryStream())
             {
+                prog?.Report(0);
                 image.Save(mem, image.RawFormat);
 
-                return new ImageData(
+                var img = new ImageData(
                     image.Width,
                     image.Height,
                     subCodec.GetComponents(image),
                     image.RawFormat.ToMediaType(),
                     mem.ToArray());
+                prog?.Report(1);
+                return img;
             }
         }
     }

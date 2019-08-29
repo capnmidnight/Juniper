@@ -11,7 +11,8 @@ using SixLabors.Primitives;
 
 namespace Juniper.Imaging.ImageSharp
 {
-    public class ImageSharpCodec : IImageCodec<Image>
+    public class ImageSharpCodec<PixelT> : IImageCodec<Image<PixelT>>
+        where PixelT : struct, IPixel, IPixel<PixelT>
     {
         public ImageSharpCodec(MediaType.Image format)
         {
@@ -20,17 +21,17 @@ namespace Juniper.Imaging.ImageSharp
 
         public MediaType ContentType { get; private set; }
 
-        public int GetWidth(Image img)
+        public int GetWidth(Image<PixelT> img)
         {
             return img.Width;
         }
 
-        public int GetHeight(Image img)
+        public int GetHeight(Image<PixelT> img)
         {
             return img.Height;
         }
 
-        public int GetComponents(Image img)
+        public int GetComponents(Image<PixelT> img)
         {
             return img.PixelType.BitsPerPixel / 8;
         }
@@ -39,7 +40,7 @@ namespace Juniper.Imaging.ImageSharp
         {
             using (var mem = new MemoryStream(data))
             {
-                var imageInfo = Image.Identify(mem);
+                var imageInfo = Image<PixelT>.Identify(mem);
                 return new ImageInfo(
                     imageInfo.Width,
                     imageInfo.Height,
@@ -47,12 +48,12 @@ namespace Juniper.Imaging.ImageSharp
             }
         }
 
-        public Image Deserialize(Stream stream)
+        public Image<PixelT> Deserialize(Stream stream)
         {
-            return Image.Load(stream);
+            return Image.Load<PixelT>(stream);
         }
 
-        public void Serialize(Stream stream, Image value, IProgress prog = null)
+        public void Serialize(Stream stream, Image<PixelT> value, IProgress prog = null)
         {
             if (ContentType == MediaType.Image.Bmp)
             {
@@ -76,14 +77,14 @@ namespace Juniper.Imaging.ImageSharp
             }
         }
 
-        public Image Concatenate(Image[,] images, IProgress prog = null)
+        public Image<PixelT> Concatenate(Image<PixelT>[,] images, IProgress prog = null)
         {
             this.ValidateImages(images, prog,
                 out var rows, out var columns, out var components,
                 out var tileWidth,
                 out var tileHeight);
 
-            var combined = new Image<Rgba32>(columns * tileWidth, rows * tileHeight);
+            var combined = new Image<PixelT>(columns * tileWidth, rows * tileHeight);
 
             combined.Mutate(o =>
             {

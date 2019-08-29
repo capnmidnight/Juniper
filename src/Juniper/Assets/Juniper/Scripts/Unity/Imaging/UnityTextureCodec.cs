@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
+
 using Juniper.HTTP;
-using Juniper.HTTP.REST;
 using Juniper.Progress;
 using Juniper.Streams;
 

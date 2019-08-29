@@ -8,74 +8,81 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace Juniper.Imaging.ImageSharp
 {
-    public class ImageSharpImageDataTranscoder : AbstractImageDataTranscoder<ImageSharpCodec, Image>
+    public class ImageSharpImageDataTranscoder<PixelT> : AbstractImageDataTranscoder<ImageSharpCodec<PixelT>, Image<PixelT>>
+        where PixelT : struct, IPixel, IPixel<PixelT>
     {
         public ImageSharpImageDataTranscoder(HTTP.MediaType.Image format)
-            : base(new ImageSharpCodec(format)) { }
+            : base(new ImageSharpCodec<PixelT>(format)) { }
 
-        public override Image TranslateTo(ImageData value, IProgress prog = null)
+        public override Image<PixelT> TranslateTo(ImageData value, IProgress prog = null)
         {
+            prog?.Report(0);
+            Image<PixelT> img;
             if (value.contentType != HTTP.MediaType.Image.Raw)
             {
-                return Image.Load(value.data);
+                img = Image.Load<PixelT>(value.data);
             }
             else if (value.info.components == 3)
             {
-                return Image.LoadPixelData<Rgb24>(value.data, value.info.dimensions.width, value.info.dimensions.height);
+                img = Image.LoadPixelData<PixelT>(value.data, value.info.dimensions.width, value.info.dimensions.height);
             }
             else if (value.info.components == 4)
             {
-                return Image.LoadPixelData<Rgba32>(value.data, value.info.dimensions.width, value.info.dimensions.height);
+                img = Image.LoadPixelData<PixelT>(value.data, value.info.dimensions.width, value.info.dimensions.height);
             }
             else
             {
                 throw new NotSupportedException($"Don't know how to handle number of components {value.info.components}");
             }
+            prog?.Report(1);
+            return img;
         }
 
-        public override ImageData TranslateFrom(Image image)
+        public override ImageData TranslateFrom(Image<PixelT> image, IProgress prog = null)
         {
             var components = image.PixelType.BitsPerPixel / 8;
-            if(components == 3)
+            if (components != 3 && components != 4)
             {
-                var img = (Image<Rgb24>)image;
-                var span = img.GetPixelSpan();
-                var data = new byte[3 * image.Width * image.Height];
-                for(var i = 0; i < span.Length; ++i)
-                {
-                    data[i * 3 + 0] = span[i].R;
-                    data[i * 3 + 1] = span[i].G;
-                    data[i * 3 + 2] = span[i].B;
-                }
-                return new ImageData(
-                    image.Width,
-                    image.Height,
-                    3,
-                    HTTP.MediaType.Image.Raw,
-                    data);
-            }
-            else if (components == 4)
-            {
-                var img = (Image<Rgba32>)image;
-                var span = img.GetPixelSpan();
-                var data = new byte[3 * image.Width * image.Height];
-                for (var i = 0; i < span.Length; ++i)
-                {
-                    data[i * 4 + 0] = span[i].R;
-                    data[i * 4 + 1] = span[i].G;
-                    data[i * 4 + 2] = span[i].B;
-                    data[i * 4 + 3] = span[i].A;
-                }
-                return new ImageData(
-                    image.Width,
-                    image.Height,
-                    4,
-                    HTTP.MediaType.Image.Raw,
-                    data);
+                throw new NotSupportedException($"Don't know how to handle number of components {components}");
             }
             else
             {
-                throw new NotSupportedException($"Don't know how to handle number of components {components}");
+                var j = 0;
+                var data = new byte[components * image.Width * image.Height];
+                if (components == 3)
+                {
+                    var img = image as Image<Rgb24>;
+                    var span = img.GetPixelSpan();
+                    for (var i = 0; i < span.Length; ++i)
+                    {
+                        prog?.Report(i, span.Length);
+                        data[j++] = span[i].R;
+                        data[j++] = span[i].G;
+                        data[j++] = span[i].B;
+                        prog?.Report(i + 1, span.Length);
+                    }
+                }
+                else if (components == 4)
+                {
+                    var img = image as Image<Rgba32>;
+                    var span = img.GetPixelSpan();
+                    for (var i = 0; i < span.Length; ++i)
+                    {
+                        prog?.Report(i, span.Length);
+                        data[j++] = span[i].R;
+                        data[j++] = span[i].G;
+                        data[j++] = span[i].B;
+                        data[j++] = span[i].A;
+                        prog?.Report(i + 1, span.Length);
+                    }
+                }
+
+                return new ImageData(
+                    image.Width,
+                    image.Height,
+                    components,
+                    HTTP.MediaType.Image.Raw,
+                    data);
             }
         }
     }

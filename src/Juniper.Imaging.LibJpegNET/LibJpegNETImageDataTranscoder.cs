@@ -15,15 +15,17 @@ namespace Juniper.Imaging.LibJpegNET
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Jpeg bytes.</param>
-        public override ImageData TranslateFrom(JpegImage jpeg)
+        public override ImageData TranslateFrom(JpegImage jpeg, IProgress prog = null)
         {
             var stride = jpeg.Width * jpeg.ComponentsPerSample;
             var numRows = jpeg.Height;
             var data = new byte[numRows * stride];
             for (var i = 0; i < jpeg.Height; ++i)
             {
+                prog.Report(i, jpeg.Height);
                 var row = jpeg.GetRow(i);
                 Array.Copy(row.ToBytes(), 0, data, i * stride, stride);
+                prog.Report(i + 1, jpeg.Height);
             }
 
             return new ImageData(
@@ -59,7 +61,9 @@ namespace Juniper.Imaging.LibJpegNET
             }
 
             saveProg?.Report(0);
-            return new JpegImage(rows, Colorspace.RGB);
+            var jpeg = new JpegImage(rows, Colorspace.RGB);
+            saveProg?.Report(1);
+            return jpeg;
         }
     }
 }
