@@ -88,7 +88,14 @@ namespace Juniper
                 {
                     var type = head.GetType();
                     var field = type.GetField(part, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                    return (Field: field, Object: head);
+                    if (i < parts.Length - 1)
+                    {
+                        head = field.GetValue(head);
+                    }
+                    else
+                    {
+                        return (field, head);
+                    }
                 }
             }
 
