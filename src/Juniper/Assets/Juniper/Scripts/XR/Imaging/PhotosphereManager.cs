@@ -126,7 +126,6 @@ namespace Juniper.Imaging
             photo.Complete += Photo_Complete;
             photo.Ready += Photo_Ready;
             photo.codec = codec;
-            photo.SetDetailRequirements(FOVs, fovTestAngles, lodLevelRequirements);
             return photo;
         }
 
