@@ -96,6 +96,24 @@ namespace System.Net
             return request;
         }
 
+        public static HttpWebRequest Referer(this HttpWebRequest request, string referer)
+        {
+            request.Referer = referer;
+            return request;
+        }
+
+        public static HttpWebRequest FetchMode(this HttpWebRequest request, string mode)
+        {
+            request.Header("Sec-Fetch-Mode", mode);
+            return request;
+        }
+
+        public static HttpWebRequest FetchSite(this HttpWebRequest request, string site)
+        {
+            request.Header("Sec-Fetch-Site", site);
+            return request;
+        }
+
         /// <summary>
         /// Sets the Accept header for the HTTP request.
         /// </summary>
@@ -111,6 +129,95 @@ namespace System.Net
         public static HttpWebRequest Accept(this HttpWebRequest request, string type)
         {
             request.Accept = type;
+            return request;
+        }
+
+        public static HttpWebRequest Expect(this HttpWebRequest request, HttpStatusCode code)
+        {
+            request.Expect = code.ToString();
+            return request;
+        }
+
+        /// <summary>
+        /// Sets the TransferEncoding header for the HTTP request.
+        /// </summary>
+        /// <param name="request">The request to which to add the Header</param>
+        /// <param name="type">The encoding string to use as the Header value.</param>
+        /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
+        /// <example><![CDATA[
+        /// var request = HttpWebRequestExt.Create("https://www.example.com");
+        /// request.Header("Keep-Alive", 1)
+        ///     .Header("DNT", 1")
+        ///     .Accept(MediaType.Text.Plain")
+        ///     .Encoding("utf-8");
+        /// ]]></example>
+        public static HttpWebRequest TransferEncoding(this HttpWebRequest request, string encoding)
+        {
+            request.SendChunked = true;
+            request.TransferEncoding = encoding;
+            return request;
+        }
+
+        /// <summary>
+        /// Sets the Accept-Encoding header for the HTTP request.
+        /// </summary>
+        /// <param name="request">The request to which to add the Header</param>
+        /// <param name="type">The encoding string to use as the Header value.</param>
+        /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
+        /// <example><![CDATA[
+        /// var request = HttpWebRequestExt.Create("https://www.example.com");
+        /// request.Header("Keep-Alive", 1)
+        ///     .Header("DNT", 1")
+        ///     .Accept(MediaType.Text.Plain")
+        ///     .Encoding("utf-8");
+        /// ]]></example>
+        public static HttpWebRequest AcceptEncoding(this HttpWebRequest request, string encoding)
+        {
+            request.Header("Accept-Encoding", encoding);
+            return request;
+        }
+
+        public static HttpWebRequest AcceptLanguage(this HttpWebRequest request, string language)
+        {
+            request.Header("Accept-Language", language);
+            return request;
+        }
+
+        public static HttpWebRequest IfRange(this HttpWebRequest request, string value)
+        {
+            request.Header("If-Range", value);
+            return request;
+        }
+
+        /// <summary>
+        /// Sets the KeepAlive header to True.
+        /// </summary>
+        /// <param name="request">The request to which to add the Header</param>
+        /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
+        /// <example><![CDATA[
+        /// var request = HttpWebRequestExt.Create("https://www.example.com");
+        /// request.Header("Keep-Alive", 1)
+        ///     .Header("DNT", 1")
+        ///     .Accept(MediaType.Text.Plain")
+        ///     .KeepAlive();
+        /// ]]></example>
+        public static HttpWebRequest KeepAlive(this HttpWebRequest request)
+        {
+            request.KeepAlive = true;
+            return request;
+        }
+
+        public static HttpWebRequest Cookie(this HttpWebRequest request, string keyValue, string domain)
+        {
+            var parts = keyValue.Split('=');
+            return request.Cookie(parts[0], parts[1], domain);
+        }
+
+        public static HttpWebRequest Cookie(this HttpWebRequest request, string key, string value, string domain)
+        {
+            var cookie = new Cookie(key, value, string.Empty, domain);
+            request.CookieContainer = request.CookieContainer ?? new CookieContainer();
+            request.CookieContainer.Add(cookie);
             return request;
         }
 
@@ -144,7 +251,7 @@ namespace System.Net
             if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(password))
             {
                 var authPair = userName + ":" + password;
-                var authBytes = Encoding.UTF8.GetBytes(authPair);
+                var authBytes = Text.Encoding.UTF8.GetBytes(authPair);
                 var auth64 = Convert.ToBase64String(authBytes);
                 request.Header("Authorization", "Basic " + auth64);
             }
