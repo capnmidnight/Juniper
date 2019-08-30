@@ -88,14 +88,14 @@
     <Compile Include="Input\InputEventButton.cs" />
     <Compile Include="Input\Interaction.cs" />
     <Compile Include="Input\IPointerButtons.cs" />
-    <Compile Include="IO\DirectoryExt.cs" />
-    <Compile Include="IO\DirectoryInfoExt.cs" />
-    <Compile Include="IO\FileExt.cs" />
-    <Compile Include="IO\FileTree.cs" />
-    <Compile Include="IO\PathExt.cs" />
+    <Compile Include="NETFX\IO\DirectoryExt.cs" />
+    <Compile Include="NETFX\IO\DirectoryInfoExt.cs" />
+    <Compile Include="NETFX\IO\FileExt.cs" />
+    <Compile Include="Collections\FileTree.cs" />
+    <Compile Include="NETFX\IO\PathExt.cs" />
     <Compile Include="NETFX\ArrayExt.cs" />
     <Compile Include="NETFX\DateTimeExt.cs" />
-    <Compile Include="NETFX\EnumeratorTask.cs" />
+    <Compile Include="NETFX\Threading\Tasks\EnumeratorTask.cs" />
     <Compile Include="NETFX\ErrorHandler.cs" />
     <Compile Include="NETFX\ExceptionExt.cs" />
     <Compile Include="NETFX\ICloneableExt.cs" />
@@ -104,7 +104,7 @@
     <Compile Include="NETFX\NullableExt.cs" />
     <Compile Include="NETFX\NumberExt.cs" />
     <Compile Include="NETFX\StringExt.cs" />
-    <Compile Include="NETFX\TaskEnumerator.cs" />
+    <Compile Include="NETFX\Threading\Tasks\TaskEnumerator.cs" />
     <Compile Include="NETFX\Text\StringBuilderExt.cs" />
     <Compile Include="NETFX\TrackedValue.cs" />
     <Compile Include="Progress\IInstallable.cs" />
@@ -244,5 +244,6 @@
   <ItemGroup>
     <Compile Include="HTTP\MediaType\ExtensionLookup.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
