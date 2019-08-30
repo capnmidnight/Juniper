@@ -131,5 +131,10 @@ namespace System.IO
                 }
             }
         }
+
+        public static string RemoveInvalidChars(this string filePath)
+        {
+            return string.Join("_", filePath.Split(Path.GetInvalidFileNameChars()));
+        }
     }
 }

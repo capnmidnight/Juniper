@@ -129,9 +129,7 @@ namespace Juniper.HTTP.REST
         {
             get
             {
-                string id = string.Join("_", BaseURI.PathAndQuery
-                    .Substring(1)
-                    .Split(Path.GetInvalidFileNameChars()));
+                string id = BaseURI.PathAndQuery.Substring(1).RemoveInvalidChars();
                 if (cacheSubDirectoryName == null)
                 {
                     return id;
