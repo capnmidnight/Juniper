@@ -41,6 +41,12 @@ namespace Juniper.Imaging
         public StereoLayout stereoLayout;
 
         private Material skyboxMaterial;
+        private Texture skyboxTexture;
+
+        public void Awake()
+        {
+            skyboxMaterial = new Material(Shader.Find("Skybox/Panoramic"));
+        }
 
         public void Update()
         {
@@ -54,11 +60,6 @@ namespace Juniper.Imaging
 
         public void SetTexture(Texture value)
         {
-            if (skyboxMaterial == null)
-            {
-                skyboxMaterial = new Material(Shader.Find("Skybox/Panoramic"));
-            }
-
             if (layout == Mode.Spherical)
             {
                 if (skyboxMaterial.IsKeywordEnabled(SIDES_6))
@@ -81,9 +82,28 @@ namespace Juniper.Imaging
             skyboxMaterial.SetInt("_MirrorOnBack", mirror180OnBack ? 1 : 0);
             skyboxMaterial.SetInt("_Layout", (int)stereoLayout);
 
-            RenderSettings.skybox = skyboxMaterial;
+            var curTexture = skyboxTexture;
+            if (curTexture != value)
+            {
+                skyboxTexture = value;
+                skyboxMaterial.SetTexture("_MainTex", value);
+            }
 
-            skyboxMaterial.SetTexture("_MainTex", value);
+            if (RenderSettings.skybox != skyboxMaterial)
+            {
+                RenderSettings.skybox = skyboxMaterial;
+            }
+
+            if (curTexture != null && curTexture != value)
+            {
+                if (curTexture is RenderTexture rt)
+                {
+                    rt.Release();
+                }
+
+                Destroy(curTexture);
+            }
+
         }
     }
 }
