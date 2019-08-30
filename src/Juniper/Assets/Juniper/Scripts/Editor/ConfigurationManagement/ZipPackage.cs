@@ -6,7 +6,7 @@ using System.Linq;
 using Juniper.Compression.Zip;
 using Juniper.Progress;
 
-using Newtonsoft.Json;
+using Json.Lite;
 
 using UnityEditor;
 

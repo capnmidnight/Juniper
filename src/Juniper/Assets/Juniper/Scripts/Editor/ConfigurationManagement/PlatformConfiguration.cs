@@ -5,7 +5,7 @@ using System.Linq;
 using Juniper.Progress;
 using Juniper.XR;
 
-using Newtonsoft.Json;
+using Json.Lite;
 
 using UnityEditor;
 

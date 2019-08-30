@@ -40,7 +40,7 @@ namespace Juniper.Imaging.ImageSharp
         {
             using (var mem = new MemoryStream(data))
             {
-                var imageInfo = Image<PixelT>.Identify(mem);
+                var imageInfo = Image.Identify(mem);
                 return new ImageInfo(
                     imageInfo.Width,
                     imageInfo.Height,

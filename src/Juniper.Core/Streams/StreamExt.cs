@@ -4,7 +4,7 @@ namespace System.IO
     {
         public static void CopyTo(this Stream inStream, FileInfo outFile)
         {
-            using (var outStream = outFile.OpenWrite())
+            using (var outStream = outFile.Create())
             {
                 inStream.CopyTo(outStream);
             }

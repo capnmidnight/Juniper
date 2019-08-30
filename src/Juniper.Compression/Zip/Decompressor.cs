@@ -72,7 +72,7 @@ namespace Juniper.Compression.Zip
         public static void CopyFile(this ZipFile zip, string entryPath, FileInfo copyToFile, IProgress prog = null)
         {
             copyToFile.Directory.Create();
-            using (var copyTo = copyToFile.OpenWrite())
+            using (var copyTo = copyToFile.Create())
             {
                 zip.CopyFile(entryPath, copyTo, prog);
             }
@@ -183,7 +183,7 @@ namespace Juniper.Compression.Zip
 
                 if (outputFile != null)
                 {
-                    using (var outputStream = outputFile.OpenWrite())
+                    using (var outputStream = outputFile.Create())
                     using (var inputStream = pair.Item1)
                     {
                         inputStream.CopyTo(outputStream);

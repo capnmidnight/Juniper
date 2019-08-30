@@ -30,7 +30,7 @@ namespace Juniper.Serialization
 
         public static void Save<T>(this ISerializer serializer, FileInfo file, T value, IProgress progress = null)
         {
-            using (var stream = file.OpenWrite())
+            using (var stream = file.Create())
             {
                 serializer.Serialize(stream, value, progress);
             }
@@ -64,7 +64,7 @@ namespace Juniper.Serialization
 
         public static void Save<T>(this ISerializer<T> serializer, FileInfo file, T value, IProgress progress = null)
         {
-            using (var stream = file.OpenWrite())
+            using (var stream = file.Create())
             {
                 serializer.Serialize(stream, value, progress);
             }

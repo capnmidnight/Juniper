@@ -63,7 +63,7 @@ namespace Juniper.VideoDownloader
                 }
                 var file = new FileInfo(fileName);
                 file.Directory.Create();
-                using (var outStream = file.OpenWrite())
+                using (var outStream = file.Create())
                 using (var body = response.GetResponseStream())
                 {
                     var inStream = body;

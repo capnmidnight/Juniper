@@ -31,7 +31,7 @@ namespace Juniper.Streams
         {
             inStream = stream;
             file.Directory.Create();
-            outStream = file.OpenWrite();
+            outStream = file.Create();
         }
 
         public CachingStream(Stream stream, string fileName)
