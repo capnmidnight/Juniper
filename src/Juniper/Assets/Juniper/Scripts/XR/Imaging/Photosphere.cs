@@ -57,6 +57,8 @@ namespace Juniper.Imaging
 
         public bool IsReady { get; private set; }
 
+        private bool hasStarted;
+
         public void Awake()
         {
             mgr = ComponentExt.FindAny<PhotosphereManager>();
@@ -65,7 +67,21 @@ namespace Juniper.Imaging
                 ?? this.Ensure<SkyboxManager>();
         }
 
+        public void Start()
+        {
+            ShowImage();
+            hasStarted = true;
+        }
+
         public void OnEnable()
+        {
+            if (hasStarted)
+            {
+                ShowImage();
+            }
+        }
+
+        private void ShowImage()
         {
             if (skyboxCubemap != null)
             {

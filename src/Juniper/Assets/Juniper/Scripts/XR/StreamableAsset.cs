@@ -32,7 +32,7 @@ namespace Juniper
             AssetPath;
 
 #else
-            StreamingAssets.FormatPath(Application.streamingAssetsPath, Application.dataPath, AssetPath.Replace("Assets/", ""));
+            StreamingAssets.FormatPath(Application.streamingAssetsPath, AssetPath.Replace("Assets/", ""));
 #endif
 
         public ExceptionEvent onLoadError;

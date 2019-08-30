@@ -77,9 +77,11 @@ namespace Juniper.Display
             {
                 var obj = new GameObject(name);
                 cam = obj.AddComponent<Camera>();
+#if !UNITY_2019_3_OR_NEWER
 #pragma warning disable CS0618 // Type or member is obsolete
                 obj.AddComponent<GUILayer>();
 #pragma warning restore CS0618 // Type or member is obsolete
+#endif
                 cam.gameObject.tag = tag;
                 var js = ComponentExt.FindAny<JuniperSystem>();
                 if (js != null)

@@ -49,6 +49,7 @@ namespace Juniper.Imaging
         public event Action<Photosphere> PhotosphereReady;
 
         public IImageCodec<Texture2D> codec;
+        private IImageCodec<Texture2D> lastCodec;
 
         public void SetDetailLevels(float[] fovs)
         {
@@ -99,17 +100,9 @@ namespace Juniper.Imaging
                 photo.Complete += Photo_Complete;
                 photo.CubemapNeeded += Photo_CubemapNeeded;
                 photo.ImageNeeded += Photo_ImageNeeded;
-                photospheres.Add(photo.Key, photo);
-            }
-        }
-
-        public void Start()
-        {
-            var existing = GetComponentsInChildren<Photosphere>();
-            foreach (var photo in existing)
-            {
-                photo.codec = codec;
                 photo.enabled = false;
+                photo.OnDisable();
+                photospheres.Add(photo.Key, photo);
             }
         }
 
@@ -149,6 +142,18 @@ namespace Juniper.Imaging
             obj.CubemapNeeded -= Photo_CubemapNeeded;
             obj.ImageNeeded -= Photo_ImageNeeded;
             PhotosphereComplete?.Invoke(obj);
+        }
+
+        public void Update()
+        {
+            if(codec != lastCodec)
+            {
+                lastCodec = codec;
+                foreach (var photo in photospheres.Values)
+                {
+                    photo.codec = codec;
+                }
+            }
         }
     }
 }
