@@ -13,7 +13,8 @@ namespace Juniper.HTTP
 
         public static MediaType Lookup(string value)
         {
-            return byValue.Get(value);
+            var parts = value.Split(';');
+            return byValue.Get(parts[0]);
         }
 
         public readonly string Value;
