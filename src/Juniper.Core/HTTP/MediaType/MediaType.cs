@@ -4,6 +4,8 @@ namespace Juniper.HTTP
 {
     public partial class MediaType
     {
+        public static readonly MediaType Any = new MediaType("*/*");
+
         public static MediaType LookupExtension(string ext)
         {
             return byExtensions.Get(ext);
