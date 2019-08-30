@@ -22,7 +22,10 @@ namespace Juniper.Audio
             audioSource = base.InternalSpatialize(audioSource, loop, group);
             var oculus = audioSource.Ensure<ONSPAudioSource>().Value;
             oculus.EnableSpatialization = true;
-            oculus.EnableRfl = true;
+            oculus.UseInvSqr = true;
+            oculus.Near = audioSource.minDistance;
+            oculus.Far = audioSource.maxDistance;
+            oculus.VolumetricRadius = 0;
             return audioSource;
         }
 
