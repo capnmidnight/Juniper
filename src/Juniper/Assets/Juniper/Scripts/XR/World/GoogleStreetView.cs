@@ -7,10 +7,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Juniper.Animation;
-using Juniper.Data;
-using Juniper.Google.Maps;
 using Juniper.Google.Maps.Geocoding;
 using Juniper.Google.Maps.StreetView;
+using Juniper.Imaging.Unity;
 using Juniper.Input;
 using Juniper.Json;
 using Juniper.Progress;
@@ -161,7 +160,7 @@ namespace Juniper.Imaging
             photospheres.CubemapNeeded += Photospheres_CubemapNeeded;
             photospheres.ImageNeeded += Photospheres_ImageNeeded;
             photospheres.PhotosphereReady += Photospheres_PhotosphereReady;
-            photospheres.codec = imageCodec;
+            photospheres.codec = new UnityTextureCodec(80);
 
             photospheres.SetDetailLevels(searchFOVs);
 

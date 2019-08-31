@@ -100,17 +100,18 @@ namespace Juniper.World.LightEstimation
             sunPosition = this.Ensure<SunPosition>();
         }
 
+        public override void Awake()
+        {
+            base.Awake();
+            weather = ComponentExt.FindAny<Weather>();
+        }
+
         /// <summary>
         /// Prints the debug report, if asked.
         /// </summary>
         protected override void Update()
         {
             base.Update();
-
-            if (weather == null)
-            {
-                weather = ComponentExt.FindAny<Weather>();
-            }
 
             if (DebugReport)
             {

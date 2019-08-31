@@ -70,24 +70,20 @@ namespace Juniper.World
             }
         }
 
+        public void Awake()
+        {
+            weatherService = ComponentExt.FindAny<Weather>();
+#if UNITY_MODULES_WIND
+            wind = GetComponent<WindZone>();
+#endif
+        }
+
         /// <summary>
         /// Update the wind zone with either the static values (if <see cref="FakeWind"/> is true) or
         /// the values from the weather report (if FakeWind is false).
         /// </summary>
         public void Update()
         {
-            if (weatherService == null)
-            {
-                weatherService = ComponentExt.FindAny<Weather>();
-            }
-
-#if UNITY_MODULES_WIND
-            if (wind == null)
-            {
-                wind = GetComponent<WindZone>();
-            }
-#endif
-
             if (!UseFakeIntensity)
             {
                 if (weatherService.WindDirection != null)

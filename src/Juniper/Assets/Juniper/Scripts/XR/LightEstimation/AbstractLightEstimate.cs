@@ -1,5 +1,7 @@
 using System;
+
 using Juniper.Units;
+
 using UnityEngine;
 
 namespace Juniper.World.LightEstimation
@@ -121,7 +123,7 @@ namespace Juniper.World.LightEstimation
         /// Retrieves the light to which this component is attached, and makes sure there is a <see
         /// cref="LightMeasurement"/> component attached.
         /// </summary>
-        public void Awake()
+        public virtual void Awake()
         {
             Install(false);
         }

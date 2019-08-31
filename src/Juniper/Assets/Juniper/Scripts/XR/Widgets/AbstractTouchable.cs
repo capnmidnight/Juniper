@@ -1,7 +1,6 @@
 using System.Linq;
 
 using Juniper.Animation;
-using Juniper.Audio;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -154,16 +153,16 @@ namespace Juniper.Widgets
             }
         }
 
+        private void Awake()
+        {
+            animator = AbstractAnimator.GetAnimator(gameObject, PART_NAMES);
+        }
+
         /// <summary>
         /// Update the physics state of the control, and enable/disable Disabled view on <see cref="DisabledChanged"/>.
         /// </summary>
         protected virtual void Update()
         {
-            if (animator == null)
-            {
-                animator = AbstractAnimator.GetAnimator(gameObject, PART_NAMES);
-            }
-
             if (DisabledDown)
             {
                 ShowState(PART_NAMES.Last());
