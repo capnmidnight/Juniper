@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Juniper.Imaging.Unity
 {
-    public class UnityTextureImageDataTranscoder : IImageTranscoder<ImageData, Texture2D>
+    public class ImageDataUnityTextureTranscoder : IImageTranscoder<ImageData, Texture2D>
     {
         public ImageData TranslateFrom(Texture2D image, IProgress prog = null)
         {
