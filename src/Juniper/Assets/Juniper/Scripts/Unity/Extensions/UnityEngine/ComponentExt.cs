@@ -352,18 +352,6 @@ namespace UnityEngine
         }
 
         /// <summary>
-        /// Find any object in the specified scene that is of a certain type.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="scene"></param>
-        /// <param name="filter"></param>
-        /// <returns></returns>
-        public static T FindAny<T>(this Scene scene, Func<T, bool> filter = null)
-        {
-            return scene.FindAll(filter).FirstOrDefault();
-        }
-
-        /// <summary>
         /// Find all objects in any scene that is of a certain type.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -371,12 +359,13 @@ namespace UnityEngine
         /// <returns></returns>
         public static IEnumerable<T> FindAll<T>(Func<T, bool> filter = null)
         {
-            for (var i = 0; i < SceneManager.sceneCount; ++i)
+            var objs = Resources.FindObjectsOfTypeAll<Object>();
+            for (var i = 0; i < objs.Length; ++i)
             {
-                var scene = SceneManager.GetSceneAt(i);
-                foreach (var c in scene.FindAll(filter))
+                var o = objs[i];
+                if (o is T obj && filter?.Invoke(obj) != false)
                 {
-                    yield return c;
+                    yield return obj;
                 }
             }
         }

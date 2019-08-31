@@ -240,7 +240,7 @@ namespace Juniper
             for (var i = 1; i < SceneManager.sceneCount; ++i)
             {
                 var scene = SceneManager.GetSceneAt(i);
-
+                
 #if UNITY_MODULES_UI
                 var canvases = scene.FindAll<Canvas>((c) =>
                     c.renderMode == RenderMode.WorldSpace
