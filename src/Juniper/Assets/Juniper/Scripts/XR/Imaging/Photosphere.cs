@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Juniper.Data;
 using Juniper.Display;
+using Juniper.Imaging.Unity;
 using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.Units;
@@ -22,6 +23,7 @@ namespace Juniper.Imaging
 
     public class Photosphere : MonoBehaviour, IProgress
     {
+        private static Material material;
         private const int MAX_REQUESTS = 4;
 
         private const string PHOTOSPHERE_LAYER = "Photospheres";
@@ -43,7 +45,7 @@ namespace Juniper.Imaging
         private PhotosphereManager mgr;
         private Avatar avatar;
         private SkyboxManager skybox;
-        private Texture skyboxCubemap;
+        private MaterialPropertyBlock properties;
 
         public event CubemapImageNeeded CubemapNeeded;
 
@@ -53,7 +55,7 @@ namespace Juniper.Imaging
 
         public event Action<Photosphere> Ready;
 
-        internal IImageCodec<Texture2D> codec;
+        internal UnityTextureCodec codec;
 
         public bool IsReady { get; private set; }
 
@@ -61,6 +63,11 @@ namespace Juniper.Imaging
 
         public void Awake()
         {
+            if(material == null)
+            {
+                material = new Material(Shader.Find("Unlit/Texture"));
+            }
+            properties = new MaterialPropertyBlock();
             mgr = ComponentExt.FindAny<PhotosphereManager>();
             avatar = ComponentExt.FindAny<Avatar>();
             skybox = ComponentExt.FindAny<SkyboxManager>()
@@ -83,13 +90,8 @@ namespace Juniper.Imaging
 
         private void ShowImage()
         {
-            if (skyboxCubemap != null)
+            if (trySkybox)
             {
-                ShowSkybox();
-            }
-            else if (trySkybox)
-            {
-                trySkybox = false;
                 locked = true;
                 if (string.IsNullOrEmpty(CubemapPath))
                 {
@@ -113,7 +115,7 @@ namespace Juniper.Imaging
             }
         }
 
-        private void ShowSkybox()
+        private void ShowSkybox(string filePath)
         {
             if (mgr != null && mgr.lodLevelRequirements != null && mgr.FOVs != null)
             {
@@ -135,7 +137,9 @@ namespace Juniper.Imaging
             skybox.stereoLayout = SkyboxManager.StereoLayout.None;
             skybox.tint = UnityEngine.Color.gray;
             skybox.useMipMap = false;
-            skybox.SetTexture(skyboxCubemap);
+            var texture = skybox.skyboxTexture as Texture2D;
+            codec.LoadTo(filePath, ref texture);
+            skybox.SetTexture(texture);
             IsReady = wasComplete = true;
             Ready?.Invoke(this);
         }
@@ -146,12 +150,13 @@ namespace Juniper.Imaging
             var streamTask = StreamingAssets.GetStream(Application.persistentDataPath, filePath, this);
             yield return streamTask.Waiter();
 
+            trySkybox = false;
             if (streamTask.IsSuccessful()
                 && streamTask.Result != null)
             {
+                trySkybox = true;
                 Debug.Log("Cubemap saved");
-                skyboxCubemap = codec.Deserialize(streamTask.Result.Content);
-                ShowSkybox();
+                ShowSkybox(filePath);
             }
             else if (streamTask.IsCanceled)
             {
@@ -347,16 +352,16 @@ namespace Juniper.Imaging
 
                         if (imageTask.IsSuccessful())
                         {
-                            var image = imageTask.Result;
-                            if (image != null)
+                            var stream = imageTask.Result;
+                            if (stream != null)
                             {
                                 var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
                                 var renderer = frame.GetComponent<MeshRenderer>();
-                                var material = new Material(Shader.Find("Unlit/Texture"));
-                                var texture = codec.Deserialize(image);
-                                material.SetTexture("_MainTex", texture);
+                                var image = codec.Deserialize(stream);
+                                var properties = new MaterialPropertyBlock();
+                                properties.SetTexture("_MainTex", image);
                                 renderer.SetMaterial(material);
-
+                                renderer.SetPropertyBlock(properties);
                                 frame.layer = LayerMask.NameToLayer(PHOTOSPHERE_LAYER);
                                 frame.transform.SetParent(frameContainer, false);
                                 frame.transform.localScale = scale * Vector3.one;
@@ -427,13 +432,7 @@ namespace Juniper.Imaging
             }
         }
 
-        public float Progress
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public float Progress { get { return ProgressToReady; } }
 
 #if UNITY_EDITOR
         private bool cubemapLock;
@@ -445,7 +444,7 @@ namespace Juniper.Imaging
 
         private void CaptureCubemap()
         {
-            if (skyboxCubemap == null && !cubemapLock)
+            if (string.IsNullOrEmpty(CubemapPath) && !cubemapLock)
             {
                 cubemapLock = true;
                 StartCoroutine(CaptureCubemapCoroutine());

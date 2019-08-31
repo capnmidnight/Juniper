@@ -1,6 +1,8 @@
 using System.Net;
 using System.Threading.Tasks;
 
+using Hjg.Pngcs;
+
 using Juniper.Google.Maps.Tests;
 using Juniper.Imaging;
 using Juniper.Imaging.HjgPngcs;
@@ -15,6 +17,20 @@ namespace Juniper.Google.Maps.StreetView.Tests
     [TestClass]
     public class StreetViewTests : ServicesTests
     {
+        private LibJpegNETDecoder jpegDecoder;
+        private IImageCodec<ImageLines> png;
+        private HjgPngcsDecoder pngDecoder;
+
+        [TestInitialize]
+        public override void Init()
+        {
+            base.Init();
+            jpegDecoder = new LibJpegNETDecoder(80);
+
+            png = new HjgPngcsCodec();
+            pngDecoder = new HjgPngcsDecoder();
+        }
+
         [TestMethod]
         public async Task JPEGImageSize()
         {
@@ -23,8 +39,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
                 Place = "Alexandria, VA"
             };
 
-            var decoder = new LibJpegNETImageDataTranscoder();
-            var image = await imageRequest.GetDecoded(decoder);
+            var image = await imageRequest.GetDecoded(jpegDecoder);
             var info = image.info;
             Assert.AreEqual(640, info.dimensions.width);
             Assert.AreEqual(640, info.dimensions.height);
@@ -38,10 +53,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
                 Place = "Alexandria, VA"
             };
 
-            var jpeg = new LibJpegNETImageDataTranscoder();
-            var rawImg = await imageRequest.GetDecoded(jpeg);
-            var png = new HjgPngcsImageDataTranscoder();
-            var data = png.Serialize(rawImg);
+            var rawImg = await imageRequest.GetDecoded(jpegDecoder);
+            var data = pngDecoder.Serialize(rawImg);
             var info = png.GetImageInfo(data);
             Assert.AreEqual(640, info.dimensions.width);
             Assert.AreEqual(640, info.dimensions.height);
@@ -69,8 +82,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
             {
                 Place = "Alexandria, VA"
             };
-            var decoder = new LibJpegNETImageDataTranscoder();
-            var image = await imageRequest.GetDecoded(decoder);
+
+            var image = await imageRequest.GetDecoded(jpegDecoder);
             Assert.AreEqual(640, image.info.dimensions.width);
             Assert.AreEqual(640, image.info.dimensions.height);
         }
@@ -82,8 +95,8 @@ namespace Juniper.Google.Maps.StreetView.Tests
             {
                 Place = "Alexandria, VA"
             };
-            var decoder = new LibJpegNETImageDataTranscoder();
-            var image = await imageRequest.GetDecoded(decoder);
+
+            var image = await imageRequest.GetDecoded(jpegDecoder);
             Assert.AreEqual(640, image.info.dimensions.width);
             Assert.AreEqual(640, image.info.dimensions.height);
         }

@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Juniper.Imaging.Unity;
+
 using UnityEngine;
 
 namespace Juniper.Imaging
@@ -48,8 +50,8 @@ namespace Juniper.Imaging
 
         public event Action<Photosphere> PhotosphereReady;
 
-        public IImageCodec<Texture2D> codec;
-        private IImageCodec<Texture2D> lastCodec;
+        public UnityTextureCodec codec;
+        private UnityTextureCodec lastCodec;
 
         public void SetDetailLevels(float[] fovs)
         {

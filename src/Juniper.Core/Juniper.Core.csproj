@@ -76,12 +76,14 @@
     <Compile Include="HTTP\HttpStreamExt.cs" />
     <Compile Include="HTTP\HttpStringExt.cs" />
     <Compile Include="HTTP\UriBuilderExt.cs" />
-    <Compile Include="Imaging\AbstractImageDataTranscoder.cs" />
+    <Compile Include="Imaging\CompositeImageFactory.cs" />
+    <Compile Include="Imaging\CompositeImageTranscoder.cs" />
     <Compile Include="Imaging\IImageCodec.cs" />
     <Compile Include="Imaging\IImageTranscoder.cs" />
     <Compile Include="Imaging\ImageData.cs" />
     <Compile Include="Imaging\ImageInfo.cs" />
     <Compile Include="Imaging\Markers.cs" />
+    <Compile Include="Imaging\ReverseTranscoder.cs" />
     <Compile Include="Imaging\Size.cs" />
     <Compile Include="Input\Direction.cs" />
     <Compile Include="Input\Hands.cs" />

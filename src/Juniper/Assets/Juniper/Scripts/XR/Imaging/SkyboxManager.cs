@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 namespace Juniper.Imaging
@@ -41,7 +42,7 @@ namespace Juniper.Imaging
         public StereoLayout stereoLayout;
 
         private Material skyboxMaterial;
-        private Texture skyboxTexture;
+        internal Texture skyboxTexture;
 
         public void Awake()
         {
@@ -56,6 +57,13 @@ namespace Juniper.Imaging
                 skyboxMaterial.SetFloat("_Exposure", exposure);
                 skyboxMaterial.SetFloat("_Rotation", rotation);
             }
+        }
+
+        public void SetImageData(ImageData image)
+        {
+            var texture = skyboxTexture as Texture2D;
+            image.CopyToTexture(ref texture);
+            SetTexture(texture);
         }
 
         public void SetTexture(Texture value)

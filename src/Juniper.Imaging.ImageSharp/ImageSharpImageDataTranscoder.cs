@@ -8,37 +8,10 @@ using SixLabors.ImageSharp.PixelFormats;
 
 namespace Juniper.Imaging.ImageSharp
 {
-    public class ImageSharpImageDataTranscoder<PixelT> : AbstractImageDataTranscoder<ImageSharpCodec<PixelT>, Image<PixelT>>
+    public class ImageSharpImageDataTranscoder<PixelT> : IImageTranscoder<Image<PixelT>, ImageData>
         where PixelT : struct, IPixel, IPixel<PixelT>
     {
-        public ImageSharpImageDataTranscoder(HTTP.MediaType.Image format)
-            : base(new ImageSharpCodec<PixelT>(format)) { }
-
-        public override Image<PixelT> TranslateTo(ImageData value, IProgress prog = null)
-        {
-            prog?.Report(0);
-            Image<PixelT> img;
-            if (value.contentType != HTTP.MediaType.Image.Raw)
-            {
-                img = Image.Load<PixelT>(value.data);
-            }
-            else if (value.info.components == 3)
-            {
-                img = Image.LoadPixelData<PixelT>(value.data, value.info.dimensions.width, value.info.dimensions.height);
-            }
-            else if (value.info.components == 4)
-            {
-                img = Image.LoadPixelData<PixelT>(value.data, value.info.dimensions.width, value.info.dimensions.height);
-            }
-            else
-            {
-                throw new NotSupportedException($"Don't know how to handle number of components {value.info.components}");
-            }
-            prog?.Report(1);
-            return img;
-        }
-
-        public override ImageData TranslateFrom(Image<PixelT> image, IProgress prog = null)
+        public ImageData TranslateTo(Image<PixelT> image, IProgress prog = null)
         {
             var components = image.PixelType.BitsPerPixel / 8;
             if (components != 3 && components != 4)
@@ -84,6 +57,30 @@ namespace Juniper.Imaging.ImageSharp
                     HTTP.MediaType.Image.Raw,
                     data);
             }
+        }
+
+        public Image<PixelT> TranslateFrom(ImageData value, IProgress prog = null)
+        {
+            prog?.Report(0);
+            Image<PixelT> img;
+            if (value.contentType != HTTP.MediaType.Image.Raw)
+            {
+                img = Image.Load<PixelT>(value.data);
+            }
+            else if (value.info.components == 3)
+            {
+                img = Image.LoadPixelData<PixelT>(value.data, value.info.dimensions.width, value.info.dimensions.height);
+            }
+            else if (value.info.components == 4)
+            {
+                img = Image.LoadPixelData<PixelT>(value.data, value.info.dimensions.width, value.info.dimensions.height);
+            }
+            else
+            {
+                throw new NotSupportedException($"Don't know how to handle number of components {value.info.components}");
+            }
+            prog?.Report(1);
+            return img;
         }
     }
 }

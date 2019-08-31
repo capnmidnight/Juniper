@@ -36,6 +36,8 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageDataLibJpegNETTranscoder.cs" />
+    <Compile Include="LibJpegNETDecoder.cs" />
     <Compile Include="LibJpegNETCodec.cs" />
     <Compile Include="LibJpegNETImageDataTranscoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

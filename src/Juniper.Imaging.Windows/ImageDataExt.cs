@@ -99,5 +99,21 @@ namespace Juniper.Imaging.Windows
                 throw new NotSupportedException($"Format {format}");
             }
         }
+
+        public static int GetComponents(this System.Drawing.Image img)
+        {
+            if (img.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+            {
+                return 4;
+            }
+            else if (img.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb)
+            {
+                return 3;
+            }
+            else
+            {
+                throw new NotSupportedException($"Pixel format {img.PixelFormat}");
+            }
+        }
     }
 }

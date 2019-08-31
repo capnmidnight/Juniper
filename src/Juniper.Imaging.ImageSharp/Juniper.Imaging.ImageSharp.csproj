@@ -39,7 +39,9 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageDataImageSharpTranscoder.cs" />
     <Compile Include="ImageSharpCodec.cs" />
+    <Compile Include="ImageSharpDecoder.cs" />
     <Compile Include="ImageSharpImageDataTranscoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

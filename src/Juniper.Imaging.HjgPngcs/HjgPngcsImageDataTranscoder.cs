@@ -6,21 +6,13 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging.HjgPngcs
 {
-    public class HjgPngcsImageDataTranscoder : AbstractImageDataTranscoder<HjgPngcsCodec, ImageLines>
+    public class HjgPngcsImageDataTranscoder : IImageTranscoder<ImageLines, ImageData>
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="compressionLevel">values 0 - 9</param>
-        /// <param name="IDATMaxSize"></param>
-        public HjgPngcsImageDataTranscoder(int compressionLevel = 9, int IDATMaxSize = 0x1000)
-            : base(new HjgPngcsCodec(compressionLevel, IDATMaxSize)) { }
-      
         /// <summary>
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Png bytes.</param>
-        public override ImageData TranslateFrom(ImageLines rows, IProgress prog = null)
+        public ImageData TranslateTo(ImageLines rows, IProgress prog = null)
         {
             var numRows = rows.Nrows;
             var data = new byte[numRows * rows.elementsPerRow];
@@ -44,7 +36,7 @@ namespace Juniper.Imaging.HjgPngcs
         /// Encodes a raw file buffer of image data into a PNG image.
         /// </summary>
         /// <param name="outputStream">Png bytes.</param>
-        public override ImageLines TranslateTo(ImageData image, IProgress prog)
+        public ImageLines TranslateFrom(ImageData image, IProgress prog)
         {
             var imageInfo = new Hjg.Pngcs.ImageInfo(
                 image.info.dimensions.width,

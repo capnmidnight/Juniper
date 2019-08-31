@@ -7,7 +7,7 @@ using Juniper.Streams;
 
 using UnityEngine;
 
-namespace Juniper.Imaging
+namespace Juniper.Imaging.Unity
 {
     public class UnityTextureCodec : IImageCodec<Texture2D>
     {
@@ -72,20 +72,7 @@ namespace Juniper.Imaging
 
         public int GetComponents(Texture2D img)
         {
-            if(img.format == TextureFormat.ARGB32
-                || img.format == TextureFormat.RGBA32
-                || img.format == TextureFormat.BGRA32)
-            {
-                return 4;
-            }
-            else if(img.format == TextureFormat.RGB24)
-            {
-                return 3;
-            }
-            else
-            {
-                throw new NotSupportedException($"Don't know how to handle pixel format {img.format}.");
-            }
+            return img.GetComponents();
         }
 
         public Texture2D Concatenate(Texture2D[,] images, IProgress prog = null)
@@ -135,7 +122,7 @@ namespace Juniper.Imaging
             {
                 return value.EncodeToTGA();
             }
-            else if(ContentType == MediaType.Image.Raw)
+            else if (ContentType == MediaType.Image.Raw)
             {
                 return value.GetRawTextureData();
             }
@@ -152,18 +139,39 @@ namespace Juniper.Imaging
             progStream.Write(buf, 0, buf.Length);
         }
 
+        public void LoadTo(string filePath, ref Texture2D texture)
+        {
+            using (var stream = File.OpenRead(filePath))
+            {
+                DeserializeTo(stream, ref texture);
+            }
+        }
+
         public Texture2D Deserialize(Stream stream)
         {
-            using (var mem = new MemoryStream())
+            Texture2D texture = null;
+            DeserializeTo(stream, ref texture);
+            return texture;
+        }
+
+        public void DeserializeTo(Stream stream, ref Texture2D texture)
+        {
+            var mem = new MemoryStream();
+            stream.CopyTo(mem);
+            stream.Flush();
+            var buffer = mem.ToArray();
+            var info = GetImageInfo(buffer);
+            if (texture == null
+                || texture.width != info.dimensions.width
+                || texture.height != info.dimensions.height
+                || texture.GetComponents() != info.components)
             {
-                stream.CopyTo(mem);
-                stream.Flush();
-                var buffer = mem.ToArray();
-                var info = GetImageInfo(buffer);
-                var texture = new Texture2D(info.dimensions.width, info.dimensions.height);
-                texture.LoadImage(buffer);
-                return texture;
+                texture = new Texture2D(
+                    info.dimensions.width,
+                    info.dimensions.height);
             }
+            texture.LoadImage(buffer);
+            texture.Apply();
         }
     }
 }

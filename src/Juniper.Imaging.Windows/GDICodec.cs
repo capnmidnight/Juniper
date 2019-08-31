@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+
 using Juniper.HTTP;
 using Juniper.Progress;
 using Juniper.Serialization;
@@ -33,18 +34,7 @@ namespace Juniper.Imaging.Windows
 
         public int GetComponents(Image img)
         {
-            if (img.PixelFormat == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
-            {
-                return 4;
-            }
-            else if (img.PixelFormat == System.Drawing.Imaging.PixelFormat.Format24bppRgb)
-            {
-                return 3;
-            }
-            else
-            {
-                throw new NotSupportedException($"Pixel format {img.PixelFormat}");
-            }
+            return img.GetComponents();
         }
 
         public void Serialize(Stream stream, Image value, IProgress prog = null)
