@@ -216,7 +216,7 @@ namespace UnityEngine
         public static bool Remove<T>(this GameObject obj) where T : Component
         {
             var o = obj.GetComponent<T>();
-            o?.Destroy();
+            o?.DestroyImmediate();
             return o != null;
         }
     }

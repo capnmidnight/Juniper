@@ -28,7 +28,7 @@ namespace Juniper.Input.Pointers
         {
             foreach (var evt in eventParent.GetComponents<ButtonEvent>())
             {
-                evt.Destroy();
+                evt.DestroyImmediate();
             }
         }
     }

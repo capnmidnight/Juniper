@@ -25,7 +25,7 @@ namespace Juniper.Widgets
             {
                 foreach (var collider in bar.Value.GetComponentsInChildren<Collider>())
                 {
-                    collider.Destroy();
+                    collider.DestroyImmediate();
                 }
             }
 #endif

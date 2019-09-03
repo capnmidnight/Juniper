@@ -356,7 +356,7 @@ namespace Juniper.Input.Pointers
             }
             else if (line != null && LaserPointerMaterial == null)
             {
-                line.Destroy();
+                line.DestroyImmediate();
                 line = null;
             }
 

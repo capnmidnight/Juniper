@@ -49,7 +49,7 @@ namespace Juniper.Input.Pointers
                 if (string.IsNullOrEmpty(evt.buttonTypeName)
                     || string.IsNullOrEmpty(evt.buttonValueName))
                 {
-                    evt.Destroy();
+                    evt.DestroyImmediate();
                 }
             }
         }

@@ -283,7 +283,7 @@ namespace Juniper.Anchoring
         protected virtual void DeleteAnchor(string ID, GameObject gameObject, AnchorType anchor)
         {
             DeleteValue(ID);
-            anchor.Destroy();
+            anchor.DestroyImmediate();
         }
 
         /// <summary>

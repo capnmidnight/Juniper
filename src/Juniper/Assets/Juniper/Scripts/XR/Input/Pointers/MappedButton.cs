@@ -65,7 +65,7 @@ namespace Juniper.Input.Pointers
 
         public void Destroy()
         {
-            buttonEvent.Destroy();
+            buttonEvent.DestroyImmediate();
         }
 
         private void SetButton(ButtonIDType value)

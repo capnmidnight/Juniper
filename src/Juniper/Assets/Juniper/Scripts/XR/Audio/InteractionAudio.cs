@@ -270,7 +270,7 @@ namespace Juniper.Audio
             if (instance != null)
             {
                 Debug.LogWarning("Juniper: There can be only one! (R2D2)");
-                this.Destroy();
+                this.DestroyImmediate();
             }
             else
             {

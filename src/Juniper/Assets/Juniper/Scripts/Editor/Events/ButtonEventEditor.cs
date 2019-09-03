@@ -67,7 +67,7 @@ namespace Juniper.Events
 
             if (destroy)
             {
-                value.Destroy();
+                value.DestroyImmediate();
             }
             else
             {

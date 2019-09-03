@@ -97,9 +97,14 @@ namespace UnityEngine
             parent.gameObject.Deactivate();
         }
 
-        public static void Destroy(this Component obj)
+        public static void DestroyImmediate(this Component obj)
         {
             Object.DestroyImmediate(obj);
+        }
+
+        public static void Destroy(this Component obj)
+        {
+            Object.Destroy(obj);
         }
 
         public static T Query<T>(this Component parent, string path)
@@ -267,7 +272,7 @@ namespace UnityEngine
         public static bool Remove<T>(this Component obj) where T : Component
         {
             var o = obj.GetComponent<T>();
-            o?.Destroy();
+            o?.DestroyImmediate();
             return o != null;
         }
 

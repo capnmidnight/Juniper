@@ -204,7 +204,7 @@ namespace Juniper
             casterRenderer.motionVectorGenerationMode = MotionVectorGenerationMode.ForceNoMotion;
 
 #if UNITY_MODULES_PHYSICS
-            caster.GetComponent<Collider>()?.Destroy();
+            caster.GetComponent<Collider>()?.DestroyImmediate();
 #endif
             return caster;
         }
@@ -280,7 +280,7 @@ namespace Juniper
         private void DestroyGrounder()
         {
             grounder.GroundFound -= DestroyGrounder;
-            grounder.Destroy();
+            grounder.DestroyImmediate();
             grounder = null;
             BodyPhysics.useGravity = true;
             BodyPhysics.isKinematic = false;

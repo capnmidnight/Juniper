@@ -79,7 +79,7 @@ namespace Juniper.Widgets
         {
             transform.Reparent(target, false);
             enabled = false;
-            this.Destroy();
+            this.DestroyImmediate();
         }
 
         /// <summary>
