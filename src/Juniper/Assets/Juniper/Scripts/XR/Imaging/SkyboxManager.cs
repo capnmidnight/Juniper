@@ -1,4 +1,7 @@
 
+using System;
+using System.Collections;
+
 using UnityEngine;
 
 namespace Juniper.Imaging
@@ -42,7 +45,7 @@ namespace Juniper.Imaging
         public StereoLayout stereoLayout;
 
         private Material skyboxMaterial;
-        internal Texture skyboxTexture;
+        private Texture skyboxTexture;
 
         public void Awake()
         {
@@ -59,14 +62,7 @@ namespace Juniper.Imaging
             }
         }
 
-        public void SetImageData(ImageData image)
-        {
-            var texture = skyboxTexture as Texture2D;
-            image.CopyToTexture(ref texture);
-            SetTexture(texture);
-        }
-
-        public void SetTexture(Texture value)
+        public IEnumerator SetTexture(Texture value)
         {
             if (layout == Mode.Spherical)
             {
@@ -91,10 +87,10 @@ namespace Juniper.Imaging
             skyboxMaterial.SetInt("_Layout", (int)stereoLayout);
 
             var curTexture = skyboxTexture;
-            if (curTexture != value)
+            if (skyboxTexture != value)
             {
                 skyboxTexture = value;
-                skyboxMaterial.SetTexture("_MainTex", value);
+                skyboxMaterial.SetTexture("_MainTex", skyboxTexture);
             }
 
             if (RenderSettings.skybox != skyboxMaterial)
@@ -110,6 +106,12 @@ namespace Juniper.Imaging
                 }
 
                 Destroy(curTexture);
+                var op = Resources.UnloadUnusedAssets();
+                while (!op.isDone)
+                {
+                    yield return null;
+                }
+                GC.Collect();
             }
 
         }

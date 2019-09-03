@@ -115,35 +115,6 @@ namespace Juniper.Imaging
             }
         }
 
-        private void ShowSkybox(string filePath)
-        {
-            if (mgr != null && mgr.lodLevelRequirements != null && mgr.FOVs != null)
-            {
-                for (var f = 0; f < mgr.lodLevelRequirements.Length; ++f)
-                {
-                    var lodLevel = mgr.FOVs[f];
-                    if (detailContainerCache.ContainsKey(lodLevel))
-                    {
-                        detailContainerCache[lodLevel].Deactivate();
-                    }
-                }
-            }
-
-            skybox.exposure = 1;
-            skybox.imageType = SkyboxManager.ImageType.Degrees360;
-            skybox.layout = SkyboxManager.Mode.Cube;
-            skybox.mirror180OnBack = false;
-            skybox.rotation = 0;
-            skybox.stereoLayout = SkyboxManager.StereoLayout.None;
-            skybox.tint = UnityEngine.Color.gray;
-            skybox.useMipMap = false;
-            var texture = skybox.skyboxTexture as Texture2D;
-            codec.LoadTo(filePath, ref texture);
-            skybox.SetTexture(texture);
-            IsReady = wasComplete = true;
-            Ready?.Invoke(this);
-        }
-
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
             print("Loading cubemap " + filePath);
@@ -156,7 +127,32 @@ namespace Juniper.Imaging
             {
                 trySkybox = true;
                 Debug.Log("Cubemap saved");
-                ShowSkybox(filePath);
+                if (mgr != null && mgr.lodLevelRequirements != null && mgr.FOVs != null)
+                {
+                    for (var f = 0; f < mgr.lodLevelRequirements.Length; ++f)
+                    {
+                        var lodLevel = mgr.FOVs[f];
+                        if (detailContainerCache.ContainsKey(lodLevel))
+                        {
+                            detailContainerCache[lodLevel].Deactivate();
+                        }
+                    }
+                }
+
+                var texture = codec.Load(filePath);
+
+                skybox.exposure = 1;
+                skybox.imageType = SkyboxManager.ImageType.Degrees360;
+                skybox.layout = SkyboxManager.Mode.Cube;
+                skybox.mirror180OnBack = false;
+                skybox.rotation = 0;
+                skybox.stereoLayout = SkyboxManager.StereoLayout.None;
+                skybox.tint = UnityEngine.Color.gray;
+                skybox.useMipMap = false;
+                yield return skybox.SetTexture(texture);
+
+                IsReady = wasComplete = true;
+                Ready?.Invoke(this);
             }
             else if (streamTask.IsCanceled)
             {

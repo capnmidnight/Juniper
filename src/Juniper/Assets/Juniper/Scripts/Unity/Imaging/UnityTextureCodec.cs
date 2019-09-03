@@ -104,74 +104,77 @@ namespace Juniper.Imaging.Unity
             return outputImage;
         }
 
-        public byte[] Encode(Texture2D value)
+        public byte[] Serialize(Texture2D value, IProgress prog = null)
         {
+            prog?.Report(0);
+            byte[] buffer;
             if (ContentType == MediaType.Image.EXR)
             {
-                return value.EncodeToEXR(exrFlags);
+                buffer = value.EncodeToEXR(exrFlags);
             }
             else if (ContentType == MediaType.Image.Jpeg)
             {
-                return value.EncodeToJPG(jpegEncodingQuality);
+                buffer = value.EncodeToJPG(jpegEncodingQuality);
             }
             else if (ContentType == MediaType.Image.Png)
             {
-                return value.EncodeToPNG();
+                buffer = value.EncodeToPNG();
             }
             else if (ContentType == MediaType.Image.X_Tga)
             {
-                return value.EncodeToTGA();
+                buffer = value.EncodeToTGA();
             }
             else if (ContentType == MediaType.Image.Raw)
             {
-                return value.GetRawTextureData();
+                buffer = value.GetRawTextureData();
             }
             else
             {
                 throw new NotSupportedException($"Unity doesn't know how to encode {ContentType.Value} image data.");
             }
+
+            prog?.Report(1);
+            return buffer;
         }
 
         public void Serialize(Stream stream, Texture2D value, IProgress prog = null)
         {
-            var buf = Encode(value);
-            var progStream = new ProgressStream(stream, buf.Length, prog);
+            var subProgs = prog.Split(2);
+            var buf = Serialize(value, subProgs[0]);
+            var progStream = new ProgressStream(stream, buf.Length, subProgs[1]);
             progStream.Write(buf, 0, buf.Length);
         }
 
-        public void LoadTo(string filePath, ref Texture2D texture)
-        {
-            using (var stream = File.OpenRead(filePath))
-            {
-                DeserializeTo(stream, ref texture);
-            }
-        }
-
         public Texture2D Deserialize(Stream stream)
-        {
-            Texture2D texture = null;
-            DeserializeTo(stream, ref texture);
-            return texture;
-        }
-
-        public void DeserializeTo(Stream stream, ref Texture2D texture)
         {
             var mem = new MemoryStream();
             stream.CopyTo(mem);
             stream.Flush();
             var buffer = mem.ToArray();
+            return Deserialize(buffer);
+        }
+
+        public Texture2D Deserialize(byte[] buffer)
+        {
             var info = GetImageInfo(buffer);
-            if (texture == null
-                || texture.width != info.dimensions.width
-                || texture.height != info.dimensions.height
-                || texture.GetComponents() != info.components)
+            var texture = new Texture2D(
+                info.dimensions.width,
+                info.dimensions.height);
+
+            if (ContentType == MediaType.Image.EXR
+                || ContentType == MediaType.Image.Jpeg
+                || ContentType == MediaType.Image.Png
+                || ContentType == MediaType.Image.X_Tga)
             {
-                texture = new Texture2D(
-                    info.dimensions.width,
-                    info.dimensions.height);
+                texture.LoadImage(buffer);
+            }
+            else if (ContentType == MediaType.Image.Raw)
+            {
+                texture.LoadRawTextureData(buffer);
             }
             texture.LoadImage(buffer);
             texture.Apply();
+            return texture;
         }
     }
 }

@@ -1,9 +1,12 @@
 #if UNITY_MODULES_AUDIO && UNITY_MODULES_VIDEO
 
 using System;
+using System.Collections;
+
 using Juniper.Audio;
 using Juniper.Imaging;
 using Juniper.Progress;
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
@@ -76,12 +79,8 @@ namespace Juniper.Video
 
                     renderTexture.Create();
 
-                    skybox.useMipMap = useMipMap;
-                    skybox.SetTexture(renderTexture);
-
                     player.targetTexture = renderTexture;
-                    Complete();
-                    Play();
+                    StartCoroutine(SetSkyboxTexture());
                 }
 
                 player.prepareCompleted += exec;
@@ -90,6 +89,14 @@ namespace Juniper.Video
                 player.url = videoClip.LoadPath;
                 player.Prepare();
             }
+        }
+
+        private IEnumerator SetSkyboxTexture()
+        {
+            skybox.useMipMap = useMipMap;
+            yield return skybox.SetTexture(renderTexture);
+            Complete();
+            Play();
         }
 
         protected override void OnExiting()
