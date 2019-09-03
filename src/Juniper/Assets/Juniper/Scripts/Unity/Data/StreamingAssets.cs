@@ -11,6 +11,7 @@ using Juniper.Imaging;
 using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.Streams;
+using UnityEngine;
 
 namespace Juniper.Data
 {
@@ -76,22 +77,22 @@ namespace Juniper.Data
         public static async Task<Response> GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog = null)
         {
 #if UNITY_ANDROID
+            Debug.Log($"Juniper === Getting Android Streaming Asset {path}");
             if (AndroidJarPattern.IsMatch(path))
             {
                 var match = AndroidJarPattern.Match(path);
                 var apk = match.Groups[1].Value;
                 path = match.Groups[2].Value;
                 var cachePath = Uri.EscapeUriString(Path.Combine(cacheDirectory, path));
-                if (FileIsGood(cachePath, ttl))
+                Debug.Log($"Juniper === APK: {apk}, PATH: {path}, CACHE_PATH: {cachePath}");
+                if (!FileIsGood(cachePath, ttl))
                 {
-                    return new Response(cachePath, mime, prog);
-                }
-                else
-                {
+                    Debug.Log("Juniper === Unzipping APK");
                     var subProgs = prog?.Split("Unzipping", "Reading");
-                    var stream = Compression.Zip.Decompressor.GetFile(apk, path, subProgs[0]);
-                    return new Response(new CachingStream(stream, cachePath), HttpStatusCode.OK, mime, stream.Length, subProgs[1]);
+                    Compression.Zip.Decompressor.Decompress(apk, cacheDirectory, subProgs[0]);
                 }
+
+                return new Response(cachePath, mime, prog);
             }
             else
 #endif

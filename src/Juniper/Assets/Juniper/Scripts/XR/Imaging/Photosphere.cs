@@ -139,7 +139,7 @@ namespace Juniper.Imaging
                     }
                 }
 
-                var texture = codec.Load(filePath);
+                var texture = codec.Deserialize(streamTask.Result.Content);
 
                 skybox.exposure = 1;
                 skybox.imageType = SkyboxManager.ImageType.Degrees360;

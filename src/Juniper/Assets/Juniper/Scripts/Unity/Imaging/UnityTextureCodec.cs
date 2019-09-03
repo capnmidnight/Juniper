@@ -159,7 +159,9 @@ namespace Juniper.Imaging.Unity
             var info = GetImageInfo(buffer);
             var texture = new Texture2D(
                 info.dimensions.width,
-                info.dimensions.height);
+                info.dimensions.height,
+                info.components == 3 ? TextureFormat.RGB24 : TextureFormat.RGBA32,
+                false);
 
             if (ContentType == MediaType.Image.EXR
                 || ContentType == MediaType.Image.Jpeg
@@ -172,7 +174,6 @@ namespace Juniper.Imaging.Unity
             {
                 texture.LoadRawTextureData(buffer);
             }
-            texture.LoadImage(buffer);
             texture.Apply();
             return texture;
         }

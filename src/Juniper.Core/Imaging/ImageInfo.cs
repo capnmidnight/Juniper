@@ -76,7 +76,7 @@ namespace Juniper.Imaging
                 }
             }
 
-            return default;
+            throw new ArgumentException("Could not parse JPEG data", nameof(data));
         }
 
         public readonly Size dimensions;
