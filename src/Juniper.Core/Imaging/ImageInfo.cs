@@ -53,7 +53,7 @@ namespace Juniper.Imaging
                 i += 4;
             }
 
-            return default;
+            throw new ArgumentException("Could not parse PNG data", nameof(data));
         }
 
         public static ImageInfo ReadJPEG(byte[] data)
