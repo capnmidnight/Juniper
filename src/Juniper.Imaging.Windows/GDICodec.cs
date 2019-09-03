@@ -42,9 +42,12 @@ namespace Juniper.Imaging.Windows
             value.Save(stream, gdiFormat);
         }
 
-        public Image Deserialize(Stream stream)
+        public Image Deserialize(Stream stream, IProgress prog = null)
         {
-            return Image.FromStream(stream);
+            prog?.Report(0);
+            var img = Image.FromStream(stream);
+            prog?.Report(1);
+            return img;
         }
 
         public ImageInfo GetImageInfo(byte[] data)

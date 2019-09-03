@@ -1,5 +1,7 @@
+using System;
 using System.IO;
 using Juniper.HTTP;
+using Juniper.Progress;
 
 namespace Juniper.Serialization
 {
@@ -12,9 +14,9 @@ namespace Juniper.Serialization
             this.deserializer = deserializer;
         }
 
-        public T Deserialize(Stream stream)
+        public T Deserialize(Stream stream, IProgress prog = null)
         {
-            return deserializer.Deserialize<T>(stream);
+            return deserializer.Deserialize<T>(stream, prog);
         }
 
         public MediaType ContentType { get { return deserializer.ContentType; } }

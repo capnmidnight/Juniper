@@ -35,12 +35,15 @@ namespace Juniper.Json
             prog?.Report(1);
         }
 
-        public T Deserialize<T>(Stream stream)
+        public T Deserialize<T>(Stream stream, IProgress prog = null)
         {
+            prog?.Report(0);
             var reader = new StreamReader(stream);
             var jsonReader = new JsonTextReader(reader);
             var serializer = new JsonSerializer();
-            return serializer.Deserialize<T>(jsonReader);
+            var obj = serializer.Deserialize<T>(jsonReader);
+            prog?.Report(1);
+            return obj;
         }
     }
 }

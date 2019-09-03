@@ -48,9 +48,12 @@ namespace Juniper.Imaging.ImageSharp
             }
         }
 
-        public Image<PixelT> Deserialize(Stream stream)
+        public Image<PixelT> Deserialize(Stream stream, IProgress prog = null)
         {
-            return Image.Load<PixelT>(stream);
+            prog?.Report(0);
+            var img = Image.Load<PixelT>(stream);
+            prog?.Report(1);
+            return img;
         }
 
         public void Serialize(Stream stream, Image<PixelT> value, IProgress prog = null)

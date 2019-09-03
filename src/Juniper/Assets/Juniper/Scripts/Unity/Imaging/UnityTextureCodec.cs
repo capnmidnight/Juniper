@@ -145,17 +145,18 @@ namespace Juniper.Imaging.Unity
             progStream.Write(buf, 0, buf.Length);
         }
 
-        public Texture2D Deserialize(Stream stream)
+        public Texture2D Deserialize(Stream stream, IProgress prog = null)
         {
             var mem = new MemoryStream();
             stream.CopyTo(mem);
             stream.Flush();
             var buffer = mem.ToArray();
-            return Deserialize(buffer);
+            return Deserialize(buffer, prog);
         }
 
-        public Texture2D Deserialize(byte[] buffer)
+        public Texture2D Deserialize(byte[] buffer, IProgress prog = null)
         {
+            prog?.Report(0);
             var info = GetImageInfo(buffer);
             var texture = new Texture2D(
                 info.dimensions.width,
@@ -175,6 +176,7 @@ namespace Juniper.Imaging.Unity
                 texture.LoadRawTextureData(buffer);
             }
             texture.Apply();
+            prog?.Report(1);
             return texture;
         }
     }

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Juniper.HTTP;
+using Juniper.Progress;
 using Juniper.Serialization;
 
 using NAudio.Vorbis;
@@ -51,8 +52,9 @@ namespace Juniper.Audio.NAudio
             }
         }
 
-        public AudioData Deserialize(Stream stream)
+        public AudioData Deserialize(Stream stream, IProgress prog = null)
         {
+            prog?.Report(0);
             using (var waveStream = MakeDecodingStream(stream))
             {
                 var format = waveStream.WaveFormat;
@@ -61,7 +63,9 @@ namespace Juniper.Audio.NAudio
                 var samples = waveStream.Length / bytesPerSample;
                 var channels = format.Channels;
                 var frequency = format.SampleRate;
-                return new AudioData((MediaType.Audio)ContentType, samples, channels, frequency, waveStream);
+                var aud = new AudioData((MediaType.Audio)ContentType, samples, channels, frequency, waveStream);
+                prog?.Report(1);
+                return aud;
             }
         }
     }

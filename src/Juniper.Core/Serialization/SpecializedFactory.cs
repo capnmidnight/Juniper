@@ -18,9 +18,9 @@ namespace Juniper.Serialization
             factory.Serialize(stream, value, prog);
         }
 
-        public T Deserialize(Stream stream)
+        public T Deserialize(Stream stream, IProgress prog = null)
         {
-            return factory.Deserialize<T>(stream);
+            return factory.Deserialize<T>(stream, prog);
         }
 
         public MediaType ContentType { get { return factory.ContentType; } }
