@@ -113,7 +113,8 @@ namespace Juniper
         private FadeTransition darth;
 
         private InteractionAudio interaction;
-
+        private float originalFadeVolume;
+        private AudioClip originalFadeInSound;
         /// <summary>
         /// A flag that indicates the cursor was locked on the previous frame.
         /// </summary>
@@ -192,11 +193,11 @@ namespace Juniper
         {
             if (skipFadeOut)
             {
-                darth?.SkipEnter();
+                darth.SkipEnter();
             }
             else
             {
-                darth?.Enter();
+                darth.Enter();
             }
         }
 
@@ -207,10 +208,10 @@ namespace Juniper
             loadingBar?.Activate();
             loadingBar?.Report(0, subSceneName);
 
-            if (!skipFadeOut)
+            if (darth != null && !skipFadeOut)
             {
                 FadeOut(skipFadeOut);
-                yield return darth?.Waiter;
+                yield return darth.Waiter;
             }
 
             var parts = subSceneName.Split(SCENE_NAME_PART_SEPARATOR);
@@ -240,7 +241,7 @@ namespace Juniper
             for (var i = 1; i < SceneManager.sceneCount; ++i)
             {
                 var scene = SceneManager.GetSceneAt(i);
-                
+
 #if UNITY_MODULES_UI
                 var canvases = scene.FindAll<Canvas>((c) =>
                     c.renderMode == RenderMode.WorldSpace
@@ -265,8 +266,13 @@ namespace Juniper
 
             splash?.Deactivate();
             loadingBar?.Deactivate();
-            darth?.Exit();
-            yield return darth?.Waiter;
+            if (darth != null)
+            {
+                darth.Exit();
+                yield return darth.Waiter;
+                darth.volume = originalFadeVolume;
+                darth.fadeInSound = originalFadeInSound;
+            }
         }
 
         /// <summary>
@@ -294,6 +300,17 @@ namespace Juniper
 
             darth = ComponentExt.FindAny<FadeTransition>();
             interaction = ComponentExt.FindAny<InteractionAudio>();
+
+            if (darth != null)
+            {
+                originalFadeInSound = darth.fadeInSound;
+                originalFadeVolume = darth.volume;
+                if (interaction != null)
+                {
+                    darth.volume = 0.5f;
+                    darth.fadeInSound = interaction.soundOnStartUp;
+                }
+            }
 
             foreach (var subScene in FindObjectsOfType<SubSceneController>())
             {
@@ -376,7 +393,10 @@ namespace Juniper
         /// </summary>
         protected virtual void Start()
         {
-            FadeOut(true);
+            if (darth != null)
+            {
+                FadeOut(true);
+            }
 
             if (loadAll)
             {
@@ -649,6 +669,8 @@ namespace Juniper
 
             if (darth != null)
             {
+                darth.fadeOutSound = interaction.soundOnShutDown;
+                darth.volume = 0.5f;
                 darth.Enter();
                 yield return darth.Waiter;
             }

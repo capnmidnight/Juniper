@@ -59,7 +59,10 @@ namespace Juniper.Animation
         /// <param name="name"></param>
         public void Play(string name)
         {
-            StartCoroutine(PlayCoroutine(name));
+            if (isActiveAndEnabled)
+            {
+                StartCoroutine(PlayCoroutine(name));
+            }
         }
 
         /// <summary>

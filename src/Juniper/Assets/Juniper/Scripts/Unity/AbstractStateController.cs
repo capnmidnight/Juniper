@@ -193,6 +193,7 @@ namespace Juniper
                 state = Direction.Forward;
                 enabled = true;
                 this.SetTreeActive(true);
+                OnEntering();
             }
         }
 

@@ -47,6 +47,8 @@ namespace Juniper.Animation
         /// </summary>
         public float fadeLength = 0.25f;
 
+        public float volume = 0.5f;
+
         /// <summary>
         /// The amount of time the fade transition takes to complete. If a fade sound is provided,
         /// this will be based on the length of the sound clip. Otherwise, it's 1/4th of a second.
@@ -238,7 +240,16 @@ namespace Juniper.Animation
         private void FadeTransition_Enter_Exiting(object sender, EventArgs e)
         {
 #if UNITY_MODULES_AUDIO
+            if(state == Direction.Forward)
+            {
+                aud.clip = fadeOutSound;
+            }
+            else if(state == Direction.Reverse)
+            {
+                aud.clip = fadeInSound;
+            }
             aud.Play();
+            aud.volume = volume;
 #endif
         }
 
