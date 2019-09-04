@@ -37,20 +37,18 @@ namespace Juniper
     public class MasterSceneController : MonoBehaviour, IInstallable
     {
         /// <summary>
-        /// Quit out of the application, making sure any exit transitions for the current scene are
-        /// ran first.
+        /// Parse the scene name.
         /// </summary>
-        public static void QuitApp()
+        private static readonly Regex SceneNamePattern = new Regex("([^/]+)\\.unity$", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Used for splitting apart scene name references from subScene object references.
+        /// </summary>
+        private static readonly char[] SCENE_NAME_PART_SEPARATOR = { '.' };
+
+        private static string GetSceneNameFromPath(string path)
         {
-            var master = ComponentExt.FindAny<MasterSceneController>();
-            if (master == null)
-            {
-                Exit();
-            }
-            else
-            {
-                master.Quit();
-            }
+            return SceneNamePattern.Match(path).Groups[1].Value;
         }
 
         /// <summary>
@@ -74,9 +72,27 @@ namespace Juniper
             return null;
         }
 
-        private static string GetSceneNameFromPath(string path)
+        private static bool IsScenePathLoaded(string path)
         {
-            return SceneNamePattern.Match(path).Groups[1].Value;
+            var scene = SceneManager.GetSceneByPath(path);
+            return scene.IsValid() && scene.isLoaded;
+        }
+
+        /// <summary>
+        /// Quit out of the application, making sure any exit transitions for the current scene are
+        /// ran first.
+        /// </summary>
+        public static void QuitApp()
+        {
+            var master = ComponentExt.FindAny<MasterSceneController>();
+            if (master == null)
+            {
+                Exit();
+            }
+            else
+            {
+                master.Quit();
+            }
         }
 
         public LoadingBar loadingBar;
@@ -100,21 +116,12 @@ namespace Juniper
         /// </summary>
         public string[] subSceneNames;
 
-        /// <summary>
-        /// Parse the scene name.
-        /// </summary>
-        private const string SceneNamePatternStr = "([^/]+)\\.unity$";
-
-        /// <summary>
-        /// Parse the scene name.
-        /// </summary>
-        private static readonly Regex SceneNamePattern = new Regex(SceneNamePatternStr, RegexOptions.Compiled);
-
         private FadeTransition darth;
 
         private InteractionAudio interaction;
         private float originalFadeVolume;
         private AudioClip originalFadeInSound;
+
         /// <summary>
         /// A flag that indicates the cursor was locked on the previous frame.
         /// </summary>
@@ -147,14 +154,201 @@ namespace Juniper
             }
         }
 
-        public void Update()
+#if UNITY_EDITOR
+
+        private void SetBuildSettings()
         {
-            if (exitOnEscape && !wasLocked && UnityEngine.Input.GetKeyDown(KeyCode.Escape))
+            if (!Application.isPlaying && !string.IsNullOrEmpty(gameObject?.scene.path))
             {
-                QuitApp();
+                var s = (from path in subSceneNames
+                         where File.Exists(path)
+                         select new EditorBuildSettingsScene(path, true))
+                    .ToList();
+                s.Insert(0, new EditorBuildSettingsScene(gameObject.scene.path, true));
+                EditorBuildSettings.scenes = s.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
+        /// </summary>
+        [ContextMenu("Load Scenes")]
+        private void LoadScenes_MenuItem()
+        {
+            using (var prog = new UnityEditorProgressDialog("Loading scenes"))
+            {
+                var iters = new Stack<IEnumerator>();
+                iters.Push(LoadAllScenesCoroutine(prog));
+                while (iters.Count > 0)
+                {
+                    var iter = iters.Pop();
+                    while (iter.MoveNext())
+                    {
+                        var obj = iter.Current;
+                        if (obj is IEnumerator subIter)
+                        {
+                            iters.Push(iter);
+                            iter = subIter;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Copy all of the root scene objects out of the sub scenes and into the master scene,
+        /// removing the subscenes along the way. This can also be executed from the editor by
+        /// accessing the component's context menu and selecting "Flatten".
+        /// </summary>
+        [ContextMenu("Flatten")]
+        private void Flatten()
+        {
+            var curScene = gameObject.scene;
+
+            if (subSceneNames.Length > 0)
+            {
+                var newPath = curScene.path.Replace(".unity", ".original.unity");
+                FileExt.Copy(curScene.path, newPath, true);
+
+                foreach (var path in subSceneNames)
+                {
+                    var sceneName = SceneNamePattern.Match(path).Groups[1].Value;
+                    var scene = SceneManager.GetSceneByPath(path);
+                    if (!scene.IsValid())
+                    {
+                        scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
+                    }
+                    SceneManager.MergeScenes(scene, curScene);
+                }
+
+                subSceneNames = new string[0];
+                EditorSceneManager.SaveScene(curScene);
             }
 
-            wasLocked = Cursor.lockState != CursorLockMode.None;
+            EditorBuildSettings.scenes = new[]
+            {
+                new EditorBuildSettingsScene(curScene.path, true)
+            };
+        }
+
+        public void OnValidate()
+        {
+            Invoke(nameof(SetBuildSettings), 100);
+        }
+
+        public void Reset()
+        {
+            Reinstall();
+        }
+
+#endif
+
+        public void Install(bool reset)
+        {
+            var qualityDegrader = ComponentExt.FindAny<QualityDegrader>();
+            var aud = ComponentExt.FindAny<InteractionAudio>();
+
+            if (reset && (subSceneNames == null || subSceneNames.Length == 0))
+            {
+                subSceneNames = new string[] { "Assets/Juniper/Scenes/Examples/Content.unity" };
+            }
+
+            SetupFader(reset);
+            SetupSystemInterface(qualityDegrader, aud);
+        }
+
+        public virtual void Reinstall()
+        {
+            Install(true);
+        }
+
+        public void Uninstall()
+        {
+        }
+
+        private void SetupFader(bool reset)
+        {
+#if UNITY_EDITOR
+            if (sceneFaderMaterial == null || reset)
+            {
+                sceneFaderMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/FaderMaterial.mat");
+            }
+#endif
+
+            var fader = FadeTransition.Ensure(DisplayManager.MainCamera.transform);
+            if (fader.IsNew || reset)
+            {
+                fader.GetComponent<Renderer>()
+                    .SetMaterial(sceneFaderMaterial);
+                fader.transform.localPosition = Mathf.Max(0.5f, 1.2f * DisplayManager.MainCamera.nearClipPlane) * Vector3.forward;
+                fader.transform.localScale = 2 * Vector3.one;
+            }
+        }
+
+        private void SetupSystemInterface(QualityDegrader qualityDegrader, InteractionAudio aud)
+        {
+            var sys = transform.Query("/SystemUserInterface");
+#if UNITY_EDITOR
+            if (sys == null)
+            {
+                var prefab = ResourceExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/UI/SystemUserInterface.prefab");
+                sys = Instantiate(prefab).transform;
+                sys.name = "SystemUserInterface";
+            }
+#endif
+
+            loadingBar = sys.Query<LoadingBar>("LoadingBar");
+
+            splash = sys.Query<UnityImage>("Canvas/SplashImage");
+        }
+
+        public void LoadAllScenes()
+        {
+            StartCoroutine(LoadAllScenesCoroutineWithProgress());
+        }
+
+        private IEnumerator LoadAllScenesCoroutineWithProgress()
+        {
+            loadingBar?.Activate();
+            yield return LoadAllScenesCoroutine(loadingBar);
+            yield return LoadingCompleteCoroutine();
+        }
+
+        /// <summary>
+        /// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
+        /// </summary>
+        private IEnumerator LoadAllScenesCoroutine(IProgress prog = null)
+        {
+            if (subSceneNames?.Length > 0)
+            {
+                for (var i = 0; i < subSceneNames.Length; ++i)
+                {
+                    yield return LoadScenePathCoroutine(
+                        subSceneNames[i],
+                        prog.Subdivide(i, subSceneNames.Length));
+                }
+            }
+        }
+
+        private void LoadFirstScene()
+        {
+            var path = subSceneNames.FirstOrDefault();
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new InvalidOperationException("[Juniper.MasterSceneController::LoadFirstScene] No subscenes defined.");
+            }
+            else
+            {
+                var name = GetSceneNameFromPath(path);
+                if (string.IsNullOrEmpty(name))
+                {
+                    throw new InvalidOperationException("[Juniper.MasterSceneController::LoadFirstScene] Could not find scene " + path);
+                }
+                else
+                {
+                    SwitchToSceneName(name, true);
+                }
+            }
         }
 
         /// <summary>
@@ -188,20 +382,6 @@ namespace Juniper
         {
             StartCoroutine(SwitchToSceneNameCoroutine(sceneName, skipFadeOut));
         }
-
-        private void FadeOut(bool skipFadeOut)
-        {
-            if (skipFadeOut)
-            {
-                darth.SkipEnter();
-            }
-            else
-            {
-                darth.Enter();
-            }
-        }
-
-        private static readonly char[] SCENE_NAME_PART_SEPARATOR = { '.' };
 
         private IEnumerator SwitchToSceneNameCoroutine(string subSceneName, bool skipFadeOut)
         {
@@ -275,13 +455,16 @@ namespace Juniper
             }
         }
 
-        /// <summary>
-        /// Quit out of the application, making sure any exit transitions for the current scene are
-        /// ran first.
-        /// </summary>
-        public void Quit()
+        private void FadeOut(bool skipFadeOut)
         {
-            StartCoroutine(QuitCoroutine());
+            if (skipFadeOut)
+            {
+                darth.SkipEnter();
+            }
+            else
+            {
+                darth.Enter();
+            }
         }
 
         /// <summary>
@@ -318,74 +501,6 @@ namespace Juniper
             }
         }
 
-        public virtual void Reinstall()
-        {
-            Install(true);
-        }
-
-#if UNITY_EDITOR
-
-        public void Reset()
-        {
-            Reinstall();
-        }
-
-#endif
-
-        public void Install(bool reset)
-        {
-            var qualityDegrader = ComponentExt.FindAny<QualityDegrader>();
-            var aud = ComponentExt.FindAny<InteractionAudio>();
-
-            if (reset && (subSceneNames == null || subSceneNames.Length == 0))
-            {
-                subSceneNames = new string[] { "Assets/Juniper/Scenes/Examples/Content.unity" };
-            }
-
-            SetupFader(reset);
-            SetupSystemInterface(qualityDegrader, aud);
-        }
-
-        private void SetupFader(bool reset)
-        {
-#if UNITY_EDITOR
-            if (sceneFaderMaterial == null || reset)
-            {
-                sceneFaderMaterial = ResourceExt.EditorLoadAsset<Material>("Assets/Juniper/Materials/FaderMaterial.mat");
-            }
-#endif
-
-            var fader = FadeTransition.Ensure(DisplayManager.MainCamera.transform);
-            if (fader.IsNew || reset)
-            {
-                fader.GetComponent<Renderer>()
-                    .SetMaterial(sceneFaderMaterial);
-                fader.transform.localPosition = Mathf.Max(0.5f, 1.2f * DisplayManager.MainCamera.nearClipPlane) * Vector3.forward;
-                fader.transform.localScale = 2 * Vector3.one;
-            }
-        }
-
-        private void SetupSystemInterface(QualityDegrader qualityDegrader, InteractionAudio aud)
-        {
-            var sys = transform.Query("/SystemUserInterface");
-#if UNITY_EDITOR
-            if (sys == null)
-            {
-                var prefab = ResourceExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/UI/SystemUserInterface.prefab");
-                sys = Instantiate(prefab).transform;
-                sys.name = "SystemUserInterface";
-            }
-#endif
-
-            loadingBar = sys.Query<LoadingBar>("LoadingBar");
-
-            splash = sys.Query<UnityImage>("Canvas/SplashImage");
-        }
-
-        public void Uninstall()
-        {
-        }
-
         /// <summary>
         /// Wait until the Start method to load the scenes so the MasterSceneController or any child
         /// class of it can be found by the newly loaded scenes more reliably.
@@ -407,59 +522,14 @@ namespace Juniper
             }
         }
 
-        public void LoadAllScenes()
+        public void Update()
         {
-            StartCoroutine(LoadAllScenesCoroutineWithProgress());
-        }
-
-        private IEnumerator LoadAllScenesCoroutineWithProgress()
-        {
-            loadingBar?.Activate();
-            yield return LoadAllScenesCoroutine(loadingBar);
-            yield return LoadingCompleteCoroutine();
-        }
-
-        /// <summary>
-        /// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
-        /// </summary>
-        private IEnumerator LoadAllScenesCoroutine(IProgress prog = null)
-        {
-            if (subSceneNames?.Length > 0)
+            if (exitOnEscape && !wasLocked && UnityEngine.Input.GetKeyDown(KeyCode.Escape))
             {
-                for (var i = 0; i < subSceneNames.Length; ++i)
-                {
-                    yield return LoadScenePathCoroutine(
-                        subSceneNames[i],
-                        prog.Subdivide(i, subSceneNames.Length));
-                }
+                QuitApp();
             }
-        }
 
-        private void LoadFirstScene()
-        {
-            var path = subSceneNames.FirstOrDefault();
-            if (string.IsNullOrEmpty(path))
-            {
-                throw new InvalidOperationException("[Juniper.MasterSceneController::LoadFirstScene] No subscenes defined.");
-            }
-            else
-            {
-                var name = GetSceneNameFromPath(path);
-                if (string.IsNullOrEmpty(name))
-                {
-                    throw new InvalidOperationException("[Juniper.MasterSceneController::LoadFirstScene] Could not find scene " + path);
-                }
-                else
-                {
-                    SwitchToSceneName(name, true);
-                }
-            }
-        }
-
-        private static bool IsScenePathLoaded(string path)
-        {
-            var scene = SceneManager.GetSceneByPath(path);
-            return scene.IsValid() && scene.isLoaded;
+            wasLocked = Cursor.lockState != CursorLockMode.None;
         }
 
         /// <summary>
@@ -476,54 +546,6 @@ namespace Juniper
 #endif
             }
         }
-
-#if UNITY_EDITOR
-
-        /// <summary>
-        /// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
-        /// </summary>
-        [ContextMenu("Load Scenes")]
-        private void LoadScenes_MenuItem()
-        {
-            using (var prog = new UnityEditorProgressDialog("Loading scenes"))
-            {
-                var iters = new Stack<IEnumerator>();
-                iters.Push(LoadAllScenesCoroutine(prog));
-                while (iters.Count > 0)
-                {
-                    var iter = iters.Pop();
-                    while (iter.MoveNext())
-                    {
-                        var obj = iter.Current;
-                        if (obj is IEnumerator subIter)
-                        {
-                            iters.Push(iter);
-                            iter = subIter;
-                        }
-                    }
-                }
-            }
-        }
-
-        public void OnValidate()
-        {
-            Invoke(nameof(SetBuildSettings), 100);
-        }
-
-        private void SetBuildSettings()
-        {
-            if (!Application.isPlaying && !string.IsNullOrEmpty(gameObject?.scene.path))
-            {
-                var s = (from path in subSceneNames
-                         where File.Exists(path)
-                         select new EditorBuildSettingsScene(path, true))
-                    .ToList();
-                s.Insert(0, new EditorBuildSettingsScene(gameObject.scene.path, true));
-                EditorBuildSettings.scenes = s.ToArray();
-            }
-        }
-
-#endif
 
         /// <summary>
         /// Get a scene by name (or path, if we're running in the editor).
@@ -607,45 +629,14 @@ namespace Juniper
             }
         }
 
-#if UNITY_EDITOR
-
         /// <summary>
-        /// Copy all of the root scene objects out of the sub scenes and into the master scene,
-        /// removing the subscenes along the way. This can also be executed from the editor by
-        /// accessing the component's context menu and selecting "Flatten".
+        /// Quit out of the application, making sure any exit transitions for the current scene are
+        /// ran first.
         /// </summary>
-        [ContextMenu("Flatten")]
-        private void Flatten()
+        public void Quit()
         {
-            var curScene = gameObject.scene;
-
-            if (subSceneNames.Length > 0)
-            {
-                var newPath = curScene.path.Replace(".unity", ".original.unity");
-                FileExt.Copy(curScene.path, newPath, true);
-
-                foreach (var path in subSceneNames)
-                {
-                    var sceneName = SceneNamePattern.Match(path).Groups[1].Value;
-                    var scene = SceneManager.GetSceneByPath(path);
-                    if (!scene.IsValid())
-                    {
-                        scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
-                    }
-                    SceneManager.MergeScenes(scene, curScene);
-                }
-
-                subSceneNames = new string[0];
-                EditorSceneManager.SaveScene(curScene);
-            }
-
-            EditorBuildSettings.scenes = new[]
-            {
-                new EditorBuildSettingsScene(curScene.path, true)
-            };
+            StartCoroutine(QuitCoroutine());
         }
-
-#endif
 
         /// <summary>
         /// Quit out of the application, making sure any exit transitions for the current scene are
