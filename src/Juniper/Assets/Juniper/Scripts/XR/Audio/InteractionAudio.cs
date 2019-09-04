@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 
 using Juniper.Haptics;
-using Juniper.Widgets;
 using Juniper.Display;
 using Juniper.Input;
 
@@ -42,6 +41,10 @@ namespace Juniper.Audio
     /// </summary>
     public abstract class AbstractInteractionAudio : MonoBehaviour, IInstallable
     {
+        private static AbstractInteractionAudio instance;
+        private const float E = (float)Math.E;
+        private const string INTERACTION_SOUND_TAG = "InteractionSound";
+
         /// <summary>
         /// Converts an Interaction into a haptic expression to be able to play.
         /// </summary>
@@ -129,36 +132,6 @@ namespace Juniper.Audio
             return instance?.Play_Internal(action, pose, haptics, onComplete) ?? 0;
         }
 
-#if UNITY_MODULES_AUDIO
-
-        public AudioSource Spatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
-        {
-            return InternalSpatialize(audioSource, loop, group);
-        }
-
-        public AudioSource Spatialize(AudioSource audioSource, bool loop)
-        {
-            return InternalSpatialize(audioSource, loop, defaultMixerGroup);
-        }
-
-        public AudioSource Spatialize(AudioSource audioSource, AudioMixerGroup group)
-        {
-            return InternalSpatialize(audioSource, false, group);
-        }
-
-        public AudioSource Spatialize(AudioSource audioSource)
-        {
-            return InternalSpatialize(audioSource, false, defaultMixerGroup);
-        }
-
-        /// <summary>
-        /// The audio mixer to use with ResonanceAudio
-        /// </summary>
-        [Header("Configuration")]
-        public AudioMixerGroup defaultMixerGroup;
-
-#endif
-
         /// <summary>
         /// The sound to play when an <see cref="Widgets.Openable"/> object has been closed.
         /// </summary>
@@ -217,22 +190,6 @@ namespace Juniper.Audio
         /// </summary>
         public AudioClipCollection soundOnSuccess;
 
-#if UNITY_MODULES_AUDIO
-
-        /// <summary>
-        /// The sound to play when the application first starts up.
-        /// </summary>
-        [Header("Transitions")]
-        public AudioClip soundOnStartUp;
-
-        /// <summary>
-        /// The sound to play right before the application shuts down.
-        /// </summary>
-        public AudioClip soundOnShutDown;
-
-        protected AudioListener listener;
-#endif
-
         public virtual void Install(bool reset)
         {
 #if UNITY_MODULES_AUDIO
@@ -258,6 +215,8 @@ namespace Juniper.Audio
         {
 #if UNITY_MODULES_AUDIO
             DisplayManager.MainCamera.Ensure<AudioListener>();
+
+            FindAudioSources();
 #endif
         }
 
@@ -283,35 +242,10 @@ namespace Juniper.Audio
                 startUp = new SingleAudioClipCollection(soundOnStartUp, false);
                 shutDown = new SingleAudioClipCollection(soundOnShutDown, false);
 
-                audioSources = new List<AudioSource>(10);
+                InitializeInteractionAudioSources();
 #endif
             }
         }
-
-        private static AbstractInteractionAudio instance;
-
-#if UNITY_MODULES_AUDIO
-
-        /// <summary>
-        /// The sound to play on application startup.
-        /// </summary>
-        private IAudioClipCollection startUp;
-
-        /// <summary>
-        /// The sound to play on application shutdown.
-        /// </summary>
-        private IAudioClipCollection shutDown;
-
-        /// <summary>
-        /// A pool of audio sources that can be moved around to play sounds wherever they are needed.
-        /// The <see cref="Play(Interaction, Transform, AbstractHapticDevice, Action)"/> method will
-        /// find whichever one is currently not playing and use it, or create a new one if all audio
-        /// sources are currently playing. It starts out with 5 audio sources by default so that
-        /// applications don't have to grow the collection right away.
-        /// </summary>
-        private List<AudioSource> audioSources;
-
-#endif
 
         /// <summary>
         /// The main camera, which also has the user's ears.
@@ -472,15 +406,77 @@ namespace Juniper.Audio
 
 #if UNITY_MODULES_AUDIO
 
-        private const float E = (float)Math.E;
+        /// <summary>
+        /// The sound to play when the application first starts up.
+        /// </summary>
+        [Header("Transitions")]
+        public AudioClip soundOnStartUp;
 
-        public void Start()
+        /// <summary>
+        /// The sound to play right before the application shuts down.
+        /// </summary>
+        public AudioClip soundOnShutDown;
+
+        protected AudioListener listener;
+
+        private void InitializeInteractionAudioSources()
         {
-            for (var i = 0; i < 5; ++i)
+            FindAudioSources();
+            for (var i = audioSources.Count; i < 5; ++i)
             {
                 CreateNewAudioSource();
             }
         }
+
+        private void FindAudioSources()
+        {
+            audioSources = ComponentExt.FindAll<AudioSource>(a => a.tag == INTERACTION_SOUND_TAG).ToList();
+        }
+
+        /// <summary>
+        /// The sound to play on application startup.
+        /// </summary>
+        private IAudioClipCollection startUp;
+
+        /// <summary>
+        /// The sound to play on application shutdown.
+        /// </summary>
+        private IAudioClipCollection shutDown;
+
+        /// <summary>
+        /// A pool of audio sources that can be moved around to play sounds wherever they are needed.
+        /// The <see cref="Play(Interaction, Transform, AbstractHapticDevice, Action)"/> method will
+        /// find whichever one is currently not playing and use it, or create a new one if all audio
+        /// sources are currently playing. It starts out with 5 audio sources by default so that
+        /// applications don't have to grow the collection right away.
+        /// </summary>
+        private List<AudioSource> audioSources;
+
+        public AudioSource Spatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
+        {
+            return InternalSpatialize(audioSource, loop, group);
+        }
+
+        public AudioSource Spatialize(AudioSource audioSource, bool loop)
+        {
+            return InternalSpatialize(audioSource, loop, defaultMixerGroup);
+        }
+
+        public AudioSource Spatialize(AudioSource audioSource, AudioMixerGroup group)
+        {
+            return InternalSpatialize(audioSource, false, group);
+        }
+
+        public AudioSource Spatialize(AudioSource audioSource)
+        {
+            return InternalSpatialize(audioSource, false, defaultMixerGroup);
+        }
+
+        /// <summary>
+        /// The audio mixer to use with ResonanceAudio
+        /// </summary>
+        [Header("Configuration")]
+        public AudioMixerGroup defaultMixerGroup;
 
         protected virtual string DefaultAudioMixer
         {
@@ -490,6 +486,8 @@ namespace Juniper.Audio
             }
         }
 
+
+#if UNITY_EDITOR
         public void OnValidate()
         {
             if (defaultMixerGroup == null)
@@ -501,7 +499,11 @@ namespace Juniper.Audio
                      select g)
                         .FirstOrDefault();
             }
+
+            ConfigurationManagement.TagManager.NormalizeTag(INTERACTION_SOUND_TAG);
+            InitializeInteractionAudioSources();
         }
+#endif
 
         /// <summary>
         /// Find or create a free Audio Source out of the pool.
@@ -537,6 +539,7 @@ namespace Juniper.Audio
                 defaultMixerGroup);
             audioSources.Add(audioSource);
             audioSource.name = "AudioSource" + audioSources.Count.ToString("00");
+            audioSource.tag = INTERACTION_SOUND_TAG;
             return audioSource;
         }
 
