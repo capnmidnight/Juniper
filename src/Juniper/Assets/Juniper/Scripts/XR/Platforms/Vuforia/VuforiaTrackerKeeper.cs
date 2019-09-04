@@ -304,12 +304,8 @@ namespace Juniper.ImageTracking
                 {
                     if (i > 1)
                     {
-                        Debug.LogFormat("Initializating Vuforia failed. Retrying ({0} of {1})", i, VUFORIA_INIT_ATTEMPTS);
+                        Debug.LogWarningFormat("Initializating Vuforia failed. Retrying ({0} of {1})", i, VUFORIA_INIT_ATTEMPTS);
                         VuforiaRuntime.Instance.Deinit();
-                    }
-                    else
-                    {
-                        Debug.LogFormat("Initializing Vuforia ({0} of {1})", i, VUFORIA_INIT_ATTEMPTS);
                     }
 
                     if (VuforiaRuntime.Instance.InitializationState == VuforiaRuntime.InitState.NOT_INITIALIZED)

@@ -88,6 +88,14 @@ namespace Juniper.Imaging
             }
         }
 
+        public virtual void OnDisable()
+        {
+            foreach (var child in transform.Children())
+            {
+                child.Deactivate();
+            }
+        }
+
         private void ShowImage()
         {
             if (trySkybox)
@@ -107,17 +115,8 @@ namespace Juniper.Imaging
             }
         }
 
-        public virtual void OnDisable()
-        {
-            foreach (var child in transform.Children())
-            {
-                child.Deactivate();
-            }
-        }
-
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
-            print("Loading cubemap " + filePath);
             var streamTask = StreamingAssets.GetStream(Application.persistentDataPath, filePath, this);
             yield return streamTask.Waiter();
 
@@ -126,7 +125,6 @@ namespace Juniper.Imaging
                 && streamTask.Result != null)
             {
                 trySkybox = true;
-                Debug.Log("Cubemap saved");
                 if (mgr != null && mgr.lodLevelRequirements != null && mgr.FOVs != null)
                 {
                     for (var f = 0; f < mgr.lodLevelRequirements.Length; ++f)
@@ -156,11 +154,11 @@ namespace Juniper.Imaging
             }
             else if (streamTask.IsCanceled)
             {
-                Debug.Log("Cubemap canceled");
+                Debug.LogError("Cubemap canceled");
             }
             else
             {
-                Debug.Log("Cubemap save error");
+                Debug.LogError("Cubemap save error");
             }
 
             locked = false;

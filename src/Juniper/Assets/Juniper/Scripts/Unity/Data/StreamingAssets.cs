@@ -59,7 +59,7 @@ namespace Juniper.Data
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WSA || UNITY_IOS
                 pathSep = Path.DirectorySeparatorChar;
 #elif UNITY_WEBGL
-                UnityEngine.Debug.Log(streamingAssetsPath);
+                UnityEngine.Debug.LogWarning(streamingAssetsPath);
 #endif
             }
 
@@ -77,17 +77,16 @@ namespace Juniper.Data
         public static async Task<Response> GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog = null)
         {
 #if UNITY_ANDROID
-            Debug.Log($"Juniper === Getting Android Streaming Asset {path}");
             if (AndroidJarPattern.IsMatch(path))
             {
                 var match = AndroidJarPattern.Match(path);
                 var apk = match.Groups[1].Value;
                 path = match.Groups[2].Value;
                 var cachePath = Uri.EscapeUriString(Path.Combine(cacheDirectory, path));
-                Debug.Log($"Juniper === APK: {apk}, PATH: {path}, CACHE_PATH: {cachePath}");
                 if (!FileIsGood(cachePath, ttl))
                 {
-                    Debug.Log("Juniper === Unzipping APK");
+                    Debug.LogWarning("Juniper === Unzipping APK");
+                    Debug.LogWarning($"Juniper === APK: {apk}, PATH: {path}, CACHE_PATH: {cachePath}");
                     var subProgs = prog?.Split("Unzipping", "Reading");
                     Compression.Zip.Decompressor.Decompress(apk, cacheDirectory, subProgs[0]);
                 }

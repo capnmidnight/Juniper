@@ -199,12 +199,6 @@ namespace Juniper
 
 #if UNITY_EDITOR
 
-        public void PrintStatus(string label)
-        {
-            var status = GetStatus(label);
-            print(status);
-        }
-
         private string GetStatus(string label)
         {
             var fields = new[]{

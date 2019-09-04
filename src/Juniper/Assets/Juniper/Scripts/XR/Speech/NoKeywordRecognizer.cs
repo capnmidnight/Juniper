@@ -11,7 +11,7 @@ namespace Juniper.Speech
 
         protected override void Setup()
         {
-            Debug.Log("No speech recognition available");
+            Debug.LogWarning("No speech recognition available");
         }
 
         protected override void TearDown()

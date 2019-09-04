@@ -71,7 +71,7 @@ public class BeatDetectorConfiguration
         }
         else
         {
-            Debug.LogFormat("Couldn't find resource {0}", resourceName);
+            Debug.LogErrorFormat("Couldn't find resource {0}", resourceName);
         }
     }
 }

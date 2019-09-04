@@ -372,7 +372,6 @@ namespace Juniper
             if (sys == null)
             {
                 var prefab = ResourceExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/UI/SystemUserInterface.prefab");
-                print(prefab);
                 sys = Instantiate(prefab).transform;
                 sys.name = "SystemUserInterface";
             }
@@ -500,10 +499,6 @@ namespace Juniper
                         {
                             iters.Push(iter);
                             iter = subIter;
-                        }
-                        else
-                        {
-                            Debug.Log(obj);
                         }
                     }
                 }

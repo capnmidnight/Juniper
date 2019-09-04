@@ -6,7 +6,7 @@ namespace Juniper.Ground
     {
         protected override void Awake()
         {
-            Debug.Log("Juniper: no terrain enabled.");
+            Debug.LogWarning("Juniper: no terrain enabled.");
         }
     }
 }
