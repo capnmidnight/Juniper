@@ -27,7 +27,7 @@ namespace Juniper.Audio
             var js = ComponentExt.FindAny<JuniperSystem>();
             var dsp = ComponentExt.FindAny<DisplayManager>();
 
-            resListener = listener.Ensure<ResonanceAudioListener>().Value;                
+            resListener = listener.Ensure<ResonanceAudioListener>().Value;
             resListener.stereoSpeakerModeEnabled = Application.isEditor || js.DisplayType != DisplayTypes.Stereo;
             dsp.DisplayTypeChange += OnDisplayTypeChange;
         }
@@ -53,6 +53,13 @@ namespace Juniper.Audio
             resSource.quality = ResonanceAudioSource.Quality.High;
 
             return audioSource;
+        }
+
+        protected override void UninstallSpatialization(AudioSource audioSource)
+        {
+            base.UninstallSpatialization(audioSource);
+
+            audioSource.Remove<ResonanceAudioSource>();
         }
 #endif
     }

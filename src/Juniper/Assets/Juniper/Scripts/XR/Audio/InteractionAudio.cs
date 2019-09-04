@@ -217,6 +217,10 @@ namespace Juniper.Audio
             DisplayManager.MainCamera.Ensure<AudioListener>();
 
             FindAudioSources();
+            foreach(var audioSource in audioSources)
+            {
+                UninstallSpatialization(audioSource);
+            }
 #endif
         }
 
@@ -470,6 +474,11 @@ namespace Juniper.Audio
         public AudioSource Spatialize(AudioSource audioSource)
         {
             return InternalSpatialize(audioSource, false, defaultMixerGroup);
+        }
+
+        protected virtual void UninstallSpatialization(AudioSource audioSource)
+        {
+
         }
 
         /// <summary>

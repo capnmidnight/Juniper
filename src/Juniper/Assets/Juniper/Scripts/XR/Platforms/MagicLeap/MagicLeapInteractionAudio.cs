@@ -14,6 +14,13 @@ namespace Juniper.Audio
                 msa.Override3DProperties = true);
             return audioSource;
         }
+
+        protected override void UninstallSpatialization(AudioSource audioSource)
+        {
+            base.UninstallSpatialization(audioSource);
+
+            audioSource.Remove<MSA.MSASource>();
+        }
 #endif
     }
 }

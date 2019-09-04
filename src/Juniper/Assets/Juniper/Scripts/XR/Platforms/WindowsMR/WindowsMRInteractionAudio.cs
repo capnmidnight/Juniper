@@ -17,6 +17,12 @@ namespace Juniper.Audio
 
             return audioSource;
         }
+
+        protected override void UninstallSpatialization(AudioSource audioSource)
+        {
+            base.UninstallSpatialization(audioSource);
+            audioSource.Remove<AudioSpatializerMicrosoft>();
+        }
 #endif
     }
 }
