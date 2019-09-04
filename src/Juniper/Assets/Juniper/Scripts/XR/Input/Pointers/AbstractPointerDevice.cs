@@ -179,10 +179,7 @@ namespace Juniper.Input.Pointers
 
         public virtual void Install(bool reset)
         {
-            if (reset)
-            {
-                PointerConfig.Install(nativeButtons, gameObject);
-            }
+            PointerConfig.Install(nativeButtons, gameObject);
             OnProbeFound();
         }
 

@@ -35,8 +35,8 @@ namespace Juniper.Input.Pointers.Motion
 
         public OculusMotionControllerConfiguration()
         {
-            AddButton(TRIGGER_BUTTON, InputButton.Left);
-            AddButton(TOUCHPAD_BUTTON, InputButton.Right);
+            AddButton(TOUCHPAD_BUTTON, InputButton.Left);
+            AddButton(TRIGGER_BUTTON, InputButton.Right);
             AddButton(OVRInput.Button.Back, InputButton.Middle);
         }
 
