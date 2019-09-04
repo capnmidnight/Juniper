@@ -80,7 +80,7 @@ namespace Juniper.Imaging
             hasStarted = true;
         }
 
-        public void OnEnable()
+        public virtual void OnEnable()
         {
             if (hasStarted)
             {
@@ -107,7 +107,7 @@ namespace Juniper.Imaging
             }
         }
 
-        public void OnDisable()
+        public virtual void OnDisable()
         {
             foreach (var child in transform.Children())
             {

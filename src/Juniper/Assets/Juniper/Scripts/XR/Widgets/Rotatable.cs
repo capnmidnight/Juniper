@@ -123,7 +123,7 @@ namespace Juniper.Widgets
         /// the object will be changed. Otherwise, a new value will be calculated from the rotation
         /// of the object and how far it has been rotated away from its starting point.
         /// </summary>
-        protected override void Update()
+        public override void Update()
         {
             base.Update();
 

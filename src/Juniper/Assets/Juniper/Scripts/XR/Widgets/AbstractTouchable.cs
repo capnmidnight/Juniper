@@ -45,6 +45,8 @@ namespace Juniper.Widgets
         /// An object responsible for changing the visible representation of the control when the
         /// control's state changes.
         /// </summary>
+        [HideInNormalInspector]
+        [SerializeField]
         private AbstractAnimator animator;
 
         /// <summary>
@@ -161,7 +163,7 @@ namespace Juniper.Widgets
         /// <summary>
         /// Update the physics state of the control, and enable/disable Disabled view on <see cref="DisabledChanged"/>.
         /// </summary>
-        protected virtual void Update()
+        public virtual void Update()
         {
             if (DisabledDown)
             {

@@ -106,7 +106,7 @@ namespace Juniper.Widgets
         /// <summary>
         /// Make sure the state hasn't changed outside of our control.
         /// </summary>
-        protected override void Update()
+        public override void Update()
         {
             base.Update();
 
