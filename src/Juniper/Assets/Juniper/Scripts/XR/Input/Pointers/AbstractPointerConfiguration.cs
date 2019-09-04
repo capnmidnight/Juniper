@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 
-using Juniper.Input;
 using Juniper.Events;
 
 using UnityEngine;
@@ -19,9 +18,9 @@ namespace Juniper.Input.Pointers
             nativeButtons.Add(outButton, inButton == null ? InputEventButton.None : (InputEventButton)inButton.Value);
         }
 
-        public void Install(ButtonMapper<ButtonIDType> mapper, GameObject eventParent)
+        public void Install(ButtonMapper<ButtonIDType> mapper, GameObject eventParent, bool reset)
         {
-            mapper.Install(eventParent, nativeButtons);
+            mapper.Install(eventParent, nativeButtons, reset);
         }
 
         public void Uninstall(GameObject eventParent)

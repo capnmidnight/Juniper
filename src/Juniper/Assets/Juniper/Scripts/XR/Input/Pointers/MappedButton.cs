@@ -63,6 +63,12 @@ namespace Juniper.Input.Pointers
             buttonEvent.inputButton = inputBtn;
         }
 
+        public MappedButton(ButtonIDType btn, ButtonEvent evt)
+        {
+            SetButton(btn);
+            buttonEvent = evt;
+        }
+
         public void Destroy()
         {
             buttonEvent.DestroyImmediate();
@@ -133,7 +139,7 @@ namespace Juniper.Input.Pointers
                     InteractionNeeded(Interaction.Pressed);
                 }
             }
-            
+
             var deltaTime = Time.unscaledTime - buttonDownTime;
             evtData.eligibleForClick = deltaTime < THRESHOLD_CLICK;
 

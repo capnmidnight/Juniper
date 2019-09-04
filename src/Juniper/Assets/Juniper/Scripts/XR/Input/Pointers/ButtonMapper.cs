@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Juniper.Input;
 using Juniper.Events;
 
 using UnityEngine;
@@ -35,49 +34,53 @@ namespace Juniper.Input.Pointers
             }
         }
 
-        public void Install(GameObject eventParent, Dictionary<ButtonIDType, InputEventButton> buttonMapping)
+        public void Install(GameObject eventParent, Dictionary<ButtonIDType, InputEventButton> buttonMapping, bool reset)
         {
             buttons.Clear();
 
-            foreach (var pair in buttonMapping)
+            if (reset)
             {
-                AddButton(eventParent, pair.Key, pair.Value);
-            }
-
-            foreach (var evt in eventParent.GetComponents<ButtonEvent>())
-            {
-                if (string.IsNullOrEmpty(evt.buttonTypeName)
-                    || string.IsNullOrEmpty(evt.buttonValueName))
+                foreach (var pair in buttonMapping)
                 {
-                    evt.DestroyImmediate();
+                    AddButton(new MappedButton<ButtonIDType>(pair.Key, pair.Value, eventParent));
+                }
+
+                foreach (var evt in eventParent.GetComponents<ButtonEvent>())
+                {
+                    if (string.IsNullOrEmpty(evt.buttonTypeName)
+                        || string.IsNullOrEmpty(evt.buttonValueName))
+                    {
+                        evt.DestroyImmediate();
+                    }
+                }
+            }
+            else
+            {
+                var buttonIDType = typeof(ButtonIDType);
+                var buttonTypeName = buttonIDType.FullName;
+                var existing = eventParent.GetComponentsInChildren<ButtonEvent>();
+                foreach(var evt in existing)
+                {
+                    var seperatorIndex = evt.Key.IndexOf("::");
+                    var typeName = evt.Key.Substring(0, seperatorIndex);
+                    var valueName = evt.Key.Substring(seperatorIndex + 2);
+                    if(typeName == buttonTypeName)
+                    {
+                        var value = (ButtonIDType)Enum.Parse(buttonIDType, valueName);
+                        AddButton(new MappedButton<ButtonIDType>(value, evt));
+                    }
                 }
             }
         }
 
-        public void AddButton(GameObject eventParent, ButtonIDType buttonID, InputEventButton buttonValue)
+        private void AddButton(MappedButton<ButtonIDType> btn)
         {
-            var btn = new MappedButton<ButtonIDType>(buttonID, buttonValue, eventParent);
             btn.ButtonDownNeeded += OnButtonDownNeeded;
             btn.ButtonUpNeeded += OnButtonUpNeeded;
             btn.ButtonPressedNeeded += OnButtonPressedNeeded;
             btn.ClonedPointerEventNeeded += OnClonedPointerEventNeeded;
             btn.InteractionNeeded += OnInteractionNeeded;
             buttons.Add(btn);
-        }
-
-        public void RemoveButton(ButtonIDType buttonID)
-        {
-            var btn = buttons.FirstOrDefault(b => b.button.Equals(buttonID));
-            if (btn != null)
-            {
-                buttons.Remove(btn);
-                btn.ButtonDownNeeded -= OnButtonDownNeeded;
-                btn.ButtonUpNeeded -= OnButtonUpNeeded;
-                btn.ButtonPressedNeeded -= OnButtonPressedNeeded;
-                btn.ClonedPointerEventNeeded += OnClonedPointerEventNeeded;
-                btn.InteractionNeeded -= OnInteractionNeeded;
-                btn.Destroy();
-            }
         }
 
         private bool OnButtonDownNeeded(ButtonIDType button)

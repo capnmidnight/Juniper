@@ -1,10 +1,5 @@
 #if UNITY_XR_OCULUS
 
-using Juniper.Input;
-using Juniper.Haptics;
-
-using UnityEngine;
-
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Input.Pointers.Motion
@@ -35,8 +30,8 @@ namespace Juniper.Input.Pointers.Motion
 
         public OculusMotionControllerConfiguration()
         {
-            AddButton(TOUCHPAD_BUTTON, InputButton.Left);
-            AddButton(TRIGGER_BUTTON, InputButton.Right);
+            AddButton(TRIGGER_BUTTON, InputButton.Left);
+            AddButton(TOUCHPAD_BUTTON, InputButton.Right);
             AddButton(OVRInput.Button.Back, InputButton.Middle);
         }
 

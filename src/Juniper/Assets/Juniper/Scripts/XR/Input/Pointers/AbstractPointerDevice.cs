@@ -36,16 +36,6 @@ namespace Juniper.Input.Pointers
 
         protected readonly ButtonMapper<ButtonIDType> nativeButtons = new ButtonMapper<ButtonIDType>();
 
-        public void AddButton(ButtonIDType buttonID, InputEventButton buttonValue)
-        {
-            nativeButtons.AddButton(gameObject, buttonID, buttonValue);
-        }
-
-        public void RemoveButton(ButtonIDType buttonID)
-        {
-            nativeButtons.RemoveButton(buttonID);
-        }
-
         [ReadOnly]
         public bool Connected;
 
@@ -179,7 +169,7 @@ namespace Juniper.Input.Pointers
 
         public virtual void Install(bool reset)
         {
-            PointerConfig.Install(nativeButtons, gameObject);
+            PointerConfig.Install(nativeButtons, gameObject, reset);
             OnProbeFound();
         }
 

@@ -16,7 +16,7 @@ namespace Juniper.Input.Pointers
         }
 
         /// <summary>
-        /// Implmeneters should return true when any button on the controller has been depressed.
+        /// Implementers should return true when any button on the controller has been depressed.
         /// </summary>
         bool AnyButtonPressed
         {
@@ -43,18 +43,5 @@ namespace Juniper.Input.Pointers
         /// <param name="button"></param>
         /// <returns></returns>
         bool IsButtonUp(ButtonIDType button);
-
-        /// <summary>
-        /// Add a new button mapping to the pointer.
-        /// </summary>
-        /// <param name="buttonID"></param>
-        /// <param name="buttonValue"></param>
-        void AddButton(ButtonIDType buttonID, InputEventButton buttonValue);
-
-        /// <summary>
-        /// Remove a button mapping from the pointer.
-        /// </summary>
-        /// <param name="buttonID"></param>
-        void RemoveButton(ButtonIDType buttonID);
     }
 }

@@ -35,14 +35,14 @@ namespace Juniper.Input.Pointers.Motion
             triggerButtons.Add(outButton, inButton == null ? InputEventButton.None : (InputEventButton)inButton.Value);
         }
 
-        public void Install(ButtonMapper<VirtualTouchPadButton> mapper, GameObject eventParent)
+        public void Install(ButtonMapper<VirtualTouchPadButton> mapper, GameObject eventParent, bool reset)
         {
-            mapper.Install(eventParent, touchPadButtons);
+            mapper.Install(eventParent, touchPadButtons, reset);
         }
 
-        public void Install(ButtonMapper<VirtualTriggerButton> mapper, GameObject eventParent)
+        public void Install(ButtonMapper<VirtualTriggerButton> mapper, GameObject eventParent, bool reset)
         {
-            mapper.Install(eventParent, triggerButtons);
+            mapper.Install(eventParent, triggerButtons, reset);
         }
     }
 }

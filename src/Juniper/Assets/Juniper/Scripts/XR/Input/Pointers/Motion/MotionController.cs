@@ -67,28 +67,7 @@ namespace Juniper.Input.Pointers.Motion
         };
 
         protected readonly ButtonMapper<VirtualTouchPadButton> touchPadButtons = new ButtonMapper<VirtualTouchPadButton>();
-
-        public void AddButton(VirtualTouchPadButton buttonID, InputEventButton buttonValue)
-        {
-            touchPadButtons.AddButton(gameObject, buttonID, buttonValue);
-        }
-
-        public void RemoveButton(VirtualTouchPadButton buttonID)
-        {
-            touchPadButtons.RemoveButton(buttonID);
-        }
-
         protected readonly ButtonMapper<VirtualTriggerButton> triggerButtons = new ButtonMapper<VirtualTriggerButton>();
-
-        public void AddButton(VirtualTriggerButton buttonID, InputEventButton buttonValue)
-        {
-            triggerButtons.AddButton(gameObject, buttonID, buttonValue);
-        }
-
-        public void RemoveButton(VirtualTriggerButton buttonID)
-        {
-            triggerButtons.RemoveButton(buttonID);
-        }
 
         public override bool IsDragging
         {
@@ -121,8 +100,8 @@ namespace Juniper.Input.Pointers.Motion
         {
             base.Install(reset);
 
-            PointerConfig.Install(touchPadButtons, gameObject);
-            PointerConfig.Install(triggerButtons, gameObject);
+            PointerConfig.Install(touchPadButtons, gameObject, reset);
+            PointerConfig.Install(triggerButtons, gameObject, reset);
 
 #if UNITY_EDITOR
             if (LaserPointerMaterial == null)
