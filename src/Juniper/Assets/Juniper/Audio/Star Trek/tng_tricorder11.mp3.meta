@@ -1,7 +1,5 @@
 fileFormatVersion: 2
 guid: 4bb157c3c5326ca4b8e38bfe6b892dc1
-timeCreated: 1520566063
-licenseType: Pro
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
@@ -14,7 +12,7 @@ AudioImporter:
     conversionMode: 0
   platformSettingOverrides: {}
   forceToMono: 1
-  normalize: 1
+  normalize: 0
   preloadAudioData: 1
   loadInBackground: 1
   ambisonic: 0

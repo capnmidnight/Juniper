@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -13,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   randomizePitch: 1
   clips:
-  - {fileID: 8300000, guid: 1ae403fcdb1702a41acbb2ee1f5a3ac1, type: 3}
+  - {fileID: 8300000, guid: 7c2a7494757946f4497f2cf3ad118421, type: 3}
