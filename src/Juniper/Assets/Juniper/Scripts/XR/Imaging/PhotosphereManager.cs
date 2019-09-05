@@ -37,7 +37,6 @@ namespace Juniper.Imaging
         internal Vector2[][] fovTestAngles;
         internal int[] lodLevelRequirements;
 
-
         private readonly Dictionary<string, Photosphere> photospheres = new Dictionary<string, Photosphere>();
 
         private Photosphere curSphere;
@@ -52,6 +51,21 @@ namespace Juniper.Imaging
 
         public UnityTextureCodec codec;
         private UnityTextureCodec lastCodec;
+
+        public void Awake()
+        {
+            var existing = GetComponentsInChildren<Photosphere>();
+            foreach (var photo in existing)
+            {
+                photo.Ready += Photo_Ready;
+                photo.Complete += Photo_Complete;
+                photo.CubemapNeeded += Photo_CubemapNeeded;
+                photo.ImageNeeded += Photo_ImageNeeded;
+                photo.enabled = false;
+                photo.Deactivate();
+                photospheres.Add(photo.Key, photo);
+            }
+        }
 
         public void SetDetailLevels(float[] fovs)
         {
@@ -76,11 +90,6 @@ namespace Juniper.Imaging
         {
             if (curSphere == null || curSphere.Key != key)
             {
-                if(curSphere != null)
-                {
-                    curSphere.enabled = false;
-                }
-
                 if (!photospheres.ContainsKey(key))
                 {
                     var photo = CreatePhotosphere<Photosphere>(key);
@@ -93,34 +102,20 @@ namespace Juniper.Imaging
             return (T)curSphere;
         }
 
-        public void Awake()
-        {
-            var existing = GetComponentsInChildren<Photosphere>();
-            foreach(var photo in existing)
-            {
-                photo.Ready += Photo_Ready;
-                photo.Complete += Photo_Complete;
-                photo.CubemapNeeded += Photo_CubemapNeeded;
-                photo.ImageNeeded += Photo_ImageNeeded;
-                photo.enabled = false;
-                photo.OnDisable();
-                photospheres.Add(photo.Key, photo);
-            }
-        }
-
         public T CreatePhotosphere<T>(string key)
             where T : Photosphere
         {
             var photoGo = new GameObject(key);
             photoGo.Deactivate();
             photoGo.transform.SetParent(transform, true);
+
             var photo = photoGo.Ensure<T>().Value;
             photo.Key = key;
+            photo.codec = codec;
             photo.CubemapNeeded += Photo_CubemapNeeded;
             photo.ImageNeeded += Photo_ImageNeeded;
             photo.Complete += Photo_Complete;
             photo.Ready += Photo_Ready;
-            photo.codec = codec;
             return photo;
         }
 

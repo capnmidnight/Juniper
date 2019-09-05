@@ -185,7 +185,7 @@ namespace Juniper.Imaging
         public override void Enter(IProgress prog = null)
         {
             base.Enter(prog);
-            SynchronizeData(true, Vector3.zero, prog);
+            SynchronizeData(Vector3.zero, prog);
         }
 
         public override void Update()
@@ -194,19 +194,19 @@ namespace Juniper.Imaging
 
             if (IsEntered && IsComplete && !locked)
             {
-                SynchronizeData(false, input.mouse.probe.Cursor.position);
+                SynchronizeData(input.mouse.probe.Cursor.position);
             }
 
             navPointer.position = navPointerPosition;
         }
 
-        private void SynchronizeData(bool firstLoad, Vector3 cursorPosition, IProgress prog = null)
+        private void SynchronizeData(Vector3 cursorPosition, IProgress prog = null)
         {
             locked = true;
-            StartCoroutine(SynchronizeDataCoroutine(firstLoad, cursorPosition, prog));
+            StartCoroutine(SynchronizeDataCoroutine(cursorPosition, prog));
         }
 
-        public IEnumerator SynchronizeDataCoroutine(bool firstLoad, Vector3 cursorPosition, IProgress prog = null)
+        public IEnumerator SynchronizeDataCoroutine(Vector3 cursorPosition, IProgress prog = null)
         {
             string searchPano = null;
             LatLngPoint? searchPoint = null;
@@ -224,7 +224,7 @@ namespace Juniper.Imaging
             }
 
             var loadImmediately = true;
-            if (!firstLoad && searchLocation == lastSearchLocation && this.metadata != null)
+            if (lastSphere != null && searchLocation == lastSearchLocation && this.metadata != null)
             {
                 var nextVec = cursorPosition + origin;
                 nextVec.y = 0;
@@ -240,7 +240,7 @@ namespace Juniper.Imaging
                 var subProg = prog.Subdivide(0.1f, 0.9f);
                 if (metadataCache.ContainsKey(searchLocation))
                 {
-                    yield return CacheMetadata(firstLoad, loadImmediately, subProg);
+                    yield return CacheMetadata(loadImmediately, subProg);
                 }
                 else
                 {
@@ -259,7 +259,7 @@ namespace Juniper.Imaging
 
                     if (metadata != null)
                     {
-                        yield return CacheMetadata(firstLoad, loadImmediately, subProg);
+                        yield return CacheMetadata(loadImmediately, subProg);
                     }
                 }
             }
@@ -305,7 +305,7 @@ namespace Juniper.Imaging
             }
         }
 
-        private IEnumerator CacheMetadata(bool firstLoad, bool loadImmediately, IProgress subProg)
+        private IEnumerator CacheMetadata(bool loadImmediately, IProgress subProg)
         {
             metadataCache[metadata.pano_id] = metadata;
             metadataCache[metadata.location.ToString()] = metadata;
@@ -324,7 +324,7 @@ namespace Juniper.Imaging
 #endif
 
             var nextVec = metadata.location.ToVector3();
-            if (firstLoad)
+            if (lastSphere != null)
             {
                 origin = nextVec;
             }
@@ -335,7 +335,7 @@ namespace Juniper.Imaging
 
             if (loadImmediately)
             {
-                yield return LoadPhotosphere(firstLoad, subProg);
+                yield return LoadPhotosphere(subProg);
             }
         }
 
@@ -344,37 +344,42 @@ namespace Juniper.Imaging
             if (!locked)
             {
                 locked = true;
-                StartCoroutine(LoadPhotosphere(false));
+                StartCoroutine(LoadPhotosphere());
             }
         }
 
-        private IEnumerator LoadPhotosphere(bool firstLoad, IProgress prog = null)
+        private Photosphere lastSphere;
+        private IEnumerator LoadPhotosphere(IProgress prog = null)
         {
-            var photosphere = photospheres.GetPhotosphere<Photosphere>(metadata.pano_id);
+            var curSphere = photospheres.GetPhotosphere<Photosphere>(metadata.pano_id);
 
-            if (!firstLoad)
+            if (lastSphere != null)
             {
                 fader.Enter();
                 yield return fader.Waiter;
+                lastSphere.Deactivate();
             }
 
-            photosphere.enabled = true;
-            while (!photosphere.IsReady)
+            curSphere.Activate();
+
+            while (!curSphere.IsReady)
             {
-                prog?.Report(photosphere.ProgressToReady, "Loading photosphere");
+                prog?.Report(curSphere.ProgressToReady, "Loading photosphere");
                 yield return null;
             }
 
-            if (firstLoad)
-            {
-                Complete();
-            }
-            else
+            if (lastSphere != null)
             {
                 fader.Exit();
                 yield return fader.Waiter;
             }
+            else
+            {
+                Complete();
+            }
+
             locked = false;
+            lastSphere = curSphere;
         }
 
         private void Photospheres_PhotosphereReady(Photosphere obj)
