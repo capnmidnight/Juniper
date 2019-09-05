@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace System.Collections.Generic
 {
     /// <summary>
@@ -44,6 +46,16 @@ namespace System.Collections.Generic
                 var item = items[index];
                 items.RemoveAt(index);
                 return item;
+            }
+        }
+
+        public static void Randomize<T>(this List<T> items)
+        {
+            var temp = items.ToList();
+            items.Clear();
+            while(temp.Count > 0)
+            {
+                items.Add(temp.RemoveRandom());
             }
         }
 
