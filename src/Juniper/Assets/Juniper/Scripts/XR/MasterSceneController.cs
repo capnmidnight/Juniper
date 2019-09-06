@@ -420,6 +420,13 @@ namespace Juniper
 
             ComponentExt.FindAny<KeywordRecognizer>()?.RefreshKeywords();
 
+            var start = DateTime.Now;
+            var ts = TimeSpan.FromSeconds(1);
+            while((DateTime.Now - start) < ts || loadingBar?.Progress >= 1)
+            {
+                yield return null;
+            }
+
             splash?.Deactivate();
             loadingBar?.Deactivate();
             if (fader != null)
