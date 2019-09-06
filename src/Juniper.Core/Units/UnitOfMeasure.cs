@@ -240,6 +240,11 @@ namespace Juniper.Units
         Microseconds,
 
         /// <summary>
+        /// One hundred nanoseconds.
+        /// </summary>
+        Ticks,
+
+        /// <summary>
         /// One billionth of a second.
         /// </summary>
         Nanoseconds,

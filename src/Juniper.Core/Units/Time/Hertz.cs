@@ -16,6 +16,16 @@ namespace Juniper.Units
         }
 
         /// <summary>
+        /// Convert from hertz to ticks.
+        /// </summary>
+        /// <param name="hertz">The number of hertz</param>
+        /// <returns>The number of ticks</returns>
+        public static float Ticks(float hertz)
+        {
+            return Seconds(Units.Ticks.Seconds(hertz));
+        }
+
+        /// <summary>
         /// Convert from hertz to microseconds..
         /// </summary>
         /// <param name="hertz">The number of hertz</param>

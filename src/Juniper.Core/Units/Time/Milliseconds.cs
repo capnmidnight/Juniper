@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+
 namespace Juniper.Units
 {
     /// <summary>
@@ -11,7 +14,12 @@ namespace Juniper.Units
         public const float PER_NANOSECOND = 1 / Units.Nanoseconds.PER_MILLISECOND;
 
         /// <summary>
-        /// Conversion factor from mircoseconds to milliseconds.
+        /// Conversion factor from nanosecond to milliseconds.
+        /// </summary>
+        public const float PER_TICK = 1 / Units.Ticks.PER_MILLISECOND;
+
+        /// <summary>
+        /// Conversion factor from microseconds to milliseconds.
         /// </summary>
         public const float PER_MICROSECOND = 1 / Units.Microseconds.PER_MILLISECOND;
 
@@ -43,6 +51,16 @@ namespace Juniper.Units
         public static float Nanoseconds(float ms)
         {
             return ms * Units.Nanoseconds.PER_MILLISECOND;
+        }
+
+        /// <summary>
+        /// Convert from milliseconds to ticks.
+        /// </summary>
+        /// <param name="ms">The number of ms</param>
+        /// <returns>The number of ticks</returns>
+        public static float Ticks(float ms)
+        {
+            return ms * Units.Ticks.PER_MILLISECOND;
         }
 
         /// <summary>
@@ -103,6 +121,21 @@ namespace Juniper.Units
         public static float Hertz(float ms)
         {
             return Units.Seconds.Hertz(Seconds(ms));
+        }
+
+        /// <summary>
+        /// Create an enumerator that doesn't resolve until the time limit is reached.
+        /// </summary>
+        /// <param name="milliseconds"></param>
+        /// <returns></returns>
+        public static IEnumerator Wait(float milliseconds)
+        {
+            var start = DateTime.Now;
+            var ts = TimeSpan.FromMilliseconds(milliseconds);
+            while ((DateTime.Now - start) < ts)
+            {
+                yield return null;
+            }
         }
     }
 }

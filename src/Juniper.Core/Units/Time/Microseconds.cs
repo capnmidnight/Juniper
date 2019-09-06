@@ -11,6 +11,11 @@ namespace Juniper.Units
         public const float PER_NANOSECOND = 1 / Units.Nanoseconds.PER_MICROSECOND;
 
         /// <summary>
+        /// Conversion factor from ticks to microseconds;
+        /// </summary>
+        public const float PER_TICK = 1 / Units.Ticks.PER_MICROSECOND;
+
+        /// <summary>
         /// Conversion factor from microseconds to microseconds.
         /// </summary>
         public const float PER_MILLISECOND = 1000;
@@ -38,71 +43,81 @@ namespace Juniper.Units
         /// <summary>
         /// Convert from microseconds to nanoseconds.
         /// </summary>
-        /// <param name="ms">The number of ms</param>
+        /// <param name="us">The number of us</param>
         /// <returns>The number of nanoseconds</returns>
-        public static float Nanoseconds(float ms)
+        public static float Nanoseconds(float us)
         {
-            return ms * Units.Nanoseconds.PER_MICROSECOND;
+            return us * Units.Nanoseconds.PER_MICROSECOND;
+        }
+
+        /// <summary>
+        /// Convert from microseconds to ticks.
+        /// </summary>
+        /// <param name="us">The number of us</param>
+        /// <returns>The number of nanoseconds</returns>
+        public static float Ticks(float us)
+        {
+            return us * Units.Ticks.PER_MICROSECOND;
         }
 
         /// <summary>
         /// Convert from microseconds to milliseconds.
         /// </summary>
-        /// <param name="ms">The number of ms</param>
+        /// <param name="us">The number of us</param>
         /// <returns>The number of milliseconds</returns>
-        public static float Milliseconds(float ms)
+        public static float Milliseconds(float us)
         {
-            return ms * Units.Milliseconds.PER_MICROSECOND;
+            return us * Units.Milliseconds.PER_MICROSECOND;
         }
 
         /// <summary>
         /// Convert from microseconds to seconds.
         /// </summary>
-        /// <param name="ms">The number of ms</param>
+        /// <param name="us">The number of us</param>
         /// <returns>The number of seconds</returns>
-        public static float Seconds(float ms)
+        public static float Seconds(float us)
         {
-            return ms * Units.Seconds.PER_MICROSECOND;
+            return us * Units.Seconds.PER_MICROSECOND;
         }
 
         /// <summary>
         /// Convert from microseconds to minutes.
         /// </summary>
-        /// <param name="ms">The number of ms</param>
+        /// <param name="us">The number of us</param>
         /// <returns>The number of minutes</returns>
-        public static float Minutes(float ms)
+        public static float Minutes(float us)
         {
-            return ms * Units.Minutes.PER_MICROSECOND;
+            return us * Units.Minutes.PER_MICROSECOND;
         }
 
         /// <summary>
         /// Convert from microseconds to hours.
         /// </summary>
-        /// <param name="ms">The number of ms</param>
+        /// <param name="us">The number of us</param>
         /// <returns>The number of hours</returns>
-        public static float Hours(float ms)
+        public static float Hours(float us)
         {
-            return ms * Units.Hours.PER_MICROSECOND;
+            return us * Units.Hours.PER_MICROSECOND;
         }
 
         /// <summary>
         /// Convert from microseconds to days.
         /// </summary>
-        /// <param name="ms">The number of ms</param>
+        /// <param name="us">The number of us</param>
         /// <returns>The number of days</returns>
-        public static float Days(float ms)
+        public static float Days(float us)
         {
-            return ms * Units.Days.PER_MICROSECOND;
+            return us * Units.Days.PER_MICROSECOND;
         }
 
         /// <summary>
         /// Convert from microseconds to hertz.
         /// </summary>
-        /// <param name="ms">The number of ms</param>
+        /// <param name="us">The number of us</param>
         /// <returns>The number of hertz</returns>
-        public static float Hertz(float ms)
+        public static float Hertz(float us)
         {
-            return Units.Seconds.Hertz(Seconds(ms));
+            return Units.Seconds.Hertz(Seconds(us));
         }
     }
 }

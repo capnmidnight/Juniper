@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+
 namespace Juniper.Units
 {
     /// <summary>
@@ -11,6 +14,11 @@ namespace Juniper.Units
         public const float PER_NANOSECOND = 1 / Units.Nanoseconds.PER_SECOND;
 
         /// <summary>
+        /// Conversion factor from ticks to seconds.
+        /// </summary>
+        public const float PER_TICK = 1 / Units.Ticks.PER_SECOND;
+
+        /// <summary>
         /// Conversion factor from microseconds to seconds.
         /// </summary>
         public const float PER_MICROSECOND = 1 / Units.Microseconds.PER_SECOND;
@@ -21,7 +29,7 @@ namespace Juniper.Units
         public const float PER_MILLISECOND = 1 / Units.Milliseconds.PER_SECOND;
 
         /// <summary>
-        /// Conversion factor from mminutes to seconds.
+        /// Conversion factor from minutes to seconds.
         /// </summary>
         public const float PER_MINUTE = 60;
 
@@ -43,6 +51,16 @@ namespace Juniper.Units
         public static float Nanoseconds(float seconds)
         {
             return seconds * Units.Nanoseconds.PER_SECOND;
+        }
+
+        /// <summary>
+        /// Convert from seconds to ticks.
+        /// </summary>
+        /// <param name="seconds">The number of seconds</param>
+        /// <returns>the number of ticks</returns>
+        public static float Ticks(float seconds)
+        {
+            return seconds * Units.Ticks.PER_SECOND;
         }
 
         /// <summary>
@@ -103,6 +121,21 @@ namespace Juniper.Units
         public static float Hertz(float seconds)
         {
             return 1 / seconds;
+        }
+
+        /// <summary>
+        /// Create an enumerator that doesn't resolve until the time limit is reached.
+        /// </summary>
+        /// <param name="seconds"></param>
+        /// <returns></returns>
+        public static IEnumerator Wait(float seconds)
+        {
+            var start = DateTime.Now;
+            var ts = TimeSpan.FromSeconds(seconds);
+            while ((DateTime.Now - start) < ts)
+            {
+                yield return null;
+            }
         }
     }
 }

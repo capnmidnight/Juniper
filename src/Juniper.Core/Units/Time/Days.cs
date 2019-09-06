@@ -6,12 +6,17 @@ namespace Juniper.Units
     public static class Days
     {
         /// <summary>
-        /// Conversion factor from milliseconds to days.
+        /// Conversion factor from nanoseconds to days.
         /// </summary>
         public const float PER_NANOSECOND = 1 / Units.Nanoseconds.PER_DAY;
 
         /// <summary>
-        /// Conversion factor from milliseconds to days.
+        /// Conversion factor from ticks to days.
+        /// </summary>
+        public const float PER_TICK = 1 / Units.Nanoseconds.PER_DAY;
+
+        /// <summary>
+        /// Conversion factor from microseconds to days.
         /// </summary>
         public const float PER_MICROSECOND = 1 / Units.Microseconds.PER_DAY;
 
@@ -43,6 +48,16 @@ namespace Juniper.Units
         public static float Nanoseconds(float days)
         {
             return days * Units.Nanoseconds.PER_DAY;
+        }
+
+        /// <summary>
+        /// Convert from days to ticks.
+        /// </summary>
+        /// <param name="days">The number of days</param>
+        /// <returns>The number of ticks</returns>
+        public static float Ticks(float days)
+        {
+            return days * Units.Ticks.PER_DAY;
         }
 
         /// <summary>

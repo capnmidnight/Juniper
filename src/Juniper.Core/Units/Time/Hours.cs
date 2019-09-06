@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+
 namespace Juniper.Units
 {
     /// <summary>
@@ -6,14 +9,14 @@ namespace Juniper.Units
     public static class Hours
     {
         /// <summary>
-        /// Conversion factor from days to hours.
-        /// </summary>
-        public const float PER_DAY = 24f;
-
-        /// <summary>
         /// Conversion factor from nanoseconds to hours.
         /// </summary>
         public const float PER_NANOSECOND = 1 / Units.Nanoseconds.PER_HOUR;
+
+        /// <summary>
+        /// Conversion factor from ticks to hours.
+        /// </summary>
+        public const float PER_TICK = 1 / Units.Ticks.PER_HOUR;
 
         /// <summary>
         /// Conversion factor from microseconds to hours.
@@ -34,6 +37,11 @@ namespace Juniper.Units
         /// Conversion factor from minutes to hours.
         /// </summary>
         public const float PER_MINUTE = 1 / Units.Minutes.PER_HOUR;
+
+        /// <summary>
+        /// Conversion factor from days to hours.
+        /// </summary>
+        public const float PER_DAY = 24f;
 
         /// <summary>
         /// Conversion factor from degrees to hours.
@@ -63,6 +71,16 @@ namespace Juniper.Units
         public static float Nanoseconds(float hours)
         {
             return hours * Units.Nanoseconds.PER_HOUR;
+        }
+
+        /// <summary>
+        /// Convert from hours to ticks.
+        /// </summary>
+        /// <param name="hours">The number of hours</param>
+        /// <returns>The number of ticks</returns>
+        public static float Ticks(float hours)
+        {
+            return hours * Units.Ticks.PER_HOUR;
         }
 
         /// <summary>
@@ -143,6 +161,21 @@ namespace Juniper.Units
         public static float Hertz(float hours)
         {
             return Units.Seconds.Hertz(Seconds(hours));
+        }
+
+        /// <summary>
+        /// Create an enumerator that doesn't resolve until the time limit is reached.
+        /// </summary>
+        /// <param name="hours"></param>
+        /// <returns></returns>
+        public static IEnumerator Wait(float hours)
+        {
+            var start = DateTime.Now;
+            var ts = TimeSpan.FromHours(hours);
+            while((DateTime.Now - start) < ts)
+            {
+                yield return null;
+            }
         }
     }
 }

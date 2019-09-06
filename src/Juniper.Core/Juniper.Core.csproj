@@ -216,6 +216,7 @@
     <Compile Include="Units\Time\Days.cs" />
     <Compile Include="Units\Time\Hertz.cs" />
     <Compile Include="Units\Time\Hours.cs" />
+    <Compile Include="Units\Time\Ticks.cs" />
     <Compile Include="Units\Time\Nanoseconds.cs" />
     <Compile Include="Units\Time\Microseconds.cs" />
     <Compile Include="Units\Time\Milliseconds.cs" />
