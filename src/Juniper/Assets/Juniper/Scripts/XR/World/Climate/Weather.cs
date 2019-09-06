@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
+using System.Threading.Tasks;
 
 using Juniper.Climate;
 using Juniper.Json;
 using Juniper.Progress;
+using Juniper.Serialization;
 using Juniper.Units;
 using Juniper.World.GIS;
 
@@ -125,6 +127,8 @@ namespace Juniper.World.Climate
             }
         }
 
+        private ISerializer serializer;
+
         /// <summary>
         /// If the <see cref="MinutesBetweenReports"/> expires, or the user has traveled more than
         /// <see cref="MilesBetweenReports"/> since the last weather report, retrieves a new weather report.
@@ -142,7 +146,9 @@ namespace Juniper.World.Climate
                 {
                     lastReportJSON = PlayerPrefs.GetString(REPORT_KEY);
                 }
-                weatherService = new OpenWeatherMap.API(new JsonFactory(), OpenWeatherMapAPIKey.Value, lastReportJSON);
+                var json = new JsonFactory();
+                serializer = json;
+                weatherService = new OpenWeatherMap.API(json, OpenWeatherMapAPIKey.Value, lastReportJSON);
             }
 
             if (FakeWeather)
@@ -245,12 +251,15 @@ namespace Juniper.World.Climate
         {
             if (Application.internetReachability != NetworkReachability.NotReachable || force)
             {
-                string reportJSON = null;
+                
+                var reportTask = weatherService.Request(location, force, prog);
+                while (reportTask.IsRunning())
+                {
+                    yield return null;
+                }
 
-                weatherService.Request(location, force, prog);
-
-                yield return new WaitUntil(() => prog?.IsComplete() != false);
-
+                var report = reportTask.Result;
+                var reportJSON = serializer.ToString(report);
                 if (reportJSON != lastReportJSON)
                 {
                     PlayerPrefs.SetString(REPORT_KEY, reportJSON);

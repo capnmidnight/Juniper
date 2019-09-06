@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 using Juniper.Progress;
 using Juniper.World.GIS;
 
@@ -36,6 +38,6 @@ namespace Juniper.Climate
         /// <param name="location"></param>
         /// <param name="force"></param>
         /// <param name="prog"></param>
-        void Request(LatLngPoint location, bool force, IProgress prog = null);
+        Task<IWeatherReport> Request(LatLngPoint location, bool force, IProgress prog = null);
     }
 }

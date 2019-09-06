@@ -1,6 +1,8 @@
 using System;
 using System.Net;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
+
 using Juniper.Climate;
 using Juniper.HTTP;
 using Juniper.Progress;
@@ -138,21 +140,15 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// Encapsulates an error response from the API server. Objects of this type are Serializable.
         /// </summary>
         [Serializable]
-        private class Error : ISerializable
+        private class Error : Exception, ISerializable
         {
-            /// <summary>
-            /// An error message that is hopefully easier to read than a full stack trace.
-            /// </summary>
-            public readonly string error;
-
-            /// <summary>
-            /// Create a new error message from a captured exception
-            /// </summary>
-            /// <param name="featureName"></param>
-            /// <param name="exp"></param>
-            public Error(string featureName, Exception exp)
+            private Error()
             {
-                error = exp.ToShortString(featureName);
+            }
+
+            private Error(string message)
+                : base(message)
+            {
             }
 
             /// <summary>
@@ -161,8 +157,18 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// <param name="featureName"></param>
             /// <param name="message"></param>
             public Error(string featureName, string message)
+                : this($"ERROR [{featureName}]: {message}")
             {
-                error = $"ERROR [{featureName}]: {message}";
+            }
+
+            /// <summary>
+            /// Create a new error message from a captured exception
+            /// </summary>
+            /// <param name="featureName"></param>
+            /// <param name="exp"></param>
+            public Error(string featureName, Exception exp)
+                : base(exp.ToShortString(featureName), exp)
+            {
             }
 
             /// <summary>
@@ -171,8 +177,8 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// <param name="info"></param>
             /// <param name="context"></param>
             protected Error(SerializationInfo info, StreamingContext context)
+                : base(info.GetString("error"))
             {
-                error = info.GetString(nameof(error));
             }
 
             /// <summary>
@@ -180,9 +186,9 @@ namespace Juniper.World.Climate.OpenWeatherMap
             /// </summary>
             /// <param name="info"></param>
             /// <param name="context"></param>
-            public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+            public override void GetObjectData(SerializationInfo info, StreamingContext context)
             {
-                info.AddValue(nameof(error), error);
+                info.AddValue("error", Message);
             }
         }
 
@@ -193,12 +199,11 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <param name="force">Force downloading a new report, regardless of how far we are from the last report location.</param>
         /// <param name="prog">A progress tracker, if any.</param>
         /// <returns></returns>
-        public async void Request(LatLngPoint location, bool force, IProgress prog = null)
+        public async Task<IWeatherReport> Request(LatLngPoint location, bool force, IProgress prog = null)
         {
+            prog?.Report(0);
             if (NeedsNewReport(location) || force)
             {
-                string reportJSON;
-
                 var url = $"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Latitude}&lon={location.Longitude}&units={units}&appid={apiKey}";
                 try
                 {
@@ -208,25 +213,22 @@ namespace Juniper.World.Climate.OpenWeatherMap
                     {
                         if (deserializer.TryDeserialize<WeatherReport>(response, out var report))
                         {
-                            reportJSON = serializer.ToString(report);
                             LastReport = report;
                         }
                         else
                         {
-                            ErrorReport = new Error("GetNewReport", "No response: " + url);
+                            throw ErrorReport = new Error("GetNewReport", "No response: " + url);
                         }
                     }
                 }
                 catch (Exception exp)
                 {
-                    ErrorReport = new Error("GetNewReport", exp.Message + ": " + url);
-                    throw;
+                    throw ErrorReport = new Error("GetNewReport", exp.Message + ": " + url);
                 }
             }
-            else
-            {
-                prog?.Report(1);
-            }
+
+            prog?.Report(1);
+            return LastReport;
         }
 
         private Error ErrorReport
