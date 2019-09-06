@@ -205,10 +205,10 @@ namespace Juniper.Streams
 
         public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
         {
-            async void wrappedCallback(IAsyncResult result)
+            void wrappedCallback(IAsyncResult result)
             {
                 lastRead = inStream.EndRead(result);
-                await outStream.WriteAsync(buffer, offset, lastRead);
+                outStream.WriteAsync(buffer, offset, lastRead).Wait();
                 callback(result);
             }
 
