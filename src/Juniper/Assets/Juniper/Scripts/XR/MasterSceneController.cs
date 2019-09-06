@@ -41,11 +41,6 @@ namespace Juniper
         /// </summary>
         private static readonly Regex SceneNamePattern = new Regex("([^/]+)\\.unity$", RegexOptions.Compiled);
 
-        /// <summary>
-        /// Used for splitting apart scene name references from subScene object references.
-        /// </summary>
-        private static readonly char[] SCENE_NAME_PART_SEPARATOR = { '.' };
-
         private static string GetSceneNameFromPath(string path)
         {
             return SceneNamePattern.Match(path).Groups[1].Value;
@@ -104,8 +99,6 @@ namespace Juniper
         /// </summary>
         [Header("Scene fader")]
         public Material sceneFaderMaterial;
-
-        public bool loadAll = true;
 
         public bool exitOnEscape = true;
 
@@ -302,18 +295,6 @@ namespace Juniper
             splash = sys.Query<UnityImage>("Canvas/SplashImage");
         }
 
-        public void LoadAllScenes()
-        {
-            StartCoroutine(LoadAllScenesCoroutineWithProgress());
-        }
-
-        private IEnumerator LoadAllScenesCoroutineWithProgress()
-        {
-            loadingBar?.Activate();
-            yield return LoadAllScenesCoroutine(loadingBar);
-            yield return LoadingCompleteCoroutine();
-        }
-
         /// <summary>
         /// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
         /// </summary>
@@ -397,9 +378,7 @@ namespace Juniper
                 }
             }
 
-            var parts = subSceneName.Split(SCENE_NAME_PART_SEPARATOR);
-            var sceneName = parts[0];
-            var sceneFileName = sceneName + ".unity";
+            var sceneFileName = subSceneName + ".unity";
             string scenePath = null;
             foreach (var s in subSceneNames)
             {
@@ -518,14 +497,7 @@ namespace Juniper
                 FadeOut(true);
             }
 
-            if (loadAll)
-            {
-                Invoke(nameof(LoadAllScenes), 0.5f);
-            }
-            else
-            {
-                Invoke(nameof(LoadFirstScene), 0.5f);
-            }
+            Invoke(nameof(LoadFirstScene), 0.5f);
         }
 
         public void Update()
@@ -589,6 +561,20 @@ namespace Juniper
             var sceneName = GetSceneNameFromPath(path);
             var sceneLoadProg = prog.Subdivide(0, 0.25f, sceneName + ": loading...");
             var subSceneLoadProg = prog.Subdivide(0.25f, 0.75f, sceneName + ": loading components...");
+
+            foreach (var subScene in CurrentSubScenes)
+            {
+                subScene.Deactivate();
+                if (subScene.gameObject.scene.path != path
+                    && subScene.unloadSceneOnExit)
+                {
+                    var op = SceneManager.UnloadSceneAsync(subScene.gameObject.scene);
+                    while (!op.isDone)
+                    {
+                        yield return null;
+                    }
+                }
+            }
 
             if (IsScenePathLoaded(path))
             {

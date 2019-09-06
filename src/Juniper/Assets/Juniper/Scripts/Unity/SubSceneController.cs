@@ -16,6 +16,8 @@ namespace Juniper
     /// </summary>
     public class SubSceneController : AbstractStateController
     {
+        public bool unloadSceneOnExit = true;
+
         public virtual void Awake()
         {
             childTransitions = GetComponentsInChildren<AbstractTransitionController>(true);
@@ -54,22 +56,8 @@ namespace Juniper
                     Exitable,
                     (child, p) => child.Exit(p));
             }
+
             base.Exit(prog);
-        }
-
-        /// <summary>
-        /// Whether or not to deactivate the subscene when it has finished exiting.
-        /// </summary>
-        protected bool deactivateOnExit = true;
-
-        protected override void OnExited()
-        {
-            base.OnExited();
-
-            if (deactivateOnExit)
-            {
-                this.Deactivate();
-            }
         }
 
         /// <summary>
