@@ -4,11 +4,12 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+
 using Juniper.Audio.NAudio;
 using Juniper.Data;
 using Juniper.HTTP;
 using Juniper.Progress;
-using Juniper.Unity.Coroutines;
 
 using UnityEngine;
 
@@ -37,7 +38,10 @@ namespace Juniper.Audio
                     format,
                     prog);
 
-                yield return new WaitForTask(audioTask);
+                while (audioTask.IsRunning())
+                {
+                    yield return null;
+                }
 
                 var audio = decoder.Deserialize(audioTask.Result.Content);
 

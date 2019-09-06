@@ -170,7 +170,10 @@ namespace Juniper.Widgets
         {
             var found = false;
             SetTarget(target, () => found = true);
-            return new WaitUntil(() => found);
+            while (!found)
+            {
+                yield return null;
+            }
         }
 
         /// <summary>

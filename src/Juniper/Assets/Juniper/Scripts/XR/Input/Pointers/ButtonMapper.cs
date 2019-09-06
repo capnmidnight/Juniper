@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 using Juniper.Events;
 
@@ -30,7 +29,16 @@ namespace Juniper.Input.Pointers
         {
             get
             {
-                return buttons.Any((btn) => btn.IsPressed && !btn.IsDown);
+                for(int i = 0; i < buttons.Count; ++i)
+                {
+                    var btn = buttons[i];
+                    if(btn.IsDown && !btn.IsDown)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
         }
 

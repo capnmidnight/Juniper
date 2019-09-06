@@ -1,5 +1,6 @@
 #if UNITY_MODULES_ANIMATION
 
+using System;
 using System.Collections;
 using System.Linq;
 
@@ -54,16 +55,22 @@ namespace Juniper.Animation
         {
             if (animator?.runtimeAnimatorController != null)
             {
+                var start = DateTime.Now;
                 animator.Play(name);
                 var animationState = animator.GetCurrentAnimatorStateInfo(0);
                 var len = animationState.length;
-                yield return new WaitForSeconds(len);
+                var ts = TimeSpan.FromSeconds(len);
+                while ((DateTime.Now - start) < ts)
+                {
+                    yield return null;
+                }
 
                 animationState = animator.GetCurrentAnimatorStateInfo(0);
-                len = animationState.length - len;
-                if (len > 0)
+                start = DateTime.Now;
+                ts = TimeSpan.FromSeconds(animationState.length - len);
+                while ((DateTime.Now - start) < ts)
                 {
-                    yield return new WaitForSeconds(len);
+                    yield return null;
                 }
             }
         }

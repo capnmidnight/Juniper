@@ -356,7 +356,10 @@ namespace Juniper.Imaging
             if (lastSphere != null)
             {
                 fader.Enter();
-                yield return fader.Waiter;
+                while (!fader.IsComplete)
+                {
+                    yield return null;
+                }
                 lastSphere.Deactivate();
             }
 
@@ -371,7 +374,10 @@ namespace Juniper.Imaging
             if (lastSphere != null)
             {
                 fader.Exit();
-                yield return fader.Waiter;
+                while (!fader.IsComplete)
+                {
+                    yield return null;
+                }
             }
             else
             {

@@ -1,9 +1,8 @@
 #if UNITY_ANDROID
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
-
-using UnityEngine;
 
 namespace Juniper.Haptics
 {
@@ -26,7 +25,13 @@ namespace Juniper.Haptics
             }
             else
             {
-                yield return new WaitForSeconds(milliseconds * 0.001f);
+                var start = DateTime.Now;
+                var seconds = Units.Milliseconds.Seconds(milliseconds);
+                var ts = TimeSpan.FromSeconds(seconds);
+                while ((DateTime.Now - start) < ts)
+                {
+                    yield return null;
+                }
             }
         }
 

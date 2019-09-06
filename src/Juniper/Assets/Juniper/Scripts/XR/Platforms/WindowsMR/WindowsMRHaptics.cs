@@ -28,11 +28,11 @@ namespace Juniper.Haptics
             set
             {
                 _controllerID = value;
-                GetController();
+                GetController().Wait();
             }
         }
 
-        private async void GetController()
+        private async Task GetController()
         {
             var access = await VibrationDevice.RequestAccessAsync();
             if (access == VibrationAccessStatus.Allowed)
@@ -100,15 +100,20 @@ namespace Juniper.Haptics
 
         protected override IEnumerator VibrateCoroutine(long milliseconds, float amplitude)
         {
+            var start = DatTime.Now;
             var seconds = Units.Milliseconds.Seconds(milliseconds);
+            var ts = TimeSpan.FromSeconds(seconds);
             if (expressions.ContainsKey(KnownSimpleHapticsControllerWaveforms.BuzzContinuous))
             {
                 controller?.SendHapticFeedbackForDuration(
                     expressions[KnownSimpleHapticsControllerWaveforms.BuzzContinuous],
                     amplitude,
-                    TimeSpan.FromSeconds(seconds));
+                    ts);
             }
-            yield return new WaitForSeconds(seconds);
+            while((DateTime.Now - start) < ts)
+            {
+                yield return null;
+            }
         }
 
         public override void Cancel()

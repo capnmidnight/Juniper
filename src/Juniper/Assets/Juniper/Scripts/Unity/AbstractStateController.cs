@@ -318,30 +318,5 @@ namespace Juniper
                 Exited?.Invoke(this, EventArgs.Empty);
             }
         }
-
-        /// <summary>
-        /// Cached wait object, so we don't cause GC pressure recreating it all the time.
-        /// </summary>
-        private WaitUntil _waiter;
-
-        /// <summary>
-        /// Retrieves a cached waiter object. The object is cached so we don't cause unnecessary GC
-        /// pressure. Use it to wait for the transition to run to completion.
-        /// </summary>
-        public WaitUntil Waiter
-        {
-            get
-            {
-                if (_waiter == null)
-                {
-                    _waiter = new WaitUntil(HasCompleted);
-                }
-                else
-                {
-                    _waiter.Reset();
-                }
-                return _waiter;
-            }
-        }
     }
 }

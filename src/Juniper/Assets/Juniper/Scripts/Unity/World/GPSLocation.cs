@@ -214,9 +214,11 @@ namespace Juniper.World
                 Location.Start(desiredAccuracy, updateDistance);
             }
 
-            yield return new WaitUntil(() =>
-                                       Status == LocationServiceStatus.Running
-                                      || Status == LocationServiceStatus.Failed);
+            while (Status != LocationServiceStatus.Running
+                && Status != LocationServiceStatus.Failed)
+            {
+                yield return null;
+            }
 
             if (Status == LocationServiceStatus.Failed)
             {

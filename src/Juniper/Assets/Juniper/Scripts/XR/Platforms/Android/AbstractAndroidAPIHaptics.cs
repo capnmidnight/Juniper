@@ -1,5 +1,6 @@
 #if UNITY_ANDROID
 
+using System;
 using System.Collections;
 using System.Linq;
 
@@ -48,8 +49,14 @@ namespace Juniper.Haptics
         /// <param name="milliseconds">Milliseconds.</param>
         protected override IEnumerator VibrateCoroutine(long milliseconds)
         {
+            var start = DateTime.Now;
+            var seconds = Units.Milliseconds.Seconds(milliseconds);
+            var ts = TimeSpan.FromSeconds(seconds);
             vibrator.Call("vibrate", milliseconds);
-            yield return new WaitForSeconds(milliseconds * 0.001f);
+            while((DateTime.Now - start) < ts)
+            {
+                yield return null;
+            }
         }
 
         /// <summary>
@@ -58,8 +65,15 @@ namespace Juniper.Haptics
         /// <param name="pattern">Pattern.</param>
         protected override IEnumerator PlayCoroutine(long[] pattern)
         {
+            var start = DateTime.Now;
+            var milliseconds = pattern.Sum();
+            var seconds = Units.Milliseconds.Seconds(milliseconds);
+            var ts = TimeSpan.FromSeconds(seconds);
             vibrator.Call("vibrate", pattern, -1);
-            yield return new WaitForSeconds(pattern.Sum() * 0.001f);
+            while ((DateTime.Now - start) < ts)
+            {
+                yield return null;
+            }
         }
     }
 }

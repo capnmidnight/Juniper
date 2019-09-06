@@ -87,23 +87,5 @@ namespace Juniper.Widgets
         {
             get; set;
         }
-
-        private WaitUntil _waiter;
-
-        public WaitUntil Waiter
-        {
-            get
-            {
-                if (_waiter == null)
-                {
-                    _waiter = new WaitUntil(this.IsComplete);
-                }
-                else
-                {
-                    _waiter.Reset();
-                }
-                return _waiter;
-            }
-        }
     }
 }

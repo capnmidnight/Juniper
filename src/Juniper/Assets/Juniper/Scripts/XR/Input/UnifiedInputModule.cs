@@ -8,6 +8,7 @@ using Juniper.Input.Pointers.Gaze;
 using Juniper.Input.Pointers.Motion;
 using Juniper.Input.Pointers.Screen;
 using Juniper.Speech;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -387,7 +388,6 @@ namespace Juniper.Input
         private void RaycastAll(IPointerDevice pointer, PointerEventData eventData)
         {
             DisplayManager.MoveEventCameraToPointer(pointer);
-
             eventSystem.RaycastAll(eventData, m_RaycastResultCache);
 
 #if UNITY_MODULES_UI

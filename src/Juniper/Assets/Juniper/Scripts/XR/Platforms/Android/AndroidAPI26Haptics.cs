@@ -1,5 +1,6 @@
 #if UNITY_ANDROID
 
+using System;
 using System.Collections;
 using System.Linq;
 
@@ -66,8 +67,14 @@ namespace Juniper.Haptics
         /// <param name="amplitude">   Amplitude values should be on the range [0, 1].</param>
         protected override IEnumerator VibrateCoroutine(long milliseconds, float amplitude)
         {
+            var start = DateTime.Now;
+            var seconds = Units.Milliseconds.Seconds(milliseconds);
+            var ts = TimeSpan.FromSeconds(seconds);
             CreateVibrationEffect("createOneShot", milliseconds, (int)(amplitude * 255));
-            yield return new WaitForSeconds(milliseconds * 0.001f);
+            while ((DateTime.Now - start) < ts)
+            {
+                yield return null;
+            }
         }
 
         /// <summary>
@@ -77,8 +84,15 @@ namespace Juniper.Haptics
         /// <param name="pattern">Pattern.</param>
         protected override IEnumerator PlayCoroutine(long[] pattern)
         {
+            var start = DateTime.Now;
+            var milliseconds = pattern.Sum();
+            var seconds = Units.Milliseconds.Seconds(milliseconds);
+            var ts = TimeSpan.FromSeconds(seconds);
             CreateVibrationEffect("createWaveform", pattern, -1);
-            yield return new WaitForSeconds(pattern.Sum() * 0.001f);
+            while ((DateTime.Now - start) < ts)
+            {
+                yield return null;
+            }
         }
 
         /// <summary>
@@ -88,13 +102,20 @@ namespace Juniper.Haptics
         /// <param name="amplitudes">Amplitudes.</param>
         protected override IEnumerator PlayCoroutine(long[] pattern, float[] amplitudes)
         {
+            var start = DateTime.Now;
+            var milliseconds = pattern.Sum();
+            var seconds = Units.Milliseconds.Seconds(milliseconds);
+            var ts = TimeSpan.FromSeconds(seconds);
             var amps = new int[amplitudes.Length];
             for (var i = 0; i < amplitudes.Length; ++i)
             {
                 amps[i] = (int)(amplitudes[i] * 255);
             }
             CreateVibrationEffect("createWaveform", pattern, amps, -1);
-            yield return new WaitForSeconds(pattern.Sum() * 0.001f);
+            while ((DateTime.Now - start) < ts)
+            {
+                yield return null;
+            }
         }
     }
 }

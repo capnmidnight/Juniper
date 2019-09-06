@@ -391,7 +391,10 @@ namespace Juniper
             if (darth != null && !skipFadeOut)
             {
                 FadeOut(skipFadeOut);
-                yield return darth.Waiter;
+                while (!darth.IsComplete)
+                {
+                    yield return null;
+                }
             }
 
             var parts = subSceneName.Split(SCENE_NAME_PART_SEPARATOR);
@@ -449,7 +452,10 @@ namespace Juniper
             if (darth != null)
             {
                 darth.Exit();
-                yield return darth.Waiter;
+                while (!darth.IsComplete)
+                {
+                    yield return null;
+                }
                 darth.volume = originalFadeVolume;
                 darth.fadeInSound = originalFadeInSound;
             }
@@ -624,7 +630,10 @@ namespace Juniper
                 {
                     var ss = toLoad[i];
                     ss.Enter(subSceneLoadProg.Subdivide(i, toLoad.Length, ss.name));
-                    yield return toLoad[i].Waiter;
+                    while (!toLoad[i].IsComplete)
+                    {
+                        yield return null;
+                    }
                 }
             }
         }
@@ -649,16 +658,29 @@ namespace Juniper
                 subScene.Exit();
             }
 
-            yield return new WaitUntil(() =>
-                CurrentSubScenes.All(subScene =>
-                    subScene.IsComplete));
+            bool anyIncomplete;
+            do
+            {
+                anyIncomplete = false;
+                foreach (var subScene in CurrentSubScenes)
+                {
+                    anyIncomplete |= !subScene.IsComplete;
+                }
+                if (anyIncomplete)
+                {
+                    yield return null;
+                }
+            } while (anyIncomplete);
 
             if (darth != null)
             {
                 darth.fadeOutSound = interaction.soundOnShutDown;
                 darth.volume = 0.5f;
                 darth.Enter();
-                yield return darth.Waiter;
+                while (!darth.IsComplete)
+                {
+                    yield return null;
+                }
             }
 
             Exit();

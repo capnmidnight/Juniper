@@ -2,9 +2,8 @@
 #define HAS_HAPTICS
 #endif
 
+using System;
 using System.Collections;
-
-using UnityEngine;
 
 #if (UNITY_STANDALONE || UNITY_EDITOR) && XINPUTDOTNETPURE
 
@@ -87,14 +86,15 @@ namespace Juniper.Haptics
         /// <param name="amplitude">   The strenght of vibration (ignored).</param>
         protected override IEnumerator VibrateCoroutine(long milliseconds, float amplitude)
         {
+            var start = DateTime.Now;
             var seconds = Units.Milliseconds.Seconds(milliseconds);
+            var ts = TimeSpan.FromSeconds(seconds);
 #if UNITY_STANDALONE || UNITY_EDITOR || UNITY_XR_WINDOWSMR_METRO
             SetVibration(amplitude);
 #elif HAS_HAPTICS
             if (amplitude > 0.25f)
             {
-                var now = Time.unscaledTime;
-                while (Time.unscaledTime - now < seconds)
+                while ((DateTime.Now - start) > ts)
                 {
                     Handheld.Vibrate();
                     yield return null;
@@ -103,7 +103,10 @@ namespace Juniper.Haptics
             else
             {
 #endif
-            yield return new WaitForSeconds(seconds);
+            while ((DateTime.Now - start) > ts)
+            {
+                yield return null;
+            }
 #if !UNITY_STANDALONE && !UNITY_EDITOR && !UNITY_XR_WINDOWSMR_METRO && HAS_HAPTICS
             }
 #endif

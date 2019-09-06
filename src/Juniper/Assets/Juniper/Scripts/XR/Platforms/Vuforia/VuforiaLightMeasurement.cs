@@ -107,19 +107,21 @@ namespace Juniper.World.LightEstimation
         /// <returns>The illumination manager coroutine.</returns>
         IEnumerator GetIlluminationManagerCoroutine()
         {
-            yield return new WaitUntil(() =>
-                TrackerManager.Instance != null);
+            while(TrackerManager.Instance == null)
+            {
+                yield return null;
+            }
+
             StateManager stateManager = null;
-            yield return new WaitUntil(() =>
+            while((stateManager = stateManager ?? TrackerManager.Instance.GetStateManager()) == null)
             {
-                stateManager = TrackerManager.Instance.GetStateManager();
-                return stateManager != null;
-            });
-            yield return new WaitUntil(() =>
+                yield return null;
+            }
+
+            while((illumination = illumination ?? stateManager.GetIlluminationManager()) == null)
             {
-                illumination = stateManager.GetIlluminationManager();
-                return illumination != null;
-            });
+                yield return null;
+            }
         }
 
         /// <summary>

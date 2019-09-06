@@ -11,12 +11,6 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-using Juniper.Imaging;
-using Juniper.Serialization;
-
-using System.IO;
-using Juniper.Imaging.LibJpegNET;
-
 #if UNITY_MODULES_XR
 
 using System.Linq;
@@ -111,6 +105,7 @@ namespace Juniper.Display
             }
         }
 
+        private static int LAYER_MASK;
         public static Camera EventCamera
         {
             get
@@ -118,8 +113,8 @@ namespace Juniper.Display
                 if (eventCam == null)
                 {
                     eventCam = MakeCamera("EventCamera", "PointerCamera");
-                    eventCam.cullingMask = ~LayerMask.GetMask("Ignore Raycast");
-                    eventCam.Ensure<PhysicsRaycaster>();
+                    LAYER_MASK = ~LayerMask.GetMask("Ignore Raycast");
+                    eventCam.cullingMask = LAYER_MASK;
                     eventCam.clearFlags = CameraClearFlags.SolidColor;
                     eventCam.backgroundColor = ColorExt.TransparentBlack;
                     eventCam.depth = MainCamera.depth - 1;
@@ -127,7 +122,8 @@ namespace Juniper.Display
                     eventCam.allowMSAA = false;
                     eventCam.enabled = false;
 
-                    eventCam.Ensure<PhysicsRaycaster>();
+                    var raycaster = eventCam.Ensure<PhysicsRaycaster>();
+                    raycaster.Value.maxRayIntersections = 10;
                 }
 
                 return eventCam;
@@ -598,7 +594,7 @@ namespace Juniper.Display
                 ARMode = lastARMode;
             }
 
-            EventCamera.cullingMask = MainCamera.cullingMask & ~LayerMask.GetMask("Ignore Raycast");
+            EventCamera.cullingMask = MainCamera.cullingMask & LAYER_MASK;
         }
     }
 }

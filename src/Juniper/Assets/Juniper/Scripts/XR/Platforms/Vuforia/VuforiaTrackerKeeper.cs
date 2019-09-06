@@ -227,14 +227,10 @@ namespace Juniper.ImageTracking
         {
             get
             {
-                return new WaitUntil(() =>
+                while((tracker = tracker ?? TrackerManager.Instance.GetTracker<ObjectTracker>()) == null)
                 {
-                    if (tracker == null)
-                    {
-                        tracker = TrackerManager.Instance.GetTracker<ObjectTracker>();
-                    }
-                    return tracker != null;
-                });
+                    yield return null;
+                }
             }
         }
 
@@ -273,12 +269,14 @@ namespace Juniper.ImageTracking
         /// What for Vuforia's initialization state to no longer be "INITIALIZING".
         /// </summary>
         /// <value>The wait for not initializing.</value>
-        WaitUntil WaitForNotInitializing
+        IEnumerator WaitForNotInitializing
         {
             get
             {
-                return new WaitUntil(() =>
-                    VuforiaRuntime.Instance.InitializationState != VuforiaRuntime.InitState.INITIALIZING);
+                while(VuforiaRuntime.Instance.InitializationState == VuforiaRuntime.InitState.INITIALIZING)
+                {
+                    yield return null;
+                }
             }
         }
 
@@ -325,7 +323,10 @@ namespace Juniper.ImageTracking
                 if (tracker.IsActive)
                 {
                     tracker.Stop();
-                    yield return new WaitUntil(() => !tracker.IsActive);
+                    while(tracker.IsActive)
+                    {
+                        yield return null;
+                    }
                 }
 
                 EnableDataSet(dataSetName);
@@ -333,8 +334,10 @@ namespace Juniper.ImageTracking
                 if (!tracker.IsActive)
                 {
                     tracker.Start();
-                    yield return new WaitUntil(() =>
-                        tracker.IsActive);
+                    while(!tracker.IsActive)
+                    {
+                        yield return null;
+                    }
                 }
             }
             else
