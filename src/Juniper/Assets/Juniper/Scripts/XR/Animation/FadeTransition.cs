@@ -3,12 +3,10 @@ using System.Collections.Generic;
 
 using Juniper.Display;
 using Juniper.Input;
-using Juniper;
 using Juniper.XR;
 
 using UnityEngine;
 using UnityEngine.Rendering;
-using Juniper.Progress;
 
 namespace Juniper.Animation
 {
@@ -195,16 +193,10 @@ namespace Juniper.Animation
         {
             if (actions.Count == 0)
             {
-                actions.Add(() =>
-                {
-                    act();
-                    Exit();
-                });
+                actions.Add(() => Exit());
             }
-            else
-            {
-                actions.Add(act);
-            }
+            
+            actions.Insert(actions.Count - 1, act);
             Enter();
         }
 

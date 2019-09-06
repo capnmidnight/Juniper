@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 
 using Juniper.Input;
@@ -197,6 +198,15 @@ namespace Juniper
             }
         }
 
+        public IEnumerator EnterCoroutine(IProgress prog = null)
+        {
+            Enter(prog);
+            while (!IsComplete)
+            {
+                yield return null;
+            }
+        }
+
 #if UNITY_EDITOR
 
         private string GetStatus(string label)
@@ -273,6 +283,15 @@ namespace Juniper
             {
                 state = Direction.Reverse;
                 OnExiting();
+            }
+        }
+
+        public IEnumerator ExitCoroutine(IProgress prog = null)
+        {
+            Exit(prog);
+            while (!IsComplete)
+            {
+                yield return null;
             }
         }
 

@@ -17,10 +17,12 @@ namespace Juniper
     public class SubSceneController : AbstractStateController
     {
         public bool unloadSceneOnExit = true;
+        private MasterSceneController master;
 
         public virtual void Awake()
         {
             childTransitions = GetComponentsInChildren<AbstractTransitionController>(true);
+            master = ComponentExt.FindAny<MasterSceneController>();
         }
 
         public override bool IsComplete
@@ -124,6 +126,21 @@ namespace Juniper
                 }
             }
             return true;
+        }
+
+        public void SwitchToScene(string sceneName)
+        {
+            master.SwitchToScene(sceneName);
+        }
+
+        public void ShowScene(string sceneName)
+        {
+            master.ShowScene(sceneName);
+        }
+
+        public void Quit()
+        {
+            master.Quit();
         }
     }
 }

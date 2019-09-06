@@ -355,11 +355,7 @@ namespace Juniper.Imaging
 
             if (lastSphere != null)
             {
-                fader.Enter();
-                while (!fader.IsComplete)
-                {
-                    yield return null;
-                }
+                yield return fader.EnterCoroutine();
                 lastSphere.Deactivate();
             }
 
@@ -373,11 +369,7 @@ namespace Juniper.Imaging
 
             if (lastSphere != null)
             {
-                fader.Exit();
-                while (!fader.IsComplete)
-                {
-                    yield return null;
-                }
+                yield return fader.ExitCoroutine();
             }
             else
             {

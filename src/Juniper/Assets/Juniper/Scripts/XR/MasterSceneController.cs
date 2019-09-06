@@ -109,7 +109,7 @@ namespace Juniper
         /// </summary>
         public string[] subSceneNames;
 
-        private FadeTransition darth;
+        private FadeTransition fader;
 
         private InteractionAudio interaction;
         private float originalFadeVolume;
@@ -121,29 +121,16 @@ namespace Juniper
         private bool wasLocked;
 
         /// <summary>
-        /// All of the <see cref="SubSceneController"/> references in the project.
-        /// </summary>
-        /// <value>The sub scenes.</value>
-        public IEnumerable<SubSceneController> SubScenes
-        {
-            get
-            {
-                return ComponentExt.FindAll<SubSceneController>();
-            }
-        }
-
-        /// <summary>
         /// All of the active SubSceneControllers
         /// </summary>
         /// <value>The current sub scenes.</value>
-        public SubSceneController[] CurrentSubScenes
+        public IEnumerable<SubSceneController> CurrentSubScenes
         {
             get
             {
-                return (from scene in SubScenes
-                        where scene.isActiveAndEnabled
-                        select scene)
-                    .ToArray();
+                return from scene in ComponentExt.FindAll<SubSceneController>()
+                       where scene.isActiveAndEnabled
+                       select scene;
             }
         }
 
@@ -327,7 +314,7 @@ namespace Juniper
                 }
                 else
                 {
-                    SwitchToSceneName(name, true);
+                    SwitchToScene(name, true, true);
                 }
             }
         }
@@ -341,9 +328,14 @@ namespace Juniper
         /// </summary>
         /// <param name="sceneName"></param>
         /// <returns></returns>
-        public void SwitchToSceneName(string sceneName)
+        public void SwitchToScene(string sceneName)
         {
-            SwitchToSceneName(sceneName, false);
+            SwitchToScene(sceneName, false, true);
+        }
+
+        public void ShowScene(string sceneName)
+        {
+            SwitchToScene(sceneName, false, false);
         }
 
         /// <summary>
@@ -358,21 +350,19 @@ namespace Juniper
         /// Whether or not to fade the screen out (true) or start with a black screen (false) before
         /// loading the scene.
         /// </param>
+        /// <param name="unloadOtherScenes">Set to true to unload the scene file for any sub scene that
+        /// indicates it shouldn't be kept around for long.</param>
         /// <returns></returns>
-        private void SwitchToSceneName(string sceneName, bool skipFadeOut)
+        private void SwitchToScene(string sceneName, bool skipFadeOut, bool unloadOtherScenes)
         {
-            StartCoroutine(SwitchToSceneNameCoroutine(sceneName, skipFadeOut));
+            StartCoroutine(SwitchToSceneCoroutine(sceneName, skipFadeOut, unloadOtherScenes));
         }
 
-        private IEnumerator SwitchToSceneNameCoroutine(string subSceneName, bool skipFadeOut)
+        private IEnumerator SwitchToSceneCoroutine(string subSceneName, bool skipFadeOut, bool unloadOtherScenes)
         {
-            if (darth != null && !skipFadeOut)
+            if (!skipFadeOut && fader != null)
             {
-                FadeOut(skipFadeOut);
-                while (!darth.IsComplete)
-                {
-                    yield return null;
-                }
+                yield return fader.EnterCoroutine();
             }
 
             loadingBar?.Activate();
@@ -394,6 +384,10 @@ namespace Juniper
                 throw new Exception("Couldn't find scene: " + subSceneName);
             }
 
+            if (unloadOtherScenes)
+            {
+                yield return UnloadAllScenesExcept(scenePath);
+            }
             yield return LoadScenePathCoroutine(scenePath, loadingBar);
             yield return LoadingCompleteCoroutine();
         }
@@ -408,7 +402,7 @@ namespace Juniper
                 var canvases = scene.FindAll<Canvas>((c) =>
                     c.renderMode == RenderMode.WorldSpace
                         && (c.worldCamera == null
-                            || c.worldCamera == DisplayManager.MainCamera));
+                            || c.worldCamera != DisplayManager.MainCamera));
                 foreach (var canvas in canvases)
                 {
                     canvas.worldCamera = DisplayManager.EventCamera;
@@ -428,27 +422,11 @@ namespace Juniper
 
             splash?.Deactivate();
             loadingBar?.Deactivate();
-            if (darth != null)
+            if (fader != null)
             {
-                darth.Exit();
-                while (!darth.IsComplete)
-                {
-                    yield return null;
-                }
-                darth.volume = originalFadeVolume;
-                darth.fadeInSound = originalFadeInSound;
-            }
-        }
-
-        private void FadeOut(bool skipFadeOut)
-        {
-            if (skipFadeOut)
-            {
-                darth.SkipEnter();
-            }
-            else
-            {
-                darth.Enter();
+                yield return fader.ExitCoroutine();
+                fader.volume = originalFadeVolume;
+                fader.fadeInSound = originalFadeInSound;
             }
         }
 
@@ -466,17 +444,17 @@ namespace Juniper
 
             splash?.Activate();
 
-            darth = ComponentExt.FindAny<FadeTransition>();
+            fader = ComponentExt.FindAny<FadeTransition>();
             interaction = ComponentExt.FindAny<InteractionAudio>();
 
-            if (darth != null)
+            if (fader != null)
             {
-                originalFadeInSound = darth.fadeInSound;
-                originalFadeVolume = darth.volume;
+                originalFadeInSound = fader.fadeInSound;
+                originalFadeVolume = fader.volume;
                 if (interaction != null)
                 {
-                    darth.volume = 0.5f;
-                    darth.fadeInSound = interaction.soundOnStartUp;
+                    fader.volume = 0.5f;
+                    fader.fadeInSound = interaction.soundOnStartUp;
                 }
             }
 
@@ -492,9 +470,9 @@ namespace Juniper
         /// </summary>
         protected virtual void Start()
         {
-            if (darth != null)
+            if (fader != null)
             {
-                FadeOut(true);
+                fader.SkipEnter();
             }
 
             Invoke(nameof(LoadFirstScene), 0.5f);
@@ -556,12 +534,8 @@ namespace Juniper
             }
         }
 
-        private IEnumerator LoadScenePathCoroutine(string path, IProgress prog)
+        private IEnumerator UnloadAllScenesExcept(string path)
         {
-            var sceneName = GetSceneNameFromPath(path);
-            var sceneLoadProg = prog.Subdivide(0, 0.25f, sceneName + ": loading...");
-            var subSceneLoadProg = prog.Subdivide(0.25f, 0.75f, sceneName + ": loading components...");
-
             foreach (var subScene in CurrentSubScenes)
             {
                 subScene.Deactivate();
@@ -575,6 +549,13 @@ namespace Juniper
                     }
                 }
             }
+        }
+
+        private IEnumerator LoadScenePathCoroutine(string path, IProgress prog)
+        {
+            var sceneName = GetSceneNameFromPath(path);
+            var sceneLoadProg = prog.Subdivide(0, 0.25f, sceneName + ": loading...");
+            var subSceneLoadProg = prog.Subdivide(0.25f, 0.75f, sceneName + ": loading components...");
 
             if (IsScenePathLoaded(path))
             {
@@ -615,11 +596,7 @@ namespace Juniper
                 for (var i = 0; i < toLoad.Length; ++i)
                 {
                     var ss = toLoad[i];
-                    ss.Enter(subSceneLoadProg.Subdivide(i, toLoad.Length, ss.name));
-                    while (!toLoad[i].IsComplete)
-                    {
-                        yield return null;
-                    }
+                    yield return ss.EnterCoroutine(subSceneLoadProg.Subdivide(i, toLoad.Length, ss.name));
                 }
             }
         }
@@ -658,15 +635,11 @@ namespace Juniper
                 }
             } while (anyIncomplete);
 
-            if (darth != null)
+            if (fader != null)
             {
-                darth.fadeOutSound = interaction.soundOnShutDown;
-                darth.volume = 0.5f;
-                darth.Enter();
-                while (!darth.IsComplete)
-                {
-                    yield return null;
-                }
+                fader.fadeOutSound = interaction.soundOnShutDown;
+                fader.volume = 0.5f;
+                yield return fader.EnterCoroutine();
             }
 
             Exit();
