@@ -366,9 +366,6 @@ namespace Juniper
 
         private IEnumerator SwitchToSceneNameCoroutine(string subSceneName, bool skipFadeOut)
         {
-            loadingBar?.Activate();
-            loadingBar?.Report(0, subSceneName);
-
             if (darth != null && !skipFadeOut)
             {
                 FadeOut(skipFadeOut);
@@ -377,6 +374,9 @@ namespace Juniper
                     yield return null;
                 }
             }
+
+            loadingBar?.Activate();
+            loadingBar?.Report(0, subSceneName);
 
             var sceneFileName = subSceneName + ".unity";
             string scenePath = null;
