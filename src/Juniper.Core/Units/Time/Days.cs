@@ -8,6 +8,16 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from milliseconds to days.
         /// </summary>
+        public const float PER_NANOSECOND = 1 / Units.Nanoseconds.PER_DAY;
+
+        /// <summary>
+        /// Conversion factor from milliseconds to days.
+        /// </summary>
+        public const float PER_MICROSECOND = 1 / Units.Microseconds.PER_DAY;
+
+        /// <summary>
+        /// Conversion factor from milliseconds to days.
+        /// </summary>
         public const float PER_MILLISECOND = 1 / Units.Milliseconds.PER_DAY;
 
         /// <summary>
@@ -24,6 +34,26 @@ namespace Juniper.Units
         /// Conversion factor from hours to days.
         /// </summary>
         public const float PER_HOUR = 1 / Units.Hours.PER_DAY;
+
+        /// <summary>
+        /// Convert from days to nanoseconds.
+        /// </summary>
+        /// <param name="days">The number of days</param>
+        /// <returns>The number of nanoseconds</returns>
+        public static float Nanoseconds(float days)
+        {
+            return days * Units.Nanoseconds.PER_DAY;
+        }
+
+        /// <summary>
+        /// Convert from days to microseconds.
+        /// </summary>
+        /// <param name="days">The number of days</param>
+        /// <returns>The number of microseconds</returns>
+        public static float Microseconds(float days)
+        {
+            return days * Units.Microseconds.PER_DAY;
+        }
 
         /// <summary>
         /// Convert from days to milliseconds.

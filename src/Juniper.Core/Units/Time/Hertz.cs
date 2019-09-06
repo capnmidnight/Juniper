@@ -6,6 +6,26 @@ namespace Juniper.Units
     public static class Hertz
     {
         /// <summary>
+        /// Convert from hertz to nanoseconds.
+        /// </summary>
+        /// <param name="hertz">The number of hertz</param>
+        /// <returns>The number of nanoseconds</returns>
+        public static float Nanoseconds(float hertz)
+        {
+            return Seconds(Units.Nanoseconds.Seconds(hertz));
+        }
+
+        /// <summary>
+        /// Convert from hertz to microseconds..
+        /// </summary>
+        /// <param name="hertz">The number of hertz</param>
+        /// <returns>The number of microseconds</returns>
+        public static float Microseconds(float hertz)
+        {
+            return Seconds(Units.Microseconds.Seconds(hertz));
+        }
+
+        /// <summary>
         /// Convert from hertz to milliseconds..
         /// </summary>
         /// <param name="hertz">The number of hertz</param>

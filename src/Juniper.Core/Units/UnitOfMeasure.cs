@@ -220,11 +220,6 @@ namespace Juniper.Units
         Hours,
 
         /// <summary>
-        /// One thousandth of a second.
-        /// </summary>
-        Milliseconds,
-
-        /// <summary>
         /// One sixtieth of an hour.
         /// </summary>
         Minutes,
@@ -233,6 +228,21 @@ namespace Juniper.Units
         /// One sixtieth of a minute.
         /// </summary>
         Seconds,
+
+        /// <summary>
+        /// One thousandth of a second.
+        /// </summary>
+        Milliseconds,
+
+        /// <summary>
+        /// One millionth of a second.
+        /// </summary>
+        Microseconds,
+
+        /// <summary>
+        /// One billionth of a second.
+        /// </summary>
+        Nanoseconds,
 
         /// <summary>
         /// The inverse of seconds.

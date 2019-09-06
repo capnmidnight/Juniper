@@ -84,9 +84,11 @@ namespace Juniper.Units
 
             { UnitOfMeasure.Days, new[] { Category.Time } },
             { UnitOfMeasure.Hours, new[] { Category.Time } },
-            { UnitOfMeasure.Milliseconds, new[] { Category.Time } },
             { UnitOfMeasure.Minutes, new[] { Category.Time } },
             { UnitOfMeasure.Seconds, new[] { Category.Time } },
+            { UnitOfMeasure.Milliseconds, new[] { Category.Time } },
+            { UnitOfMeasure.Microseconds, new[] { Category.Time } },
+            { UnitOfMeasure.Nanoseconds, new[] { Category.Time } },
             { UnitOfMeasure.Hertz, new[] { Category.Time } },
 
             { UnitOfMeasure.FeetPerSecondSquared, new[]{ Category.Acceleration } },
@@ -269,9 +271,11 @@ namespace Juniper.Units
             { UnitOfMeasure.Kelvin, "K" },
 
             { UnitOfMeasure.Hours, " h" },
-            { UnitOfMeasure.Milliseconds, " ms" },
             { UnitOfMeasure.Minutes, " m" },
             { UnitOfMeasure.Seconds, " s" },
+            { UnitOfMeasure.Milliseconds, " ms" },
+            { UnitOfMeasure.Microseconds, " μs" },
+            { UnitOfMeasure.Nanoseconds, " ns" },
             { UnitOfMeasure.Hertz, " Hz" },
 
             { UnitOfMeasure.Bytes, " B" },
@@ -919,6 +923,8 @@ namespace Juniper.Units
                 { UnitOfMeasure.Celsius, Kelvin.Celsius },
             } },
             { UnitOfMeasure.Days, new Dictionary<UnitOfMeasure, Func<float, float>>() {
+                { UnitOfMeasure.Nanoseconds, Days.Nanoseconds },
+                { UnitOfMeasure.Microseconds, Days.Microseconds },
                 { UnitOfMeasure.Milliseconds, Days.Milliseconds },
                 { UnitOfMeasure.Seconds, Days.Seconds },
                 { UnitOfMeasure.Minutes, Days.Minutes },
@@ -926,6 +932,8 @@ namespace Juniper.Units
                 { UnitOfMeasure.Hertz, Days.Hertz },
             } },
             { UnitOfMeasure.Hertz, new Dictionary<UnitOfMeasure, Func<float, float>>() {
+                { UnitOfMeasure.Nanoseconds, Hertz.Nanoseconds },
+                { UnitOfMeasure.Microseconds, Hertz.Microseconds },
                 { UnitOfMeasure.Milliseconds, Hertz.Milliseconds },
                 { UnitOfMeasure.Minutes, Hertz.Minutes },
                 { UnitOfMeasure.Hours, Hertz.Hours },
@@ -933,6 +941,8 @@ namespace Juniper.Units
                 { UnitOfMeasure.Seconds, Hertz.Seconds },
             } },
             { UnitOfMeasure.Hours, new Dictionary<UnitOfMeasure, Func<float, float>>() {
+                { UnitOfMeasure.Nanoseconds, Hours.Nanoseconds },
+                { UnitOfMeasure.Microseconds, Hours.Microseconds },
                 { UnitOfMeasure.Milliseconds, Hours.Milliseconds },
                 { UnitOfMeasure.Seconds, Hours.Seconds },
                 { UnitOfMeasure.Minutes, Hours.Minutes },
@@ -941,14 +951,9 @@ namespace Juniper.Units
                 { UnitOfMeasure.Radians, Hours.Radians },
                 { UnitOfMeasure.Hertz, Hours.Hertz },
             } },
-            { UnitOfMeasure.Milliseconds, new Dictionary<UnitOfMeasure, Func<float, float>>() {
-                { UnitOfMeasure.Seconds, Milliseconds.Seconds },
-                { UnitOfMeasure.Minutes, Milliseconds.Minutes },
-                { UnitOfMeasure.Hours, Milliseconds.Hours },
-                { UnitOfMeasure.Days, Milliseconds.Days },
-                { UnitOfMeasure.Hertz, Milliseconds.Hertz },
-            } },
             { UnitOfMeasure.Minutes, new Dictionary<UnitOfMeasure, Func<float, float>>() {
+                { UnitOfMeasure.Nanoseconds, Minutes.Nanoseconds },
+                { UnitOfMeasure.Microseconds, Minutes.Microseconds },
                 { UnitOfMeasure.Milliseconds, Minutes.Milliseconds },
                 { UnitOfMeasure.Seconds, Minutes.Seconds },
                 { UnitOfMeasure.Hours, Minutes.Hours },
@@ -956,11 +961,40 @@ namespace Juniper.Units
                 { UnitOfMeasure.Hertz, Minutes.Hertz },
             } },
             { UnitOfMeasure.Seconds, new Dictionary<UnitOfMeasure, Func<float, float>>() {
+                { UnitOfMeasure.Nanoseconds, Seconds.Nanoseconds },
+                { UnitOfMeasure.Microseconds, Seconds.Microseconds },
                 { UnitOfMeasure.Milliseconds, Seconds.Milliseconds },
                 { UnitOfMeasure.Minutes, Seconds.Minutes },
                 { UnitOfMeasure.Hours, Seconds.Hours },
                 { UnitOfMeasure.Days, Seconds.Days },
                 { UnitOfMeasure.Hertz, Seconds.Hertz },
+            } },
+            { UnitOfMeasure.Milliseconds, new Dictionary<UnitOfMeasure, Func<float, float>>() {
+                { UnitOfMeasure.Nanoseconds, Milliseconds.Nanoseconds },
+                { UnitOfMeasure.Microseconds, Milliseconds.Microseconds },
+                { UnitOfMeasure.Seconds, Milliseconds.Seconds },
+                { UnitOfMeasure.Minutes, Milliseconds.Minutes },
+                { UnitOfMeasure.Hours, Milliseconds.Hours },
+                { UnitOfMeasure.Days, Milliseconds.Days },
+                { UnitOfMeasure.Hertz, Milliseconds.Hertz },
+            } },
+            { UnitOfMeasure.Microseconds, new Dictionary<UnitOfMeasure, Func<float, float>>() {
+                { UnitOfMeasure.Nanoseconds, Microseconds.Nanoseconds },
+                { UnitOfMeasure.Milliseconds, Microseconds.Milliseconds },
+                { UnitOfMeasure.Seconds, Microseconds.Seconds },
+                { UnitOfMeasure.Minutes, Microseconds.Minutes },
+                { UnitOfMeasure.Hours, Microseconds.Hours },
+                { UnitOfMeasure.Days, Microseconds.Days },
+                { UnitOfMeasure.Hertz, Microseconds.Hertz },
+            } },
+            { UnitOfMeasure.Nanoseconds, new Dictionary<UnitOfMeasure, Func<float, float>>() {
+                { UnitOfMeasure.Microseconds, Nanoseconds.Microseconds },
+                { UnitOfMeasure.Milliseconds, Nanoseconds.Milliseconds },
+                { UnitOfMeasure.Seconds, Nanoseconds.Seconds },
+                { UnitOfMeasure.Minutes, Nanoseconds.Minutes },
+                { UnitOfMeasure.Hours, Nanoseconds.Hours },
+                { UnitOfMeasure.Days, Nanoseconds.Days },
+                { UnitOfMeasure.Hertz, Nanoseconds.Hertz },
             } }
         };
 

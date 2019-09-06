@@ -11,6 +11,16 @@ namespace Juniper.Units
         public const float PER_DAY = 24f;
 
         /// <summary>
+        /// Conversion factor from nanoseconds to hours.
+        /// </summary>
+        public const float PER_NANOSECOND = 1 / Units.Nanoseconds.PER_HOUR;
+
+        /// <summary>
+        /// Conversion factor from microseconds to hours.
+        /// </summary>
+        public const float PER_MICROSECOND = 1 / Units.Microseconds.PER_HOUR;
+
+        /// <summary>
         /// Conversion factor from milliseconds to hours.
         /// </summary>
         public const float PER_MILLISECOND = 1 / Units.Milliseconds.PER_HOUR;
@@ -44,6 +54,26 @@ namespace Juniper.Units
         /// Conversion factor from circles to hours.
         /// </summary>
         public const float PER_CIRCLE = PER_DAY;
+
+        /// <summary>
+        /// Convert from hours to nanoseconds.
+        /// </summary>
+        /// <param name="hours">The number of hours</param>
+        /// <returns>The number of nanoseconds</returns>
+        public static float Nanoseconds(float hours)
+        {
+            return hours * Units.Nanoseconds.PER_HOUR;
+        }
+
+        /// <summary>
+        /// Convert from hours to microseconds.
+        /// </summary>
+        /// <param name="hours">The number of hours</param>
+        /// <returns>The number of microseconds</returns>
+        public static float Microseconds(float hours)
+        {
+            return hours * Units.Microseconds.PER_HOUR;
+        }
 
         /// <summary>
         /// Convert from hours to milliseconds.

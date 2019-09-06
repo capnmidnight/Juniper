@@ -6,6 +6,16 @@ namespace Juniper.Units
     public static class Seconds
     {
         /// <summary>
+        /// Conversion factor from nanoseconds to seconds.
+        /// </summary>
+        public const float PER_NANOSECOND = 1 / Units.Nanoseconds.PER_SECOND;
+
+        /// <summary>
+        /// Conversion factor from microseconds to seconds.
+        /// </summary>
+        public const float PER_MICROSECOND = 1 / Units.Microseconds.PER_SECOND;
+
+        /// <summary>
         /// Conversion factor from milliseconds to seconds.
         /// </summary>
         public const float PER_MILLISECOND = 1 / Units.Milliseconds.PER_SECOND;
@@ -24,6 +34,26 @@ namespace Juniper.Units
         /// Conversion factor from days to seconds.
         /// </summary>
         public const float PER_DAY = PER_HOUR * Units.Hours.PER_DAY;
+
+        /// <summary>
+        /// Convert from seconds to nanoseconds.
+        /// </summary>
+        /// <param name="seconds">The number of seconds</param>
+        /// <returns>the number of nanoseconds</returns>
+        public static float Nanoseconds(float seconds)
+        {
+            return seconds * Units.Nanoseconds.PER_SECOND;
+        }
+
+        /// <summary>
+        /// Convert from seconds to microseconds.
+        /// </summary>
+        /// <param name="seconds">The number of seconds</param>
+        /// <returns>the number of microseconds</returns>
+        public static float Microseconds(float seconds)
+        {
+            return seconds * Units.Microseconds.PER_SECOND;
+        }
 
         /// <summary>
         /// Convert from seconds to milliseconds.

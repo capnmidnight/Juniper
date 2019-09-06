@@ -6,6 +6,16 @@ namespace Juniper.Units
     public static class Minutes
     {
         /// <summary>
+        /// Conversion factor from nanoseconds to minutes.
+        /// </summary>
+        public const float PER_NANOSECOND = 1 / Units.Nanoseconds.PER_MINUTE;
+
+        /// <summary>
+        /// Conversion factor from microseconds to minutes.
+        /// </summary>
+        public const float PER_MICROSECOND = 1 / Units.Microseconds.PER_MINUTE;
+
+        /// <summary>
         /// Conversion factor from milliseconds to minutes.
         /// </summary>
         public const float PER_MILLISECOND = 1 / Units.Milliseconds.PER_MINUTE;
@@ -24,6 +34,26 @@ namespace Juniper.Units
         /// Conversion factor from days to minutes.
         /// </summary>
         public const float PER_DAY = PER_HOUR * Units.Hours.PER_DAY;
+
+        /// <summary>
+        /// Convert from minutes to nanoseconds.
+        /// </summary>
+        /// <param name="minutes">The number of minutes</param>
+        /// <returns>The number of nanoseconds</returns>
+        public static float Nanoseconds(float minutes)
+        {
+            return minutes * Units.Nanoseconds.PER_MINUTE;
+        }
+
+        /// <summary>
+        /// Convert from minutes to microseconds.
+        /// </summary>
+        /// <param name="minutes">The number of minutes</param>
+        /// <returns>The number of microseconds</returns>
+        public static float Microseconds(float minutes)
+        {
+            return minutes * Units.Microseconds.PER_MINUTE;
+        }
 
         /// <summary>
         /// Convert from minutes to milliseconds.
