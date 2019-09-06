@@ -125,12 +125,7 @@ namespace Juniper.HTTP
             }
         }
 
-        private void Process(HttpListenerContext context)
-        {
-            ProcessAsync(context);
-        }
-
-        private async Task ProcessAsync(HttpListenerContext context)
+        private async void Process(HttpListenerContext context)
         {
             using (context.Request.InputStream)
             using (context.Response.OutputStream)
