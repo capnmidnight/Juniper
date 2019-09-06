@@ -276,8 +276,8 @@ namespace Juniper.Units
             { UnitOfMeasure.Seconds, " s" },
             { UnitOfMeasure.Milliseconds, " ms" },
             { UnitOfMeasure.Microseconds, " μs" },
+            { UnitOfMeasure.Ticks, " ticks" },
             { UnitOfMeasure.Nanoseconds, " ns" },
-            { UnitOfMeasure.Nanoseconds, " ticks" },
             { UnitOfMeasure.Hertz, " Hz" },
 
             { UnitOfMeasure.Bytes, " B" },
