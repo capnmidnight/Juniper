@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 using Juniper.Widgets;
 
@@ -155,8 +154,7 @@ namespace Juniper.Anchoring
 
             foreach (var ray in rays)
             {
-                RaycastHit target;
-                if (Physics.Raycast(ray, out target, 10, GroundMask))
+                if (Physics.Raycast(ray, out var target, 10, GroundMask))
                 {
                     var test = Vector3.Dot(Vector3.up, target.normal);
                     var isHorizontal = test >= horizontalnessThreshold;
