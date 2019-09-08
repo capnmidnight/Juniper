@@ -136,7 +136,7 @@ namespace Juniper
         /// <summary>
         /// Used to avoid firing the status update events for the SkipEnter/SkipExit functions.
         /// </summary>
-        private bool skipEvents;
+        protected bool skipEvents;
 
         /// <summary>
         /// Returns true when <see cref="State"/> is <see cref="Direction.Stopped"/>
@@ -208,11 +208,6 @@ namespace Juniper
 
 #endif
 
-        protected virtual void Update()
-        {
-
-        }
-
         private void SetState(IProgress prog, Direction nextState)
         {
             prog?.Report(0);
@@ -255,9 +250,7 @@ namespace Juniper
         {
             skipEvents = true;
             Enter();
-            Update();
             Complete();
-            Update();
             skipEvents = false;
         }
 
@@ -265,9 +258,7 @@ namespace Juniper
         {
             skipEvents = true;
             Exit();
-            Update();
             Complete();
-            Update();
             skipEvents = false;
         }
 

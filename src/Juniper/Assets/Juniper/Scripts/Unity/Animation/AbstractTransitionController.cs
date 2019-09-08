@@ -1,6 +1,7 @@
 using System;
 
 using Juniper.Input;
+using Juniper.Progress;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -82,6 +83,34 @@ namespace Juniper.Animation
         /// </summary>
         private Func<float, float, Direction, float> Tweener { get { return Tween.Functions[tween]; } }
 
+        public override void Enter(IProgress prog = null)
+        {
+            base.Enter(prog);
+            if (skipEvents)
+            {
+                Update();
+            }
+        }
+
+        public override void Exit(IProgress prog = null)
+        {
+            base.Exit(prog);
+            if (skipEvents)
+            {
+                Update();
+            }
+        }
+
+        protected override void Complete()
+        {
+            SetProgress(1);
+            base.Complete();
+            if (skipEvents)
+            {
+                Update();
+            }
+        }
+
         protected override void OnEntering()
         {
             attack = attackTime;
@@ -98,20 +127,12 @@ namespace Juniper.Animation
             base.OnExiting();
         }
 
-        protected override void Complete()
-        {
-            SetProgress(1);
-            base.Complete();
-        }
-
         /// <summary>
         /// If the transition is currently in the running state, update its internal value according
         /// to its <see cref="TransitionLength"/>.
         /// </summary>
-        protected override void Update()
+        protected virtual void Update()
         {
-            base.Update();
-
             if (IsRunning)
             {
                 if (attack > 0)
