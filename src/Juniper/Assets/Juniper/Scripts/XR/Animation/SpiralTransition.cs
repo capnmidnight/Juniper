@@ -60,7 +60,7 @@ namespace Juniper.Animation
         /// <summary>
         /// Continuously update the location, rotation, and scale of the element.
         /// </summary>
-        public override void Update()
+        protected override void Update()
         {
             base.Update();
 

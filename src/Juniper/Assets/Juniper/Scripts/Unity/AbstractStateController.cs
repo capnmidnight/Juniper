@@ -96,10 +96,40 @@ namespace Juniper
         /// important for Fade(in|out) and Shrink(in|out) transitions).
         /// </summary>
         [ReadOnly]
-        public Direction state;
+        public Direction _curState;
+
+        public Direction State
+        {
+            get { return _curState; }
+            private set
+            {
+                lastState = _curState;
+                _curState = value;
+
+                if(State != lastState)
+                {
+                    if(State == Direction.Forward)
+                    {
+                        OnEntering();
+                    }
+                    else if(State == Direction.Reverse)
+                    {
+                        OnExiting();
+                    }
+                    else if(lastState == Direction.Forward)
+                    {
+                        OnEntered();
+                    }
+                    else if(lastState == Direction.Reverse)
+                    {
+                        OnExited();
+                    }
+                }
+            }
+        }
 
         /// <summary>
-        /// The value of <see cref="state"/> from the last frame, to check for changes in the value.
+        /// The value of <see cref="State"/> from the last frame, to check for changes in the value.
         /// </summary>
         private Direction lastState;
 
@@ -109,13 +139,13 @@ namespace Juniper
         private bool skipEvents;
 
         /// <summary>
-        /// Returns true when <see cref="state"/> is <see cref="Direction.Stopped"/>
+        /// Returns true when <see cref="State"/> is <see cref="Direction.Stopped"/>
         /// </summary>
         public virtual bool IsComplete
         {
             get
             {
-                return state == Direction.Stopped;
+                return State == Direction.Stopped;
             }
         }
 
@@ -129,15 +159,7 @@ namespace Juniper
         }
 
         /// <summary>
-        /// Finish the transition, whatever is going on.
-        /// </summary>
-        protected void Complete()
-        {
-            state = Direction.Stopped;
-        }
-
-        /// <summary>
-        /// Returns true when <see cref="state"/> is not <see cref="Direction.Stopped"/>
+        /// Returns true when <see cref="State"/> is not <see cref="Direction.Stopped"/>
         /// </summary>
         public bool IsRunning
         {
@@ -169,19 +191,37 @@ namespace Juniper
             }
         }
 
-        /// <summary>
-        /// Jump to the fully entered state without firing any events.
-        /// </summary>
-        protected virtual void SkipEnterInternal()
+#if UNITY_EDITOR
+
+        public string GetStatus(string label)
         {
-            skipEvents = true;
-            lastState = Direction.Stopped;
-            state = Direction.Forward;
+            var fields = new[]{
+                enabled ? "enabled" : "",
+                IsEntered ? "entered" : "",
+                IsExited ? "exited" : "",
+                IsComplete ? "complete" : "",
+                skipEvents ? "skip events": ""
+            };
+            var full = string.Join(", ", fields.Where(x => !string.IsNullOrEmpty(x)));
+            return $"{label}: {name} is ({lastState} -> {State}) = {full}";
+        }
+
+#endif
+
+        protected virtual void Update()
+        {
+
+        }
+
+        private void SetState(IProgress prog, Direction nextState)
+        {
+            prog?.Report(0);
+            if (!isActiveAndEnabled)
+            {
+                this.SetTreeActive(true);
+            }
             enabled = true;
-            lastState = Direction.Forward;
-            state = Direction.Stopped;
-            Update();
-            skipEvents = false;
+            State = nextState;
         }
 
         /// <summary>
@@ -189,13 +229,46 @@ namespace Juniper
         /// </summary>
         public virtual void Enter(IProgress prog = null)
         {
-            if (IsExited)
-            {
-                state = Direction.Forward;
-                enabled = true;
-                this.SetTreeActive(true);
-                OnEntering();
-            }
+            SetState(prog, Direction.Forward);
+        }
+
+        /// <summary>
+        /// Fire the OnExiting event and perform the Exit transition.
+        /// </summary>
+        public virtual void Exit(IProgress prog = null)
+        {
+            SetState(prog, Direction.Reverse);
+        }
+
+        /// <summary>
+        /// Finish the transition, whatever is going on.
+        /// </summary>
+        protected virtual void Complete()
+        {
+            State = Direction.Stopped;
+        }
+
+        /// <summary>
+        /// Jump to the fully entered state without firing any events.
+        /// </summary>
+        public void SkipEnter()
+        {
+            skipEvents = true;
+            Enter();
+            Update();
+            Complete();
+            Update();
+            skipEvents = false;
+        }
+
+        public void SkipExit()
+        {
+            skipEvents = true;
+            Exit();
+            Update();
+            Complete();
+            Update();
+            skipEvents = false;
         }
 
         public IEnumerator EnterCoroutine(IProgress prog = null)
@@ -207,21 +280,14 @@ namespace Juniper
             }
         }
 
-#if UNITY_EDITOR
-
-        private string GetStatus(string label)
+        public IEnumerator ExitCoroutine(IProgress prog = null)
         {
-            var fields = new[]{
-                enabled ? "enabled" : "",
-                IsEntered ? "entered" : "",
-                IsExited ? "exited" : "",
-                IsComplete ? "complete" : ""
-            };
-            var full = string.Join(", ", fields.Where(x => !string.IsNullOrEmpty(x)));
-            return $"{label}: {name} is {state} = {full}";
+            Exit(prog);
+            while (!IsComplete)
+            {
+                yield return null;
+            }
         }
-
-#endif
 
         /// <summary>
         /// Called as the object goes from Inactive to Active. Prefer <see cref="Entering"/> if you
@@ -239,26 +305,6 @@ namespace Juniper
         }
 
         /// <summary>
-        /// Checks to see if the state has changed and fires the right event for it.
-        /// </summary>
-        public virtual void Update()
-        {
-            if (IsComplete && state != lastState)
-            {
-                if (lastState == Direction.Forward)
-                {
-                    OnEntered();
-                }
-                else if (lastState == Direction.Reverse)
-                {
-                    enabled = false;
-                }
-            }
-
-            lastState = state;
-        }
-
-        /// <summary>
         /// Calls the <see cref="onEntered"/> and <see cref="Entered"/> events, if they are valid.
         /// Prefer <see cref="Entered"/> if you are programmatically adding event handlers at
         /// runtime. If you are adding event handlers in the Unity Editor, prefer <see
@@ -271,27 +317,6 @@ namespace Juniper
             {
                 onEntered?.Invoke();
                 Entered?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        /// <summary>
-        /// Fire the OnExiting event and perform the Exit transition.
-        /// </summary>
-        public virtual void Exit(IProgress prog = null)
-        {
-            if (IsEntered)
-            {
-                state = Direction.Reverse;
-                OnExiting();
-            }
-        }
-
-        public IEnumerator ExitCoroutine(IProgress prog = null)
-        {
-            Exit(prog);
-            while (!IsComplete)
-            {
-                yield return null;
             }
         }
 
@@ -312,17 +337,6 @@ namespace Juniper
         }
 
         /// <summary>
-        /// Called as the object goes from Active to Inactive. Prefer <see cref="Exited"/> if you are
-        /// programmatically adding event handlers at runtime. If you are adding event handlers in
-        /// the Unity Editor, prefer <see cref="onExited"/>. If you are waiting for this event in a
-        /// subclass of StateController, prefer overriding the <see cref="OnExited"/> method.
-        /// </summary>
-        public void OnDisable()
-        {
-            OnExited();
-        }
-
-        /// <summary>
         /// Calls the <see cref="onExited"/> and <see cref="Exited"/> events, if they are valid.
         /// Prefer <see cref="Exited"/> if you are programmatically adding event handlers at runtime.
         /// If you are adding event handlers in the Unity Editor, prefer <see cref="onExited"/>. If
@@ -336,6 +350,7 @@ namespace Juniper
                 onExited?.Invoke();
                 Exited?.Invoke(this, EventArgs.Empty);
             }
+            enabled = false;
         }
     }
 }

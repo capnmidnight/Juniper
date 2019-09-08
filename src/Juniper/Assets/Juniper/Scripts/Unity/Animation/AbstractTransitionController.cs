@@ -1,7 +1,6 @@
 using System;
 
 using Juniper.Input;
-using Juniper.Progress;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -52,88 +51,6 @@ namespace Juniper.Animation
         public event EventHandler<TransitionValueChangedEventArgs> ValueChanged;
 
         /// <summary>
-        /// The length of time, in seconds, the transition should take to complete.
-        /// </summary>
-        public abstract float TransitionLength
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Start the transition animation in the forward direction.
-        /// </summary>
-        [ContextMenu("Enter")]
-        public override void Enter(IProgress prog = null)
-        {
-            StartTransition(Direction.Forward);
-            base.Enter(prog);
-        }
-
-        /// <summary>
-        /// Jump the transition to the ENTERED state, without animating through the ENTERING state.
-        /// </summary>
-        protected override void SkipEnterInternal()
-        {
-            StartTransition(Direction.Forward);
-            SetProgress(0);
-            base.SkipEnterInternal();
-        }
-
-        /// <summary>
-        /// Start the transition animation in the outward direction.
-        /// </summary>
-        [ContextMenu("Exit")]
-        public override void Exit(IProgress prog = null)
-        {
-            base.Exit(prog);
-            StartTransition(Direction.Reverse);
-        }
-
-        /// <summary>
-        /// If the transition is currently in the running state, update its internal value according
-        /// to its <see cref="TransitionLength"/>.
-        /// </summary>
-        public override void Update()
-        {
-            if (IsRunning)
-            {
-                if (attack > 0)
-                {
-                    attack -= Time.deltaTime;
-                }
-                else if (progress > 0)
-                {
-                    var change = Time.deltaTime / TransitionLength;
-                    SetProgress(Mathf.Clamp01(progress - change));
-                }
-                else if (release > 0)
-                {
-                    release -= Time.deltaTime;
-                }
-                else
-                {
-                    SetProgress(0);
-                    state = Direction.Stopped;
-                }
-            }
-
-            base.Update();
-        }
-
-        /// <summary>
-        /// Child implementations of TransitionController must implement this abstract method to
-        /// receive the transformed progress value ( <see cref="tweenedValue"/>) and realize it in
-        /// the effect of the transition.
-        /// </summary>
-        /// <param name="value">Value.</param>
-        protected abstract void RenderValue(float value);
-
-        /// <summary>
-        /// The function that performs the 'tweening.
-        /// </summary>
-        private Func<float, float, Direction, float> tweenFunc;
-
-        /// <summary>
         /// The amount of time to delay before starting a transition.
         /// </summary>
         private float attack;
@@ -151,9 +68,86 @@ namespace Juniper.Animation
         private float progress;
 
         /// <summary>
-        /// The <see cref="progress"/> value after the <see cref="tweenFunc"/> transformation.
+        /// The <see cref="progress"/> value after the <see cref="Tweener"/> transformation.
         /// </summary>
         private float tweenedValue;
+
+        /// <summary>
+        /// The length of time, in seconds, the transition should take to complete.
+        /// </summary>
+        public abstract float TransitionLength { get; }
+
+        /// <summary>
+        /// The function that performs the 'tweening.
+        /// </summary>
+        private Func<float, float, Direction, float> Tweener { get { return Tween.Functions[tween]; } }
+
+        protected override void OnEntering()
+        {
+            attack = attackTime;
+            release = releaseTime;
+            SetProgress(0);
+            base.OnEntering();
+        }
+
+        protected override void OnExiting()
+        {
+            attack = releaseTime;
+            release = attackTime;
+            SetProgress(0);
+            base.OnExiting();
+        }
+
+        protected override void Complete()
+        {
+            SetProgress(1);
+            base.Complete();
+        }
+
+        /// <summary>
+        /// If the transition is currently in the running state, update its internal value according
+        /// to its <see cref="TransitionLength"/>.
+        /// </summary>
+        protected override void Update()
+        {
+            base.Update();
+
+            if (IsRunning)
+            {
+                if (attack > 0)
+                {
+                    attack -= Time.deltaTime;
+                }
+                else if (progress < 1)
+                {
+                    var change = Time.deltaTime / TransitionLength;
+                    SetProgress(Mathf.Clamp01(progress + change));
+                }
+                else if (release > 0)
+                {
+                    release -= Time.deltaTime;
+                }
+                else
+                {
+                    Complete();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calls the tweening function and propogates the value to the implementing class.
+        /// </summary>
+        /// <param name="nextProgress">The current progress through the transition.</param>
+        private void SetProgress(float nextProgress)
+        {
+            progress = nextProgress;
+
+            var oldTweenedValue = tweenedValue;
+            var value = State == Direction.Forward ? progress : (1 - progress);
+            tweenedValue = Tweener(value, tweenK, State);
+            OnValueChanged(tweenedValue, oldTweenedValue);
+            RenderValue(tweenedValue);
+        }
 
         /// <summary>
         /// Override this method in child classes to implement the animation of the transition.
@@ -167,34 +161,11 @@ namespace Juniper.Animation
         }
 
         /// <summary>
-        /// Calls the tweening function and propogates the value to the implementing class.
+        /// Child implementations of TransitionController must implement this abstract method to
+        /// receive the transformed progress value ( <see cref="tweenedValue"/>) and realize it in
+        /// the effect of the transition.
         /// </summary>
-        /// <param name="nextProgress">The current progress through the transition.</param>
-        private void SetProgress(float nextProgress)
-        {
-            progress = nextProgress;
-
-            var oldTweenedValue = tweenedValue;
-            var value = state == Direction.Reverse ? progress : (1 - progress);
-            tweenedValue = tweenFunc(value, tweenK, state);
-
-            OnValueChanged(tweenedValue, oldTweenedValue);
-            RenderValue(tweenedValue);
-        }
-
-        /// <summary>
-        /// Set the transition into the running state.
-        /// </summary>
-        /// <param name="nextState">
-        /// True, if this is an Enter transition. False, if this is an Exit transition.
-        /// </param>
-        private void StartTransition(Direction nextState)
-        {
-            state = nextState;
-            attack = state == Direction.Forward ? attackTime : releaseTime;
-            release = state == Direction.Forward ? releaseTime : attackTime;
-            tweenFunc = Tween.Functions[tween];
-            SetProgress(1);
-        }
+        /// <param name="value">Value.</param>
+        protected abstract void RenderValue(float value);
     }
 }

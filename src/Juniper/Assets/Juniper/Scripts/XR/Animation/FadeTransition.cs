@@ -210,11 +210,6 @@ namespace Juniper.Animation
         /// </summary>
         private int lastCameraCullingMask;
 
-        internal void SkipEnter()
-        {
-            SkipEnterInternal();
-        }
-
         /// <summary>
         /// The layers the controllers are rendered on. This is used to make sure the controllers
         /// are still visible while the scene is faded out.
@@ -232,11 +227,11 @@ namespace Juniper.Animation
         private void FadeTransition_Enter_Exiting(object sender, EventArgs e)
         {
 #if UNITY_MODULES_AUDIO
-            if(state == Direction.Forward)
+            if(State == Direction.Forward)
             {
                 aud.clip = fadeOutSound;
             }
-            else if(state == Direction.Reverse)
+            else if(State == Direction.Reverse)
             {
                 aud.clip = fadeInSound;
             }

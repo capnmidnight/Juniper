@@ -188,10 +188,8 @@ namespace Juniper.Imaging
             SynchronizeData(Vector3.zero, prog);
         }
 
-        public override void Update()
+        public void Update()
         {
-            base.Update();
-
             if (IsEntered && IsComplete && !locked)
             {
                 SynchronizeData(input.mouse.probe.Cursor.position);
