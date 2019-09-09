@@ -35,6 +35,8 @@ namespace Juniper.Speech
         /// </summary>
         public event EventHandler Keyword;
 
+        private bool wasLocked;
+
         /// <summary>
         /// The keywords that activate this event.
         /// </summary>
@@ -71,10 +73,12 @@ namespace Juniper.Speech
         /// </summary>
         public void Update()
         {
-            if (shortcutKey != KeyCode.None && UnityEngine.Input.GetKeyDown(shortcutKey))
+            if (shortcutKey != KeyCode.None && UnityEngine.Input.GetKeyDown(shortcutKey)
+                && (shortcutKey != KeyCode.Escape || !wasLocked))
             {
                 OnKeyword();
             }
+            wasLocked = Cursor.lockState != CursorLockMode.None;
         }
 
         /// <summary>
