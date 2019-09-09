@@ -35,15 +35,16 @@ namespace Juniper.Widgets
             else
             {
                 trans = tooltip.GetComponent<AbstractStateController>();
-                if (trans != null)
-                {
-                    trans.SkipExit();
-                }
-                else
-                {
-                    tooltip.Deactivate();
-                }
             }
+        }
+
+        public void OnEnable()
+        {
+            if (trans != null)
+            {
+                trans.SkipExit();
+            }
+            tooltip.Deactivate();
         }
 
         private void ShowTooltip()
