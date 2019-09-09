@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Juniper.Progress;
+using UnityEngine;
 
 namespace Juniper.Widgets
 {
@@ -39,6 +40,7 @@ namespace Juniper.Widgets
             foreach (var view in this.views.Values)
             {
                 view.SkipExit();
+                view.Deactivate();
             }
         }
 
@@ -59,11 +61,13 @@ namespace Juniper.Widgets
                 if (view.Key != name && !view.Value.IsExited)
                 {
                     yield return view.Value.ExitCoroutine();
+                    view.Value.Deactivate();
                 }
             }
 
             if (name != null)
             {
+                views[name].Activate();
                 yield return views[name].EnterCoroutine();
             }
         }
