@@ -100,8 +100,6 @@ namespace Juniper
         [Header("Scene fader")]
         public Material sceneFaderMaterial;
 
-        public bool exitOnEscape = true;
-
         /// <summary>
         /// All of the scene files to load. Use the "truncated scene path" format for these paths.
         /// Truncated scene paths do not need to reference the "Assets/" (it is assumed) and do not
@@ -114,11 +112,6 @@ namespace Juniper
         private InteractionAudio interaction;
         private float originalFadeVolume;
         private AudioClip originalFadeInSound;
-
-        /// <summary>
-        /// A flag that indicates the cursor was locked on the previous frame.
-        /// </summary>
-        private bool wasLocked;
 
         /// <summary>
         /// All of the active SubSceneControllers
@@ -483,16 +476,6 @@ namespace Juniper
             }
 
             Invoke(nameof(LoadFirstScene), 0.5f);
-        }
-
-        public void Update()
-        {
-            if (exitOnEscape && !wasLocked && UnityEngine.Input.GetKeyDown(KeyCode.Escape))
-            {
-                QuitApp();
-            }
-
-            wasLocked = Cursor.lockState != CursorLockMode.None;
         }
 
         /// <summary>
