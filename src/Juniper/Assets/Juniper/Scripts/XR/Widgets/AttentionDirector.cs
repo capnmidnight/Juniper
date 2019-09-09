@@ -49,8 +49,8 @@ namespace Juniper.Widgets
                     else
                     {
                         lastTargetPosition = targetTrans.position;
-                        var tt = targetTrans.GetComponentInChildren<Tooltip>();
-                        targetPos = targetTrans.gameObject.Center(tt);
+                        var tt = targetTrans.GetComponentInChildren<Tooltipable>();
+                        targetPos = targetTrans.gameObject.Center(tt?.tooltip);
                     }
 
                     lastTargetTrans = targetTrans;
