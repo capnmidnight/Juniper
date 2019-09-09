@@ -1,12 +1,13 @@
 ﻿using System.Linq;
+
 using Juniper.Progress;
-using UnityEngine;
 
 namespace Juniper.Widgets
 {
     public class MenuView : AbstractStateController
     {
         private AbstractStateController[] transitions;
+        private int waitingCount;
 
         public void Awake()
         {
@@ -14,6 +15,21 @@ namespace Juniper.Widgets
                            where trans != this && trans.enabled
                            select trans)
                         .ToArray();
+
+            foreach(var trans in transitions)
+            {
+                trans.Entered += Trans_EnteredExited;
+                trans.Exited += Trans_EnteredExited;
+            }
+        }
+
+        private void Trans_EnteredExited(object sender, System.EventArgs e)
+        {
+            --waitingCount;
+            if(waitingCount == 0)
+            {
+                Complete();
+            }
         }
 
         public override void SkipEnter()
@@ -39,7 +55,7 @@ namespace Juniper.Widgets
         public override void Enter(IProgress prog = null)
         {
             base.Enter(prog);
-
+            waitingCount = transitions.Length;
             var subProgs = prog.Split(transitions.Length);
             for(int i = 0; i < transitions.Length; ++i)
             {
@@ -50,26 +66,13 @@ namespace Juniper.Widgets
         public override void Exit(IProgress prog = null)
         {
             var subProgs = prog.Split(transitions.Length);
+            waitingCount = transitions.Length;
             for (int i = 0; i < transitions.Length; ++i)
             {
                 transitions[i].Exit(subProgs[i]);
             }
 
             base.Exit(prog);
-        }
-
-        public void Update()
-        {
-            var allComplete = true;
-            for (int i = 0; i < transitions.Length && allComplete; ++i)
-            {
-                allComplete = transitions[i].IsComplete;
-            }
-
-            if (allComplete)
-            {
-                Complete();
-            }
         }
     }
 }
