@@ -246,7 +246,7 @@ namespace Juniper
         /// <summary>
         /// Jump to the fully entered state without firing any events.
         /// </summary>
-        public void SkipEnter()
+        public virtual void SkipEnter()
         {
             skipEvents = true;
             Enter();
@@ -254,7 +254,7 @@ namespace Juniper
             skipEvents = false;
         }
 
-        public void SkipExit()
+        public virtual void SkipExit()
         {
             skipEvents = true;
             Exit();

@@ -14,25 +14,32 @@ namespace Juniper.Animation
     public enum TweenType
     {
         /// <summary>
-        /// The most basic form of `tween, values increase in proportion to time.
+        /// The most basic form of `tween, values increase in proportion to time, from
+        /// 0 to 1 in the forward direction, then 1 to 0 in the reverse direction.
         /// </summary>
         Linear,
 
         /// <summary>
-        /// Values increase in proportion to the square of time.
+        /// Values increase in proportion to time from -1 to 0 in the forward direction,
+        /// then 0 to 1 in the reverse, rather than decreasing from 1 to 0.
+        /// </summary>
+        LinearContinuous,
+
+        /// <summary>
+        /// Values increase in proportion to the square of time, from 0 to 1 in the forward direction,
+        /// then 1 to 0 in the reverse direction.
         /// </summary>
         Quadratic,
 
         /// <summary>
-        /// Values increase in proportion to the cube of time. This function is specifically scaled
-        /// to provide the full shape of the cube function from -1 to 1.
+        /// Values increase in proportion to the square of time. from -1 to 0 in the forward direction,
+        /// then 0 to 1 in the reverse direction.
         /// </summary>
-        Cubic,
+        QuadraticContinuous,
 
-        /// <summary>
-        /// Values increase along a sine wave (actually, 1 minus cosine of time scaled to π)
-        /// </summary>
         Sine,
+
+        SineContinuous,
 
         /// <summary>
         /// Similar to <see cref="Sine"/>, but values bump in the opposite direction slightly, before
@@ -41,9 +48,10 @@ namespace Juniper.Animation
         Bump,
 
         /// <summary>
-        /// An inverted curve that plays both in and out.
+        /// Similar to <see cref="Sine"/>, but values bump in the opposite direction slightly, before
+        /// the beginning and the end of the curve.
         /// </summary>
-        PingPong
+        BumpContinuous
     }
 
     /// <summary>
@@ -55,17 +63,26 @@ namespace Juniper.Animation
     /// </summary>
     public static class Tween
     {
+        public static bool IsContinuous(TweenType tween)
+        {
+            return tween == TweenType.LinearContinuous
+                || tween == TweenType.QuadraticContinuous
+                || tween == TweenType.SineContinuous
+                || tween == TweenType.BumpContinuous;
+        }
         /// <summary>
         /// A lookup for the tween functions, so we don't have to use reflection every time we want one.
         /// </summary>
         public static readonly Dictionary<TweenType, TweenFuncT> Functions = new Dictionary<TweenType, TweenFuncT>(6)
         {
             { TweenType.Linear, Linear },
+            { TweenType.LinearContinuous, LinearContinuous },
             { TweenType.Quadratic, Quadratic },
-            { TweenType.Cubic, Cubic },
+            { TweenType.QuadraticContinuous, QuadraticContinuous },
             { TweenType.Sine, Sine },
+            { TweenType.SineContinuous, SineContinuous },
             { TweenType.Bump, Bump },
-            { TweenType.PingPong, PingPong }
+            { TweenType.BumpContinuous, BumpContinuous }
         };
 
         /// <summary>
@@ -80,7 +97,26 @@ namespace Juniper.Animation
         }
 
         /// <summary>
-        /// Values increase in proportion to the square of time.
+        /// The most basic form of `tween, values increase in proportion to time.
+        /// </summary>
+        /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
+        /// <param name="k">The constant value, input by the developer.</param>
+        /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
+        public static float LinearContinuous(float p, float k, Direction d)
+        {
+            if (d == Direction.Forward)
+            {
+                return p - 1;
+            }
+            else
+            {
+                return 1 - p;
+            }
+        }
+
+        /// <summary>
+        /// Values increase in proportion to the square of time, meaning they start growing
+        /// slowly and then grow quickly.
         /// </summary>
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
@@ -91,28 +127,44 @@ namespace Juniper.Animation
         }
 
         /// <summary>
-        /// Values increase in proportion to the cube of time. This function is specifically scaled
-        /// to provide the full shape of the cube function from -1 to 1.
+        /// Values increase in proportion to the square of time.
         /// </summary>
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float Cubic(float p, float k, Direction d)
+        public static float QuadraticContinuous(float p, float k, Direction d)
         {
-            var c = 2 * p - 1;
-            return 0.5f * (1 + c * c * c);
+            p = LinearContinuous(p, k, d);
+            return Mathf.Sign(p) * Quadratic(p, k, d);
         }
 
         /// <summary>
-        /// Values increase along a sine wave (actually, 1 minus cosine of time scaled to π)
+        /// Values increase on a sine curve, meaning they start growing quickly and
+        /// then slow down.
         /// </summary>
-        /// <returns>The sine.</returns>
-        /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
-        /// <param name="k">The constant value, input by the developer.</param>
-        /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
+        /// <param name="p"></param>
+        /// <param name="k"></param>
+        /// <param name="d"></param>
+        /// <returns></returns>
         public static float Sine(float p, float k, Direction d)
         {
-            return 0.5f * (1 - Mathf.Cos(p * Mathf.PI));
+            p *= Mathf.PI;
+            return Mathf.Sin(p);
+        }
+
+
+        /// <summary>
+        /// Values increase on a sine curve, meaning they start growing quickly and
+        /// then slow down.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="k"></param>
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public static float SineContinuous(float p, float k, Direction d)
+        {
+            p = LinearContinuous(p, k, d) * Mathf.PI;
+            return Mathf.Sin(p);
         }
 
         /// <summary>
@@ -124,19 +176,22 @@ namespace Juniper.Animation
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
         public static float Bump(float p, float k, Direction d)
         {
-            return Sine(p, 0, d) - k * Mathf.Sin(p * Mathf.PI * 2);
+            p *= Mathf.PI;
+            return 0.5f * (1 - Mathf.Cos(p)) - k * Mathf.Sin(2 * p);
         }
 
         /// <summary>
-        /// An inverted curve that plays both in and out.
+        /// Similar to <see cref="Sine"/>, but values bump in the opposite direction slightly, before
+        /// the beginning and the end of the curve.
         /// </summary>
-        /// <returns>The pong quadratic.</returns>
         /// <param name="p">The proportional value, linearly progressing from 0 to 1.</param>
         /// <param name="k">The constant value, input by the developer.</param>
         /// <param name="d">The direction value, 1 for forward, -1 for backward.</param>
-        public static float PingPong(float p, float k, Direction d)
+        public static float BumpContinuous(float p, float k, Direction d)
         {
-            return 2 * p - 4 * p * p;
+            p = LinearContinuous(p, k, d);
+            p *= Mathf.PI;
+            return Mathf.Sin(0.5f * p) + k * Mathf.Sin(p);
         }
     }
 }

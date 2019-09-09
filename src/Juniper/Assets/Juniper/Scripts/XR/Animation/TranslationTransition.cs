@@ -32,37 +32,49 @@ namespace Juniper.Animation
         /// <summary>
         /// The location of the object when the object is first awoken.
         /// </summary>
-        private Vector3 startPosition;
+        [HideInNormalInspector]
+        [SerializeField]
+        private Vector3 StartPosition;
 
         /// <summary>
         /// The location of the object after the transition has completed.
         /// </summary>
         /// <value>The end position.</value>
-        private Vector3 EndPosition
-        {
-            get
-            {
-                return startPosition = Delta;
-            }
-        }
-
-        /// <summary>
-        /// Get the <see cref="startPosition"/>
-        /// </summary>
-        protected virtual void Awake()
-        {
-            startPosition = transform.localPosition;
-        }
+        [HideInNormalInspector]
+        [SerializeField]
+        private Vector3 EndPosition;
 
 #if UNITY_EDITOR
+
+        private void OnValidate()
+        {
+            if (Tween.IsContinuous(tween))
+            {
+                StartPosition = transform.localPosition;
+                EndPosition = StartPosition + Delta;
+            }
+            else
+            {
+                EndPosition = transform.localPosition;
+                StartPosition = EndPosition - Delta;
+            }
+        }
 
         /// <summary>
         /// Draw the <see cref="EndPosition"/> to help visualize <see cref="Delta"/>.
         /// </summary>
         private void OnDrawGizmos()
         {
-            Gizmos.DrawLine(transform.localPosition, EndPosition);
-            Gizmos.DrawSphere(EndPosition, 0.1f);
+            var start = transform.localToWorldMatrix.MultiplyPoint(StartPosition);
+            var end = transform.localToWorldMatrix.MultiplyPoint(EndPosition);
+            Gizmos.DrawLine(start, end);
+            Gizmos.DrawSphere(end, 0.1f);
+            if(Tween.IsContinuous(tween))
+            {
+                end = transform.localToWorldMatrix.MultiplyPoint(StartPosition - Delta);
+                Gizmos.DrawLine(start, end);
+                Gizmos.DrawSphere(end, 0.1f);
+            }
         }
 
 #endif
@@ -73,7 +85,7 @@ namespace Juniper.Animation
         /// <param name="value"></param>
         protected override void RenderValue(float value)
         {
-            transform.localPosition = Vector3.Lerp(startPosition, EndPosition, value);
+            transform.localPosition = Vector3.LerpUnclamped(StartPosition, EndPosition, value);
         }
     }
 }

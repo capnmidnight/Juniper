@@ -7,7 +7,7 @@ namespace Juniper.Widgets
 {
     public class MenuCollection : SubSceneController
     {
-        private readonly Dictionary<string, AbstractStateController> views = new Dictionary<string, AbstractStateController>();
+        private readonly Dictionary<string, MenuView> views = new Dictionary<string, MenuView>();
 
         public string firstView;
 
@@ -44,7 +44,7 @@ namespace Juniper.Widgets
 
         private void AddView(MenuView view)
         {
-            views.Add(view.name, view.GetComponent<AbstractStateController>());
+            views.Add(view.name, view);
         }
 
         public void ShowView(string name)
