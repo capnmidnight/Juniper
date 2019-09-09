@@ -357,6 +357,34 @@ namespace UnityEngine
         }
 
         /// <summary>
+        /// Find a component that is loosely related to another component.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static T FindClosest<T>(this Component obj)
+        {
+            var v = obj.GetComponent<T>();
+
+            if (v == default)
+            {
+                obj.GetComponentInChildren<T>();
+            }
+
+            if (v == default)
+            {
+                v = obj.GetComponentInParent<T>();
+            }
+
+            if (v == default)
+            {
+                v = FindAny<T>();
+            }
+
+            return v;
+        }
+
+        /// <summary>
         /// Find all objects in any scene that is of a certain type.
         /// </summary>
         /// <typeparam name="T"></typeparam>

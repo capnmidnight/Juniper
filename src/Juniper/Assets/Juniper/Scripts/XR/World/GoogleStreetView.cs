@@ -117,7 +117,7 @@ namespace Juniper.Imaging
 
             fader = ComponentExt.FindAny<FadeTransition>();
             gps = ComponentExt.FindAny<GPSLocation>();
-            photospheres = ComponentExt.FindAny<PhotosphereManager>()
+            photospheres = this.FindClosest<PhotosphereManager>()
                 ?? this.Ensure<PhotosphereManager>();
             navPlane = transform.Find("NavPlane").Ensure<Clickable>();
             avatar = ComponentExt.FindAny<Avatar>();

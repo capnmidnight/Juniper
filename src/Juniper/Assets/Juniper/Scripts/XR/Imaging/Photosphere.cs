@@ -68,7 +68,7 @@ namespace Juniper.Imaging
                 material = new Material(Shader.Find("Unlit/Texture"));
             }
             properties = new MaterialPropertyBlock();
-            mgr = ComponentExt.FindAny<PhotosphereManager>();
+            mgr = this.FindClosest<PhotosphereManager>();
             avatar = ComponentExt.FindAny<Avatar>();
             skybox = ComponentExt.FindAny<SkyboxManager>()
                 ?? this.Ensure<SkyboxManager>();
