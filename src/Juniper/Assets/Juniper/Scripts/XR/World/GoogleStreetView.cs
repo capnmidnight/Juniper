@@ -192,7 +192,7 @@ namespace Juniper.Imaging
         {
             if (IsEntered && IsComplete && !locked)
             {
-                SynchronizeData(input.mouse.probe.Cursor.position);
+                SynchronizeData(input.PrimaryPointer.CursorPosition);
             }
 
             navPointer.position = navPointerPosition;

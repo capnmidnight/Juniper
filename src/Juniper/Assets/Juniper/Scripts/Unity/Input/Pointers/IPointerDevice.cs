@@ -135,6 +135,11 @@ namespace Juniper.Input.Pointers
             get;
         }
 
+        Vector3 CursorPosition
+        {
+            get;
+        }
+
         Vector2 ViewportPoint
         {
             get;

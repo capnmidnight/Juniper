@@ -302,6 +302,14 @@ namespace Juniper.Input.Pointers
             }
         }
 
+        public Vector3 CursorPosition
+        {
+            get
+            {
+                return probe?.Cursor?.position ?? Vector3.zero;
+            }
+        }
+
         public Vector2 ScreenPoint
         {
             get
