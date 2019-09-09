@@ -46,6 +46,7 @@ namespace Juniper.Speech
         /// <param name="keyword">Keyword.</param>
         protected void OnKeywordRecognized(string keyword)
         {
+            Debug.Log($"<==== Juniper ====> KeywordRecognizer::OnKeywordRecognized({keyword})");
             onKeywordRecognized?.Invoke(keyword);
             KeywordRecognized?.Invoke(this, new KeywordRecognizedEventArgs(keyword));
         }
@@ -58,9 +59,17 @@ namespace Juniper.Speech
         /// <returns>The active keywords.</returns>
         public void RefreshKeywords()
         {
+            CancelInvoke(nameof(RefreshKeywordsInternal));
+            Invoke(nameof(RefreshKeywordsInternal), 0.25f);
+        }
+
+        private void RefreshKeywordsInternal()
+        {
             TearDown();
             keywords = (from trigger in ComponentExt.FindAll<IKeywordTriggered>()
                         where trigger.Keywords != null
+                        let comp = trigger as MonoBehaviour
+                        where comp?.isActiveAndEnabled != false
                         from keyword in trigger.Keywords
                         where !string.IsNullOrEmpty(keyword)
                         select keyword)
