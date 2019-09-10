@@ -91,8 +91,8 @@ namespace Juniper.Imaging
         {
             get
             {
-                var baseCachePath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-                var keyFile = Path.Combine(baseCachePath, "GoogleMaps", "keys.txt");
+                var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "google-streetview.txt");
                 return keyFile;
             }
         }
