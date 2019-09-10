@@ -7,7 +7,11 @@ using UnityEngine.Events;
 namespace Juniper.Speech
 {
     public class KeywordRecognizer :
-#if UNITY_WSA || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if UNITY_WSA || UNITY_STANDALONE_WIN
+        WindowsKeywordRecognizer
+#elif UNITY_ANDROID && AZURE_SPEECHSDK
+        AzureKeywordRecognizer
+#elif UNITY_EDITOR_WIN
         WindowsKeywordRecognizer
 #else
         NoKeywordRecognizer
@@ -39,6 +43,8 @@ namespace Juniper.Speech
         /// events in the Unity Editor, you should prefer <see cref="onKeywordRecognized"/>.
         /// </summary>
         public event EventHandler<KeywordRecognizedEventArgs> KeywordRecognized;
+
+        protected bool IsRunning;
 
         /// <summary>
         /// Invokes <see cref="onKeywordRecognized"/> and <see cref="KeywordRecognized"/>.
@@ -76,7 +82,14 @@ namespace Juniper.Speech
                 .Distinct()
                 .OrderBy(x => x)
                 .ToArray();
-            Setup();
+        }
+
+        public virtual void Update()
+        {
+            if(IsAvailable && !IsRunning && keywords != null && keywords.Length > 0)
+            {
+                Setup();
+            }
         }
 
         /// <summary>

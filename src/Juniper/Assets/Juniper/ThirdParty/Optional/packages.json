@@ -1,54 +1,54 @@
 [
   {
-    "Name": "Bakery",
-    "CompilerDefine": "BAKERY"
-  },
-  {
-    "Name": "UBER",
-    "CompilerDefine": "UBER_SHADER"
-  },
-  {
-    "Name": "NatCam",
-    "CompilerDefine": "NATCAM"
-  },
-  {
-    "Name": "MagicLeap",
-    "CompilerDefine": "UNITY_XR_MAGIC_LEAP"
-  },
-  {
-    "Name": "ResonanceAudio",
-    "CompilerDefine": "UNITY_GOOGLE_RESONANCE_AUDIO"
+    "Name": "GoogleARCore",
+    "CompilerDefine": "UNITY_XR_ARCORE"
   },
   {
     "Name": "GoogleVR",
     "CompilerDefine": "GOOGLEVR"
   },
   {
-    "Name": "WaveVR",
-    "CompilerDefine": "WAVEVR"
+    "Name": "MagicLeap",
+    "CompilerDefine": "UNITY_XR_MAGIC_LEAP"
   },
   {
-    "Name": "GoogleARCore",
-    "CompilerDefine": "UNITY_XR_ARCORE"
+    "Name": "NatCam",
+    "CompilerDefine": "NATCAM"
   },
   {
     "Name": "Oculus",
     "CompilerDefine": "UNITY_XR_OCULUS"
   },
   {
-    "Name": "UnityARKitPlugin",
-    "CompilerDefine": "UNITY_XR_ARKIT"
+    "Name": "PicoMobileSDK",
+    "CompilerDefine": "PICO"
+  },
+  {
+    "Name": "SpeechSDK",
+    "CompilerDefine": "AZURE_SPEECHSDK"
+  },
+  {
+    "Name": "ResonanceAudio",
+    "CompilerDefine": "UNITY_GOOGLE_RESONANCE_AUDIO"
   },
   {
     "Name": "Tobii",
     "CompilerDefine": "TOBII"
   },
   {
+    "Name": "UBER",
+    "CompilerDefine": "UBER_SHADER"
+  },
+  {
+    "Name": "UnityARKitPlugin",
+    "CompilerDefine": "UNITY_XR_ARKIT"
+  },
+  {
     "Name": "Vuforia",
     "CompilerDefine": "VUFORIA"
   },
   {
-    "Name": "PicoMobileSDK",
-    "CompilerDefine": "PICO"
+    "Name": "WaveVR",
+    "CompilerDefine": "WAVEVR"
   }
 ]
