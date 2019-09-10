@@ -118,7 +118,7 @@ namespace Juniper.Speech
                 {
                     return $"Say \"{keywords[0]}\" to activate.";
                 }
-                else if(keywords.Length == 2)
+                else if (keywords.Length == 2)
                 {
                     return $"Say \"{keywords[0]}\" or \"{keywords[1]}\" to activate.";
                 }
@@ -140,6 +140,11 @@ namespace Juniper.Speech
         public void Awake()
         {
             keyer = ComponentExt.FindAny<IKeywordRecognizer>();
+            var tooltip = GetComponent<Tooltipable>();
+            if (tooltip != null)
+            {
+                tooltip.enabled = keyer != null && keyer.IsAvailable;
+            }
         }
 
         /// <summary>
