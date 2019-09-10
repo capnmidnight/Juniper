@@ -45,6 +45,23 @@ namespace Juniper.Widgets
             return bar;
         }
 
+        public void OnEnable()
+        {
+            ResetValues();
+        }
+
+        public void OnDisable()
+        {
+            ResetValues();
+        }
+
+        private void ResetValues()
+        {
+            TargetValue = 0;
+            Progress = 0;
+            currentStatus = string.Empty;
+        }
+
         public void Report(float progress)
         {
             Report(progress, null);
