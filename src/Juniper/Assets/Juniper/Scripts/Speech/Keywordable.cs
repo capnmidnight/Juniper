@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+using Juniper.Widgets;
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -46,6 +48,82 @@ namespace Juniper.Speech
             get
             {
                 return keywords;
+            }
+        }
+
+#if UNITY_EDITOR
+        public void OnValidate()
+        {
+            SetTooltips(false);
+        }
+
+        [ContextMenu("Set tooltips")]
+        public void SetTooltips()
+        {
+            SetTooltips(true);
+        }
+
+        private void SetTooltips(bool force)
+        {
+            var tooltip = GetComponent<Tooltipable>();
+            if (tooltip != null && tooltip.tooltip != null)
+            {
+#if UNITY_TEXTMESHPRO
+                {
+                    var text = tooltip.tooltip.GetComponentInChildren<TMPro.TextMeshPro>();
+                    if (text != null && (force || string.IsNullOrEmpty(text.text)))
+                    {
+                        text.text = DefaultDescription;
+                    }
+                }
+
+                {
+                    var text = tooltip.tooltip.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+                    if (text != null && (force || string.IsNullOrEmpty(text.text)))
+                    {
+                        text.text = DefaultDescription;
+                    }
+                }
+#endif
+
+#if UNITY_MODULES_UI
+                {
+                    var text = tooltip.tooltip.GetComponentInChildren<TextMesh>();
+                    if (text != null && (force || string.IsNullOrEmpty(text.text)))
+                    {
+                        text.text = DefaultDescription;
+                    }
+                }
+#endif
+            }
+        }
+#endif
+
+        private string DefaultDescription
+        {
+            get
+            {
+                if (keywords == null || keywords.Length == 0)
+                {
+                    return string.Empty;
+                }
+                else if (keywords.Length == 1)
+                {
+                    return $"Say \"{keywords[0]}\" to activate.";
+                }
+                else if(keywords.Length == 2)
+                {
+                    return $"Say \"{keywords[0]}\" or \"{keywords[1]}\" to activate.";
+                }
+                else
+                {
+                    var last = keywords.Last();
+                    var list = keywords.Take(keywords.Length - 1);
+                    var first = string.Join(", ", (from word in list
+                                                   select '"' + word + '"'));
+
+                    return $"Say {first} or \"{last}\" to activate.";
+                }
             }
         }
 

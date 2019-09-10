@@ -12,6 +12,9 @@ namespace Juniper.Widgets
     {
         public Transform tooltip;
 
+        public float delayBeforeDisplay = 1;
+        public float delayBeforeHide = 0.5f;
+
         private AbstractStateController trans;
 
         private bool wasSelected;
@@ -75,13 +78,16 @@ namespace Juniper.Widgets
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            CancelInvoke(nameof(ShowTooltip));
             CancelInvoke(nameof(HideTooltip));
-            ShowTooltip();
+            Invoke(nameof(ShowTooltip), delayBeforeDisplay);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            Invoke(nameof(HideTooltip), 0.5f);
+            CancelInvoke(nameof(ShowTooltip));
+            CancelInvoke(nameof(HideTooltip));
+            Invoke(nameof(HideTooltip), delayBeforeHide);
         }
     }
 }
