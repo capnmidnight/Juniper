@@ -20,7 +20,7 @@ namespace UnityEngine
         public static void SetTreeActive(this GameObject obj, bool active)
         {
             var head = obj.transform;
-            while (head?.gameObject?.activeInHierarchy == false)
+            while (head != null && !head.IsActivated())
             {
                 head.SetActive(active);
                 head = head.transform.parent;
