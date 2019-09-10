@@ -1,5 +1,6 @@
+using System.Collections.Generic;
 using System.IO;
-
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Compression.Zip.Tests
@@ -35,6 +36,13 @@ namespace Juniper.Compression.Zip.Tests
                 var text = File.ReadAllText(outFile);
                 Assert.AreEqual(Path.GetFileNameWithoutExtension(testFile), text);
             }
+        }
+
+        [TestMethod]
+        public void FileNames()
+        {
+            var fileNames = Decompressor.FileNames(TestZip).ToArray();
+            Assert.IsTrue(fileNames.Matches(TestFiles));
         }
     }
 }

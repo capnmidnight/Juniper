@@ -43,24 +43,16 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public override void Install(IProgress prog = null)
+        protected override void InstallInternal(IProgress prog)
         {
-            base.Install(prog);
-
-            var pkg = (string)Dependencies[Name];
-            if (pkg != version)
-            {
 #if UNITY_2018_2_OR_NEWER
-                Dependencies[Name] = version;
+            Dependencies[Name] = version;
 #else
-                if (!Name.StartsWith(UNITY_SUBMODULE_PREFIX))
-                {
-                    Dependencies[Name] = version;
-                }
-#endif
+            if (!Name.StartsWith(UNITY_SUBMODULE_PREFIX))
+            {
+                Dependencies[Name] = version;
             }
-
-            prog?.Report(1);
+#endif
         }
 
         public override void Uninstall(IProgress prog = null)

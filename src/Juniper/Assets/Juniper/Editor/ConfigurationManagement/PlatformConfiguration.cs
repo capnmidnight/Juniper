@@ -139,13 +139,13 @@ namespace Juniper.ConfigurationManagement
         }
 
         [JsonIgnore]
-        public ZipPackage[] UninstallableRawPackages
+        public ZipPackage[] UninstallableZipPackages
         {
             get; internal set;
         }
 
         [JsonIgnore]
-        public ZipPackage[] RawPackages
+        public ZipPackage[] ZipPackages
         {
             get; internal set;
         }
@@ -190,9 +190,9 @@ namespace Juniper.ConfigurationManagement
             });
         }
 
-        public void InstallRawPackages(IProgress prog = null)
+        public void InstallZipPackages(IProgress prog = null)
         {
-            Platforms.ForEachPackage(RawPackages, prog, (pkg, p) => pkg.Install(p));
+            Platforms.ForEachPackage(ZipPackages, prog, (pkg, p) => pkg.Install(p));
         }
 
         public void Activate(IProgress prog)
@@ -204,7 +204,7 @@ namespace Juniper.ConfigurationManagement
                 (pkg, p) => pkg.Activate(TargetGroup, p));
 
             Platforms.ForEachPackage(
-                RawPackages, progs[1],
+                ZipPackages, progs[1],
                 (pkg, p) => pkg.Activate(TargetGroup, p));
 
             if (!string.IsNullOrEmpty(spatializer))
@@ -270,9 +270,9 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public void UninstallRawPackages(IProgress prog = null)
+        public void UninstallZipPackages(IProgress prog = null)
         {
-            Platforms.ForEachPackage(UninstallableRawPackages, prog, (pkg, p) => pkg.Uninstall(p));
+            Platforms.ForEachPackage(UninstallableZipPackages, prog, (pkg, p) => pkg.Uninstall(p));
         }
 
         public void UninstallUnityPackages(IProgress prog = null)
@@ -284,7 +284,7 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
-                var defines = Platforms.GetCompilerDefines(IncludedUnityPackages, RawPackages);
+                var defines = Platforms.GetCompilerDefines(IncludedUnityPackages, ZipPackages);
 
                 if (!string.IsNullOrEmpty(CompilerDefine))
                 {

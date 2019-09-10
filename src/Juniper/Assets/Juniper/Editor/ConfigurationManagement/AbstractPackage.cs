@@ -9,14 +9,14 @@ namespace Juniper.ConfigurationManagement
         public string Name;
         public string CompilerDefine;
 
-        public abstract bool IsInstalled
-        {
-            get;
-        }
-
-        public virtual void Install(IProgress prog = null)
+        public void Install(IProgress prog = null)
         {
             prog?.Report(0);
+            if (!IsInstalled)
+            {
+                InstallInternal(prog);
+            }
+            prog?.Report(1);
         }
 
         public virtual void Activate(BuildTargetGroup targetGroup, IProgress prog = null)
@@ -28,5 +28,12 @@ namespace Juniper.ConfigurationManagement
         {
             prog?.Report(0);
         }
+
+        public abstract bool IsInstalled
+        {
+            get;
+        }
+
+        protected abstract void InstallInternal(IProgress prog);
     }
 }

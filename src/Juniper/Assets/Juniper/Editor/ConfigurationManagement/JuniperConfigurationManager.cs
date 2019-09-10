@@ -29,16 +29,19 @@ namespace Juniper.ConfigurationManagement
 
         private static readonly GUIContent TITLE = new GUIContent("Juniper");
 
-        private static Vector2 packageScrollPosition;
-        private static AssetStorePackage[] assetStorePackages;
-        private static bool repaintNeeded;
-        private static bool repaintBound;
+        private static Vector2 definesScrollPosition;
+        private static Vector2 zipPackageScrollPosition;
+        private static string newDefine;
+        //private static Vector2 assetStorePackageScrollPosition;
+        //private static AssetStorePackage[] assetStorePackages;
+        //private static bool repaintNeeded;
+        //private static bool repaintBound;
 
         static JuniperConfigurationManager()
         {
             platforms = new Platforms();
-            platforms.AssetStorePackagesUpdated += Platforms_PackagesUpdated;
-            platforms.ScanningProgressUpdated += RepaintWindow;
+            //platforms.AssetStorePackagesUpdated += Platforms_PackagesUpdated;
+            //platforms.ScanningProgressUpdated += RepaintWindow;
 
             //platforms.StartFileWatcher();
 
@@ -54,70 +57,34 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private static void Platforms_PackagesUpdated(AssetStorePackage[] packages)
-        {
-            assetStorePackages = packages;
-            RepaintWindow();
-        }
+        //private static void Platforms_PackagesUpdated(AssetStorePackage[] packages)
+        //{
+        //    assetStorePackages = packages;
+        //    RepaintWindow();
+        //}
 
-        private static void RepaintWindow()
-        {
-            repaintNeeded = true;
-        }
+        //private static void RepaintWindow()
+        //{
+        //    repaintNeeded = true;
+        //}
 
         public void OnGUI()
         {
             titleContent = TITLE;
 
-            if (!repaintBound)
-            {
-                repaintBound = true;
-                EditorApplication.update += () =>
-                {
-                    if (repaintNeeded)
-                    {
-                        repaintNeeded = false;
-                        Repaint();
-                    }
-                };
+            //if (!repaintBound)
+            //{
+            //    repaintBound = true;
+            //    EditorApplication.update += () =>
+            //    {
+            //        if (repaintNeeded)
+            //        {
+            //            repaintNeeded = false;
+            //            Repaint();
+            //        }
+            //    };
 
-
-                var token = UnityEditorInternal.InternalEditorUtility.GetAuthToken();
-                Task.Run(async () => {
-                    var req = new UnityAssetStore.Requester();
-                    const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
-                    const string UnityAssetStoreRoot = "https://www.assetstore.unity3d.com/";
-                    var myDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    var identFile = Path.Combine(myDocuments, "unity.identity.txt");
-                    var lines = File.ReadAllLines(identFile);
-                    var userName = lines[0];
-                    var password = lines[1];
-                    try
-                    {
-                        var sessionID = await req.Post($"{UnityAssetStoreRoot}login?skip_terms=1", $"user={userName}&pass={password}", UnityAssetStoreToken + token);
-                        Debug.Log(sessionID);
-                    }
-                    catch//(Exception exp)
-                    {
-
-                    }
-                    //req.GetDownloads("sean.mcbeth@gmail.com", "RzKuj0fd9f)
-                    //    .ContinueWith(task =>
-                    //    {
-                    //        if (task.IsFaulted)
-                    //        {
-                    //            Debug.LogError(task.Exception);
-                    //        }
-                    //        else
-                    //        {
-                    //            foreach (var download in task.Result)
-                    //            {
-                    //                Debug.Log($"{download.name} ({download.id})");
-                    //            }
-                    //        }
-                    //    });
-                });
-            }
+            //}
 
             this.HeaderIndent("Status", () =>
             {
@@ -130,84 +97,152 @@ namespace Juniper.ConfigurationManagement
                 this.Labeled("Desired Platform", () => EditorGUILayout.DropdownButton(new GUIContent(DesiredPlatform.ToString(), "Select the desired build platform"), FocusType.Keyboard));
             });
 
-            /*
+            this.HeaderIndent("Defines", () =>
+            {
+                definesScrollPosition = EditorGUILayout.BeginScrollView(definesScrollPosition);
+                var defines = CleanupDefines(PlayerSettings.GetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup)
+                    .Split(';'));
+                var nextDefines = defines.ToList();
+                for(var i = 0; i < nextDefines.Count; ++i)
+                {
+                    this.HGroup(() => {
+                        EditorGUILayout.LabelField(nextDefines[i]);
+                        if (GUILayout.Button("Remove"))
+                        {
+                            nextDefines.RemoveAt(i);
+                            --i;
+                        }
+                    });
+                }
+
+                this.HGroup(() =>
+                {
+                    newDefine = EditorGUILayout.TextField(newDefine);
+                    if (GUILayout.Button("Add"))
+                    {
+                        if (!string.IsNullOrEmpty(newDefine))
+                        {
+                            nextDefines.Add(newDefine);
+                        }
+                        newDefine = string.Empty;
+                    }
+                });
+
+                nextDefines = CleanupDefines(nextDefines);
+
+                if (!nextDefines.Matches(defines))
+                {
+                    PlayerSettings.SetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup, string.Join(";", nextDefines));
+                }
+                EditorGUILayout.EndScrollView();
+            });
+
             this.HeaderIndent("Packages", () =>
             {
-                if (assetStorePackages == null || assetStorePackages.Length == 0)
+                zipPackageScrollPosition = EditorGUILayout.BeginScrollView(zipPackageScrollPosition);
+                foreach (var package in platforms.allZipPackages)
                 {
-                    EditorGUILayout.LabelField("(Loading)", EditorStyles.centeredGreyMiniLabel);
-                }
-                else
-                {
-                    packageScrollPosition = EditorGUILayout.BeginScrollView(packageScrollPosition);
-                    foreach (var package in assetStorePackages)
+                    this.HGroup(() =>
                     {
-                        this.HGroup(() =>
+                        try
                         {
-                            try
+                            EditorGUILayout.LabelField(Path.GetFileNameWithoutExtension(package.Name));
+                            EditorGUILayout.LabelField(package.IsInstalled ? "Installed" : "Not installed",
+                                EditorStyles.centeredGreyMiniLabel);
+
+                            if (!package.IsInstalled && GUILayout.Button("Install"))
                             {
-                                EditorGUILayout.LabelField(Path.GetFileNameWithoutExtension(package.Name));
-
-                                if (package.ScanningProgress == AssetStorePackage.Status.None)
-                                {
-                                    EditorGUILayout.LabelField("Identified", EditorStyles.centeredGreyMiniLabel);
-                                }
-                                else if (package.ScanningProgress == AssetStorePackage.Status.Found
-                                    || package.ScanningProgress == AssetStorePackage.Status.List)
-                                {
-                                    EditorGUILayout.LabelField("Found", EditorStyles.centeredGreyMiniLabel);
-                                }
-                                else if (package.ScanningProgress == AssetStorePackage.Status.NotFound)
-                                {
-                                    EditorGUILayout.LabelField("Not Found!");
-                                }
-                                else if (package.ScanningProgress == AssetStorePackage.Status.Listing)
-                                {
-                                    EditorGUILayout.LabelField("Listing", EditorStyles.centeredGreyMiniLabel);
-                                }
-                                else if (package.ScanningProgress == AssetStorePackage.Status.Listed
-                                    || package.ScanningProgress == AssetStorePackage.Status.Scan
-                                    || package.ScanningProgress == AssetStorePackage.Status.Scanning)
-                                {
-                                    EditorGUILayout.LabelField(string.Format(
-                                        "({0} files)",
-                                        package.TotalFiles),
-                                        EditorStyles.centeredGreyMiniLabel);
-                                    EditorGUILayout.LabelField("Scanning", EditorStyles.centeredGreyMiniLabel);
-                                }
-                                else if (package.ScanningProgress == AssetStorePackage.Status.Scanned)
-                                {
-                                    EditorGUILayout.LabelField(string.Format(
-                                        "({0} of {1} files)",
-                                        Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent),
-                                        package.TotalFiles),
-                                        EditorStyles.centeredGreyMiniLabel);
-
-                                    if (package.InstallPercentage < 1 && GUILayout.Button("Install"))
-                                    {
-                                        package.Install();
-                                    }
-
-                                    if (package.InstallPercentage > 0 && GUILayout.Button("Uninstall"))
-                                    {
-                                        package.Uninstall();
-                                    }
-                                }
-                                else if (package.ScanningProgress == AssetStorePackage.Status.Error)
-                                {
-                                    EditorGUILayout.LabelField("ERROR! " + package.ErrorMessage, EditorStyles.miniBoldLabel);
-                                }
+                                package.Install();
+                                JuniperConfigurationManager.Recompile((bool)false, JuniperConfigurationManager.CurrentConfiguration);
                             }
-                            catch
+
+                            if (package.IsInstalled && GUILayout.Button("Uninstall"))
                             {
-
+                                package.Uninstall();
+                                JuniperConfigurationManager.Recompile((bool)false, JuniperConfigurationManager.CurrentConfiguration);
                             }
-                        });
-                    }
-                    EditorGUILayout.EndScrollView();
+                        }
+                        catch
+                        {
+
+                        }
+                    });
                 }
+                EditorGUILayout.EndScrollView();
+                //if (assetStorePackages == null || assetStorePackages.Length == 0)
+                //{
+                //    EditorGUILayout.LabelField("(Loading)", EditorStyles.centeredGreyMiniLabel);
+                //}
+                //else
+                //{
+                //    packageScrollPosition = EditorGUILayout.BeginScrollView(packageScrollPosition);
+                //    foreach (var package in assetStorePackages)
+                //    {
+                //        this.HGroup(() =>
+                //        {
+                //            try
+                //            {
+                //                EditorGUILayout.LabelField(Path.GetFileNameWithoutExtension(package.Name));
+
+                //                if (package.ScanningProgress == AssetStorePackage.Status.None)
+                //                {
+                //                    EditorGUILayout.LabelField("Identified", EditorStyles.centeredGreyMiniLabel);
+                //                }
+                //                else if (package.ScanningProgress == AssetStorePackage.Status.Found
+                //                    || package.ScanningProgress == AssetStorePackage.Status.List)
+                //                {
+                //                    EditorGUILayout.LabelField("Found", EditorStyles.centeredGreyMiniLabel);
+                //                }
+                //                else if (package.ScanningProgress == AssetStorePackage.Status.NotFound)
+                //                {
+                //                    EditorGUILayout.LabelField("Not Found!");
+                //                }
+                //                else if (package.ScanningProgress == AssetStorePackage.Status.Listing)
+                //                {
+                //                    EditorGUILayout.LabelField("Listing", EditorStyles.centeredGreyMiniLabel);
+                //                }
+                //                else if (package.ScanningProgress == AssetStorePackage.Status.Listed
+                //                    || package.ScanningProgress == AssetStorePackage.Status.Scan
+                //                    || package.ScanningProgress == AssetStorePackage.Status.Scanning)
+                //                {
+                //                    EditorGUILayout.LabelField(string.Format(
+                //                        "({0} files)",
+                //                        package.TotalFiles),
+                //                        EditorStyles.centeredGreyMiniLabel);
+                //                    EditorGUILayout.LabelField("Scanning", EditorStyles.centeredGreyMiniLabel);
+                //                }
+                //                else if (package.ScanningProgress == AssetStorePackage.Status.Scanned)
+                //                {
+                //                    EditorGUILayout.LabelField(string.Format(
+                //                        "({0} of {1} files)",
+                //                        Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent),
+                //                        package.TotalFiles),
+                //                        EditorStyles.centeredGreyMiniLabel);
+
+                //                    if (package.InstallPercentage < 1 && GUILayout.Button("Install"))
+                //                    {
+                //                        package.Install();
+                //                    }
+
+                //                    if (package.InstallPercentage > 0 && GUILayout.Button("Uninstall"))
+                //                    {
+                //                        package.Uninstall();
+                //                    }
+                //                }
+                //                else if (package.ScanningProgress == AssetStorePackage.Status.Error)
+                //                {
+                //                    EditorGUILayout.LabelField("ERROR! " + package.ErrorMessage, EditorStyles.miniBoldLabel);
+                //                }
+                //            }
+                //            catch
+                //            {
+
+                //            }
+                //        });
+                //    }
+                //    EditorGUILayout.EndScrollView();
+                //}
             });
-            */
         }
 
         private static string BuildStepName
@@ -238,6 +273,14 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
+        private static PlatformTypes DesiredPlatform
+        {
+            get
+            {
+                return config.CurrentPlatform;
+            }
+        }
+
         private static PlatformTypes CurrentPlatform
         {
             get
@@ -246,11 +289,32 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private static PlatformTypes DesiredPlatform
+        private static PlatformConfiguration CurrentConfiguration
         {
             get
             {
-                return config.CurrentPlatform;
+                return platforms.PlatformDB.Get(CurrentPlatform);
+            }
+        }
+
+        private static PlatformTypes NextPlatform
+        {
+            get
+            {
+                return config.NextPlatform;
+            }
+
+            set
+            {
+                config.NextPlatform = value;
+            }
+        }
+
+        private static PlatformConfiguration NextConfiguration
+        {
+            get
+            {
+                return platforms.PlatformDB.Get(NextPlatform);
             }
         }
 
@@ -267,19 +331,6 @@ namespace Juniper.ConfigurationManagement
             get
             {
                 return DesiredPlatform != CurrentPlatform && !BuildInProgress;
-            }
-        }
-
-        private static PlatformTypes NextPlatform
-        {
-            get
-            {
-                return config.NextPlatform;
-            }
-
-            set
-            {
-                config.NextPlatform = value;
             }
         }
 
@@ -302,22 +353,6 @@ namespace Juniper.ConfigurationManagement
                             $"You are about to change the platform from {CurrentPlatform} to {config.NextPlatform}. Do you want to continue?",
                             "Change platform",
                             "Don't change platform"));
-            }
-        }
-
-        private static PlatformConfiguration LastConfiguration
-        {
-            get
-            {
-                return platforms.PlatformDB.Get(CurrentPlatform);
-            }
-        }
-
-        private static PlatformConfiguration NextConfiguration
-        {
-            get
-            {
-                return platforms.PlatformDB.Get(NextPlatform);
             }
         }
 
@@ -840,8 +875,8 @@ namespace Juniper.ConfigurationManagement
             WithProgress("Resetting to base configuration", _ =>
             {
                 JuniperPlatform.Uninstall();
-                LastConfiguration.Deactivate(NextConfiguration);
-                Recompile(true, LastConfiguration, NextConfiguration);
+                CurrentConfiguration.Deactivate(NextConfiguration);
+                Recompile(true, CurrentConfiguration, NextConfiguration);
             });
         }
 
@@ -850,7 +885,7 @@ namespace Juniper.ConfigurationManagement
             WithProgress("Refreshing packages " + NextPlatform, prog =>
             {
                 var progs = prog.Split(4);
-                LastConfiguration.UninstallRawPackages(progs[0]);
+                CurrentConfiguration.UninstallZipPackages(progs[0]);
 
                 var manifest = JObject.Parse(File.ReadAllText(MANIFEST_FILE));
                 var deps = (JObject)manifest["dependencies"];
@@ -861,13 +896,13 @@ namespace Juniper.ConfigurationManagement
                 }
 
                 UnityPackage.Dependencies = deps;
-                LastConfiguration.UninstallUnityPackages(progs[1]);
+                CurrentConfiguration.UninstallUnityPackages(progs[1]);
                 NextConfiguration.InstallUnityPackages(progs[2]);
 
                 var txt = manifest.ToString(Formatting.Indented);
                 FileExt.WriteAllText(MANIFEST_FILE, txt);
 
-                NextConfiguration.InstallRawPackages(progs[3]);
+                NextConfiguration.InstallZipPackages(progs[3]);
 
                 if (NextConfiguration.TargetSwitchNeeded)
                 {

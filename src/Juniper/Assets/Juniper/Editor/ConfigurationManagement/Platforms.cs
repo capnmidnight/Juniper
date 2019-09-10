@@ -28,29 +28,32 @@ namespace Juniper.ConfigurationManagement
                 act?.Invoke(pkg, p), Debug.LogException);
         }
 
-        public static List<string> GetCompilerDefines(UnityPackage[] unityPackages, ZipPackage[] rawPackages)
+        public static List<string> GetCompilerDefines(UnityPackage[] unityPackages, ZipPackage[] zipPackages)
         {
             return (from pkg in unityPackages
                     where pkg.version != "exclude"
-                    select pkg.CompilerDefine)
-                .Union(from pkg in rawPackages
-                       select pkg.CompilerDefine)
+                    select (AbstractPackage)pkg)
+                .Union(from pkg in zipPackages
+                       select pkg)
+                .Where(pkg => pkg.IsInstalled)
+                .Select(pkg => pkg.CompilerDefine)
                 .Where(def => !string.IsNullOrEmpty(def))
                 .Distinct()
                 .ToList();
         }
 
-        public readonly ZipPackage[] allRawPackages;
-        public readonly Dictionary<string, AbstractPackage> rawPackageDB;
+        public readonly ZipPackage[] allZipPackages;
+        public readonly Dictionary<string, AbstractPackage> zipPackageDB;
 
-        public readonly List<AssetStorePackage> allAssetStorePackages;
-        private readonly Dictionary<string, DateTime> writeTimes;
+        //public readonly List<AssetStorePackage> allAssetStorePackages;
+        //public readonly Dictionary<string, AbstractPackage> assetStorePackageDB;
+        //private readonly Dictionary<string, DateTime> writeTimes;
 
         public readonly PlatformConfiguration[] AllPlatforms;
         public readonly Dictionary<PlatformTypes, PlatformConfiguration> PlatformDB;
 
-        public event Action<AssetStorePackage[]> AssetStorePackagesUpdated;
-        public event Action ScanningProgressUpdated;
+        //public event Action<AssetStorePackage[]> AssetStorePackagesUpdated;
+        //public event Action ScanningProgressUpdated;
 
         public string[] AllCompilerDefines
         {
@@ -65,12 +68,12 @@ namespace Juniper.ConfigurationManagement
 
         public Platforms()
         {
-            writeTimes = new Dictionary<string, DateTime>();
-            allAssetStorePackages = new List<AssetStorePackage>();
+            //writeTimes = new Dictionary<string, DateTime>();
+            //allAssetStorePackages = new List<AssetStorePackage>();
 
-            var rawPackageJson = File.ReadAllText(Path.Combine(ZipPackage.ROOT_DIRECTORY, "packages.json"));
-            allRawPackages = JsonConvert.DeserializeObject<ZipPackage[]>(rawPackageJson);
-            rawPackageDB = allRawPackages.Cast<AbstractPackage>().ToDictionary(pkg => pkg.Name);
+            var zipPackageJson = File.ReadAllText(Path.Combine(ZipPackage.ROOT_DIRECTORY, "packages.json"));
+            allZipPackages = JsonConvert.DeserializeObject<ZipPackage[]>(zipPackageJson);
+            zipPackageDB = allZipPackages.Cast<AbstractPackage>().ToDictionary(pkg => pkg.Name);
 
             var platformsJson = File.ReadAllText(PathExt.FixPath("Assets/Juniper/platforms.json"));
             var config = JObject.Parse(platformsJson);
@@ -91,7 +94,7 @@ namespace Juniper.ConfigurationManagement
                 .Where(p => p.version == "exclude")
                 .ToArray();
 
-            var commonRawPackages = commonPackages
+            var commonZipPackages = commonPackages
                 .OfType<ZipPackage>()
                 .ToArray();
 
@@ -122,75 +125,75 @@ namespace Juniper.ConfigurationManagement
                     .Union(excludedUnityPackages)
                     .ToArray();
 
-                platform.UninstallableRawPackages = packages
+                platform.UninstallableZipPackages = packages
                     .OfType<ZipPackage>()
                     .ToArray();
 
-                platform.RawPackages = platform
-                    .UninstallableRawPackages
-                    .Union(commonRawPackages)
+                platform.ZipPackages = platform
+                    .UninstallableZipPackages
+                    .Union(commonZipPackages)
                     .ToArray();
             }
         }
 
-        private void FileWatcher()
-        {
-            while (true)
-            {
-                var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                var packages = Decompressor.FindUnityPackages(
-                    Path.Combine(userProfile, "AppData", "Roaming", "Unity", "Asset Store-5.x"),
-                    Path.Combine(userProfile, "Projects", "Packages"));
-                var package = (from path in packages
-                               let file = new FileInfo(path)
-                               where file.LastWriteTime > writeTimes.Get(file.FullName, DateTime.MinValue)
-                               select new AssetStorePackage(file))
-                            .FirstOrDefault();
-                if (package != null)
-                {
-                    writeTimes[package.InputUnityPackageFile] = package.LastWriteTime;
-                    allAssetStorePackages.Add(package);
-                    package.ScanningProgressUpdated += Package_ScanningProgressUpdated;
-                }
+        //private void FileWatcher()
+        //{
+        //    while (true)
+        //    {
+        //        var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        //        var packages = Decompressor.FindUnityPackages(
+        //            Path.Combine(userProfile, "AppData", "Roaming", "Unity", "Asset Store-5.x"),
+        //            Path.Combine(userProfile, "Projects", "Packages"));
+        //        var package = (from path in packages
+        //                       let file = new FileInfo(path)
+        //                       where file.LastWriteTime > writeTimes.Get(file.FullName, DateTime.MinValue)
+        //                       select new AssetStorePackage(file))
+        //                    .FirstOrDefault();
+        //        if (package != null)
+        //        {
+        //            writeTimes[package.InputUnityPackageFile] = package.LastWriteTime;
+        //            allAssetStorePackages.Add(package);
+        //            package.ScanningProgressUpdated += Package_ScanningProgressUpdated;
+        //        }
 
-                int scanningCount = 0;
-                foreach (var p in allAssetStorePackages)
-                {
-                    if (p.ScanningProgress == AssetStorePackage.Status.Scanning
-                        || p.ScanningProgress == AssetStorePackage.Status.Listing)
-                    {
-                        ++scanningCount;
-                    }
-                }
+        //        int scanningCount = 0;
+        //        foreach (var p in allAssetStorePackages)
+        //        {
+        //            if (p.ScanningProgress == AssetStorePackage.Status.Scanning
+        //                || p.ScanningProgress == AssetStorePackage.Status.Listing)
+        //            {
+        //                ++scanningCount;
+        //            }
+        //        }
 
-                foreach (var p in allAssetStorePackages)
-                {
-                    if(scanningCount < 4
-                        || (p.ScanningProgress != AssetStorePackage.Status.List
-                            && p.ScanningProgress != AssetStorePackage.Status.Scan))
-                    {
-                        if (p.ScanningProgress == AssetStorePackage.Status.List
-                            || p.ScanningProgress == AssetStorePackage.Status.Scan)
-                        {
-                            ++scanningCount;
-                        }
-                        p.Update();
-                    }
-                }
+        //        foreach (var p in allAssetStorePackages)
+        //        {
+        //            if(scanningCount < 4
+        //                || (p.ScanningProgress != AssetStorePackage.Status.List
+        //                    && p.ScanningProgress != AssetStorePackage.Status.Scan))
+        //            {
+        //                if (p.ScanningProgress == AssetStorePackage.Status.List
+        //                    || p.ScanningProgress == AssetStorePackage.Status.Scan)
+        //                {
+        //                    ++scanningCount;
+        //                }
+        //                p.Update();
+        //            }
+        //        }
 
-                AssetStorePackagesUpdated?.Invoke(allAssetStorePackages.ToArray());
-            }
-        }
+        //        AssetStorePackagesUpdated?.Invoke(allAssetStorePackages.ToArray());
+        //    }
+        //}
 
-        private void Package_ScanningProgressUpdated()
-        {
-            ScanningProgressUpdated?.Invoke();
-        }
+        //private void Package_ScanningProgressUpdated()
+        //{
+        //    ScanningProgressUpdated?.Invoke();
+        //}
 
-        public void StartFileWatcher()
-        {
-            Task.Run(FileWatcher);
-        }
+        //public void StartFileWatcher()
+        //{
+        //    Task.Run(FileWatcher);
+        //}
 
         private AbstractPackage[] ParsePackages(string[] packages)
         {
@@ -200,9 +203,16 @@ namespace Juniper.ConfigurationManagement
             }
             else
             {
-                return (from pkgName in packages
-                        select rawPackageDB.Get(pkgName)
-                        ?? new UnityPackage(pkgName))
+                return (from pkgDef in packages
+                        let isAssetStore = pkgDef.EndsWith(".unitypackage")
+                        let isUnity = pkgDef.Contains('@')
+                        let isZip = !isAssetStore && !isUnity
+                        let pkgName = Path.GetFileNameWithoutExtension(pkgDef)
+                        select isAssetStore
+                            ? null // assetStorePackageDB.Get(pkgName)
+                            : isZip
+                                ? zipPackageDB.Get(pkgName)
+                                : new UnityPackage(pkgDef))
                     .ToArray();
             }
         }

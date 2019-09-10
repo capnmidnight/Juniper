@@ -131,24 +131,23 @@ namespace Juniper.Compression.Zip
         /// <param name="zip">A zipfile stream</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <returns>A lazy collection of <typeparamref name="ZipEntry"/> objects.</returns>
-        public static IEnumerable<Tuple<Stream, ZipEntry>> Entries(this ZipFile zip, IProgress prog = null)
+        public static IEnumerable<ZipEntry> Entries(this ZipFile zip, IProgress prog = null)
         {
             for (int i = 0, l = (int)zip.Count; i < l; ++i)
             {
                 prog?.Report(i, l);
-                var entry = zip[i];
-                yield return new Tuple<Stream, ZipEntry>(zip.GetInputStream(entry), entry);
+                yield return zip[i];
+                prog?.Report(i + 1, l);
             }
-            prog?.Report(1);
         }
 
-        public static IEnumerable<Tuple<Stream, ZipEntry>> Entries(Stream zipStream, IProgress progress = null)
+        public static IEnumerable<ZipEntry> Entries(Stream zipStream, IProgress progress = null)
         {
             var zip = new ZipFile(zipStream);
             return zip.Entries(progress);
         }
 
-        public static IEnumerable<Tuple<Stream, ZipEntry>> Entries(FileInfo zipFile, IProgress prog = null)
+        public static IEnumerable<ZipEntry> Entries(FileInfo zipFile, IProgress prog = null)
         {
             using (var stream = zipFile.OpenRead())
             {
@@ -156,16 +155,49 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public static IEnumerable<Tuple<Stream, ZipEntry>> Entries(string zipFileName, IProgress prog = null)
+        public static IEnumerable<ZipEntry> Entries(string zipFileName, IProgress prog = null)
         {
             return Entries(new FileInfo(zipFileName), prog);
         }
 
+        public static IEnumerable<string> FileNames(FileInfo file)
+        {
+            foreach (var entry in Entries(file))
+            {
+                if (entry.IsFile)
+                {
+                    yield return entry.Name;
+                }
+            }
+        }
+
+        public static IEnumerable<string> FileNames(string fileName)
+        {
+            return FileNames(new FileInfo(fileName));
+        }
+
+        public static IEnumerable<string> DirectoryNames(FileInfo file)
+        {
+            foreach (var entry in Entries(file))
+            {
+                if (entry.IsDirectory)
+                {
+                    yield return entry.Name;
+                }
+            }
+        }
+
+        public static IEnumerable<string> DirectoryNames(string fileName)
+        {
+            return DirectoryNames(new FileInfo(fileName));
+        }
+
         public static void Decompress(this ZipFile zip, DirectoryInfo outputDirectory, IProgress prog = null)
         {
-            foreach (var pair in zip.Entries(prog))
+            for (int i = 0, l = (int)zip.Count; i < l; ++i)
             {
-                var entry = pair.Item2;
+                prog?.Report(i, l);
+                var entry = zip[i];
                 var outputPath = Path.Combine(outputDirectory.FullName, entry.Name);
                 FileInfo outputFile = null;
                 DirectoryInfo outputFileDirectory = null;
@@ -184,11 +216,12 @@ namespace Juniper.Compression.Zip
                 if (outputFile != null)
                 {
                     using (var outputStream = outputFile.Create())
-                    using (var inputStream = pair.Item1)
+                    using (var inputStream = zip.GetInputStream(entry))
                     {
                         inputStream.CopyTo(outputStream);
                     }
                 }
+                prog?.Report(i + 1, l);
             }
         }
 
@@ -223,38 +256,6 @@ namespace Juniper.Compression.Zip
         public static void Decompress(string zipFileName, string outputDiretoryName, IProgress prog = null)
         {
             Decompress(new FileInfo(zipFileName), new DirectoryInfo(outputDiretoryName), prog);
-        }
-
-        public static IEnumerable<string> FileNames(FileInfo file)
-        {
-            foreach (var entry in Entries(file))
-            {
-                if (entry.Item2.IsFile)
-                {
-                    yield return entry.Item2.Name;
-                }
-            }
-        }
-
-        public static IEnumerable<string> FileNames(string fileName)
-        {
-            return FileNames(new FileInfo(fileName));
-        }
-
-        public static IEnumerable<string> DirectoryNames(FileInfo file)
-        {
-            foreach (var entry in Entries(file))
-            {
-                if (entry.Item2.IsDirectory)
-                {
-                    yield return entry.Item2.Name;
-                }
-            }
-        }
-
-        public static IEnumerable<string> DirectoryNames(string fileName)
-        {
-            return DirectoryNames(new FileInfo(fileName));
         }
     }
 }

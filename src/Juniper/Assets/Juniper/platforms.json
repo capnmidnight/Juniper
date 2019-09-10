@@ -1,9 +1,7 @@
 {
   "packages": [
     "com.unity.burst@1.1.2",
-    "com.unity.entities@0.1.1-preview",
     "com.unity.ext.nunit@1.0.0",
-    "com.unity.jobs@0.1.1-preview",
     "com.unity.mathematics@1.1.0",
     "com.unity.package-manager-ui@2.2.0",
     "com.unity.scriptablebuildpipeline@1.5.2",
@@ -52,7 +50,8 @@
     "CompilerDefine": "STANDARD_DISPLAY",
     "packages": [
       "com.unity.mobile.android-logcat@1.0.0",
-      "com.unity.modules.androidjni@1.0.0"
+      "com.unity.modules.androidjni@1.0.0",
+      "SpeechSDK"
     ]
   },
   {
@@ -63,7 +62,8 @@
       "com.unity.mobile.android-logcat@1.0.0",
       "com.unity.modules.androidjni@1.0.0",
       "com.unity.modules.jsonserialize@1.0.0",
-      "GoogleARCore"
+      "GoogleARCore",
+      "SpeechSDK"
     ]
   },
   {
@@ -81,7 +81,8 @@
       "com.unity.mobile.android-logcat@1.0.0",
       "com.unity.modules.androidjni@1.0.0",
       "com.unity.modules.xr@1.0.0",
-      "com.unity.modules.vr@1.0.0"
+      "com.unity.modules.vr@1.0.0",
+      "SpeechSDK"
     ]
   },
   {
@@ -99,7 +100,8 @@
       "com.unity.modules.androidjni@1.0.0",
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
-      "com.unity.xr.googlevr.android@1.18.4"
+      "com.unity.xr.googlevr.android@1.18.4",
+      "SpeechSDK"
     ]
   },
   {
@@ -119,6 +121,7 @@
       "com.unity.xr.oculus.android@1.38.2",
       "com.unity.xr.oculus.standalone@1.38.2",
       "com.unity.xr.openvr.standalone@1.0.5",
+      "SpeechSDK",
       "Oculus"
     ]
   },
@@ -131,6 +134,7 @@
       "com.unity.google.resonance.audio@1.18.3",
       "com.unity.mobile.android-logcat@1.0.0",
       "com.unity.modules.androidjni@1.0.0",
+      "SpeechSDK",
       "PicoMobileSDK"
     ]
   },
@@ -143,6 +147,7 @@
       "com.unity.google.resonance.audio@1.18.3",
       "com.unity.mobile.android-logcat@1.0.0",
       "com.unity.modules.androidjni@1.0.0",
+      "SpeechSDK",
       "WaveVR"
     ]
   },
@@ -261,7 +266,8 @@
     "packages": [
       "com.unity.modules.xr@1.0.0",
       "com.unity.modules.vr@1.0.0",
-      "MagicLeap"
+      "MagicLeap",
+      "SpeechSDK"
     ]
   },
   {

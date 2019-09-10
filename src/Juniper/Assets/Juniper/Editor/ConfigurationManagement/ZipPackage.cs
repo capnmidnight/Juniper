@@ -17,6 +17,8 @@ namespace Juniper.ConfigurationManagement
     internal sealed class ZipPackage : AbstractPackage
     {
         public static string ROOT_DIRECTORY = PathExt.FixPath("Assets/Juniper/ThirdParty/Optional");
+        private bool isInstalledDirty = true;
+        private bool isInstalled;
 
         [JsonIgnore]
         public string InputZipFileName
@@ -31,29 +33,41 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
-                foreach(var file in Decompressor.FileNames(InputZipFileName))
+                if (isInstalledDirty && IsAvailable)
                 {
-                    var installPath = Path.Combine("Assets", file);
-                    if(!File.Exists(installPath))
+                    isInstalled = true;
+                    isInstalledDirty = false;
+                    foreach (var file in Decompressor.FileNames(InputZipFileName))
                     {
-                        return false;
+                        var installPath = PathExt.FixPath(Path.Combine("Assets", file));
+                        isInstalled &= File.Exists(installPath);
+                        if (!isInstalled)
+                        {
+                            break;
+                        }
                     }
+
                 }
 
-                return true;
+                return isInstalled;
             }
         }
 
-        public override void Install(IProgress prog = null)
+        protected override void InstallInternal(IProgress prog = null)
         {
-            base.Install(prog);
-
-            if (File.Exists(InputZipFileName))
+            if (IsAvailable)
             {
+                isInstalledDirty = true;
                 Decompressor.Decompress(InputZipFileName, "Assets", prog);
             }
+        }
 
-            prog?.Report(1);
+        private bool IsAvailable
+        {
+            get
+            {
+                return File.Exists(InputZipFileName);
+            }
         }
 
         public override void Activate(BuildTargetGroup targetGroup, IProgress prog = null)
@@ -132,6 +146,7 @@ namespace Juniper.ConfigurationManagement
         public override void Uninstall(IProgress prog = null)
         {
             base.Uninstall(prog);
+            isInstalledDirty = true;
 
             var progs = prog.Split(3);
 
