@@ -54,6 +54,13 @@ namespace Juniper.Speech
 #if UNITY_EDITOR
         public void OnValidate()
         {
+            keywords = (from keyword in keywords
+                        let k = keyword.ToLowerInvariant()
+                        orderby k
+                        select k)
+                    .Distinct()
+                    .ToArray();
+
             SetTooltips(false);
         }
 
@@ -221,12 +228,6 @@ namespace Juniper.Speech
         {
             if (HasKeywords)
             {
-                keywords = (from keyword in keywords
-                            let k = keyword.ToLowerInvariant()
-                            orderby k
-                            select k)
-                        .Distinct()
-                        .ToArray();
                 keyer.KeywordRecognized += OnKeyword;
             }
         }
