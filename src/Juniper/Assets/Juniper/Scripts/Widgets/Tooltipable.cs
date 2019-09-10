@@ -1,5 +1,6 @@
-﻿using System.Collections;
-
+﻿using System;
+using System.Collections;
+using Juniper.Speech;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,6 +11,13 @@ namespace Juniper.Widgets
         IPointerEnterHandler,
         IPointerExitHandler
     {
+        /// <summary>
+        /// A default function for when the Tooltipable is applied to something that
+        /// does not have a parent control.
+        /// </summary>
+        /// <returns></returns>
+        private static bool AlwaysEnabled() { return true; }
+
         public Transform tooltip;
 
         public float delayBeforeDisplay = 1;
@@ -18,6 +26,13 @@ namespace Juniper.Widgets
         private AbstractStateController trans;
 
         private bool wasSelected;
+
+        private Func<bool> isParentEnabled;
+
+        public bool IsInteractable()
+        {
+            return enabled && isParentEnabled();
+        }
 
 #if UNITY_EDITOR
         public void OnValidate()
@@ -39,23 +54,59 @@ namespace Juniper.Widgets
             {
                 trans = tooltip.GetComponent<AbstractStateController>();
             }
+
+            var keyword = GetComponent<Keywordable>();
+            if(keyword != null)
+            {
+                isParentEnabled = keyword.IsInteractable;
+            }
+            else
+            {
+                var parent = GetComponent<IPointerClickHandler>();
+                if(parent is UnityEngine.UI.Selectable selectable)
+                {
+                    isParentEnabled = selectable.IsInteractable;
+                }
+                else if(parent is AbstractTouchable touchable)
+                {
+                    isParentEnabled = touchable.IsInteractable;
+                }
+                else
+                {
+                    isParentEnabled = AlwaysEnabled;
+                }
+            }
+
+            Hide();
         }
 
         public void OnEnable()
+        {
+            Hide();
+        }
+
+        private void Hide()
         {
             if (trans != null)
             {
                 trans.SkipExit();
             }
-            tooltip.Deactivate();
+
+            if (tooltip != null)
+            {
+                tooltip.Deactivate();
+            }
         }
 
         private void ShowTooltip()
         {
-            tooltip.Activate();
-            if (trans != null && trans.IsExited)
+            if (isParentEnabled())
             {
-                trans.Enter();
+                tooltip.Activate();
+                if (trans != null && trans.IsExited)
+                {
+                    trans.Enter();
+                }
             }
         }
 

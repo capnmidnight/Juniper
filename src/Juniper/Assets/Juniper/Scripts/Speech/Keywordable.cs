@@ -16,6 +16,13 @@ namespace Juniper.Speech
     public class Keywordable : MonoBehaviour, IKeywordTriggered
     {
         /// <summary>
+        /// A default function for when the Keywordable is applied to something that
+        /// does not have a parent control.
+        /// </summary>
+        /// <returns></returns>
+        private static bool AlwaysEnabled() { return true; }
+
+        /// <summary>
         /// The keywords that activate this event.
         /// </summary>
         public string[] keywords;
@@ -27,17 +34,29 @@ namespace Juniper.Speech
 
         /// <summary>
         /// The event to trigger when the keyword is recognized. If you are programmatically wiring
-        /// up events, prefer the <see cref="Keyword"/> event instead.
+        /// up events, prefer the <see cref="KeywordDetected"/> event instead.
         /// </summary>
-        public UnityEvent onKeyword = new UnityEvent();
+        public UnityEvent onKeywordDetected = new UnityEvent();
 
         /// <summary>
         /// The event to trigger when the keyword is recognized. If you are programmatically wiring
-        /// up events, prefer this event over the <see cref="onKeyword"/> event.
+        /// up events, prefer this event over the <see cref="onKeywordDetected"/> event.
         /// </summary>
-        public event EventHandler Keyword;
+        public event EventHandler KeywordDetected;
 
         private bool wasLocked;
+
+        private Func<bool> isParentEnabled;
+
+        public bool IsInteractable()
+        {
+            return enabled && isParentEnabled();
+        }
+
+        /// <summary>
+        /// The main speech recognition manager.
+        /// </summary>
+        private IKeywordRecognizer keyer;
 
         /// <summary>
         /// The keywords that activate this event.
@@ -106,6 +125,9 @@ namespace Juniper.Speech
         }
 #endif
 
+        /// <summary>
+        /// The default text to set to a tooltip for this set of keywords.
+        /// </summary>
         private string DefaultDescription
         {
             get
@@ -139,11 +161,24 @@ namespace Juniper.Speech
         /// </summary>
         public void Awake()
         {
-            keyer = ComponentExt.FindAny<IKeywordRecognizer>();
-            var tooltip = GetComponent<Tooltipable>();
-            if (tooltip != null)
+            var parentControl = GetComponent<IPointerClickHandler>();
+            if (parentControl is UnityEngine.UI.Selectable selectable)
             {
-                tooltip.enabled = keyer != null && keyer.IsAvailable;
+                isParentEnabled = selectable.IsInteractable;
+            }
+            else if (parentControl is AbstractTouchable touchable)
+            {
+                isParentEnabled = touchable.IsInteractable;
+            }
+            else
+            {
+                isParentEnabled = AlwaysEnabled;
+            }
+
+            keyer = ComponentExt.FindAny<IKeywordRecognizer>();
+            if (keyer == null || !keyer.IsAvailable)
+            {
+                enabled = false;
             }
         }
 
@@ -158,6 +193,11 @@ namespace Juniper.Speech
             }
         }
 
+        public void OnDisable()
+        {
+            keyer.RefreshKeywords();
+        }
+
         /// <summary>
         /// Check to see if the keyboard shortcut has been triggered.
         /// </summary>
@@ -168,6 +208,7 @@ namespace Juniper.Speech
             {
                 OnKeyword();
             }
+
             wasLocked = Cursor.lockState != CursorLockMode.None;
         }
 
@@ -176,28 +217,26 @@ namespace Juniper.Speech
         /// </summary>
         protected virtual void OnKeyword()
         {
-            onKeyword?.Invoke();
-            Keyword?.Invoke(this, EventArgs.Empty);
-            var pointerEvent = new PointerEventData(ComponentExt.FindAny<EventSystem>())
+            if (IsInteractable())
             {
-                button = PointerEventData.InputButton.Left,
-                eligibleForClick = true,
-                clickCount = 1,
-                clickTime = Time.unscaledTime,
-            };
-            foreach (var button in GetComponents<IPointerClickHandler>())
-            {
-                if (button != null)
+                onKeywordDetected?.Invoke();
+                KeywordDetected?.Invoke(this, EventArgs.Empty);
+                var pointerEvent = new PointerEventData(ComponentExt.FindAny<EventSystem>())
                 {
-                    button.OnPointerClick(pointerEvent);
+                    button = PointerEventData.InputButton.Left,
+                    eligibleForClick = true,
+                    clickCount = 1,
+                    clickTime = Time.unscaledTime,
+                };
+                foreach (var button in GetComponents<IPointerClickHandler>())
+                {
+                    if (button != null)
+                    {
+                        button.OnPointerClick(pointerEvent);
+                    }
                 }
             }
         }
-
-        /// <summary>
-        /// The main speech recognition manager.
-        /// </summary>
-        private IKeywordRecognizer keyer;
 
         /// <summary>
         /// Returns true when this component has more than one keyword defined and we were able to

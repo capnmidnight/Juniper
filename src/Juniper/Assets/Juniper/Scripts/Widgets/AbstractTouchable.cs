@@ -56,6 +56,8 @@ namespace Juniper.Widgets
         /// </summary>
         public bool disabled;
 
+        public bool IsInteractable() { return !disabled; }
+
         /// <summary>
         /// The value of <see cref="IsDisabled"/> in the last frame.
         /// </summary>
