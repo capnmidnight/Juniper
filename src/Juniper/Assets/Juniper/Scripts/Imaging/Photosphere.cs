@@ -11,8 +11,6 @@ using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.Units;
 
-using SixLabors.ImageSharp;
-
 using UnityEngine;
 
 namespace Juniper.Imaging
