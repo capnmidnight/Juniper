@@ -149,13 +149,20 @@ namespace Juniper
             }
         }
 
-        /// <summary>
-        /// A method for the IsComplete property to be used with the <see cref="Waiter"/> object.
-        /// </summary>
-        /// <returns></returns>
-        public bool HasCompleted()
+        public bool IsEntering
         {
-            return IsComplete;
+            get
+            {
+                return State == Direction.Forward;
+            }
+        }
+
+        public bool IsExiting
+        {
+            get
+            {
+                return State == Direction.Stopped;
+            }
         }
 
         /// <summary>
@@ -176,7 +183,7 @@ namespace Juniper
         {
             get
             {
-                return isActiveAndEnabled;
+                return IsComplete && lastState == Direction.Forward;
             }
         }
 
@@ -187,7 +194,7 @@ namespace Juniper
         {
             get
             {
-                return !isActiveAndEnabled;
+                return IsComplete && lastState == Direction.Reverse;
             }
         }
 
@@ -196,10 +203,10 @@ namespace Juniper
         public string GetStatus(string label)
         {
             var fields = new[]{
-                enabled ? "enabled" : "",
+                isActiveAndEnabled ? "enabled" : "",
                 IsEntered ? "entered" : "",
                 IsExited ? "exited" : "",
-                IsComplete ? "complete" : "",
+                IsComplete ? "complete" : "running",
                 skipEvents ? "skip events": ""
             };
             var full = string.Join(", ", fields.Where(x => !string.IsNullOrEmpty(x)));
@@ -248,24 +255,30 @@ namespace Juniper
         /// </summary>
         public virtual void SkipEnter()
         {
-            skipEvents = true;
-            Enter();
-            Complete();
-            skipEvents = false;
+            if (!IsEntered)
+            {
+                skipEvents = true;
+                Enter();
+                Complete();
+                skipEvents = false;
+            }
         }
 
         public virtual void SkipExit()
         {
-            skipEvents = true;
-            Exit();
-            Complete();
-            skipEvents = false;
+            if (!IsExited)
+            {
+                skipEvents = true;
+                Exit();
+                Complete();
+                skipEvents = false;
+            }
         }
 
         public IEnumerator EnterCoroutine(IProgress prog = null)
         {
             Enter(prog);
-            while (!IsComplete)
+            while (IsRunning)
             {
                 yield return null;
             }
@@ -274,7 +287,7 @@ namespace Juniper
         public IEnumerator ExitCoroutine(IProgress prog = null)
         {
             Exit(prog);
-            while (!IsComplete)
+            while (IsRunning)
             {
                 yield return null;
             }
