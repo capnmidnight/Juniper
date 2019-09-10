@@ -36,7 +36,6 @@
     <Reference Include="System.Drawing">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GDIDecoder.cs" />
