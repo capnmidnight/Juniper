@@ -132,7 +132,7 @@ namespace Juniper.Speech
         /// </summary>
         public void Awake()
         {
-            keyer = ComponentExt.FindAny<KeywordRecognizer>();
+            keyer = ComponentExt.FindAny<IKeywordRecognizer>();
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace Juniper.Speech
         /// <summary>
         /// The main speech recognition manager.
         /// </summary>
-        private KeywordRecognizer keyer;
+        private IKeywordRecognizer keyer;
 
         /// <summary>
         /// Returns true when this component has more than one keyword defined and we were able to
@@ -205,9 +205,9 @@ namespace Juniper.Speech
         /// component, then trigger the event.
         /// </summary>
         /// <param name="word">Word.</param>
-        private void OnKeyword(string word)
+        private void OnKeyword(object source, KeywordRecognizedEventArgs args)
         {
-            if (Array.BinarySearch(keywords, word) >= 0)
+            if (Array.BinarySearch(keywords, args.Keyword) >= 0)
             {
                 OnKeyword();
             }
@@ -227,8 +227,7 @@ namespace Juniper.Speech
                             select k)
                         .Distinct()
                         .ToArray();
-
-                keyer.onKeywordRecognized.AddListener(OnKeyword);
+                keyer.KeywordRecognized += OnKeyword;
             }
         }
     }

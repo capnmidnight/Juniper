@@ -411,7 +411,7 @@ namespace Juniper
 #endif
             }
 
-            ComponentExt.FindAny<KeywordRecognizer>()?.RefreshKeywords();
+            ComponentExt.FindAny<IKeywordRecognizer>()?.RefreshKeywords();
 
             var start = DateTime.Now;
             var ts = TimeSpan.FromSeconds(1);

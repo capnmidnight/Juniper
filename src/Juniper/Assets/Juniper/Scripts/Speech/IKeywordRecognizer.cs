@@ -6,6 +6,8 @@ namespace Juniper.Speech
     {
         event EventHandler<KeywordRecognizedEventArgs> KeywordRecognized;
 
+        bool IsAvailable { get; }
+
         void RefreshKeywords();
     }
 }

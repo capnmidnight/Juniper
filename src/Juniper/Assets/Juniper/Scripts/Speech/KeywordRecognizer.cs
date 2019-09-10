@@ -95,6 +95,8 @@ namespace Juniper.Speech
             TearDown();
         }
 
+        public abstract bool IsAvailable { get; }
+
         protected abstract void Setup();
 
         protected abstract void TearDown();
