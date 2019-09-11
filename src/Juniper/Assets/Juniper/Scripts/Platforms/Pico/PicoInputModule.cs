@@ -423,6 +423,8 @@ namespace Juniper.Input
                 ctrl.Value.Gazetype = Pvr_Controller.GazeType.Never;
             }
         }
+
+        public override bool HasFloorPosition { get { return false; } }
     }
 }
 #endif

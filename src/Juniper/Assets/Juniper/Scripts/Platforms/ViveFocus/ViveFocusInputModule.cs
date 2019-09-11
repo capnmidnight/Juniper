@@ -13,6 +13,8 @@ namespace Juniper.Input
                 mode = Mode.StandingVR;
             }
         }
+
+        public override bool HasFloorPosition { get { return true; } }
     }
 }
 #endif

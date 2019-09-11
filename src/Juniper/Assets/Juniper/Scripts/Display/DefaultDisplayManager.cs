@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 using Juniper.Input;
 
@@ -24,10 +23,8 @@ namespace Juniper.Display
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
                 var input = ComponentExt.FindAny<UnifiedInputModule>();
-                var hasJoystick = UnityInput.GetJoystickNames()
-                    .Any(j => !string.IsNullOrEmpty(j));
 #if UNITY_EDITOR
-                if (input.mode.HasFlag(UnifiedInputModule.Mode.Touch))
+                if ((input.mode & InputMode.Touch) != 0)
                 {
 #if UNITY_STANDALONE || UNITY_WSA
                     cameraCtrl.mode = CameraControl.Mode.MouseLocked;
@@ -35,39 +32,39 @@ namespace Juniper.Display
                     cameraCtrl.mode = CameraControl.Mode.Touch;
 #endif
                 }
-                else if (input.mode.HasFlag(UnifiedInputModule.Mode.Mouse))
+                else if ((input.mode & InputMode.Mouse) != 0)
                 {
                     cameraCtrl.mode = CameraControl.Mode.MouseScreenEdge;
                 }
-                else if (hasJoystick)
+                else if (UnifiedInputModule.HasGamepad)
                 {
                     cameraCtrl.mode = CameraControl.Mode.Gamepad;
                 }
 #elif UNITY_WSA
-                if (input.mode.HasFlag(UnifiedInputModule.Mode.Touch)
+                if ((input.mode & InputMode.Touch) != 0
                     && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
                 {
                     cameraCtrl.mode = CameraControl.Mode.Touch;
                 }
-                else if (input.mode.HasFlag(UnifiedInputModule.Mode.Mouse)
+                else if ((input.mode & InputMode.Mouse) != 0
                     && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile")
                 {
                     cameraCtrl.mode = CameraControl.Mode.MouseLocked;
                 }
 
 #else
-                if (input.mode.HasFlag(UnifiedInputModule.Mode.Touch)
+                if ((input.mode & InputMode.Touch) != 0
                     && Application.isMobilePlatform)
                 {
                     cameraCtrl.mode = CameraControl.Mode.Touch;
                 }
-                else if (input.mode.HasFlag(UnifiedInputModule.Mode.Mouse)
+                else if ((input.mode & InputMode.Mouse) != 0
                     && UnityInput.mousePresent)
                 {
                     cameraCtrl.mode = CameraControl.Mode.MouseLocked;
                 }
 #endif
-                else if (input.mode.HasFlag(UnifiedInputModule.Mode.Mouse))
+                else if ((input.mode & InputMode.Mouse) != 0)
                 {
                     cameraCtrl.mode = CameraControl.Mode.MouseScreenEdge;
                 }
@@ -75,7 +72,7 @@ namespace Juniper.Display
                 {
                     cameraCtrl.mode = CameraControl.Mode.None;
                 }
-                ScreenDebugger.Print($"Mode is {cameraCtrl.mode}");
+                ScreenDebugger.Print($"Mode is {cameraCtrl.mode.GetStringValue()}");
             }
             else if (cameraCtrl.mode == CameraControl.Mode.MagicWindow)
             {

@@ -8,14 +8,31 @@ namespace Juniper.Input
         {
             base.Install(reset);
 
-            if (!reset && mode == Mode.Auto)
+            if (!reset && mode == InputMode.Auto)
             {
 #if UNITY_EDITOR
-                mode = Mode.Desktop;
-#elif UNITY_XR_OCULUS_ANDROID
-                mode = Mode.SeatedVR;
+                mode = InputMode.Desktop;
 #else
-                mode = Mode.StandingVR;
+                if(OVRDeviceSelector.isTargetDeviceGearVrOrGo)
+                {
+                    mode = Mode.SeatedVR;
+                }
+                else
+                {
+                    mode = Mode.StandingVR;
+                }
+#endif
+            }
+        }
+
+        public override bool HasFloorPosition
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return false;
+#else
+                return !OVRDeviceSelector.isTargetDeviceGearVrOrGo;
 #endif
             }
         }

@@ -16,11 +16,7 @@ namespace Juniper.Permissions
             foreach (var permission in keys)
             {
                 granted[permission] = Permission.HasUserAuthorizedPermission(permission);
-                if (granted[permission])
-                {
-                    UnityEngine.Debug.Log($"The user already granted permission {permission}");
-                }
-                else
+                if (!granted[permission])
                 {
                     Permission.RequestUserPermission(permission);
                 }

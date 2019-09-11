@@ -54,6 +54,8 @@ namespace Juniper.Input
                 ip.gameObject.Destroy();
             }
         }
+
+        public override bool HasFloorPosition { get { return GvrHeadset.SupportsPositionalTracking; } }
     }
 }
 #endif

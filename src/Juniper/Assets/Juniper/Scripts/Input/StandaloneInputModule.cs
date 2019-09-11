@@ -6,10 +6,12 @@ namespace Juniper.Input
         {
             base.Install(reset);
 
-            if (!reset && mode == Mode.Auto)
+            if (!reset && mode == InputMode.Auto)
             {
-                mode = Mode.Desktop;
+                mode = InputMode.Desktop;
             }
         }
+
+        public override bool HasFloorPosition { get { return false; } }
     }
 }

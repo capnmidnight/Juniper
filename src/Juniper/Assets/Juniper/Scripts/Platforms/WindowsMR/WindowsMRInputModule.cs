@@ -29,6 +29,8 @@ namespace Juniper.Input
                     : Mode.HeadsetAR;
             }
         }
+
+        public override bool HasFloorPosition { get { return true; } }
     }
 }
 #endif

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,6 +16,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 #endif
+
+using UnityInput = UnityEngine.Input;
 
 namespace Juniper.Input
 {
@@ -50,22 +51,12 @@ namespace Juniper.Input
     /// </summary>
     public abstract class AbstractUnifiedInputModule : PointerInputModule, IInstallable, IInputModule
     {
-        [Flags]
-        public enum Mode
+        public static bool HasGamepad
         {
-            None,
-            Auto = 1,
-            Mouse = 2,
-            Touch = 4,
-            Gaze = 8,
-            Motion = 16,
-            Hands = 32,
-            HasFloorPosition = 64,
-            Desktop = Mouse,
-            Touchscreen = Touch | Gaze,
-            SeatedVR = Mouse | Gaze | Motion,
-            StandingVR = Gaze | Motion | HasFloorPosition,
-            HeadsetAR = Gaze | Motion | Hands | HasFloorPosition
+            get
+            {
+                return UnityInput.GetJoystickNames().Any(j => !string.IsNullOrEmpty(j));
+            }
         }
 
         private readonly List<IPointerDevice> newDevices = new List<IPointerDevice>(12);
@@ -73,7 +64,7 @@ namespace Juniper.Input
 
         public IPointerDevice PrimaryPointer;
 
-        public Mode mode = Mode.Auto;
+        public InputMode mode = InputMode.Auto;
 
         public bool AnyPointerDragging
         {
@@ -96,6 +87,7 @@ namespace Juniper.Input
         /// </summary>
         public GameObject pointerPrefab;
 
+        private const string ENABLE_VOICE_KEY = "VoiceInput";
         private const string ENABLE_GAZE_KEY = "GazePointer";
         private const string ENABLE_MOUSE_KEY = "MousePointer";
         private const string ENABLE_TOUCH_KEY = "TouchPointers";
@@ -107,6 +99,7 @@ namespace Juniper.Input
         public TouchPoint[] touches;
         public MotionController[] motionControllers;
         public HandTracker[] handTrackers;
+        public KeywordRecognizer keyer;
         public float minPointerDistance = 1.5f;
         public float maxPointerDistance = 25f;
 
@@ -156,11 +149,7 @@ namespace Juniper.Input
 #endif
 
             stage = ComponentExt.FindAny<Avatar>();
-#if UNITY_EDITOR
-            stage.IndependentHead = false;
-#else
-            stage.IndependentHead = (mode & Mode.HasFloorPosition) != 0;
-#endif
+            stage.IndependentHead = HasFloorPosition;
 
             gazePointer = MakePointer<GazePointer>(stage.Head, "GazePointer");
             mouse = MakePointer<Mouse>(stage.Head, "Mouse");
@@ -175,7 +164,7 @@ namespace Juniper.Input
             motionControllers = MotionController.MakeControllers(MakeHandPointer<MotionController>);
             handTrackers = HandTracker.MakeControllers(MakeHandPointer<HandTracker>);
 
-            this.Ensure<KeywordRecognizer>();
+            keyer = this.Ensure<KeywordRecognizer>();
         }
 
         private T MakeHandPointer<T>(string name)
@@ -223,7 +212,7 @@ namespace Juniper.Input
                 if (!wasTouchAvailable)
                 {
 #if UNITY_EDITOR
-                    wasTouchAvailable = (mode & Mode.Touch) != 0;
+                    wasTouchAvailable = (mode & InputMode.Touch) != 0;
 #else
                     foreach (var touch in touches)
                     {
@@ -299,25 +288,27 @@ namespace Juniper.Input
             Devices.AddRange(newDevices);
             newDevices.Clear();
 
-            var motion = (mode & Mode.Motion) != 0;
-            var hands = (mode & Mode.Hands) != 0;
-            var mouse = (mode & Mode.Mouse) != 0
+            var motion = (mode & InputMode.Motion) != 0;
+            var hands = (mode & InputMode.Hands) != 0;
+            var voice = (mode & InputMode.Voice) != 0;
+            var mouse = (mode & InputMode.Mouse) != 0
                 && this.mouse.IsConnected;
-            var touch = (mode & Mode.Touch) != 0
+            var touch = (mode & InputMode.Touch) != 0
                 && TouchConnected
                 && !motion
                 && !hands;
-            var gaze = (mode & Mode.Gaze) != 0
+            var gaze = (mode & InputMode.Gaze) != 0
                 && !mouse
                 && !TouchConnected
                 && !MotionConnected
                 && !HandsConnected;
 
-            EnableControllers(motion, false);
+            EnableGaze(gaze, false);
+            EnableVoice(voice, false);
             EnableHands(hands, false);
             EnableMouse(mouse, false);
             EnableTouch(touch, false);
-            EnableGaze(gaze, false);
+            EnableControllers(motion, false);
 
             foreach (var pointer in Devices)
             {
@@ -428,7 +419,7 @@ namespace Juniper.Input
 
         private void SaveDeviceState(string key, bool value, IPointerDevice pointer, bool savePref)
         {
-            if (pointer.IsEnabled)
+            if (pointer?.IsEnabled == true)
             {
                 PrimaryPointer = pointer;
             }
@@ -449,6 +440,12 @@ namespace Juniper.Input
         {
             gazePointer.SetActive(value);
             SaveDeviceState(ENABLE_GAZE_KEY, value, gazePointer, savePref);
+        }
+
+        public void EnableVoice(bool value, bool savePref)
+        {
+            keyer.enabled = value;
+            SaveDeviceState(ENABLE_VOICE_KEY, value, null, savePref);
         }
 
         public void EnableTouch(bool value, bool savePref)
@@ -477,5 +474,7 @@ namespace Juniper.Input
             }
             SaveDeviceState(ENABLE_CONTROLLERS_KEY, value, motionControllers.LastOrDefault(), savePref);
         }
+
+        public abstract bool HasFloorPosition { get;  }
     }
 }
