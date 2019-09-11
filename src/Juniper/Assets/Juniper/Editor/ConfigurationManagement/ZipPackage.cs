@@ -37,7 +37,7 @@ namespace Juniper.ConfigurationManagement
                 {
                     isInstalled = true;
                     isInstalledDirty = false;
-                    foreach (var file in Decompressor.FileNames(InputZipFileName))
+                    foreach (var file in Decompressor.FileNames(InputZipFileName).Take(10))
                     {
                         var installPath = PathExt.FixPath(Path.Combine("Assets", file));
                         isInstalled &= File.Exists(installPath);
