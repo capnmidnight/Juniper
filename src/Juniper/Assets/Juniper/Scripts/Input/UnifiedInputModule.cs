@@ -36,7 +36,7 @@ namespace Juniper.Input
 #elif WAVEVR
         ViveFocusInputModule
 #elif UNITY_ANDROID || UNITY_IOS
-        AbstractMobileInputModule
+        MobileInputModule
 #elif UNITY_STANDALONE
         StandaloneInputModule
 #else
@@ -51,6 +51,33 @@ namespace Juniper.Input
     /// </summary>
     public abstract class AbstractUnifiedInputModule : PointerInputModule, IInstallable, IInputModule
     {
+        private static bool AnyDeviceEnabled<T>(T[] devices)
+            where T : Behaviour, IPointerDevice
+        {
+            foreach (var device in devices)
+            {
+                if (device.isActiveAndEnabled)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        private static bool AnyDeviceConnected<T>(T[] devices)
+            where T : Behaviour, IPointerDevice
+        {
+            foreach (var device in devices)
+            {
+                if (device.IsConnected)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public static bool HasGamepad
         {
             get
@@ -65,6 +92,7 @@ namespace Juniper.Input
         public IPointerDevice PrimaryPointer;
 
         public InputMode mode = InputMode.Auto;
+        private InputMode lastMode;
 
         public bool AnyPointerDragging
         {
@@ -134,6 +162,29 @@ namespace Juniper.Input
         {
             Install(true);
         }
+        public bool VoiceAvailable { get { return keyer.IsAvailable; } }
+
+        public bool VoiceEnabled { get { return keyer.isActiveAndEnabled; } }
+
+        public bool GazeAvailable { get { return gazePointer.IsConnected; } }
+
+        public bool GazeEnabled { get { return gazePointer.IsEnabled; } }
+
+        public bool MouseAvailable { get { return mouse.IsConnected; } }
+
+        public bool MouseEnabled { get { return mouse.IsEnabled; } }
+
+        public bool TouchAvailable { get { return AnyDeviceConnected(touches); } }
+
+        public bool TouchEnabled { get { return AnyDeviceEnabled(touches); } }
+
+        public bool HandsAvailable { get { return AnyDeviceConnected(handTrackers); } }
+
+        public bool HandsEnabled { get { return AnyDeviceEnabled(handTrackers); } }
+
+        public bool ControllersAvailable { get { return AnyDeviceConnected(motionControllers); } }
+
+        public bool ControllersEnabled { get { return AnyDeviceEnabled(motionControllers); } }
 
         public virtual void Install(bool reset)
         {
@@ -203,63 +254,6 @@ namespace Juniper.Input
 
 #endif
 
-        private bool wasTouchAvailable = false;
-
-        private bool TouchConnected
-        {
-            get
-            {
-                if (!wasTouchAvailable)
-                {
-#if UNITY_EDITOR
-                    wasTouchAvailable = (mode & InputMode.Touch) != 0;
-#else
-                    foreach (var touch in touches)
-                    {
-                        if (touch.IsConnected)
-                        {
-                            wasTouchAvailable = true;
-                            return true;
-                        }
-                    }
-#endif
-                }
-                return wasTouchAvailable;
-            }
-        }
-
-        private bool MotionConnected
-        {
-            get
-            {
-                foreach (var motion in motionControllers)
-                {
-                    if (motion.IsConnected)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        }
-
-        private bool HandsConnected
-        {
-            get
-            {
-                foreach (var hand in handTrackers)
-                {
-                    if (hand.IsConnected)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        }
-
         public PointerEventData Clone(int pointerDataID, PointerEventData original)
         {
             PointerEventData clone;
@@ -288,27 +282,48 @@ namespace Juniper.Input
             Devices.AddRange(newDevices);
             newDevices.Clear();
 
-            var motion = (mode & InputMode.Motion) != 0;
-            var hands = (mode & InputMode.Hands) != 0;
-            var voice = (mode & InputMode.Voice) != 0;
-            var mouse = (mode & InputMode.Mouse) != 0
-                && this.mouse.IsConnected;
-            var touch = (mode & InputMode.Touch) != 0
-                && TouchConnected
-                && !motion
-                && !hands;
-            var gaze = (mode & InputMode.Gaze) != 0
-                && !mouse
-                && !TouchConnected
-                && !MotionConnected
-                && !HandsConnected;
+            if (mode != lastMode)
+            {
+                if(mode == InputMode.Auto)
+                {
+                    mode = DefaultInputMode;
+                }
 
-            EnableGaze(gaze, false);
-            EnableVoice(voice, false);
-            EnableHands(hands, false);
-            EnableMouse(mouse, false);
-            EnableTouch(touch, false);
-            EnableControllers(motion, false);
+                lastMode = mode;
+
+                var voice = (mode & InputMode.Voice) != 0 && VoiceAvailable;
+                var motion = (mode & InputMode.Motion) != 0 && ControllersAvailable;
+                var hands = (mode & InputMode.Hands) != 0 && HandsAvailable;
+                var mouse = (mode & InputMode.Mouse) != 0 && MouseAvailable;
+                var touch = (mode & InputMode.Touch) != 0 && TouchAvailable
+                    && !motion
+                    && !hands;
+                var gaze = (mode & InputMode.Gaze) != 0 && GazeAvailable
+                    && !mouse
+                    && !touch;
+
+                if(!motion && !hands && !mouse && !touch && !gaze)
+                {
+                    if (UnityInput.mousePresent)
+                    {
+                        mode = (mode & InputMode.Voice) | InputMode.Mouse;
+                        mouse = true;
+                        this.mouse.ActiveThisFrame = true;
+                    }
+                    else
+                    {
+                        mode = (mode & InputMode.Voice) | InputMode.Gaze;
+                        gaze = true;
+                    }
+                }
+
+                EnableGaze(gaze, false);
+                EnableVoice(voice, false);
+                EnableHands(hands, false);
+                EnableMouse(mouse, false);
+                EnableTouch(touch, false);
+                EnableControllers(motion, false);
+            }
 
             foreach (var pointer in Devices)
             {
@@ -475,6 +490,8 @@ namespace Juniper.Input
             SaveDeviceState(ENABLE_CONTROLLERS_KEY, value, motionControllers.LastOrDefault(), savePref);
         }
 
-        public abstract bool HasFloorPosition { get;  }
+        public abstract bool HasFloorPosition { get; }
+
+        public abstract InputMode DefaultInputMode { get; }
     }
 }

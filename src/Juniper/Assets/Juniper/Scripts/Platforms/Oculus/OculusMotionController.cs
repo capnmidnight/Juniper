@@ -1,11 +1,8 @@
 #if UNITY_XR_OCULUS
 
-using Juniper.Input;
 using Juniper.Haptics;
 
 using UnityEngine;
-
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Input.Pointers.Motion
 {

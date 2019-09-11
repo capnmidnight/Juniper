@@ -36,7 +36,10 @@ namespace Juniper.Widgets
             {
                 AddView(view);
             }
+        }
 
+        public void Start()
+        {
             foreach (var view in this.views.Values)
             {
                 view.SkipExit();

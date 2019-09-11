@@ -20,11 +20,6 @@ namespace Juniper.Input
         {
             base.Install(reset);
 
-            if(!reset && mode == Mode.Auto)
-            {
-                mode = GvrHeadset.SupportsPositionalTracking ? Mode.StandingVR : Mode.SeatedVR;
-            }
-
             this.Ensure<GvrControllerInput>();
             this.Ensure<GvrEditorEmulator>();
 
@@ -56,6 +51,8 @@ namespace Juniper.Input
         }
 
         public override bool HasFloorPosition { get { return GvrHeadset.SupportsPositionalTracking; } }
+
+        public override InputMode DefaultInputMode { get { return GvrHeadset.SupportsPositionalTracking ? InputMode.StandingVR : InputMode.SeatedVR; } }
     }
 }
 #endif

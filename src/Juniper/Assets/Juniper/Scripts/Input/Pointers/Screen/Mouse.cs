@@ -26,19 +26,19 @@ namespace Juniper.Input.Pointers.Screen
         }
 
         private bool mouseActive;
-        public override bool IsConnected
-        {
-            get
-            {
-                return UnityInput.mousePresent && (mouseActive = mouseActive || ActiveThisFrame);
-            }
-        }
+
+        public override bool IsConnected { get { return UnityInput.mousePresent && (mouseActive = ActiveThisFrame); } }
 
         public bool ActiveThisFrame
         {
+            set
+            {
+                mouseActive = value;
+            }
             get
             {
-                return IsButtonPressed(KeyCode.Mouse0)
+                return mouseActive
+                    || IsButtonPressed(KeyCode.Mouse0)
                     || IsButtonPressed(KeyCode.Mouse1)
                     || IsButtonPressed(KeyCode.Mouse2)
                     || IsButtonPressed(KeyCode.Mouse3)

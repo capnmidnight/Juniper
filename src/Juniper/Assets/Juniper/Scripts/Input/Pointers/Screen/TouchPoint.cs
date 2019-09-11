@@ -28,13 +28,9 @@ namespace Juniper.Input.Pointers.Screen
         /// Sometimes we lose the touch point but we don't receive a cancel or end event, so we need
         /// to include a timeout from the last update time as well.
         /// </summary>
-        public override bool IsConnected
-        {
-            get
-            {
-                return ActiveThisFrame || wasPressed;
-            }
-        }
+        public override bool IsConnected { get { return (wasActive = wasActive || ActiveThisFrame); } }
+
+        private bool wasActive;
 
         public bool ActiveThisFrame
         {

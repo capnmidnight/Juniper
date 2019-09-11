@@ -23,11 +23,6 @@ namespace Juniper.Input
 
             base.Install(reset);
 
-            if(!reset && mode == Mode.Auto)
-            {
-                mode = Mode.SeatedVR;
-            }
-
             MakeViewerToast(stageT.Find("Head"));
             MakeSafeArea(stageT);
             MakeSafeToast(stageT);
@@ -425,6 +420,8 @@ namespace Juniper.Input
         }
 
         public override bool HasFloorPosition { get { return false; } }
+
+        public override InputMode DefaultInputMode { get { return InputMode.SeatedVR; } }
     }
 }
 #endif

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Juniper.Input;
 using Juniper.Widgets;
 
 using UnityEngine;
@@ -48,15 +48,12 @@ namespace Juniper.Speech
 
         private Func<bool> isParentEnabled;
 
+        private UnifiedInputModule input;
+
         public bool IsInteractable()
         {
-            return enabled && isParentEnabled();
+            return enabled && isParentEnabled() && input.VoiceEnabled;
         }
-
-        /// <summary>
-        /// The main speech recognition manager.
-        /// </summary>
-        private IKeywordRecognizer keyer;
 
         /// <summary>
         /// The keywords that activate this event.
@@ -175,11 +172,7 @@ namespace Juniper.Speech
                 isParentEnabled = AlwaysEnabled;
             }
 
-            keyer = ComponentExt.FindAny<IKeywordRecognizer>();
-            if (keyer == null || !keyer.IsAvailable)
-            {
-                enabled = false;
-            }
+            input = ComponentExt.FindAny<UnifiedInputModule>();
         }
 
         /// <summary>
@@ -189,13 +182,15 @@ namespace Juniper.Speech
         {
             if (HasKeywords)
             {
-                keyer.RefreshKeywords();
+                input.keyer.KeywordRecognized += OnKeyword;
+                input.keyer.RefreshKeywords();
             }
         }
 
         public void OnDisable()
         {
-            keyer.RefreshKeywords();
+            input.keyer.KeywordRecognized -= OnKeyword;
+            input.keyer.RefreshKeywords();
         }
 
         /// <summary>
@@ -239,15 +234,14 @@ namespace Juniper.Speech
         }
 
         /// <summary>
-        /// Returns true when this component has more than one keyword defined and we were able to
-        /// find the speech recognition manager.
+        /// Returns true when this component has more than one keyword defined.
         /// </summary>
         /// <value><c>true</c> if has keywords; otherwise, <c>false</c>.</value>
         private bool HasKeywords
         {
             get
             {
-                return keywords != null && keywords.Length > 0 && keyer != null;
+                return keywords != null && keywords.Length > 0;
             }
         }
 
@@ -261,18 +255,6 @@ namespace Juniper.Speech
             if (Array.BinarySearch(keywords, args.Keyword) >= 0)
             {
                 OnKeyword();
-            }
-        }
-
-        /// <summary>
-        /// On startup, register an event handler on the speech reconition manager for whenever
-        /// keywords are detected.
-        /// </summary>
-        private void Start()
-        {
-            if (HasKeywords)
-            {
-                keyer.KeywordRecognized += OnKeyword;
             }
         }
     }

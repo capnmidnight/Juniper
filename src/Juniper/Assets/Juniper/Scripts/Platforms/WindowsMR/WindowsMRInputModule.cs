@@ -4,15 +4,6 @@ namespace Juniper.Input
 {
     public abstract class WindowsMRInputModule : AbstractUnifiedInputModule
     {
-        public override void Install(bool reset)
-        {
-            base.Install(reset);
-
-            if(!reset && mode == Mode.Auto)
-            {
-                mode = Mode.None;
-            }
-        }
         /// <summary>
         /// Manages the input controllers, either motion controllers on WindowsMR headsets, or hand
         /// tracking on HoloLens.
@@ -24,6 +15,7 @@ namespace Juniper.Input
 
             if (mode == Mode.None)
             {
+error-out: mind the input mode
                 mode = kind == UnityEngine.XR.WSA.Input.InteractionSourceKind.Controller
                     ? Mode.StandingVR
                     : Mode.HeadsetAR;
@@ -31,6 +23,8 @@ namespace Juniper.Input
         }
 
         public override bool HasFloorPosition { get { return true; } }
+
+        public override InputMode DefaultInputMode { get { return InputMode.StandingVR; } }
     }
 }
 #endif
