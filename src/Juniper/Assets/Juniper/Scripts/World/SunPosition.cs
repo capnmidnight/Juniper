@@ -35,6 +35,8 @@ namespace Juniper.World
         [HideInInspector]
         public HorizontalSphericalPosition orientation;
 
+        private LatLngPoint lastCoord;
+
         /// <summary>
         /// When set to true, the Update function will also print a report showing the internal state
         /// of the component.
@@ -56,6 +58,12 @@ namespace Juniper.World
             }
         }
 
+        public void Awake()
+        {
+            location = GetComponent<GPSLocation>();
+            compass = ComponentExt.FindAny<CompassRose>();
+        }
+
         /// <summary>
         /// Retrieves the current <see cref="location"/> and/or <see cref="compass"/>, if they are
         /// needed, updates the <see cref="currentTime"/>, calculates the correct sun position from
@@ -63,19 +71,13 @@ namespace Juniper.World
         /// </summary>
         public void Update()
         {
-            if (location == null)
-            {
-                location = GetComponent<GPSLocation>();
-            }
-
-            if (compass == null)
-            {
-                compass = ComponentExt.FindAny<CompassRose>();
-            }
-
             currentTime = GetTime();
 
-            orientation = location.Coord.ToSunPosition(currentTime);
+            if (location.Coord != lastCoord)
+            {
+                lastCoord = location.Coord;
+                orientation = location.Coord.ToSunPosition(currentTime);
+            }
 
             if (DebugReport)
             {
