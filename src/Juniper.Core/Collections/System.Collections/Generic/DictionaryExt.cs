@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace System.Collections.Generic
@@ -60,6 +61,7 @@ namespace System.Collections.Generic
                     .ToString(entrySeperator);
         }
 
+        [SuppressMessage("Performance", "HAA0401:Possible allocation of reference type enumerator", Justification = "Inverting a dictionary is inherently expensive")]
         public static Dictionary<B, A> Invert<A, B>(this IDictionary<A, B> dict)
         {
             var dict2 = new Dictionary<B, A>();

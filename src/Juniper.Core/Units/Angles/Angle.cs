@@ -8,7 +8,7 @@ namespace Juniper.Units
     /// the current value is 359, setting the value to 1 will actually return as 361, as <c>Abs(361 -
     /// 351) &lt; Abs(1 - 351)</c>.
     /// </summary>
-    public struct Angle
+    public sealed class Angle
     {
         /// <summary>
         /// Create an angle value at set starting point

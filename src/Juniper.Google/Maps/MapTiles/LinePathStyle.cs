@@ -2,7 +2,7 @@ using System.Text;
 
 namespace Juniper.Google.Maps.MapTiles
 {
-    public struct LinePathStyle
+    public class LinePathStyle
     {
         private readonly string styleDef;
 
@@ -10,7 +10,7 @@ namespace Juniper.Google.Maps.MapTiles
         {
             var sb = new StringBuilder();
 
-            void delim(bool check, string name, object value)
+            void delim(bool check, string name, string value)
             {
                 if (check)
                 {
@@ -18,12 +18,13 @@ namespace Juniper.Google.Maps.MapTiles
                     {
                         sb.Append('|');
                     }
-
-                    sb.Append($"{name}:{value}");
+                    sb.Append(name);
+                    sb.Append(':');
+                    sb.Append(value);
                 }
             }
 
-            delim(weight != 5, nameof(weight), weight);
+            delim(weight != 5, nameof(weight), weight.ToString());
             delim(!string.IsNullOrEmpty(color), nameof(color), color);
             delim(!string.IsNullOrEmpty(fillcolor), nameof(fillcolor), fillcolor);
             delim(geodesic, nameof(geodesic), geodesic ? "true" : "false");

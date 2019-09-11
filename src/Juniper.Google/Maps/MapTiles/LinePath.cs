@@ -141,7 +141,7 @@ namespace Juniper.Google.Maps.MapTiles
 
         public static void EncodePolylineEntry(StringBuilder sb, string point, ref int firstLat, ref int firstLng)
         {
-            var parts = point.Split(',');
+            var parts = point.SplitX(',');
             var values = parts.Select(p => double.Parse(p.Trim())).ToArray();
             EncodePolylinePart(sb, values[0], ref firstLat);
             EncodePolylinePart(sb, values[1], ref firstLng);

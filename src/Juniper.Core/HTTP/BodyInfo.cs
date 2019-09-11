@@ -1,6 +1,6 @@
 namespace Juniper.HTTP
 {
-    public struct BodyInfo
+    public sealed class BodyInfo
     {
         public readonly string MIMEType;
         public readonly long Length;

@@ -134,7 +134,7 @@ namespace System.Net
 
         public static HttpWebRequest Expect(this HttpWebRequest request, HttpStatusCode code)
         {
-            request.Expect = code.ToString();
+            request.Expect = code.GetStringValue();
             return request;
         }
 
@@ -209,7 +209,7 @@ namespace System.Net
 
         public static HttpWebRequest Cookie(this HttpWebRequest request, string keyValue, string domain)
         {
-            var parts = keyValue.Split('=');
+            var parts = keyValue.SplitX('=');
             return request.Cookie(parts[0], parts[1], domain);
         }
 

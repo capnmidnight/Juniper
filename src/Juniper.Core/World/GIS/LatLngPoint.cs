@@ -7,7 +7,7 @@ namespace Juniper.World.GIS
     /// A point in geographic space on a radial coordinate system.
     /// </summary>
     [Serializable]
-    public struct LatLngPoint : ISerializable
+    public sealed class LatLngPoint : ISerializable
     {
         /// <summary>
         /// An altitude value thrown in just for kicks. It makes some calculations and conversions
@@ -40,10 +40,9 @@ namespace Juniper.World.GIS
             Altitude = alt;
         }
 
-        public LatLngPoint(float lat, float lng)
-            : this(lat, lng, 0)
-        {
-        }
+        public LatLngPoint(float lat, float lng) : this(lat, lng, 0) { }
+
+        public LatLngPoint() : this(0, 0, 0) { }
 
         /// <summary>
         /// Deserialize the object.
@@ -85,7 +84,7 @@ namespace Juniper.World.GIS
         public static bool TryParseDMS(string value, out float dec)
         {
             dec = 0;
-            var parts = value.Split(' ');
+            var parts = value.SplitX(' ');
             var hemisphere = parts[0];
             if ((hemisphere == "N" || hemisphere == "S" || hemisphere == "E" || hemisphere == "W")
                 && int.TryParse(parts[1], out var degrees)
@@ -116,7 +115,7 @@ namespace Juniper.World.GIS
 
         public static bool TryParseDMSPair(string value, out LatLngPoint point)
         {
-            var parts = value.Split(',');
+            var parts = value.SplitX(',');
             float lat, lng;
             if (parts.Length != 2
                 || !TryParseDMS(parts[0], out lat)
@@ -146,7 +145,7 @@ namespace Juniper.World.GIS
 
         public static bool TryParseDecimal(string value, out LatLngPoint point)
         {
-            var parts = value.Split(',');
+            var parts = value.SplitX(',');
             float lat, lng;
             if (parts.Length != 2
                 || !float.TryParse(parts[0].Trim(), out lat)
@@ -190,7 +189,7 @@ namespace Juniper.World.GIS
         /// <returns>A decimal degrees printed format with no rounding</returns>
         public override string ToString()
         {
-            return $"{Latitude:0.000000},{Longitude:0.000000}";
+            return Latitude.ToString("0.000000") + "," + Longitude.ToString("0.000000");
         }
 
         public static explicit operator string(LatLngPoint value)
@@ -274,7 +273,7 @@ namespace Juniper.World.GIS
             {
                 secondsStr = "0" + secondsStr;
             }
-            return $"{hemisphere} {degrees}° {intMinutes}' {secondsStr}\"";
+            return $"{hemisphere} {degrees.ToString()}° {intMinutes.ToString()}' {secondsStr}\"";
         }
     }
 }

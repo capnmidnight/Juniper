@@ -32,7 +32,7 @@ namespace Juniper.Climate
         /// <summary>
         /// The latitude/longitude for which the report covers.
         /// </summary>
-        LatLngPoint? Location
+        LatLngPoint Location
         {
             get;
         }

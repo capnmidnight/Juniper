@@ -16,7 +16,7 @@ namespace Juniper.Imaging.Windows
             }
             else
             {
-                throw new NotSupportedException($"Component count {componentCount}");
+                throw new NotSupportedException($"Component count {componentCount.ToString()}");
             }
         }
 
@@ -112,7 +112,7 @@ namespace Juniper.Imaging.Windows
             }
             else
             {
-                throw new NotSupportedException($"Pixel format {img.PixelFormat}");
+                throw new NotSupportedException($"Pixel format {img.PixelFormat.GetStringValue()}");
             }
         }
     }

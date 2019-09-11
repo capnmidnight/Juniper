@@ -30,8 +30,8 @@ namespace Juniper.HTTP
             this.error = error;
 
             listener = new HttpListener();
-            listener.Prefixes.Add($"http://*:{httpPort}/");
-            listener.Prefixes.Add($"https://*:{httpsPort}/");
+            listener.Prefixes.Add($"http://*:{httpPort.ToString()}/");
+            listener.Prefixes.Add($"https://*:{httpsPort.ToString()}/");
             listener.AuthenticationSchemeSelectorDelegate = GetAuthenticationSchemeForRequest;
             serverThread = new Thread(Listen);
         }

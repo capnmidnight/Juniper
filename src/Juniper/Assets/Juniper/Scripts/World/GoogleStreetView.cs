@@ -207,7 +207,7 @@ namespace Juniper.Imaging
         public IEnumerator SynchronizeDataCoroutine(Vector3 cursorPosition, IProgress prog = null)
         {
             string searchPano = null;
-            LatLngPoint? searchPoint = null;
+            LatLngPoint searchPoint = null;
             var panoMatch = GMAPS_URL_PANO_PATTERN.Match(searchLocation);
             var latLngMatch = GMAPS_URL_LATLNG_PATTERN.Match(searchLocation);
 
@@ -273,11 +273,11 @@ namespace Juniper.Imaging
             }
         }
 
-        private IEnumerator RequestMetadata(LatLngPoint? searchPoint, IProgress metadataProg)
+        private IEnumerator RequestMetadata(LatLngPoint searchPoint, IProgress metadataProg)
         {
             if (searchPoint != null)
             {
-                yield return ValidateMetadata(yarrow.GetMetadata(searchPoint.Value, searchRadius, metadataProg));
+                yield return ValidateMetadata(yarrow.GetMetadata(searchPoint, searchRadius, metadataProg));
             }
         }
 

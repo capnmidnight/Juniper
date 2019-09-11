@@ -32,7 +32,7 @@ namespace Juniper.UnityAssetStore
                     sb.Append("&");
                 }
 
-                sb.Append($"rows={rows}&page={page}&order_by={order_by.ToString().ToLowerInvariant()}");
+                sb.Append($"rows={rows.ToString()}&page={page.ToString()}&order_by={order_by.GetStringValue().ToLowerInvariant()}");
 
                 return sb.ToString();
             }
@@ -89,7 +89,7 @@ namespace Juniper.UnityAssetStore
 
         public StoreSearch MaxPrice(int max)
         {
-            return AddTerm("price", $"0-{max}");
+            return AddTerm("price", $"0-{max.ToString()}");
         }
 
         public StoreSearch FreeOnly()
@@ -99,12 +99,12 @@ namespace Juniper.UnityAssetStore
 
         public StoreSearch MaxPricePaidOnly(int max)
         {
-            return AddTerm("price", $">0-{max}");
+            return AddTerm("price", $">0-{max.ToString()}");
         }
 
         public StoreSearch MaxSize(int megabytes)
         {
-            return AddTerm("size", $"0-{megabytes}");
+            return AddTerm("size", $"0-{megabytes.ToString()}");
         }
 
         public StoreSearch MinRating(int rating)

@@ -61,7 +61,14 @@ namespace Juniper
                         keepFinding = true;
                         try
                         {
-                            errored.RemoveAll(p => p.Key == installable);
+                            for(var j = errored.Count - 1; j >= 0; --j)
+                            {
+                                if(errored[j].Key == installable)
+                                {
+                                    errored.RemoveAt(j);
+                                }
+                            }
+
                             installable.Install(reset);
                             installed.Add(installable);
                             prog?.Report(installed.Count, installables.Count);

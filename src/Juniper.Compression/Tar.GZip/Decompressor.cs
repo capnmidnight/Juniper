@@ -43,20 +43,32 @@ namespace Juniper.Compression.Tar.GZip
         /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
         /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
         /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
-        private static IEnumerable<T> Select<T>(string inputTarFile, Func<TarEntry, TarInputStream, bool> checkEntry, Func<TarEntry, TarInputStream, T> eachEntry)
+        private static IEnumerable<T> Select<T>(FileInfo inputTarFile, Func<TarEntry, TarInputStream, bool> checkEntry, Func<TarEntry, TarInputStream, T> eachEntry)
         {
-            if (!File.Exists(inputTarFile))
+            if (!inputTarFile.Exists)
             {
-                throw new FileNotFoundException("File not found! " + inputTarFile, inputTarFile);
+                throw new FileNotFoundException("File not found! " + inputTarFile.FullName, inputTarFile.FullName);
             }
             else
             {
-                using (var tar = new TarInputStream(File.OpenRead(inputTarFile)))
+                using (var tar = new TarInputStream(inputTarFile.OpenRead()))
                 {
                     tar.IsStreamOwner = true;
                     return tar.Select(checkEntry, eachEntry);
                 }
             }
+        }
+
+        /// <summary>
+        /// Lists all of the entries (both files and directories) in a Tar file.
+        /// </summary>
+        /// <param name="inputTarFile">A file-path to the Tar file to scan.</param>
+        /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
+        /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
+        /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
+        private static IEnumerable<T> Select<T>(string inputTarFile, Func<TarEntry, TarInputStream, bool> checkEntry, Func<TarEntry, TarInputStream, T> eachEntry)
+        {
+            return Select(new FileInfo(inputTarFile), checkEntry, eachEntry);
         }
 
         /// <summary>
@@ -68,9 +80,36 @@ namespace Juniper.Compression.Tar.GZip
         /// <returns>A lazy collection of TarEntry objects, as filtered by <paramref name="checkEntry"/>.</returns>
         public static IEnumerable<TarEntry> Select(this TarInputStream tar, Func<TarEntry, TarInputStream, bool> checkEntry)
         {
-            return tar.Select(
-                checkEntry,
-                (entry, _) => entry);
+            TarEntry entry;
+            while ((entry = tar.GetNextEntry()) != null)
+            {
+                if (checkEntry(entry, tar))
+                {
+                    yield return entry;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Lists all of the entries (both files and directories) in a Tar file.
+        /// </summary>
+        /// <param name="inputTarFile">A file-path to the Tar file to scan.</param>
+        /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
+        /// <returns>A lazy collection of TarEntries</returns>
+        public static IEnumerable<TarEntry> Select(FileInfo inputTarFile, Func<TarEntry, TarInputStream, bool> checkEntry)
+        {
+            if (!inputTarFile.Exists)
+            {
+                throw new FileNotFoundException("File not found! " + inputTarFile.FullName, inputTarFile.FullName);
+            }
+            else
+            {
+                using (var tar = new TarInputStream(inputTarFile.OpenRead()))
+                {
+                    tar.IsStreamOwner = true;
+                    return tar.Select(checkEntry);
+                }
+            }
         }
 
         /// <summary>
@@ -81,10 +120,7 @@ namespace Juniper.Compression.Tar.GZip
         /// <returns>A lazy collection of TarEntries</returns>
         public static IEnumerable<TarEntry> Select(string inputTarFile, Func<TarEntry, TarInputStream, bool> checkEntry)
         {
-            return Select(
-                inputTarFile,
-                checkEntry,
-                (entry, _) => entry);
+            return Select(new FileInfo(inputTarFile), checkEntry);
         }
 
         /// <summary>
@@ -111,7 +147,7 @@ namespace Juniper.Compression.Tar.GZip
         /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
         /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
         /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
-        public static void ForEach(string inputTarFile, Action<TarEntry, TarInputStream> eachEntry, Action<Exception> error = null)
+        public static void ForEach<T>(string inputTarFile, T state, Action<T, TarEntry, TarInputStream> eachEntry, Action<Exception> error = null)
         {
             if (!File.Exists(inputTarFile))
             {
@@ -127,7 +163,7 @@ namespace Juniper.Compression.Tar.GZip
                     {
                         try
                         {
-                            eachEntry(entry, tar);
+                            eachEntry(state, entry, tar);
                         }
 #pragma warning disable CA1031 // Do not catch general exception types
                         catch (Exception exp)
@@ -145,25 +181,48 @@ namespace Juniper.Compression.Tar.GZip
         /// more easily with c#'s for-each.
         /// </summary>
         /// <param name="tar"></param>
-        /// <returns>A lazy collection of TarEntry objects.</returns>
+        /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
+        /// <returns>A lazy collection of TarEntry objects, as filtered by <paramref name="checkEntry"/>.</returns>
         public static IEnumerable<TarEntry> Select(this TarInputStream tar)
         {
-            return tar.Select(
-                (_, __) => true,
-                (entry, _) => entry);
+            TarEntry entry;
+            while ((entry = tar.GetNextEntry()) != null)
+            {
+                yield return entry;
+            }
         }
 
         /// <summary>
         /// Lists all of the entries (both files and directories) in a Tar file.
         /// </summary>
         /// <param name="inputTarFile">A file-path to the Tar file to scan.</param>
+        /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
+        /// <returns>A lazy collection of TarEntries</returns>
+        public static IEnumerable<TarEntry> Select(FileInfo inputTarFile)
+        {
+            if (!inputTarFile.Exists)
+            {
+                throw new FileNotFoundException("File not found! " + inputTarFile.FullName, inputTarFile.FullName);
+            }
+            else
+            {
+                using (var tar = new TarInputStream(inputTarFile.OpenRead()))
+                {
+                    tar.IsStreamOwner = true;
+                    return tar.Select();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Lists all of the entries (both files and directories) in a Tar file.
+        /// </summary>
+        /// <param name="inputTarFile">A file-path to the Tar file to scan.</param>
+        /// <param name="checkEntry">A callback to check if a particular file should be processed</param>
         /// <returns>A lazy collection of TarEntries</returns>
         public static IEnumerable<TarEntry> Select(string inputTarFile)
         {
-            return Select(
-                inputTarFile,
-                (_, __) => true,
-                (entry, _) => entry);
+            return Select(new FileInfo(inputTarFile));
         }
 
         /// <summary>
@@ -182,25 +241,27 @@ namespace Juniper.Compression.Tar.GZip
             }
             else
             {
-                ForEach(inputTarFile, (tarEntry, tarStream) =>
-                {
-                    var fullTarToPath = Path.Combine(outputDirectory, tarEntry.Name);
-                    if (tarEntry.IsDirectory)
-                    {
-                        DirectoryExt.CreateDirectory(fullTarToPath);
-                    }
-                    else if (!File.Exists(fullTarToPath)
-                        || FileExt.TryDelete(fullTarToPath))
-                    {
-                        var directoryName = Path.GetDirectoryName(fullTarToPath);
-                        if (directoryName.Length > 0)
-                        {
-                            DirectoryExt.CreateDirectory(directoryName);
-                        }
+                ForEach(inputTarFile, outputDirectory, Decompress, error);
+            }
+        }
 
-                        tarStream.CopyTo(File.Create(fullTarToPath));
-                    }
-                }, error);
+        private static void Decompress(string oDir, TarEntry tarEntry, TarInputStream tarStream)
+        {
+            var fullTarToPath = Path.Combine(oDir, tarEntry.Name);
+            if (tarEntry.IsDirectory)
+            {
+                DirectoryExt.CreateDirectory(fullTarToPath);
+            }
+            else if (!File.Exists(fullTarToPath)
+                || FileExt.TryDelete(fullTarToPath))
+            {
+                var directoryName = Path.GetDirectoryName(fullTarToPath);
+                if (directoryName.Length > 0)
+                {
+                    DirectoryExt.CreateDirectory(directoryName);
+                }
+
+                tarStream.CopyTo(File.Create(fullTarToPath));
             }
         }
 

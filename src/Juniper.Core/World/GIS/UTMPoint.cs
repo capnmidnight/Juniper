@@ -13,7 +13,7 @@ namespace Juniper.World.GIS
     /// and uses a secant transverse Mercator projection in each zone.
     /// </summary>
     [Serializable]
-    public struct UTMPoint : ISerializable
+    public sealed class UTMPoint : ISerializable
     {
         /// <summary>
         /// The east/west component of the coordinate.
@@ -91,7 +91,7 @@ namespace Juniper.World.GIS
             info.AddValue(nameof(Y), Y);
             info.AddValue(nameof(Z), Z);
             info.AddValue(nameof(Zone), Zone);
-            info.AddValue(nameof(Hemisphere), Hemisphere.ToString());
+            info.AddValue(nameof(Hemisphere), Hemisphere.GetStringValue());
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Juniper.World.GIS
         /// <returns>A string representing the UTM point with its zone</returns>
         public override string ToString()
         {
-            return $"({X}, {Y}, {Z}) zone {Zone}";
+            return $"({X.ToString()}, {Y.ToString()}, {Z.ToString()}) zone {Zone.ToString()}";
         }
 
         public static explicit operator string(UTMPoint value)
@@ -112,7 +112,7 @@ namespace Juniper.World.GIS
         {
             return obj != null
                 && obj is UTMPoint p
-                && p.Hemisphere.Equals(Hemisphere)
+                && p.Hemisphere.GetStringValue().Equals(Hemisphere.GetStringValue())
                 && p.X.Equals(X)
                 && p.Y.Equals(Y)
                 && p.Z.Equals(Z)
@@ -121,7 +121,7 @@ namespace Juniper.World.GIS
 
         public override int GetHashCode()
         {
-            return Hemisphere.GetHashCode()
+            return Hemisphere.GetStringValue().GetHashCode()
                 ^ X.GetHashCode()
                 ^ Y.GetHashCode()
                 ^ Z.GetHashCode()

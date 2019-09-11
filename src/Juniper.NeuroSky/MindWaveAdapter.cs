@@ -277,7 +277,7 @@ namespace Juniper.NeuroSky
                 switch (TG_SetBaudrate(connectionId, value))
                 {
                     case -1:
-                    throw new InvalidOperationException("Invalid connection ID: " + connectionId);
+                    throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString());
                     case -2:
                     throw new InvalidOperationException(nameof(value) + " is not a valid TG_BAUD_* value.");
                     case -3:
@@ -322,7 +322,7 @@ namespace Juniper.NeuroSky
             switch (TG_Connect(connectionId, serialPortName, baudrate, format))
             {
                 case -1:
-                throw new InvalidOperationException("Invalid connection ID: " + connectionId);
+                throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString());
                 case -2:
                 throw new Exception(serialPortName + " could not be opened as a serial communication port. Check that the name is a valid COM port on your system.");
                 case -3:
@@ -347,7 +347,7 @@ namespace Juniper.NeuroSky
                 switch (TG_EnableAutoRead(connectionId, value ? 1 : 0))
                 {
                     case -1:
-                    throw new InvalidOperationException("Invalid connection ID: " + connectionId);
+                    throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString());
                     case -2:
                     throw new Exception("Unable to start auto-reading.");
                     case -3:
@@ -391,7 +391,7 @@ namespace Juniper.NeuroSky
                 switch (TG_SetStreamLog(connectionId, value ? streamFileName : null))
                 {
                     case -1:
-                    throw new InvalidOperationException("Invalid connection ID: " + connectionId);
+                    throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString());
                     case -2:
                     throw new Exception(streamFileName + " could not be opened for writing.");
                 }
@@ -412,7 +412,7 @@ namespace Juniper.NeuroSky
                 switch (TG_WriteStreamLog(connectionId, insertTimestamp, msg))
                 {
                     case -1:
-                    throw new InvalidOperationException("Invalid connection ID: " + connectionId);
+                    throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString());
                     case -2:
                     throw new Exception("Stream log is not open for writing.");
                 }
@@ -452,7 +452,7 @@ namespace Juniper.NeuroSky
                 switch (TG_SetDataLog(connectionId, value ? dataFileName : null))
                 {
                     case -1:
-                    throw new InvalidOperationException("Invalid connection ID: " + connectionId);
+                    throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString());
                     case -2:
                     throw new Exception(dataFileName + " could not be opened for writing.");
                 }
@@ -473,7 +473,7 @@ namespace Juniper.NeuroSky
                 switch (TG_WriteDataLog(connectionId, insertTimestamp, msg))
                 {
                     case -1:
-                    throw new InvalidOperationException("Invalid connection ID: " + connectionId);
+                    throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString());
                     case -2:
                     throw new Exception("Stream log is not open for writing.");
                 }
@@ -496,7 +496,7 @@ namespace Juniper.NeuroSky
             switch (bytesRead)
             {
                 case -1:
-                throw new InvalidOperationException("Invalid connection ID: " + connectionId);
+                throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString());
                 case -2:
                 return 0;
 
@@ -646,7 +646,7 @@ namespace Juniper.NeuroSky
             switch (TG_SendByte(connectionId, b))
             {
                 case -1:
-                throw new InvalidOperationException("Invalid connection ID: " + connectionId);
+                throw new InvalidOperationException("Invalid connection ID: " + connectionId.ToString());
                 case -2:
                 throw new InvalidOperationException("Device is connected to a file stream, not a device.");
                 case -3:

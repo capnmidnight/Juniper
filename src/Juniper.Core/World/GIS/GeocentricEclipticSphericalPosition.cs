@@ -7,7 +7,7 @@ namespace Juniper.World.GIS
     /// Represents a bearing and distance to an object from the Earth's orbit.
     /// </summary>
     [Serializable]
-    public struct GeocentricEclipticSphericalPosition : ISerializable
+    public sealed class GeocentricEclipticSphericalPosition : ISerializable
     {
         /// <summary>
         /// The number of degrees above the Earth's orbital disk at which to find the object.
@@ -38,7 +38,7 @@ namespace Juniper.World.GIS
         }
 
         /// <summary>
-        /// Deserialze the object.
+        /// Deserialize the object.
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>

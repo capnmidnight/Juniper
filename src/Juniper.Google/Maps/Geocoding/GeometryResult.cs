@@ -37,7 +37,7 @@ namespace Juniper.Google.Maps.Geocoding
                 lat = location.Latitude,
                 lng = location.Longitude
             });
-            info.AddValue(nameof(location_type), location_type);
+            info.AddValue(nameof(location_type), location_type.GetStringValue());
             info.AddValue(nameof(viewport), viewport);
         }
     }

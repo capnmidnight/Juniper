@@ -102,16 +102,14 @@ namespace Juniper.Collections
         /// <returns>A text representation of the tree.</returns>
         public override string ToString()
         {
-            var sb = new StringBuilder();
-            Recurse(here =>
+            return Accumulate(new StringBuilder(), (sb, here) =>
             {
                 for (var i = 0; i < here.Depth; ++i)
                 {
                     sb.Append("--");
                 }
                 sb.AppendLine(here.Value.ToString());
-            });
-            return sb.ToString();
+            }).ToString();
         }
 
         /// <summary>
@@ -133,6 +131,50 @@ namespace Juniper.Collections
                     stack.Push((U)child);
                 }
             }
+        }
+
+        /// <summary>
+        /// Perform an operation over the trie, using a local stack instead of the function call
+        /// stack frame.
+        /// </summary>
+        /// <param name="act">Act.</param>
+        public IEnumerable<ValueT> Select<ValueT>(Func<U, ValueT> act)
+        {
+            // how to do recursion without killing the function call stack
+            var stack = new Stack<U>();
+            stack.Push((U)this);
+            while (stack.Count > 0)
+            {
+                var here = stack.Pop();
+                yield return act(here);
+                foreach (var child in here.children)
+                {
+                    stack.Push((U)child);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Perform an operation over the trie, using a local stack instead of the function call
+        /// stack frame.
+        /// </summary>
+        /// <param name="act">Act.</param>
+        public StateT Accumulate<StateT>(StateT state, Action<StateT, U> act)
+        {
+            // how to do recursion without killing the function call stack
+            var stack = new Stack<U>();
+            stack.Push((U)this);
+            while (stack.Count > 0)
+            {
+                var here = stack.Pop();
+                act(state, here);
+                foreach (var child in here.children)
+                {
+                    stack.Push((U)child);
+                }
+            }
+
+            return state;
         }
     }
 }

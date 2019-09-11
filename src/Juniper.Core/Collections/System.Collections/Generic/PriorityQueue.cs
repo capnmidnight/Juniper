@@ -143,7 +143,6 @@ namespace System.Collections.Generic
             if (qs.Count > 0)
             {
                 obj = qs[0].Dequeue();
-                InvalidateEnumerators();
                 if (qs[0].Count == 0 && qs.Count > 1)
                 {
                     qs.RemoveAt(0);
@@ -165,17 +164,16 @@ namespace System.Collections.Generic
                 // not feel it is a good idea.
                 throw new NullReferenceException("Cannot enqueue null references");
             }
-            var added = false;
             if (Count == 0)
             {
                 //if the queue is empty, we can simply add to
                 // the very first position without any consideration
                 qs[0].Enqueue(obj);
-                added = true;
             }
             else
             {
                 //figure out which queue to add the object to
+                var added = false;
                 for (var i = 0; i < qs.Count && !added; ++i)
                 {
                     var t = qs[i].Peek();
@@ -188,7 +186,7 @@ namespace System.Collections.Generic
                     }
                     else if (n < 0) //this index is just after the correct queue.
                     {
-                        //If we got this far, then there wasn't a queu ready for
+                        //If we got this far, then there wasn't a queue ready for
                         // this object, so we need to create a new one.
                         added = InsertQueueAt(i, obj);
                     }
@@ -206,18 +204,13 @@ namespace System.Collections.Generic
                             if (nextN < 0)
                             {
                                 //The next index is after the correct queue, so we must
-                                // create a new queue inbetween the current one and the
+                                // create a new queue in between the current one and the
                                 // next one.
                                 added = InsertQueueAt(i + 1, obj);
                             }
                         }
                     }
                 }
-            }
-
-            if (added)
-            {
-                InvalidateEnumerators();
             }
         }
 
@@ -227,9 +220,13 @@ namespace System.Collections.Generic
         /// <returns></returns>
         public IEnumerator<T> GetEnumerator()
         {
-            var temp = new PriorityQueueEnumerator<T>(this);
-            watchList.Add(temp);
-            return temp;
+            foreach (var q in qs)
+            {
+                foreach (var item in q)
+                {
+                    yield return item;
+                }
+            }
         }
 
         /// <summary>
@@ -273,7 +270,6 @@ namespace System.Collections.Generic
 
         private IComparer<T> comparer;
         private List<Queue<T>> qs;
-        private List<PriorityQueueEnumerator<T>> watchList;
 
         private void Init(IComparer<T> comparer)
         {
@@ -282,7 +278,6 @@ namespace System.Collections.Generic
                 new Queue<T>()
             };
             this.comparer = comparer;
-            watchList = new List<PriorityQueueEnumerator<T>>();
         }
 
         private bool InsertQueueAt(int i, T obj)
@@ -291,15 +286,6 @@ namespace System.Collections.Generic
             q.Enqueue(obj);
             qs.Insert(i, q);
             return true;
-        }
-
-        private void InvalidateEnumerators()
-        {
-            while (watchList.Count > 0)
-            {
-                watchList[0].Dispose();
-                watchList.RemoveAt(0);
-            }
         }
 
         /// <summary> A default Comparer to use when a comparer is not defined. If the type

@@ -114,7 +114,7 @@ namespace Juniper.Imaging
                             && (decoder.GetWidth(img) != tileWidth
                                 || decoder.GetHeight(img) != tileHeight))
                         {
-                            throw new ArgumentException($"All elements of {nameof(images)} must be the same width and height. Image [{y},{x}] did not match image 0.");
+                            throw new ArgumentException($"All elements of {nameof(images)} must be the same width and height. Image [{y.ToString()},{x.ToString()}] did not match image 0.");
                         }
                     }
                 }

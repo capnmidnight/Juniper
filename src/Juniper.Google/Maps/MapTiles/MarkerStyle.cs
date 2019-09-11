@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Juniper.Google.Maps.MapTiles
 {
-    public struct MarkerStyle
+    public class MarkerStyle
     {
         public static MarkerStyle CustomIcon(Uri image)
         {
@@ -12,12 +12,12 @@ namespace Juniper.Google.Maps.MapTiles
 
         public static MarkerStyle CustomIcon(Uri image, MarkerAnchorPosition anchorPosition)
         {
-            return new MarkerStyle($"anchor:{anchorPosition}:icon:{image}");
+            return new MarkerStyle($"anchor:{anchorPosition.GetStringValue()}:icon:{image}");
         }
 
         public static MarkerStyle CustomIcon(Uri image, int anchorX, int anchorY)
         {
-            return new MarkerStyle($"anchor:{anchorX},{anchorY}|icon:{image}");
+            return new MarkerStyle($"anchor:{anchorX.ToString()},{anchorY.ToString()}|icon:{image}");
         }
 
         private readonly string styleDef;
@@ -36,7 +36,7 @@ namespace Juniper.Google.Maps.MapTiles
 
             var sb = new StringBuilder();
 
-            void delim(bool check, string name, object value)
+            void delim(bool check, string name, string value)
             {
                 if (check)
                 {
@@ -44,14 +44,15 @@ namespace Juniper.Google.Maps.MapTiles
                     {
                         sb.Append('|');
                     }
-
-                    sb.Append($"{name}:{value}");
+                    sb.Append(name);
+                    sb.Append(':');
+                    sb.Append(value);
                 }
             }
 
-            delim(size != MarkerSize.normal, nameof(size), size);
+            delim(size != MarkerSize.normal, nameof(size), size.GetStringValue());
             delim(!string.IsNullOrEmpty(color), nameof(color), color);
-            delim(char.IsLetterOrDigit(label), nameof(label), label);
+            delim(char.IsLetterOrDigit(label), nameof(label), label.ToString());
 
             styleDef = sb.ToString();
         }

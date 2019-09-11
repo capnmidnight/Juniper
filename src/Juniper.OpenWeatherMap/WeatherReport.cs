@@ -184,12 +184,12 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// A conversion of <see cref="OWMCoord"/> to Juniper's own internal Lat/Lng type.
         /// </summary>
-        private LatLngPoint? loc;
+        private LatLngPoint loc;
 
         /// <summary>
         /// A conversion of <see cref="OWMCoord"/> to Juniper's own internal Lat/Lng type.
         /// </summary>
-        public LatLngPoint? Location
+        public LatLngPoint Location
         {
             get
             {

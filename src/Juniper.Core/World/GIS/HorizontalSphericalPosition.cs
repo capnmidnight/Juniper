@@ -8,7 +8,7 @@ namespace Juniper.World.GIS
     /// essentially an Euler rotation without a Z-axis rotation.
     /// </summary>
     [Serializable]
-    public struct HorizontalSphericalPosition : ISerializable
+    public sealed class HorizontalSphericalPosition : ISerializable
     {
         /// <summary>
         /// The altitude of the object (angle off of the Ecliptic), in degrees.

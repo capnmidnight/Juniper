@@ -1,5 +1,5 @@
 using System.IO;
-
+using System.Runtime.Serialization;
 using Json.Lite;
 
 using Juniper.HTTP;

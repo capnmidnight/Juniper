@@ -165,7 +165,21 @@ namespace Juniper.Collections.Statistics
         /// <returns></returns>
         public IEnumerator<T> GetEnumerator()
         {
-            return collect.GetEnumerator();
+            for (var i = 0; i < collect.Count; ++i)
+            {
+                yield return collect[i];
+            }
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
+            return GetEnumerator();
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
         }
 
         /// <summary>
@@ -176,18 +190,6 @@ namespace Juniper.Collections.Statistics
         {
             collect.Add(item);
             UpdateStatistics(item);
-        }
-
-        /// <summary>
-        /// Add a collection of items to the current collection.
-        /// </summary>
-        /// <param name="collect"></param>
-        public void AddRange(IEnumerable<T> collect)
-        {
-            foreach (var v in collect)
-            {
-                Add(v);
-            }
         }
 
         /// <summary>
@@ -315,15 +317,6 @@ namespace Juniper.Collections.Statistics
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns></returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return collect.GetEnumerator();
-        }
-
-        /// <summary>
         /// Creates a new collection analyzer out of a generic collection.
         /// </summary>
         /// <param name="collection">Collection.</param>
@@ -361,8 +354,9 @@ namespace Juniper.Collections.Statistics
             {
                 Minimum = MaxValue;
                 Maximum = MinValue;
-                foreach (var v in this)
+                for (var i = 0; i < Count; ++i)
                 {
+                    var v = this[i];
                     Minimum = Min(Minimum, v);
                     Maximum = Max(Maximum, v);
                     Mean = Add(Mean, Divide(v, Count));
@@ -371,8 +365,9 @@ namespace Juniper.Collections.Statistics
                 if (Count > 1)
                 {
                     Variance = Zero;
-                    foreach (var v in this)
+                    for (var i = 0; i < Count; ++i)
                     {
+                        var v = this[i];
                         var residual = Subtract(v, Mean);
                         Variance = Add(Variance, Divide(Multiply(residual, residual), Count - 1));
                     }

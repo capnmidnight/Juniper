@@ -116,7 +116,7 @@ namespace Juniper.Imaging
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
             var streamTask = StreamingAssets.GetStream(Application.persistentDataPath, filePath, this);
-            yield return streamTask.Waiter();
+            yield return streamTask.AsCoroutine();
 
             trySkybox = false;
             if (streamTask.IsSuccessful()
@@ -340,7 +340,7 @@ namespace Juniper.Imaging
 
                         var imageTask = ImageNeeded?.Invoke(this, (int)overlapFOV, heading, pitch);
 
-                        yield return imageTask.Waiter();
+                        yield return imageTask.AsCoroutine();
 
                         if (imageTask.IsSuccessful())
                         {

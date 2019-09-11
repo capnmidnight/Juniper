@@ -15,16 +15,18 @@ namespace System.Threading.Tasks
 
         public static Task<IEnumerable<T>> AsTask<T>(this IEnumerator<T> iter)
         {
-            return Task.Run(() =>
-            {
-                var output = new List<T>();
-                while (iter.MoveNext())
-                {
-                    output.Add(iter.Current);
-                }
+            return new Task<IEnumerable<T>>(ToList<T>, iter);
+        }
 
-                return (IEnumerable<T>)output;
-            });
+        private static IEnumerable<T> ToList<T>(object state)
+        {
+            var iter = (IEnumerator<T>)state;
+            var output = new List<T>();
+            while (iter.MoveNext())
+            {
+                output.Add(iter.Current);
+            }
+            return output;
         }
     }
 }

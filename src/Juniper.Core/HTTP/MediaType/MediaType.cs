@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Juniper.HTTP
@@ -13,7 +14,7 @@ namespace Juniper.HTTP
 
         public static MediaType Lookup(string value)
         {
-            var parts = value.Split(';');
+            var parts = value.SplitX(';');
             return byValue.Get(parts[0]);
         }
 

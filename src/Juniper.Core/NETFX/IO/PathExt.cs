@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text;
 
 namespace System.IO
 {
@@ -16,17 +17,26 @@ namespace System.IO
         /// <example>On Windows, if a path is specified with forward slashes, a value with backslashes is returned.</example>
         public static string FixPath(string path)
         {
-            var prefix = string.Empty;
-            var parts = path.Split('\\', '/').ToList();
+            return FixPath(FixPath(path, '\\'), '/');
+        }
 
-            // Handle Windows drive letters:
-            if (parts.Count > 0 && parts[0].EndsWith(":"))
+        private static string FixPath(string path, char sep)
+        {
+            if (sep == Path.DirectorySeparatorChar)
             {
-                prefix = parts[0] + Path.DirectorySeparatorChar;
-                parts.RemoveAt(0);
+                return path;
             }
-
-            return prefix + Path.Combine(parts.ToArray());
+            else
+            {
+                string prefix = string.Empty;
+                var parts = path.SplitX(sep).ToList();
+                if (parts.Count > 0 && parts[0].EndsWith(":"))
+                {
+                    prefix = parts[0] + Path.DirectorySeparatorChar;
+                    parts.RemoveAt(0);
+                }
+                return prefix + Path.Combine(parts.ToArray());
+            }
         }
 
         /// <summary>
@@ -51,8 +61,8 @@ namespace System.IO
                     directory = Environment.CurrentDirectory;
                 }
 
-                var partsA = FixPath(directory).Split(Path.DirectorySeparatorChar).ToList();
-                var partsB = FixPath(fullPath).Split(Path.DirectorySeparatorChar).ToList();
+                var partsA = FixPath(directory).SplitX(Path.DirectorySeparatorChar).ToList();
+                var partsB = FixPath(fullPath).SplitX(Path.DirectorySeparatorChar).ToList();
 
                 while (partsA.Count > 0
                        && partsB.Count > 0
@@ -99,8 +109,8 @@ namespace System.IO
                     directory = Environment.CurrentDirectory;
                 }
 
-                var partsA = FixPath(directory).Split(Path.DirectorySeparatorChar).ToList();
-                var partsB = FixPath(relativePath).Split(Path.DirectorySeparatorChar).ToList();
+                var partsA = FixPath(directory).SplitX(Path.DirectorySeparatorChar).ToList();
+                var partsB = FixPath(relativePath).SplitX(Path.DirectorySeparatorChar).ToList();
 
                 while (partsA.Count > 0
                        && partsB.Count > 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace Juniper.Collections
         public void AddPath(string path, bool isDirectory)
         {
             path = PathExt.FixPath(path);
-            var parts = path.Split(Path.DirectorySeparatorChar);
+            var parts = path.SplitX(Path.DirectorySeparatorChar);
             var q = new Queue<string>(parts);
             var parent = q.Dequeue();
             if (parent == Value)

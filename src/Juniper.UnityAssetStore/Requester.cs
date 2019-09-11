@@ -234,7 +234,7 @@ namespace Juniper.UnityAssetStore
 
         private async Task<Results<AssetDetail>> GetTopAssets(string type, string categoryID, int count, IProgress prog = null)
         {
-            return await Get<Results<AssetDetail>>($"{UnityAssetStoreAPIRoot}category/top/{type}/{categoryID}/{count}.json", null, prog);
+            return await Get<Results<AssetDetail>>($"{UnityAssetStoreAPIRoot}category/top/{type}/{categoryID}/{count.ToString()}.json", null, prog);
         }
     }
 }

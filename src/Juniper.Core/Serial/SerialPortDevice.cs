@@ -54,6 +54,17 @@ namespace Juniper.Serial
             WithLock("Close", _Close);
         }
 
+        private void _Close()
+        {
+            buffer = string.Empty;
+            if (IsOpen)
+            {
+                port.DiscardInBuffer();
+                port.DiscardOutBuffer();
+                port.Close();
+            }
+        }
+
         public Queue<RecordType> CopyQueue()
         {
             var output = new Queue<RecordType>();
@@ -132,7 +143,7 @@ namespace Juniper.Serial
             return errors;
         }
 
-        protected static ISerialPortFactory serialPortFactory = new PortFactoryType();
+        protected static PortFactoryType serialPortFactory = new PortFactoryType();
 
         protected virtual void Dispose(bool disposing)
         {
@@ -156,17 +167,6 @@ namespace Juniper.Serial
         private bool handshakeComplete;
         private string lockedOn;
         private ISerialPort port;
-
-        private void _Close()
-        {
-            buffer = string.Empty;
-            if (IsOpen)
-            {
-                port.DiscardInBuffer();
-                port.DiscardOutBuffer();
-                port.Close();
-            }
-        }
 
         private bool FindMatchingPort(string[] skipPorts)
         {
@@ -263,7 +263,7 @@ namespace Juniper.Serial
                         .Replace("\n\n", "\n");
                     if (buffer.Contains('\n'))
                     {
-                        var parts = buffer.Split('\n');
+                        var parts = buffer.SplitX('\n');
                         for (var i = 0; i < parts.Length - 1; ++i)
                         {
                             try

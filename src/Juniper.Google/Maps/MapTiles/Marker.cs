@@ -2,7 +2,7 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.MapTiles
 {
-    public struct Marker
+    public class Marker
     {
         public readonly MarkerStyle style;
         public readonly string center;

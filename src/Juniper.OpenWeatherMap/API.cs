@@ -131,7 +131,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             else
             {
                 var dt = DateTime.Now - LastReport.ReportTime;
-                var distanceMeters = location.Distance(LastReport.Location.Value);
+                var distanceMeters = location.Distance(LastReport.Location);
                 return dt.TotalMinutes >= ReportTTLMinutes || distanceMeters >= ReportRadiusMeters;
             }
         }
@@ -204,7 +204,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             prog?.Report(0);
             if (NeedsNewReport(location) || force)
             {
-                var url = $"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Latitude}&lon={location.Longitude}&units={units}&appid={apiKey}";
+                var url = $"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Latitude.ToString()}&lon={location.Longitude.ToString()}&units={units}&appid={apiKey}";
                 try
                 {
                     var requester = HttpWebRequestExt.Create(url);

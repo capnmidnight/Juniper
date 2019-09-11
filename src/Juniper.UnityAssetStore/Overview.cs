@@ -5,7 +5,7 @@ namespace Juniper.UnityAssetStore
 {
     [Serializable]
     public class Overview<T> : ISerializable
-        where T : ISerializable
+        where T : class, ISerializable
     {
         public readonly T overview;
 

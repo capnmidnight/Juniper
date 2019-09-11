@@ -23,26 +23,6 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
-        /// Creates set-like behavior for generic lists. If any of the items are already
-        /// contained in the list, they will not be added. Any items that are not in the list
-        /// already will be added. The results are that <paramref name="collect"/> becomes
-        /// a union of the previous state of <paramref name="collect"/> and <paramref name="values"/>.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="collect"></param>
-        /// <param name="values"></param>
-        public static void MaybeAddRange<T>(this List<T> collect, IEnumerable<T> values)
-        {
-            if (values != null)
-            {
-                foreach (var value in values)
-                {
-                    collect.MaybeAdd(value);
-                }
-            }
-        }
-
-        /// <summary>
         /// A random number generator to use with the following methods.
         /// </summary>
         private static readonly Random r = new Random();
@@ -334,7 +314,9 @@ namespace System.Collections.Generic
 
         public static string ToString<T>(this IEnumerable<T> enumer, string sep)
         {
-            return enumer.Select(x => x.ToString()).ToString(sep);
+            return enumer.Select(ValueToString<T>).ToString(sep);
         }
+
+        private static string ValueToString<T>(T value) { return value.ToString(); }
     }
 }

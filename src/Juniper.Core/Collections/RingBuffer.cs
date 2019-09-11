@@ -174,7 +174,7 @@ namespace Juniper.Collections
             {
                 if (index < 0 || index >= Count)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(index), $"Index must be between 0 and {Count}");
+                    throw new ArgumentOutOfRangeException(nameof(index), $"Index must be between 0 and {Count.ToString()}");
                 }
                 return buffer[(Start + index) % buffer.Length];
             }
@@ -182,7 +182,7 @@ namespace Juniper.Collections
             {
                 if (index < 0 || index >= Count)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(index), $"Index must be between 0 and {Count}");
+                    throw new ArgumentOutOfRangeException(nameof(index), $"Index must be between 0 and {Count.ToString()}");
                 }
                 buffer[(Start + index) % buffer.Length] = value;
             }
@@ -194,7 +194,10 @@ namespace Juniper.Collections
         /// <returns></returns>
         public IEnumerator<T> GetEnumerator()
         {
-            return buffer.AsEnumerable().GetEnumerator();
+            for(var i = 0; i < Count; ++i)
+            {
+                yield return this[i];
+            }
         }
 
         /// <summary>
@@ -203,7 +206,9 @@ namespace Juniper.Collections
         /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return buffer.GetEnumerator();
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
+            return GetEnumerator();
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
         }
 
         /// <summary>
@@ -463,14 +468,12 @@ namespace Juniper.Collections
         /// ]]></code></example>
         public int IndexOf(T item)
         {
-            for (var i = 0; i < Count; ++i)
+            var index = Array.IndexOf(buffer, item);
+            if (index > -1)
             {
-                if (Equals(this[i], item))
-                {
-                    return i;
-                }
+                index = (index + Start) % buffer.Length;
             }
-            return -1;
+            return index;
         }
 
         /// <summary>

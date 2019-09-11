@@ -10,7 +10,7 @@ namespace Juniper.HTTP
         {
             Console.Write(message);
             Console.Write(" ");
-            Console.WriteLine(code);
+            Console.WriteLine(code.GetStringValue());
 
             response.SetStatus(code);
 

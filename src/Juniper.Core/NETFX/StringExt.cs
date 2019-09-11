@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace System
 {
@@ -104,12 +105,38 @@ namespace System
             {
                 return string.Empty;
             }
-            var sb = new Text.StringBuilder(parts[0]);
+            var sb = new Text.StringBuilder(parts.Length * 10);
+            sb.Append(parts[0]);
             for (var i = 1; i < parts.Length; ++i)
             {
-                sb.AppendFormat("{0}{1}", separator, parts[i]);
+                sb.Append(separator);
+                sb.Append(parts[i]);
             }
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Performs a split operation with a single character delimiter, to avoid using the params version
+        /// provided by NETFX, which instantiates an unnecessary array.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static string[] SplitX(this string value, char token)
+        {
+            var regex = new Regex(Regex.Escape(token.ToString()));
+            var matches = regex.Matches(value);
+            var parts = new string[matches.Count + 1];
+            var start = 0;
+            for (var i = 0; i < matches.Count; ++i)
+            {
+                var match = matches[i];
+                parts[i] = value.Substring(start, match.Index - start);
+                start = match.Index + 1;
+            }
+
+            parts[matches.Count] = value.Substring(start);
+            return parts;
         }
     }
 }

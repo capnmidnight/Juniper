@@ -33,7 +33,7 @@ namespace Juniper.World.GIS
             {
                 var latRect = new Rect(position.x, position.y, position.width / 2, position.height);
                 var lngRect = new Rect(position.x + position.width / 2, position.y, position.width / 2, position.height);
-                var curPoint = property.GetValue<LatLngPoint>();
+                var curPoint = property.GetObject<LatLngPoint>();
                 var curLat = curPoint.Latitude.ToString();
                 var curLng = curPoint.Longitude.ToString();
                 EditorGUIUtility.labelWidth = 25;

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Juniper.Imaging
 {
-    public struct Size
+    public sealed class Size
     {
         private static readonly Regex SizePattern = new Regex("^(\\d+)x(\\d+)$", RegexOptions.Compiled);
 
@@ -73,7 +73,7 @@ namespace Juniper.Imaging
 
         public override string ToString()
         {
-            return $"{width}x{height}";
+            return width.ToString() + "x" + height.ToString();
         }
 
         public static explicit operator string(Size size)

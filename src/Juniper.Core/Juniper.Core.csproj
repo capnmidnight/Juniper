@@ -47,7 +47,6 @@
     <Compile Include="Collections\System.Collections\Generic\ListExt.cs" />
     <Compile Include="Collections\System.Collections\Generic\NaturalSortComparer.cs" />
     <Compile Include="Collections\System.Collections\Generic\PriorityQueue.cs" />
-    <Compile Include="Collections\System.Collections\Generic\PriorityQueueEnumerator.cs" />
     <Compile Include="HTTP\BodyInfo.cs" />
     <Compile Include="HTTP\DefaultFileController.cs" />
     <Compile Include="HTTP\FileInfoExt.cs" />
@@ -89,6 +88,7 @@
     <Compile Include="Input\InputEventButton.cs" />
     <Compile Include="Input\Interaction.cs" />
     <Compile Include="Input\IPointerButtons.cs" />
+    <Compile Include="NETFX\EnumExt.cs" />
     <Compile Include="NETFX\IO\DirectoryExt.cs" />
     <Compile Include="NETFX\IO\DirectoryInfoExt.cs" />
     <Compile Include="NETFX\IO\FileExt.cs" />
@@ -107,7 +107,6 @@
     <Compile Include="NETFX\StringExt.cs" />
     <Compile Include="NETFX\Threading\Tasks\TaskEnumerator.cs" />
     <Compile Include="NETFX\Text\StringBuilderExt.cs" />
-    <Compile Include="NETFX\TrackedValue.cs" />
     <Compile Include="Progress\IInstallable.cs" />
     <Compile Include="Progress\IProgress.cs" />
     <Compile Include="Progress\ProgressSubdivision.cs" />
@@ -138,14 +137,6 @@
     <Compile Include="Streams\IStreamWrapper.cs" />
     <Compile Include="Streams\ProgressStream.cs" />
     <Compile Include="Streams\StreamExt.cs" />
-    <Compile Include="Threading\AbstractBackgroundRepeatingThread.cs" />
-    <Compile Include="Threading\AbstractBackgroundThread.cs" />
-    <Compile Include="Threading\BackgroundThreadError.cs" />
-    <Compile Include="Threading\ManagedRequest.cs" />
-    <Compile Include="Threading\ManagedRequestMessage.cs" />
-    <Compile Include="Threading\ManagedRequestReady.cs" />
-    <Compile Include="Threading\OneShotThread.cs" />
-    <Compile Include="Threading\TaskExt.cs" />
     <Compile Include="Units\Acceleration\FeetPerSecondSquared.cs" />
     <Compile Include="Units\Acceleration\MetersPerSecondSquared.cs" />
     <Compile Include="Units\Angles\Angle.cs" />

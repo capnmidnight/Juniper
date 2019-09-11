@@ -29,12 +29,17 @@ namespace Juniper.UnityAssetStore
 
         public IEnumerator<string> GetEnumerator()
         {
-            return flags.GetEnumerator();
+            foreach(var flag in flags)
+            {
+                yield return flag;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
+#pragma warning disable HAA0401 // Possible allocation of reference type enumerator
             return GetEnumerator();
+#pragma warning restore HAA0401 // Possible allocation of reference type enumerator
         }
 
         public void Add(string item)

@@ -7,7 +7,7 @@ namespace Juniper.World.GIS
     /// Represents a bearing and distance to an object from the Earth's equator.
     /// </summary>
     [Serializable]
-    public struct EquitorialSphericalPosition : ISerializable
+    public sealed class EquitorialSphericalPosition : ISerializable
     {
         /// <summary>
         /// The number of degrees from the Earth's prime azimuth at which to find the object.
