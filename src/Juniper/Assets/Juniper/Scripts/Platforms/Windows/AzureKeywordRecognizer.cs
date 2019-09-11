@@ -35,10 +35,13 @@ namespace Juniper.Speech
 #endif
             }
         }
+
         /// <summary>
         /// Reads as true if the current XR subsystem supports speech recognition.
         /// </summary>
         public override bool IsAvailable { get { return true; } }
+
+        protected override bool NeedsKeywords { get { return false; } }
 
         /// <summary>
         /// The real recognizer.
@@ -137,29 +140,45 @@ namespace Juniper.Speech
         {
             if (Permitted)
             {
+                IsStarting = true;
                 var config = SpeechConfig.FromSubscription(azureApiKey, azureRegion);
                 config.SetProfanity(ProfanityOption.Raw);
                 config.SpeechRecognitionLanguage = "en-us";
                 recognizer = new SpeechRecognizer(config);
                 recognizer.Recognized += Recognizer_OnPhraseRecognized;
                 recognizer.Recognizing += Recognizer_OnPhraseRecognized;
-                recognizer.StartContinuousRecognitionAsync().Wait();
-                IsRunning = true;
+                recognizer.SessionStarted += Recognizer_SessionStarted;
+                recognizer.SessionStopped += Recognizer_SessionStopped;
+                recognizer.StartContinuousRecognitionAsync();
             }
+        }
+
+        private void Recognizer_SessionStarted(object sender, SessionEventArgs e)
+        {
+            recognizer.SessionStarted -= Recognizer_SessionStarted;
+            IsStarting = false;
+            IsRunning = true;
         }
 
         protected override void TearDown()
         {
             if (recognizer != null)
             {
+                IsStopping = true;
                 recognizer.Recognized -= Recognizer_OnPhraseRecognized;
                 recognizer.Recognizing -= Recognizer_OnPhraseRecognized;
-                recognizer.StopContinuousRecognitionAsync().Wait();
-                recognizer.Dispose();
-                recognizer = null;
-                keywords = null;
-                IsRunning = false;
+                recognizer.StopContinuousRecognitionAsync();
             }
+        }
+
+        private void Recognizer_SessionStopped(object sender, SessionEventArgs e)
+        {
+            recognizer.SessionStopped -= Recognizer_SessionStopped;
+            recognizer.Dispose();
+            recognizer = null;
+            keywords = null;
+            IsStopping = false;
+            IsRunning = false;
         }
     }
 }

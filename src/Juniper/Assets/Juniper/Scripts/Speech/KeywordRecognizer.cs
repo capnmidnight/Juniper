@@ -45,6 +45,8 @@ namespace Juniper.Speech
         public event EventHandler<KeywordRecognizedEventArgs> KeywordRecognized;
 
         protected bool IsRunning;
+        protected bool IsStopping;
+        protected bool IsStarting;
 
         /// <summary>
         /// Invokes <see cref="onKeywordRecognized"/> and <see cref="KeywordRecognized"/>.
@@ -65,13 +67,16 @@ namespace Juniper.Speech
         /// <returns>The active keywords.</returns>
         public void RefreshKeywords()
         {
-            CancelInvoke(nameof(RefreshKeywordsInternal));
-            Invoke(nameof(RefreshKeywordsInternal), 0.25f);
+            if (NeedsKeywords)
+            {
+                CancelInvoke(nameof(RefreshKeywordsInternal));
+                Invoke(nameof(RefreshKeywordsInternal), 0.25f);
+            }
         }
 
         private void RefreshKeywordsInternal()
         {
-            TearDown();
+            TearDownInternal();
             keywords = (from trigger in ComponentExt.FindAll<IKeywordTriggered>()
                         where trigger.Keywords != null
                         let comp = trigger as MonoBehaviour
@@ -84,9 +89,17 @@ namespace Juniper.Speech
                 .ToArray();
         }
 
+        private void TearDownInternal()
+        {
+            if (!IsRunning && !IsStopping)
+            {
+                TearDown();
+            }
+        }
+
         public virtual void Update()
         {
-            if(IsAvailable && !IsRunning && keywords != null && keywords.Length > 0)
+            if (IsAvailable && !IsRunning && !IsStarting && (!NeedsKeywords || keywords != null && keywords.Length > 0))
             {
                 Setup();
             }
@@ -105,10 +118,12 @@ namespace Juniper.Speech
         /// </summary>
         public void OnDisable()
         {
-            TearDown();
+            TearDownInternal();
         }
 
         public abstract bool IsAvailable { get; }
+
+        protected abstract bool NeedsKeywords { get; }
 
         protected abstract void Setup();
 

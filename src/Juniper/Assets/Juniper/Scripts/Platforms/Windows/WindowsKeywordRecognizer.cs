@@ -9,6 +9,8 @@ namespace Juniper.Speech
         /// </summary>
         public override bool IsAvailable { get { return true; } }
 
+        protected override bool NeedsKeywords { get { return true; } }
+
         /// <summary>
         /// The real recognizer.
         /// </summary>
