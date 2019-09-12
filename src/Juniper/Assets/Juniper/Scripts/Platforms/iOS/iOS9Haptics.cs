@@ -8,7 +8,7 @@ namespace Juniper.Haptics
     /// <summary>
     /// https://gist.github.com/kenshin03/6303582
     /// </summary>
-    public class iOS9Haptics : AbstractHapticExpressor
+    public class iOS9Haptics : AbstractHapticRetainedExpressor
     {
         /// <summary>
         /// Playing arbitrary haptic patterns is not supported on iOS.

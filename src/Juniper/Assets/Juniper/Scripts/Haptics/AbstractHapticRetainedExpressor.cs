@@ -6,10 +6,10 @@ namespace Juniper.Haptics
     /// Non-iOS systems do not have built-in haptic patterns. This class replicates the functionality
     /// of the Taptic Engine as best it can on those platforms.
     /// </summary>
-    public abstract class AbstractHapticExpressor : AbstractHapticDevice
+    public abstract class AbstractHapticRetainedExpressor : AbstractHapticDevice
     {
         /// <summary>
-        /// Cancel vibrationa
+        /// Cancel vibrations
         /// </summary>
         public override void Cancel()
         {
@@ -118,13 +118,6 @@ namespace Juniper.Haptics
         }
 
         /// <summary>
-        /// Play a patterned vibration with amplitude modulation.
-        /// </summary>
-        /// <param name="milliseconds">Pattern.</param>
-        /// <param name="amplitude">   Amplitudes.</param>
-        protected abstract IEnumerator VibrateCoroutine(long milliseconds, float amplitude);
-
-        /// <summary>
         /// Play a haptic pattern.
         /// </summary>
         /// <param name="points"></param>
@@ -145,5 +138,12 @@ namespace Juniper.Haptics
         {
             yield return VibrateCoroutine(point.Length, point.Amplitude);
         }
+
+        /// <summary>
+        /// Play a patterned vibration with amplitude modulation.
+        /// </summary>
+        /// <param name="milliseconds">Pattern.</param>
+        /// <param name="amplitude">   Amplitudes.</param>
+        protected abstract IEnumerator VibrateCoroutine(long milliseconds, float amplitude);
     }
 }

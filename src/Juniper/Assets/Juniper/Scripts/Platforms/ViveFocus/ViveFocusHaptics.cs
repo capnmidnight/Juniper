@@ -7,7 +7,7 @@ using wvr;
 
 namespace Juniper.Haptics
 {
-    public class ViveFocusHaptics : AbstractHapticExpressor
+    public class ViveFocusHaptics : AbstractHapticRetainedExpressor
     {
         public WaveVR_Controller.Device Controller { get; set; }
 

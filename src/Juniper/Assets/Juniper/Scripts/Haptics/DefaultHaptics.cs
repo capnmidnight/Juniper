@@ -20,7 +20,7 @@ namespace Juniper.Haptics
     /// When no specific haptic implementation is available, but we know the system supports haptics,
     /// we fallback to using Unity's built-in Vibrate function, which is pretty primitive.
     /// </summary>
-    public class DefaultHaptics : AbstractHapticExpressor
+    public class DefaultHaptics : AbstractHapticImmediateExpressor
     {
 #if UNITY_XR_WINDOWSMR_METRO && !UNITY_EDITOR
         Gamepad gp;
@@ -53,7 +53,7 @@ namespace Juniper.Haptics
         /// Set a haptic pulse playing at a set amplitude.
         /// </summary>
         /// <param name="amplitude">The strength of the vibration.</param>
-        private void SetVibration(float amplitude)
+        protected override void SetVibration(long milliseconds, float amplitude)
         {
 #if (UNITY_STANDALONE || UNITY_EDITOR) && XINPUTDOTNETPURE
             GamePad.SetVibration(PlayerIndex.One, amplitude, amplitude);
@@ -67,47 +67,10 @@ namespace Juniper.Haptics
                     RightMotor = amplitude
                 };
             }
-#endif
-        }
-
-        /// <summary>
-        /// Cancel the current vibration, whatever it is.
-        /// </summary>
-        public override void Cancel()
-        {
-            base.Cancel();
-            SetVibration(0);
-        }
-
-        /// <summary>
-        /// Play a single vibration of a set length of time.
-        /// </summary>
-        /// <param name="milliseconds">Milliseconds.</param>
-        /// <param name="amplitude">   The strenght of vibration (ignored).</param>
-        protected override IEnumerator VibrateCoroutine(long milliseconds, float amplitude)
-        {
-            var start = DateTime.Now;
-            var seconds = Units.Milliseconds.Seconds(milliseconds);
-            var ts = TimeSpan.FromSeconds(seconds);
-#if UNITY_STANDALONE || UNITY_EDITOR || UNITY_XR_WINDOWSMR_METRO
-            SetVibration(amplitude);
 #elif HAS_HAPTICS
-            if (amplitude > 0.25f)
+            if(amplitude > 0.25f)
             {
-                while ((DateTime.Now - start) > ts)
-                {
-                    Handheld.Vibrate();
-                    yield return null;
-                }
-            }
-            else
-            {
-#endif
-            while ((DateTime.Now - start) > ts)
-            {
-                yield return null;
-            }
-#if !UNITY_STANDALONE && !UNITY_EDITOR && !UNITY_XR_WINDOWSMR_METRO && HAS_HAPTICS
+                Handheld.Vibrate();
             }
 #endif
         }

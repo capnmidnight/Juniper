@@ -7,7 +7,7 @@ using UnityEngine.XR.MagicLeap;
 
 namespace Juniper.Haptics
 {
-    public class MagicLeapHaptics : AbstractHapticExpressor
+    public class MagicLeapHaptics : AbstractHapticRetainedExpressor
     {
         private MLInputController controller;
 
@@ -49,16 +49,9 @@ namespace Juniper.Haptics
             }
         }
 
-        protected override IEnumerator VibrateCoroutine(long milliseconds, float amplitude)
+        protected override void SetVibration(long milliseconds, float amplitude)
         {
-            var start = DatTime.Now;
-            var seconds = Units.Milliseconds.Seconds(milliseconds);
-            var ts = TimeSpan.FromSeconds(seconds);
             controller?.StartFeedbackPatternVibe(MillisecondsToPattern(milliseconds), AmplitudeToIntensity(amplitude));
-            while((DateTime.Now - start) < ts)
-            {
-                yield return null;
-            }
         }
 
         /// <summary>

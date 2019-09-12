@@ -12,12 +12,31 @@ namespace Juniper.Haptics
     /// Haptic system that implements the latest Android API version (26), which enables vibrations
     /// of different strengths to be played without pulse-width modulating the vibration manually.
     /// </summary>
-    public class AndroidAPI26Haptics : AbstractAndroidAPIHaptics
+    public class AndroidHaptics : AbstractHapticRetainedExpressor
     {
+        /// <summary>
+        /// Calls one of the static functions on VibrationEffect that creates a amplitude-modulated
+        /// vibration pattern and executes it through the Android Vibration interface.
+        /// </summary>
+        /// <param name="function">Function.</param>
+        /// <param name="args">    Arguments.</param>
+        private static void CreateVibrationEffect(string function, object[] args)
+        {
+            var vibrationEffect = AndroidHaptics.vibrationEffect.CallStatic<AndroidJavaObject>(function, args);
+            CreateVibrationEffect_params[0] = vibrationEffect;
+            vibrator.Call("vibrate", CreateVibrationEffect_params);
+        }
+        private static readonly object[] CreateVibrationEffect_params = new object[1];
+
         /// <summary>
         /// The android.os.VibrationEffect class, which contains the API 26 features.
         /// </summary>
-        private static AndroidJavaClass VibrationEffect;
+        private static AndroidJavaClass vibrationEffect;
+
+        /// <summary>
+        /// The vibrator service.
+        /// </summary>
+        private static AndroidJavaObject vibrator;
 
         /// <summary>
         /// A cached value for VibrationEffect's DEFAULT_AMPLITUDE field, so we don't have to incur
@@ -26,30 +45,34 @@ namespace Juniper.Haptics
         private static int DefaultAmplitude;
 
         /// <summary>
-        /// Calls one of the static functions on VibrationEffect that creates a amplitude-modulated
-        /// vibration pattern and executes it through the Android Vibration interface.
-        /// </summary>
-        /// <param name="function">Function.</param>
-        /// <param name="args">    Arguments.</param>
-        private static void CreateVibrationEffect(string function, params object[] args)
-        {
-            var vibrationEffect = VibrationEffect.CallStatic<AndroidJavaObject>(function, args);
-            vibrator.Call("vibrate", vibrationEffect);
-        }
-
-        /// <summary>
         /// Creates the haptic interface specific to Android API 26+.
         /// </summary>
-        protected override void Awake()
+        public void Awake()
         {
-            base.Awake();
-
-            if (VibrationEffect == null)
+            if (vibrator == null)
             {
-                VibrationEffect = new AndroidJavaClass("android.os.VibrationEffect");
-                DefaultAmplitude = VibrationEffect.GetStatic<int>("DEFAULT_AMPLITUDE");
+                var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+                var currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+                vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", GET_SYSTEM_SERVICE_PARAMS);
+            }
+
+            if (vibrationEffect == null)
+            {
+                vibrationEffect = new AndroidJavaClass("android.os.VibrationEffect");
+                DefaultAmplitude = vibrationEffect.GetStatic<int>("DEFAULT_AMPLITUDE");
             }
         }
+        private static readonly object[] GET_SYSTEM_SERVICE_PARAMS = { "vibrator" };
+
+        /// <summary>
+        /// Cancel the current vibration, whatever it is.
+        /// </summary>
+        public override void Cancel()
+        {
+            base.Cancel();
+            vibrator.Call("cancel", CANCEL_PARAMS);
+        }
+        private static readonly object[] CANCEL_PARAMS = {  };
 
         /// <summary>
         /// Play a single vibration of a set length of time.
@@ -70,12 +93,15 @@ namespace Juniper.Haptics
             var start = DateTime.Now;
             var seconds = Units.Milliseconds.Seconds(milliseconds);
             var ts = TimeSpan.FromSeconds(seconds);
-            CreateVibrationEffect("createOneShot", milliseconds, (int)(amplitude * 255));
+            VibrateCoroutine_params2[0] = milliseconds;
+            VibrateCoroutine_params2[1] = (int)(amplitude * 255);
+            CreateVibrationEffect("createOneShot", VibrateCoroutine_params2);
             while ((DateTime.Now - start) < ts)
             {
                 yield return null;
             }
         }
+        private readonly object[] VibrateCoroutine_params2 = new object[2];
 
         /// <summary>
         /// Play a patterned vibration, where all of the vibrations are the same amplitude, the
@@ -88,12 +114,14 @@ namespace Juniper.Haptics
             var milliseconds = pattern.Sum();
             var seconds = Units.Milliseconds.Seconds(milliseconds);
             var ts = TimeSpan.FromSeconds(seconds);
-            CreateVibrationEffect("createWaveform", pattern, -1);
+            PlayCoroutine_params2[0] = pattern;
+            CreateVibrationEffect("createWaveform", PlayCoroutine_params2);
             while ((DateTime.Now - start) < ts)
             {
                 yield return null;
             }
         }
+        private readonly object[] PlayCoroutine_params2 = new object[2] { null, -1 };
 
         /// <summary>
         /// Play a patterned vibration with amplitude modulation.
@@ -111,12 +139,15 @@ namespace Juniper.Haptics
             {
                 amps[i] = (int)(amplitudes[i] * 255);
             }
-            CreateVibrationEffect("createWaveform", pattern, amps, -1);
+            PlayCoroutine_params3[0] = pattern;
+            PlayCoroutine_params3[1] = amps;
+            CreateVibrationEffect("createWaveform", PlayCoroutine_params3);
             while ((DateTime.Now - start) < ts)
             {
                 yield return null;
             }
         }
+        private readonly object[] PlayCoroutine_params3 = new object[3] { null, null, -1 };
     }
 }
 

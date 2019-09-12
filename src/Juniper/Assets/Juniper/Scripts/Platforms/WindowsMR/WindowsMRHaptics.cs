@@ -12,7 +12,7 @@ using Windows.UI.Input.Spatial;
 
 namespace Juniper.Haptics
 {
-    public class WindowsMRHaptics : AbstractHapticExpressor
+    public class WindowsMRHaptics : AbstractHapticRetainedExpressor
     {
         private SimpleHapticsController controller;
         private Dictionary<ushort, SimpleHapticsControllerFeedback> expressions;
