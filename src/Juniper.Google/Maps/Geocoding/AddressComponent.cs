@@ -13,7 +13,7 @@ namespace Juniper.Google.Maps.Geocoding
             var key = 0;
             foreach (var type in types)
             {
-                key ^= type.GetStringValue().GetHashCode();
+                key ^= type.GetHashCode();
             }
             return key;
         }

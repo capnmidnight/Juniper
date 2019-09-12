@@ -112,7 +112,7 @@ namespace Juniper.Imaging.Windows
             }
             else
             {
-                throw new NotSupportedException($"Pixel format {img.PixelFormat.GetStringValue()}");
+                throw new NotSupportedException($"Pixel format {img.PixelFormat.ToString()}");
             }
         }
     }

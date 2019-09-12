@@ -32,7 +32,7 @@ namespace Juniper.UnityAssetStore
                     sb.Append("&");
                 }
 
-                sb.Append($"rows={rows.ToString()}&page={page.ToString()}&order_by={order_by.GetStringValue().ToLowerInvariant()}");
+                sb.Append($"rows={rows.ToString()}&page={page.ToString()}&order_by={order_by.ToString().ToLowerInvariant()}");
 
                 return sb.ToString();
             }

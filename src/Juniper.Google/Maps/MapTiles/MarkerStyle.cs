@@ -12,7 +12,7 @@ namespace Juniper.Google.Maps.MapTiles
 
         public static MarkerStyle CustomIcon(Uri image, MarkerAnchorPosition anchorPosition)
         {
-            return new MarkerStyle($"anchor:{anchorPosition.GetStringValue()}:icon:{image}");
+            return new MarkerStyle($"anchor:{anchorPosition.ToString()}:icon:{image}");
         }
 
         public static MarkerStyle CustomIcon(Uri image, int anchorX, int anchorY)
@@ -50,7 +50,7 @@ namespace Juniper.Google.Maps.MapTiles
                 }
             }
 
-            delim(size != MarkerSize.normal, nameof(size), size.GetStringValue());
+            delim(size != MarkerSize.normal, nameof(size), size.ToString());
             delim(!string.IsNullOrEmpty(color), nameof(color), color);
             delim(char.IsLetterOrDigit(label), nameof(label), label.ToString());
 

@@ -134,7 +134,7 @@ namespace System.Net
 
         public static HttpWebRequest Expect(this HttpWebRequest request, HttpStatusCode code)
         {
-            request.Expect = code.GetStringValue();
+            request.Expect = code.ToString();
             return request;
         }
 

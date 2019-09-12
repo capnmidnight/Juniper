@@ -91,7 +91,7 @@ namespace Juniper.World.GIS
             info.AddValue(nameof(Y), Y);
             info.AddValue(nameof(Z), Z);
             info.AddValue(nameof(Zone), Zone);
-            info.AddValue(nameof(Hemisphere), Hemisphere.GetStringValue());
+            info.AddValue(nameof(Hemisphere), Hemisphere.ToString());
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Juniper.World.GIS
         {
             return obj != null
                 && obj is UTMPoint p
-                && p.Hemisphere.GetStringValue().Equals(Hemisphere.GetStringValue())
+                && p.Hemisphere.ToString().Equals(Hemisphere.ToString())
                 && p.X.Equals(X)
                 && p.Y.Equals(Y)
                 && p.Z.Equals(Z)
@@ -121,7 +121,7 @@ namespace Juniper.World.GIS
 
         public override int GetHashCode()
         {
-            return Hemisphere.GetStringValue().GetHashCode()
+            return Hemisphere.GetHashCode()
                 ^ X.GetHashCode()
                 ^ Y.GetHashCode()
                 ^ Z.GetHashCode()

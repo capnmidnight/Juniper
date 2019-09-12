@@ -1030,15 +1030,15 @@ namespace Juniper.Units
         {
             if (!Conversions.ContainsKey(fromUnit))
             {
-                throw new ArgumentException($"Unit type {fromUnit.GetStringValue()} not recognized for conversion");
+                throw new ArgumentException($"Unit type {fromUnit.ToString()} not recognized for conversion");
             }
             else if (!TypeGroups.ContainsKey(fromUnit))
             {
-                throw new ArgumentException($"Unit type {fromUnit.GetStringValue()} has not had type groupings defined");
+                throw new ArgumentException($"Unit type {fromUnit.ToString()} has not had type groupings defined");
             }
             else if (!SystemUnits.ContainsKey(toSystem))
             {
-                throw new ArgumentException($"System type {toSystem.GetStringValue()} not specified");
+                throw new ArgumentException($"System type {toSystem.ToString()} not specified");
             }
             else
             {
@@ -1053,7 +1053,7 @@ namespace Juniper.Units
                     }
                 }
 
-                throw new ArgumentException($"Unit type {fromUnit.GetStringValue()} does not have a matching conversion in system {toSystem.GetStringValue()}");
+                throw new ArgumentException($"Unit type {fromUnit.ToString()} does not have a matching conversion in system {toSystem.ToString()}");
             }
         }
 
@@ -1077,7 +1077,7 @@ namespace Juniper.Units
             }
             else
             {
-                throw new InvalidCastException($"Cannot convert {value.ToString()} in {fromUnit.GetStringValue()} to {toUnit.GetStringValue()}.");
+                throw new InvalidCastException($"Cannot convert {value.ToString()} in {fromUnit.ToString()} to {toUnit.ToString()}.");
             }
         }
 

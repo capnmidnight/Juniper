@@ -72,7 +72,7 @@ namespace Juniper.Display
                 {
                     cameraCtrl.mode = CameraControl.Mode.None;
                 }
-                ScreenDebugger.Print($"Mode is {cameraCtrl.mode.GetStringValue()}");
+                ScreenDebugger.Print($"Mode is {cameraCtrl.mode.ToString()}");
             }
             else if (cameraCtrl.mode == CameraControl.Mode.MagicWindow)
             {
