@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: ControlMaterialTouched
   m_Shader: {fileID: 4800000, guid: 989b8446df3c1c24d89052772bbdf38f, type: 3}
-  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0

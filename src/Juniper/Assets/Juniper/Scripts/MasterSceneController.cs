@@ -612,36 +612,33 @@ namespace Juniper
         /// </summary>
         private IEnumerator QuitCoroutine()
         {
-            if (display.ConfirmExit())
+            foreach (var subScene in CurrentSubScenes)
             {
+                subScene.Exit();
+            }
+
+            bool anyIncomplete;
+            do
+            {
+                anyIncomplete = false;
                 foreach (var subScene in CurrentSubScenes)
                 {
-                    subScene.Exit();
+                    anyIncomplete |= !subScene.IsComplete;
                 }
-
-                bool anyIncomplete;
-                do
+                if (anyIncomplete)
                 {
-                    anyIncomplete = false;
-                    foreach (var subScene in CurrentSubScenes)
-                    {
-                        anyIncomplete |= !subScene.IsComplete;
-                    }
-                    if (anyIncomplete)
-                    {
-                        yield return null;
-                    }
-                } while (anyIncomplete);
-
-                if (fader != null)
-                {
-                    fader.fadeOutSound = interaction.soundOnShutDown;
-                    fader.volume = 0.5f;
-                    yield return fader.EnterCoroutine();
+                    yield return null;
                 }
+            } while (anyIncomplete);
 
-                Exit();
+            if (fader != null)
+            {
+                fader.fadeOutSound = interaction.soundOnShutDown;
+                fader.volume = 0.5f;
+                yield return fader.EnterCoroutine();
             }
+
+            Exit();
         }
     }
 }
