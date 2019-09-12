@@ -258,27 +258,44 @@ namespace Juniper.Input
                     mode = SavedInputMode;
                 }
 
+                // Validate the InputMode that has been set
                 var voice = (mode & InputMode.Voice) != 0 && VoiceAvailable;
-                var motion = (mode & InputMode.Motion) != 0 && ControllersAvailable;
-                var hands = (mode & InputMode.Hands) != 0 && HandsAvailable;
-                var mouse = (mode & InputMode.Mouse) != 0 && MouseAvailable;
-                var touch = (mode & InputMode.Touch) != 0 && TouchAvailable
+                var motion = ControllersRequested && ControllersAvailable;
+                var hands = HandsRequested && HandsAvailable;
+                var mouse = MouseRequested && MouseAvailable;
+
+                // Don't enable touch if we're using controllers
+                var touch = TouchRequested && TouchAvailable
                     && !motion
                     && !hands;
-                var gaze = (mode & InputMode.Gaze) != 0 && GazeAvailable
+
+                // Don't enable gaze if we're using the screen
+                var gaze = GazeRequested && GazeAvailable
                     && !mouse
                     && !touch;
 
+                // Enable a default device if no devices are enabled
                 if (!motion && !hands && !mouse && !touch && !gaze)
                 {
-                    if (UnityInput.mousePresent)
+                    if (ControllersAvailable)
                     {
-                        MouseEnabled = mouse = true;
-                        this.mouse.ActiveThisFrame = true;
+                        motion = true;
                     }
-                    else
+                    else if (HandsAvailable)
                     {
-                        GazeEnabled = gaze = true;
+                        hands = true;
+                    }
+                    else if (MouseAvailable)
+                    {
+                        mouse = true;
+                    }
+                    else if (TouchAvailable)
+                    {
+                        touch = true;
+                    }
+                    else if (GazeAvailable)
+                    {
+                        gaze = true;
                     }
                 }
 
@@ -303,6 +320,14 @@ namespace Juniper.Input
                 {
                     motionController.SetActive(motion);
                 }
+
+                // record the actual input mode
+                VoiceRequested = voice;
+                ControllersRequested = motion;
+                MouseRequested = mouse;
+                TouchRequested = touch;
+                HandsRequested = hands;
+                GazeRequested = gaze;
 
                 SavedInputMode = lastMode = mode;
             }
@@ -414,45 +439,57 @@ namespace Juniper.Input
                 mode &= ~newMode;
             }
         }
-        public bool VoiceAvailable { get { return keyer.IsAvailable; } }
-        public bool VoiceEnabled
+
+        private bool CheckMode(InputMode checkMode)
         {
-            get { return keyer.isActiveAndEnabled; }
+            return (mode & checkMode) != 0;
+        }
+
+        public bool VoiceAvailable { get { return keyer.IsAvailable; } }
+        public bool VoiceEnabled { get { return keyer.isActiveAndEnabled; } }
+        public bool VoiceRequested
+        {
+            get { return CheckMode(InputMode.Voice); }
             set { ToggleMode(InputMode.Voice, value); }
         }
 
         public bool GazeAvailable { get { return gazePointer.IsConnected; } }
-        public bool GazeEnabled
+        public bool GazeEnabled { get { return gazePointer.IsEnabled; } }
+        public bool GazeRequested
         {
-            get { return gazePointer.IsEnabled; }
+            get { return CheckMode(InputMode.Gaze); }
             set { ToggleMode(InputMode.Gaze, value); }
         }
 
         public bool MouseAvailable { get { return mouse.IsConnected; } }
-        public bool MouseEnabled
+        public bool MouseEnabled { get { return mouse.IsEnabled; } }
+        public bool MouseRequested
         {
-            get { return mouse.IsEnabled; }
+            get { return CheckMode(InputMode.Mouse); }
             set { ToggleMode(InputMode.Mouse, value); }
         }
 
         public bool TouchAvailable { get { return AnyDeviceConnected(touches); } }
-        public bool TouchEnabled
+        public bool TouchEnabled { get { return AnyDeviceEnabled(touches); } }
+        public bool TouchRequested
         {
-            get { return AnyDeviceEnabled(touches); }
+            get { return CheckMode(InputMode.Touch); }
             set { ToggleMode(InputMode.Touch, value); }
         }
 
         public bool HandsAvailable { get { return AnyDeviceConnected(handTrackers); } }
-        public bool HandsEnabled
+        public bool HandsEnabled { get { return AnyDeviceEnabled(handTrackers); } }
+        public bool HandsRequested
         {
-            get { return AnyDeviceEnabled(handTrackers); }
+            get { return CheckMode(InputMode.Hands); }
             set { ToggleMode(InputMode.Hands, value); }
         }
 
         public bool ControllersAvailable { get { return AnyDeviceConnected(motionControllers); } }
-        public bool ControllersEnabled
+        public bool ControllersEnabled { get { return AnyDeviceEnabled(motionControllers); } }
+        public bool ControllersRequested
         {
-            get { return AnyDeviceEnabled(motionControllers); }
+            get { return CheckMode(InputMode.Motion); }
             set { ToggleMode(InputMode.Mouse, value); }
         }
 

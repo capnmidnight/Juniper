@@ -1,7 +1,5 @@
 #if UNITY_XR_OCULUS
 
-using UnityEngine;
-
 namespace Juniper.Input
 {
     public abstract class OculusInputModule : AbstractUnifiedInputModule

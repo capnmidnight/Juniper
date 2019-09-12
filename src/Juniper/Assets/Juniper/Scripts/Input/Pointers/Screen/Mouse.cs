@@ -27,6 +27,13 @@ namespace Juniper.Input.Pointers.Screen
 
         private bool mouseActive;
 
+#if UNITY_XR_OCULUS_ANDROID
+        private bool wasTouched;
+        private bool wasWasTouched;
+        private bool wasSwiped;
+        private bool wasWasSwiped;
+#endif
+
         public override bool IsConnected { get { return UnityInput.mousePresent && (mouseActive = ActiveThisFrame); } }
 
         public bool ActiveThisFrame
@@ -37,16 +44,37 @@ namespace Juniper.Input.Pointers.Screen
             }
             get
             {
-                return mouseActive
-                    || IsButtonPressed(KeyCode.Mouse0)
-                    || IsButtonPressed(KeyCode.Mouse1)
-                    || IsButtonPressed(KeyCode.Mouse2)
-                    || IsButtonPressed(KeyCode.Mouse3)
-                    || IsButtonPressed(KeyCode.Mouse4)
-                    || IsButtonPressed(KeyCode.Mouse5)
-                    || IsButtonPressed(KeyCode.Mouse6)
-                    || ScrollDelta.magnitude > 0
-                    || MoveDelta.magnitude > 0;
+                if (mouseActive)
+                {
+                    return true;
+                }
+                else
+                {
+                    var moved = MoveDelta.sqrMagnitude > 0;
+                    var pressed = IsButtonPressed(KeyCode.Mouse0);
+#if UNITY_XR_OCULUS_ANDROID
+                    var controller = OVRInput.GetActiveController();
+                    var swipe = OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad | OVRInput.Axis2D.SecondaryTouchpad, controller);
+                    var swiped = swipe.sqrMagnitude > 0;
+                    var touched = OVRInput.Get(OVRInput.Touch.PrimaryTouchpad | OVRInput.Touch.SecondaryTouchpad, controller);
+                    var controllerDormant = !(swiped || wasSwiped || wasWasSwiped || touched || wasTouched || wasWasTouched);
+                    moved &= controllerDormant;
+                    pressed &= controllerDormant;
+
+                    wasWasSwiped = wasSwiped;
+                    wasWasTouched = wasTouched;
+                    wasSwiped = swiped;
+                    wasTouched = touched;
+#endif
+                    return moved
+                        || pressed
+                        || IsButtonPressed(KeyCode.Mouse1)
+                        || IsButtonPressed(KeyCode.Mouse2)
+                        || IsButtonPressed(KeyCode.Mouse3)
+                        || IsButtonPressed(KeyCode.Mouse4)
+                        || IsButtonPressed(KeyCode.Mouse5)
+                        || IsButtonPressed(KeyCode.Mouse6);
+                }
             }
         }
 

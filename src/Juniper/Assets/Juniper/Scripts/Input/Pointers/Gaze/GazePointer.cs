@@ -31,13 +31,7 @@ namespace Juniper.Input.Pointers.Gaze
 
         private float gazeTime;
 
-        public override bool IsConnected
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool IsConnected { get { return true; } }
 
         public override bool IsButtonPressed(Unary button)
         {
