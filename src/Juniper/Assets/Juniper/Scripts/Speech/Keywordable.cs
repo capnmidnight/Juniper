@@ -72,13 +72,12 @@ namespace Juniper.Speech
         {
             keywords = (from keyword in keywords
                         let k = keyword.ToLowerInvariant()
-                        orderby k
                         select k)
-                    .Distinct()
                     .ToArray();
 
             SetTooltips(false);
         }
+#endif
 
         [ContextMenu("Set tooltips")]
         public void SetTooltips()
@@ -120,7 +119,6 @@ namespace Juniper.Speech
 #endif
             }
         }
-#endif
 
         /// <summary>
         /// The default text to set to a tooltip for this set of keywords.

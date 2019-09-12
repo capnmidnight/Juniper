@@ -83,9 +83,9 @@ namespace Juniper.Speech
                         where comp?.isActiveAndEnabled != false
                         from keyword in trigger.Keywords
                         where !string.IsNullOrEmpty(keyword)
+                        orderby keyword
                         select keyword)
                 .Distinct()
-                .OrderBy(x => x)
                 .ToArray();
         }
 
