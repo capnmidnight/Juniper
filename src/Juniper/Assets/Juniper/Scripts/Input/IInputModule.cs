@@ -16,15 +16,12 @@ namespace Juniper.Input
 
         PointerEventData Clone(int pointerDataID, PointerEventData original);
 
-        void EnableControllers(bool value, bool savePref);
-
-        void EnableGaze(bool value, bool savePref);
-
-        void EnableHands(bool value, bool savePref);
-
-        void EnableMouse(bool value, bool savePref);
-
-        void EnableTouch(bool value, bool savePref);
+        bool ControllersEnabled { get; set; }
+        bool GazeEnabled { get; set; }
+        bool HandsEnabled { get; set; }
+        bool MouseEnabled { get; set; }
+        bool TouchEnabled { get; set; }
+        bool VoiceEnabled { get; set; }
 
         T MakePointer<T>(Transform parent, string path) where T : Component, IPointerDevice;
 

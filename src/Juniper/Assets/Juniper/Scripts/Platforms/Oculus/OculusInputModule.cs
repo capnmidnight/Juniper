@@ -1,35 +1,35 @@
 #if UNITY_XR_OCULUS
 
+using UnityEngine;
+
 namespace Juniper.Input
 {
     public abstract class OculusInputModule : AbstractUnifiedInputModule
     {
+        public InputMode SeatedVRMode = InputMode.SeatedVR;
+
         public override bool HasFloorPosition
         {
             get
             {
-#if UNITY_EDITOR
-                return false;
-#else
-                return !OVRDeviceSelector.isTargetDeviceGearVrOrGo;
-#endif
+                return OVRPlugin.GetTrackingOriginType() != OVRPlugin.TrackingOrigin.EyeLevel;
             }
         }
+
         public override InputMode DefaultInputMode
         {
             get
             {
-
 #if UNITY_EDITOR
                 return InputMode.Desktop;
 #else
-                if(OVRDeviceSelector.isTargetDeviceGearVrOrGo)
+                if(HasFloorPosition)
                 {
-                    return Mode.SeatedVR;
+                    return InputMode.StandingVR;
                 }
                 else
                 {
-                    return Mode.StandingVR;
+                    return SeatedVRMode;
                 }
 #endif
             }

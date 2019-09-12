@@ -69,9 +69,7 @@ namespace Juniper.Input.Pointers.Gaze
         protected override AbstractHapticDevice MakeHapticsDevice()
         {
 #if ANDROID_API_26_OR_GREATER
-            return this.Ensure<AndroidAPI26Haptics>();
-#elif ANDROID_API_1_OR_GREATER
-            return this.Ensure<AndroidAPI1Haptics>();
+            return this.Ensure<AndroidHaptics>();
 #elif IOS_VERSION_10_OR_GREATER
             return this.Ensure<iOS10Haptics>();
 #elif IOS_VERSION_9

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -115,12 +116,7 @@ namespace Juniper.Input
         /// </summary>
         public GameObject pointerPrefab;
 
-        private const string ENABLE_VOICE_KEY = "VoiceInput";
-        private const string ENABLE_GAZE_KEY = "GazePointer";
-        private const string ENABLE_MOUSE_KEY = "MousePointer";
-        private const string ENABLE_TOUCH_KEY = "TouchPointers";
-        private const string ENABLE_HANDS_KEY = "HandPointers";
-        private const string ENABLE_CONTROLLERS_KEY = "MotionControllers";
+        private const string INPUT_MODE_KEY = "Juniper.Input.UnifiedInputModule::mode";
 
         public GazePointer gazePointer;
         public Mouse mouse;
@@ -162,29 +158,6 @@ namespace Juniper.Input
         {
             Install(true);
         }
-        public bool VoiceAvailable { get { return keyer.IsAvailable; } }
-
-        public bool VoiceEnabled { get { return keyer.isActiveAndEnabled; } }
-
-        public bool GazeAvailable { get { return gazePointer.IsConnected; } }
-
-        public bool GazeEnabled { get { return gazePointer.IsEnabled; } }
-
-        public bool MouseAvailable { get { return mouse.IsConnected; } }
-
-        public bool MouseEnabled { get { return mouse.IsEnabled; } }
-
-        public bool TouchAvailable { get { return AnyDeviceConnected(touches); } }
-
-        public bool TouchEnabled { get { return AnyDeviceEnabled(touches); } }
-
-        public bool HandsAvailable { get { return AnyDeviceConnected(handTrackers); } }
-
-        public bool HandsEnabled { get { return AnyDeviceEnabled(handTrackers); } }
-
-        public bool ControllersAvailable { get { return AnyDeviceConnected(motionControllers); } }
-
-        public bool ControllersEnabled { get { return AnyDeviceEnabled(motionControllers); } }
 
         public virtual void Install(bool reset)
         {
@@ -236,11 +209,7 @@ namespace Juniper.Input
 
         public virtual void Uninstall()
         {
-            EnableHands(true, false);
-            EnableControllers(true, false);
-            EnableGaze(true, false);
-            EnableTouch(true, false);
-            EnableMouse(true, false);
+            mode = InputMode.Auto;
         }
 
 #if UNITY_EDITOR
@@ -284,12 +253,10 @@ namespace Juniper.Input
 
             if (mode != lastMode)
             {
-                if(mode == InputMode.Auto)
+                if (mode == InputMode.Auto)
                 {
-                    mode = DefaultInputMode;
+                    mode = SavedInputMode;
                 }
-
-                lastMode = mode;
 
                 var voice = (mode & InputMode.Voice) != 0 && VoiceAvailable;
                 var motion = (mode & InputMode.Motion) != 0 && ControllersAvailable;
@@ -302,27 +269,42 @@ namespace Juniper.Input
                     && !mouse
                     && !touch;
 
-                if(!motion && !hands && !mouse && !touch && !gaze)
+                if (!motion && !hands && !mouse && !touch && !gaze)
                 {
                     if (UnityInput.mousePresent)
                     {
-                        mode = (mode & InputMode.Voice) | InputMode.Mouse;
-                        mouse = true;
+                        MouseEnabled = mouse = true;
                         this.mouse.ActiveThisFrame = true;
                     }
                     else
                     {
-                        mode = (mode & InputMode.Voice) | InputMode.Gaze;
-                        gaze = true;
+                        GazeEnabled = gaze = true;
                     }
                 }
 
-                EnableGaze(gaze, false);
-                EnableVoice(voice, false);
-                EnableHands(hands, false);
-                EnableMouse(mouse, false);
-                EnableTouch(touch, false);
-                EnableControllers(motion, false);
+
+                keyer.enabled = voice;
+
+                gazePointer.SetActive(gaze);
+
+                this.mouse.SetActive(mouse);
+
+                foreach (var touchPoint in touches)
+                {
+                    touchPoint.SetActive(touch);
+                }
+
+                foreach (var handTracker in handTrackers)
+                {
+                    handTracker.SetActive(hands);
+                }
+
+                foreach (var motionController in motionControllers)
+                {
+                    motionController.SetActive(motion);
+                }
+
+                SavedInputMode = lastMode = mode;
             }
 
             foreach (var pointer in Devices)
@@ -421,76 +403,87 @@ namespace Juniper.Input
 #endif
         }
 
-        private static bool GetBool(string key)
+        private void ToggleMode(InputMode newMode, bool value)
         {
-            return PlayerPrefs.GetInt(key, 0) == 1;
-        }
-
-        private static void SetBool(string key, bool value)
-        {
-            PlayerPrefs.SetInt(key, value ? 1 : 0);
-            PlayerPrefs.Save();
-        }
-
-        private void SaveDeviceState(string key, bool value, IPointerDevice pointer, bool savePref)
-        {
-            if (pointer?.IsEnabled == true)
+            if (value)
             {
-                PrimaryPointer = pointer;
+                mode |= newMode;
             }
-
-            if (savePref)
+            else
             {
-                SetBool(key, value);
+                mode &= ~newMode;
             }
         }
-
-        public void EnableMouse(bool value, bool savePref)
+        public bool VoiceAvailable { get { return keyer.IsAvailable; } }
+        public bool VoiceEnabled
         {
-            mouse.SetActive(value);
-            SaveDeviceState(ENABLE_MOUSE_KEY, value, mouse, savePref);
+            get { return keyer.isActiveAndEnabled; }
+            set { ToggleMode(InputMode.Voice, value); }
         }
 
-        public void EnableGaze(bool value, bool savePref)
+        public bool GazeAvailable { get { return gazePointer.IsConnected; } }
+        public bool GazeEnabled
         {
-            gazePointer.SetActive(value);
-            SaveDeviceState(ENABLE_GAZE_KEY, value, gazePointer, savePref);
+            get { return gazePointer.IsEnabled; }
+            set { ToggleMode(InputMode.Gaze, value); }
         }
 
-        public void EnableVoice(bool value, bool savePref)
+        public bool MouseAvailable { get { return mouse.IsConnected; } }
+        public bool MouseEnabled
         {
-            keyer.enabled = value;
-            SaveDeviceState(ENABLE_VOICE_KEY, value, null, savePref);
+            get { return mouse.IsEnabled; }
+            set { ToggleMode(InputMode.Mouse, value); }
         }
 
-        public void EnableTouch(bool value, bool savePref)
+        public bool TouchAvailable { get { return AnyDeviceConnected(touches); } }
+        public bool TouchEnabled
         {
-            foreach (var touch in touches)
-            {
-                touch.SetActive(value);
-            }
-            SaveDeviceState(ENABLE_TOUCH_KEY, value, touches[0], savePref);
+            get { return AnyDeviceEnabled(touches); }
+            set { ToggleMode(InputMode.Touch, value); }
         }
 
-        public void EnableHands(bool value, bool savePref)
+        public bool HandsAvailable { get { return AnyDeviceConnected(handTrackers); } }
+        public bool HandsEnabled
         {
-            foreach (var handTracker in handTrackers)
-            {
-                handTracker.SetActive(value);
-            }
-            SaveDeviceState(ENABLE_HANDS_KEY, value, handTrackers.LastOrDefault(), savePref);
+            get { return AnyDeviceEnabled(handTrackers); }
+            set { ToggleMode(InputMode.Hands, value); }
         }
 
-        public void EnableControllers(bool value, bool savePref)
+        public bool ControllersAvailable { get { return AnyDeviceConnected(motionControllers); } }
+        public bool ControllersEnabled
         {
-            foreach (var motionController in motionControllers)
-            {
-                motionController.SetActive(value);
-            }
-            SaveDeviceState(ENABLE_CONTROLLERS_KEY, value, motionControllers.LastOrDefault(), savePref);
+            get { return AnyDeviceEnabled(motionControllers); }
+            set { ToggleMode(InputMode.Mouse, value); }
         }
+
 
         public abstract bool HasFloorPosition { get; }
+
+        private InputMode SavedInputMode
+        {
+            get
+            {
+                if (PlayerPrefs.HasKey(INPUT_MODE_KEY))
+                {
+                    return (InputMode)Enum.Parse(typeof(InputMode), PlayerPrefs.GetString(INPUT_MODE_KEY));
+                }
+                else
+                {
+                    return DefaultInputMode;
+                }
+            }
+            set
+            {
+                if (value == InputMode.None)
+                {
+                    PlayerPrefs.DeleteKey(INPUT_MODE_KEY);
+                }
+                else
+                {
+                    PlayerPrefs.SetString(INPUT_MODE_KEY, value.ToString());
+                }
+            }
+        }
 
         public abstract InputMode DefaultInputMode { get; }
     }

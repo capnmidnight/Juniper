@@ -38,15 +38,15 @@ namespace Juniper.Settings
 
         public void Update()
         {
-            DisableButton("Voice", EnableVoiceButton, input.VoiceAvailable, input.VoiceEnabled, ref lastVoiceAvailable, ref lastVoiceEnabled, true);
-            DisableButton("Gaze pointer", EnableGazeButton, input.GazeAvailable, input.GazeEnabled, ref lastGazeAvailable, ref lastGazeEnabled, false);
-            DisableButton("Mouse", EnableMouseButton, input.MouseAvailable, input.MouseEnabled, ref lastMouseAvailable, ref lastMouseEnabled, false);
-            DisableButton("Touch screen", EnableTouchButton, input.TouchAvailable, input.TouchEnabled, ref lastTouchAvailable, ref lastTouchEnabled, false);
-            DisableButton("Hand tracking", EnableHandsButton, input.HandsAvailable, input.HandsEnabled, ref lastHandsAvailable, ref lastHandsEnabled, false);
-            DisableButton("Motion controllers", EnableControllersButton, input.ControllersAvailable, input.ControllersEnabled, ref lastControllerAvailable, ref lastControllerEnabled, false);
+            DisableButton("Voice", EnableVoiceButton, input.VoiceAvailable, input.VoiceEnabled, ref lastVoiceAvailable, ref lastVoiceEnabled);
+            DisableButton("Gaze pointer", EnableGazeButton, input.GazeAvailable, input.GazeEnabled, ref lastGazeAvailable, ref lastGazeEnabled);
+            DisableButton("Mouse pointer", EnableMouseButton, input.MouseAvailable, input.MouseEnabled, ref lastMouseAvailable, ref lastMouseEnabled);
+            DisableButton("Touch screen", EnableTouchButton, input.TouchAvailable, input.TouchEnabled, ref lastTouchAvailable, ref lastTouchEnabled);
+            DisableButton("Hand tracking", EnableHandsButton, input.HandsAvailable, input.HandsEnabled, ref lastHandsAvailable, ref lastHandsEnabled);
+            DisableButton("Motion controllers", EnableControllersButton, input.ControllersAvailable, input.ControllersEnabled, ref lastControllerAvailable, ref lastControllerEnabled);
         }
 
-        private static void DisableButton(string name, GameObject button, bool available, bool enabled, ref bool? lastAvailable, ref bool? lastEnabled, bool toggle)
+        private static void DisableButton(string name, GameObject button, bool available, bool enabled, ref bool? lastAvailable, ref bool? lastEnabled)
         {
             if (button != null && (available != lastAvailable || enabled != lastEnabled))
             {
@@ -56,24 +56,20 @@ namespace Juniper.Settings
                 var sel = button.GetComponent<Selectable>();
                 if (sel != null)
                 {
-                    sel.interactable = available && (!enabled || toggle);
+                    sel.interactable = available;
                 }
 
                 var click = button.GetComponent<Clickable>();
                 if (click != null)
                 {
-                    click.disabled = !available || (enabled && !toggle);
+                    click.disabled = !available;
                 }
 
                 var text = !available
                     ? name + " not available"
                     : enabled
-                        ? toggle
-                            ? "Disable " + name.ToLowerInvariant()
-                            : name + " enabled"
-                        : toggle
-                            ? "Enable " + name.ToLowerInvariant()
-                            : "Use " + name.ToLowerInvariant();
+                        ? "Disable " + name.ToLowerInvariant()
+                        : "Enable " + name.ToLowerInvariant();
 
 #if UNITY_TEXTMESHPRO
                 {
