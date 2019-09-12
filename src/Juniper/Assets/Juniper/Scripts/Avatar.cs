@@ -1,9 +1,10 @@
+using System;
 using System.Linq;
-using Juniper.Units;
+
 using Juniper.Anchoring;
 using Juniper.Display;
 using Juniper.Input;
-using Juniper.Widgets;
+using Juniper.Units;
 
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -223,26 +224,15 @@ namespace Juniper
                 neck = pivot.parent;
                 neck.localPosition = defaultAvatarHeight * Vector3.up;
 
-                headShadow = Head.Ensure<Transform>("HeadShadow", () =>
-                    MakeShadowCaster(
-                        PrimitiveType.Sphere,
-                        new Vector3(0.384284f, 0.3163f, 0.3831071f)));
-
-                var goggles = headShadow.Ensure<Transform>("Goggles", () =>
-                    MakeShadowCaster(
-                        PrimitiveType.Cube,
-                        new Vector3(HalfHeight, 0.5f, 0.5f)));
+                headShadow = Head.Ensure<Transform>("HeadShadow", new Func<GameObject>(MakeHead));
+                var goggles = headShadow.Ensure<Transform>("Goggles", new Func<GameObject>(MakeGoogles));
                 goggles.Value.localPosition = new Vector3(0, 0, 0.311f);
             }
 
             shoulders = this.Ensure<Transform>("Shoulders");
             {
                 Hands = shoulders.Ensure<Transform>("Hands");
-
-                body = shoulders.Ensure<Transform>("Body", () =>
-                    MakeShadowCaster(
-                        PrimitiveType.Capsule,
-                        new Vector3(0.5f, HalfHeight, 0.5f)));
+                body = shoulders.Ensure<Transform>("Body", new Func<GameObject>(MakeBody));
 
 #if UNITY_MODULES_PHYSICS
                 var bs = shoulders.Ensure<CapsuleCollider>();
@@ -275,6 +265,24 @@ namespace Juniper
 #endif
 
             SetBodyPositionAndShape();
+        }
+
+        private GameObject MakeBody()
+        {
+            return MakeShadowCaster(PrimitiveType.Capsule,
+                new Vector3(0.5f, HalfHeight, 0.5f));
+        }
+
+        private GameObject MakeGoogles()
+        {
+            return MakeShadowCaster(PrimitiveType.Cube,
+                new Vector3(HalfHeight, 0.5f, 0.5f));
+        }
+
+        private static GameObject MakeHead()
+        {
+            return MakeShadowCaster(PrimitiveType.Sphere,
+                new Vector3(0.384284f, 0.3163f, 0.3831071f));
         }
 
         private void DestroyGrounder()
