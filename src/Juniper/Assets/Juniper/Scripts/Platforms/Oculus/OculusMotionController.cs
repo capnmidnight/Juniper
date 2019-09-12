@@ -126,7 +126,7 @@ namespace Juniper.Input.Pointers.Motion
 
         protected override AbstractHapticDevice MakeHapticsDevice()
         {
-            return this.Ensure<NoHaptics>();
+            return this.Ensure<OculusHaptics>();
         }
     }
 }
