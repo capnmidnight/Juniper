@@ -124,17 +124,6 @@ namespace System.Collections.Generic.Tests
         }
 
         /// <summary>
-        /// The enumerator is accessed by calling PriorityQueue.GetEnumerator()
-        /// </summary>
-        [TestMethod]
-        public void GetThroughPriorityQueue()
-        {
-            var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
-            Assert.IsInstanceOfType(en, typeof(PriorityQueueEnumerator<object>));
-        }
-
-        /// <summary>
         /// Getting an enumerator on a queue with only 1 item
         /// </summary>
         [TestMethod]
