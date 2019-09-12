@@ -36,10 +36,6 @@
     "CompilerDefine": "TOBII"
   },
   {
-    "Name": "UBER",
-    "CompilerDefine": "UBER_SHADER"
-  },
-  {
     "Name": "UnityARKitPlugin",
     "CompilerDefine": "UNITY_XR_ARKIT"
   },
