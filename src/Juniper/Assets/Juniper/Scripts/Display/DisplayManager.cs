@@ -596,5 +596,10 @@ namespace Juniper.Display
 
             EventCamera.cullingMask = MainCamera.cullingMask & LAYER_MASK;
         }
+
+        public virtual bool ConfirmExit()
+        {
+            return true;
+        }
     }
 }

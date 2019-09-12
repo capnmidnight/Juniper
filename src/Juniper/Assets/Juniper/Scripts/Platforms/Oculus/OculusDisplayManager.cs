@@ -56,6 +56,15 @@ namespace Juniper.Display
 
             base.Uninstall();
         }
+
+        public override bool ConfirmExit()
+        {
+#if UNITY_EDITOR
+            return base.ConfirmExit();
+#else
+            return OVRPlugin.ShowUI(OVRPlugin.PlatformUI.ConfirmQuit);
+#endif
+        }
     }
 }
 

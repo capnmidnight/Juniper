@@ -108,7 +108,7 @@ namespace Juniper
         public string[] subSceneNames;
 
         private FadeTransition fader;
-
+        private DisplayManager display;
         private InteractionAudio interaction;
         private float originalFadeVolume;
         private AudioClip originalFadeInSound;
@@ -293,6 +293,11 @@ namespace Juniper
 
         private void LoadFirstScene()
         {
+            StartCoroutine(LoadFirstSceneCoroutine());
+        }
+
+        private IEnumerator LoadFirstSceneCoroutine()
+        {
             var path = subSceneNames.FirstOrDefault();
             if (string.IsNullOrEmpty(path))
             {
@@ -307,7 +312,7 @@ namespace Juniper
                 }
                 else
                 {
-                    SwitchToScene(name, true, true);
+                    yield return SwitchToSceneCoroutine(name, true, true);
                 }
             }
         }
@@ -353,7 +358,7 @@ namespace Juniper
 
         private IEnumerator SwitchToSceneCoroutine(string subSceneName, bool skipFadeOut, bool unloadOtherScenes)
         {
-            if (!skipFadeOut && fader != null)
+            if (!skipFadeOut && fader != null && !fader.IsEntered && !fader.IsEntering)
             {
                 yield return fader.EnterCoroutine();
             }
@@ -415,7 +420,7 @@ namespace Juniper
 
             var start = DateTime.Now;
             var ts = TimeSpan.FromSeconds(1);
-            while((DateTime.Now - start) < ts || loadingBar?.Progress >= 1)
+            while ((DateTime.Now - start) < ts || loadingBar?.Progress >= 1)
             {
                 yield return null;
             }
@@ -446,6 +451,7 @@ namespace Juniper
 
             fader = ComponentExt.FindAny<FadeTransition>();
             interaction = ComponentExt.FindAny<InteractionAudio>();
+            display = ComponentExt.FindAny<DisplayManager>();
 
             if (fader != null)
             {
@@ -606,33 +612,36 @@ namespace Juniper
         /// </summary>
         private IEnumerator QuitCoroutine()
         {
-            foreach (var subScene in CurrentSubScenes)
+            if (display.ConfirmExit())
             {
-                subScene.Exit();
-            }
-
-            bool anyIncomplete;
-            do
-            {
-                anyIncomplete = false;
                 foreach (var subScene in CurrentSubScenes)
                 {
-                    anyIncomplete |= !subScene.IsComplete;
+                    subScene.Exit();
                 }
-                if (anyIncomplete)
+
+                bool anyIncomplete;
+                do
                 {
-                    yield return null;
+                    anyIncomplete = false;
+                    foreach (var subScene in CurrentSubScenes)
+                    {
+                        anyIncomplete |= !subScene.IsComplete;
+                    }
+                    if (anyIncomplete)
+                    {
+                        yield return null;
+                    }
+                } while (anyIncomplete);
+
+                if (fader != null)
+                {
+                    fader.fadeOutSound = interaction.soundOnShutDown;
+                    fader.volume = 0.5f;
+                    yield return fader.EnterCoroutine();
                 }
-            } while (anyIncomplete);
 
-            if (fader != null)
-            {
-                fader.fadeOutSound = interaction.soundOnShutDown;
-                fader.volume = 0.5f;
-                yield return fader.EnterCoroutine();
+                Exit();
             }
-
-            Exit();
         }
     }
 }
