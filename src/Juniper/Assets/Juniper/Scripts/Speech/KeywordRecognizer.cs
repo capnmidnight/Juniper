@@ -108,10 +108,10 @@ namespace Juniper.Speech
             string maxSubstring = null;
             if (keywords != null)
             {
-                maxSimilarity = 0.79999999999f;
+                maxSimilarity = 0;
                 foreach (var keyword in keywords)
                 {
-                    var similarity = keyword.Similarity(text);
+                    var similarity = keyword.Similarity(resultText);
                     if (similarity > maxSimilarity)
                     {
                         maxSubstring = keyword;
@@ -119,9 +119,9 @@ namespace Juniper.Speech
                     }
                 }
 
-                if (maxSubstring == null)
+                if (maxSimilarity < 0.8f)
                 {
-                    maxSimilarity = 0;
+                    maxSubstring = null;
                 }
             }
 
