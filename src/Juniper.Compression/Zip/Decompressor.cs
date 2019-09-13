@@ -175,9 +175,9 @@ namespace Juniper.Compression.Zip
         {
             for (int i = 0, l = (int)zip.Count; i < l; ++i)
             {
-                prog?.Report(i, l);
+                prog.Report(i, l);
                 yield return zip[i];
-                prog?.Report(i + 1, l);
+                prog.Report(i + 1, l);
             }
         }
 
@@ -256,7 +256,7 @@ namespace Juniper.Compression.Zip
         {
             for (int i = 0, l = (int)zip.Count; i < l; ++i)
             {
-                prog?.Report(i, l);
+                prog.Report(i, l);
                 var entry = zip[i];
                 var outputPath = Path.Combine(outputDirectory.FullName, entry.Name);
                 FileInfo outputFile = null;
@@ -281,7 +281,7 @@ namespace Juniper.Compression.Zip
                         inputStream.CopyTo(outputStream);
                     }
                 }
-                prog?.Report(i + 1, l);
+                prog.Report(i + 1, l);
             }
         }
 

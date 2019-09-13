@@ -62,12 +62,7 @@ namespace Juniper.Widgets
             currentStatus = string.Empty;
         }
 
-        public void Report(float progress)
-        {
-            Report(progress, null);
-        }
-
-        public void Report(float progress, string status)
+        public void ReportWithStatus(float progress, string status)
         {
             TargetValue = progress;
             currentStatus = status ?? string.Empty;

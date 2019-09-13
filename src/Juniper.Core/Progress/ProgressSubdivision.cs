@@ -61,31 +61,22 @@ namespace Juniper.Progress
         /// Receive a progress report.
         /// </summary>
         /// <param name="progress"></param>
-        public void Report(float progress)
-        {
-            Report(progress, null);
-        }
-
-        /// <summary>
-        /// Receive a progress report.
-        /// </summary>
-        /// <param name="progress"></param>
         /// <param name="status"></param>
-        public void Report(float progress, string status)
+        public void ReportWithStatus(float progress, string status)
         {
             Progress = progress;
             var prog = start + (progress * length);
             if (prefix != null && status != null)
             {
-                parent?.Report(prog, prefix + " " + status);
+                parent.Report(prog, prefix + " " + status);
             }
             else if (status != null)
             {
-                parent?.Report(prog, status);
+                parent.Report(prog, status);
             }
             else
             {
-                parent?.Report(prog, prefix);
+                parent.Report(prog, prefix);
             }
         }
     }

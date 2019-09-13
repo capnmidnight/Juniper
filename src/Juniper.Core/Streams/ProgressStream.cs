@@ -78,21 +78,11 @@ namespace Juniper.Streams
         /// Send the progress report up to the parent.
         /// </summary>
         /// <param name="progress"></param>
-        public void Report(float progress)
-        {
-            Progress = progress;
-            parent?.Report(progress);
-        }
-
-        /// <summary>
-        /// Send the progress report up to the parent.
-        /// </summary>
-        /// <param name="progress"></param>
         /// <param name="status"></param>
-        public void Report(float progress, string status)
+        public void ReportWithStatus(float progress, string status)
         {
             Progress = progress;
-            parent?.Report(progress, status);
+            parent.Report(progress, status);
         }
 
         /// <summary>

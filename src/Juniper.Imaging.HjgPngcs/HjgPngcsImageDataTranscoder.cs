@@ -18,10 +18,10 @@ namespace Juniper.Imaging.HjgPngcs
             var data = new byte[numRows * rows.elementsPerRow];
             for (var i = 0; i < numRows; ++i)
             {
-                prog?.Report(i, numRows);
+                prog.Report(i, numRows);
                 var row = rows.ScanlinesB[i];
                 Array.Copy(row, 0, data, i * rows.elementsPerRow, row.Length);
-                prog?.Report(i + 1, numRows);
+                prog.Report(i + 1, numRows);
             }
 
             return new ImageData(
@@ -54,11 +54,11 @@ namespace Juniper.Imaging.HjgPngcs
 
             for (var i = 0; i < image.info.dimensions.height; ++i)
             {
-                prog?.Report(i, image.info.dimensions.height);
+                prog.Report(i, image.info.dimensions.height);
                 var dataIndex = i * image.info.stride;
                 var line = imageLines.ScanlinesB[i];
                 Array.Copy(image.data, dataIndex, line, 0, image.info.stride);
-                prog?.Report(i + 1, image.info.dimensions.height);
+                prog.Report(i + 1, image.info.dimensions.height);
             }
 
             return imageLines;

@@ -51,12 +51,12 @@ namespace Juniper.Imaging.HjgPngcs
         /// <param name="imageStream">Png bytes.</param>
         public ImageLines Deserialize(Stream imageStream, IProgress prog)
         {
-            prog?.Report(0);
+            prog.Report(0);
             var png = new PngReader(imageStream);
             png.SetUnpackedMode(true);
             var lines = png.ReadRowsByte();
             png.End();
-            prog?.Report(1);
+            prog.Report(1);
             return lines;
         }
 
@@ -84,14 +84,14 @@ namespace Juniper.Imaging.HjgPngcs
 
             for (var i = 0; i < image.Nrows; ++i)
             {
-                copyProg?.Report(i, image.Nrows);
+                copyProg.Report(i, image.Nrows);
                 png.WriteRow(image.GetImageLineAtMatrixRow(i), i);
-                copyProg?.Report(i + 1, image.Nrows);
+                copyProg.Report(i + 1, image.Nrows);
             }
 
-            saveProg?.Report(0);
+            saveProg.Report(0);
             png.End();
-            saveProg?.Report(1);
+            saveProg.Report(1);
         }
 
         public ImageLines Concatenate(ImageLines[,] images, IProgress prog)

@@ -7,7 +7,7 @@ namespace Juniper.Progress
     /// <summary>
     /// Progress reporting interface for asynchronous operations.
     /// </summary>
-    public interface IProgress : IProgress<float>
+    public interface IProgress
     {
         /// <summary>
         /// The value of the most recent progress report.
@@ -22,7 +22,7 @@ namespace Juniper.Progress
         /// </summary>
         /// <param name="progress"></param>
         /// <param name="status"></param>
-        void Report(float progress, string status);
+        void ReportWithStatus(float progress, string status);
     }
 
     /// <summary>
@@ -34,6 +34,16 @@ namespace Juniper.Progress
         /// The minimum amount of difference to allow between two floats to consider them the same number.
         /// </summary>
         private const float ALPHA = 1e-3f;
+
+        public static void Report(this IProgress prog, float progress)
+        {
+            prog?.ReportWithStatus(progress, null);
+        }
+
+        public static void Report(this IProgress prog, float progress, string status)
+        {
+            prog?.ReportWithStatus(progress, status);
+        }
 
         /// <summary>
         /// Check to see <paramref name="prog"/>'s progress is within <see cref="ALPHA"/> of 1.
@@ -58,7 +68,7 @@ namespace Juniper.Progress
             var len = arr.Count();
             if (len == 0)
             {
-                prog?.Report(1, "Nothing to do");
+                prog.Report(1, "Nothing to do");
             }
             else
             {
@@ -68,9 +78,9 @@ namespace Juniper.Progress
                 {
                     try
                     {
-                        progs[index]?.Report(0);
+                        progs[index].Report(0);
                         act(item, progs[index]);
-                        progs[index]?.Report(1);
+                        progs[index].Report(1);
                         ++index;
                     }
                     catch (OperationCanceledException)

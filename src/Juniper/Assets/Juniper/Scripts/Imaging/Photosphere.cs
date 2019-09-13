@@ -167,14 +167,9 @@ namespace Juniper.Imaging
             locked = false;
         }
 
-        public void Report(float progress, string status)
+        public void ReportWithStatus(float progress, string status)
         {
             ProgressToReady = progress;
-        }
-
-        public void Report(float progress)
-        {
-            Report(progress, null);
         }
 
         public void Update()

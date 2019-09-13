@@ -12,7 +12,7 @@ namespace Juniper.Imaging.Windows
         {
             using (var mem = new MemoryStream())
             {
-                prog?.Report(0);
+                prog.Report(0);
                 image.Save(mem, image.RawFormat);
 
                 var img = new ImageData(
@@ -21,7 +21,7 @@ namespace Juniper.Imaging.Windows
                     image.GetComponents(),
                     image.RawFormat.ToMediaType(),
                     mem.ToArray());
-                prog?.Report(1);
+                prog.Report(1);
                 return img;
             }
         }

@@ -14,13 +14,17 @@ namespace Juniper.Google.Maps.Tests
         [TestInitialize]
         public virtual void Init()
         {
-            var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
-            cacheDir = new DirectoryInfo(cacheDirName);
-            var keyFile = Path.Combine(cacheDirName, "keys.txt");
+            var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var keyFile = Path.Combine(home, "Projects", "DevKeys", "google-streetview.txt");
             var lines = File.ReadAllLines(keyFile);
             var apiKey = lines[0];
             var signingKey = lines[1];
+
+            var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
+
+            cacheDir = new DirectoryInfo(cacheDirName);
+
             service = new GoogleMapsRequestConfiguration(apiKey, signingKey, cacheDir);
             noCacheService = new GoogleMapsRequestConfiguration(apiKey, signingKey);
         }

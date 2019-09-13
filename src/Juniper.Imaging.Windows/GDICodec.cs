@@ -39,16 +39,16 @@ namespace Juniper.Imaging.Windows
 
         public void Serialize(Stream stream, Image value, IProgress prog)
         {
-            prog?.Report(0);
+            prog.Report(0);
             value.Save(stream, gdiFormat);
-            prog?.Report(1);
+            prog.Report(1);
         }
 
         public Image Deserialize(Stream stream, IProgress prog)
         {
-            prog?.Report(0);
+            prog.Report(0);
             var img = Image.FromStream(stream);
-            prog?.Report(1);
+            prog.Report(1);
             return img;
         }
 
@@ -101,7 +101,7 @@ namespace Juniper.Imaging.Windows
                 {
                     for(var x = 0; x < columns; ++x)
                     {
-                        prog?.Report(y * columns + x, rows * columns);
+                        prog.Report(y * columns + x, rows * columns);
                         var img = images[y, x];
                         if(img != null)
                         {
@@ -112,7 +112,7 @@ namespace Juniper.Imaging.Windows
                             img.Dispose();
                             GC.Collect();
                         }
-                        prog?.Report(y * columns + x + 1, rows * columns);
+                        prog.Report(y * columns + x + 1, rows * columns);
                     }
                 }
 

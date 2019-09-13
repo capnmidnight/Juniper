@@ -282,7 +282,7 @@ namespace Juniper.HTTP.REST
 
         public Task<T> GetDecoded<T>(IDeserializer<T> deserializer)
         {
-            return GetDecoded(deserializer);
+            return GetDecoded(deserializer, null);
         }
     }
 }

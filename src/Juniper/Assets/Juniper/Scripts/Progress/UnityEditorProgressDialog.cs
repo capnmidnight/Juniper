@@ -26,12 +26,7 @@ namespace Juniper.Progress
             get; private set;
         }
 
-        public void Report(float progress)
-        {
-            Report(progress, null);
-        }
-
-        public void Report(float progress, string status)
+        public void ReportWithStatus(float progress, string status)
         {
             if (canceled)
             {

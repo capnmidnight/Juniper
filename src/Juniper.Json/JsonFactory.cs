@@ -21,7 +21,7 @@ namespace Juniper.Json
 
         public void Serialize<T>(Stream stream, T value, IProgress prog)
         {
-            prog?.Report(0);
+            prog.Report(0);
             var writer = new StreamWriter(stream);
             var jsonWriter = new JsonTextWriter(writer)
             {
@@ -32,17 +32,17 @@ namespace Juniper.Json
             jsonWriter.Flush();
             writer.Flush();
             stream.Flush();
-            prog?.Report(1);
+            prog.Report(1);
         }
 
         public T Deserialize<T>(Stream stream, IProgress prog)
         {
-            prog?.Report(0);
+            prog.Report(0);
             var reader = new StreamReader(stream);
             var jsonReader = new JsonTextReader(reader);
             var serializer = new JsonSerializer();
             var obj = serializer.Deserialize<T>(jsonReader);
-            prog?.Report(1);
+            prog.Report(1);
             return obj;
         }
     }

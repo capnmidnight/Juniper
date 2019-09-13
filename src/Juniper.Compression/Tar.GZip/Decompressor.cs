@@ -239,7 +239,7 @@ namespace Juniper.Compression.Tar.GZip
         /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
         public static void Decompress(string inputTarFile, string outputDirectory, IProgress prog, Action<Exception> error)
         {
-            prog?.Report(0);
+            prog.Report(0);
             if (!File.Exists(inputTarFile))
             {
                 throw new FileNotFoundException("File not found! " + inputTarFile, inputTarFile);

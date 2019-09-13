@@ -35,11 +35,11 @@ namespace Juniper.Imaging.LibJpegNET
         /// <param name="imageStream">Jpeg bytes.</param>
         public JpegImage Deserialize(Stream imageStream, IProgress prog)
         {
-            prog?.Report(0);
+            prog.Report(0);
             using (var seekable = new ErsatzSeekableStream(imageStream))
             {
                 var img = new JpegImage(seekable);
-                prog?.Report(1);
+                prog.Report(1);
                 return img;
             }
         }
@@ -50,9 +50,9 @@ namespace Juniper.Imaging.LibJpegNET
         /// <param name="outputStream">Jpeg bytes.</param>
         public void Serialize(Stream outputStream, JpegImage image, IProgress prog)
         {
-            prog?.Report(0);
+            prog.Report(0);
             image.WriteJpeg(outputStream, compressionParams);
-            prog?.Report(1);
+            prog.Report(1);
         }
 
         public int GetWidth(JpegImage img)

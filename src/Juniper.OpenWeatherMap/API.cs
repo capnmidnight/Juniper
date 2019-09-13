@@ -205,7 +205,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <returns></returns>
         public async Task<IWeatherReport> Request(LatLngPoint location, bool force, IProgress prog)
         {
-            prog?.Report(0);
+            prog.Report(0);
             if (NeedsNewReport(location) || force)
             {
                 var url = $"{serverURI}/data/{version.ToString(2)}/{operation}?lat={location.Latitude.ToString()}&lon={location.Longitude.ToString()}&units={units}&appid={apiKey}";
@@ -231,7 +231,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
                 }
             }
 
-            prog?.Report(1);
+            prog.Report(1);
             return LastReport;
         }
 

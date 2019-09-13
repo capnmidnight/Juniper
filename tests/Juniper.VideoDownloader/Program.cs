@@ -19,10 +19,10 @@ namespace Juniper.VideoDownloader
 
             private string lastStatus = string.Empty;
 
-            public void Report(float progress, string status)
+            public void ReportWithStatus(float progress, string status)
             {
                 var percent = Units.Converter.Label(progress, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent, 3);
-                var curStatus = $"Progress {percent} {status}";
+                var curStatus = $"Progress {percent} {status ?? string.Empty}";
                 if (curStatus != lastStatus)
                 {
                     lastStatus = curStatus;
@@ -32,11 +32,6 @@ namespace Juniper.VideoDownloader
                     }
                     Write(curStatus);
                 }
-            }
-
-            public void Report(float value)
-            {
-                Report(value, string.Empty);
             }
         }
 

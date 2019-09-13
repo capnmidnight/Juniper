@@ -34,7 +34,7 @@ namespace Juniper.Compression.Zip
         /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
         public static void CompressDirectory(string inputDirectory, string outputZipFile, int level, IProgress prog, Action<Exception> error)
         {
-            prog?.Report(0);
+            prog.Report(0);
 
             if (Directory.Exists(inputDirectory))
             {
@@ -74,7 +74,7 @@ namespace Juniper.Compression.Zip
                 }
             }
 
-            prog?.Report(1);
+            prog.Report(1);
         }
 
         public static void CompressDirectory(string inputDirectory, string outputZipFile, int level, IProgress prog)

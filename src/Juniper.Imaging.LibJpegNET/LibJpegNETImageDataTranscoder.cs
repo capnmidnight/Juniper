@@ -57,9 +57,9 @@ namespace Juniper.Imaging.LibJpegNET
                 copyProg.Report(i + 1, image.info.dimensions.height);
             }
 
-            saveProg?.Report(0);
+            saveProg.Report(0);
             var jpeg = new JpegImage(rows, Colorspace.RGB);
-            saveProg?.Report(1);
+            saveProg.Report(1);
             return jpeg;
         }
     }

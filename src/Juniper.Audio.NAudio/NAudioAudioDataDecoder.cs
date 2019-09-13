@@ -54,7 +54,7 @@ namespace Juniper.Audio.NAudio
 
         public AudioData Deserialize(Stream stream, IProgress prog)
         {
-            prog?.Report(0);
+            prog.Report(0);
             using (var waveStream = MakeDecodingStream(stream))
             {
                 var format = waveStream.WaveFormat;
@@ -64,7 +64,7 @@ namespace Juniper.Audio.NAudio
                 var channels = format.Channels;
                 var frequency = format.SampleRate;
                 var aud = new AudioData((MediaType.Audio)ContentType, samples, channels, frequency, waveStream);
-                prog?.Report(1);
+                prog.Report(1);
                 return aud;
             }
         }

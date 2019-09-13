@@ -52,7 +52,7 @@ namespace Juniper
                 keepFinding = false;
 
                 var installables = getInstallables();
-                prog?.Report(installed.Count, installables.Count);
+                prog.Report(installed.Count, installables.Count);
 
                 foreach (var installable in installables)
                 {
@@ -71,7 +71,7 @@ namespace Juniper
 
                             installable.Install(reset);
                             installed.Add(installable);
-                            prog?.Report(installed.Count, installables.Count);
+                            prog.Report(installed.Count, installables.Count);
                         }
 #pragma warning disable CA1031 // Do not catch general exception types
                         catch (Exception exp)

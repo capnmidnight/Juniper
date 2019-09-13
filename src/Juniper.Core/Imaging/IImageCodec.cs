@@ -86,7 +86,7 @@ namespace Juniper.Imaging
 
         public static void ValidateImages<T>(this IImageCodec<T> codec, T[,] images, IProgress prog, out int rows, out int columns, out int components, out int tileWidth, out int tileHeight)
         {
-            prog?.Report(0);
+            prog.Report(0);
 
             if (images == null)
             {
