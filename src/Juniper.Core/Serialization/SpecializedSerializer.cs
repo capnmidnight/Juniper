@@ -12,7 +12,7 @@ namespace Juniper.Serialization
             this.serializer = serializer;
         }
 
-        public void Serialize(Stream stream, T value, IProgress prog = null)
+        public void Serialize(Stream stream, T value, IProgress prog)
         {
             serializer.Serialize(stream, value, prog);
         }

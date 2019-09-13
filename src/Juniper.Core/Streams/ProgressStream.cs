@@ -29,7 +29,7 @@ namespace Juniper.Streams
         /// <param name="stream"></param>
         /// <param name="length"></param>
         /// <param name="parent"></param>
-        public ProgressStream(Stream stream, long length, IProgress parent = null)
+        public ProgressStream(Stream stream, long length, IProgress parent)
         {
             this.parent = parent;
             this.stream = stream;

@@ -37,12 +37,14 @@ namespace Juniper.Imaging.Windows
             return img.GetComponents();
         }
 
-        public void Serialize(Stream stream, Image value, IProgress prog = null)
+        public void Serialize(Stream stream, Image value, IProgress prog)
         {
+            prog?.Report(0);
             value.Save(stream, gdiFormat);
+            prog?.Report(1);
         }
 
-        public Image Deserialize(Stream stream, IProgress prog = null)
+        public Image Deserialize(Stream stream, IProgress prog)
         {
             prog?.Report(0);
             var img = Image.FromStream(stream);
@@ -72,7 +74,7 @@ namespace Juniper.Imaging.Windows
             }
         }
 
-        public Image Concatenate(Image[,] images, IProgress prog = null)
+        public Image Concatenate(Image[,] images, IProgress prog)
         {
             this.ValidateImages(images, prog,
                 out var rows, out var columns, out var components,

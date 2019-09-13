@@ -22,7 +22,7 @@ namespace Juniper.HTTP
         public readonly string[] Extensions;
         public readonly string PrimaryExtension;
 
-        public MediaType(string value, string[] extensions = null)
+        public MediaType(string value, string[] extensions)
         {
             Value = value;
             Extensions = extensions;
@@ -31,6 +31,9 @@ namespace Juniper.HTTP
                 PrimaryExtension = extensions[0];
             }
         }
+
+        public MediaType(string value)
+            : this(value, null) { }
 
         public static implicit operator string(MediaType mediaType)
         {

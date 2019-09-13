@@ -38,6 +38,14 @@ namespace Juniper.Climate
         /// <param name="location"></param>
         /// <param name="force"></param>
         /// <param name="prog"></param>
-        Task<IWeatherReport> Request(LatLngPoint location, bool force, IProgress prog = null);
+        Task<IWeatherReport> Request(LatLngPoint location, bool force, IProgress prog);
+    }
+
+    public static class IWeatherAPIExt
+    {
+        public static Task<IWeatherReport> Request(this IWeatherAPI report, LatLngPoint location, bool force)
+        {
+            return report.Request(location, force, null);
+        }
     }
 }

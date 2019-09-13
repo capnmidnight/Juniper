@@ -75,7 +75,7 @@ namespace Juniper.Widgets
             }
         }
 
-        public override void Enter(IProgress prog = null)
+        public override void Enter(IProgress prog)
         {
             base.Enter(prog);
             prog?.Report(1);

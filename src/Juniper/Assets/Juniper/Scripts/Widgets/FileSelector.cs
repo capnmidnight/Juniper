@@ -52,7 +52,7 @@ namespace Juniper.Widgets
             CallAndExit(onCancel);
         }
 
-        public void Show(string titleText, SelectionMode m, string filterPattern, Action<string> onFileSelected, Action onSelectionCanceled = null)
+        public void Show(string titleText, SelectionMode m, string filterPattern, Action<string> onFileSelected, Action onSelectionCanceled)
         {
             gameObject.SetActive(true);
             title.text = titleText;
@@ -60,6 +60,11 @@ namespace Juniper.Widgets
             onSelected = onFileSelected;
             onCancel = onSelectionCanceled;
             filter = filterPattern;
+        }
+
+        public void Show(string titleText, SelectionMode m, string filterPattern, Action<string> onFileSelected)
+        {
+            Show(titleText, m, filterPattern, onFileSelected, null);
         }
 
         public void Awake()

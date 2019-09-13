@@ -53,7 +53,7 @@ namespace Juniper.Progress
         /// <param name="arr">The list of objects to iterate over, for progress tracking.</param>
         /// <param name="act">The action to take on each list item.</param>
         /// <param name="error">A callback to fire if an error occurs when processing a list item.</param>
-        public static void ForEach<T>(this IProgress prog, IEnumerable<T> arr, Action<T, IProgress> act, Action<Exception> error = null)
+        public static void ForEach<T>(this IProgress prog, IEnumerable<T> arr, Action<T, IProgress> act, Action<Exception> error)
         {
             var len = arr.Count();
             if (len == 0)
@@ -87,6 +87,11 @@ namespace Juniper.Progress
             }
         }
 
+        public static void ForEach<T>(this IProgress prog, IEnumerable<T> arr, Action<T, IProgress> act)
+        {
+            prog.ForEach(arr, act, null);
+        }
+
         /// <summary>
         /// Make a subdivision of a progress meter. Progress from [0, 1] on the subdivision
         /// will map to progress from [<paramref name="start"/>, <paramref name="start"/> + <paramref name="length"/>]
@@ -97,9 +102,14 @@ namespace Juniper.Progress
         /// <param name="length">The length of the output range.</param>
         /// <param name="prefix">A text prefix to include as part of the status update.</param>
         /// <returns></returns>
-        public static IProgress Subdivide(this IProgress parent, float start, float length, string prefix = null)
+        public static IProgress Subdivide(this IProgress parent, float start, float length, string prefix)
         {
             return new ProgressSubdivision(parent, start, length, prefix);
+        }
+
+        public static IProgress Subdivide(this IProgress parent, float start, float length)
+        {
+            return parent.Subdivide(start, length, null);
         }
 
         /// <summary>
@@ -112,9 +122,14 @@ namespace Juniper.Progress
         /// <param name="count">The total number of subdivisions that this subdivision will be a part of.</param>
         /// <param name="prefix">A text prefix to include as part of the status update.</param>
         /// <returns></returns>
-        public static IProgress Subdivide(this IProgress parent, int index, int count, string prefix = null)
+        public static IProgress Subdivide(this IProgress parent, int index, int count, string prefix)
         {
             return new ProgressSubdivision(parent, (float)index / count, 1f / count, prefix);
+        }
+
+        public static IProgress Subdivide(this IProgress parent, int index, int count)
+        {
+            return parent.Subdivide(index, count, null);
         }
 
         /// <summary>
@@ -176,16 +191,21 @@ namespace Juniper.Progress
         /// <param name="count"></param>
         /// <param name="length"></param>
         /// <param name="status"></param>
-        public static void Report(this IProgress prog, float count, float length, string status = null)
+        public static void Report(this IProgress prog, float count, float length, string status)
         {
             if (length > 0)
             {
-                prog?.Report(count / length, status);
+                prog.Report(count / length, status);
             }
             else
             {
-                prog?.Report(1, status);
+                prog.Report(1, status);
             }
+        }
+
+        public static void Report(this IProgress prog, float count, float length)
+        {
+            prog.Report(count, length, null);
         }
     }
 }

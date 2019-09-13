@@ -13,9 +13,15 @@ namespace Juniper.Input.Pointers
     {
         private readonly Dictionary<ButtonIDType, InputEventButton> nativeButtons = new Dictionary<ButtonIDType, InputEventButton>(5);
 
-        protected void AddButton(ButtonIDType outButton, InputButton? inButton = null)
+        protected void AddButton(ButtonIDType outButton, InputButton inButton)
         {
-            nativeButtons.Add(outButton, inButton == null ? InputEventButton.None : (InputEventButton)inButton.Value);
+            nativeButtons.Add(outButton, (InputEventButton)inButton);
+        }
+
+
+        protected void AddButton(ButtonIDType outButton)
+        {
+            nativeButtons.Add(outButton, InputEventButton.None);
         }
 
         public void Install(ButtonMapper<ButtonIDType> mapper, GameObject eventParent, bool reset)

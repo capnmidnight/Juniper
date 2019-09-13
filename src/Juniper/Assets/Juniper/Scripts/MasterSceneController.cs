@@ -107,7 +107,6 @@ namespace Juniper
         public string[] subSceneNames;
 
         private FadeTransition fader;
-        private DisplayManager display;
         private InteractionAudio interaction;
         private float originalFadeVolume;
         private AudioClip originalFadeInSound;
@@ -277,7 +276,7 @@ namespace Juniper
         /// <summary>
         /// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
         /// </summary>
-        private IEnumerator LoadAllScenesCoroutine(IProgress prog = null)
+        private IEnumerator LoadAllScenesCoroutine(IProgress prog)
         {
             if (subSceneNames?.Length > 0)
             {
@@ -450,7 +449,6 @@ namespace Juniper
 
             fader = ComponentExt.FindAny<FadeTransition>();
             interaction = ComponentExt.FindAny<InteractionAudio>();
-            display = ComponentExt.FindAny<DisplayManager>();
 
             if (fader != null)
             {

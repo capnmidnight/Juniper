@@ -56,7 +56,7 @@ namespace Juniper.Video
             CreateAudioTracks(1);
         }
 
-        public override void Enter(IProgress prog = null)
+        public override void Enter(IProgress prog)
         {
             base.Enter(prog);
 

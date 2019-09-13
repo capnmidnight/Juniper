@@ -14,7 +14,7 @@ namespace Juniper.Serialization
             this.deserializer = deserializer;
         }
 
-        public T Deserialize(Stream stream, IProgress prog = null)
+        public T Deserialize(Stream stream, IProgress prog)
         {
             return deserializer.Deserialize<T>(stream, prog);
         }

@@ -37,13 +37,16 @@ namespace Juniper.Progress
         /// <param name="start"></param>
         /// <param name="length"></param>
         /// <param name="prefix"></param>
-        public ProgressSubdivision(IProgress parent, float start, float length, string prefix = null)
+        public ProgressSubdivision(IProgress parent, float start, float length, string prefix)
         {
             this.parent = parent;
             this.start = Math.Max(0, start);
             this.length = length;
             this.prefix = prefix;
         }
+
+        public ProgressSubdivision(IProgress parent, float start, float length)
+            : this(parent, start, length, null) { }
 
         /// <summary>
         /// Returns the current progress of the subdivision.

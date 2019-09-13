@@ -238,7 +238,7 @@ namespace UnityEngine
         /// <typeparam name="T">A subclass of type <see cref="Component"/>.</typeparam>
         public static PooledComponent<T> Ensure<T>(this Component obj, Predicate<T> predicate) where T : Component
         {
-            return obj.gameObject.Ensure<T>(predicate);
+            return obj.gameObject.Ensure(predicate);
         }
 
         public static PooledComponent<T> Ensure<T>(this Component obj)
@@ -281,25 +281,11 @@ namespace UnityEngine
         /// complex Transform hierarchies very quickly.
         /// </summary>
         /// <returns>The transform.</returns>
-        /// <param name="obj">   Object.</param>
-        /// <param name="path">  Path.</param>
-        /// <param name="create"></param>
-        public static PooledComponent<T> Ensure<T>(this Component obj, string path, Func<GameObject> create)
-            where T : Transform
-        {
-            return obj.Ensure<T>(path, null, create);
-        }
-
-        /// <summary>
-        /// Fill in a path of Transforms with other Transforms as necessary. Useful for creating
-        /// complex Transform hierarchies very quickly.
-        /// </summary>
-        /// <returns>The transform.</returns>
         /// <param name="obj">         Object.</param>
         /// <param name="path">        Path.</param>
         /// <param name="creationPath"></param>
         /// <param name="create">      </param>
-        public static PooledComponent<T> Ensure<T>(this Component obj, string path, string creationPath = null, Func<GameObject> create = null)
+        public static PooledComponent<T> Ensure<T>(this Component obj, string path, string creationPath, Func<GameObject> create)
             where T : Transform
         {
             if (creationPath == null)
@@ -345,15 +331,51 @@ namespace UnityEngine
             return new PooledComponent<T>(trans.gameObject, isNew);
         }
 
+        public static PooledComponent<T> Ensure<T>(this Component obj, string path, string creationPath)
+            where T : Transform
+        {
+            return obj.Ensure<T>(path, creationPath, null);
+        }
+
+        /// <summary>
+        /// Fill in a path of Transforms with other Transforms as necessary. Useful for creating
+        /// complex Transform hierarchies very quickly.
+        /// </summary>
+        /// <returns>The transform.</returns>
+        /// <param name="obj">   Object.</param>
+        /// <param name="path">  Path.</param>
+        /// <param name="create"></param>
+        public static PooledComponent<T> Ensure<T>(this Component obj, string path, Func<GameObject> create)
+            where T : Transform
+        {
+            return obj.Ensure<T>(path, null, create);
+        }
+
+        public static PooledComponent<T> Ensure<T>(this Component obj, string path)
+            where T : Transform
+        {
+            return obj.Ensure<T>(path, null, null);
+        }
+
         /// <summary>
         /// Find any object in any scene that is of a certain type.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public static T FindAny<T>(Func<T, bool> filter = null)
+        public static T FindAny<T>(Func<T, bool> filter)
         {
             return FindAll(filter).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Find any object in any scene that is of a certain type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T FindAny<T>()
+        {
+            return FindAll<T>().FirstOrDefault();
         }
 
         /// <summary>
@@ -388,15 +410,31 @@ namespace UnityEngine
         /// Find all objects in any scene that is of a certain type.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="filter"></param>
         /// <returns></returns>
-        public static IEnumerable<T> FindAll<T>(Func<T, bool> filter = null)
+        public static IEnumerable<T> FindAll<T>()
         {
             var objs = Resources.FindObjectsOfTypeAll<Object>();
             for (var i = 0; i < objs.Length; ++i)
             {
                 var o = objs[i];
-                if (o is T obj && filter?.Invoke(obj) != false)
+                if (o is T obj)
+                {
+                    yield return obj;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Find all objects in any scene that is of a certain type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> FindAll<T>(Func<T, bool> filter)
+        {
+            foreach (var obj in FindAll<T>())
+            {
+                if (filter(obj))
                 {
                     yield return obj;
                 }
@@ -408,9 +446,8 @@ namespace UnityEngine
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="scene"></param>
-        /// <param name="filter"></param>
         /// <returns></returns>
-        public static IEnumerable<T> FindAll<T>(this Scene scene, Func<T, bool> filter = null)
+        public static IEnumerable<T> FindAll<T>(this Scene scene)
         {
             if (scene.isLoaded || !string.IsNullOrEmpty(scene.name))
             {
@@ -418,11 +455,26 @@ namespace UnityEngine
                 {
                     foreach (var c in o.GetComponentsInChildren<T>(true))
                     {
-                        if (filter?.Invoke(c) != false)
-                        {
-                            yield return c;
-                        }
+                        yield return c;
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Find all objects in the specified scene that is of a certain type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="scene"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> FindAll<T>(this Scene scene, Func<T, bool> filter)
+        {
+            foreach(var c in scene.FindAll<T>())
+            {
+                if (filter(c))
+                {
+                    yield return c;
                 }
             }
         }

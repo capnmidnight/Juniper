@@ -25,14 +25,24 @@ namespace Juniper.Input.Pointers.Motion
         private readonly Dictionary<VirtualTouchPadButton, InputEventButton> touchPadButtons = new Dictionary<VirtualTouchPadButton, InputEventButton>(11);
         private readonly Dictionary<VirtualTriggerButton, InputEventButton> triggerButtons = new Dictionary<VirtualTriggerButton, InputEventButton>(3);
 
-        protected void AddButton(VirtualTouchPadButton outButton, InputButton? inButton = null)
+        protected void AddButton(VirtualTouchPadButton outButton, InputButton inButton)
         {
-            touchPadButtons.Add(outButton, inButton == null ? InputEventButton.None : (InputEventButton)inButton.Value);
+            touchPadButtons.Add(outButton, (InputEventButton)inButton);
         }
 
-        protected void AddButton(VirtualTriggerButton outButton, InputButton? inButton = null)
+        protected void AddButton(VirtualTouchPadButton outButton)
         {
-            triggerButtons.Add(outButton, inButton == null ? InputEventButton.None : (InputEventButton)inButton.Value);
+            touchPadButtons.Add(outButton, InputEventButton.None);
+        }
+
+        protected void AddButton(VirtualTriggerButton outButton, InputButton inButton)
+        {
+            triggerButtons.Add(outButton, (InputEventButton)inButton);
+        }
+
+        protected void AddButton(VirtualTriggerButton outButton)
+        {
+            triggerButtons.Add(outButton, InputEventButton.None);
         }
 
         public void Install(ButtonMapper<VirtualTouchPadButton> mapper, GameObject eventParent, bool reset)

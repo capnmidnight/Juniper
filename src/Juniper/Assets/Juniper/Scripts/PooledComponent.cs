@@ -418,7 +418,7 @@ namespace Juniper
             return Value.Ensure<U>(path);
         }
 
-        public PooledComponent<U> Ensure<U>(string path, string creationPath = null)
+        public PooledComponent<U> Ensure<U>(string path, string creationPath)
             where U : Transform
         {
             return Value.Ensure<U>(path, creationPath);
@@ -427,7 +427,7 @@ namespace Juniper
         public PooledComponent<U> Ensure<U>(string path, Func<GameObject> create)
             where U : Transform
         {
-            return Value.Ensure<U>(path, null, create);
+            return Value.Ensure<U>(path, create);
         }
 
         public PooledComponent<U> Ensure<U>(string path, string creationPath, Func<GameObject> create)

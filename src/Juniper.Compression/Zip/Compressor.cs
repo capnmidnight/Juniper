@@ -32,7 +32,7 @@ namespace Juniper.Compression.Zip
         /// <param name="level">The zip compression level to use. Min is 0, max is 9.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
-        public static void CompressDirectory(string inputDirectory, string outputZipFile, int level, IProgress prog = null, Action<Exception> error = null)
+        public static void CompressDirectory(string inputDirectory, string outputZipFile, int level, IProgress prog, Action<Exception> error)
         {
             prog?.Report(0);
 
@@ -75,6 +75,21 @@ namespace Juniper.Compression.Zip
             }
 
             prog?.Report(1);
+        }
+
+        public static void CompressDirectory(string inputDirectory, string outputZipFile, int level, IProgress prog)
+        {
+            CompressDirectory(inputDirectory, outputZipFile, level, prog, null);
+        }
+
+        public static void CompressDirectory(string inputDirectory, string outputZipFile, int level, Action<Exception> error)
+        {
+            CompressDirectory(inputDirectory, outputZipFile, level, null, error);
+        }
+
+        public static void CompressDirectory(string inputDirectory, string outputZipFile, int level)
+        {
+            CompressDirectory(inputDirectory, outputZipFile, level, null, null);
         }
     }
 }

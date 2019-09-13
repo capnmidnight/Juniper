@@ -13,12 +13,12 @@ namespace Juniper.Serialization
             this.factory = factory;
         }
 
-        public void Serialize(Stream stream, T value, IProgress prog = null)
+        public void Serialize(Stream stream, T value, IProgress prog)
         {
             factory.Serialize(stream, value, prog);
         }
 
-        public T Deserialize(Stream stream, IProgress prog = null)
+        public T Deserialize(Stream stream, IProgress prog)
         {
             return factory.Deserialize<T>(stream, prog);
         }

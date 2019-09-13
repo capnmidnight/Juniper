@@ -51,7 +51,7 @@ namespace Juniper.ImageTracking
         /// <param name="label">     A label to aid in debugging.</param>
         /// <param name="anchorData">Anchor data.</param>
         /// <param name="act">       The action to perform once the target is found.</param>
-        private void WithTarget(string label, ARImageAnchor anchorData, Action<TrackableFoundEventHandler> act = null)
+        private void WithTarget(string label, ARImageAnchor anchorData, Action<TrackableFoundEventHandler> act)
         {
             var tracking = Tracking ? "tracking" : "not tracking";
             ScreenDebugger.Print($"{label} {anchorData.referenceImageName} [{tracking}]");
@@ -72,6 +72,11 @@ namespace Juniper.ImageTracking
                     ScreenDebugger.Print($"Names we recognize: {string.Join(", ", targetsByName.Keys.ToArray())}");
                 }
             }
+        }
+
+        private void WithTarget(string label, ARImageAnchor anchorData)
+        {
+            WithTarget(label, anchorData, null);
         }
 
         /// <summary>

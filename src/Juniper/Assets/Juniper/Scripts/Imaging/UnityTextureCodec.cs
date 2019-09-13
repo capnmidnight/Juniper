@@ -75,7 +75,7 @@ namespace Juniper.Imaging.Unity
             return img.GetComponents();
         }
 
-        public Texture2D Concatenate(Texture2D[,] images, IProgress prog = null)
+        public Texture2D Concatenate(Texture2D[,] images, IProgress prog)
         {
             this.ValidateImages(images, prog,
                 out var rows, out var columns, out var components,
@@ -104,7 +104,7 @@ namespace Juniper.Imaging.Unity
             return outputImage;
         }
 
-        public byte[] Serialize(Texture2D value, IProgress prog = null)
+        public byte[] Serialize(Texture2D value, IProgress prog)
         {
             prog?.Report(0);
             byte[] buffer;
@@ -137,7 +137,7 @@ namespace Juniper.Imaging.Unity
             return buffer;
         }
 
-        public void Serialize(Stream stream, Texture2D value, IProgress prog = null)
+        public void Serialize(Stream stream, Texture2D value, IProgress prog)
         {
             var subProgs = prog.Split(2);
             var buf = Serialize(value, subProgs[0]);
@@ -145,7 +145,7 @@ namespace Juniper.Imaging.Unity
             progStream.Write(buf, 0, buf.Length);
         }
 
-        public Texture2D Deserialize(Stream stream, IProgress prog = null)
+        public Texture2D Deserialize(Stream stream, IProgress prog)
         {
             var mem = new MemoryStream();
             stream.CopyTo(mem);
@@ -154,7 +154,7 @@ namespace Juniper.Imaging.Unity
             return Deserialize(buffer, prog);
         }
 
-        public Texture2D Deserialize(byte[] buffer, IProgress prog = null)
+        public Texture2D Deserialize(byte[] buffer, IProgress prog)
         {
             prog?.Report(0);
             var info = GetImageInfo(buffer);

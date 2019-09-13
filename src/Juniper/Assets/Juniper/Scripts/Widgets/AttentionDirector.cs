@@ -92,15 +92,20 @@ namespace Juniper.Widgets
         /// <summary>
         /// Executes an animation that tells the user that they should be searching for a target.
         /// </summary>
-        public void Scan(Action onFound = null)
+        public void Scan(Action onFound)
         {
             StartCoroutine(ScanCoroutine(onFound));
+        }
+
+        public void Scan()
+        {
+            Scan(null);
         }
 
         /// <summary>
         /// Executes an animation that tells the user that they should be searching for a target.
         /// </summary>
-        public IEnumerator ScanCoroutine(Action onFound = null)
+        public IEnumerator ScanCoroutine(Action onFound)
         {
             this.Activate();
             SetTarget(null, onFound);
@@ -109,6 +114,11 @@ namespace Juniper.Widgets
 #else
             return null;
 #endif
+        }
+
+        public IEnumerator ScanCoroutine()
+        {
+            return ScanCoroutine(null);
         }
 
         /// <summary>

@@ -52,7 +52,7 @@ namespace Juniper.Widgets
             }
         }
 
-        public override void Enter(IProgress prog = null)
+        public override void Enter(IProgress prog)
         {
             base.Enter(prog);
             waitingCount = transitions.Length;
@@ -63,7 +63,7 @@ namespace Juniper.Widgets
             }
         }
 
-        public override void Exit(IProgress prog = null)
+        public override void Exit(IProgress prog)
         {
             var subProgs = prog.Split(transitions.Length);
             waitingCount = transitions.Length;

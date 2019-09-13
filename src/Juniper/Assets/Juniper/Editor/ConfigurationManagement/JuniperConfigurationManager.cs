@@ -684,11 +684,11 @@ namespace Juniper.ConfigurationManagement
             BuildProgress = -1;
         }
 
-        private static void OnEditorUpdate(Action resolve, Action reject = null, Func<bool> test = null)
+        private static void OnEditorUpdate(Action resolve, Action reject, Func<bool> test)
         {
             if (test == null)
             {
-                test = () => true;
+                test = AlwaysTrue;
             }
 
             void exec()
@@ -709,6 +709,23 @@ namespace Juniper.ConfigurationManagement
             }
 
             EditorApplication.update += exec;
+        }
+
+        private static bool AlwaysTrue() { return true; }
+
+        private static void OnEditorUpdate(Action resolve, Action reject)
+        {
+            OnEditorUpdate(resolve, reject, null);
+        }
+
+        private static void OnEditorUpdate(Action resolve, Func<bool> test)
+        {
+            OnEditorUpdate(resolve, null, test);
+        }
+
+        private static void OnEditorUpdate(Action resolve)
+        {
+            OnEditorUpdate(resolve, null, null);
         }
 
         private static void DelayedUpdate(IProgress prog, float maxTime, Action onComplete)
@@ -745,13 +762,18 @@ namespace Juniper.ConfigurationManagement
 
         private static string LastPrefix;
 
-        private static IProgress PrepareBuildStep(int offset, string prefix = null)
+        private static IProgress PrepareBuildStep(int offset, string prefix)
         {
             LastPrefix = prefix ?? LastPrefix;
             var step = BuildProgress - offset + 1;
             var msg = $"Juniper ({step} of {STAGES.Length}): {LastPrefix}";
             return new UnityEditorProgressDialog(msg)
                 .Subdivide(step + BuildProgress, 2 * STAGES.Length, LastPrefix);
+        }
+
+        private static IProgress PrepareBuildStep(int offset)
+        {
+            return PrepareBuildStep(offset, null);
         }
 
         private static void WithProgress(string prefix, Action<IProgress> act)

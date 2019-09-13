@@ -147,7 +147,7 @@ namespace Juniper.Compression.Tar.GZip
         /// <param name="eachEntry">A callback to process each entry that passes <paramref name="checkEntry"/>.</param>
         /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
         /// <returns>A lazy collection of <typeparamref name="T"/> objects, as filtered by <paramref name="checkEntry"/>, as selected by <paramref name="eachEntry"/>.</returns>
-        public static void ForEach<T>(string inputTarFile, T state, Action<T, TarEntry, TarInputStream> eachEntry, Action<Exception> error = null)
+        public static void ForEach<T>(string inputTarFile, T state, Action<T, TarEntry, TarInputStream> eachEntry, Action<Exception> error)
         {
             if (!File.Exists(inputTarFile))
             {
@@ -174,6 +174,11 @@ namespace Juniper.Compression.Tar.GZip
                     }
                 }
             }
+        }
+
+        public static void ForEach<T>(string inputTarFile, T state, Action<T, TarEntry, TarInputStream> eachEntry)
+        {
+            ForEach(inputTarFile, state, eachEntry, null);
         }
 
         /// <summary>

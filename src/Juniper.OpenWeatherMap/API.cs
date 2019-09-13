@@ -84,7 +84,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <param name="deserializer">The factory used for deserializing objects.</param>
         /// <param name="apiKey">The OpenWeatherMap API key to use for authentication.</param>
         /// <param name="lastReportJSON">The value of the last report we received, if there was any.</param>
-        public API(ISerializer serializer, IDeserializer deserializer, string apiKey, string lastReportJSON = null)
+        public API(ISerializer serializer, IDeserializer deserializer, string apiKey, string lastReportJSON)
         {
             this.serializer = serializer;
             this.deserializer = deserializer;
@@ -99,16 +99,20 @@ namespace Juniper.World.Climate.OpenWeatherMap
             }
         }
 
+        public API(ISerializer serializer, IDeserializer deserializer, string apiKey)
+            : this(serializer, deserializer, apiKey, null) { }
+
         /// <summary>
         /// Initialize a new API requester object with the given authentication API key.
         /// </summary>
         /// <param name="factory">Factory used to serialize and deserialize objects.</param>
         /// <param name="apiKey">The OpenWeatherMap API key to use for authentication.</param>
         /// <param name="lastReportJSON">The value of the last report we received, if there was any.</param>
-        public API(IFactory factory, string apiKey, string lastReportJSON = null)
-            : this(factory, factory, apiKey, lastReportJSON)
-        {
-        }
+        public API(IFactory factory, string apiKey, string lastReportJSON)
+            : this(factory, factory, apiKey, lastReportJSON) { }
+
+        public API(IFactory factory, string apiKey)
+            : this(factory, factory, apiKey, null) { }
 
         /// <summary>
         /// Returns true when <see cref="LastReport"/> is null, LastReport indicates and error
@@ -199,7 +203,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <param name="force">Force downloading a new report, regardless of how far we are from the last report location.</param>
         /// <param name="prog">A progress tracker, if any.</param>
         /// <returns></returns>
-        public async Task<IWeatherReport> Request(LatLngPoint location, bool force, IProgress prog = null)
+        public async Task<IWeatherReport> Request(LatLngPoint location, bool force, IProgress prog)
         {
             prog?.Report(0);
             if (NeedsNewReport(location) || force)

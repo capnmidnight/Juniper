@@ -8,7 +8,7 @@ namespace Juniper.Imaging.Windows
 {
     public class GDIImageDataTranscoder : IImageTranscoder<Image, ImageData>
     {
-        public ImageData TranslateTo(Image image, IProgress prog = null)
+        public ImageData TranslateTo(Image image, IProgress prog)
         {
             using (var mem = new MemoryStream())
             {
@@ -26,7 +26,7 @@ namespace Juniper.Imaging.Windows
             }
         }
 
-        public Image TranslateFrom(ImageData image, IProgress prog = null)
+        public Image TranslateFrom(ImageData image, IProgress prog)
         {
             var outImage = new Bitmap(image.info.dimensions.width, image.info.dimensions.height);
             if (image.contentType == HTTP.MediaType.Image.Raw)

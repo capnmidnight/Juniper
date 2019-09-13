@@ -33,7 +33,7 @@ namespace Juniper.Imaging.LibJpegNET
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Jpeg bytes.</param>
-        public JpegImage Deserialize(Stream imageStream, IProgress prog = null)
+        public JpegImage Deserialize(Stream imageStream, IProgress prog)
         {
             prog?.Report(0);
             using (var seekable = new ErsatzSeekableStream(imageStream))
@@ -48,7 +48,7 @@ namespace Juniper.Imaging.LibJpegNET
         /// Encodes a raw file buffer of image data into a JPEG image.
         /// </summary>
         /// <param name="outputStream">Jpeg bytes.</param>
-        public void Serialize(Stream outputStream, JpegImage image, IProgress prog = null)
+        public void Serialize(Stream outputStream, JpegImage image, IProgress prog)
         {
             prog?.Report(0);
             image.WriteJpeg(outputStream, compressionParams);
@@ -70,7 +70,7 @@ namespace Juniper.Imaging.LibJpegNET
             return img.ComponentsPerSample;
         }
 
-        public JpegImage Concatenate(JpegImage[,] images, IProgress prog = null)
+        public JpegImage Concatenate(JpegImage[,] images, IProgress prog)
         {
             this.ValidateImages(images, prog,
                 out var rows, out var columns, out var components,

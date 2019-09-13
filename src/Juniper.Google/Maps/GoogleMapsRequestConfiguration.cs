@@ -14,12 +14,15 @@ namespace Juniper.Google.Maps
         private readonly string apiKey;
         private readonly string signingKey;
 
-        public GoogleMapsRequestConfiguration(string apiKey, string signingKey, DirectoryInfo cacheLocation = null)
+        public GoogleMapsRequestConfiguration(string apiKey, string signingKey, DirectoryInfo cacheLocation)
             : base(gmaps, cacheLocation)
         {
             this.apiKey = apiKey;
             this.signingKey = signingKey;
         }
+
+        public GoogleMapsRequestConfiguration(string apiKey, string signingKey)
+            : this(apiKey, signingKey, null) { }
 
         internal Uri AddKey(Uri uri)
         {
