@@ -106,11 +106,7 @@ namespace Juniper.Imaging
                 }
 
                 Destroy(curTexture);
-                var op = Resources.UnloadUnusedAssets();
-                while (!op.isDone)
-                {
-                    yield return null;
-                }
+                yield return Resources.UnloadUnusedAssets().AsCoroutine();
                 GC.Collect();
             }
 

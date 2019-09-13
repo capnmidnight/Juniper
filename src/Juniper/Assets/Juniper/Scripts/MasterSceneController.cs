@@ -52,11 +52,11 @@ namespace Juniper
         /// <returns>The scene.</returns>
         /// <param name="sceneName">Scene name.</param>
         /// <param name="path">     Path.</param>
-        private static AsyncOperation LoadScene(string scenePath, string sceneName)
+        private static IEnumerator LoadScene(string scenePath, string sceneName)
         {
             if (Application.isPlaying)
             {
-                return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+                yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).AsCoroutine();
             }
 #if UNITY_EDITOR
             else
@@ -64,7 +64,6 @@ namespace Juniper
                 EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
             }
 #endif
-            return null;
         }
 
         private static bool IsScenePathLoaded(string path)
@@ -117,7 +116,7 @@ namespace Juniper
         /// All of the active SubSceneControllers
         /// </summary>
         /// <value>The current sub scenes.</value>
-        public IEnumerable<SubSceneController> CurrentSubScenes
+        public IEnumerable CurrentSubScenes
         {
             get
             {
@@ -532,17 +531,13 @@ namespace Juniper
 
         private IEnumerator UnloadAllScenesExcept(string path)
         {
-            foreach (var subScene in CurrentSubScenes)
+            foreach (SubSceneController subScene in CurrentSubScenes)
             {
                 subScene.Deactivate();
                 if (subScene.gameObject.scene.path != path
                     && subScene.unloadSceneOnExit)
                 {
-                    var op = SceneManager.UnloadSceneAsync(subScene.gameObject.scene);
-                    while (!op.isDone)
-                    {
-                        yield return null;
-                    }
+                    yield return SceneManager.UnloadSceneAsync(subScene.gameObject.scene).AsCoroutine();
                 }
             }
         }
@@ -560,20 +555,7 @@ namespace Juniper
             }
             else
             {
-                var op = LoadScene(path, sceneName);
-                if (op == null)
-                {
-                    sceneLoadProg?.Report(1, "100%");
-                    yield return sceneName + " 100%";
-                }
-                else
-                {
-                    while (!op.isDone)
-                    {
-                        sceneLoadProg?.Report(op.progress, "scene loading " + (sceneLoadProg?.Progress).Label(UnitOfMeasure.Percent, 1));
-                        yield return sceneName + " " + (prog?.Progress).Label(UnitOfMeasure.Percent, 1);
-                    }
-                }
+                yield return LoadScene(path, sceneName);
             }
 
             Scene? scene = null;
@@ -612,7 +594,7 @@ namespace Juniper
         /// </summary>
         private IEnumerator QuitCoroutine()
         {
-            foreach (var subScene in CurrentSubScenes)
+            foreach (SubSceneController subScene in CurrentSubScenes)
             {
                 subScene.Exit();
             }
@@ -621,7 +603,7 @@ namespace Juniper
             do
             {
                 anyIncomplete = false;
-                foreach (var subScene in CurrentSubScenes)
+                foreach (SubSceneController subScene in CurrentSubScenes)
                 {
                     anyIncomplete |= !subScene.IsComplete;
                 }
