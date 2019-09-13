@@ -197,10 +197,20 @@ namespace Juniper.UnityAssetStore
             return value.assets;
         }
 
+        public Task<AssetContent[]> GetAssetContents(string assetID)
+        {
+            return GetAssetContents(assetID, null);
+        }
+
         public async Task<string> GetPublisherName(string publisherID, IProgress prog)
         {
             var value = await Get<Result<Title>>($"{UnityAssetStoreAPIRoot}head/publisher/{publisherID}.json", null, prog);
             return value.result.title;
+        }
+
+        public Task<string> GetPublisherName(string publisherID)
+        {
+            return GetPublisherName(publisherID, null);
         }
 
         public async Task<PublisherDetail> GetPublisherDetail(string publisherID, IProgress prog)
@@ -209,14 +219,29 @@ namespace Juniper.UnityAssetStore
             return value.overview;
         }
 
+        public Task<PublisherDetail> GetPublisherDetail(string publisherID)
+        {
+            return GetPublisherDetail(publisherID, null);
+        }
+
         public Task<Sale> GetCurrentSale(IProgress prog)
         {
             return Get<Sale>($"{UnityAssetStoreAPIRoot}sale/results.json", null, prog);
         }
 
+        public Task<Sale> GetCurrentSale()
+        {
+            return GetCurrentSale(null);
+        }
+
         public Task<StoreSearch.Results> Search(StoreSearch parameters, IProgress prog)
         {
             return Get<StoreSearch.Results>($"{UnityAssetStoreAPIRoot}search/results.json?" + parameters.SearchString, null, prog);
+        }
+
+        public Task<StoreSearch.Results> Search(StoreSearch parameters)
+        {
+            return Search(parameters, null);
         }
 
         public async Task<AssetDownload[]> GetDownloads(string userName, string password, string token, IProgress prog)
@@ -250,6 +275,11 @@ namespace Juniper.UnityAssetStore
             }
 
             return default;
+        }
+
+        public Task<AssetDownload[]> GetDownloads(string userName, string password, string token)
+        {
+            return GetDownloads(userName, password, token, null);
         }
 
         private const string UnityAssetStoreToken = "26c4202eb475d02864b40827dfff11a14657aa41";
