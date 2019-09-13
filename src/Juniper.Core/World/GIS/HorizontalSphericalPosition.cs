@@ -8,7 +8,7 @@ namespace Juniper.World.GIS
     /// essentially an Euler rotation without a Z-axis rotation.
     /// </summary>
     [Serializable]
-    public sealed class HorizontalSphericalPosition : ISerializable
+    public sealed class HorizontalSphericalPosition : ISerializable, IEquatable<HorizontalSphericalPosition>
     {
         /// <summary>
         /// The altitude of the object (angle off of the Ecliptic), in degrees.
@@ -71,17 +71,21 @@ namespace Juniper.World.GIS
 
         public override bool Equals(object obj)
         {
-            return obj is HorizontalSphericalPosition ho && this == ho;
+            return obj is HorizontalSphericalPosition ho && Equals(ho);
+        }
+
+        public bool Equals(HorizontalSphericalPosition other)
+        {
+            return other is object
+                && AltitudeDegrees == other.AltitudeDegrees
+                && AzimuthDegrees == other.AzimuthDegrees
+                && RadiusAU == other.RadiusAU;
         }
 
         public static bool operator ==(HorizontalSphericalPosition left, HorizontalSphericalPosition right)
         {
             return ReferenceEquals(left, right)
-                || !ReferenceEquals(left, null)
-                    && !ReferenceEquals(right, null)
-                    && left.AltitudeDegrees == right.AltitudeDegrees
-                    && left.AzimuthDegrees == right.AzimuthDegrees
-                    && left.RadiusAU == right.RadiusAU;
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(HorizontalSphericalPosition left, HorizontalSphericalPosition right)

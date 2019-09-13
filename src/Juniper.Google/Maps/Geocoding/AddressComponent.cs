@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace Juniper.Google.Maps.Geocoding
 {
     [Serializable]
-    public class AddressComponent : ISerializable
+    public sealed class AddressComponent : ISerializable, IEquatable<AddressComponent>
     {
         public static int HashAddressComponents(IEnumerable<AddressComponentType> types)
         {
@@ -25,7 +25,7 @@ namespace Juniper.Google.Maps.Geocoding
 
         internal int Key { get; }
 
-        protected AddressComponent(SerializationInfo info, StreamingContext context)
+        private AddressComponent(SerializationInfo info, StreamingContext context)
         {
             long_name = info.GetString(nameof(long_name));
             short_name = info.GetString(nameof(short_name));
@@ -52,16 +52,20 @@ namespace Juniper.Google.Maps.Geocoding
 
         public override bool Equals(object obj)
         {
-            return obj is AddressComponent addr && this == addr;
+            return obj is AddressComponent addr && Equals(addr);
+        }
+
+        public bool Equals(AddressComponent other)
+        {
+            return other is object
+                && Key == other.Key
+                && long_name == other.long_name;
         }
 
         public static bool operator ==(AddressComponent left, AddressComponent right)
         {
             return ReferenceEquals(left, right)
-                || !ReferenceEquals(left, null)
-                    && !ReferenceEquals(right, null)
-                    && left.Key == right.Key
-                    && left.long_name == right.long_name;
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(AddressComponent left, AddressComponent right)

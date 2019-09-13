@@ -1,8 +1,11 @@
+using System;
+using System.Runtime.Serialization;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.MapTiles
 {
-    public class Marker
+    [Serializable]
+    public sealed class Marker : IEquatable<Marker>, ISerializable
     {
         public readonly MarkerStyle style;
         public readonly string center;
@@ -16,6 +19,18 @@ namespace Juniper.Google.Maps.MapTiles
         public Marker(LatLngPoint center, MarkerStyle style = default)
             : this(center.ToString(), style) { }
 
+        private Marker(SerializationInfo info, StreamingContext context)
+        {
+            style = info.GetValue<MarkerStyle>(nameof(style));
+            center = info.GetString(nameof(center));
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(style), style);
+            info.AddValue(nameof(center), center);
+        }
+
         public override int GetHashCode()
         {
             return style.GetHashCode()
@@ -24,16 +39,20 @@ namespace Juniper.Google.Maps.MapTiles
 
         public override bool Equals(object obj)
         {
-            return obj is Marker marker && this == marker;
+            return obj is Marker marker && Equals(marker);
+        }
+
+        public bool Equals(Marker other)
+        {
+            return other is object
+                && style == other.style
+                && center == other.center;
         }
 
         public static bool operator ==(Marker left, Marker right)
         {
             return ReferenceEquals(left, right)
-                || !ReferenceEquals(left, null)
-                    && !ReferenceEquals(right, null)
-                    && left.style == right.style
-                    && left.center == right.center;;
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(Marker left, Marker right)

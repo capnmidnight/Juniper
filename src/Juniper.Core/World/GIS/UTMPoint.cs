@@ -13,7 +13,7 @@ namespace Juniper.World.GIS
     /// and uses a secant transverse Mercator projection in each zone.
     /// </summary>
     [Serializable]
-    public sealed class UTMPoint : ISerializable
+    public sealed class UTMPoint : ISerializable, IEquatable<UTMPoint>
     {
         /// <summary>
         /// The east/west component of the coordinate.
@@ -119,19 +119,23 @@ namespace Juniper.World.GIS
 
         public override bool Equals(object obj)
         {
-            return obj is UTMPoint p && this == p;
+            return obj is UTMPoint p && Equals(p);
+        }
+
+        public bool Equals(UTMPoint other)
+        {
+            return other is object
+                && Hemisphere == other.Hemisphere
+                && X == other.X
+                && Y == other.Y
+                && Z == other.Z
+                && Zone == other.Zone;
         }
 
         public static bool operator ==(UTMPoint left, UTMPoint right)
         {
             return ReferenceEquals(left, right)
-                || !ReferenceEquals(left, null)
-                    && !ReferenceEquals(right, null)
-                    && left.Hemisphere == right.Hemisphere
-                    && left.X == right.X
-                    && left.Y == right.Y
-                    && left.Z == right.Z
-                    && left.Zone == right.Zone;
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(UTMPoint left, UTMPoint right)

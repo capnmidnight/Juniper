@@ -1,8 +1,11 @@
+using System;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Juniper.Google.Maps.MapTiles
 {
-    public class LinePathStyle
+    [Serializable]
+    public sealed class LinePathStyle : ISerializable, IEquatable<LinePathStyle>
     {
         private readonly string styleDef;
 
@@ -32,6 +35,16 @@ namespace Juniper.Google.Maps.MapTiles
             styleDef = sb.ToString();
         }
 
+        private LinePathStyle(SerializationInfo info, StreamingContext context)
+        {
+            styleDef = info.GetString(nameof(styleDef));
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(styleDef), styleDef);
+        }
+
         public override string ToString()
         {
             return styleDef;
@@ -49,15 +62,19 @@ namespace Juniper.Google.Maps.MapTiles
 
         public override bool Equals(object obj)
         {
-            return obj is LinePathStyle style && this == style;
+            return obj is LinePathStyle style && Equals(style);
+        }
+
+        public bool Equals(LinePathStyle other)
+        {
+            return other is object
+                && styleDef == other.styleDef;
         }
 
         public static bool operator ==(LinePathStyle left, LinePathStyle right)
         {
             return ReferenceEquals(left, right)
-                || !ReferenceEquals(left, null)
-                    && !ReferenceEquals(right, null)
-                    && left.styleDef == right.styleDef;
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(LinePathStyle left, LinePathStyle right)

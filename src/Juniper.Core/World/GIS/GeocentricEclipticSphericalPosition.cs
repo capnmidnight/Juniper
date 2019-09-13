@@ -7,7 +7,7 @@ namespace Juniper.World.GIS
     /// Represents a bearing and distance to an object from the Earth's orbit.
     /// </summary>
     [Serializable]
-    public sealed class GeocentricEclipticSphericalPosition : ISerializable
+    public sealed class GeocentricEclipticSphericalPosition : ISerializable, IEquatable<GeocentricEclipticSphericalPosition>
     {
         /// <summary>
         /// The number of degrees above the Earth's orbital disk at which to find the object.
@@ -70,17 +70,21 @@ namespace Juniper.World.GIS
 
         public override bool Equals(object obj)
         {
-            return obj is GeocentricEclipticSphericalPosition geo && this == geo;
+            return obj is GeocentricEclipticSphericalPosition geo && Equals(geo);
+        }
+
+        public bool Equals(GeocentricEclipticSphericalPosition other)
+        {
+            return other is object
+                && LatitudeDegrees == other.LatitudeDegrees
+                && LongitudeDegrees == other.LongitudeDegrees
+                && RadiusAU == other.RadiusAU;
         }
 
         public static bool operator ==(GeocentricEclipticSphericalPosition left, GeocentricEclipticSphericalPosition right)
         {
             return ReferenceEquals(left, right)
-                || !ReferenceEquals(left, null)
-                    && !ReferenceEquals(right, null)
-                    && left.LatitudeDegrees == right.LatitudeDegrees
-                    && left.LongitudeDegrees == right.LongitudeDegrees
-                    && left.RadiusAU == right.RadiusAU;
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(GeocentricEclipticSphericalPosition left, GeocentricEclipticSphericalPosition right)

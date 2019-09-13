@@ -1,9 +1,11 @@
 using System;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
 namespace Juniper.Imaging
 {
-    public sealed class Size
+    [Serializable]
+    public sealed class Size : ISerializable, IEquatable<Size>
     {
         private static readonly Regex SizePattern = new Regex("^(\\d+)x(\\d+)$", RegexOptions.Compiled);
 
@@ -47,6 +49,18 @@ namespace Juniper.Imaging
             this.height = height;
         }
 
+        private Size(SerializationInfo info, StreamingContext context)
+        {
+            width = info.GetInt32(nameof(width));
+            height = info.GetInt32(nameof(height));
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(width), width);
+            info.AddValue(nameof(height), height);
+        }
+
         public override int GetHashCode()
         {
             return width.GetHashCode()
@@ -55,16 +69,20 @@ namespace Juniper.Imaging
 
         public override bool Equals(object obj)
         {
-            return obj is Size size && this == size;
+            return obj is Size size && Equals(size);
+        }
+
+        public bool Equals(Size other)
+        {
+            return other is object
+                && width == other.width
+                && height == other.height;
         }
 
         public static bool operator ==(Size left, Size right)
         {
             return ReferenceEquals(left, right)
-                || !ReferenceEquals(left, null)
-                    && !ReferenceEquals(right, null)
-                    && left.width == right.width
-                    && left.height == right.height;
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(Size left, Size right)

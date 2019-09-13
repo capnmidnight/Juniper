@@ -1,9 +1,11 @@
 using System;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Juniper.Google.Maps.MapTiles
 {
-    public class MarkerStyle
+    [Serializable]
+    public sealed class MarkerStyle : ISerializable, IEquatable<MarkerStyle>
     {
         public static MarkerStyle CustomIcon(Uri image)
         {
@@ -57,6 +59,16 @@ namespace Juniper.Google.Maps.MapTiles
             styleDef = sb.ToString();
         }
 
+        private MarkerStyle(SerializationInfo serializationInfo, StreamingContext streamingContext)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            throw new NotImplementedException();
+        }
+
         public override string ToString()
         {
             return styleDef;
@@ -74,15 +86,19 @@ namespace Juniper.Google.Maps.MapTiles
 
         public override bool Equals(object obj)
         {
-            return obj is MarkerStyle style && this == style;
+            return obj is MarkerStyle style && Equals(style);
+        }
+
+        public bool Equals(MarkerStyle other)
+        {
+            return other is object
+                && styleDef == other.styleDef;
         }
 
         public static bool operator ==(MarkerStyle left, MarkerStyle right)
         {
             return ReferenceEquals(left, right)
-                || !ReferenceEquals(left, null)
-                    && !ReferenceEquals(right, null)
-                    && left.styleDef == right.styleDef;
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(MarkerStyle left, MarkerStyle right)

@@ -1,6 +1,8 @@
+using System;
+
 namespace Juniper.HTTP
 {
-    public sealed class BodyInfo
+    public sealed class BodyInfo : IEquatable<BodyInfo>
     {
         public readonly string MIMEType;
         public readonly long Length;
@@ -19,16 +21,20 @@ namespace Juniper.HTTP
 
         public override bool Equals(object obj)
         {
-            return obj is BodyInfo body && this == body;
+            return obj is BodyInfo body && Equals(body);
+        }
+
+        public bool Equals(BodyInfo other)
+        {
+            return other is object
+                && MIMEType == other.MIMEType
+                && Length == other.Length;
         }
 
         public static bool operator ==(BodyInfo left, BodyInfo right)
         {
             return ReferenceEquals(left, right)
-                || !ReferenceEquals(left, null)
-                    && !ReferenceEquals(right, null)
-                    && left.MIMEType == right.MIMEType
-                    && left.Length == right.Length;
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(BodyInfo left, BodyInfo right)

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,6 +9,11 @@ namespace System
     /// </summary>
     public static class ArrayExt
     {
+        /// <summary>
+        /// A random number generator to use with the following methods.
+        /// </summary>
+        private static readonly Random r = new Random();
+
         /// <summary>
         /// Get a random item out of an array.
         /// </summary>
@@ -30,6 +36,39 @@ namespace System
             {
                 var index = r.Next(0, items.Length);
                 return items[index];
+            }
+        }
+
+        /// <summary>
+        /// Creates a new array from an old array, with the specified item no included in the array (including duplicates).
+        ///
+        /// If the item is not located in the array, returns a copy of the old array.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static T[] Remove<T>(this T[] items, T itemToRemove)
+            where T : IEquatable<T>
+        {
+            return items.Except(itemToRemove).ToArray();
+        }
+
+        /// <summary>
+        /// Creates a sequence out of an array that has no copies of <paramref name="itemToRemove"/> located in it.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <param name="itemToRemove"></param>
+        /// <returns></returns>
+        public static IEnumerable<T> Except<T>(this T[] items, T itemToRemove)
+            where T : IEquatable<T>
+        {
+            foreach (var item in items)
+            {
+                if (!item.Equals(itemToRemove))
+                {
+                    yield return item;
+                }
             }
         }
 
@@ -93,10 +132,5 @@ namespace System
                 return first.Except(second);
             }
         }
-
-        /// <summary>
-        /// A random number generator to use with the following methods.
-        /// </summary>
-        private static readonly Random r = new Random();
     }
 }

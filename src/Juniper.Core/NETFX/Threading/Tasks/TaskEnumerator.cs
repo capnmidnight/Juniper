@@ -22,18 +22,5 @@ namespace System.Threading.Tasks
                 yield return null;
             }
         }
-
-        public static IEnumerator<T> AsCoroutine<T>(this Task<T> task)
-        {
-            while (task.IsRunning())
-            {
-                yield return default;
-            }
-
-            if (task.Status == TaskStatus.RanToCompletion)
-            {
-                yield return task.Result;
-            }
-        }
     }
 }

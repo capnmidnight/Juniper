@@ -7,7 +7,7 @@ namespace Juniper.World.GIS
     /// Represents a bearing and distance to an object from the Earth's equator.
     /// </summary>
     [Serializable]
-    public sealed class EquitorialSphericalPosition : ISerializable
+    public sealed class EquitorialSphericalPosition : ISerializable, IEquatable<EquitorialSphericalPosition>
     {
         /// <summary>
         /// The number of degrees from the Earth's prime azimuth at which to find the object.
@@ -70,17 +70,21 @@ namespace Juniper.World.GIS
 
         public override bool Equals(object obj)
         {
-            return obj is EquitorialSphericalPosition eq && this == eq;
+            return obj is EquitorialSphericalPosition eq && Equals(eq);
+        }
+
+        public bool Equals(EquitorialSphericalPosition other)
+        {
+            return other is object
+                && RightAscensionDegrees == other.RightAscensionDegrees
+                && DeclinationDegrees == other.DeclinationDegrees
+                && RadiusAU == other.RadiusAU;
         }
 
         public static bool operator ==(EquitorialSphericalPosition left, EquitorialSphericalPosition right)
         {
             return ReferenceEquals(left, right)
-                || !ReferenceEquals(left, null)
-                    && !ReferenceEquals(right, null)
-                    && left.RightAscensionDegrees == right.RightAscensionDegrees
-                    && left.DeclinationDegrees == right.DeclinationDegrees
-                    && left.RadiusAU == right.RadiusAU;
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(EquitorialSphericalPosition left, EquitorialSphericalPosition right)

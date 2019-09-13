@@ -7,7 +7,7 @@ namespace Juniper.World.GIS
     /// A point in geographic space on a radial coordinate system.
     /// </summary>
     [Serializable]
-    public sealed class LatLngPoint : ISerializable
+    public sealed class LatLngPoint : ISerializable, IEquatable<LatLngPoint>
     {
         /// <summary>
         /// An altitude value thrown in just for kicks. It makes some calculations and conversions
@@ -224,17 +224,21 @@ namespace Juniper.World.GIS
         /// <returns>Whether or not the two values represent the same point on earth.</returns>
         public override bool Equals(object obj)
         {
-            return obj is LatLngPoint p && this == p;
+            return obj is LatLngPoint p && Equals(p);
+        }
+
+        public bool Equals(LatLngPoint other)
+        {
+            return other is object
+                && Latitude == other.Latitude
+                && Longitude == other.Longitude
+                && Altitude == other.Altitude;
         }
 
         public static bool operator ==(LatLngPoint left, LatLngPoint right)
         {
             return ReferenceEquals(left, right)
-                || !ReferenceEquals(left, null)
-                    && !ReferenceEquals(right, null)
-                    && left.Latitude == right.Latitude
-                    && left.Longitude == right.Longitude
-                    && left.Altitude == right.Altitude;
+                || left is object && left.Equals(right);
         }
 
         public static bool operator !=(LatLngPoint left, LatLngPoint right)

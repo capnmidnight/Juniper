@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace Juniper.Units
 {
@@ -8,7 +9,8 @@ namespace Juniper.Units
     /// the current value is 359, setting the value to 1 will actually return as 361, as <c>Abs(361 -
     /// 351) &lt; Abs(1 - 351)</c>.
     /// </summary>
-    public sealed class Angle
+    [Serializable]
+    public sealed class Angle : ISerializable, IEquatable<Angle>
     {
         /// <summary>
         /// Create an angle value at set starting point
@@ -24,6 +26,17 @@ namespace Juniper.Units
         {
             currentValue = v;
             rotations = r;
+        }
+
+        private Angle(SerializationInfo info, StreamingContext context)
+        {
+            currentValue = info.GetSingle("angle");
+            rotations = 0;
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("angle", Repeat(currentValue));
         }
 
         /// <summary>
@@ -219,7 +232,21 @@ namespace Juniper.Units
         /// <returns></returns>
         public override bool Equals(object obj)
         {
-            return obj is Angle angle && this == angle;
+            return obj is Angle angle && Equals(angle);
+        }
+
+        public bool Equals(Angle other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+            else
+            {
+                var l = Repeat(currentValue);
+                var r = Repeat(other.currentValue);
+                return l.Equals(r);
+            }
         }
 
         /// <summary>
@@ -230,20 +257,8 @@ namespace Juniper.Units
         /// <returns></returns>
         public static bool operator ==(Angle left, Angle right)
         {
-            if(ReferenceEquals(left, right))
-            {
-                return true;
-            }
-            else if(left == null || right == null)
-            {
-                return false;
-            }
-            else
-            {
-                var l = Repeat(left.currentValue);
-                var r = Repeat(right.currentValue);
-                return l.Equals(r);
-            }
+            return ReferenceEquals(left, right)
+                || left is object && left.Equals(right);
         }
 
         /// <summary>
