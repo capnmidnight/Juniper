@@ -8,8 +8,14 @@ namespace Juniper.ConfigurationManagement
     {
         public string Name;
         public string CompilerDefine;
+        public abstract bool IsInstalled { get; }
 
-        public void Install(IProgress prog = null)
+        public void Install()
+        {
+            Install(null);
+        }
+
+        public void Install(IProgress prog)
         {
             prog?.Report(0);
             if (!IsInstalled)
@@ -18,22 +24,26 @@ namespace Juniper.ConfigurationManagement
             }
             prog?.Report(1);
         }
-
-        public virtual void Activate(BuildTargetGroup targetGroup, IProgress prog = null)
-        {
-            prog?.Report(0);
-        }
-
-        public virtual void Uninstall(IProgress prog = null)
-        {
-            prog?.Report(0);
-        }
-
-        public abstract bool IsInstalled
-        {
-            get;
-        }
-
         protected abstract void InstallInternal(IProgress prog);
+
+        public void Activate(BuildTargetGroup targetGroup)
+        {
+            Activate(targetGroup, null);
+        }
+
+        public virtual void Activate(BuildTargetGroup targetGroup, IProgress prog)
+        {
+            prog?.Report(0);
+        }
+
+        public void Uninstall()
+        {
+            Uninstall(null);
+        }
+
+        public virtual void Uninstall(IProgress prog)
+        {
+            prog?.Report(0);
+        }
     }
 }

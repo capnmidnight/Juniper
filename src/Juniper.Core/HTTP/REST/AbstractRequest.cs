@@ -17,12 +17,15 @@ namespace Juniper.HTTP.REST
         private readonly string cacheSubDirectoryName;
         private readonly string path;
 
-        protected AbstractRequest(AbstractRequestConfiguration api, string path, string cacheSubDirectoryName = null)
+        protected AbstractRequest(AbstractRequestConfiguration api, string path, string cacheSubDirectoryName)
         {
             this.api = api;
             this.path = path;
             this.cacheSubDirectoryName = cacheSubDirectoryName;
         }
+
+        protected AbstractRequest(AbstractRequestConfiguration api, string path)
+            : this(api, path, null) { }
 
         private void SetQuery(string key, string value, bool allowMany)
         {
@@ -153,7 +156,7 @@ namespace Juniper.HTTP.REST
                 && req.CacheFileName == CacheFileName;
         }
 
-        public async Task Proxy(HttpListenerResponse outResponse, MediaType acceptType = null)
+        public async Task Proxy(HttpListenerResponse outResponse, MediaType acceptType)
         {
             var cacheFileName = CacheFileName;
             if (acceptType != null)
@@ -205,7 +208,12 @@ namespace Juniper.HTTP.REST
             }
         }
 
-        public async Task<Stream> GetStream(MediaType acceptType = null, IProgress prog = null)
+        public Task Proxy(HttpListenerResponse outResponse)
+        {
+            return Proxy(outResponse, null);
+        }
+
+        public async Task<Stream> GetStream(MediaType acceptType, IProgress prog)
         {
             Stream body;
             long length;
@@ -249,12 +257,32 @@ namespace Juniper.HTTP.REST
             return new ProgressStream(body, length, prog);
         }
 
-        public async Task<T> GetDecoded<T>(IDeserializer<T> deserializer, IProgress prog = null)
+        public Task<Stream> GetStream(MediaType acceptType)
+        {
+            return GetStream(acceptType, null);
+        }
+
+        public Task<Stream> GetStream(IProgress prog)
+        {
+            return GetStream(null, prog);
+        }
+
+        public Task<Stream> GetStream()
+        {
+            return GetStream(null, null);
+        }
+
+        public async Task<T> GetDecoded<T>(IDeserializer<T> deserializer, IProgress prog)
         {
             using (var stream = await GetStream(deserializer.ContentType, prog))
             {
                 return deserializer.Deserialize(stream);
             }
+        }
+
+        public Task<T> GetDecoded<T>(IDeserializer<T> deserializer)
+        {
+            return GetDecoded(deserializer);
         }
     }
 }

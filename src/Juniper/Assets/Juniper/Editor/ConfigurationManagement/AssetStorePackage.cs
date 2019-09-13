@@ -243,7 +243,7 @@
 //            prog?.Report(1, "Deleted");
 //        }
 
-//        public override void Uninstall(IProgress prog = null)
+//        public override void Uninstall(IProgress prog)
 //        {
 //            base.Uninstall(prog);
 

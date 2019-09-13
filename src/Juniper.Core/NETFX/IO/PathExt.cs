@@ -1,5 +1,4 @@
 using System.Linq;
-using System.Text;
 
 namespace System.IO
 {
@@ -48,7 +47,7 @@ namespace System.IO
         /// The directory from which to consider the relative path. If no value is provided (i.e.
         /// `null` or empty string), then the current working directory is used.
         /// </param>
-        public static string Abs2Rel(string fullPath, string directory = null)
+        public static string Abs2Rel(string fullPath, string directory)
         {
             if (!Path.IsPathRooted(fullPath))
             {
@@ -87,6 +86,11 @@ namespace System.IO
             }
         }
 
+        public static string Abs2Rel(string fullPath)
+        {
+            return Abs2Rel(fullPath, null);
+        }
+
         /// <summary>
         /// Resolves an absolute path from a path that is relative to the currently-edited demo path.
         /// </summary>
@@ -96,7 +100,7 @@ namespace System.IO
         /// The directory from which to consider the relative path. If no value is provided (i.e.
         /// `null` or empty string), then the current working directory is used.
         /// </param>
-        public static string Rel2Abs(string relativePath, string directory = null)
+        public static string Rel2Abs(string relativePath, string directory)
         {
             if (Path.IsPathRooted(relativePath))
             {
@@ -140,6 +144,11 @@ namespace System.IO
                     return Path.Combine(parts);
                 }
             }
+        }
+
+        public static string Rel2Abs(string relativePath)
+        {
+            return Rel2Abs(relativePath, null);
         }
 
         public static string RemoveInvalidChars(this string filePath)

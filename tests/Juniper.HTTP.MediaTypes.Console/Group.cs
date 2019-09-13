@@ -22,7 +22,9 @@ namespace Juniper.HTTP.MediaTypes.Console
             {
                 writer.WriteLine("        public sealed class {0} : MediaType", ClassName);
                 writer.WriteLine("        {");
-                writer.WriteLine("            public {0}(string value, string[] extensions = null) : base(\"{1}/\" + value, extensions) {{}}", ClassName, ClassName.ToLowerInvariant());
+                writer.WriteLine("            public {0}(string value, string[] extensions) : base(\"{1}/\" + value, extensions) {{}}", ClassName, ClassName.ToLowerInvariant());
+                writer.WriteLine();
+                writer.WriteLine("            public {0}(string value) : this(value, null) {{}}", ClassName);
                 writer.WriteLine();
                 var sortedEntries = entries.Values.OrderBy(e => e.FieldName);
                 foreach (var entry in sortedEntries)

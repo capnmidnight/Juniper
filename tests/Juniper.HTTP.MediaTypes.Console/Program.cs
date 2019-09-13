@@ -298,7 +298,7 @@ namespace Juniper.HTTP.MediaTypes.Console
             return s;
         }
 
-        public static void MakeFile(this string fileName, string directoryName, Action<StreamWriter> act, string usingBlock = null)
+        public static void MakeFile(this string fileName, string directoryName, Action<StreamWriter> act, string usingBlock)
         {
             var filePath = Path.Combine(directoryName, fileName);
             using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
@@ -321,6 +321,11 @@ namespace Juniper.HTTP.MediaTypes.Console
                 }
                 writer.WriteLine("}");
             }
+        }
+
+        public static void MakeFile(this string fileName, string directoryName, Action<StreamWriter> act)
+        {
+            MakeFile(fileName, directoryName, act, null);
         }
     }
 }

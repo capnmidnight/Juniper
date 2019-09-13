@@ -8,17 +8,21 @@ namespace Juniper.HTTP.REST
         internal readonly DirectoryInfo cacheLocation;
         public readonly Uri baseServiceURI;
 
-        protected AbstractRequestConfiguration(Uri baseServiceURI, DirectoryInfo cacheLocation = null)
+        private AbstractRequestConfiguration(DirectoryInfo cacheLocation, Uri baseServiceURI)
         {
             this.baseServiceURI = baseServiceURI;
             this.cacheLocation = cacheLocation;
             cacheLocation?.Create();
         }
 
-        protected AbstractRequestConfiguration(Uri baseServiceURI, string cacheDirectoryName = null)
-            : this(baseServiceURI, cacheDirectoryName == null ? null : new DirectoryInfo(cacheDirectoryName))
-        {
-        }
+        protected AbstractRequestConfiguration(Uri baseServiceURI, DirectoryInfo cacheLocation)
+            : this(cacheLocation, baseServiceURI) { }
+
+        protected AbstractRequestConfiguration(Uri baseServiceURI, string cacheDirectoryName)
+            : this(new DirectoryInfo(cacheDirectoryName), baseServiceURI) { }
+
+        protected AbstractRequestConfiguration(Uri baseServiceURI)
+            : this(null, baseServiceURI) { }
 
         public virtual Uri ModifyURI(Uri uri)
         {

@@ -18,7 +18,12 @@ namespace Juniper.Audio
     [Serializable]
     public class StreamableAudioClip : StreamableAsset<AudioClip>
     {
-        public IEnumerator Load(Action<AudioClip> resolve, Action<Exception> reject, IProgress prog = null)
+        public IEnumerator Load(Action<AudioClip> resolve, Action<Exception> reject)
+        {
+            return Load(resolve, reject);
+        }
+
+        public IEnumerator Load(Action<AudioClip> resolve, Action<Exception> reject, IProgress prog)
         {
             var info = new FileInfo(LoadPath);
             var ext = info.Extension.Substring(1).ToLowerInvariant();

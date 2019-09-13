@@ -226,18 +226,28 @@ namespace Juniper
             State = nextState;
         }
 
+        public void Enter()
+        {
+            Enter(null);
+        }
+
         /// <summary>
         /// Fire the OnEnable event and perform the Enter transition.
         /// </summary>
-        public virtual void Enter(IProgress prog = null)
+        public virtual void Enter(IProgress prog)
         {
             SetState(prog, Direction.Forward);
+        }
+
+        public void Exit()
+        {
+            Exit(null);
         }
 
         /// <summary>
         /// Fire the OnExiting event and perform the Exit transition.
         /// </summary>
-        public virtual void Exit(IProgress prog = null)
+        public virtual void Exit(IProgress prog)
         {
             SetState(prog, Direction.Reverse);
         }
@@ -275,7 +285,12 @@ namespace Juniper
             }
         }
 
-        public IEnumerator EnterCoroutine(IProgress prog = null)
+        public IEnumerator EnterCoroutine()
+        {
+            return EnterCoroutine(null);
+        }
+
+        public IEnumerator EnterCoroutine(IProgress prog)
         {
             Enter(prog);
             while (IsRunning)
@@ -284,7 +299,12 @@ namespace Juniper
             }
         }
 
-        public IEnumerator ExitCoroutine(IProgress prog = null)
+        public IEnumerator ExitCoroutine()
+        {
+            return ExitCoroutine(null);
+        }
+
+        public IEnumerator ExitCoroutine(IProgress prog)
         {
             Exit(prog);
             while (IsRunning)

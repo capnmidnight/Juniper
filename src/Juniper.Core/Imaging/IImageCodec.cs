@@ -17,64 +17,74 @@ namespace Juniper.Imaging
 
         ImageInfo GetImageInfo(byte[] data);
 
-        T Concatenate(T[,] images, IProgress prog = null);
+        T Concatenate(T[,] images, IProgress prog);
     }
 
     public static class IImageDecoderExt
     {
-        public static ImageInfo GetImageInfo<T>(this IImageCodec<T> decoder, Stream stream)
+        public static ImageInfo GetImageInfo<T>(this IImageCodec<T> codec, Stream stream)
         {
             using (var mem = new MemoryStream())
             {
                 stream.CopyTo(mem);
                 mem.Flush();
                 var buffer = mem.ToArray();
-                return decoder.GetImageInfo(buffer);
+                return codec.GetImageInfo(buffer);
             }
         }
 
-        public static ImageInfo GetImageInfo<T>(this IImageCodec<T> decoder, FileInfo file)
+        public static ImageInfo GetImageInfo<T>(this IImageCodec<T> codec, FileInfo file)
         {
             using (var stream = file.OpenRead())
             {
-                return decoder.GetImageInfo(stream);
+                return codec.GetImageInfo(stream);
             }
         }
 
-        public static ImageInfo GetImageInfo<T>(this IImageCodec<T> decoder, string fileName)
+        public static ImageInfo GetImageInfo<T>(this IImageCodec<T> codec, string fileName)
         {
-            return decoder.GetImageInfo(new FileInfo(fileName));
+            return codec.GetImageInfo(new FileInfo(fileName));
         }
 
-        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> decoder, Stream stream)
+        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> codec, Stream stream)
         {
             using (var mem = new MemoryStream())
             {
                 stream.CopyTo(mem);
                 mem.Flush();
                 var buffer = mem.ToArray();
-                var info = decoder.GetImageInfo(buffer);
-                return new ImageData(info, (MediaType.Image)decoder.ContentType, buffer);
+                var info = codec.GetImageInfo(buffer);
+                return new ImageData(info, (MediaType.Image)codec.ContentType, buffer);
             }
         }
 
-        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> decoder, Stream stream, long length, IProgress prog)
+        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> codec, Stream stream, long length, IProgress prog)
         {
             var progStream = new ProgressStream(stream, length, prog);
-            return decoder.GetUndecodedImage(progStream);
+            return codec.GetUndecodedImage(progStream);
         }
 
-        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> decoder, FileInfo file, IProgress prog = null)
+        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> codec, FileInfo file, IProgress prog)
         {
-            return decoder.GetUndecodedImage(file.OpenRead(), file.Length, prog);
+            return codec.GetUndecodedImage(file.OpenRead(), file.Length, prog);
         }
 
-        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> decoder, string fileName, IProgress prog = null)
+        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> codec, FileInfo file)
         {
-            return decoder.GetUndecodedImage(new FileInfo(fileName), prog);
+            return codec.GetUndecodedImage(file, null);
         }
 
-        public static void ValidateImages<T>(this IImageCodec<T> decoder, T[,] images, IProgress prog, out int rows, out int columns, out int components, out int tileWidth, out int tileHeight)
+        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> codec, string fileName, IProgress prog)
+        {
+            return codec.GetUndecodedImage(new FileInfo(fileName), prog);
+        }
+
+        public static ImageData GetUndecodedImage<T>(this IImageCodec<T> codec, string fileName)
+        {
+            return codec.GetUndecodedImage(fileName, null);
+        }
+
+        public static void ValidateImages<T>(this IImageCodec<T> codec, T[,] images, IProgress prog, out int rows, out int columns, out int components, out int tileWidth, out int tileHeight)
         {
             prog?.Report(0);
 
@@ -104,15 +114,15 @@ namespace Juniper.Imaging
                     {
                         if (!anyNotNull)
                         {
-                            tileWidth = decoder.GetWidth(img);
-                            tileHeight = decoder.GetHeight(img);
-                            components = decoder.GetComponents(img);
+                            tileWidth = codec.GetWidth(img);
+                            tileHeight = codec.GetHeight(img);
+                            components = codec.GetComponents(img);
                         }
 
                         anyNotNull = true;
                         if (img != null
-                            && (decoder.GetWidth(img) != tileWidth
-                                || decoder.GetHeight(img) != tileHeight))
+                            && (codec.GetWidth(img) != tileWidth
+                                || codec.GetHeight(img) != tileHeight))
                         {
                             throw new ArgumentException($"All elements of {nameof(images)} must be the same width and height. Image [{y.ToString()},{x.ToString()}] did not match image 0.");
                         }
@@ -124,6 +134,11 @@ namespace Juniper.Imaging
             {
                 throw new ArgumentNullException($"Expected at least one image in {nameof(images)} to be not null");
             }
+        }
+
+        public static T Concatenat<T>(this IImageCodec<T> codec, T[,] images)
+        {
+            return codec.Concatenate(images, null);
         }
     }
 }

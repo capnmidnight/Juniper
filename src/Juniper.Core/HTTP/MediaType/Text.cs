@@ -4,7 +4,9 @@ namespace Juniper.HTTP
     {
         public sealed class Text : MediaType
         {
-            public Text(string value, string[] extensions = null) : base("text/" + value, extensions) {}
+            public Text(string value, string[] extensions) : base("text/" + value, extensions) {}
+
+            public Text(string value) : this(value, null) {}
 
             public static readonly Text Cache_Manifest = new Text("cache-manifest", new string[] {"appcache"});
             public static readonly Text Calendar = new Text("calendar", new string[] {"ics", "ifb"});

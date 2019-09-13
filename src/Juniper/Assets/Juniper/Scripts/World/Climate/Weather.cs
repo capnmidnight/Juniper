@@ -215,12 +215,16 @@ namespace Juniper.World.Climate
             }
         }
 
+        private IEnumerator GetReportCoroutine(bool force)
+        {
+            return GetReportCoroutine(force, null);
+        }
         /// <summary>
         /// Retrieves a new weather report.
         /// </summary>
         /// <returns>The report coroutine.</returns>
         /// <param name="force">If set to <c>true</c> force.</param>
-        private IEnumerator GetReportCoroutine(bool force, IProgress prog = null)
+        private IEnumerator GetReportCoroutine(bool force, IProgress prog)
         {
             if (Ready)
             {
@@ -241,17 +245,21 @@ namespace Juniper.World.Climate
             }
         }
 
+        public IEnumerator RequestCoroutine(LatLngPoint location, bool force)
+        {
+            return RequestCoroutine(location, force, null);
+        }
+
         /// <summary>
         /// Initiate a new request for a weather report at a given location.
         /// </summary>
         /// <param name="location"></param>
         /// <param name="force">   </param>
         /// <returns></returns>
-        public IEnumerator RequestCoroutine(LatLngPoint location, bool force, IProgress prog = null)
+        public IEnumerator RequestCoroutine(LatLngPoint location, bool force, IProgress prog)
         {
             if (Application.internetReachability != NetworkReachability.NotReachable || force)
             {
-                
                 var reportTask = weatherService.Request(location, force, prog);
                 while (reportTask.IsRunning())
                 {

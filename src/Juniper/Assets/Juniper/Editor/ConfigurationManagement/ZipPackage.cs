@@ -53,7 +53,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        protected override void InstallInternal(IProgress prog = null)
+        protected override void InstallInternal(IProgress prog)
         {
             if (IsAvailable)
             {
@@ -70,13 +70,17 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public override void Activate(BuildTargetGroup targetGroup, IProgress prog = null)
+        public override void Activate(BuildTargetGroup targetGroup, IProgress prog)
         {
             base.Activate(targetGroup, prog);
 
             if (Name == "Vuforia")
             {
+#if UNITY_2019_2_OR_NEWER
+                PlayerSettings.vuforiaEnabled = true;
+#else
                 PlayerSettings.SetPlatformVuforiaEnabled(targetGroup, true);
+#endif
             }
 
             if (targetGroup == BuildTargetGroup.Android)
@@ -143,7 +147,7 @@ namespace Juniper.ConfigurationManagement
             prog?.Report(1, "Deleted");
         }
 
-        public override void Uninstall(IProgress prog = null)
+        public override void Uninstall(IProgress prog)
         {
             base.Uninstall(prog);
             isInstalledDirty = true;

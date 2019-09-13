@@ -161,7 +161,12 @@ namespace Juniper.ConfigurationManagement
             get { return BuildTarget != EditorUserBuildSettings.activeBuildTarget; }
         }
 
-        public void InstallUnityPackages(IProgress prog = null)
+        public void InstallUnityPackages()
+        {
+            InstallUnityPackages(null);
+        }
+
+        public void InstallUnityPackages(IProgress prog)
         {
             var progs = prog.Split(2);
 
@@ -190,7 +195,12 @@ namespace Juniper.ConfigurationManagement
             });
         }
 
-        public void InstallZipPackages(IProgress prog = null)
+        public void InstallZipPackages()
+        {
+            InstallZipPackages(null);
+        }
+
+        public void InstallZipPackages(IProgress prog)
         {
             Platforms.ForEachPackage(ZipPackages, prog, (pkg, p) => pkg.Install(p));
         }
@@ -270,12 +280,22 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public void UninstallZipPackages(IProgress prog = null)
+        public void UninstallZipPackages()
+        {
+            UninstallZipPackages(null);
+        }
+
+        public void UninstallZipPackages(IProgress prog)
         {
             Platforms.ForEachPackage(UninstallableZipPackages, prog, (pkg, p) => pkg.Uninstall(p));
         }
 
-        public void UninstallUnityPackages(IProgress prog = null)
+        public void UninstallUnityPacakges()
+        {
+            UninstallUnityPackages(null);
+        }
+
+        public void UninstallUnityPackages(IProgress prog)
         {
             Platforms.ForEachPackage(UninstallableUnityPackages, prog, (pkg, p) => pkg.Uninstall(p));
         }
@@ -325,11 +345,16 @@ namespace Juniper.ConfigurationManagement
             PlayerSettings.Android.ARCoreEnabled = false;
 #endif
             PlayerSettingsExt.iOS.RequiresARKitSupport = false;
+
+#if UNITY_2019_2_OR_NEWER
+            PlayerSettings.vuforiaEnabled = false;
+#else
             PlayerSettings.SetPlatformVuforiaEnabled(TargetGroup, false);
             if (nextConfiguration.TargetGroup != TargetGroup)
             {
                 PlayerSettings.SetPlatformVuforiaEnabled(TargetGroup, false);
             }
+#endif
         }
     }
 }

@@ -55,7 +55,7 @@ namespace Juniper.ConfigurationManagement
 #endif
         }
 
-        public override void Uninstall(IProgress prog = null)
+        public override void Uninstall(IProgress prog)
         {
             base.Uninstall(prog);
 

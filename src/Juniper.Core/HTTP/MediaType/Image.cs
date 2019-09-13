@@ -4,7 +4,9 @@ namespace Juniper.HTTP
     {
         public sealed class Image : MediaType
         {
-            public Image(string value, string[] extensions = null) : base("image/" + value, extensions) {}
+            public Image(string value, string[] extensions) : base("image/" + value, extensions) {}
+
+            public Image(string value) : this(value, null) {}
 
             public static readonly Image Aces = new Image("aces");
             public static readonly Image Avci = new Image("avci");
@@ -35,6 +37,8 @@ namespace Juniper.HTTP
             public static readonly Image Jxr = new Image("jxr");
             public static readonly Image JxrA = new Image("jxra");
             public static readonly Image JxrS = new Image("jxrs");
+            public static readonly Image Jxs = new Image("jxs");
+            public static readonly Image Jxsc = new Image("jxsc");
             public static readonly Image Jxsi = new Image("jxsi");
             public static readonly Image Jxss = new Image("jxss");
             public static readonly Image Ktx = new Image("ktx", new string[] {"ktx"});
@@ -137,6 +141,8 @@ namespace Juniper.HTTP
                 Jxr,
                 JxrA,
                 JxrS,
+                Jxs,
+                Jxsc,
                 Jxsi,
                 Jxss,
                 Ktx,

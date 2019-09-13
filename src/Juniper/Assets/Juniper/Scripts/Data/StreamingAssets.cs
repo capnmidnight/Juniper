@@ -74,7 +74,7 @@ namespace Juniper.Data
         /// <param name="ttl">The maximum age after which to consider a cached file invalidated.</param>
         /// <param name="mime">The mime type of the file, in case we have to request the file over the 'net.</param>
         /// <returns>Progress tracking object</returns>
-        public static async Task<Response> GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog = null)
+        public static async Task<Response> GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime, IProgress prog)
         {
 #if UNITY_ANDROID
             if (AndroidJarPattern.IsMatch(path))
@@ -119,19 +119,39 @@ namespace Juniper.Data
             }
         }
 
-        public static Task<Response> GetStream(string cacheDirectory, string path, TimeSpan ttl, IProgress prog = null)
+        public static Task<Response> GetStream(string cacheDirectory, string path, TimeSpan ttl, IProgress prog)
         {
             return GetStream(cacheDirectory, path, ttl, "application/octet-stream", prog);
         }
 
-        public static Task<Response> GetStream(string cacheDirectory, string path, string mime, IProgress prog = null)
+        public static Task<Response> GetStream(string cacheDirectory, string path, string mime, IProgress prog)
         {
             return GetStream(cacheDirectory, path, DEFAULT_TTL, mime, prog);
         }
 
-        public static Task<Response> GetStream(string cacheDirectory, string path, IProgress prog = null)
+        public static Task<Response> GetStream(string cacheDirectory, string path, TimeSpan ttl, string mime)
+        {
+            return GetStream(cacheDirectory, path, ttl, mime, null);
+        }
+
+        public static Task<Response> GetStream(string cacheDirectory, string path, IProgress prog)
         {
             return GetStream(cacheDirectory, path, DEFAULT_TTL, "application/octet-stream", prog);
+        }
+
+        public static Task<Response> GetStream(string cacheDirectory, string path, TimeSpan ttl)
+        {
+            return GetStream(cacheDirectory, path, ttl, "application/octet-stream", null);
+        }
+
+        public static Task<Response> GetStream(string cacheDirectory, string path, string mime)
+        {
+            return GetStream(cacheDirectory, path, DEFAULT_TTL, mime, null);
+        }
+
+        public static Task<Response> GetStream(string cacheDirectory, string path)
+        {
+            return GetStream(cacheDirectory, path, DEFAULT_TTL, "application/octet-stream", null);
         }
 
         private static bool FileIsGood(string path, TimeSpan ttl)

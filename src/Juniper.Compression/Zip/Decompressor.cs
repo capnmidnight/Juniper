@@ -51,7 +51,7 @@ namespace Juniper.Compression.Zip
         /// <param name="entryPath">The file to find in the zip file.</param>
         /// <param name="copyTo">A stream to which to copy the file, before closing the zipFile.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
-        public static void CopyFile(this ZipFile zip, string entryPath, Stream copyTo, IProgress prog = null)
+        public static void CopyFile(this ZipFile zip, string entryPath, Stream copyTo, IProgress prog)
         {
             var entryIndex = zip.FindEntry(entryPath, true);
             if (entryIndex > -1)
@@ -69,7 +69,12 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public static void CopyFile(this ZipFile zip, string entryPath, FileInfo copyToFile, IProgress prog = null)
+        public static void CopyFile(this ZipFile zip, string entryPath, Stream copyTo)
+        {
+            zip.CopyFile(entryPath, copyTo, null);
+        }
+
+        public static void CopyFile(this ZipFile zip, string entryPath, FileInfo copyToFile, IProgress prog)
         {
             copyToFile.Directory.Create();
             using (var copyTo = copyToFile.Create())
@@ -78,12 +83,22 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public static void CopyFile(this ZipFile zip, string entryPath, string copyToFileName, IProgress prog = null)
+        public static void CopyFile(this ZipFile zip, string entryPath, FileInfo copyToFile)
+        {
+            zip.CopyFile(entryPath, copyToFile, null);
+        }
+
+        public static void CopyFile(this ZipFile zip, string entryPath, string copyToFileName, IProgress prog)
         {
             zip.CopyFile(entryPath, new FileInfo(copyToFileName), prog);
         }
 
-        public static void CopyFile(FileInfo file, string entryPath, Stream copyTo, IProgress prog = null)
+        public static void CopyFile(this ZipFile zip, string entryPath, string copyToFileName)
+        {
+            zip.CopyFile(entryPath, copyToFileName, null);
+        }
+
+        public static void CopyFile(FileInfo file, string entryPath, Stream copyTo, IProgress prog)
         {
             using (var zip = OpenZip(file))
             {
@@ -91,9 +106,19 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public static void CopyFile(string fileName, string entryPath, Stream copyTo, IProgress prog = null)
+        public static void CopyFile(FileInfo file, string entryPath, Stream copyTo)
+        {
+            CopyFile(file, entryPath, copyTo, null);
+        }
+
+        public static void CopyFile(string fileName, string entryPath, Stream copyTo, IProgress prog)
         {
             CopyFile(new FileInfo(fileName), entryPath, copyTo, prog);
+        }
+
+        public static void CopyFile(string fileName, string entryPath, Stream copyTo)
+        {
+            CopyFile(fileName, entryPath, copyTo, null);
         }
 
         /// <summary>
@@ -102,7 +127,7 @@ namespace Juniper.Compression.Zip
         /// <param name="fileName">The zip file in which to find the file.</param>
         /// <param name="entryPath">The file to find in the zip file.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
-        public static Stream GetFile(this ZipFile zip, string entryPath, IProgress prog = null)
+        public static Stream GetFile(this ZipFile zip, string entryPath, IProgress prog)
         {
             var mem = new MemoryStream();
             zip.CopyFile(entryPath, mem, prog);
@@ -111,7 +136,12 @@ namespace Juniper.Compression.Zip
             return mem;
         }
 
-        public static Stream GetFile(FileInfo file, string entryPath, IProgress prog = null)
+        public static Stream GetFile(this ZipFile zip, string entryPath)
+        {
+            return zip.GetFile(entryPath, null);
+        }
+
+        public static Stream GetFile(FileInfo file, string entryPath, IProgress prog)
         {
             using (var zip = OpenZip(file))
             {
@@ -119,9 +149,19 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public static Stream GetFile(string fileName, string entryPath, IProgress prog = null)
+        public static Stream GetFile(FileInfo file, string entryPath)
+        {
+            return GetFile(file, entryPath, null);
+        }
+
+        public static Stream GetFile(string fileName, string entryPath, IProgress prog)
         {
             return GetFile(new FileInfo(fileName), entryPath, prog);
+        }
+
+        public static Stream GetFile(string fileName, string entryPath)
+        {
+            return GetFile(fileName, entryPath, null);
         }
 
         /// <summary>
@@ -131,7 +171,7 @@ namespace Juniper.Compression.Zip
         /// <param name="zip">A zipfile stream</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <returns>A lazy collection of <typeparamref name="ZipEntry"/> objects.</returns>
-        public static IEnumerable<ZipEntry> Entries(this ZipFile zip, IProgress prog = null)
+        public static IEnumerable<ZipEntry> Entries(this ZipFile zip, IProgress prog)
         {
             for (int i = 0, l = (int)zip.Count; i < l; ++i)
             {
@@ -141,13 +181,23 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public static IEnumerable<ZipEntry> Entries(Stream zipStream, IProgress progress = null)
+        public static IEnumerable<ZipEntry> Entries(this ZipFile zip)
+        {
+            return zip.Entries(null);
+        }
+
+        public static IEnumerable<ZipEntry> Entries(Stream zipStream, IProgress progress)
         {
             var zip = new ZipFile(zipStream);
             return zip.Entries(progress);
         }
 
-        public static IEnumerable<ZipEntry> Entries(FileInfo zipFile, IProgress prog = null)
+        public static IEnumerable<ZipEntry> Entries(Stream zipStream)
+        {
+            return Entries(zipStream, null);
+        }
+
+        public static IEnumerable<ZipEntry> Entries(FileInfo zipFile, IProgress prog)
         {
             using (var stream = zipFile.OpenRead())
             {
@@ -155,9 +205,19 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public static IEnumerable<ZipEntry> Entries(string zipFileName, IProgress prog = null)
+        public static IEnumerable<ZipEntry> Entries(FileInfo zipFile)
+        {
+            return Entries(zipFile, null);
+        }
+
+        public static IEnumerable<ZipEntry> Entries(string zipFileName, IProgress prog)
         {
             return Entries(new FileInfo(zipFileName), prog);
+        }
+
+        public static IEnumerable<ZipEntry> Entries(string zipFileName)
+        {
+            return Entries(zipFileName, null);
         }
 
         public static IEnumerable<string> FileNames(FileInfo file)
@@ -192,7 +252,7 @@ namespace Juniper.Compression.Zip
             return DirectoryNames(new FileInfo(fileName));
         }
 
-        public static void Decompress(this ZipFile zip, DirectoryInfo outputDirectory, IProgress prog = null)
+        public static void Decompress(this ZipFile zip, DirectoryInfo outputDirectory, IProgress prog)
         {
             for (int i = 0, l = (int)zip.Count; i < l; ++i)
             {
@@ -225,17 +285,22 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public static void Decompress(this Stream stream, string outputDirectoryName, IProgress prog = null)
+        public static void Decompress(this ZipFile zip, DirectoryInfo outputDirectory)
         {
-            stream.Decompress(new DirectoryInfo(outputDirectoryName), prog);
+            zip.Decompress(outputDirectory, null);
         }
 
-        public static void Decompress(this Stream stream, DirectoryInfo outputDirectory, IProgress prog = null)
+        public static void Decompress(this Stream stream, DirectoryInfo outputDirectory, IProgress prog)
         {
             new ZipFile(stream).Decompress(outputDirectory, prog);
         }
 
-        public static void Decompress(FileInfo zipFile, DirectoryInfo outputDirectory, IProgress prog = null)
+        public static void Decompress(this Stream stream, DirectoryInfo outputDirectory)
+        {
+            stream.Decompress(outputDirectory, null);
+        }
+
+        public static void Decompress(FileInfo zipFile, DirectoryInfo outputDirectory, IProgress prog)
         {
             using (var stream = zipFile.OpenRead())
             {
@@ -243,19 +308,49 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public static void Decompress(FileInfo zipFile, string outputDirectoryName, IProgress prog = null)
+        public static void Decompress(FileInfo zipFile, DirectoryInfo outputDirectory)
+        {
+            Decompress(zipFile, outputDirectory, null);
+        }
+
+        public static void Decompress(this Stream stream, string outputDirectoryName, IProgress prog)
+        {
+            stream.Decompress(new DirectoryInfo(outputDirectoryName), prog);
+        }
+
+        public static void Decompress(this Stream stream, string outputDirectoryName)
+        {
+            stream.Decompress(outputDirectoryName, null);
+        }
+
+        public static void Decompress(FileInfo zipFile, string outputDirectoryName, IProgress prog)
         {
             Decompress(zipFile, new DirectoryInfo(outputDirectoryName), prog);
         }
 
-        public static void Decompress(string zipFileName, DirectoryInfo outputDirectory, IProgress prog = null)
+        public static void Decompress(FileInfo zipFile, string outputDirectoryName)
+        {
+            Decompress(zipFile, outputDirectoryName, null);
+        }
+
+        public static void Decompress(string zipFileName, DirectoryInfo outputDirectory, IProgress prog)
         {
             Decompress(new FileInfo(zipFileName), outputDirectory, prog);
         }
 
-        public static void Decompress(string zipFileName, string outputDiretoryName, IProgress prog = null)
+        public static void Decompress(string zipFileName, DirectoryInfo outputDirectory)
+        {
+            Decompress(zipFileName, outputDirectory, null);
+        }
+
+        public static void Decompress(string zipFileName, string outputDiretoryName, IProgress prog)
         {
             Decompress(new FileInfo(zipFileName), new DirectoryInfo(outputDiretoryName), prog);
+        }
+
+        public static void Decompress(string zipFileName, string outputDiretoryName)
+        {
+            Decompress(zipFileName, outputDiretoryName, null);
         }
     }
 }

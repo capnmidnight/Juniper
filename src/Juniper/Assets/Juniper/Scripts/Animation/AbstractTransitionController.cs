@@ -83,7 +83,7 @@ namespace Juniper.Animation
         /// </summary>
         private Func<float, float, Direction, float> Tweener { get { return Tween.Functions[tween]; } }
 
-        public override void Enter(IProgress prog = null)
+        public override void Enter(IProgress prog)
         {
             base.Enter(prog);
             if (skipEvents)
@@ -92,7 +92,7 @@ namespace Juniper.Animation
             }
         }
 
-        public override void Exit(IProgress prog = null)
+        public override void Exit(IProgress prog)
         {
             base.Exit(prog);
             if (skipEvents)

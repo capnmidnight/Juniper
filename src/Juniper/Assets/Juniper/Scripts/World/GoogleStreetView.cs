@@ -182,7 +182,7 @@ namespace Juniper.Imaging
             return yarrow.GetImageStream(source.name, fov, heading, pitch);
         }
 
-        public override void Enter(IProgress prog = null)
+        public override void Enter(IProgress prog)
         {
             base.Enter(prog);
             SynchronizeData(Vector3.zero, prog);
@@ -208,13 +208,18 @@ namespace Juniper.Imaging
             navPointer.position = navPointerPosition;
         }
 
-        private void SynchronizeData(Vector3 cursorPosition, IProgress prog = null)
+        private void SynchronizeData(Vector3 cursorPosition)
+        {
+            SynchronizeData(cursorPosition, null);
+        }
+
+        private void SynchronizeData(Vector3 cursorPosition, IProgress prog)
         {
             locked = true;
             StartCoroutine(SynchronizeDataCoroutine(cursorPosition, prog));
         }
 
-        public IEnumerator SynchronizeDataCoroutine(Vector3 cursorPosition, IProgress prog = null)
+        public IEnumerator SynchronizeDataCoroutine(Vector3 cursorPosition, IProgress prog)
         {
             string searchPano = null;
             LatLngPoint searchPoint = null;
@@ -343,7 +348,7 @@ namespace Juniper.Imaging
 
             if (loadImmediately)
             {
-                yield return LoadPhotosphere(subProg);
+                yield return LoadPhotosphereCoroutine(subProg);
             }
         }
 
@@ -352,12 +357,17 @@ namespace Juniper.Imaging
             if (!locked)
             {
                 locked = true;
-                StartCoroutine(LoadPhotosphere());
+                StartCoroutine(LoadPhotosphereCoroutine());
             }
         }
 
         private Photosphere lastSphere;
-        private IEnumerator LoadPhotosphere(IProgress prog = null)
+        private IEnumerator LoadPhotosphereCoroutine()
+        {
+            return LoadPhotosphereCoroutine(null);
+        }
+
+        private IEnumerator LoadPhotosphereCoroutine(IProgress prog)
         {
             var curSphere = photospheres.GetPhotosphere<Photosphere>(metadata.pano_id);
 

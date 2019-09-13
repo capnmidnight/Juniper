@@ -4,7 +4,9 @@ namespace Juniper.HTTP
     {
         public sealed class Application : MediaType
         {
-            public Application(string value, string[] extensions = null) : base("application/" + value, extensions) {}
+            public Application(string value, string[] extensions) : base("application/" + value, extensions) {}
+
+            public Application(string value) : this(value, null) {}
 
             public static readonly Application A2L = new Application("a2l");
             public static readonly Application Activemessage = new Application("activemessage");
@@ -378,6 +380,7 @@ namespace Juniper.HTTP
             public static readonly Application SsdlXml = new Application("ssdl+xml", new string[] {"ssdl"});
             public static readonly Application SsmlXml = new Application("ssml+xml", new string[] {"ssml"});
             public static readonly Application StixJson = new Application("stix+json", new string[] {"json"});
+            public static readonly Application SwidXml = new Application("swid+xml", new string[] {"xml"});
             public static readonly Application Tamp_Apex_Update = new Application("tamp-apex-update");
             public static readonly Application Tamp_Apex_Update_Confirm = new Application("tamp-apex-update-confirm");
             public static readonly Application Tamp_Community_Update = new Application("tamp-community-update");
@@ -1938,6 +1941,7 @@ namespace Juniper.HTTP
                 SsdlXml,
                 SsmlXml,
                 StixJson,
+                SwidXml,
                 Tamp_Apex_Update,
                 Tamp_Apex_Update_Confirm,
                 Tamp_Community_Update,

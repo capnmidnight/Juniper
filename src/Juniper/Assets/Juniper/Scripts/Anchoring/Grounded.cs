@@ -68,10 +68,12 @@ namespace Juniper.Anchoring
         {
             body = GetComponentInChildren<Rigidbody>();
             dragger = GetComponent<Draggable>();
-            GroundMask = LayerMask.GetMask("Terrain");
+            GroundMask = LayerMask.GetMask(TERRAIN);
             lastTime = Time.unscaledTime;
             Freeze();
         }
+
+        private static readonly string[] TERRAIN = { "Terrain" };
 
         /// <summary>
         /// Freezing the object turns off any physics and dragging capability that might have been on

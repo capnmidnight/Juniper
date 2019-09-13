@@ -73,7 +73,7 @@ namespace System
         /// <param name="parts">The strings to join.</param>
         /// <param name="separator">The separator to insert between each string value. Defaults to the empty string.</param>
         /// <returns>The joined string.</returns>
-        public static string Join(this string[] parts, string separator = null)
+        public static string Join(this string[] parts, string separator)
         {
             if (parts.Length == 0)
             {
@@ -84,6 +84,7 @@ namespace System
             {
                 separator = string.Empty;
             }
+
             var sb = new Text.StringBuilder(parts[0]);
             for (var i = 1; i < parts.Length; ++i)
             {

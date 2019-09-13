@@ -4,7 +4,9 @@ namespace Juniper.HTTP
     {
         public sealed class Multipart : MediaType
         {
-            public Multipart(string value, string[] extensions = null) : base("multipart/" + value, extensions) {}
+            public Multipart(string value, string[] extensions) : base("multipart/" + value, extensions) {}
+
+            public Multipart(string value) : this(value, null) {}
 
             public static readonly Multipart Alternative = new Multipart("alternative");
             public static readonly Multipart Appledouble = new Multipart("appledouble");

@@ -52,7 +52,7 @@ namespace Juniper.Audio.NAudio
             }
         }
 
-        public AudioData Deserialize(Stream stream, IProgress prog = null)
+        public AudioData Deserialize(Stream stream, IProgress prog)
         {
             prog?.Report(0);
             using (var waveStream = MakeDecodingStream(stream))

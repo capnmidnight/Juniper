@@ -51,7 +51,7 @@ namespace Juniper.Audio
             player.spatialBlend = spatialBlend;
         }
 
-        public override void Enter(IProgress prog = null)
+        public override void Enter(IProgress prog)
         {
             base.Enter(prog);
             StartCoroutine(audioClip.Load(

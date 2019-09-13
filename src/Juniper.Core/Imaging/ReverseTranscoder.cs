@@ -15,7 +15,7 @@ namespace Juniper.Imaging
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Png bytes.</param>
-        public ImageTypeA TranslateFrom(ImageTypeB rows, IProgress prog = null)
+        public ImageTypeA TranslateFrom(ImageTypeB rows, IProgress prog)
         {
             return transcoder.TranslateTo(rows, prog);
         }

@@ -232,7 +232,7 @@ namespace Juniper.Compression.Tar.GZip
         /// <param name="outputDirectory">The location to which to dump the files.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
         /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
-        public static void Decompress(string inputTarFile, string outputDirectory, IProgress prog = null, Action<Exception> error = null)
+        public static void Decompress(string inputTarFile, string outputDirectory, IProgress prog, Action<Exception> error)
         {
             prog?.Report(0);
             if (!File.Exists(inputTarFile))
@@ -243,6 +243,21 @@ namespace Juniper.Compression.Tar.GZip
             {
                 ForEach(inputTarFile, outputDirectory, Decompress, error);
             }
+        }
+
+        public static void Decompress(string inputTarFile, string outputDirectory, Action<Exception> error)
+        {
+            Decompress(inputTarFile, outputDirectory, null, error);
+        }
+
+        public static void Decompress(string inputTarFile, string outputDirectory, IProgress prog)
+        {
+            Decompress(inputTarFile, outputDirectory, prog, null);
+        }
+
+        public static void Decompress(string inputTarFile, string outputDirectory)
+        {
+            Decompress(inputTarFile, outputDirectory, null, null);
         }
 
         private static void Decompress(string oDir, TarEntry tarEntry, TarInputStream tarStream)

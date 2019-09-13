@@ -193,9 +193,9 @@ namespace Juniper.Animation
         {
             if (actions.Count == 0)
             {
-                actions.Add(() => Exit());
+                actions.Add(new Action(Exit));
             }
-            
+
             actions.Insert(actions.Count - 1, act);
             Enter();
         }

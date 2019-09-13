@@ -4,7 +4,9 @@ namespace Juniper.HTTP
     {
         public sealed class XConference : MediaType
         {
-            public XConference(string value, string[] extensions = null) : base("xconference/" + value, extensions) {}
+            public XConference(string value, string[] extensions) : base("xconference/" + value, extensions) {}
+
+            public XConference(string value) : this(value, null) {}
 
             public static readonly XConference X_Cooltalk = new XConference("/x-cooltalk", new string[] {"ice"});
 

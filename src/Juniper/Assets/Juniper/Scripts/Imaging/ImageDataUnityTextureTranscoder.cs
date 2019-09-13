@@ -9,7 +9,7 @@ namespace Juniper.Imaging.Unity
 {
     public class ImageDataUnityTextureTranscoder : IImageTranscoder<ImageData, Texture2D>
     {
-        public ImageData TranslateFrom(Texture2D image, IProgress prog = null)
+        public ImageData TranslateFrom(Texture2D image, IProgress prog)
         {
             int components;
             if (image.format == TextureFormat.RGBA32
@@ -33,7 +33,7 @@ namespace Juniper.Imaging.Unity
                 image.GetRawTextureData());
         }
 
-        public Texture2D TranslateTo(ImageData image, IProgress prog = null)
+        public Texture2D TranslateTo(ImageData image, IProgress prog)
         {
             return image.CreateTexture();
         }

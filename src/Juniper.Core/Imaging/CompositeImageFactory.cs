@@ -19,14 +19,14 @@ namespace Juniper.Imaging
 
         public MediaType ContentType { get { return codec.ContentType; } }
 
-        public ImageTypeB Deserialize(Stream stream, IProgress prog = null)
+        public ImageTypeB Deserialize(Stream stream, IProgress prog)
         {
             var subProgs = prog.Split(2);
             var img = codec.Deserialize(stream, subProgs[0]);
             return transcoder.TranslateTo(img, subProgs[1]);
         }
 
-        public void Serialize(Stream stream, ImageTypeB value, IProgress prog = null)
+        public void Serialize(Stream stream, ImageTypeB value, IProgress prog)
         {
             var subProgs = prog.Split(2);
             var img = transcoder.TranslateFrom(value, subProgs[0]);
