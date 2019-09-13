@@ -154,9 +154,14 @@ namespace Juniper.Imaging
             {
                 Debug.LogError("Cubemap canceled");
             }
+            else if(streamTask.IsFaulted)
+            {
+                Debug.LogError("Cubemap load error");
+                Debug.LogException(streamTask.Exception);
+            }
             else
             {
-                Debug.LogError("Cubemap save error");
+                Debug.LogWarning("No cubemap found");
             }
 
             locked = false;
@@ -450,6 +455,17 @@ namespace Juniper.Imaging
             "Saving image"
         };
 
+        private static readonly CubemapFace[] CAPTURE_CUBEMAP_FACES = new[] {
+            CubemapFace.NegativeY,
+            CubemapFace.NegativeX,
+            CubemapFace.PositiveZ,
+            CubemapFace.PositiveX,
+            CubemapFace.NegativeZ,
+            CubemapFace.PositiveY
+        };
+
+        private static readonly Texture2D[] CAPTURE_CUBEMAP_SUB_IMAGES = new Texture2D[CAPTURE_CUBEMAP_FACES.Length];
+
         private IEnumerator CaptureCubemapCoroutine()
         {
             var fileName = StreamingAssets.FormatPath(Application.streamingAssetsPath, Key + ".jpeg");
@@ -474,28 +490,32 @@ namespace Juniper.Imaging
                 DisplayManager.MainCamera.transform.rotation = curRotation;
                 subProgs[0].Report(1);
 
-                var faces = new[]
+                bool anyDestroyed = false;
+                foreach(var texture in CAPTURE_CUBEMAP_SUB_IMAGES)
                 {
-                    CubemapFace.NegativeY,
-                    CubemapFace.NegativeX,
-                    CubemapFace.PositiveZ,
-                    CubemapFace.PositiveX,
-                    CubemapFace.NegativeZ,
-                    CubemapFace.PositiveY
-                };
+                    if (texture != null)
+                    {
+                        anyDestroyed = true;
+                        Destroy(texture);
+                    }
+                }
 
-                var images = new Texture2D[faces.Length];
-
-                for (var f = 0; f < faces.Length; ++f)
+                if (anyDestroyed)
                 {
-                    subProgs[1].Report(f, faces.Length);
+                    yield return Resources.UnloadUnusedAssets().AsCoroutine();
+                    GC.Collect();
+                }
+
+                for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
+                {
+                    subProgs[1].Report(f, CAPTURE_CUBEMAP_FACES.Length, CAPTURE_CUBEMAP_FACES[f].ToString());
                     try
                     {
-                        var pixels = cubemap.GetPixels(faces[f]);
+                        var pixels = cubemap.GetPixels(CAPTURE_CUBEMAP_FACES[f]);
                         var texture = new Texture2D(cubemap.width, cubemap.height);
                         texture.SetPixels(pixels);
                         texture.Apply();
-                        images[f] = texture;
+                        CAPTURE_CUBEMAP_SUB_IMAGES[f] = texture;
                     }
                     catch (Exception exp)
                     {
@@ -503,14 +523,15 @@ namespace Juniper.Imaging
                         cubemapLock = false;
                         throw;
                     }
-                    subProgs[1].Report(f + 1, faces.Length);
+                    subProgs[1].Report(f + 1, CAPTURE_CUBEMAP_FACES.Length);
                     yield return null;
                 }
 
                 try
                 {
-                    var img = codec.Concatenate(ImageData.CubeCross(images), subProgs[2]);
+                    var img = codec.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]);
                     codec.Save(fileName, img, subProgs[3]);
+                    Debug.Log("Cubemap saved " + fileName);
                 }
                 catch (Exception exp)
                 {
