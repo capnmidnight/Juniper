@@ -127,7 +127,7 @@ namespace Juniper.Anchoring
             if (PlayerPrefs.HasKey(key))
             {
                 PlayerPrefs.DeleteKey(key);
-                NameList = NameList.Where(k => k != name).ToArray();
+                NameList = NameList.Remove(name);
                 PlayerPrefs.Save();
                 return true;
             }
