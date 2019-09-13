@@ -11,6 +11,7 @@ using Juniper.Speech;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 #if UNITY_MODULES_UI
 
@@ -90,8 +91,6 @@ namespace Juniper.Input
         private readonly List<IPointerDevice> newDevices = new List<IPointerDevice>(12);
         public readonly List<IPointerDevice> Devices = new List<IPointerDevice>(12);
 
-        public IPointerDevice PrimaryPointer;
-
         public InputMode mode = InputMode.Auto;
         private InputMode lastMode;
 
@@ -118,12 +117,24 @@ namespace Juniper.Input
 
         private const string INPUT_MODE_KEY = "Juniper.Input.UnifiedInputModule::mode";
 
-        public GazePointer gazePointer;
-        public Mouse mouse;
-        public TouchPoint[] touches;
-        public MotionController[] motionControllers;
-        public HandTracker[] handTrackers;
-        public KeywordRecognizer keyer;
+        [FormerlySerializedAs("gazePointer")]
+        public GazePointer Gaze;
+
+        [FormerlySerializedAs("mouse")]
+        public Mouse Mouse;
+
+        [FormerlySerializedAs("touches")]
+        public TouchPoint[] Touches;
+
+        [FormerlySerializedAs("motionControllers")]
+        public MotionController[] Controllers;
+
+        [FormerlySerializedAs("handTrackers")]
+        public HandTracker[] Hands;
+
+        [FormerlySerializedAs("keyer")]
+        public KeywordRecognizer Voice;
+
         public float minPointerDistance = 1.5f;
         public float maxPointerDistance = 25f;
 
@@ -175,20 +186,20 @@ namespace Juniper.Input
             stage = ComponentExt.FindAny<Avatar>();
             stage.IndependentHead = HasFloorPosition;
 
-            gazePointer = MakePointer<GazePointer>(stage.Head, "GazePointer");
-            mouse = MakePointer<Mouse>(stage.Head, "Mouse");
+            Gaze = MakePointer<GazePointer>(stage.Head, "GazePointer");
+            Mouse = MakePointer<Mouse>(stage.Head, "Mouse");
 
-            touches = new TouchPoint[10];
-            for (var i = 0; i < touches.Length; ++i)
+            Touches = new TouchPoint[10];
+            for (var i = 0; i < Touches.Length; ++i)
             {
-                touches[i] = MakePointer<TouchPoint>(stage.Head, $"Touches/TouchPoint{i.ToString()}");
-                touches[i].fingerID = i;
+                Touches[i] = MakePointer<TouchPoint>(stage.Head, $"Touches/TouchPoint{i.ToString()}");
+                Touches[i].fingerID = i;
             }
 
-            motionControllers = MotionController.MakeControllers(MakeHandPointer<MotionController>);
-            handTrackers = HandTracker.MakeControllers(MakeHandPointer<HandTracker>);
+            Controllers = MotionController.MakeControllers(MakeHandPointer<MotionController>);
+            Hands = HandTracker.MakeControllers(MakeHandPointer<HandTracker>);
 
-            keyer = this.Ensure<KeywordRecognizer>();
+            Voice = this.Ensure<KeywordRecognizer>();
         }
 
         private T MakeHandPointer<T>(string name)
@@ -259,7 +270,7 @@ namespace Juniper.Input
                 }
 
                 // Validate the InputMode that has been set
-                var voice = (mode & InputMode.Voice) != 0 && VoiceAvailable;
+                var voice = VoiceRequested && VoiceAvailable;
                 var motion = ControllersRequested && ControllersAvailable;
                 var hands = HandsRequested && HandsAvailable;
                 var mouse = MouseRequested && MouseAvailable;
@@ -300,23 +311,23 @@ namespace Juniper.Input
                 }
 
 
-                keyer.enabled = voice;
+                Voice.enabled = voice;
 
-                gazePointer.SetActive(gaze);
+                Gaze.SetActive(gaze);
 
-                this.mouse.SetActive(mouse);
+                this.Mouse.SetActive(mouse);
 
-                foreach (var touchPoint in touches)
+                foreach (var touchPoint in Touches)
                 {
                     touchPoint.SetActive(touch);
                 }
 
-                foreach (var handTracker in handTrackers)
+                foreach (var handTracker in Hands)
                 {
                     handTracker.SetActive(hands);
                 }
 
-                foreach (var motionController in motionControllers)
+                foreach (var motionController in Controllers)
                 {
                     motionController.SetActive(motion);
                 }
@@ -445,48 +456,48 @@ namespace Juniper.Input
             return (mode & checkMode) != 0;
         }
 
-        public bool VoiceAvailable { get { return keyer.IsAvailable; } }
-        public bool VoiceEnabled { get { return keyer.isActiveAndEnabled; } }
+        public bool VoiceAvailable { get { return Voice.IsAvailable; } }
+        public bool VoiceEnabled { get { return Voice.isActiveAndEnabled; } }
         public bool VoiceRequested
         {
             get { return CheckMode(InputMode.Voice); }
             set { ToggleMode(InputMode.Voice, value); }
         }
 
-        public bool GazeAvailable { get { return gazePointer.IsConnected; } }
-        public bool GazeEnabled { get { return gazePointer.IsEnabled; } }
+        public bool GazeAvailable { get { return Gaze.IsConnected; } }
+        public bool GazeEnabled { get { return Gaze.IsEnabled; } }
         public bool GazeRequested
         {
             get { return CheckMode(InputMode.Gaze); }
             set { ToggleMode(InputMode.Gaze, value); }
         }
 
-        public bool MouseAvailable { get { return mouse.IsConnected; } }
-        public bool MouseEnabled { get { return mouse.IsEnabled; } }
+        public bool MouseAvailable { get { return Mouse.IsConnected; } }
+        public bool MouseEnabled { get { return Mouse.IsEnabled; } }
         public bool MouseRequested
         {
             get { return CheckMode(InputMode.Mouse); }
             set { ToggleMode(InputMode.Mouse, value); }
         }
 
-        public bool TouchAvailable { get { return AnyDeviceConnected(touches); } }
-        public bool TouchEnabled { get { return AnyDeviceEnabled(touches); } }
+        public bool TouchAvailable { get { return AnyDeviceConnected(Touches); } }
+        public bool TouchEnabled { get { return AnyDeviceEnabled(Touches); } }
         public bool TouchRequested
         {
             get { return CheckMode(InputMode.Touch); }
             set { ToggleMode(InputMode.Touch, value); }
         }
 
-        public bool HandsAvailable { get { return AnyDeviceConnected(handTrackers); } }
-        public bool HandsEnabled { get { return AnyDeviceEnabled(handTrackers); } }
+        public bool HandsAvailable { get { return AnyDeviceConnected(Hands); } }
+        public bool HandsEnabled { get { return AnyDeviceEnabled(Hands); } }
         public bool HandsRequested
         {
             get { return CheckMode(InputMode.Hands); }
             set { ToggleMode(InputMode.Hands, value); }
         }
 
-        public bool ControllersAvailable { get { return AnyDeviceConnected(motionControllers); } }
-        public bool ControllersEnabled { get { return AnyDeviceEnabled(motionControllers); } }
+        public bool ControllersAvailable { get { return AnyDeviceConnected(Controllers); } }
+        public bool ControllersEnabled { get { return AnyDeviceEnabled(Controllers); } }
         public bool ControllersRequested
         {
             get { return CheckMode(InputMode.Motion); }
@@ -519,6 +530,8 @@ namespace Juniper.Input
                 {
                     PlayerPrefs.SetString(INPUT_MODE_KEY, value.ToString());
                 }
+
+                PlayerPrefs.Save();
             }
         }
 

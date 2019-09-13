@@ -180,15 +180,15 @@ namespace Juniper.Speech
         {
             if (HasKeywords)
             {
-                input.keyer.KeywordRecognized += OnKeyword;
-                input.keyer.RefreshKeywords();
+                input.Voice.KeywordRecognized += OnKeyword;
+                input.Voice.RefreshKeywords();
             }
         }
 
         public void OnDisable()
         {
-            input.keyer.KeywordRecognized -= OnKeyword;
-            input.keyer.RefreshKeywords();
+            input.Voice.KeywordRecognized -= OnKeyword;
+            input.Voice.RefreshKeywords();
         }
 
         /// <summary>

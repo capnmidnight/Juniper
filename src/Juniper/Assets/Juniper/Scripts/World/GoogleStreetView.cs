@@ -192,7 +192,17 @@ namespace Juniper.Imaging
         {
             if (IsEntered && IsComplete && !locked)
             {
-                SynchronizeData(input.PrimaryPointer.CursorPosition);
+                var point = input.MouseEnabled
+                    ? input.Mouse.CursorPosition
+                    : input.ControllersEnabled
+                        ? input.Controllers[0].IsConnected
+                            ? input.Controllers[0].CursorPosition
+                            : input.Controllers[1].CursorPosition
+                        : input.GazeEnabled
+                            ? input.Gaze.CursorPosition
+                            : Vector3.zero;
+
+                SynchronizeData(point);
             }
 
             navPointer.position = navPointerPosition;
@@ -222,7 +232,7 @@ namespace Juniper.Imaging
             }
 
             var loadImmediately = true;
-            if (lastSphere != null && searchLocation == lastSearchLocation && this.metadata != null)
+            if (lastSphere != null && searchLocation == lastSearchLocation && metadata != null)
             {
                 var nextVec = cursorPosition + origin;
                 nextVec.y = 0;

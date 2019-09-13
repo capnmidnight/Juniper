@@ -258,7 +258,7 @@ namespace Juniper
             BodyPhysics.useGravity = false;
             BodyPhysics.isKinematic = true;
             BodyPhysics.velocity = Vector3.zero;
-            BodyPhysics.Ensure<DefaultLocomotion>();
+            BodyPhysics.Ensure<RunningMovement>();
 
             grounder = this.Ensure<Grounded>();
             grounder.GroundFound += DestroyGrounder;
