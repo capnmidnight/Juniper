@@ -108,17 +108,6 @@ namespace Juniper.World.GIS
             return value.ToString();
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj != null
-                && obj is UTMPoint p
-                && p.Hemisphere.ToString().Equals(Hemisphere.ToString())
-                && p.X.Equals(X)
-                && p.Y.Equals(Y)
-                && p.Z.Equals(Z)
-                && p.Zone.Equals(Zone);
-        }
-
         public override int GetHashCode()
         {
             return Hemisphere.GetHashCode()
@@ -128,9 +117,21 @@ namespace Juniper.World.GIS
                 ^ Zone.GetHashCode();
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is UTMPoint p && this == p;
+        }
+
         public static bool operator ==(UTMPoint left, UTMPoint right)
         {
-            return left.Equals(right);
+            return ReferenceEquals(left, right)
+                || !ReferenceEquals(left, null)
+                    && !ReferenceEquals(right, null)
+                    && left.Hemisphere == right.Hemisphere
+                    && left.X == right.X
+                    && left.Y == right.Y
+                    && left.Z == right.Z
+                    && left.Zone == right.Zone;
         }
 
         public static bool operator !=(UTMPoint left, UTMPoint right)

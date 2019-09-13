@@ -61,15 +61,6 @@ namespace Juniper.World.GIS
             info.AddValue(nameof(RadiusAU), RadiusAU);
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj != null
-                && obj is EquitorialSphericalPosition eq
-                && eq.RightAscensionDegrees.Equals(RightAscensionDegrees)
-                && eq.DeclinationDegrees.Equals(DeclinationDegrees)
-                && eq.RadiusAU.Equals(RadiusAU);
-        }
-
         public override int GetHashCode()
         {
             return RightAscensionDegrees.GetHashCode()
@@ -77,9 +68,19 @@ namespace Juniper.World.GIS
                 ^ RadiusAU.GetHashCode();
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is EquitorialSphericalPosition eq && this == eq;
+        }
+
         public static bool operator ==(EquitorialSphericalPosition left, EquitorialSphericalPosition right)
         {
-            return left.Equals(right);
+            return ReferenceEquals(left, right)
+                || !ReferenceEquals(left, null)
+                    && !ReferenceEquals(right, null)
+                    && left.RightAscensionDegrees == right.RightAscensionDegrees
+                    && left.DeclinationDegrees == right.DeclinationDegrees
+                    && left.RadiusAU == right.RadiusAU;
         }
 
         public static bool operator !=(EquitorialSphericalPosition left, EquitorialSphericalPosition right)

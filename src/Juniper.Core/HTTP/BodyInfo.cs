@@ -11,23 +11,24 @@ namespace Juniper.HTTP
             Length = length;
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj != null
-                && obj is BodyInfo body
-                && body.MIMEType.Equals(body)
-                && body.Length.Equals(Length);
-        }
-
         public override int GetHashCode()
         {
             return MIMEType.GetHashCode()
                 ^ Length.GetHashCode();
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is BodyInfo body && this == body;
+        }
+
         public static bool operator ==(BodyInfo left, BodyInfo right)
         {
-            return left.Equals(right);
+            return ReferenceEquals(left, right)
+                || !ReferenceEquals(left, null)
+                    && !ReferenceEquals(right, null)
+                    && left.MIMEType == right.MIMEType
+                    && left.Length == right.Length;
         }
 
         public static bool operator !=(BodyInfo left, BodyInfo right)

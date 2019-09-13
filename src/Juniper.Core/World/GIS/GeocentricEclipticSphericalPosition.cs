@@ -61,15 +61,6 @@ namespace Juniper.World.GIS
             info.AddValue(nameof(RadiusAU), RadiusAU);
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj != null
-                && obj is GeocentricEclipticSphericalPosition geo
-                && geo.LatitudeDegrees.Equals(LatitudeDegrees)
-                && geo.LongitudeDegrees.Equals(LongitudeDegrees)
-                && geo.RadiusAU.Equals(RadiusAU);
-        }
-
         public override int GetHashCode()
         {
             return LatitudeDegrees.GetHashCode()
@@ -77,9 +68,19 @@ namespace Juniper.World.GIS
                 ^ RadiusAU.GetHashCode();
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is GeocentricEclipticSphericalPosition geo && this == geo;
+        }
+
         public static bool operator ==(GeocentricEclipticSphericalPosition left, GeocentricEclipticSphericalPosition right)
         {
-            return left.Equals(right);
+            return ReferenceEquals(left, right)
+                || !ReferenceEquals(left, null)
+                    && !ReferenceEquals(right, null)
+                    && left.LatitudeDegrees == right.LatitudeDegrees
+                    && left.LongitudeDegrees == right.LongitudeDegrees
+                    && left.RadiusAU == right.RadiusAU;
         }
 
         public static bool operator !=(GeocentricEclipticSphericalPosition left, GeocentricEclipticSphericalPosition right)

@@ -224,16 +224,17 @@ namespace Juniper.World.GIS
         /// <returns>Whether or not the two values represent the same point on earth.</returns>
         public override bool Equals(object obj)
         {
-            return obj != null
-                && obj is LatLngPoint p
-                && Latitude.Equals(p.Latitude)
-                && Longitude.Equals(p.Longitude)
-                && Altitude.Equals(p.Altitude);
+            return obj is LatLngPoint p && this == p;
         }
 
         public static bool operator ==(LatLngPoint left, LatLngPoint right)
         {
-            return left.Equals(right);
+            return ReferenceEquals(left, right)
+                || !ReferenceEquals(left, null)
+                    && !ReferenceEquals(right, null)
+                    && left.Latitude == right.Latitude
+                    && left.Longitude == right.Longitude
+                    && left.Altitude == right.Altitude;
         }
 
         public static bool operator !=(LatLngPoint left, LatLngPoint right)

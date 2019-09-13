@@ -2,16 +2,6 @@ namespace Juniper.Google.Maps
 {
     public class USAddress
     {
-        public static bool operator ==(USAddress left, USAddress right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(USAddress left, USAddress right)
-        {
-            return !(left == right);
-        }
-
         private readonly string street;
         private readonly string city;
         private readonly string state;
@@ -35,14 +25,23 @@ namespace Juniper.Google.Maps
 
         public override bool Equals(object obj)
         {
-            return obj != null
-                && ((obj is USAddress add
-                        && add.street.Equals(street)
-                        && add.city.Equals(city)
-                        && add.state.Equals(state)
-                        && add.zip.Equals(zip))
-                    || (obj is string name
-                        && name == this.ToString()));
+            return obj is USAddress addr && this == addr
+                || obj is string name && ToString() == name;
+        }
+        public static bool operator ==(USAddress left, USAddress right)
+        {
+            return ReferenceEquals(left, right)
+                || !ReferenceEquals(left, null)
+                    && !ReferenceEquals(right, null)
+                    && left.street == right.street
+                    && left.city == right.city
+                    && left.state == right.state
+                    && left.zip == right.zip;
+        }
+
+        public static bool operator !=(USAddress left, USAddress right)
+        {
+            return !(left == right);
         }
 
         public override int GetHashCode()

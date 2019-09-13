@@ -52,16 +52,16 @@ namespace Juniper.Google.Maps.Geocoding
 
         public override bool Equals(object obj)
         {
-            return obj != null
-                && obj is AddressComponent addr
-                && addr.Key == Key
-                && addr.long_name == long_name;
+            return obj is AddressComponent addr && this == addr;
         }
 
         public static bool operator ==(AddressComponent left, AddressComponent right)
         {
-            return left?.Equals(right) != false
-                && right?.Equals(left) != false;
+            return ReferenceEquals(left, right)
+                || !ReferenceEquals(left, null)
+                    && !ReferenceEquals(right, null)
+                    && left.Key == right.Key
+                    && left.long_name == right.long_name;
         }
 
         public static bool operator !=(AddressComponent left, AddressComponent right)

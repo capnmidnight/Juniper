@@ -215,12 +215,35 @@ namespace Juniper.Units
         /// <summary>
         /// Compares two angles to see if they represent the same position on a circle.
         /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            return obj is Angle angle && this == angle;
+        }
+
+        /// <summary>
+        /// Compares two angles to see if they represent the same position on a circle.
+        /// </summary>
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
         public static bool operator ==(Angle left, Angle right)
         {
-            return left.Equals(right);
+            if(ReferenceEquals(left, right))
+            {
+                return true;
+            }
+            else if(left == null || right == null)
+            {
+                return false;
+            }
+            else
+            {
+                var l = Repeat(left.currentValue);
+                var r = Repeat(right.currentValue);
+                return l.Equals(r);
+            }
         }
 
         /// <summary>
@@ -245,25 +268,6 @@ namespace Juniper.Units
                 v += 360;
             }
             return v;
-        }
-
-        /// <summary>
-        /// Compares two angles to see if they represent the same position on a circle.
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is Angle angle2)
-            {
-                var f1 = Repeat(currentValue);
-                var f2 = Repeat(angle2.currentValue);
-                return f1.Equals(f2);
-            }
-            else
-            {
-                return false;
-            }
         }
 
         /// <summary>

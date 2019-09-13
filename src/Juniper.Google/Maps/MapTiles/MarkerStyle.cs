@@ -67,21 +67,22 @@ namespace Juniper.Google.Maps.MapTiles
             return style.ToString();
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj != null
-                && obj is MarkerStyle style
-                && style.styleDef == styleDef;
-        }
-
         public override int GetHashCode()
         {
             return styleDef.GetHashCode();
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is MarkerStyle style && this == style;
+        }
+
         public static bool operator ==(MarkerStyle left, MarkerStyle right)
         {
-            return left.Equals(right);
+            return ReferenceEquals(left, right)
+                || !ReferenceEquals(left, null)
+                    && !ReferenceEquals(right, null)
+                    && left.styleDef == right.styleDef;
         }
 
         public static bool operator !=(MarkerStyle left, MarkerStyle right)

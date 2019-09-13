@@ -62,15 +62,6 @@ namespace Juniper.World.GIS
             info.AddValue(nameof(RadiusAU), RadiusAU);
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj != null
-                && obj is HorizontalSphericalPosition ho
-                && ho.AltitudeDegrees.Equals(AltitudeDegrees)
-                && ho.AzimuthDegrees.Equals(AzimuthDegrees)
-                && ho.RadiusAU.Equals(RadiusAU);
-        }
-
         public override int GetHashCode()
         {
             return AltitudeDegrees.GetHashCode()
@@ -78,9 +69,19 @@ namespace Juniper.World.GIS
                 ^ RadiusAU.GetHashCode();
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is HorizontalSphericalPosition ho && this == ho;
+        }
+
         public static bool operator ==(HorizontalSphericalPosition left, HorizontalSphericalPosition right)
         {
-            return left.Equals(right);
+            return ReferenceEquals(left, right)
+                || !ReferenceEquals(left, null)
+                    && !ReferenceEquals(right, null)
+                    && left.AltitudeDegrees == right.AltitudeDegrees
+                    && left.AzimuthDegrees == right.AzimuthDegrees
+                    && left.RadiusAU == right.RadiusAU;
         }
 
         public static bool operator !=(HorizontalSphericalPosition left, HorizontalSphericalPosition right)

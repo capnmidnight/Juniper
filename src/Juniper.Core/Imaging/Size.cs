@@ -47,23 +47,24 @@ namespace Juniper.Imaging
             this.height = height;
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj != null
-                && obj is Size size
-                && size.width == width
-                && size.height == height;
-        }
-
         public override int GetHashCode()
         {
             return width.GetHashCode()
                 ^ height.GetHashCode();
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is Size size && this == size;
+        }
+
         public static bool operator ==(Size left, Size right)
         {
-            return left.Equals(right);
+            return ReferenceEquals(left, right)
+                || !ReferenceEquals(left, null)
+                    && !ReferenceEquals(right, null)
+                    && left.width == right.width
+                    && left.height == right.height;
         }
 
         public static bool operator !=(Size left, Size right)
