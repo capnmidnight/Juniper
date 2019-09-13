@@ -2,7 +2,7 @@
 
 using System;
 using System.IO;
-using System.Linq;
+
 using Juniper.Security;
 
 using Microsoft.CognitiveServices.Speech;
@@ -93,11 +93,12 @@ namespace Juniper.Speech
             if (args.Result.Reason == ResultReason.RecognizedKeyword
                 || args.Result.Reason == ResultReason.RecognizedSpeech)
             {
-                var text = args.Result.Text.ToLowerInvariant();
-                text = new string(text.Where(IsWordChar).ToArray());
+                var text = args.Result.Text;
+                var resultText = FindSimilarKeyword(text, out var similarity);
+                Debug.Log(text + ", " + resultText + " = " + Units.Converter.Label(similarity, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent));
                 lock (syncRoot)
                 {
-                    results = text;
+                    results = resultText;
                 }
             }
         }
@@ -127,13 +128,6 @@ namespace Juniper.Speech
             {
                 OnKeywordRecognized(text);
             }
-        }
-
-        private static bool IsWordChar(char c)
-        {
-            return char.IsLetter(c)
-                || char.IsWhiteSpace(c)
-                || char.IsNumber(c);
         }
 
         protected override void Setup()

@@ -139,5 +139,66 @@ namespace System
             parts[matches.Count] = value.Substring(start);
             return parts;
         }
+
+        public static int DistanceTo(this string a, string b)
+        {
+            return WagnerFischer_LevenshteinDistance(a, b);
+        }
+
+        private static int WagnerFischer_LevenshteinDistance(string a, string b)
+        {
+            var m = a.Length + 1;
+            var n = b.Length + 1;
+            var matrix = new int[m, n];
+
+            for (var i = 1; i < m; ++i)
+            {
+                matrix[i, 0] = i;
+            }
+
+            for (var j = 1; j < n; ++j)
+            {
+                matrix[0, j] = j;
+            }
+
+            for (var j = 1; j < n; ++j)
+            {
+                var y = b[j - 1];
+                for (var i = 1; i < m; ++i)
+                {
+                    var x = a[i - 1];
+                    var deleteCost = matrix[i - 1, j] + 1;
+                    var insertCost = matrix[i, j - 1] + 1;
+                    var substitueCost = matrix[i - 1, j - 1] + (x == y ? 0 : 1);
+
+                    matrix[i, j] = Math.Min(Math.Min(deleteCost, insertCost), substitueCost);
+                }
+            }
+
+            return matrix[m - 1, n - 1];
+        }
+
+        public static float Similarity(this string a, string b)
+        {
+            if(a.Length < b.Length)
+            {
+                var c = a;
+                a = b;
+                b = c;
+            }
+
+            var distance = a.DistanceTo(b);
+            var prop = 1f;
+            if (a.Length > 0)
+            {
+                prop = (float)distance / a.Length;
+            }
+            else if(b.Length == 0)
+            {
+                prop = 0;
+            }
+
+            return 1 - prop;
+        }
     }
 }

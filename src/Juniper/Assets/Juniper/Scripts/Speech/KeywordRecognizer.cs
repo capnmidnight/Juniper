@@ -25,6 +25,13 @@ namespace Juniper.Speech
     /// </summary>
     public abstract class AbstractKeywordRecognizer : MonoBehaviour, IKeywordRecognizer
     {
+        private static bool IsWordChar(char c)
+        {
+            return char.IsLetter(c)
+                || char.IsWhiteSpace(c)
+                || char.IsNumber(c);
+        }
+
         /// <summary>
         /// The keywords for which to listen.
         /// </summary>
@@ -67,16 +74,17 @@ namespace Juniper.Speech
         /// <returns>The active keywords.</returns>
         public void RefreshKeywords()
         {
-            if (NeedsKeywords)
-            {
-                CancelInvoke(nameof(RefreshKeywordsInternal));
-                Invoke(nameof(RefreshKeywordsInternal), 0.25f);
-            }
+            CancelInvoke(nameof(RefreshKeywordsInternal));
+            Invoke(nameof(RefreshKeywordsInternal), 0.25f);
         }
 
         private void RefreshKeywordsInternal()
         {
-            TearDownInternal();
+            if (NeedsKeywords)
+            {
+                TearDownInternal();
+            }
+
             keywords = (from trigger in ComponentExt.FindAll<IKeywordTriggered>()
                         where trigger.Keywords != null
                         let comp = trigger as MonoBehaviour
@@ -87,6 +95,38 @@ namespace Juniper.Speech
                         select keyword)
                 .Distinct()
                 .ToArray();
+        }
+
+        protected string FindSimilarKeyword(string text, out float maxSimilarity)
+        {
+            var resultText = new string(text
+                                .ToLowerInvariant()
+                                .Where(IsWordChar)
+                                .ToArray());
+
+            maxSimilarity = 0;
+            string maxSubstring = null;
+            if (keywords != null)
+            {
+                maxSimilarity = 0.79999999999f;
+                foreach (var keyword in keywords)
+                {
+                    var similarity = keyword.Similarity(text);
+                    if (similarity > maxSimilarity)
+                    {
+                        maxSubstring = keyword;
+                        maxSimilarity = similarity;
+                    }
+                }
+
+                if (maxSubstring == null)
+                {
+                    maxSimilarity = 0;
+                }
+            }
+
+            resultText = maxSubstring ?? resultText;
+            return resultText;
         }
 
         private void TearDownInternal()
