@@ -332,7 +332,7 @@ namespace Juniper.Imaging
 #endif
 
             var nextVec = metadata.location.ToVector3();
-            if (lastSphere != null)
+            if (lastSphere == null)
             {
                 origin = nextVec;
             }
