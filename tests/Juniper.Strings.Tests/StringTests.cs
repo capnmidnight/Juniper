@@ -52,7 +52,7 @@ namespace Juniper.Strings.Tests
         {
             var a = "hello";
             var b = "jello";
-            Assert.AreEqual(0.8f, a.Similarity(b));
+            Assert.AreEqual(0.8667f, a.Similarity(b), 0.001f);
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace Juniper.Strings.Tests
         {
             var a = "hello";
             var b = "hello world";
-            Assert.AreEqual(-0.2f, a.Similarity(b), 0.001f);
+            Assert.AreEqual(0.891, a.Similarity(b), 0.001f);
         }
 
         [TestMethod]
@@ -68,7 +68,15 @@ namespace Juniper.Strings.Tests
         {
             var a = "use gaze pointer";
             var b = "use gays pointer";
-            Assert.AreEqual(0.875f, a.Similarity(b));
+            Assert.AreEqual(0.907, a.Similarity(b), 0.001f);
+        }
+
+        [TestMethod]
+        public void Similarity5()
+        {
+            var a = "use gaze pointer";
+            var b = "use gay plotter";
+            Assert.AreEqual(0.877, a.Similarity(b), 0.001f);
         }
     }
 }

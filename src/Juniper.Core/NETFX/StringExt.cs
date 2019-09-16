@@ -140,12 +140,7 @@ namespace System
             return parts;
         }
 
-        public static int DistanceTo(this string a, string b)
-        {
-            return WagnerFischer_LevenshteinDistance(a, b);
-        }
-
-        private static int WagnerFischer_LevenshteinDistance(string a, string b)
+        public static int WagnerFischer_Damerau_Levenshtein_Distance(this string a, string b)
         {
             var m = a.Length + 1;
             var n = b.Length + 1;
@@ -169,36 +164,158 @@ namespace System
                     var x = a[i - 1];
                     var deleteCost = matrix[i - 1, j] + 1;
                     var insertCost = matrix[i, j - 1] + 1;
-                    var substitueCost = matrix[i - 1, j - 1] + (x == y ? 0 : 1);
-
-                    matrix[i, j] = Math.Min(Math.Min(deleteCost, insertCost), substitueCost);
+                    var subCost = (x == y ? 0 : 1);
+                    var substitutionCost = matrix[i - 1, j - 1] + subCost;
+                    matrix[i, j] = Math.Min(Math.Min(deleteCost, insertCost), substitutionCost);
+                    if (j > 1 && i > 1 && a[i - 2] == y && b[j - 2] == x)
+                    {
+                        var transpositionCost = matrix[i - 2, j - 2] + subCost;
+                        matrix[i, j] = Math.Min(matrix[i, j], transpositionCost);
+                    }
                 }
             }
 
-            return matrix[m - 1, n - 1];
+            return matrix[a.Length, b.Length];
         }
 
-        public static float Similarity(this string a, string b)
+        public static float WagnerFischer_Damerau_Levenshtein_Similarity(this string a, string b)
         {
-            if(a.Length < b.Length)
+            if (a.Length < b.Length)
             {
                 var c = a;
                 a = b;
                 b = c;
             }
 
-            var distance = a.DistanceTo(b);
+            var distance = a.WagnerFischer_Damerau_Levenshtein_Distance(b);
             var prop = 1f;
             if (a.Length > 0)
             {
                 prop = (float)distance / a.Length;
             }
-            else if(b.Length == 0)
+            else if (b.Length == 0)
             {
                 prop = 0;
             }
 
             return 1 - prop;
+        }
+
+        /// <summary>
+        /// The Winkler modification will not be applied unless the
+        /// percent match was at or above the mWeightThreshold percent
+        /// without the modification. Winkler's paper used a default
+        /// value of 0.7
+        /// </summary>
+        private const float WinklerThreshold = 0.7f;
+
+        /// <summary>
+        /// Size of the prefix to be considered by the Winkler
+        /// modification. Winkler's paper used a default value of 4.
+        /// </summary>
+        private const int WinklerPrefixSize = 4;
+
+
+        /// <summary>
+        /// Returns the Jaro-Winkler distance between the specified
+        /// strings. The distance is symmetric and will fall in the
+        /// range 0 (no match) to 1 (perfect match).
+        /// </summary>
+        /// <param name="a">First String</param>
+        /// <param name="b">Second String</param>
+        /// <returns></returns>
+        public static float JaroWinkler_Similarity(this string a, string b)
+        {
+            if (a.Length == 0)
+            {
+                return b.Length == 0 ? 1 : 0;
+            }
+
+            var searchRange = Math.Max(0, Math.Max(a.Length, b.Length) / 2 - 1);
+
+            var matchesA = new bool[a.Length];
+            var matchesB = new bool[b.Length];
+
+            var numCommon = 0;
+            for (var i = 0; i < a.Length; ++i)
+            {
+                var start = Math.Max(0, i - searchRange);
+                var end = Math.Min(i + searchRange + 1, b.Length);
+                for (var j = start; j < end; ++j)
+                {
+                    if (!matchesB[j] && a[i] == b[j])
+                    {
+                        matchesA[i] = true;
+                        matchesB[j] = true;
+                        ++numCommon;
+                        break;
+                    }
+                }
+            }
+
+            if (numCommon == 0)
+            {
+                return 0;
+            }
+
+            var numTransposed = 0;
+            var k = 0;
+            for (var i = 0; i < a.Length; ++i)
+            {
+                if (matchesA[i])
+                {
+                    while (!matchesB[k])
+                    {
+                        ++k;
+                    }
+
+                    if (a[i] != b[k])
+                    {
+                        ++numTransposed;
+                    }
+
+                    ++k;
+                }
+            }
+
+            var halfNumTransposed = numTransposed / 2;
+
+            float numCommonFloat = numCommon;
+            var weight = (numCommonFloat / a.Length
+                + numCommonFloat / b.Length
+                + (numCommon - halfNumTransposed) / numCommonFloat) / 3f;
+
+            if (weight <= WinklerThreshold)
+            {
+                return weight;
+            }
+
+            var prefixLength = Math.Min(WinklerPrefixSize, Math.Min(a.Length, b.Length));
+            var position = 0;
+            while (position < prefixLength
+                && a[position] == b[position])
+            {
+                ++position;
+            }
+
+            if (position == 0)
+            {
+                return weight;
+            }
+
+            return weight + 0.1f * position * (1 - weight);
+
+        }
+
+
+        public static int DistanceTo(this string a, string b)
+        {
+            return WagnerFischer_Damerau_Levenshtein_Distance(a, b);
+        }
+
+        public static float Similarity(this string a, string b)
+        {
+            return a.JaroWinkler_Similarity(b);
         }
     }
 }
