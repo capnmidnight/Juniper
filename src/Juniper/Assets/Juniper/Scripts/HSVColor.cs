@@ -46,6 +46,43 @@ namespace Juniper
             a = alpha;
         }
 
+        public bool Equals(HSVColor other)
+        {
+            return h == other.h
+                && s == other.s
+                && v == other.v
+                && a == other.a;
+        }
+
+        public bool Equals(Color other)
+        {
+            return Equals((HSVColor)other);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is HSVColor hsv && Equals(hsv)
+                || obj is Color rgb && Equals(rgb);
+        }
+
+        public override int GetHashCode()
+        {
+            return h.GetHashCode()
+                ^ s.GetHashCode()
+                ^ v.GetHashCode()
+                ^ a.GetHashCode();
+        }
+
+        public static bool operator==(HSVColor left, HSVColor right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator!=(HSVColor left, HSVColor right)
+        {
+            return !(left == right);
+        }
+
         /// <summary>
         /// Add two HSV colors (which makes a lot more sense than adding two RGB colors).
         /// </summary>
