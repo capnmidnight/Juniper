@@ -28,77 +28,6 @@ namespace System.Collections.Generic.Tests
             }
         }
 
-        /// <summary>
-        /// Changing the queue should invalidate the enumeration
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void CurrentThrowsExceptionAfterDequeue()
-        {
-            var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
-            en.MoveNext();
-            pq.Dequeue();
-            Assert.IsNotNull(en.Current);
-        }
-
-        /// <summary>
-        /// Changing the queue should invalidate the enumeration
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void CurrentThrowsExceptionAfterDispose()
-        {
-            var pq = MakeBasicPQ();
-            var en = pq.GetEnumerator();
-            en.MoveNext();
-            en.Dispose();
-            Assert.IsNotNull(en.Current);
-        }
-
-        /// <summary>
-        /// Changing the queue should invalidate the enumeration
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void CurrentThrowsExceptionAfterEnqueue()
-        {
-            var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
-            en.MoveNext();
-            pq.Enqueue(new object());
-            Assert.IsNotNull(en.Current);
-        }
-
-        /// <summary>
-        /// Before MoveNext is called for the first time, Current should throw an exception
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void CurrentThrowsExceptionAtBeginning()
-        {
-            var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
-            Assert.IsNotNull(en.Current);
-        }
-
-        /// <summary>
-        /// After MoveNext returns false, Current should throw an exception
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void CurrentThrowsExceptionPastEnd()
-        {
-            var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
-            while (en.MoveNext())
-            {
-                ;
-            }
-
-            Assert.IsNotNull(en.Current);
-        }
-
         [TestMethod]
         public void ExtendsGenericIEnumerator()
         {
@@ -178,20 +107,6 @@ namespace System.Collections.Generic.Tests
         /// </summary>
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void MoveNextThrowsExceptionAfterDispose()
-        {
-            var pq = MakeBasicPQ();
-            var en = pq.GetEnumerator();
-            en.MoveNext();
-            en.Dispose();
-            en.MoveNext();
-        }
-
-        /// <summary>
-        /// MoveNext should throw an exception if the underlying connection is changed
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void MoveNextThrowsExceptionAfterEnqueue()
         {
             var pq = MakeBasicPQ();
@@ -202,31 +117,10 @@ namespace System.Collections.Generic.Tests
         }
 
         /// <summary>
-        /// Calling reset should return the enumeration to its original state, allowing access to
-        /// elements again.
-        /// </summary>
-        [TestMethod]
-        public void ResetReturnsToBeginning()
-        {
-            var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
-            en.MoveNext();
-            var first = en.Current;
-            while (en.MoveNext())
-            {
-                ;
-            }
-
-            en.Reset();
-            en.MoveNext();
-            Assert.AreSame(first, en.Current);
-        }
-
-        /// <summary>
         /// Changing the queue should invalidate the enumeration
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(NotSupportedException))]
         public void ResetThrowsExceptionAfterDequeue()
         {
             var pq = MakeBasicPQ();
@@ -240,7 +134,7 @@ namespace System.Collections.Generic.Tests
         /// Changing the queue should invalidate the enumeration
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(NotSupportedException))]
         public void ResetThrowsExceptionAfterEnqueue()
         {
             var pq = MakeBasicPQ();
