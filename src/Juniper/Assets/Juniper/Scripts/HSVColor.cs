@@ -1,8 +1,7 @@
-#if UNITY_5_3_OR_NEWER
+using System;
+using System.Linq;
 
 using UnityEngine;
-
-#endif
 
 namespace Juniper
 {
@@ -129,8 +128,6 @@ namespace Juniper
             return new HSVColor(a.h / b, a.s / b, a.v / b, a.a / b);
         }
 
-#if UNITY_5_3_OR_NEWER
-
         /// <summary>
         /// Lerp two HSV colors (which makes a lot more sense than lerp-ing two RGP colors).
         /// </summary>
@@ -186,7 +183,5 @@ namespace Juniper
         {
             return new HSVColor(v.x, v.y, v.z, v.w);
         }
-
-#endif
     }
 }
