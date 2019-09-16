@@ -75,6 +75,16 @@ namespace System.Collections.Generic
         /// ]]></code></example>
         public static bool Matches<T>(this IEnumerable<T> a, IEnumerable<T> b)
         {
+            if (a is null && b is null)
+            {
+                return true;
+            }
+
+            if (a is null != b is null)
+            {
+                return false;
+            }
+
             if (a.Count() != b.Count())
             {
                 return false;
@@ -116,6 +126,16 @@ namespace System.Collections.Generic
         /// ]]></code></example>
         public static bool Matches<T>(this IEnumerable<T> a, IEnumerable b)
         {
+            if (a is null && b is null)
+            {
+                return true;
+            }
+
+            if (a is null != b is null)
+            {
+                return false;
+            }
+
             return a.Matches(b.Cast<T>());
         }
 
@@ -142,6 +162,16 @@ namespace System.Collections.Generic
         /// ]]></code></example>
         public static bool Matches<T>(this IEnumerable<T> a, IEnumerator b)
         {
+            if (a is null && b is null)
+            {
+                return true;
+            }
+
+            if (a is null != b is null)
+            {
+                return false;
+            }
+
             return a.Matches(b.AsEnumerable().Cast<T>());
         }
 
@@ -153,6 +183,16 @@ namespace System.Collections.Generic
         /// <returns></returns>
         public static bool Matches(this IEnumerable<Type> a, IEnumerable<Type> b)
         {
+            if(a is null && b is null)
+            {
+                return true;
+            }
+
+            if(a is null != b is null)
+            {
+                return false;
+            }
+
             if (a.Count() != b.Count())
             {
                 return false;
