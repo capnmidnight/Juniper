@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace UnityEditor
 {
@@ -19,11 +20,11 @@ namespace UnityEditor
             EditorGUILayout.EndHorizontal();
         }
 
-        public static void Labeled(this EditorWindow window, string label, Action content)
+        public static void Labeled(this EditorWindow window, string label, float width, Action content)
         {
             window.HGroup(() =>
             {
-                EditorGUILayout.LabelField(label);
+                EditorGUILayout.LabelField(label, GUILayout.Width(width));
                 content();
             });
         }

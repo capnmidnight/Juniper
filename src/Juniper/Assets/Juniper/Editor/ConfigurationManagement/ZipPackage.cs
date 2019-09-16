@@ -6,59 +6,43 @@ using System.Linq;
 using Juniper.Compression.Zip;
 using Juniper.Progress;
 
-using Json.Lite;
-
 using UnityEditor;
-
-using UnityEngine;
 
 namespace Juniper.ConfigurationManagement
 {
-    internal sealed class ZipPackage : AbstractPackage
+    internal sealed class ZipPackage : AbstractFilePackage
     {
         public static string ROOT_DIRECTORY = PathExt.FixPath("Assets/Juniper/ThirdParty/Optional");
-        private bool isInstalledDirty = true;
-        private bool isInstalled;
 
-        [JsonIgnore]
-        public string InputZipFileName
+        public static IEnumerable<ZipPackage> GetPackages(
+            Dictionary<string, AbstractFilePackage> currentPackages,
+            Dictionary<string, string> defines,
+            Dictionary<string, PackageInstallProgress> progresses)
         {
-            get
-            {
-                return Path.ChangeExtension(Path.Combine(ROOT_DIRECTORY, Name), "zip");
-            }
+            var packages = Directory.GetFiles(ROOT_DIRECTORY, "*.zip");
+            return from tup in FilterPackages<ZipPackage>(packages, currentPackages)
+                   select tup.pkg ?? new ZipPackage(tup.file, defines, progresses);
         }
 
-        public override bool IsInstalled
+        public ZipPackage(
+            FileInfo file,
+            Dictionary<string, string> defines,
+            Dictionary<string, PackageInstallProgress> progresses)
+            : base(file, defines, progresses)
+        { }
+
+        protected override string[] GetPackageFileNames()
         {
-            get
-            {
-                if (isInstalledDirty && IsAvailable)
-                {
-                    isInstalled = true;
-                    isInstalledDirty = false;
-                    foreach (var file in Decompressor.FileNames(InputZipFileName).Take(10))
-                    {
-                        var installPath = PathExt.FixPath(Path.Combine("Assets", file));
-                        isInstalled &= File.Exists(installPath);
-                        if (!isInstalled)
-                        {
-                            break;
-                        }
-                    }
-
-                }
-
-                return isInstalled;
-            }
+            return Decompressor.FileNames(PackageFile).ToArray();
         }
+
 
         protected override void InstallInternal(IProgress prog)
         {
             if (IsAvailable)
             {
-                isInstalledDirty = true;
-                Decompressor.Decompress(InputZipFileName, "Assets", prog);
+                Decompressor.Decompress(FileName, "Assets", prog);
+                ImportComplete();
             }
         }
 
@@ -66,7 +50,7 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
-                return File.Exists(InputZipFileName);
+                return File.Exists(FileName);
             }
         }
 
@@ -111,68 +95,6 @@ namespace Juniper.ConfigurationManagement
                     }
                 }
             }
-        }
-
-        private static void DeleteAll(IEnumerable<string> paths, Func<string, bool> tryDelete, IProgress prog)
-        {
-            prog?.Report(0, "Deleting");
-
-            var prefixedPath = paths
-                .Select(path => Path.Combine("Assets", path))
-                .ToArray();
-
-            var subProgs = prog.Split(prefixedPath.Length);
-            var index = 0;
-            foreach (var path in prefixedPath)
-            {
-                try
-                {
-                    subProgs[index]?.Report(0);
-                    if (tryDelete(path))
-                    {
-                        subProgs[index]?.Report(1);
-                    }
-                    ++index;
-                }
-                catch (OperationCanceledException)
-                {
-                    throw;
-                }
-                catch (Exception exp)
-                {
-                    Debug.LogException(exp);
-                }
-            }
-
-            prog?.Report(1, "Deleted");
-        }
-
-        public override void Uninstall(IProgress prog)
-        {
-            base.Uninstall(prog);
-            isInstalledDirty = true;
-
-            var progs = prog.Split(3);
-
-            var files = Decompressor.FileNames(InputZipFileName).Where(File.Exists);
-            files = files.Union(from file in files
-                                where Path.GetExtension(file) != ".meta"
-                                select file + ".meta");
-
-            DeleteAll(files, FileExt.TryDelete, progs[0]);
-
-            var dirs = from dir in Decompressor.DirectoryNames(InputZipFileName)
-                       where Directory.Exists(dir)
-                       orderby dir.Length descending
-                       select dir;
-
-            files = from dir in dirs
-                    let exts = Directory.GetFiles(dir).Select(Path.GetExtension)
-                    where exts.Count(ext => ext != ".meta") == 0
-                    select dir + ".meta";
-
-            DeleteAll(files, FileExt.TryDelete, progs[1]);
-            DeleteAll(dirs, DirectoryExt.TryDelete, progs[2]);
         }
     }
 }

@@ -7,18 +7,21 @@ using System.Threading.Tasks;
 using Juniper.Compression.Tar.GZip;
 using Juniper.Progress;
 using Juniper.XR;
+using Juniper.Serialization;
 
 using Json.Lite;
 using Json.Lite.Linq;
 
 using UnityEngine;
+using Juniper.Json;
 
 namespace Juniper.ConfigurationManagement
 {
     internal class Platforms
     {
+        private static readonly string PACKAGE_DEFINES_FILE = PathExt.FixPath("Assets/Juniper/ThirdParty/defines.json");
+        private static readonly string PACKAGE_INSTALL_PROGRESS_FILE = "installs.json";
         private static readonly string[] NO_VR_SYSTEMS = new string[] { "None" };
-
         private static readonly AbstractPackage[] EMPTY_PACKAGES = new AbstractPackage[0];
 
         public static void ForEachPackage<T>(IEnumerable<T> packages, IProgress prog, Action<T, IProgress> act)
@@ -28,32 +31,16 @@ namespace Juniper.ConfigurationManagement
                 act?.Invoke(pkg, p), Debug.LogException);
         }
 
-        public static List<string> GetCompilerDefines(UnityPackage[] unityPackages, ZipPackage[] zipPackages)
-        {
-            return (from pkg in unityPackages
-                    where pkg.version != "exclude"
-                    select (AbstractPackage)pkg)
-                .Union(from pkg in zipPackages
-                       select pkg)
-                .Where(pkg => pkg.IsInstalled)
-                .Select(pkg => pkg.CompilerDefine)
-                .Where(def => !string.IsNullOrEmpty(def))
-                .Distinct()
-                .ToList();
-        }
+        private readonly JsonFactory json = new JsonFactory();
+        private readonly Dictionary<string, string> packageDefines = new Dictionary<string, string>();
+        private readonly Dictionary<string, PackageInstallProgress> packageInstallProgress = new Dictionary<string, PackageInstallProgress>();
 
-        public readonly ZipPackage[] allZipPackages;
-        public readonly Dictionary<string, AbstractPackage> zipPackageDB;
-
-        //public readonly List<AssetStorePackage> allAssetStorePackages;
-        //public readonly Dictionary<string, AbstractPackage> assetStorePackageDB;
-        //private readonly Dictionary<string, DateTime> writeTimes;
+        public readonly Dictionary<string, AbstractFilePackage> packageDB;
+        public event Action<AbstractFilePackage[]> PackagesUpdated;
+        public event Action ScanningProgressUpdated;
 
         public readonly PlatformConfiguration[] AllPlatforms;
         public readonly Dictionary<PlatformTypes, PlatformConfiguration> PlatformDB;
-
-        //public event Action<AssetStorePackage[]> AssetStorePackagesUpdated;
-        //public event Action ScanningProgressUpdated;
 
         public string[] AllCompilerDefines
         {
@@ -66,14 +53,69 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
+        public void Save()
+        {
+            bool anyChanged = false;
+            foreach (var package in packageDB.Values)
+            {
+                if (package.Changed)
+                {
+                    anyChanged = true;
+                    packageDefines[package.Name] = package.CompilerDefine;
+                    packageInstallProgress[package.FileName] = package.GetProgress();
+                }
+            }
+
+            if (anyChanged)
+            {
+                var defines = (from kv in packageDefines
+                               select new PackageDefineSymbol(kv.Key, kv.Value))
+                            .ToArray();
+                json.Save(PACKAGE_DEFINES_FILE, defines);
+                json.Save(PACKAGE_INSTALL_PROGRESS_FILE, packageInstallProgress.Values.ToArray());
+
+                foreach (var package in packageDB.Values)
+                {
+                    package.Save();
+                }
+            }
+        }
+
+        private static IEnumerable<AbstractFilePackage> GetPackages(
+            Dictionary<string, AbstractFilePackage> curPackages,
+            Dictionary<string, string> defines,
+            Dictionary<string, PackageInstallProgress> progresses)
+        {
+            return AssetStorePackage.GetPackages(curPackages, defines, progresses)
+                .Cast<AbstractFilePackage>()
+                .Union(ZipPackage.GetPackages(curPackages, defines, progresses));
+        }
+
         public Platforms()
         {
-            //writeTimes = new Dictionary<string, DateTime>();
-            //allAssetStorePackages = new List<AssetStorePackage>();
+            if (File.Exists(PACKAGE_DEFINES_FILE))
+            {
+                var defines = json.Load<PackageDefineSymbol[]>(PACKAGE_DEFINES_FILE);
+                foreach (var symbol in defines)
+                {
+                    packageDefines[symbol.Name] = symbol.CompilerDefine;
+                }
+            }
 
-            var zipPackageJson = File.ReadAllText(Path.Combine(ZipPackage.ROOT_DIRECTORY, "packages.json"));
-            allZipPackages = JsonConvert.DeserializeObject<ZipPackage[]>(zipPackageJson);
-            zipPackageDB = allZipPackages.Cast<AbstractPackage>().ToDictionary(pkg => pkg.Name);
+            if (File.Exists(PACKAGE_INSTALL_PROGRESS_FILE))
+            {
+                var progresses = json.Load<PackageInstallProgress[]>(PACKAGE_INSTALL_PROGRESS_FILE);
+                foreach (var progress in progresses)
+                {
+                    packageInstallProgress[progress.PackageFile.FullName] = progress;
+                }
+            }
+
+            packageDB = GetPackages(null, packageDefines, packageInstallProgress).ToDictionary(pkg => pkg.Name);
+            foreach (var package in packageDB.Values)
+            {
+                package.ScanningProgressUpdated += Package_ScanningProgressUpdated;
+            }
 
             var platformsJson = File.ReadAllText(PathExt.FixPath("Assets/Juniper/platforms.json"));
             var config = JObject.Parse(platformsJson);
@@ -96,6 +138,10 @@ namespace Juniper.ConfigurationManagement
 
             var commonZipPackages = commonPackages
                 .OfType<ZipPackage>()
+                .ToArray();
+
+            var commonAssetStorePackages = commonPackages
+                .OfType<AssetStorePackage>()
                 .ToArray();
 
             var platforms = config["platforms"];
@@ -133,67 +179,70 @@ namespace Juniper.ConfigurationManagement
                     .UninstallableZipPackages
                     .Union(commonZipPackages)
                     .ToArray();
+
+                platform.UninstallableAssetStorePackages = packages
+                    .OfType<AssetStorePackage>()
+                    .ToArray();
+
+                platform.AssetStorePackages = platform
+                    .UninstallableAssetStorePackages
+                    .Union(commonAssetStorePackages)
+                    .ToArray();
             }
         }
 
-        //private void FileWatcher()
-        //{
-        //    while (true)
-        //    {
-        //        var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        //        var packages = Decompressor.FindUnityPackages(
-        //            Path.Combine(userProfile, "AppData", "Roaming", "Unity", "Asset Store-5.x"),
-        //            Path.Combine(userProfile, "Projects", "Packages"));
-        //        var package = (from path in packages
-        //                       let file = new FileInfo(path)
-        //                       where file.LastWriteTime > writeTimes.Get(file.FullName, DateTime.MinValue)
-        //                       select new AssetStorePackage(file))
-        //                    .FirstOrDefault();
-        //        if (package != null)
-        //        {
-        //            writeTimes[package.InputUnityPackageFile] = package.LastWriteTime;
-        //            allAssetStorePackages.Add(package);
-        //            package.ScanningProgressUpdated += Package_ScanningProgressUpdated;
-        //        }
+        private void FileWatcher()
+        {
+            while (true)
+            {
+                var packages = (from pkg in GetPackages(packageDB, packageDefines, packageInstallProgress)
+                                where !packageDB.ContainsKey(pkg.Name)
+                                select pkg);
 
-        //        int scanningCount = 0;
-        //        foreach (var p in allAssetStorePackages)
-        //        {
-        //            if (p.ScanningProgress == AssetStorePackage.Status.Scanning
-        //                || p.ScanningProgress == AssetStorePackage.Status.Listing)
-        //            {
-        //                ++scanningCount;
-        //            }
-        //        }
+                foreach (var package in packages)
+                {
+                    packageDB[package.Name] = package;
+                    package.ScanningProgressUpdated += Package_ScanningProgressUpdated;
+                }
 
-        //        foreach (var p in allAssetStorePackages)
-        //        {
-        //            if(scanningCount < 4
-        //                || (p.ScanningProgress != AssetStorePackage.Status.List
-        //                    && p.ScanningProgress != AssetStorePackage.Status.Scan))
-        //            {
-        //                if (p.ScanningProgress == AssetStorePackage.Status.List
-        //                    || p.ScanningProgress == AssetStorePackage.Status.Scan)
-        //                {
-        //                    ++scanningCount;
-        //                }
-        //                p.Update();
-        //            }
-        //        }
+                int scanningCount = 0;
+                foreach (var p in packageDB.Values)
+                {
+                    if (p.ScanningProgress == PackageScanStatus.Scanning
+                        || p.ScanningProgress == PackageScanStatus.Listing)
+                    {
+                        ++scanningCount;
+                    }
+                }
 
-        //        AssetStorePackagesUpdated?.Invoke(allAssetStorePackages.ToArray());
-        //    }
-        //}
+                foreach (var p in packageDB.Values)
+                {
+                    if (scanningCount < 4
+                        || (p.ScanningProgress != PackageScanStatus.List
+                            && p.ScanningProgress != PackageScanStatus.Scan))
+                    {
+                        if (p.ScanningProgress == PackageScanStatus.List
+                            || p.ScanningProgress == PackageScanStatus.Scan)
+                        {
+                            ++scanningCount;
+                        }
+                        p.Update();
+                    }
+                }
 
-        //private void Package_ScanningProgressUpdated()
-        //{
-        //    ScanningProgressUpdated?.Invoke();
-        //}
+                PackagesUpdated?.Invoke(packageDB.Values.ToArray());
+            }
+        }
 
-        //public void StartFileWatcher()
-        //{
-        //    Task.Run(FileWatcher);
-        //}
+        private void Package_ScanningProgressUpdated()
+        {
+            ScanningProgressUpdated?.Invoke();
+        }
+
+        public void StartFileWatcher()
+        {
+            Task.Run(FileWatcher).ConfigureAwait(false);
+        }
 
         private AbstractPackage[] ParsePackages(string[] packages)
         {
@@ -208,11 +257,9 @@ namespace Juniper.ConfigurationManagement
                         let isUnity = pkgDef.Contains('@')
                         let isZip = !isAssetStore && !isUnity
                         let pkgName = Path.GetFileNameWithoutExtension(pkgDef)
-                        select isAssetStore
-                            ? null // assetStorePackageDB.Get(pkgName)
-                            : isZip
-                                ? zipPackageDB.Get(pkgName)
-                                : new UnityPackage(pkgDef))
+                        select isAssetStore || isZip
+                            ? (AbstractPackage)packageDB.Get(pkgName)
+                            : new UnityPackage(pkgDef))
                     .ToArray();
             }
         }
