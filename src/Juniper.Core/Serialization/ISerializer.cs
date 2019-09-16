@@ -40,7 +40,7 @@ namespace Juniper.Serialization
 
         public static void Save<T>(this ISerializer serializer, FileInfo file, T value)
         {
-            serializer.Save(file, value);
+            serializer.Save(file, value, null);
         }
 
         public static void Save<T>(this ISerializer serializer, FileInfo file, T value, IProgress progress)
@@ -53,7 +53,7 @@ namespace Juniper.Serialization
 
         public static void Save<T>(this ISerializer serializer, string fileName, T value)
         {
-            serializer.Save(fileName, value);
+            serializer.Save(fileName, value, null);
         }
 
         public static void Save<T>(this ISerializer serializer, string fileName, T value, IProgress progress)
@@ -63,7 +63,7 @@ namespace Juniper.Serialization
 
         public static string ToString<T>(this ISerializer serializer, T value)
         {
-            return serializer.ToString(value);
+            return serializer.ToString(value, null);
         }
 
         public static string ToString<T>(this ISerializer serializer, T value, IProgress progress)
