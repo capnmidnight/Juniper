@@ -40,7 +40,7 @@ namespace Juniper.Widgets
 
         public void Start()
         {
-            foreach (var view in this.views.Values)
+            foreach (var view in views.Values)
             {
                 view.SkipExit();
                 view.Deactivate();
