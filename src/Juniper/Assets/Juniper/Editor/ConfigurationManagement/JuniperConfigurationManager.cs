@@ -89,6 +89,7 @@ namespace Juniper.ConfigurationManagement
         private const float narrowWidth = 50;
         private const float buttonWidth = 100;
 
+
         public void OnGUI()
         {
             titleContent = TITLE;
@@ -113,203 +114,238 @@ namespace Juniper.ConfigurationManagement
             {
                 this.HGroup(() =>
                 {
+                    if (BuildInProgress)
+                    {
+                        EditorGUILayout.LabelField("Build in progress", nameFieldGWidth);
+                    }
                     EditorGUILayout.LabelField("Build step", nameFieldGWidth);
-                    EditorGUILayout.LabelField(BuildStepName);
+                    EditorGUILayout.LabelField(BuildStepName, nameFieldGWidth);
                 });
 
-                this.HGroup(() =>
+                if(!BuildInProgress)
                 {
-                    EditorGUILayout.LabelField("Platform", nameFieldGWidth);
-                    selectedPlatform = (PlatformTypes)EditorGUILayout.EnumPopup(DesiredPlatform, nameFieldGWidth);
-                });
+                    this.HGroup(() =>
+                    {
+                        EditorGUILayout.LabelField("Current platform", nameFieldGWidth);
+                        EditorGUILayout.LabelField(CurrentPlatform.ToString(), nameFieldGWidth);
+                    });
+
+                    this.HGroup(() =>
+                    {
+                        EditorGUILayout.LabelField("Change platform", nameFieldGWidth);
+                        selectedPlatform = (PlatformTypes)EditorGUILayout.EnumPopup(selectedPlatform, nameFieldGWidth);
+                    });
+                }
             });
 
-            if (selectedPlatform != CurrentPlatform)
+            if (!BuildInProgress)
             {
-                if (MenuCheck(selectedPlatform))
+                if (selectedPlatform != CurrentPlatform)
                 {
-                    NextPlatform = selectedPlatform;
-                }
-                else
-                {
-                    EditorUtility.DisplayDialog(
-                       "Juniper",
-                       $"The platform {selectedPlatform} is not supported on your current system.",
-                       "OK");
-                }
-            }
-            else
-            {
-                UpdateUnityPackages();
-
-                this.HeaderIndent("Packages", () =>
-                {
-                    if (packages == null || packages.Length == 0)
+                    if (platforms.PlatformDB[selectedPlatform].IsSupported)
                     {
-                        EditorGUILayout.LabelField("(Loading)", EditorStyles.centeredGreyMiniLabel);
+                        NextPlatform = selectedPlatform;
                     }
                     else
                     {
-                        this.HGroup(() =>
-                        {
-                            EditorGUILayout.LabelField("Name", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
-                            EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
-                            EditorGUILayout.LabelField("Required", EditorStyles.centeredGreyMiniLabel, narrowGWidth);
-                            EditorGUILayout.LabelField("Status", EditorStyles.centeredGreyMiniLabel, statusWidth);
-                        });
+                        EditorUtility.DisplayDialog(
+                           "Juniper",
+                           $"The platform {selectedPlatform} is not supported on your current system.",
+                           "OK");
+                    }
+                }
+                else
+                {
+                    UpdateUnityPackages();
+                    var defines = CleanupDefines(PlayerSettings.GetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup)
+                        .SplitX(';'));
+                    var nextDefines = defines.ToList();
 
-                        packageScrollPosition = EditorGUILayout.BeginScrollView(packageScrollPosition);
-                        foreach (var package in packages)
+                    this.HeaderIndent("Packages", () =>
+                    {
+                        if (packages == null || packages.Length == 0)
+                        {
+                            EditorGUILayout.LabelField("(Loading)", EditorStyles.centeredGreyMiniLabel);
+                        }
+                        else
                         {
                             this.HGroup(() =>
                             {
-                                try
-                                {
-                                    EditorGUILayout.LabelField(package.GUILabel, nameFieldGWidth);
-                                    package.CompilerDefine = EditorGUILayout.TextField(package.CompilerDefine, nameFieldGWidth);
-                                    EditorGUILayout.LabelField(
-                                        DesiredConfiguration.CompilerDefines.Contains(package.CompilerDefine) ? "Yes" : "No",
-                                        EditorStyles.centeredGreyMiniLabel,
-                                        narrowGWidth);
+                                EditorGUILayout.LabelField("Name", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
+                                EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
+                                EditorGUILayout.LabelField("Active", EditorStyles.centeredGreyMiniLabel, narrowGWidth);
+                                EditorGUILayout.LabelField("Required", EditorStyles.centeredGreyMiniLabel, narrowGWidth);
+                                EditorGUILayout.LabelField("Status", EditorStyles.centeredGreyMiniLabel, statusWidth);
+                            });
 
-                                    if (package.ScanningProgress == PackageScanStatus.None)
+                            packageScrollPosition = EditorGUILayout.BeginScrollView(packageScrollPosition);
+                            foreach (var package in packages)
+                            {
+                                if (package.InstallPercentage > 0 != !defines.Contains(package.CompilerDefine))
+                                {
+                                    if (package.InstallPercentage > 0)
                                     {
-                                        EditorGUILayout.LabelField("Identified", EditorStyles.centeredGreyMiniLabel, statusWidth);
-                                    }
-                                    else if (package.ScanningProgress == PackageScanStatus.Found
-                                        || package.ScanningProgress == PackageScanStatus.List)
-                                    {
-                                        EditorGUILayout.LabelField("Found", EditorStyles.centeredGreyMiniLabel, statusWidth);
-                                    }
-                                    else if (package.ScanningProgress == PackageScanStatus.NotFound)
-                                    {
-                                        EditorGUILayout.LabelField("Not Found!", statusWidth);
-                                    }
-                                    else if (package.ScanningProgress == PackageScanStatus.Listing)
-                                    {
-                                        EditorGUILayout.LabelField("Listing", EditorStyles.centeredGreyMiniLabel, statusWidth);
-                                    }
-                                    else if (package.ScanningProgress == PackageScanStatus.Listed
-                                        || package.ScanningProgress == PackageScanStatus.Scan
-                                        || package.ScanningProgress == PackageScanStatus.Scanning)
-                                    {
-                                        EditorGUILayout.LabelField(string.Format(
-                                            "({0} files) Scanning",
-                                            package.TotalFiles),
-                                            EditorStyles.centeredGreyMiniLabel,
-                                            statusWidth);
+                                        nextDefines.Add(package.CompilerDefine);
                                     }
                                     else
                                     {
-                                        if (package.ScanningProgress == PackageScanStatus.Scanned)
+                                        nextDefines.Remove(package.CompilerDefine);
+                                    }
+                                }
+
+                                this.HGroup(() =>
+                                {
+                                    try
+                                    {
+                                        EditorGUILayout.LabelField(package.GUILabel, nameFieldGWidth);
+                                        package.CompilerDefine = EditorGUILayout.TextField(package.CompilerDefine, nameFieldGWidth);
+
+
+                                        EditorGUILayout.LabelField(
+                                            defines.Contains(package.CompilerDefine) ? "Yes" : "No",
+                                            EditorStyles.centeredGreyMiniLabel,
+                                            narrowGWidth);
+
+                                        EditorGUILayout.LabelField(
+                                            DesiredConfiguration.CompilerDefines.Contains(package.CompilerDefine) ? "Yes" : "No",
+                                            EditorStyles.centeredGreyMiniLabel,
+                                            narrowGWidth);
+
+                                        if (package.ScanningProgress == PackageScanStatus.None)
+                                        {
+                                            EditorGUILayout.LabelField("Identified", EditorStyles.centeredGreyMiniLabel, statusWidth);
+                                        }
+                                        else if (package.ScanningProgress == PackageScanStatus.Found
+                                            || package.ScanningProgress == PackageScanStatus.List)
+                                        {
+                                            EditorGUILayout.LabelField("Found", EditorStyles.centeredGreyMiniLabel, statusWidth);
+                                        }
+                                        else if (package.ScanningProgress == PackageScanStatus.NotFound)
+                                        {
+                                            EditorGUILayout.LabelField("Not Found!", statusWidth);
+                                        }
+                                        else if (package.ScanningProgress == PackageScanStatus.Listing)
+                                        {
+                                            EditorGUILayout.LabelField("Listing", EditorStyles.centeredGreyMiniLabel, statusWidth);
+                                        }
+                                        else if (package.ScanningProgress == PackageScanStatus.Listed
+                                            || package.ScanningProgress == PackageScanStatus.Scan
+                                            || package.ScanningProgress == PackageScanStatus.Scanning)
                                         {
                                             EditorGUILayout.LabelField(string.Format(
-                                                "({0} of {1} files)",
-                                                Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent),
+                                                "({0} files) Scanning",
                                                 package.TotalFiles),
                                                 EditorStyles.centeredGreyMiniLabel,
                                                 statusWidth);
-
-                                            var installLabel = package.InstallPercentage == 0 ? "Install" : "Refresh";
-                                            if (package.InstallPercentage == 1)
-                                            {
-                                                GUILayout.Space(buttonWidth);
-                                            }
-                                            else if (GUILayout.Button(installLabel, buttonGWidth))
-                                            {
-                                                using (var prog = new UnityEditorProgressDialog("Installing " + package.Name))
-                                                {
-                                                    package.Install(prog);
-                                                }
-                                            }
-
-                                            if (package.InstallPercentage > 0 && GUILayout.Button("Uninstall", buttonGWidth))
-                                            {
-                                                using (var prog = new UnityEditorProgressDialog("Uninstalling " + package.Name))
-                                                {
-                                                    package.Uninstall(prog);
-                                                }
-                                            }
                                         }
-                                        else if (package.ScanningProgress == PackageScanStatus.Error)
+                                        else
                                         {
-                                            if (GUILayout.Button(
-                                                new GUIContent("ERROR!", package.Error.Message),
-                                                EditorStyles.miniBoldLabel,
-                                                buttonGWidth))
+                                            if (package.ScanningProgress == PackageScanStatus.Scanned)
                                             {
-                                                package.ClearError();
+                                                EditorGUILayout.LabelField(string.Format(
+                                                    "({0} of {1} files)",
+                                                    Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent),
+                                                    package.TotalFiles),
+                                                    EditorStyles.centeredGreyMiniLabel,
+                                                    statusWidth);
+
+                                                var installLabel = package.InstallPercentage == 0 ? "Install" : "Refresh";
+                                                if (package.InstallPercentage == 1)
+                                                {
+                                                    GUILayout.Space(buttonWidth);
+                                                }
+                                                else if (GUILayout.Button(installLabel, buttonGWidth))
+                                                {
+                                                    using (var prog = new UnityEditorProgressDialog("Installing " + package.Name))
+                                                    {
+                                                        package.Install(prog);
+                                                    }
+                                                }
+
+                                                if (package.InstallPercentage > 0 && GUILayout.Button("Uninstall", buttonGWidth))
+                                                {
+                                                    using (var prog = new UnityEditorProgressDialog("Uninstalling " + package.Name))
+                                                    {
+                                                        package.Uninstall(prog);
+                                                    }
+                                                }
+                                            }
+                                            else if (package.ScanningProgress == PackageScanStatus.Error)
+                                            {
+                                                if (GUILayout.Button(
+                                                    new GUIContent("ERROR!", package.Error.Message),
+                                                    EditorStyles.miniBoldLabel,
+                                                    buttonGWidth))
+                                                {
+                                                    package.ClearError();
+                                                }
                                             }
                                         }
                                     }
-                                }
-                                catch
-                                {
+                                    catch
+                                    {
 
-                                }
-                            });
+                                    }
+                                });
+                            }
+                            EditorGUILayout.EndScrollView();
+
+                            platforms.Save();
                         }
-                        EditorGUILayout.EndScrollView();
+                    });
 
-                        platforms.Save();
+                    //this.HeaderIndent("Defines", () =>
+                    //{
+                    //    this.HGroup(() =>
+                    //    {
+                    //        EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
+                    //        EditorGUILayout.LabelField("Required", EditorStyles.centeredGreyMiniLabel, buttonGWidth);
+                    //    });
+
+                    //    this.HGroup(() =>
+                    //    {
+                    //        newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidth + narrowWidth));
+                    //        if (GUILayout.Button("Add", buttonGWidth))
+                    //        {
+                    //            if (!string.IsNullOrEmpty(newDefine))
+                    //            {
+                    //                nextDefines.Add(newDefine);
+                    //            }
+                    //            newDefine = string.Empty;
+                    //        }
+                    //    });
+
+
+                    //    definesScrollPosition = EditorGUILayout.BeginScrollView(definesScrollPosition);
+                    //    for (var i = 0; i < nextDefines.Count; ++i)
+                    //    {
+                    //        this.HGroup(() =>
+                    //        {
+                    //            var define = nextDefines[i];
+                    //            EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldGWidth);
+
+                    //            EditorGUILayout.LabelField(
+                    //                DesiredConfiguration.CompilerDefines.Contains(define) ? "Yes" : "No",
+                    //                EditorStyles.centeredGreyMiniLabel,
+                    //                narrowGWidth);
+
+                    //            if (GUILayout.Button("Remove", buttonGWidth))
+                    //            {
+                    //                nextDefines.RemoveAt(i);
+                    //                --i;
+                    //            }
+                    //        });
+                    //    }
+                    //    EditorGUILayout.EndScrollView();
+                    //});
+
+                    nextDefines = CleanupDefines(nextDefines);
+
+                    if (!nextDefines.Matches(defines))
+                    {
+                        PlayerSettings.SetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup, string.Join(";", nextDefines));
                     }
-                });
-
-                //this.HeaderIndent("Defines", () =>
-                //{
-                //    var defines = CleanupDefines(PlayerSettings.GetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup)
-                //        .SplitX(';'));
-                //    var nextDefines = defines.ToList();
-
-                //    this.HGroup(() =>
-                //    {
-                //        EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
-                //        EditorGUILayout.LabelField("Required", EditorStyles.centeredGreyMiniLabel, buttonGWidth);
-                //    });
-
-                //    this.HGroup(() =>
-                //    {
-                //        newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidth + narrowWidth));
-                //        if (GUILayout.Button("Add", buttonGWidth))
-                //        {
-                //            if (!string.IsNullOrEmpty(newDefine))
-                //            {
-                //                nextDefines.Add(newDefine);
-                //            }
-                //            newDefine = string.Empty;
-                //        }
-                //    });
-
-
-                //    definesScrollPosition = EditorGUILayout.BeginScrollView(definesScrollPosition);
-                //    for (var i = 0; i < nextDefines.Count; ++i)
-                //    {
-                //        this.HGroup(() =>
-                //        {
-                //            var define = nextDefines[i];
-                //            EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldGWidth);
-
-                //            EditorGUILayout.LabelField(
-                //                DesiredConfiguration.CompilerDefines.Contains(define) ? "Yes" : "No",
-                //                EditorStyles.centeredGreyMiniLabel,
-                //                narrowGWidth);
-
-                //            if (GUILayout.Button("Remove", buttonGWidth))
-                //            {
-                //                nextDefines.RemoveAt(i);
-                //                --i;
-                //            }
-                //        });
-                //    }
-                //    EditorGUILayout.EndScrollView();
-
-                //    nextDefines = CleanupDefines(nextDefines);
-
-                //    if (!nextDefines.Matches(defines))
-                //    {
-                //        PlayerSettings.SetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup, string.Join(";", nextDefines));
-                //    }
-                //});
+                }
             }
         }
 
