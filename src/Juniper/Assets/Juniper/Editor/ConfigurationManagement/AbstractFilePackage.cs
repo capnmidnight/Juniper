@@ -234,7 +234,6 @@ namespace Juniper.ConfigurationManagement
             private set
             {
                 errorMessage = value;
-                Debug.LogException(value);
             }
         }
 
@@ -304,15 +303,22 @@ namespace Juniper.ConfigurationManagement
         {
             try
             {
-                InstalledFiles = Paths.Where(path =>
+                if (Paths == null)
                 {
-                    var fullPath = path.Value.Name == null
-                        ? installDirectory.FullName
-                        : Path.Combine(installDirectory.FullName, path.Value.Name);
-                    return path.Value.IsDirectory && Directory.Exists(fullPath)
-                        || path.Value.IsFile && File.Exists(fullPath);
-                }).Count() - 1;
-                ScanningProgress = PackageScanStatus.Scanned;
+                    ScanningProgress = PackageScanStatus.List;
+                }
+                else
+                {
+                    InstalledFiles = Paths.Where(path =>
+                    {
+                        var fullPath = path.Value.Name == null
+                            ? installDirectory.FullName
+                            : Path.Combine(installDirectory.FullName, path.Value.Name);
+                        return path.Value.IsDirectory && Directory.Exists(fullPath)
+                            || path.Value.IsFile && File.Exists(fullPath);
+                    }).Count() - 1;
+                    ScanningProgress = PackageScanStatus.Scanned;
+                }
             }
             catch (Exception exp)
             {
