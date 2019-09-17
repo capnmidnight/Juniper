@@ -10,7 +10,6 @@ namespace Juniper.Progress
     {
         private readonly string title;
 
-        private string currentStatus;
         private string lastStatus;
 
         private bool canceled;
@@ -19,6 +18,11 @@ namespace Juniper.Progress
         {
             this.title = title;
             EditorApplication.update += ShowStatus;
+        }
+
+        public string Status
+        {
+            get; private set;
         }
 
         public float Progress
@@ -37,20 +41,20 @@ namespace Juniper.Progress
             var progText = progress.ToString("P1");
             if (status == null)
             {
-                currentStatus = progText;
+                Status = progText;
             }
             else
             {
-                currentStatus = $"{status} {progText}";
+                Status = $"{status} {progText}";
             }
         }
 
         private void ShowStatus()
         {
-            if (currentStatus != lastStatus)
+            if (Status != lastStatus)
             {
-                lastStatus = currentStatus;
-                canceled = EditorUtility.DisplayCancelableProgressBar(title, currentStatus, Progress);
+                lastStatus = Status;
+                canceled = EditorUtility.DisplayCancelableProgressBar(title, Status, Progress);
             }
         }
 

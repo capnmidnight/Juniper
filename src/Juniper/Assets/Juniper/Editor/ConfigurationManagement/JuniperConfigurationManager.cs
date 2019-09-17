@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-
+using System.Text;
 using Json.Lite;
 using Json.Lite.Linq;
 
@@ -42,6 +42,9 @@ namespace Juniper.ConfigurationManagement
         private static AbstractFilePackage[] packages;
         private static bool repaintNeeded;
         private static bool repaintBound;
+        private static ProgressEventer currentProg;
+
+        private static string progressMessage;
 
         static JuniperConfigurationManager()
         {
@@ -53,11 +56,42 @@ namespace Juniper.ConfigurationManagement
             config.PlatformChanged += Config_PlatformChanged;
             config.PlatformChangeConfirmed += StartBuild;
 
+            currentProg = new ProgressEventer();
+            currentProg.ProgressUpdated += CurrentProg_ProgressUpdated;
+
             if (RebuildNeeded)
             {
                 OnEditorUpdate(() =>
                     NextPlatform = DesiredPlatform,
                     () => EditorUtility.DisplayDialog("Juniper", "Could not change platform.", "OK"));
+            }
+        }
+
+        private static void CurrentProg_ProgressUpdated(object sender, EventArgs e)
+        {
+            var sb = new StringBuilder();
+            sb.Append('[');
+            var pips = Mathf.RoundToInt(currentProg.Progress * 10);
+            var negPips = 10 - pips;
+            for (int i = 0; i < pips; ++i)
+            {
+                sb.Append('=');
+            }
+
+            for (int i = 0; i < negPips; ++i)
+            {
+                sb.Append('-');
+            }
+
+            sb.Append("] (");
+            sb.Append(Units.Converter.Label(currentProg.Progress, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent, 2));
+            sb.Append(") :> ");
+            sb.Append(currentProg.Status);
+            var message = sb.ToString();
+            if (message != progressMessage)
+            {
+                progressMessage = message;
+                RepaintWindow();
             }
         }
 
@@ -112,17 +146,22 @@ namespace Juniper.ConfigurationManagement
 
             this.HeaderIndent("Status", () =>
             {
-                this.HGroup(() =>
+                if (BuildInProgress)
                 {
-                    if (BuildInProgress)
+                    this.HGroup(() =>
                     {
                         EditorGUILayout.LabelField("Build in progress", nameFieldGWidth);
-                    }
+                        EditorGUILayout.LabelField(progressMessage);
+                    });
+                }
+
+                this.HGroup(() =>
+                {
                     EditorGUILayout.LabelField("Build step", nameFieldGWidth);
                     EditorGUILayout.LabelField(BuildStepName, nameFieldGWidth);
                 });
 
-                if(!BuildInProgress)
+                if (!BuildInProgress)
                 {
                     this.HGroup(() =>
                     {
@@ -256,18 +295,12 @@ namespace Juniper.ConfigurationManagement
                                                 }
                                                 else if (GUILayout.Button(installLabel, buttonGWidth))
                                                 {
-                                                    using (var prog = new UnityEditorProgressDialog("Installing " + package.Name))
-                                                    {
-                                                        package.Install(prog);
-                                                    }
+                                                    package.Install(currentProg);
                                                 }
 
                                                 if (package.InstallPercentage > 0 && GUILayout.Button("Uninstall", buttonGWidth))
                                                 {
-                                                    using (var prog = new UnityEditorProgressDialog("Uninstalling " + package.Name))
-                                                    {
-                                                        package.Uninstall(prog);
-                                                    }
+                                                    package.Uninstall(currentProg);
                                                 }
                                             }
                                             else if (package.ScanningProgress == PackageScanStatus.Error)
@@ -623,8 +656,8 @@ namespace Juniper.ConfigurationManagement
             LastPrefix = prefix ?? LastPrefix;
             var step = BuildProgress - offset + 1;
             var msg = $"Juniper ({step} of {STAGES.Length}): {LastPrefix}";
-            return new UnityEditorProgressDialog(msg)
-                .Subdivide(step + BuildProgress, 2 * STAGES.Length, LastPrefix);
+            return currentProg
+                .Subdivide(step + BuildProgress, 2 * STAGES.Length, LastPrefix + msg);
         }
 
         private static IProgress PrepareBuildStep(int offset)

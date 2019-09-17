@@ -8,7 +8,6 @@ namespace Juniper.Widgets
 {
     public class LoadingBar : MonoBehaviour, IProgress
     {
-        private string currentStatus;
         private TextComponentWrapper text;
 
         public static PooledComponent<LoadingBar> Ensure(Transform parent, int transparentLayer)
@@ -59,13 +58,13 @@ namespace Juniper.Widgets
         {
             TargetValue = 0;
             Progress = 0;
-            currentStatus = string.Empty;
+            Status = string.Empty;
         }
 
         public void ReportWithStatus(float progress, string status)
         {
             TargetValue = progress;
-            currentStatus = status ?? string.Empty;
+            Status = status ?? string.Empty;
         }
 
         public void Awake()
@@ -85,10 +84,15 @@ namespace Juniper.Widgets
             s.x = Progress;
             indicator.transform.localScale = s;
             indicator.transform.localPosition = new Vector3(0.5f * (Progress - 1), 0, 0);
-            text.text = currentStatus;
+            text.text = Status;
         }
 
         private Transform indicator;
+
+        public string Status
+        {
+            get; private set;
+        }
 
         public float Progress
         {

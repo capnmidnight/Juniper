@@ -169,6 +169,7 @@ namespace Juniper.Imaging
 
         public void ReportWithStatus(float progress, string status)
         {
+            Status = status;
             ProgressToReady = progress;
         }
 
@@ -425,6 +426,12 @@ namespace Juniper.Imaging
         }
 
         public float Progress { get { return ProgressToReady; } }
+
+        public string Status
+        {
+            get;
+            private set;
+        }
 
 #if UNITY_EDITOR
         private bool cubemapLock;
