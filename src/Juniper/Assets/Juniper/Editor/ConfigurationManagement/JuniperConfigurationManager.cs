@@ -732,14 +732,13 @@ namespace Juniper.ConfigurationManagement
                 NextConfiguration.InstallZipPackages(progs[4]);
                 NextConfiguration.InstallAssetStorePackages(progs[5]);
 
+                InternalCompile(!NextConfiguration.TargetSwitchNeeded, NextConfiguration);
                 if (NextConfiguration.TargetSwitchNeeded)
                 {
-                    InternalCompile(false, NextConfiguration);
                     NextConfiguration.SwitchTarget();
                 }
                 else
                 {
-                    InternalCompile(true, NextConfiguration);
                     AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate | ImportAssetOptions.ImportRecursive);
                     if (!EditorApplication.isCompiling)
                     {

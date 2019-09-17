@@ -12,10 +12,6 @@
     "CompilerDefine": "UNITY_XR_MAGIC_LEAP"
   },
   {
-    "Name": "NatCam",
-    "CompilerDefine": "NATCAM"
-  },
-  {
     "Name": "Oculus",
     "CompilerDefine": "UNITY_XR_OCULUS"
   },
