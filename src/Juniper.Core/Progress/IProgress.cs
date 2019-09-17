@@ -10,6 +10,14 @@ namespace Juniper.Progress
     public interface IProgress
     {
         /// <summary>
+        /// The message of the most recent progress report.
+        /// </summary>
+        string Status
+        {
+            get;
+        }
+
+        /// <summary>
         /// The value of the most recent progress report.
         /// </summary>
         float Progress

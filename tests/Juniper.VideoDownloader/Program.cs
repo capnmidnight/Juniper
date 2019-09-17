@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+
 using Juniper.Progress;
 using Juniper.Streams;
+
 using static System.Console;
 using static Juniper.HTTP.MediaType;
 
@@ -15,6 +17,7 @@ namespace Juniper.VideoDownloader
     {
         class ConsoleProgress : IProgress
         {
+            public string Status { get; private set; }
             public float Progress { get; private set; }
 
             private string lastStatus = string.Empty;
@@ -22,15 +25,15 @@ namespace Juniper.VideoDownloader
             public void ReportWithStatus(float progress, string status)
             {
                 var percent = Units.Converter.Label(progress, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent, 3);
-                var curStatus = $"Progress {percent} {status ?? string.Empty}";
-                if (curStatus != lastStatus)
+                Status = $"Progress {percent} {status ?? string.Empty}";
+                if (Status != lastStatus)
                 {
-                    lastStatus = curStatus;
+                    lastStatus = Status;
                     for(int i = 0; i < lastStatus.Length; ++i)
                     {
                         Write('\b');
                     }
-                    Write(curStatus);
+                    Write(Status);
                 }
             }
         }

@@ -57,6 +57,12 @@ namespace Juniper.Progress
             private set;
         }
 
+        public string Status
+        {
+            get;
+            private set;
+        }
+
         /// <summary>
         /// Receive a progress report.
         /// </summary>
@@ -68,16 +74,18 @@ namespace Juniper.Progress
             var prog = start + (progress * length);
             if (prefix != null && status != null)
             {
-                parent.Report(prog, prefix + " " + status);
+                Status = prefix + " " + status;
             }
             else if (status != null)
             {
-                parent.Report(prog, status);
+                Status = status;
             }
             else
             {
-                parent.Report(prog, prefix);
+                Status = prefix;
             }
+
+            parent.Report(prog, Status);
         }
     }
 }

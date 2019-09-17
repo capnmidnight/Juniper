@@ -81,8 +81,15 @@ namespace Juniper.Streams
         /// <param name="status"></param>
         public void ReportWithStatus(float progress, string status)
         {
+            Status = status;
             Progress = progress;
-            parent.Report(progress, status);
+            parent.Report(Progress, Status);
+        }
+
+        public string Status
+        {
+            get;
+            private set;
         }
 
         /// <summary>
