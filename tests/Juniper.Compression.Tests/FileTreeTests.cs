@@ -20,13 +20,5 @@ namespace Juniper.Compression.Tar.GZip.Tests
             var packages = Decompressor.FindUnityPackages(Path.GetDirectoryName(TEST_FILE));
             Assert.IsTrue(packages.Contains(TEST_FILE));
         }
-
-        [TestMethod]
-        public void ParseFileTree()
-        {
-            var tree = Decompressor.UnityPackageTree(TEST_FILE);
-            Assert.AreEqual("Assets", tree.PathName);
-            Assert.AreEqual("Assets\\Oculus", ((FileTree)tree.children[0]).PathName);
-        }
     }
 }

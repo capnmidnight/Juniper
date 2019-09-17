@@ -41,7 +41,7 @@ namespace Juniper.Compression.Zip.Tests
         [TestMethod]
         public void FileNames()
         {
-            var fileNames = Decompressor.FileNames(TestZip).ToArray();
+            var fileNames = Decompressor.Entries(TestZip).Files().Names();
             Assert.IsTrue(fileNames.Matches(TestFiles));
         }
     }

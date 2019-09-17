@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using Juniper.Collections;
+using Juniper.Compression;
 using Juniper.Compression.Tar.GZip;
 using Juniper.Progress;
 
@@ -23,21 +24,20 @@ namespace Juniper.ConfigurationManagement
 
         public static IEnumerable<AssetStorePackage> GetPackages(
             Dictionary<string, AbstractFilePackage> currentPackages,
-            Dictionary<string, string> defines,
-            Dictionary<string, PackageInstallProgress> progresses)
+            Dictionary<string, string> defines)
         {
             var packages = Decompressor.FindUnityPackages(ROOT_DIRECTORIES);
             return from tup in FilterPackages<AssetStorePackage>(packages, currentPackages)
-                   select tup.pkg ?? new AssetStorePackage(tup.file, defines, progresses);
+                   select tup.pkg ?? new AssetStorePackage(tup.file, defines);
         }
 
-        public AssetStorePackage(FileInfo file, Dictionary<string, string> defines, Dictionary<string, PackageInstallProgress> progresses)
-            : base(file, defines, progresses)
+        public AssetStorePackage(FileInfo file, Dictionary<string, string> defines)
+            : base(new DirectoryInfo(Directory.GetCurrentDirectory()), file, defines)
         { }
 
-        protected override string[] GetPackageFileNames()
+        protected override NAryTree<CompressedFileInfo> GetPackageTree()
         {
-            return Decompressor.UnityPackageFiles(FileName).ToArray();
+            return Decompressor.UnityPackageEntries(FileName).Tree();
         }
 
         protected override void InstallInternal(IProgress prog)
@@ -52,7 +52,7 @@ namespace Juniper.ConfigurationManagement
         private void AssetDatabase_importPackageCompleted(string packageName)
         {
             AssetDatabase.importPackageCompleted -= AssetDatabase_importPackageCompleted;
-            ImportComplete();
+            InstallComplete();
         }
     }
 }

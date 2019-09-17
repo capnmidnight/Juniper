@@ -46,5 +46,21 @@
   {
     "Name": "WaveVR",
     "CompilerDefine": "WAVEVR"
+  },
+  {
+    "Name": "Shader Control",
+    "CompilerDefine": "SHADER_CONTROL"
+  },
+  {
+    "Name": "Oculus Integration",
+    "CompilerDefine": "UNITY_XR_OCULUS"
+  },
+  {
+    "Name": "Microsoft.CognitiveServices.Speech.1.6.0",
+    "CompilerDefine": "AZURE_SPEECHSDK"
+  },
+  {
+    "Name": "UBER",
+    "CompilerDefine": "UBER"
   }
 ]

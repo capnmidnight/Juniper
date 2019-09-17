@@ -8,23 +8,28 @@ namespace Juniper.Collections
     /// A node in an N-ary tree.
     /// </summary>
     /// <typeparam name="T">Any type of object</typeparam>
-    public class NAryTree<T, U>
-        where U : NAryTree<T, U>
+    public class NAryTree<T>
+        where T : IEquatable<T>
     {
         /// <summary>
         /// The value stored in this node.
         /// </summary>
-        public readonly T Value;
+        public T Value { get; internal set; }
 
         /// <summary>
         /// All nodes below the current node.
         /// </summary>
-        public readonly List<NAryTree<T, U>> children;
+        public readonly List<NAryTree<T>> children = new List<NAryTree<T>>();
 
         /// <summary>
         /// The next node above the current node.
         /// </summary>
-        protected NAryTree<T, U> parent;
+        protected NAryTree<T> parent;
+
+        public int Count { get; private set; }
+
+        public NAryTree()
+        { }
 
         /// <summary>
         /// Creates a root node with no children.
@@ -33,7 +38,12 @@ namespace Juniper.Collections
         public NAryTree(T value)
         {
             Value = value;
-            children = new List<NAryTree<T, U>>(3);
+        }
+
+        private NAryTree(T value, NAryTree<T> parent)
+            : this(value)
+        {
+            this.parent = parent;
         }
 
         /// <summary>
@@ -81,19 +91,112 @@ namespace Juniper.Collections
         /// Add an element as a child of the node.
         /// </summary>
         /// <param name="node">The node to add.</param>
-        public void Add(NAryTree<T, U> node)
+        public void Add(T node, Func<T, T, bool> isChildOf)
         {
-            children.Add(node);
-            node.parent = this;
+            if (Value == null)
+            {
+                Value = node;
+            }
+            else
+            {
+                var q = new Queue<NAryTree<T>>();
+                q.Add(this);
+
+                NAryTree<T> lastParent = null;
+                while (q.Count > 0)
+                {
+                    var here = q.Dequeue();
+                    if (isChildOf(here.Value, node))
+                    {
+                        ++here.Count;
+                        lastParent = here;
+                        q.AddRange(here.children);
+                    }
+                }
+
+                if (lastParent != null)
+                {
+                    lastParent.children.Add(new NAryTree<T>(node, lastParent));
+                }
+            }
+        }
+
+        public NAryTree<T> Remove(T node)
+        {
+            var q = new Queue<NAryTree<T>>();
+            q.Add(this);
+
+            NAryTree<T> found = null;
+            while (q.Count > 0 && found == null)
+            {
+                var here = q.Dequeue();
+                if (here.Value.Equals(node))
+                {
+                    found = here;
+                }
+                else
+                {
+                    q.AddRange(here.children);
+                }
+            }
+
+            if (found != null)
+            {
+                found.parent.Count -= found.Count;
+                found.parent.children.Remove(found);
+                found.parent = null;
+            }
+
+            return found;
+        }
+
+        public enum Order
+        {
+            BreadthFirst,
+            DepthFirst
+        }
+
+        public IEnumerable<NAryTree<T>> Where(Func<NAryTree<T>, bool> predicate, Order order = Order.BreadthFirst)
+        {
+            // how to do recursion without killing the function call stack
+            var items = new List<NAryTree<T>>();
+            items.Add(this);
+            while (items.Count > 0)
+            {
+                var index = order == Order.BreadthFirst ? 0 : items.Count - 1;
+                var here = items[index];
+                items.RemoveAt(index);
+
+                if (predicate(here))
+                {
+                    yield return here;
+                    items.AddRange(here.children);
+                }
+            }
         }
 
         /// <summary>
-        /// Create a new node out of a value and add it to the tree.
+        /// Perform an operation over the trie, using a local stack instead of the function call
+        /// stack frame.
         /// </summary>
-        /// <param name="value">The value to store.</param>
-        public void Add(T value)
+        public IEnumerable<NAryTree<T>> Flatten(Order order = Order.BreadthFirst)
         {
-            Add(new NAryTree<T, U>(value));
+            return Where(_ => true, Order.BreadthFirst);
+        }
+
+        /// <summary>
+        /// Perform an operation over the trie, using a local stack instead of the function call
+        /// stack frame.
+        /// </summary>
+        /// <param name="act">Act.</param>
+        public StateT Accumulate<StateT>(Order order, StateT state, Func<StateT, NAryTree<T>, StateT> act)
+        {
+            foreach(var child in Flatten(order))
+            {
+                state = act(state, child);
+            }
+
+            return state;
         }
 
         /// <summary>
@@ -102,79 +205,15 @@ namespace Juniper.Collections
         /// <returns>A text representation of the tree.</returns>
         public override string ToString()
         {
-            return Accumulate(new StringBuilder(), (sb, here) =>
+            return Accumulate(Order.DepthFirst, new StringBuilder(), (sb, here) =>
             {
                 for (var i = 0; i < here.Depth; ++i)
                 {
                     sb.Append("--");
                 }
                 sb.AppendLine(here.Value.ToString());
+                return sb;
             }).ToString();
-        }
-
-        /// <summary>
-        /// Perform an operation over the trie, using a local stack instead of the function call
-        /// stack frame.
-        /// </summary>
-        /// <param name="act">Act.</param>
-        public void Recurse(Action<U> act)
-        {
-            // how to do recursion without killing the function call stack
-            var stack = new Stack<U>();
-            stack.Push((U)this);
-            while (stack.Count > 0)
-            {
-                var here = stack.Pop();
-                act(here);
-                foreach (var child in here.children)
-                {
-                    stack.Push((U)child);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Perform an operation over the trie, using a local stack instead of the function call
-        /// stack frame.
-        /// </summary>
-        /// <param name="act">Act.</param>
-        public IEnumerable<ValueT> Select<ValueT>(Func<U, ValueT> act)
-        {
-            // how to do recursion without killing the function call stack
-            var stack = new Stack<U>();
-            stack.Push((U)this);
-            while (stack.Count > 0)
-            {
-                var here = stack.Pop();
-                yield return act(here);
-                foreach (var child in here.children)
-                {
-                    stack.Push((U)child);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Perform an operation over the trie, using a local stack instead of the function call
-        /// stack frame.
-        /// </summary>
-        /// <param name="act">Act.</param>
-        public StateT Accumulate<StateT>(StateT state, Action<StateT, U> act)
-        {
-            // how to do recursion without killing the function call stack
-            var stack = new Stack<U>();
-            stack.Push((U)this);
-            while (stack.Count > 0)
-            {
-                var here = stack.Pop();
-                act(state, here);
-                foreach (var child in here.children)
-                {
-                    stack.Push((U)child);
-                }
-            }
-
-            return state;
         }
     }
 }

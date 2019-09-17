@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 using Json.Lite;
 using Json.Lite.Linq;
@@ -21,6 +21,13 @@ namespace Juniper.ConfigurationManagement
     /// <summary>
     /// An editor to respond to changes in XRSystem.
     /// </summary>
+    [SuppressMessage("Performance", "HAA0101:Array allocation for params parameter", Justification = "<Pending>")]
+    [SuppressMessage("Performance", "HAA0102:Non-overridden virtual method call on value type", Justification = "<Pending>")]
+    [SuppressMessage("Performance", "HAA0202:Value type to reference type conversion allocation for string concatenation", Justification = "<Pending>")]
+    [SuppressMessage("Performance", "HAA0301:Closure Allocation Source", Justification = "<Pending>")]
+    [SuppressMessage("Performance", "HAA0302:Display class allocation to capture closure", Justification = "<Pending>")]
+    [SuppressMessage("Performance", "HAA0601:Value type to reference type conversion causing boxing allocation", Justification = "<Pending>")]
+    [SuppressMessage("Performance", "HAA0603:Delegate allocation from a method group", Justification = "<Pending>")]
     public class JuniperConfigurationManager : EditorWindow
     {
         private const string MENU_NAME = "Juniper/";
@@ -41,8 +48,6 @@ namespace Juniper.ConfigurationManagement
             platforms = new Platforms();
             platforms.PackagesUpdated += Platforms_PackagesUpdated;
             platforms.ScanningProgressUpdated += RepaintWindow;
-
-            platforms.StartFileWatcher();
 
             config = ProjectConfiguration.Load();
             config.PlatformChanged += Config_PlatformChanged;
@@ -67,6 +72,23 @@ namespace Juniper.ConfigurationManagement
             repaintNeeded = true;
         }
 
+        private void EditorUpdate()
+        {
+            if (repaintNeeded)
+            {
+                Repaint();
+            }
+
+            if (!platforms.IsRunning)
+            {
+                platforms.StartFileWatcher();
+            }
+        }
+
+        private const float nameFieldWidth = 200;
+        private const float narrowWidth = 50;
+        private const float buttonWidth = 100;
+
         public void OnGUI()
         {
             titleContent = TITLE;
@@ -74,188 +96,214 @@ namespace Juniper.ConfigurationManagement
             if (!repaintBound)
             {
                 repaintBound = true;
-                EditorApplication.update += () =>
-                {
-                    if (repaintNeeded)
-                    {
-                        repaintNeeded = false;
-                        Repaint();
-                    }
-                };
+                EditorApplication.update += EditorUpdate;
 
             }
 
+            repaintNeeded = false;
+
+            var nameFieldGWidth = GUILayout.Width(nameFieldWidth);
+            var narrowGWidth = GUILayout.Width(narrowWidth);
+            var statusWidth = GUILayout.Width(120);
+            var buttonGWidth = GUILayout.Width(buttonWidth);
+
+            var selectedPlatform = CurrentPlatform;
+
             this.HeaderIndent("Status", () =>
-            {
-                this.Labeled("Build step", 150, () => EditorGUILayout.LabelField(BuildStepName));
-            });
-
-            this.HeaderIndent("Platform", () =>
-            {
-                this.Labeled("Current Platform", 150, () => EditorGUILayout.LabelField(CurrentPlatform.ToString(), GUILayout.Width(300)));
-                this.Labeled("Desired Platform", 150, () => EditorGUILayout.DropdownButton(new GUIContent(DesiredPlatform.ToString(), "Select the desired build platform"), FocusType.Keyboard, GUILayout.Width(300)));
-            });
-
-            UpdateUnityPackages();
-
-            this.HeaderIndent("Packages", () =>
-            {
-                if (packages == null || packages.Length == 0)
-                {
-                    EditorGUILayout.LabelField("(Loading)", EditorStyles.centeredGreyMiniLabel);
-                }
-                else
-                {
-                    this.HGroup(() =>
-                    {
-                        EditorGUILayout.LabelField("Name", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(200));
-                        EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(200));
-                        EditorGUILayout.LabelField("Required", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(100));
-                        EditorGUILayout.LabelField("Status", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(200));
-                        EditorGUILayout.LabelField("", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(400));
-                    });
-
-                    packageScrollPosition = EditorGUILayout.BeginScrollView(packageScrollPosition);
-                    foreach (var package in packages)
-                    {
-                        this.HGroup(() =>
-                        {
-                            try
-                            {
-                                EditorGUILayout.LabelField(package.GUILabel, GUILayout.Width(200));
-                                package.CompilerDefine = EditorGUILayout.TextField(package.CompilerDefine, GUILayout.Width(200));
-                                EditorGUILayout.LabelField(
-                                    DesiredConfiguration.CompilerDefines.Contains(package.CompilerDefine) ? "Yes" : "No",
-                                    EditorStyles.centeredGreyMiniLabel,
-                                    GUILayout.Width(100));
-
-                                if (package.ScanningProgress == PackageScanStatus.None)
-                                {
-                                    EditorGUILayout.LabelField("Identified", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(200));
-                                }
-                                else if (package.ScanningProgress == PackageScanStatus.Found
-                                    || package.ScanningProgress == PackageScanStatus.List)
-                                {
-                                    EditorGUILayout.LabelField("Found", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(200));
-                                }
-                                else if (package.ScanningProgress == PackageScanStatus.NotFound)
-                                {
-                                    EditorGUILayout.LabelField("Not Found!", GUILayout.Width(200));
-                                }
-                                else if (package.ScanningProgress == PackageScanStatus.Listing)
-                                {
-                                    EditorGUILayout.LabelField("Listing", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(200));
-                                }
-                                else if (package.ScanningProgress == PackageScanStatus.Listed
-                                    || package.ScanningProgress == PackageScanStatus.Scan
-                                    || package.ScanningProgress == PackageScanStatus.Scanning)
-                                {
-                                    EditorGUILayout.LabelField(string.Format(
-                                        "({0} files) Scanning",
-                                        package.TotalFiles),
-                                        EditorStyles.centeredGreyMiniLabel,
-                                        GUILayout.Width(200));
-                                }
-                                else if (package.ScanningProgress == PackageScanStatus.Scanned)
-                                {
-                                    EditorGUILayout.LabelField(string.Format(
-                                        "({0} of {1} files)",
-                                        Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent),
-                                        package.TotalFiles),
-                                        EditorStyles.centeredGreyMiniLabel,
-                                        GUILayout.Width(200));
-                                }
-                                else if (package.ScanningProgress == PackageScanStatus.Error)
-                                {
-                                    EditorGUILayout.LabelField("ERROR! " + package.ErrorMessage, EditorStyles.miniBoldLabel, GUILayout.Width(200));
-                                }
-
-
-                                if (package.ScanningProgress != PackageScanStatus.Scanned || package.InstallPercentage >= 1)
-                                {
-                                    EditorGUILayout.LabelField("Install", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(200));
-                                }
-                                else if (GUILayout.Button("Install", GUILayout.Width(200)))
-                                {
-                                    package.Install();
-                                }
-
-                                if (package.ScanningProgress != PackageScanStatus.Scanned || package.InstallPercentage == 0)
-                                {
-                                    EditorGUILayout.LabelField("Uninstall", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(200));
-                                }
-                                else if (GUILayout.Button("Uninstall", GUILayout.Width(200)))
-                                {
-                                    package.Uninstall();
-                                }
-                            }
-                            catch
-                            {
-
-                            }
-                        });
-                    }
-                    EditorGUILayout.EndScrollView();
-
-                    platforms.Save();
-                }
-            });
-
-            (this).HeaderIndent("Defines", () =>
             {
                 this.HGroup(() =>
                 {
-                    EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(400));
-                    EditorGUILayout.LabelField("Required", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(100));
-                    EditorGUILayout.LabelField("", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(200));
+                    EditorGUILayout.LabelField("Build step", nameFieldGWidth);
+                    EditorGUILayout.LabelField(BuildStepName);
                 });
 
-
-                definesScrollPosition = EditorGUILayout.BeginScrollView(definesScrollPosition);
-                var defines = CleanupDefines(PlayerSettings.GetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup)
-                    .Split(';'));
-                var nextDefines = defines.ToList();
-                for (var i = 0; i < nextDefines.Count; ++i)
+                this.HGroup(() =>
                 {
-                    (this).HGroup(() =>
-                    {
-                        var define = nextDefines[i];
-                        EditorGUILayout.LabelField(define, GUILayout.Width(500));
+                    EditorGUILayout.LabelField("Platform", nameFieldGWidth);
+                    selectedPlatform = (PlatformTypes)EditorGUILayout.EnumPopup(DesiredPlatform, nameFieldGWidth);
+                });
+            });
 
-                        EditorGUILayout.LabelField(
-                            DesiredConfiguration.CompilerDefines.Contains(define) ? "Yes" : "No",
-                            EditorStyles.centeredGreyMiniLabel,
-                            GUILayout.Width(100));
-
-                        if (GUILayout.Button("Remove", GUILayout.Width(200)))
-                        {
-                            nextDefines.RemoveAt(i);
-                            --i;
-                        }
-                    });
+            if (selectedPlatform != CurrentPlatform)
+            {
+                if (MenuCheck(selectedPlatform))
+                {
+                    NextPlatform = DesiredPlatform;
                 }
+            }
+            else
+            {
+                UpdateUnityPackages();
 
-                (this).HGroup(() =>
+                this.HeaderIndent("Packages", () =>
                 {
-                    newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(400));
-                    if (GUILayout.Button("Add", GUILayout.Width(200)))
+                    if (packages == null || packages.Length == 0)
                     {
-                        if (!string.IsNullOrEmpty(newDefine))
+                        EditorGUILayout.LabelField("(Loading)", EditorStyles.centeredGreyMiniLabel);
+                    }
+                    else
+                    {
+                        this.HGroup(() =>
                         {
-                            nextDefines.Add(newDefine);
+                            EditorGUILayout.LabelField("Name", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
+                            EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
+                            EditorGUILayout.LabelField("Required", EditorStyles.centeredGreyMiniLabel, narrowGWidth);
+                            EditorGUILayout.LabelField("Status", EditorStyles.centeredGreyMiniLabel, statusWidth);
+                        });
+
+                        packageScrollPosition = EditorGUILayout.BeginScrollView(packageScrollPosition);
+                        foreach (var package in packages)
+                        {
+                            this.HGroup(() =>
+                            {
+                                try
+                                {
+                                    EditorGUILayout.LabelField(package.GUILabel, nameFieldGWidth);
+                                    package.CompilerDefine = EditorGUILayout.TextField(package.CompilerDefine, nameFieldGWidth);
+                                    EditorGUILayout.LabelField(
+                                        DesiredConfiguration.CompilerDefines.Contains(package.CompilerDefine) ? "Yes" : "No",
+                                        EditorStyles.centeredGreyMiniLabel,
+                                        narrowGWidth);
+
+                                    if (package.ScanningProgress == PackageScanStatus.None)
+                                    {
+                                        EditorGUILayout.LabelField("Identified", EditorStyles.centeredGreyMiniLabel, statusWidth);
+                                    }
+                                    else if (package.ScanningProgress == PackageScanStatus.Found
+                                        || package.ScanningProgress == PackageScanStatus.List)
+                                    {
+                                        EditorGUILayout.LabelField("Found", EditorStyles.centeredGreyMiniLabel, statusWidth);
+                                    }
+                                    else if (package.ScanningProgress == PackageScanStatus.NotFound)
+                                    {
+                                        EditorGUILayout.LabelField("Not Found!", statusWidth);
+                                    }
+                                    else if (package.ScanningProgress == PackageScanStatus.Listing)
+                                    {
+                                        EditorGUILayout.LabelField("Listing", EditorStyles.centeredGreyMiniLabel, statusWidth);
+                                    }
+                                    else if (package.ScanningProgress == PackageScanStatus.Listed
+                                        || package.ScanningProgress == PackageScanStatus.Scan
+                                        || package.ScanningProgress == PackageScanStatus.Scanning)
+                                    {
+                                        EditorGUILayout.LabelField(string.Format(
+                                            "({0} files) Scanning",
+                                            package.TotalFiles),
+                                            EditorStyles.centeredGreyMiniLabel,
+                                            statusWidth);
+                                    }
+                                    else
+                                    {
+                                        if (package.ScanningProgress == PackageScanStatus.Scanned)
+                                        {
+                                            EditorGUILayout.LabelField(string.Format(
+                                                "({0} of {1} files)",
+                                                Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent),
+                                                package.TotalFiles),
+                                                EditorStyles.centeredGreyMiniLabel,
+                                                statusWidth);
+
+                                            var installLabel = package.InstallPercentage == 0 ? "Install" : "Refresh";
+                                            if (package.InstallPercentage == 1)
+                                            {
+                                                GUILayout.Space(buttonWidth);
+                                            }
+                                            else if (GUILayout.Button(installLabel, buttonGWidth))
+                                            {
+                                                using (var prog = new UnityEditorProgressDialog("Installing " + package.Name))
+                                                {
+                                                    package.Install(prog);
+                                                }
+                                            }
+
+                                            if (package.InstallPercentage > 0 && GUILayout.Button("Uninstall", buttonGWidth))
+                                            {
+                                                using (var prog = new UnityEditorProgressDialog("Uninstalling " + package.Name))
+                                                {
+                                                    package.Uninstall(prog);
+                                                }
+                                            }
+                                        }
+                                        else if (package.ScanningProgress == PackageScanStatus.Error)
+                                        {
+                                            if (GUILayout.Button(
+                                                new GUIContent("ERROR!", package.Error.Message),
+                                                EditorStyles.miniBoldLabel,
+                                                buttonGWidth))
+                                            {
+                                                package.ClearError();
+                                            }
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+
+                                }
+                            });
                         }
-                        newDefine = string.Empty;
+                        EditorGUILayout.EndScrollView();
+
+                        platforms.Save();
                     }
                 });
 
-                nextDefines = CleanupDefines(nextDefines);
+                //this.HeaderIndent("Defines", () =>
+                //{
+                //    var defines = CleanupDefines(PlayerSettings.GetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup)
+                //        .SplitX(';'));
+                //    var nextDefines = defines.ToList();
 
-                if (!nextDefines.Matches(defines))
-                {
-                    PlayerSettings.SetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup, string.Join(";", nextDefines));
-                }
-                EditorGUILayout.EndScrollView();
-            });
+                //    this.HGroup(() =>
+                //    {
+                //        EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
+                //        EditorGUILayout.LabelField("Required", EditorStyles.centeredGreyMiniLabel, buttonGWidth);
+                //    });
+
+                //    this.HGroup(() =>
+                //    {
+                //        newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidth + narrowWidth));
+                //        if (GUILayout.Button("Add", buttonGWidth))
+                //        {
+                //            if (!string.IsNullOrEmpty(newDefine))
+                //            {
+                //                nextDefines.Add(newDefine);
+                //            }
+                //            newDefine = string.Empty;
+                //        }
+                //    });
+
+
+                //    definesScrollPosition = EditorGUILayout.BeginScrollView(definesScrollPosition);
+                //    for (var i = 0; i < nextDefines.Count; ++i)
+                //    {
+                //        this.HGroup(() =>
+                //        {
+                //            var define = nextDefines[i];
+                //            EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldGWidth);
+
+                //            EditorGUILayout.LabelField(
+                //                DesiredConfiguration.CompilerDefines.Contains(define) ? "Yes" : "No",
+                //                EditorStyles.centeredGreyMiniLabel,
+                //                narrowGWidth);
+
+                //            if (GUILayout.Button("Remove", buttonGWidth))
+                //            {
+                //                nextDefines.RemoveAt(i);
+                //                --i;
+                //            }
+                //        });
+                //    }
+                //    EditorGUILayout.EndScrollView();
+
+                //    nextDefines = CleanupDefines(nextDefines);
+
+                //    if (!nextDefines.Matches(defines))
+                //    {
+                //        PlayerSettings.SetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup, string.Join(";", nextDefines));
+                //    }
+                //});
+            }
         }
 
         private static string BuildStepName
@@ -404,260 +452,6 @@ namespace Juniper.ConfigurationManagement
             EditorWindow.GetWindow<JuniperConfigurationManager>();
         }
 
-        #region Menu/Android
-
-        private const string ANDROID_MENU_NAME = MENU_NAME + "Android/";
-
-        [MenuItem(ANDROID_MENU_NAME + "None", true)]
-        public static bool SetAndroid_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.Android);
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "None", false)]
-        public static void SetAndroid_MenuItem()
-        {
-            NextPlatform = PlatformTypes.Android;
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "ARCore", true)]
-        public static bool SetAndroid_ARCore_MenuItem_Validate()
-        {
-#if UNITY_2018_2_OR_NEWER
-            return MenuCheck(PlatformTypes.AndroidARCore);
-#else
-            return false;
-#endif
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "ARCore", false)]
-        public static void SetAndroid_ARCore_MenuItem()
-        {
-            NextPlatform = PlatformTypes.AndroidARCore;
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "Cardboard", true)]
-        public static bool SetAndroid_Cardboard_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.AndroidCardboard);
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "Cardboard", false)]
-        public static void SetAndroid_Cardboard_MenuItem()
-        {
-            NextPlatform = PlatformTypes.AndroidCardboard;
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "Daydream", true)]
-        public static bool SetAndroid_Daydream_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.AndroidDaydream);
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "Daydream", false)]
-        public static void SetAndroid_Daydream_MenuItem()
-        {
-            NextPlatform = PlatformTypes.AndroidDaydream;
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "Oculus", true)]
-        public static bool SetAndroid_Oculus_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.AndroidOculus);
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "Oculus", false)]
-        public static void SetAndroid_Oculus_MenuItem()
-        {
-            NextPlatform = PlatformTypes.AndroidOculus;
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "Pico G2", true)]
-        public static bool SetAndroid_PicoG2_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.AndroidPicoG2);
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "Pico G2", false)]
-        public static void SetAndroid_PicoG2_MenuItem()
-        {
-            NextPlatform = PlatformTypes.AndroidPicoG2;
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "Vive Focus", true)]
-        public static bool SetAndroid_ViveFocus_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.AndroidViveFocus);
-        }
-
-        [MenuItem(ANDROID_MENU_NAME + "Vive Focus", false)]
-        public static void SetAndroid_ViveFocus_MenuItem()
-        {
-            NextPlatform = PlatformTypes.AndroidViveFocus;
-        }
-
-        #endregion Menu/Android
-
-        #region Menu/IOS
-
-        private const string IOS_MENU_NAME = MENU_NAME + "IOS/";
-
-        [MenuItem(IOS_MENU_NAME + "None", true)]
-        public static bool SetIOS_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.IOS);
-        }
-
-        [MenuItem(IOS_MENU_NAME + "None", false)]
-        public static void SetIOS_MenuItem()
-        {
-            NextPlatform = PlatformTypes.IOS;
-        }
-
-        [MenuItem(IOS_MENU_NAME + "ARKit", true)]
-        public static bool SetIOS_ARKit_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.IOSARKit);
-        }
-
-        [MenuItem(IOS_MENU_NAME + "ARKit", false)]
-        public static void SetIOS_ARKit_MenuItem()
-        {
-            NextPlatform = PlatformTypes.IOSARKit;
-        }
-
-        [MenuItem(IOS_MENU_NAME + "Cardboard", true)]
-        public static bool SetIOS_Cardboard_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.IOSCardboard);
-        }
-
-        [MenuItem(IOS_MENU_NAME + "Cardboard", false)]
-        public static void SetIOS_Cardboard_MenuItem()
-        {
-            NextPlatform = PlatformTypes.IOSCardboard;
-        }
-
-        #endregion Menu/IOS
-
-        #region Menu/Standalone
-
-        private const string STANDALONE_MENU_NAME = MENU_NAME + "Standalone/";
-
-        [MenuItem(STANDALONE_MENU_NAME + "None", true)]
-        public static bool SetStandalone_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.Standalone);
-        }
-
-        [MenuItem(STANDALONE_MENU_NAME + "None", false)]
-        public static void SetStandalone_MenuItem()
-        {
-            NextPlatform = PlatformTypes.Standalone;
-        }
-
-        [MenuItem(STANDALONE_MENU_NAME + "Oculus", true)]
-        public static bool SetStandalone_Oculus_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.StandaloneOculus);
-        }
-
-        [MenuItem(STANDALONE_MENU_NAME + "Oculus", false)]
-        public static void SetStandalone_Oculus_MenuItem()
-        {
-            NextPlatform = PlatformTypes.StandaloneOculus;
-        }
-
-        [MenuItem(STANDALONE_MENU_NAME + "SteamVR", true)]
-        public static bool SetStandalone_SteamVR_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.StandaloneSteamVR);
-        }
-
-        [MenuItem(STANDALONE_MENU_NAME + "SteamVR", false)]
-        public static void SetStandalone_SteamVR_MenuItem()
-        {
-            NextPlatform = PlatformTypes.StandaloneSteamVR;
-        }
-
-        #endregion Menu/Standalone
-
-        #region Menu/UWP
-
-        private const string UWP_MENU_NAME = MENU_NAME + "UWP/";
-
-        [MenuItem(UWP_MENU_NAME + "None", true)]
-        public static bool SetUWP_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.UWP);
-        }
-
-        [MenuItem(UWP_MENU_NAME + "None", false)]
-        public static void SetUWP_MenuItem()
-        {
-            NextPlatform = PlatformTypes.UWP;
-        }
-
-        [MenuItem(UWP_MENU_NAME + "WindowsMR", true)]
-        public static bool SetUWP_WindowsMR_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.UWPWindowsMR);
-        }
-
-        [MenuItem(UWP_MENU_NAME + "WindowsMR", false)]
-        public static void SetUWP_WindowsMR_MenuItem()
-        {
-            NextPlatform = PlatformTypes.UWPWindowsMR;
-        }
-
-        [MenuItem(UWP_MENU_NAME + "HoloLens", true)]
-        public static bool SetUWP_HoloLens_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.UWPHoloLens);
-        }
-
-        [MenuItem(UWP_MENU_NAME + "HoloLens", false)]
-        public static void SetUWP_HoloLens_MenuItem()
-        {
-            NextPlatform = PlatformTypes.UWPHoloLens;
-        }
-
-        #endregion Menu/UWP
-
-        #region Menu/LuminOS
-
-        [MenuItem(MENU_NAME + "Magic Leap", true)]
-        public static bool SetMagicLeap_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.MagicLeap);
-        }
-
-        [MenuItem(MENU_NAME + "Magic Leap", false)]
-        public static void SetMagicLeap_MenuItem()
-        {
-            NextPlatform = PlatformTypes.MagicLeap;
-        }
-
-        #endregion Menu/LuminOS
-
-        #region Menu/WebGL
-
-        [MenuItem(MENU_NAME + "WebGL", true)]
-        public static bool SetWebGL_MenuItem_Validate()
-        {
-            return MenuCheck(PlatformTypes.WebGL);
-        }
-
-        [MenuItem(MENU_NAME + "WebGL", false)]
-        public static void SetWebGL_MenuItem()
-        {
-            NextPlatform = PlatformTypes.WebGL;
-        }
-
-        #endregion
-
-        #region Menu/Other
-
         private const string OTHER_MENU_NAME = MENU_NAME + "Other/";
 
         [MenuItem(OTHER_MENU_NAME + "Clear Errant Progress Dialogs", false, 202)]
@@ -683,8 +477,6 @@ namespace Juniper.ConfigurationManagement
         {
             ResumeBuild();
         }
-
-        #endregion Menu/Other
 
         #endregion Menu
 

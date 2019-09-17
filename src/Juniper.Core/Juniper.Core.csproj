@@ -91,7 +91,6 @@
     <Compile Include="NETFX\IO\DirectoryExt.cs" />
     <Compile Include="NETFX\IO\DirectoryInfoExt.cs" />
     <Compile Include="NETFX\IO\FileExt.cs" />
-    <Compile Include="Collections\FileTree.cs" />
     <Compile Include="NETFX\IO\PathExt.cs" />
     <Compile Include="NETFX\ArrayExt.cs" />
     <Compile Include="NETFX\DateTimeExt.cs" />

@@ -1,8 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using System.Threading.Tasks;
+using Juniper.Collections;
+using Juniper.Compression;
 using Juniper.Compression.Zip;
 using Juniper.Progress;
 
@@ -16,24 +17,23 @@ namespace Juniper.ConfigurationManagement
 
         public static IEnumerable<ZipPackage> GetPackages(
             Dictionary<string, AbstractFilePackage> currentPackages,
-            Dictionary<string, string> defines,
-            Dictionary<string, PackageInstallProgress> progresses)
+            Dictionary<string, string> defines)
         {
             var packages = Directory.GetFiles(ROOT_DIRECTORY, "*.zip");
             return from tup in FilterPackages<ZipPackage>(packages, currentPackages)
-                   select tup.pkg ?? new ZipPackage(tup.file, defines, progresses);
+                   select tup.pkg ?? new ZipPackage(tup.file, defines);
         }
 
         public ZipPackage(
             FileInfo file,
-            Dictionary<string, string> defines,
-            Dictionary<string, PackageInstallProgress> progresses)
-            : base(file, defines, progresses)
+            Dictionary<string, string> defines)
+            : base(new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), "Assets")), file, defines)
         { }
 
-        protected override string[] GetPackageFileNames()
+
+        protected override NAryTree<CompressedFileInfo> GetPackageTree()
         {
-            return Decompressor.FileNames(PackageFile).ToArray();
+            return Decompressor.Entries(PackageFile).Tree();
         }
 
 
@@ -41,8 +41,8 @@ namespace Juniper.ConfigurationManagement
         {
             if (IsAvailable)
             {
-                Decompressor.Decompress(FileName, "Assets", prog);
-                ImportComplete();
+                Decompressor.Decompress(FileName, installDirectory, prog);
+                InstallComplete();
             }
         }
 

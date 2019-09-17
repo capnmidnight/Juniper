@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Juniper.Collections;
+using Juniper.Compression;
 using Juniper.Progress;
 
 using UnityEngine;
@@ -59,6 +60,7 @@ namespace Juniper.ConfigurationManagement
             prog?.Report(1, "Deleted");
         }
 
+        protected readonly DirectoryInfo installDirectory;
         public readonly FileInfo PackageFile;
         private readonly PackageInstallProgress Progress;
 
@@ -77,7 +79,7 @@ namespace Juniper.ConfigurationManagement
 
             set
             {
-                if(base.CompilerDefine != value)
+                if (base.CompilerDefine != value)
                 {
                     Changed = true;
                     base.CompilerDefine = value;
@@ -85,19 +87,15 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public AbstractFilePackage(FileInfo file, Dictionary<string, string> defines, Dictionary<string, PackageInstallProgress> progresses)
+        public AbstractFilePackage(DirectoryInfo installDirectory, FileInfo file, Dictionary<string, string> defines)
         {
+            this.installDirectory = installDirectory;
             PackageFile = file;
             Name = Path.GetFileNameWithoutExtension(PackageFile.Name);
             CompilerDefine = defines.Get(Name, Name.Replace(" ", "_").Replace(".", "_").ToUpperInvariant());
-            Progress = progresses.Get(PackageFile.FullName, new PackageInstallProgress(PackageFile));
+            Progress = new PackageInstallProgress(PackageFile);
             ScanningProgress = PackageScanStatus.None;
             GUILabel = new GUIContent(Name, Name);
-        }
-
-        public PackageInstallProgress GetProgress()
-        {
-            return Progress;
         }
 
         public string FileName
@@ -123,8 +121,8 @@ namespace Juniper.ConfigurationManagement
                 return ScanningProgress == PackageScanStatus.Scanned
                     && Progress != null
                     && Paths != null
-                    && Paths.Length > 0
-                    && InstalledFiles / Paths.Length >= 0.1f;
+                    && Paths.Count > 0
+                    && InstalledFiles / Paths.Count >= 0.1f;
             }
         }
 
@@ -145,28 +143,26 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public string[] Paths
+        public NAryTree<CompressedFileInfo> Paths
         {
             get
             {
-                return Progress.paths;
+                return Progress.tree;
             }
             private set
             {
-                if (!Paths.Matches(value))
-                {
-                    Changed = true;
-                    Progress.paths = value;
-                    InstalledFiles = 0;
+                Changed = true;
+                Progress.tree = value;
 
-                    if (value != null)
-                    {
-                        ScanningProgress = PackageScanStatus.Listed;
-                    }
-                    else
-                    {
-                        ScanningProgress = PackageScanStatus.None;
-                    }
+                InstalledFiles = 0;
+
+                if (value != null)
+                {
+                    ScanningProgress = PackageScanStatus.Listed;
+                }
+                else
+                {
+                    ScanningProgress = PackageScanStatus.None;
                 }
             }
         }
@@ -179,17 +175,17 @@ namespace Juniper.ConfigurationManagement
             }
             private set
             {
-                if(InstalledFiles != value)
+                if (InstalledFiles != value)
                 {
                     Changed = true;
-                    InstalledFiles = value;
+                    Progress.installedFiles = value;
                 }
             }
         }
 
-        protected void ImportComplete()
+        protected void InstallComplete()
         {
-            ScanningProgress = PackageScanStatus.None;
+            ScanningProgress = PackageScanStatus.Scan;
         }
 
         public string TotalFiles
@@ -202,7 +198,7 @@ namespace Juniper.ConfigurationManagement
                 }
                 else
                 {
-                    return Paths.Length.ToString();
+                    return Paths.Count.ToString();
                 }
             }
         }
@@ -222,12 +218,25 @@ namespace Juniper.ConfigurationManagement
                 }
                 else
                 {
-                    return (float)InstalledFiles / Paths.Length;
+                    return (float)InstalledFiles / Paths.Count;
                 }
             }
         }
 
-        public string ErrorMessage { get; private set; }
+        private Exception errorMessage;
+        public Exception Error
+        {
+            get
+            {
+                return errorMessage;
+            }
+
+            private set
+            {
+                errorMessage = value;
+                Debug.LogException(value);
+            }
+        }
 
         public GUIContent GUILabel { get; internal set; }
 
@@ -267,56 +276,82 @@ namespace Juniper.ConfigurationManagement
             }
             catch (Exception exp)
             {
-                ErrorMessage = exp.Message;
+                Error = exp;
                 ScanningProgress = PackageScanStatus.Error;
             }
         }
 
         private void List()
         {
-            Paths = GetPackageFileNames();
+            try
+            {
+                Paths = GetPackageTree();
+            }
+            catch (Exception exp)
+            {
+                Error = exp;
+                ScanningProgress = PackageScanStatus.Error;
+            }
+        }
+
+        internal void ClearError()
+        {
+            Error = null;
+            ScanningProgress = PackageScanStatus.None;
         }
 
         private void Scan()
         {
-            foreach (var path in Paths)
+            try
             {
-                if (File.Exists(path) || Directory.Exists(path))
+                InstalledFiles = Paths.Where(path =>
                 {
-                    ++InstalledFiles;
-                }
+                    var fullPath = path.Value.Name == null
+                        ? installDirectory.FullName
+                        : Path.Combine(installDirectory.FullName, path.Value.Name);
+                    return path.Value.IsDirectory && Directory.Exists(fullPath)
+                        || path.Value.IsFile && File.Exists(fullPath);
+                }).Count() - 1;
+                ScanningProgress = PackageScanStatus.Scanned;
             }
-            ScanningProgress = PackageScanStatus.Scanned;
+            catch (Exception exp)
+            {
+                Error = exp;
+                ScanningProgress = PackageScanStatus.Error;
+            }
         }
 
         public override void Uninstall(IProgress prog)
         {
             base.Uninstall(prog);
+            var paths = Paths.Flatten(NAryTree<CompressedFileInfo>.Order.DepthFirst)
+                .Reverse()
+                .ToArray();
+            for (int i = 0; i < paths.Length; ++i)
+            {
+                try
+                {
+                    prog.Report(i, paths.Length);
+                    var path = paths[i].Value;
+                    if (path.Name != null)
+                    {
+                        var fullPath = Path.Combine(installDirectory.FullName, path.Name);
+                        if (path.IsFile)
+                        {
+                            File.Delete(fullPath);
+                        }
+                        else if (path.IsDirectory)
+                        {
+                            Directory.Delete(fullPath);
+                        }
+                    }
+                    prog.Report(i + 1, paths.Length);
+                }
+                catch { }
+            }
 
-            var progs = prog.Split(3);
-            var paths = GetPackageFileNames();
-            var files = paths.Where(File.Exists);
-            var dirs = (from path in files
-                        orderby path.Length descending
-                        select Path.GetDirectoryName(path))
-                    .Distinct();
-
-            files = files.Union(from file in files
-                                where Path.GetExtension(file) != ".meta"
-                                select file + ".meta");
-
-            DeleteAll(files, FileExt.TryDelete, progs[0]);
-
-            files = from dir in dirs
-                    let exts = Directory.GetFiles(dir).Select(Path.GetExtension)
-                    where exts.Count(ext => ext != ".meta") == 0
-                    select dir + ".meta";
-
-            DeleteAll(files, FileExt.TryDelete, progs[1]);
-            DeleteAll(dirs, DirectoryExt.TryDelete, progs[2]);
-
-            Paths = null;
+            ScanningProgress = PackageScanStatus.Scan;
         }
-        protected abstract string[] GetPackageFileNames();
+        protected abstract NAryTree<CompressedFileInfo> GetPackageTree();
     }
 }

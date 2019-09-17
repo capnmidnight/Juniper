@@ -18,10 +18,7 @@ namespace Juniper.ConfigurationManagement
         public void Install(IProgress prog)
         {
             prog?.Report(0);
-            if (!IsInstalled)
-            {
-                InstallInternal(prog);
-            }
+            InstallInternal(prog);
             prog?.Report(1);
         }
         protected abstract void InstallInternal(IProgress prog);

@@ -20,7 +20,6 @@ namespace Juniper.ConfigurationManagement
     internal class Platforms
     {
         private static readonly string PACKAGE_DEFINES_FILE = PathExt.FixPath("Assets/Juniper/ThirdParty/defines.json");
-        private static readonly string PACKAGE_INSTALL_PROGRESS_FILE = "installs.json";
         private static readonly string[] NO_VR_SYSTEMS = new string[] { "None" };
         private static readonly AbstractPackage[] EMPTY_PACKAGES = new AbstractPackage[0];
 
@@ -33,7 +32,6 @@ namespace Juniper.ConfigurationManagement
 
         private readonly JsonFactory json = new JsonFactory();
         private readonly Dictionary<string, string> packageDefines = new Dictionary<string, string>();
-        private readonly Dictionary<string, PackageInstallProgress> packageInstallProgress = new Dictionary<string, PackageInstallProgress>();
 
         public readonly Dictionary<string, AbstractFilePackage> packageDB;
         public event Action<AbstractFilePackage[]> PackagesUpdated;
@@ -62,8 +60,21 @@ namespace Juniper.ConfigurationManagement
                 {
                     anyChanged = true;
                     packageDefines[package.Name] = package.CompilerDefine;
-                    packageInstallProgress[package.FileName] = package.GetProgress();
                 }
+            }
+
+            var toRemove = new List<string>();
+            foreach(var key in packageDefines.Keys)
+            {
+                if (!packageDB.ContainsKey(key))
+                {
+                    toRemove.Add(key);
+                }
+            }
+
+            foreach(var key in toRemove)
+            {
+                packageDefines.Remove(key);
             }
 
             if (anyChanged)
@@ -72,7 +83,6 @@ namespace Juniper.ConfigurationManagement
                                select new PackageDefineSymbol(kv.Key, kv.Value))
                             .ToArray();
                 json.Save(PACKAGE_DEFINES_FILE, defines);
-                json.Save(PACKAGE_INSTALL_PROGRESS_FILE, packageInstallProgress.Values.ToArray());
 
                 foreach (var package in packageDB.Values)
                 {
@@ -83,12 +93,11 @@ namespace Juniper.ConfigurationManagement
 
         private static IEnumerable<AbstractFilePackage> GetPackages(
             Dictionary<string, AbstractFilePackage> curPackages,
-            Dictionary<string, string> defines,
-            Dictionary<string, PackageInstallProgress> progresses)
+            Dictionary<string, string> defines)
         {
-            return AssetStorePackage.GetPackages(curPackages, defines, progresses)
+            return AssetStorePackage.GetPackages(curPackages, defines)
                 .Cast<AbstractFilePackage>()
-                .Union(ZipPackage.GetPackages(curPackages, defines, progresses));
+                .Union(ZipPackage.GetPackages(curPackages, defines));
         }
 
         public Platforms()
@@ -102,16 +111,7 @@ namespace Juniper.ConfigurationManagement
                 }
             }
 
-            if (File.Exists(PACKAGE_INSTALL_PROGRESS_FILE))
-            {
-                var progresses = json.Load<PackageInstallProgress[]>(PACKAGE_INSTALL_PROGRESS_FILE);
-                foreach (var progress in progresses)
-                {
-                    packageInstallProgress[progress.PackageFile.FullName] = progress;
-                }
-            }
-
-            packageDB = GetPackages(null, packageDefines, packageInstallProgress).ToDictionary(pkg => pkg.Name);
+            packageDB = GetPackages(null, packageDefines).ToDictionary(pkg => pkg.Name);
             foreach (var package in packageDB.Values)
             {
                 package.ScanningProgressUpdated += Package_ScanningProgressUpdated;
@@ -195,7 +195,7 @@ namespace Juniper.ConfigurationManagement
         {
             while (true)
             {
-                var packages = (from pkg in GetPackages(packageDB, packageDefines, packageInstallProgress)
+                var packages = (from pkg in GetPackages(packageDB, packageDefines)
                                 where !packageDB.ContainsKey(pkg.Name)
                                 select pkg);
 
@@ -239,10 +239,15 @@ namespace Juniper.ConfigurationManagement
             ScanningProgressUpdated?.Invoke();
         }
 
+        private Task fileWatcherTask;
+
         public void StartFileWatcher()
         {
-            Task.Run(FileWatcher).ConfigureAwait(false);
+            fileWatcherTask = Task.Run(FileWatcher);
+            fileWatcherTask.ConfigureAwait(false);
         }
+
+        public bool IsRunning { get { return fileWatcherTask.IsRunning(); } }
 
         private AbstractPackage[] ParsePackages(string[] packages)
         {

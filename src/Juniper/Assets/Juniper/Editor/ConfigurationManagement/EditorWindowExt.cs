@@ -19,14 +19,5 @@ namespace UnityEditor
             content();
             EditorGUILayout.EndHorizontal();
         }
-
-        public static void Labeled(this EditorWindow window, string label, float width, Action content)
-        {
-            window.HGroup(() =>
-            {
-                EditorGUILayout.LabelField(label, GUILayout.Width(width));
-                content();
-            });
-        }
     }
 }
