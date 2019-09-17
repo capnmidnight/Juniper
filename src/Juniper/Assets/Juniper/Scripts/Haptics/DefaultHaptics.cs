@@ -70,7 +70,7 @@ namespace Juniper.Haptics
 #elif HAS_HAPTICS
             if(amplitude > 0.25f)
             {
-                Handheld.Vibrate();
+                UnityEngine.Handheld.Vibrate();
             }
 #endif
         }

@@ -1,4 +1,5 @@
-﻿using Juniper.Input.Pointers.Motion;
+﻿#if UNITY_XR_OCULUS
+using Juniper.Input.Pointers.Motion;
 
 namespace Juniper.Haptics
 {
@@ -18,3 +19,4 @@ namespace Juniper.Haptics
         }
     }
 }
+#endif

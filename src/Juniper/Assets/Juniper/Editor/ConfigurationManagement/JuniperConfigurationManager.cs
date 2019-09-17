@@ -128,7 +128,14 @@ namespace Juniper.ConfigurationManagement
             {
                 if (MenuCheck(selectedPlatform))
                 {
-                    NextPlatform = DesiredPlatform;
+                    NextPlatform = selectedPlatform;
+                }
+                else
+                {
+                    EditorUtility.DisplayDialog(
+                       "Juniper",
+                       $"The platform {selectedPlatform} is not supported on your current system.",
+                       "OK");
                 }
             }
             else
