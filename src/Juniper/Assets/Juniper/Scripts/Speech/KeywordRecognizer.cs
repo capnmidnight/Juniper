@@ -60,6 +60,8 @@ namespace Juniper.Speech
         protected bool IsUnrecoverable;
 
         private readonly List<Keywordable> keywordables = new List<Keywordable>();
+        private DateTime lastMatchTime;
+        private Keywordable lastReceiver;
         private Keywordable resultReceiver;
         private readonly object syncRoot = new object();
 
@@ -81,37 +83,37 @@ namespace Juniper.Speech
 
         protected void ProcessText(string text)
         {
-            lock (syncRoot)
-            {
-                var resultText = new string(text
-                    .ToLowerInvariant()
-                    .Where(IsWordChar)
-                    .ToArray());
+            var resultText = new string(text
+                .ToLowerInvariant()
+                .Where(IsWordChar)
+                .ToArray());
 
-                var maxSimilarity = 0f;
-                Keywordable receiver = null;
-                string match = null;
-                foreach (var keywordable in keywordables)
+            var maxSimilarity = 0f;
+            Keywordable receiver = null;
+            string match = null;
+            foreach (var keywordable in keywordables)
+            {
+                foreach (var keyword in keywordable.keywords)
                 {
-                    foreach (var keyword in keywordable.keywords)
+                    var similarity = keyword.Similarity(resultText);
+                    if (similarity > maxSimilarity)
                     {
-                        var similarity = keyword.Similarity(resultText);
-                        if (similarity > maxSimilarity)
-                        {
-                            match = keyword;
-                            maxSimilarity = similarity;
-                            receiver = keywordable;
-                        }
+                        match = keyword;
+                        maxSimilarity = similarity;
+                        receiver = keywordable;
                     }
                 }
+            }
 
-                ScreenDebugger.Print($"{text} => {resultText} = {match} ({Units.Converter.Label(maxSimilarity, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent)})");
+            ScreenDebugger.Print($"{text} => {resultText} = {match} ({Units.Converter.Label(maxSimilarity, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent)})");
 
-                if (maxSimilarity < minimumSimilarity)
-                {
-                    receiver = null;
-                }
+            if (maxSimilarity < minimumSimilarity)
+            {
+                receiver = null;
+            }
 
+            lock (syncRoot)
+            {
                 resultReceiver = receiver;
             }
         }
@@ -124,6 +126,8 @@ namespace Juniper.Speech
             }
         }
 
+        private static readonly TimeSpan DEBOUNCE_TIME = TimeSpan.FromMilliseconds(250);
+
         public void Update()
         {
             if (IsAvailable)
@@ -133,11 +137,15 @@ namespace Juniper.Speech
                     Keywordable receiver = null;
                     lock (syncRoot)
                     {
-                        if (resultReceiver != null)
+                        if (resultReceiver != null
+                            && (resultReceiver != lastReceiver
+                                || (DateTime.Now - lastMatchTime) > DEBOUNCE_TIME))
                         {
+                            lastReceiver = resultReceiver;
                             receiver = resultReceiver;
                             resultReceiver = null;
                         }
+                        lastMatchTime = DateTime.Now;
                     }
 
                     if (receiver != null)

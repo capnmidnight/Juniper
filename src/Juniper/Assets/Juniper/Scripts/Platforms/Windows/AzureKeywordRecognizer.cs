@@ -16,7 +16,7 @@ namespace Juniper.Speech
         /// <summary>
         /// Reads as true if the current XR subsystem supports speech recognition.
         /// </summary>
-        public override bool IsAvailable { get { return true; } }
+        public override bool IsAvailable { get { return !IsUnrecoverable; } }
 
         /// <summary>
         /// The real recognizer.
@@ -102,8 +102,12 @@ namespace Juniper.Speech
         void Recognizer_OnPhraseRecognized(object sender, SpeechRecognitionEventArgs args)
         {
             Debug.Log($"Recognition [{args.Result.Reason}]: {args.Result.Text}");
-            if (args.Result.Reason == ResultReason.RecognizedKeyword
-                || args.Result.Reason == ResultReason.RecognizedSpeech)
+            if (args.Result.Reason == ResultReason.RecognizedIntent
+                || args.Result.Reason == ResultReason.RecognizingIntent
+                || args.Result.Reason == ResultReason.RecognizedKeyword
+                || args.Result.Reason == ResultReason.RecognizingKeyword
+                || args.Result.Reason == ResultReason.RecognizedSpeech
+                || args.Result.Reason == ResultReason.RecognizingSpeech)
             {
                 ProcessText(args.Result.Text);
             }
