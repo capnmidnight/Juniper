@@ -12,12 +12,15 @@ namespace Juniper.Permissions
 
         public void Start()
         {
-            foreach (var permission in keys)
+            if (keys != null)
             {
-                granted[permission] = Permission.HasUserAuthorizedPermission(permission);
-                if (!granted[permission])
+                foreach (var permission in keys)
                 {
-                    Permission.RequestUserPermission(permission);
+                    granted[permission] = Permission.HasUserAuthorizedPermission(permission);
+                    if (!granted[permission])
+                    {
+                        Permission.RequestUserPermission(permission);
+                    }
                 }
             }
         }
@@ -25,19 +28,22 @@ namespace Juniper.Permissions
         public void Update()
         {
             var allGranted = true;
-            foreach (var permission in keys)
+            if (keys != null)
             {
-                if (!granted[permission])
+                foreach (var permission in keys)
                 {
-                    allGranted = false;
-                    granted[permission] = Permission.HasUserAuthorizedPermission(permission);
-                    if (granted[permission])
+                    if (!granted[permission])
                     {
-                        UnityEngine.Debug.Log($"The user granted permission {permission}");
-                    }
-                    else
-                    {
-                        UnityEngine.Debug.Log($"The user DID NOT grant permission {permission}");
+                        allGranted = false;
+                        granted[permission] = Permission.HasUserAuthorizedPermission(permission);
+                        if (granted[permission])
+                        {
+                            UnityEngine.Debug.Log($"The user granted permission {permission}");
+                        }
+                        else
+                        {
+                            UnityEngine.Debug.Log($"The user DID NOT grant permission {permission}");
+                        }
                     }
                 }
             }

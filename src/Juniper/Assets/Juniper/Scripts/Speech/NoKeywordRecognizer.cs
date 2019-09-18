@@ -9,8 +9,6 @@ namespace Juniper.Speech
         /// </summary>
         public override bool IsAvailable { get { return false; } }
 
-        protected override bool NeedsKeywords { get { return false; } }
-
         protected override void Setup()
         {
             Debug.LogWarning("No speech recognition available");

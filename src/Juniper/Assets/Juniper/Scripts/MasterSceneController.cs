@@ -414,8 +414,6 @@ namespace Juniper
 #endif
             }
 
-            ComponentExt.FindAny<IKeywordRecognizer>()?.RefreshKeywords();
-
             var start = DateTime.Now;
             var ts = TimeSpan.FromSeconds(1);
             while ((DateTime.Now - start) < ts || loadingBar?.Progress >= 1)

@@ -50,6 +50,8 @@ namespace Juniper.Speech
 
         private UnifiedInputModule input;
 
+        private bool wasInteractable;
+
         public bool IsInteractable()
         {
             return enabled && isParentEnabled() && input.VoiceEnabled;
@@ -173,22 +175,19 @@ namespace Juniper.Speech
             input = ComponentExt.FindAny<UnifiedInputModule>();
         }
 
-        /// <summary>
-        /// Trigger updating the current recognizable keyword set.
-        /// </summary>
-        public void OnEnable()
+        private void OnEnable()
         {
-            if (HasKeywords)
-            {
-                input.Voice.KeywordRecognized += OnKeyword;
-                input.Voice.RefreshKeywords();
-            }
+            input?.Voice?.AddKeywordable(this);
         }
 
-        public void OnDisable()
+        private void OnDisable()
         {
-            input.Voice.KeywordRecognized -= OnKeyword;
-            input.Voice.RefreshKeywords();
+            input?.Voice?.RemoveKeywordable(this);
+        }
+
+        public void OnKeywordRecognized()
+        {
+            OnKeyword();
         }
 
         /// <summary>
@@ -200,6 +199,20 @@ namespace Juniper.Speech
                 && (shortcutKey != KeyCode.Escape || !wasLocked))
             {
                 OnKeyword();
+            }
+
+            var isInteractable = IsInteractable();
+            if(isInteractable != wasInteractable)
+            {
+                wasInteractable = isInteractable;
+                if (isInteractable)
+                {
+                    input?.Voice?.AddKeywordable(this);
+                }
+                else
+                {
+                    input?.Voice?.RemoveKeywordable(this);
+                }
             }
 
             wasLocked = Cursor.lockState != CursorLockMode.None;
@@ -228,31 +241,6 @@ namespace Juniper.Speech
                         button.OnPointerClick(pointerEvent);
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Returns true when this component has more than one keyword defined.
-        /// </summary>
-        /// <value><c>true</c> if has keywords; otherwise, <c>false</c>.</value>
-        private bool HasKeywords
-        {
-            get
-            {
-                return keywords != null && keywords.Length > 0;
-            }
-        }
-
-        /// <summary>
-        /// Respond to a keyword detected event. If the keyword was one that we care about in this
-        /// component, then trigger the event.
-        /// </summary>
-        /// <param name="word">Word.</param>
-        private void OnKeyword(object source, KeywordRecognizedEventArgs args)
-        {
-            if (Array.BinarySearch(keywords, args.Keyword) >= 0)
-            {
-                OnKeyword();
             }
         }
     }

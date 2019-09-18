@@ -1,13 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.Scripting;
 
 namespace Juniper.Speech
 {
     public class KeywordRecognizer :
-#if UNITY_WSA || UNITY_STANDALONE_WIN
+#if UNITY_WSA || UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
         WindowsKeywordRecognizer
 #elif UNITY_ANDROID && AZURE_SPEECHSDK
         AzureKeywordRecognizer
@@ -25,6 +26,27 @@ namespace Juniper.Speech
     /// </summary>
     public abstract class AbstractKeywordRecognizer : MonoBehaviour, IKeywordRecognizer
     {
+#if UNITY_ANDROID && ANDROID_API_23_OR_GREATER && !UNITY_EDITOR
+        [Preserve]
+        private Microphone mic;
+
+        static AbstractKeywordRecognizer()
+        {
+            Permissions.AndroidPermissionHandler.Add(UnityEngine.Android.Permission.Microphone);
+        }
+
+        private static bool IsPermitted
+        {
+            get
+            {
+                return Permissions.AndroidPermissionHandler.IsGranted(UnityEngine.Android.Permission.Microphone);
+            }
+        }
+
+#else
+        public const bool IsPermitted = true;
+#endif
+
         private static bool IsWordChar(char c)
         {
             return char.IsLetter(c)
@@ -32,125 +54,101 @@ namespace Juniper.Speech
                 || char.IsNumber(c);
         }
 
-        /// <summary>
-        /// The keywords for which to listen.
-        /// </summary>
-        protected string[] keywords;
-
-        /// <summary>
-        /// Respond to the speech recognition system having detected a keyword. You should only use
-        /// this version in the Unity Editor. If you are programmatically attaching event listeners,
-        /// you should prefer <see cref="KeywordRecognized"/>.
-        /// </summary>
-        public StringEvent onKeywordRecognized = new StringEvent();
-
-        /// <summary>
-        /// Respond to the speech recognition system having detected a keyword. You should only use
-        /// this version if you are programmatically attaching event listeners. If you are attaching
-        /// events in the Unity Editor, you should prefer <see cref="onKeywordRecognized"/>.
-        /// </summary>
-        public event EventHandler<KeywordRecognizedEventArgs> KeywordRecognized;
-
         protected bool IsRunning;
         protected bool IsStopping;
         protected bool IsStarting;
 
-        /// <summary>
-        /// Invokes <see cref="onKeywordRecognized"/> and <see cref="KeywordRecognized"/>.
-        /// </summary>
-        /// <param name="keyword">Keyword.</param>
-        protected void OnKeywordRecognized(string keyword)
-        {
-            Debug.Log($"<==== Juniper ====> KeywordRecognizer::OnKeywordRecognized({keyword})");
-            onKeywordRecognized?.Invoke(keyword);
-            KeywordRecognized?.Invoke(this, new KeywordRecognizedEventArgs(keyword));
-        }
+        private readonly List<Keywordable> keywordables = new List<Keywordable>();
+        private Keywordable resultReceiver;
+        private readonly object syncRoot = new object();
 
-        /// <summary>
-        /// Find all of the keyword-responding components that are currently active in the scene,
-        /// collect up their keywords, and register them return them as a set-array to be registered
-        /// with the speech recognition system.
-        /// </summary>
-        /// <returns>The active keywords.</returns>
-        public void RefreshKeywords()
+        public void AddKeywordable(Keywordable keywordable)
         {
-            CancelInvoke(nameof(RefreshKeywordsInternal));
-            Invoke(nameof(RefreshKeywordsInternal), 0.25f);
-        }
-
-        private void RefreshKeywordsInternal()
-        {
-            if (NeedsKeywords)
+            lock (syncRoot)
             {
-                TearDownInternal();
+                keywordables.MaybeAdd(keywordable);
             }
-
-            keywords = (from trigger in ComponentExt.FindAll<IKeywordTriggered>()
-                        where trigger.Keywords != null
-                        let comp = trigger as MonoBehaviour
-                        where comp?.isActiveAndEnabled != false
-                        from keyword in trigger.Keywords
-                        where !string.IsNullOrEmpty(keyword)
-                        orderby keyword
-                        select keyword)
-                .Distinct()
-                .ToArray();
         }
 
-        protected string FindSimilarKeyword(string text, out float maxSimilarity)
+        public void RemoveKeywordable(Keywordable keywordable)
         {
-            var resultText = new string(text
-                                .ToLowerInvariant()
-                                .Where(IsWordChar)
-                                .ToArray());
-
-            maxSimilarity = 0;
-            string maxSubstring = null;
-            if (keywords != null)
+            lock (syncRoot)
             {
-                maxSimilarity = 0;
-                foreach (var keyword in keywords)
+                keywordables.Remove(keywordable);
+            }
+        }
+
+        protected void ProcessText(string text)
+        {
+            lock (syncRoot)
+            {
+                var resultText = new string(text
+                    .ToLowerInvariant()
+                    .Where(IsWordChar)
+                    .ToArray());
+
+                var maxSimilarity = 0f;
+                Keywordable receiver = null;
+                string match = null;
+                foreach (var keywordable in keywordables)
                 {
-                    var similarity = keyword.Similarity(resultText);
-                    if (similarity > maxSimilarity)
+                    foreach (var keyword in keywordable.keywords)
                     {
-                        maxSubstring = keyword;
-                        maxSimilarity = similarity;
+                        var similarity = keyword.Similarity(resultText);
+                        if (similarity > maxSimilarity)
+                        {
+                            match = keyword;
+                            maxSimilarity = similarity;
+                            receiver = keywordable;
+                        }
                     }
                 }
 
+                ScreenDebugger.Print($"{text} => {resultText} = {match} ({Units.Converter.Label(maxSimilarity, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent)})");
+
                 if (maxSimilarity < 0.8f)
                 {
-                    maxSubstring = null;
+                    receiver = null;
                 }
-            }
 
-            resultText = maxSubstring ?? resultText;
-            return resultText;
+                resultReceiver = receiver;
+            }
         }
 
         private void TearDownInternal()
         {
-            if (!IsRunning && !IsStopping)
+            if (IsRunning && !IsStopping)
             {
                 TearDown();
             }
         }
 
-        public virtual void Update()
+        public void Update()
         {
-            if (IsAvailable && !IsRunning && !IsStarting && (!NeedsKeywords || keywords != null && keywords.Length > 0))
+            if (IsAvailable)
             {
-                Setup();
-            }
-        }
+                if (IsRunning)
+                {
+                    Keywordable receiver = null;
+                    lock (syncRoot)
+                    {
+                        if (resultReceiver != null)
+                        {
+                            receiver = resultReceiver;
+                            resultReceiver = null;
+                        }
+                    }
 
-        /// <summary>
-        /// Initialize the speech recognition system.
-        /// </summary>
-        public void OnEnable()
-        {
-            RefreshKeywords();
+                    if (receiver != null)
+                    {
+                        receiver.OnKeywordRecognized();
+                    }
+                }
+                else if (!IsStarting && IsPermitted)
+                {
+                    Setup();
+                }
+            }
         }
 
         /// <summary>
@@ -162,8 +160,6 @@ namespace Juniper.Speech
         }
 
         public abstract bool IsAvailable { get; }
-
-        protected abstract bool NeedsKeywords { get; }
 
         protected abstract void Setup();
 

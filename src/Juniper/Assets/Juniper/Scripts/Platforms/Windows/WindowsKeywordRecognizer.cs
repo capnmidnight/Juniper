@@ -1,5 +1,8 @@
 #if UNITY_WSA || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 
+
+using UnityEngine.Windows.Speech;
+
 namespace Juniper.Speech
 {
     public abstract class WindowsKeywordRecognizer : AbstractKeywordRecognizer
@@ -9,40 +12,59 @@ namespace Juniper.Speech
         /// </summary>
         public override bool IsAvailable { get { return true; } }
 
-        protected override bool NeedsKeywords { get { return true; } }
-
         /// <summary>
         /// The real recognizer.
         /// </summary>
-        UnityEngine.Windows.Speech.KeywordRecognizer recognizer;
+        DictationRecognizer recognizer;
+
+        protected override void Setup()
+        {
+            IsStarting = true;
+            recognizer = new DictationRecognizer();
+            recognizer.DictationHypothesis += Recognizer_DictationHypothesis;
+            recognizer.DictationResult += Recognizer_DictationResult;
+            recognizer.DictationComplete += Recognizer_DictationComplete;
+            recognizer.Start();
+            IsStarting = false;
+            IsRunning = true;
+        }
+
+        private void Recognizer_DictationHypothesis(string text)
+        {
+            ProcessText(text);
+        }
 
         /// <summary>
         /// When speech is recognized, forward it into the keyword recognizer.
         /// </summary>
-        /// <param name="args">Arguments.</param>
-        void Recognizer_OnPhraseRecognized(UnityEngine.Windows.Speech.PhraseRecognizedEventArgs args)
+        /// <param name="text">The text recognized.</param>
+        /// <param name="confidence">How confident the system is in the recognized text being correct.</param>
+        private void Recognizer_DictationResult(string text, ConfidenceLevel confidence)
         {
-            OnKeywordRecognized(args.text);
+            if (confidence >= ConfidenceLevel.Medium)
+            {
+                ProcessText(text);
+            }
         }
 
-        protected override void Setup()
+        private void Recognizer_DictationComplete(DictationCompletionCause cause)
         {
-            if (keywords != null && keywords.Length > 0)
-            {
-                recognizer = new UnityEngine.Windows.Speech.KeywordRecognizer(keywords);
-                recognizer.OnPhraseRecognized += Recognizer_OnPhraseRecognized;
-                recognizer.Start();
-            }
+            TearDown();
         }
 
         protected override void TearDown()
         {
             if (recognizer != null)
             {
-                recognizer.OnPhraseRecognized -= Recognizer_OnPhraseRecognized;
+                IsStopping = true;
+                recognizer.DictationHypothesis -= Recognizer_DictationHypothesis;
+                recognizer.DictationResult -= Recognizer_DictationResult;
+                recognizer.DictationComplete -= Recognizer_DictationComplete;
                 recognizer.Stop();
                 recognizer.Dispose();
                 recognizer = null;
+                IsStopping = false;
+                IsRunning = false;
             }
         }
     }
