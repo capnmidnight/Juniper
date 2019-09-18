@@ -8,7 +8,6 @@ using Juniper.Security;
 using Microsoft.CognitiveServices.Speech;
 
 using UnityEngine;
-using UnityEngine.Scripting;
 
 namespace Juniper.Speech
 {
@@ -74,11 +73,23 @@ namespace Juniper.Speech
             recognizer.Recognizing += Recognizer_OnPhraseRecognized;
             recognizer.Recognized += Recognizer_OnPhraseRecognized;
             recognizer.SessionStopped += Recognizer_SessionStopped;
+            recognizer.Canceled += Recognizer_Canceled;
             recognizer.StartContinuousRecognitionAsync();
+        }
+
+        private void Recognizer_Canceled(object sender, SpeechRecognitionCanceledEventArgs e)
+        {
+            if(e.Reason == CancellationReason.Error)
+            {
+                Debug.LogError($"Recognition error: [{e.ErrorCode}] {e.ErrorDetails}");
+                IsUnrecoverable = true;
+                TearDown();
+            }
         }
 
         private void Recognizer_SessionStarted(object sender, SessionEventArgs e)
         {
+            Debug.Log("Recognition started");
             recognizer.SessionStarted -= Recognizer_SessionStarted;
             IsStarting = false;
             IsRunning = true;
@@ -90,6 +101,7 @@ namespace Juniper.Speech
         /// <param name="args">Arguments.</param>
         void Recognizer_OnPhraseRecognized(object sender, SpeechRecognitionEventArgs args)
         {
+            Debug.Log($"Recognition [{args.Result.Reason}]: {args.Result.Text}");
             if (args.Result.Reason == ResultReason.RecognizedKeyword
                 || args.Result.Reason == ResultReason.RecognizedSpeech)
             {
@@ -99,6 +111,7 @@ namespace Juniper.Speech
 
         private void Recognizer_SessionStopped(object sender, SessionEventArgs e)
         {
+            Debug.Log("Recognition stopped");
             recognizer.SessionStopped -= Recognizer_SessionStopped;
             recognizer.Dispose();
             recognizer = null;

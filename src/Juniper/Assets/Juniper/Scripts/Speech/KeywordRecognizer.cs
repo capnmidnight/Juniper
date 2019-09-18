@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
-using UnityEngine.Scripting;
 
 namespace Juniper.Speech
 {
@@ -12,8 +11,6 @@ namespace Juniper.Speech
         WindowsKeywordRecognizer
 #elif UNITY_ANDROID && AZURE_SPEECHSDK
         AzureKeywordRecognizer
-#elif UNITY_EDITOR_WIN
-        WindowsKeywordRecognizer
 #else
         NoKeywordRecognizer
 #endif
@@ -54,9 +51,13 @@ namespace Juniper.Speech
                 || char.IsNumber(c);
         }
 
+        [Range(0, 1)]
+        public float minimumSimilarity = 0.7f;
+
         protected bool IsRunning;
         protected bool IsStopping;
         protected bool IsStarting;
+        protected bool IsUnrecoverable;
 
         private readonly List<Keywordable> keywordables = new List<Keywordable>();
         private Keywordable resultReceiver;
@@ -106,7 +107,7 @@ namespace Juniper.Speech
 
                 ScreenDebugger.Print($"{text} => {resultText} = {match} ({Units.Converter.Label(maxSimilarity, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent)})");
 
-                if (maxSimilarity < 0.8f)
+                if (maxSimilarity < minimumSimilarity)
                 {
                     receiver = null;
                 }
@@ -144,7 +145,7 @@ namespace Juniper.Speech
                         receiver.OnKeywordRecognized();
                     }
                 }
-                else if (!IsStarting && IsPermitted)
+                else if (IsPermitted && !IsUnrecoverable && !IsStarting)
                 {
                     Setup();
                 }
