@@ -10,7 +10,6 @@ namespace Juniper.Permissions
         private static readonly Dictionary<string, bool> granted = new Dictionary<string, bool>();
         private static string[] keys;
 
-#if UNITY_2018_1_OR_NEWER
         public void Start()
         {
             foreach (var permission in keys)
@@ -22,9 +21,7 @@ namespace Juniper.Permissions
                 }
             }
         }
-#endif
 
-#if UNITY_2018_1_OR_NEWER
         public void Update()
         {
             var allGranted = true;
@@ -50,7 +47,6 @@ namespace Juniper.Permissions
                 enabled = false;
             }
         }
-#endif
 
         public static void Add(string permission)
         {

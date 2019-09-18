@@ -303,12 +303,10 @@ namespace Juniper.Input
                         Cursor.lockState = CursorLockMode.Confined;
                     }
                 }
-#if UNITY_2018_1_OR_NEWER
                 else if (UnityInput.GetKeyDown(KeyCode.Escape))
                 {
                     Cursor.lockState = CursorLockMode.None;
                 }
-#endif
             }
             else if (Cursor.lockState != CursorLockMode.None)
             {

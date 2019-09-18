@@ -167,26 +167,12 @@ namespace Juniper.ConfigurationManagement
 
             Platforms.ForEachPackage(ExcludedUnityPackages, progs[0], (pkg, p) =>
             {
-#if UNITY_2018_2_OR_NEWER
                 pkg.Uninstall(p);
-#else
-                if (!pkg.Name.StartsWith("com.unity.modules."))
-                {
-                    pkg.Install(p);
-                }
-#endif
             });
 
             Platforms.ForEachPackage(IncludedUnityPackages, progs[1], (pkg, p) =>
             {
-#if UNITY_2018_2_OR_NEWER
                 pkg.Install(p);
-#else
-                if (!pkg.Name.StartsWith("com.unity.modules."))
-                {
-                    pkg.Install(p);
-                }
-#endif
             });
         }
 
@@ -343,20 +329,9 @@ namespace Juniper.ConfigurationManagement
             AudioSettingsExt.SetAmbisonicDecoderPluginName(null);
             PlayerSettings.virtualRealitySupported = false;
             PlayerSettings.Android.androidTVCompatibility = false;
-#if UNITY_2018_2_OR_NEWER
             PlayerSettings.Android.ARCoreEnabled = false;
-#endif
             PlayerSettingsExt.iOS.RequiresARKitSupport = false;
-
-#if UNITY_2019_2_OR_NEWER
             PlayerSettings.vuforiaEnabled = false;
-#else
-            PlayerSettings.SetPlatformVuforiaEnabled(TargetGroup, false);
-            if (nextConfiguration.TargetGroup != TargetGroup)
-            {
-                PlayerSettings.SetPlatformVuforiaEnabled(TargetGroup, false);
-            }
-#endif
         }
     }
 }

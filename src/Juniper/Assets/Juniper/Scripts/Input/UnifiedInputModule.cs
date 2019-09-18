@@ -175,11 +175,7 @@ namespace Juniper.Input
 #if UNITY_EDITOR
             if (pointerPrefab == null)
             {
-#if UNITY_2018_2_OR_NEWER
                 pointerPrefab = ResourceExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/Rigs/DiskProbe2018.2.prefab");
-#else
-                pointerPrefab = ResourceExt.EditorLoadAsset<GameObject>("Assets/Juniper/Prefabs/Rigs/DiskProbe2018.1.prefab");
-#endif
             }
 #endif
 

@@ -6,18 +6,12 @@ using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-#if UNITY_2018_1_OR_NEWER
 using UnityEditor.Build.Reporting;
-#endif
 
 namespace Juniper
 {
     public abstract class StreamableAssetEditor<T, U> : PropertyDrawer,
-#if UNITY_2018_1_OR_NEWER
         IPreprocessBuildWithReport, IPostprocessBuildWithReport
-#else
-        IPreprocessBuild, IPostprocessBuild
-#endif
         where T : UnityEngine.Object
         where U : StreamableAsset<T>, new()
     {
@@ -50,11 +44,7 @@ namespace Juniper
             }
         }
 
-#if UNITY_2018_1_OR_NEWER
         public void OnPreprocessBuild(BuildReport report)
-#else
-        public void OnPreprocessBuild(BuildTarget target, string path)
-#endif
         {
             Debug.Log("Juniper: Exporting streaming assets.");
             ForEachStreamable(value =>
@@ -64,11 +54,7 @@ namespace Juniper
             });
         }
 
-#if UNITY_2018_1_OR_NEWER
         public void OnPostprocessBuild(BuildReport report)
-#else
-        public void OnPostprocessBuild(BuildTarget target, string path)
-#endif
         {
             ForEachStreamable(value => value.Import());
         }

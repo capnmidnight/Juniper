@@ -161,9 +161,7 @@ namespace Juniper.Input
                 imageImage.Value.type = type;
                 imageImage.Value.fillCenter = true;
                 imageImage.Value.preserveAspect = false;
-#if UNITY_2018_2_OR_NEWER
                 imageImage.Value.useSpriteMesh = false;
-#endif
             }
 
             return image;

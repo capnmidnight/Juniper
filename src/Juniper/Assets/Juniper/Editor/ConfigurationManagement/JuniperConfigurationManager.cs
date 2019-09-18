@@ -767,13 +767,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private static readonly string MANIFEST_FILE = PathExt.FixPath(
-#if UNITY_2018_1_OR_NEWER
-            "Packages/manifest.json"
-#else
-            "UnityPackageManager/manifest.json"
-#endif
-        );
+        private static readonly string MANIFEST_FILE = PathExt.FixPath("Packages/manifest.json");
 
         private static void StartBuild()
         {

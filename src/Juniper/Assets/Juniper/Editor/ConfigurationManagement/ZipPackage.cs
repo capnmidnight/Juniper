@@ -60,20 +60,14 @@ namespace Juniper.ConfigurationManagement
 
             if (Name == "Vuforia")
             {
-#if UNITY_2019_2_OR_NEWER
                 PlayerSettings.vuforiaEnabled = true;
-#else
-                PlayerSettings.SetPlatformVuforiaEnabled(targetGroup, true);
-#endif
             }
 
             if (targetGroup == BuildTargetGroup.Android)
             {
                 if (Name == "GoogleARCore")
                 {
-#if UNITY_2018_2_OR_NEWER
                     PlayerSettings.Android.ARCoreEnabled = true;
-#endif
                 }
                 else if (Name == "GoogleVR")
                 {

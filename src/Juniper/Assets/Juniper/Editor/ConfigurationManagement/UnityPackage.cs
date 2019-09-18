@@ -18,13 +18,6 @@ namespace Juniper.ConfigurationManagement
             Name = parts[0];
             version = parts[1];
 
-#if !UNITY_2018_2_OR_NEWER
-            if (Name == "com.unity.package-manager-ui")
-            {
-                version = "1.8.8";
-            }
-#endif
-
             parts = Name.ToUpperInvariant()
                 .Split('.')
                 .Skip(1)
@@ -45,14 +38,7 @@ namespace Juniper.ConfigurationManagement
 
         protected override void InstallInternal(IProgress prog)
         {
-#if UNITY_2018_2_OR_NEWER
             Dependencies[Name] = version;
-#else
-            if (!Name.StartsWith(UNITY_SUBMODULE_PREFIX))
-            {
-                Dependencies[Name] = version;
-            }
-#endif
         }
 
         public override void Uninstall(IProgress prog)
