@@ -24,7 +24,7 @@ namespace Juniper.Speech
     public abstract class AbstractKeywordRecognizer : MonoBehaviour, IKeywordRecognizer
     {
 #if UNITY_ANDROID && ANDROID_API_23_OR_GREATER && !UNITY_EDITOR
-        [Preserve]
+        [UnityEngine.Scripting.Preserve]
         private Microphone mic;
 
         static AbstractKeywordRecognizer()
