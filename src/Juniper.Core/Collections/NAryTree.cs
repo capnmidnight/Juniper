@@ -8,7 +8,7 @@ namespace Juniper.Collections
     /// A node in an N-ary tree.
     /// </summary>
     /// <typeparam name="T">Any type of object</typeparam>
-    public class NAryTree<T>
+    public partial class NAryTree<T>
         where T : IEquatable<T>
     {
         /// <summary>
@@ -150,20 +150,14 @@ namespace Juniper.Collections
             return found;
         }
 
-        public enum Order
-        {
-            BreadthFirst,
-            DepthFirst
-        }
-
-        public IEnumerable<NAryTree<T>> Where(Func<NAryTree<T>, bool> predicate, Order order = Order.BreadthFirst)
+        public IEnumerable<NAryTree<T>> Where(Func<NAryTree<T>, bool> predicate, TreeTraversalOrder order = TreeTraversalOrder.BreadthFirst)
         {
             // how to do recursion without killing the function call stack
             var items = new List<NAryTree<T>>();
             items.Add(this);
             while (items.Count > 0)
             {
-                var index = order == Order.BreadthFirst ? 0 : items.Count - 1;
+                var index = order == TreeTraversalOrder.BreadthFirst ? 0 : items.Count - 1;
                 var here = items[index];
                 items.RemoveAt(index);
 
@@ -179,9 +173,9 @@ namespace Juniper.Collections
         /// Perform an operation over the trie, using a local stack instead of the function call
         /// stack frame.
         /// </summary>
-        public IEnumerable<NAryTree<T>> Flatten(Order order = Order.BreadthFirst)
+        public IEnumerable<NAryTree<T>> Flatten(TreeTraversalOrder order = TreeTraversalOrder.BreadthFirst)
         {
-            return Where(_ => true, Order.BreadthFirst);
+            return Where(_ => true, TreeTraversalOrder.BreadthFirst);
         }
 
         /// <summary>
@@ -189,7 +183,7 @@ namespace Juniper.Collections
         /// stack frame.
         /// </summary>
         /// <param name="act">Act.</param>
-        public StateT Accumulate<StateT>(Order order, StateT state, Func<StateT, NAryTree<T>, StateT> act)
+        public StateT Accumulate<StateT>(TreeTraversalOrder order, StateT state, Func<StateT, NAryTree<T>, StateT> act)
         {
             foreach(var child in Flatten(order))
             {
@@ -205,7 +199,7 @@ namespace Juniper.Collections
         /// <returns>A text representation of the tree.</returns>
         public override string ToString()
         {
-            return Accumulate(Order.DepthFirst, new StringBuilder(), (sb, here) =>
+            return Accumulate(TreeTraversalOrder.DepthFirst, new StringBuilder(), (sb, here) =>
             {
                 for (var i = 0; i < here.Depth; ++i)
                 {

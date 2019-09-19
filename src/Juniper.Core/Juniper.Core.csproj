@@ -47,6 +47,7 @@
     <Compile Include="Collections\System.Collections\Generic\ListExt.cs" />
     <Compile Include="Collections\System.Collections\Generic\NaturalSortComparer.cs" />
     <Compile Include="Collections\System.Collections\Generic\PriorityQueue.cs" />
+    <Compile Include="Collections\TreeTraversalOrder.cs" />
     <Compile Include="HTTP\BodyInfo.cs" />
     <Compile Include="HTTP\DefaultFileController.cs" />
     <Compile Include="HTTP\FileInfoExt.cs" />
