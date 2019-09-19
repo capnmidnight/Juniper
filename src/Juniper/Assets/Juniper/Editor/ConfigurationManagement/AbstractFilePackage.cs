@@ -147,6 +147,10 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
+                if(Progress.tree == null)
+                {
+                    List();
+                }
                 return Progress.tree;
             }
             private set
@@ -330,7 +334,7 @@ namespace Juniper.ConfigurationManagement
         public override void Uninstall(IProgress prog)
         {
             base.Uninstall(prog);
-            var paths = Paths.Flatten(NAryTree<CompressedFileInfo>.Order.DepthFirst)
+            var paths = Paths.Flatten(TreeTraversalOrder.DepthFirst)
                 .Reverse()
                 .ToArray();
             for (int i = 0; i < paths.Length; ++i)
