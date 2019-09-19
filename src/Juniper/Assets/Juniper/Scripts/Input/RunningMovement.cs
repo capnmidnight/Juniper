@@ -23,7 +23,7 @@ namespace Juniper.Input
                 moveDirection.Normalize();
             }
 
-            stage.SetVelocity(stage.Head.rotation * (moveDirection * MOVEMENT_SCALE));
+            stage.Velocity = stage.Head.rotation * (moveDirection * MOVEMENT_SCALE);
         }
     }
 }

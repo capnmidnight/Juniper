@@ -329,17 +329,24 @@ namespace Juniper
             pivot.localRotation = Quaternion.AngleAxis(x, Vector3.right);
         }
 
-        public void SetVelocity(Vector3 v)
+        public Vector3 Velocity
         {
-#if UNITY_MODULES_PHYSICS
-            var falling = BodyPhysics.velocity.y;
-#endif
+            get
+            {
+                return velocity;
+            }
 
-            velocity = v;
+            set
+            {
+#if UNITY_MODULES_PHYSICS
+                var falling = BodyPhysics.velocity.y;
+#endif
+                velocity = value;
 
 #if UNITY_MODULES_PHYSICS
-            velocity.y = falling;
+                velocity.y = falling;
 #endif
+            }
         }
 
         public void FixedUpdate()
