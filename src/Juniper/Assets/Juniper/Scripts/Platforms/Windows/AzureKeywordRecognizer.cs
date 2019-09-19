@@ -2,7 +2,7 @@
 
 using System;
 using System.IO;
-
+using System.Threading.Tasks;
 using Juniper.Security;
 
 using Microsoft.CognitiveServices.Speech;
@@ -65,26 +65,49 @@ namespace Juniper.Speech
         protected override void Setup()
         {
             IsStarting = true;
+
             var config = SpeechConfig.FromSubscription(azureApiKey, azureRegion);
             config.SetProfanity(ProfanityOption.Raw);
             config.SpeechRecognitionLanguage = "en-us";
+
             recognizer = new SpeechRecognizer(config);
             recognizer.SessionStarted += Recognizer_SessionStarted;
             recognizer.Recognizing += Recognizer_OnPhraseRecognized;
             recognizer.Recognized += Recognizer_OnPhraseRecognized;
             recognizer.SessionStopped += Recognizer_SessionStopped;
             recognizer.Canceled += Recognizer_Canceled;
-            recognizer.StartContinuousRecognitionAsync();
+            ErrorTrap(recognizer.StartContinuousRecognitionAsync());
+        }
+
+        private void ErrorTrap(Task task)
+        {
+            task.ContinueWith(OnError)
+                .ConfigureAwait(false);
+        }
+
+        private void OnError(Task t)
+        {
+            if (t.IsFaulted)
+            {
+                OnError(CancellationErrorCode.NoError, t.Exception.Message);
+            }
         }
 
         private void Recognizer_Canceled(object sender, SpeechRecognitionCanceledEventArgs e)
         {
-            if(e.Reason == CancellationReason.Error)
+            if (e.Reason == CancellationReason.Error)
             {
-                ScreenDebugger.Print($"Recognition error: [{e.ErrorCode}] {e.ErrorDetails}");
-                IsUnrecoverable = true;
-                TearDown();
+                var errorCode = e.ErrorCode;
+                var errorMessage = e.ErrorDetails;
+                OnError(errorCode, errorMessage);
             }
+        }
+
+        private void OnError(CancellationErrorCode errorCode, string errorMessage)
+        {
+            ScreenDebugger.Print($"Recognition error: [{errorCode}] {errorMessage}");
+            IsUnrecoverable = true;
+            TearDown();
         }
 
         private void Recognizer_SessionStarted(object sender, SessionEventArgs e)
@@ -127,7 +150,7 @@ namespace Juniper.Speech
                 IsStopping = true;
                 recognizer.Recognized -= Recognizer_OnPhraseRecognized;
                 recognizer.Recognizing -= Recognizer_OnPhraseRecognized;
-                recognizer.StopContinuousRecognitionAsync();
+                ErrorTrap(recognizer.StopContinuousRecognitionAsync());
             }
         }
     }
