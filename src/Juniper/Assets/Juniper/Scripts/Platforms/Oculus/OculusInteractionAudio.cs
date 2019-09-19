@@ -26,6 +26,11 @@ namespace Juniper.Audio
             oculus.Near = audioSource.minDistance;
             oculus.Far = audioSource.maxDistance;
             oculus.VolumetricRadius = 0;
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+            oculus.EnableRfl = false;
+#endif
+
             return audioSource;
         }
 
@@ -37,7 +42,7 @@ namespace Juniper.Audio
         }
 
 #endif
-    }
+        }
 }
 
 #endif
