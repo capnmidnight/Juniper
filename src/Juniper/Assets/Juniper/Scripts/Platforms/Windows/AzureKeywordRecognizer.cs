@@ -81,7 +81,7 @@ namespace Juniper.Speech
         {
             if(e.Reason == CancellationReason.Error)
             {
-                Debug.LogError($"Recognition error: [{e.ErrorCode}] {e.ErrorDetails}");
+                ScreenDebugger.Print($"Recognition error: [{e.ErrorCode}] {e.ErrorDetails}");
                 IsUnrecoverable = true;
                 TearDown();
             }
@@ -89,7 +89,6 @@ namespace Juniper.Speech
 
         private void Recognizer_SessionStarted(object sender, SessionEventArgs e)
         {
-            Debug.Log("Recognition started");
             recognizer.SessionStarted -= Recognizer_SessionStarted;
             IsStarting = false;
             IsRunning = true;
@@ -101,7 +100,6 @@ namespace Juniper.Speech
         /// <param name="args">Arguments.</param>
         void Recognizer_OnPhraseRecognized(object sender, SpeechRecognitionEventArgs args)
         {
-            Debug.Log($"Recognition [{args.Result.Reason}]: {args.Result.Text}");
             if (args.Result.Reason == ResultReason.RecognizedIntent
                 || args.Result.Reason == ResultReason.RecognizingIntent
                 || args.Result.Reason == ResultReason.RecognizedKeyword
@@ -115,7 +113,6 @@ namespace Juniper.Speech
 
         private void Recognizer_SessionStopped(object sender, SessionEventArgs e)
         {
-            Debug.Log("Recognition stopped");
             recognizer.SessionStopped -= Recognizer_SessionStopped;
             recognizer.Dispose();
             recognizer = null;
