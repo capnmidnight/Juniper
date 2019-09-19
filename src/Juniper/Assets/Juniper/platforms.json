@@ -37,7 +37,8 @@
     "com.unity.modules.unityanalytics@exclude",
     "com.unity.standardevents@exclude",
     "com.unity.modules.standardevents@exclude",
-    "com.unity.purchasing@exclude"
+    "com.unity.purchasing@exclude",
+    "ShaderControl"
   ],
   "platforms": [
   {
