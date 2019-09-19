@@ -492,6 +492,9 @@ namespace Juniper.Audio
         [Header("Configuration")]
         public AudioMixerGroup defaultMixerGroup;
 
+        [Range(0, 5)]
+        public float dopplerLevel = 0.68f;
+
         protected virtual string DefaultAudioMixer
         {
             get
@@ -572,6 +575,7 @@ namespace Juniper.Audio
             audioSource.spatialBlend = 1;
             audioSource.spatialize = true;
             audioSource.spatializePostEffects = true;
+            audioSource.dopplerLevel = dopplerLevel;
 
             return audioSource;
         }
