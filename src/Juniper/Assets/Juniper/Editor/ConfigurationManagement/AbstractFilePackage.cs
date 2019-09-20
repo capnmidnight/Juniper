@@ -147,10 +147,6 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
-                if(Progress.tree == null)
-                {
-                    List();
-                }
                 return Progress.tree;
             }
             private set
@@ -227,19 +223,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private Exception errorMessage;
-        public Exception Error
-        {
-            get
-            {
-                return errorMessage;
-            }
-
-            private set
-            {
-                errorMessage = value;
-            }
-        }
+        public Exception Error { get; private set; }
 
         public GUIContent GUILabel { get; internal set; }
 
@@ -331,8 +315,20 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
+        protected override void InstallInternal(IProgress prog)
+        {
+            if (Paths == null)
+            {
+                List();
+            }
+        }
+
         public override void Uninstall(IProgress prog)
         {
+            if (Paths == null)
+            {
+                List();
+            }
             base.Uninstall(prog);
             var paths = Paths.Flatten(TreeTraversalOrder.DepthFirst)
                 .Reverse()
