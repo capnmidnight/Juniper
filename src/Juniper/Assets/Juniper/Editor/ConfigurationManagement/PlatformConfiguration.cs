@@ -291,7 +291,6 @@ namespace Juniper.ConfigurationManagement
                     .Union(AssetStorePackages)
                     .Select(pkg => pkg.CompilerDefine)
                     .Where(def => !string.IsNullOrEmpty(def))
-                    .Distinct()
                     .ToList();
 
                 if (!string.IsNullOrEmpty(CompilerDefine))
@@ -301,7 +300,14 @@ namespace Juniper.ConfigurationManagement
 
                 if (TargetGroup == BuildTargetGroup.Android)
                 {
-                    for (var i = (int)PlayerSettings.Android.minSdkVersion; i > 0; --i)
+                    var target = PlayerSettings.Android.targetSdkVersion;
+                    if(target == AndroidSdkVersions.AndroidApiLevelAuto)
+                    {
+                        target = Enum.GetValues(typeof(AndroidSdkVersions))
+                            .Cast<AndroidSdkVersions>()
+                            .Max();
+                    }
+                    for (var i = (int)target; i > 0; --i)
                     {
                         if (Enum.IsDefined(typeof(AndroidSdkVersions), i))
                         {
@@ -319,7 +325,9 @@ namespace Juniper.ConfigurationManagement
                     }
                 }
 
-                return defines;
+                return defines
+                    .Distinct()
+                    .ToList();
             }
         }
 

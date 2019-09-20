@@ -171,6 +171,22 @@ namespace Juniper.ConfigurationManagement
 
                     this.HGroup(() =>
                     {
+                        EditorGUILayout.LabelField("Current build target", nameFieldGWidth);
+                        EditorGUILayout.LabelField(CurrentConfiguration.TargetGroup.ToString(), nameFieldGWidth);
+                    });
+
+                    if(CurrentConfiguration.TargetGroup == BuildTargetGroup.Android)
+                    {
+
+                        this.HGroup(() =>
+                        {
+                            EditorGUILayout.LabelField("Min Android SDK version", nameFieldGWidth);
+                            EditorGUILayout.LabelField(CurrentConfiguration.androidSdkVersion, nameFieldGWidth);
+                        });
+                    }
+
+                    this.HGroup(() =>
+                    {
                         EditorGUILayout.LabelField("Change platform", nameFieldGWidth);
                         selectedPlatform = (PlatformTypes)EditorGUILayout.EnumPopup(selectedPlatform, nameFieldGWidth);
                     });
@@ -224,7 +240,7 @@ namespace Juniper.ConfigurationManagement
                                 {
                                     if (package.InstallPercentage > 0)
                                     {
-                                        nextDefines.Add(package.CompilerDefine);
+                                        nextDefines.MaybeAdd(package.CompilerDefine);
                                     }
                                     else
                                     {
@@ -327,50 +343,56 @@ namespace Juniper.ConfigurationManagement
                         }
                     });
 
-                    //this.HeaderIndent("Defines", () =>
-                    //{
-                    //    this.HGroup(() =>
-                    //    {
-                    //        EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
-                    //        EditorGUILayout.LabelField("Required", EditorStyles.centeredGreyMiniLabel, buttonGWidth);
-                    //    });
+                    this.HeaderIndent("Defines", () =>
+                    {
+                        if (GUILayout.Button("Refresh"))
+                        {
+                            nextDefines = CleanupDefines(CurrentConfiguration.CompilerDefines);
+                            PlayerSettings.SetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup, string.Join(";", nextDefines));
+                        }
 
-                    //    this.HGroup(() =>
-                    //    {
-                    //        newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidth + narrowWidth));
-                    //        if (GUILayout.Button("Add", buttonGWidth))
-                    //        {
-                    //            if (!string.IsNullOrEmpty(newDefine))
-                    //            {
-                    //                nextDefines.Add(newDefine);
-                    //            }
-                    //            newDefine = string.Empty;
-                    //        }
-                    //    });
+                        this.HGroup(() =>
+                        {
+                            EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
+                            EditorGUILayout.LabelField("Required", EditorStyles.centeredGreyMiniLabel, buttonGWidth);
+                        });
+
+                        this.HGroup(() =>
+                        {
+                            newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidth + narrowWidth));
+                            if (GUILayout.Button("Add", buttonGWidth))
+                            {
+                                if (!string.IsNullOrEmpty(newDefine))
+                                {
+                                    nextDefines.Add(newDefine);
+                                }
+                                newDefine = string.Empty;
+                            }
+                        });
 
 
-                    //    definesScrollPosition = EditorGUILayout.BeginScrollView(definesScrollPosition);
-                    //    for (var i = 0; i < nextDefines.Count; ++i)
-                    //    {
-                    //        this.HGroup(() =>
-                    //        {
-                    //            var define = nextDefines[i];
-                    //            EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldGWidth);
+                        definesScrollPosition = EditorGUILayout.BeginScrollView(definesScrollPosition);
+                        for (var i = 0; i < nextDefines.Count; ++i)
+                        {
+                            this.HGroup(() =>
+                            {
+                                var define = nextDefines[i];
+                                EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldGWidth);
 
-                    //            EditorGUILayout.LabelField(
-                    //                DesiredConfiguration.CompilerDefines.Contains(define) ? "Yes" : "No",
-                    //                EditorStyles.centeredGreyMiniLabel,
-                    //                narrowGWidth);
+                                EditorGUILayout.LabelField(
+                                    DesiredConfiguration.CompilerDefines.Contains(define) ? "Yes" : "No",
+                                    EditorStyles.centeredGreyMiniLabel,
+                                    narrowGWidth);
 
-                    //            if (GUILayout.Button("Remove", buttonGWidth))
-                    //            {
-                    //                nextDefines.RemoveAt(i);
-                    //                --i;
-                    //            }
-                    //        });
-                    //    }
-                    //    EditorGUILayout.EndScrollView();
-                    //});
+                                if (GUILayout.Button("Remove", buttonGWidth))
+                                {
+                                    nextDefines.RemoveAt(i);
+                                    --i;
+                                }
+                            });
+                        }
+                        EditorGUILayout.EndScrollView();
+                    });
 
                     nextDefines = CleanupDefines(nextDefines);
 
