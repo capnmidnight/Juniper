@@ -92,7 +92,9 @@ namespace Juniper.Input.Pointers.Screen
 
         protected override AbstractHapticDevice MakeHapticsDevice()
         {
-#if ANDROID_API_26_OR_GREATER
+#if UNITY_XR_OCULUS
+            return this.Ensure<NoHaptics>();
+#elif ANDROID_API_26_OR_GREATER
             return this.Ensure<AndroidHaptics>();
 #elif IOS_VERSION_10_OR_GREATER
             return this.Ensure<iOS10Haptics>();
