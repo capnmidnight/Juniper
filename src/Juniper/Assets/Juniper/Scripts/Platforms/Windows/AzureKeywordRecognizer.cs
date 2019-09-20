@@ -89,7 +89,7 @@ namespace Juniper.Speech
         private void OnError(Task t)
         {
             Debug.LogException(t.Exception);
-            OnError(CancellationErrorCode.NoError, t.Exception.Message, true);
+            OnError(CancellationErrorCode.NoError, t.Exception.Message);
         }
 
         private void Recognizer_Canceled(object sender, SpeechRecognitionCanceledEventArgs e)
@@ -98,18 +98,15 @@ namespace Juniper.Speech
             {
                 var errorCode = e.ErrorCode;
                 var errorMessage = e.ErrorDetails;
-                OnError(errorCode, errorMessage, false);
+                OnError(errorCode, errorMessage);
             }
         }
 
-        private void OnError(CancellationErrorCode errorCode, string errorMessage, bool tryAgain)
+        private void OnError(CancellationErrorCode errorCode, string errorMessage)
         {
             ScreenDebugger.Print($"Recognition error: [{errorCode}] {errorMessage}");
-            IsUnrecoverable = !tryAgain;
-            if (!IsRunning)
-            {
-                TearDown();
-            }
+            IsUnrecoverable = true;
+            TearDown();
         }
 
         private void Recognizer_SessionStarted(object sender, SessionEventArgs e)
