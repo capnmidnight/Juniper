@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-
+using Juniper;
 using Juniper.Units;
-
+using Juniper.Widgets;
 using UnityEngine;
-
-using TextElementType = UnityEngine.UI.Text;
 
 namespace System
 {
@@ -16,7 +14,6 @@ namespace System
     /// </summary>
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(TextElementType))]
     public class ScreenDebugger : MonoBehaviour
     {
         /// <summary>
@@ -26,6 +23,14 @@ namespace System
         public ScreenDebugger()
         {
             instance = this;
+        }
+
+        /// <summary>
+        /// Clear out the text display
+        /// </summary>
+        public static void Clear()
+        {
+            instance?.ClearScreen();
         }
 
         /// <summary>
@@ -96,13 +101,44 @@ namespace System
         }
 
         /// <summary>
-        /// Add lines to the debug output in a way that Unity Events can handle
+        /// The text that will be rendered out to the TextMesh at the end of the frame.
         /// </summary>
-        /// <param name="msg">Message.</param>
-        public void AddLine(string msg)
+        private static readonly List<string> lines = new List<string>(10);
+
+        /// <summary>
+        /// The screen debugger instance, a singleton.
+        /// </summary>
+        private static ScreenDebugger instance;
+
+        /// <summary>
+        /// The text element to which the output is rendered.
+        /// </summary>
+        [HideInNormalInspector]
+        [SerializeField]
+        private TextComponentWrapper text;
+
+        private void Awake()
         {
-            lines.Add(msg);
-            Debug.Log(msg);
+            GetControls();
+            if(text != null)
+            {
+                ClearScreen();
+            }
+        }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            GetControls();
+        }
+#endif
+
+        private void GetControls()
+        {
+            if (text == null)
+            {
+                text = this.Ensure<TextComponentWrapper>();
+            }
         }
 
         /// <summary>
@@ -110,11 +146,6 @@ namespace System
         /// </summary>
         public void LateUpdate()
         {
-            if(text == null)
-            {
-                text = GetComponent<TextElementType>();
-            }
-
             if (lines.Count > 0)
             {
                 var log = string.Join(Environment.NewLine, lines);
@@ -133,26 +164,22 @@ namespace System
         }
 
         /// <summary>
-        /// The text that will be rendered out to the TextMesh at the end of the frame.
+        /// Add lines to the debug output in a way that Unity Events can handle
         /// </summary>
-        private static readonly List<string> lines = new List<string>(10);
-
-        /// <summary>
-        /// The screen debugger instance, a singleton.
-        /// </summary>
-        private static ScreenDebugger instance;
-
-        /// <summary>
-        /// The text element to which the output is rendered.
-        /// </summary>
-        private TextElementType text;
-
-        public static TextElementType TextBox
+        /// <param name="msg">Message.</param>
+        public void AddLine(string msg)
         {
-            get
-            {
-                return instance.text;
-            }
+            lines.Add(msg);
+            Debug.Log(msg);
+        }
+
+        /// <summary>
+        /// Remove any text that is in the debugger view right now.
+        /// </summary>
+        public void ClearScreen()
+        {
+            lines.Clear();
+            text.text = string.Empty;
         }
     }
 }

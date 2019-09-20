@@ -92,33 +92,11 @@ namespace Juniper.Speech
             var tooltip = GetComponent<Tooltipable>();
             if (tooltip != null && tooltip.tooltip != null)
             {
-#if UNITY_TEXTMESHPRO
+                var textElement = tooltip.tooltip.Ensure<TextComponentWrapper>().Value;
+                if(force || string.IsNullOrEmpty(textElement.text))
                 {
-                    var text = tooltip.tooltip.GetComponentInChildren<TMPro.TextMeshPro>();
-                    if (text != null && (force || string.IsNullOrEmpty(text.text)))
-                    {
-                        text.text = DefaultDescription;
-                    }
+                    textElement.text = DefaultDescription;
                 }
-
-                {
-                    var text = tooltip.tooltip.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-                    if (text != null && (force || string.IsNullOrEmpty(text.text)))
-                    {
-                        text.text = DefaultDescription;
-                    }
-                }
-#endif
-
-#if UNITY_MODULES_UI
-                {
-                    var text = tooltip.tooltip.GetComponentInChildren<TextMesh>();
-                    if (text != null && (force || string.IsNullOrEmpty(text.text)))
-                    {
-                        text.text = DefaultDescription;
-                    }
-                }
-#endif
             }
         }
 

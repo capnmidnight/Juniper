@@ -30,16 +30,84 @@ namespace Juniper.Widgets
 
         public void Awake()
         {
+            SetupControls();
+        }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            SetupControls();
+        }
+#endif
+
+        private void SetupControls()
+        {
+            var hasAny = false;
+            var isButton = GetComponent<Button>() != null
+                || GetComponent<Clickable>() != null
+                || GetComponent<Tooltipable>() != null;
+
+            var textGameObject = gameObject;
+            if (isButton)
             {
+                foreach(var trans in transform.Children())
+                {
 #if UNITY_MODULES_UI
-                unityText = GetComponent<Text>();
-                unityTextMesh = GetComponent<TextMesh>();
+                    if(trans.GetComponent<Text>() != null
+                        || trans.GetComponent<Text>() != null)
+                    {
+                        textGameObject = trans.gameObject;
+                        break;
+                    }
 #endif
 
 #if UNITY_TEXTMESHPRO
-                textMeshPro = GetComponent<TMP_Text>();
+                    if(trans.GetComponent<TMP_Text>() != null)
+                    {
+                        textGameObject = trans.gameObject;
+                        break;
+                    }
+#endif
+                }
+            }
+
+#if UNITY_MODULES_UI
+            unityText = textGameObject.GetComponent<Text>();
+            unityTextMesh = textGameObject.GetComponent<TextMesh>();
+
+            hasAny |= unityText != null || unityTextMesh != null;
+#endif
+
+#if UNITY_TEXTMESHPRO
+            textMeshPro = textGameObject.GetComponent<TMP_Text>();
+            hasAny |= textMeshPro != null;
+#endif
+
+            if (!hasAny)
+            {
+                var isCanvas = GetComponentInParent<Canvas>() != null;
+#if UNITY_TEXTMESHPRO
+                if (isCanvas)
+                {
+                    textMeshPro = textGameObject.AddComponent<TextMeshProUGUI>();
+                }
+                else
+                {
+                    textMeshPro = textGameObject.AddComponent<TextMeshPro>();
+                }
+#elif UNITY_MODULES_UI
+                if (isCanvas)
+                {
+                    unityText = textGameObject.AddComponent<Text>();
+                }
+                else
+                {
+                    unityTextMesh = textGameObject.AddComponent<TextMesh>();
+                }
 #endif
             }
+
+            lastText = text = Text;
         }
 
         public void Update()

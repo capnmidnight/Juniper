@@ -2,6 +2,7 @@
 using System.Linq;
 using Juniper.Input;
 using Juniper.Speech;
+using Juniper.Widgets;
 using UnityEngine;
 
 using Clickable = Juniper.Widgets.Clickable;
@@ -91,32 +92,9 @@ namespace Juniper.Settings
                         ? "Disable " + name.ToLowerInvariant()
                         : "Enable " + name.ToLowerInvariant();
 
-#if UNITY_TEXTMESHPRO
-                {
-                    var tmp = button.GetComponentInChildren<TMPro.TextMeshPro>();
-                    if (tmp != null)
-                    {
-                        tmp.text = text;
-                    }
-                }
-                {
-                    var tmp = button.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-                    if (tmp != null)
-                    {
-                        tmp.text = text;
-                    }
-                }
-#endif
 
-#if UNITY_MODULES_UI
-                {
-                    var tmp = button.GetComponentInChildren<TextMesh>();
-                    if (tmp != null)
-                    {
-                        tmp.text = text;
-                    }
-                }
-#endif
+                var textElement = button.Ensure<TextComponentWrapper>().Value;
+                textElement.text = text;
 
                 var keywordable = button.GetComponent<Keywordable>();
                 if (keywordable != null)
