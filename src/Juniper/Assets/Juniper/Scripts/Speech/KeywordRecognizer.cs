@@ -7,10 +7,10 @@ using UnityEngine;
 namespace Juniper.Speech
 {
     public class KeywordRecognizer :
-#if UNITY_WSA || UNITY_STANDALONE_WIN
-        WindowsKeywordRecognizer
-#elif UNITY_ANDROID && AZURE_SPEECHSDK
+#if AZURE_SPEECHSDK
         AzureKeywordRecognizer
+#elif UNITY_WSA || UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+        WindowsKeywordRecognizer
 #else
         NoKeywordRecognizer
 #endif
@@ -57,7 +57,6 @@ namespace Juniper.Speech
         protected bool IsRunning;
         protected bool IsStopping;
         protected bool IsStarting;
-        protected bool IsUnrecoverable;
 
         private readonly List<Keywordable> keywordables = new List<Keywordable>();
         private DateTime lastMatchTime;
@@ -153,7 +152,7 @@ namespace Juniper.Speech
                         receiver.OnKeywordRecognized();
                     }
                 }
-                else if (IsPermitted && !IsUnrecoverable && !IsStarting)
+                else if (IsPermitted && !IsStarting)
                 {
                     Setup();
                 }

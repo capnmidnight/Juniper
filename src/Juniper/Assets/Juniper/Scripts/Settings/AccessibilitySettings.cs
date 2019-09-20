@@ -1,4 +1,6 @@
-﻿using Juniper.Input;
+﻿using System;
+using System.Linq;
+using Juniper.Input;
 using Juniper.Speech;
 using UnityEngine;
 
@@ -11,63 +13,81 @@ namespace Juniper.Settings
     {
         private UnifiedInputModule input;
 
-        public GameObject EnableVoiceButton;
         public GameObject EnableGazeButton;
-        public GameObject EnableMouseButton;
-        public GameObject EnableTouchButton;
+        public GameObject EnableScreenButton;
         public GameObject EnableHandsButton;
-        public GameObject EnableControllersButton;
+        public GameObject EnableVoiceButton;
 
-        private bool? lastVoiceAvailable;
-        private bool? lastVoiceEnabled;
         private bool? lastGazeAvailable;
         private bool? lastGazeEnabled;
-        private bool? lastMouseAvailable;
-        private bool? lastMouseEnabled;
-        private bool? lastTouchAvailable;
-        private bool? lastTouchEnabled;
+        private bool? lastScreenAvailable;
+        private bool? lastScreenEnabled;
         private bool? lastHandsAvailable;
         private bool? lastHandsEnabled;
-        private bool? lastControllerAvailable;
-        private bool? lastControllerEnabled;
+        private bool? lastVoiceAvailable;
+        private bool? lastVoiceEnabled;
 
         public void Awake()
         {
             input = ComponentExt.FindAny<UnifiedInputModule>();
         }
 
+        int disablerCount;
+        GameObject onlyDisablerButton;
         public void Update()
         {
-            DisableButton("Voice", EnableVoiceButton, input.VoiceAvailable, input.VoiceEnabled, ref lastVoiceAvailable, ref lastVoiceEnabled);
-            DisableButton("Gaze pointer", EnableGazeButton, input.GazeAvailable, input.GazeEnabled, ref lastGazeAvailable, ref lastGazeEnabled);
-            DisableButton("Mouse pointer", EnableMouseButton, input.MouseAvailable, input.MouseEnabled, ref lastMouseAvailable, ref lastMouseEnabled);
-            DisableButton("Touch screen", EnableTouchButton, input.TouchAvailable, input.TouchEnabled, ref lastTouchAvailable, ref lastTouchEnabled);
-            DisableButton("Hand tracking", EnableHandsButton, input.HandsAvailable, input.HandsEnabled, ref lastHandsAvailable, ref lastHandsEnabled);
-            DisableButton("Motion controllers", EnableControllersButton, input.ControllersAvailable, input.ControllersEnabled, ref lastControllerAvailable, ref lastControllerEnabled);
+            disablerCount = 0;
+            onlyDisablerButton = null;
+
+            SetButtonView("Gaze pointer",
+                EnableGazeButton,
+                input.GazeAvailable,
+                input.GazeEnabled,
+                ref lastGazeAvailable, ref lastGazeEnabled);
+
+            SetButtonView("Screen pointer",
+                EnableScreenButton,
+                input.MouseAvailable || input.TouchAvailable,
+                input.MouseEnabled || input.TouchEnabled,
+                ref lastScreenAvailable, ref lastScreenEnabled);
+
+            SetButtonView(
+                "Hand tracking",
+                EnableHandsButton,
+                input.HandsAvailable || input.ControllersAvailable,
+                input.HandsEnabled || input.ControllersEnabled,
+                ref lastHandsAvailable, ref lastHandsEnabled);
+
+            SetButtonView("Voice",
+                EnableVoiceButton,
+                input.VoiceAvailable,
+                input.VoiceEnabled,
+                ref lastVoiceAvailable, ref lastVoiceEnabled);
+
+            if (disablerCount == 1)
+            {
+                EnableButton(onlyDisablerButton, false);
+            }
         }
 
-        private static void DisableButton(string name, GameObject button, bool available, bool enabled, ref bool? lastAvailable, ref bool? lastEnabled)
+        private void SetButtonView(string name, GameObject button, bool deviceAvailable, bool deviceEnabled, ref bool? lastAvailable, ref bool? lastEnabled)
         {
-            if (button != null && (available != lastAvailable || enabled != lastEnabled))
+            if (button != null && (deviceAvailable != lastAvailable || deviceEnabled != lastEnabled))
             {
-                lastAvailable = available;
-                lastEnabled = enabled;
+                lastAvailable = deviceAvailable;
+                lastEnabled = deviceEnabled;
 
-                var sel = button.GetComponent<Selectable>();
-                if (sel != null)
+                EnableButton(button, deviceAvailable);
+
+                if (deviceAvailable && deviceEnabled && button != EnableVoiceButton)
                 {
-                    sel.interactable = available;
+                    ++disablerCount;
+                    onlyDisablerButton = button;
                 }
 
-                var click = button.GetComponent<Clickable>();
-                if (click != null)
-                {
-                    click.disabled = !available;
-                }
-
-                var text = !available
+                var text = !deviceAvailable
                     ? name + " not available"
-                    : enabled
+                    : deviceEnabled
                         ? "Disable " + name.ToLowerInvariant()
                         : "Enable " + name.ToLowerInvariant();
 
@@ -106,13 +126,52 @@ namespace Juniper.Settings
             }
         }
 
-        private void SetInputMode(InputMode mode, bool enableAlternate, InputMode alternate)
+        private static void EnableButton(GameObject button, bool deviceAvailable)
         {
-            if (enableAlternate)
+            var sel = button.GetComponent<Selectable>();
+            if (sel != null)
             {
-                mode |= alternate;
+                sel.interactable = deviceAvailable;
             }
 
+            var click = button.GetComponent<Clickable>();
+            if (click != null)
+            {
+                click.disabled = !deviceAvailable;
+            }
+
+            var keywordable = button.GetComponent<Keywordable>();
+            if(keywordable != null)
+            {
+                var keywords = keywordable.keywords;
+                for(int i = 0; i < keywords.Length; ++i)
+                {
+                    keywords[i] = keywords[i].Replace(
+                        deviceAvailable ? "disable" : "enable",
+                        deviceAvailable ? "enable" : "disable");
+
+                    if (!deviceAvailable)
+                    {
+                        keywords[i] = keywords[i].Replace("use", "disable");
+                    }
+                }
+
+                keywords = keywords.Distinct().ToArray();
+                if (deviceAvailable)
+                {
+                    var newKeywords = keywords.Select(x => x.Replace("enable", "use"));
+                    keywords = keywords.Union(newKeywords).ToArray();
+                }
+
+                Array.Sort(keywords);
+
+                keywordable.keywords = keywords;
+                keywordable.SetTooltips();
+            }
+        }
+
+        private void SetInputMode(InputMode mode)
+        {
             if (input.VoiceEnabled)
             {
                 mode |= InputMode.Voice;
@@ -123,27 +182,17 @@ namespace Juniper.Settings
 
         public void EnableGaze()
         {
-            SetInputMode(InputMode.Gaze, false, InputMode.None);
+            SetInputMode(InputMode.Gaze);
         }
 
-        public void EnableMouse()
+        public void EnableScreen()
         {
-            SetInputMode(InputMode.Mouse, input.TouchEnabled, InputMode.Touch);
-        }
-
-        public void EnableTouch()
-        {
-            SetInputMode(InputMode.Touch, input.MouseEnabled, InputMode.Mouse);
+            SetInputMode(InputMode.Mouse | InputMode.Touch);
         }
 
         public void EnableHands()
         {
-            SetInputMode(InputMode.Hands, input.ControllersEnabled, InputMode.Motion);
-        }
-
-        public void EnableControllers()
-        {
-            SetInputMode(InputMode.Motion, input.HandsEnabled, InputMode.Hands);
+            SetInputMode(InputMode.Hands | InputMode.Motion);
         }
 
         public void ToggleVoice()

@@ -1,4 +1,4 @@
-#if !UNITY_WSA && !UNITY_STANDALONE_WIN && AZURE_SPEECHSDK
+#if AZURE_SPEECHSDK
 
 using System;
 using System.IO;
@@ -16,6 +16,7 @@ namespace Juniper.Speech
         /// <summary>
         /// Reads as true if the current XR subsystem supports speech recognition.
         /// </summary>
+        private bool IsUnrecoverable;
         public override bool IsAvailable { get { return !IsUnrecoverable; } }
 
         /// <summary>
@@ -81,16 +82,14 @@ namespace Juniper.Speech
 
         private void ErrorTrap(Task task)
         {
-            task.ContinueWith(OnError)
+            task.ContinueWith(OnError, TaskContinuationOptions.OnlyOnFaulted)
                 .ConfigureAwait(false);
         }
 
         private void OnError(Task t)
         {
-            if (t.IsFaulted)
-            {
-                OnError(CancellationErrorCode.NoError, t.Exception.Message);
-            }
+            Debug.LogException(t.Exception);
+            OnError(CancellationErrorCode.NoError, t.Exception.Message, true);
         }
 
         private void Recognizer_Canceled(object sender, SpeechRecognitionCanceledEventArgs e)
@@ -99,15 +98,18 @@ namespace Juniper.Speech
             {
                 var errorCode = e.ErrorCode;
                 var errorMessage = e.ErrorDetails;
-                OnError(errorCode, errorMessage);
+                OnError(errorCode, errorMessage, false);
             }
         }
 
-        private void OnError(CancellationErrorCode errorCode, string errorMessage)
+        private void OnError(CancellationErrorCode errorCode, string errorMessage, bool tryAgain)
         {
             ScreenDebugger.Print($"Recognition error: [{errorCode}] {errorMessage}");
-            IsUnrecoverable = true;
-            TearDown();
+            IsUnrecoverable = !tryAgain;
+            if (!IsRunning)
+            {
+                TearDown();
+            }
         }
 
         private void Recognizer_SessionStarted(object sender, SessionEventArgs e)
@@ -134,15 +136,6 @@ namespace Juniper.Speech
             }
         }
 
-        private void Recognizer_SessionStopped(object sender, SessionEventArgs e)
-        {
-            recognizer.SessionStopped -= Recognizer_SessionStopped;
-            recognizer.Dispose();
-            recognizer = null;
-            IsStopping = false;
-            IsRunning = false;
-        }
-
         protected override void TearDown()
         {
             if (recognizer != null)
@@ -150,8 +143,29 @@ namespace Juniper.Speech
                 IsStopping = true;
                 recognizer.Recognized -= Recognizer_OnPhraseRecognized;
                 recognizer.Recognizing -= Recognizer_OnPhraseRecognized;
-                ErrorTrap(recognizer.StopContinuousRecognitionAsync());
+                if (IsRunning)
+                {
+                    ErrorTrap(recognizer.StopContinuousRecognitionAsync());
+                }
+                else
+                {
+                    FinishTeardown();
+                }
             }
+        }
+
+        private void Recognizer_SessionStopped(object sender, SessionEventArgs e)
+        {
+            FinishTeardown();
+        }
+
+        private void FinishTeardown()
+        {
+            recognizer.SessionStopped -= Recognizer_SessionStopped;
+            recognizer.Dispose();
+            recognizer = null;
+            IsStopping = false;
+            IsRunning = false;
         }
     }
 }
