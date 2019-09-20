@@ -106,29 +106,44 @@ namespace Juniper.Settings
             }
         }
 
+        private void SetInputMode(InputMode mode, bool enableAlternate, InputMode alternate)
+        {
+            if (enableAlternate)
+            {
+                mode |= alternate;
+            }
+
+            if (input.VoiceEnabled)
+            {
+                mode |= InputMode.Voice;
+            }
+
+            input.mode = mode;
+        }
+
         public void EnableGaze()
         {
-            input.mode = (input.mode & InputMode.Voice) | InputMode.Gaze;
+            SetInputMode(InputMode.Gaze, false, InputMode.None);
         }
 
         public void EnableMouse()
         {
-            input.mode = (input.mode & InputMode.Voice) | InputMode.Mouse;
+            SetInputMode(InputMode.Mouse, input.TouchEnabled, InputMode.Touch);
         }
 
         public void EnableTouch()
         {
-            input.mode = (input.mode & InputMode.Voice) | InputMode.Touch;
+            SetInputMode(InputMode.Touch, input.MouseEnabled, InputMode.Mouse);
         }
 
         public void EnableHands()
         {
-            input.mode = (input.mode & InputMode.Voice) | InputMode.Hands;
+            SetInputMode(InputMode.Hands, input.ControllersEnabled, InputMode.Motion);
         }
 
         public void EnableControllers()
         {
-            input.mode = (input.mode & InputMode.Voice) | InputMode.Motion;
+            SetInputMode(InputMode.Motion, input.HandsEnabled, InputMode.Hands);
         }
 
         public void ToggleVoice()

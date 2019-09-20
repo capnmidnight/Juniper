@@ -61,6 +61,6 @@
   },
   {
     "Name": "ShaderControl",
-    "CompilerDefine": "SHADERCONTROL"
+    "CompilerDefine": "SHADER_CONTROL"
   }
 ]

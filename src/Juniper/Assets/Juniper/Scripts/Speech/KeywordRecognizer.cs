@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Juniper.Speech
 {
     public class KeywordRecognizer :
-#if UNITY_WSA || UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+#if UNITY_WSA || UNITY_STANDALONE_WIN
         WindowsKeywordRecognizer
 #elif UNITY_ANDROID && AZURE_SPEECHSDK
         AzureKeywordRecognizer

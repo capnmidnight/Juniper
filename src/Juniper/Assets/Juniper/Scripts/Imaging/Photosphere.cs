@@ -43,7 +43,6 @@ namespace Juniper.Imaging
         private PhotosphereManager mgr;
         private Avatar avatar;
         private SkyboxManager skybox;
-        private MaterialPropertyBlock properties;
 
         public event CubemapImageNeeded CubemapNeeded;
 
@@ -65,7 +64,7 @@ namespace Juniper.Imaging
             {
                 material = new Material(Shader.Find("Unlit/Texture"));
             }
-            properties = new MaterialPropertyBlock();
+
             mgr = this.FindClosest<PhotosphereManager>();
             avatar = ComponentExt.FindAny<Avatar>();
             skybox = ComponentExt.FindAny<SkyboxManager>()
