@@ -52,7 +52,8 @@
     "packages": [
       "com.unity.mobile.android-logcat@1.0.0",
       "com.unity.modules.androidjni@1.0.0",
-      "SpeechSDK"
+      "SpeechSDK",
+      "Native Touch"
     ]
   },
   {
@@ -64,7 +65,8 @@
       "com.unity.modules.androidjni@1.0.0",
       "com.unity.modules.jsonserialize@1.0.0",
       "GoogleARCore",
-      "SpeechSDK"
+      "SpeechSDK",
+      "Native Touch"
     ]
   },
   {
@@ -75,7 +77,8 @@
     "spatializer": "Resonance Audio",
     "vrSystems": [
       "None",
-      "cardboard"
+      "cardboard",
+      "Native Touch"
     ],
     "packages": [
       "com.unity.google.resonance.audio@1.18.3",
