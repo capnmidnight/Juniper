@@ -37,6 +37,8 @@ namespace Juniper.Animation
         /// </summary>
         private AudioSource aud;
 
+        public float volume = 0.5f;
+
 #endif
 
         /// <summary>
@@ -44,8 +46,6 @@ namespace Juniper.Animation
         /// configured, this is the default length of time to run the fade-in/fade-out transition.
         /// </summary>
         public float fadeLength = 0.25f;
-
-        public float volume = 0.5f;
 
         /// <summary>
         /// The amount of time the fade transition takes to complete. If a fade sound is provided,

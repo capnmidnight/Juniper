@@ -106,8 +106,11 @@ namespace Juniper
 
         private FadeTransition fader;
         private InteractionAudio interaction;
+
+#if UNITY_MODULES_AUDIO
         private float originalFadeVolume;
         private AudioClip originalFadeInSound;
+#endif
 
         /// <summary>
         /// All of the active SubSceneControllers
@@ -424,8 +427,10 @@ namespace Juniper
             if (fader != null)
             {
                 yield return fader.ExitCoroutine();
+#if UNITY_MODULES_AUDIO
                 fader.volume = originalFadeVolume;
                 fader.fadeInSound = originalFadeInSound;
+#endif
             }
         }
 
@@ -446,6 +451,7 @@ namespace Juniper
             fader = ComponentExt.FindAny<FadeTransition>();
             interaction = ComponentExt.FindAny<InteractionAudio>();
 
+#if UNITY_MODULES_AUDIO
             if (fader != null)
             {
                 originalFadeInSound = fader.fadeInSound;
@@ -456,6 +462,7 @@ namespace Juniper
                     fader.fadeInSound = interaction.soundOnStartUp;
                 }
             }
+#endif
 
             foreach (var subScene in FindObjectsOfType<SubSceneController>())
             {
@@ -609,8 +616,10 @@ namespace Juniper
 
             if (fader != null)
             {
+#if UNITY_MODULES_AUDIO
                 fader.fadeOutSound = interaction.soundOnShutDown;
                 fader.volume = 0.5f;
+#endif
                 yield return fader.EnterCoroutine();
             }
 

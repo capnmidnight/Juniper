@@ -43,9 +43,12 @@ namespace Juniper.Widgets
         private void SetupControls()
         {
             var hasAny = false;
-            var isButton = GetComponent<Button>() != null
-                || GetComponent<Clickable>() != null
+            var isButton = GetComponent<Clickable>() != null
                 || GetComponent<Tooltipable>() != null;
+
+#if UNITY_MODULES_UI
+                isButton |= GetComponent<Button>() != null;
+#endif
 
             var textGameObject = gameObject;
             if (isButton)

@@ -290,9 +290,12 @@ namespace Juniper
             grounder.GroundFound -= DestroyGrounder;
             grounder.DestroyImmediate();
             grounder = null;
+
+#if UNITY_MODULES_PHYSICS
             BodyPhysics.useGravity = true;
             BodyPhysics.isKinematic = false;
             BodyPhysics.velocity = Vector3.zero;
+#endif
         }
 
         private void SetBodyPositionAndShape()
