@@ -42,7 +42,7 @@ namespace Juniper.ConfigurationManagement
         private static AbstractFilePackage[] packages;
         private static bool repaintNeeded;
         private static bool repaintBound;
-        private static ProgressEventer currentProg;
+        private static readonly ProgressEventer currentProg;
 
         private static string progressMessage;
 
@@ -73,12 +73,12 @@ namespace Juniper.ConfigurationManagement
             sb.Append('[');
             var pips = Mathf.RoundToInt(currentProg.Progress * 10);
             var negPips = 10 - pips;
-            for (int i = 0; i < pips; ++i)
+            for (var i = 0; i < pips; ++i)
             {
                 sb.Append('=');
             }
 
-            for (int i = 0; i < negPips; ++i)
+            for (var i = 0; i < negPips; ++i)
             {
                 sb.Append('-');
             }
@@ -175,7 +175,7 @@ namespace Juniper.ConfigurationManagement
                         EditorGUILayout.LabelField(CurrentConfiguration.TargetGroup.ToString(), nameFieldGWidth);
                     });
 
-                    if(CurrentConfiguration.TargetGroup == BuildTargetGroup.Android)
+                    if (CurrentConfiguration.TargetGroup == BuildTargetGroup.Android)
                     {
 
                         this.HGroup(() =>
@@ -236,7 +236,7 @@ namespace Juniper.ConfigurationManagement
                             packageScrollPosition = EditorGUILayout.BeginScrollView(packageScrollPosition);
                             foreach (var package in packages)
                             {
-                                if (package.InstallPercentage > 0 != !defines.Contains(package.CompilerDefine))
+                                if (package.InstallPercentage > 0 != nextDefines.Contains(package.CompilerDefine))
                                 {
                                     if (package.InstallPercentage > 0)
                                     {
@@ -257,7 +257,7 @@ namespace Juniper.ConfigurationManagement
 
 
                                         EditorGUILayout.LabelField(
-                                            defines.Contains(package.CompilerDefine) ? "Yes" : "No",
+                                            nextDefines.Contains(package.CompilerDefine) ? "Yes" : "No",
                                             EditorStyles.centeredGreyMiniLabel,
                                             narrowGWidth);
 
@@ -293,41 +293,38 @@ namespace Juniper.ConfigurationManagement
                                                 EditorStyles.centeredGreyMiniLabel,
                                                 statusWidth);
                                         }
-                                        else
+                                        else if (package.ScanningProgress == PackageScanStatus.Scanned)
                                         {
-                                            if (package.ScanningProgress == PackageScanStatus.Scanned)
+                                            EditorGUILayout.LabelField(string.Format(
+                                                "({0} of {1} files)",
+                                                Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent),
+                                                package.TotalFiles),
+                                                EditorStyles.centeredGreyMiniLabel,
+                                                statusWidth);
+
+                                            var installLabel = package.InstallPercentage == 0 ? "Install" : "Refresh";
+                                            if (package.InstallPercentage == 1)
                                             {
-                                                EditorGUILayout.LabelField(string.Format(
-                                                    "({0} of {1} files)",
-                                                    Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent),
-                                                    package.TotalFiles),
-                                                    EditorStyles.centeredGreyMiniLabel,
-                                                    statusWidth);
-
-                                                var installLabel = package.InstallPercentage == 0 ? "Install" : "Refresh";
-                                                if (package.InstallPercentage == 1)
-                                                {
-                                                    GUILayout.Space(buttonWidth);
-                                                }
-                                                else if (GUILayout.Button(installLabel, buttonGWidth))
-                                                {
-                                                    package.Install(currentProg);
-                                                }
-
-                                                if (package.InstallPercentage > 0 && GUILayout.Button("Uninstall", buttonGWidth))
-                                                {
-                                                    package.Uninstall(currentProg);
-                                                }
+                                                GUILayout.Space(buttonWidth);
                                             }
-                                            else if (package.ScanningProgress == PackageScanStatus.Error)
+                                            else if (GUILayout.Button(installLabel, buttonGWidth))
                                             {
-                                                if (GUILayout.Button(
-                                                    new GUIContent("ERROR!", package.Error.Message),
-                                                    EditorStyles.miniBoldLabel,
-                                                    buttonGWidth))
-                                                {
-                                                    package.ClearError();
-                                                }
+                                                package.Install(currentProg);
+                                            }
+
+                                            if (package.InstallPercentage > 0 && GUILayout.Button("Uninstall", buttonGWidth))
+                                            {
+                                                package.Uninstall(currentProg);
+                                            }
+                                        }
+                                        else if (package.ScanningProgress == PackageScanStatus.Error)
+                                        {
+                                            if (GUILayout.Button(
+                                                new GUIContent("ERROR!", package.Error.Message),
+                                                EditorStyles.miniBoldLabel,
+                                                buttonGWidth))
+                                            {
+                                                package.ClearError();
                                             }
                                         }
                                     }
@@ -622,7 +619,10 @@ namespace Juniper.ConfigurationManagement
             EditorApplication.update += exec;
         }
 
-        private static bool AlwaysTrue() { return true; }
+        private static bool AlwaysTrue()
+        {
+            return true;
+        }
 
         private static void OnEditorUpdate(Action resolve, Action reject)
         {

@@ -14,6 +14,12 @@ namespace Juniper.Input
             }
         }
 
-        public override InputMode DefaultInputMode { get { return InputMode.Touchscreen; } }
+        public override InputMode DefaultInputMode
+        {
+            get
+            {
+                return InputMode.Touchscreen;
+            }
+        }
     }
 }

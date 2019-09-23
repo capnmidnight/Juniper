@@ -39,6 +39,14 @@ namespace Juniper.Input.Pointers
         [ReadOnly]
         public bool Connected;
 
+        public virtual bool ProcessInUpdate
+        {
+            get
+            {
+                return true;;
+            }
+        }
+
         public int PointerDataID
         {
             get

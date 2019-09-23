@@ -14,8 +14,6 @@ using Juniper.Display;
 using Juniper.Widgets;
 using Juniper.Progress;
 
-using Juniper.Speech;
-
 using UnityImage = UnityEngine.UI.Image;
 
 using Juniper.Units;

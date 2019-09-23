@@ -84,7 +84,13 @@ namespace Juniper.Imaging
                 .ToArray();
         }
 
-        public int Count { get { return photospheres.Count; } }
+        public int Count
+        {
+            get
+            {
+                return photospheres.Count;
+            }
+        }
 
         public T GetPhotosphere<T>(string key) where T : Photosphere
         {
@@ -143,7 +149,7 @@ namespace Juniper.Imaging
 
         public void Update()
         {
-            if(codec != lastCodec)
+            if (codec != lastCodec)
             {
                 lastCodec = codec;
                 foreach (var photo in photospheres.Values)

@@ -17,7 +17,13 @@ namespace Juniper.Speech
         /// Reads as true if the current XR subsystem supports speech recognition.
         /// </summary>
         private bool IsUnrecoverable;
-        public override bool IsAvailable { get { return !IsUnrecoverable; } }
+        public override bool IsAvailable
+        {
+            get
+            {
+                return !IsUnrecoverable;
+            }
+        }
 
         /// <summary>
         /// The real recognizer.

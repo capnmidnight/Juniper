@@ -81,7 +81,13 @@ namespace Juniper.Animation
         /// <summary>
         /// The function that performs the 'tweening.
         /// </summary>
-        private Func<float, float, Direction, float> Tweener { get { return Tween.Functions[tween]; } }
+        private Func<float, float, Direction, float> Tweener
+        {
+            get
+            {
+                return Tween.Functions[tween];
+            }
+        }
 
         public override void Enter(IProgress prog)
         {

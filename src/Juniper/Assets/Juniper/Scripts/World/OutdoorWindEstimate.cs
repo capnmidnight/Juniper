@@ -66,7 +66,9 @@ namespace Juniper.World
         {
             get
             {
-                return FakeWind || weatherService == null || !UnityEngine.Input.compass.enabled;
+                return FakeWind
+                    || weatherService == null
+                    || !UnityEngine.Input.compass.enabled;
             }
         }
 

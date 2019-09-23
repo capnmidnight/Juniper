@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+
 using Juniper.Collections;
 using Juniper.Compression;
 using Juniper.Compression.Zip;

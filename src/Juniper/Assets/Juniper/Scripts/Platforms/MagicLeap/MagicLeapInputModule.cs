@@ -3,9 +3,21 @@ namespace Juniper.Input
 {
     public class MagicLeapInputModule : AbstractUnifiedInputModule
     {
-        public override bool HasFloorPosition { get { return true; } }
+        public override bool HasFloorPosition
+        {
+            get
+            {
+                return true;
+            }
+        }
 
-        public override InputMode DefaultInputMode { get { return InputMode.HeadsetAR; } }
+        public override InputMode DefaultInputMode
+        {
+            get
+            {
+                return InputMode.HeadsetAR;
+            }
+        }
     }
 }
 #endif

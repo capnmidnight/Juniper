@@ -27,13 +27,18 @@ namespace Juniper
             }
         }
 
-        public string LoadPath =>
+        public string LoadPath
+        {
+            get
+            {
 #if UNITY_EDITOR
-            AssetPath;
+                return AssetPath;
 
 #else
-            StreamingAssets.FormatPath(Application.streamingAssetsPath, AssetPath.Replace("Assets/", ""));
+                return StreamingAssets.FormatPath(Application.streamingAssetsPath, AssetPath.Replace("Assets/", ""));
 #endif
+            }
+        }
 
         public ExceptionEvent onLoadError;
 

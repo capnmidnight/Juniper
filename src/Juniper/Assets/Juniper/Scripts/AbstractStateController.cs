@@ -100,27 +100,31 @@ namespace Juniper
 
         public Direction State
         {
-            get { return _curState; }
+            get
+            {
+                return _curState;
+            }
+
             private set
             {
                 lastState = _curState;
                 _curState = value;
 
-                if(State != lastState)
+                if (State != lastState)
                 {
-                    if(State == Direction.Forward)
+                    if (State == Direction.Forward)
                     {
                         OnEntering();
                     }
-                    else if(State == Direction.Reverse)
+                    else if (State == Direction.Reverse)
                     {
                         OnExiting();
                     }
-                    else if(lastState == Direction.Forward)
+                    else if (lastState == Direction.Forward)
                     {
                         OnEntered();
                     }
-                    else if(lastState == Direction.Reverse)
+                    else if (lastState == Direction.Reverse)
                     {
                         OnExited();
                     }

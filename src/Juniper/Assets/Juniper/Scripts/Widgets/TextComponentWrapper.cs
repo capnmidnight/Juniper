@@ -50,10 +50,10 @@ namespace Juniper.Widgets
             var textGameObject = gameObject;
             if (isButton)
             {
-                foreach(var trans in transform.Children())
+                foreach (var trans in transform.Children())
                 {
 #if UNITY_MODULES_UI
-                    if(trans.GetComponent<Text>() != null
+                    if (trans.GetComponent<Text>() != null
                         || trans.GetComponent<Text>() != null)
                     {
                         textGameObject = trans.gameObject;
@@ -62,7 +62,7 @@ namespace Juniper.Widgets
 #endif
 
 #if UNITY_TEXTMESHPRO
-                    if(trans.GetComponent<TMP_Text>() != null)
+                    if (trans.GetComponent<TMP_Text>() != null)
                     {
                         textGameObject = trans.gameObject;
                         break;

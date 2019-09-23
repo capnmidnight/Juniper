@@ -417,9 +417,21 @@ namespace Juniper.Input
             }
         }
 
-        public override bool HasFloorPosition { get { return false; } }
+        public override bool HasFloorPosition
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-        public override InputMode DefaultInputMode { get { return InputMode.SeatedVR; } }
+        public override InputMode DefaultInputMode
+        {
+            get
+            {
+                return InputMode.SeatedVR;
+            }
+        }
     }
 }
 #endif

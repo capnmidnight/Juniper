@@ -16,7 +16,10 @@ namespace Juniper.Widgets
         /// does not have a parent control.
         /// </summary>
         /// <returns></returns>
-        private static bool AlwaysEnabled() { return true; }
+        private static bool AlwaysEnabled()
+        {
+            return true;
+        }
 
         public Transform tooltip;
 
@@ -32,6 +35,7 @@ namespace Juniper.Widgets
         public bool IsInteractable()
         {
             return enabled && isParentEnabled();
+
         }
 
 #if UNITY_EDITOR
@@ -56,18 +60,18 @@ namespace Juniper.Widgets
             }
 
             var keyword = GetComponent<Keywordable>();
-            if(keyword != null)
+            if (keyword != null)
             {
                 isParentEnabled = keyword.IsInteractable;
             }
             else
             {
                 var parent = GetComponent<IPointerClickHandler>();
-                if(parent is UnityEngine.UI.Selectable selectable)
+                if (parent is UnityEngine.UI.Selectable selectable)
                 {
                     isParentEnabled = selectable.IsInteractable;
                 }
-                else if(parent is AbstractTouchable touchable)
+                else if (parent is AbstractTouchable touchable)
                 {
                     isParentEnabled = touchable.IsInteractable;
                 }

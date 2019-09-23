@@ -24,7 +24,10 @@ namespace Juniper.Haptics
         private uint _controllerID;
         public uint ControllerID
         {
-            get { return _controllerID; }
+            get
+            {
+                return _controllerID;
+            }
             set
             {
                 _controllerID = value;

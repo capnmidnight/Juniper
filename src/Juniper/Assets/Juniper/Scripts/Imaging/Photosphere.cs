@@ -60,7 +60,7 @@ namespace Juniper.Imaging
 
         public void Awake()
         {
-            if(material == null)
+            if (material == null)
             {
                 material = new Material(Shader.Find("Unlit/Texture"));
             }
@@ -153,7 +153,7 @@ namespace Juniper.Imaging
             {
                 Debug.LogError("Cubemap canceled");
             }
-            else if(streamTask.IsFaulted)
+            else if (streamTask.IsFaulted)
             {
                 Debug.LogError("Cubemap load error");
                 Debug.LogException(streamTask.Exception);
@@ -424,7 +424,13 @@ namespace Juniper.Imaging
             }
         }
 
-        public float Progress { get { return ProgressToReady; } }
+        public float Progress
+        {
+            get
+            {
+                return ProgressToReady;
+            }
+        }
 
         public string Status
         {
@@ -492,7 +498,7 @@ namespace Juniper.Imaging
                 subProgs[0].Report(1);
 
                 bool anyDestroyed = false;
-                foreach(var texture in CAPTURE_CUBEMAP_SUB_IMAGES)
+                foreach (var texture in CAPTURE_CUBEMAP_SUB_IMAGES)
                 {
                     if (texture != null)
                     {

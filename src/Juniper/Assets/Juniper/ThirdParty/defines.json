@@ -62,5 +62,17 @@
   {
     "Name": "ShaderControl",
     "CompilerDefine": "SHADER_CONTROL"
+  },
+  {
+    "Name": "Native Touch",
+    "CompilerDefine": "NATIVE_TOUCH"
+  },
+  {
+    "Name": "Android Native Dialogs and Functions Plugin",
+    "CompilerDefine": "ANDROID_NATIVE_DIALOGS_AND_FUNCTIONS_PLUGIN"
+  },
+  {
+    "Name": "UI Accessibility Plugin UAP",
+    "CompilerDefine": "UI_ACCESSIBILITY_PLUGIN_UAP"
   }
 ]

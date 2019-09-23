@@ -255,8 +255,11 @@ namespace Juniper.Input
         /// </summary>
         public override void Process()
         {
-            Devices.AddRange(newDevices);
-            newDevices.Clear();
+            if (newDevices.Count > 0)
+            {
+                Devices.AddRange(newDevices);
+                newDevices.Clear();
+            }
 
             if (mode != lastMode)
             {
@@ -341,20 +344,28 @@ namespace Juniper.Input
 
             foreach (var pointer in Devices)
             {
-                pointer.Layer = ControllerLayer;
-                if (pointer.IsEnabled)
+                if (pointer.ProcessInUpdate)
                 {
-                    PointerEventData evtData;
-                    GetPointerData(pointer.PointerDataID, out evtData, true);
-                    evtData.delta = pointer.ScreenDelta;
-                    evtData.position = pointer.ScreenPoint;
-                    evtData.scrollDelta = pointer.ScrollDelta;
-                    evtData.useDragThreshold = eventSystem.pixelDragThreshold > 0;
-
-                    UpdateRay(pointer, evtData);
-
-                    pointer.Process(evtData, eventSystem.pixelDragThreshold * eventSystem.pixelDragThreshold);
+                    ProcessPointer(pointer);
                 }
+            }
+        }
+
+        public void ProcessPointer(IPointerDevice pointer)
+        {
+            pointer.Layer = ControllerLayer;
+            if (pointer.IsEnabled)
+            {
+                PointerEventData evtData;
+                GetPointerData(pointer.PointerDataID, out evtData, true);
+                evtData.delta = pointer.ScreenDelta;
+                evtData.position = pointer.ScreenPoint;
+                evtData.scrollDelta = pointer.ScrollDelta;
+                evtData.useDragThreshold = eventSystem.pixelDragThreshold > 0;
+
+                UpdateRay(pointer, evtData);
+
+                pointer.Process(evtData, eventSystem.pixelDragThreshold * eventSystem.pixelDragThreshold);
             }
         }
 
@@ -452,48 +463,120 @@ namespace Juniper.Input
             return (mode & checkMode) != 0;
         }
 
-        public bool VoiceAvailable { get { return Voice.IsAvailable; } }
-        public bool VoiceEnabled { get { return Voice.isActiveAndEnabled; } }
+        public bool VoiceAvailable
+        {
+            get
+            {
+                return Voice.IsAvailable;;
+            }
+        }
+        public bool VoiceEnabled
+        {
+            get
+            {
+                return Voice.isActiveAndEnabled;;
+            }
+        }
         public bool VoiceRequested
         {
             get { return CheckMode(InputMode.Voice); }
             set { ToggleMode(InputMode.Voice, value); }
         }
 
-        public bool GazeAvailable { get { return Gaze.IsConnected; } }
-        public bool GazeEnabled { get { return Gaze.IsEnabled; } }
+        public bool GazeAvailable
+        {
+            get
+            {
+                return Gaze.IsConnected;;
+            }
+        }
+        public bool GazeEnabled
+        {
+            get
+            {
+                return Gaze.IsEnabled;;
+            }
+        }
         public bool GazeRequested
         {
             get { return CheckMode(InputMode.Gaze); }
             set { ToggleMode(InputMode.Gaze, value); }
         }
 
-        public bool MouseAvailable { get { return Mouse.IsConnected; } }
-        public bool MouseEnabled { get { return Mouse.IsEnabled; } }
+        public bool MouseAvailable
+        {
+            get
+            {
+                return Mouse.IsConnected;;
+            }
+        }
+        public bool MouseEnabled
+        {
+            get
+            {
+                return Mouse.IsEnabled;;
+            }
+        }
         public bool MouseRequested
         {
             get { return CheckMode(InputMode.Mouse); }
             set { ToggleMode(InputMode.Mouse, value); }
         }
 
-        public bool TouchAvailable { get { return AnyDeviceConnected(Touches); } }
-        public bool TouchEnabled { get { return AnyDeviceEnabled(Touches); } }
+        public bool TouchAvailable
+        {
+            get
+            {
+                return AnyDeviceConnected(Touches);;
+            }
+        }
+        public bool TouchEnabled
+        {
+            get
+            {
+                return AnyDeviceEnabled(Touches);;
+            }
+        }
         public bool TouchRequested
         {
             get { return CheckMode(InputMode.Touch); }
             set { ToggleMode(InputMode.Touch, value); }
         }
 
-        public bool HandsAvailable { get { return AnyDeviceConnected(Hands); } }
-        public bool HandsEnabled { get { return AnyDeviceEnabled(Hands); } }
+        public bool HandsAvailable
+        {
+            get
+            {
+                return AnyDeviceConnected(Hands);;
+            }
+        }
+        public bool HandsEnabled
+        {
+            get
+            {
+                return AnyDeviceEnabled(Hands);;
+            }
+        }
         public bool HandsRequested
         {
             get { return CheckMode(InputMode.Hands); }
             set { ToggleMode(InputMode.Hands, value); }
         }
 
-        public bool ControllersAvailable { get { return AnyDeviceConnected(Controllers); } }
-        public bool ControllersEnabled { get { return AnyDeviceEnabled(Controllers); } }
+        public bool ControllersAvailable
+        {
+            get
+            {
+                return AnyDeviceConnected(Controllers);;
+            }
+        }
+        public bool ControllersEnabled
+        {
+            get
+            {
+                return AnyDeviceEnabled(Controllers);;
+            }
+        }
         public bool ControllersRequested
         {
             get { return CheckMode(InputMode.Motion); }

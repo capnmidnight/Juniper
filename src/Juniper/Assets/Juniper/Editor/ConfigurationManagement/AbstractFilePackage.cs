@@ -333,7 +333,8 @@ namespace Juniper.ConfigurationManagement
             var paths = Paths.Flatten(TreeTraversalOrder.DepthFirst)
                 .Reverse()
                 .ToArray();
-            for (int i = 0; i < paths.Length; ++i)
+
+            for (var i = 0; i < paths.Length; ++i)
             {
                 try
                 {

@@ -12,7 +12,13 @@ namespace Juniper
     public class CredentialResolver :
         IPreprocessBuildWithReport, IPostprocessBuildWithReport
     {
-        public int callbackOrder { get { return 0; } }
+        public int callbackOrder
+        {
+            get
+            {
+                return 0;
+            }
+        }
 
         public void OnPostprocessBuild(BuildReport report)
         {

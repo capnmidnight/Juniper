@@ -9,7 +9,7 @@ namespace Juniper.Input.Pointers
 {
     public interface IPointerDevice
     {
-        Transform transform { get;  }
+        Transform transform { get; }
 
         IEventSystemHandler EventTarget
         {
@@ -46,6 +46,11 @@ namespace Juniper.Input.Pointers
         }
 
         bool IsConnected
+        {
+            get;
+        }
+
+        bool ProcessInUpdate
         {
             get;
         }

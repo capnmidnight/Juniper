@@ -22,9 +22,21 @@ error-out: mind the input mode
             }
         }
 
-        public override bool HasFloorPosition { get { return true; } }
+        public override bool HasFloorPosition
+        {
+            get
+            {
+                return true;
+            }
+        }
 
-        public override InputMode DefaultInputMode { get { return InputMode.StandingVR; } }
+        public override InputMode DefaultInputMode
+        {
+            get
+            {
+                return InputMode.StandingVR;
+            }
+        }
     }
 }
 #endif

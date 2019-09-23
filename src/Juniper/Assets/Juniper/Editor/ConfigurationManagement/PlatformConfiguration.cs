@@ -158,7 +158,10 @@ namespace Juniper.ConfigurationManagement
 
         public bool TargetSwitchNeeded
         {
-            get { return BuildTarget != EditorUserBuildSettings.activeBuildTarget; }
+            get
+            {
+                return BuildTarget != EditorUserBuildSettings.activeBuildTarget;
+            }
         }
 
         public void InstallUnityPackages(IProgress prog)
@@ -301,7 +304,7 @@ namespace Juniper.ConfigurationManagement
                 if (TargetGroup == BuildTargetGroup.Android)
                 {
                     var target = PlayerSettings.Android.targetSdkVersion;
-                    if(target == AndroidSdkVersions.AndroidApiLevelAuto)
+                    if (target == AndroidSdkVersions.AndroidApiLevelAuto)
                     {
                         target = Enum.GetValues(typeof(AndroidSdkVersions))
                             .Cast<AndroidSdkVersions>()

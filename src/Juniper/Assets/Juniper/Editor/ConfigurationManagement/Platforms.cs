@@ -64,7 +64,7 @@ namespace Juniper.ConfigurationManagement
             }
 
             var toRemove = new List<string>();
-            foreach(var key in packageDefines.Keys)
+            foreach (var key in packageDefines.Keys)
             {
                 if (!packageDB.ContainsKey(key))
                 {
@@ -72,7 +72,7 @@ namespace Juniper.ConfigurationManagement
                 }
             }
 
-            foreach(var key in toRemove)
+            foreach (var key in toRemove)
             {
                 packageDefines.Remove(key);
             }
@@ -247,7 +247,13 @@ namespace Juniper.ConfigurationManagement
             fileWatcherTask.ConfigureAwait(false);
         }
 
-        public bool IsRunning { get { return fileWatcherTask.IsRunning(); } }
+        public bool IsRunning
+        {
+            get
+            {
+                return fileWatcherTask.IsRunning();
+            }
+        }
 
         private AbstractPackage[] ParsePackages(string[] packages)
         {

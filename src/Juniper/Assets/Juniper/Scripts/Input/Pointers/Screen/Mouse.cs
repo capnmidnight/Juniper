@@ -32,9 +32,25 @@ namespace Juniper.Input.Pointers.Screen
         private bool wasWasTouched;
         private bool wasSwiped;
         private bool wasWasSwiped;
+        private const OVRInput.Axis2D touchpadMask = OVRInput.Axis2D.PrimaryTouchpad
+            | OVRInput.Axis2D.SecondaryTouchpad;
+        private const OVRInput.Touch touchMask = OVRInput.Touch.PrimaryTouchpad
+            | OVRInput.Touch.SecondaryTouchpad
+            | OVRInput.Touch.PrimaryIndexTrigger
+            | OVRInput.Touch.SecondaryIndexTrigger;
+        private const OVRInput.Button buttonMask = OVRInput.Button.PrimaryTouchpad
+            | OVRInput.Button.SecondaryTouchpad
+            | OVRInput.Button.PrimaryIndexTrigger
+            | OVRInput.Button.SecondaryIndexTrigger;
 #endif
 
-        public override bool IsConnected { get { return UnityInput.mousePresent && (mouseActive = mouseActive || ActiveThisFrame); } }
+        public override bool IsConnected
+        {
+            get
+            {
+                return UnityInput.mousePresent && (mouseActive = mouseActive || ActiveThisFrame);
+            }
+        }
 
         public bool ActiveThisFrame
         {
@@ -44,15 +60,22 @@ namespace Juniper.Input.Pointers.Screen
             }
             get
             {
+#if UNITY_EDITOR || UNITY_WSA || UNITY_STANDALONE || UNITY_WEBGL
+                return true;
+#else
                 var moved = MoveDelta.sqrMagnitude > 0;
-                var pressed = IsButtonPressed(KeyCode.Mouse0);
-                var platform = JuniperPlatform.CurrentPlatform;
-                var system = XR.Platform.GetSystem(platform);
+                var pressed = IsButtonPressed(KeyCode.Mouse0)
+                    || IsButtonPressed(KeyCode.Mouse1)
+                    || IsButtonPressed(KeyCode.Mouse2)
+                    || IsButtonPressed(KeyCode.Mouse3)
+                    || IsButtonPressed(KeyCode.Mouse4)
+                    || IsButtonPressed(KeyCode.Mouse5)
+                    || IsButtonPressed(KeyCode.Mouse6);
 #if UNITY_XR_OCULUS_ANDROID && !UNITY_EDITOR
-                var controller = OVRInput.GetActiveController();
-                var swipe = OVRInput.Get(OVRInput.Axis2D.PrimaryTouchpad | OVRInput.Axis2D.SecondaryTouchpad, controller);
+                var controller = OVRInput.GetConnectedControllers();
+                var swipe = OVRInput.Get(touchpadMask, controller);
                 var swiped = swipe.sqrMagnitude > 0;
-                var touched = OVRInput.Get(OVRInput.Touch.PrimaryTouchpad | OVRInput.Touch.SecondaryTouchpad, controller);
+                var touched = OVRInput.Get(touchMask, controller) || OVRInput.Get(buttonMask, controller);
                 var controllerDormant = !(swiped || wasSwiped || wasWasSwiped || touched || wasTouched || wasWasTouched);
                 moved &= controllerDormant;
                 pressed &= controllerDormant;
@@ -62,18 +85,8 @@ namespace Juniper.Input.Pointers.Screen
                 wasSwiped = swiped;
                 wasTouched = touched;
 #endif
-                return Application.isEditor
-                    || system == XR.SystemTypes.UWP && platform != XR.PlatformTypes.UWPHoloLens
-                    || system == XR.SystemTypes.Standalone
-                    || system == XR.SystemTypes.WebGL
-                    || moved
-                    || pressed
-                    || IsButtonPressed(KeyCode.Mouse1)
-                    || IsButtonPressed(KeyCode.Mouse2)
-                    || IsButtonPressed(KeyCode.Mouse3)
-                    || IsButtonPressed(KeyCode.Mouse4)
-                    || IsButtonPressed(KeyCode.Mouse5)
-                    || IsButtonPressed(KeyCode.Mouse6);
+                return moved || pressed;
+#endif
             }
         }
 

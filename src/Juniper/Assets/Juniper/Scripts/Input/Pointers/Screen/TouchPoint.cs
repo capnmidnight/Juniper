@@ -1,7 +1,17 @@
+#if NATIVE_TOUCH && UNITY_ANDROID && !UNITY_EDITOR || true
+#define USE_NATIVE_TOUCH
+#endif
+
 using UnityEngine;
 
-using UnityInput = UnityEngine.Input;
 using Juniper.Haptics;
+
+#if USE_NATIVE_TOUCH
+using E7.Native;
+using System.Collections.Generic;
+#else
+using UnityInput = UnityEngine.Input;
+#endif
 
 namespace Juniper.Input.Pointers.Screen
 {
@@ -10,6 +20,60 @@ namespace Juniper.Input.Pointers.Screen
     /// </summary>
     public class TouchPoint : AbstractScreenDevice<Unary, UnaryPointerConfiguration>
     {
+#if USE_NATIVE_TOUCH
+        private static readonly Dictionary<int, TouchPoint> pointers = new Dictionary<int, TouchPoint>();
+        public static void NativeTouchCallback(NativeTouchData touch)
+        {
+            if (pointers.ContainsKey(touch.PointerId))
+            {
+                pointers[touch.PointerId].Process(touch);
+            }
+        }
+
+        private UnifiedInputModule input;
+
+        public override bool ProcessInUpdate
+        {
+            get
+            {
+                return false;;
+            }
+        }
+
+        private void Process(NativeTouchData finger)
+        {
+            wasPressed = pressed;
+            pressed = finger.Phase != TouchPhase.Ended
+                && finger.Phase != TouchPhase.Canceled;
+            lastWorldPoint = WorldFromScreen(new Vector2(finger.X, finger.Y));
+            input.ProcessPointer(this);
+        }
+#else
+        private static readonly Touch DEAD_FINGER = new Touch { phase = TouchPhase.Ended };
+        public override void Update()
+        {
+            wasPressed = pressed;
+            var finger = ActiveThisFrame
+                ? UnityInput.GetTouch(fingerID)
+                : DEAD_FINGER;
+            pressed = finger.phase != TouchPhase.Ended
+                && finger.phase != TouchPhase.Canceled;
+            lastWorldPoint = WorldFromScreen(finger.position);
+            base.Update();
+        }
+#endif
+        private bool ActiveThisFrame
+        {
+            get
+            {
+#if USE_NATIVE_TOUCH
+                return pressed || wasPressed;
+#else
+                return fingerID < 0 && fingerID < UnityInput.touchCount;
+#endif
+            }
+        }
+
         [ContextMenu("Reinstall")]
         public override void Reinstall()
         {
@@ -22,20 +86,19 @@ namespace Juniper.Input.Pointers.Screen
         [ReadOnly]
         public int fingerID;
 
-        private static readonly Touch DEAD_FINGER = new Touch { phase = TouchPhase.Ended };
-
         /// <summary>
         /// Sometimes we lose the touch point but we don't receive a cancel or end event, so we need
         /// to include a timeout from the last update time as well.
         /// </summary>
-        public override bool IsConnected { get { return (wasActive = wasActive || ActiveThisFrame); } }
+        public override bool IsConnected
+        {
+            get
+            {
+                return (wasActive = wasActive || ActiveThisFrame);;
+            }
+        }
 
         private bool wasActive;
-
-        public bool ActiveThisFrame
-        {
-            get { return 0 <= fingerID && fingerID < UnityInput.touchCount; }
-        }
 
         private bool pressed;
         private bool wasPressed;
@@ -45,6 +108,11 @@ namespace Juniper.Input.Pointers.Screen
             base.Awake();
 
             showProbe = false;
+
+#if USE_NATIVE_TOUCH
+            pointers.Add(fingerID, this);
+            input = ComponentExt.FindAny<UnifiedInputModule>();
+#endif
         }
 
         public override bool IsButtonPressed(Unary button)
@@ -71,23 +139,8 @@ namespace Juniper.Input.Pointers.Screen
         {
             get
             {
-                return lastWorldPoint;
+                return lastWorldPoint;;
             }
-        }
-
-        public override void Update()
-        {
-            wasPressed = pressed;
-
-            var finger = ActiveThisFrame
-                ? UnityInput.GetTouch(fingerID)
-                : DEAD_FINGER;
-
-            pressed = finger.phase != TouchPhase.Ended
-                && finger.phase != TouchPhase.Canceled;
-            lastWorldPoint = WorldFromScreen(finger.position);
-
-            base.Update();
         }
 
         protected override AbstractHapticDevice MakeHapticsDevice()

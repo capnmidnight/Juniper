@@ -1,11 +1,9 @@
 using System.Linq;
 
 using Juniper.Display;
-using Juniper.Input.Pointers.Screen;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 namespace Juniper.Input.Pointers
 {

@@ -245,10 +245,10 @@ namespace Juniper.Widgets
             else
             {
                 ScreenDebugger.PrintFormat("Torqued {3} = |{0}| >{1}< {2}",
-                                     torques.Mean.Label(UnitOfMeasure.Degrees, 3),
-                                     torques.StandardDeviation.Label(UnitOfMeasure.Degrees),
-                                     TorqueK,
-                                     HasTorqued);
+                    torques.Mean.Label(UnitOfMeasure.Degrees, 3),
+                    torques.StandardDeviation.Label(UnitOfMeasure.Degrees),
+                    TorqueK,
+                    HasTorqued);
             }
 
             if (accelerations == null)
@@ -258,10 +258,10 @@ namespace Juniper.Widgets
             else
             {
                 ScreenDebugger.PrintFormat("Acceled {3} = |{0}| >{1}< {2}",
-                                     accelerations.Mean.Label(UnitOfMeasure.Degrees, 3),
-                                     accelerations.StandardDeviation.Label(UnitOfMeasure.Degrees),
-                                     ForceK,
-                                     HasAccelerated);
+                    accelerations.Mean.Label(UnitOfMeasure.Degrees, 3),
+                    accelerations.StandardDeviation.Label(UnitOfMeasure.Degrees),
+                    ForceK,
+                    HasAccelerated);
                 ScreenDebugger.PrintFormat("F{0} L{1} m{2} M{3} _|_{4} |{5}| >{6}< {7}", accelerations.Mean, accelerations.StandardDeviation, ForceK);
             }
 

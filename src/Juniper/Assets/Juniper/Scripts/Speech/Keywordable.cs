@@ -20,7 +20,10 @@ namespace Juniper.Speech
         /// does not have a parent control.
         /// </summary>
         /// <returns></returns>
-        private static bool AlwaysEnabled() { return true; }
+        private static bool AlwaysEnabled()
+        {
+            return true;
+        }
 
         /// <summary>
         /// The keywords that activate this event.
@@ -93,7 +96,7 @@ namespace Juniper.Speech
             if (tooltip != null && tooltip.tooltip != null)
             {
                 var textElement = tooltip.tooltip.Ensure<TextComponentWrapper>().Value;
-                if(force || string.IsNullOrEmpty(textElement.text))
+                if (force || string.IsNullOrEmpty(textElement.text))
                 {
                     textElement.text = DefaultDescription;
                 }
@@ -180,7 +183,7 @@ namespace Juniper.Speech
             }
 
             var isInteractable = IsInteractable();
-            if(isInteractable != wasInteractable)
+            if (isInteractable != wasInteractable)
             {
                 wasInteractable = isInteractable;
                 if (isInteractable)

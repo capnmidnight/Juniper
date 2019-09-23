@@ -50,9 +50,23 @@ namespace Juniper.Input
             }
         }
 
-        public override bool HasFloorPosition { get { return GvrHeadset.SupportsPositionalTracking; } }
+        public override bool HasFloorPosition
+        {
+            get
+            {
+                return GvrHeadset.SupportsPositionalTracking;
+            }
+        }
 
-        public override InputMode DefaultInputMode { get { return GvrHeadset.SupportsPositionalTracking ? InputMode.StandingVR : InputMode.SeatedVR; } }
+        public override InputMode DefaultInputMode
+        {
+            get
+            {
+                return GvrHeadset.SupportsPositionalTracking
+                    ? InputMode.StandingVR
+                    : InputMode.SeatedVR;
+            }
+        }
     }
 }
 #endif
