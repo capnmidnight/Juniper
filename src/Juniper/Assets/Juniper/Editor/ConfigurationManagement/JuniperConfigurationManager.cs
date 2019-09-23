@@ -214,6 +214,7 @@ namespace Juniper.ConfigurationManagement
                     UpdateUnityPackages();
                     var defines = CleanupDefines(PlayerSettings.GetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup)
                         .SplitX(';'));
+                    defines.Remove(RECOMPILE_SLUG);
                     var nextDefines = defines.ToList();
 
                     this.HeaderIndent("Packages", () =>
@@ -236,18 +237,6 @@ namespace Juniper.ConfigurationManagement
                             packageScrollPosition = EditorGUILayout.BeginScrollView(packageScrollPosition);
                             foreach (var package in packages)
                             {
-                                if (package.InstallPercentage > 0 != nextDefines.Contains(package.CompilerDefine))
-                                {
-                                    if (package.InstallPercentage > 0)
-                                    {
-                                        nextDefines.MaybeAdd(package.CompilerDefine);
-                                    }
-                                    else
-                                    {
-                                        nextDefines.Remove(package.CompilerDefine);
-                                    }
-                                }
-
                                 this.HGroup(() =>
                                 {
                                     try
@@ -295,6 +284,17 @@ namespace Juniper.ConfigurationManagement
                                         }
                                         else if (package.ScanningProgress == PackageScanStatus.Scanned)
                                         {
+                                            if (package.InstallPercentage > 0 != nextDefines.Contains(package.CompilerDefine))
+                                            {
+                                                if (package.InstallPercentage > 0)
+                                                {
+                                                    nextDefines.MaybeAdd(package.CompilerDefine);
+                                                }
+                                                else
+                                                {
+                                                    nextDefines.Remove(package.CompilerDefine);
+                                                }
+                                            }
                                             EditorGUILayout.LabelField(string.Format(
                                                 "({0} of {1} files)",
                                                 Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent),
