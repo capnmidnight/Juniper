@@ -110,8 +110,8 @@ namespace Juniper.Input.Pointers.Screen
             showProbe = false;
 
 #if USE_NATIVE_TOUCH
-            pointers.Add(fingerID, this);
             input = ComponentExt.FindAny<UnifiedInputModule>();
+            pointers.Add(fingerID, this);
 #endif
         }
 
