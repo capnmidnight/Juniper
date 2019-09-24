@@ -34,7 +34,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioData.cs" />
@@ -119,17 +118,6 @@
     <Compile Include="Serialization\SpecializedDeserializer.cs" />
     <Compile Include="Serialization\SpecializedFactory.cs" />
     <Compile Include="Serialization\SpecializedSerializer.cs" />
-    <Compile Include="Serial\ISerialPort.cs" />
-    <Compile Include="Serial\ISerialPortFactory.cs" />
-    <Compile Include="Serial\ISerialPortListing.cs" />
-    <Compile Include="Serial\MockSerialPort.cs" />
-    <Compile Include="Serial\MockSerialPortListing.cs" />
-    <Compile Include="Serial\SafeSerialPort.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Serial\SafeSerialPortFactory.cs" />
-    <Compile Include="Serial\SafeSerialPortListing.cs" />
-    <Compile Include="Serial\SerialPortDevice.cs" />
     <Compile Include="Speech\IKeywordTriggered.cs" />
     <Compile Include="Speech\KeywordRecognizedEventArgs.cs" />
     <Compile Include="Streams\CachingStream.cs" />
