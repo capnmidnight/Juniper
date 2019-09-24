@@ -1,5 +1,5 @@
 using System.IO;
-using System.Runtime.Serialization;
+
 using Json.Lite;
 
 using Juniper.HTTP;
@@ -8,18 +8,18 @@ using Juniper.Serialization;
 
 namespace Juniper.Json
 {
-    public class JsonFactory : IFactory
+    public abstract class AbstractJsonFactory
     {
         public MediaType ContentType { get; private set; }
 
-        public JsonFactory(MediaType contentType)
+        protected AbstractJsonFactory(MediaType contentType)
         {
             ContentType = contentType;
         }
 
-        public JsonFactory() : this(MediaType.Application.Json) { }
+        protected AbstractJsonFactory() : this(MediaType.Application.Json) { }
 
-        public void Serialize<T>(Stream stream, T value, IProgress prog)
+        protected static void InternalSerialize<T>(Stream stream, T value, IProgress prog)
         {
             prog.Report(0);
             var writer = new StreamWriter(stream);
@@ -35,7 +35,7 @@ namespace Juniper.Json
             prog.Report(1);
         }
 
-        public T Deserialize<T>(Stream stream, IProgress prog)
+        protected static T InternalDeserialize<T>(Stream stream, IProgress prog)
         {
             prog.Report(0);
             var reader = new StreamReader(stream);
@@ -44,6 +44,48 @@ namespace Juniper.Json
             var obj = serializer.Deserialize<T>(jsonReader);
             prog.Report(1);
             return obj;
+        }
+    }
+
+    public class JsonFactory : AbstractJsonFactory, IFactory
+    {
+        public JsonFactory(MediaType contentType)
+            : base(contentType)
+        { }
+
+        public JsonFactory()
+            : base()
+        { }
+
+        public T Deserialize<T>(Stream stream, IProgress prog)
+        {
+            return InternalDeserialize<T>(stream, prog);
+        }
+
+        public void Serialize<T>(Stream stream, T value, IProgress prog)
+        {
+            InternalSerialize(stream, value, prog);
+        }
+    }
+
+    public class JsonFactory<T> : AbstractJsonFactory, IFactory<T>
+    {
+        public JsonFactory(MediaType contentType)
+            : base(contentType)
+        { }
+
+        public JsonFactory()
+            : base()
+        { }
+
+        public T Deserialize(Stream stream, IProgress prog)
+        {
+            return InternalDeserialize<T>(stream, prog);
+        }
+
+        public void Serialize(Stream stream, T value, IProgress prog)
+        {
+            InternalSerialize(stream, value, prog);
         }
     }
 }
