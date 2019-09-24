@@ -66,7 +66,7 @@ namespace Juniper.Display
         private static Camera MakeCamera(string tag, string name)
         {
             ConfigurationManagement.TagManager.NormalizeTag(tag);
-            var cam = ComponentExt.FindAny<Camera>(camera => camera.CompareTag(tag));
+            var cam = Find.Any<Camera>(camera => camera.CompareTag(tag));
             if (cam == null)
             {
                 var obj = new GameObject(name);
@@ -77,7 +77,7 @@ namespace Juniper.Display
 #pragma warning restore CS0618 // Type or member is obsolete
 #endif
                 cam.gameObject.tag = tag;
-                if (ComponentExt.FindAny(out JuniperSystem js))
+                if (Find.Any(out JuniperSystem js))
                 {
                     SceneManager.MoveGameObjectToScene(obj, js.gameObject.scene);
                 }
@@ -189,7 +189,7 @@ namespace Juniper.Display
             {
                 if (jp == null)
                 {
-                    ComponentExt.FindAny(out jp);
+                    Find.Any(out jp);
                 }
                 return jp;
             }

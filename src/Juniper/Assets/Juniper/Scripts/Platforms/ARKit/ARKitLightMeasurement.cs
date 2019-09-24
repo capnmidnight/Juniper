@@ -15,7 +15,7 @@ namespace Juniper.World.LightEstimation
             if (!Application.isEditor)
             {
                 UnityARSessionNativeInterface.ARFrameUpdatedEvent += UnityARSessionNativeInterface_ARFrameUpdatedEvent;
-                if (ComponentExt.FindAny(out UnityARCameraManager arkit))
+                if (Find.Any(out UnityARCameraManager arkit))
                 {
                     arkit.enableLightEstimation = true;
                 }

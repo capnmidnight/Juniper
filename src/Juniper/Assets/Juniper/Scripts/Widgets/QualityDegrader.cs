@@ -126,8 +126,8 @@ namespace Juniper.Widgets
             prost = GetComponent<PostProcessLayer>();
 #endif
 
-            ComponentExt.FindAny(out ground);
-            ComponentExt.FindAny(out display);
+            Find.Any(out ground);
+            Find.Any(out display);
 
             QualityLevel = PlayerPrefs.GetInt(GRAPHICS_QUALITY_KEY, QualityLevel);
         }

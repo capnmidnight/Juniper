@@ -63,7 +63,7 @@ namespace Juniper.Ground
         {
             base.Uninstall();
 
-            foreach (var mapper in ComponentExt.FindAll<MLSpatialMapper>())
+            foreach (var mapper in Find.All<MLSpatialMapper>())
             {
                 mapper?.transform
                     ?.Find("Original")

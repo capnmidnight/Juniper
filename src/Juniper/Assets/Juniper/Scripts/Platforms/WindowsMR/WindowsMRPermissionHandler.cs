@@ -13,8 +13,8 @@ namespace Juniper.Permissions
             UnityEditor.PlayerSettings.WSA.SetCapability(UnityEditor.PlayerSettings.WSACapability.InternetClient, true);
             UnityEditor.PlayerSettings.WSA.SetCapability(UnityEditor.PlayerSettings.WSACapability.WebCam, true);
             UnityEditor.PlayerSettings.WSA.SetCapability(UnityEditor.PlayerSettings.WSACapability.Bluetooth, true);
-            UnityEditor.PlayerSettings.WSA.SetCapability(UnityEditor.PlayerSettings.WSACapability.Microphone, KeywordRecognizer.IsAvailable && ComponentExt.FindAny<KeywordRecognizer>() != null);
-            UnityEditor.PlayerSettings.WSA.SetCapability(UnityEditor.PlayerSettings.WSACapability.Location, ComponentExt.FindAny<World.GPSLocation>() != null);
+            UnityEditor.PlayerSettings.WSA.SetCapability(UnityEditor.PlayerSettings.WSACapability.Microphone, KeywordRecognizer.IsAvailable && Find.Any<KeywordRecognizer>() != null);
+            UnityEditor.PlayerSettings.WSA.SetCapability(UnityEditor.PlayerSettings.WSACapability.Location, Find.Any<World.GPSLocation>() != null);
         }
 #endif
 
@@ -25,7 +25,7 @@ namespace Juniper.Permissions
             if (!reset && KeywordRecognizer.IsAvailable)
             {
                 var auth = UserAuthorization.WebCam;
-                if (ComponentExt.FindAny(out KeywordRecognizer speech))
+                if (Find.Any(out KeywordRecognizer speech))
                 {
                     auth |= UserAuthorization.Microphone;
                 }

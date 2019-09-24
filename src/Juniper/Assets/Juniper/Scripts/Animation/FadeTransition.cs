@@ -103,8 +103,8 @@ namespace Juniper.Animation
             r = GetComponent<Renderer>();
             props = new MaterialPropertyBlock();
 
-            ComponentExt.FindAny(out display);
-            ComponentExt.FindAny(out input);
+            Find.Any(out display);
+            Find.Any(out input);
         }
 
         /// <summary>

@@ -76,7 +76,7 @@ namespace Juniper
         /// </summary>
         public static void QuitApp()
         {
-            if (ComponentExt.FindAny<MasterSceneController>(out var master))
+            if (Find.Any<MasterSceneController>(out var master))
             {
                 master.Quit();
             }
@@ -119,7 +119,7 @@ namespace Juniper
         {
             get
             {
-                return from scene in ComponentExt.FindAll<SubSceneController>()
+                return from scene in Find.All<SubSceneController>()
                        where scene.isActiveAndEnabled
                        select scene;
             }
@@ -216,8 +216,8 @@ namespace Juniper
 
         public void Install(bool reset)
         {
-            var qualityDegraderFound = ComponentExt.FindAny(out QualityDegrader qualityDegrader);
-            var audFound = ComponentExt.FindAny(out InteractionAudio aud);
+            var qualityDegraderFound = Find.Any(out QualityDegrader qualityDegrader);
+            var audFound = Find.Any(out InteractionAudio aud);
 
             if (reset && (subSceneNames == null || subSceneNames.Length == 0))
             {
@@ -447,8 +447,8 @@ namespace Juniper
 
             splash?.Activate();
 
-            var faderFound = ComponentExt.FindAny(out fader);
-            var interactionFound = ComponentExt.FindAny(out interaction);
+            var faderFound = Find.Any(out fader);
+            var interactionFound = Find.Any(out interaction);
 
 #if UNITY_MODULES_AUDIO
             if (faderFound)

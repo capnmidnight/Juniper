@@ -136,7 +136,7 @@ namespace Juniper.ImageTracking
         {
             get
             {
-                return ComponentExt.FindAll<TrackableFoundEventHandler>();
+                return Find.All<TrackableFoundEventHandler>();
             }
         }
 
@@ -146,7 +146,7 @@ namespace Juniper.ImageTracking
         /// </summary>
         protected virtual void Start()
         {
-            ComponentExt.FindAny(out xr);
+            Find.Any(out xr);
 
             foreach (var target in FirstTargets.Distinct())
             {

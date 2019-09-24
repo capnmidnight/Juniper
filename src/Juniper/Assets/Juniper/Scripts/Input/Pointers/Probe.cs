@@ -182,12 +182,9 @@ namespace Juniper.Input.Pointers
         /// <returns></returns>
         public static Probe Ensure(Transform parent, string name)
         {
-            var probe = ComponentExt
-                .FindAll<Probe>(p => p.name == name)
-                .FirstOrDefault();
-
+            var probe = Find.Any<Probe>(p => p.name == name);
             if (probe == null
-                && ComponentExt.FindAny(out UnifiedInputModule input))
+                && Find.Any(out UnifiedInputModule input))
             {
                 if (input.pointerPrefab == null)
                 {

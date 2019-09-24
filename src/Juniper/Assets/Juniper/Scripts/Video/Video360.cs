@@ -42,8 +42,8 @@ namespace Juniper.Video
         {
             base.Awake();
 
-            ComponentExt.FindAny(out skybox);
-            ComponentExt.FindAny(out interaction);
+            Find.Any(out skybox);
+            Find.Any(out interaction);
 
             player = this.Ensure<VideoPlayer>();
             player.waitForFirstFrame = true;

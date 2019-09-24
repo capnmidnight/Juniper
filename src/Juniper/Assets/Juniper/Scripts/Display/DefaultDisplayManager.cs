@@ -22,7 +22,7 @@ namespace Juniper.Display
         {
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
-                if (ComponentExt.FindAny(out UnifiedInputModule input))
+                if (Find.Any(out UnifiedInputModule input))
                 {
 #if UNITY_EDITOR
                     if ((input.mode & InputMode.Touch) != 0)

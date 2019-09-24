@@ -47,7 +47,7 @@ namespace Juniper.Audio
             player.loop = true;
             player.spatialize = spatialize;
             player.spatialBlend = spatialBlend;
-            if (ComponentExt.FindAny(out InteractionAudio audio))
+            if (Find.Any(out InteractionAudio audio))
             {
                 player.outputAudioMixerGroup = audio.defaultMixerGroup;
             }

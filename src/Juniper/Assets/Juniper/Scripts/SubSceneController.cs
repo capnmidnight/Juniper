@@ -17,7 +17,7 @@ namespace Juniper
 
         public virtual void Awake()
         {
-            ComponentExt.FindAny(out master);
+            Find.Any(out master);
         }
 
         public void SwitchToScene(string sceneName)

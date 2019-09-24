@@ -20,7 +20,7 @@ namespace Juniper.Ground
         {
             base.Awake();
 
-            if(ComponentExt.FindAny(out UnityARCameraManager camMgr))
+            if(Find.Any(out UnityARCameraManager camMgr))
             {
                 camMgr.planeDetection = UnityARPlaneDetection.HorizontalAndVertical;
             }

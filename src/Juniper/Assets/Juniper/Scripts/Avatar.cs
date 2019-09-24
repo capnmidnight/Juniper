@@ -16,7 +16,7 @@ namespace Juniper
     {
         public static void Ensure()
         {
-            if (ComponentExt.FindAny(out JuniperSystem sys))
+            if (Find.Any(out JuniperSystem sys))
             {
                 var sysT = sys.transform;
                 var head = DisplayManager.MainCamera.transform;

@@ -11,7 +11,7 @@ namespace Juniper.Display
         {
             get
             {
-                return ComponentExt.FindAll<Gvr.Internal.InstantPreview>()
+                return Find.All<Gvr.Internal.InstantPreview>()
                     .Any(ComponentExt.IsActivated);
             }
         }

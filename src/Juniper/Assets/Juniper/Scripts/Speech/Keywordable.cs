@@ -155,8 +155,8 @@ namespace Juniper.Speech
                 isParentEnabled = AlwaysEnabled;
             }
 
-            ComponentExt.FindAny(out input);
-            ComponentExt.FindAny(out eventSystem);
+            Find.Any(out input);
+            Find.Any(out eventSystem);
         }
 
         private void OnEnable()

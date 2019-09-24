@@ -179,7 +179,7 @@ namespace Juniper.Input
             }
 #endif
 
-            ComponentExt.FindAny(out stage);
+            Find.Any(out stage);
             stage.IndependentHead = HasFloorPosition;
 
             Gaze = MakePointer<GazePointer>(stage.Head, "GazePointer");

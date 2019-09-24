@@ -156,8 +156,8 @@ namespace Juniper.Input.Pointers
         {
             Install(false);
 
-            ComponentExt.FindAny(out eventManager);
-            ComponentExt.FindAny(out stage);
+            Find.Any(out eventManager);
+            Find.Any(out stage);
 
             pointerOffset = MinimumPointerDistance * Vector3.forward;
 

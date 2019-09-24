@@ -21,8 +21,8 @@ namespace Juniper.Input
         /// </summary>
         public virtual void Awake()
         {
-            ComponentExt.FindAny(out stage);
-            ComponentExt.FindAny(out input);
+            Find.Any(out stage);
+            Find.Any(out input);
         }
     }
 }

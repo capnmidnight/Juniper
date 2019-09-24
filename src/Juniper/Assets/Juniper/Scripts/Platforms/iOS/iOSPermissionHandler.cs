@@ -12,7 +12,7 @@ namespace Juniper.Permissions
             if (!reset)
             {
                 var auth = UserAuthorization.WebCam;
-                var speech = ComponentExt.FindAny<Input.Speech.IKeywordRecognizer>();
+                var speech = Find.Any<Input.Speech.IKeywordRecognizer>();
                 if (speech != null && speech.IsAvailable)
                 {
                     auth |= UserAuthorization.Microphone;

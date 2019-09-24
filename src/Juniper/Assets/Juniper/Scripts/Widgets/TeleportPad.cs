@@ -26,7 +26,7 @@ namespace Juniper.Widgets
         private void Start()
         {
             running = false;
-            if (ComponentExt.FindAny(out Avatar avatar))
+            if (Find.Any(out Avatar avatar))
             {
                 userT = avatar.transform;
 #if UNITY_MODULES_PHYSICS
@@ -34,7 +34,7 @@ namespace Juniper.Widgets
 #endif
             }
 
-            if (ComponentExt.FindAny(out darth))
+            if (Find.Any(out darth))
             {
                 darth.Entered += Darth_Entered;
             }

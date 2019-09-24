@@ -115,7 +115,7 @@ namespace Juniper.ImageTracking
             if (dataSetsByName.ContainsKey(dataSetName))
             {
                 var dataSet = dataSetsByName[dataSetName];
-                if (ComponentExt.FindAny(out UnityARCameraManager camMgr))
+                if (Find.Any(out UnityARCameraManager camMgr))
                 {
                     camMgr.detectionImages = dataSet;
                 }

@@ -22,8 +22,7 @@ namespace Juniper
 
         public void OnPostprocessBuild(BuildReport report)
         {
-            var receivers = ComponentExt.FindAll<ICredentialReceiver>()
-                .ToArray();
+            var receivers = Find.All<ICredentialReceiver>();
             foreach (var receiver in receivers)
             {
                 receiver.ClearCredentials();
@@ -33,8 +32,7 @@ namespace Juniper
 
         public void OnPreprocessBuild(BuildReport report)
         {
-            var receivers = ComponentExt.FindAll<ICredentialReceiver>()
-                .ToArray();
+            var receivers = Find.All<ICredentialReceiver>();
             foreach (var receiver in receivers)
             {
                 receiver.ReceiveCredentials();

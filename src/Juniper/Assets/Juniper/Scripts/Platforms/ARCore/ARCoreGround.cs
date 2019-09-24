@@ -18,14 +18,14 @@ namespace Juniper.Ground
         {
             base.Awake();
 
-            ComponentExt.FindAny(out display);
+            Find.Any(out display);
             display.ARModeChange += Display_ARModeChange;
         }
 
         private void Display_ARModeChange(object sender, AugmentedRealityTypes e)
         {
             if (e == AugmentedRealityTypes.PassthroughCamera
-                && ComponentExt.FindAny(out ARCoreSession arCoreSession))
+                && Find.Any(out ARCoreSession arCoreSession))
             {
                 arCoreSession.SessionConfig.PlaneFindingMode = DetectedPlaneFindingMode.HorizontalAndVertical;
             }

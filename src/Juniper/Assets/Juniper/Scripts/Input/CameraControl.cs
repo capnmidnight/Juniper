@@ -95,7 +95,7 @@ namespace Juniper.Input
 
         public void Awake()
         {
-            ComponentExt.FindAny(out stage);
+            Find.Any(out stage);
 
             foreach (var m in Enum.GetValues(typeof(Mode)))
             {
@@ -114,7 +114,7 @@ namespace Juniper.Input
 
         public void Start()
         {
-            ComponentExt.FindAny(out input);
+            Find.Any(out input);
         }
 
         private bool GestureSatisfied(Mode mode)

@@ -188,7 +188,7 @@ namespace Juniper.Anchoring
         /// </summary>
         public void Start()
         {
-            ComponentExt.FindAny(out nkar);
+            Find.Any(out nkar);
         }
     }
 }

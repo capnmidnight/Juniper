@@ -136,7 +136,7 @@ namespace Juniper.World.Climate
         {
             if (location == null)
             {
-                ComponentExt.FindAny(out location);
+                Find.Any(out location);
             }
 
             if (weatherService == null && OpenWeatherMapAPIKey != null && !string.IsNullOrEmpty(OpenWeatherMapAPIKey.Value))

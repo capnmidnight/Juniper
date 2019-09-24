@@ -30,7 +30,7 @@ namespace Juniper.Settings
 
         public void Awake()
         {
-            ComponentExt.FindAny(out input);
+            Find.Any(out input);
         }
 
         int disablerCount;

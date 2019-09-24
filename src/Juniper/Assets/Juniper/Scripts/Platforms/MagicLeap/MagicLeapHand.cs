@@ -93,7 +93,7 @@ namespace Juniper.Input.Pointers.Motion
                     var result = MLHands.Start();
                     if (result.IsOk)
                     {
-                        var poses = (from hand in ComponentExt.FindAll<MagicLeapHand>()
+                        var poses = (from hand in Find.All<MagicLeapHand>()
                                      from button in hand.nativeButtons.Buttons
                                      select button).ToArray();
                         MLHands.KeyPoseManager.EnableKeyPoses(poses, true);

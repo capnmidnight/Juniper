@@ -114,14 +114,14 @@ namespace Juniper.Imaging
         {
             base.Awake();
 
-            ComponentExt.FindAny(out fader);
-            ComponentExt.FindAny(out gps);
+            Find.Any(out fader);
+            Find.Any(out gps);
             photospheres = this.FindClosest<PhotosphereManager>()
                 ?? this.Ensure<PhotosphereManager>();
             navPlane = transform.Find("NavPlane").Ensure<Clickable>();
-            ComponentExt.FindAny(out avatar);
+            Find.Any(out avatar);
             navPointer = transform.Find("NavPointer");
-            ComponentExt.FindAny(out input);
+            Find.Any(out input);
 
 #if UNITY_EDITOR
             this.ReceiveCredentials();

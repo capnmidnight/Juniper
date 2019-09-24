@@ -24,7 +24,7 @@ namespace Juniper.Input
             this.Ensure<GvrEditorEmulator>();
 
 #if UNITY_EDITOR
-            if (!ComponentExt.FindAny<>(out InstantPreviewHelper ip))
+            if (!Find.Any<>(out InstantPreviewHelper ip))
             {
                 var ipGo = ResourceExt.EditorLoadAsset<GameObject>(
                     "Assets/GoogleVR/Prefabs/InstantPreview/GvrInstantPreviewMain.prefab");
@@ -42,7 +42,7 @@ namespace Juniper.Input
 
             this.Remove<GvrEditorEmulator>();
             this.Remove<GvrControllerInput>();
-            var ComponentExt.FindAny(out ip);
+            var Find.Any(out ip);
             if (ip != null)
             {
                 ip.gameObject.Destroy();

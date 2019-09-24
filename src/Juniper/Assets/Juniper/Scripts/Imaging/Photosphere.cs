@@ -66,8 +66,8 @@ namespace Juniper.Imaging
             }
 
             mgr = this.FindClosest<PhotosphereManager>();
-            ComponentExt.FindAny(out avatar);
-            if (!ComponentExt.FindAny(out skybox))
+            Find.Any(out avatar);
+            if (!Find.Any(out skybox))
             {
                 skybox = this.Ensure<SkyboxManager>();
             }

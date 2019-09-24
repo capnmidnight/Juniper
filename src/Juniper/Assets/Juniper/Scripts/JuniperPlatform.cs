@@ -12,9 +12,7 @@ namespace Juniper
     {
         private static List<IInstallable> GetInstallables()
         {
-            return ComponentExt
-                .FindAll<IInstallable>()
-                .ToList();
+            return Find.All<IInstallable>().ToList();
         }
 
         public static void Uninstall()

@@ -439,7 +439,7 @@ namespace Juniper.Audio
 
         private void FindAudioSources()
         {
-            audioSources = ComponentExt.FindAll<AudioSource>(a => a.tag == INTERACTION_SOUND_TAG).ToList();
+            audioSources = Find.All<AudioSource>(a => a.tag == INTERACTION_SOUND_TAG).ToList();
         }
 
         /// <summary>
