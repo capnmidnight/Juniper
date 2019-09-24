@@ -52,16 +52,16 @@ namespace Juniper.Widgets
             views.Add(view.name, view);
         }
 
-        public void ShowView(string name)
+        public void ShowMenuView(string name)
         {
-            StartCoroutine(ShowViewCoroutine(name));
+            StartCoroutine(ShowMenuViewCoroutine(name));
         }
 
-        private IEnumerator ShowViewCoroutine(string name)
+        private IEnumerator ShowMenuViewCoroutine(string name)
         {
             foreach (var view in views)
             {
-                if (view.Key != name && !view.Value.IsExited)
+                if (view.Key != name && view.Value.CanExit)
                 {
                     yield return view.Value.ExitCoroutine();
                     view.Value.Deactivate();
@@ -78,14 +78,14 @@ namespace Juniper.Widgets
         public override void Enter(IProgress prog)
         {
             base.Enter(prog);
-            prog?.Report(1);
+            prog.Report(1);
             Complete();
         }
 
         protected override void OnEntered()
         {
             base.OnEntered();
-            ShowView(firstView);
+            ShowMenuView(firstView);
         }
 
         protected override void OnExiting()
@@ -96,7 +96,7 @@ namespace Juniper.Widgets
 
         private IEnumerator ExitingCouroutine()
         {
-            yield return ShowViewCoroutine(null);
+            yield return ShowMenuViewCoroutine(null);
             Complete();
         }
     }

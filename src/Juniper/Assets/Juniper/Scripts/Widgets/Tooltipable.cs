@@ -107,7 +107,7 @@ namespace Juniper.Widgets
             if (isParentEnabled())
             {
                 tooltip.Activate();
-                if (trans != null && trans.IsExited)
+                if (trans != null && trans.CanEnter)
                 {
                     trans.Enter();
                 }
@@ -124,7 +124,7 @@ namespace Juniper.Widgets
 
         private IEnumerator HideTooltipCoroutine()
         {
-            if (trans != null && trans.IsEntered)
+            if (trans != null && trans.CanExit)
             {
                 yield return trans.ExitCoroutine();
             }

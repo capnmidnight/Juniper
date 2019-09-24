@@ -168,6 +168,20 @@ namespace Juniper
                 return State == Direction.Reverse;
             }
         }
+
+        public bool CanExit
+        {
+            get
+            {
+                return !IsExited && !IsExiting;
+            }
+        }
+
+        public bool CanEnter
+        {
+            get
+            {
+                return !IsEntered && !IsEntering;
             }
         }
 
@@ -223,7 +237,7 @@ namespace Juniper
 
         private void SetState(IProgress prog, Direction nextState)
         {
-            prog?.Report(0);
+            prog.Report(0);
             if (!isActiveAndEnabled)
             {
                 this.SetTreeActive(true);

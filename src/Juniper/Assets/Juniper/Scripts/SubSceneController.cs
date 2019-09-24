@@ -22,12 +22,17 @@ namespace Juniper
 
         public void SwitchToScene(string sceneName)
         {
-            master.SwitchToScene(sceneName);
+            master.SwitchToScene(sceneName, !unloadSceneOnExit);
         }
 
         public void ShowScene(string sceneName)
         {
             master.ShowScene(sceneName);
+        }
+
+        public void ShowView(string viewName)
+        {
+            master.ShowView(viewName);
         }
 
         public void Quit()

@@ -16,8 +16,6 @@ using Juniper.Progress;
 
 using UnityImage = UnityEngine.UI.Image;
 
-using Juniper.Units;
-
 #if UNITY_EDITOR
 
 using UnityEditor;
@@ -50,18 +48,23 @@ namespace Juniper
         /// <returns>The scene.</returns>
         /// <param name="sceneName">Scene name.</param>
         /// <param name="path">     Path.</param>
-        private static IEnumerator LoadScene(string scenePath, string sceneName)
+        private static IEnumerator LoadScene(string sceneName, string scenePath, IProgress sceneLoadProg)
         {
-            if (Application.isPlaying)
+            sceneLoadProg.Report(0);
+            if (!IsScenePathLoaded(scenePath))
             {
-                yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).AsCoroutine();
-            }
+                if (Application.isPlaying)
+                {
+                    yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).AsCoroutine(sceneLoadProg);
+                }
 #if UNITY_EDITOR
-            else
-            {
-                EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
-            }
+                else
+                {
+                    EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
+                }
 #endif
+            }
+            sceneLoadProg.Report(1);
         }
 
         private static bool IsScenePathLoaded(string path)
@@ -115,13 +118,31 @@ namespace Juniper
         /// All of the active SubSceneControllers
         /// </summary>
         /// <value>The current sub scenes.</value>
-        public IEnumerable CurrentSubScenes
+        public IEnumerable<SubSceneController> CurrentSubScenes
         {
             get
             {
-                return from scene in Find.All<SubSceneController>()
-                       where scene.isActiveAndEnabled
-                       select scene;
+                foreach (var subScene in Find.All<SubSceneController>())
+                {
+                    if (subScene.isActiveAndEnabled)
+                    {
+                        yield return subScene;
+                    }
+                }
+            }
+        }
+
+        private IEnumerable<SubSceneController> GetOpenSubScenes(string path)
+        {
+            foreach (var subScene in CurrentSubScenes)
+            {
+                var scene = subScene.gameObject.scene;
+                if (scene.isLoaded
+                    && scene.path != path
+                    && subScene.CanExit)
+                {
+                    yield return subScene;
+                }
             }
         }
 
@@ -129,7 +150,9 @@ namespace Juniper
 
         private void SetBuildSettings()
         {
-            if (!Application.isPlaying && !string.IsNullOrEmpty(gameObject?.scene.path))
+            if (!Application.isPlaying
+                && gameObject != null
+                && !string.IsNullOrEmpty(gameObject.scene.path))
             {
                 var s = (from path in subSceneNames
                          where File.Exists(path)
@@ -184,11 +207,13 @@ namespace Juniper
                 foreach (var path in subSceneNames)
                 {
                     var sceneName = SceneNamePattern.Match(path).Groups[1].Value;
-                    var scene = SceneManager.GetSceneByPath(path);
-                    if (!scene.IsValid())
+                    var iter = LoadScene(sceneName, path, null);
+                    while (iter.MoveNext())
                     {
-                        scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
+                        print(path);
                     }
+
+                    var scene = SceneManager.GetSceneByPath(path);
                     SceneManager.MergeScenes(scene, curScene);
                 }
 
@@ -278,7 +303,7 @@ namespace Juniper
         /// </summary>
         private IEnumerator LoadAllScenesCoroutine(IProgress prog)
         {
-            if (subSceneNames?.Length > 0)
+            if (subSceneNames != null && subSceneNames.Length > 0)
             {
                 for (var i = 0; i < subSceneNames.Length; ++i)
                 {
@@ -310,7 +335,7 @@ namespace Juniper
                 }
                 else
                 {
-                    yield return SwitchToSceneCoroutine(name, true, true);
+                    yield return SwitchToSceneCoroutine(name, true, false, true, false);
                 }
             }
         }
@@ -324,46 +349,23 @@ namespace Juniper
         /// </summary>
         /// <param name="sceneName"></param>
         /// <returns></returns>
-        public void SwitchToScene(string sceneName)
+        public void SwitchToScene(string sceneName, bool fromView)
         {
-            SwitchToScene(sceneName, false, true);
+            StartCoroutine(SwitchToSceneCoroutine(sceneName, false, false, true, fromView));
         }
 
         public void ShowScene(string sceneName)
         {
-            SwitchToScene(sceneName, false, false);
+            StartCoroutine(SwitchToSceneCoroutine(sceneName, false, false, false, false));
         }
 
-        /// <summary>
-        /// A subscene is a root game object loaded from another scene. The scenes all get loaded at
-        /// runtime and then you can make different parts of it visible on the fly. This procedure
-        /// deactivates any subscenes that are not the desired subscene, calling any Exit functions
-        /// along the way. In the new scene, TransitionController Enter functions are called as well.
-        /// It is suitable for running in a coroutine to track when the end of the switching process occurs.
-        /// </summary>
-        /// <param name="sceneName">  </param>
-        /// <param name="skipFadeOut">
-        /// Whether or not to fade the screen out (true) or start with a black screen (false) before
-        /// loading the scene.
-        /// </param>
-        /// <param name="unloadOtherScenes">Set to true to unload the scene file for any sub scene that
-        /// indicates it shouldn't be kept around for long.</param>
-        /// <returns></returns>
-        private void SwitchToScene(string sceneName, bool skipFadeOut, bool unloadOtherScenes)
+        public void ShowView(string viewName)
         {
-            StartCoroutine(SwitchToSceneCoroutine(sceneName, skipFadeOut, unloadOtherScenes));
+            StartCoroutine(SwitchToSceneCoroutine(viewName, true, true, false, false));
         }
 
-        private IEnumerator SwitchToSceneCoroutine(string subSceneName, bool skipFadeOut, bool unloadOtherScenes)
+        private IEnumerator SwitchToSceneCoroutine(string subSceneName, bool skipFadeOut, bool skipLoadingScreen, bool unloadOtherScenes, bool fromView)
         {
-            if (!skipFadeOut && fader != null && !fader.IsEntered && !fader.IsEntering)
-            {
-                yield return fader.EnterCoroutine();
-            }
-
-            loadingBar?.Activate();
-            loadingBar?.Report(0, subSceneName);
-
             var sceneFileName = subSceneName + ".unity";
             string scenePath = null;
             foreach (var s in subSceneNames)
@@ -382,13 +384,48 @@ namespace Juniper
 
             if (unloadOtherScenes)
             {
+                yield return ExitAllSubScenesExcept(GetOpenSubScenes(scenePath), scenePath);
+            }
+
+            var showFader = !skipFadeOut
+                && fader != null
+                && fader.CanEnter;
+
+            if (showFader && fromView)
+            {
+                showFader &= !IsScenePathLoaded(scenePath);
+                if (!showFader)
+                {
+                    var scene = SceneManager.GetSceneByPath(scenePath);
+                    var subScenes = scene.FindAll<SubSceneController>();
+                    foreach (var subScene in subScenes)
+                    {
+                        showFader |= subScene.IsExited || !subScene.isActiveAndEnabled;
+                    }
+                }
+            }
+
+            if (showFader)
+            {
+                yield return fader.EnterCoroutine();
+
+                if (loadingBar != null && !skipLoadingScreen)
+                {
+                    loadingBar.Activate();
+                    loadingBar.Report(0, subSceneName);
+                }
+            }
+
+            if (unloadOtherScenes)
+            {
                 yield return UnloadAllScenesExcept(scenePath);
             }
+
             yield return LoadScenePathCoroutine(scenePath, loadingBar);
-            yield return LoadingCompleteCoroutine();
+            yield return LoadingCompleteCoroutine(skipLoadingScreen);
         }
 
-        private IEnumerator LoadingCompleteCoroutine()
+        private IEnumerator LoadingCompleteCoroutine(bool skipLoadingScreen)
         {
             for (var i = 1; i < SceneManager.sceneCount; ++i)
             {
@@ -414,18 +451,35 @@ namespace Juniper
 #endif
             }
 
-            var start = DateTime.Now;
-            var ts = TimeSpan.FromSeconds(1);
-            while ((DateTime.Now - start) < ts || loadingBar?.Progress >= 1)
+            if (loadingBar != null)
             {
-                yield return null;
+                var start = DateTime.Now;
+                var ts = TimeSpan.FromSeconds(1);
+                while ((DateTime.Now - start) < ts || loadingBar.Progress >= 1)
+                {
+                    yield return null;
+                }
+                loadingBar.Deactivate();
             }
 
-            splash?.Deactivate();
-            loadingBar?.Deactivate();
+            if (splash != null)
+            {
+                splash.Deactivate();
+            }
+
             if (fader != null)
             {
-                yield return fader.ExitCoroutine();
+                if (fader.CanExit)
+                {
+                    if (skipLoadingScreen)
+                    {
+                        fader.SkipExit();
+                    }
+                    else
+                    {
+                        yield return fader.ExitCoroutine();
+                    }
+                }
 #if UNITY_MODULES_AUDIO
                 fader.volume = originalFadeVolume;
                 fader.fadeInSound = originalFadeInSound;
@@ -438,14 +492,10 @@ namespace Juniper
         /// </summary>
         public virtual void Awake()
         {
-            // Unity hacks the sense of null, creating a value reference that compares to null, but
-            // doesn't work with the null coalescing operator. So we make it actually, really null here.
-            if (splash == null)
+            if (splash != null)
             {
-                splash = null;
+                splash.Activate();
             }
-
-            splash?.Activate();
 
             var faderFound = Find.Any(out fader);
             var interactionFound = Find.Any(out interaction);
@@ -498,46 +548,14 @@ namespace Juniper
             }
         }
 
-        /// <summary>
-        /// Get a scene by name (or path, if we're running in the editor).
-        /// </summary>
-        /// <returns>The scene.</returns>
-        /// <param name="sceneName">Scene name.</param>
-        /// <param name="path">     Path.</param>
-        private static Scene? GetScene(string sceneName, string path)
-
-        {
-            if (IsScenePathLoaded(path))
-            {
-                return SceneManager.GetSceneByPath(path);
-            }
-            else
-            {
-#if UNITY_EDITOR
-                if (Application.isPlaying)
-                {
-#endif
-                    SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-                    return SceneManager.GetSceneByPath(path);
-#if UNITY_EDITOR
-                }
-                else
-                {
-                    return EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
-                }
-#endif
-            }
-        }
-
         private IEnumerator UnloadAllScenesExcept(string path)
         {
-            foreach (SubSceneController subScene in CurrentSubScenes)
+            foreach (var subScene in GetOpenSubScenes(path))
             {
-                subScene.Deactivate();
-                if (subScene.gameObject.scene.path != path
-                    && subScene.unloadSceneOnExit)
+                if (subScene.unloadSceneOnExit)
                 {
-                    yield return SceneManager.UnloadSceneAsync(subScene.gameObject.scene).AsCoroutine();
+                    var scene = subScene.gameObject.scene;
+                    yield return SceneManager.UnloadSceneAsync(scene).AsCoroutine();
                 }
             }
         }
@@ -548,33 +566,20 @@ namespace Juniper
             var sceneLoadProg = prog.Subdivide(0, 0.25f, sceneName + ": loading...");
             var subSceneLoadProg = prog.Subdivide(0.25f, 0.75f, sceneName + ": loading components...");
 
-            if (IsScenePathLoaded(path))
-            {
-                sceneLoadProg?.Report(1, "100%");
-                yield return sceneName + " already loaded.";
-            }
-            else
-            {
-                yield return LoadScene(path, sceneName);
-            }
+            yield return LoadScene(sceneName, path, sceneLoadProg);
 
-            Scene? scene = null;
-            while (scene == null)
-            {
-                scene = GetScene(sceneName, path);
-                yield return sceneName + " " + (prog?.Progress).Label(UnitOfMeasure.Percent, 1);
-            }
+            var scene = SceneManager.GetSceneByPath(path);
 
             if (Application.isPlaying)
             {
-                var toLoad = (from root in scene.Value.GetRootGameObjects()
-                              from subScene in root.GetComponentsInChildren<SubSceneController>(true)
-                              select subScene)
-                        .ToArray();
+                var toLoad = scene.FindAll<SubSceneController>().ToArray();
                 for (var i = 0; i < toLoad.Length; ++i)
                 {
                     var ss = toLoad[i];
-                    yield return ss.EnterCoroutine(subSceneLoadProg.Subdivide(i, toLoad.Length, ss.name));
+                    if (ss.CanEnter)
+                    {
+                        yield return ss.EnterCoroutine(subSceneLoadProg.Subdivide(i, toLoad.Length, ss.name));
+                    }
                 }
             }
         }
@@ -594,24 +599,7 @@ namespace Juniper
         /// </summary>
         private IEnumerator QuitCoroutine()
         {
-            foreach (SubSceneController subScene in CurrentSubScenes)
-            {
-                subScene.Exit();
-            }
-
-            bool anyIncomplete;
-            do
-            {
-                anyIncomplete = false;
-                foreach (SubSceneController subScene in CurrentSubScenes)
-                {
-                    anyIncomplete |= !subScene.IsComplete;
-                }
-                if (anyIncomplete)
-                {
-                    yield return null;
-                }
-            } while (anyIncomplete);
+            yield return ExitAllSubScenesExcept(CurrentSubScenes, null);
 
             if (fader != null)
             {
@@ -623,6 +611,41 @@ namespace Juniper
             }
 
             Exit();
+        }
+
+        private IEnumerator ExitAllSubScenesExcept(IEnumerable<SubSceneController> subScenes, string excludePath)
+        {
+            subScenes = subScenes.ToArray();
+            foreach (var subScene in subScenes)
+            {
+                if (subScene.gameObject.scene.path != excludePath
+                    && subScene.CanExit)
+                {
+                    subScene.Exit();
+                }
+            }
+
+            bool anyIncomplete;
+            do
+            {
+                anyIncomplete = false;
+                foreach (var subScene in subScenes)
+                {
+                    if (subScene.gameObject.scene.path != excludePath)
+                    {
+                        anyIncomplete |= !subScene.IsComplete;
+
+                        if (subScene.IsComplete)
+                        {
+                            subScene.Deactivate();
+                        }
+                    }
+                }
+                if (anyIncomplete)
+                {
+                    yield return null;
+                }
+            } while (anyIncomplete);
         }
     }
 }
