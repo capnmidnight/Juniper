@@ -22,57 +22,59 @@ namespace Juniper.Display
         {
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
-                var input = ComponentExt.FindAny<UnifiedInputModule>();
+                if (ComponentExt.FindAny(out UnifiedInputModule input))
+                {
 #if UNITY_EDITOR
-                if ((input.mode & InputMode.Touch) != 0)
-                {
+                    if ((input.mode & InputMode.Touch) != 0)
+                    {
 #if UNITY_STANDALONE || UNITY_WSA
-                    cameraCtrl.mode = CameraControl.Mode.MouseLocked;
+                        cameraCtrl.mode = CameraControl.Mode.MouseLocked;
 #else
-                    cameraCtrl.mode = CameraControl.Mode.Touch;
+                        cameraCtrl.mode = CameraControl.Mode.Touch;
 #endif
-                }
-                else if ((input.mode & InputMode.Mouse) != 0)
-                {
-                    cameraCtrl.mode = CameraControl.Mode.MouseScreenEdge;
-                }
-                else if (UnifiedInputModule.HasGamepad)
-                {
-                    cameraCtrl.mode = CameraControl.Mode.Gamepad;
-                }
+                    }
+                    else if ((input.mode & InputMode.Mouse) != 0)
+                    {
+                        cameraCtrl.mode = CameraControl.Mode.MouseScreenEdge;
+                    }
+                    else if (UnifiedInputModule.HasGamepad)
+                    {
+                        cameraCtrl.mode = CameraControl.Mode.Gamepad;
+                    }
 #elif UNITY_WSA
-                if ((input.mode & InputMode.Touch) != 0
-                    && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
-                {
-                    cameraCtrl.mode = CameraControl.Mode.Touch;
-                }
-                else if ((input.mode & InputMode.Mouse) != 0
-                    && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile")
-                {
-                    cameraCtrl.mode = CameraControl.Mode.MouseLocked;
-                }
+                    if ((input.mode & InputMode.Touch) != 0
+                        && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+                    {
+                        cameraCtrl.mode = CameraControl.Mode.Touch;
+                    }
+                    else if ((input.mode & InputMode.Mouse) != 0
+                        && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile")
+                    {
+                        cameraCtrl.mode = CameraControl.Mode.MouseLocked;
+                    }
 
 #else
-                if ((input.mode & InputMode.Touch) != 0
-                    && Application.isMobilePlatform)
-                {
-                    cameraCtrl.mode = CameraControl.Mode.Touch;
-                }
-                else if ((input.mode & InputMode.Mouse) != 0
-                    && UnityInput.mousePresent)
-                {
-                    cameraCtrl.mode = CameraControl.Mode.MouseLocked;
-                }
+                    if ((input.mode & InputMode.Touch) != 0
+                        && Application.isMobilePlatform)
+                    {
+                        cameraCtrl.mode = CameraControl.Mode.Touch;
+                    }
+                    else if ((input.mode & InputMode.Mouse) != 0
+                        && UnityInput.mousePresent)
+                    {
+                        cameraCtrl.mode = CameraControl.Mode.MouseLocked;
+                    }
 #endif
-                else if ((input.mode & InputMode.Mouse) != 0)
-                {
-                    cameraCtrl.mode = CameraControl.Mode.MouseScreenEdge;
+                    else if ((input.mode & InputMode.Mouse) != 0)
+                    {
+                        cameraCtrl.mode = CameraControl.Mode.MouseScreenEdge;
+                    }
+                    else
+                    {
+                        cameraCtrl.mode = CameraControl.Mode.None;
+                    }
+                    ScreenDebugger.Print($"Mode is {cameraCtrl.mode.ToString()}");
                 }
-                else
-                {
-                    cameraCtrl.mode = CameraControl.Mode.None;
-                }
-                ScreenDebugger.Print($"Mode is {cameraCtrl.mode.ToString()}");
             }
             else if (cameraCtrl.mode == CameraControl.Mode.MagicWindow)
             {

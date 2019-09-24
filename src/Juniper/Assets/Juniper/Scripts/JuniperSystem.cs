@@ -49,8 +49,7 @@ namespace Juniper
         {
             UninstallJuniper();
 
-            var platform = ComponentExt.FindAny<JuniperSystem>();
-            if (platform == null)
+            if (!ComponentExt.FindAny(out JuniperSystem platform))
             {
                 platform = new GameObject("UserRig").Ensure<JuniperSystem>();
             }
@@ -73,8 +72,8 @@ namespace Juniper
         /// </summary>
         public void Awake()
         {
-            var scenes = ComponentExt.FindAny<MasterSceneController>();
-            if (scenes != null && scenes.gameObject.scene != gameObject.scene)
+            if (ComponentExt.FindAny(out MasterSceneController scenes)
+                && scenes.gameObject.scene != gameObject.scene)
             {
                 gameObject.Destroy();
             }

@@ -25,8 +25,7 @@ namespace Juniper.Permissions
             if (!reset && KeywordRecognizer.IsAvailable)
             {
                 var auth = UserAuthorization.WebCam;
-                var speech = ComponentExt.FindAny<KeywordRecognizer>();
-                if (speech != null)
+                if (ComponentExt.FindAny(out KeywordRecognizer speech))
                 {
                     auth |= UserAuthorization.Microphone;
                 }

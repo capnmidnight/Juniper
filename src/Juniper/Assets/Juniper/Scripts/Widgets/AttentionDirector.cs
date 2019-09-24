@@ -259,14 +259,13 @@ namespace Juniper.Widgets
                 }
             }
 
-            if (Application.isEditor && UnityEngine.Input.GetKeyDown(KeyCode.F))
+#if UNITY_EDITOR
+            if (UnityEngine.Input.GetKeyDown(KeyCode.F)
+                && ComponentExt.FindAny(out RunningMovement mouse))
             {
-                var mouse = ComponentExt.FindAny<RunningMovement>();
-                if (mouse != null)
-                {
-                    mouse.transform.LookAt(Target, Vector3.up);
-                }
+                mouse.transform.LookAt(Target, Vector3.up);
             }
+#endif
 
             wasShowImage = showImage;
             wasShowPointer = showPointer;

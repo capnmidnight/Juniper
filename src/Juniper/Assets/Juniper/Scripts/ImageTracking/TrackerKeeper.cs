@@ -146,7 +146,7 @@ namespace Juniper.ImageTracking
         /// </summary>
         protected virtual void Start()
         {
-            xr = ComponentExt.FindAny<DisplayManager>();
+            ComponentExt.FindAny(out xr);
 
             foreach (var target in FirstTargets.Distinct())
             {

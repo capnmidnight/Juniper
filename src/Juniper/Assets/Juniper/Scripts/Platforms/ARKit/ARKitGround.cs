@@ -19,8 +19,11 @@ namespace Juniper.Ground
         protected override void Awake()
         {
             base.Awake();
-            var camMgr = ComponentExt.FindAny<UnityARCameraManager>();
-            camMgr.planeDetection = UnityARPlaneDetection.HorizontalAndVertical;
+
+            if(ComponentExt.FindAny(out UnityARCameraManager camMgr))
+            {
+                camMgr.planeDetection = UnityARPlaneDetection.HorizontalAndVertical;
+            }
             generatePlanes = this.Ensure<UnityARGeneratePlane>();
             generatePlanes.planePrefab = planePrefab;
         }

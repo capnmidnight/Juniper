@@ -115,14 +115,13 @@ namespace Juniper.ImageTracking
             if (dataSetsByName.ContainsKey(dataSetName))
             {
                 var dataSet = dataSetsByName[dataSetName];
-                var camMgr = ComponentExt.FindAny<UnityARCameraManager>();
-                if (camMgr == null)
+                if (ComponentExt.FindAny(out UnityARCameraManager camMgr))
                 {
-                    Debug.LogError("No Unity AR Camera Manager!");
+                    camMgr.detectionImages = dataSet;
                 }
                 else
                 {
-                    camMgr.detectionImages = dataSet;
+                    Debug.LogError("No Unity AR Camera Manager!");
                 }
 
                 Tracking = true;

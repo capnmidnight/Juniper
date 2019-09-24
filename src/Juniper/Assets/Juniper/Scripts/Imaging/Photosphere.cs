@@ -66,9 +66,11 @@ namespace Juniper.Imaging
             }
 
             mgr = this.FindClosest<PhotosphereManager>();
-            avatar = ComponentExt.FindAny<Avatar>();
-            skybox = ComponentExt.FindAny<SkyboxManager>()
-                ?? this.Ensure<SkyboxManager>();
+            ComponentExt.FindAny(out avatar);
+            if (!ComponentExt.FindAny(out skybox))
+            {
+                skybox = this.Ensure<SkyboxManager>();
+            }
         }
 
         public void Start()
@@ -497,7 +499,7 @@ namespace Juniper.Imaging
                 DisplayManager.MainCamera.transform.rotation = curRotation;
                 subProgs[0].Report(1);
 
-                bool anyDestroyed = false;
+                var anyDestroyed = false;
                 foreach (var texture in CAPTURE_CUBEMAP_SUB_IMAGES)
                 {
                     if (texture != null)

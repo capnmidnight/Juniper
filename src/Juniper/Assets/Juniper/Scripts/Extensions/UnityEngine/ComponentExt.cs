@@ -378,6 +378,12 @@ namespace UnityEngine
             return FindAll<T>().FirstOrDefault();
         }
 
+        public static bool FindAny<T>(out T value)
+        {
+            value = FindAny<T>();
+            return value != default;
+        }
+
         /// <summary>
         /// Find a component that is loosely related to another component.
         /// </summary>

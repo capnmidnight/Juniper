@@ -250,8 +250,10 @@ namespace Juniper.ImageTracking
         /// </summary>
         public virtual void Awake()
         {
-            var keeper = ComponentExt.FindAny<TrackerKeeper>();
-            keeper?.Register(this);
+            if (ComponentExt.FindAny(out TrackerKeeper keeper))
+            {
+                keeper.Register(this);
+            }
         }
     }
 }

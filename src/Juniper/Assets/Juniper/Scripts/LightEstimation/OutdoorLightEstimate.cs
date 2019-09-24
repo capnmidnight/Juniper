@@ -103,7 +103,7 @@ namespace Juniper.World.LightEstimation
         public override void Awake()
         {
             base.Awake();
-            weather = ComponentExt.FindAny<Weather>();
+            ComponentExt.FindAny(out weather);
         }
 
         /// <summary>

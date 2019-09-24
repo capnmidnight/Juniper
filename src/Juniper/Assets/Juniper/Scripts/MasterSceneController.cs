@@ -76,14 +76,13 @@ namespace Juniper
         /// </summary>
         public static void QuitApp()
         {
-            var master = ComponentExt.FindAny<MasterSceneController>();
-            if (master == null)
+            if (ComponentExt.FindAny<MasterSceneController>(out var master))
             {
-                Exit();
+                master.Quit();
             }
             else
             {
-                master.Quit();
+                Exit();
             }
         }
 
@@ -217,8 +216,8 @@ namespace Juniper
 
         public void Install(bool reset)
         {
-            var qualityDegrader = ComponentExt.FindAny<QualityDegrader>();
-            var aud = ComponentExt.FindAny<InteractionAudio>();
+            var qualityDegraderFound = ComponentExt.FindAny(out QualityDegrader qualityDegrader);
+            var audFound = ComponentExt.FindAny(out InteractionAudio aud);
 
             if (reset && (subSceneNames == null || subSceneNames.Length == 0))
             {
@@ -448,15 +447,15 @@ namespace Juniper
 
             splash?.Activate();
 
-            fader = ComponentExt.FindAny<FadeTransition>();
-            interaction = ComponentExt.FindAny<InteractionAudio>();
+            var faderFound = ComponentExt.FindAny(out fader);
+            var interactionFound = ComponentExt.FindAny(out interaction);
 
 #if UNITY_MODULES_AUDIO
-            if (fader != null)
+            if (faderFound)
             {
                 originalFadeInSound = fader.fadeInSound;
                 originalFadeVolume = fader.volume;
-                if (interaction != null)
+                if (interactionFound)
                 {
                     fader.volume = 0.5f;
                     fader.fadeInSound = interaction.soundOnStartUp;

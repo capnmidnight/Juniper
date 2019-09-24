@@ -42,13 +42,15 @@ namespace Juniper.Audio
         {
             base.Awake();
 
-            var audio = ComponentExt.FindAny<InteractionAudio>();
             player = this.Ensure<AudioSource>();
-            player.outputAudioMixerGroup = audio.defaultMixerGroup;
             player.playOnAwake = false;
             player.loop = true;
             player.spatialize = spatialize;
             player.spatialBlend = spatialBlend;
+            if (ComponentExt.FindAny(out InteractionAudio audio))
+            {
+                player.outputAudioMixerGroup = audio.defaultMixerGroup;
+            }
         }
 
         public override void Enter(IProgress prog)

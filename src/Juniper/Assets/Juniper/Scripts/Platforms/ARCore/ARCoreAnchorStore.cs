@@ -17,7 +17,7 @@ namespace Juniper.Anchoring
 
         public void Start()
         {
-            session = ComponentExt.FindAny<ARCoreSession>();
+            ComponentExt.FindAny(out session);
         }
 
         public override bool HasAnchor(string anchorID)

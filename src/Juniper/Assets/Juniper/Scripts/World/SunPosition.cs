@@ -61,7 +61,7 @@ namespace Juniper.World
         public void Awake()
         {
             location = GetComponent<GPSLocation>();
-            compass = ComponentExt.FindAny<CompassRose>();
+            ComponentExt.FindAny(out compass);
         }
 
         /// <summary>

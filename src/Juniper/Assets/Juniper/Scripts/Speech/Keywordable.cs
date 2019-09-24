@@ -55,6 +55,8 @@ namespace Juniper.Speech
 
         private bool wasInteractable;
 
+        private EventSystem eventSystem;
+
         public bool IsInteractable()
         {
             return enabled && isParentEnabled() && input.VoiceEnabled;
@@ -153,7 +155,8 @@ namespace Juniper.Speech
                 isParentEnabled = AlwaysEnabled;
             }
 
-            input = ComponentExt.FindAny<UnifiedInputModule>();
+            ComponentExt.FindAny(out input);
+            ComponentExt.FindAny(out eventSystem);
         }
 
         private void OnEnable()
@@ -208,7 +211,7 @@ namespace Juniper.Speech
             {
                 onKeywordDetected?.Invoke();
                 KeywordDetected?.Invoke(this, EventArgs.Empty);
-                var pointerEvent = new PointerEventData(ComponentExt.FindAny<EventSystem>())
+                var pointerEvent = new PointerEventData(eventSystem)
                 {
                     button = PointerEventData.InputButton.Left,
                     eligibleForClick = true,

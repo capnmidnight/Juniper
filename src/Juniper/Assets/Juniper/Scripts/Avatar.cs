@@ -16,16 +16,18 @@ namespace Juniper
     {
         public static void Ensure()
         {
-            var sys = ComponentExt.FindAny<JuniperSystem>();
-            var sysT = sys.transform;
-            var head = DisplayManager.MainCamera.transform;
+            if (ComponentExt.FindAny(out JuniperSystem sys))
+            {
+                var sysT = sys.transform;
+                var head = DisplayManager.MainCamera.transform;
 
-            var pivot = head.EnsureParent("Pivot", sysT);
-            var neck = pivot.EnsureParent("Neck", sysT);
+                var pivot = head.EnsureParent("Pivot", sysT);
+                var neck = pivot.EnsureParent("Neck", sysT);
 
-            var stage = neck.EnsureParent("Stage", sysT);
-            stage.Ensure<Avatar>();
-            stage.transform.SetParent(sysT, false);
+                var stage = neck.EnsureParent("Stage", sysT);
+                stage.Ensure<Avatar>();
+                stage.transform.SetParent(sysT, false);
+            }
         }
 
         /// <summary>

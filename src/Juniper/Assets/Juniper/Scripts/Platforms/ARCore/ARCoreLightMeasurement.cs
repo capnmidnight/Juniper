@@ -13,8 +13,8 @@ namespace Juniper.World.LightEstimation
         {
             base.Install(reset);
 
-            var arCoreSession = ComponentExt.FindAny<ARCoreSession>();
-            if(arCoreSession?.SessionConfig == null)
+            if(!ComponentExt.FindAny(out ARCoreSession arCoreSession)
+                || arCoreSession.SessionConfig == null)
             {
                 return false;
             }

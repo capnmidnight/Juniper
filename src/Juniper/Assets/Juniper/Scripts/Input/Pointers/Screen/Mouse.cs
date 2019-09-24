@@ -1,3 +1,8 @@
+#if UNITY_EDITOR || UNITY_WSA || UNITY_STANDALONE || UNITY_WEBGL
+#define HAS_MOUSE
+#endif
+
+using System.Runtime.InteropServices;
 using Juniper.Haptics;
 
 using UnityEngine;
@@ -17,17 +22,9 @@ namespace Juniper.Input.Pointers.Screen
             base.Reinstall();
         }
 
-        private Vector2 MoveDelta
-        {
-            get
-            {
-                return new Vector2(UnityInput.GetAxisRaw("Mouse X"), UnityInput.GetAxisRaw("Mouse Y"));
-            }
-        }
-
         private bool mouseActive;
 
-#if UNITY_XR_OCULUS_ANDROID
+#if !HAS_MOUSE && UNITY_XR_OCULUS_ANDROID
         private bool wasTouched;
         private bool wasWasTouched;
         private bool wasSwiped;
@@ -60,10 +57,13 @@ namespace Juniper.Input.Pointers.Screen
             }
             get
             {
-#if UNITY_EDITOR || UNITY_WSA || UNITY_STANDALONE || UNITY_WEBGL
+#if HAS_MOUSE
                 return true;
 #else
-                var moved = MoveDelta.sqrMagnitude > 0;
+                var moveDelta = new Vector2(
+                    UnityInput.GetAxisRaw("Mouse X"),
+                    UnityInput.GetAxisRaw("Mouse Y"));
+                var moved = moveDelta.sqrMagnitude > 0;
                 var pressed = IsButtonPressed(KeyCode.Mouse0)
                     || IsButtonPressed(KeyCode.Mouse1)
                     || IsButtonPressed(KeyCode.Mouse2)
@@ -71,7 +71,7 @@ namespace Juniper.Input.Pointers.Screen
                     || IsButtonPressed(KeyCode.Mouse4)
                     || IsButtonPressed(KeyCode.Mouse5)
                     || IsButtonPressed(KeyCode.Mouse6);
-#if UNITY_XR_OCULUS_ANDROID && !UNITY_EDITOR
+#if UNITY_XR_OCULUS_ANDROID
                 var controller = OVRInput.GetConnectedControllers();
                 var swipe = OVRInput.Get(touchpadMask, controller);
                 var swiped = swipe.sqrMagnitude > 0;

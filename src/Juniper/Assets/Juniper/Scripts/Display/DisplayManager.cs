@@ -77,8 +77,7 @@ namespace Juniper.Display
 #pragma warning restore CS0618 // Type or member is obsolete
 #endif
                 cam.gameObject.tag = tag;
-                var js = ComponentExt.FindAny<JuniperSystem>();
-                if (js != null)
+                if (ComponentExt.FindAny(out JuniperSystem js))
                 {
                     SceneManager.MoveGameObjectToScene(obj, js.gameObject.scene);
                 }
@@ -190,7 +189,7 @@ namespace Juniper.Display
             {
                 if (jp == null)
                 {
-                    jp = ComponentExt.FindAny<JuniperSystem>();
+                    ComponentExt.FindAny(out jp);
                 }
                 return jp;
             }

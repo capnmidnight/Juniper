@@ -186,16 +186,16 @@ namespace Juniper.Input.Pointers
                 .FindAll<Probe>(p => p.name == name)
                 .FirstOrDefault();
 
-            if (probe == null)
+            if (probe == null
+                && ComponentExt.FindAny(out UnifiedInputModule input))
             {
-                var config = ComponentExt.FindAny<UnifiedInputModule>();
-                if (config.pointerPrefab == null)
+                if (input.pointerPrefab == null)
                 {
                     probe = new GameObject(name).AddComponent<Probe>();
                 }
                 else
                 {
-                    probe = Instantiate(config.pointerPrefab).Ensure<Probe>();
+                    probe = Instantiate(input.pointerPrefab).Ensure<Probe>();
                     probe.name = name;
                 }
             }

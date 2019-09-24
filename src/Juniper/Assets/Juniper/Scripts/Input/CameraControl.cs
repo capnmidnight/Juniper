@@ -95,7 +95,7 @@ namespace Juniper.Input
 
         public void Awake()
         {
-            stage = ComponentExt.FindAny<Avatar>();
+            ComponentExt.FindAny(out stage);
 
             foreach (var m in Enum.GetValues(typeof(Mode)))
             {
@@ -114,7 +114,7 @@ namespace Juniper.Input
 
         public void Start()
         {
-            input = ComponentExt.FindAny<UnifiedInputModule>();
+            ComponentExt.FindAny(out input);
         }
 
         private bool GestureSatisfied(Mode mode)

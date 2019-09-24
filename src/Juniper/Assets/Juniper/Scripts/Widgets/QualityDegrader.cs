@@ -122,13 +122,12 @@ namespace Juniper.Widgets
         /// </summary>
         public void Awake()
         {
-            ground = ComponentExt.FindAny<Ground.TerrainManager>();
-
 #if UNITY_POSTPROCESSING
             prost = GetComponent<PostProcessLayer>();
 #endif
 
-            display = ComponentExt.FindAny<DisplayManager>();
+            ComponentExt.FindAny(out ground);
+            ComponentExt.FindAny(out display);
 
             QualityLevel = PlayerPrefs.GetInt(GRAPHICS_QUALITY_KEY, QualityLevel);
         }

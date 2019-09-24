@@ -24,12 +24,15 @@ namespace Juniper.Audio
         {
             base.Install(reset);
 
-            var js = ComponentExt.FindAny<JuniperSystem>();
-            var dsp = ComponentExt.FindAny<DisplayManager>();
-
             resListener = listener.Ensure<ResonanceAudioListener>().Value;
-            resListener.stereoSpeakerModeEnabled = Application.isEditor || js.DisplayType != DisplayTypes.Stereo;
-            dsp.DisplayTypeChange += OnDisplayTypeChange;
+            resListener.stereoSpeakerModeEnabled = Application.isEditor
+                || !ComponentExt.FindAny<>(out JuniperSystem js)
+                || js.DisplayType != DisplayTypes.Stereo;
+
+            if(ComponentExt.FindAny(out DisplayManager dsp))
+            {
+                dsp.DisplayTypeChange += OnDisplayTypeChange;
+            }
         }
 
         private void OnDisplayTypeChange(object sender, DisplayTypes e)
@@ -39,8 +42,10 @@ namespace Juniper.Audio
 
         public override void Uninstall()
         {
-            ComponentExt.FindAny<AudioListener>()
-                ?.Remove<ResonanceAudioListener>();
+            if(ComponentExt.FindAny(out AudioListener aud))
+            {
+                aud.Remove<ResonanceAudioListener>();
+            }
 
             base.Uninstall();
         }

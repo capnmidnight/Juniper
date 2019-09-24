@@ -40,7 +40,7 @@ namespace Juniper.Display
 #endif
 
                 this.Remove<AudioListener>();
-                listener = ComponentExt.FindAny<AudioListener>();
+                ComponentExt.FindAny(out listener);
 
 #if UNITY_GOOGLE_RESONANCE_AUDIO
                 goog = listener.Ensure<ResonanceAudioListener>();

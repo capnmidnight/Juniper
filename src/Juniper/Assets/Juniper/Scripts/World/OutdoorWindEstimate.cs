@@ -74,7 +74,7 @@ namespace Juniper.World
 
         public void Awake()
         {
-            weatherService = ComponentExt.FindAny<Weather>();
+            ComponentExt.FindAny(out weatherService);
 #if UNITY_MODULES_WIND
             wind = GetComponent<WindZone>();
 #endif

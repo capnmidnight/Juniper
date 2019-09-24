@@ -156,8 +156,8 @@ namespace Juniper.Input.Pointers
         {
             Install(false);
 
-            eventManager = ComponentExt.FindAny<UnifiedInputModule>();
-            stage = ComponentExt.FindAny<Avatar>();
+            ComponentExt.FindAny(out eventManager);
+            ComponentExt.FindAny(out stage);
 
             pointerOffset = MinimumPointerDistance * Vector3.forward;
 

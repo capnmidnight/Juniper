@@ -14,7 +14,6 @@ namespace Juniper.Display
 
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
-                var input = ComponentExt.FindAny<UnifiedInputModule>();
 #if UNITY_EDITOR
                 cameraCtrl.mode = CameraControl.Mode.MouseLocked;
 #else

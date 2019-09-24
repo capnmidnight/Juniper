@@ -26,12 +26,18 @@ namespace Juniper.Widgets
         private void Start()
         {
             running = false;
-            userT = ComponentExt.FindAny<Avatar>().transform;
+            if (ComponentExt.FindAny(out Avatar avatar))
+            {
+                userT = avatar.transform;
 #if UNITY_MODULES_PHYSICS
-            user = userT.GetComponent<Rigidbody>();
+                user = userT.GetComponent<Rigidbody>();
 #endif
-            darth = ComponentExt.FindAny<FadeTransition>();
-            darth.Entered += Darth_Entered;
+            }
+
+            if (ComponentExt.FindAny(out darth))
+            {
+                darth.Entered += Darth_Entered;
+            }
         }
 
         private void Darth_Entered(object sender, System.EventArgs e)

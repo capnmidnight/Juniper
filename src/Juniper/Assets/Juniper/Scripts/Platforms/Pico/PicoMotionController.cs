@@ -32,7 +32,7 @@ namespace Juniper.Input.Pointers.Motion
                 {
                     controllerNumber = (int)value.Value;
 
-                    var ctrl = ComponentExt.FindAny<Pvr_Controller>();
+                    var ctrlFound = ComponentExt.FindAny(out var ctrl);
                     if (value.Value == ControllerVariety.Controller0)
                     {
                         ctrl.controller0 = gameObject;

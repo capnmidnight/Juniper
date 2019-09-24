@@ -21,8 +21,8 @@ namespace Juniper.Input
         /// </summary>
         public virtual void Awake()
         {
-            stage = ComponentExt.FindAny<Avatar>();
-            input = ComponentExt.FindAny<UnifiedInputModule>();
+            ComponentExt.FindAny(out stage);
+            ComponentExt.FindAny(out input);
         }
     }
 }

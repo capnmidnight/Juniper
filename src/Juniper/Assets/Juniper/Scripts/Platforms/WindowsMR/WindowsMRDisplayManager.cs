@@ -42,7 +42,7 @@ namespace Juniper.Display
 
             if (!focusFound)
             {
-                var att = ComponentExt.FindAny<AttentionDirector>();
+                var attFound = ComponentExt.FindAny(out var att);
                 if (att != null)
                 {
                     focusFound = SetFocus(origin, fwd, att.Target, false);

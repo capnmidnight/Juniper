@@ -15,14 +15,13 @@ namespace Juniper.World.LightEstimation
             if (!Application.isEditor)
             {
                 UnityARSessionNativeInterface.ARFrameUpdatedEvent += UnityARSessionNativeInterface_ARFrameUpdatedEvent;
-                var arkit = ComponentExt.FindAny<UnityARCameraManager>();
-                if (arkit == null)
+                if (ComponentExt.FindAny(out UnityARCameraManager arkit))
                 {
-                    Debug.LogWarning("Could not find UnityARCameraManager");
+                    arkit.enableLightEstimation = true;
                 }
                 else
                 {
-                    arkit.enableLightEstimation = true;
+                    Debug.LogWarning("Could not find UnityARCameraManager");
                 }
             }
         }
