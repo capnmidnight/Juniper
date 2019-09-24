@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 using Juniper.Progress;
 using Juniper.XR;
-
-using Json.Lite;
 
 using UnityEditor;
 
@@ -13,32 +12,55 @@ using UnityEngine;
 
 namespace Juniper.ConfigurationManagement
 {
-    internal sealed class PlatformConfiguration
+    [Serializable]
+    internal sealed class PlatformConfiguration : ISerializable
     {
-        public string Name;
-        public string CompilerDefine;
-        public string buildTarget;
-        public string spatializer;
-        public string androidSdkVersion;
-        public string iOSVersion;
-        public string wsaSubtarget;
-        public string[] vrSystems;
-        public string[] packages;
+        private static readonly string[] NO_VR_SYSTEMS = new string[] { "None" };
 
-        public PlatformConfiguration()
+        public readonly string Name;
+        public readonly string CompilerDefine;
+        public readonly string buildTarget;
+        public readonly string spatializer;
+        public readonly string androidSdkVersion;
+        public readonly string iOSVersion;
+        public readonly string wsaSubtarget;
+        public readonly string[] vrSystems;
+        public readonly string[] packages;
+
+        private PlatformConfiguration(SerializationInfo info, StreamingContext context)
         {
-            Name = null;
-            CompilerDefine = null;
-            buildTarget = null;
-            vrSystems = null;
-            packages = null;
-            spatializer = null;
-            androidSdkVersion = null;
-            iOSVersion = null;
-            wsaSubtarget = null;
+            Name = info.GetString(nameof(Name));
+            buildTarget = info.GetString(nameof(buildTarget));
+            vrSystems = NO_VR_SYSTEMS;
+
+            foreach (var field in info)
+            {
+                switch (field.Name)
+                {
+                    case nameof(CompilerDefine): CompilerDefine = info.GetString(nameof(CompilerDefine)); break;
+                    case nameof(vrSystems): vrSystems = info.GetValue<string[]>(nameof(vrSystems)); break;
+                    case nameof(packages): packages = info.GetValue<string[]>(nameof(packages)); break;
+                    case nameof(spatializer): spatializer = info.GetString(nameof(spatializer)); break;
+                    case nameof(androidSdkVersion): androidSdkVersion = info.GetString(nameof(androidSdkVersion)); break;
+                    case nameof(iOSVersion): iOSVersion = info.GetString(nameof(iOSVersion)); break;
+                    case nameof(wsaSubtarget): wsaSubtarget = info.GetString(nameof(wsaSubtarget)); break;
+                }
+            }
         }
 
-        [JsonIgnore]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(Name), Name);
+            info.AddValue(nameof(buildTarget), buildTarget);
+            info.MaybeAddValue(nameof(CompilerDefine), CompilerDefine);
+            info.MaybeAddValue(nameof(spatializer), spatializer);
+            info.MaybeAddValue(nameof(androidSdkVersion), androidSdkVersion);
+            info.MaybeAddValue(nameof(iOSVersion), iOSVersion);
+            info.MaybeAddValue(nameof(wsaSubtarget), wsaSubtarget);
+            info.MaybeAddValue(nameof(vrSystems), vrSystems);
+            info.MaybeAddValue(nameof(packages), packages);
+        }
+
         public BuildTarget BuildTarget
         {
             get
@@ -80,7 +102,6 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        [JsonIgnore]
         public BuildTargetGroup TargetGroup
         {
             get
@@ -89,7 +110,6 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        [JsonIgnore]
         public bool IsSupported
         {
             get
@@ -98,7 +118,6 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        [JsonIgnore]
         public IEnumerable<UnityXRPlatforms> XRPlatforms
         {
             get
@@ -108,43 +127,36 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        [JsonIgnore]
         public UnityPackage[] UninstallableUnityPackages
         {
             get; internal set;
         }
 
-        [JsonIgnore]
         public UnityPackage[] IncludedUnityPackages
         {
             get; internal set;
         }
 
-        [JsonIgnore]
         public UnityPackage[] ExcludedUnityPackages
         {
             get; internal set;
         }
 
-        [JsonIgnore]
         public ZipPackage[] UninstallableZipPackages
         {
             get; internal set;
         }
 
-        [JsonIgnore]
         public ZipPackage[] ZipPackages
         {
             get; internal set;
         }
 
-        [JsonIgnore]
         public AssetStorePackage[] UninstallableAssetStorePackages
         {
             get; internal set;
         }
 
-        [JsonIgnore]
         public AssetStorePackage[] AssetStorePackages
         {
             get; internal set;
@@ -334,7 +346,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        internal void Deactivate(PlatformConfiguration nextConfiguration)
+        internal void Deactivate()
         {
             AudioSettings.SetSpatializerPluginName(null);
             AudioSettingsExt.SetAmbisonicDecoderPluginName(null);

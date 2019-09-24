@@ -30,6 +30,7 @@
     "com.unity.modules.video@1.0.0",
     "com.unity.modules.wind@1.0.0",
     "com.unity.ugui@1.0.0",
+    "ShaderControl",
 
     "com.unity.ads@exclude",
     "com.unity.modules.ads@exclude",
@@ -37,8 +38,7 @@
     "com.unity.modules.unityanalytics@exclude",
     "com.unity.standardevents@exclude",
     "com.unity.modules.standardevents@exclude",
-    "com.unity.purchasing@exclude",
-    "ShaderControl"
+    "com.unity.purchasing@exclude"
   ],
   "platforms": [
   {

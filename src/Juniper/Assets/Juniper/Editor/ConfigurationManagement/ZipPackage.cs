@@ -31,9 +31,9 @@ namespace Juniper.ConfigurationManagement
         { }
 
 
-        protected override NAryTree<CompressedFileInfo> GetPackageTree()
+        protected override IEnumerable<CompressedFileInfo> GetPackageFiles()
         {
-            return Decompressor.Entries(PackageFile).Tree();
+            return Decompressor.Entries(PackageFile);
         }
 
 

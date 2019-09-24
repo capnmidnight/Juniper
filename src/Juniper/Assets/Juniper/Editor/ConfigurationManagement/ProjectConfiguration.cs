@@ -3,13 +3,17 @@ using System.IO;
 
 using Juniper.XR;
 
-using Json.Lite;
+using Juniper.Json;
+using Juniper.Serialization;
+using System.Runtime.Serialization;
 
 namespace Juniper.ConfigurationManagement
 {
-    public sealed class ProjectConfiguration
+    [Serializable]
+    public sealed class ProjectConfiguration : ISerializable
     {
         private const string CONFIG_FILE_NAME = "juniper.json";
+        private static readonly IFactory<ProjectConfiguration> json = new JsonFactory().Specialize<ProjectConfiguration>();
 
         public static ProjectConfiguration Load()
         {
@@ -17,7 +21,7 @@ namespace Juniper.ConfigurationManagement
             {
                 if (File.Exists(CONFIG_FILE_NAME))
                 {
-                    return JsonConvert.DeserializeObject<ProjectConfiguration>(File.ReadAllText(CONFIG_FILE_NAME));
+                    return json.Load(CONFIG_FILE_NAME);
                 }
             }
             catch
@@ -27,14 +31,28 @@ namespace Juniper.ConfigurationManagement
             return new ProjectConfiguration();
         }
 
-        [JsonProperty]
         private int buildStep;
-
-        [JsonProperty]
         private PlatformTypes currentPlatform;
-
-        [JsonProperty]
         private PlatformTypes nextPlatform;
+
+        private ProjectConfiguration()
+        {
+
+        }
+
+        private ProjectConfiguration(SerializationInfo info, StreamingContext context)
+        {
+            buildStep = info.GetInt32(nameof(buildStep));
+            currentPlatform = info.GetEnumFromString<PlatformTypes>(nameof(currentPlatform));
+            nextPlatform = info.GetEnumFromString<PlatformTypes>(nameof(nextPlatform));
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(buildStep), buildStep);
+            info.AddValue(nameof(currentPlatform), currentPlatform.ToString());
+            info.AddValue(nameof(nextPlatform), nextPlatform.ToString());
+        }
 
         public event Func<bool> PlatformChanged;
 
@@ -50,10 +68,9 @@ namespace Juniper.ConfigurationManagement
 
         private void Save()
         {
-            FileExt.WriteAllText(CONFIG_FILE_NAME, JsonConvert.SerializeObject(this));
+            json.Save(CONFIG_FILE_NAME, this);
         }
 
-        [JsonIgnore]
         public int BuildStep
         {
             get
@@ -68,7 +85,6 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        [JsonIgnore]
         public PlatformTypes CurrentPlatform
         {
             get
@@ -77,7 +93,6 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        [JsonIgnore]
         public PlatformTypes NextPlatform
         {
             get

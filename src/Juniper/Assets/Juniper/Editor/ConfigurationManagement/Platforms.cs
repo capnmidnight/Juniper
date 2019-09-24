@@ -2,25 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Juniper.Compression.Tar.GZip;
+using Juniper.Json;
 using Juniper.Progress;
-using Juniper.XR;
 using Juniper.Serialization;
-
-using Json.Lite;
-using Json.Lite.Linq;
+using Juniper.XR;
 
 using UnityEngine;
-using Juniper.Json;
 
 namespace Juniper.ConfigurationManagement
 {
-    internal class Platforms
+    [Serializable]
+    internal sealed class Platforms : ISerializable
     {
+        private const int MAX_CONCURRENT_PACKAGE_SCAN = 100;
         private static readonly string PACKAGE_DEFINES_FILE = PathExt.FixPath("Assets/Juniper/ThirdParty/defines.json");
-        private static readonly string[] NO_VR_SYSTEMS = new string[] { "None" };
+        private static readonly string PLATFORMS_FILE = PathExt.FixPath("Assets/Juniper/platforms.json");
         private static readonly AbstractPackage[] EMPTY_PACKAGES = new AbstractPackage[0];
 
         public static void ForEachPackage<T>(IEnumerable<T> packages, IProgress prog, Action<T, IProgress> act)
@@ -30,17 +30,17 @@ namespace Juniper.ConfigurationManagement
                 act?.Invoke(pkg, p), Debug.LogException);
         }
 
-        private readonly JsonFactory json = new JsonFactory();
-        private readonly Dictionary<string, string> packageDefines = new Dictionary<string, string>();
+        private static readonly JsonFactory json = new JsonFactory();
+        private static readonly Dictionary<string, string> packageDefines = new Dictionary<string, string>();
 
-        public readonly Dictionary<string, AbstractFilePackage> packageDB;
-        public event Action<AbstractFilePackage[]> PackagesUpdated;
-        public event Action ScanningProgressUpdated;
+        public static readonly Dictionary<string, AbstractFilePackage> packageDB;
+        public static event Action<AbstractFilePackage[]> PackagesUpdated;
+        public static event Action ScanningProgressUpdated;
 
-        public readonly PlatformConfiguration[] AllPlatforms;
-        public readonly Dictionary<PlatformTypes, PlatformConfiguration> PlatformDB;
+        public static readonly PlatformConfiguration[] AllPlatforms;
+        public static readonly Dictionary<PlatformTypes, PlatformConfiguration> PlatformDB;
 
-        public string[] AllCompilerDefines
+        public static string[] AllCompilerDefines
         {
             get
             {
@@ -51,7 +51,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public void Save()
+        public static void Save()
         {
             bool anyChanged = false;
             foreach (var package in packageDB.Values)
@@ -100,7 +100,7 @@ namespace Juniper.ConfigurationManagement
                 .Union(ZipPackage.GetPackages(curPackages, defines));
         }
 
-        public Platforms()
+        static Platforms()
         {
             if (File.Exists(PACKAGE_DEFINES_FILE))
             {
@@ -117,14 +117,9 @@ namespace Juniper.ConfigurationManagement
                 package.ScanningProgressUpdated += Package_ScanningProgressUpdated;
             }
 
-            var platformsJson = File.ReadAllText(PathExt.FixPath("Assets/Juniper/platforms.json"));
-            var config = JObject.Parse(platformsJson);
+            var config = json.Load<Platforms>(PLATFORMS_FILE);
 
-            var common = config["packages"] as JArray;
-            var commonPackageDefs = (from token in common
-                                     select token.ToString()).ToArray();
-
-            var commonPackages = ParsePackages(commonPackageDefs);
+            var commonPackages = ParsePackages(config.packages);
 
             var commonUnityPackages = commonPackages
                 .OfType<UnityPackage>()
@@ -144,16 +139,11 @@ namespace Juniper.ConfigurationManagement
                 .OfType<AssetStorePackage>()
                 .ToArray();
 
-            var platforms = config["platforms"];
-            AllPlatforms = JsonConvert.DeserializeObject<PlatformConfiguration[]>(platforms.ToString());
+            AllPlatforms = config.platforms;
             PlatformDB = AllPlatforms.ToDictionary(pform => (PlatformTypes)Enum.Parse(typeof(PlatformTypes), pform.Name));
 
             foreach (var platform in AllPlatforms)
             {
-                if (platform.vrSystems == null)
-                {
-                    platform.vrSystems = NO_VR_SYSTEMS;
-                }
                 var packages = ParsePackages(platform.packages);
                 var unityPackages = packages.OfType<UnityPackage>().ToArray();
 
@@ -191,7 +181,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private void FileWatcher()
+        private static void FileWatcher()
         {
             while (true)
             {
@@ -217,7 +207,7 @@ namespace Juniper.ConfigurationManagement
 
                 foreach (var p in packageDB.Values)
                 {
-                    if (scanningCount < 4
+                    if (scanningCount < MAX_CONCURRENT_PACKAGE_SCAN
                         || (p.ScanningProgress != PackageScanStatus.List
                             && p.ScanningProgress != PackageScanStatus.Scan))
                     {
@@ -234,20 +224,20 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private void Package_ScanningProgressUpdated()
+        private static void Package_ScanningProgressUpdated()
         {
             ScanningProgressUpdated?.Invoke();
         }
 
-        private Task fileWatcherTask;
+        private static Task fileWatcherTask;
 
-        public void StartFileWatcher()
+        public static void StartFileWatcher()
         {
             fileWatcherTask = Task.Run(FileWatcher);
             fileWatcherTask.ConfigureAwait(false);
         }
 
-        public bool IsRunning
+        public static bool IsRunning
         {
             get
             {
@@ -255,7 +245,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private AbstractPackage[] ParsePackages(string[] packages)
+        private static AbstractPackage[] ParsePackages(string[] packages)
         {
             if (packages == null)
             {
@@ -273,6 +263,21 @@ namespace Juniper.ConfigurationManagement
                             : new UnityPackage(pkgDef))
                     .ToArray();
             }
+        }
+
+        private readonly string[] packages;
+        private readonly PlatformConfiguration[] platforms;
+
+        private Platforms(SerializationInfo info, StreamingContext context)
+        {
+            packages = info.GetValue<string[]>(nameof(packages));
+            platforms = info.GetValue<PlatformConfiguration[]>(nameof(platforms));
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(packages), packages);
+            info.AddValue(nameof(platforms), platforms);
         }
     }
 }

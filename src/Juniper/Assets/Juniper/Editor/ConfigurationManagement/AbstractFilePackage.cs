@@ -249,7 +249,7 @@ namespace Juniper.ConfigurationManagement
                 else if (ScanningProgress == PackageScanStatus.List)
                 {
                     ScanningProgress = PackageScanStatus.Listing;
-                    Task.Run(List);
+                    Task.Run(List).ConfigureAwait(false);
                 }
                 else if (ScanningProgress == PackageScanStatus.Listed)
                 {
@@ -258,7 +258,7 @@ namespace Juniper.ConfigurationManagement
                 else if (ScanningProgress == PackageScanStatus.Scan)
                 {
                     ScanningProgress = PackageScanStatus.Scanning;
-                    Task.Run(Scan);
+                    Task.Run(Scan).ConfigureAwait(false);
                 }
             }
             catch (Exception exp)
@@ -272,7 +272,7 @@ namespace Juniper.ConfigurationManagement
         {
             try
             {
-                Paths = GetPackageTree();
+                Paths = GetPackageFiles().Tree();
             }
             catch (Exception exp)
             {
@@ -297,14 +297,7 @@ namespace Juniper.ConfigurationManagement
                 }
                 else
                 {
-                    InstalledFiles = Paths.Where(path =>
-                    {
-                        var fullPath = path.Value.Name == null
-                            ? installDirectory.FullName
-                            : Path.Combine(installDirectory.FullName, path.Value.Name);
-                        return path.Value.IsDirectory && Directory.Exists(fullPath)
-                            || path.Value.IsFile && File.Exists(fullPath);
-                    }).Count() - 1;
+                    InstalledFiles = Paths.Where(PathIsInstalled).Count() - 1;
                     ScanningProgress = PackageScanStatus.Scanned;
                 }
             }
@@ -313,6 +306,15 @@ namespace Juniper.ConfigurationManagement
                 Error = exp;
                 ScanningProgress = PackageScanStatus.Error;
             }
+        }
+
+        private bool PathIsInstalled(NAryTree<CompressedFileInfo> path)
+        {
+            var fullPath = path.Value.Name == null
+                ? installDirectory.FullName
+                : Path.Combine(installDirectory.FullName, path.Value.Name);
+            return path.Value.IsDirectory && Directory.Exists(fullPath)
+                || path.Value.IsFile && File.Exists(fullPath);
         }
 
         protected override void InstallInternal(IProgress prog)
@@ -329,9 +331,13 @@ namespace Juniper.ConfigurationManagement
             {
                 List();
             }
+
             base.Uninstall(prog);
-            var paths = Paths.Flatten(TreeTraversalOrder.DepthFirst)
-                .Reverse()
+
+            var paths = (from p in Paths
+                         where PathIsInstalled(p)
+                         orderby p.Value.Name descending
+                         select p.Value)
                 .ToArray();
 
             for (var i = 0; i < paths.Length; ++i)
@@ -339,7 +345,7 @@ namespace Juniper.ConfigurationManagement
                 try
                 {
                     prog.Report(i, paths.Length);
-                    var path = paths[i].Value;
+                    var path = paths[i];
                     if (path.Name != null)
                     {
                         var fullPath = Path.Combine(installDirectory.FullName, path.Name);
@@ -359,6 +365,7 @@ namespace Juniper.ConfigurationManagement
 
             ScanningProgress = PackageScanStatus.Scan;
         }
-        protected abstract NAryTree<CompressedFileInfo> GetPackageTree();
+
+        protected abstract IEnumerable<CompressedFileInfo> GetPackageFiles();
     }
 }

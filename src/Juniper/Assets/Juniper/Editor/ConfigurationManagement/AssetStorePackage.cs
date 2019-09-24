@@ -36,9 +36,9 @@ namespace Juniper.ConfigurationManagement
             : base(new DirectoryInfo(Directory.GetCurrentDirectory()), file, defines)
         { }
 
-        protected override NAryTree<CompressedFileInfo> GetPackageTree()
+        protected override IEnumerable<CompressedFileInfo> GetPackageFiles()
         {
-            return Decompressor.UnityPackageEntries(FileName).Tree();
+            return Decompressor.UnityPackageEntries(FileName);
         }
 
         protected override void InstallInternal(IProgress prog)
