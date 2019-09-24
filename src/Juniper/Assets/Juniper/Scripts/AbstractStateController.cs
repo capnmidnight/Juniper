@@ -165,7 +165,9 @@ namespace Juniper
         {
             get
             {
-                return State == Direction.Stopped;
+                return State == Direction.Reverse;
+            }
+        }
             }
         }
 
