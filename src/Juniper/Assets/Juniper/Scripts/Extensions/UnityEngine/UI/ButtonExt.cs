@@ -44,7 +44,7 @@ namespace UnityEngine.UI
         /// <param name="v">  If set to <c>true</c> v.</param>
         public static void SetDisabled(this Button btn, bool v)
         {
-            btn.enabled = !v;
+            btn.IsInteractable = !v;
         }
     }
 }
