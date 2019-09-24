@@ -1,7 +1,3 @@
-[submodule "src/accord-net-extensions"]
-	path = src/accord-net-extensions
-	url = https://github.com/capnmidnight/accord-net-extensions.git
-	branch = master
 [submodule "src/Json.Net.Unity3D"]
 	path = src/Json.Net.Unity3D
 	url = https://github.com/SaladLab/Json.Net.Unity3D.git

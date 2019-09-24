@@ -1,7 +1,8 @@
 using System;
 
-using Accord.Extensions.Statistics.Filters;
 using Accord.Math;
+
+using Juniper.Accord.Math;
 
 using UnityEngine;
 
@@ -120,8 +121,8 @@ namespace Juniper.Statistics
                     (int)VectorSize,
                     0,
                     ToArray,
-                    FromArray,
-                    x => new double[] { x.x, x.y, x.z })
+                    ToVector3s,
+                    ToArray)
                 {
                     ProcessNoise = GetProcessNoise(i =>
                         Mathf.Pow(processNoiseScale, processNoiseExponent * (i + 1))),
@@ -139,7 +140,7 @@ namespace Juniper.Statistics
             }
         }
 
-        private Vector3[] FromArray(double[] arr)
+        private Vector3[] ToVector3s(double[] arr)
         {
             var vecs = new Vector3[ComponentCount];
             for (uint i = 0; i < ComponentCount; ++i)
@@ -151,6 +152,14 @@ namespace Juniper.Statistics
             return vecs;
         }
 
+        private Vector3 ToVector3(double[] arr)
+        {
+            return new Vector3(
+                (float)arr[X(0)],
+                (float)arr[Y(0)],
+                (float)arr[Z(0)]);
+        }
+
         private double[] ToArray(Vector3[] vecs)
         {
             var arr = new double[Dimension];
@@ -160,6 +169,15 @@ namespace Juniper.Statistics
                 arr[Y(i)] = vecs[i].y;
                 arr[Z(i)] = vecs[i].z;
             }
+            return arr;
+        }
+
+        private double[] ToArray(Vector3 vec)
+        {
+            var arr = new double[Dimension];
+            arr[X(0)] = vec.x;
+            arr[Y(0)] = vec.y;
+            arr[Z(0)] = vec.z;
             return arr;
         }
 

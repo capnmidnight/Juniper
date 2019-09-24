@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Google.Maps.Tests;
-using Juniper.Json;
 using Juniper.Serialization;
 using Juniper.World.GIS;
 

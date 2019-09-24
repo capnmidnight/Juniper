@@ -4,9 +4,8 @@ using Json.Lite;
 
 using Juniper.HTTP;
 using Juniper.Progress;
-using Juniper.Serialization;
 
-namespace Juniper.Json
+namespace Juniper.Serialization
 {
     public abstract class AbstractJsonFactory
     {

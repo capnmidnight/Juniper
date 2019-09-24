@@ -34,6 +34,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioData.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="HTTP\MediaType\Application.cs" />
     <Compile Include="HTTP\MediaType\Audio.cs" />
     <Compile Include="HTTP\MediaType\Chemical.cs" />
+    <Compile Include="HTTP\MediaType\ExtensionLookup.cs" />
     <Compile Include="HTTP\MediaType\Font.cs" />
     <Compile Include="HTTP\MediaType\Image.cs" />
     <Compile Include="HTTP\MediaType\Lookup.cs" />
@@ -224,9 +226,5 @@
     <Compile Include="XR\GroundMeshVisualization.cs" />
     <Compile Include="XR\PlatformEnums.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="HTTP\MediaType\ExtensionLookup.cs" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

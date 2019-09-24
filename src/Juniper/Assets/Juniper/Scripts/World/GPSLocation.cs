@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 
-using Juniper.Json;
 using Juniper.Serialization;
 using Juniper.Units;
 using Juniper.World.GIS;

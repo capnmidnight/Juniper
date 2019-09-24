@@ -7,7 +7,6 @@ using Juniper.Google.Maps.Tests;
 using Juniper.Imaging;
 using Juniper.Imaging.HjgPngcs;
 using Juniper.Imaging.LibJpegNET;
-using Juniper.Json;
 using Juniper.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;

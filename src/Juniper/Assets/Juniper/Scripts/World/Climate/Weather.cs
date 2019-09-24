@@ -3,7 +3,6 @@ using System.Collections;
 using System.Threading.Tasks;
 
 using Juniper.Climate;
-using Juniper.Json;
 using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.Units;

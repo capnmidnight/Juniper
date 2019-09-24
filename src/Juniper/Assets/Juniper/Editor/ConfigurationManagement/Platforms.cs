@@ -6,7 +6,6 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Juniper.Compression.Tar.GZip;
-using Juniper.Json;
 using Juniper.Progress;
 using Juniper.Serialization;
 using Juniper.XR;
