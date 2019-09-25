@@ -24,6 +24,8 @@ namespace Juniper.Widgets
         /// </summary>
         public float FollowThreshold = 0;
 
+        public float MaxDistance = 5;
+
         public float maxSpeed = 1;
 
         /// <summary>
@@ -141,27 +143,35 @@ namespace Juniper.Widgets
                         delta.z = 0;
                     }
 
-                    if (delta.magnitude > FollowThreshold)
+                    var distance = delta.magnitude;
+                    if (distance > MaxDistance)
                     {
-                        targetVelocity = delta / Time.deltaTime;
-
-                        if (interpolate)
+                        velocity = Vector3.zero;
+                        transform.position = end;
+                    }
+                    else
+                    {
+                        if (distance > FollowThreshold)
                         {
-                            var speed = targetVelocity.magnitude;
-                            if (speed > maxSpeed)
-                            {
-                                targetVelocity *= maxSpeed / speed;
-                            }
+                            targetVelocity = delta / Time.deltaTime;
 
-                            if (speed < 0.2f)
+                            if (interpolate)
                             {
-                                targetVelocity = Vector3.zero;
+                                var speed = targetVelocity.magnitude;
+                                if (speed > maxSpeed)
+                                {
+                                    targetVelocity *= maxSpeed / speed;
+                                }
+                                else if (speed < 0.2f)
+                                {
+                                    targetVelocity = Vector3.zero;
+                                }
                             }
                         }
-                    }
 
-                    velocity = Vector3.Lerp(velocity, targetVelocity, 0.5f);
-                    transform.position += velocity * Time.deltaTime;
+                        velocity = Vector3.Lerp(velocity, targetVelocity, 0.5f);
+                        transform.position += velocity * Time.deltaTime;
+                    }
                 }
                 else
                 {
