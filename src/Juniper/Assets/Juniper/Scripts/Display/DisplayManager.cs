@@ -319,7 +319,7 @@ namespace Juniper.Display
                     {
                         lastDisplayType = Sys.m_DisplayType;
 #if UNITY_MODULES_XR && !UNITY_EDITOR
-                        ChangeXRDevice(DisplayType);
+                        ChangeXRDevice(Sys.m_DisplayType);
 #endif
                         MainCamera.enabled = Sys.m_DisplayType != DisplayTypes.None;
 
