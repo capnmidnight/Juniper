@@ -38,6 +38,11 @@ namespace System.IO
             }
         }
 
+        public static string[] PathParts(string path)
+        {
+            return FixPath(path).SplitX(Path.DirectorySeparatorChar);
+        }
+
         /// <summary>
         /// Creates a file path that is relative to the currently-edited demo path.
         /// </summary>
@@ -60,29 +65,61 @@ namespace System.IO
                     directory = Environment.CurrentDirectory;
                 }
 
-                var partsA = FixPath(directory).SplitX(Path.DirectorySeparatorChar).ToList();
-                var partsB = FixPath(fullPath).SplitX(Path.DirectorySeparatorChar).ToList();
+                var partsA = PathParts(directory);
+                var partsB = PathParts(fullPath);
 
-                while (partsA.Count > 0
-                       && partsB.Count > 0
-                       && partsA[0] == partsB[0])
+                int counter = 0;
+                while (counter < partsA.Length
+                       && counter < partsB.Length
+                       && partsA[counter] == partsB[counter])
                 {
-                    partsA.RemoveAt(0);
-                    partsB.RemoveAt(0);
+                    ++counter;
                 }
 
-                if (partsB.Count == 0)
+                if (counter == partsB.Length - 1)
                 {
                     return null;
                 }
                 else
                 {
-                    return Path
-                        .Combine(partsA
-                        .Select(_ => "..")
-                        .Concat(partsB)
-                        .ToArray());
+                    var aLen = partsA.Length - counter;
+                    var bLen = partsB.Length - counter;
+                    var parts = new string[aLen + bLen];
+                    for(int i = 0; i < aLen ; ++i)
+                    {
+                        parts[i] = "..";
+                    }
+
+                    Array.Copy(partsB, counter, parts, aLen, bLen);
+
+                    return Path.Combine(parts);
                 }
+            }
+        }
+
+        public static string GetLongExtension(string path)
+        {
+            var i = path.IndexOf('.');
+            if(i < 0)
+            {
+                return null;
+            }
+            else
+            {
+                return path.Substring(i + 1);
+            }
+        }
+
+        public static string GetShortExtension(string path)
+        {
+            var i = path.LastIndexOf('.');
+            if(i < 0)
+            {
+                return null;
+            }
+            else
+            {
+                return path.Substring(i + 1);
             }
         }
 
@@ -113,8 +150,8 @@ namespace System.IO
                     directory = Environment.CurrentDirectory;
                 }
 
-                var partsA = FixPath(directory).SplitX(Path.DirectorySeparatorChar).ToList();
-                var partsB = FixPath(relativePath).SplitX(Path.DirectorySeparatorChar).ToList();
+                var partsA = PathParts(directory).ToList();
+                var partsB = PathParts(relativePath).ToList();
 
                 while (partsA.Count > 0
                        && partsB.Count > 0

@@ -38,7 +38,7 @@ namespace Juniper.Compression
             : this(name, true, false, 0) { }
 
         public CompressedFileInfo(string name, bool isDirectory, bool isFile, long size)
-            : this(name, isDirectory, isFile, size, PathExt.FixPath(name).SplitX(Path.DirectorySeparatorChar))
+            : this(name, isDirectory, isFile, size, PathExt.PathParts(name))
         { }
 
         public CompressedFileInfo(ZipEntry entry)
