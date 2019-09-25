@@ -100,7 +100,7 @@ namespace Juniper.Speech
                 var textElement = tooltip.tooltip.Ensure<TextComponentWrapper>().Value;
                 if (force || string.IsNullOrEmpty(textElement.text))
                 {
-                    textElement.text = DefaultDescription;
+                    textElement.text = textElement.Text = DefaultDescription;
                 }
             }
         }
