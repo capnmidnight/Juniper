@@ -40,7 +40,7 @@ namespace Juniper.Widgets
         }
 #endif
 
-        private void SetupControls()
+        internal void SetupControls()
         {
             bool hasAny = false;
 

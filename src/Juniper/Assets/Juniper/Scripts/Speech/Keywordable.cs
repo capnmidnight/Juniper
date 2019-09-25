@@ -98,6 +98,7 @@ namespace Juniper.Speech
             if (tooltip != null && tooltip.tooltip != null)
             {
                 var textElement = tooltip.tooltip.Ensure<TextComponentWrapper>().Value;
+                textElement.SetupControls();
                 if (force || string.IsNullOrEmpty(textElement.text))
                 {
                     textElement.text = textElement.Text = DefaultDescription;
