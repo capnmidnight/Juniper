@@ -116,8 +116,11 @@ namespace Juniper.Imaging
 
             Find.Any(out fader);
             Find.Any(out gps);
-            photospheres = this.FindClosest<PhotosphereManager>()
-                ?? this.Ensure<PhotosphereManager>();
+            if (!this.FindClosest(out photospheres))
+            {
+                photospheres = this.Ensure<PhotosphereManager>();
+            }
+
             navPlane = transform.Find("NavPlane").Ensure<Clickable>();
             Find.Any(out avatar);
             navPointer = transform.Find("NavPointer");
@@ -218,7 +221,7 @@ namespace Juniper.Imaging
             StartCoroutine(SynchronizeDataCoroutine(cursorPosition, prog));
         }
 
-        public IEnumerator SynchronizeDataCoroutine(Vector3 cursorPosition, IProgress prog)
+        private IEnumerator SynchronizeDataCoroutine(Vector3 cursorPosition, IProgress prog)
         {
             string searchPano = null;
             LatLngPoint searchPoint = null;

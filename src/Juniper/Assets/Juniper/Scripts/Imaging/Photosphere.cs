@@ -176,78 +176,78 @@ namespace Juniper.Imaging
 
         public void Update()
         {
-            if (mgr != null && mgr.lodLevelRequirements != null && mgr.lodLevelRequirements.Length > 0)
+            if (mgr != null
+                && mgr.lodLevelRequirements != null
+                && mgr.lodLevelRequirements.Length > 0
+                && !wasComplete)
             {
-                if (!wasComplete)
+                var isComplete = false;
+                var isReady = IsReady;
+                if (mgr.lodLevelRequirements != null)
                 {
-                    var isComplete = false;
-                    var isReady = IsReady;
-                    if (mgr.lodLevelRequirements != null)
+                    var totalCompleted = 0;
+                    var totalNeeded = 0;
+                    for (var f = 0; f < mgr.lodLevelRequirements.Length; ++f)
                     {
-                        var totalCompleted = 0;
-                        var totalNeeded = 0;
-                        for (var f = 0; f < mgr.lodLevelRequirements.Length; ++f)
+                        var t = DetailLevelCompleteCount(f);
+                        var n = mgr.lodLevelRequirements[f];
+
+                        if (f == 0)
                         {
-                            var t = DetailLevelCompleteCount(f);
-                            var n = mgr.lodLevelRequirements[f];
-
-                            if (f == 0)
-                            {
-                                ProgressToReady = t / (float)n;
-
-                                if (t == n)
-                                {
-                                    isReady = true;
-                                }
-                            }
+                            ProgressToReady = t / (float)n;
 
                             if (t == n)
                             {
-                                if (f == 0)
-                                {
-                                    isReady = true;
-                                }
-                                else
-                                {
-                                    detailContainerCache[mgr.FOVs[f - 1]].Deactivate();
-                                }
+                                isReady = true;
                             }
-
-                            totalCompleted += t;
-                            totalNeeded += n;
                         }
 
-                        ProgressToComplete = totalCompleted / (float)totalNeeded;
-
-                        if (totalCompleted == totalNeeded)
+                        if (t == n)
                         {
-                            isComplete = true;
+                            if (f == 0)
+                            {
+                                isReady = true;
+                            }
+                            else
+                            {
+                                detailContainerCache[mgr.FOVs[f - 1]].Deactivate();
+                            }
                         }
+
+                        totalCompleted += t;
+                        totalNeeded += n;
                     }
 
-                    if (!IsReady && isReady)
-                    {
-                        ProgressToReady = 1;
-                        Ready?.Invoke(this);
-                    }
+                    ProgressToComplete = totalCompleted / (float)totalNeeded;
 
-                    if (isComplete)
+                    if (totalCompleted == totalNeeded)
                     {
-                        ProgressToComplete = 1;
-                        Complete?.Invoke(this);
-#if UNITY_EDITOR
-                        CaptureCubemap();
-#endif
+                        isComplete = true;
                     }
-                    else if (!locked)
-                    {
-                        locked = true;
-                        StartCoroutine(UpdateSphereCoroutine());
-                    }
-
-                    wasComplete = isComplete;
-                    IsReady = isReady;
                 }
+
+                if (!IsReady && isReady)
+                {
+                    ProgressToReady = 1;
+                    Ready?.Invoke(this);
+                }
+
+                if (isComplete)
+                {
+                    ProgressToComplete = 1;
+                    Complete?.Invoke(this);
+#if UNITY_EDITOR
+                    CaptureCubemap();
+#endif
+                }
+                else if (!locked)
+                {
+                    locked = true;
+                    StartCoroutine(UpdateSphereCoroutine());
+                }
+
+                wasComplete = isComplete;
+                IsReady = isReady;
             }
         }
 
