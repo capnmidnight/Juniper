@@ -227,6 +227,22 @@ namespace Juniper
         }
 
         /// <summary>
+        /// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
+        /// </summary>
+        private IEnumerator LoadAllScenesCoroutine(IProgress prog)
+        {
+            if (subSceneNames != null && subSceneNames.Length > 0)
+            {
+                for (var i = 0; i < subSceneNames.Length; ++i)
+                {
+                    yield return LoadScenePathCoroutine(
+                        subSceneNames[i],
+                        prog.Subdivide(i, subSceneNames.Length));
+                }
+            }
+        }
+
+        /// <summary>
         /// Copy all of the root scene objects out of the sub scenes and into the master scene,
         /// removing the subscenes along the way. This can also be executed from the editor by
         /// accessing the component's context menu and selecting "Flatten".
@@ -333,22 +349,6 @@ namespace Juniper
             splash = sys.Query<UnityImage>("Canvas/SplashImage");
         }
 
-        /// <summary>
-        /// Use this function by right-clicking in the editor to open up all the scenes in additive mode.
-        /// </summary>
-        private IEnumerator LoadAllScenesCoroutine(IProgress prog)
-        {
-            if (subSceneNames != null && subSceneNames.Length > 0)
-            {
-                for (var i = 0; i < subSceneNames.Length; ++i)
-                {
-                    yield return LoadScenePathCoroutine(
-                        subSceneNames[i],
-                        prog.Subdivide(i, subSceneNames.Length));
-                }
-            }
-        }
-
         private void LoadFirstScene()
         {
             StartCoroutine(LoadFirstSceneCoroutine());
@@ -452,78 +452,128 @@ namespace Juniper
 
                 if (unloadOtherScenes)
                 {
-                    yield return UnloadAllScenesExcept(scenePath);
+                    foreach (var subScene in GetOpenSubScenes(scenePath))
+                    {
+                        if (subScene.unloadSceneOnExit)
+                        {
+                            var scene = subScene.gameObject.scene;
+                            yield return SceneManager.UnloadSceneAsync(scene).AsCoroutine();
+                        }
+                    }
                 }
 
                 yield return LoadScenePathCoroutine(scenePath, loadingBar);
-                yield return LoadingCompleteCoroutine(skipLoadingScreen);
+
+                for (var i = 1; i < SceneManager.sceneCount; ++i)
+                {
+                    var scene = SceneManager.GetSceneAt(i);
+
+#if UNITY_MODULES_UI
+                    var canvases = scene.FindAll<Canvas>((c) =>
+                        c.renderMode == RenderMode.WorldSpace
+                            && (c.worldCamera == null
+                                || c.worldCamera != DisplayManager.MainCamera));
+                    foreach (var canvas in canvases)
+                    {
+                        canvas.worldCamera = DisplayManager.EventCamera;
+                    }
+#endif
+
+#if UNITY_MODULES_AUDIO
+                    var audioSources = scene.FindAll<AudioSource>((a) => a.spatialize);
+                    foreach (var audioSource in audioSources)
+                    {
+                        interaction.Spatialize(audioSource);
+                    }
+#endif
+                }
+
+                if (loadingBar != null)
+                {
+                    var start = DateTime.Now;
+                    var ts = TimeSpan.FromSeconds(1);
+                    while ((DateTime.Now - start) < ts || loadingBar.Progress >= 1)
+                    {
+                        yield return null;
+                    }
+                    loadingBar.Deactivate();
+                }
+
+                if (splash != null)
+                {
+                    splash.Deactivate();
+                }
+
+                if (fader != null)
+                {
+                    if (fader.CanExit)
+                    {
+                        if (input != null)
+                        {
+                            input.enabled = true;
+                        }
+
+                        if (skipLoadingScreen)
+                        {
+                            fader.SkipExit();
+                        }
+                        else
+                        {
+                            yield return fader.ExitCoroutine();
+                        }
+                    }
+#if UNITY_MODULES_AUDIO
+                    fader.volume = originalFadeVolume;
+                    fader.fadeInSound = originalFadeInSound;
+#endif
+                }
             }
         }
 
-        private IEnumerator LoadingCompleteCoroutine(bool skipLoadingScreen)
+        private static IEnumerator LoadScenePathCoroutine(string path, IProgress prog)
         {
-            for (var i = 1; i < SceneManager.sceneCount; ++i)
+            var sceneName = GetSceneNameFromPath(path);
+            var sceneLoadProg = prog.Subdivide(0, 0.25f, sceneName + ": loading...");
+            var subSceneLoadProg = prog.Subdivide(0.25f, 0.75f, sceneName + ": loading components...");
+
+            yield return LoadScene(sceneName, path, sceneLoadProg);
+
+            var scene = SceneManager.GetSceneByPath(path);
+
+            if (Application.isPlaying)
             {
-                var scene = SceneManager.GetSceneAt(i);
-
-#if UNITY_MODULES_UI
-                var canvases = scene.FindAll<Canvas>((c) =>
-                    c.renderMode == RenderMode.WorldSpace
-                        && (c.worldCamera == null
-                            || c.worldCamera != DisplayManager.MainCamera));
-                foreach (var canvas in canvases)
+                var toLoad = scene.FindAll<SubSceneController>().ToArray();
+                for (var i = 0; i < toLoad.Length; ++i)
                 {
-                    canvas.worldCamera = DisplayManager.EventCamera;
-                }
-#endif
-
-#if UNITY_MODULES_AUDIO
-                var audioSources = scene.FindAll<AudioSource>((a) => a.spatialize);
-                foreach (var audioSource in audioSources)
-                {
-                    interaction.Spatialize(audioSource);
-                }
-#endif
-            }
-
-            if (loadingBar != null)
-            {
-                var start = DateTime.Now;
-                var ts = TimeSpan.FromSeconds(1);
-                while ((DateTime.Now - start) < ts || loadingBar.Progress >= 1)
-                {
-                    yield return null;
-                }
-                loadingBar.Deactivate();
-            }
-
-            if (splash != null)
-            {
-                splash.Deactivate();
-            }
-
-            if (fader != null)
-            {
-                if (fader.CanExit)
-                {
-                    if (input != null)
+                    var ss = toLoad[i];
+                    if (ss.CanEnter)
                     {
-                        input.enabled = true;
-                    }
-
-                    if (skipLoadingScreen)
-                    {
-                        fader.SkipExit();
-                    }
-                    else
-                    {
-                        yield return fader.ExitCoroutine();
+                        yield return ss.EnterCoroutine(subSceneLoadProg.Subdivide(i, toLoad.Length, ss.name));
                     }
                 }
-#if UNITY_MODULES_AUDIO
-                fader.volume = originalFadeVolume;
-                fader.fadeInSound = originalFadeInSound;
-#endif
+            }
+        }
+
+        public void RemoveScene(string sceneName)
+        {
+            StartCoroutine(RemoveSceneCoroutine(sceneName));
+        }
+
+        private IEnumerator RemoveSceneCoroutine(string sceneName)
+        {
+            var scenePath = GetScenePathFromName(sceneName);
+            if (IsSceneLoaded(scenePath))
+            {
+                var scene = SceneManager.GetSceneByPath(scenePath);
+                var subScenes = scene.FindAll<SubSceneController>();
+                foreach (var subScene in subScenes)
+                {
+                    if (subScene.CanExit)
+                    {
+                        yield return subScene.ExitCoroutine();
+                    }
+                }
+                yield return SceneManager.UnloadSceneAsync(scene.buildIndex).AsCoroutine();
             }
         }
 
@@ -590,42 +640,6 @@ namespace Juniper
 #else
                 Application.Quit();
 #endif
-            }
-        }
-
-        private IEnumerator UnloadAllScenesExcept(string path)
-        {
-            foreach (var subScene in GetOpenSubScenes(path))
-            {
-                if (subScene.unloadSceneOnExit)
-                {
-                    var scene = subScene.gameObject.scene;
-                    yield return SceneManager.UnloadSceneAsync(scene).AsCoroutine();
-                }
-            }
-        }
-
-        private IEnumerator LoadScenePathCoroutine(string path, IProgress prog)
-        {
-            var sceneName = GetSceneNameFromPath(path);
-            var sceneLoadProg = prog.Subdivide(0, 0.25f, sceneName + ": loading...");
-            var subSceneLoadProg = prog.Subdivide(0.25f, 0.75f, sceneName + ": loading components...");
-
-            yield return LoadScene(sceneName, path, sceneLoadProg);
-
-            var scene = SceneManager.GetSceneByPath(path);
-
-            if (Application.isPlaying)
-            {
-                var toLoad = scene.FindAll<SubSceneController>().ToArray();
-                for (var i = 0; i < toLoad.Length; ++i)
-                {
-                    var ss = toLoad[i];
-                    if (ss.CanEnter)
-                    {
-                        yield return ss.EnterCoroutine(subSceneLoadProg.Subdivide(i, toLoad.Length, ss.name));
-                    }
-                }
             }
         }
 
