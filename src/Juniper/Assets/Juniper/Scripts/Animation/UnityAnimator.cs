@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections;
-using System.Linq;
 
 using UnityEngine;
 
@@ -24,7 +23,20 @@ namespace Juniper.Animation
         /// <returns></returns>
         public static bool AnimatorHasState(Animator animator, string name)
         {
-            return animator?.runtimeAnimatorController?.animationClips.Any(clip => clip.name == name) == true;
+            if (animator != null
+                && animator.runtimeAnimatorController != null
+                && animator.runtimeAnimatorController.animationClips != null)
+            {
+                foreach (var clip in animator.runtimeAnimatorController.animationClips)
+                {
+                    if (clip.name == name)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         /// <summary>

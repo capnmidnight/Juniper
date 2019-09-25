@@ -20,6 +20,12 @@ namespace UnityEngine
             return All(filter).FirstOrDefault();
         }
 
+        public static bool Any<T>(Func<T, bool> filter, out T value)
+        {
+            value = Any(filter);
+            return value != default;
+        }
+
         /// <summary>
         /// Find any object in any scene that is of a certain type.
         /// </summary>
@@ -64,6 +70,12 @@ namespace UnityEngine
             return v;
         }
 
+        public static bool FindClosest<T>(this Component obj, out T value)
+        {
+            value = obj.FindClosest<T>();
+            return value != default;
+        }
+
         /// <summary>
         /// Find all objects in any scene that is of a certain type.
         /// </summary>
@@ -82,6 +94,15 @@ namespace UnityEngine
             }
         }
 
+        public static void All<T>(ref List<T> container)
+        {
+            if (container == null)
+            {
+                container = new List<T>();
+            }
+            container.AddRange(All<T>());
+        }
+
         /// <summary>
         /// Find all objects in any scene that is of a certain type.
         /// </summary>
@@ -97,6 +118,21 @@ namespace UnityEngine
                     yield return obj;
                 }
             }
+        }
+
+        /// <summary>
+        /// Find all objects in any scene that is of a certain type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public static void All<T>(Func<T, bool> filter, ref List<T> container)
+        {
+            if(container == null)
+            {
+                container = new List<T>();
+            }
+            container.AddRange(All(filter));
         }
 
         /// <summary>
@@ -119,6 +155,15 @@ namespace UnityEngine
             }
         }
 
+        public static void FindAll<T>(this Scene scene, ref List<T> container)
+        {
+            if (container == null)
+            {
+                container = new List<T>();
+            }
+            container.AddRange(scene.FindAll<T>());
+        }
+
         /// <summary>
         /// Find all objects in the specified scene that is of a certain type.
         /// </summary>
@@ -135,6 +180,15 @@ namespace UnityEngine
                     yield return c;
                 }
             }
+        }
+
+        public static void FindAll<T>(this Scene scene, Func<T, bool> filter, ref List<T> container)
+        {
+            if (container == null)
+            {
+                container = new List<T>();
+            }
+            container.AddRange(scene.FindAll(filter));
         }
     }
 }

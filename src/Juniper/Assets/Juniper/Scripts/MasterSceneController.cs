@@ -241,16 +241,12 @@ namespace Juniper
 
         public void Install(bool reset)
         {
-            var qualityDegraderFound = Find.Any(out QualityDegrader qualityDegrader);
-            var audFound = Find.Any(out InteractionAudio aud);
-
             if (reset && (subSceneNames == null || subSceneNames.Length == 0))
             {
                 subSceneNames = new string[] { "Assets/Juniper/Scenes/Examples/Content.unity" };
             }
-
             SetupFader(reset);
-            SetupSystemInterface(qualityDegrader, aud);
+            SetupSystemInterface();
         }
 
         public virtual void Reinstall()
@@ -281,7 +277,7 @@ namespace Juniper
             }
         }
 
-        private void SetupSystemInterface(QualityDegrader qualityDegrader, InteractionAudio aud)
+        private void SetupSystemInterface()
         {
             var sys = transform.Query("/SystemUserInterface");
 #if UNITY_EDITOR
@@ -407,6 +403,8 @@ namespace Juniper
 
             if (showFader)
             {
+                yield return JuniperSystem.Cleanup();
+
                 yield return fader.EnterCoroutine();
 
                 if (loadingBar != null && !skipLoadingScreen)

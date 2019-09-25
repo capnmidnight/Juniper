@@ -3,7 +3,6 @@
 using System;
 using System.Collections;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -31,7 +30,7 @@ namespace Juniper.Audio
             var ext = info.Extension.Substring(1).ToLowerInvariant();
             var format = MediaType.LookupExtension(ext) as MediaType.Audio;
 
-            if (!NAudioAudioDataDecoder.SupportedFormats.Contains(format))
+            if (Array.IndexOf(NAudioAudioDataDecoder.SupportedFormats, format) < 0)
             {
                 throw new InvalidOperationException($"{ext} is not a recognized audio format ({LoadPath}).");
             }

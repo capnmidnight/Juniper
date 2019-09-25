@@ -439,8 +439,12 @@ namespace Juniper.Audio
 
         private void FindAudioSources()
         {
-            audioSources = Find.All<AudioSource>(a => a.tag == INTERACTION_SOUND_TAG).ToList();
+            Find.All(hasInteractionSoundTag, ref audioSources);
         }
+
+        private static readonly Func<AudioSource, bool> hasInteractionSoundTag = a =>
+            a.tag == INTERACTION_SOUND_TAG;
+
 
         /// <summary>
         /// The sound to play on application startup.

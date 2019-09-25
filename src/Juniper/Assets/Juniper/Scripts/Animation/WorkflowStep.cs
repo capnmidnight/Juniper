@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -70,7 +69,7 @@ namespace Juniper.Animation
 
             if (step != null)
             {
-                buttons = step.GetComponentsInChildren<Button>(true).ToArray();
+                buttons = step.GetComponentsInChildren<Button>(true);
                 foreach (var btn in buttons)
                 {
                     btn.onClick.AddListener(DisableButtons);

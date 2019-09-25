@@ -42,75 +42,23 @@ namespace Juniper.Widgets
 
         private void SetupControls()
         {
-            var hasAny = false;
-            var isButton = GetComponent<Clickable>() != null
-                || GetComponent<Tooltipable>() != null;
+            bool hasAny = false;
 
 #if UNITY_MODULES_UI
-                isButton |= GetComponent<Button>() != null;
-#endif
-
-            var textGameObject = gameObject;
-            if (isButton)
-            {
-                foreach (var trans in transform.Children())
-                {
-#if UNITY_MODULES_UI
-                    if (trans.GetComponent<Text>() != null
-                        || trans.GetComponent<Text>() != null)
-                    {
-                        textGameObject = trans.gameObject;
-                        break;
-                    }
-#endif
-
-#if UNITY_TEXTMESHPRO
-                    if (trans.GetComponent<TMP_Text>() != null)
-                    {
-                        textGameObject = trans.gameObject;
-                        break;
-                    }
-#endif
-                }
-            }
-
-#if UNITY_MODULES_UI
-            unityText = textGameObject.GetComponent<Text>();
-            unityTextMesh = textGameObject.GetComponent<TextMesh>();
-
+            unityText = GetComponentInChildren<Text>(true);
+            unityTextMesh = GetComponentInChildren<TextMesh>(true);
             hasAny |= unityText != null || unityTextMesh != null;
 #endif
 
 #if UNITY_TEXTMESHPRO
-            textMeshPro = textGameObject.GetComponent<TMP_Text>();
+            textMeshPro = GetComponentInChildren<TMP_Text>(true);
             hasAny |= textMeshPro != null;
 #endif
 
-            if (!hasAny)
+            if (hasAny)
             {
-                var isCanvas = GetComponentInParent<Canvas>() != null;
-#if UNITY_TEXTMESHPRO
-                if (isCanvas)
-                {
-                    textMeshPro = textGameObject.AddComponent<TextMeshProUGUI>();
-                }
-                else
-                {
-                    textMeshPro = textGameObject.AddComponent<TextMeshPro>();
-                }
-#elif UNITY_MODULES_UI
-                if (isCanvas)
-                {
-                    unityText = textGameObject.AddComponent<Text>();
-                }
-                else
-                {
-                    unityTextMesh = textGameObject.AddComponent<TextMesh>();
-                }
-#endif
+                lastText = text = Text;
             }
-
-            lastText = text = Text;
         }
 
         public void Update()
@@ -125,7 +73,7 @@ namespace Juniper.Widgets
             }
         }
 
-        private string Text
+        public string Text
         {
             get
             {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 using UnityEngine;
 
@@ -79,7 +78,10 @@ namespace Juniper.Audio
         /// <returns></returns>
         public IEnumerator<AudioClip> GetEnumerator()
         {
-            return clips.AsEnumerable().GetEnumerator();
+            foreach(var clip in clips)
+            {
+                yield return clip;
+            }
         }
 
         /// <summary>

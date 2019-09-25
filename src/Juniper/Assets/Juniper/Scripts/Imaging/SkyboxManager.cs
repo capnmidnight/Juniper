@@ -106,8 +106,7 @@ namespace Juniper.Imaging
                 }
 
                 Destroy(curTexture);
-                yield return Resources.UnloadUnusedAssets().AsCoroutine();
-                GC.Collect();
+                yield return JuniperSystem.Cleanup();
             }
 
         }

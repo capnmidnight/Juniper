@@ -511,8 +511,7 @@ namespace Juniper.Imaging
 
                 if (anyDestroyed)
                 {
-                    yield return Resources.UnloadUnusedAssets().AsCoroutine();
-                    GC.Collect();
+                    yield return JuniperSystem.Cleanup();
                 }
 
                 for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)

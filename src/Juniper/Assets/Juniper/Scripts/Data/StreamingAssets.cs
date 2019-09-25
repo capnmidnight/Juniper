@@ -7,10 +7,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Juniper.HTTP;
-using Juniper.Imaging;
 using Juniper.Progress;
-using Juniper.Serialization;
-using Juniper.Streams;
+
 using UnityEngine;
 
 namespace Juniper.Data

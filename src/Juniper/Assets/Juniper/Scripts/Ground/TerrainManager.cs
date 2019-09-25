@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Juniper.Units;
 using Juniper.XR;
 using UnityEngine;
@@ -131,10 +130,7 @@ namespace Juniper.Ground
         {
             get
             {
-                return from child in transform.Family()
-                       let rend = child.GetComponent<Renderer>()
-                       where rend != null
-                       select rend;
+                return GetComponentsInChildren<Renderer>(true);
             }
         }
 

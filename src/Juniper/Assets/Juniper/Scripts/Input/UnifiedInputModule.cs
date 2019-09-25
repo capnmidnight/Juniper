@@ -84,7 +84,15 @@ namespace Juniper.Input
         {
             get
             {
-                return UnityInput.GetJoystickNames().Any(j => !string.IsNullOrEmpty(j));
+                foreach (var j in UnityInput.GetJoystickNames())
+                {
+                    if (!string.IsNullOrEmpty(j))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
         }
 
@@ -314,7 +322,7 @@ namespace Juniper.Input
 
                 Gaze.SetActive(gaze);
 
-                this.Mouse.SetActive(mouse);
+                Mouse.SetActive(mouse);
 
                 foreach (var touchPoint in Touches)
                 {
@@ -467,14 +475,14 @@ namespace Juniper.Input
         {
             get
             {
-                return Voice.IsAvailable;;
+                return Voice.IsAvailable;
             }
         }
         public bool VoiceEnabled
         {
             get
             {
-                return Voice.isActiveAndEnabled;;
+                return Voice.isActiveAndEnabled;
             }
         }
         public bool VoiceRequested
@@ -487,14 +495,14 @@ namespace Juniper.Input
         {
             get
             {
-                return Gaze.IsConnected;;
+                return Gaze.IsConnected;
             }
         }
         public bool GazeEnabled
         {
             get
             {
-                return Gaze.IsEnabled;;
+                return Gaze.IsEnabled;
             }
         }
         public bool GazeRequested
@@ -507,14 +515,14 @@ namespace Juniper.Input
         {
             get
             {
-                return Mouse.IsConnected;;
+                return Mouse.IsConnected;
             }
         }
         public bool MouseEnabled
         {
             get
             {
-                return Mouse.IsEnabled;;
+                return Mouse.IsEnabled;
             }
         }
         public bool MouseRequested
@@ -527,14 +535,14 @@ namespace Juniper.Input
         {
             get
             {
-                return AnyDeviceConnected(Touches);;
+                return AnyDeviceConnected(Touches);
             }
         }
         public bool TouchEnabled
         {
             get
             {
-                return AnyDeviceEnabled(Touches);;
+                return AnyDeviceEnabled(Touches);
             }
         }
         public bool TouchRequested
@@ -547,14 +555,14 @@ namespace Juniper.Input
         {
             get
             {
-                return AnyDeviceConnected(Hands);;
+                return AnyDeviceConnected(Hands);
             }
         }
         public bool HandsEnabled
         {
             get
             {
-                return AnyDeviceEnabled(Hands);;
+                return AnyDeviceEnabled(Hands);
             }
         }
         public bool HandsRequested
@@ -567,14 +575,14 @@ namespace Juniper.Input
         {
             get
             {
-                return AnyDeviceConnected(Controllers);;
+                return AnyDeviceConnected(Controllers);
             }
         }
         public bool ControllersEnabled
         {
             get
             {
-                return AnyDeviceEnabled(Controllers);;
+                return AnyDeviceEnabled(Controllers);
             }
         }
         public bool ControllersRequested

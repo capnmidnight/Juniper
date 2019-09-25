@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Juniper.Anchoring;
@@ -171,9 +172,12 @@ namespace Juniper
         {
             Install(false);
 
-            var casters = headShadow.GetComponentsInChildren<Renderer>()
-                .Union(body.GetComponentsInChildren<Renderer>())
-                .ToArray();
+            SetCasters(headShadow.GetComponentsInChildren<Renderer>());
+            SetCasters(body.GetComponentsInChildren<Renderer>());
+        }
+
+        private static void SetCasters(Renderer[] casters)
+        {
             foreach (var caster in casters)
             {
                 caster.shadowCastingMode = ShadowCastingMode.ShadowsOnly;
@@ -207,7 +211,7 @@ namespace Juniper
             casterRenderer.motionVectorGenerationMode = MotionVectorGenerationMode.ForceNoMotion;
 
 #if UNITY_MODULES_PHYSICS
-            caster.GetComponent<Collider>()?.DestroyImmediate();
+            caster.Remove<Collider>();
 #endif
             return caster;
         }
