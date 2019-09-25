@@ -131,7 +131,7 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
-                return JuniperPlatform.CurrentPlatform;
+                return JuniperSystem.CurrentPlatform;
             }
         }
 

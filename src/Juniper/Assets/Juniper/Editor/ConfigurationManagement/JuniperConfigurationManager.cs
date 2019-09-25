@@ -390,7 +390,7 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
-                return JuniperPlatform.CurrentPlatform;
+                return JuniperSystem.CurrentPlatform;
             }
         }
 
@@ -726,7 +726,7 @@ namespace Juniper.ConfigurationManagement
         {
             WithProgress("Resetting to base configuration", _ =>
             {
-                JuniperPlatform.Uninstall();
+                JuniperSystem.UninstallSystem();
                 CurrentConfiguration.Deactivate();
                 Recompile(true, CurrentConfiguration, NextConfiguration);
             });
@@ -784,7 +784,7 @@ namespace Juniper.ConfigurationManagement
             WithProgress("Preparing project", prog =>
             {
                 NextConfiguration.Activate(prog);
-                JuniperPlatform.Install(true);
+                JuniperSystem.InstallSystem(true);
                 config.Commit();
                 OnCancel(false);
             });

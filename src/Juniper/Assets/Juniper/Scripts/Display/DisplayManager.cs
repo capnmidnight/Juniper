@@ -13,8 +13,6 @@ using UnityEngine.SceneManagement;
 
 #if UNITY_MODULES_XR
 
-using System.Linq;
-
 using UnityEngine.XR;
 
 #endif
@@ -183,7 +181,7 @@ namespace Juniper.Display
 
         private JuniperSystem jp;
 
-        private JuniperSystem Sys
+        protected JuniperSystem Sys
         {
             get
             {
@@ -195,89 +193,10 @@ namespace Juniper.Display
             }
         }
 
-        public PlatformTypes CurrentPlatform
-        {
-            get
-            {
-                return Sys.CurrentPlatform;
-            }
-            private set
-            {
-                Sys.CurrentPlatform = value;
-            }
-        }
-
-        public SystemTypes System
-        {
-            get
-            {
-                return Sys.System;
-            }
-            private set
-            {
-                Sys.System = value;
-            }
-        }
-
+        private AugmentedRealityTypes lastARMode;
         private SystemTypes lastSystem;
-
-        public DisplayTypes DisplayType
-        {
-            get
-            {
-                return Sys.DisplayType;
-            }
-            private set
-            {
-                Sys.DisplayType = value;
-            }
-        }
-
-        public DisplayTypes SupportedDisplayType
-        {
-            get
-            {
-                return Sys.SupportedDisplayType;
-            }
-        }
-
         private DisplayTypes lastDisplayType;
         private DisplayTypes resumeMode;
-
-        public AugmentedRealityTypes ARMode
-        {
-            get
-            {
-                return Sys.ARMode;
-            }
-            private set
-            {
-                Sys.ARMode = value;
-            }
-        }
-
-        public AugmentedRealityTypes SupportedARMode
-        {
-            get
-            {
-                return Sys.SupportedARMode;
-            }
-        }
-
-        private AugmentedRealityTypes lastARMode;
-
-        public Options Option
-        {
-            get
-            {
-                return Sys.Option;
-            }
-            private set
-            {
-                Sys.Option = value;
-            }
-        }
-
         private Options lastOption;
 
         public virtual void Awake()
@@ -286,8 +205,8 @@ namespace Juniper.Display
 
             Install(false);
 
-            lastSystem = System;
-            lastOption = Option;
+            lastSystem = Sys.m_System;
+            lastOption = Sys.m_Option;
 
             StartXRDisplay();
         }
@@ -326,30 +245,30 @@ namespace Juniper.Display
             var xrDevice = UnityXRPlatforms.None;
             if (displayType == DisplayTypes.Stereo)
             {
-                if (JuniperPlatform.CurrentPlatform == PlatformTypes.AndroidDaydream)
+                if (JuniperSystem.CurrentPlatform == PlatformTypes.AndroidDaydream)
                 {
                     xrDevice = UnityXRPlatforms.daydream;
                 }
-                else if (JuniperPlatform.CurrentPlatform == PlatformTypes.AndroidOculus
-                    || JuniperPlatform.CurrentPlatform == PlatformTypes.StandaloneOculus)
+                else if (JuniperSystem.CurrentPlatform == PlatformTypes.AndroidOculus
+                    || JuniperSystem.CurrentPlatform == PlatformTypes.StandaloneOculus)
                 {
                     xrDevice = UnityXRPlatforms.Oculus;
                 }
-                else if (JuniperPlatform.CurrentPlatform == PlatformTypes.UWPHoloLens
-                    || JuniperPlatform.CurrentPlatform == PlatformTypes.UWPWindowsMR)
+                else if (JuniperSystem.CurrentPlatform == PlatformTypes.UWPHoloLens
+                    || JuniperSystem.CurrentPlatform == PlatformTypes.UWPWindowsMR)
                 {
                     xrDevice = UnityXRPlatforms.WindowsMR;
                 }
-                else if (JuniperPlatform.CurrentPlatform == PlatformTypes.MagicLeap)
+                else if (JuniperSystem.CurrentPlatform == PlatformTypes.MagicLeap)
                 {
                     xrDevice = UnityXRPlatforms.Lumin;
                 }
-                else if (JuniperPlatform.CurrentPlatform == PlatformTypes.StandaloneSteamVR)
+                else if (JuniperSystem.CurrentPlatform == PlatformTypes.StandaloneSteamVR)
                 {
                     xrDevice = UnityXRPlatforms.OpenVR;
                 }
-                else if (JuniperPlatform.CurrentPlatform == PlatformTypes.AndroidCardboard
-                    || JuniperPlatform.CurrentPlatform == PlatformTypes.IOSCardboard)
+                else if (JuniperSystem.CurrentPlatform == PlatformTypes.AndroidCardboard
+                    || JuniperSystem.CurrentPlatform == PlatformTypes.IOSCardboard)
                 {
                     xrDevice = UnityXRPlatforms.cardboard;
                 }
@@ -361,7 +280,7 @@ namespace Juniper.Display
             {
                 return true;
             }
-            else if (XRSettings.supportedDevices.Contains(xrDeviceName))
+            else if (Array.IndexOf(XRSettings.supportedDevices, xrDeviceName) >= 0)
             {
                 XRSettings.LoadDeviceByName(xrDeviceName);
                 return true;
@@ -383,9 +302,9 @@ namespace Juniper.Display
         {
             get
             {
-                return DisplayType == SupportedDisplayType
-                    || DisplayType == DisplayTypes.None
-                    || DisplayType == DisplayTypes.Monoscopic;
+                return Sys.m_DisplayType == Sys.m_SupportedDisplayType
+                    || Sys.m_DisplayType == DisplayTypes.None
+                    || Sys.m_DisplayType == DisplayTypes.Monoscopic;
             }
         }
 
@@ -395,14 +314,14 @@ namespace Juniper.Display
             {
                 try
                 {
-                    DisplayType = nextDisplayType;
+                    Sys.m_DisplayType = nextDisplayType;
                     if (IsValidDisplayChange)
                     {
-                        lastDisplayType = DisplayType;
+                        lastDisplayType = Sys.m_DisplayType;
 #if UNITY_MODULES_XR && !UNITY_EDITOR
                         ChangeXRDevice(DisplayType);
 #endif
-                        MainCamera.enabled = DisplayType != DisplayTypes.None;
+                        MainCamera.enabled = Sys.m_DisplayType != DisplayTypes.None;
 
                         if (!Mathf.Approximately(MainCamera.fieldOfView, VerticalFieldOfView))
                         {
@@ -411,7 +330,7 @@ namespace Juniper.Display
 
                         OnDisplayTypeChange();
 
-                        if (DisplayType != DisplayTypes.None)
+                        if (Sys.m_DisplayType != DisplayTypes.None)
                         {
                             StartAR();
                         }
@@ -424,8 +343,8 @@ namespace Juniper.Display
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
                 {
-                    Debug.LogError($"Could not change display type from {lastDisplayType} to {DisplayType}. Reason: {exp.Message}");
-                    DisplayType = lastDisplayType;
+                    Debug.LogError($"Could not change display type from {lastDisplayType} to {Sys.m_DisplayType}. Reason: {exp.Message}");
+                    Sys.m_DisplayType = lastDisplayType;
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
@@ -437,27 +356,27 @@ namespace Juniper.Display
 
         protected virtual void OnDisplayTypeChange()
         {
-            onDisplayTypeChange?.Invoke(DisplayType);
-            DisplayTypeChange?.Invoke(this, DisplayType);
+            onDisplayTypeChange?.Invoke(Sys.m_DisplayType);
+            DisplayTypeChange?.Invoke(this, Sys.m_DisplayType);
         }
 
         public void StartXRDisplay()
         {
             resumeMode = DisplayTypes.None;
-            ChangeDisplayType(SupportedDisplayType);
+            ChangeDisplayType(Sys.m_SupportedDisplayType);
         }
 
         public void StopXRDisplay()
         {
             StopAR();
-            resumeMode = DisplayType;
+            resumeMode = Sys.m_DisplayType;
             ChangeDisplayType(DisplayTypes.Monoscopic);
         }
 
         public void DisableDisplay()
         {
             StopAR();
-            resumeMode = DisplayType;
+            resumeMode = Sys.m_DisplayType;
             ChangeDisplayType(DisplayTypes.None);
         }
 
@@ -475,8 +394,8 @@ namespace Juniper.Display
             {
                 try
                 {
-                    ARMode = nextARMode;
-                    if (ARMode == AugmentedRealityTypes.None)
+                    Sys.m_ARMode = nextARMode;
+                    if (Sys.m_ARMode == AugmentedRealityTypes.None)
                     {
                         MainCamera.clearFlags = CameraClearFlags.Skybox;
                     }
@@ -486,13 +405,13 @@ namespace Juniper.Display
                         MainCamera.backgroundColor = ColorExt.TransparentBlack;
                     }
 
-                    lastARMode = ARMode;
+                    lastARMode = Sys.m_ARMode;
                     OnARModeChange();
                 }
                 catch (Exception exp)
                 {
-                    Debug.LogError($"Could not change AR mode from {lastARMode} to {ARMode}. Reason: {exp.Message}");
-                    ARMode = lastARMode;
+                    Debug.LogError($"Could not change AR mode from {lastARMode} to {Sys.m_ARMode}. Reason: {exp.Message}");
+                    Sys.m_ARMode = lastARMode;
                 }
             }
         }
@@ -509,13 +428,13 @@ namespace Juniper.Display
 
         protected virtual void OnARModeChange()
         {
-            onARModeChange?.Invoke(ARMode);
-            ARModeChange?.Invoke(this, ARMode);
+            onARModeChange?.Invoke(Sys.m_ARMode);
+            ARModeChange?.Invoke(this, Sys.m_ARMode);
         }
 
         public void StartAR()
         {
-            ChangeARMode(SupportedARMode);
+            ChangeARMode(Sys.m_SupportedARMode);
         }
 
         public void StopAR()
@@ -563,34 +482,34 @@ namespace Juniper.Display
         /// </summary>
         public virtual void Update()
         {
-            if (CurrentPlatform != JuniperPlatform.CurrentPlatform)
+            if (Sys.m_CurrentPlatform != JuniperSystem.CurrentPlatform)
             {
-                Debug.LogWarning($"Cannot change {nameof(Platform)} directly. Use the Juniper menu in the Unity Editor. ({JuniperPlatform.CurrentPlatform} => {CurrentPlatform})");
-                CurrentPlatform = JuniperPlatform.CurrentPlatform;
+                Debug.LogWarning($"Cannot change Platform directly. Use the Juniper menu in the Unity Editor. ({JuniperSystem.CurrentPlatform} => {Sys.m_CurrentPlatform})");
+                Sys.m_CurrentPlatform = JuniperSystem.CurrentPlatform;
             }
 
-            if (System != lastSystem)
+            if (Sys.m_System != lastSystem)
             {
-                Debug.LogWarning($"Cannot change {nameof(System)} directly. Use the Juniper menu in the Unity Editor. ({lastSystem} => {System})");
-                System = lastSystem;
+                Debug.LogWarning($"Cannot change System directly. Use the Juniper menu in the Unity Editor. ({lastSystem} => {Sys.m_System})");
+                Sys.m_System = lastSystem;
             }
 
-            if (Option != lastOption)
+            if (Sys.m_Option != lastOption)
             {
-                Debug.LogWarning($"Cannot change {nameof(Option)} directly. Use the Juniper menu in the Unity Editor. ({lastOption} => {Option})");
-                Option = lastOption;
+                Debug.LogWarning($"Cannot change Option directly. Use the Juniper menu in the Unity Editor. ({lastOption} => {Sys.m_Option})");
+                Sys.m_Option = lastOption;
             }
 
-            if (DisplayType != lastDisplayType)
+            if (Sys.m_DisplayType != lastDisplayType)
             {
-                Debug.LogWarning($"Cannot change {nameof(DisplayType)} directly. Use the {nameof(StartXRDisplay)} method. ({lastDisplayType} => {DisplayType})");
-                DisplayType = lastDisplayType;
+                Debug.LogWarning($"Cannot change DisplayType directly. Use the {nameof(StartXRDisplay)} method. ({lastDisplayType} => {Sys.m_DisplayType})");
+                Sys.m_DisplayType = lastDisplayType;
             }
 
-            if (ARMode != lastARMode)
+            if (Sys.m_ARMode != lastARMode)
             {
-                Debug.LogWarning($"Cannot change {nameof(ARMode)} directly. Use the {nameof(StartAR)} method. ({lastARMode} => {ARMode})");
-                ARMode = lastARMode;
+                Debug.LogWarning($"Cannot change ARMode directly. Use the {nameof(StartAR)} method. ({lastARMode} => {Sys.m_ARMode})");
+                Sys.m_ARMode = lastARMode;
             }
 
             EventCamera.cullingMask = MainCamera.cullingMask & LAYER_MASK;

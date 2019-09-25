@@ -257,7 +257,9 @@ namespace Juniper.Animation
             lastControllerLayer = input.ControllerLayer;
             lastAmbientMode = RenderSettings.ambientMode;
 
-            if (display.ARMode == AugmentedRealityTypes.None)
+            Find.Any(out JuniperSystem sys);
+
+            if (sys.m_ARMode == AugmentedRealityTypes.None)
             {
                 DisplayManager.ClearFlags = CameraClearFlags.Color;
                 DisplayManager.BackgroundColor = ColorExt.TransparentBlack;
@@ -294,8 +296,8 @@ namespace Juniper.Animation
         protected override void OnExiting()
         {
             base.OnExiting();
-
-            if (display.ARMode == AugmentedRealityTypes.None)
+            Find.Any(out JuniperSystem sys);
+            if (sys.m_ARMode == AugmentedRealityTypes.None)
             {
                 DisplayManager.ClearFlags = CameraClearFlags.Skybox;
                 DisplayManager.BackgroundColor = lastColor;

@@ -22,12 +22,12 @@ namespace Juniper.Display
         protected override void OnARModeChange()
         {
             base.OnARModeChange();
-            if (ARMode == AugmentedRealityTypes.PassthroughCamera
+            if (Sys.m_ARMode == AugmentedRealityTypes.PassthroughCamera
                 && (cameraCtrl.mode == CameraControl.Mode.Auto || cameraCtrl.mode == CameraControl.Mode.Touch))
             {
                 cameraCtrl.mode = CameraControl.Mode.None;
             }
-            else if (ARMode == AugmentedRealityTypes.None
+            else if (Sys.m_ARMode == AugmentedRealityTypes.None
                 && (cameraCtrl.mode == CameraControl.Mode.Auto || cameraCtrl.mode == CameraControl.Mode.None))
             {
                 cameraCtrl.mode = CameraControl.Mode.Touch;

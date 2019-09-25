@@ -11,7 +11,7 @@ namespace Juniper.Widgets
         public void Awake()
         {
             var text = this.Ensure<TextComponentWrapper>().Value;
-            text.text = text.text.Replace("{Juniper:Platform}", JuniperPlatform.CurrentPlatform.ToString());
+            text.text = text.text.Replace("{Juniper:Platform}", JuniperSystem.CurrentPlatform.ToString());
         }
     }
 }
