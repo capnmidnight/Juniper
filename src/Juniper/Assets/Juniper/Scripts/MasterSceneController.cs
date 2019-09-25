@@ -15,6 +15,7 @@ using Juniper.Widgets;
 using Juniper.Progress;
 
 using UnityImage = UnityEngine.UI.Image;
+using Juniper.Input;
 
 #if UNITY_EDITOR
 
@@ -108,6 +109,7 @@ namespace Juniper
 
         private FadeTransition fader;
         private InteractionAudio interaction;
+        private UnifiedInputModule input;
 
 #if UNITY_MODULES_AUDIO
         private float originalFadeVolume;
@@ -407,6 +409,11 @@ namespace Juniper
 
                 yield return fader.EnterCoroutine();
 
+                if (input != null)
+                {
+                    input.enabled = false;
+                }
+
                 if (loadingBar != null && !skipLoadingScreen)
                 {
                     loadingBar.Activate();
@@ -469,6 +476,11 @@ namespace Juniper
             {
                 if (fader.CanExit)
                 {
+                    if (input != null)
+                    {
+                        input.enabled = true;
+                    }
+
                     if (skipLoadingScreen)
                     {
                         fader.SkipExit();
@@ -493,6 +505,11 @@ namespace Juniper
             if (splash != null)
             {
                 splash.Activate();
+            }
+
+            if(Find.Any(out input))
+            {
+                input.enabled = false;
             }
 
             var faderFound = Find.Any(out fader);
