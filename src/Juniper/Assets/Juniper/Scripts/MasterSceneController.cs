@@ -43,6 +43,34 @@ namespace Juniper
             return SceneNamePattern.Match(path).Groups[1].Value;
         }
 
+        private string GetScenePathFromName(string subSceneName)
+        {
+            var sceneFileName = subSceneName + ".unity";
+            string scenePath = null;
+            foreach (var s in subSceneNames)
+            {
+                if (s.EndsWith(sceneFileName))
+                {
+                    scenePath = s;
+                    break;
+                }
+            }
+
+            return scenePath;
+        }
+
+        /// <summary>
+        /// Check to see if a particular scene is already loaded.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private static bool IsSceneLoaded(string path)
+        {
+            var scene = SceneManager.GetSceneByPath(path);
+            var name = GetSceneNameFromPath(path);
+            return scene.isLoaded && scene.name == name;
+        }
+
         /// <summary>
         /// Get a scene by name (or path, if we're running in the editor).
         /// </summary>
@@ -52,7 +80,7 @@ namespace Juniper
         private static IEnumerator LoadScene(string sceneName, string scenePath, IProgress sceneLoadProg)
         {
             sceneLoadProg.Report(0);
-            if (!IsScenePathLoaded(scenePath))
+            if (!IsSceneLoaded(scenePath))
             {
                 if (Application.isPlaying)
                 {
@@ -64,14 +92,12 @@ namespace Juniper
                     EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
                 }
 #endif
+                while (!IsSceneLoaded(scenePath))
+                {
+                    yield return null;
+                }
             }
             sceneLoadProg.Report(1);
-        }
-
-        private static bool IsScenePathLoaded(string path)
-        {
-            var scene = SceneManager.GetSceneByPath(path);
-            return scene.IsValid() && scene.isLoaded;
         }
 
         /// <summary>
@@ -150,17 +176,26 @@ namespace Juniper
 
 #if UNITY_EDITOR
 
+        public void OnValidate()
+        {
+            JuniperSystem.OnEditorUpdateIn(
+                $"{typeof(MasterSceneController).FullName}::{nameof(SetBuildSettings)}",
+                TimeSpan.FromSeconds(1),
+                SetBuildSettings);
+        }
+
+
         private void SetBuildSettings()
         {
+            subSceneNames = subSceneNames.Where(File.Exists).ToArray();
             if (!Application.isPlaying
                 && gameObject != null
                 && !string.IsNullOrEmpty(gameObject.scene.path))
             {
-                var s = (from path in subSceneNames
-                         where File.Exists(path)
-                         select new EditorBuildSettingsScene(path, true))
-                    .ToList();
-                s.Insert(0, new EditorBuildSettingsScene(gameObject.scene.path, true));
+                var s = new List<EditorBuildSettingsScene>();
+                s.Add(new EditorBuildSettingsScene(gameObject.scene.path, true));
+                s.AddRange(from path in subSceneNames
+                           select new EditorBuildSettingsScene(path, true));
                 EditorBuildSettings.scenes = s.ToArray();
             }
         }
@@ -208,15 +243,22 @@ namespace Juniper
 
                 foreach (var path in subSceneNames)
                 {
-                    var sceneName = SceneNamePattern.Match(path).Groups[1].Value;
-                    var iter = LoadScene(sceneName, path, null);
-                    while (iter.MoveNext())
+                    if (File.Exists(path))
                     {
-                        print(path);
-                    }
+                        var sceneName = SceneNamePattern.Match(path).Groups[1].Value;
+                        var iter = LoadScene(sceneName, path, null);
+                        while (iter.MoveNext())
+                        {
+                            print(path);
+                        }
 
-                    var scene = SceneManager.GetSceneByPath(path);
-                    SceneManager.MergeScenes(scene, curScene);
+                        var scene = SceneManager.GetSceneByPath(path);
+                        SceneManager.MergeScenes(scene, curScene);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Invalid Scene Path: {path}");
+                    }
                 }
 
                 subSceneNames = new string[0];
@@ -227,11 +269,6 @@ namespace Juniper
             {
                 new EditorBuildSettingsScene(curScene.path, true)
             };
-        }
-
-        public void OnValidate()
-        {
-            Invoke(nameof(SetBuildSettings), 100);
         }
 
         public void Reset()
@@ -364,70 +401,63 @@ namespace Juniper
 
         private IEnumerator SwitchToSceneCoroutine(string subSceneName, bool skipFadeOut, bool skipLoadingScreen, bool unloadOtherScenes, bool fromView)
         {
-            var sceneFileName = subSceneName + ".unity";
-            string scenePath = null;
-            foreach (var s in subSceneNames)
-            {
-                if (s.EndsWith(sceneFileName))
-                {
-                    scenePath = s;
-                    break;
-                }
-            }
+            var scenePath = GetScenePathFromName(subSceneName);
 
             if (scenePath == null)
             {
-                throw new Exception("Couldn't find scene: " + subSceneName);
+                ScreenDebugger.Print($"Couldn't find scene: {subSceneName}");
             }
-
-            if (unloadOtherScenes)
+            else
             {
-                yield return ExitAllSubScenesExcept(GetOpenSubScenes(scenePath), scenePath);
-            }
-
-            var showFader = !skipFadeOut
-                && fader != null
-                && fader.CanEnter;
-
-            if (showFader && fromView)
-            {
-                showFader &= !IsScenePathLoaded(scenePath);
-                if (!showFader)
+                if (unloadOtherScenes)
                 {
-                    var scene = SceneManager.GetSceneByPath(scenePath);
-                    var subScenes = scene.FindAll<SubSceneController>();
-                    foreach (var subScene in subScenes)
+                    yield return ExitAllSubScenesExcept(GetOpenSubScenes(scenePath), scenePath);
+                }
+
+                var showFader = !skipFadeOut
+                    && fader != null
+                    && fader.CanEnter;
+
+                if (showFader && fromView)
+                {
+                    showFader &= !IsSceneLoaded(scenePath);
+                    if (!showFader)
                     {
-                        showFader |= subScene.IsExited || !subScene.isActiveAndEnabled;
+                        var scene = SceneManager.GetSceneByPath(scenePath);
+                        var subScenes = scene.FindAll<SubSceneController>();
+                        foreach (var subScene in subScenes)
+                        {
+                            showFader |= subScene.IsExited || !subScene.isActiveAndEnabled;
+                        }
                     }
                 }
-            }
 
-            if (showFader)
-            {
-                yield return JuniperSystem.Cleanup();
-
-                yield return fader.EnterCoroutine();
-
-                if (input != null)
+                if (showFader)
                 {
-                    input.enabled = false;
+                    yield return JuniperSystem.Cleanup();
+
+                    yield return fader.EnterCoroutine();
+
+                    if (input != null)
+                    {
+                        input.enabled = false;
+                    }
+
+                    if (loadingBar != null && !skipLoadingScreen)
+                    {
+                        loadingBar.Activate();
+                        loadingBar.Report(0, subSceneName);
+                    }
                 }
 
-                if (loadingBar != null && !skipLoadingScreen)
+                if (unloadOtherScenes)
                 {
-                    loadingBar.Activate();
-                    loadingBar.Report(0, subSceneName);
+                    yield return UnloadAllScenesExcept(scenePath);
                 }
-            }
 
-            if (unloadOtherScenes)
-            {
-                yield return UnloadAllScenesExcept(scenePath);
+                yield return LoadScenePathCoroutine(scenePath, loadingBar);
+                yield return LoadingCompleteCoroutine(skipLoadingScreen);
             }
-
-            yield return LoadScenePathCoroutine(scenePath, loadingBar);
-            yield return LoadingCompleteCoroutine(skipLoadingScreen);
         }
 
         private IEnumerator LoadingCompleteCoroutine(bool skipLoadingScreen)
@@ -507,7 +537,7 @@ namespace Juniper
                 splash.Activate();
             }
 
-            if(Find.Any(out input))
+            if (Find.Any(out input))
             {
                 input.enabled = false;
             }

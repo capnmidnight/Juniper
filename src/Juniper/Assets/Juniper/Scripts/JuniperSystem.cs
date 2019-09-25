@@ -257,6 +257,42 @@ namespace Juniper
             m_ARMode = AugmentedRealityTypes.None;
         }
 
+        public static void OnNextEditorUpdate(Action act)
+        {
+            void wrapper()
+            {
+                EditorApplication.update -= wrapper;
+                act();
+            }
+
+            EditorApplication.update += wrapper;
+        }
+
+
+        private static readonly Dictionary<string, EditorApplication.CallbackFunction> delegates = new Dictionary<string, EditorApplication.CallbackFunction>();
+        public static void OnEditorUpdateIn(string key, TimeSpan time, Action act)
+        {
+            var start = DateTime.Now;
+
+            if (delegates.ContainsKey(key))
+            {
+                EditorApplication.update -= delegates[key];
+            }
+
+            void wrapper()
+            {
+                var delta = DateTime.Now - start;
+                if (delta > time)
+                {
+                    EditorApplication.update -= wrapper;
+                    act();
+                }
+            }
+
+            delegates[key] = wrapper;
+
+            EditorApplication.update += delegates[key];
+        }
 #endif
 
         public static IEnumerator Cleanup()
