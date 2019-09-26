@@ -8,8 +8,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
-
 namespace Juniper.Input.Pointers.Motion
 {
     public abstract class MagicLeapHand

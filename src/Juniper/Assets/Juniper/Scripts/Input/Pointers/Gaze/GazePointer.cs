@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Juniper.Haptics;
 using Juniper.Input.Pointers.Screen;
 
@@ -63,11 +64,11 @@ namespace Juniper.Input.Pointers.Gaze
 
         private GameObject target;
 
-        public override void Process(PointerEventData evtData, float pixelDragThresholdSquared)
+        public override void Process(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses)
         {
             target = evtData.pointerCurrentRaycast.gameObject;
 
-            base.Process(evtData, pixelDragThresholdSquared);
+            base.Process(evtData, pixelDragThresholdSquared, keyPresses);
         }
 
         protected override void InternalUpdate()

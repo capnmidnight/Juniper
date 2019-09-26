@@ -4,29 +4,21 @@ using Juniper.Events;
 
 using UnityEngine;
 
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
-
 namespace Juniper.Input.Pointers
 {
     public abstract class AbstractPointerConfiguration<ButtonIDType>
         where ButtonIDType : struct
     {
-        private readonly Dictionary<ButtonIDType, InputEventButton> nativeButtons = new Dictionary<ButtonIDType, InputEventButton>(5);
+        private readonly Dictionary<ButtonIDType, KeyCode> nativeKeys = new Dictionary<ButtonIDType, KeyCode>(5);
 
-        protected void AddButton(ButtonIDType outButton, InputButton inButton)
+        protected void AddButton(ButtonIDType outButton, KeyCode inKey)
         {
-            nativeButtons.Add(outButton, (InputEventButton)inButton);
-        }
-
-
-        protected void AddButton(ButtonIDType outButton)
-        {
-            nativeButtons.Add(outButton, InputEventButton.None);
+            nativeKeys.Add(outButton, inKey);
         }
 
         public void Install(ButtonMapper<ButtonIDType> mapper, GameObject eventParent, bool reset)
         {
-            mapper.Install(eventParent, nativeButtons, reset);
+            mapper.Install(eventParent, nativeKeys, reset);
         }
 
         public void Uninstall(GameObject eventParent)

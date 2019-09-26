@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 
-using Juniper.Input;
 using Juniper.Events;
 
 using UnityEngine;
@@ -32,35 +32,28 @@ namespace Juniper.Input.Pointers
 
         public event Func<ButtonIDType, bool> ButtonPressedNeeded;
 
-        public event Func<int, PointerEventData, PointerEventData> ClonedPointerEventNeeded;
+        public event Func<int, JuniperPointerEventData, JuniperPointerEventData> ClonedPointerEventNeeded;
 
         private readonly ButtonEvent buttonEvent;
 
-        public InputButton? UnityInputButton
+        public KeyCode UnityKeyCode
         {
             get
             {
-                if (buttonEvent.inputButton == InputEventButton.None)
-                {
-                    return null;
-                }
-                else
-                {
-                    return (InputButton)buttonEvent.inputButton;
-                }
+                return buttonEvent.inputKey;
             }
         }
 
-        public MappedButton(ButtonIDType btn, InputEventButton inputBtn, GameObject eventParent)
+        public MappedButton(ButtonIDType btn, KeyCode inputKey, GameObject eventParent)
         {
             SetButton(btn);
             var key = ButtonEvent.MakeKey(button);
             var btns = eventParent.GetComponents<ButtonEvent>();
             buttonEvent = Array.Find(btns, e => e.Key == key)
-                ?? Array.Find(btns, e => e.inputButton == inputBtn)
+                ?? Array.Find(btns, e => e.inputKey == inputKey)
                 ?? eventParent.AddComponent<ButtonEvent>();
             buttonEvent.Key = key;
-            buttonEvent.inputButton = inputBtn;
+            buttonEvent.inputKey = inputKey;
         }
 
         public MappedButton(ButtonIDType btn, ButtonEvent evt)
@@ -101,7 +94,7 @@ namespace Juniper.Input.Pointers
             get; private set;
         }
 
-        public IEventSystemHandler Process(PointerEventData eventData, float pixelDragThresholdSquared)
+        public IEventSystemHandler Process(JuniperPointerEventData eventData, float pixelDragThresholdSquared, List<KeyCode> keyPresses)
         {
             if (buttonEvent.buttonValueName != buttonName)
             {
@@ -110,15 +103,22 @@ namespace Juniper.Input.Pointers
 
             IsPressed = ButtonPressedNeeded(button);
             var evtData = ClonedPointerEventNeeded(buttonEvent.GetInstanceID(), eventData);
-            evtData.button = (InputButton)buttonEvent.inputButton;
+            evtData.keyCode = buttonEvent.inputKey;
+            switch (evtData.keyCode)
+            {
+                case KeyCode.Mouse0: evtData.button = InputButton.Left; break;
+                case KeyCode.Mouse1: evtData.button = InputButton.Right; break;
+                case KeyCode.Mouse2: evtData.button = InputButton.Middle; break;
+                default: evtData.button = (InputButton)(-1); break;
+            }
 
-            TestUpDown(evtData);
+            TestUpDown(evtData, keyPresses);
             TestDrag(evtData, pixelDragThresholdSquared);
 
             return evtData.pointerEnter?.GetComponent<IEventSystemHandler>();
         }
 
-        private void TestUpDown(PointerEventData evtData)
+        private void TestUpDown(JuniperPointerEventData evtData, List<KeyCode> keyPresses)
         {
             IsUp = ButtonUpNeeded(button);
             IsDown = ButtonDownNeeded(button);
@@ -188,11 +188,12 @@ namespace Juniper.Input.Pointers
                     {
                         InteractionNeeded(Interaction.Clicked);
                     }
+                    keyPresses.MaybeAdd(evtData.keyCode);
                 }
             }
         }
 
-        private void TestDrag(PointerEventData evtData, float pixelDragThresholdSquared)
+        private void TestDrag(JuniperPointerEventData evtData, float pixelDragThresholdSquared)
         {
             if (evtData.pointerDrag != null && evtData.IsPointerMoving())
             {

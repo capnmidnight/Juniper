@@ -149,7 +149,7 @@ namespace Juniper.Speech
 
                     if (receiver != null)
                     {
-                        receiver.OnKeywordRecognized();
+                        receiver.ActivateEvent();
                     }
                 }
                 else if (IsPermitted && !IsStarting)

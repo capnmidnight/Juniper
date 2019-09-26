@@ -1,5 +1,5 @@
 using System;
-
+using System.Collections.Generic;
 using Juniper.Input;
 
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace Juniper.Input.Pointers
             get; set;
         }
 
-        IInputModule InputModule
+        UnifiedInputModule InputModule
         {
             get;
         }
@@ -198,13 +198,13 @@ namespace Juniper.Input.Pointers
 
         Vector3 WorldFromViewport(Vector2 viewportPoint);
 
-        bool IsButtonDown(PointerEventData.InputButton button);
+        bool IsButtonDown(KeyCode button);
 
-        bool IsButtonPressed(PointerEventData.InputButton button);
+        bool IsButtonPressed(KeyCode button);
 
-        bool IsButtonUp(PointerEventData.InputButton button);
+        bool IsButtonUp(KeyCode button);
 
-        void Process(PointerEventData evtData, float pixelDragThresholdSquared);
+        void Process(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses);
 
         void OnProbeFound();
     }

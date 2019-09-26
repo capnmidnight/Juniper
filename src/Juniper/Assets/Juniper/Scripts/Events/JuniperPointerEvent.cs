@@ -1,12 +1,13 @@
 using System;
 
+using Juniper.Input;
+
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 namespace Juniper.Events
 {
     [Serializable]
-    public class PointerEvent : UnityEvent<PointerEventData>
+    public class JuniperPointerEvent : UnityEvent<JuniperPointerEventData>
     {
     }
 }

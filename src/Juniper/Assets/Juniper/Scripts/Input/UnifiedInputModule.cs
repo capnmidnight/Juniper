@@ -23,6 +23,7 @@ using UnityInput = UnityEngine.Input;
 
 namespace Juniper.Input
 {
+
     [DisallowMultipleComponent]
     public class UnifiedInputModule :
 #if UNITY_XR_GOOGLEVR_ANDROID
@@ -51,7 +52,7 @@ namespace Juniper.Input
     /// Finds all of the <see cref="IPointerDevice"/> s and fires raycaster events for all
     /// of them.
     /// </summary>
-    public abstract class AbstractUnifiedInputModule : PointerInputModule, IInstallable, IInputModule
+    public abstract class AbstractUnifiedInputModule : PointerInputModule, IInstallable
     {
         private static bool AnyDeviceEnabled<T>(T[] devices)
             where T : Behaviour, IPointerDevice
@@ -66,6 +67,7 @@ namespace Juniper.Input
 
             return false;
         }
+
         private static bool AnyDeviceConnected<T>(T[] devices)
             where T : Behaviour, IPointerDevice
         {
@@ -78,6 +80,26 @@ namespace Juniper.Input
             }
 
             return false;
+        }
+
+        public void ClickButtons(IEnumerable<IPointerClickHandler> buttons)
+        {
+            var pointerEvent = new JuniperPointerEventData(eventSystem)
+            {
+                button = PointerEventData.InputButton.Left,
+                keyCode = KeyCode.Mouse0,
+                eligibleForClick = true,
+                clickCount = 1,
+                clickTime = Time.unscaledTime,
+            };
+
+            foreach (var button in buttons)
+            {
+                if (button != null)
+                {
+                    button.OnPointerClick(pointerEvent);
+                }
+            }
         }
 
         public static bool HasGamepad
@@ -98,6 +120,10 @@ namespace Juniper.Input
 
         private readonly List<IPointerDevice> newDevices = new List<IPointerDevice>(12);
         public readonly List<IPointerDevice> Devices = new List<IPointerDevice>(12);
+        private readonly List<Keyboardable> newKeyboardShortcuts = new List<Keyboardable>(10);
+        private readonly List<Keyboardable> keyboardShortcuts = new List<Keyboardable>(10);
+        private readonly List<Keyboardable> toActivate = new List<Keyboardable>(10);
+        private readonly List<KeyCode> keyPresses = new List<KeyCode>();
 
         public InputMode mode = InputMode.Auto;
         private InputMode lastMode;
@@ -116,6 +142,16 @@ namespace Juniper.Input
 
                 return false;
             }
+        }
+
+        public void AddKeyboardShortcut(Keyboardable shortcut)
+        {
+            newKeyboardShortcuts.MaybeAdd(shortcut);
+        }
+
+        public void RemoveKeyboardShortcut(Keyboardable shortcut)
+        {
+            newKeyboardShortcuts.Remove(shortcut);
         }
 
         /// <summary>
@@ -238,11 +274,57 @@ namespace Juniper.Input
 
 #endif
 
-        public PointerEventData Clone(int pointerDataID, PointerEventData original)
+        public JuniperPointerEventData GetJuniperPointerData(int pointerDataID)
         {
-            PointerEventData clone;
-            GetPointerData(pointerDataID, out clone, true);
+            if (!m_PointerData.ContainsKey(pointerDataID))
+            {
+                m_PointerData[pointerDataID] = new JuniperPointerEventData(eventSystem);
+            }
 
+            var data = m_PointerData[pointerDataID];
+
+            if(!(data is JuniperPointerEventData))
+            {
+                var clone = new JuniperPointerEventData(eventSystem);
+                clone.button = data.button;
+                clone.clickCount = data.clickCount;
+                clone.clickTime = data.clickTime;
+                clone.delta = data.delta;
+                clone.dragging = data.dragging;
+                clone.eligibleForClick = data.eligibleForClick;
+
+                if (data.hovered != null)
+                {
+                    if (clone.hovered == null)
+                    {
+                        clone.hovered = new List<GameObject>();
+                    }
+
+                    clone.hovered.AddRange(data.hovered);
+                }
+
+                clone.pointerCurrentRaycast = data.pointerCurrentRaycast;
+                clone.pointerDrag = data.pointerDrag;
+                clone.pointerEnter = data.pointerEnter;
+                clone.pointerId = data.pointerId;
+                clone.pointerPress = data.pointerPress;
+                clone.pointerPressRaycast = data.pointerPressRaycast;
+                clone.position = data.position;
+                clone.pressPosition = data.pressPosition;
+                clone.rawPointerPress = data.rawPointerPress;
+                clone.scrollDelta = data.scrollDelta;
+                clone.selectedObject = data.selectedObject;
+                clone.useDragThreshold = data.useDragThreshold;
+
+                data = clone;
+            }
+
+            return (JuniperPointerEventData)data;
+        }
+
+        public JuniperPointerEventData Clone(int pointerDataID, JuniperPointerEventData original)
+        {
+            var clone = GetJuniperPointerData(pointerDataID);
             clone.delta = original.delta;
             clone.position = original.position;
             clone.scrollDelta = original.scrollDelta;
@@ -263,12 +345,6 @@ namespace Juniper.Input
         /// </summary>
         public override void Process()
         {
-            if (newDevices.Count > 0)
-            {
-                Devices.AddRange(newDevices);
-                newDevices.Clear();
-            }
-
             if (mode != lastMode)
             {
                 if (mode == InputMode.Auto)
@@ -350,12 +426,42 @@ namespace Juniper.Input
                 SavedInputMode = lastMode = mode;
             }
 
+            if (newDevices.Count > 0)
+            {
+                Devices.AddRange(newDevices);
+                newDevices.Clear();
+            }
+
+            if (newKeyboardShortcuts.Count > 0)
+            {
+                keyboardShortcuts.AddRange(newKeyboardShortcuts);
+                newKeyboardShortcuts.Clear();
+            }
+
+            keyPresses.Clear();
+            toActivate.Clear();
+
             foreach (var pointer in Devices)
             {
                 if (pointer.ProcessInUpdate)
                 {
                     ProcessPointer(pointer);
                 }
+            }
+
+            foreach(var shortcut in keyboardShortcuts)
+            {
+                if (shortcut.IsInteractable()
+                    && (UnityInput.GetKeyUp(shortcut.KeyCode)
+                        || keyPresses.Contains(shortcut.KeyCode)))
+                {
+                    toActivate.MaybeAdd(shortcut);
+                }
+            }
+
+            foreach(var shortcut in toActivate)
+            {
+                shortcut.ActivateEvent();
             }
         }
 
@@ -364,8 +470,7 @@ namespace Juniper.Input
             pointer.Layer = ControllerLayer;
             if (pointer.IsEnabled)
             {
-                PointerEventData evtData;
-                GetPointerData(pointer.PointerDataID, out evtData, true);
+                var evtData = GetJuniperPointerData(pointer.PointerDataID);
                 evtData.delta = pointer.ScreenDelta;
                 evtData.position = pointer.ScreenPoint;
                 evtData.scrollDelta = pointer.ScrollDelta;
@@ -373,7 +478,7 @@ namespace Juniper.Input
 
                 UpdateRay(pointer, evtData);
 
-                pointer.Process(evtData, eventSystem.pixelDragThreshold * eventSystem.pixelDragThreshold);
+                pointer.Process(evtData, eventSystem.pixelDragThreshold * eventSystem.pixelDragThreshold, keyPresses);
             }
         }
 

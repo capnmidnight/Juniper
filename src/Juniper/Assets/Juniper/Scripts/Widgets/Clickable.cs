@@ -58,6 +58,14 @@ namespace Juniper.Widgets
             Click?.Invoke(this, EventArgs.Empty);
         }
 
+        public void ActivateClick()
+        {
+            if (!IsDisabled)
+            {
+                OnClick();
+            }
+        }
+
         public void OnLongPress(PointerEventData evt)
         {
             if (evt.button == clickButton && !IsDisabled)

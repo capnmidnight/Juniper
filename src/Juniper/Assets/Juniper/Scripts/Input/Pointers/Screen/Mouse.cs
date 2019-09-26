@@ -2,7 +2,6 @@
 #define HAS_MOUSE
 #endif
 
-using System.Runtime.InteropServices;
 using Juniper.Haptics;
 
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace Juniper.Input.Pointers.Screen
     /// <summary>
     /// A <see cref="AbstractScreenDevice"/> pointer for the standard mouse connected to a desktop system.
     /// </summary>
-    public class Mouse : AbstractScreenDevice<KeyCode, MousePointerConfiguration>
+    public class Mouse : AbstractScreenDevice<MouseButton, MousePointerConfiguration>
     {
         [ContextMenu("Reinstall")]
         public override void Reinstall()
@@ -142,19 +141,19 @@ namespace Juniper.Input.Pointers.Screen
             base.InternalUpdate();
         }
 
-        public override bool IsButtonPressed(KeyCode button)
+        public override bool IsButtonPressed(MouseButton button)
         {
-            return UnityInput.GetKey(button);
+            return UnityInput.GetKey((KeyCode)button);
         }
 
-        public override bool IsButtonDown(KeyCode button)
+        public override bool IsButtonDown(MouseButton button)
         {
-            return UnityInput.GetKeyDown(button);
+            return UnityInput.GetKeyDown((KeyCode)button);
         }
 
-        public override bool IsButtonUp(KeyCode button)
+        public override bool IsButtonUp(MouseButton button)
         {
-            return UnityInput.GetKeyUp(button);
+            return UnityInput.GetKeyUp((KeyCode)button);
         }
 
         protected override AbstractHapticDevice MakeHapticsDevice()

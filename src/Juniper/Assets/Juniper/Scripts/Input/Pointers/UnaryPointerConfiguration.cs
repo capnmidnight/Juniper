@@ -1,4 +1,4 @@
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
+using UnityEngine;
 
 namespace Juniper.Input.Pointers
 {
@@ -6,7 +6,7 @@ namespace Juniper.Input.Pointers
     {
         public UnaryPointerConfiguration()
         {
-            AddButton(Unary.One, InputButton.Left);
+            AddButton(Unary.One, KeyCode.Mouse0);
         }
     }
 }

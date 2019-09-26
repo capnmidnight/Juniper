@@ -1,5 +1,5 @@
 using System;
-
+using System.Collections.Generic;
 using Juniper.Audio;
 using Juniper.Display;
 using Juniper.Haptics;
@@ -7,8 +7,6 @@ using Juniper.Statistics;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Input.Pointers
 {
@@ -62,7 +60,7 @@ namespace Juniper.Input.Pointers
         {
             get
             {
-                return Mathf.Max(eventManager.minPointerDistance, 1.1f * DisplayManager.MainCamera.nearClipPlane);
+                return Mathf.Max(InputModule.minPointerDistance, 1.1f * DisplayManager.MainCamera.nearClipPlane);
             }
         }
 
@@ -72,7 +70,7 @@ namespace Juniper.Input.Pointers
         {
             get
             {
-                return Mathf.Min(eventManager.maxPointerDistance, 0.9f * DisplayManager.MainCamera.farClipPlane);
+                return Mathf.Min(InputModule.maxPointerDistance, 0.9f * DisplayManager.MainCamera.farClipPlane);
             }
         }
 
@@ -143,9 +141,9 @@ namespace Juniper.Input.Pointers
         {
             get
             {
-                return IsButtonPressed(InputButton.Left)
-                    || IsButtonPressed(InputButton.Right)
-                    || IsButtonPressed(InputButton.Middle);
+                return IsButtonPressed(KeyCode.Mouse0)
+                    || IsButtonPressed(KeyCode.Mouse1)
+                    || IsButtonPressed(KeyCode.Mouse2);
             }
         }
 
@@ -156,7 +154,7 @@ namespace Juniper.Input.Pointers
         {
             Install(false);
 
-            Find.Any(out eventManager);
+            Find.Any(out input);
             Find.Any(out stage);
 
             pointerOffset = MinimumPointerDistance * Vector3.forward;
@@ -172,7 +170,7 @@ namespace Juniper.Input.Pointers
 
         public void Start()
         {
-            eventManager.AddPointer(this);
+            InputModule.AddPointer(this);
         }
 
         public virtual void Install(bool reset)
@@ -453,13 +451,12 @@ namespace Juniper.Input.Pointers
             }
         }
 
-        protected AbstractUnifiedInputModule eventManager;
-
-        public IInputModule InputModule
+        private UnifiedInputModule input;
+        public UnifiedInputModule InputModule
         {
             get
             {
-                return eventManager;
+                return input;
             }
         }
 
@@ -495,19 +492,19 @@ namespace Juniper.Input.Pointers
             }
         }
 
-        protected PointerEventData Clone(int pointerDataID, PointerEventData evtData)
+        protected JuniperPointerEventData Clone(int pointerDataID, JuniperPointerEventData evtData)
         {
             return InputModule?.Clone(pointerDataID, evtData);
         }
 
-        public virtual void Process(PointerEventData evtData, float pixelDragThresholdSquared)
+        public virtual void Process(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses)
         {
             if (!IsDragging)
             {
                 TestEnterExit(evtData);
             }
 
-            EventTarget = ProcessButtons(evtData, pixelDragThresholdSquared);
+            EventTarget = ProcessButtons(evtData, pixelDragThresholdSquared, keyPresses);
 
             if (evtData.clickCount == -1)
             {
@@ -525,9 +522,9 @@ namespace Juniper.Input.Pointers
                 evtData.pointerCurrentRaycast.worldNormal);
         }
 
-        protected virtual IEventSystemHandler ProcessButtons(PointerEventData evtData, float pixelDragThresholdSquared)
+        protected virtual IEventSystemHandler ProcessButtons(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses)
         {
-            return nativeButtons.Process(evtData, pixelDragThresholdSquared);
+            return nativeButtons.Process(evtData, pixelDragThresholdSquared, keyPresses);
         }
 
         private void TestEnterExit(PointerEventData evtData)
@@ -551,19 +548,19 @@ namespace Juniper.Input.Pointers
             }
         }
 
-        public virtual bool IsButtonPressed(InputButton button)
+        public virtual bool IsButtonPressed(KeyCode key)
         {
-            return nativeButtons.IsButtonPressed(button);
+            return nativeButtons.IsButtonPressed(key);
         }
 
-        public virtual bool IsButtonUp(InputButton button)
+        public virtual bool IsButtonUp(KeyCode key)
         {
-            return nativeButtons.IsButtonUp(button);
+            return nativeButtons.IsButtonUp(key);
         }
 
-        public virtual bool IsButtonDown(InputButton button)
+        public virtual bool IsButtonDown(KeyCode key)
         {
-            return nativeButtons.IsButtonDown(button);
+            return nativeButtons.IsButtonDown(key);
         }
 
         protected virtual void InternalUpdate()

@@ -1,12 +1,8 @@
 using System;
 using System.Collections.Generic;
 
-using Juniper.Input;
-
 using UnityEngine;
 using UnityEngine.EventSystems;
-
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Input.Pointers.Motion
 {
@@ -228,34 +224,34 @@ namespace Juniper.Input.Pointers.Motion
             }
         }
 
-        protected override IEventSystemHandler ProcessButtons(PointerEventData evtData, float pixelDragThresholdSquared)
+        protected override IEventSystemHandler ProcessButtons(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses)
         {
-            var a = base.ProcessButtons(evtData, pixelDragThresholdSquared);
-            var b = touchPadButtons.Process(evtData, pixelDragThresholdSquared);
-            var c = triggerButtons.Process(evtData, pixelDragThresholdSquared);
+            var a = base.ProcessButtons(evtData, pixelDragThresholdSquared, keyPresses);
+            var b = touchPadButtons.Process(evtData, pixelDragThresholdSquared, keyPresses);
+            var c = triggerButtons.Process(evtData, pixelDragThresholdSquared, keyPresses);
 
             return a ?? b ?? c;
         }
 
-        public override bool IsButtonPressed(InputButton button)
+        public override bool IsButtonPressed(KeyCode key)
         {
-            return base.IsButtonPressed(button)
-                || touchPadButtons.IsButtonPressed(button)
-                || triggerButtons.IsButtonPressed(button);
+            return base.IsButtonPressed(key)
+                || touchPadButtons.IsButtonPressed(key)
+                || triggerButtons.IsButtonPressed(key);
         }
 
-        public override bool IsButtonUp(InputButton button)
+        public override bool IsButtonUp(KeyCode key)
         {
-            return base.IsButtonUp(button)
-                || touchPadButtons.IsButtonUp(button)
-                || triggerButtons.IsButtonUp(button);
+            return base.IsButtonUp(key)
+                || touchPadButtons.IsButtonUp(key)
+                || triggerButtons.IsButtonUp(key);
         }
 
-        public override bool IsButtonDown(InputButton button)
+        public override bool IsButtonDown(KeyCode key)
         {
-            return base.IsButtonDown(button)
-                || touchPadButtons.IsButtonDown(button)
-                || triggerButtons.IsButtonDown(button);
+            return base.IsButtonDown(key)
+                || touchPadButtons.IsButtonDown(key)
+                || triggerButtons.IsButtonDown(key);
         }
 
         private bool VirtualButtonInBounds(VirtualTouchPadButton button)

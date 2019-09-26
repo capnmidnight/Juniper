@@ -7,8 +7,6 @@ using Pvr_UnitySDKAPI;
 using System;
 using UnityEngine;
 
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
-
 namespace Juniper.Input.Pointers.Motion
 {
     /// <summary>

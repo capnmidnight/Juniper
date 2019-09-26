@@ -7,8 +7,6 @@ using UnityEngine;
 
 using wvr;
 
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
-
 namespace Juniper.Input.Pointers.Motion
 {
     /// <summary>

@@ -8,17 +8,15 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;
 
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
-
 namespace Juniper.Input.Pointers.Motion
 {
     public class MagicLeapHandConfiguration : AbstractHandTrackerConfiguration<MLHandType, MLHandKeyPose>
     {
         public MagicLeapHandConfiguration()
         {
-            AddButton(MLHandKeyPose.Pinch, InputButton.Left);
-            AddButton(MLHandKeyPose.Thumb, InputButton.Middle);
-            AddButton(MLHandKeyPose.Ok, InputButton.Right);
+            AddButton(MLHandKeyPose.Pinch, KeyCode.Mouse0);
+            AddButton(MLHandKeyPose.Ok, KeyCode.Mouse1);
+            AddButton(MLHandKeyPose.Thumb, KeyCode.Mouse2);
         }
 
         public override MLHandType? this[Hands hand]

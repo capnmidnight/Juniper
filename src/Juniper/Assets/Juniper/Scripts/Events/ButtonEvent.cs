@@ -34,14 +34,14 @@ namespace Juniper.Events
         public IEnumerable<Type> GetSupportedButtonTypes()
         {
             yield return GetComponent<IPointerDevice>().ButtonType;
-            yield return typeof(Input.VirtualTouchPadButton);
-            yield return typeof(Input.VirtualTriggerButton);
+            yield return typeof(VirtualTouchPadButton);
+            yield return typeof(VirtualTriggerButton);
         }
 
         public string buttonTypeName;
         public string buttonValueName;
 
-        public InputEventButton inputButton = InputEventButton.None;
+        public KeyCode inputKey = KeyCode.None;
 
         public T GetButtonValue<T>()
             where T : struct
@@ -84,21 +84,21 @@ namespace Juniper.Events
             }
         }
 
-        public PointerEvent onClick;
-        public PointerEvent onDoubleClick;
-        public PointerEvent onLongPress;
-        public PointerEvent onUp;
-        public PointerEvent onDown;
+        public JuniperPointerEvent onClick;
+        public JuniperPointerEvent onDoubleClick;
+        public JuniperPointerEvent onLongPress;
+        public JuniperPointerEvent onUp;
+        public JuniperPointerEvent onDown;
 
-        public event EventHandler<PointerEventData> Click;
+        public event EventHandler<JuniperPointerEventData> Click;
 
-        public event EventHandler<PointerEventData> DoubleClick;
+        public event EventHandler<JuniperPointerEventData> DoubleClick;
 
-        public event EventHandler<PointerEventData> LongPress;
+        public event EventHandler<JuniperPointerEventData> LongPress;
 
-        public event EventHandler<PointerEventData> Up;
+        public event EventHandler<JuniperPointerEventData> Up;
 
-        public event EventHandler<PointerEventData> Down;
+        public event EventHandler<JuniperPointerEventData> Down;
 
         private bool wasPressed;
 
@@ -128,14 +128,14 @@ namespace Juniper.Events
             }
         }
 
-        public void OnDown(PointerEventData evt)
+        public void OnDown(JuniperPointerEventData evt)
         {
             IsPressed = true;
             onDown?.Invoke(evt);
             Down?.Invoke(this, evt);
         }
 
-        public void OnClick(PointerEventData evt)
+        public void OnClick(JuniperPointerEventData evt)
         {
             onClick?.Invoke(evt);
             Click?.Invoke(this, evt);
@@ -145,19 +145,19 @@ namespace Juniper.Events
             }
         }
 
-        private void OnDoubleClick(PointerEventData evt)
+        private void OnDoubleClick(JuniperPointerEventData evt)
         {
             onDoubleClick?.Invoke(evt);
             DoubleClick?.Invoke(this, evt);
         }
 
-        public void OnLongPress(PointerEventData evt)
+        public void OnLongPress(JuniperPointerEventData evt)
         {
             onLongPress?.Invoke(evt);
             LongPress?.Invoke(this, evt);
         }
 
-        public void OnUp(PointerEventData evt)
+        public void OnUp(JuniperPointerEventData evt)
         {
             IsPressed = false;
             onUp?.Invoke(evt);

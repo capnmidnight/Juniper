@@ -15,9 +15,9 @@ namespace Juniper.Input.Pointers.Motion
     {
         public ViveFocusMotionControllerConfiguration()
         {
-            AddButton(VirtualTouchPadButton.Top, InputButton.Left);
-            AddButton(VirtualTouchPadButton.Bottom, InputButton.Left);
-            AddButton(WVR_InputId.WVR_InputId_Alias1_Menu, InputButton.Middle);
+            AddButton(VirtualTouchPadButton.Top, KeyCode.Mouse0);
+            AddButton(VirtualTouchPadButton.Bottom, KeyCode.Mouse1);
+            AddButton(WVR_InputId.WVR_InputId_Alias1_Menu, KeyCode.Escape);
         }
 
         public override WVR_DeviceType? this[Hands hand]

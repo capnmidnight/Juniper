@@ -4,18 +4,8 @@ using UnityEngine;
 
 namespace Juniper.Input.Pointers.Motion
 {
-    public class NoHandTrackerConfiguration : AbstractHandTrackerConfiguration<Unary, KeyCode>
-    {
-        public override Unary? this[Hands hand]
-        {
-            get
-            {
-                return null;
-            }
-        }
-    }
 
-    public abstract class NoHandTracker : AbstractHandTracker<Unary, KeyCode, NoHandTrackerConfiguration>
+    public abstract class NoHandTracker : AbstractHandTracker<Unary, Unary, NoHandTrackerConfiguration>
     {
         public override bool IsConnected
         {
@@ -33,17 +23,17 @@ namespace Juniper.Input.Pointers.Motion
             }
         }
 
-        public override bool IsButtonDown(KeyCode button)
+        public override bool IsButtonDown(Unary button)
         {
             return false;
         }
 
-        public override bool IsButtonPressed(KeyCode button)
+        public override bool IsButtonPressed(Unary button)
         {
             return false;
         }
 
-        public override bool IsButtonUp(KeyCode button)
+        public override bool IsButtonUp(Unary button)
         {
             return false;
         }

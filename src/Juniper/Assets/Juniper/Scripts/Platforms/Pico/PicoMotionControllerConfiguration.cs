@@ -7,17 +7,15 @@ using Pvr_UnitySDKAPI;
 using System;
 using UnityEngine;
 
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
-
 namespace Juniper.Input.Pointers.Motion
 {
     public class PicoMotionControllerConfiguration : AbstractMotionControllerConfiguration<ControllerVariety, Pvr_KeyCode>
     {
         public PicoMotionControllerConfiguration()
         {
-            AddButton(Pvr_KeyCode.TOUCHPAD, InputButton.Left);
-            AddButton(Pvr_KeyCode.TRIGGER, InputButton.Right);
-            AddButton(Pvr_KeyCode.APP, InputButton.Middle);
+            AddButton(Pvr_KeyCode.TOUCHPAD, KeyCode.Mouse0);
+            AddButton(Pvr_KeyCode.TRIGGER, KeyCode.Mouse1);
+            AddButton(Pvr_KeyCode.APP, KeyCode.Escape);
         }
 
         public override ControllerVariety? this[Hands hand]

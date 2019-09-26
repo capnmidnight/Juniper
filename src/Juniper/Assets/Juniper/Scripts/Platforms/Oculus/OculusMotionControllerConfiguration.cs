@@ -1,6 +1,6 @@
 #if UNITY_XR_OCULUS
 
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
+using UnityEngine;
 
 namespace Juniper.Input.Pointers.Motion
 {
@@ -30,9 +30,9 @@ namespace Juniper.Input.Pointers.Motion
 
         public OculusMotionControllerConfiguration()
         {
-            AddButton(TRIGGER_BUTTON, InputButton.Left);
-            AddButton(TOUCHPAD_BUTTON, InputButton.Right);
-            AddButton(OVRInput.Button.Back, InputButton.Middle);
+            AddButton(TRIGGER_BUTTON, KeyCode.Mouse0);
+            AddButton(TOUCHPAD_BUTTON, KeyCode.Mouse1);
+            AddButton(OVRInput.Button.Back, KeyCode.Escape);
         }
 
         public override OVRInput.Controller? this[Hands hand]

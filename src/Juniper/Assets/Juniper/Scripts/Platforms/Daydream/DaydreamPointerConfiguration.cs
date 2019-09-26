@@ -2,17 +2,15 @@
 
 using Juniper.Input;
 
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
-
 namespace Juniper.Input.Pointers.Motion
 {
     public class DaydreamPointerConfiguration : AbstractMotionControllerConfiguration<GvrControllerHand, GvrControllerButton>
     {
         public DaydreamPointerConfiguration()
         {
-            AddButton(VirtualTouchPadButton.Top, InputButton.Left);
-            AddButton(VirtualTouchPadButton.Bottom, InputButton.Right);
-            AddButton(GvrControllerButton.App, InputButton.Middle);
+            AddButton(VirtualTouchPadButton.Top, KeyCode.Mouse0);
+            AddButton(VirtualTouchPadButton.Bottom, KeyCode.Mouse1);
+            AddButton(GvrControllerButton.App, KeyCode.Escape);
         }
 
         public override GvrControllerHand? this[Hands hand]

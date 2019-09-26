@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using Juniper.Input;
-
 using UnityEngine;
-
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Input.Pointers.Motion
 {
@@ -22,37 +18,28 @@ namespace Juniper.Input.Pointers.Motion
             }
         }
 
-        private readonly Dictionary<VirtualTouchPadButton, InputEventButton> touchPadButtons = new Dictionary<VirtualTouchPadButton, InputEventButton>(11);
-        private readonly Dictionary<VirtualTriggerButton, InputEventButton> triggerButtons = new Dictionary<VirtualTriggerButton, InputEventButton>(3);
+        private readonly Dictionary<VirtualTouchPadButton, KeyCode> touchPadKeys = new Dictionary<VirtualTouchPadButton, KeyCode>(11);
 
-        protected void AddButton(VirtualTouchPadButton outButton, InputButton inButton)
+        protected void AddButton(VirtualTouchPadButton outButton, KeyCode inKey)
         {
-            touchPadButtons.Add(outButton, (InputEventButton)inButton);
+            touchPadKeys.Add(outButton, inKey);
         }
 
-        protected void AddButton(VirtualTouchPadButton outButton)
-        {
-            touchPadButtons.Add(outButton, InputEventButton.None);
-        }
+        private readonly Dictionary<VirtualTriggerButton, KeyCode> triggerKeys = new Dictionary<VirtualTriggerButton, KeyCode>(3);
 
-        protected void AddButton(VirtualTriggerButton outButton, InputButton inButton)
+        protected void AddButton(VirtualTriggerButton outButton, KeyCode inKey)
         {
-            triggerButtons.Add(outButton, (InputEventButton)inButton);
-        }
-
-        protected void AddButton(VirtualTriggerButton outButton)
-        {
-            triggerButtons.Add(outButton, InputEventButton.None);
+            triggerKeys.Add(outButton, inKey);
         }
 
         public void Install(ButtonMapper<VirtualTouchPadButton> mapper, GameObject eventParent, bool reset)
         {
-            mapper.Install(eventParent, touchPadButtons, reset);
+            mapper.Install(eventParent, touchPadKeys, reset);
         }
 
         public void Install(ButtonMapper<VirtualTriggerButton> mapper, GameObject eventParent, bool reset)
         {
-            mapper.Install(eventParent, triggerButtons, reset);
+            mapper.Install(eventParent, triggerKeys, reset);
         }
     }
 }

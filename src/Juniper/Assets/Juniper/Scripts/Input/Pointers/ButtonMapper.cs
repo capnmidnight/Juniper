@@ -6,8 +6,6 @@ using Juniper.Events;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
-
 namespace Juniper.Input.Pointers
 {
     public class ButtonMapper<ButtonIDType>
@@ -21,7 +19,7 @@ namespace Juniper.Input.Pointers
 
         public event Func<ButtonIDType, bool> ButtonPressedNeeded;
 
-        public event Func<int, PointerEventData, PointerEventData> ClonedPointerEventNeeded;
+        public event Func<int, JuniperPointerEventData, JuniperPointerEventData> ClonedPointerEventNeeded;
 
         private readonly List<MappedButton<ButtonIDType>> buttons = new List<MappedButton<ButtonIDType>>(5);
 
@@ -42,13 +40,13 @@ namespace Juniper.Input.Pointers
             }
         }
 
-        public void Install(GameObject eventParent, Dictionary<ButtonIDType, InputEventButton> buttonMapping, bool reset)
+        public void Install(GameObject eventParent, Dictionary<ButtonIDType, KeyCode> keyMapping, bool reset)
         {
             buttons.Clear();
 
             if (reset)
             {
-                foreach (var pair in buttonMapping)
+                foreach(var pair in keyMapping)
                 {
                     AddButton(new MappedButton<ButtonIDType>(pair.Key, pair.Value, eventParent));
                 }
@@ -106,7 +104,7 @@ namespace Juniper.Input.Pointers
             return ButtonPressedNeeded?.Invoke(button) == true;
         }
 
-        private PointerEventData OnClonedPointerEventNeeded(int pointerID, PointerEventData donor)
+        private JuniperPointerEventData OnClonedPointerEventNeeded(int pointerID, JuniperPointerEventData donor)
         {
             return ClonedPointerEventNeeded?.Invoke(pointerID, donor);
         }
@@ -116,11 +114,11 @@ namespace Juniper.Input.Pointers
             InteractionNeeded?.Invoke(action);
         }
 
-        private MappedButton<ButtonIDType> FindMappedButton(InputButton inputBtn)
+        private MappedButton<ButtonIDType> FindMappedButton(KeyCode inputKey)
         {
             foreach (var button in buttons)
             {
-                if (button.UnityInputButton == inputBtn)
+                if (button.UnityKeyCode == inputKey)
                 {
                     return button;
                 }
@@ -128,27 +126,27 @@ namespace Juniper.Input.Pointers
             return null;
         }
 
-        public bool IsButtonDown(InputButton button)
+        public bool IsButtonDown(KeyCode key)
         {
-            return FindMappedButton(button)?.IsDown == true;
+            return FindMappedButton(key)?.IsDown == true;
         }
 
-        public bool IsButtonUp(InputButton button)
+        public bool IsButtonUp(KeyCode key)
         {
-            return FindMappedButton(button)?.IsUp == true;
+            return FindMappedButton(key)?.IsUp == true;
         }
 
-        public bool IsButtonPressed(InputButton button)
+        public bool IsButtonPressed(KeyCode key)
         {
-            return FindMappedButton(button)?.IsPressed == true;
+            return FindMappedButton(key)?.IsPressed == true;
         }
 
-        public IEventSystemHandler Process(PointerEventData eventData, float pixelDragThresholdSquared)
+        public IEventSystemHandler Process(JuniperPointerEventData eventData, float pixelDragThresholdSquared, List<KeyCode> keyPresses)
         {
             IEventSystemHandler eventTarget = null;
             foreach (var btn in buttons)
             {
-                eventTarget = btn.Process(eventData, pixelDragThresholdSquared);
+                eventTarget = btn.Process(eventData, pixelDragThresholdSquared, keyPresses);
             }
             return eventTarget;
         }

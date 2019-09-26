@@ -1,16 +1,18 @@
 using UnityEngine;
 
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
-
 namespace Juniper.Input.Pointers.Screen
 {
-    public class MousePointerConfiguration : AbstractPointerConfiguration<KeyCode>
+    public class MousePointerConfiguration : AbstractPointerConfiguration<MouseButton>
     {
         public MousePointerConfiguration()
         {
-            AddButton(KeyCode.Mouse0, InputButton.Left);
-            AddButton(KeyCode.Mouse1, InputButton.Right);
-            AddButton(KeyCode.Mouse2, InputButton.Middle);
+            AddButton(MouseButton.Mouse0, KeyCode.Mouse0);
+            AddButton(MouseButton.Mouse1, KeyCode.Mouse1);
+            AddButton(MouseButton.Mouse2, KeyCode.Mouse2);
+            AddButton(MouseButton.Mouse3, KeyCode.Mouse3);
+            AddButton(MouseButton.Mouse4, KeyCode.Mouse4);
+            AddButton(MouseButton.Mouse5, KeyCode.Mouse5);
+            AddButton(MouseButton.Mouse6, KeyCode.Mouse6);
         }
     }
 }

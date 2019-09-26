@@ -1,9 +1,6 @@
 #if UNITY_XR_WINDOWSMR_METRO
+using UnityEngine;
 using UnityEngine.XR.WSA.Input;
-
-using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
-
-using Juniper.Input;
 
 namespace Juniper.Input.Pointers.Motion
 {
@@ -11,10 +8,10 @@ namespace Juniper.Input.Pointers.Motion
     {
         public WindowsMRMotionControllerConfiguration()
         {
-            AddButton(WindowsMRButtons.AirTap, InputButton.Left);
-            AddButton(WindowsMRButtons.Select, InputButton.Left);
-            AddButton(WindowsMRButtons.Touchpad, InputButton.Right);
-            AddButton(WindowsMRButtons.App, InputButton.Middle);
+            AddButton(WindowsMRButtons.AirTap, KeyCode.Mouse0);
+            AddButton(WindowsMRButtons.Select, KeyCode.Mouse0);
+            AddButton(WindowsMRButtons.Touchpad, KeyCode.Mouse1);
+            AddButton(WindowsMRButtons.App, KeyCode.Escape);
         }
 
         public override InteractionSourceHandedness? this[Hands hand]
