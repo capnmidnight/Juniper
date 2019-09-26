@@ -1,13 +1,15 @@
+#if !AZURE_SPEECHSDK && !UNITY_WSA && !UNITY_STANDALONE_WIN && !UNITY_EDITOR_WIN
+
 using UnityEngine;
 
 namespace Juniper.Speech
 {
-    public abstract class NoKeywordRecognizer : AbstractKeywordRecognizer
+    public partial class KeywordRecognizer
     {
         /// <summary>
         /// Reads as true if the current XR subsystem supports speech recognition.
         /// </summary>
-        public override bool IsAvailable
+        public bool IsAvailable
         {
             get
             {
@@ -15,13 +17,15 @@ namespace Juniper.Speech
             }
         }
 
-        protected override void Setup()
+        protected void Setup()
         {
             Debug.LogWarning("No speech recognition available");
         }
 
-        protected override void TearDown()
+        protected void TearDown()
         {
         }
     }
 }
+
+#endif

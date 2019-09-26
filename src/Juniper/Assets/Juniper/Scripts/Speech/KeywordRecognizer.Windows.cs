@@ -1,16 +1,16 @@
-#if UNITY_WSA || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if !AZURE_SPEECHSDK && (UNITY_WSA || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
 
 
 using UnityEngine.Windows.Speech;
 
 namespace Juniper.Speech
 {
-    public abstract class WindowsKeywordRecognizer : AbstractKeywordRecognizer
+    public partial class KeywordRecognizer
     {
         /// <summary>
         /// Reads as true if the current XR subsystem supports speech recognition.
         /// </summary>
-        public override bool IsAvailable
+        public bool IsAvailable
         {
             get
             {
@@ -23,7 +23,7 @@ namespace Juniper.Speech
         /// </summary>
         DictationRecognizer recognizer;
 
-        protected override void Setup()
+        protected void Setup()
         {
             IsStarting = true;
             recognizer = new DictationRecognizer();
@@ -37,7 +37,7 @@ namespace Juniper.Speech
 
         private void Recognizer_DictationHypothesis(string text)
         {
-            ProcessText(text);
+            ProcessText(text, false);
         }
 
         /// <summary>
@@ -47,10 +47,7 @@ namespace Juniper.Speech
         /// <param name="confidence">How confident the system is in the recognized text being correct.</param>
         private void Recognizer_DictationResult(string text, ConfidenceLevel confidence)
         {
-            if (confidence >= ConfidenceLevel.Medium)
-            {
-                ProcessText(text);
-            }
+            ProcessText(text, true);
         }
 
         private void Recognizer_DictationComplete(DictationCompletionCause cause)
@@ -58,7 +55,7 @@ namespace Juniper.Speech
             TearDown();
         }
 
-        protected override void TearDown()
+        protected void TearDown()
         {
             if (recognizer != null)
             {

@@ -6,22 +6,11 @@ using UnityEngine;
 
 namespace Juniper.Speech
 {
-    public class KeywordRecognizer :
-#if AZURE_SPEECHSDK
-        AzureKeywordRecognizer
-#elif UNITY_WSA || UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-        WindowsKeywordRecognizer
-#else
-        NoKeywordRecognizer
-#endif
-    {
-    }
-
     /// <summary>
     /// A class that implements basic functionality for systems that manage speech recognition and
     /// route out the events associated with recognizing keywords.
     /// </summary>
-    public abstract class AbstractKeywordRecognizer : MonoBehaviour, IKeywordRecognizer
+    public partial class KeywordRecognizer : MonoBehaviour, IKeywordRecognizer
     {
 #if UNITY_ANDROID && ANDROID_API_23_OR_GREATER && !UNITY_EDITOR
         [UnityEngine.Scripting.Preserve]
@@ -52,7 +41,10 @@ namespace Juniper.Speech
         }
 
         [Range(0, 1)]
-        public float minimumSimilarity = 0.7f;
+        public float minimumIncompleteSimilarity = 0.85f;
+
+        [Range(0, 1)]
+        public float minimumCompleteSimilarity = 0.7f;
 
         protected bool IsRunning;
         protected bool IsStopping;
@@ -80,7 +72,7 @@ namespace Juniper.Speech
             }
         }
 
-        protected void ProcessText(string text)
+        protected void ProcessText(string text, bool isComplete)
         {
             var resultText = new string(text
                 .ToLowerInvariant()
@@ -106,7 +98,8 @@ namespace Juniper.Speech
 
             ScreenDebugger.Print($"{text} => {resultText} = {match} ({Units.Converter.Label(maxSimilarity, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent)})");
 
-            if (maxSimilarity < minimumSimilarity)
+            if (isComplete && maxSimilarity < minimumCompleteSimilarity
+                || !isComplete && maxSimilarity < minimumIncompleteSimilarity)
             {
                 receiver = null;
             }
@@ -166,11 +159,5 @@ namespace Juniper.Speech
         {
             TearDownInternal();
         }
-
-        public abstract bool IsAvailable { get; }
-
-        protected abstract void Setup();
-
-        protected abstract void TearDown();
     }
 }

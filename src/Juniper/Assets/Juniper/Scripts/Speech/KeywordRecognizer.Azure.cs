@@ -11,13 +11,13 @@ using UnityEngine;
 
 namespace Juniper.Speech
 {
-    public abstract class AzureKeywordRecognizer : AbstractKeywordRecognizer, ICredentialReceiver
+    public partial class KeywordRecognizer : ICredentialReceiver
     {
         /// <summary>
         /// Reads as true if the current XR subsystem supports speech recognition.
         /// </summary>
         private bool IsUnrecoverable;
-        public override bool IsAvailable
+        public bool IsAvailable
         {
             get
             {
@@ -69,7 +69,7 @@ namespace Juniper.Speech
 #endif
         }
 
-        protected override void Setup()
+        protected void Setup()
         {
             IsStarting = true;
 
@@ -128,18 +128,19 @@ namespace Juniper.Speech
         /// <param name="args">Arguments.</param>
         void Recognizer_OnPhraseRecognized(object sender, SpeechRecognitionEventArgs args)
         {
-            if (args.Result.Reason == ResultReason.RecognizedIntent
-                || args.Result.Reason == ResultReason.RecognizingIntent
-                || args.Result.Reason == ResultReason.RecognizedKeyword
-                || args.Result.Reason == ResultReason.RecognizingKeyword
+            var incomplete = args.Result.Reason == ResultReason.RecognizingIntent
+                || args.Result.Reason == ResultReason.RecognizingSpeech
+                || args.Result.Reason == ResultReason.RecognizingKeyword;
+            var complete = args.Result.Reason == ResultReason.RecognizedIntent
                 || args.Result.Reason == ResultReason.RecognizedSpeech
-                || args.Result.Reason == ResultReason.RecognizingSpeech)
+                || args.Result.Reason == ResultReason.RecognizedKeyword;
+            if (incomplete || complete)
             {
-                ProcessText(args.Result.Text);
+                ProcessText(args.Result.Text, complete);
             }
         }
 
-        protected override void TearDown()
+        protected void TearDown()
         {
             if (recognizer != null)
             {
