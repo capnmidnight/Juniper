@@ -184,6 +184,60 @@ namespace Juniper.HTTP.REST
 
         protected virtual void WriteBody(Stream stream) { }
 
+        private async Task<Stream> OpenCachedStream(MediaType acceptType, Func<MediaType, IProgress, Task<HttpWebResponse>> action, IProgress prog)
+        {
+            Stream body;
+            long length;
+
+            FileInfo cacheFile = null;
+            var cacheFileName = CacheFileName;
+            if (cacheFileName != null)
+            {
+                if (acceptType?.PrimaryExtension != null)
+                {
+                    var expectedExt = "." + acceptType.PrimaryExtension;
+                    if (Path.GetExtension(cacheFileName) != expectedExt)
+                    {
+                        cacheFileName += expectedExt;
+                    }
+                }
+
+                cacheFile = new FileInfo(cacheFileName);
+            }
+
+            if (cacheFile != null
+                && File.Exists(cacheFileName)
+                && cacheFile.Length > 0)
+            {
+                length = cacheFile.Length;
+                body = cacheFile.OpenRead();
+            }
+            else
+            {
+                var progs = prog.Split("Get", "Read");
+                prog = progs[1];
+                var response = await action(acceptType, progs[0]);
+                length = response.ContentLength;
+                body = response.GetResponseStream();
+                if (cacheFile != null)
+                {
+                    body = new CachingStream(body, cacheFile);
+                }
+            }
+
+            return new ProgressStream(body, length, prog);
+        }
+        private Task<Stream> OpenCachedStream(MediaType acceptType, Func<MediaType, Task<HttpWebResponse>> action, IProgress prog)
+        {
+            return OpenCachedStream(acceptType, (media, p) =>
+            {
+                p.Report(0);
+                var response = action(media);
+                p.Report(1);
+                return response;
+            }, prog);
+        }
+
         public async Task<HttpWebResponse> Post(MediaType acceptType, IProgress prog)
         {
             var request = await CreateRequest(acceptType);
@@ -205,15 +259,14 @@ namespace Juniper.HTTP.REST
             return Post(null, null);
         }
 
-        public async Task<Stream> PostForStream(MediaType acceptType, IProgress prog)
+        public Task<Stream> PostForStream(MediaType acceptType, IProgress prog)
         {
-            var response = await Post(acceptType, prog);
-            return response.GetResponseStream();
+            return OpenCachedStream(acceptType, new Func<MediaType, IProgress, Task<HttpWebResponse>>(Post), prog);
         }
 
         public Task<Stream> PostForStream(MediaType acceptType)
         {
-            return PostForStream(acceptType, null);
+            return OpenCachedStream(acceptType, new Func<MediaType, Task<HttpWebResponse>>(Post), null);
         }
 
         public Task<Stream> PostForStream(IProgress prog)
@@ -271,46 +324,9 @@ namespace Juniper.HTTP.REST
             return Get(null);
         }
 
-        public async Task<Stream> GetStream(MediaType acceptType, IProgress prog)
+        public Task<Stream> GetStream(MediaType acceptType, IProgress prog)
         {
-            Stream body;
-            long length;
-
-            FileInfo cacheFile = null;
-            var cacheFileName = CacheFileName;
-            if (cacheFileName != null)
-            {
-                if (acceptType?.PrimaryExtension != null)
-                {
-                    var expectedExt = "." + acceptType.PrimaryExtension;
-                    if (Path.GetExtension(cacheFileName) != expectedExt)
-                    {
-                        cacheFileName += expectedExt;
-                    }
-                }
-
-                cacheFile = new FileInfo(cacheFileName);
-            }
-
-            if (cacheFile != null
-                && File.Exists(cacheFileName)
-                && cacheFile.Length > 0)
-            {
-                length = cacheFile.Length;
-                body = cacheFile.OpenRead();
-            }
-            else
-            {
-                var response = await Get(acceptType);
-                length = response.ContentLength;
-                body = response.GetResponseStream();
-                if (cacheFile != null)
-                {
-                    body = new CachingStream(body, cacheFile);
-                }
-            }
-
-            return new ProgressStream(body, length, prog);
+            return OpenCachedStream(acceptType, Get, prog);
         }
 
         public Task<Stream> GetStream(MediaType acceptType)

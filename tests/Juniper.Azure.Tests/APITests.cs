@@ -31,11 +31,24 @@ namespace Juniper.Azure.Tests
             cacheDir = new DirectoryInfo(cacheDirName);
         }
 
-        [TestMethod]
-        public async Task GetAuthToken()
+        private async Task<string> GetToken()
         {
             var tokenRequest = new AuthTokenRequest(region, subscriptionKey);
             var token = await tokenRequest.PostForDecoded(plainText);
+            return token;
+        }
+
+        private async Task<Voice[]> GetVoices(string token)
+        {
+            var voicesRequest = new VoiceListRequest(region, token, cacheDir);
+            var voices = await voicesRequest.GetDecoded(voiceList);
+            return voices;
+        }
+
+        [TestMethod]
+        public async Task GetAuthToken()
+        {
+            var token = await GetToken();
             Assert.IsNotNull(token);
             Assert.AreNotEqual(0, token.Length);
         }
@@ -43,11 +56,8 @@ namespace Juniper.Azure.Tests
         [TestMethod]
         public async Task GetVoiceList()
         {
-            var tokenRequest = new AuthTokenRequest(region, subscriptionKey);
-            var token = await tokenRequest.PostForDecoded(plainText);
-
-            var voicesRequest = new VoiceListRequest(region, token, cacheDir);
-            var voices = await voicesRequest.GetDecoded(voiceList);
+            var token = await GetToken();
+            var voices = await GetVoices(token);
 
             Assert.IsNotNull(voices);
             Assert.AreNotEqual(0, voices.Length);
@@ -56,23 +66,22 @@ namespace Juniper.Azure.Tests
         [TestMethod]
         public async Task GetAudioFile()
         {
-            var tokenRequest = new AuthTokenRequest(region, subscriptionKey);
-            var token = await tokenRequest.PostForDecoded(plainText);
-
-            var voicesRequest = new VoiceListRequest(region, token, cacheDir);
-            var voices = await voicesRequest.GetDecoded(voiceList);
+            var token = await GetToken();
+            var voices = await GetVoices(token);
 
             var voice = (from v in voices
-                         where v.Locale == "en-US"
-                            && v.Gender == "Male"
+                         where v.ShortName == "en-US-JessaNeural"
                          select v)
                         .First();
 
             var audioRequest = new SpeechRequest(region, token, "dls-dev-speech-recognition", cacheDir)
             {
                 Text = "Hello, world",
-                VoiceName = voice.Name,
-                OutputFormat = OutputFormat.Audio16KHz128KbitrateMonoMP3
+                Voice = voice,
+                OutputFormat = OutputFormat.Audio16KHz128KbitrateMonoMP3,
+                Style = SpeechStyle.Cheerful,
+                RateChange = 0.75f,
+                PitchChange = -0.1f
             };
 
             using (var audio = await audioRequest.PostForStream(MediaType.Audio.Mpeg))
