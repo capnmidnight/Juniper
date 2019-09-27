@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,18 +7,17 @@ public class VMU : MonoBehaviour
 {
     public Transform Prefab;
     public Vector3 BarScale = new Vector3(0.1f, 4f, 0.1f);
-    Slider progress;
+    private Slider progress;
     public BeatDetector detector;
-
-    List<Transform> bars = new List<Transform>();
-    bool hasLayout;
+    private readonly List<Transform> bars = new List<Transform>();
+    private bool hasLayout;
 
     private void Start()
     {
-        this.transform.ClearChildren();
+        transform.ClearChildren();
         hasLayout = GetComponent<HorizontalLayoutGroup>() != null || GetComponent<VerticalLayoutGroup>() != null;
         progress = this.Query<Slider>("../Progress");
-        if(hasLayout)
+        if (hasLayout)
         {
             BarScale = new Vector3(1, 10, 1);
         }
@@ -30,11 +29,11 @@ public class VMU : MonoBehaviour
 
     public void BlinkBeat()
     {
-    }                                                                                                                                                                     
+    }
 
     public void SetVMU(float[] spectrum)
     {
-        while(bars.Count < spectrum.Length)
+        while (bars.Count < spectrum.Length)
         {
             var bar = Instantiate(Prefab);
             bar.SetParent(transform);
@@ -44,7 +43,7 @@ public class VMU : MonoBehaviour
             bars.Add(bar);
         }
 
-        while(bars.Count > spectrum.Length)
+        while (bars.Count > spectrum.Length)
         {
             var last = bars.Count - 1;
             var bar = bars[last];
@@ -53,13 +52,13 @@ public class VMU : MonoBehaviour
         }
 
         var offset = 0.5f * (bars.Count - 1);
-        for(int i = 0; i < bars.Count; ++i)
+        for (var i = 0; i < bars.Count; ++i)
         {
             var bar = bars[i];
             var scale = BarScale;
             scale.y *= spectrum[i];
             bar.localScale = scale;
-            if(!hasLayout)
+            if (!hasLayout)
             {
                 bar.transform.localPosition = new Vector3(BarScale.x * (i - offset), 0, 0);
             }

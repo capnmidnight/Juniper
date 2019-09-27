@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+
 using UnityEngine;
 
 [Serializable]
@@ -51,7 +52,7 @@ public class BeatDetectorConfiguration
     {
         var t = typeof(BeatDetectorConfiguration);
         var fields = t.GetFields();
-        foreach(var field in fields)
+        foreach (var field in fields)
         {
             field.SetValue(this, field.GetValue(toCopy));
         }
@@ -59,15 +60,15 @@ public class BeatDetectorConfiguration
 
     public void LoadAudioMetadata(string resourceName)
     {
-        if(File.Exists(resourceName))
+        if (File.Exists(resourceName))
         {
             var text = File.ReadAllText(resourceName);
             var config = JsonUtility.FromJson<BeatDetectorConfiguration>(text);
-            foreach(var pass in config.BandPasses)
+            foreach (var pass in config.BandPasses)
             {
                 pass.Visualize = false;
             }
-            this.Copy(config);
+            Copy(config);
         }
         else
         {

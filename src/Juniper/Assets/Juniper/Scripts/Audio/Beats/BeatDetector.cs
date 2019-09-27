@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+
 using UnityEngine;
 using UnityEngine.Events;
 
 /*
- * Beat Detector script. 
+ * Beat Detector script.
  * Add it as a component to the AudioSource that plays your music.
- * Set the Events for OnBeat and OnSpectrum (data for visualization). 
- * Fiddle with the sliders (probably stay away from "Other", I don't really understand them yet). 
+ * Set the Events for OnBeat and OnSpectrum (data for visualization).
+ * Fiddle with the sliders (probably stay away from "Other", I don't really understand them yet).
  * Click the "Save settings" button to save a config file to the Resources directory.
  */
 [Serializable]
@@ -20,9 +20,9 @@ public class OnSpectrumEventHandler : UnityEngine.Events.UnityEvent<float[]>
 [RequireComponent(typeof(AudioSource))]
 public class BeatDetector : MonoBehaviour
 {
-    AudioSource Source;
+    private AudioSource Source;
 
-    [Header ("Events")]
+    [Header("Events")]
     public UnityEvent OnNewSong;
     public UnityEvent OnBeat;
     public UnityEvent OnMeasure;
@@ -32,7 +32,7 @@ public class BeatDetector : MonoBehaviour
     [Range(1, 32)]
     public int VisualizationBandCount = 16;
     public bool VisualizeOutput;
-    bool wasVisualizeOutput;
+    private bool wasVisualizeOutput;
 
     public BeatDetectorConfiguration Configuration;
 
@@ -44,52 +44,45 @@ public class BeatDetector : MonoBehaviour
 
     [Range(0, 1)]
     public float LerpBeat = 0.05f;
+    private int beat = 0;
+    private float lastBeat;
+    private float lastTap;
+    private readonly List<float> deltas = new List<float>();
+    private int updatesSinceLastBeat = 0;
+    private float[] frequencyDomainSlice;
+    private float[] currentSlice;
+    private float[] combinedSlice;
+    private float[] visualizationBinnedSpectrum;
+    private float[] binnedSpectrum;
+    private float[] acVals;
+    private float[] onsets;
+    private float[] beatScores;
+    private bool[] didBeat;
+    private int ringBufferIndex = 0;
+    private int[] blipDelay;
+    private float tempo, lastT, nowT, diff, entries, sum;
+    private float[] binnedAmplitude;
 
-    int beat = 0;
-
-    float lastBeat;
-
-    float lastTap;
-
-    List<float> deltas = new List<float>();
-
-    int updatesSinceLastBeat = 0;
-
-    float[] frequencyDomainSlice;
-    float[] currentSlice;
-    float[] combinedSlice;
-    float[] visualizationBinnedSpectrum;
-    float[] binnedSpectrum;
-    float[] acVals;
-    float[] onsets;
-    float[] beatScores;
-    bool[] didBeat;
-    int ringBufferIndex = 0;
-    int[] blipDelay;
-
-    float tempo, lastT, nowT, diff, entries, sum;
-
-    float[] binnedAmplitude;
     // the spectrum of the previous step
 
     // Autocorrelation structure
-    int maxlag = 100;
+    private readonly int maxlag = 100;
+
     // (in frames) largest lag to track
-    float decay = 0.997f;
-    float lastBandWidth;
+    private readonly float decay = 0.997f;
+    private float lastBandWidth;
+
     // smoothing constant for running average
 
-    float[] delays;
-    float[] outputs;
-    int indx;
+    private float[] delays;
+    private float[] outputs;
+    private int indx;
+    private float[] bpms;
+    private float[] rweight;
+    private readonly float BPMMidPointWeight = 120f;
+    private string lastResourceName;
 
-    float[] bpms;
-    float[] rweight;
-    float BPMMidPointWeight = 120f;
-
-    string lastResourceName;
-
-    bool CanPlay
+    private bool CanPlay
     {
         get
         {
@@ -97,9 +90,9 @@ public class BeatDetector : MonoBehaviour
         }
     }
 
-    void Start()
+    private void Start()
     {
-        Source = this.GetComponent<AudioSource>();
+        Source = GetComponent<AudioSource>();
         lastT = CurrentTime;
     }
 
@@ -107,7 +100,7 @@ public class BeatDetector : MonoBehaviour
     {
         get
         {
-            if(Source != null && Source.clip != null)
+            if (Source != null && Source.clip != null)
             {
                 return BeatDetectorConfiguration.MetadataFile(Source.clip.name);
             }
@@ -125,8 +118,8 @@ public class BeatDetector : MonoBehaviour
         lastBeat = 0;
         beat = 0;
         TotalBeats = 0;
-        this.OnNewSong.Invoke();
-        if(Source.clip != null)
+        OnNewSong.Invoke();
+        if (Source.clip != null)
         {
             Invoke("SongEnded", Source.clip.length);
         }
@@ -140,21 +133,21 @@ public class BeatDetector : MonoBehaviour
 
     private void FollowBeat()
     {
-        if(CurrentTime > Configuration.DelaySeconds)
+        if (CurrentTime > Configuration.DelaySeconds)
         {
-            if(Configuration.LockBPM)
+            if (Configuration.LockBPM)
             {
                 TargetBPM = Configuration.StaticBPM;
             }
             else
             {
-                TargetBPM = Mathf.Lerp(TargetBPM, MeasuredBPM, this.LerpBeat);
+                TargetBPM = Mathf.Lerp(TargetBPM, MeasuredBPM, LerpBeat);
             }
-            if(CurrentTime >= nextBeat)
+            if (CurrentTime >= nextBeat)
             {
                 ++beat;
                 OnBeat.Invoke();
-                if(beat == Configuration.BeatsPerMeasure)
+                if (beat == Configuration.BeatsPerMeasure)
                 {
                     OnMeasure.Invoke();
                     beat = 0;
@@ -166,43 +159,43 @@ public class BeatDetector : MonoBehaviour
 
     private void InitArrays()
     {
-        if(resourceName != lastResourceName)
+        if (resourceName != lastResourceName)
         {
             Configuration.LoadAudioMetadata(resourceName);
         }
 
-        if(frequencyDomainSlice == null || frequencyDomainSlice.Length != BufferSize)
+        if (frequencyDomainSlice == null || frequencyDomainSlice.Length != BufferSize)
         {
             frequencyDomainSlice = new float[BufferSize];
             currentSlice = new float[BufferSize];
             combinedSlice = new float[BufferSize];
         }
 
-        if(visualizationBinnedSpectrum == null || visualizationBinnedSpectrum.Length != VisualizationBandCount)
+        if (visualizationBinnedSpectrum == null || visualizationBinnedSpectrum.Length != VisualizationBandCount)
         {
             visualizationBinnedSpectrum = new float[VisualizationBandCount];
         }
 
-        if(binnedSpectrum == null || binnedSpectrum.Length != Configuration.BandCount)
+        if (binnedSpectrum == null || binnedSpectrum.Length != Configuration.BandCount)
         {
             binnedSpectrum = new float[Configuration.BandCount];
             binnedAmplitude = new float[Configuration.BandCount];
         }
 
-        if(onsets == null || Configuration.RingBufferSize != onsets.Length)
+        if (onsets == null || Configuration.RingBufferSize != onsets.Length)
         {
             onsets = new float[Configuration.RingBufferSize];
             beatScores = new float[Configuration.RingBufferSize];
             didBeat = new bool[Configuration.RingBufferSize];
         }
 
-        if(blipDelay == null || blipDelay.Length != Configuration.BlipDelayLen)
+        if (blipDelay == null || blipDelay.Length != Configuration.BlipDelayLen)
         {
             blipDelay = new int[Configuration.BlipDelayLen];
         }
 
-        bool recalcWeights = false;
-        if(acVals == null || acVals.Length != maxlag)
+        var recalcWeights = false;
+        if (acVals == null || acVals.Length != maxlag)
         {
             acVals = new float[maxlag];
             delays = new float[maxlag];
@@ -212,10 +205,10 @@ public class BeatDetector : MonoBehaviour
             recalcWeights = true;
         }
 
-        if(recalcWeights || BandWidth != lastBandWidth)
+        if (recalcWeights || BandWidth != lastBandWidth)
         {
             // calculate a log-lag gaussian weighting function, to prefer tempi around 120 bpm
-            for(int i = 0; i < maxlag; ++i)
+            for (var i = 0; i < maxlag; ++i)
             {
                 bpms[i] = BandWidth * 60.0f / i;
                 // weighting is Gaussian on log-BPM axis, centered at wmidbpm, SD = woctavewidth octaves
@@ -229,30 +222,30 @@ public class BeatDetector : MonoBehaviour
         lastResourceName = resourceName;
     }
 
-    void Update()
+    private void Update()
     {
         Progress = 0;
-        if(CanPlay)
+        if (CanPlay)
         {
             InitArrays();
             ringBufferIndex %= Configuration.RingBufferSize;
             Source.GetSpectrumData(frequencyDomainSlice, 0, FFTWindow.BlackmanHarris);
-            bool previewSpectrum = VisualizeOutput;
-            for(int i = 0; i < Configuration.BandPasses.Length; ++i)
+            var previewSpectrum = VisualizeOutput;
+            for (var i = 0; i < Configuration.BandPasses.Length; ++i)
             {
                 var bandPass = Configuration.BandPasses[i];
-                if(VisualizeOutput && !wasVisualizeOutput)
+                if (VisualizeOutput && !wasVisualizeOutput)
                 {
                     bandPass.Visualize = false;
                 }
 
                 previewSpectrum &= !bandPass.Visualize;
 
-                if(bandPass.Visualize && !bandPass.wasVisualized)
+                if (bandPass.Visualize && !bandPass.wasVisualized)
                 {
-                    for(int j = 0; j < Configuration.BandPasses.Length; ++j)
+                    for (var j = 0; j < Configuration.BandPasses.Length; ++j)
                     {
-                        if(j != i)
+                        if (j != i)
                         {
                             Configuration.BandPasses[j].Visualize = false;
                         }
@@ -260,36 +253,36 @@ public class BeatDetector : MonoBehaviour
                 }
             }
 
-            for(int i = 0; i < Configuration.BandPasses.Length; ++i)
+            for (var i = 0; i < Configuration.BandPasses.Length; ++i)
             {
                 var bandPass = Configuration.BandPasses[i];
                 bandPass.wasVisualized = bandPass.Visualize;
             }
 
-            if(!previewSpectrum)
+            if (!previewSpectrum)
             {
                 VisualizeOutput = false;
             }
             wasVisualizeOutput = VisualizeOutput;
 
-            if(previewSpectrum)
+            if (previewSpectrum)
             {
                 BinSpectrum(true, visualizationBinnedSpectrum);
             }
 
             Array.Copy(frequencyDomainSlice, currentSlice, BufferSize);
-            for(int i = 0; i < BufferSize; ++i)
+            for (var i = 0; i < BufferSize; ++i)
             {
                 combinedSlice[i] = 0;
             }
 
-            for(int i = 0; i < Configuration.BandPasses.Length; ++i)
+            for (var i = 0; i < Configuration.BandPasses.Length; ++i)
             {
                 var bandPass = Configuration.BandPasses[i];
                 Array.Copy(currentSlice, frequencyDomainSlice, BufferSize);
-                for(int j = 0; j < BufferSize; ++j)
+                for (var j = 0; j < BufferSize; ++j)
                 {
-                    if(bandPass.Low <= j && j <= bandPass.High)
+                    if (bandPass.Low <= j && j <= bandPass.High)
                     {
                         frequencyDomainSlice[j] *= bandPass.Multiplier / bandPass.Divider;
                         combinedSlice[j] = frequencyDomainSlice[j];
@@ -300,7 +293,7 @@ public class BeatDetector : MonoBehaviour
                     }
                 }
 
-                if(bandPass.Visualize)
+                if (bandPass.Visualize)
                 {
                     BinSpectrum(true, binnedSpectrum);
                     previewSpectrum = true;
@@ -313,10 +306,10 @@ public class BeatDetector : MonoBehaviour
 
             // calculate the value of the onset function in this frame
             float onset = 0;
-            for(int i = 0; i < Configuration.BandCount; i++)
+            for (var i = 0; i < Configuration.BandCount; i++)
             {
-                float bandDecibels = 0.025f * Mathf.Max(-100.0f, 20.0f * Mathf.Log10(binnedSpectrum[i]) + 160); // dB value of this band
-                float deltaBandDecibels = bandDecibels - binnedAmplitude[i]; // dB increment since last frame
+                var bandDecibels = 0.025f * Mathf.Max(-100.0f, 20.0f * Mathf.Log10(binnedSpectrum[i]) + 160); // dB value of this band
+                var deltaBandDecibels = bandDecibels - binnedAmplitude[i]; // dB increment since last frame
                 binnedAmplitude[i] = bandDecibels; // record this frame to use next time around
                 onset += deltaBandDecibels; // onset function is the sum of dB increments
             }
@@ -327,21 +320,21 @@ public class BeatDetector : MonoBehaviour
             delays[indx] = onset;
 
             // update running autocorrelator values
-            for(int i = 0; i < maxlag; ++i)
+            for (var i = 0; i < maxlag; ++i)
             {
-                int delix = (indx - i + maxlag) % maxlag;
+                var delix = (indx - i + maxlag) % maxlag;
                 outputs[i] += (1 - decay) * (delays[indx] * delays[delix] - outputs[i]);
             }
 
             indx = (indx + 1) % maxlag;
             // record largest value in (weighted) autocorrelation as it will be the tempo
-            float aMax = 0.0f;
-            int tempopd = 0;
+            var aMax = 0.0f;
+            var tempopd = 0;
 
-            for(int i = 0; i < maxlag; ++i)
+            for (var i = 0; i < maxlag; ++i)
             {
-                float acVal = Mathf.Sqrt(rweight[i] * outputs[i]);
-                if(acVal > aMax)
+                var acVal = Mathf.Sqrt(rweight[i] * outputs[i]);
+                if (acVal > aMax)
                 {
                     aMax = acVal;
                     tempopd = i;
@@ -352,16 +345,16 @@ public class BeatDetector : MonoBehaviour
 
             // calculate DP-ish function to update the best-score function
             float maxBeatScore = -999999;
-            int maxBeatScoreIndex = 0;
+            var maxBeatScoreIndex = 0;
             // consider all possible preceding beat times from 0.5 to 2.0 x current tempo period
-            for(int i = tempopd / 2; i < Mathf.Min(Configuration.RingBufferSize, 2 * tempopd); ++i)
+            for (var i = tempopd / 2; i < Mathf.Min(Configuration.RingBufferSize, 2 * tempopd); ++i)
             {
                 // objective function - this beat's cost + score to last beat + transition penalty
-                float score = onset
+                var score = onset
                     + beatScores[(ringBufferIndex - i + Configuration.RingBufferSize) % Configuration.RingBufferSize]
                     - 100 * Configuration.Sensitivity * Mathf.Pow(Mathf.Log((float)i / tempopd), 2);
                 // keep track of the best-scoring predecesor
-                if(score > maxBeatScore)
+                if (score > maxBeatScore)
                 {
                     maxBeatScore = score;
                     maxBeatScoreIndex = i;
@@ -370,15 +363,15 @@ public class BeatDetector : MonoBehaviour
 
             beatScores[ringBufferIndex] = maxBeatScore;
             // keep the smallest value in the score fn window as zero, by subtracing the min val
-            float minBeatScore = beatScores[0];
-            for(int i = 1; i < Configuration.RingBufferSize; ++i)
+            var minBeatScore = beatScores[0];
+            for (var i = 1; i < Configuration.RingBufferSize; ++i)
             {
-                if(beatScores[i] < minBeatScore)
+                if (beatScores[i] < minBeatScore)
                 {
                     minBeatScore = beatScores[i];
                 }
             }
-            for(int i = 0; i < Configuration.RingBufferSize; ++i)
+            for (var i = 0; i < Configuration.RingBufferSize; ++i)
             {
                 beatScores[i] -= minBeatScore;
             }
@@ -386,9 +379,9 @@ public class BeatDetector : MonoBehaviour
             // find the largest value in the score fn window, to decide if we emit a blip
             maxBeatScore = beatScores[0];
             maxBeatScoreIndex = 0;
-            for(int i = 0; i < Configuration.RingBufferSize; ++i)
+            for (var i = 0; i < Configuration.RingBufferSize; ++i)
             {
-                if(beatScores[i] > maxBeatScore)
+                if (beatScores[i] > maxBeatScore)
                 {
                     maxBeatScore = beatScores[i];
                     maxBeatScoreIndex = i;
@@ -399,24 +392,24 @@ public class BeatDetector : MonoBehaviour
             didBeat[ringBufferIndex] = false;  // default is no beat this frame
             ++updatesSinceLastBeat;
             // if current value is largest in the array, probably means we're on a beat
-            if(maxBeatScoreIndex == ringBufferIndex && updatesSinceLastBeat > tempopd / 4)
+            if (maxBeatScoreIndex == ringBufferIndex && updatesSinceLastBeat > tempopd / 4)
             {
-                this.tempo = TapTempo() * 1000;
+                tempo = TapTempo() * 1000;
                 // make sure the most recent beat wasn't too recently
                 ++TotalBeats;
-                if(!Configuration.LockBPM)
+                if (!Configuration.LockBPM)
                 {
                     Configuration.StaticBPM = TotalBeats * 60 / CurrentTime;
                 }
                 var t = CurrentTime;
                 var deltaT = t - lastTap;
                 deltas.Add(deltaT);
-                if(deltas.Count > QueueLength)
+                if (deltas.Count > QueueLength)
                 {
                     deltas.RemoveAt(0);
                 }
                 var avg = 0f;
-                foreach(var d in deltas)
+                foreach (var d in deltas)
                 {
                     avg += d / deltas.Count;
                 }
@@ -433,7 +426,7 @@ public class BeatDetector : MonoBehaviour
             // update column index (for ring buffer)
             ++ringBufferIndex;
 
-            if(Source.clip.length > 0)
+            if (Source.clip.length > 0)
             {
                 Progress = Source.time / Source.clip.length;
             }
@@ -446,7 +439,7 @@ public class BeatDetector : MonoBehaviour
 
     public float Progress;
 
-    float nextBeat
+    private float nextBeat
     {
         get
         {
@@ -454,7 +447,7 @@ public class BeatDetector : MonoBehaviour
         }
     }
 
-    float dBeat
+    private float dBeat
     {
         get
         {
@@ -462,34 +455,34 @@ public class BeatDetector : MonoBehaviour
         }
     }
 
-    int FrequencyIndex(int freq)
+    private int FrequencyIndex(int freq)
     {
-        if(freq < BandWidth / 2)
+        if (freq < BandWidth / 2)
         {
             return 0;
         }
-        else if(freq > (SamplingRate - BandWidth) / 2)
+        else if (freq > (SamplingRate - BandWidth) / 2)
         {
             return BufferSize / 2;
         }
         else
         {
-            float fraction = (float)freq / SamplingRate;
-            int i = (int)Mathf.Round(BufferSize * fraction);
+            var fraction = (float)freq / SamplingRate;
+            var i = (int)Mathf.Round(BufferSize * fraction);
             return i;
         }
     }
 
     private void BinSpectrum(bool emitEvent, float[] arr)
     {
-        for(int i = 0; i < arr.Length; i++)
+        for (var i = 0; i < arr.Length; i++)
         {
             float avg = 0;
-            int lowFreq = (int)(SamplingRate / Mathf.Pow(2, arr.Length - i + 1));
-            int hiFreq = (int)(SamplingRate / Mathf.Pow(2, arr.Length - i));
-            int lowBound = FrequencyIndex(lowFreq);
-            int hiBound = FrequencyIndex(hiFreq);
-            for(int j = lowBound; j <= hiBound; j++)
+            var lowFreq = (int)(SamplingRate / Mathf.Pow(2, arr.Length - i + 1));
+            var hiFreq = (int)(SamplingRate / Mathf.Pow(2, arr.Length - i));
+            var lowBound = FrequencyIndex(lowFreq);
+            var hiBound = FrequencyIndex(hiFreq);
+            for (var j = lowBound; j <= hiBound; j++)
             {
                 avg += frequencyDomainSlice[j];
             }
@@ -497,13 +490,13 @@ public class BeatDetector : MonoBehaviour
             arr[i] = avg;
         }
 
-        if(emitEvent && OnSpectrum != null)
+        if (emitEvent && OnSpectrum != null)
         {
             OnSpectrum.Invoke(arr);
         }
     }
 
-    int SamplingRate
+    private int SamplingRate
     {
         get
         {
@@ -514,11 +507,11 @@ public class BeatDetector : MonoBehaviour
 
     private int _bufferSize, _lastBufferMagnitude = -1;
 
-    int BufferSize
+    private int BufferSize
     {
         get
         {
-            if(Configuration.BufferMagnitude != _lastBufferMagnitude)
+            if (Configuration.BufferMagnitude != _lastBufferMagnitude)
             {
                 _bufferSize = (int)Mathf.Pow(2, Configuration.BufferMagnitude);
                 _lastBufferMagnitude = Configuration.BufferMagnitude;
@@ -527,7 +520,7 @@ public class BeatDetector : MonoBehaviour
         }
     }
 
-    float BandWidth
+    private float BandWidth
     {
         get
         {
@@ -535,7 +528,7 @@ public class BeatDetector : MonoBehaviour
         }
     }
 
-    float TapTempo()
+    private float TapTempo()
     {
         nowT = CurrentTime;
         diff = nowT - lastT;
