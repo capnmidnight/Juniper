@@ -119,6 +119,7 @@
     <Compile Include="Serialization\SpecializedDeserializer.cs" />
     <Compile Include="Serialization\SpecializedFactory.cs" />
     <Compile Include="Serialization\SpecializedSerializer.cs" />
+    <Compile Include="Serialization\StreamStringDecoder.cs" />
     <Compile Include="Speech\IKeywordTriggered.cs" />
     <Compile Include="Speech\KeywordRecognizedEventArgs.cs" />
     <Compile Include="Streams\CachingStream.cs" />

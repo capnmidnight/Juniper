@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{69886384-E67E-48B1-8EDF-528ED9E699C5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Juniper.Azure</RootNamespace>
+    <AssemblyName>Juniper.Azure</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Juniper\Assets\Juniper\Plugins\Juniper\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Juniper\Assets\Juniper\Plugins\Juniper\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractAzureRequest.cs" />
+    <Compile Include="AuthTokenRequest.cs" />
+    <Compile Include="CognitiveServices\AbstractAzureSpeechRequest.cs" />
+    <Compile Include="CognitiveServices\OutputFormat.cs" />
+    <Compile Include="CognitiveServices\SpeechRequest.cs" />
+    <Compile Include="CognitiveServices\Voice.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CognitiveServices\VoiceListRequest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Juniper.Core\Juniper.Core.csproj">
+      <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
+      <Name>Juniper.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Json\Juniper.Json.csproj">
+      <Project>{b10a2ab6-5677-4f5e-b6fc-d81120787746}</Project>
+      <Name>Juniper.Json</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
