@@ -44,10 +44,7 @@ namespace Juniper.Audio
                     format,
                     prog);
 
-                while (audioTask.IsRunning())
-                {
-                    yield return null;
-                }
+                yield return audioTask.AsCoroutine();
 
                 var audio = decoder.Deserialize(audioTask.Result.Content);
 

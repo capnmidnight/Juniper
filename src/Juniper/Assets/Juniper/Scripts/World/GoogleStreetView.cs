@@ -308,10 +308,7 @@ namespace Juniper.Imaging
 
         private IEnumerator ValidateMetadata(Task<MetadataResponse> metadataTask)
         {
-            while (metadataTask.IsRunning())
-            {
-                yield return null;
-            }
+            yield return metadataTask.AsCoroutine();
 
             metadata = metadataTask.Result;
             if (metadata?.status != HttpStatusCode.OK)

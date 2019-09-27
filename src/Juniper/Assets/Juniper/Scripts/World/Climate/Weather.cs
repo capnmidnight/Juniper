@@ -260,10 +260,7 @@ namespace Juniper.World.Climate
             if (Application.internetReachability != NetworkReachability.NotReachable || force)
             {
                 var reportTask = weatherService.Request(location, force, prog);
-                while (reportTask.IsRunning())
-                {
-                    yield return null;
-                }
+                yield return reportTask.AsCoroutine();
 
                 var report = reportTask.Result;
                 var reportJSON = serializer.ToString(report);
