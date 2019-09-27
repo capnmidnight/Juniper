@@ -12,6 +12,21 @@ namespace Juniper.HTTP.MediaTypes.Console
     {
         private static XNamespace ns;
 
+        private static void PromotePrimaryExtension(Dictionary<string, Group> groups, string group, string entry, string ext)
+        {
+            if (groups.ContainsKey(group) && groups[group].entries.ContainsKey(entry))
+            {
+                var extensions = groups[group].entries[entry].Extensions;
+                var index = Array.IndexOf(extensions, ext);
+                if (0 <= index && index < extensions.Length)
+                {
+                    var temp = extensions[0];
+                    extensions[0] = ext;
+                    extensions[index] = temp;
+                }
+            }
+        }
+
         private static void Main()
         {
             var groups = new Dictionary<string, Group>(StringComparer.InvariantCultureIgnoreCase);
@@ -21,6 +36,8 @@ namespace Juniper.HTTP.MediaTypes.Console
 
             groups["Image"].entries["Raw"] = new Entry(groups["Image"], "Raw", "image/x-raw", null, new string[] { "raw" });
             groups["Image"].entries["Exr"] = new Entry(groups["Image"], "EXR", "image/x-exr", null, new string[] { "exr" });
+            PromotePrimaryExtension(groups, "Audio", "Mpeg", "mp3");
+            PromotePrimaryExtension(groups, "Audio", "Ogg", "ogg");
 
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var outDir = Path.Combine(home, "Projects", "Yarrow", "Juniper");
