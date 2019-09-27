@@ -67,10 +67,8 @@ namespace Juniper.Serialization
 
         public static T Deserialize<T>(this IDeserializer deserializer, byte[] data, IProgress prog)
         {
-            using (var stream = new MemoryStream(data))
-            {
-                return deserializer.Deserialize<T>(stream, data.Length, prog);
-            }
+            var stream = new MemoryStream(data);
+            return deserializer.Deserialize<T>(stream, data.Length, prog);
         }
 
         public static bool TryDeserialize<T>(this IDeserializer deserializer, byte[] data, out T value)
@@ -80,10 +78,8 @@ namespace Juniper.Serialization
 
         public static bool TryDeserialize<T>(this IDeserializer deserializer, byte[] data, out T value, IProgress prog)
         {
-            using (var stream = new MemoryStream(data))
-            {
-                return deserializer.TryDeserialize(stream, out value, data.Length, prog);
-            }
+            var stream = new MemoryStream(data);
+            return deserializer.TryDeserialize(stream, out value, data.Length, prog);
         }
 
         public static T Load<T>(this IDeserializer deserializer, FileInfo file)
@@ -139,10 +135,8 @@ namespace Juniper.Serialization
 
         public static T Parse<T>(this IDeserializer deserializer, string text, IProgress prog)
         {
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(text)))
-            {
-                return deserializer.Deserialize<T>(stream, stream.Length, prog);
-            }
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(text));
+            return deserializer.Deserialize<T>(stream, stream.Length, prog);
         }
 
         public static bool TryParse<T>(this IDeserializer deserializer, string text, out T value)
@@ -152,10 +146,8 @@ namespace Juniper.Serialization
 
         public static bool TryParse<T>(this IDeserializer deserializer, string text, out T value, IProgress prog)
         {
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(text)))
-            {
-                return deserializer.TryDeserialize(stream, out value, stream.Length, prog);
-            }
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(text));
+            return deserializer.TryDeserialize(stream, out value, stream.Length, prog);
         }
 
         public static IDeserializer<T> Specialize<T>(this IDeserializer deserializer)
@@ -208,10 +200,8 @@ namespace Juniper.Serialization
 
         public static T Deserialize<T>(this IDeserializer<T> deserializer, byte[] data, IProgress prog)
         {
-            using (var stream = new MemoryStream(data))
-            {
-                return deserializer.Deserialize(stream, data.Length, prog);
-            }
+            var stream = new MemoryStream(data);
+            return deserializer.Deserialize(stream, data.Length, prog);
         }
 
         public static bool TryDeserialize<T>(this IDeserializer<T> deserializer, byte[] data, out T value)
@@ -221,10 +211,8 @@ namespace Juniper.Serialization
 
         public static bool TryDeserialize<T>(this IDeserializer<T> deserializer, byte[] data, out T value, IProgress prog)
         {
-            using (var stream = new MemoryStream(data))
-            {
-                return deserializer.TryDeserialize(stream, out value, data.Length, prog);
-            }
+            var stream = new MemoryStream(data);
+            return deserializer.TryDeserialize(stream, out value, data.Length, prog);
         }
 
         public static T Load<T>(this IDeserializer<T> deserializer, FileInfo file)
@@ -280,10 +268,8 @@ namespace Juniper.Serialization
 
         public static T Parse<T>(this IDeserializer<T> deserializer, string text, IProgress prog)
         {
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(text)))
-            {
-                return deserializer.Deserialize(stream, stream.Length, prog);
-            }
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(text));
+            return deserializer.Deserialize(stream, stream.Length, prog);
         }
 
         public static bool TryParse<T>(this IDeserializer<T> deserializer, string text, out T value)
@@ -293,10 +279,8 @@ namespace Juniper.Serialization
 
         public static bool TryParse<T>(this IDeserializer<T> deserializer, string text, out T value, IProgress prog)
         {
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(text)))
-            {
-                return deserializer.TryDeserialize(stream, out value, stream.Length, prog);
-            }
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes(text));
+            return deserializer.TryDeserialize(stream, out value, stream.Length, prog);
         }
     }
 }

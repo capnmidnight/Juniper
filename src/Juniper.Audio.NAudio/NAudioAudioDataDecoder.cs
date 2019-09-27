@@ -38,11 +38,11 @@ namespace Juniper.Audio.NAudio
             {
                 return new WaveFileReader(stream);
             }
-            else if(ContentType == MediaType.Audio.Mpeg)
+            else if (ContentType == MediaType.Audio.Mpeg)
             {
                 return new Mp3FileReader(stream, wf => new Mp3FrameDecompressor(wf));
             }
-            else if(ContentType == MediaType.Audio.Vorbis)
+            else if (ContentType == MediaType.Audio.Vorbis)
             {
                 return new VorbisWaveReader(stream);
             }
@@ -55,18 +55,16 @@ namespace Juniper.Audio.NAudio
         public AudioData Deserialize(Stream stream, IProgress prog)
         {
             prog.Report(0);
-            using (var waveStream = MakeDecodingStream(stream))
-            {
-                var format = waveStream.WaveFormat;
-                var bytesPerSample = format.Channels * format.BitsPerSample / 8;
+            var waveStream = MakeDecodingStream(stream);
+            var format = waveStream.WaveFormat;
+            var bytesPerSample = format.Channels * format.BitsPerSample / 8;
 
-                var samples = waveStream.Length / bytesPerSample;
-                var channels = format.Channels;
-                var frequency = format.SampleRate;
-                var aud = new AudioData((MediaType.Audio)ContentType, samples, channels, frequency, waveStream);
-                prog.Report(1);
-                return aud;
-            }
+            var samples = waveStream.Length / bytesPerSample;
+            var channels = format.Channels;
+            var frequency = format.SampleRate;
+            var aud = new AudioData((MediaType.Audio)ContentType, samples, channels, frequency, waveStream);
+            prog.Report(1);
+            return aud;
         }
     }
 }

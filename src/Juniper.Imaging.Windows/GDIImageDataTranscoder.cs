@@ -42,7 +42,7 @@ namespace Juniper.Imaging.Windows
             }
             else
             {
-                using (var mem = new MemoryStream(image.data))
+                var mem = new MemoryStream(image.data);
                 using (var inImage = Image.FromStream(mem))
                 using (var g = Graphics.FromImage(outImage))
                 {

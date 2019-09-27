@@ -49,10 +49,8 @@ namespace Juniper.Security
 
         public static void ParseCredentials(this ICredentialReceiver receiver, string text)
         {
-            using (var mem = new MemoryStream(Encoding.UTF8.GetBytes(text)))
-            {
-                receiver.ReceiveCredentials(mem);
-            }
+            var mem = new MemoryStream(Encoding.UTF8.GetBytes(text));
+            receiver.ReceiveCredentials(mem);
         }
     }
 }
