@@ -71,7 +71,6 @@
     <Compile Include="HTTP\MediaType\Video.cs" />
     <Compile Include="HTTP\MediaType\XConference.cs" />
     <Compile Include="HTTP\REST\AbstractRequest.cs" />
-    <Compile Include="HTTP\REST\AbstractRequestConfiguration.cs" />
     <Compile Include="HTTP\RouteAttribute.cs" />
     <Compile Include="HTTP\HttpStreamExt.cs" />
     <Compile Include="HTTP\HttpStringExt.cs" />

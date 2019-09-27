@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -22,8 +23,14 @@ namespace Juniper.Google.Maps.MapTiles
         private LatLngPoint center;
         private Size size;
 
-        public TileRequest(GoogleMapsRequestConfiguration api, Size size)
-            : base(api, "staticmap", "tiles", true)
+        public TileRequest(string apiKey, string signingKey, DirectoryInfo cacheLocation, Size size)
+            : base("staticmap", apiKey, signingKey, AddPath(cacheLocation, "tiles"))
+        {
+            Size = size;
+        }
+
+        public TileRequest(string apiKey, string signingKey, Size size)
+            : base("staticmap", apiKey, signingKey, null)
         {
             Size = size;
         }

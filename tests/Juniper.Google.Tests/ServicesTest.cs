@@ -7,8 +7,8 @@ namespace Juniper.Google.Maps.Tests
 {
     public abstract class ServicesTests
     {
-        protected GoogleMapsRequestConfiguration service;
-        protected GoogleMapsRequestConfiguration noCacheService;
+        protected string apiKey;
+        protected string signingKey;
         protected DirectoryInfo cacheDir;
 
         [TestInitialize]
@@ -17,16 +17,13 @@ namespace Juniper.Google.Maps.Tests
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var keyFile = Path.Combine(home, "Projects", "DevKeys", "google-streetview.txt");
             var lines = File.ReadAllLines(keyFile);
-            var apiKey = lines[0];
-            var signingKey = lines[1];
+            apiKey = lines[0];
+            signingKey = lines[1];
 
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
 
             cacheDir = new DirectoryInfo(cacheDirName);
-
-            service = new GoogleMapsRequestConfiguration(apiKey, signingKey, cacheDir);
-            noCacheService = new GoogleMapsRequestConfiguration(apiKey, signingKey);
         }
     }
 }

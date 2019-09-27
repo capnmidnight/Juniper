@@ -12,20 +12,37 @@ namespace Juniper.HTTP.REST
 {
     public abstract class AbstractRequest
     {
-        private readonly AbstractRequestConfiguration api;
-        private readonly IDictionary<string, List<string>> queryParams = new SortedDictionary<string, List<string>>();
-        private readonly string cacheSubDirectoryName;
-        private readonly string path;
-
-        protected AbstractRequest(AbstractRequestConfiguration api, string path, string cacheSubDirectoryName)
+        protected static Uri AddPath(Uri baseURI, string path)
         {
-            this.api = api;
-            this.path = path;
-            this.cacheSubDirectoryName = cacheSubDirectoryName;
+            var uriBuilder = new UriBuilder(baseURI);
+            uriBuilder.Path = Path.Combine(uriBuilder.Path, path);
+            return uriBuilder.Uri;
         }
 
-        protected AbstractRequest(AbstractRequestConfiguration api, string path)
-            : this(api, path, null) { }
+        protected static DirectoryInfo AddPath(DirectoryInfo baseDirectory, string path)
+        {
+            if (baseDirectory == null || string.IsNullOrEmpty(path))
+            {
+                return baseDirectory;
+            }
+            else
+            {
+                var newPath = Path.Combine(baseDirectory.FullName, path);
+                return new DirectoryInfo(newPath);
+            }
+        }
+
+        private readonly Uri serviceURI;
+        private readonly DirectoryInfo cacheLocation;
+        private readonly IDictionary<string, List<string>> queryParams =
+            new SortedDictionary<string, List<string>>();
+
+        protected AbstractRequest(Uri serviceURI, DirectoryInfo cacheLocation)
+        {
+            this.serviceURI = serviceURI;
+            this.cacheLocation = cacheLocation;
+            this.cacheLocation?.Create();
+        }
 
         private void SetQuery(string key, string value, bool allowMany)
         {
@@ -98,8 +115,7 @@ namespace Juniper.HTTP.REST
         {
             get
             {
-                var uriBuilder = new UriBuilder(api.baseServiceURI);
-                uriBuilder.Path += path;
+                var uriBuilder = new UriBuilder(serviceURI);
                 uriBuilder.Query = queryParams.ToString("=", "&");
                 return uriBuilder.Uri;
             }
@@ -117,13 +133,13 @@ namespace Juniper.HTTP.REST
         {
             get
             {
-                if (api.cacheLocation == null)
+                if (cacheLocation == null)
                 {
                     return null;
                 }
                 else
                 {
-                    return Path.Combine(api.cacheLocation.FullName, CacheID);
+                    return Path.Combine(cacheLocation.FullName, CacheID);
                 }
             }
         }
@@ -132,15 +148,7 @@ namespace Juniper.HTTP.REST
         {
             get
             {
-                string id = BaseURI.PathAndQuery.Substring(1).RemoveInvalidChars();
-                if (cacheSubDirectoryName == null)
-                {
-                    return id;
-                }
-                else
-                {
-                    return Path.Combine(cacheSubDirectoryName, id);
-                }
+                return BaseURI.PathAndQuery.Substring(1).RemoveInvalidChars();
             }
         }
 
@@ -156,61 +164,111 @@ namespace Juniper.HTTP.REST
                 && req.CacheFileName == CacheFileName;
         }
 
-        public async Task Proxy(HttpListenerResponse outResponse, MediaType acceptType)
+        protected virtual async Task ModifyRequest(HttpWebRequest request)
+        { }
+
+        private async Task<HttpWebRequest> CreateRequest(MediaType acceptType)
         {
-            var cacheFileName = CacheFileName;
+            var request = HttpWebRequestExt.Create(AuthenticatedURI);
+            await ModifyRequest(request);
+
             if (acceptType != null)
             {
-                if (acceptType.PrimaryExtension != null)
+                request.Accept = acceptType;
+            }
+
+            return request;
+        }
+
+        protected virtual BodyInfo GetBodyInfo() { return null; }
+
+        protected virtual void WriteBody(Stream stream) { }
+
+        public async Task<HttpWebResponse> Post(MediaType acceptType, IProgress prog)
+        {
+            var request = await CreateRequest(acceptType);
+            return await request.Post(GetBodyInfo, WriteBody, prog);
+        }
+
+        public Task<HttpWebResponse> Post(MediaType acceptType)
+        {
+            return Post(acceptType, null);
+        }
+
+        public Task<HttpWebResponse> Post(IProgress prog)
+        {
+            return Post(null, prog);
+        }
+
+        public Task<HttpWebResponse> Post()
+        {
+            return Post(null, null);
+        }
+
+        public async Task<Stream> PostForStream(MediaType acceptType, IProgress prog)
+        {
+            var response = await Post(acceptType, prog);
+            return response.GetResponseStream();
+        }
+
+        public Task<Stream> PostForStream(MediaType acceptType)
+        {
+            return PostForStream(acceptType, null);
+        }
+
+        public Task<Stream> PostForStream(IProgress prog)
+        {
+            return PostForStream(null, prog);
+        }
+
+        public Task<Stream> PostForStream()
+        {
+            return PostForStream(null, null);
+        }
+
+        public async Task<Dictionary<string, string>> PostForHeaders(IProgress prog)
+        {
+            var dict = new Dictionary<string, string>();
+            using (var response = await Post(null, prog))
+            {
+                var headers = response.Headers;
+                foreach (var key in headers.AllKeys)
                 {
-                    cacheFileName += ".";
-                    cacheFileName += acceptType.PrimaryExtension;
+                    dict[key] = headers[key];
                 }
             }
 
-            var cacheFile = new FileInfo(cacheFileName);
+            return dict;
+        }
 
-            if (cacheFile != null
-                && File.Exists(cacheFile.FullName)
-                && cacheFile.Length > 0)
-            {
-                outResponse.SetStatus(HttpStatusCode.OK);
-                outResponse.ContentType = cacheFile.GetContentType();
-                outResponse.ContentLength64 = cacheFile.Length;
-                outResponse.SendFile(cacheFile);
-            }
-            else
-            {
-                var request = HttpWebRequestExt.Create(AuthenticatedURI);
-                if (acceptType != null)
-                {
-                    request.Accept = acceptType;
-                }
+        public Task<Dictionary<string, string>> PostForHeaders()
+        {
+            return PostForHeaders(null);
+        }
 
-                using (var inResponse = await request.Get())
-                {
-                    var body = inResponse.GetResponseStream();
-                    if (cacheFile != null)
-                    {
-                        body = new CachingStream(body, cacheFile);
-                    }
-                    using (body)
-                    {
-                        outResponse.SetStatus(inResponse.StatusCode);
-                        outResponse.ContentType = inResponse.ContentType;
-                        if (inResponse.ContentLength >= 0)
-                        {
-                            outResponse.ContentLength64 = inResponse.ContentLength;
-                        }
-                        body.CopyTo(outResponse.OutputStream);
-                    }
-                }
+        public async Task<T> PostForDecoded<T>(IDeserializer<T> deserializer, IProgress prog)
+        {
+            var split = prog.Split("Request", "Decode");
+            using (var stream = await PostForStream(deserializer.ContentType, split[0]))
+            {
+                return deserializer.Deserialize(stream, split[1]);
             }
         }
 
-        public Task Proxy(HttpListenerResponse outResponse)
+        public Task<T> PostForDecoded<T>(IDeserializer<T> deserializer)
         {
-            return Proxy(outResponse, null);
+            return PostForDecoded(deserializer, null);
+        }
+
+        public async Task<HttpWebResponse> Get(MediaType acceptType)
+        {
+            var request = await CreateRequest(acceptType);
+            return await request.Get();
+        }
+
+        public Task<HttpWebResponse> Get()
+        {
+            return Get(null);
         }
 
         public async Task<Stream> GetStream(MediaType acceptType, IProgress prog)
@@ -218,20 +276,24 @@ namespace Juniper.HTTP.REST
             Stream body;
             long length;
 
+            FileInfo cacheFile = null;
             var cacheFileName = CacheFileName;
-            if (acceptType?.PrimaryExtension != null)
+            if (cacheFileName != null)
             {
-                var expectedExt = "." + acceptType.PrimaryExtension;
-                if (Path.GetExtension(cacheFileName) != expectedExt)
+                if (acceptType?.PrimaryExtension != null)
                 {
-                    cacheFileName += expectedExt;
+                    var expectedExt = "." + acceptType.PrimaryExtension;
+                    if (Path.GetExtension(cacheFileName) != expectedExt)
+                    {
+                        cacheFileName += expectedExt;
+                    }
                 }
+
+                cacheFile = new FileInfo(cacheFileName);
             }
 
-            var cacheFile = new FileInfo(cacheFileName);
-
             if (cacheFile != null
-                && File.Exists(cacheFile.FullName)
+                && File.Exists(cacheFileName)
                 && cacheFile.Length > 0)
             {
                 length = cacheFile.Length;
@@ -239,13 +301,7 @@ namespace Juniper.HTTP.REST
             }
             else
             {
-                var request = HttpWebRequestExt.Create(AuthenticatedURI);
-                if (acceptType != null)
-                {
-                    request.Accept = acceptType;
-                }
-
-                var response = await request.Get();
+                var response = await Get(acceptType);
                 length = response.ContentLength;
                 body = response.GetResponseStream();
                 if (cacheFile != null)
@@ -283,6 +339,57 @@ namespace Juniper.HTTP.REST
         public Task<T> GetDecoded<T>(IDeserializer<T> deserializer)
         {
             return GetDecoded(deserializer, null);
+        }
+
+        public async Task Proxy(HttpListenerResponse outResponse, MediaType acceptType)
+        {
+            var cacheFileName = CacheFileName;
+            if (acceptType != null)
+            {
+                if (acceptType.PrimaryExtension != null)
+                {
+                    cacheFileName += ".";
+                    cacheFileName += acceptType.PrimaryExtension;
+                }
+            }
+
+            var cacheFile = new FileInfo(cacheFileName);
+
+            if (cacheFile != null
+                && File.Exists(cacheFile.FullName)
+                && cacheFile.Length > 0)
+            {
+                outResponse.SetStatus(HttpStatusCode.OK);
+                outResponse.ContentType = cacheFile.GetContentType();
+                outResponse.ContentLength64 = cacheFile.Length;
+                outResponse.SendFile(cacheFile);
+            }
+            else
+            {
+                using (var inResponse = await Get(acceptType))
+                {
+                    var body = inResponse.GetResponseStream();
+                    if (cacheFile != null)
+                    {
+                        body = new CachingStream(body, cacheFile);
+                    }
+                    using (body)
+                    {
+                        outResponse.SetStatus(inResponse.StatusCode);
+                        outResponse.ContentType = inResponse.ContentType;
+                        if (inResponse.ContentLength >= 0)
+                        {
+                            outResponse.ContentLength64 = inResponse.ContentLength;
+                        }
+                        body.CopyTo(outResponse.OutputStream);
+                    }
+                }
+            }
+        }
+
+        public Task Proxy(HttpListenerResponse outResponse)
+        {
+            return Proxy(outResponse, null);
         }
     }
 }

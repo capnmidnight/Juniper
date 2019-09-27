@@ -1,8 +1,8 @@
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 using Juniper.HTTP;
+using Juniper.Progress;
 
 namespace System.Net
 {
@@ -20,7 +20,10 @@ namespace System.Net
         public static HttpWebRequest Create(Uri uri)
         {
             var request = (HttpWebRequest)WebRequest.Create(uri);
-            request.Header("Upgrade-Insecure-Requests", 1);
+            if (uri.Scheme == "http")
+            {
+                request.Header("Upgrade-Insecure-Requests", 1);
+            }
             return request;
         }
 
@@ -267,16 +270,29 @@ namespace System.Net
         /// <param name="getInfo"></param>
         /// <param name="writeBody"></param>
         /// <returns></returns>
-        private static async Task WriteBody(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
+        private static async Task WriteBody(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
         {
-            var info = getInfo();
-            if (info.Length > 0)
+            if (getInfo != null)
             {
-                request.ContentLength = info.Length;
-                request.ContentType = info.MIMEType;
-                using (var stream = await request.GetRequestStreamAsync())
+                var info = getInfo();
+                if (info != null)
                 {
-                    writeBody(stream);
+                    if (info.MIMEType != null)
+                    {
+                        request.ContentType = info.MIMEType;
+                    }
+
+                    if (info.Length >= 0)
+                    {
+                        request.ContentLength = info.Length;
+                        if (info.Length > 0)
+                        {
+                            using (var stream = await request.GetRequestStreamAsync())
+                            {
+                                writeBody(stream);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -286,11 +302,16 @@ namespace System.Net
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> Post(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
+        public static async Task<HttpWebResponse> Post(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
         {
             request.Method = "POST";
-            await request.WriteBody(getInfo, writeBody);
+            await request.WriteBody(getInfo, writeBody, prog);
             return (HttpWebResponse)await request.GetResponseAsync();
+        }
+
+        public static Task<HttpWebResponse> Post(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
+        {
+            return request.Post(getInfo, writeBody, null);
         }
 
         /// <summary>
@@ -298,10 +319,19 @@ namespace System.Net
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> Post(this HttpWebRequest request)
+        public static Task<HttpWebResponse> Post(this HttpWebRequest request, IProgress prog)
         {
-            request.Method = "POST";
-            return (HttpWebResponse)await request.GetResponseAsync();
+            return request.Post(null, null, prog);
+        }
+
+        /// <summary>
+        /// Perform a POST request, writing the body through a stream, and return the results as a stream.
+        /// </summary>
+        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
+        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
+        public static Task<HttpWebResponse> Post(this HttpWebRequest request)
+        {
+            return request.Post(null, null, null);
         }
 
         /// <summary>
@@ -309,11 +339,16 @@ namespace System.Net
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> Put(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
+        public static async Task<HttpWebResponse> Put(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
         {
             request.Method = "PUT";
-            await request.WriteBody(getInfo, writeBody);
+            await request.WriteBody(getInfo, writeBody, prog);
             return (HttpWebResponse)await request.GetResponseAsync();
+        }
+
+        public static Task<HttpWebResponse> Put(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
+        {
+            return request.Put(getInfo, writeBody, null);
         }
 
         /// <summary>
@@ -321,11 +356,16 @@ namespace System.Net
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> Patch(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
+        public static async Task<HttpWebResponse> Patch(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
         {
             request.Method = "PATCH";
-            await request.WriteBody(getInfo, writeBody);
+            await request.WriteBody(getInfo, writeBody, prog);
             return (HttpWebResponse)await request.GetResponseAsync();
+        }
+
+        public static Task<HttpWebResponse> Patch(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
+        {
+            return request.Patch(getInfo, writeBody, null);
         }
 
         /// <summary>
@@ -333,11 +373,16 @@ namespace System.Net
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> Delete(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
+        public static async Task<HttpWebResponse> Delete(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
         {
             request.Method = "DELETE";
-            await request.WriteBody(getInfo, writeBody);
+            await request.WriteBody(getInfo, writeBody, prog);
             return (HttpWebResponse)await request.GetResponseAsync();
+        }
+
+        public static Task<HttpWebResponse> Delete(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
+        {
+            return request.Delete(getInfo, writeBody, null);
         }
 
         /// <summary>
@@ -345,10 +390,19 @@ namespace System.Net
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public async static Task<HttpWebResponse> Delete(this HttpWebRequest request)
+        public static Task<HttpWebResponse> Delete(this HttpWebRequest request, IProgress prog)
         {
-            request.Method = "DELETE";
-            return (HttpWebResponse)await request.GetResponseAsync();
+            return request.Delete(null, null, prog);
+        }
+
+        /// <summary>
+        /// Perform a DELETE request, writing the body through a stream, and return the results as a stream.
+        /// </summary>
+        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
+        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
+        public static Task<HttpWebResponse> Delete(this HttpWebRequest request)
+        {
+            return request.Delete(null, null, null);
         }
 
         /// <summary>

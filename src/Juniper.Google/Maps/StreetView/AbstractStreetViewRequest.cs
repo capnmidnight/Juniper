@@ -1,3 +1,4 @@
+using System.IO;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
@@ -9,10 +10,9 @@ namespace Juniper.Google.Maps.StreetView
         private LatLngPoint location;
         private int radius;
 
-        protected AbstractStreetViewRequest(GoogleMapsRequestConfiguration api, string path)
-            : base(api, path, "streetview", true)
-        {
-        }
+        protected AbstractStreetViewRequest(string path, string apiKey, string signingKey, DirectoryInfo cacheLocation)
+            : base(path, apiKey, signingKey, cacheLocation)
+        { }
 
         public string Pano
         {

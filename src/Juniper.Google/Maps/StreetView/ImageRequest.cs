@@ -1,3 +1,4 @@
+using System.IO;
 using Juniper.Imaging;
 
 namespace Juniper.Google.Maps.StreetView
@@ -9,11 +10,15 @@ namespace Juniper.Google.Maps.StreetView
         private int fov;
         private Size size;
 
-        public ImageRequest(GoogleMapsRequestConfiguration api, Size size)
-            : base(api, "streetview")
+        public ImageRequest(string apiKey, string signingKey, DirectoryInfo cacheLocation, Size size)
+            : base("streetview", apiKey, signingKey, AddPath(cacheLocation, "streetview"))
         {
             Size = size;
         }
+
+        public ImageRequest(string apiKey, string signingKey, Size size)
+            : this(apiKey, signingKey, null, size)
+        { }
 
         public Size Size
         {

@@ -29,14 +29,8 @@ namespace Juniper.HTTP.Tests
 
         private class ImageRequest : AbstractRequest
         {
-            private class ImageRequestConfiguration : AbstractRequestConfiguration
-            {
-                public ImageRequestConfiguration(DirectoryInfo cacheDir)
-                    : base(new Uri("https://www.seanmcbeth.com"), cacheDir) { }
-            }
-
-            public ImageRequest(DirectoryInfo cacheDir)
-                : base(new ImageRequestConfiguration(cacheDir), "2015-05.min.jpg") { }
+            public ImageRequest(Uri baseURI, string path, DirectoryInfo cacheDir)
+                : base(AddPath(baseURI, path), cacheDir) { }
         }
 
         private static async Task<ImageData> RunFileTest(string imageFileName, bool deleteFile, bool runTest)
@@ -51,7 +45,11 @@ namespace Juniper.HTTP.Tests
                 cacheFile.Delete();
             }
 
-            var actual = await new ImageRequest(cacheFile.Directory).GetDecoded(decoder);
+            var actual = await new ImageRequest(
+                    new Uri("https://www.seanmcbeth.com"),
+                    "2015-05.min.jpg",
+                    cacheFile.Directory)
+                .GetDecoded(decoder);
 
             if (runTest)
             {

@@ -55,7 +55,6 @@
     <Compile Include="Maps\TimeZone\TimeZoneResponse.cs" />
     <Compile Include="Maps\TimeZone\TimeZoneRequest.cs" />
     <Compile Include="Maps\USAddress.cs" />
-    <Compile Include="Maps\GoogleMapsRequestConfiguration.cs" />
     <Compile Include="Maps\MapTiles\LocationTypes.cs" />
     <Compile Include="Maps\MapTiles\MapImageType.cs" />
     <Compile Include="Maps\MapTiles\LinePath.cs" />

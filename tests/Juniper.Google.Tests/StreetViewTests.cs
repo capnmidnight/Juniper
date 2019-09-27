@@ -33,7 +33,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task JPEGImageSize()
         {
-            var imageRequest = new ImageRequest(service, new Size(640, 640))
+            var imageRequest = new ImageRequest(apiKey, signingKey, cacheDir, new Size(640, 640))
             {
                 Place = "Alexandria, VA"
             };
@@ -47,7 +47,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task PNGImageSize()
         {
-            var imageRequest = new ImageRequest(service, new Size(640, 640))
+            var imageRequest = new ImageRequest(apiKey, signingKey, cacheDir, new Size(640, 640))
             {
                 Place = "Alexandria, VA"
             };
@@ -62,7 +62,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetMetadata()
         {
-            var metadataRequest = new MetadataRequest(service)
+            var metadataRequest = new MetadataRequest(apiKey, signingKey, cacheDir)
             {
                 Place = "Washington, DC"
             };
@@ -77,7 +77,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var imageRequest = new ImageRequest(service, new Size(4096, 4096))
+            var imageRequest = new ImageRequest(apiKey, signingKey, cacheDir, new Size(4096, 4096))
             {
                 Place = "Alexandria, VA"
             };
@@ -90,7 +90,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImageWithoutCaching()
         {
-            var imageRequest = new ImageRequest(noCacheService, new Size(640, 640))
+            var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640))
             {
                 Place = "Alexandria, VA"
             };

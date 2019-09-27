@@ -1,11 +1,13 @@
+using System.IO;
+
 namespace Juniper.Google.Maps.Geocoding
 {
     public abstract class AbstractGeocodingRequest : AbstractGoogleMapsRequest
     {
         private string language;
 
-        protected AbstractGeocodingRequest(GoogleMapsRequestConfiguration api)
-            : base(api, "geocode/json", "geocoding", false)
+        protected AbstractGeocodingRequest(string apiKey, DirectoryInfo cacheLocation)
+            : base("geocode/json", apiKey, null, AddPath(cacheLocation, "geocoding"))
         {
         }
 

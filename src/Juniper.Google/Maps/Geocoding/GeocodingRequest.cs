@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using System.IO;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.Geocoding
@@ -14,10 +14,30 @@ namespace Juniper.Google.Maps.Geocoding
         private GeometryViewport bounds;
         private string region;
 
-        public GeocodingRequest(GoogleMapsRequestConfiguration api)
-            : base(api)
+        public GeocodingRequest(string apiKey, DirectoryInfo cacheLocation, IDictionary<AddressComponentType, string> components)
+            : base(apiKey, cacheLocation)
         {
+            if (components != null)
+            {
+                foreach (var kv in components)
+                {
+                    this.components[kv.Key] = kv.Value;
+                }
+                RefreshComponents();
+            }
         }
+
+        public GeocodingRequest(string apiKey, DirectoryInfo cacheLocation)
+            : this(apiKey, cacheLocation, null)
+        { }
+
+        public GeocodingRequest(string apiKey, IDictionary<AddressComponentType, string> components)
+            : this(apiKey, null, components)
+        { }
+
+        public GeocodingRequest(string apiKey)
+            : this(apiKey, null, null)
+        { }
 
         public string Place
         {
@@ -43,16 +63,6 @@ namespace Juniper.Google.Maps.Geocoding
                 place_id = default;
                 RemoveQuery(nameof(place_id));
             }
-        }
-
-        public GeocodingRequest(GoogleMapsRequestConfiguration api, IDictionary<AddressComponentType, string> components)
-            : base(api)
-        {
-            foreach (var kv in components)
-            {
-                this.components[kv.Key] = kv.Value;
-            }
-            RefreshComponents();
         }
 
         private void RefreshComponents()

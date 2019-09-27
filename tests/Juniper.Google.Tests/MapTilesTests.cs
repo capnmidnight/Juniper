@@ -47,7 +47,7 @@ namespace Juniper.Google.Maps.MapTiles.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var search = new TileRequest(service, new Size(640, 640))
+            var search = new TileRequest(apiKey, signingKey, cacheDir, new Size(640, 640))
             {
                 Zoom = 20,
                 Address = (string)"4909 Rutland Pl, Alexandria, VA, 22304"
