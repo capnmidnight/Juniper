@@ -29,7 +29,7 @@ namespace Juniper.Events
             var value = (ButtonEvent)serializedObject.targetObject;
             var enumTypes = value.GetSupportedButtonTypes().ToArray();
             var enumTypeNames = enumTypes.Select(t => t.FullName).ToArray();
-            var enumTypeLabels = enumTypeNames.Select(n => new GUIContent(n)).ToArray();
+            var enumTypeLabels = enumTypeNames.ToGUIContents();
             var selectedTypeIndex = ArrayUtility.IndexOf(enumTypeNames, value.buttonTypeName);
             selectedTypeIndex = EditorGUILayout.Popup(ButtonTypeLabel, selectedTypeIndex, enumTypeLabels);
             var destroy = false;
@@ -38,7 +38,7 @@ namespace Juniper.Events
                 value.buttonTypeName = enumTypeNames[selectedTypeIndex];
                 var enumType = enumTypes[selectedTypeIndex];
                 var enumStrings = Enum.GetNames(enumType);
-                var enumLabels = enumStrings.Select(n => new GUIContent(n)).ToArray();
+                var enumLabels = enumStrings.ToGUIContents();
                 var selectedValueIndex = ArrayUtility.IndexOf(enumStrings, value.buttonValueName);
                 selectedValueIndex = EditorGUILayout.Popup(ButtonValueLabel, selectedValueIndex, enumLabels);
 
