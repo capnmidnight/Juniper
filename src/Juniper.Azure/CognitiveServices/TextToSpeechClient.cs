@@ -19,6 +19,8 @@ namespace Juniper.Azure.CognitiveServices
 
         private Voice[] voices;
 
+        public bool IsAvailable { get; private set; } = true;
+
         public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IDeserializer<Voice[]> voiceListDecoder, OutputFormat outputFormat, IDeserializer<AudioData> audioDecoder)
             : this(azureRegion, azureSubscriptionKey, azureResourceName, voiceListDecoder, outputFormat, audioDecoder, null)
         { }
@@ -71,69 +73,98 @@ namespace Juniper.Azure.CognitiveServices
 
         }
 
+        public void ClearError()
+        {
+            IsAvailable = true;
+        }
+
         public async Task<Voice[]> GetVoices()
         {
-            if (voices is null)
+            try
             {
-                if (!voiceListRequest.GetCacheFile(voiceListDecoder.ContentType).Exists
-                    && string.IsNullOrEmpty(voiceListRequest.AuthToken))
+                if (voices is null)
                 {
-                    voiceListRequest.AuthToken = await GetAuthToken();
+                    if (!voiceListRequest.GetCacheFile(voiceListDecoder.ContentType).Exists
+                        && string.IsNullOrEmpty(voiceListRequest.AuthToken))
+                    {
+                        voiceListRequest.AuthToken = await GetAuthToken();
+                    }
+
+                    voices = await voiceListRequest.PostForDecoded(voiceListDecoder);
                 }
 
-                voices = await voiceListRequest.PostForDecoded(voiceListDecoder);
+                return voices;
             }
-
-            return voices;
+            catch
+            {
+                IsAvailable = false;
+                throw;
+            }
         }
 
         private Task<string> GetAuthToken()
         {
-            var plainText = new StreamStringDecoder();
-            var authRequest = new AuthTokenRequest(azureRegion, azureSubscriptionKey);
-            return authRequest.PostForDecoded(plainText);
+            try
+            {
+                var plainText = new StreamStringDecoder();
+                var authRequest = new AuthTokenRequest(azureRegion, azureSubscriptionKey);
+                return authRequest.PostForDecoded(plainText);
+            }
+            catch
+            {
+                IsAvailable = false;
+                throw;
+            }
         }
 
         public async Task<AudioData> Speak(string text, string voiceName, float rateChange, float pitchChange)
         {
-            if(voiceName == null)
+            try
             {
-                var voices = await GetVoices();
-                foreach (var voice in voices)
+                if (voiceName == null)
                 {
-                    if (voice.Locale == "en-US" && voice.Gender == "Female")
+                    var voices = await GetVoices();
+                    foreach (var voice in voices)
                     {
-                        voiceName = voice.ShortName;
-                        break;
+                        if (voice.Locale == "en-US" && voice.Gender == "Female")
+                        {
+                            voiceName = voice.ShortName;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if(voiceName == null)
-            {
-                throw new InvalidOperationException("Could not find a default voice for text to speech commands");
-            }
-
-            ttsRequest.Text = text;
-            ttsRequest.VoiceName = voiceName;
-            ttsRequest.RateChange = rateChange;
-            ttsRequest.PitchChange = pitchChange;
-
-            if (!ttsRequest.GetCacheFile(audioDecoder.ContentType).Exists
-                && string.IsNullOrEmpty(ttsRequest.AuthToken))
-            {
-                if (voiceListRequest != null
-                    && !string.IsNullOrEmpty(voiceListRequest.AuthToken))
+                if (voiceName == null)
                 {
-                    ttsRequest.AuthToken = voiceListRequest.AuthToken;
+                    throw new InvalidOperationException("Could not find a default voice for text to speech commands");
                 }
-                else
-                {
-                    ttsRequest.AuthToken = await GetAuthToken();
-                }
-            }
 
-            return await ttsRequest.PostForDecoded(audioDecoder);
+                ttsRequest.Text = text;
+                ttsRequest.VoiceName = voiceName;
+                ttsRequest.RateChange = rateChange;
+                ttsRequest.PitchChange = pitchChange;
+
+                if (!ttsRequest.GetCacheFile(audioDecoder.ContentType).Exists
+                    && string.IsNullOrEmpty(ttsRequest.AuthToken))
+                {
+                    if (voiceListRequest != null
+                        && !string.IsNullOrEmpty(voiceListRequest.AuthToken))
+                    {
+                        ttsRequest.AuthToken = voiceListRequest.AuthToken;
+                    }
+                    else
+                    {
+                        ttsRequest.AuthToken = await GetAuthToken();
+                    }
+                }
+
+                return await ttsRequest.PostForDecoded(audioDecoder);
+            }
+            catch
+            {
+                IsAvailable = false;
+                throw;
+            }
         }
 
         public Task<AudioData> Speak(string text, string voiceName, float rateChange)

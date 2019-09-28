@@ -197,7 +197,14 @@ namespace Juniper.Audio
         /// </summary>
         public AudioClipCollection soundOnSuccess;
 
-        public bool IsTextToSpeechAvailable { get; private set; } = true;
+        public bool IsTextToSpeechAvailable
+        {
+            get
+            {
+                return tts != null
+                    && tts.IsAvailable == true;
+            }
+        }
 
         [SerializeField]
         [HideInNormalInspector]
@@ -260,7 +267,7 @@ namespace Juniper.Audio
             DisplayManager.MainCamera.Ensure<AudioListener>();
 
             FindAudioSources();
-            foreach(var audioSource in audioSources)
+            foreach (var audioSource in audioSources)
             {
                 UninstallSpatialization(audioSource);
             }
@@ -427,7 +434,7 @@ namespace Juniper.Audio
         {
             var start = DateTime.Now;
             var ts = TimeSpan.FromSeconds(seconds);
-            while((DateTime.Now - start) > ts)
+            while ((DateTime.Now - start) > ts)
             {
                 yield return null;
             }
