@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Juniper.Audio.NAudio;
 using Juniper.Azure.CognitiveServices;
 using Juniper.HTTP;
 using Juniper.Serialization;
@@ -45,6 +46,27 @@ namespace Juniper.Azure.Tests
             return voices;
         }
 
+        private async Task<SpeechRequest> MakeSpeechRequest()
+        {
+            var token = await GetToken();
+            var voices = await GetVoices(token);
+
+            var voice = (from v in voices
+                         where v.ShortName == "en-US-JessaNeural"
+                         select v)
+                        .First();
+
+            var audioRequest = new SpeechRequest(region, token, "dls-dev-speech-recognition", OutputFormat.Audio16KHz128KbitrateMonoMP3, cacheDir)
+            {
+                Text = "Hello, world",
+                Voice = voice,
+                Style = SpeechStyle.Cheerful,
+                RateChange = 0.75f,
+                PitchChange = -0.1f
+            };
+            return audioRequest;
+        }
+
         [TestMethod]
         public async Task GetAuthToken()
         {
@@ -66,23 +88,7 @@ namespace Juniper.Azure.Tests
         [TestMethod]
         public async Task GetAudioFile()
         {
-            var token = await GetToken();
-            var voices = await GetVoices(token);
-
-            var voice = (from v in voices
-                         where v.ShortName == "en-US-JessaNeural"
-                         select v)
-                        .First();
-
-            var audioRequest = new SpeechRequest(region, token, "dls-dev-speech-recognition", cacheDir)
-            {
-                Text = "Hello, world",
-                Voice = voice,
-                OutputFormat = OutputFormat.Audio16KHz128KbitrateMonoMP3,
-                Style = SpeechStyle.Cheerful,
-                RateChange = 0.75f,
-                PitchChange = -0.1f
-            };
+            var audioRequest = await MakeSpeechRequest();
 
             using (var audio = await audioRequest.PostForStream(MediaType.Audio.Mpeg))
             {
@@ -91,6 +97,18 @@ namespace Juniper.Azure.Tests
                 var buff = mem.ToArray();
                 Assert.AreNotEqual(0, buff.Length);
             }
+        }
+
+        [TestMethod]
+        public async Task DecodeAudio()
+        {
+            var mpeg = MediaType.Audio.Mpeg;
+            var decoder = new NAudioAudioDataDecoder(mpeg);
+            var audioRequest = await MakeSpeechRequest();
+            var audio = await audioRequest.PostForDecoded(decoder);
+            Assert.AreEqual(mpeg, audio.contentType);
+            Assert.AreEqual(audio.samplesPerChannel * audio.numChannels, audio.data.Length);
+            Assert.AreEqual(16000, audio.frequency);
         }
     }
 }

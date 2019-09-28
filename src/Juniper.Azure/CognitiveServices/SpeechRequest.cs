@@ -44,11 +44,11 @@ namespace Juniper.Azure.CognitiveServices
 
         private readonly string resourceName;
 
+        private readonly OutputFormat outputFormat;
+
         public string Text { get; set; }
 
         public Voice Voice { get; set; }
-
-        public OutputFormat OutputFormat { get; set; }
 
         public SpeechStyle Style { get; set; }
 
@@ -69,14 +69,24 @@ namespace Juniper.Azure.CognitiveServices
         private string ssmlText;
         private int ssmlTextLength;
 
-        public SpeechRequest(string region, string authToken, string resourceName, DirectoryInfo cacheLocation)
+        public SpeechRequest(string region, string authToken, string resourceName, OutputFormat outputFormat, DirectoryInfo cacheLocation)
             : base(region, "cognitiveservices/v1", authToken, cacheLocation)
         {
             this.resourceName = resourceName;
+            this.outputFormat = outputFormat;
         }
 
-        public SpeechRequest(string region, string authToken, string resourceName)
-            : this(region, authToken, resourceName, null)
+        public SpeechRequest(string region, string authToken, string resourceName, OutputFormat outputFormat)
+            : this(region, authToken, resourceName, outputFormat, null)
+        { }
+
+        public SpeechRequest(string region, string resourceName, OutputFormat outputFormat, DirectoryInfo cacheLocation)
+            : this(region, null, resourceName, outputFormat, cacheLocation)
+        {
+        }
+
+        public SpeechRequest(string region, string resourceName, OutputFormat outputFormat)
+            : this(region, null, resourceName, outputFormat, null)
         { }
 
         private bool UseStyle
@@ -211,7 +221,7 @@ namespace Juniper.Azure.CognitiveServices
             await base.ModifyRequest(request);
             request.KeepAlive()
                 .UserAgent(resourceName)
-                .Header("X-Microsoft-OutputFormat", OutputFormat.Value);
+                .Header("X-Microsoft-OutputFormat", outputFormat.Value);
         }
     }
 }
