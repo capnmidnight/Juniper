@@ -14,7 +14,7 @@ namespace Juniper.Azure.CognitiveServices
         Empathy,
         Chat
     }
-    public class SpeechRequest : AbstractAzureSpeechRequest
+    public class TextToSpeechRequest : AbstractAzureSpeechRequest
     {
         private const string STYLE_SUPPORTED_VOICE = "en-US-Jessa24kRUS";
 
@@ -48,7 +48,7 @@ namespace Juniper.Azure.CognitiveServices
 
         public string Text { get; set; }
 
-        public Voice Voice { get; set; }
+        public string VoiceName { get; set; }
 
         public SpeechStyle Style { get; set; }
 
@@ -69,23 +69,23 @@ namespace Juniper.Azure.CognitiveServices
         private string ssmlText;
         private int ssmlTextLength;
 
-        public SpeechRequest(string region, string authToken, string resourceName, OutputFormat outputFormat, DirectoryInfo cacheLocation)
+        public TextToSpeechRequest(string region, string authToken, string resourceName, OutputFormat outputFormat, DirectoryInfo cacheLocation)
             : base(region, "cognitiveservices/v1", authToken, cacheLocation)
         {
             this.resourceName = resourceName;
             this.outputFormat = outputFormat;
         }
 
-        public SpeechRequest(string region, string authToken, string resourceName, OutputFormat outputFormat)
+        public TextToSpeechRequest(string region, string authToken, string resourceName, OutputFormat outputFormat)
             : this(region, authToken, resourceName, outputFormat, null)
         { }
 
-        public SpeechRequest(string region, string resourceName, OutputFormat outputFormat, DirectoryInfo cacheLocation)
+        public TextToSpeechRequest(string region, string resourceName, OutputFormat outputFormat, DirectoryInfo cacheLocation)
             : this(region, null, resourceName, outputFormat, cacheLocation)
         {
         }
 
-        public SpeechRequest(string region, string resourceName, OutputFormat outputFormat)
+        public TextToSpeechRequest(string region, string resourceName, OutputFormat outputFormat)
             : this(region, null, resourceName, outputFormat, null)
         { }
 
@@ -93,7 +93,7 @@ namespace Juniper.Azure.CognitiveServices
         {
             get
             {
-                return Voice.ShortName == STYLE_SUPPORTED_VOICE && Style != SpeechStyle.None;
+                return VoiceName == STYLE_SUPPORTED_VOICE && Style != SpeechStyle.None;
             }
         }
 
@@ -129,13 +129,13 @@ namespace Juniper.Azure.CognitiveServices
             }
         }
 
-        public override string CacheID
+        protected override string InternalCacheID
         {
             get
             {
-                var sb = new StringBuilder(base.CacheID);
+                var sb = new StringBuilder(base.InternalCacheID);
 
-                sb.Append(Voice.ShortName);
+                sb.Append(VoiceName);
 
                 if (UseStyle)
                 {
@@ -156,6 +156,9 @@ namespace Juniper.Azure.CognitiveServices
                     AddPercentField(sb, "volume", VolumeChange, false);
                 }
 
+                sb.Append("text=");
+                sb.Append(Text);
+
                 return sb.ToString();
             }
         }
@@ -164,7 +167,7 @@ namespace Juniper.Azure.CognitiveServices
         {
             var sb = new StringBuilder(300);
             sb.Append("<speak version='1.0' xmlns='https://www.w3.org/2001/10/synthesis' xml:lang='en-US'>");
-            sb.Append($"<voice name='{Voice.ShortName}'>");
+            sb.Append($"<voice name='{VoiceName}'>");
 
             if (UseProsody)
             {

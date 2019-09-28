@@ -40,7 +40,8 @@
     <Compile Include="AuthTokenRequest.cs" />
     <Compile Include="CognitiveServices\AbstractAzureSpeechRequest.cs" />
     <Compile Include="CognitiveServices\OutputFormat.cs" />
-    <Compile Include="CognitiveServices\SpeechRequest.cs" />
+    <Compile Include="CognitiveServices\TextToSpeechRequests.cs" />
+    <Compile Include="CognitiveServices\TextToSpeechClient.cs" />
     <Compile Include="CognitiveServices\Voice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CognitiveServices\VoiceListRequest.cs" />
