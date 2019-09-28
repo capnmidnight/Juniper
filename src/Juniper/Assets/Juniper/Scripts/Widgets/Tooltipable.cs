@@ -32,6 +32,10 @@ namespace Juniper.Widgets
 
         private Func<bool> isParentEnabled;
 
+        [SerializeField]
+        [HideInInspector]
+        private SpeechOutput speech;
+
         public bool IsInteractable()
         {
             return enabled && isParentEnabled();
@@ -45,6 +49,8 @@ namespace Juniper.Widgets
             {
                 tooltip = transform.Find("Tooltip");
             }
+
+            speech = GetComponent<SpeechOutput>();
         }
 #endif
 
@@ -110,6 +116,15 @@ namespace Juniper.Widgets
                 if (trans != null && trans.CanEnter)
                 {
                     trans.Enter();
+                }
+
+                if(speech != null)
+                {
+                    var textElement = tooltip.GetComponent<TextComponentWrapper>();
+                    if (textElement != null)
+                    {
+                        speech.Speak(textElement.text);
+                    }
                 }
             }
         }

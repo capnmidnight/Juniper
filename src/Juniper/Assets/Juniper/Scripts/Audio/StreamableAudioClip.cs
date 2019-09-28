@@ -52,12 +52,11 @@ namespace Juniper.Audio
                 {
                     var clip = AudioClip.Create(
                         info.Name,
-                        (int)audio.samples,
-                        audio.channels,
+                        audio.samplesPerChannel * audio.numChannels,
+                        audio.numChannels,
                         audio.frequency,
-                        true,
-                        data => AudioData.FillBuffer(audio.stream, data));
-
+                        false);
+                    clip.SetData(audio.data, 0);
                     clip.LoadAudioData();
                     resolve(clip);
                 }
