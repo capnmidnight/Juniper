@@ -39,7 +39,7 @@ namespace Juniper.Audio.NAudio
             }
             else if (ContentType == MediaType.Audio.Mpeg)
             {
-                return new Mp3FileReader(new ErsatzSeekableStream(stream), Mp3FileReader.CreateAcmFrameDecompressor);
+                return new Mp3FileReader(stream, Mp3FileReader.CreateAcmFrameDecompressor);
             }
             else if (ContentType == MediaType.Audio.Vorbis)
             {
