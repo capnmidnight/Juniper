@@ -46,7 +46,7 @@ namespace Juniper.Azure.Tests
             return voices;
         }
 
-        private async Task<SpeechRequest> MakeSpeechRequest()
+        private async Task<TextToSpeechRequest> MakeSpeechRequest()
         {
             var token = await GetToken();
             var voices = await GetVoices(token);
@@ -56,10 +56,10 @@ namespace Juniper.Azure.Tests
                          select v)
                         .First();
 
-            var audioRequest = new SpeechRequest(region, token, "dls-dev-speech-recognition", OutputFormat.Audio16KHz128KbitrateMonoMP3, cacheDir)
+            var audioRequest = new TextToSpeechRequest(region, token, "dls-dev-speech-recognition", OutputFormat.Audio16KHz128KbitrateMonoMP3, cacheDir)
             {
                 Text = "Hello, world",
-                Voice = voice,
+                VoiceName = voice.ShortName,
                 Style = SpeechStyle.Cheerful,
                 RateChange = 0.75f,
                 PitchChange = -0.1f

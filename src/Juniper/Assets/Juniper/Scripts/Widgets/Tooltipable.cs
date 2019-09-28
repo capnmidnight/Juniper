@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+
 using Juniper.Speech;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -28,13 +30,9 @@ namespace Juniper.Widgets
 
         private AbstractStateController trans;
 
-        private bool wasSelected;
-
         private Func<bool> isParentEnabled;
 
-        [SerializeField]
-        [HideInInspector]
-        private SpeechOutput speech;
+        private Speakable speech;
 
         public bool IsInteractable()
         {
@@ -50,7 +48,7 @@ namespace Juniper.Widgets
                 tooltip = transform.Find("Tooltip");
             }
 
-            speech = GetComponent<SpeechOutput>();
+            speech = GetComponent<Speakable>();
         }
 #endif
 
@@ -65,26 +63,18 @@ namespace Juniper.Widgets
                 trans = tooltip.GetComponent<AbstractStateController>();
             }
 
-            var keyword = GetComponent<Keywordable>();
-            if (keyword != null)
+            var parent = GetComponent<IPointerClickHandler>();
+            if (parent is UnityEngine.UI.Selectable selectable)
             {
-                isParentEnabled = keyword.IsInteractable;
+                isParentEnabled = selectable.IsInteractable;
+            }
+            else if (parent is AbstractTouchable touchable)
+            {
+                isParentEnabled = touchable.IsInteractable;
             }
             else
             {
-                var parent = GetComponent<IPointerClickHandler>();
-                if (parent is UnityEngine.UI.Selectable selectable)
-                {
-                    isParentEnabled = selectable.IsInteractable;
-                }
-                else if (parent is AbstractTouchable touchable)
-                {
-                    isParentEnabled = touchable.IsInteractable;
-                }
-                else
-                {
-                    isParentEnabled = AlwaysEnabled;
-                }
+                isParentEnabled = AlwaysEnabled;
             }
 
             Hide();
@@ -118,7 +108,7 @@ namespace Juniper.Widgets
                     trans.Enter();
                 }
 
-                if(speech != null)
+                if (speech != null)
                 {
                     var textElement = tooltip.GetComponent<TextComponentWrapper>();
                     if (textElement != null)

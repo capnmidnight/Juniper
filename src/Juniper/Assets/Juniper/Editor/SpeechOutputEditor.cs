@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+
 using Juniper.Azure;
 using Juniper.Azure.CognitiveServices;
 using Juniper.Serialization;
@@ -12,7 +14,7 @@ using UnityEngine;
 
 namespace Juniper.Events
 {
-    [CustomEditor(typeof(SpeechOutput))]
+    [CustomEditor(typeof(Speakable))]
     public class SpeechOutputEditor : Editor
     {
         private static readonly GUIContent VoiceLocaleDropdownLabel = new GUIContent("Locale");
@@ -32,16 +34,22 @@ namespace Juniper.Events
                     var lines = File.ReadAllLines(keyFile);
                     var azureApiKey = lines[0];
                     var azureRegion = lines[1];
-                    var cacheDirName = Path.Combine(userProfile, "Projects");
-                    var plainText = new StreamStringDecoder();
+                    var cacheDir = new DirectoryInfo("Assets");
                     var json = new JsonFactory<Voice[]>();
-                    var tokenRequest = new AuthTokenRequest(azureRegion, azureApiKey);
-                    var tokenTask = tokenRequest.PostForDecoded(plainText)
-                        .ContinueWith(async tT =>
-                        {
-                            var voiceRequest = new VoiceListRequest(azureRegion, tT.Result);
-                            voices = await voiceRequest.GetDecoded(json);
-                        }).ConfigureAwait(false);
+                    var voiceRequest = new VoiceListRequest(azureRegion, cacheDir);
+                    var task = Task.CompletedTask;
+                    if (!voiceRequest.GetCacheFile(json.ContentType).Exists)
+                    {
+                        var plainText = new StreamStringDecoder();
+                        var tokenRequest = new AuthTokenRequest(azureRegion, azureApiKey);
+                        task = tokenRequest.PostForDecoded(plainText)
+                            .ContinueWith(tT =>
+                                voiceRequest.AuthToken = tT.Result);
+                    }
+
+                    task.ContinueWith(async (_) =>
+                        voices = await voiceRequest.GetDecoded(json))
+                        .ConfigureAwait(false);
                 }
             }
         }
@@ -51,7 +59,7 @@ namespace Juniper.Events
             if (voices != null)
             {
                 serializedObject.Update();
-                var value = (SpeechOutput)serializedObject.targetObject;
+                var value = (Speakable)serializedObject.targetObject;
                 var voiceLanguages = voices
                     .Select(v => v.Locale)
                     .Distinct()
@@ -65,7 +73,14 @@ namespace Juniper.Events
 
                 if (0 <= selectedLocaleIndex)
                 {
-                    value.voiceLanguage = voiceLanguages[selectedLocaleIndex];
+                    var selectedLanguage = voiceLanguages[selectedLocaleIndex];
+                    if(selectedLanguage != value.voiceLanguage)
+                    {
+                        value.voiceLanguage = selectedLanguage;
+                        value.voiceGender = string.Empty;
+                        value.voiceName = string.Empty;
+                    }
+
                     var langVoices = voices
                         .Where(v => v.Locale == value.voiceLanguage);
 
@@ -81,7 +96,13 @@ namespace Juniper.Events
 
                     if (0 <= selectedGenderIndex)
                     {
-                        value.voiceGender = voiceGenders[selectedGenderIndex];
+                        var selectedGender = voiceGenders[selectedGenderIndex];
+                        if (selectedGender != value.voiceGender)
+                        {
+                            value.voiceGender = selectedGender;
+                            value.voiceName = string.Empty;
+                        }
+
                         var gendVoices = langVoices
                             .Where(v => v.Gender == value.voiceGender);
 

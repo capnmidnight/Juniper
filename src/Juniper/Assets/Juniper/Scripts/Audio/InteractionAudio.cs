@@ -6,6 +6,13 @@ using Juniper.Display;
 using Juniper.Input;
 
 using UnityEngine;
+using Juniper.Security;
+using System.IO;
+using Juniper.Azure.CognitiveServices;
+using Juniper.Serialization;
+using Juniper.Audio.NAudio;
+using Juniper.HTTP;
+using System.Threading.Tasks;
 
 #if UNITY_MODULES_AUDIO
 
@@ -39,7 +46,7 @@ namespace Juniper.Audio
     /// <summary>
     /// The audio portion of the interaction system.
     /// </summary>
-    public abstract class AbstractInteractionAudio : MonoBehaviour, IInstallable
+    public abstract class AbstractInteractionAudio : MonoBehaviour, IInstallable, ICredentialReceiver
     {
         private static AbstractInteractionAudio instance;
         private const float E = (float)Math.E;
@@ -190,6 +197,42 @@ namespace Juniper.Audio
         /// </summary>
         public AudioClipCollection soundOnSuccess;
 
+        public bool IsTextToSpeechAvailable { get; private set; } = true;
+
+        [SerializeField]
+        [HideInNormalInspector]
+        private string azureApiKey;
+
+        [SerializeField]
+        [HideInNormalInspector]
+        private string azureRegion;
+
+        private TextToSpeechClient tts;
+
+        public string CredentialFile
+        {
+            get
+            {
+                var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "azure-speech.txt");
+                return keyFile;
+            }
+        }
+
+        public void ReceiveCredentials(string[] args)
+        {
+            if (args == null)
+            {
+                azureApiKey = null;
+                azureRegion = null;
+            }
+            else
+            {
+                azureApiKey = args[0];
+                azureRegion = args[1];
+            }
+        }
+
         public virtual void Install(bool reset)
         {
 #if UNITY_MODULES_AUDIO
@@ -237,6 +280,9 @@ namespace Juniper.Audio
             }
             else
             {
+#if UNITY_EDITOR
+                this.ReceiveCredentials();
+#endif
                 Install(false);
 
                 instance = this;
@@ -248,7 +294,65 @@ namespace Juniper.Audio
 
                 InitializeInteractionAudioSources();
 #endif
+
+
+#if UNITY_EDITOR
+                var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var cacheDirName = Path.Combine(userProfile, "Projects");
+#else
+                var cacheDirName = Application.persistentDataPath;
+#endif
+                var cacheLocation = new DirectoryInfo(cacheDirName);
+
+
+                tts = new TextToSpeechClient(
+                    azureRegion,
+                    azureApiKey,
+                    "dls-dev-speech-recognition",
+                    new JsonFactory<Voice[]>(),
+                    OutputFormat.Audio16KHz32KbitrateMonoMP3,
+                    new NAudioAudioDataDecoder(MediaType.Audio.Mpeg),
+                    cacheLocation);
             }
+        }
+
+
+        public void Speak(Transform pose, string text, string voiceName, float rateChange, float pitchChange)
+        {
+            if (IsTextToSpeechAvailable)
+            {
+                StartCoroutine(SpeakCoroutine(pose, text, voiceName, rateChange, pitchChange));
+            }
+
+        }
+
+        public void Speak(Transform pose, string text, string voiceName, float rateChange)
+        {
+            Speak(pose, text, voiceName, rateChange, 0);
+        }
+
+        public void Speak(Transform pose, string text, string voiceName)
+        {
+            Speak(pose, text, voiceName, 0, 0);
+        }
+
+        public IEnumerator SpeakCoroutine(Transform pose, string text, string voiceName, float rateChange, float pitchChange)
+        {
+            var audioTask = tts.Speak(text, voiceName, rateChange, pitchChange);
+            yield return audioTask.AsCoroutine();
+            var audioData = audioTask.Result;
+
+            var clip = AudioClip.Create(
+                text,
+                audioData.samplesPerChannel,
+                audioData.numChannels,
+                audioData.frequency,
+                false);
+
+            clip.SetData(audioData.data, 0);
+            clip.LoadAudioData();
+
+            PlayAudioClip(clip, pose, false);
         }
 
         /// <summary>
@@ -387,30 +491,36 @@ namespace Juniper.Audio
         {
 #if UNITY_MODULES_AUDIO
             var clips = GetClipCollection(action);
+            var randomizePitch = clips?.RandomizeClipPitch == true;
             var clip = clips?.Random();
             if (clip != null)
             {
-                var audioSource = GetAudioSource(clip);
-                if (clips.RandomizeClipPitch)
-                {
-                    audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
-                }
-                audioSource.transform.position = pose.position;
-                var deltaP = listener.transform.position - audioSource.transform.position;
-                if (deltaP.sqrMagnitude < 0.0625f)
-                {
-                    audioSource.transform.position +=
-                        0.25f * listener.transform.forward
-                        + 0.125f * listener.transform.up
-                        + 0.05f * listener.transform.right;
-                }
-                audioSource.transform.rotation = pose.rotation;
-                audioSource.Play();
-
-                return audioSource.clip.length;
+                return PlayAudioClip(clip, pose, randomizePitch);
             }
 #endif
             return 0;
+        }
+
+        private float PlayAudioClip(AudioClip clip, Transform pose, bool randomizePitch)
+        {
+            var audioSource = GetAudioSource(clip);
+            if (randomizePitch)
+            {
+                audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+            }
+            audioSource.transform.position = pose.position;
+            var deltaP = listener.transform.position - audioSource.transform.position;
+            if (deltaP.sqrMagnitude < 0.0625f)
+            {
+                audioSource.transform.position +=
+                    0.25f * listener.transform.forward
+                    + 0.125f * listener.transform.up
+                    + 0.05f * listener.transform.right;
+            }
+            audioSource.transform.rotation = pose.rotation;
+            audioSource.Play();
+
+            return audioSource.clip.length;
         }
 
 #if UNITY_MODULES_AUDIO
