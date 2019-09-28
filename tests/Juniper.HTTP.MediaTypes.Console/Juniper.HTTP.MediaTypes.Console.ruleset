@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Rules for Juniper.HTTP.MediaTypes.Console" Description="Code analysis rules for Juniper.HTTP.MediaTypes.Console.csproj." ToolsVersion="16.0">
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Rules for Juniper.HTTP.MediaTypes" Description="Code analysis rules for Juniper.HTTP.MediaTypes.Console.csproj." ToolsVersion="16.0">
   <Rules AnalyzerId="ClrHeapAllocationAnalyzer" RuleNamespace="ClrHeapAllocationAnalyzer">
     <Rule Id="HAA0101" Action="None" />
     <Rule Id="HAA0102" Action="None" />

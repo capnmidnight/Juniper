@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A949A1B5-1953-46FB-8FEA-107B6AC79310}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Juniper.NeuroSky.Console</RootNamespace>
+    <RootNamespace>Juniper.NeuroSky</RootNamespace>
     <AssemblyName>Juniper.NeuroSky.Console</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

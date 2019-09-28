@@ -1,12 +1,12 @@
 using System.Reflection;
 
-namespace Juniper.Console
+namespace Juniper.Units
 {
     internal class Program
     {
         private static void Main()
         {
-            var classes = typeof(Units.Converter).GetTypeInfo().Assembly.GetTypes();
+            var classes = typeof(Converter).GetTypeInfo().Assembly.GetTypes();
             foreach (var c in classes)
             {
                 System.Console.WriteLine("            {{ UnitOfMeasure.{0}, new Dictionary<UnitOfMeasure, Func<float, float>>() {{", c.Name);

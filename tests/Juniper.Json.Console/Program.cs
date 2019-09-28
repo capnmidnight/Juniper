@@ -6,7 +6,7 @@ using Juniper.Serialization;
 
 using static System.Console;
 
-namespace Juniper.Json.Console
+namespace Juniper.Json
 {
     class Program
     {

@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1D32FC49-7BEF-40EF-8726-B82902B524EA}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Juniper.Json.Console</RootNamespace>
+    <RootNamespace>Juniper.Json</RootNamespace>
     <AssemblyName>Juniper.Json.Console</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

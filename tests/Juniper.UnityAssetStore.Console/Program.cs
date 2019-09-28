@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Juniper.UnityAssetStore.Console
+namespace Juniper.UnityAssetStore
 {
     internal class Program
     {

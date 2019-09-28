@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{28550D32-3E1C-46B6-AD93-69DFCEAA0481}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Juniper.HTTP.MediaTypes.Console</RootNamespace>
+    <RootNamespace>Juniper.HTTP.MediaTypes</RootNamespace>
     <AssemblyName>Juniper.HTTP.MediaTypes.Console</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

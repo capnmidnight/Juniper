@@ -6,7 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Juniper.HTTP.MediaTypes.Console
+namespace Juniper.HTTP.MediaTypes
 {
     public static partial class Program
     {
