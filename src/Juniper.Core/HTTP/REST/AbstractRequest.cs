@@ -188,25 +188,10 @@ namespace Juniper.HTTP.REST
         {
             Stream body;
             long length;
-
-            FileInfo cacheFile = null;
-            var cacheFileName = CacheFileName;
-            if (cacheFileName != null)
-            {
-                if (acceptType?.PrimaryExtension != null)
-                {
-                    var expectedExt = "." + acceptType.PrimaryExtension;
-                    if (Path.GetExtension(cacheFileName) != expectedExt)
-                    {
-                        cacheFileName += expectedExt;
-                    }
-                }
-
-                cacheFile = new FileInfo(cacheFileName);
-            }
+            var cacheFile = GetCacheFileName(acceptType);
 
             if (cacheFile != null
-                && File.Exists(cacheFileName)
+                && File.Exists(cacheFile.FullName)
                 && cacheFile.Length > 0)
             {
                 length = cacheFile.Length;
@@ -227,6 +212,28 @@ namespace Juniper.HTTP.REST
 
             return new ProgressStream(body, length, prog);
         }
+
+        public FileInfo GetCacheFileName(MediaType acceptType)
+        {
+            FileInfo cacheFile = null;
+            var cacheFileName = CacheFileName;
+            if (cacheFileName != null)
+            {
+                if (acceptType?.PrimaryExtension != null)
+                {
+                    var expectedExt = "." + acceptType.PrimaryExtension;
+                    if (Path.GetExtension(cacheFileName) != expectedExt)
+                    {
+                        cacheFileName += expectedExt;
+                    }
+                }
+
+                cacheFile = new FileInfo(cacheFileName);
+            }
+
+            return cacheFile;
+        }
+
         private Task<Stream> OpenCachedStream(MediaType acceptType, Func<MediaType, Task<HttpWebResponse>> action, IProgress prog)
         {
             return OpenCachedStream(acceptType, (media, p) =>
