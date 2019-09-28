@@ -131,7 +131,7 @@ namespace Juniper.Google.Maps.MapTiles
             set { path = value; }
         }
 
-        public override Uri BaseURI
+        protected override Uri BaseURI
         {
             get
             {

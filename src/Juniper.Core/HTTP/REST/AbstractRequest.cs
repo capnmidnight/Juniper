@@ -111,7 +111,7 @@ namespace Juniper.HTTP.REST
             return RemoveQuery(key, value.ToString());
         }
 
-        public virtual Uri BaseURI
+        protected virtual Uri BaseURI
         {
             get
             {
@@ -129,43 +129,25 @@ namespace Juniper.HTTP.REST
             }
         }
 
-        protected virtual string CacheFileName
+        protected virtual string InternalCacheID
         {
             get
             {
-                if (cacheLocation == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return Path.Combine(cacheLocation.FullName, CacheID);
-                }
-            }
-        }
-
-        public virtual string CacheID
-        {
-            get
-            {
-                return BaseURI.PathAndQuery.Substring(1).RemoveInvalidChars();
+                return BaseURI.PathAndQuery.Substring(1);
             }
         }
 
         public override int GetHashCode()
         {
-            return CacheFileName.GetHashCode();
+            return InternalCacheID.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
             return obj != null
                 && obj is AbstractRequest req
-                && req.CacheFileName == CacheFileName;
+                && req.InternalCacheID == InternalCacheID;
         }
-
-        protected virtual async Task ModifyRequest(HttpWebRequest request)
-        { }
 
         private async Task<HttpWebRequest> CreateRequest(MediaType acceptType)
         {
@@ -180,45 +162,13 @@ namespace Juniper.HTTP.REST
             return request;
         }
 
-        protected virtual BodyInfo GetBodyInfo() { return null; }
-
-        protected virtual void WriteBody(Stream stream) { }
-
-        private async Task<Stream> OpenCachedStream(MediaType acceptType, Func<MediaType, IProgress, Task<HttpWebResponse>> action, IProgress prog)
-        {
-            Stream body;
-            long length;
-            var cacheFile = GetCacheFileName(acceptType);
-
-            if (cacheFile != null
-                && File.Exists(cacheFile.FullName)
-                && cacheFile.Length > 0)
-            {
-                length = cacheFile.Length;
-                body = cacheFile.OpenRead();
-            }
-            else
-            {
-                var progs = prog.Split("Get", "Read");
-                prog = progs[1];
-                var response = await action(acceptType, progs[0]);
-                length = response.ContentLength;
-                body = response.GetResponseStream();
-                if (cacheFile != null)
-                {
-                    body = new CachingStream(body, cacheFile);
-                }
-            }
-
-            return new ProgressStream(body, length, prog);
-        }
-
-        public FileInfo GetCacheFileName(MediaType acceptType)
+        public FileInfo GetCacheFile(MediaType acceptType)
         {
             FileInfo cacheFile = null;
-            var cacheFileName = CacheFileName;
-            if (cacheFileName != null)
+            if (cacheLocation != null)
             {
+                var cacheID = InternalCacheID.RemoveInvalidChars();
+                var cacheFileName = Path.Combine(cacheLocation.FullName, cacheID);
                 if (acceptType?.PrimaryExtension != null)
                 {
                     var expectedExt = "." + acceptType.PrimaryExtension;
@@ -243,6 +193,35 @@ namespace Juniper.HTTP.REST
                 p.Report(1);
                 return response;
             }, prog);
+        }
+
+        private async Task<Stream> OpenCachedStream(MediaType acceptType, Func<MediaType, IProgress, Task<HttpWebResponse>> action, IProgress prog)
+        {
+            Stream body;
+            long length;
+            var cacheFile = GetCacheFile(acceptType);
+
+            if (cacheFile != null
+                && File.Exists(cacheFile.FullName)
+                && cacheFile.Length > 0)
+            {
+                length = cacheFile.Length;
+                body = cacheFile.OpenRead();
+            }
+            else
+            {
+                var progs = prog.Split("Get", "Read");
+                prog = progs[1];
+                var response = await action(acceptType, progs[0]);
+                length = response.ContentLength;
+                body = response.GetResponseStream();
+                if (cacheFile != null)
+                {
+                    body = new CachingStream(body, cacheFile);
+                }
+            }
+
+            return new ProgressStream(body, length, prog);
         }
 
         public async Task<HttpWebResponse> Post(MediaType acceptType, IProgress prog)
@@ -366,18 +345,7 @@ namespace Juniper.HTTP.REST
 
         public async Task Proxy(HttpListenerResponse outResponse, MediaType acceptType)
         {
-            var cacheFileName = CacheFileName;
-            if (acceptType != null)
-            {
-                if (acceptType.PrimaryExtension != null)
-                {
-                    cacheFileName += ".";
-                    cacheFileName += acceptType.PrimaryExtension;
-                }
-            }
-
-            var cacheFile = new FileInfo(cacheFileName);
-
+            var cacheFile = GetCacheFile(acceptType);
             if (cacheFile != null
                 && File.Exists(cacheFile.FullName)
                 && cacheFile.Length > 0)
@@ -414,5 +382,11 @@ namespace Juniper.HTTP.REST
         {
             return Proxy(outResponse, null);
         }
+
+        protected virtual Task ModifyRequest(HttpWebRequest request) { return null; }
+
+        protected virtual BodyInfo GetBodyInfo() { return null; }
+
+        protected virtual void WriteBody(Stream stream) { }
     }
 }

@@ -57,7 +57,7 @@ namespace Juniper.Google.Maps.Places
             fields.Add(field);
         }
 
-        public override Uri BaseURI
+        protected override Uri BaseURI
         {
             get
             {
