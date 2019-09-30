@@ -23,9 +23,15 @@ namespace Juniper.Caching
 
         public Stream WrapStream(string fileDescriptor, MediaType contentType, Stream stream)
         {
-            foreach (var layer in layers)
+            if (stream != null)
             {
-                stream = layer.WrapStream(fileDescriptor, contentType, stream);
+                foreach (var layer in layers)
+                {
+                    if (layer.CanCache && !layer.IsCached(fileDescriptor, contentType))
+                    {
+                        stream = layer.WrapStream(fileDescriptor, contentType, stream);
+                    }
+                }
             }
 
             return stream;
@@ -50,7 +56,7 @@ namespace Juniper.Caching
         public Stream OpenWrite(string fileDescriptor, MediaType contentType)
         {
             var stream = new ForkedStream();
-            foreach(var layer in layers)
+            foreach (var layer in layers)
             {
                 if (layer.CanCache)
                 {
@@ -63,7 +69,7 @@ namespace Juniper.Caching
 
         public void Copy(FileInfo file, string fileDescriptor, MediaType contentType)
         {
-            foreach(var layer in layers)
+            foreach (var layer in layers)
             {
                 if (layer.CanCache)
                 {
@@ -74,7 +80,7 @@ namespace Juniper.Caching
 
         public bool IsCached(string fileDescriptor, MediaType contentType)
         {
-            foreach(var layer in layers)
+            foreach (var layer in layers)
             {
                 if (layer.IsCached(fileDescriptor, contentType))
                 {
@@ -94,22 +100,14 @@ namespace Juniper.Caching
             Stream stream = null;
             foreach (var layer in layers)
             {
-                stream = await layer.GetStream(fileDescriptor, contentType, prog);
-                if (stream != null)
+                if (layer.IsCached(fileDescriptor, contentType))
                 {
+                    stream = await layer.GetStream(fileDescriptor, contentType, prog);
                     break;
                 }
             }
 
-            foreach (var layer in layers)
-            {
-                if (layer.CanCache && !layer.IsCached(fileDescriptor, contentType))
-                {
-                    stream = layer.WrapStream(fileDescriptor, contentType, stream);
-                }
-            }
-
-            return stream;
+            return WrapStream(fileDescriptor, contentType, stream);
         }
 
         public Task<Stream> GetStream(string fileDescriptor, MediaType contentType, IProgress prog)
