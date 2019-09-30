@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Strings.Tests
@@ -77,6 +78,14 @@ namespace Juniper.Strings.Tests
             var a = "use gaze pointer";
             var b = "use gay plotter";
             Assert.AreEqual(0.877, a.Similarity(b), 0.001f);
+        }
+
+        [TestMethod]
+        public void FixPath()
+        {
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var fixedPath = PathExt.FixPath(path);
+            Assert.AreEqual(path, fixedPath);
         }
     }
 }

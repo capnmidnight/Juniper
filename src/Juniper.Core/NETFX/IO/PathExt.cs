@@ -7,6 +7,14 @@ namespace System.IO
     /// </summary>
     public static class PathExt
     {
+        private static readonly char[] INVALID_CHARS = Path.GetInvalidFileNameChars()
+            .Where(c => c != Path.DirectorySeparatorChar)
+            .ToArray();
+
+        private static readonly char[] INVALID_START_CHARS = INVALID_CHARS
+            .Where(c => c != ':')
+            .ToArray();
+
         /// <summary>
         /// Converts paths specified in any combination of forward- or back-slashes to the correct
         /// slash for the current system.
@@ -16,33 +24,21 @@ namespace System.IO
         /// <example>On Windows, if a path is specified with forward slashes, a value with backslashes is returned.</example>
         public static string FixPath(string path)
         {
-            return FixPath(FixPath(path, '\\'), '/');
-        }
+            var parts = path.SplitX(Path.AltDirectorySeparatorChar).ToList();
 
-        private static string FixPath(string path, char sep)
-        {
-            if (sep == Path.DirectorySeparatorChar)
+            for (var i = 0; i < parts.Count; ++i)
             {
-                return path;
-            }
-            else
-            {
-                var prefix = string.Empty;
-                var parts = path.SplitX(sep).ToList();
-                if (parts.Count > 0 && parts[0].EndsWith(":"))
+                if (i == 0)
                 {
-                    prefix = parts[0] + Path.DirectorySeparatorChar;
-                    parts.RemoveAt(0);
+                    parts[i] = string.Join("_", parts[i].Split(INVALID_START_CHARS));
                 }
-
-                for (var i = 0; i < parts.Count; ++i)
+                else
                 {
-                    parts[i] = string.Join("_", parts[i].Split(Path.GetInvalidFileNameChars()));
+                    parts[i] = string.Join("_", parts[i].Split(INVALID_CHARS));
                 }
-
-
-                return prefix + Path.Combine(parts.ToArray());
             }
+
+            return string.Join(Path.DirectorySeparatorChar.ToString(), parts);
         }
 
         public static string[] PathParts(string path)

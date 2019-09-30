@@ -1,8 +1,7 @@
 ﻿using System.IO;
 
-using Juniper.HTTP;
-
 using UnityEngine;
+
 namespace Juniper.Data
 {
     public class StreamingAssetsCacheLayer :
@@ -13,20 +12,24 @@ namespace Juniper.Data
 #endif
     {
         public StreamingAssetsCacheLayer()
-            : base(Application.dataPath)
+            : base(
+#if UNITY_EDITOR
+            Path.Combine(Application.dataPath, "StreamingAssets")
+#elif UNITY_ANDROID
+            Application.dataPath
+#else
+            Application.streamingAssetsPath
+#endif
+                  )
         { }
 
-        protected override string GetCacheFileName(string fileDescriptor, MediaType contentType)
-        {
-            var name = base.GetCacheFileName(fileDescriptor, contentType);
+
 #if !UNITY_EDITOR && UNITY_ANDROID
-            name = Path.Combine("assets", name);
-#elif !UNITY_EDITOR && UNITY_IOS
-            name = Path.Combine("Raw", name);
-#else
-            name = Path.Combine("StreamingAssets", name);
-#endif
-            return name;
+        protected override string GetCacheFileName(string fileDescriptor, HTTP.MediaType contentType)
+        {
+            var name = Path.Combine("assets", fileDescriptor);
+            return base.GetCacheFileName(name, contentType);
         }
+#endif
     }
 }
