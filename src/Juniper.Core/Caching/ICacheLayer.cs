@@ -31,7 +31,7 @@ namespace Juniper.Caching
 
         public static async Task<T> GetDecoded<T>(this ICacheLayer layer, string fileDescriptor, IDeserializer<T> decoder, IProgress prog)
         {
-            var progs = prog?.Split("Get", "Decode");
+            var progs = prog.Split("Get", "Decode");
             using (var stream = await layer.GetStream(fileDescriptor, decoder.ReadContentType, progs[0]))
             {
                 return decoder.Deserialize(stream, progs[1]);
