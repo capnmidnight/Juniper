@@ -22,32 +22,32 @@ namespace Juniper.Audio.NAudio
 
         public NAudioAudioDataDecoder(MediaType.Audio format)
         {
-            ContentType = format;
-            if (!SupportedFormats.Contains(ContentType))
+            ReadContentType = format;
+            if (!SupportedFormats.Contains(ReadContentType))
             {
-                throw new NotSupportedException($"Don't know how to decode audio format {ContentType}");
+                throw new NotSupportedException($"Don't know how to decode audio format {ReadContentType}");
             }
         }
 
-        public MediaType ContentType { get; private set; }
+        public MediaType ReadContentType { get; private set; }
 
         private WaveStream MakeDecodingStream(Stream stream)
         {
-            if (ContentType == MediaType.Audio.X_Wav)
+            if (ReadContentType == MediaType.Audio.X_Wav)
             {
                 return new WaveFileReader(stream);
             }
-            else if (ContentType == MediaType.Audio.Mpeg)
+            else if (ReadContentType == MediaType.Audio.Mpeg)
             {
                 return new Mp3FileReader(new ErsatzSeekableStream(stream), Mp3FileReader.CreateAcmFrameDecompressor);
             }
-            else if (ContentType == MediaType.Audio.Vorbis)
+            else if (ReadContentType == MediaType.Audio.Vorbis)
             {
                 return new VorbisWaveReader(stream);
             }
             else
             {
-                throw new NotSupportedException($"Don't know how to decode audio format {ContentType}");
+                throw new NotSupportedException($"Don't know how to decode audio format {ReadContentType}");
             }
         }
 
@@ -78,7 +78,7 @@ namespace Juniper.Audio.NAudio
                 }
 
                 var aud = new AudioData(
-                    (MediaType.Audio)ContentType,
+                    (MediaType.Audio)ReadContentType,
                     (int)samplesPerChannel,
                     numChannels,
                     format.SampleRate,

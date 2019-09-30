@@ -135,7 +135,7 @@ namespace Juniper.World
             OnValidate();
         }
 
-        private IFactory<LatLngPoint> coordFactory = new JsonFactory().Specialize<LatLngPoint>();
+        private IFactory<LatLngPoint> coordFactory = new JsonFactory<LatLngPoint>();
 
         public void OnValidate()
         {

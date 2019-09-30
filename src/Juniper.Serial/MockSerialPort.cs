@@ -6,7 +6,7 @@ namespace Juniper.Serial
 {
     public abstract class MockSerialPort : ISerialPort
     {
-        public MockSerialPort(int hertz)
+        protected MockSerialPort(int hertz)
         {
             sleep = 1000 / hertz;
             iterations = MINUTES * 60 * 1000 / sleep;

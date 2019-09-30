@@ -1,6 +1,6 @@
 using System.IO;
 using System.Text;
-
+using Juniper.HTTP;
 using Juniper.Progress;
 
 namespace Juniper.Serialization
@@ -12,6 +12,8 @@ namespace Juniper.Serialization
 
     public interface ISerializer<T>
     {
+        MediaType WriteContentType { get; }
+
         void Serialize(Stream stream, T value, IProgress prog);
     }
 
@@ -71,10 +73,6 @@ namespace Juniper.Serialization
             return Encoding.UTF8.GetString(serializer.Serialize(value, progress));
         }
 
-        public static ISerializer<T> Specialize<T>(this ISerializer serializer)
-        {
-            return new SpecializedSerializer<T>(serializer);
-        }
         public static void Serialize<T>(this ISerializer<T> serializer, Stream stream, T value)
         {
             serializer.Serialize(stream, value, null);

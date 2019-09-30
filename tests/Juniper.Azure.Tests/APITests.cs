@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 using Juniper.Audio.NAudio;
 using Juniper.Azure.CognitiveServices;
+using Juniper.Caching;
 using Juniper.HTTP;
-using Juniper.HTTP.REST;
 using Juniper.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;

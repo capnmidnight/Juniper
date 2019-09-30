@@ -8,14 +8,12 @@ namespace Juniper.Serialization
 {
     public interface IDeserializer
     {
-        MediaType ContentType { get; }
-
         T Deserialize<T>(Stream stream, IProgress prog);
     }
 
     public interface IDeserializer<T>
     {
-        MediaType ContentType { get; }
+        MediaType ReadContentType { get; }
 
         T Deserialize(Stream stream, IProgress prog);
     }
@@ -150,9 +148,9 @@ namespace Juniper.Serialization
             return deserializer.TryDeserialize(stream, out value, stream.Length, prog);
         }
 
-        public static IDeserializer<T> Specialize<T>(this IDeserializer deserializer)
+        public static IDeserializer<T> Specialize<T>(this IDeserializer deserializer, MediaType contentType)
         {
-            return new SpecializedDeserializer<T>(deserializer);
+            return new SpecializedDeserializer<T>(deserializer, contentType);
         }
 
         public static T Deserialize<T>(this IDeserializer<T> deserializer, Stream stream)

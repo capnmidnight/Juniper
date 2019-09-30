@@ -22,10 +22,10 @@ namespace Juniper.Imaging.Unity
                 && format != MediaType.Image.X_Tga
                 && format != MediaType.Image.Raw)
             {
-                throw new NotSupportedException($"Unity doesn't know how to encode {ContentType.Value} image data.");
+                throw new NotSupportedException($"Unity doesn't know how to encode {format.Value} image data.");
             }
 
-            ContentType = format;
+            WriteImageType = format;
             exrFlags = Texture2D.EXRFlags.None;
             jpegEncodingQuality = 80;
         }
@@ -42,21 +42,49 @@ namespace Juniper.Imaging.Unity
             this.jpegEncodingQuality = jpegEncodingQuality;
         }
 
-        public MediaType ContentType { get; private set; }
+        public MediaType.Image WriteImageType
+        {
+            get;
+            private set;
+        }
+
+        public MediaType WriteContentType
+        {
+            get
+            {
+                return WriteImageType;
+            }
+        }
+
+        public MediaType.Image ReadImageType
+        {
+            get
+            {
+                return WriteImageType;
+            }
+        }
+
+        public MediaType ReadContentType
+        {
+            get
+            {
+                return WriteContentType;
+            }
+        }
 
         public ImageInfo GetImageInfo(byte[] data)
         {
-            if (ContentType == MediaType.Image.Jpeg)
+            if (WriteImageType == MediaType.Image.Jpeg)
             {
                 return ImageInfo.ReadJPEG(data);
             }
-            else if (ContentType == MediaType.Image.Png)
+            else if (WriteImageType == MediaType.Image.Png)
             {
                 return ImageInfo.ReadPNG(data);
             }
             else
             {
-                throw new NotSupportedException($"Don't know how to read the raw image information from an {ContentType.Value} file.");
+                throw new NotSupportedException($"Don't know how to read the raw image information from an {WriteImageType.Value} file.");
             }
         }
 
@@ -108,29 +136,29 @@ namespace Juniper.Imaging.Unity
         {
             prog?.Report(0);
             byte[] buffer;
-            if (ContentType == MediaType.Image.EXR)
+            if (WriteImageType == MediaType.Image.EXR)
             {
                 buffer = value.EncodeToEXR(exrFlags);
             }
-            else if (ContentType == MediaType.Image.Jpeg)
+            else if (WriteImageType == MediaType.Image.Jpeg)
             {
                 buffer = value.EncodeToJPG(jpegEncodingQuality);
             }
-            else if (ContentType == MediaType.Image.Png)
+            else if (WriteImageType == MediaType.Image.Png)
             {
                 buffer = value.EncodeToPNG();
             }
-            else if (ContentType == MediaType.Image.X_Tga)
+            else if (WriteImageType == MediaType.Image.X_Tga)
             {
                 buffer = value.EncodeToTGA();
             }
-            else if (ContentType == MediaType.Image.Raw)
+            else if (WriteImageType == MediaType.Image.Raw)
             {
                 buffer = value.GetRawTextureData();
             }
             else
             {
-                throw new NotSupportedException($"Unity doesn't know how to encode {ContentType.Value} image data.");
+                throw new NotSupportedException($"Unity doesn't know how to encode {WriteImageType.Value} image data.");
             }
 
             prog?.Report(1);
@@ -164,14 +192,14 @@ namespace Juniper.Imaging.Unity
                 info.components == 3 ? TextureFormat.RGB24 : TextureFormat.RGBA32,
                 false);
 
-            if (ContentType == MediaType.Image.EXR
-                || ContentType == MediaType.Image.Jpeg
-                || ContentType == MediaType.Image.Png
-                || ContentType == MediaType.Image.X_Tga)
+            if (WriteImageType == MediaType.Image.EXR
+                || WriteImageType == MediaType.Image.Jpeg
+                || WriteImageType == MediaType.Image.Png
+                || WriteImageType == MediaType.Image.X_Tga)
             {
                 texture.LoadImage(buffer);
             }
-            else if (ContentType == MediaType.Image.Raw)
+            else if (WriteImageType == MediaType.Image.Raw)
             {
                 texture.LoadRawTextureData(buffer);
             }

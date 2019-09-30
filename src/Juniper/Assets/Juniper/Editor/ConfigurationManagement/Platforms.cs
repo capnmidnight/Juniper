@@ -22,11 +22,17 @@ namespace Juniper.ConfigurationManagement
         private static readonly string PLATFORMS_FILE = PathExt.FixPath("Assets/Juniper/platforms.json");
         private static readonly AbstractPackage[] EMPTY_PACKAGES = new AbstractPackage[0];
 
-        public static void ForEachPackage<T>(IEnumerable<T> packages, IProgress prog, Action<T, IProgress> act)
+        public static void ForEachPackage<T>(T[] packages, IProgress prog, Action<T, IProgress> act)
             where T : AbstractPackage
         {
-            prog.ForEach(packages, (pkg, p) =>
-                act?.Invoke(pkg, p), Debug.LogException);
+            var progs = prog.Split(packages.Length);
+            for (int i = 0; i < packages.Length; ++i)
+            {
+                var pkg = packages[i];
+                var p = progs[i];
+
+                act?.Invoke(pkg, p);
+            }
         }
 
         private static readonly JsonFactory json = new JsonFactory();

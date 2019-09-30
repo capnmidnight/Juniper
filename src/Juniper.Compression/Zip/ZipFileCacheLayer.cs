@@ -28,7 +28,7 @@ namespace Juniper.Compression.Zip
 
         protected virtual string GetCacheFileName(string fileDescriptor, MediaType contentType)
         {
-            var baseName = fileDescriptor.RemoveInvalidChars();
+            var baseName = PathExt.FixPath(fileDescriptor);
             var cacheFileName = contentType.AddExtension(baseName);
             return cacheFileName;
         }

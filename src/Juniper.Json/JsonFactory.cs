@@ -9,11 +9,23 @@ namespace Juniper.Serialization
 {
     public abstract class AbstractJsonFactory
     {
-        public MediaType ContentType { get; private set; }
+        public MediaType ReadContentType
+        {
+            get;
+            private set;
+        }
+
+        public MediaType WriteContentType
+        {
+            get
+            {
+                return ReadContentType;
+            }
+        }
 
         protected AbstractJsonFactory(MediaType contentType)
         {
-            ContentType = contentType;
+            ReadContentType = contentType;
         }
 
         protected AbstractJsonFactory() : this(MediaType.Application.Json) { }
@@ -64,6 +76,11 @@ namespace Juniper.Serialization
         public void Serialize<T>(Stream stream, T value, IProgress prog)
         {
             InternalSerialize(stream, value, prog);
+        }
+
+        public IFactory<T> Specialize<T>()
+        {
+            return this.Specialize<T>(WriteContentType);
         }
     }
 

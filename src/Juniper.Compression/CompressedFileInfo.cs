@@ -31,7 +31,7 @@ namespace Juniper.Compression
         }
 
         internal CompressedFileInfo()
-            : this(null, true, false, 0, new string[0])
+            : this(null, true, false, 0, Array.Empty<string>())
         { }
 
         public CompressedFileInfo(string name)

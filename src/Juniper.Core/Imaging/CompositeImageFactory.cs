@@ -17,9 +17,13 @@ namespace Juniper.Imaging
             this.transcoder = transcoder;
         }
 
-        public MediaType ContentType { get { return codec.ContentType; } }
+        public MediaType ReadContentType { get { return codec.ReadContentType; } }
 
-        public MediaType.Image ImageType { get { return codec.ImageType; } }
+        public MediaType WriteContentType { get { return codec.WriteContentType; } }
+
+        public MediaType.Image ReadImageType { get { return codec.ReadImageType; } }
+
+        public MediaType.Image WriteImageType { get { return codec.WriteImageType; } }
 
         public ImageTypeB Deserialize(Stream stream, IProgress prog)
         {

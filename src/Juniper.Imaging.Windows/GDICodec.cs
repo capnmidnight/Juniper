@@ -14,23 +14,39 @@ namespace Juniper.Imaging.Windows
     {
         private readonly GDIImageFormat gdiFormat;
 
-        public MediaType.Image ImageType
+        public MediaType.Image ReadImageType
         {
             get;
             private set;
         }
 
-        public MediaType ContentType
+        public MediaType ReadContentType
         {
             get
             {
-                return ImageType;
+                return ReadImageType;
+            }
+        }
+
+        public MediaType.Image WriteImageType
+        {
+            get
+            {
+                return ReadImageType;
+            }
+        }
+
+        public MediaType WriteContentType
+        {
+            get
+            {
+                return ReadContentType;
             }
         }
 
         public GDICodec(MediaType.Image format)
         {
-            ImageType = format;
+            ReadImageType = format;
             gdiFormat = format.ToGDIImageFormat();
         }
 
@@ -66,11 +82,11 @@ namespace Juniper.Imaging.Windows
 
         public ImageInfo GetImageInfo(byte[] data)
         {
-            if (ContentType == MediaType.Image.Jpeg)
+            if (ReadContentType == MediaType.Image.Jpeg)
             {
                 return ImageInfo.ReadJPEG(data);
             }
-            else if (ContentType == MediaType.Image.Png)
+            else if (ReadContentType == MediaType.Image.Png)
             {
                 return ImageInfo.ReadPNG(data);
             }

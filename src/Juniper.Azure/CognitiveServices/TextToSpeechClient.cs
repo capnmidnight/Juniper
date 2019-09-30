@@ -2,8 +2,8 @@ using System;
 using System.Threading.Tasks;
 
 using Juniper.Audio;
+using Juniper.Caching;
 using Juniper.HTTP;
-using Juniper.HTTP.REST;
 using Juniper.Serialization;
 
 namespace Juniper.Azure.CognitiveServices
@@ -40,7 +40,7 @@ namespace Juniper.Azure.CognitiveServices
             }
 
             if (voiceListDecoder == null
-                || voiceListDecoder.ContentType != MediaType.Application.Json)
+                || voiceListDecoder.ReadContentType != MediaType.Application.Json)
             {
                 throw new ArgumentException("Most provide a JSON deserializer for the voice list data", nameof(voiceListDecoder));
             }
@@ -55,9 +55,9 @@ namespace Juniper.Azure.CognitiveServices
                 throw new ArgumentException("Must provide an audio decoder", nameof(audioDecoder));
             }
 
-            if (audioDecoder.ContentType != outputFormat.ContentType)
+            if (audioDecoder.ReadContentType != outputFormat.ContentType)
             {
-                throw new ArgumentException($"Must provide a decoder that matches the output format type. Given {audioDecoder.ContentType.Value}. Expected {outputFormat.ContentType.Value}", nameof(audioDecoder));
+                throw new ArgumentException($"Must provide a decoder that matches the output format type. Given {audioDecoder.ReadContentType.Value}. Expected {outputFormat.ContentType.Value}", nameof(audioDecoder));
             }
 
             this.azureRegion = azureRegion;

@@ -1,3 +1,5 @@
+using Juniper.HTTP;
+
 namespace Juniper.Serialization
 {
     public interface IFactory : ISerializer, IDeserializer
@@ -10,9 +12,9 @@ namespace Juniper.Serialization
 
     public static class IFactoryExt
     {
-        public static IFactory<T> Specialize<T>(this IFactory factory)
+        public static IFactory<T> Specialize<T>(this IFactory factory, MediaType contentType)
         {
-            return new SpecializedFactory<T>(factory);
+            return new SpecializedFactory<T>(factory, contentType);
         }
     }
 }

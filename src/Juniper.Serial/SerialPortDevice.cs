@@ -6,7 +6,7 @@ namespace Juniper.Serial
 {
     public abstract class SerialPortDevice<RecordType, PortFactoryType> : IDisposable where PortFactoryType : ISerialPortFactory, new()
     {
-        public SerialPortDevice(string portName, int baudRate)
+        protected SerialPortDevice(string portName, int baudRate)
         {
             dataQueue = new Queue<RecordType>();
             buffer = string.Empty;
@@ -17,7 +17,7 @@ namespace Juniper.Serial
             PortName = portName;
         }
 
-        public SerialPortDevice(int baudRate)
+        protected SerialPortDevice(int baudRate)
             : this(null, baudRate)
         {
         }

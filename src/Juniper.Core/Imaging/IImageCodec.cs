@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+
 using Juniper.HTTP;
 using Juniper.Progress;
 using Juniper.Serialization;
@@ -15,7 +16,9 @@ namespace Juniper.Imaging
 
         int GetComponents(T img);
 
-        MediaType.Image ImageType { get; }
+        MediaType.Image ReadImageType { get; }
+
+        MediaType.Image WriteImageType { get; }
 
         ImageInfo GetImageInfo(byte[] data);
 
@@ -56,7 +59,7 @@ namespace Juniper.Imaging
                 mem.Flush();
                 var buffer = mem.ToArray();
                 var info = codec.GetImageInfo(buffer);
-                return new ImageData(info, (MediaType.Image)codec.ContentType, buffer);
+                return new ImageData(info, codec.ReadImageType, buffer);
             }
         }
 

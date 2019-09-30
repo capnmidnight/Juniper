@@ -49,7 +49,7 @@ namespace Juniper.Google.Maps.MapTiles.Tests
         public async Task GetImage()
         {
             var decoder = new HjgPngcsDecoder();
-            var search = new TileRequest(apiKey, signingKey, new Size(640, 640), decoder.ImageType)
+            var search = new TileRequest(apiKey, signingKey, new Size(640, 640), decoder.ReadImageType)
             {
                 Zoom = 20,
                 Address = (string)"4909 Rutland Pl, Alexandria, VA, 22304"

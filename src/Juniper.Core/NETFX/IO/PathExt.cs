@@ -27,13 +27,20 @@ namespace System.IO
             }
             else
             {
-                string prefix = string.Empty;
+                var prefix = string.Empty;
                 var parts = path.SplitX(sep).ToList();
                 if (parts.Count > 0 && parts[0].EndsWith(":"))
                 {
                     prefix = parts[0] + Path.DirectorySeparatorChar;
                     parts.RemoveAt(0);
                 }
+
+                for (var i = 0; i < parts.Count; ++i)
+                {
+                    parts[i] = string.Join("_", parts[i].Split(Path.GetInvalidFileNameChars()));
+                }
+
+
                 return prefix + Path.Combine(parts.ToArray());
             }
         }
@@ -68,7 +75,7 @@ namespace System.IO
                 var partsA = PathParts(directory);
                 var partsB = PathParts(fullPath);
 
-                int counter = 0;
+                var counter = 0;
                 while (counter < partsA.Length
                        && counter < partsB.Length
                        && partsA[counter] == partsB[counter])
@@ -85,7 +92,7 @@ namespace System.IO
                     var aLen = partsA.Length - counter;
                     var bLen = partsB.Length - counter;
                     var parts = new string[aLen + bLen];
-                    for(int i = 0; i < aLen ; ++i)
+                    for (var i = 0; i < aLen; ++i)
                     {
                         parts[i] = "..";
                     }
@@ -100,7 +107,7 @@ namespace System.IO
         public static string GetLongExtension(string path)
         {
             var i = path.IndexOf('.');
-            if(i < 0)
+            if (i < 0)
             {
                 return null;
             }
@@ -113,7 +120,7 @@ namespace System.IO
         public static string GetShortExtension(string path)
         {
             var i = path.LastIndexOf('.');
-            if(i < 0)
+            if (i < 0)
             {
                 return null;
             }
@@ -186,17 +193,6 @@ namespace System.IO
         public static string Rel2Abs(string relativePath)
         {
             return Rel2Abs(relativePath, null);
-        }
-
-        public static string RemoveInvalidChars(this string filePath)
-        {
-            filePath = PathExt.FixPath(filePath);
-            var parts = filePath.SplitX(Path.DirectorySeparatorChar);
-            for(int i = 0; i < parts.Length; ++i)
-            {
-                parts[i] = string.Join("_", parts[i].Split(Path.GetInvalidFileNameChars()));
-            }
-            return string.Join(Path.DirectorySeparatorChar.ToString(), parts);
         }
     }
 }

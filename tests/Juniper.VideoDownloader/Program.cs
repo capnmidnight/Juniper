@@ -53,7 +53,7 @@ namespace Juniper.VideoDownloader
                 WriteLine($"Content-Type {contentType.Value}");
                 WriteLine($"Content-Length {response.ContentLength}");
                 var desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                var fileName = Path.Combine(desktop, uri.PathAndQuery.Substring(1)).RemoveInvalidChars();
+                var fileName = Path.Combine(desktop, PathExt.FixPath(uri.PathAndQuery.Substring(1)));
                 var fileExt = Path.GetExtension(fileName).Substring(1);
                 if (contentType?.PrimaryExtension != null && !contentType.Extensions.Contains(fileExt))
                 {

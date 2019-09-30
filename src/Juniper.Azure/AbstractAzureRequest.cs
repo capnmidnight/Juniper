@@ -12,7 +12,7 @@ namespace Juniper.Azure
             return new Uri($"https://{region}.{component}.microsoft.com/");
         }
 
-        public AbstractAzureRequest(string region, string component, string path, MediaType contentType)
+        protected AbstractAzureRequest(string region, string component, string path, MediaType contentType)
             : base(AddPath(MakeURI(region, component), path), contentType)
         { }
     }

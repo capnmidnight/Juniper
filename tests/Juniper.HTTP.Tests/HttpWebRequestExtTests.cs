@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-
+using Juniper.Caching;
 using Juniper.HTTP.REST;
 using Juniper.Imaging;
 using Juniper.Imaging.LibJpegNET;

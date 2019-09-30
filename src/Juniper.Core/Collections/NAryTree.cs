@@ -99,8 +99,10 @@ namespace Juniper.Collections
             }
             else
             {
-                var q = new Queue<NAryTree<T>>();
-                q.Add(this);
+                var q = new Queue<NAryTree<T>>
+                {
+                    this
+                };
 
                 NAryTree<T> lastParent = null;
                 while (q.Count > 0)
@@ -123,8 +125,10 @@ namespace Juniper.Collections
 
         public NAryTree<T> Remove(T node)
         {
-            var q = new Queue<NAryTree<T>>();
-            q.Add(this);
+            var q = new Queue<NAryTree<T>>
+            {
+                this
+            };
 
             NAryTree<T> found = null;
             while (q.Count > 0 && found == null)
@@ -153,8 +157,10 @@ namespace Juniper.Collections
         public IEnumerable<NAryTree<T>> Where(Func<NAryTree<T>, bool> predicate, TreeTraversalOrder order = TreeTraversalOrder.BreadthFirst)
         {
             // how to do recursion without killing the function call stack
-            var items = new List<NAryTree<T>>();
-            items.Add(this);
+            var items = new List<NAryTree<T>>
+            {
+                this
+            };
             while (items.Count > 0)
             {
                 var index = order == TreeTraversalOrder.BreadthFirst ? 0 : items.Count - 1;

@@ -9,14 +9,14 @@ namespace Juniper.Serialization
     {
         public StreamStringDecoder(MediaType contentType)
         {
-            ContentType = contentType;
+            ReadContentType = contentType;
         }
 
         public StreamStringDecoder()
             : this(MediaType.Text.Plain)
         { }
 
-        public MediaType ContentType
+        public MediaType ReadContentType
         {
             get;
             private set;

@@ -27,7 +27,7 @@ namespace Juniper.Imaging.LibJpegNET
             return ImageInfo.ReadJPEG(data);
         }
 
-        public MediaType.Image ImageType
+        public MediaType.Image ReadImageType
         {
             get
             {
@@ -35,11 +35,27 @@ namespace Juniper.Imaging.LibJpegNET
             }
         }
 
-        public MediaType ContentType
+        public MediaType ReadContentType
         {
             get
             {
-                return ImageType;
+                return ReadImageType;
+            }
+        }
+
+        public MediaType.Image WriteImageType
+        {
+            get
+            {
+                return ReadImageType;
+            }
+        }
+
+        public MediaType WriteContentType
+        {
+            get
+            {
+                return ReadContentType;
             }
         }
 

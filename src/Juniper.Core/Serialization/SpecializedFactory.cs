@@ -8,9 +8,10 @@ namespace Juniper.Serialization
     {
         private readonly IFactory factory;
 
-        public SpecializedFactory(IFactory factory)
+        public SpecializedFactory(IFactory factory, MediaType contentType)
         {
             this.factory = factory;
+            ReadContentType = contentType;
         }
 
         public void Serialize(Stream stream, T value, IProgress prog)
@@ -23,6 +24,18 @@ namespace Juniper.Serialization
             return factory.Deserialize<T>(stream, prog);
         }
 
-        public MediaType ContentType { get { return factory.ContentType; } }
+        public MediaType ReadContentType
+        {
+            get;
+            private set;
+        }
+
+        public MediaType WriteContentType
+        {
+            get
+            {
+                return ReadContentType;
+            }
+        }
     }
 }

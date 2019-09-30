@@ -9,9 +9,10 @@ namespace Juniper.Serialization
     {
         private readonly IDeserializer deserializer;
 
-        public SpecializedDeserializer(IDeserializer deserializer)
+        public SpecializedDeserializer(IDeserializer deserializer, MediaType contentType)
         {
             this.deserializer = deserializer;
+            ReadContentType = contentType;
         }
 
         public T Deserialize(Stream stream, IProgress prog)
@@ -19,6 +20,10 @@ namespace Juniper.Serialization
             return deserializer.Deserialize<T>(stream, prog);
         }
 
-        public MediaType ContentType { get { return deserializer.ContentType; } }
+        public MediaType ReadContentType
+        {
+            get;
+            private set;
+        }
     }
 }
