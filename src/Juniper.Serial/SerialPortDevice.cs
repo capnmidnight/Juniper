@@ -97,31 +97,29 @@ namespace Juniper.Serial
 
         public bool Open(string portName, bool autoSearch, params string[] skipPorts)
         {
-            var isGood = false;
-            WithLock("Open", delegate ()
+            return WithLock("Open", OpenInternal, this, portName, autoSearch, skipPorts);
+        }
+
+        private static bool OpenInternal(SerialPortDevice<RecordType, PortFactoryType> device, string portName, bool autoSearch, string[] skipPorts)
+        {
+            device.LastTestedString = null;
+            device.PortName = portName;
+            if (!device.PortName.StartsWith("COM"))
             {
-                LastTestedString = null;
-                PortName = portName;
-                if (!PortName.StartsWith("COM"))
-                {
-                    PortName = null;
-                }
+                device.PortName = null;
+            }
 
-                if (!string.IsNullOrEmpty(PortName))
+            bool good = false;
+            if (!string.IsNullOrEmpty(device.PortName))
+            {
+                good = device.HandshakePort(skipPorts);
+                if (!good)
                 {
-                    isGood = HandshakePort(skipPorts);
-                    if (!isGood)
-                    {
-                        PortName = null;
-                    }
+                    device.PortName = null;
                 }
+            }
 
-                if (!isGood)
-                {
-                    isGood = autoSearch && FindMatchingPort(skipPorts);
-                }
-            });
-            return isGood;
+            return good || autoSearch && device.FindMatchingPort(skipPorts);
         }
 
         public List<Exception> ReadData()
@@ -129,10 +127,7 @@ namespace Juniper.Serial
             List<Exception> errors = null;
             if (IsOpen)
             {
-                WithLock("ReadData", () =>
-                {
-                    errors = ProcessBuffer();
-                });
+                errors = WithLock("ReadData", ProcessBuffer);
             }
 
             if (errors == null)
@@ -335,6 +330,54 @@ namespace Juniper.Serial
                     }
                 }
             }
+        }
+
+        private T WithLock<T>(string lockName, Func<T> act)
+        {
+            if (lockedOn == null && port != null)
+            {
+                lock (port)
+                {
+                    lockedOn = lockName;
+                    try
+                    {
+                        return act();
+                    }
+                    finally
+                    {
+                        lockedOn = null;
+                    }
+                }
+            }
+
+            return default;
+        }
+
+        private T WithLock<V, W, X, T>(
+            string lockName,
+            Func<SerialPortDevice<RecordType, PortFactoryType>, V, W, X, T> act,
+            SerialPortDevice<RecordType, PortFactoryType> a,
+            V b,
+            W c,
+            X d)
+        {
+            if (lockedOn == null && port != null)
+            {
+                lock (port)
+                {
+                    lockedOn = lockName;
+                    try
+                    {
+                        return act(a, b, c, d);
+                    }
+                    finally
+                    {
+                        lockedOn = null;
+                    }
+                }
+            }
+
+            return default;
         }
     }
 }

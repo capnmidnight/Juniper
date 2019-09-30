@@ -465,6 +465,7 @@ namespace Juniper.Accord.Math
         /// </param>
         /// <param name="positionSelectionMatrix">Measurement matrix which selects state position. If null the state measurement matrix will be used.</param>
         /// <returns>2D representation of the error covariance.</returns>
+        [CLSCompliant(false)]
         public Ellipse GetEllipse(Func<TState, PointF> positionSelector, double confidence = 0.99, double[,] positionSelectionMatrix = null)
         {
             positionSelectionMatrix = positionSelectionMatrix ?? MeasurementMatrix;

@@ -73,9 +73,11 @@ namespace Juniper.UnityAssetStore
             return this;
         }
 
+        private static readonly char[] WHITESPACE = {' ', '\t'};
+
         public StoreSearch Phrase(string phrase)
         {
-            var parts = from part in phrase.Split(' ', '\t')
+            var parts = from part in phrase.Split(WHITESPACE)
                         where !string.IsNullOrWhiteSpace(part)
                         select Uri.EscapeDataString(part);
             terms.Add("q=" + string.Join("+", parts));
