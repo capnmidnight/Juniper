@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using Juniper.HTTP;
 using Juniper.HTTP.REST;
 using Juniper.Progress;
+using Juniper.Serialization;
+using Juniper.Streams;
 
-namespace Juniper.Serialization
+namespace Juniper.Caching
 {
     public class CachingStrategy : ICacheLayer
     {
@@ -29,6 +31,47 @@ namespace Juniper.Serialization
             return stream;
         }
 
+        public bool CanCache
+        {
+            get
+            {
+                foreach (var layer in layers)
+                {
+                    if (layer.CanCache)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        public Stream OpenWrite(string fileDescriptor, MediaType contentType)
+        {
+            var stream = new ForkedStream();
+            foreach(var layer in layers)
+            {
+                if (layer.CanCache)
+                {
+                    stream.AddStream(layer.OpenWrite(fileDescriptor, contentType));
+                }
+            }
+
+            return stream;
+        }
+
+        public void Copy(FileInfo file, string fileDescriptor, MediaType contentType)
+        {
+            foreach(var layer in layers)
+            {
+                if (layer.CanCache)
+                {
+                    layer.Copy(file, fileDescriptor, contentType);
+                }
+            }
+        }
+
         public bool IsCached(string fileDescriptor, MediaType contentType)
         {
             foreach(var layer in layers)
@@ -43,14 +86,13 @@ namespace Juniper.Serialization
         }
 
         private async Task<Stream> GetStream(
-            IEnumerable<ICacheLayer> forwardLayers,
+            IEnumerable<ICacheLayer> layers,
             string fileDescriptor,
             MediaType contentType,
             IProgress prog)
         {
-            var backwardLayers = forwardLayers.Reverse();
             Stream stream = null;
-            foreach (var layer in forwardLayers)
+            foreach (var layer in layers)
             {
                 stream = await layer.GetStream(fileDescriptor, contentType, prog);
                 if (stream != null)
@@ -59,9 +101,9 @@ namespace Juniper.Serialization
                 }
             }
 
-            foreach (var layer in backwardLayers)
+            foreach (var layer in layers)
             {
-                if (!layer.IsCached(fileDescriptor, contentType))
+                if (layer.CanCache && !layer.IsCached(fileDescriptor, contentType))
                 {
                     stream = layer.WrapStream(fileDescriptor, contentType, stream);
                 }

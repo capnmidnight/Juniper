@@ -6,13 +6,19 @@ using Juniper.Display;
 using Juniper.Input;
 
 using UnityEngine;
+
 using Juniper.Security;
+
 using System.IO;
+
 using Juniper.Azure.CognitiveServices;
 using Juniper.Serialization;
 using Juniper.Audio.NAudio;
 using Juniper.HTTP;
+
 using System.Threading.Tasks;
+using Juniper.Caching;
+using Juniper.Data;
 
 #if UNITY_MODULES_AUDIO
 
@@ -302,16 +308,7 @@ namespace Juniper.Audio
                 InitializeInteractionAudioSources();
 #endif
 
-
-#if UNITY_EDITOR
-                var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                var cacheDirName = Path.Combine(userProfile, "Projects");
-#else
-                var cacheDirName = Application.persistentDataPath;
-#endif
-                var cacheLocation = new DirectoryInfo(cacheDirName);
-
-
+                var cache = new UnityCachingStrategy(UnityCachingStrategy.InUserProfile("Projects"));
                 tts = new TextToSpeechClient(
                     azureRegion,
                     azureApiKey,
@@ -319,7 +316,7 @@ namespace Juniper.Audio
                     new JsonFactory<Voice[]>(),
                     OutputFormat.Audio16KHz32KbitrateMonoMP3,
                     new NAudioAudioDataDecoder(MediaType.Audio.Mpeg),
-                    cacheLocation);
+                    cache);
             }
         }
 

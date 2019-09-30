@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 
 using Juniper.HTTP;
 using Juniper.Progress;
-using Juniper.Streams;
 
-namespace Juniper.Serialization
+namespace Juniper.Caching
 {
     public class FileCacheLayer : ICacheLayer
     {
@@ -20,7 +19,7 @@ namespace Juniper.Serialization
             : this(new DirectoryInfo(directoryName))
         { }
 
-        public bool CanWriteCache
+        public bool CanCache
         {
             get
             {
@@ -34,6 +33,20 @@ namespace Juniper.Serialization
             return new CachingStream(stream, cacheFile);
         }
 
+        public Stream OpenWrite(string fileDescriptor, MediaType contentType)
+        {
+            var cacheFile = GetCacheFile(fileDescriptor, contentType);
+            cacheFile.Directory.Create();
+            return cacheFile.OpenWrite();
+        }
+
+        public void Copy(FileInfo file, string fileDescriptor, MediaType contentType)
+        {
+            var cacheFile = GetCacheFile(fileDescriptor, contentType);
+            cacheFile.Directory.Create();
+            File.Copy(file.FullName, cacheFile.FullName, true);
+        }
+
         private FileInfo GetCacheFile(string fileDescriptor, MediaType contentType)
         {
             return new FileInfo(GetCacheFileName(fileDescriptor, contentType));
@@ -41,8 +54,9 @@ namespace Juniper.Serialization
 
         protected virtual string GetCacheFileName(string fileDescriptor, MediaType contentType)
         {
-            var baseName = Path.Combine(cacheLocation.FullName, fileDescriptor.RemoveInvalidChars());
-            return contentType.AddExtension(baseName);
+            var baseName = PathExt.FixPath(fileDescriptor);
+            var cacheFileName = contentType.AddExtension(baseName);
+            return Path.Combine(cacheLocation.FullName, cacheFileName);
         }
 
         public bool IsCached(string fileDescriptor, MediaType contentType)

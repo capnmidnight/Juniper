@@ -4,9 +4,9 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
+using Juniper.Caching;
 using Juniper.Progress;
 using Juniper.Serialization;
-using Juniper.Streams;
 
 namespace Juniper.HTTP.REST
 {
@@ -32,6 +32,14 @@ namespace Juniper.HTTP.REST
 
         public MediaType ContentType { get; private set; }
 
+        public bool CanCache
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public bool IsCached(string fileDescriptor, MediaType contentType)
         {
             return false;
@@ -40,6 +48,16 @@ namespace Juniper.HTTP.REST
         public Stream WrapStream(string fileDescriptor, MediaType contentType, Stream stream)
         {
             return stream;
+        }
+
+        public Stream OpenWrite(string fileDescriptor, MediaType contentType)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void Copy(FileInfo file, string fileDescriptor, MediaType contentType)
+        {
+            throw new NotSupportedException();
         }
 
         public override int GetHashCode()
@@ -246,7 +264,7 @@ namespace Juniper.HTTP.REST
 
         public Task<Stream> GetStream(string fileDescriptor, MediaType contentType, IProgress prog)
         {
-            if (fileDescriptor != CacheID || contentType != ContentType)
+            if (contentType != ContentType)
             {
                 throw new InvalidOperationException();
             }

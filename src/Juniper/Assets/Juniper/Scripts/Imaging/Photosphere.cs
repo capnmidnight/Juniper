@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
+using Juniper.Caching;
 using Juniper.Data;
 using Juniper.Display;
 using Juniper.Imaging.Unity;
@@ -58,6 +59,8 @@ namespace Juniper.Imaging
 
         private bool hasStarted;
 
+        private CachingStrategy cache;
+
         public void Awake()
         {
             if (material == null)
@@ -71,6 +74,8 @@ namespace Juniper.Imaging
             {
                 skybox = this.Ensure<SkyboxManager>();
             }
+
+            cache = new UnityCachingStrategy();
         }
 
         public void Start()
@@ -104,8 +109,8 @@ namespace Juniper.Imaging
                 {
                     CubemapPath = CubemapNeeded?.Invoke(this);
                 }
-                var path = StreamingAssets.FormatPath(Application.streamingAssetsPath, CubemapPath);
-                StartCoroutine(ReadCubemapCoroutine(path));
+
+                StartCoroutine(ReadCubemapCoroutine(CubemapPath));
             }
 
             foreach (var child in transform.Children())
@@ -116,12 +121,13 @@ namespace Juniper.Imaging
 
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
-            var streamTask = StreamingAssets.GetStream(Application.persistentDataPath, filePath, this);
-            yield return streamTask.AsCoroutine();
+            print(filePath);
+            var textureTask = cache.GetDecoded(filePath, codec, this);
+            yield return textureTask.AsCoroutine();
 
             trySkybox = false;
-            if (streamTask.IsSuccessful()
-                && streamTask.Result != null)
+            if (textureTask.IsSuccessful()
+                && textureTask.Result != null)
             {
                 trySkybox = true;
                 if (mgr != null && mgr.lodLevelRequirements != null && mgr.FOVs != null)
@@ -136,7 +142,7 @@ namespace Juniper.Imaging
                     }
                 }
 
-                var texture = codec.Deserialize(streamTask.Result.Content);
+                var texture = textureTask.Result;
 
                 skybox.exposure = 1;
                 skybox.imageType = SkyboxManager.ImageType.Degrees360;
@@ -151,14 +157,14 @@ namespace Juniper.Imaging
                 IsReady = wasComplete = true;
                 Ready?.Invoke(this);
             }
-            else if (streamTask.IsCanceled)
+            else if (textureTask.IsCanceled)
             {
                 Debug.LogError("Cubemap canceled");
             }
-            else if (streamTask.IsFaulted)
+            else if (textureTask.IsFaulted)
             {
                 Debug.LogError("Cubemap load error");
-                Debug.LogException(streamTask.Exception);
+                Debug.LogException(textureTask.Exception);
             }
             else
             {
@@ -477,7 +483,7 @@ namespace Juniper.Imaging
 
         private IEnumerator CaptureCubemapCoroutine()
         {
-            var fileName = StreamingAssets.FormatPath(Application.streamingAssetsPath, Key + ".jpeg");
+            var fileName = Key + ".jpeg";
             using (var prog = new UnityEditorProgressDialog("Saving cubemap " + Key))
             {
                 var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
@@ -538,7 +544,7 @@ namespace Juniper.Imaging
                 try
                 {
                     var img = codec.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]);
-                    codec.Save(fileName, img, subProgs[3]);
+                    cache.Save(fileName, codec, img, subProgs[3]);
                     Debug.Log("Cubemap saved " + fileName);
                 }
                 catch (Exception exp)

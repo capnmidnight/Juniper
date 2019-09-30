@@ -4,7 +4,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Juniper.Streams
+using Juniper.Streams;
+
+namespace Juniper.Caching
 {
     /// <summary>
     /// A stream that can cache contents out to a file.

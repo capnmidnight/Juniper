@@ -1,10 +1,10 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
+
+using Juniper.Caching;
 using Juniper.HTTP;
-using Juniper.HTTP.REST;
 using Juniper.Progress;
-using Juniper.Serialization;
-using Juniper.Streams;
 
 namespace Juniper.Compression.Zip
 {
@@ -21,9 +21,27 @@ namespace Juniper.Compression.Zip
             : this(new FileInfo(fileName))
         { }
 
+        public bool CanCache
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public Stream WrapStream(string fileDescriptor, MediaType contentType, Stream stream)
         {
             return stream;
+        }
+
+        public Stream OpenWrite(string fileDescriptor, MediaType contentType)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void Copy(FileInfo file, string fileDescriptor, MediaType contentType)
+        {
+            throw new NotSupportedException();
         }
 
         protected virtual string GetCacheFileName(string fileDescriptor, MediaType contentType)
