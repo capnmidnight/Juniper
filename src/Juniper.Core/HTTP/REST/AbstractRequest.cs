@@ -32,12 +32,12 @@ namespace Juniper.HTTP.REST
 
         public MediaType ContentType { get; private set; }
 
-        public bool IsCached(AbstractRequest request)
+        public bool IsCached(string fileDescriptor, MediaType contentType)
         {
             return false;
         }
 
-        public Stream WrapStream(AbstractRequest request, Stream stream)
+        public Stream WrapStream(string fileDescriptor, MediaType contentType, Stream stream)
         {
             return stream;
         }
@@ -244,9 +244,9 @@ namespace Juniper.HTTP.REST
             return GetDecoded(decoder, null);
         }
 
-        public Task<Stream> GetStream(AbstractRequest request, IProgress prog)
+        public Task<Stream> GetStream(string fileDescriptor, MediaType contentType, IProgress prog)
         {
-            if (request != this)
+            if (fileDescriptor != CacheID || contentType != ContentType)
             {
                 throw new InvalidOperationException();
             }

@@ -54,13 +54,15 @@ namespace Juniper.HTTP.Tests
             }
 
             var fileCache = new FileCacheLayer(cacheFile.Directory);
+            var cache = new CachingStrategy()
+                .AddLayer(fileCache);
 
             var imageRequest = new ImageRequest(
                     new Uri("https://www.seanmcbeth.com"),
                     "2015-05.min.jpg",
                     MediaType.Image.Jpeg);
 
-            var image = await fileCache.GetDecoded(imageRequest, imageDecoder);
+            var image = await cache.GetDecoded(imageRequest, imageDecoder);
 
             if (runTest)
             {

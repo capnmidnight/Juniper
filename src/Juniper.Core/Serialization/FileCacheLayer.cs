@@ -2,7 +2,6 @@ using System.IO;
 using System.Threading.Tasks;
 
 using Juniper.HTTP;
-using Juniper.HTTP.REST;
 using Juniper.Progress;
 using Juniper.Streams;
 
@@ -17,6 +16,10 @@ namespace Juniper.Serialization
             this.cacheLocation = cacheLocation;
         }
 
+        public FileCacheLayer(string directoryName)
+            : this(new DirectoryInfo(directoryName))
+        { }
+
         public bool CanWriteCache
         {
             get
@@ -25,30 +28,32 @@ namespace Juniper.Serialization
             }
         }
 
-        public Stream WrapStream(AbstractRequest request, Stream stream)
+        public Stream WrapStream(string fileDescriptor, MediaType contentType, Stream stream)
         {
-            var cacheFile = GetCacheFile(request);
+            var cacheFile = GetCacheFile(fileDescriptor, contentType);
             return new CachingStream(stream, cacheFile);
         }
 
-        private FileInfo GetCacheFile(AbstractRequest request)
+        private FileInfo GetCacheFile(string fileDescriptor, MediaType contentType)
         {
-            var baseName = Path.Combine(cacheLocation.FullName, request.CacheID.RemoveInvalidChars());
-            var cacheFileName = request.ContentType
-                .AddExtension(baseName);
-            var cacheFile = new FileInfo(cacheFileName);
-            return cacheFile;
+            return new FileInfo(GetCacheFileName(fileDescriptor, contentType));
         }
 
-        public bool IsCached(AbstractRequest request)
+        protected virtual string GetCacheFileName(string fileDescriptor, MediaType contentType)
         {
-            return GetCacheFile(request).Exists;
+            var baseName = Path.Combine(cacheLocation.FullName, fileDescriptor.RemoveInvalidChars());
+            return contentType.AddExtension(baseName);
         }
 
-        public Task<Stream> GetStream(AbstractRequest request, IProgress prog)
+        public bool IsCached(string fileDescriptor, MediaType contentType)
+        {
+            return GetCacheFile(fileDescriptor, contentType).Exists;
+        }
+
+        public Task<Stream> GetStream(string fileDescriptor, MediaType contentType, IProgress prog)
         {
             Stream stream = null;
-            var cacheFile = GetCacheFile(request);
+            var cacheFile = GetCacheFile(fileDescriptor, contentType);
             if (cacheFile.Exists)
             {
                 stream = cacheFile.OpenRead();

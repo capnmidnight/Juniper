@@ -190,7 +190,13 @@ namespace System.IO
 
         public static string RemoveInvalidChars(this string filePath)
         {
-            return string.Join("_", filePath.Split(Path.GetInvalidFileNameChars()));
+            filePath = PathExt.FixPath(filePath);
+            var parts = filePath.SplitX(Path.DirectorySeparatorChar);
+            for(int i = 0; i < parts.Length; ++i)
+            {
+                parts[i] = string.Join("_", parts[i].Split(Path.GetInvalidFileNameChars()));
+            }
+            return string.Join(Path.DirectorySeparatorChar.ToString(), parts);
         }
     }
 }

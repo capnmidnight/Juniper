@@ -21,21 +21,21 @@ namespace Juniper.Compression.Zip
             : this(new FileInfo(fileName))
         { }
 
-        public Stream WrapStream(AbstractRequest request, Stream stream)
+        public Stream WrapStream(string fileDescriptor, MediaType contentType, Stream stream)
         {
             return stream;
         }
 
-        private static string GetCacheFileName(AbstractRequest request)
+        protected virtual string GetCacheFileName(string fileDescriptor, MediaType contentType)
         {
-            var baseName = request.CacheID.RemoveInvalidChars();
-            var cacheFileName = request.ContentType.AddExtension(baseName);
+            var baseName = fileDescriptor.RemoveInvalidChars();
+            var cacheFileName = contentType.AddExtension(baseName);
             return cacheFileName;
         }
 
-        public bool IsCached(AbstractRequest request)
+        public bool IsCached(string fileDescriptor, MediaType contentType)
         {
-            var cacheFileName = GetCacheFileName(request);
+            var cacheFileName = GetCacheFileName(fileDescriptor, contentType);
             using (var zip = Decompressor.OpenZip(zipFile))
             {
                 var entry = zip.GetEntry(cacheFileName);
@@ -43,10 +43,10 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public Task<Stream> GetStream(AbstractRequest request, IProgress prog)
+        public Task<Stream> GetStream(string fileDescriptor, MediaType contentType, IProgress prog)
         {
             Stream stream = null;
-            var cacheFileName = GetCacheFileName(request);
+            var cacheFileName = GetCacheFileName(fileDescriptor, contentType);
             var zip = Decompressor.OpenZip(zipFile);
             var entry = zip.GetEntry(cacheFileName);
             if (entry != null)
