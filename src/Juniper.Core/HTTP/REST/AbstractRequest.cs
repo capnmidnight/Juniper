@@ -42,7 +42,7 @@ namespace Juniper.HTTP.REST
 
         public bool IsCached(string fileDescriptor, MediaType contentType)
         {
-            return false;
+            return true;
         }
 
         public Stream WrapStream(string fileDescriptor, MediaType contentType, Stream stream)
