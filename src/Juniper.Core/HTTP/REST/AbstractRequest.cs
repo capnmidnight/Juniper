@@ -10,7 +10,7 @@ using Juniper.Streams;
 
 namespace Juniper.HTTP.REST
 {
-    public abstract class AbstractRequest
+    public abstract class AbstractRequest : ICacheLayer
     {
         protected static Uri AddPath(Uri baseURI, string path)
         {
@@ -19,29 +19,65 @@ namespace Juniper.HTTP.REST
             return uriBuilder.Uri;
         }
 
-        protected static DirectoryInfo AddPath(DirectoryInfo baseDirectory, string path)
-        {
-            if (baseDirectory == null || string.IsNullOrEmpty(path))
-            {
-                return baseDirectory;
-            }
-            else
-            {
-                var newPath = Path.Combine(baseDirectory.FullName, path);
-                return new DirectoryInfo(newPath);
-            }
-        }
-
         private readonly Uri serviceURI;
-        private readonly DirectoryInfo cacheLocation;
         private readonly IDictionary<string, List<string>> queryParams =
             new SortedDictionary<string, List<string>>();
 
-        protected AbstractRequest(Uri serviceURI, DirectoryInfo cacheLocation)
+
+        protected AbstractRequest(Uri serviceURI, MediaType contentType)
         {
             this.serviceURI = serviceURI;
-            this.cacheLocation = cacheLocation;
-            this.cacheLocation?.Create();
+            ContentType = contentType;
+        }
+
+        public MediaType ContentType { get; private set; }
+
+        public bool IsCached(AbstractRequest request)
+        {
+            return false;
+        }
+
+        public Stream WrapStream(AbstractRequest request, Stream stream)
+        {
+            return stream;
+        }
+
+        public override int GetHashCode()
+        {
+            return CacheID.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj != null
+                && obj is AbstractRequest req
+                && req.CacheID == CacheID;
+        }
+
+        public virtual string CacheID
+        {
+            get
+            {
+                return BaseURI.PathAndQuery.Substring(1);
+            }
+        }
+
+        protected virtual Uri BaseURI
+        {
+            get
+            {
+                var uriBuilder = new UriBuilder(serviceURI);
+                uriBuilder.Query = queryParams.ToString("=", "&");
+                return uriBuilder.Uri;
+            }
+        }
+
+        protected virtual Uri AuthenticatedURI
+        {
+            get
+            {
+                return BaseURI;
+            }
         }
 
         private void SetQuery(string key, string value, bool allowMany)
@@ -111,164 +147,50 @@ namespace Juniper.HTTP.REST
             return RemoveQuery(key, value.ToString());
         }
 
-        protected virtual Uri BaseURI
+        private async Task<HttpWebRequest> CreateRequest()
         {
-            get
+            var request = (HttpWebRequest)WebRequest.Create(AuthenticatedURI);
+            if (AuthenticatedURI.Scheme == "http")
             {
-                var uriBuilder = new UriBuilder(serviceURI);
-                uriBuilder.Query = queryParams.ToString("=", "&");
-                return uriBuilder.Uri;
+                request.Header("Upgrade-Insecure-Requests", 1);
             }
-        }
-
-        protected virtual Uri AuthenticatedURI
-        {
-            get
+            if (ContentType != null)
             {
-                return BaseURI;
+                request.Accept = ContentType;
             }
-        }
-
-        protected virtual string InternalCacheID
-        {
-            get
-            {
-                return BaseURI.PathAndQuery.Substring(1);
-            }
-        }
-
-        public override int GetHashCode()
-        {
-            return InternalCacheID.GetHashCode();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj != null
-                && obj is AbstractRequest req
-                && req.InternalCacheID == InternalCacheID;
-        }
-
-        private async Task<HttpWebRequest> CreateRequest(MediaType acceptType)
-        {
-            var request = HttpWebRequestExt.Create(AuthenticatedURI);
             await ModifyRequest(request);
-
-            if (acceptType != null)
-            {
-                request.Accept = acceptType;
-            }
-
             return request;
         }
 
-        public FileInfo GetCacheFile(MediaType acceptType)
+        protected async Task<HttpWebResponse> Post(IProgress prog)
         {
-            FileInfo cacheFile = null;
-            if (cacheLocation != null)
+            var request = await CreateRequest();
+            request.Method = "POST";
+            var info = GetBodyInfo();
+            if (info == null)
             {
-                var cacheID = InternalCacheID.RemoveInvalidChars();
-                var cacheFileName = Path.Combine(cacheLocation.FullName, cacheID);
-                if (acceptType?.PrimaryExtension != null)
-                {
-                    var expectedExt = "." + acceptType.PrimaryExtension;
-                    if (Path.GetExtension(cacheFileName) != expectedExt)
-                    {
-                        cacheFileName += expectedExt;
-                    }
-                }
-
-                cacheFile = new FileInfo(cacheFileName);
-            }
-
-            return cacheFile;
-        }
-
-        private Task<Stream> OpenCachedStream(MediaType acceptType, Func<MediaType, Task<HttpWebResponse>> action, IProgress prog)
-        {
-            return OpenCachedStream(acceptType, (media, p) =>
-            {
-                p.Report(0);
-                var response = action(media);
-                p.Report(1);
-                return response;
-            }, prog);
-        }
-
-        private async Task<Stream> OpenCachedStream(MediaType acceptType, Func<MediaType, IProgress, Task<HttpWebResponse>> action, IProgress prog)
-        {
-            Stream body;
-            long length;
-            var cacheFile = GetCacheFile(acceptType);
-
-            if (cacheFile != null
-                && File.Exists(cacheFile.FullName)
-                && cacheFile.Length > 0)
-            {
-                length = cacheFile.Length;
-                body = cacheFile.OpenRead();
+                request.ContentLength = 0;
             }
             else
             {
-                var progs = prog.Split("Get", "Read");
-                prog = progs[1];
-                var response = await action(acceptType, progs[0]);
-                length = response.ContentLength;
-                body = response.GetResponseStream();
-                if (cacheFile != null)
-                {
-                    body = new CachingStream(body, cacheFile);
-                }
+                request.ContentLength = info.Length;
+                request.ContentType = info.MIMEType;
             }
 
-            return new ProgressStream(body, length, prog);
+            if (request.ContentLength > 0)
+            {
+                using (var stream = await request.GetRequestStreamAsync())
+                {
+                    WriteBody(new ProgressStream(stream, request.ContentLength, prog));
+                }
+            }
+            return (HttpWebResponse)await request.GetResponseAsync();
         }
 
-        public async Task<HttpWebResponse> Post(MediaType acceptType, IProgress prog)
-        {
-            var request = await CreateRequest(acceptType);
-            return await request.Post(GetBodyInfo, WriteBody, prog);
-        }
-
-        public Task<HttpWebResponse> Post(MediaType acceptType)
-        {
-            return Post(acceptType, null);
-        }
-
-        public Task<HttpWebResponse> Post(IProgress prog)
-        {
-            return Post(null, prog);
-        }
-
-        public Task<HttpWebResponse> Post()
-        {
-            return Post(null, null);
-        }
-
-        public Task<Stream> PostForStream(MediaType acceptType, IProgress prog)
-        {
-            return OpenCachedStream(acceptType, new Func<MediaType, IProgress, Task<HttpWebResponse>>(Post), prog);
-        }
-
-        public Task<Stream> PostForStream(MediaType acceptType)
-        {
-            return OpenCachedStream(acceptType, new Func<MediaType, Task<HttpWebResponse>>(Post), null);
-        }
-
-        public Task<Stream> PostForStream(IProgress prog)
-        {
-            return PostForStream(null, prog);
-        }
-
-        public Task<Stream> PostForStream()
-        {
-            return PostForStream(null, null);
-        }
-
-        public async Task<Dictionary<string, string>> PostForHeaders(IProgress prog)
+        protected async Task<Dictionary<string, string>> PostHead(IProgress prog)
         {
             var dict = new Dictionary<string, string>();
-            using (var response = await Post(null, prog))
+            using (var response = await Post(prog))
             {
                 var headers = response.Headers;
                 foreach (var key in headers.AllKeys)
@@ -280,113 +202,68 @@ namespace Juniper.HTTP.REST
             return dict;
         }
 
-        public Task<Dictionary<string, string>> PostForHeaders()
+        protected async Task<HttpWebResponse> Get(IProgress prog)
         {
-            return PostForHeaders(null);
+            prog.Report(0);
+            var request = await CreateRequest(); request.Method = "GET";
+            var response = (HttpWebResponse)await request.GetResponseAsync();
+            prog.Report(1);
+            return response;
         }
 
-        public async Task<T> PostForDecoded<T>(IDeserializer<T> deserializer, IProgress prog)
+        public async Task<Stream> GetStream(IProgress prog)
         {
-            var split = prog.Split("Request", "Decode");
-            using (var stream = await PostForStream(deserializer.ContentType, split[0]))
+            var progs = prog.Split("Get", "Read");
+            prog = progs[1];
+            var response = await Action(progs[0]);
+            var stream = response.GetResponseStream();
+            if (prog != null)
             {
-                return deserializer.Deserialize(stream, split[1]);
+                var length = response.ContentLength;
+                stream = new ProgressStream(stream, length, prog);
             }
-        }
-
-        public Task<T> PostForDecoded<T>(IDeserializer<T> deserializer)
-        {
-            return PostForDecoded(deserializer, null);
-        }
-
-        public async Task<HttpWebResponse> Get(MediaType acceptType)
-        {
-            var request = await CreateRequest(acceptType);
-            return await request.Get();
-        }
-
-        public Task<HttpWebResponse> Get()
-        {
-            return Get(null);
-        }
-
-        public Task<Stream> GetStream(MediaType acceptType, IProgress prog)
-        {
-            return OpenCachedStream(acceptType, Get, prog);
-        }
-
-        public Task<Stream> GetStream(MediaType acceptType)
-        {
-            return GetStream(acceptType, null);
-        }
-
-        public Task<Stream> GetStream(IProgress prog)
-        {
-            return GetStream(null, prog);
+            return stream;
         }
 
         public Task<Stream> GetStream()
         {
-            return GetStream(null, null);
+            return GetStream(null);
         }
 
-        public async Task<T> GetDecoded<T>(IDeserializer<T> deserializer, IProgress prog)
+        public async Task<T> GetDecoded<T>(IDeserializer<T> decoder, IProgress prog)
         {
-            using (var stream = await GetStream(deserializer.ContentType, prog))
+            var split = prog.Split("Get", "Decode");
+            using (var stream = await GetStream(split[0]))
             {
-                return deserializer.Deserialize(stream);
+                return decoder.Deserialize(stream, split[1]);
             }
         }
 
-        public Task<T> GetDecoded<T>(IDeserializer<T> deserializer)
+        public Task<T> GetDecoded<T>(IDeserializer<T> decoder)
         {
-            return GetDecoded(deserializer, null);
+            return GetDecoded(decoder, null);
         }
 
-        public async Task Proxy(HttpListenerResponse outResponse, MediaType acceptType)
+        public Task<Stream> GetStream(AbstractRequest request, IProgress prog)
         {
-            var cacheFile = GetCacheFile(acceptType);
-            if (cacheFile != null
-                && File.Exists(cacheFile.FullName)
-                && cacheFile.Length > 0)
+            if (request != this)
             {
-                outResponse.SetStatus(HttpStatusCode.OK);
-                outResponse.ContentType = cacheFile.GetContentType();
-                outResponse.ContentLength64 = cacheFile.Length;
-                outResponse.SendFile(cacheFile);
+                throw new InvalidOperationException();
             }
             else
             {
-                using (var inResponse = await Get(acceptType))
-                {
-                    var body = inResponse.GetResponseStream();
-                    if (cacheFile != null)
-                    {
-                        body = new CachingStream(body, cacheFile);
-                    }
-                    using (body)
-                    {
-                        outResponse.SetStatus(inResponse.StatusCode);
-                        outResponse.ContentType = inResponse.ContentType;
-                        if (inResponse.ContentLength >= 0)
-                        {
-                            outResponse.ContentLength64 = inResponse.ContentLength;
-                        }
-                        body.CopyTo(outResponse.OutputStream);
-                    }
-                }
+                return GetStream(prog);
             }
         }
 
-        public Task Proxy(HttpListenerResponse outResponse)
-        {
-            return Proxy(outResponse, null);
-        }
-
-        protected virtual Task ModifyRequest(HttpWebRequest request) { return null; }
+        protected virtual Task ModifyRequest(HttpWebRequest request) { return Task.CompletedTask; }
 
         protected virtual BodyInfo GetBodyInfo() { return null; }
 
         protected virtual void WriteBody(Stream stream) { }
+
+        protected delegate Task<HttpWebResponse> ActionDelegate(IProgress prog);
+
+        protected abstract ActionDelegate Action { get; }
     }
 }

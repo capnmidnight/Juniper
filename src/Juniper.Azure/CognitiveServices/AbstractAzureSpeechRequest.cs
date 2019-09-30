@@ -1,7 +1,8 @@
 using System;
-using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+
+using Juniper.HTTP;
 
 namespace Juniper.Azure.CognitiveServices
 {
@@ -9,8 +10,8 @@ namespace Juniper.Azure.CognitiveServices
     {
         public string AuthToken { get; set; }
 
-        protected AbstractAzureSpeechRequest(string region, string path, string authToken, DirectoryInfo cacheLocation)
-            : base(region, "tts.speech", path, cacheLocation)
+        protected AbstractAzureSpeechRequest(string region, string path, string authToken, MediaType contentType)
+            : base(region, "tts.speech", path, contentType)
         {
             AuthToken = authToken;
         }

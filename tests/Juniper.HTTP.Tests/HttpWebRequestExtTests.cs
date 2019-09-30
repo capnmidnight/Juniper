@@ -29,13 +29,21 @@ namespace Juniper.HTTP.Tests
 
         private class ImageRequest : AbstractRequest
         {
-            public ImageRequest(Uri baseURI, string path, DirectoryInfo cacheDir)
-                : base(AddPath(baseURI, path), cacheDir) { }
+            public ImageRequest(Uri baseURI, string path, MediaType.Image imageType)
+                : base(AddPath(baseURI, path), imageType) { }
+
+            protected override ActionDelegate Action
+            {
+                get
+                {
+                    return Get;
+                }
+            }
         }
 
         private static async Task<ImageData> RunFileTest(string imageFileName, bool deleteFile, bool runTest)
         {
-            var decoder = new LibJpegNETDecoder(80);
+            var imageDecoder = new LibJpegNETDecoder(80);
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheFileName = Path.Combine(myPictures, imageFileName);
             var cacheFile = new FileInfo(cacheFileName);
@@ -45,26 +53,29 @@ namespace Juniper.HTTP.Tests
                 cacheFile.Delete();
             }
 
-            var actual = await new ImageRequest(
+            var fileCache = new FileCacheLayer(cacheFile.Directory);
+
+            var imageRequest = new ImageRequest(
                     new Uri("https://www.seanmcbeth.com"),
                     "2015-05.min.jpg",
-                    cacheFile.Directory)
-                .GetDecoded(decoder);
+                    MediaType.Image.Jpeg);
+
+            var image = await fileCache.GetDecoded(imageRequest, imageDecoder);
 
             if (runTest)
             {
                 var path = Path.Combine(myPictures, "portrait-expected.jpg");
-                var expected = decoder.Load(path);
-                Assert.AreEqual(expected.info.dimensions.width, actual.info.dimensions.width);
-                Assert.AreEqual(expected.info.dimensions.height, actual.info.dimensions.height);
-                Assert.AreEqual(expected.data.Length, actual.data.Length);
+                var expected = imageDecoder.Load(path);
+                Assert.AreEqual(expected.info.dimensions.width, image.info.dimensions.width);
+                Assert.AreEqual(expected.info.dimensions.height, image.info.dimensions.height);
+                Assert.AreEqual(expected.data.Length, image.data.Length);
                 for (var i = 0; i < expected.data.Length; ++i)
                 {
-                    Assert.AreEqual(expected.data[i], actual.data[i]);
+                    Assert.AreEqual(expected.data[i], image.data[i]);
                 }
             }
 
-            return actual;
+            return image;
         }
     }
 }

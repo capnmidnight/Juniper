@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+
 using Juniper.HTTP;
 
 namespace Juniper.Azure.CognitiveServices
@@ -69,24 +70,15 @@ namespace Juniper.Azure.CognitiveServices
         private string ssmlText;
         private int ssmlTextLength;
 
-        public TextToSpeechRequest(string region, string authToken, string resourceName, OutputFormat outputFormat, DirectoryInfo cacheLocation)
-            : base(region, "cognitiveservices/v1", authToken, cacheLocation)
+        public TextToSpeechRequest(string region, string authToken, string resourceName, OutputFormat outputFormat)
+            : base(region, "cognitiveservices/v1", authToken, outputFormat.ContentType)
         {
             this.resourceName = resourceName;
             this.outputFormat = outputFormat;
         }
 
-        public TextToSpeechRequest(string region, string authToken, string resourceName, OutputFormat outputFormat)
-            : this(region, authToken, resourceName, outputFormat, null)
-        { }
-
-        public TextToSpeechRequest(string region, string resourceName, OutputFormat outputFormat, DirectoryInfo cacheLocation)
-            : this(region, null, resourceName, outputFormat, cacheLocation)
-        {
-        }
-
         public TextToSpeechRequest(string region, string resourceName, OutputFormat outputFormat)
-            : this(region, null, resourceName, outputFormat, null)
+            : this(region, null, resourceName, outputFormat)
         { }
 
         private bool UseStyle
@@ -129,11 +121,11 @@ namespace Juniper.Azure.CognitiveServices
             }
         }
 
-        protected override string InternalCacheID
+        public override string CacheID
         {
             get
             {
-                var sb = new StringBuilder(base.InternalCacheID);
+                var sb = new StringBuilder(base.CacheID);
 
                 sb.Append(VoiceName);
 
@@ -225,6 +217,14 @@ namespace Juniper.Azure.CognitiveServices
             request.KeepAlive()
                 .UserAgent(resourceName)
                 .Header("X-Microsoft-OutputFormat", outputFormat.Value);
+        }
+
+        protected override ActionDelegate Action
+        {
+            get
+            {
+                return Post;
+            }
         }
     }
 }

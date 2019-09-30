@@ -22,12 +22,12 @@ namespace Juniper.Azure.CognitiveServices
         public static OutputFormat Audio24KHz48KbitrateMonoMP3 = new OutputFormat("audio-24khz-48kbitrate-mono-mp3", MediaType.Audio.Mpeg);
 
         public readonly string Value;
-        public readonly MediaType.Audio Format;
+        public readonly MediaType.Audio ContentType;
 
         private OutputFormat(string formatName, MediaType.Audio audioFormat)
         {
             Value = formatName;
-            Format = audioFormat;
+            ContentType = audioFormat;
         }
     }
 }

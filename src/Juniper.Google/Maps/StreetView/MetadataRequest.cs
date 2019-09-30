@@ -1,16 +1,11 @@
-using System.IO;
+using Juniper.HTTP;
 
 namespace Juniper.Google.Maps.StreetView
 {
     public class MetadataRequest : AbstractStreetViewRequest
     {
-
-        public MetadataRequest(string apiKey, string signingKey, DirectoryInfo cacheLocation)
-            : base("streetview/metadata", apiKey, signingKey, AddPath(cacheLocation, "streetview"))
-        { }
-
         public MetadataRequest(string apiKey, string signingKey)
-            : this(apiKey, signingKey, null)
+            : base("streetview/metadata", apiKey, signingKey, MediaType.Application.Json)
         { }
     }
 }

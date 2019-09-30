@@ -31,8 +31,7 @@ namespace Juniper.Compression.Zip
         /// <param name="outputZipFile">The file-path of the zip file to create</param>
         /// <param name="level">The zip compression level to use. Min is 0, max is 9.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
-        /// <param name="error">A callback for any errors that occur. Defaults to null (i.e. no error reporting).</param>
-        public static void CompressDirectory(string inputDirectory, string outputZipFile, int level, IProgress prog, Action<Exception> error)
+        public static void CompressDirectory(string inputDirectory, string outputZipFile, int level, IProgress prog)
         {
             prog.Report(0);
 
@@ -53,8 +52,11 @@ namespace Juniper.Compression.Zip
 
                     var baseDirectory = new DirectoryInfo(inputDirectory);
                     var files = baseDirectory.RecurseFiles().ToArray();
-                    prog.ForEach(files, (fi, p) =>
+                    var progs = prog.Split(files.Length);
+                    for(int i = 0; i < files.Length; ++i)
                     {
+                        var fi = files[i];
+                        var p = progs[i];
                         var shortName = PathExt.Abs2Rel(fi.FullName, baseDirectory.FullName);
                         var entryName = ZipEntry.CleanName(shortName);
                         var newEntry = new ZipEntry(entryName)
@@ -70,26 +72,16 @@ namespace Juniper.Compression.Zip
                             progress.CopyTo(zipStream);
                         }
                         zipStream.CloseEntry();
-                    }, error);
+                    }
                 }
             }
 
             prog.Report(1);
         }
 
-        public static void CompressDirectory(string inputDirectory, string outputZipFile, int level, IProgress prog)
-        {
-            CompressDirectory(inputDirectory, outputZipFile, level, prog, null);
-        }
-
-        public static void CompressDirectory(string inputDirectory, string outputZipFile, int level, Action<Exception> error)
-        {
-            CompressDirectory(inputDirectory, outputZipFile, level, null, error);
-        }
-
         public static void CompressDirectory(string inputDirectory, string outputZipFile, int level)
         {
-            CompressDirectory(inputDirectory, outputZipFile, level, null, null);
+            CompressDirectory(inputDirectory, outputZipFile, level, null);
         }
     }
 }

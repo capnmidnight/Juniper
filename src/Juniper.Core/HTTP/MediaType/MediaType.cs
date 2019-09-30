@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Juniper.HTTP
 {
@@ -38,6 +39,24 @@ namespace Juniper.HTTP
         public static implicit operator string(MediaType mediaType)
         {
             return mediaType.Value;
+        }
+    }
+
+    public static class MediaTypeExt
+    {
+        public static string AddExtension(this MediaType contentType, string fileName)
+        {
+            if (contentType != null
+                && contentType.PrimaryExtension != null)
+            {
+                var expectedExt = "." + contentType.PrimaryExtension;
+                if (Path.GetExtension(fileName) != expectedExt)
+                {
+                    fileName += expectedExt;
+                }
+            }
+
+            return fileName;
         }
     }
 }

@@ -8,10 +8,6 @@ namespace Juniper.HTTP
     {
         public static void Error(this HttpListenerResponse response, HttpStatusCode code, string message)
         {
-            Console.Write(message);
-            Console.Write(" ");
-            Console.WriteLine(code.ToString());
-
             response.SetStatus(code);
 
             using (var writer = new StreamWriter(response.OutputStream))

@@ -33,12 +33,12 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task JPEGImageSize()
         {
-            var imageRequest = new ImageRequest(apiKey, signingKey, cacheDir, new Size(640, 640))
+            var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640), jpegDecoder.ImageType)
             {
                 Place = "Alexandria, VA"
             };
 
-            var image = await imageRequest.GetDecoded(jpegDecoder);
+            var image = await cache.GetDecoded(imageRequest, jpegDecoder);
             var info = image.info;
             Assert.AreEqual(640, info.dimensions.width);
             Assert.AreEqual(640, info.dimensions.height);
@@ -47,12 +47,12 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task PNGImageSize()
         {
-            var imageRequest = new ImageRequest(apiKey, signingKey, cacheDir, new Size(640, 640))
+            var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640), jpegDecoder.ImageType)
             {
                 Place = "Alexandria, VA"
             };
 
-            var rawImg = await imageRequest.GetDecoded(jpegDecoder);
+            var rawImg = await cache.GetDecoded(imageRequest, jpegDecoder);
             var data = pngDecoder.Serialize(rawImg);
             var info = png.GetImageInfo(data);
             Assert.AreEqual(640, info.dimensions.width);
@@ -62,11 +62,12 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetMetadata()
         {
-            var metadataRequest = new MetadataRequest(apiKey, signingKey, cacheDir)
+            var metadataRequest = new MetadataRequest(apiKey, signingKey)
             {
                 Place = "Washington, DC"
             };
-            var metadata = await metadataRequest.GetDecoded(new JsonFactory().Specialize<MetadataResponse>());
+            var metadataDecoder = new JsonFactory().Specialize<MetadataResponse>();
+            var metadata = await cache.GetDecoded(metadataRequest, metadataDecoder);
             Assert.AreEqual(HttpStatusCode.OK, metadata.status);
             Assert.IsNotNull(metadata.copyright);
             Assert.IsNotNull("2016-07", metadata.date.ToString("yyyy-MM"));
@@ -77,12 +78,12 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var imageRequest = new ImageRequest(apiKey, signingKey, cacheDir, new Size(4096, 4096))
+            var imageRequest = new ImageRequest(apiKey, signingKey, new Size(4096, 4096), jpegDecoder.ImageType)
             {
                 Place = "Alexandria, VA"
             };
 
-            var image = await imageRequest.GetDecoded(jpegDecoder);
+            var image = await cache.GetDecoded(imageRequest, jpegDecoder);
             Assert.AreEqual(640, image.info.dimensions.width);
             Assert.AreEqual(640, image.info.dimensions.height);
         }
@@ -90,7 +91,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
         [TestMethod]
         public async Task GetImageWithoutCaching()
         {
-            var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640))
+            var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640), jpegDecoder.ImageType)
             {
                 Place = "Alexandria, VA"
             };

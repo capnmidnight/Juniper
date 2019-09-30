@@ -1,4 +1,5 @@
 using System.IO;
+using Juniper.HTTP;
 
 namespace Juniper.Google.Maps.Geocoding
 {
@@ -6,9 +7,17 @@ namespace Juniper.Google.Maps.Geocoding
     {
         private string language;
 
-        protected AbstractGeocodingRequest(string apiKey, DirectoryInfo cacheLocation)
-            : base("geocode/json", apiKey, null, AddPath(cacheLocation, "geocoding"))
+        protected AbstractGeocodingRequest(string apiKey)
+            : base("geocode/json", apiKey, MediaType.Application.Json)
         {
+        }
+
+        public override string CacheID
+        {
+            get
+            {
+                return Path.Combine("geocoding", base.CacheID);
+            }
         }
 
         public string Language

@@ -135,12 +135,6 @@ namespace System.Net
             return request;
         }
 
-        public static HttpWebRequest Expect(this HttpWebRequest request, HttpStatusCode code)
-        {
-            request.Expect = code.ToString();
-            return request;
-        }
-
         /// <summary>
         /// Sets the TransferEncoding header for the HTTP request.
         /// </summary>
@@ -298,77 +292,6 @@ namespace System.Net
         }
 
         /// <summary>
-        /// Perform a POST request, writing the body through a stream, and return the results as a stream.
-        /// </summary>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> Post(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
-        {
-            request.Method = "POST";
-            await request.WriteBody(getInfo, writeBody, prog);
-            return (HttpWebResponse)await request.GetResponseAsync();
-        }
-
-        public static Task<HttpWebResponse> Post(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
-        {
-            return request.Post(getInfo, writeBody, null);
-        }
-
-        /// <summary>
-        /// Perform a POST request, writing the body through a stream, and return the results as a stream.
-        /// </summary>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static Task<HttpWebResponse> Post(this HttpWebRequest request, IProgress prog)
-        {
-            return request.Post(null, null, prog);
-        }
-
-        /// <summary>
-        /// Perform a POST request, writing the body through a stream, and return the results as a stream.
-        /// </summary>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static Task<HttpWebResponse> Post(this HttpWebRequest request)
-        {
-            return request.Post(null, null, null);
-        }
-
-        /// <summary>
-        /// Perform a PUT request, writing the body through a stream, and return the results as a stream.
-        /// </summary>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> Put(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
-        {
-            request.Method = "PUT";
-            await request.WriteBody(getInfo, writeBody, prog);
-            return (HttpWebResponse)await request.GetResponseAsync();
-        }
-
-        public static Task<HttpWebResponse> Put(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
-        {
-            return request.Put(getInfo, writeBody, null);
-        }
-
-        /// <summary>
-        /// Perform a PATCH request, writing the body through a stream, and return the results as a stream.
-        /// </summary>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> Patch(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
-        {
-            request.Method = "PATCH";
-            await request.WriteBody(getInfo, writeBody, prog);
-            return (HttpWebResponse)await request.GetResponseAsync();
-        }
-
-        public static Task<HttpWebResponse> Patch(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
-        {
-            return request.Patch(getInfo, writeBody, null);
-        }
-
-        /// <summary>
         /// Perform a DELETE request, writing the body through a stream, and return the results as a stream.
         /// </summary>
         /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
@@ -378,21 +301,6 @@ namespace System.Net
             request.Method = "DELETE";
             await request.WriteBody(getInfo, writeBody, prog);
             return (HttpWebResponse)await request.GetResponseAsync();
-        }
-
-        public static Task<HttpWebResponse> Delete(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody)
-        {
-            return request.Delete(getInfo, writeBody, null);
-        }
-
-        /// <summary>
-        /// Perform a DELETE request, writing the body through a stream, and return the results as a stream.
-        /// </summary>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static Task<HttpWebResponse> Delete(this HttpWebRequest request, IProgress prog)
-        {
-            return request.Delete(null, null, prog);
         }
 
         /// <summary>
@@ -413,17 +321,6 @@ namespace System.Net
         public static async Task<HttpWebResponse> Get(this HttpWebRequest request)
         {
             request.Method = "GET";
-            return (HttpWebResponse)await request.GetResponseAsync();
-        }
-
-        /// <summary>
-        /// Perform a HEAD request and return the results as a stream of bytes
-        /// </summary>
-        /// <param name="prog">Progress tracker (defaults to no progress tracking)</param>
-        /// <returns>A stream that contains the response body, and an HTTP status code</returns>
-        public static async Task<HttpWebResponse> Head(this HttpWebRequest request)
-        {
-            request.Method = "HEAD";
             return (HttpWebResponse)await request.GetResponseAsync();
         }
     }

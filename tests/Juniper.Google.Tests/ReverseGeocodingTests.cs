@@ -16,11 +16,12 @@ namespace Juniper.Google.Maps.Geocoding.Tests
         [TestMethod]
         public async Task BasicReverseGeocoding()
         {
-            var search = new ReverseGeocodingRequest(apiKey, cacheDir)
+            var searchRequest = new ReverseGeocodingRequest(apiKey)
             {
                 Location = new LatLngPoint(36.080811f, -75.721568f)
             };
-            var results = await search.GetDecoded(new JsonFactory().Specialize<GeocodingResponse>());
+            var searchDecoder = new JsonFactory().Specialize<GeocodingResponse>();
+            var results = await cache.GetDecoded(searchRequest, searchDecoder);
             Assert.IsNotNull(results);
             Assert.AreEqual(HttpStatusCode.OK, results.status);
             Assert.IsNull(results.error_message);

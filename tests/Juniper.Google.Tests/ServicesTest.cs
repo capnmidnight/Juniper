@@ -1,6 +1,9 @@
 using System;
 using System.IO;
 
+using Juniper.HTTP.REST;
+using Juniper.Serialization;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Google.Maps.Tests
@@ -9,7 +12,7 @@ namespace Juniper.Google.Maps.Tests
     {
         protected string apiKey;
         protected string signingKey;
-        protected DirectoryInfo cacheDir;
+        protected CachingStrategy cache;
 
         [TestInitialize]
         public virtual void Init()
@@ -23,7 +26,10 @@ namespace Juniper.Google.Maps.Tests
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheDirName = Path.Combine(myPictures, "GoogleMaps");
 
-            cacheDir = new DirectoryInfo(cacheDirName);
+            var cacheDir = new DirectoryInfo(cacheDirName);
+            var fileCache = new FileCacheLayer(cacheDir);
+            cache = new CachingStrategy()
+                .AddLayer(fileCache);
         }
     }
 }

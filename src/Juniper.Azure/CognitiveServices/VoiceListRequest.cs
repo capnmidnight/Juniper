@@ -1,21 +1,23 @@
-using System.IO;
+using Juniper.HTTP;
 
 namespace Juniper.Azure.CognitiveServices
 {
     public class VoiceListRequest : AbstractAzureSpeechRequest
     {
-        public VoiceListRequest(string region, string authToken, DirectoryInfo cacheLocation)
-            : base(region, "cognitiveservices/voices/list", authToken, cacheLocation)
+        public VoiceListRequest(string region, string authToken)
+            : base(region, "cognitiveservices/voices/list", authToken, MediaType.Application.Json)
         { }
 
-        public VoiceListRequest(string region, string authToken)
-            : this(region, authToken, null)
-        { }
-        public VoiceListRequest(string region, DirectoryInfo cacheLocation)
-            : this(region, null, cacheLocation)
-        { }
         public VoiceListRequest(string region)
-            : this(region, null, null)
+            : this(region, null)
         { }
+
+        protected override ActionDelegate Action
+        {
+            get
+            {
+                return Get;
+            }
+        }
     }
 }

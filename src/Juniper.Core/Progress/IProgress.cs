@@ -64,53 +64,6 @@ namespace Juniper.Progress
         }
 
         /// <summary>
-        /// Perform a series of actions, updating a progress tracker along the way.
-        /// </summary>
-        /// <typeparam name="T">A type of items in a list of objects to iterate over, for progress tracking</typeparam>
-        /// <param name="prog">The progress tracker that aggregates all of the sub-operations.</param>
-        /// <param name="arr">The list of objects to iterate over, for progress tracking.</param>
-        /// <param name="act">The action to take on each list item.</param>
-        /// <param name="error">A callback to fire if an error occurs when processing a list item.</param>
-        public static void ForEach<T>(this IProgress prog, IEnumerable<T> arr, Action<T, IProgress> act, Action<Exception> error)
-        {
-            var len = arr.Count();
-            if (len == 0)
-            {
-                prog.Report(1, "Nothing to do");
-            }
-            else
-            {
-                var progs = prog.Split(len);
-                var index = 0;
-                foreach (var item in arr)
-                {
-                    try
-                    {
-                        progs[index].Report(0);
-                        act(item, progs[index]);
-                        progs[index].Report(1);
-                        ++index;
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        throw;
-                    }
-#pragma warning disable CA1031 // Do not catch general exception types
-                    catch (Exception exp)
-                    {
-                        error?.Invoke(exp);
-                    }
-#pragma warning restore CA1031 // Do not catch general exception types
-                }
-            }
-        }
-
-        public static void ForEach<T>(this IProgress prog, IEnumerable<T> arr, Action<T, IProgress> act)
-        {
-            prog.ForEach(arr, act, null);
-        }
-
-        /// <summary>
         /// Make a subdivision of a progress meter. Progress from [0, 1] on the subdivision
         /// will map to progress from [<paramref name="start"/>, <paramref name="start"/> + <paramref name="length"/>]
         /// on the parent progress tracker.
@@ -173,6 +126,14 @@ namespace Juniper.Progress
 
             return arr;
         }
+        public static IProgress[] Split(this IProgress parent, string a, string b)
+        {
+            return new IProgress[2]
+            {
+                parent?.Subdivide(0, 0.5f, a),
+                parent?.Subdivide(0.5f, 0.5f, b)
+            };
+        }
 
         /// <summary>
         /// Split a progress tracker into sub-trackers with the provided prefixes, one per prefix.
@@ -187,9 +148,9 @@ namespace Juniper.Progress
                 throw new ArgumentNullException(nameof(prefixes));
             }
 
-            if (prefixes.Length == 0)
+            if (prefixes.Length < 3)
             {
-                throw new ArgumentException("Must provide at least one prefix", nameof(prefixes));
+                throw new ArgumentException("Must provide at least three prefixes", nameof(prefixes));
             }
 
             var arr = new IProgress[prefixes.Length];

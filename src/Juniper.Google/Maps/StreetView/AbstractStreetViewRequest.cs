@@ -1,4 +1,6 @@
 using System.IO;
+
+using Juniper.HTTP;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
@@ -10,9 +12,17 @@ namespace Juniper.Google.Maps.StreetView
         private LatLngPoint location;
         private int radius;
 
-        protected AbstractStreetViewRequest(string path, string apiKey, string signingKey, DirectoryInfo cacheLocation)
-            : base(path, apiKey, signingKey, cacheLocation)
+        protected AbstractStreetViewRequest(string path, string apiKey, string signingKey, MediaType contentType)
+            : base(path, apiKey, signingKey, contentType)
         { }
+
+        public override string CacheID
+        {
+            get
+            {
+                return Path.Combine("streetview", base.CacheID);
+            }
+        }
 
         public string Pano
         {

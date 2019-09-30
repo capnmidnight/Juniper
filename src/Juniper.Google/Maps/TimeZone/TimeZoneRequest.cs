@@ -1,5 +1,6 @@
 using System;
-using System.IO;
+
+using Juniper.HTTP;
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.TimeZone
@@ -9,12 +10,8 @@ namespace Juniper.Google.Maps.TimeZone
         private LatLngPoint location;
         private DateTime timestamp;
 
-        public TimeZoneRequest(string apiKey, DirectoryInfo cacheLocation)
-            : base("timezone/json", apiKey, null, AddPath(cacheLocation, "timezones"))
-        { }
-
         public TimeZoneRequest(string apiKey)
-            : this(apiKey, null)
+            : base("timezone/json", apiKey, MediaType.Application.Json)
         { }
 
         public LatLngPoint Location

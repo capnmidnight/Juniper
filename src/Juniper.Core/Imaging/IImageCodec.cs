@@ -15,6 +15,8 @@ namespace Juniper.Imaging
 
         int GetComponents(T img);
 
+        MediaType.Image ImageType { get; }
+
         ImageInfo GetImageInfo(byte[] data);
 
         T Concatenate(T[,] images, IProgress prog);

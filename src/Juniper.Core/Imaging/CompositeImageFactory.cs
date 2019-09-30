@@ -19,6 +19,8 @@ namespace Juniper.Imaging
 
         public MediaType ContentType { get { return codec.ContentType; } }
 
+        public MediaType.Image ImageType { get { return codec.ImageType; } }
+
         public ImageTypeB Deserialize(Stream stream, IProgress prog)
         {
             var subProgs = prog.Split(2);

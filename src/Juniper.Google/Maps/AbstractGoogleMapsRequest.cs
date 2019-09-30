@@ -1,7 +1,8 @@
 using System;
-using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+
+using Juniper.HTTP;
 using Juniper.HTTP.REST;
 
 namespace Juniper.Google.Maps
@@ -13,12 +14,16 @@ namespace Juniper.Google.Maps
         private readonly string apiKey;
         private readonly string signingKey;
 
-        protected AbstractGoogleMapsRequest(string path, string apiKey, string signingKey, DirectoryInfo cacheLocation)
-            : base(AddPath(gmaps, path), cacheLocation)
+        protected AbstractGoogleMapsRequest(string path, string apiKey, string signingKey, MediaType contentType)
+            : base(AddPath(gmaps, path), contentType)
         {
             this.apiKey = apiKey;
             this.signingKey = signingKey;
         }
+
+        protected AbstractGoogleMapsRequest(string path, string apiKey, MediaType contentType)
+            : this(path, apiKey, null, contentType)
+        { }
 
         protected override Uri AuthenticatedURI
         {
@@ -46,6 +51,14 @@ namespace Juniper.Google.Maps
                         return signedUri.Uri;
                     }
                 }
+            }
+        }
+
+        protected override ActionDelegate Action
+        {
+            get
+            {
+                return Get;
             }
         }
     }

@@ -27,7 +27,21 @@ namespace Juniper.Imaging.LibJpegNET
             return ImageInfo.ReadJPEG(data);
         }
 
-        public MediaType ContentType { get { return MediaType.Image.Jpeg; } }
+        public MediaType.Image ImageType
+        {
+            get
+            {
+                return MediaType.Image.Jpeg;
+            }
+        }
+
+        public MediaType ContentType
+        {
+            get
+            {
+                return ImageType;
+            }
+        }
 
         /// <summary>
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.

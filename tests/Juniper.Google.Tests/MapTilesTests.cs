@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Juniper.Google.Maps.Tests;
 using Juniper.Imaging;
 using Juniper.Imaging.HjgPngcs;
+using Juniper.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -47,14 +48,14 @@ namespace Juniper.Google.Maps.MapTiles.Tests
         [TestMethod]
         public async Task GetImage()
         {
-            var search = new TileRequest(apiKey, signingKey, cacheDir, new Size(640, 640))
+            var decoder = new HjgPngcsDecoder();
+            var search = new TileRequest(apiKey, signingKey, new Size(640, 640), decoder.ImageType)
             {
                 Zoom = 20,
                 Address = (string)"4909 Rutland Pl, Alexandria, VA, 22304"
             };
 
-            var decoder = new HjgPngcsDecoder();
-            var results = await search.GetDecoded(decoder);
+            var results = await cache.GetDecoded(search, decoder);
             Assert.IsNotNull(results);
             Assert.AreEqual(640, results.info.dimensions.width);
             Assert.AreEqual(640, results.info.dimensions.height);

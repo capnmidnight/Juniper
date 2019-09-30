@@ -14,11 +14,23 @@ namespace Juniper.Imaging.Windows
     {
         private readonly GDIImageFormat gdiFormat;
 
-        public MediaType ContentType { get; private set; }
+        public MediaType.Image ImageType
+        {
+            get;
+            private set;
+        }
+
+        public MediaType ContentType
+        {
+            get
+            {
+                return ImageType;
+            }
+        }
 
         public GDICodec(MediaType.Image format)
         {
-            ContentType = format;
+            ImageType = format;
             gdiFormat = format.ToGDIImageFormat();
         }
 
@@ -54,7 +66,7 @@ namespace Juniper.Imaging.Windows
 
         public ImageInfo GetImageInfo(byte[] data)
         {
-            if(ContentType == MediaType.Image.Jpeg)
+            if (ContentType == MediaType.Image.Jpeg)
             {
                 return ImageInfo.ReadJPEG(data);
             }
@@ -64,7 +76,7 @@ namespace Juniper.Imaging.Windows
             }
             else
             {
-                using(var image = this.Deserialize(data))
+                using (var image = this.Deserialize(data))
                 {
                     return new ImageInfo(
                         image.Width,
@@ -97,13 +109,13 @@ namespace Juniper.Imaging.Windows
                     g.Clear(Color.Black);
                 }
 
-                for(var y = 0; y < rows; ++y)
+                for (var y = 0; y < rows; ++y)
                 {
-                    for(var x = 0; x < columns; ++x)
+                    for (var x = 0; x < columns; ++x)
                     {
                         prog.Report(y * columns + x, rows * columns);
                         var img = images[y, x];
-                        if(img != null)
+                        if (img != null)
                         {
                             images[y, x] = null;
                             var imageX = y * tileWidth;

@@ -125,15 +125,21 @@ namespace Juniper.Compression.Zip
         /// Retrieves a single file from a zip file.
         /// </summary>
         /// <param name="fileName">The zip file in which to find the file.</param>
-        /// <param name="entryPath">The file to find in the zip file.</param>
+        /// <param name="entry">The file to find in the zip file.</param>
         /// <param name="prog">A progress tracking object, defaults to null (i.e. no progress tracking).</param>
+        public static Stream GetFile(this ZipFile zip, ZipEntry entry, IProgress prog)
+        {
+            return new ProgressStream(zip.GetInputStream(entry), entry.Size, prog);
+        }
+
+        public static Stream GetFile(this ZipFile zip, ZipEntry entry)
+        {
+            return zip.GetFile(entry, null);
+        }
+
         public static Stream GetFile(this ZipFile zip, string entryPath, IProgress prog)
         {
-            var mem = new MemoryStream();
-            zip.CopyFile(entryPath, mem, prog);
-            mem.Flush();
-            mem.Position = 0;
-            return mem;
+            return zip.GetFile(zip.GetEntry(entryPath), prog);
         }
 
         public static Stream GetFile(this ZipFile zip, string entryPath)
@@ -143,10 +149,9 @@ namespace Juniper.Compression.Zip
 
         public static Stream GetFile(FileInfo file, string entryPath, IProgress prog)
         {
-            using (var zip = OpenZip(file))
-            {
-                return zip.GetFile(entryPath, prog);
-            }
+            var zip = OpenZip(file);
+            var entry = zip.GetEntry(entryPath);
+            return zip.GetFile(entry, prog);
         }
 
         public static Stream GetFile(FileInfo file, string entryPath)

@@ -2,9 +2,11 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Juniper.Audio.NAudio;
 using Juniper.Azure.CognitiveServices;
 using Juniper.HTTP;
+using Juniper.HTTP.REST;
 using Juniper.Serialization;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,10 +17,10 @@ namespace Juniper.Azure.Tests
     public class APITests
     {
         private readonly IDeserializer<string> plainText = new StreamStringDecoder();
-        private readonly IDeserializer<Voice[]> voiceList = new JsonFactory<Voice[]>();
+        private readonly IDeserializer<Voice[]> voiceListJson = new JsonFactory<Voice[]>();
         private string subscriptionKey;
         private string region;
-        private DirectoryInfo cacheDir;
+        private CachingStrategy cache;
 
         [TestInitialize]
         public void Setup()
@@ -29,20 +31,23 @@ namespace Juniper.Azure.Tests
             subscriptionKey = lines[0];
             region = lines[1];
             var cacheDirName = Path.Combine(userProfile, "Projects");
-            cacheDir = new DirectoryInfo(cacheDirName);
+            var cacheDir = new DirectoryInfo(cacheDirName);
+            var fileCache = new FileCacheLayer(cacheDir);
+            cache = new CachingStrategy();
+            cache.AddLayer(fileCache);
         }
 
         private async Task<string> GetToken()
         {
             var tokenRequest = new AuthTokenRequest(region, subscriptionKey);
-            var token = await tokenRequest.PostForDecoded(plainText);
+            var token = await tokenRequest.GetDecoded(plainText);
             return token;
         }
 
         private async Task<Voice[]> GetVoices(string token)
         {
-            var voicesRequest = new VoiceListRequest(region, token, cacheDir);
-            var voices = await voicesRequest.GetDecoded(voiceList);
+            var voiceListRequest = new VoiceListRequest(region, token);
+            var voices = await cache.GetDecoded(voiceListRequest, voiceListJson);
             return voices;
         }
 
@@ -56,7 +61,7 @@ namespace Juniper.Azure.Tests
                          select v)
                         .First();
 
-            var audioRequest = new TextToSpeechRequest(region, token, "dls-dev-speech-recognition", OutputFormat.Audio16KHz128KbitrateMonoMP3, cacheDir)
+            var audioRequest = new TextToSpeechRequest(region, token, "dls-dev-speech-recognition", OutputFormat.Audio16KHz128KbitrateMonoMP3)
             {
                 Text = "Hello, world",
                 VoiceName = voice.ShortName,
@@ -90,10 +95,10 @@ namespace Juniper.Azure.Tests
         {
             var audioRequest = await MakeSpeechRequest();
 
-            using (var audio = await audioRequest.PostForStream(MediaType.Audio.Mpeg))
+            using (var audioStream = await cache.GetStream(audioRequest))
             {
                 var mem = new MemoryStream();
-                audio.CopyTo(mem);
+                audioStream.CopyTo(mem);
                 var buff = mem.ToArray();
                 Assert.AreNotEqual(0, buff.Length);
             }
@@ -103,9 +108,9 @@ namespace Juniper.Azure.Tests
         public async Task DecodeAudio()
         {
             var mpeg = MediaType.Audio.Mpeg;
-            var decoder = new NAudioAudioDataDecoder(mpeg);
             var audioRequest = await MakeSpeechRequest();
-            var audio = await audioRequest.PostForDecoded(decoder);
+            var audioDecoder = new NAudioAudioDataDecoder(mpeg);
+            var audio = await cache.GetDecoded(audioRequest, audioDecoder);
             Assert.AreEqual(mpeg, audio.contentType);
             Assert.AreEqual(audio.samplesPerChannel * audio.numChannels, audio.data.Length);
             Assert.AreEqual(16000, audio.frequency);
