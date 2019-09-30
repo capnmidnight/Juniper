@@ -12,26 +12,15 @@ namespace Juniper
         public static void SetValue<T>(this SerializedProperty property, T value)
         {
             var obj = GetObject(property);
-            if (obj != default && obj.Object != default)
+            if (obj != default
+                && obj.Parent != default
+                && obj.Object != default)
             {
-                obj.Field.SetValue(obj.Object, value);
+                obj.Field.SetValue(obj.Parent, value);
             }
         }
 
-        public static T GetValue<T>(this SerializedProperty property) where T : struct
-        {
-            var obj = GetObject(property);
-            if (obj == default || obj.Object == default)
-            {
-                return default;
-            }
-            else
-            {
-                return (T)obj.Field.GetValue(obj.Object);
-            }
-        }
-
-        public static T GetObject<T>(this SerializedProperty property) where T : new()
+        public static T GetObject<T>(this SerializedProperty property)// where T : new()
         {
             var obj = GetObject(property);
             if (obj == default || obj.Object == default)
@@ -62,7 +51,7 @@ namespace Juniper
         /// </summary>
         private static readonly Regex arrayIndexPattern = new Regex("data\\[(\\w+)\\]", RegexOptions.Compiled);
 
-        private static (FieldInfo Field, object Object) GetObject(SerializedProperty property)
+        private static (FieldInfo Field, object Object, object Parent) GetObject(SerializedProperty property)
         {
             object head = property.serializedObject.targetObject;
             var parts = property.propertyPath.Split('.');
@@ -88,13 +77,11 @@ namespace Juniper
                 {
                     var type = head.GetType();
                     var field = type.GetField(part, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                    if (i < parts.Length - 1)
+                    var parent = head;
+                    head = field.GetValue(head);
+                    if (i == parts.Length - 1)
                     {
-                        head = field.GetValue(head);
-                    }
-                    else
-                    {
-                        return (field, head);
+                        return (field, head, parent);
                     }
                 }
             }
