@@ -81,10 +81,19 @@ namespace Juniper.Strings.Tests
         }
 
         [TestMethod]
-        public void FixPath()
+        public void FixPath1()
         {
             var path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var fixedPath = PathExt.FixPath(path);
+            Assert.AreEqual(path, fixedPath);
+        }
+
+        [TestMethod]
+        public void FixPath2()
+        {
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var brokenPath = path.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            var fixedPath = PathExt.FixPath(brokenPath);
             Assert.AreEqual(path, fixedPath);
         }
     }

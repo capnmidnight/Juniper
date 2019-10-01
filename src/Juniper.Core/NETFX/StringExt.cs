@@ -50,9 +50,7 @@ namespace System
         /// <param name="value">Value.</param>
         public static string NormalizePath(this string value)
         {
-            return value
-                .Replace('/', Path.DirectorySeparatorChar)
-                .Replace('\\', Path.DirectorySeparatorChar);
+            return value.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text;
 
 namespace System.IO
 {
@@ -24,21 +25,33 @@ namespace System.IO
         /// <example>On Windows, if a path is specified with forward slashes, a value with backslashes is returned.</example>
         public static string FixPath(string path)
         {
-            var parts = path.SplitX(Path.AltDirectorySeparatorChar).ToList();
+            path = path.NormalizePath();
 
-            for (var i = 0; i < parts.Count; ++i)
+            var parts = path.SplitX(Path.DirectorySeparatorChar);
+            var sb = new StringBuilder();
+            for (var i = 0; i < parts.Length; ++i)
             {
-                if (i == 0)
+                if (i > 0)
                 {
-                    parts[i] = string.Join("_", parts[i].Split(INVALID_START_CHARS));
+                    sb.Append(Path.DirectorySeparatorChar);
                 }
-                else
+
+                var subParts = i == 0
+                    ? parts[i].Split(INVALID_START_CHARS)
+                    : parts[i].Split(INVALID_CHARS);
+
+                for (int j = 0; j < subParts.Length; ++j)
                 {
-                    parts[i] = string.Join("_", parts[i].Split(INVALID_CHARS));
+                    if (j > 0)
+                    {
+                        sb.Append('_');
+                    }
+
+                    sb.Append(subParts[j]);
                 }
             }
 
-            return string.Join(Path.DirectorySeparatorChar.ToString(), parts);
+            return sb.ToString();
         }
 
         public static string[] PathParts(string path)
