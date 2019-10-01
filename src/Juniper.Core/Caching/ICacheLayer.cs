@@ -48,6 +48,7 @@ namespace Juniper.Caching
             using (var stream = layer.OpenWrite(fileDescriptor, encoder.WriteContentType))
             {
                 encoder.Serialize(stream, value, prog);
+                stream.Flush();
             }
         }
 

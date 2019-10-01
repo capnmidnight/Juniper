@@ -12,11 +12,13 @@ namespace Juniper.Azure.CognitiveServices
     {
         private readonly string azureSubscriptionKey;
         private readonly string azureRegion;
-        private readonly VoiceListRequest voiceListRequest;
-        private readonly TextToSpeechRequest ttsRequest;
+        private readonly string azureResourceName;
+        private readonly OutputFormat outputFormat;
         private readonly IDeserializer<Voice[]> voiceListDecoder;
         private readonly IDeserializer<AudioData> audioDecoder;
         private readonly CachingStrategy cachingStrategy;
+
+        private string authToken;
 
         private Voice[] voices;
 
@@ -62,12 +64,11 @@ namespace Juniper.Azure.CognitiveServices
 
             this.azureRegion = azureRegion;
             this.azureSubscriptionKey = azureSubscriptionKey;
+            this.azureResourceName = azureResourceName;
             this.voiceListDecoder = voiceListDecoder;
+            this.outputFormat = outputFormat;
             this.audioDecoder = audioDecoder;
             this.cachingStrategy = cachingStrategy;
-
-            voiceListRequest = new VoiceListRequest(azureRegion);
-            ttsRequest = new TextToSpeechRequest(azureRegion, azureResourceName, outputFormat);
         }
 
         public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IDeserializer<Voice[]> voiceListDecoder, OutputFormat outputFormat, IDeserializer<AudioData> audioDecoder)
@@ -79,16 +80,17 @@ namespace Juniper.Azure.CognitiveServices
             IsAvailable = true;
         }
 
-        public async Task<Voice[]> GetVoices()
+        private async Task<string> GetAuthToken()
         {
             try
             {
-                if (voices is null)
+                if (string.IsNullOrEmpty(authToken))
                 {
-                    voices = await cachingStrategy.GetDecoded(voiceListRequest, voiceListDecoder);
+                    var plainText = new StreamStringDecoder();
+                    var authRequest = new AuthTokenRequest(azureRegion, azureSubscriptionKey);
+                    authToken = await authRequest.GetDecoded(plainText);
                 }
-
-                return voices;
+                return authToken;
             }
             catch
             {
@@ -97,13 +99,21 @@ namespace Juniper.Azure.CognitiveServices
             }
         }
 
-        private Task<string> GetAuthToken()
+        public async Task<Voice[]> GetVoices()
         {
             try
             {
-                var plainText = new StreamStringDecoder();
-                var authRequest = new AuthTokenRequest(azureRegion, azureSubscriptionKey);
-                return authRequest.GetDecoded(plainText);
+                if (voices is null)
+                {
+                    var voiceListRequest = new VoiceListRequest(azureRegion);
+                    if (!cachingStrategy.IsCached(voiceListRequest))
+                    {
+                        voiceListRequest.AuthToken = await GetAuthToken();
+                    }
+                    voices = await cachingStrategy.GetDecoded(voiceListRequest, voiceListDecoder);
+                }
+
+                return voices;
             }
             catch
             {
@@ -134,23 +144,17 @@ namespace Juniper.Azure.CognitiveServices
                     throw new InvalidOperationException("Could not find a default voice for text to speech commands");
                 }
 
-                ttsRequest.Text = text;
-                ttsRequest.VoiceName = voiceName;
-                ttsRequest.RateChange = rateChange;
-                ttsRequest.PitchChange = pitchChange;
-
-                if(!cachingStrategy.IsCached(ttsRequest)
-                    && string.IsNullOrEmpty(ttsRequest.AuthToken))
+                var ttsRequest = new TextToSpeechRequest(azureRegion, azureResourceName, outputFormat)
                 {
-                    if (voiceListRequest != null
-                        && !string.IsNullOrEmpty(voiceListRequest.AuthToken))
-                    {
-                        ttsRequest.AuthToken = voiceListRequest.AuthToken;
-                    }
-                    else
-                    {
-                        ttsRequest.AuthToken = await GetAuthToken();
-                    }
+                    Text = text,
+                    VoiceName = voiceName,
+                    RateChange = rateChange,
+                    PitchChange = pitchChange
+                };
+
+                if (!cachingStrategy.IsCached(ttsRequest))
+                {
+                    ttsRequest.AuthToken = await GetAuthToken();
                 }
 
                 return await cachingStrategy.GetDecoded(ttsRequest, audioDecoder);

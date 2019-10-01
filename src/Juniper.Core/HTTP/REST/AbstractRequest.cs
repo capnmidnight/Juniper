@@ -197,9 +197,10 @@ namespace Juniper.HTTP.REST
 
             if (request.ContentLength > 0)
             {
-                using (var stream = await request.GetRequestStreamAsync())
+                using (var stream = new ProgressStream(await request.GetRequestStreamAsync(), request.ContentLength, prog))
                 {
-                    WriteBody(new ProgressStream(stream, request.ContentLength, prog));
+                    WriteBody(stream);
+                    stream.Flush();
                 }
             }
             return (HttpWebResponse)await request.GetResponseAsync();
