@@ -11,7 +11,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
     [TestClass]
     public class GoogleGeocodingTests : ServicesTests
     {
-        private static readonly IDeserializer<GeocodingResponse> decoder = new JsonFactory().Specialize<GeocodingResponse>();
+        private static readonly IDeserializer<GeocodingResponse> decoder = new JsonFactory<GeocodingResponse>();
         [TestMethod]
         public async Task BasicGeocoding()
         {

@@ -20,7 +20,7 @@ namespace Juniper.Google.Maps.Geocoding.Tests
             {
                 Location = new LatLngPoint(36.080811f, -75.721568f)
             };
-            var searchDecoder = new JsonFactory().Specialize<GeocodingResponse>();
+            var searchDecoder = new JsonFactory<GeocodingResponse>();
             var results = await cache.GetDecoded(searchRequest, searchDecoder);
             Assert.IsNotNull(results);
             Assert.AreEqual(HttpStatusCode.OK, results.status);

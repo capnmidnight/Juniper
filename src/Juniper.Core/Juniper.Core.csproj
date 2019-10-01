@@ -118,8 +118,6 @@
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Caching\ICacheLayer.cs" />
     <Compile Include="Serialization\SerializationInfoExt.cs" />
-    <Compile Include="Serialization\SpecializedDeserializer.cs" />
-    <Compile Include="Serialization\SpecializedFactory.cs" />
     <Compile Include="Serialization\StreamStringDecoder.cs" />
     <Compile Include="Speech\IKeywordTriggered.cs" />
     <Compile Include="Speech\KeywordRecognizedEventArgs.cs" />

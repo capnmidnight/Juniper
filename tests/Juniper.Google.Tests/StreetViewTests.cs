@@ -66,7 +66,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             {
                 Place = "Washington, DC"
             };
-            var metadataDecoder = new JsonFactory().Specialize<MetadataResponse>();
+            var metadataDecoder = new JsonFactory<MetadataResponse>();
             var metadata = await cache.GetDecoded(metadataRequest, metadataDecoder);
             Assert.AreEqual(HttpStatusCode.OK, metadata.status);
             Assert.IsNotNull(metadata.copyright);

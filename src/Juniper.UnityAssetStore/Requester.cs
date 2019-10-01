@@ -15,7 +15,6 @@ namespace Juniper.UnityAssetStore
         public Requester()
         {
             sessionID = string.Empty;
-            deserializer = new JsonFactory();
         }
 
         private async Task<T> Get<T>(string url, string token, IProgress prog)
@@ -40,6 +39,7 @@ namespace Juniper.UnityAssetStore
                         using (var stream = response.GetResponseStream())
                         using (var reader = new StreamReader(stream))
                         {
+                            var deserializer = new JsonFactory<T>();
                             if (deserializer.TryParse(reader.ReadToEnd(), out T value))
                             {
                                 return value;
@@ -286,8 +286,6 @@ namespace Juniper.UnityAssetStore
         private const string UnityAPIRoot = "https://api.unity.com/";
         private const string UnityAssetStoreRoot = "https://assetstore.unity3d.com/";
         private const string UnityAssetStoreAPIRoot = UnityAssetStoreRoot + "api/en-US/";
-
-        private readonly IDeserializer deserializer;
 
         private readonly string sessionID;
     }

@@ -148,11 +148,6 @@ namespace Juniper.Serialization
             return deserializer.TryDeserialize(stream, out value, stream.Length, prog);
         }
 
-        public static IDeserializer<T> Specialize<T>(this IDeserializer deserializer, MediaType contentType)
-        {
-            return new SpecializedDeserializer<T>(deserializer, contentType);
-        }
-
         public static T Deserialize<T>(this IDeserializer<T> deserializer, Stream stream)
         {
             return deserializer.Deserialize(stream, null);

@@ -154,9 +154,8 @@ namespace Juniper.Imaging
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
             var uri = new Uri(yarrowServerHost);
             var imageCodec = new UnityTextureCodec();
-            var json = new JsonFactory();
-            var metadataDecoder = json.Specialize<MetadataResponse>();
-            var geocodingDecoder = json.Specialize<GeocodingResponse>();
+            var metadataDecoder = new JsonFactory<MetadataResponse>();
+            var geocodingDecoder = new JsonFactory<GeocodingResponse>();
             yarrow = new YarrowClient<Texture2D>(uri, yarrowCacheDir, imageCodec, metadataDecoder, geocodingDecoder, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
 
             photospheres.CubemapNeeded += Photospheres_CubemapNeeded;

@@ -16,7 +16,7 @@ namespace Juniper.Speech
         [UnityEngine.Scripting.Preserve]
         private Microphone mic;
 
-        static AbstractKeywordRecognizer()
+        static KeywordRecognizer()
         {
             Permissions.AndroidPermissionHandler.Add(UnityEngine.Android.Permission.Microphone);
         }

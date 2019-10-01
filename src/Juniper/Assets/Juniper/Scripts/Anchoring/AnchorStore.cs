@@ -69,8 +69,6 @@ namespace Juniper.Anchoring
             return PlayerPrefs.HasKey(MakeID(name));
         }
 
-        private static JsonFactory json = new JsonFactory();
-
         /// <summary>
         /// Saves a value to the data store.
         /// </summary>
@@ -78,6 +76,7 @@ namespace Juniper.Anchoring
         /// <param name="value">The value to save.</param>
         protected static void SaveValue<T>(string name, T value)
         {
+            var json = new JsonFactory<T>();
             PlayerPrefs.SetString(MakeID(name), json.ToString(value));
 
             var names = NameList;
@@ -104,7 +103,8 @@ namespace Juniper.Anchoring
             {
                 try
                 {
-                    return json.Parse<T>(PlayerPrefs.GetString(key));
+                    var json = new JsonFactory<T>();
+                    return json.Parse(PlayerPrefs.GetString(key));
                 }
                 catch
                 {

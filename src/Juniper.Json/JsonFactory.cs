@@ -80,7 +80,7 @@ namespace Juniper.Serialization
 
         public IFactory<T> Specialize<T>()
         {
-            return this.Specialize<T>(WriteContentType);
+            return new JsonFactory<T>(ReadContentType);
         }
     }
 
