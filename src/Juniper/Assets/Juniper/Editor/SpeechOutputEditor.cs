@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using Juniper.Azure;
 using Juniper.Azure.CognitiveServices;
+using Juniper.Caching;
 using Juniper.Data;
 using Juniper.Serialization;
 using Juniper.Speech;
@@ -35,7 +36,8 @@ namespace Juniper.Events
                     var lines = File.ReadAllLines(keyFile);
                     var azureApiKey = lines[0];
                     var azureRegion = lines[1];
-                    var cache = new UnityCachingStrategy("Assets");
+                    var cache = new CachingStrategy()
+                        .AddLayer(new FileCacheLayer("Assets"));
                     var voiceListDecoder = new JsonFactory<Voice[]>();
                     var voiceListRequest = new VoiceListRequest(azureRegion);
                     var task = Task.CompletedTask;
@@ -61,6 +63,10 @@ namespace Juniper.Events
             {
                 serializedObject.Update();
                 var value = (Speakable)serializedObject.targetObject;
+
+
+                value.text = EditorGUILayout.TextField("Text", value.text);
+
                 var voiceLanguages = voices
                     .Select(v => v.Locale)
                     .Distinct()
