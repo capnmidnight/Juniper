@@ -96,17 +96,6 @@ namespace Juniper.Audio
         }
 
         /// <summary>
-        /// Play the specified action at the camera position using the specified haptics, with no callback.
-        /// </summary>
-        /// <returns>The play.</returns>
-        /// <param name="action"> Action.</param>
-        /// <param name="haptics">Haptics.</param>
-        public static float Play(Interaction action, AbstractHapticDevice haptics)
-        {
-            return instance?.Play_Internal(action, haptics) ?? 0;
-        }
-
-        /// <summary>
         /// Play the specified action using the specified pose and haptic subsystem, with no callback.
         /// </summary>
         /// <returns>The play.</returns>
@@ -116,19 +105,6 @@ namespace Juniper.Audio
         public static float Play(Interaction action, Transform pose, AbstractHapticDevice haptics)
         {
             return instance?.Play_Internal(action, pose, haptics) ?? 0;
-        }
-
-        /// <summary>
-        /// Play the specified action at the camera position using the specified haptics, with a
-        /// callback on completion.
-        /// </summary>
-        /// <returns>The play.</returns>
-        /// <param name="action">    Action.</param>
-        /// <param name="haptics">   Haptics.</param>
-        /// <param name="onComplete"></param>
-        public static float Play(Interaction action, AbstractHapticDevice haptics, Action onComplete)
-        {
-            return instance?.Play_Internal(action, haptics, onComplete) ?? 0;
         }
 
         /// <summary>
@@ -320,43 +296,18 @@ namespace Juniper.Audio
             }
         }
 
-
-        public void Speak(Transform pose, string text, string voiceName, float rateChange, float pitchChange)
+        public async Task<AudioClip> PreloadSpeech(string text, string voiceName, float rateChange, float pitchChange)
         {
-            if (IsTextToSpeechAvailable)
-            {
-                StartCoroutine(SpeakCoroutine(pose, text, voiceName, rateChange, pitchChange));
-            }
-
-        }
-
-        public void Speak(Transform pose, string text, string voiceName, float rateChange)
-        {
-            Speak(pose, text, voiceName, rateChange, 0);
-        }
-
-        public void Speak(Transform pose, string text, string voiceName)
-        {
-            Speak(pose, text, voiceName, 0, 0);
-        }
-
-        public IEnumerator SpeakCoroutine(Transform pose, string text, string voiceName, float rateChange, float pitchChange)
-        {
-            var audioTask = tts.Speak(text, voiceName, rateChange, pitchChange);
-            yield return audioTask.AsCoroutine();
-            var audioData = audioTask.Result;
-
+            var audioData = await tts.Speak(text, voiceName, rateChange, pitchChange);
             var clip = AudioClip.Create(
                 text,
                 audioData.samplesPerChannel,
                 audioData.numChannels,
                 audioData.frequency,
                 false);
-
             clip.SetData(audioData.data, 0);
             clip.LoadAudioData();
-
-            PlayAudioClip(clip, pose, false);
+            return clip;
         }
 
         /// <summary>
@@ -505,7 +456,7 @@ namespace Juniper.Audio
             return 0;
         }
 
-        private float PlayAudioClip(AudioClip clip, Transform pose, bool randomizePitch)
+        public float PlayAudioClip(AudioClip clip, Transform pose, bool randomizePitch)
         {
             var audioSource = GetAudioSource(clip);
             if (randomizePitch)
@@ -525,6 +476,11 @@ namespace Juniper.Audio
             audioSource.Play();
 
             return audioSource.clip.length;
+        }
+
+        public float PlayAudioClip(AudioClip clip, Transform pose)
+        {
+            return PlayAudioClip(clip, pose, false);
         }
 
 #if UNITY_MODULES_AUDIO

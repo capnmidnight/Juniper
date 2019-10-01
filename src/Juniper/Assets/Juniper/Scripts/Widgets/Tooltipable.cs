@@ -25,6 +25,17 @@ namespace Juniper.Widgets
 
         public Transform tooltip;
 
+        public string text;
+        private string lastText;
+
+        [SerializeField]
+        [HideInNormalInspector]
+        private TextComponentWrapper textElement;
+
+        [SerializeField]
+        [HideInNormalInspector]
+        private Speakable speech;
+
         public float delayBeforeDisplay = 1;
         public float delayBeforeHide = 0.5f;
 
@@ -32,12 +43,9 @@ namespace Juniper.Widgets
 
         private Func<bool> isParentEnabled;
 
-        private Speakable speech;
-
         public bool IsInteractable()
         {
             return enabled && isParentEnabled();
-
         }
 
 #if UNITY_EDITOR
@@ -48,9 +56,55 @@ namespace Juniper.Widgets
                 tooltip = transform.Find("Tooltip");
             }
 
-            speech = GetComponent<Speakable>();
+            if (tooltip != null && textElement == null)
+            {
+                textElement = tooltip.Ensure<TextComponentWrapper>();
+                textElement.SetupControls();
+            }
+
+            if (speech == null)
+            {
+                speech = GetComponent<Speakable>();
+            }
+
+            if (string.IsNullOrEmpty(speech.text))
+            {
+                speech.text = text;
+            }
         }
 #endif
+
+        public string Text
+        {
+            get
+            {
+                if(textElement != null)
+                {
+                    return textElement.Text;
+                }
+                else if(speech != null)
+                {
+                    return speech.text;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            set
+            {
+                if(textElement != null)
+                {
+                    textElement.text = textElement.Text = value;
+                }
+
+                if(speech != null)
+                {
+                    speech.text = value;
+                }
+            }
+        }
 
         public void Awake()
         {
@@ -85,6 +139,24 @@ namespace Juniper.Widgets
             Hide();
         }
 
+        private void Update()
+        {
+            if (text != lastText)
+            {
+                lastText = text;
+
+                if (textElement != null)
+                {
+                    textElement.text = text;
+                }
+
+                if (speech != null)
+                {
+                    speech.text = text;
+                }
+            }
+        }
+
         private void Hide()
         {
             if (trans != null)
@@ -110,11 +182,7 @@ namespace Juniper.Widgets
 
                 if (speech != null)
                 {
-                    var textElement = tooltip.GetComponent<TextComponentWrapper>();
-                    if (textElement != null)
-                    {
-                        speech.Speak(textElement.text);
-                    }
+                    speech.Speak();
                 }
             }
         }
