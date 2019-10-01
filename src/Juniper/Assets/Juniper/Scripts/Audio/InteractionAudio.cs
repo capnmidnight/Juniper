@@ -624,12 +624,12 @@ namespace Juniper.Audio
 
         private AudioSource CreateNewAudioSource()
         {
+            var name = "AudioSource" + (audioSources.Count + 1).ToString("00");
             var audioSource = Spatialize(
-                new GameObject().AddComponent<AudioSource>(),
+                new GameObject(name).AddComponent<AudioSource>(),
                 false,
                 defaultMixerGroup);
             audioSources.Add(audioSource);
-            audioSource.name = "AudioSource" + audioSources.Count.ToString("00");
             audioSource.tag = INTERACTION_SOUND_TAG;
             return audioSource;
         }
