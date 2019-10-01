@@ -1,15 +1,11 @@
 ﻿using UnityEngine;
 
 #if UNITY_MODULES_UI
-
 using UnityEngine.UI;
-
 #endif
 
 #if UNITY_TEXTMESHPRO
-
 using TMPro;
-
 #endif
 
 namespace Juniper.Widgets
@@ -17,16 +13,20 @@ namespace Juniper.Widgets
     public class TextComponentWrapper : MonoBehaviour
     {
 #if UNITY_MODULES_UI
+        [SerializeField]
+        [HideInNormalInspector]
         private Text unityText;
+
+        [SerializeField]
+        [HideInNormalInspector]
         private TextMesh unityTextMesh;
 #endif
 
 #if UNITY_TEXTMESHPRO
+        [SerializeField]
+        [HideInNormalInspector]
         private TMP_Text textMeshPro;
 #endif
-
-        public string text;
-        private string lastText;
 
         public void Awake()
         {
@@ -42,41 +42,37 @@ namespace Juniper.Widgets
 
         internal void SetupControls()
         {
-            bool hasAny = false;
-
 #if UNITY_MODULES_UI
-            unityText = GetComponentInChildren<Text>(true);
-            unityTextMesh = GetComponentInChildren<TextMesh>(true);
-            hasAny |= unityText != null || unityTextMesh != null;
+            if (unityText == null)
+            {
+                unityText = GetComponentInChildren<Text>(true);
+            }
+
+            if (unityTextMesh == null)
+            {
+                unityTextMesh = GetComponentInChildren<TextMesh>(true);
+            }
 #endif
 
 #if UNITY_TEXTMESHPRO
-            textMeshPro = GetComponentInChildren<TMP_Text>(true);
-            hasAny |= textMeshPro != null;
+            if (textMeshPro == null)
+            {
+                textMeshPro = GetComponentInChildren<TMP_Text>(true);
+            }
 #endif
-
-            if (hasAny)
-            {
-                lastText = text = Text;
-            }
-        }
-
-        public void Update()
-        {
-            if (text != lastText)
-            {
-                lastText = Text = text;
-            }
-            else
-            {
-                lastText = text = Text;
-            }
         }
 
         public string Text
         {
             get
             {
+#if UNITY_TEXTMESHPRO
+                if (textMeshPro != null)
+                {
+                    return textMeshPro.text;
+                }
+#endif
+
 #if UNITY_MODULES_UI
                 if (unityText != null)
                 {
@@ -88,15 +84,7 @@ namespace Juniper.Widgets
                     return unityTextMesh.text;
                 }
 #endif
-
-#if UNITY_TEXTMESHPRO
-                if (textMeshPro != null)
-                {
-                    return textMeshPro.text;
-                }
-#endif
-
-                return null;
+                return string.Empty;
             }
 
             set

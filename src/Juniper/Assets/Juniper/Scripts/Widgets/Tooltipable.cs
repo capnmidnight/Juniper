@@ -25,9 +25,6 @@ namespace Juniper.Widgets
 
         public Transform tooltip;
 
-        public string text;
-        private string lastText;
-
         [SerializeField]
         [HideInNormalInspector]
         private TextComponentWrapper textElement;
@@ -51,6 +48,12 @@ namespace Juniper.Widgets
 #if UNITY_EDITOR
         public void OnValidate()
         {
+            GetControls();
+        }
+#endif
+
+        private void GetControls()
+        {
             if (tooltip == null)
             {
                 tooltip = transform.Find("Tooltip");
@@ -66,18 +69,14 @@ namespace Juniper.Widgets
             {
                 speech = GetComponent<Speakable>();
             }
-
-            if (string.IsNullOrEmpty(speech.text))
-            {
-                speech.text = text;
-            }
         }
-#endif
 
         public string Text
         {
             get
             {
+                GetControls();
+
                 if(textElement != null)
                 {
                     return textElement.Text;
@@ -88,15 +87,17 @@ namespace Juniper.Widgets
                 }
                 else
                 {
-                    return null;
+                    return string.Empty;
                 }
             }
 
             set
             {
+                GetControls();
+
                 if(textElement != null)
                 {
-                    textElement.text = textElement.Text = value;
+                    textElement.Text = value;
                 }
 
                 if(speech != null)
@@ -137,24 +138,6 @@ namespace Juniper.Widgets
         public void OnEnable()
         {
             Hide();
-        }
-
-        private void Update()
-        {
-            if (text != lastText)
-            {
-                lastText = text;
-
-                if (textElement != null)
-                {
-                    textElement.text = text;
-                }
-
-                if (speech != null)
-                {
-                    speech.text = text;
-                }
-            }
         }
 
         private void Hide()

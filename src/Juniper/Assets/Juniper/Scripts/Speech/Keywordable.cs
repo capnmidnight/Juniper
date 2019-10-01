@@ -59,9 +59,9 @@ namespace Juniper.Speech
         {
             var tooltip = GetComponent<Tooltipable>();
             if (tooltip != null
-                && (force || string.IsNullOrEmpty(tooltip.text)))
+                && (force || string.IsNullOrEmpty(tooltip.Text)))
             {
-                tooltip.text = tooltip.Text = DefaultDescription;
+                tooltip.Text = DefaultDescription;
             }
         }
 

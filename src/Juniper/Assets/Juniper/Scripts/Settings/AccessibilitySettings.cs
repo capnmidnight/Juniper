@@ -94,7 +94,7 @@ namespace Juniper.Settings
 
 
                 var textElement = button.Ensure<TextComponentWrapper>().Value;
-                textElement.text = text;
+                textElement.Text = text;
 
                 var keywordable = button.GetComponent<Keywordable>();
                 if (keywordable != null)

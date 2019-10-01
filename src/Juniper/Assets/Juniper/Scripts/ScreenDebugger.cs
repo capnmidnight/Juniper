@@ -156,7 +156,7 @@ namespace System
                 var output = string.Join(Environment.NewLine, formatted);
                 if (text != null)
                 {
-                    text.text = output;
+                    text.Text = output;
                 }
 
                 lines.Clear();
@@ -179,7 +179,7 @@ namespace System
         public void ClearScreen()
         {
             lines.Clear();
-            text.text = string.Empty;
+            text.Text = string.Empty;
         }
     }
 }
