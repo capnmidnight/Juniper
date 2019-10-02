@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Threading.Tasks;
 using Juniper.Audio;
-
+using Juniper.Widgets;
 using UnityEngine;
 
 namespace Juniper.Speech
@@ -22,6 +22,7 @@ namespace Juniper.Speech
 
         private InteractionAudio interaction;
 
+        private KeywordRecognizer recognizer;
         public string text;
         private string lastText;
 
@@ -40,13 +41,30 @@ namespace Juniper.Speech
 
         private AudioClip clip;
 
-        private KeywordRecognizer recognizer;
+        [SerializeField]
+        [HideInNormalInspector]
+        private TextComponentWrapper textElement;
 
         public void Awake()
         {
             Find.Any(out interaction);
             Find.Any(out recognizer);
         }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if(textElement == null)
+            {
+                textElement = GetComponent<TextComponentWrapper>();
+            }
+
+            if (textElement != null && string.IsNullOrEmpty(text))
+            {
+                text = textElement.Text;
+            }
+        }
+#endif
 
         private void Update()
         {
@@ -55,6 +73,11 @@ namespace Juniper.Speech
 
         private void Preload()
         {
+            if (textElement != null && text != textElement.Text)
+            {
+                text = textElement.Text;
+            }
+
             if (text != lastText
                 || voiceName != lastVoiceName
                 || speakingRate != lastSpeakingRate

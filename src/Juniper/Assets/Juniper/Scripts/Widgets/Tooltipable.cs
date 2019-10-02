@@ -81,10 +81,6 @@ namespace Juniper.Widgets
                 {
                     return textElement.Text;
                 }
-                else if(speech != null)
-                {
-                    return speech.text;
-                }
                 else
                 {
                     return string.Empty;
@@ -98,11 +94,6 @@ namespace Juniper.Widgets
                 if(textElement != null)
                 {
                     textElement.Text = value;
-                }
-
-                if(speech != null)
-                {
-                    speech.text = value;
                 }
             }
         }
