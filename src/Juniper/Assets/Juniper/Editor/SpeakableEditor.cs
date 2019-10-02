@@ -12,8 +12,9 @@ using UnityEngine;
 
 namespace Juniper.Events
 {
+
     [CustomEditor(typeof(Speakable))]
-    public class SpeechOutputEditor : Editor
+    public class SpeakableEditor : Editor
     {
         private static readonly GUIContent VoiceLocaleDropdownLabel = new GUIContent("Locale");
         private static readonly GUIContent VoiceGenderDropdownLabel = new GUIContent("Gender");
@@ -21,7 +22,7 @@ namespace Juniper.Events
 
         private static Voice[] voices;
 
-        static SpeechOutputEditor()
+        static SpeakableEditor()
         {
             if (voices == null)
             {
@@ -46,12 +47,19 @@ namespace Juniper.Events
 
         public override void OnInspectorGUI()
         {
-            if (voices != null)
+            EditorGUI.BeginChangeCheck();
+            serializedObject.UpdateIfRequiredOrScript();
+            var value = (Speakable)serializedObject.targetObject;
+            this.ShowScriptField(value);
+            if (voices == null)
             {
-                serializedObject.Update();
-                var value = (Speakable)serializedObject.targetObject;
-
-
+                using (new EditorGUI.DisabledScope(true))
+                {
+                    EditorGUILayout.Popup(VoiceLocaleDropdownLabel, 0, Array.Empty<GUIContent>());
+                }
+            }
+            else
+            {
                 value.text = EditorGUILayout.TextField("Text", value.text);
 
                 var voiceLanguages = voices
@@ -65,10 +73,17 @@ namespace Juniper.Events
                 var selectedLocaleIndex = ArrayUtility.IndexOf(voiceLanguages, value.voiceLanguage);
                 selectedLocaleIndex = EditorGUILayout.Popup(VoiceLocaleDropdownLabel, selectedLocaleIndex, voiceLanguagesLabels);
 
-                if (0 <= selectedLocaleIndex)
+                if (selectedLocaleIndex < 0)
+                {
+                    using (new EditorGUI.DisabledScope(true))
+                    {
+                        EditorGUILayout.Popup(VoiceGenderDropdownLabel, 0, Array.Empty<GUIContent>());
+                    }
+                }
+                else
                 {
                     var selectedLanguage = voiceLanguages[selectedLocaleIndex];
-                    if(selectedLanguage != value.voiceLanguage)
+                    if (selectedLanguage != value.voiceLanguage)
                     {
                         value.voiceLanguage = selectedLanguage;
                         value.voiceGender = string.Empty;
@@ -76,7 +91,7 @@ namespace Juniper.Events
                     }
 
                     var langVoices = voices
-                        .Where(v => v.Locale == value.voiceLanguage);
+                        .Where(v => v.Locale == selectedLanguage);
 
                     var voiceGenders = langVoices
                         .Select(v => v.Gender)
@@ -88,7 +103,11 @@ namespace Juniper.Events
                     var selectedGenderIndex = ArrayUtility.IndexOf(voiceGenders, value.voiceGender);
                     selectedGenderIndex = EditorGUILayout.Popup(VoiceGenderDropdownLabel, selectedGenderIndex, voiceGenderLabels);
 
-                    if (0 <= selectedGenderIndex)
+                    if (selectedGenderIndex < 0)
+                    {
+                        EditorGUILayout.Popup(VoiceNameDropdownLabel, 0, Array.Empty<GUIContent>());
+                    }
+                    else
                     {
                         var selectedGender = voiceGenders[selectedGenderIndex];
                         if (selectedGender != value.voiceGender)
@@ -98,7 +117,7 @@ namespace Juniper.Events
                         }
 
                         var gendVoices = langVoices
-                            .Where(v => v.Gender == value.voiceGender);
+                            .Where(v => v.Gender == selectedGender);
 
                         var voiceNames = gendVoices
                             .Select(v => v.ShortName)
@@ -117,18 +136,11 @@ namespace Juniper.Events
                             value.voiceName = string.Empty;
                         }
                     }
-                    else
-                    {
-                        value.voiceGender = string.Empty;
-                    }
-                }
-                else
-                {
-                    value.voiceLanguage = string.Empty;
                 }
 
-                serializedObject.ApplyModifiedProperties();
             }
+            serializedObject.ApplyModifiedProperties();
+            EditorGUI.EndChangeCheck();
         }
     }
 }

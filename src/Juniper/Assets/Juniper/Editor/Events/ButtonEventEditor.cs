@@ -26,7 +26,10 @@ namespace Juniper.Events
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
+            EditorGUI.BeginChangeCheck();
+            serializedObject.UpdateIfRequiredOrScript();
             var value = (ButtonEvent)serializedObject.targetObject;
+            this.ShowScriptField(value);
             var enumTypes = value.GetSupportedButtonTypes().ToArray();
             var enumTypeNames = enumTypes.Select(t => t.FullName).ToArray();
             var enumTypeLabels = enumTypeNames.ToGUIContents();
@@ -75,9 +78,10 @@ namespace Juniper.Events
                 EditorGUILayout.PropertyField(serializedObject.FindProperty(FIELD_ONDOUBLECLICK));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty(FIELD_ONLONGPRESS));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty(FIELD_ONUP));
-
-                serializedObject.ApplyModifiedProperties();
             }
+
+            serializedObject.ApplyModifiedProperties();
+            EditorGUI.EndChangeCheck();
         }
     }
 }

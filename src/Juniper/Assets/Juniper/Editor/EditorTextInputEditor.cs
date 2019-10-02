@@ -10,12 +10,18 @@ namespace Juniper.Unity.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
+            EditorGUI.BeginChangeCheck();
+            serializedObject.UpdateIfRequiredOrScript();
+            var value = (EditorTextInput)serializedObject.targetObject;
+            this.ShowScriptField(value);
 
             if (GUILayout.Button("Submit"))
             {
-                var editor = (EditorTextInput)serializedObject.targetObject;
-                editor.Submit();
+                value.Submit();
             }
+
+            serializedObject.ApplyModifiedProperties();
+            EditorGUI.EndChangeCheck();
         }
     }
 }
