@@ -124,13 +124,17 @@ namespace Juniper.Settings
                 var keywords = keywordable.keywords;
                 for(int i = 0; i < keywords.Length; ++i)
                 {
-                    keywords[i] = keywords[i].Replace(
-                        deviceAvailable ? "disable" : "enable",
-                        deviceAvailable ? "enable" : "disable");
-
-                    if (!deviceAvailable)
+                    if (deviceAvailable)
                     {
-                        keywords[i] = keywords[i].Replace("use", "disable");
+                        keywords[i] = keywords[i]
+                            .Replace("disable", "enable")
+                            .Replace("stop using", "use");
+                    }
+                    else
+                    {
+                        keywords[i] = keywords[i]
+                            .Replace("enable", "disable")
+                            .Replace("use", "stop using");
                     }
                 }
 
