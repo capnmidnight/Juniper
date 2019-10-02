@@ -15,7 +15,7 @@ namespace Juniper.Display
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
 #if UNITY_EDITOR
-                cameraCtrl.mode = CameraControl.Mode.MouseLocked;
+                cameraCtrl.mode = CameraControl.Mode.MouseScreenEdge;
 #else
                 cameraCtrl.mode = CameraControl.Mode.None;
 #endif
