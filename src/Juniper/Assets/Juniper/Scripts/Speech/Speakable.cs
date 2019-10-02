@@ -92,15 +92,14 @@ namespace Juniper.Speech
 
         private IEnumerator SpeakCoroutine()
         {
-            var recognizerEnabled = recognizer.isActiveAndEnabled;
-            recognizer.enabled = false;
+            recognizer.Pause();
             var time = interaction.PlayAudioClip(clip, transform);
             var end = DateTime.Now.AddSeconds(time);
             while(DateTime.Now < end)
             {
                 yield return null;
             }
-            recognizer.enabled = recognizerEnabled;
+            recognizer.Resume();
         }
 #endif
     }

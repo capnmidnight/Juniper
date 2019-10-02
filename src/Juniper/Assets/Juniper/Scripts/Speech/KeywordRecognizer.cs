@@ -49,6 +49,7 @@ namespace Juniper.Speech
         protected bool IsRunning;
         protected bool IsStopping;
         protected bool IsStarting;
+        protected bool IsPaused;
 
         private readonly List<Keywordable> keywordables = new List<Keywordable>();
         private DateTime lastMatchTime;
@@ -110,6 +111,16 @@ namespace Juniper.Speech
             }
         }
 
+        public void Pause()
+        {
+            IsPaused = true;
+        }
+
+        public void Resume()
+        {
+            IsPaused = false;
+        }
+
         private void TearDownInternal()
         {
             if (IsRunning && !IsStopping)
@@ -124,7 +135,7 @@ namespace Juniper.Speech
         {
             if (IsAvailable)
             {
-                if (IsRunning)
+                if (IsRunning && !IsPaused)
                 {
                     Keywordable receiver = null;
                     lock (syncRoot)
