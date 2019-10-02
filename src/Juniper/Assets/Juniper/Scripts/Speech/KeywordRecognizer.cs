@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Juniper.Speech
 {
@@ -45,6 +46,56 @@ namespace Juniper.Speech
 
         [Range(0, 1)]
         public float minimumCompleteSimilarity = 0.7f;
+
+        public UnityEvent onRecognitionStarted;
+        public UnityEvent onRecognitionStopped;
+        public UnityEvent onRecognitionRecognizing;
+        public UnityEvent onRecognitionComplete;
+        public UnityEvent onRecognitionCanceled;
+        public UnityEvent onRecognitionError;
+
+        public event EventHandler RecognitionStarted;
+        public event EventHandler RecognitionStopped;
+        public event EventHandler RecognitionRecognizing;
+        public event EventHandler RecognitionComplete;
+        public event EventHandler RecognitionCanceled;
+        public event EventHandler RecognitionError;
+
+        protected void OnRecognitionStarted()
+        {
+            onRecognitionStarted?.Invoke();
+            RecognitionStarted?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void OnRecognitionStopped()
+        {
+            onRecognitionStopped?.Invoke();
+            RecognitionStopped?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void OnRecognitionRecognizing()
+        {
+            onRecognitionRecognizing?.Invoke();
+            RecognitionRecognizing?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void OnRecognitionComplete()
+        {
+            onRecognitionComplete?.Invoke();
+            RecognitionComplete?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void OnRecognitionCanceled()
+        {
+            onRecognitionCanceled?.Invoke();
+            RecognitionCanceled?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void OnRecognitionError()
+        {
+            onRecognitionError?.Invoke();
+            RecognitionError?.Invoke(this, EventArgs.Empty);
+        }
 
         protected bool IsRunning;
         protected bool IsStopping;

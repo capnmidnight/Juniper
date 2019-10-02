@@ -79,11 +79,16 @@ namespace Juniper.Speech
 
             recognizer = new SpeechRecognizer(config);
             recognizer.SessionStarted += Recognizer_SessionStarted;
-            recognizer.Recognizing += Recognizer_OnPhraseRecognized;
+            recognizer.Recognizing += Recognizer_OnPhraseRecognizing;
             recognizer.Recognized += Recognizer_OnPhraseRecognized;
             recognizer.SessionStopped += Recognizer_SessionStopped;
             recognizer.Canceled += Recognizer_Canceled;
             ErrorTrap(recognizer.StartContinuousRecognitionAsync());
+        }
+
+        private void Recognizer_OnPhraseRecognizing(object sender, SpeechRecognitionEventArgs e)
+        {
+            OnRecognitionRecognizing();
         }
 
         private void ErrorTrap(Task task)
@@ -106,13 +111,25 @@ namespace Juniper.Speech
                 var errorMessage = e.ErrorDetails;
                 OnError(errorCode, errorMessage);
             }
+            else
+            {
+                OnRecognitionCanceled();
+            }
         }
 
         private void OnError(CancellationErrorCode errorCode, string errorMessage)
         {
             ScreenDebugger.Print($"Recognition error: [{errorCode}] {errorMessage}");
-            IsUnrecoverable = true;
+            IsUnrecoverable = errorCode == CancellationErrorCode.AuthenticationFailure
+                || errorCode == CancellationErrorCode.BadRequest
+                || errorCode == CancellationErrorCode.ConnectionFailure
+                || errorCode == CancellationErrorCode.Forbidden
+                || errorCode == CancellationErrorCode.RuntimeError
+                || errorCode == CancellationErrorCode.ServiceUnavailable;
+
             TearDown();
+
+            OnRecognitionError();
         }
 
         private void Recognizer_SessionStarted(object sender, SessionEventArgs e)
@@ -120,6 +137,7 @@ namespace Juniper.Speech
             recognizer.SessionStarted -= Recognizer_SessionStarted;
             IsStarting = false;
             IsRunning = true;
+            OnRecognitionStarted();
         }
 
         /// <summary>
@@ -128,15 +146,13 @@ namespace Juniper.Speech
         /// <param name="args">Arguments.</param>
         void Recognizer_OnPhraseRecognized(object sender, SpeechRecognitionEventArgs args)
         {
-            var incomplete = args.Result.Reason == ResultReason.RecognizingIntent
-                || args.Result.Reason == ResultReason.RecognizingSpeech
-                || args.Result.Reason == ResultReason.RecognizingKeyword;
             var complete = args.Result.Reason == ResultReason.RecognizedIntent
                 || args.Result.Reason == ResultReason.RecognizedSpeech
                 || args.Result.Reason == ResultReason.RecognizedKeyword;
-            if (incomplete || complete)
+            if (complete)
             {
                 ProcessText(args.Result.Text, complete);
+                OnRecognitionComplete();
             }
         }
 
@@ -146,7 +162,7 @@ namespace Juniper.Speech
             {
                 IsStopping = true;
                 recognizer.Recognized -= Recognizer_OnPhraseRecognized;
-                recognizer.Recognizing -= Recognizer_OnPhraseRecognized;
+                recognizer.Recognizing -= Recognizer_OnPhraseRecognizing;
                 if (IsRunning)
                 {
                     ErrorTrap(recognizer.StopContinuousRecognitionAsync());
@@ -161,6 +177,7 @@ namespace Juniper.Speech
         private void Recognizer_SessionStopped(object sender, SessionEventArgs e)
         {
             FinishTeardown();
+            OnRecognitionStopped();
         }
 
         private void FinishTeardown()
