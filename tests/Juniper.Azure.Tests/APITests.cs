@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 using Juniper.Audio.NAudio;
 using Juniper.Azure.CognitiveServices;
-using Juniper.Caching;
 using Juniper.HTTP;
-using Juniper.Serialization;
-
+using Juniper.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Azure.Tests
@@ -16,10 +14,11 @@ namespace Juniper.Azure.Tests
     [TestClass]
     public class APITests
     {
-        private readonly IDeserializer<string> plainText = new StreamStringDecoder();
-        private readonly IDeserializer<Voice[]> voiceListJson = new JsonFactory<Voice[]>();
+        private readonly IDeserializer<string> plainText = new StringFactory();
+        private readonly IDeserializer<Voice[]> voiceListDecoder = new JsonFactory<Voice[]>();
         private string subscriptionKey;
         private string region;
+        private string resourceName;
         private CachingStrategy cache;
 
         [TestInitialize]
@@ -30,6 +29,7 @@ namespace Juniper.Azure.Tests
             var lines = File.ReadAllLines(keyFile);
             subscriptionKey = lines[0];
             region = lines[1];
+            resourceName = lines[2];
             var cacheDirName = Path.Combine(userProfile, "Projects");
             var cacheDir = new DirectoryInfo(cacheDirName);
             var fileCache = new FileCacheLayer(cacheDir);
@@ -40,14 +40,19 @@ namespace Juniper.Azure.Tests
         private async Task<string> GetToken()
         {
             var tokenRequest = new AuthTokenRequest(region, subscriptionKey);
-            var token = await tokenRequest.GetDecoded(plainText);
+            var token = await tokenRequest.Decode(new StringFactory());
             return token;
         }
 
         private async Task<Voice[]> GetVoices(string token)
         {
-            var voiceListRequest = new VoiceListRequest(region, token);
-            var voices = await cache.GetDecoded(voiceListRequest, voiceListJson);
+            var voiceListRequest = new VoiceListRequest(region)
+            {
+                AuthToken = token
+            };
+            var voices = await cache
+                .GetStreamSource(voiceListRequest)
+                .Decode(voiceListDecoder);
             return voices;
         }
 
@@ -61,7 +66,9 @@ namespace Juniper.Azure.Tests
                          select v)
                         .First();
 
-            var audioRequest = new TextToSpeechRequest(region, token, "dls-dev-speech-recognition", OutputFormat.Audio16KHz128KbitrateMonoMP3)
+            var format = OutputFormat.Audio16KHz128KbitrateMonoMP3;
+            var audioDecoder = new NAudioAudioDataDecoder(format.ContentType);
+            var audioRequest = new TextToSpeechRequest(region, resourceName, format)
             {
                 Text = "Hello, world",
                 VoiceName = voice.ShortName,
@@ -95,7 +102,9 @@ namespace Juniper.Azure.Tests
         {
             var audioRequest = await MakeSpeechRequest();
 
-            using (var audioStream = await cache.GetStream(audioRequest))
+            using (var audioStream = await cache
+                .GetStreamSource(audioRequest)
+                .GetStream())
             {
                 var mem = new MemoryStream();
                 audioStream.CopyTo(mem);
@@ -107,11 +116,12 @@ namespace Juniper.Azure.Tests
         [TestMethod]
         public async Task DecodeAudio()
         {
-            var mpeg = MediaType.Audio.Mpeg;
             var audioRequest = await MakeSpeechRequest();
-            var audioDecoder = new NAudioAudioDataDecoder(mpeg);
-            var audio = await cache.GetDecoded(audioRequest, audioDecoder);
-            Assert.AreEqual(mpeg, audio.contentType);
+            var audioDecoder = new NAudioAudioDataDecoder(audioRequest.ContentType);
+            var audio = await cache
+                .GetStreamSource(audioRequest)
+                .Decode(audioDecoder);
+            Assert.AreEqual(MediaType.Audio.Mpeg, audio.contentType);
             Assert.AreEqual(audio.samplesPerChannel * audio.numChannels, audio.data.Length);
             Assert.AreEqual(16000, audio.frequency);
         }

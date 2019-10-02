@@ -23,35 +23,11 @@ namespace Juniper.Imaging.HjgPngcs
             this.IDATMaxSize = IDATMaxSize;
         }
 
-        public MediaType.Image ReadImageType
+        public MediaType.Image ContentType
         {
             get
             {
                 return MediaType.Image.Png;
-            }
-        }
-
-        public MediaType ReadContentType
-        {
-            get
-            {
-                return ReadImageType;
-            }
-        }
-
-        public MediaType.Image WriteImageType
-        {
-            get
-            {
-                return ReadImageType;
-            }
-        }
-
-        public MediaType WriteContentType
-        {
-            get
-            {
-                return ReadContentType;
             }
         }
 

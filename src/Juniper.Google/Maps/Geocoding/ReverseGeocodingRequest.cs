@@ -1,10 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Threading.Tasks;
-using Juniper.HTTP;
-using Juniper.Progress;
+
 using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.Geocoding

@@ -1,11 +1,10 @@
 using System.Net;
-using System.Threading.Tasks;
 
 using Juniper.HTTP;
 
 namespace Juniper.Azure
 {
-    public class AuthTokenRequest : AbstractAzureRequest
+    public class AuthTokenRequest : AbstractAzureRequest<MediaType.Text>
     {
         private readonly string subscriptionKey;
 
@@ -15,9 +14,9 @@ namespace Juniper.Azure
             this.subscriptionKey = subscriptionKey;
         }
 
-        protected override async Task ModifyRequest(HttpWebRequest request)
+        protected override void ModifyRequest(HttpWebRequest request)
         {
-            await base.ModifyRequest(request);
+            base.ModifyRequest(request);
             request.Header("Ocp-Apim-Subscription-Key", subscriptionKey);
         }
 

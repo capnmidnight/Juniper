@@ -4,20 +4,13 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Juniper.Streams;
-
-namespace Juniper.Caching
+namespace Juniper.IO
 {
     /// <summary>
     /// A stream that can cache contents out to a file.
     /// </summary>
     public class CachingStream : Stream, IStreamWrapper
     {
-        /// <summary>
-        /// The stream to wrap.
-        /// </summary>
-        private readonly Stream inStream;
-
         /// <summary>
         /// The stream to which to write the cache data.
         /// </summary>
@@ -31,7 +24,7 @@ namespace Juniper.Caching
         /// <param name="parent"></param>
         public CachingStream(Stream stream, FileInfo file)
         {
-            inStream = stream;
+            SourceStream = stream;
             file.Directory.Create();
             if (file.Exists)
             {
@@ -48,7 +41,7 @@ namespace Juniper.Caching
         {
         }
 
-        public Stream UnderlyingStream { get { return inStream; } }
+        public Stream SourceStream { get; }
 
         /// <summary>
         /// Reset the length of the stream. This will change the progress of
@@ -57,7 +50,7 @@ namespace Juniper.Caching
         /// <param name="value"></param>
         public override void SetLength(long value)
         {
-            inStream.SetLength(value);
+            SourceStream.SetLength(value);
         }
 
         /// <summary>
@@ -68,14 +61,14 @@ namespace Juniper.Caching
         {
             if (disposing)
             {
-                inStream.Dispose();
+                SourceStream.Dispose();
                 outStream.Dispose();
             }
         }
 
         public override void Close()
         {
-            inStream.Close();
+            SourceStream.Close();
             outStream.Close();
         }
 
@@ -86,7 +79,7 @@ namespace Juniper.Caching
         {
             get
             {
-                return inStream.CanRead;
+                return SourceStream.CanRead;
             }
         }
 
@@ -97,7 +90,7 @@ namespace Juniper.Caching
         {
             get
             {
-                return inStream.CanSeek;
+                return SourceStream.CanSeek;
             }
         }
 
@@ -119,7 +112,7 @@ namespace Juniper.Caching
         {
             get
             {
-                return inStream.CanTimeout;
+                return SourceStream.CanTimeout;
             }
         }
 
@@ -130,7 +123,7 @@ namespace Juniper.Caching
         {
             get
             {
-                return inStream.Length;
+                return SourceStream.Length;
             }
         }
 
@@ -141,12 +134,12 @@ namespace Juniper.Caching
         {
             get
             {
-                return inStream.Position;
+                return SourceStream.Position;
             }
 
             set
             {
-                inStream.Position = value;
+                SourceStream.Position = value;
                 outStream.Position = value;
             }
         }
@@ -156,7 +149,7 @@ namespace Juniper.Caching
         /// </summary>
         public override void Flush()
         {
-            inStream.Flush();
+            SourceStream.Flush();
             outStream.Flush();
         }
 
@@ -164,7 +157,7 @@ namespace Juniper.Caching
         public override Task FlushAsync(CancellationToken cancellationToken)
         {
             return Task.WhenAll(
-                inStream.FlushAsync(cancellationToken),
+                SourceStream.FlushAsync(cancellationToken),
                 outStream.FlushAsync(cancellationToken));
         }
 
@@ -178,7 +171,7 @@ namespace Juniper.Caching
         /// <returns></returns>
         public override int Read(byte[] buffer, int offset, int count)
         {
-            var read = inStream.Read(buffer, offset, count);
+            var read = SourceStream.Read(buffer, offset, count);
             outStream.Write(buffer, offset, read);
             return read;
         }
@@ -194,7 +187,7 @@ namespace Juniper.Caching
         public override long Seek(long offset, SeekOrigin origin)
         {
             outStream.Seek(offset, origin);
-            return inStream.Seek(offset, origin);
+            return SourceStream.Seek(offset, origin);
         }
 
         /// <summary>
@@ -216,12 +209,12 @@ namespace Juniper.Caching
         {
             void wrappedCallback(IAsyncResult result)
             {
-                lastRead = inStream.EndRead(result);
+                lastRead = SourceStream.EndRead(result);
                 outStream.WriteAsync(buffer, offset, lastRead).Wait();
                 callback(result);
             }
 
-            return inStream.BeginRead(buffer, offset, count, wrappedCallback, state);
+            return SourceStream.BeginRead(buffer, offset, count, wrappedCallback, state);
         }
 
         public override int EndRead(IAsyncResult asyncResult)
@@ -253,14 +246,14 @@ namespace Juniper.Caching
         [ComVisible(false)]
         public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
         {
-            var read = await inStream.ReadAsync(buffer, offset, count, cancellationToken);
+            var read = await SourceStream.ReadAsync(buffer, offset, count, cancellationToken);
             await outStream.WriteAsync(buffer, offset, read, cancellationToken);
             return read;
         }
 
         public override int ReadByte()
         {
-            var b = inStream.ReadByte();
+            var b = SourceStream.ReadByte();
             if (b > -1)
             {
                 outStream.WriteByte((byte)b);

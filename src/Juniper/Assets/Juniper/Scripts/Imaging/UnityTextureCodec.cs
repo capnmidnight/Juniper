@@ -3,7 +3,6 @@ using System.IO;
 
 using Juniper.HTTP;
 using Juniper.Progress;
-using Juniper.Streams;
 
 using UnityEngine;
 
@@ -56,7 +55,7 @@ namespace Juniper.Imaging.Unity
             }
         }
 
-        public MediaType.Image ReadImageType
+        public MediaType.Image ContentType
         {
             get
             {

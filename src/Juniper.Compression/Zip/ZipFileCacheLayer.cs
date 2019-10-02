@@ -1,16 +1,13 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
-
-using Juniper.Caching;
 using Juniper.HTTP;
-using Juniper.Progress;
+using Juniper.IO;
 
 namespace Juniper.Compression.Zip
 {
     public class ZipFileCacheLayer : ICacheLayer
     {
-        private readonly FileInfo zipFile;
+        internal readonly FileInfo zipFile;
 
         public ZipFileCacheLayer(FileInfo zipFile)
         {
@@ -29,31 +26,36 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public Stream WrapStream(string fileDescriptor, MediaType contentType, Stream stream)
+        public Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> source, Stream stream)
+            where MediaTypeT : MediaType
         {
             return stream;
         }
 
-        public Stream OpenWrite(string fileDescriptor, MediaType contentType)
+        public Stream OpenWrite<MediaTypeT>(IContentReference<MediaTypeT> source)
+            where MediaTypeT : MediaType
         {
             throw new NotSupportedException();
         }
 
-        public void Copy(FileInfo file, string fileDescriptor, MediaType contentType)
+        public void Copy<MediaTypeT>(IContentReference<MediaTypeT> source, FileInfo file)
+            where MediaTypeT : MediaType
         {
             throw new NotSupportedException();
         }
 
-        protected virtual string GetCacheFileName(string fileDescriptor, MediaType contentType)
+        internal string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> source)
+            where MediaTypeT : MediaType
         {
-            var baseName = PathExt.FixPath(fileDescriptor);
-            var cacheFileName = contentType.AddExtension(baseName);
+            var baseName = PathExt.FixPath(source.CacheID);
+            var cacheFileName = source.ContentType.AddExtension(baseName);
             return cacheFileName;
         }
 
-        public bool IsCached(string fileDescriptor, MediaType contentType)
+        public bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> source)
+            where MediaTypeT : MediaType
         {
-            var cacheFileName = GetCacheFileName(fileDescriptor, contentType);
+            var cacheFileName = GetCacheFileName(source);
             using (var zip = Decompressor.OpenZip(zipFile))
             {
                 var entry = zip.GetEntry(cacheFileName);
@@ -61,22 +63,10 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public Task<Stream> GetStream(string fileDescriptor, MediaType contentType, IProgress prog)
+        public IStreamSource<MediaTypeT> GetStreamSource<MediaTypeT>(IContentReference<MediaTypeT> source)
+            where MediaTypeT : MediaType
         {
-            Stream stream = null;
-            var cacheFileName = GetCacheFileName(fileDescriptor, contentType);
-            var zip = Decompressor.OpenZip(zipFile);
-            var entry = zip.GetEntry(cacheFileName);
-            if (entry != null)
-            {
-                stream = new ZipFileEntryStream(zip, entry, prog);
-                if (prog != null)
-                {
-                    var length = entry.Size;
-                    stream = new ProgressStream(stream, length, prog);
-                }
-            }
-            return Task.FromResult(stream);
+            return new ZipFileReference<MediaTypeT>(this, source);
         }
     }
 }

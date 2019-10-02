@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+
 using ICSharpCode.SharpZipLib.Zip;
 
 using Juniper.Progress;
-using Juniper.Streams;
 
 namespace Juniper.Compression.Zip
 {

@@ -1,13 +1,9 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
-using Juniper.Azure;
 using Juniper.Azure.CognitiveServices;
-using Juniper.Caching;
-using Juniper.Data;
-using Juniper.Serialization;
+using Juniper.IO;
 using Juniper.Speech;
 
 using UnityEditor;
@@ -38,20 +34,11 @@ namespace Juniper.Events
                     var azureRegion = lines[1];
                     var cache = new CachingStrategy()
                         .AddLayer(new FileCacheLayer("Assets"));
-                    var voiceListDecoder = new JsonFactory<Voice[]>();
-                    var voiceListRequest = new VoiceListRequest(azureRegion);
-                    var task = Task.CompletedTask;
-                    if (!cache.IsCached(voiceListRequest))
-                    {
-                        var plainText = new StreamStringDecoder();
-                        var tokenRequest = new AuthTokenRequest(azureRegion, azureApiKey);
-                        task = tokenRequest.GetDecoded(plainText)
-                            .ContinueWith(tT =>
-                                voiceListRequest.AuthToken = tT.Result);
-                    }
-
-                    task.ContinueWith(async (_) =>
-                        voices = await cache.GetDecoded(voiceListRequest, voiceListDecoder))
+                    var voicesDecoder = new JsonFactory<Voice[]>();
+                    var voicesClient = new VoicesClient(azureRegion, azureApiKey, voicesDecoder, cache);
+                    var voicesTask = voicesClient.GetVoices();
+                    voicesTask.ContinueWith(tV =>
+                        voices = tV.Result)
                         .ConfigureAwait(false);
                 }
             }

@@ -1,8 +1,7 @@
 using System;
 using System.IO;
-using Juniper.Caching;
-using Juniper.HTTP.REST;
-using Juniper.Serialization;
+
+using Juniper.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

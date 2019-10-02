@@ -5,14 +5,15 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public abstract class AbstractStreetViewRequest : AbstractGoogleMapsRequest
+    public abstract class AbstractStreetViewRequest<MediaTypeT> : AbstractGoogleMapsRequest<MediaTypeT>
+        where MediaTypeT : MediaType
     {
         private string pano;
         private string placeName;
         private LatLngPoint location;
         private int radius;
 
-        protected AbstractStreetViewRequest(string path, string apiKey, string signingKey, MediaType contentType)
+        protected AbstractStreetViewRequest(string path, string apiKey, string signingKey, MediaTypeT contentType)
             : base(path, apiKey, signingKey, contentType)
         { }
 

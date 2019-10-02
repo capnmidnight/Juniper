@@ -44,6 +44,7 @@
     <Compile Include="Zip\Decompressor.cs" />
     <Compile Include="Zip\ZipFileEntryStream.cs" />
     <Compile Include="Zip\ZipFileCacheLayer.cs" />
+    <Compile Include="Zip\ZipFileReference.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="SharpZipLib">

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-using Juniper.Serialization;
+using Juniper.IO;
 using Juniper.Units;
 using Juniper.World.GIS;
 
@@ -135,7 +135,7 @@ namespace Juniper.World
             OnValidate();
         }
 
-        private IFactory<LatLngPoint> coordFactory = new JsonFactory<LatLngPoint>();
+        private ITextDecoder<LatLngPoint> coordFactory = new JsonFactory<LatLngPoint>();
 
         public void OnValidate()
         {

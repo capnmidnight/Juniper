@@ -8,7 +8,7 @@ namespace Juniper.Data
 #if !UNITY_EDITOR && UNITY_ANDROID
         Juniper.Compression.Zip.ZipFileCacheLayer
 #else
-        Juniper.Caching.FileCacheLayer
+        Juniper.IO.FileCacheLayer
 #endif
     {
         public StreamingAssetsCacheLayer()

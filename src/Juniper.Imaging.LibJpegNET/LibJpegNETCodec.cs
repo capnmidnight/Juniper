@@ -3,8 +3,8 @@ using System.IO;
 
 using BitMiracle.LibJpeg;
 using Juniper.HTTP;
+using Juniper.IO;
 using Juniper.Progress;
-using Juniper.Streams;
 
 namespace Juniper.Imaging.LibJpegNET
 {
@@ -27,35 +27,11 @@ namespace Juniper.Imaging.LibJpegNET
             return ImageInfo.ReadJPEG(data);
         }
 
-        public MediaType.Image ReadImageType
+        public MediaType.Image ContentType
         {
             get
             {
                 return MediaType.Image.Jpeg;
-            }
-        }
-
-        public MediaType ReadContentType
-        {
-            get
-            {
-                return ReadImageType;
-            }
-        }
-
-        public MediaType.Image WriteImageType
-        {
-            get
-            {
-                return ReadImageType;
-            }
-        }
-
-        public MediaType WriteContentType
-        {
-            get
-            {
-                return ReadContentType;
             }
         }
 

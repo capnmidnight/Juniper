@@ -2,13 +2,18 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 
+using Juniper.HTTP;
 using Juniper.Progress;
 
 namespace Juniper.Imaging.Windows
 {
-    public class GDIImageDataTranscoder : IImageTranscoder<Image, ImageData>
+    public class GDIImageDataTranscoder : AbstractCompositeImageFactory<System.Drawing.Image, ImageData>
     {
-        public ImageData TranslateTo(Image image, IProgress prog)
+        public GDIImageDataTranscoder(MediaType.Image format)
+            : base(new GDICodec(format))
+        { }
+
+        public override ImageData Translate(Image image, IProgress prog)
         {
             using (var mem = new MemoryStream())
             {
@@ -26,7 +31,7 @@ namespace Juniper.Imaging.Windows
             }
         }
 
-        public Image TranslateFrom(ImageData image, IProgress prog)
+        public override Image Translate(ImageData image, IProgress prog)
         {
             var outImage = new Bitmap(image.info.dimensions.width, image.info.dimensions.height);
             if (image.contentType == HTTP.MediaType.Image.Raw)

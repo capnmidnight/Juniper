@@ -36,9 +36,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HjgPngcsCodec.cs" />
-    <Compile Include="HjgPngcsDecoder.cs" />
-    <Compile Include="ImageDataHjgPngcsTranscoder.cs" />
     <Compile Include="HjgPngcsImageDataTranscoder.cs" />
+    <Compile Include="ImageDataHjgPngcsTranscoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

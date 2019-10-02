@@ -63,7 +63,7 @@ namespace Juniper.Imaging
                 photo.ImageNeeded += Photo_ImageNeeded;
                 photo.enabled = false;
                 photo.Deactivate();
-                photospheres.Add(photo.Key, photo);
+                photospheres.Add(photo.CubemapName, photo);
             }
         }
 
@@ -94,7 +94,7 @@ namespace Juniper.Imaging
 
         public T GetPhotosphere<T>(string key) where T : Photosphere
         {
-            if (curSphere == null || curSphere.Key != key)
+            if (curSphere == null || curSphere.CubemapName != key)
             {
                 if (!photospheres.ContainsKey(key))
                 {
@@ -116,7 +116,7 @@ namespace Juniper.Imaging
             photoGo.transform.SetParent(transform, true);
 
             var photo = photoGo.Ensure<T>().Value;
-            photo.Key = key;
+            photo.CubemapName = key;
             photo.codec = codec;
             photo.CubemapNeeded += Photo_CubemapNeeded;
             photo.ImageNeeded += Photo_ImageNeeded;

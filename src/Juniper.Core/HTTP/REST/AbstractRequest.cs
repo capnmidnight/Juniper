@@ -4,13 +4,13 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
-using Juniper.Caching;
+using Juniper.IO;
 using Juniper.Progress;
-using Juniper.Serialization;
 
 namespace Juniper.HTTP.REST
 {
-    public abstract class AbstractRequest : ICacheLayer
+    public abstract class AbstractRequest<MediaTypeT> : IStreamSource<MediaTypeT>
+        where MediaTypeT : MediaType
     {
         protected static Uri AddPath(Uri baseURI, string path)
         {
@@ -23,41 +23,15 @@ namespace Juniper.HTTP.REST
         private readonly IDictionary<string, List<string>> queryParams =
             new SortedDictionary<string, List<string>>();
 
-
-        protected AbstractRequest(Uri serviceURI, MediaType contentType)
+        protected AbstractRequest(Uri serviceURI, MediaTypeT contentType)
         {
             this.serviceURI = serviceURI;
             ContentType = contentType;
         }
 
-        public MediaType ContentType { get; private set; }
-
-        public bool CanCache
+        public MediaTypeT ContentType
         {
-            get
-            {
-                return false;
-            }
-        }
-
-        public bool IsCached(string fileDescriptor, MediaType contentType)
-        {
-            return true;
-        }
-
-        public Stream WrapStream(string fileDescriptor, MediaType contentType, Stream stream)
-        {
-            return stream;
-        }
-
-        public Stream OpenWrite(string fileDescriptor, MediaType contentType)
-        {
-            throw new NotSupportedException();
-        }
-
-        public void Copy(FileInfo file, string fileDescriptor, MediaType contentType)
-        {
-            throw new NotSupportedException();
+            get;
         }
 
         public override int GetHashCode()
@@ -68,7 +42,7 @@ namespace Juniper.HTTP.REST
         public override bool Equals(object obj)
         {
             return obj != null
-                && obj is AbstractRequest req
+                && obj is AbstractRequest<MediaTypeT> req
                 && req.CacheID == CacheID;
         }
 
@@ -165,7 +139,7 @@ namespace Juniper.HTTP.REST
             return RemoveQuery(key, value.ToString());
         }
 
-        private async Task<HttpWebRequest> CreateRequest()
+        private HttpWebRequest CreateRequest()
         {
             var request = (HttpWebRequest)WebRequest.Create(AuthenticatedURI);
             if (AuthenticatedURI.Scheme == "http")
@@ -176,13 +150,13 @@ namespace Juniper.HTTP.REST
             {
                 request.Accept = ContentType;
             }
-            await ModifyRequest(request);
+            ModifyRequest(request);
             return request;
         }
 
         protected async Task<HttpWebResponse> Post(IProgress prog)
         {
-            var request = await CreateRequest();
+            var request = CreateRequest();
             request.Method = "POST";
             var info = GetBodyInfo();
             if (info == null)
@@ -224,7 +198,8 @@ namespace Juniper.HTTP.REST
         protected async Task<HttpWebResponse> Get(IProgress prog)
         {
             prog.Report(0);
-            var request = await CreateRequest(); request.Method = "GET";
+            var request = CreateRequest();
+            request.Method = "GET";
             var response = (HttpWebResponse)await request.GetResponseAsync();
             prog.Report(1);
             return response;
@@ -249,33 +224,7 @@ namespace Juniper.HTTP.REST
             return GetStream(null);
         }
 
-        public async Task<T> GetDecoded<T>(IDeserializer<T> decoder, IProgress prog)
-        {
-            var split = prog.Split("Get", "Decode");
-            using (var stream = await GetStream(split[0]))
-            {
-                return decoder.Deserialize(stream, split[1]);
-            }
-        }
-
-        public Task<T> GetDecoded<T>(IDeserializer<T> decoder)
-        {
-            return GetDecoded(decoder, null);
-        }
-
-        public Task<Stream> GetStream(string fileDescriptor, MediaType contentType, IProgress prog)
-        {
-            if (contentType != ContentType)
-            {
-                throw new InvalidOperationException();
-            }
-            else
-            {
-                return GetStream(prog);
-            }
-        }
-
-        protected virtual Task ModifyRequest(HttpWebRequest request) { return Task.CompletedTask; }
+        protected virtual void ModifyRequest(HttpWebRequest request) { }
 
         protected virtual BodyInfo GetBodyInfo() { return null; }
 

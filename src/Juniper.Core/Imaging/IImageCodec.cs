@@ -2,23 +2,20 @@ using System;
 using System.IO;
 
 using Juniper.HTTP;
+using Juniper.IO;
 using Juniper.Progress;
-using Juniper.Serialization;
-using Juniper.Streams;
 
 namespace Juniper.Imaging
 {
     public interface IImageCodec<T> : IFactory<T>
     {
+        MediaType.Image ContentType { get; }
+
         int GetWidth(T img);
 
         int GetHeight(T img);
 
         int GetComponents(T img);
-
-        MediaType.Image ReadImageType { get; }
-
-        MediaType.Image WriteImageType { get; }
 
         ImageInfo GetImageInfo(byte[] data);
 
@@ -59,7 +56,7 @@ namespace Juniper.Imaging
                 mem.Flush();
                 var buffer = mem.ToArray();
                 var info = codec.GetImageInfo(buffer);
-                return new ImageData(info, codec.ReadImageType, buffer);
+                return new ImageData(info, codec.ContentType, buffer);
             }
         }
 

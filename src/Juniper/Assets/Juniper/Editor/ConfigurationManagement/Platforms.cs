@@ -6,8 +6,8 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Juniper.Compression.Tar.GZip;
+using Juniper.IO;
 using Juniper.Progress;
-using Juniper.Serialization;
 using Juniper.XR;
 
 using UnityEngine;

@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Juniper.Streams
+namespace Juniper.IO
 {
     /// <summary>
     /// Wraps a non-seekable stream (like <see cref="System.Net.ConnectStream"/>) for use

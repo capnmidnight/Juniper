@@ -7,23 +7,20 @@ using Juniper.HTTP.REST;
 
 namespace Juniper.Google.Maps
 {
-    public abstract class AbstractGoogleMapsRequest : AbstractRequest
+    public abstract class AbstractGoogleMapsRequest<MediaTypeT> : AbstractRequest<MediaTypeT>
+        where MediaTypeT : MediaType
     {
         private static readonly Uri gmaps = new Uri("https://maps.googleapis.com/maps/api/");
 
         private readonly string apiKey;
         private readonly string signingKey;
 
-        protected AbstractGoogleMapsRequest(string path, string apiKey, string signingKey, MediaType contentType)
+        protected AbstractGoogleMapsRequest(string path, string apiKey, string signingKey, MediaTypeT contentType)
             : base(AddPath(gmaps, path), contentType)
         {
             this.apiKey = apiKey;
             this.signingKey = signingKey;
         }
-
-        protected AbstractGoogleMapsRequest(string path, string apiKey, MediaType contentType)
-            : this(path, apiKey, null, contentType)
-        { }
 
         protected override Uri AuthenticatedURI
         {

@@ -2,14 +2,10 @@ using Juniper.HTTP;
 
 namespace Juniper.Azure.CognitiveServices
 {
-    public class VoiceListRequest : AbstractAzureSpeechRequest
+    public class VoiceListRequest : AbstractAzureSpeechRequest<MediaType.Application>
     {
-        public VoiceListRequest(string region, string authToken)
-            : base(region, "cognitiveservices/voices/list", authToken, MediaType.Application.Json)
-        { }
-
         public VoiceListRequest(string region)
-            : this(region, null)
+            : base(region, "cognitiveservices/voices/list", MediaType.Application.Json)
         { }
 
         protected override ActionDelegate Action

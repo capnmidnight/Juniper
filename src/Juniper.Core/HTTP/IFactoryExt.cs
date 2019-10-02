@@ -1,5 +1,5 @@
+using Juniper.IO;
 using Juniper.Progress;
-using Juniper.Serialization;
 
 namespace System.Net
 {

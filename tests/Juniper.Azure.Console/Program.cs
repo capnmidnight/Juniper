@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 using Juniper.Audio.NAudio;
 using Juniper.Azure.CognitiveServices;
-using Juniper.Caching;
 using Juniper.HTTP;
 using Juniper.HTTP.REST;
-using Juniper.Serialization;
+using Juniper.IO;
 
 namespace Juniper.Azure
 {
@@ -31,7 +30,7 @@ namespace Juniper.Azure
             var lines = File.ReadAllLines(keyFile);
             var subscriptionKey = lines[0];
             var region = lines[1];
-            var resourceName = "dls-dev-speech-recognition";
+            var resourceName = lines[2];
             var audioDecoder = new NAudioAudioDataDecoder(MediaType.Audio.Mpeg);
             var voiceListDecoder = new JsonFactory<Voice[]>();
             var ttsClient = new TextToSpeechClient(

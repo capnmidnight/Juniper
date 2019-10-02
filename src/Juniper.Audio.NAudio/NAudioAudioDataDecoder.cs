@@ -10,7 +10,7 @@ using NAudio.Wave;
 
 namespace Juniper.Audio.NAudio
 {
-    public class NAudioAudioDataDecoder : IDeserializer<AudioData>
+    public class NAudioAudioDataDecoder : IAudioDecoder
     {
         public static readonly MediaType.Audio[] SupportedFormats =
         {
@@ -21,32 +21,32 @@ namespace Juniper.Audio.NAudio
 
         public NAudioAudioDataDecoder(MediaType.Audio format)
         {
-            ReadContentType = format;
-            if (!SupportedFormats.Contains(ReadContentType))
+            ContentType = format;
+            if (!SupportedFormats.Contains(ContentType))
             {
-                throw new NotSupportedException($"Don't know how to decode audio format {ReadContentType}");
+                throw new NotSupportedException($"Don't know how to decode audio format {ContentType}");
             }
         }
 
-        public MediaType ReadContentType { get; }
+        public MediaType.Audio ContentType { get; }
 
         private WaveStream MakeDecodingStream(Stream stream)
         {
-            if (ReadContentType == MediaType.Audio.X_Wav)
+            if (ContentType == MediaType.Audio.X_Wav)
             {
                 return new WaveFileReader(stream);
             }
-            else if (ReadContentType == MediaType.Audio.Mpeg)
+            else if (ContentType == MediaType.Audio.Mpeg)
             {
                 return new Mp3FileReader(new ErsatzSeekableStream(stream), Mp3FileReader.CreateAcmFrameDecompressor);
             }
-            else if (ReadContentType == MediaType.Audio.Vorbis)
+            else if (ContentType == MediaType.Audio.Vorbis)
             {
                 return new VorbisWaveReader(stream);
             }
             else
             {
-                throw new NotSupportedException($"Don't know how to decode audio format {ReadContentType}");
+                throw new NotSupportedException($"Don't know how to decode audio format {ContentType}");
             }
         }
 
@@ -77,7 +77,7 @@ namespace Juniper.Audio.NAudio
                 }
 
                 var aud = new AudioData(
-                    (MediaType.Audio)ReadContentType,
+                    (MediaType.Audio)ContentType,
                     (int)samplesPerChannel,
                     numChannels,
                     format.SampleRate,

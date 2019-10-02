@@ -3,15 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-
-using Juniper.Caching;
 using Juniper.Data;
 using Juniper.Display;
+using Juniper.HTTP;
 using Juniper.Imaging.Unity;
+using Juniper.IO;
 using Juniper.Progress;
-using Juniper.Serialization;
 using Juniper.Units;
-
 using UnityEngine;
 
 namespace Juniper.Imaging
@@ -32,8 +30,7 @@ namespace Juniper.Imaging
         private readonly Dictionary<int, Dictionary<int, Transform>> detailSliceContainerCache = new Dictionary<int, Dictionary<int, Transform>>();
         private readonly Dictionary<int, Dictionary<int, Dictionary<int, Transform>>> detailSliceFrameContainerCache = new Dictionary<int, Dictionary<int, Dictionary<int, Transform>>>();
 
-        public string Key;
-        public string CubemapPath;
+        public string CubemapName;
         public float ProgressToReady;
         public float ProgressToComplete;
 
@@ -105,12 +102,12 @@ namespace Juniper.Imaging
             if (trySkybox)
             {
                 locked = true;
-                if (string.IsNullOrEmpty(CubemapPath))
+                if (string.IsNullOrEmpty(CubemapName))
                 {
-                    CubemapPath = CubemapNeeded?.Invoke(this);
+                    CubemapName = CubemapNeeded?.Invoke(this);
                 }
 
-                StartCoroutine(ReadCubemapCoroutine(CubemapPath));
+                StartCoroutine(ReadCubemapCoroutine(CubemapName));
             }
 
             foreach (var child in transform.Children())
@@ -122,7 +119,9 @@ namespace Juniper.Imaging
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
             print(filePath);
-            var textureTask = cache.GetDecoded(filePath, codec, this);
+            var fileRef = new ContentReference<MediaType.Image>(filePath, MediaType.Image.Jpeg);
+            var textureTask = cache.GetStreamSource(fileRef)
+                .Decode(codec, this);
             yield return textureTask.AsCoroutine();
 
             trySkybox = false;
@@ -259,10 +258,10 @@ namespace Juniper.Imaging
 
         protected virtual void OnDrawGizmos()
         {
-            var gizmoPath = Path.Combine("Assets", "Gizmos", CubemapPath);
+            var gizmoPath = Path.Combine("Assets", "Gizmos", CubemapName);
             if (File.Exists(gizmoPath))
             {
-                Gizmos.DrawIcon(transform.position + Vector3.up, CubemapPath);
+                Gizmos.DrawIcon(transform.position + Vector3.up, CubemapName);
             }
             Gizmos.DrawSphere(transform.position, 1);
         }
@@ -456,7 +455,7 @@ namespace Juniper.Imaging
 
         private void CaptureCubemap()
         {
-            if (string.IsNullOrEmpty(CubemapPath) && !cubemapLock)
+            if (string.IsNullOrEmpty(CubemapName) && !cubemapLock)
             {
                 cubemapLock = true;
                 StartCoroutine(CaptureCubemapCoroutine());
@@ -483,8 +482,7 @@ namespace Juniper.Imaging
 
         private IEnumerator CaptureCubemapCoroutine()
         {
-            var fileName = Key + ".jpeg";
-            using (var prog = new UnityEditorProgressDialog("Saving cubemap " + Key))
+            using (var prog = new UnityEditorProgressDialog("Saving cubemap " + CubemapName))
             {
                 var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
 
@@ -544,8 +542,13 @@ namespace Juniper.Imaging
                 try
                 {
                     var img = codec.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]);
-                    cache.Save(fileName, codec, img, subProgs[3]);
-                    Debug.Log("Cubemap saved " + fileName);
+                    var cubemapRef = new ContentReference<MediaType.Image>(CubemapName, MediaType.Image.Jpeg);
+                    using (var stream = cache.OpenWrite(cubemapRef))
+                    {
+                        codec.Serialize(stream, img, subProgs[3]);
+                    }
+
+                    Debug.Log("Cubemap saved " + CubemapName);
                 }
                 catch (Exception exp)
                 {
@@ -554,7 +557,7 @@ namespace Juniper.Imaging
                     throw;
                 }
 
-                yield return ReadCubemapCoroutine(fileName);
+                yield return ReadCubemapCoroutine(CubemapName);
             }
 
             cubemapLock = false;

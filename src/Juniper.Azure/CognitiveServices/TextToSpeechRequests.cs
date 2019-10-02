@@ -2,13 +2,12 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 using Juniper.HTTP;
 
 namespace Juniper.Azure.CognitiveServices
 {
-    public class TextToSpeechRequest : AbstractAzureSpeechRequest
+    public class TextToSpeechRequest : AbstractAzureSpeechRequest<MediaType.Audio>
     {
         private const string STYLE_SUPPORTED_VOICE = "en-US-Jessa24kRUS";
 
@@ -40,12 +39,19 @@ namespace Juniper.Azure.CognitiveServices
 
         private readonly OutputFormat outputFormat;
 
+        private string ssmlText;
+        private int ssmlTextLength;
+
+        public TextToSpeechRequest(string region, string resourceName, OutputFormat outputFormat)
+            : base(region, "cognitiveservices/v1", outputFormat.ContentType)
+        {
+            this.resourceName = resourceName;
+            this.outputFormat = outputFormat;
+        }
+
         public string Text { get; set; }
-
         public string VoiceName { get; set; }
-
         public SpeechStyle Style { get; set; }
-
         private string StyleString
         {
             get
@@ -53,26 +59,9 @@ namespace Juniper.Azure.CognitiveServices
                 return Style.ToString().ToLowerInvariant();
             }
         }
-
         public float PitchChange { get; set; }
-
         public float RateChange { get; set; }
-
         public float VolumeChange { get; set; }
-
-        private string ssmlText;
-        private int ssmlTextLength;
-
-        public TextToSpeechRequest(string region, string authToken, string resourceName, OutputFormat outputFormat)
-            : base(region, "cognitiveservices/v1", authToken, outputFormat.ContentType)
-        {
-            this.resourceName = resourceName;
-            this.outputFormat = outputFormat;
-        }
-
-        public TextToSpeechRequest(string region, string resourceName, OutputFormat outputFormat)
-            : this(region, null, resourceName, outputFormat)
-        { }
 
         private bool UseStyle
         {
@@ -204,9 +193,9 @@ namespace Juniper.Azure.CognitiveServices
             }
         }
 
-        protected override async Task ModifyRequest(HttpWebRequest request)
+        protected override void ModifyRequest(HttpWebRequest request)
         {
-            await base.ModifyRequest(request);
+            base.ModifyRequest(request);
             request.KeepAlive()
                 .UserAgent(resourceName)
                 .Header("X-Microsoft-OutputFormat", outputFormat.Value);

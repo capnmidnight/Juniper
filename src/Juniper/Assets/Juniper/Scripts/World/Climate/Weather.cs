@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
+using System.IO;
 using System.Threading.Tasks;
 
 using Juniper.Climate;
+using Juniper.IO;
 using Juniper.Progress;
-using Juniper.Serialization;
+using Juniper.Security;
 using Juniper.Units;
 using Juniper.World.GIS;
 
@@ -20,7 +22,7 @@ namespace Juniper.World.Climate
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(GPSLocation))]
-    public class Weather : MonoBehaviour
+    public class Weather : MonoBehaviour, ICredentialReceiver
     {
         /// <summary>
         /// A key for storing the last weather report in the Player Prefs data store.
@@ -35,7 +37,31 @@ namespace Juniper.World.Climate
         /// <summary>
         /// The API authorization key for OpenWeatherMap.
         /// </summary>
-        public StringVariable OpenWeatherMapAPIKey;
+        [SerializeField]
+        [HideInNormalInspector]
+        private string owmApiKey;
+
+        public string CredentialFile
+        {
+            get
+            {
+                var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "openweathermap.txt");
+                return keyFile;
+            }
+        }
+
+        public void ReceiveCredentials(string[] args)
+        {
+            if (args == null)
+            {
+                owmApiKey = null;
+            }
+            else
+            {
+                owmApiKey = args[0];
+            }
+        }
 
         /// <summary>
         /// The time, in minutes, to wait between requesting weather reports.
@@ -139,7 +165,7 @@ namespace Juniper.World.Climate
                 Find.Any(out location);
             }
 
-            if (weatherService == null && OpenWeatherMapAPIKey != null && !string.IsNullOrEmpty(OpenWeatherMapAPIKey.Value))
+            if (weatherService == null && !string.IsNullOrEmpty(owmApiKey))
             {
                 if (PlayerPrefs.HasKey(REPORT_KEY))
                 {
@@ -147,7 +173,7 @@ namespace Juniper.World.Climate
                 }
                 var json = new JsonFactory();
                 serializer = json;
-                weatherService = new OpenWeatherMap.API(json, OpenWeatherMapAPIKey.Value, lastReportJSON);
+                weatherService = new OpenWeatherMap.API(json, owmApiKey, lastReportJSON);
             }
 
             if (FakeWeather)

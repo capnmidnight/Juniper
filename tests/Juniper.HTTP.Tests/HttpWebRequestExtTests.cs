@@ -1,11 +1,10 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Juniper.Caching;
 using Juniper.HTTP.REST;
 using Juniper.Imaging;
 using Juniper.Imaging.LibJpegNET;
-using Juniper.Serialization;
+using Juniper.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -27,10 +26,10 @@ namespace Juniper.HTTP.Tests
             await RunFileTest("portrait-testcaching.jpg", false, true);
         }
 
-        private class ImageRequest : AbstractRequest
+        private class ImageRequest : AbstractRequest<MediaType.Image>
         {
-            public ImageRequest(Uri baseURI, string path, MediaType.Image imageType)
-                : base(AddPath(baseURI, path), imageType) { }
+            public ImageRequest(Uri baseURI, string path)
+                : base(AddPath(baseURI, path), MediaType.Image.Jpeg) { }
 
             protected override ActionDelegate Action
             {
@@ -43,7 +42,7 @@ namespace Juniper.HTTP.Tests
 
         private static async Task<ImageData> RunFileTest(string imageFileName, bool deleteFile, bool runTest)
         {
-            var imageDecoder = new LibJpegNETDecoder(80);
+            var imageDecoder = new LibJpegNETImageDataTranscoder(80);
             var myPictures = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
             var cacheFileName = Path.Combine(myPictures, imageFileName);
             var cacheFile = new FileInfo(cacheFileName);
@@ -59,10 +58,11 @@ namespace Juniper.HTTP.Tests
 
             var imageRequest = new ImageRequest(
                     new Uri("https://www.seanmcbeth.com"),
-                    "2015-05.min.jpg",
-                    MediaType.Image.Jpeg);
+                    "2015-05.min.jpg");
 
-            var image = await cache.GetDecoded(imageRequest, imageDecoder);
+            var image = await cache
+                .GetStreamSource(imageRequest)
+                .Decode(imageDecoder);
 
             if (runTest)
             {

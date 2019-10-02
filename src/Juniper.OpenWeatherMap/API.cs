@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 using Juniper.Climate;
 using Juniper.HTTP;
+using Juniper.IO;
 using Juniper.Progress;
-using Juniper.Serialization;
 using Juniper.Units;
 using Juniper.World.GIS;
 
@@ -40,12 +40,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// Factory used to serialize objects for local caching.
         /// </summary>
-        private readonly ISerializer serializer;
-
-        /// <summary>
-        /// factory used to deserialize objects from the data stream.
-        /// </summary>
-        private readonly IDeserializer deserializer;
+        private readonly ITextDecoder factory;
 
         /// <summary>
         /// The key to authenticate with the API
@@ -80,39 +75,25 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// Initialize a new API requester object with the given authentication API key.
         /// </summary>
-        /// <param name="serializer">Factory used to serialize objects.</param>
-        /// <param name="deserializer">The factory used for deserializing objects.</param>
+        /// <param name="factory">Factory used to serialize and deserialize objects.</param>
         /// <param name="apiKey">The OpenWeatherMap API key to use for authentication.</param>
         /// <param name="lastReportJSON">The value of the last report we received, if there was any.</param>
-        public API(ISerializer serializer, IDeserializer deserializer, string apiKey, string lastReportJSON)
+        public API(ITextDecoder factory, string apiKey, string lastReportJSON)
         {
-            this.serializer = serializer;
-            this.deserializer = deserializer;
+            this.factory = factory;
             this.apiKey = apiKey;
 
             if (lastReportJSON != null)
             {
-                if (deserializer.TryParse<WeatherReport>(lastReportJSON, out var report))
+                if (factory.TryParse<WeatherReport>(lastReportJSON, out var report))
                 {
                     LastReport = report;
                 }
             }
         }
 
-        public API(ISerializer serializer, IDeserializer deserializer, string apiKey)
-            : this(serializer, deserializer, apiKey, null) { }
-
-        /// <summary>
-        /// Initialize a new API requester object with the given authentication API key.
-        /// </summary>
-        /// <param name="factory">Factory used to serialize and deserialize objects.</param>
-        /// <param name="apiKey">The OpenWeatherMap API key to use for authentication.</param>
-        /// <param name="lastReportJSON">The value of the last report we received, if there was any.</param>
-        public API(IFactory factory, string apiKey, string lastReportJSON)
-            : this(factory, factory, apiKey, lastReportJSON) { }
-
-        public API(IFactory factory, string apiKey)
-            : this(factory, factory, apiKey, null) { }
+        public API(ITextDecoder factory, string apiKey)
+            : this(factory, apiKey, null) { }
 
         /// <summary>
         /// Returns true when <see cref="LastReport"/> is null, LastReport indicates and error
@@ -215,7 +196,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
                     requester.Accept = MediaType.Application.Json;
                     using (var response = await requester.Get())
                     {
-                        if (deserializer.TryDeserialize<WeatherReport>(response, out var report))
+                        if (factory.TryDeserialize<WeatherReport>(response, out var report))
                         {
                             LastReport = report;
                         }
@@ -239,8 +220,8 @@ namespace Juniper.World.Climate.OpenWeatherMap
         {
             set
             {
-                var reportJSON = serializer.ToString(value);
-                deserializer.TryParse<WeatherReport>(reportJSON, out var errorReport);
+                var reportJSON = factory.ToString(value);
+                factory.TryParse<WeatherReport>(reportJSON, out var errorReport);
                 LastReport = errorReport;
             }
         }

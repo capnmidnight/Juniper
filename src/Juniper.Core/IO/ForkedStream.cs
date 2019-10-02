@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Juniper.Streams
+namespace Juniper.IO
 {
     public class ForkedStream : Stream
     {
@@ -48,7 +45,7 @@ namespace Juniper.Streams
         {
             get
             {
-                foreach(var stream in streams)
+                foreach (var stream in streams)
                 {
                     if (!stream.CanWrite)
                     {
@@ -77,7 +74,7 @@ namespace Juniper.Streams
 
             set
             {
-                foreach(var stream in streams)
+                foreach (var stream in streams)
                 {
                     stream.Position = value;
                 }
@@ -86,7 +83,7 @@ namespace Juniper.Streams
 
         public override void Flush()
         {
-            foreach(var stream in streams)
+            foreach (var stream in streams)
             {
                 stream.Flush();
             }
@@ -100,7 +97,7 @@ namespace Juniper.Streams
         public override long Seek(long offset, SeekOrigin origin)
         {
             long position = 0;
-            foreach(var stream in streams)
+            foreach (var stream in streams)
             {
                 position = stream.Seek(offset, origin);
             }
@@ -109,7 +106,7 @@ namespace Juniper.Streams
 
         public override void SetLength(long value)
         {
-            foreach(var stream in streams)
+            foreach (var stream in streams)
             {
                 stream.SetLength(value);
             }
@@ -125,7 +122,7 @@ namespace Juniper.Streams
 
         public override void WriteByte(byte value)
         {
-            foreach(var stream in streams)
+            foreach (var stream in streams)
             {
                 stream.WriteByte(value);
             }
@@ -133,7 +130,7 @@ namespace Juniper.Streams
 
         public override void Close()
         {
-            foreach(var stream in streams)
+            foreach (var stream in streams)
             {
                 stream.Close();
             }
@@ -145,7 +142,7 @@ namespace Juniper.Streams
 
             if (disposing)
             {
-                foreach(var stream in streams)
+                foreach (var stream in streams)
                 {
                     stream.Dispose();
                 }

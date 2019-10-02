@@ -2,29 +2,23 @@ using System;
 using System.Threading.Tasks;
 
 using Juniper.Audio;
-using Juniper.Caching;
 using Juniper.HTTP;
-using Juniper.Serialization;
+using Juniper.IO;
 
 namespace Juniper.Azure.CognitiveServices
 {
-    public class TextToSpeechClient
+    public class VoicesClient
     {
         private readonly string azureSubscriptionKey;
-        private readonly string azureRegion;
-        private readonly string azureResourceName;
-        private readonly OutputFormat outputFormat;
-        private readonly IDeserializer<Voice[]> voiceListDecoder;
-        private readonly IDeserializer<AudioData> audioDecoder;
-        private readonly CachingStrategy cachingStrategy;
+        private readonly ITextDecoder<Voice[]> voiceListDecoder;
 
         private string authToken;
-
         private Voice[] voices;
 
-        public bool IsAvailable { get; private set; } = true;
+        protected readonly string azureRegion;
+        protected readonly CachingStrategy cache;
 
-        public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IDeserializer<Voice[]> voiceListDecoder, OutputFormat outputFormat, IDeserializer<AudioData> audioDecoder, CachingStrategy cachingStrategy)
+        public VoicesClient(string azureRegion, string azureSubscriptionKey, ITextDecoder<Voice[]> voiceListDecoder, CachingStrategy cache)
         {
             if (string.IsNullOrEmpty(azureRegion))
             {
@@ -36,59 +30,38 @@ namespace Juniper.Azure.CognitiveServices
                 throw new ArgumentException("Must provide a subscription key", nameof(azureSubscriptionKey));
             }
 
-            if (string.IsNullOrEmpty(azureResourceName))
-            {
-                throw new ArgumentException("Must provide a resource name that is tied to the subscription", nameof(azureResourceName));
-            }
-
             if (voiceListDecoder == null
-                || voiceListDecoder.ReadContentType != MediaType.Application.Json)
+                || voiceListDecoder.ContentType != MediaType.Application.Json)
             {
                 throw new ArgumentException("Most provide a JSON deserializer for the voice list data", nameof(voiceListDecoder));
             }
 
-            if (outputFormat == null)
-            {
-                throw new ArgumentException("Must provide an audio output format", nameof(outputFormat));
-            }
-
-            if (audioDecoder == null)
-            {
-                throw new ArgumentException("Must provide an audio decoder", nameof(audioDecoder));
-            }
-
-            if (audioDecoder.ReadContentType != outputFormat.ContentType)
-            {
-                throw new ArgumentException($"Must provide a decoder that matches the output format type. Given {audioDecoder.ReadContentType.Value}. Expected {outputFormat.ContentType.Value}", nameof(audioDecoder));
-            }
-
             this.azureRegion = azureRegion;
             this.azureSubscriptionKey = azureSubscriptionKey;
-            this.azureResourceName = azureResourceName;
             this.voiceListDecoder = voiceListDecoder;
-            this.outputFormat = outputFormat;
-            this.audioDecoder = audioDecoder;
-            this.cachingStrategy = cachingStrategy;
+            this.cache = cache;
         }
 
-        public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IDeserializer<Voice[]> voiceListDecoder, OutputFormat outputFormat, IDeserializer<AudioData> audioDecoder)
-            : this(azureRegion, azureSubscriptionKey, azureResourceName, voiceListDecoder, outputFormat, audioDecoder, null)
+        public VoicesClient(string azureRegion, string azureSubscriptionKey, ITextDecoder<Voice[]> voiceListDecoder)
+            : this(azureRegion, azureSubscriptionKey, voiceListDecoder, null)
         { }
+
+        public bool IsAvailable { get; protected set; } = true;
 
         public void ClearError()
         {
             IsAvailable = true;
         }
 
-        private async Task<string> GetAuthToken()
+        protected async Task<string> GetAuthToken()
         {
             try
             {
                 if (string.IsNullOrEmpty(authToken))
                 {
-                    var plainText = new StreamStringDecoder();
+                    var plainText = new StringFactory();
                     var authRequest = new AuthTokenRequest(azureRegion, azureSubscriptionKey);
-                    authToken = await authRequest.GetDecoded(plainText);
+                    authToken = await authRequest.Decode(plainText);
                 }
                 return authToken;
             }
@@ -106,11 +79,14 @@ namespace Juniper.Azure.CognitiveServices
                 if (voices is null)
                 {
                     var voiceListRequest = new VoiceListRequest(azureRegion);
-                    if (!cachingStrategy.IsCached(voiceListRequest))
+                    if (!cache.IsCached(voiceListRequest))
                     {
                         voiceListRequest.AuthToken = await GetAuthToken();
                     }
-                    voices = await cachingStrategy.GetDecoded(voiceListRequest, voiceListDecoder);
+                    voices = await cache
+                        .GetStreamSource(voiceListRequest)
+                        .Cache(cache)
+                        .Decode(voiceListDecoder);
                 }
 
                 return voices;
@@ -121,6 +97,44 @@ namespace Juniper.Azure.CognitiveServices
                 throw;
             }
         }
+    }
+    public class TextToSpeechClient : VoicesClient
+    {
+        private readonly string azureResourceName;
+        private readonly OutputFormat outputFormat;
+        private readonly IAudioDecoder audioDecoder;
+
+        public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, ITextDecoder<Voice[]> voiceListDecoder, OutputFormat outputFormat, IAudioDecoder audioDecoder, CachingStrategy cache)
+            : base(azureRegion, azureSubscriptionKey, voiceListDecoder, cache)
+        {
+            if (string.IsNullOrEmpty(azureResourceName))
+            {
+                throw new ArgumentException("Must provide a resource name that is tied to the subscription", nameof(azureResourceName));
+            }
+
+            if (outputFormat == null)
+            {
+                throw new ArgumentException("Must provide an audio output format", nameof(outputFormat));
+            }
+
+            if (audioDecoder == null)
+            {
+                throw new ArgumentException("Must provide an audio decoder", nameof(audioDecoder));
+            }
+
+            if (audioDecoder.ContentType != outputFormat.ContentType)
+            {
+                throw new ArgumentException($"Must provide a decoder that matches the output format type. Given {audioDecoder.ContentType.Value}. Expected {outputFormat.ContentType.Value}", nameof(audioDecoder));
+            }
+
+            this.azureResourceName = azureResourceName;
+            this.outputFormat = outputFormat;
+            this.audioDecoder = audioDecoder;
+        }
+
+        public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, ITextDecoder<Voice[]> voiceListDecoder, OutputFormat outputFormat, IAudioDecoder audioDecoder)
+            : this(azureRegion, azureSubscriptionKey, azureResourceName, voiceListDecoder, outputFormat, audioDecoder, null)
+        { }
 
         public async Task<AudioData> Speak(string text, string voiceName, float rateChange, float pitchChange)
         {
@@ -152,12 +166,15 @@ namespace Juniper.Azure.CognitiveServices
                     PitchChange = pitchChange
                 };
 
-                if (!cachingStrategy.IsCached(ttsRequest))
+                if (!cache.IsCached(ttsRequest))
                 {
                     ttsRequest.AuthToken = await GetAuthToken();
                 }
 
-                return await cachingStrategy.GetDecoded(ttsRequest, audioDecoder);
+                return await cache
+                    .GetStreamSource(ttsRequest)
+                    .Cache(cache)
+                    .Decode(audioDecoder);
             }
             catch
             {

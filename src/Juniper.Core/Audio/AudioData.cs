@@ -1,3 +1,5 @@
+using Juniper.HTTP;
+
 namespace Juniper.Audio
 {
     /// <summary>
@@ -5,13 +7,13 @@ namespace Juniper.Audio
     /// </summary>
     public class AudioData
     {
-        public readonly HTTP.MediaType.Audio contentType;
+        public readonly MediaType.Audio contentType;
         public readonly int samplesPerChannel;
         public readonly int numChannels;
         public readonly int frequency;
         public readonly float[] data;
 
-        public AudioData(HTTP.MediaType.Audio contentType, int samplesPerChannel, int numChannels, int frequency, float[] data)
+        public AudioData(MediaType.Audio contentType, int samplesPerChannel, int numChannels, int frequency, float[] data)
         {
             this.contentType = contentType;
             this.samplesPerChannel = samplesPerChannel;

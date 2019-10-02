@@ -1,18 +1,17 @@
-using System.IO;
 using Juniper.HTTP;
 using Juniper.Imaging;
 
 namespace Juniper.Google.Maps.StreetView
 {
-    public class ImageRequest : AbstractStreetViewRequest
+    public class ImageRequest : AbstractStreetViewRequest<MediaType.Image>
     {
         private int heading;
         private int pitch;
         private int fov;
         private Size size;
 
-        public ImageRequest(string apiKey, string signingKey, Size size, MediaType.Image imageType)
-            : base("streetview", apiKey, signingKey, imageType)
+        public ImageRequest(string apiKey, string signingKey, Size size)
+            : base("streetview", apiKey, signingKey, MediaType.Image.Jpeg)
         {
             Size = size;
         }

@@ -5,13 +5,13 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.TimeZone
 {
-    public class TimeZoneRequest : AbstractGoogleMapsRequest
+    public class TimeZoneRequest: AbstractGoogleMapsRequest<MediaType.Application>
     {
         private LatLngPoint location;
         private DateTime timestamp;
 
         public TimeZoneRequest(string apiKey)
-            : base("timezone/json", apiKey, MediaType.Application.Json)
+            : base("timezone/json", apiKey, null, MediaType.Application.Json)
         { }
 
         public LatLngPoint Location

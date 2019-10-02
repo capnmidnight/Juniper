@@ -38,7 +38,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GDIDecoder.cs" />
     <Compile Include="GDIImageDataTranscoder.cs" />
     <Compile Include="GDICodec.cs" />
     <Compile Include="ImageDataExt.cs" />

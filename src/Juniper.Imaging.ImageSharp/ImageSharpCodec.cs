@@ -19,7 +19,7 @@ namespace Juniper.Imaging.ImageSharp
             ContentType = format;
         }
 
-        public MediaType ContentType { get; private set; }
+        public MediaType ContentType { get; }
 
         public int GetWidth(Image<PixelT> img)
         {

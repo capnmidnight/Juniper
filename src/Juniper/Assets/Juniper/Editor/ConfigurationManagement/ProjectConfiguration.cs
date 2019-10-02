@@ -1,10 +1,9 @@
 using System;
 using System.IO;
-
-using Juniper.XR;
-
-using Juniper.Serialization;
 using System.Runtime.Serialization;
+
+using Juniper.IO;
+using Juniper.XR;
 
 namespace Juniper.ConfigurationManagement
 {
@@ -12,7 +11,7 @@ namespace Juniper.ConfigurationManagement
     public sealed class ProjectConfiguration : ISerializable
     {
         private const string CONFIG_FILE_NAME = "juniper.json";
-        private static readonly IFactory<ProjectConfiguration> json = new JsonFactory<ProjectConfiguration>();
+        private static readonly ITextDecoder<ProjectConfiguration> json = new JsonFactory<ProjectConfiguration>();
 
         public static ProjectConfiguration Load()
         {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-using Juniper.Caching;
+using Juniper.IO;
 
 namespace Juniper.Data
 {

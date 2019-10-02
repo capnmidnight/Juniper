@@ -4,9 +4,10 @@ using System.Net;
 using System.Threading.Tasks;
 
 using HtmlAgilityPack;
+
 using Juniper.HTTP;
+using Juniper.IO;
 using Juniper.Progress;
-using Juniper.Serialization;
 
 namespace Juniper.UnityAssetStore
 {

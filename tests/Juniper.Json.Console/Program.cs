@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+
 using Juniper.IO;
 
 using static System.Console;
@@ -12,7 +13,7 @@ namespace Juniper.Json
         static void Main(string[] args)
         {
             var inDir = "C:\\Users\\smcbeth.DLS-INC\\Projects\\Yarrow\\StreamingAssets";
-            IFactory<Yarrow.YarrowMetadata> json = new JsonFactory<Yarrow.YarrowMetadata>();
+            ITextDecoder<Yarrow.YarrowMetadata> json = new JsonFactory<Yarrow.YarrowMetadata>();
             var tasks = new List<Task>();
             foreach (var file in Directory.GetFiles(inDir, "*.json"))
             {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using Juniper.HTTP;
@@ -9,7 +8,7 @@ using Juniper.World.GIS;
 
 namespace Juniper.Google.Maps.MapTiles
 {
-    public class TileRequest : AbstractGoogleMapsRequest
+    public class TileRequest : AbstractGoogleMapsRequest<MediaType.Image>
     {
         private readonly List<Marker> markers = new List<Marker>();
         private LinePath path;
@@ -23,8 +22,8 @@ namespace Juniper.Google.Maps.MapTiles
         private LatLngPoint center;
         private Size size;
 
-        public TileRequest(string apiKey, string signingKey, Size size, MediaType.Image imageType)
-            : base("staticmap", apiKey, signingKey, imageType)
+        public TileRequest(string apiKey, string signingKey, Size size)
+            : base("staticmap", apiKey, signingKey, MediaType.Image.Png)
         {
             Size = size;
         }

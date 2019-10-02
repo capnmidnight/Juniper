@@ -6,13 +6,17 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging.LibJpegNET
 {
-    public class LibJpegNETImageDataTranscoder : IImageTranscoder<JpegImage, ImageData>
+    public class LibJpegNETImageDataTranscoder : AbstractCompositeImageFactory<JpegImage, ImageData>
     {
+        public LibJpegNETImageDataTranscoder(int quality = 100, int smoothingFactor = 1, bool progressive = false)
+            : base(new LibJpegNETCodec(quality, smoothingFactor, progressive))
+        { }
+
         /// <summary>
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Jpeg bytes.</param>
-        public ImageData TranslateTo(JpegImage jpeg, IProgress prog)
+        public override ImageData Translate(JpegImage jpeg, IProgress prog)
         {
             var stride = jpeg.Width * jpeg.ComponentsPerSample;
             var numRows = jpeg.Height;
@@ -37,7 +41,7 @@ namespace Juniper.Imaging.LibJpegNET
         /// Encodes a raw file buffer of image data into a JPEG image.
         /// </summary>
         /// <param name="outputStream">Jpeg bytes.</param>
-        public JpegImage TranslateFrom(ImageData image, IProgress prog)
+        public override JpegImage Translate(ImageData image, IProgress prog)
         {
             var subProgs = prog.Split("Copying", "Saving");
             var copyProg = subProgs[0];
