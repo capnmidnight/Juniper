@@ -272,7 +272,7 @@ namespace Juniper
         private static readonly Dictionary<string, EditorApplication.CallbackFunction> delegates = new Dictionary<string, EditorApplication.CallbackFunction>();
         public static void OnEditorUpdateIn(string key, TimeSpan time, Action act)
         {
-            var start = DateTime.Now;
+            var end = DateTime.Now + time;
 
             if (delegates.ContainsKey(key))
             {
@@ -281,8 +281,7 @@ namespace Juniper
 
             void wrapper()
             {
-                var delta = DateTime.Now - start;
-                if (delta > time)
+                if (DateTime.Now < end)
                 {
                     EditorApplication.update -= wrapper;
                     act();

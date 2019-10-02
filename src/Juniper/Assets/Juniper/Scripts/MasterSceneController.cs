@@ -490,9 +490,8 @@ namespace Juniper
 
                 if (loadingBar != null)
                 {
-                    var start = DateTime.Now;
-                    var ts = TimeSpan.FromSeconds(1);
-                    while ((DateTime.Now - start) < ts || loadingBar.Progress >= 1)
+                    var end = DateTime.Now.AddSeconds(1);
+                    while (DateTime.Now < end || loadingBar.Progress >= 1)
                     {
                         yield return null;
                     }

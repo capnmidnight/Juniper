@@ -13,11 +13,9 @@ namespace Juniper.Haptics
 
         protected override IEnumerator VibrateCoroutine(long milliseconds, float amplitude)
         {
-            var start = DateTime.Now;
-            var seconds = Units.Milliseconds.Seconds(milliseconds);
-            var ts = TimeSpan.FromSeconds(seconds);
+            var end = DateTime.Now.AddMilliseconds(milliseconds);
             SetVibration(milliseconds, amplitude);
-            while((DateTime.Now - start) < ts)
+            while(DateTime.Now < end)
             {
                 yield return null;
             }

@@ -386,9 +386,9 @@ namespace Juniper.Audio
         /// <param name="onComplete">On complete.</param>
         private static IEnumerator Wait(float seconds, Action onComplete)
         {
-            var start = DateTime.Now;
+            var end = DateTime.Now;
             var ts = TimeSpan.FromSeconds(seconds);
-            while ((DateTime.Now - start) > ts)
+            while ((DateTime.Now - end) > ts)
             {
                 yield return null;
             }

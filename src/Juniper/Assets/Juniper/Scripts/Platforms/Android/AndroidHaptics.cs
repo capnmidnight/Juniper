@@ -90,13 +90,11 @@ namespace Juniper.Haptics
         /// <param name="amplitude">   Amplitude values should be on the range [0, 1].</param>
         protected override IEnumerator VibrateCoroutine(long milliseconds, float amplitude)
         {
-            var start = DateTime.Now;
-            var seconds = Units.Milliseconds.Seconds(milliseconds);
-            var ts = TimeSpan.FromSeconds(seconds);
+            var end = DateTime.Now.AddMilliseconds(milliseconds);
             VibrateCoroutine_params2[0] = milliseconds;
             VibrateCoroutine_params2[1] = (int)(amplitude * 255);
             CreateVibrationEffect("createOneShot", VibrateCoroutine_params2);
-            while ((DateTime.Now - start) < ts)
+            while (DateTime.Now < end)
             {
                 yield return null;
             }
@@ -110,13 +108,10 @@ namespace Juniper.Haptics
         /// <param name="pattern">Pattern.</param>
         protected override IEnumerator PlayCoroutine(long[] pattern)
         {
-            var start = DateTime.Now;
-            var milliseconds = pattern.Sum();
-            var seconds = Units.Milliseconds.Seconds(milliseconds);
-            var ts = TimeSpan.FromSeconds(seconds);
+            var end = DateTime.Now.AddMilliseconds(pattern.Sum());
             PlayCoroutine_params2[0] = pattern;
             CreateVibrationEffect("createWaveform", PlayCoroutine_params2);
-            while ((DateTime.Now - start) < ts)
+            while (DateTime.Now < end)
             {
                 yield return null;
             }
@@ -130,10 +125,7 @@ namespace Juniper.Haptics
         /// <param name="amplitudes">Amplitudes.</param>
         protected override IEnumerator PlayCoroutine(long[] pattern, float[] amplitudes)
         {
-            var start = DateTime.Now;
-            var milliseconds = pattern.Sum();
-            var seconds = Units.Milliseconds.Seconds(milliseconds);
-            var ts = TimeSpan.FromSeconds(seconds);
+            var end = DateTime.Now.AddMilliseconds(pattern.Sum());
             var amps = new int[amplitudes.Length];
             for (var i = 0; i < amplitudes.Length; ++i)
             {
@@ -142,7 +134,7 @@ namespace Juniper.Haptics
             PlayCoroutine_params3[0] = pattern;
             PlayCoroutine_params3[1] = amps;
             CreateVibrationEffect("createWaveform", PlayCoroutine_params3);
-            while ((DateTime.Now - start) < ts)
+            while (DateTime.Now < end)
             {
                 yield return null;
             }

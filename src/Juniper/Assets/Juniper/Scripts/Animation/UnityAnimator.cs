@@ -67,20 +67,18 @@ namespace Juniper.Animation
         {
             if (animator?.runtimeAnimatorController != null)
             {
-                var start = DateTime.Now;
                 animator.Play(name);
                 var animationState = animator.GetCurrentAnimatorStateInfo(0);
                 var len = animationState.length;
-                var ts = TimeSpan.FromSeconds(len);
-                while ((DateTime.Now - start) < ts)
+                var end = DateTime.Now.AddSeconds(len);
+                while (DateTime.Now < end)
                 {
                     yield return null;
                 }
 
                 animationState = animator.GetCurrentAnimatorStateInfo(0);
-                start = DateTime.Now;
-                ts = TimeSpan.FromSeconds(animationState.length - len);
-                while ((DateTime.Now - start) < ts)
+                end = DateTime.Now.AddSeconds(animationState.length - len);
+                while (DateTime.Now < end)
                 {
                     yield return null;
                 }
