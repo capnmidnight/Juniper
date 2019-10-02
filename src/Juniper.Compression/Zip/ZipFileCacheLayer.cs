@@ -44,7 +44,7 @@ namespace Juniper.Compression.Zip
             throw new NotSupportedException();
         }
 
-        internal string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> source)
+        protected virtual string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> source)
             where MediaTypeT : MediaType
         {
             var baseName = PathExt.FixPath(source.CacheID);
@@ -66,7 +66,7 @@ namespace Juniper.Compression.Zip
         public IStreamSource<MediaTypeT> GetStreamSource<MediaTypeT>(IContentReference<MediaTypeT> source)
             where MediaTypeT : MediaType
         {
-            return new ZipFileReference<MediaTypeT>(this, source);
+            return new ZipFileReference<MediaTypeT>(this, GetCacheFileName(source), source);
         }
     }
 }

@@ -12,10 +12,12 @@ namespace Juniper.Compression.Zip
     {
         private readonly ZipFileCacheLayer layer;
         private readonly IContentReference<MediaTypeT> source;
+        private readonly string cacheFileName;
 
-        public ZipFileReference(ZipFileCacheLayer layer, IContentReference<MediaTypeT> source)
+        public ZipFileReference(ZipFileCacheLayer layer, string cacheFileName, IContentReference<MediaTypeT> source)
         {
             this.layer = layer;
+            this.cacheFileName = cacheFileName;
             this.source = source;
         }
 
@@ -38,7 +40,6 @@ namespace Juniper.Compression.Zip
         public Task<Stream> GetStream(IProgress prog)
         {
             Stream stream = null;
-            var cacheFileName = layer.GetCacheFileName(source);
             var zip = Decompressor.OpenZip(layer.zipFile);
             var entry = zip.GetEntry(cacheFileName);
             if (entry != null)

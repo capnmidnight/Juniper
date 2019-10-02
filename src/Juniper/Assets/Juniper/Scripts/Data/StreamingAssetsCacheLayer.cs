@@ -1,5 +1,6 @@
 ﻿using System.IO;
-
+using Juniper.IO;
+using Juniper.HTTP;
 using UnityEngine;
 
 namespace Juniper.Data
@@ -25,10 +26,15 @@ namespace Juniper.Data
 
 
 #if !UNITY_EDITOR && UNITY_ANDROID
-        protected override string GetCacheFileName(string fileDescriptor, HTTP.MediaType contentType)
+        protected override string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> source)
         {
-            var name = Path.Combine("assets", fileDescriptor);
-            return base.GetCacheFileName(name, contentType);
+            var newFileName = Path.Combine(
+                "assets",
+                PathExt.FixPath(source.CacheID));
+            var newRef = new ContentReference<MediaTypeT>(
+                newFileName,
+                source.ContentType);
+            return base.GetCacheFileName(newRef);
         }
 #endif
     }

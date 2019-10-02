@@ -54,7 +54,7 @@ namespace Juniper.IO
             return new FileInfo(GetCacheFileName(source));
         }
 
-        private string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> source)
+        protected virtual string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> source)
             where MediaTypeT : MediaType
         {
             var baseName = PathExt.FixPath(source.CacheID);
