@@ -83,10 +83,7 @@ namespace Juniper.Azure.CognitiveServices
                     {
                         voiceListRequest.AuthToken = await GetAuthToken();
                     }
-                    voices = await cache
-                        .GetStreamSource(voiceListRequest)
-                        .Cache(cache)
-                        .Decode(voiceListDecoder);
+                    voices = await cache.Decode(voiceListRequest, voiceListDecoder);
                 }
 
                 return voices;
@@ -171,10 +168,7 @@ namespace Juniper.Azure.CognitiveServices
                     ttsRequest.AuthToken = await GetAuthToken();
                 }
 
-                return await cache
-                    .GetStreamSource(ttsRequest)
-                    .Cache(cache)
-                    .Decode(audioDecoder);
+                return await cache.Decode(ttsRequest, audioDecoder);
             }
             catch
             {

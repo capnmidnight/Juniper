@@ -63,7 +63,7 @@ namespace Juniper.Compression.Zip
             }
         }
 
-        public IStreamSource<MediaTypeT> GetStreamSource<MediaTypeT>(IContentReference<MediaTypeT> source)
+        public IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> source)
             where MediaTypeT : MediaType
         {
             return new ZipFileReference<MediaTypeT>(this, GetCacheFileName(source), source);

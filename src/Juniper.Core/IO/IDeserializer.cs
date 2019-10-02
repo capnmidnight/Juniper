@@ -1,7 +1,6 @@
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
-using Juniper.HTTP;
+
 using Juniper.Progress;
 
 namespace Juniper.IO
@@ -85,10 +84,7 @@ namespace Juniper.IO
 
         public static ResultT Load<ResultT>(this IDeserializer deserializer, FileInfo file, IProgress prog)
         {
-            using (var stream = file.OpenRead())
-            {
-                return deserializer.Deserialize<ResultT>(stream, file.Length, prog);
-            }
+            return deserializer.Deserialize<ResultT>(file.OpenRead(), file.Length, prog);
         }
 
         public static bool TryLoad<ResultT>(this IDeserializer deserializer, FileInfo file, out ResultT value)
@@ -98,10 +94,7 @@ namespace Juniper.IO
 
         public static bool TryLoad<ResultT>(this IDeserializer deserializer, FileInfo file, out ResultT value, IProgress prog)
         {
-            using (var stream = file.OpenRead())
-            {
-                return deserializer.TryDeserialize(stream, out value, file.Length, prog);
-            }
+            return deserializer.TryDeserialize(file.OpenRead(), out value, file.Length, prog);
         }
 
         public static ResultT Load<ResultT>(this IDeserializer deserializer, string fileName)
@@ -213,10 +206,7 @@ namespace Juniper.IO
 
         public static ResultT Load<ResultT>(this IDeserializer<ResultT> deserializer, FileInfo file, IProgress prog)
         {
-            using (var stream = file.OpenRead())
-            {
-                return deserializer.Deserialize(stream, file.Length, prog);
-            }
+            return deserializer.Deserialize(file.OpenRead(), file.Length, prog);
         }
 
         public static bool TryLoad<ResultT>(this IDeserializer<ResultT> deserializer, FileInfo file, out ResultT value)
@@ -226,10 +216,7 @@ namespace Juniper.IO
 
         public static bool TryLoad<ResultT>(this IDeserializer<ResultT> deserializer, FileInfo file, out ResultT value, IProgress prog)
         {
-            using (var stream = file.OpenRead())
-            {
-                return deserializer.TryDeserialize(stream, out value, file.Length, prog);
-            }
+            return deserializer.TryDeserialize(file.OpenRead(), out value, file.Length, prog);
         }
 
         public static ResultT Load<ResultT>(this IDeserializer<ResultT> deserializer, string fileName)
@@ -272,26 +259,6 @@ namespace Juniper.IO
         {
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(text));
             return deserializer.TryDeserialize(stream, out value, stream.Length, prog);
-        }
-
-        public static ResultT Decode<ResultT>(this Stream stream, IDeserializer<ResultT> deserializer, IProgress prog)
-        {
-            return deserializer.Deserialize(stream, prog);
-        }
-
-        public static ResultT Decode<ResultT>(this Stream stream, IDeserializer<ResultT> deserializer)
-        {
-            return deserializer.Deserialize(stream);
-        }
-
-        public static async Task<ResultT> Decode<ResultT>(this Task<Stream> stream, IDeserializer<ResultT> deserializer, IProgress prog)
-        {
-            return deserializer.Deserialize(await stream, prog);
-        }
-
-        public static async Task<ResultT> Decode<ResultT>(this Task<Stream> stream, IDeserializer<ResultT> deserializer)
-        {
-            return deserializer.Deserialize(await stream);
         }
     }
 }

@@ -53,38 +53,42 @@ namespace Juniper.Audio.NAudio
         public AudioData Deserialize(Stream stream, IProgress prog)
         {
             prog.Report(0);
-            using (stream)
-            using (var waveStream = MakeDecodingStream(stream))
+            AudioData audioData = null;
+            if (stream != null)
             {
-                var format = waveStream.WaveFormat;
-                var bytesPerSample = format.BitsPerSample / 8;
-                var numChannels = format.Channels;
-                var numSamples = waveStream.Length / bytesPerSample;
-                var samplesPerChannel = numSamples / numChannels;
-                var data = new float[numSamples];
-                var scalar = (float)Math.Pow(2, 1 - format.BitsPerSample);
-                var buf = new byte[bytesPerSample];
-                for (var s = 0; s < numSamples; ++s)
+                using (stream)
+                using (var waveStream = MakeDecodingStream(stream))
                 {
-                    int read = waveStream.Read(buf, 0, bytesPerSample);
-                    short accum = 0;
-                    for (var b = read - 1; b >= 0; --b)
+                    var format = waveStream.WaveFormat;
+                    var bytesPerSample = format.BitsPerSample / 8;
+                    var numChannels = format.Channels;
+                    var numSamples = waveStream.Length / bytesPerSample;
+                    var samplesPerChannel = numSamples / numChannels;
+                    var data = new float[numSamples];
+                    var scalar = (float)Math.Pow(2, 1 - format.BitsPerSample);
+                    var buf = new byte[bytesPerSample];
+                    for (var s = 0; s < numSamples; ++s)
                     {
-                        accum = (short)((accum << 8) | buf[b]);
+                        var read = waveStream.Read(buf, 0, bytesPerSample);
+                        short accum = 0;
+                        for (var b = read - 1; b >= 0; --b)
+                        {
+                            accum = (short)((accum << 8) | buf[b]);
+                        }
+
+                        data[s] = accum * scalar;
                     }
 
-                    data[s] = accum * scalar;
+                    audioData = new AudioData(
+                        ContentType,
+                        (int)samplesPerChannel,
+                        numChannels,
+                        format.SampleRate,
+                        data);
                 }
-
-                var aud = new AudioData(
-                    (MediaType.Audio)ContentType,
-                    (int)samplesPerChannel,
-                    numChannels,
-                    format.SampleRate,
-                    data);
-                prog.Report(1);
-                return aud;
             }
+            prog.Report(1);
+            return audioData;
         }
     }
 }

@@ -55,9 +55,7 @@ namespace Juniper.Google.Maps.MapTiles.Tests
                 Address = (string)"4909 Rutland Pl, Alexandria, VA, 22304"
             };
 
-            var results = await cache
-                .GetStreamSource(search)
-                .Decode(decoder);
+            var results = await cache.Decode(search, decoder);
             Assert.IsNotNull(results);
             Assert.AreEqual(640, results.info.dimensions.width);
             Assert.AreEqual(640, results.info.dimensions.height);

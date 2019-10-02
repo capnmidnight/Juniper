@@ -38,16 +38,21 @@ namespace Juniper.Imaging.LibJpegNET
         /// <summary>
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
-        /// <param name="imageStream">Jpeg bytes.</param>
-        public JpegImage Deserialize(Stream imageStream, IProgress prog)
+        /// <param name="stream">Jpeg bytes.</param>
+        public JpegImage Deserialize(Stream stream, IProgress prog)
         {
             prog.Report(0);
-            using (var seekable = new ErsatzSeekableStream(imageStream))
+            JpegImage image = null;
+            if (stream != null)
             {
-                var img = new JpegImage(seekable);
-                prog.Report(1);
-                return img;
+                using (var seekable = new ErsatzSeekableStream(stream))
+                {
+                    image = new JpegImage(seekable);
+                }
             }
+
+            prog.Report(1);
+            return image;
         }
 
         /// <summary>

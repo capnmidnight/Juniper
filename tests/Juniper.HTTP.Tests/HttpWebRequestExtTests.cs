@@ -60,9 +60,7 @@ namespace Juniper.HTTP.Tests
                     new Uri("https://www.seanmcbeth.com"),
                     "2015-05.min.jpg");
 
-            var image = await cache
-                .GetStreamSource(imageRequest)
-                .Decode(imageDecoder);
+            var image = await cache.Decode(imageRequest, imageDecoder);
 
             if (runTest)
             {

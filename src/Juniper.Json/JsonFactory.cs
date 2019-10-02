@@ -70,12 +70,19 @@ namespace Juniper.IO
         public T Deserialize(Stream stream, IProgress prog)
         {
             prog.Report(0);
-            var reader = new StreamReader(stream);
-            var jsonReader = new JsonTextReader(reader);
-            var serializer = new JsonSerializer();
-            var obj = serializer.Deserialize<T>(jsonReader);
+            T value = default;
+            if (stream != null)
+            {
+                using (stream)
+                {
+                    var reader = new StreamReader(stream);
+                    var jsonReader = new JsonTextReader(reader);
+                    var serializer = new JsonSerializer();
+                    value = serializer.Deserialize<T>(jsonReader);
+                }
+            }
             prog.Report(1);
-            return obj;
+            return value;
         }
 
         public void Serialize(Stream stream, T value, IProgress prog)

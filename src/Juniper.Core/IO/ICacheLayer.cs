@@ -20,7 +20,7 @@ namespace Juniper.IO
         Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> source, Stream stream)
             where MediaTypeT : MediaType;
 
-        IStreamSource<MediaTypeT> GetStreamSource<MediaTypeT>(IContentReference<MediaTypeT> source)
+        IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> source)
             where MediaTypeT : MediaType;
     }
 }

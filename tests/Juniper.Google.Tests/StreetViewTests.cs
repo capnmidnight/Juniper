@@ -38,9 +38,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
                 Place = "Alexandria, VA"
             };
 
-            var image = await cache
-                .GetStreamSource(imageRequest)
-                .Decode(jpegDecoder);
+            var image = await cache.Decode(imageRequest, jpegDecoder);
             var info = image.info;
             Assert.AreEqual(640, info.dimensions.width);
             Assert.AreEqual(640, info.dimensions.height);
@@ -54,9 +52,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
                 Place = "Alexandria, VA"
             };
 
-            var rawImg = await cache
-                .GetStreamSource(imageRequest)
-                .Decode(jpegDecoder);
+            var rawImg = await cache.Decode(imageRequest, jpegDecoder);
             var data = pngDecoder.Serialize(rawImg);
             var info = png.GetImageInfo(data);
             Assert.AreEqual(640, info.dimensions.width);
@@ -71,9 +67,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
             {
                 Place = "Washington, DC"
             };
-            var metadata = await cache
-                .GetStreamSource(metadataRequest)
-                .Decode(metadataDecoder);
+            var metadata = await cache.Decode(metadataRequest, metadataDecoder);
             Assert.AreEqual(HttpStatusCode.OK, metadata.status);
             Assert.IsNotNull(metadata.copyright);
             Assert.IsNotNull("2016-07", metadata.date.ToString("yyyy-MM"));
@@ -89,9 +83,7 @@ namespace Juniper.Google.Maps.StreetView.Tests
                 Place = "Alexandria, VA"
             };
 
-            var image = await cache
-                .GetStreamSource(imageRequest)
-                .Decode(jpegDecoder);
+            var image = await cache.Decode(imageRequest, jpegDecoder);
             Assert.AreEqual(640, image.info.dimensions.width);
             Assert.AreEqual(640, image.info.dimensions.height);
         }

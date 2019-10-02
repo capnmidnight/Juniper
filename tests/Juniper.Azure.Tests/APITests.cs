@@ -50,9 +50,7 @@ namespace Juniper.Azure.Tests
             {
                 AuthToken = token
             };
-            var voices = await cache
-                .GetStreamSource(voiceListRequest)
-                .Decode(voiceListDecoder);
+            var voices = await cache.Decode(voiceListRequest, voiceListDecoder);
             return voices;
         }
 
@@ -70,6 +68,7 @@ namespace Juniper.Azure.Tests
             var audioDecoder = new NAudioAudioDataDecoder(format.ContentType);
             var audioRequest = new TextToSpeechRequest(region, resourceName, format)
             {
+                AuthToken = token,
                 Text = "Hello, world",
                 VoiceName = voice.ShortName,
                 Style = SpeechStyle.Cheerful,
@@ -102,9 +101,7 @@ namespace Juniper.Azure.Tests
         {
             var audioRequest = await MakeSpeechRequest();
 
-            using (var audioStream = await cache
-                .GetStreamSource(audioRequest)
-                .GetStream())
+            using (var audioStream = await cache.Get(audioRequest))
             {
                 var mem = new MemoryStream();
                 audioStream.CopyTo(mem);
@@ -118,9 +115,7 @@ namespace Juniper.Azure.Tests
         {
             var audioRequest = await MakeSpeechRequest();
             var audioDecoder = new NAudioAudioDataDecoder(audioRequest.ContentType);
-            var audio = await cache
-                .GetStreamSource(audioRequest)
-                .Decode(audioDecoder);
+            var audio = await cache.Decode(audioRequest, audioDecoder);
             Assert.AreEqual(MediaType.Audio.Mpeg, audio.contentType);
             Assert.AreEqual(audio.samplesPerChannel * audio.numChannels, audio.data.Length);
             Assert.AreEqual(16000, audio.frequency);

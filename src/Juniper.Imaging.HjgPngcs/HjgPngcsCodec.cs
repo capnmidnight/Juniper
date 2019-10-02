@@ -54,16 +54,23 @@ namespace Juniper.Imaging.HjgPngcs
         /// <summary>
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
-        /// <param name="imageStream">Png bytes.</param>
-        public ImageLines Deserialize(Stream imageStream, IProgress prog)
+        /// <param name="stream">Png bytes.</param>
+        public ImageLines Deserialize(Stream stream, IProgress prog)
         {
             prog.Report(0);
-            var png = new PngReader(imageStream);
-            png.SetUnpackedMode(true);
-            var lines = png.ReadRowsByte();
-            png.End();
+            ImageLines image = null;
+            if (stream != null)
+            {
+                using (stream)
+                {
+                    var png = new PngReader(stream);
+                    png.SetUnpackedMode(true);
+                    image = png.ReadRowsByte();
+                    png.End();
+                }
+            }
             prog.Report(1);
-            return lines;
+            return image;
         }
 
         /// <summary>

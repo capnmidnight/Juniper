@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Threading.Tasks;
+
 using Juniper.HTTP;
+using Juniper.Progress;
 
 namespace Juniper.IO
 {
@@ -88,7 +92,7 @@ namespace Juniper.IO
             return false;
         }
 
-        public IStreamSource<MediaTypeT> GetStreamSource<MediaTypeT>(IContentReference<MediaTypeT> source)
+        public IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> source)
             where MediaTypeT : MediaType
         {
             IStreamSource<MediaTypeT> cached = null;
@@ -96,7 +100,7 @@ namespace Juniper.IO
             {
                 if (layer.IsCached(source))
                 {
-                    cached = layer.GetStreamSource(source);
+                    cached = layer.GetCachedSource(source);
                     break;
                 }
             }
@@ -104,20 +108,91 @@ namespace Juniper.IO
             return cached;
         }
 
-        public IStreamSource<MediaTypeT> GetStreamSource<MediaTypeT>(IStreamSource<MediaTypeT> source)
+        public Task<Stream> Get<MediaTypeT>(IContentReference<MediaTypeT> source, IProgress prog)
             where MediaTypeT : MediaType
         {
-            IStreamSource<MediaTypeT> cached = null;
-            foreach (var layer in layers)
-            {
-                if (layer.IsCached(source))
-                {
-                    cached = layer.GetStreamSource(source);
-                    break;
-                }
-            }
+            var cachedSource = GetCachedSource(source);
+            return cachedSource.GetStream(prog);
+        }
 
-            return cached;
+        public Task<Stream> Get<MediaTypeT>(IContentReference<MediaTypeT> source)
+            where MediaTypeT : MediaType
+        {
+            return Get(source, null);
+        }
+
+        public async Task<T> Decode<MediaTypeT, T>(IContentReference<MediaTypeT> source, IDeserializer<T> deserializer, IProgress prog)
+            where MediaTypeT : MediaType
+        {
+            var progs = prog.Split("Read", "Decode");
+            var cachedSource = GetCachedSource(source);
+            var stream = await cachedSource.GetStream(progs[0]);
+            return stream.Decode(deserializer, progs[1]);
+
+        }
+
+        public Task<T> Decode<MediaTypeT, T>(IContentReference<MediaTypeT> source, IDeserializer<T> deserializer)
+            where MediaTypeT : MediaType
+        {
+            return Decode(source, deserializer, null);
+        }
+
+        public async Task Proxy<MediaTypeT>(IContentReference<MediaTypeT> source, HttpListenerResponse response)
+            where MediaTypeT : MediaType
+        {
+            var stream = await Get(source);
+            await stream.Proxy(response);
+        }
+
+        public Task Proxy<MediaTypeT>(IContentReference<MediaTypeT> source, HttpListenerContext context)
+            where MediaTypeT : MediaType
+        {
+            return Proxy(source, context.Response);
+        }
+
+        public async Task<Stream> Get<MediaTypeT>(IStreamSource<MediaTypeT> source, IProgress prog)
+            where MediaTypeT : MediaType
+        {
+            var bestSource = GetCachedSource(source) ?? source;
+            var stream = await bestSource.GetStream(prog);
+            return Cache(source, stream);
+        }
+
+        public Task<Stream> Get<MediaTypeT>(IStreamSource<MediaTypeT> source)
+            where MediaTypeT : MediaType
+        {
+            return Get(source, null);
+        }
+
+        public async Task<T> Decode<MediaTypeT, T>(IStreamSource<MediaTypeT> source, IDeserializer<T> deserializer, IProgress prog)
+            where MediaTypeT : MediaType
+        {
+            var progs = prog.Split("Read", "Decode");
+            var bestSource = GetCachedSource(source) ?? source;
+            var stream = await bestSource.GetStream(progs[0]);
+            return Cache(source, stream)
+                .Decode(deserializer, progs[1]);
+
+        }
+
+        public Task<T> Decode<MediaTypeT, T>(IStreamSource<MediaTypeT> source, IDeserializer<T> deserializer)
+            where MediaTypeT : MediaType
+        {
+            return Decode(source, deserializer, null);
+        }
+
+
+        public async Task Proxy<MediaTypeT>(IStreamSource<MediaTypeT> source, HttpListenerResponse response)
+            where MediaTypeT : MediaType
+        {
+            var stream = await Get(source);
+            await stream.Proxy(response);
+        }
+
+        public Task Proxy<MediaTypeT>(IStreamSource<MediaTypeT> source, HttpListenerContext context)
+            where MediaTypeT : MediaType
+        {
+            return Proxy(source, context.Response);
         }
     }
 }

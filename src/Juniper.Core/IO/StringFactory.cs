@@ -23,11 +23,18 @@ namespace Juniper.IO
 
         public string Deserialize(Stream stream, IProgress prog)
         {
-            using (stream)
-            using (var reader = new StreamReader(stream))
+            prog.Report(0);
+            string value = null;
+            if (stream != null)
             {
-                return reader.ReadToEnd();
+                using (stream)
+                {
+                    var reader = new StreamReader(stream);
+                    value = reader.ReadToEnd();
+                }
             }
+            prog.Report(1);
+            return value;
         }
 
         public void Serialize(Stream stream, string value, IProgress prog)

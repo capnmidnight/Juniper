@@ -50,9 +50,16 @@ namespace Juniper.Imaging.Windows
         public Image Deserialize(Stream stream, IProgress prog)
         {
             prog.Report(0);
-            var img = Image.FromStream(stream);
+            Image image = null;
+            if (stream != null)
+            {
+                using (stream)
+                {
+                    image = Image.FromStream(stream);
+                }
+            }
             prog.Report(1);
-            return img;
+            return image;
         }
 
         public ImageInfo GetImageInfo(byte[] data)

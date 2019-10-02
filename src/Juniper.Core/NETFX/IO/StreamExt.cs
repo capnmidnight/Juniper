@@ -33,10 +33,21 @@ namespace System.IO
             inFile.CopyTo(outFile.FullName, true);
         }
 
+        public static ResultT Decode<ResultT>(this Stream stream, IDeserializer<ResultT> deserializer, IProgress prog)
+        {
+            return deserializer.Deserialize(stream, prog);
+        }
+
+        public static ResultT Decode<ResultT>(this Stream stream, IDeserializer<ResultT> deserializer)
+        {
+            return deserializer.Deserialize(stream);
+        }
+
         public static async Task Proxy(this Stream stream, HttpListenerResponse response)
         {
             if (stream == null)
             {
+                response.ContentType = string.Empty;
                 response.StatusCode = 404;
             }
             else
@@ -52,29 +63,6 @@ namespace System.IO
         public static Task Proxy(this Stream stream, HttpListenerContext context)
         {
             return stream.Proxy(context.Response);
-        }
-
-        public static async Task Proxy(this Task<Stream> streamTask, HttpListenerResponse response)
-        {
-            var stream = await streamTask;
-            if (stream == null)
-            {
-                response.StatusCode = 404;
-                response.ContentType = string.Empty;
-            }
-            else
-            {
-                using (stream)
-                {
-                    response.StatusCode = 200;
-                    await stream.CopyToAsync(response.OutputStream);
-                }
-            }
-        }
-
-        public static Task Proxy(this Task<Stream> streamTask, HttpListenerContext context)
-        {
-            return streamTask.Proxy(context.Response);
         }
     }
 }

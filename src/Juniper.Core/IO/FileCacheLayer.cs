@@ -68,7 +68,7 @@ namespace Juniper.IO
             return GetCacheFile(source).Exists;
         }
 
-        public IStreamSource<MediaTypeT> GetStreamSource<MediaTypeT>(IContentReference<MediaTypeT> source)
+        public IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> source)
             where MediaTypeT : MediaType
         {
             return new FileReference<MediaTypeT>(GetCacheFile(source), source.CacheID, source.ContentType);

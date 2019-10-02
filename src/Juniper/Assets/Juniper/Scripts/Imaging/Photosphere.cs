@@ -120,8 +120,7 @@ namespace Juniper.Imaging
         {
             print(filePath);
             var fileRef = new ContentReference<MediaType.Image>(filePath, MediaType.Image.Jpeg);
-            var textureTask = cache.GetStreamSource(fileRef)
-                .Decode(codec, this);
+            var textureTask = cache.Decode(fileRef, codec);
             yield return textureTask.AsCoroutine();
 
             trySkybox = false;
@@ -258,10 +257,16 @@ namespace Juniper.Imaging
 
         protected virtual void OnDrawGizmos()
         {
-            var gizmoPath = Path.Combine("Assets", "Gizmos", CubemapName);
+            if (string.IsNullOrEmpty(CubemapName))
+            {
+                CubemapName = name;
+            }
+
+            var imageName = CubemapName + ".jpeg";
+            var gizmoPath = Path.Combine("Assets", "Gizmos", imageName);
             if (File.Exists(gizmoPath))
             {
-                Gizmos.DrawIcon(transform.position + Vector3.up, CubemapName);
+                Gizmos.DrawIcon(transform.position + Vector3.up, imageName);
             }
             Gizmos.DrawSphere(transform.position, 1);
         }
