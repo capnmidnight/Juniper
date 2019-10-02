@@ -1,3 +1,5 @@
+using System.Net;
+using System.Threading.Tasks;
 using Juniper.IO;
 using Juniper.Progress;
 
@@ -31,34 +33,48 @@ namespace System.IO
             inFile.CopyTo(outFile.FullName, true);
         }
 
-        public static T Decode<T>(this Stream stream, IDeserializer<T> deserializer, IProgress prog)
+        public static async Task Proxy(this Stream stream, HttpListenerResponse response)
         {
             if (stream == null)
             {
-                return default;
+                response.StatusCode = 404;
             }
             else
             {
                 using (stream)
                 {
-                    return deserializer.Deserialize(stream, prog);
+                    response.StatusCode = 200;
+                    await stream.CopyToAsync(response.OutputStream);
                 }
             }
         }
 
-        public static T Decode<T>(this Stream stream, IDeserializer<T> deserializer)
+        public static Task Proxy(this Stream stream, HttpListenerContext context)
         {
+            return stream.Proxy(context.Response);
+        }
+
+        public static async Task Proxy(this Task<Stream> streamTask, HttpListenerResponse response)
+        {
+            var stream = await streamTask;
             if (stream == null)
             {
-                return default;
+                response.StatusCode = 404;
+                response.ContentType = string.Empty;
             }
             else
             {
                 using (stream)
                 {
-                    return deserializer.Deserialize(stream);
+                    response.StatusCode = 200;
+                    await stream.CopyToAsync(response.OutputStream);
                 }
             }
+        }
+
+        public static Task Proxy(this Task<Stream> streamTask, HttpListenerContext context)
+        {
+            return streamTask.Proxy(context.Response);
         }
     }
 }

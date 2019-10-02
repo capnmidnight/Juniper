@@ -98,24 +98,11 @@ namespace Juniper.IO
             }
         }
 
-        public static async Task Proxy<MediaTypeT>(this IStreamSource<MediaTypeT> source, HttpListenerResponse response)
+        public static Task Proxy<MediaTypeT>(this IStreamSource<MediaTypeT> source, HttpListenerResponse response)
             where MediaTypeT : MediaType
         {
-            var stream = await source.GetStream();
-
-            if (stream == null)
-            {
-                response.StatusCode = 404;
-            }
-            else
-            {
-                using (stream)
-                {
-                    response.StatusCode = 200;
-                    response.ContentType = source.ContentType;
-                    await stream.CopyToAsync(response.OutputStream);
-                }
-            }
+            response.ContentType = source.ContentType;
+            return source.GetStream().Proxy(response);
         }
 
         public static Task Proxy<MediaTypeT>(this IStreamSource<MediaTypeT> source, HttpListenerContext context)
