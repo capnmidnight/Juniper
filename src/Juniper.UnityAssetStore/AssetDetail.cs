@@ -11,13 +11,13 @@ namespace Juniper.UnityAssetStore
         private readonly DateTime pubdate_iso;
 
         private readonly string min_unity_version;
-        public Version MinimumUnityVersion { get; private set; }
+        public Version MinimumUnityVersion { get; }
 
         private readonly string[] unity_versions;
-        public Version[] UnityVersions { get; private set; }
+        public Version[] UnityVersions { get; }
 
         private readonly string url;
-        public Uri Url { get; private set; }
+        public Uri Url { get; }
 
         public readonly string package_version_id;
         public readonly string slug;
@@ -25,7 +25,7 @@ namespace Juniper.UnityAssetStore
         public readonly string sizetext;
 
         private readonly string version;
-        public Version Version { get; private set; }
+        public Version Version { get; }
 
         public readonly DateTime first_published_at;
         public readonly string description;

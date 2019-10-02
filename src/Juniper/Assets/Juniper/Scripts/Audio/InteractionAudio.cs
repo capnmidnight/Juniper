@@ -196,6 +196,10 @@ namespace Juniper.Audio
         [HideInNormalInspector]
         private string azureRegion;
 
+        [SerializeField]
+        [HideInNormalInspector]
+        private string azureResourceName;
+
         private TextToSpeechClient tts;
 
         public string CredentialFile
@@ -214,11 +218,13 @@ namespace Juniper.Audio
             {
                 azureApiKey = null;
                 azureRegion = null;
+                azureResourceName = null;
             }
             else
             {
                 azureApiKey = args[0];
                 azureRegion = args[1];
+                azureResourceName = args[2];
             }
         }
 
@@ -288,7 +294,7 @@ namespace Juniper.Audio
                 tts = new TextToSpeechClient(
                     azureRegion,
                     azureApiKey,
-                    "dls-dev-speech-recognition",
+                    azureResourceName,
                     new JsonFactory<Voice[]>(),
                     OutputFormat.Audio16KHz32KbitrateMonoMP3,
                     new NAudioAudioDataDecoder(MediaType.Audio.Mpeg),

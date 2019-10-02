@@ -9,7 +9,7 @@ namespace Juniper.UnityAssetStore
         public readonly string banner;
 
         private readonly string feed;
-        public Uri FeedUrl { get; private set; }
+        public Uri FeedUrl { get; }
 
         public readonly string status;
         public readonly int days_left;

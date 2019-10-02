@@ -27,7 +27,7 @@ namespace Juniper.UnityAssetStore
         private readonly string count;
         public readonly Category[] subs;
 
-        public int AssetCount { get; private set; }
+        public int AssetCount { get; }
 
         protected Category(SerializationInfo info, StreamingContext context)
         {

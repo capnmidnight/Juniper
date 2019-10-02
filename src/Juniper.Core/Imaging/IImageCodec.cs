@@ -141,7 +141,7 @@ namespace Juniper.Imaging
             }
         }
 
-        public static T Concatenat<T>(this IImageCodec<T> codec, T[,] images)
+        public static T Concatenate<T>(this IImageCodec<T> codec, T[,] images)
         {
             return codec.Concatenate(images, null);
         }

@@ -17,7 +17,6 @@ namespace Juniper.Imaging.Windows
         public MediaType.Image ReadImageType
         {
             get;
-            private set;
         }
 
         public MediaType ReadContentType

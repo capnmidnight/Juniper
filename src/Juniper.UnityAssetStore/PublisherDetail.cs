@@ -11,20 +11,20 @@ namespace Juniper.UnityAssetStore
         public readonly string name;
 
         private readonly string support_email;
-        public MailAddress SupportEmail { get; private set; }
+        public MailAddress SupportEmail { get; }
 
         public readonly string description;
 
         private readonly string url;
-        public Uri Url { get; private set; }
+        public Uri Url { get; }
 
         public readonly string id;
 
         private readonly string short_url;
-        public Uri ShortUrl { get; private set; }
+        public Uri ShortUrl { get; }
 
         private readonly string support_url;
-        public Uri SupportUrl { get; private set; }
+        public Uri SupportUrl { get; }
 
         public readonly LatestAsset latest;
         public readonly KeyImage keyimage;

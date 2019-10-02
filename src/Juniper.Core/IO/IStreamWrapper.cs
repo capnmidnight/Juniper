@@ -1,9 +1,9 @@
 using System.IO;
 
-namespace Juniper.Streams
+namespace Juniper.IO
 {
     public interface IStreamWrapper
     {
-        Stream UnderlyingStream { get; }
+        Stream SourceStream { get; }
     }
 }

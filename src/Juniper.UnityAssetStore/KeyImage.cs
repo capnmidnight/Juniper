@@ -9,37 +9,37 @@ namespace Juniper.UnityAssetStore
         public readonly string package_version_id;
 
         private readonly string small;
-        public Uri Small { get; private set; }
+        public Uri Small { get; }
 
         private readonly string small_legacy;
-        public Uri SmallLegacy { get; private set; }
+        public Uri SmallLegacy { get; }
 
         private readonly string medium;
-        public Uri Medium { get; private set; }
+        public Uri Medium { get; }
 
         private readonly string medium_legacy;
-        public Uri MediumLegacy { get; private set; }
+        public Uri MediumLegacy { get; }
 
         private readonly string big;
-        public Uri Big { get; private set; }
+        public Uri Big { get; }
 
         private readonly string big_legacy;
-        public Uri BigLegacy { get; private set; }
+        public Uri BigLegacy { get; }
 
         private readonly string icon;
-        public Uri Icon { get; private set; }
+        public Uri Icon { get; }
 
         private readonly string icon24;
-        public Uri Icon24 { get; private set; }
+        public Uri Icon24 { get; }
 
         private readonly string icon25;
-        public Uri Icon25 { get; private set; }
+        public Uri Icon25 { get; }
 
         private readonly string icon75;
-        public Uri Icon75 { get; private set; }
+        public Uri Icon75 { get; }
 
         private readonly string facebook;
-        public Uri Facebook { get; private set; }
+        public Uri Facebook { get; }
 
         protected KeyImage(SerializationInfo info, StreamingContext context)
         {

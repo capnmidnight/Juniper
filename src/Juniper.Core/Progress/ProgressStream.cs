@@ -1,5 +1,5 @@
 using System.IO;
-using Juniper.Streams;
+using Juniper.IO;
 
 namespace Juniper.Progress
 {
@@ -37,7 +37,7 @@ namespace Juniper.Progress
             TotalByteCount = 0;
         }
 
-        public Stream UnderlyingStream { get { return stream; } }
+        public Stream SourceStream { get { return stream; } }
 
         /// <summary>
         /// Backing field for <see cref="TotalByteCount"/>.

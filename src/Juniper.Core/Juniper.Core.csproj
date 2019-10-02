@@ -117,8 +117,8 @@
     <Compile Include="Serialization\IFactory.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Caching\ICacheLayer.cs" />
-    <Compile Include="Serialization\SerializationInfoExt.cs" />
     <Compile Include="Serialization\StreamStringDecoder.cs" />
+    <Compile Include="NETFX\Runtime\Serialization\SerializationInfoExt.cs" />
     <Compile Include="Speech\IKeywordTriggered.cs" />
     <Compile Include="Speech\KeywordRecognizedEventArgs.cs" />
     <Compile Include="Caching\CachingStream.cs" />
@@ -126,7 +126,7 @@
     <Compile Include="Streams\IStreamWrapper.cs" />
     <Compile Include="Streams\ForkedStream.cs" />
     <Compile Include="Progress\ProgressStream.cs" />
-    <Compile Include="Streams\StreamExt.cs" />
+    <Compile Include="NETFX\IO\StreamExt.cs" />
     <Compile Include="Units\Acceleration\FeetPerSecondSquared.cs" />
     <Compile Include="Units\Acceleration\MetersPerSecondSquared.cs" />
     <Compile Include="Units\Angles\Angle.cs" />

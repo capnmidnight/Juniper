@@ -3,9 +3,8 @@ using System.IO;
 using System.Linq;
 
 using Juniper.HTTP;
+using Juniper.IO;
 using Juniper.Progress;
-using Juniper.Serialization;
-using Juniper.Streams;
 using NAudio.Vorbis;
 using NAudio.Wave;
 
@@ -29,7 +28,7 @@ namespace Juniper.Audio.NAudio
             }
         }
 
-        public MediaType ReadContentType { get; private set; }
+        public MediaType ReadContentType { get; }
 
         private WaveStream MakeDecodingStream(Stream stream)
         {

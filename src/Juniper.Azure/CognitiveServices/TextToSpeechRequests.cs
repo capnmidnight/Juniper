@@ -8,13 +8,6 @@ using Juniper.HTTP;
 
 namespace Juniper.Azure.CognitiveServices
 {
-    public enum SpeechStyle
-    {
-        None,
-        Cheerful,
-        Empathy,
-        Chat
-    }
     public class TextToSpeechRequest : AbstractAzureSpeechRequest
     {
         private const string STYLE_SUPPORTED_VOICE = "en-US-Jessa24kRUS";

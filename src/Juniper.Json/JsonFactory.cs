@@ -12,7 +12,6 @@ namespace Juniper.Serialization
         public MediaType ReadContentType
         {
             get;
-            private set;
         }
 
         public MediaType WriteContentType
