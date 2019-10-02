@@ -25,13 +25,16 @@ namespace Juniper.ConfigurationManagement
         public static void ForEachPackage<T>(T[] packages, IProgress prog, Action<T, IProgress> act)
             where T : AbstractPackage
         {
-            var progs = prog.Split(packages.Length);
-            for (int i = 0; i < packages.Length; ++i)
+            if (packages.Length > 0)
             {
-                var pkg = packages[i];
-                var p = progs[i];
+                var progs = prog.Split(packages.Length);
+                for (int i = 0; i < packages.Length; ++i)
+                {
+                    var pkg = packages[i];
+                    var p = progs[i];
 
-                act?.Invoke(pkg, p);
+                    act?.Invoke(pkg, p);
+                }
             }
         }
 
