@@ -11,7 +11,10 @@ using UnityEngine;
 
 namespace Juniper.Speech
 {
-    public partial class KeywordRecognizer : ICredentialReceiver
+    public partial class KeywordRecognizer
+#if UNITY_EDITOR
+        : ICredentialReceiver
+#endif
     {
         /// <summary>
         /// Reads as true if the current XR subsystem supports speech recognition.
@@ -38,6 +41,7 @@ namespace Juniper.Speech
         [HideInNormalInspector]
         private string azureRegion;
 
+#if UNITY_EDITOR
         public string CredentialFile
         {
             get
@@ -61,6 +65,7 @@ namespace Juniper.Speech
                 azureRegion = args[1];
             }
         }
+#endif
 
         public void Awake()
         {

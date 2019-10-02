@@ -52,7 +52,10 @@ namespace Juniper.Audio
     /// <summary>
     /// The audio portion of the interaction system.
     /// </summary>
-    public abstract class AbstractInteractionAudio : MonoBehaviour, IInstallable, ICredentialReceiver
+    public abstract class AbstractInteractionAudio : MonoBehaviour, IInstallable
+#if UNITY_EDITOR
+        , ICredentialReceiver
+#endif
     {
         private static AbstractInteractionAudio instance;
         private const float E = (float)Math.E;
@@ -202,6 +205,20 @@ namespace Juniper.Audio
 
         private TextToSpeechClient tts;
 
+        public virtual void Install(bool reset)
+        {
+#if UNITY_MODULES_AUDIO
+            listener = DisplayManager.MainCamera.Ensure<AudioListener>();
+#endif
+        }
+
+        public void Reinstall()
+        {
+            Install(true);
+        }
+
+#if UNITY_EDITOR
+
         public string CredentialFile
         {
             get
@@ -227,20 +244,6 @@ namespace Juniper.Audio
                 azureResourceName = args[2];
             }
         }
-
-        public virtual void Install(bool reset)
-        {
-#if UNITY_MODULES_AUDIO
-            listener = DisplayManager.MainCamera.Ensure<AudioListener>();
-#endif
-        }
-
-        public void Reinstall()
-        {
-            Install(true);
-        }
-
-#if UNITY_EDITOR
 
         public void Reset()
         {

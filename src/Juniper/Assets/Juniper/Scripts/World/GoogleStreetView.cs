@@ -27,7 +27,10 @@ using Yarrow.Client;
 
 namespace Juniper.Imaging
 {
-    public class GoogleStreetView : SubSceneController, ICredentialReceiver
+    public class GoogleStreetView : SubSceneController
+#if UNITY_EDITOR
+        , ICredentialReceiver
+#endif
     {
         private static readonly Regex GMAPS_URL_PANO_PATTERN =
             new Regex("https?://www\\.google\\.com/maps/@-?\\d+\\.\\d+,-?\\d+\\.\\d+(?:,[a-zA-Z0-9.]+)*/data=(?:![a-z0-9]+)*!1s([a-zA-Z0-9_\\-]+)(?:![a-z0-9]+)*", RegexOptions.Compiled);
@@ -84,8 +87,6 @@ namespace Juniper.Imaging
             locationInput = this.Ensure<EditorTextInput>();
         }
 
-#endif
-
         public string CredentialFile
         {
             get
@@ -109,6 +110,7 @@ namespace Juniper.Imaging
                 gmapsSigningKey = args[1];
             }
         }
+#endif
 
         public override void Awake()
         {

@@ -1,9 +1,8 @@
-using System.Linq;
-
 using Juniper.Security;
 
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using UnityEditor.SceneManagement;
 
 using UnityEngine;
 
@@ -27,6 +26,9 @@ namespace Juniper
             {
                 receiver.ClearCredentials();
             }
+
+            EditorSceneManager.SaveOpenScenes();
+
             Debug.Log("<== Juniper.CredentialResolver ==>: Credentials cleared");
         }
 
@@ -37,6 +39,9 @@ namespace Juniper
             {
                 receiver.ReceiveCredentials();
             }
+
+            EditorSceneManager.SaveOpenScenes();
+
             Debug.Log("<== Juniper.CredentialResolver ==>: Credentials set");
         }
     }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Threading.Tasks;
+
 using Juniper.Audio;
 using Juniper.Widgets;
+
 using UnityEngine;
 
 namespace Juniper.Speech
@@ -59,7 +61,7 @@ namespace Juniper.Speech
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if(textElement == null)
+            if (textElement == null)
             {
                 textElement = GetComponent<TextComponentWrapper>();
             }
@@ -115,7 +117,8 @@ namespace Juniper.Speech
         {
             if (IsAvailable && clip != null)
             {
-                if (lastCoroutine != null) {
+                if (lastCoroutine != null)
+                {
                     StopCoroutine(lastCoroutine);
                 }
 
@@ -129,7 +132,7 @@ namespace Juniper.Speech
             recognizer.Pause();
             var time = interaction.PlayAudioClip(clip, transform);
             var end = DateTime.Now.AddSeconds(time);
-            while(DateTime.Now < end)
+            while (DateTime.Now < end)
             {
                 yield return null;
             }

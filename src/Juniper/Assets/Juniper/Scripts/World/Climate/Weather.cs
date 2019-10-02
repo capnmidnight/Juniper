@@ -22,7 +22,10 @@ namespace Juniper.World.Climate
     [ExecuteInEditMode]
     [DisallowMultipleComponent]
     [RequireComponent(typeof(GPSLocation))]
-    public class Weather : MonoBehaviour, ICredentialReceiver
+    public class Weather : MonoBehaviour
+#if UNITY_EDITOR
+        , ICredentialReceiver
+#endif
     {
         /// <summary>
         /// A key for storing the last weather report in the Player Prefs data store.
@@ -41,6 +44,7 @@ namespace Juniper.World.Climate
         [HideInNormalInspector]
         private string owmApiKey;
 
+#if UNITY_EDITOR
         public string CredentialFile
         {
             get
@@ -62,6 +66,7 @@ namespace Juniper.World.Climate
                 owmApiKey = args[0];
             }
         }
+#endif
 
         /// <summary>
         /// The time, in minutes, to wait between requesting weather reports.
