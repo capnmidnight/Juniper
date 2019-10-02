@@ -156,7 +156,9 @@ namespace Juniper.Widgets
 
                 if (speech != null)
                 {
+#if AZURE_SPEECHSDK
                     speech.Play();
+#endif
                 }
             }
         }

@@ -16,6 +16,7 @@ namespace Juniper.Events
     [CustomEditor(typeof(Speakable))]
     public class SpeakableEditor : Editor
     {
+#if AZURE_SPEECHSDK
         private static readonly GUIContent VoiceLocaleDropdownLabel = new GUIContent("Locale");
         private static readonly GUIContent VoiceGenderDropdownLabel = new GUIContent("Gender");
         private static readonly GUIContent VoiceNameDropdownLabel = new GUIContent("Voice");
@@ -34,7 +35,7 @@ namespace Juniper.Events
                     var azureApiKey = lines[0];
                     var azureRegion = lines[1];
                     var cache = new CachingStrategy()
-                        .AddLayer(new FileCacheLayer("Assets"));
+                        .AddLayer(new FileCacheLayer(Path.Combine("Assets", "StreamingAssets")));
                     var voicesDecoder = new JsonFactory<Voice[]>();
                     var voicesClient = new VoicesClient(azureRegion, azureApiKey, voicesDecoder, cache);
                     var voicesTask = voicesClient.GetVoices();
@@ -142,5 +143,6 @@ namespace Juniper.Events
             serializedObject.ApplyModifiedProperties();
             EditorGUI.EndChangeCheck();
         }
+#endif
     }
 }
