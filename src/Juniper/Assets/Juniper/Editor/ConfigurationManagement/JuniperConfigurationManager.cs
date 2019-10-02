@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
+
 using Json.Lite;
 using Json.Lite.Linq;
 
@@ -297,8 +298,8 @@ namespace Juniper.ConfigurationManagement
                                         }
                                     }
                                     EditorGUILayout.LabelField(string.Format(
-                                        "({0} of {1} files)",
-                                        Units.Converter.Label(package.InstallPercentage, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent),
+                                        "({0,4:##0%} of {1,4:####} files)",
+                                        package.InstallPercentage,
                                         package.TotalFiles),
                                         EditorStyles.centeredGreyMiniLabel,
                                         statusWidth);
