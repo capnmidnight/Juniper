@@ -156,7 +156,7 @@ namespace Juniper.Widgets
 
                 if (speech != null)
                 {
-                    speech.Speak();
+                    speech.Play();
                 }
             }
         }

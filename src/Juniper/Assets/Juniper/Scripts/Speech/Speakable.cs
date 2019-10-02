@@ -100,7 +100,7 @@ namespace Juniper.Speech
         }
 
         private Coroutine lastCoroutine;
-        public void Speak()
+        public void Play()
         {
             if (IsAvailable && clip != null)
             {
@@ -108,12 +108,12 @@ namespace Juniper.Speech
                     StopCoroutine(lastCoroutine);
                 }
 
-                lastCoroutine = StartCoroutine(SpeakCoroutine());
+                lastCoroutine = StartCoroutine(PlayCoroutine());
 
             }
         }
 
-        private IEnumerator SpeakCoroutine()
+        private IEnumerator PlayCoroutine()
         {
             recognizer.Pause();
             var time = interaction.PlayAudioClip(clip, transform);
