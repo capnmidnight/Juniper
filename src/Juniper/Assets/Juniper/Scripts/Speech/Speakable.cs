@@ -23,6 +23,7 @@ namespace Juniper.Speech
         private InteractionAudio interaction;
 
         private KeywordRecognizer recognizer;
+
         public string text;
         private string lastText;
 
@@ -39,6 +40,9 @@ namespace Juniper.Speech
         public float pitch = 1;
         private float lastPitch;
 
+        public bool playOnAwake;
+        private bool needsPlay;
+
         private AudioClip clip;
 
         [SerializeField]
@@ -49,6 +53,7 @@ namespace Juniper.Speech
         {
             Find.Any(out interaction);
             Find.Any(out recognizer);
+            needsPlay = playOnAwake;
         }
 
 #if UNITY_EDITOR
@@ -88,7 +93,13 @@ namespace Juniper.Speech
                 lastSpeakingRate = speakingRate;
                 lastPitch = pitch;
                 print("Loading speech " + text);
+                clip = null;
                 StartCoroutine(PreloadCoroutine());
+            }
+            else if (needsPlay && clip != null)
+            {
+                needsPlay = false;
+                Play();
             }
         }
 
