@@ -34,7 +34,7 @@ namespace Juniper.Azure
             var cache = new CachingStrategy(cacheDir);
 
             var voiceListDecoder = new JsonFactory<Voice[]>();
-            var outputFormat = AudioFormat.Audio16KHz128KbitrateMonoMP3;
+            var outputFormat = AudioFormat.Audio24KHz160KbitrateMonoMP3;
             var audioDecoder = new NAudioAudioDataDecoder();
             var ttsClient = new TextToSpeechClient(
                 region,

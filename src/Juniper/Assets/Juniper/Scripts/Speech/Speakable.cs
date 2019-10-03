@@ -24,8 +24,6 @@ namespace Juniper.Speech
 
         private InteractionAudio interaction;
 
-        private KeywordRecognizer recognizer;
-
         public string text;
         private string lastText;
 
@@ -54,7 +52,6 @@ namespace Juniper.Speech
         public void Awake()
         {
             Find.Any(out interaction);
-            Find.Any(out recognizer);
             needsPlay = playOnAwake;
         }
 
@@ -129,14 +126,14 @@ namespace Juniper.Speech
 
         private IEnumerator PlayCoroutine()
         {
-            recognizer.Pause();
+            KeywordRecognizer.Pause();
             var time = interaction.PlayAudioClip(clip, transform);
             var end = DateTime.Now.AddSeconds(time);
             while (DateTime.Now < end)
             {
                 yield return null;
             }
-            recognizer.Resume();
+            KeywordRecognizer.Resume();
         }
 #endif
     }

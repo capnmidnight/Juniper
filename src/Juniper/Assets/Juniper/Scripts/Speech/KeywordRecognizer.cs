@@ -13,6 +13,17 @@ namespace Juniper.Speech
     /// </summary>
     public partial class KeywordRecognizer : MonoBehaviour, IKeywordRecognizer
     {
+        public static void Pause()
+        {
+            Microphone.End(string.Empty);
+        }
+
+        public static void Resume()
+        {
+            Microphone.GetDeviceCaps(string.Empty, out _, out var maxFreq);
+            Microphone.Start(string.Empty, true, 5, maxFreq);
+        }
+
 #if UNITY_ANDROID && ANDROID_API_23_OR_GREATER && !UNITY_EDITOR
         [UnityEngine.Scripting.Preserve]
         private Microphone mic;

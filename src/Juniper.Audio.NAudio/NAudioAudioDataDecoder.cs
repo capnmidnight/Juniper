@@ -8,21 +8,21 @@ using Juniper.Progress;
 using NAudio.Vorbis;
 using NAudio.Wave;
 
-using NLayer.NAudioSupport;
-
 namespace Juniper.Audio.NAudio
 {
     public class NAudioAudioDataDecoder : IAudioDecoder
     {
         public static float[] BytesToFloat(int bitsPerSample, byte[] bytes)
         {
-            var scalar = (float)Math.Pow(2, 1 - bitsPerSample);
             var bytesPerSample = bitsPerSample / 8;
             var numSamples = bytes.Length / bytesPerSample;
+
+            var postShift = 32 - bitsPerSample;
+            var divisor = (float)Math.Pow(2, 31);
             var floats = new float[numSamples];
             for (var s = 0; s < floats.Length; ++s)
             {
-                short accum = 0;
+                int accum = 0;
                 for (var b = bytesPerSample - 1; b >= 0; --b)
                 {
                     accum <<= 8;
@@ -30,11 +30,9 @@ namespace Juniper.Audio.NAudio
                     accum |= c;
                 }
 
-                var v = accum * scalar;
-                if(bytesPerSample == 1)
-                {
-                    v = 0.5f * (v - 1);
-                }
+                accum <<= postShift;
+
+                var v = accum / divisor;
                 floats[s] = v;
             }
 
@@ -43,18 +41,19 @@ namespace Juniper.Audio.NAudio
 
         public static byte[] FloatsToBytes(int bitsPerSample, float[] floats)
         {
-            var scalar = (float)Math.Pow(2, bitsPerSample - 1);
             var bytesPerSample = bitsPerSample / 8;
             var numSamples = floats.Length * bytesPerSample;
+
+            var preShift = 32 - bitsPerSample;
+            var scalar = (float)Math.Pow(2, 31);
             var bytes = new byte[numSamples];
             for (var s = 0; s < floats.Length; ++s)
             {
-                var v = floats[s] * scalar;
-                if(bytesPerSample == 1)
-                {
-                    v = 2 * v + 1;
-                }
-                short accum = (short)v;
+                var v = floats[s];
+                int accum = (int)(v * scalar);
+
+                accum >>= preShift;
+
                 for (var b = 0; b < bytesPerSample; ++b)
                 {
                     var c = (byte)(accum & 0xff);
@@ -122,7 +121,8 @@ namespace Juniper.Audio.NAudio
             }
             else if (Format.ContentType == MediaType.Audio.PCMA)
             {
-                return new RawSourceWaveStream(stream, new WaveFormat(Format.sampleRate, Format.bitsPerSample, Format.channels));
+                var format = new WaveFormat(Format.sampleRate, Format.bitsPerSample, Format.channels);
+                return new RawSourceWaveStream(stream, format);
             }
             else
             {
@@ -135,13 +135,13 @@ namespace Juniper.Audio.NAudio
             //if (Environment.OSVersion.Platform == PlatformID.Unix
             //    || Environment.OSVersion.Platform == PlatformID.MacOSX)
             //{
-                // This works on Android, but only seems to work for some Mp3 files.
-                return new Mp3FrameDecompressor(format);
+            // This works on Android, but only seems to work for some Mp3 files.
+            // return new NLayer.NAudioSupport.Mp3FrameDecompressor(format);
             //}
             //else
             //{
             //    // This seems to work for all Mp3 files, but only works on Windows.
-            //    return Mp3FileReader.CreateAcmFrameDecompressor(format);
+            return Mp3FileReader.CreateAcmFrameDecompressor(format);
             //}
         }
 

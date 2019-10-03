@@ -299,7 +299,12 @@ namespace Juniper.Audio
                     azureApiKey,
                     azureResourceName,
                     new JsonFactory<Voice[]>(),
-                    AudioFormat.Audio24KHz160KbitrateMonoMP3,
+#if UNITY_STANDALONE_WIN || UNITY_WSA
+                    AudioFormat.Audio24KHz160KbitrateMonoMP3
+#else
+                    AudioFormat.Riff16KHz16BitMonoPCM,
+#endif
+
                     new NAudioAudioDataDecoder(),
                     cache);
             }
