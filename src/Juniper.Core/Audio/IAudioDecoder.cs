@@ -5,6 +5,8 @@ namespace Juniper.Audio
 {
     public interface IAudioDecoder : IDeserializer<AudioData>
     {
-        MediaType.Audio ContentType { get; }
+        bool SupportsFormat(AudioFormat format);
+
+        AudioFormat Format { get; set; }
     }
 }

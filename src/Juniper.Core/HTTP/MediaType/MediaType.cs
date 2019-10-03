@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Juniper.HTTP
 {
-    public partial class MediaType
+    public partial class MediaType : IEquatable<MediaType>
     {
         public static readonly MediaType Any = new MediaType("*/*");
 
@@ -34,11 +34,40 @@ namespace Juniper.HTTP
         }
 
         public MediaType(string value)
-            : this(value, null) { }
+            : this(value, null)
+        { }
 
         public static implicit operator string(MediaType mediaType)
         {
             return mediaType.Value;
+        }
+
+        public bool Equals(MediaType other)
+        {
+            return other is object
+                && other.Value == Value;
+        }
+
+        public override bool Equals(object other)
+        {
+            return other is MediaType mediaType
+                && Equals(mediaType);
+        }
+
+        public static bool operator==(MediaType left, MediaType right)
+        {
+            return left is null && right is null
+                || left is object && left.Equals(right);
+        }
+
+        public static bool operator!=(MediaType left, MediaType right)
+        {
+            return !(left == right);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
         }
     }
 
@@ -49,10 +78,10 @@ namespace Juniper.HTTP
             if (contentType != null
                 && contentType.PrimaryExtension != null)
             {
-                var expectedExt = "." + contentType.PrimaryExtension;
-                if (Path.GetExtension(fileName) != expectedExt)
+                var currentExtension = PathExt.GetShortExtension(fileName);
+                if (Array.IndexOf(contentType.Extensions, currentExtension) == -1)
                 {
-                    fileName += expectedExt;
+                    fileName += "." + contentType.PrimaryExtension;
                 }
             }
 

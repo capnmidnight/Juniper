@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Juniper.HTTP;
 using Juniper.IO;
@@ -37,7 +37,7 @@ namespace Juniper.Azure.CognitiveServices
             this.azureRegion = azureRegion;
             this.azureSubscriptionKey = azureSubscriptionKey;
             this.voiceListDecoder = voiceListDecoder;
-            this.cache = cache;
+            this.cache = cache ?? new CachingStrategy();
         }
 
         public VoicesClient(string azureRegion, string azureSubscriptionKey, ITextDecoder<Voice[]> voiceListDecoder)

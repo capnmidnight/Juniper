@@ -162,16 +162,6 @@ namespace Juniper.Speech
             }
         }
 
-        public void Pause()
-        {
-            IsPaused = true;
-        }
-
-        public void Resume()
-        {
-            IsPaused = false;
-        }
-
         private void TearDownInternal()
         {
             if (IsRunning && !IsStopping)

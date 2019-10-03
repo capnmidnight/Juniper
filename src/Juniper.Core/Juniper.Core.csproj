@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audio\AudioData.cs" />
+    <Compile Include="Audio\AudioFormat.cs" />
     <Compile Include="Audio\IAudioDecoder.cs" />
     <Compile Include="IO\AbstractCacheContentReference.cs" />
     <Compile Include="IO\FileReference.cs" />

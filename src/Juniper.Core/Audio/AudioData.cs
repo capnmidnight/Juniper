@@ -7,18 +7,12 @@ namespace Juniper.Audio
     /// </summary>
     public class AudioData
     {
-        public readonly MediaType.Audio contentType;
-        public readonly int samplesPerChannel;
-        public readonly int numChannels;
-        public readonly int frequency;
+        public readonly AudioFormat format;
         public readonly float[] data;
 
-        public AudioData(MediaType.Audio contentType, int samplesPerChannel, int numChannels, int frequency, float[] data)
+        public AudioData(AudioFormat format, float[] data)
         {
-            this.contentType = contentType;
-            this.samplesPerChannel = samplesPerChannel;
-            this.numChannels = numChannels;
-            this.frequency = frequency;
+            this.format = format;
             this.data = data;
         }
     }

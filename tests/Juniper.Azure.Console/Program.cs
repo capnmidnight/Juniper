@@ -3,10 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Juniper.Audio;
 using Juniper.Audio.NAudio;
 using Juniper.Azure.CognitiveServices;
-using Juniper.HTTP;
-using Juniper.HTTP.REST;
 using Juniper.IO;
 
 namespace Juniper.Azure
@@ -15,41 +14,59 @@ namespace Juniper.Azure
     {
         static async Task Main(string[] args)
         {
-            var text = "Hello, world";
-            if(args.Length > 1)
+            var text = "The quick brown fox jumps over the lazy dog.";
+            if (args.Length > 1)
             {
                 text = args[1];
             }
 
+            // credentials
             var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var cacheDirName = Path.Combine(userProfile, "Projects");
-            var cacheDir = new DirectoryInfo(cacheDirName);
-            var fileCache = new FileCacheLayer(cacheDir);
-            var cache = new CachingStrategy().AddLayer(fileCache);
             var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "azure-speech.txt");
             var lines = File.ReadAllLines(keyFile);
             var subscriptionKey = lines[0];
             var region = lines[1];
             var resourceName = lines[2];
-            var audioDecoder = new NAudioAudioDataDecoder(MediaType.Audio.Mpeg);
+
+            // caching
+            var cacheDirName = Path.Combine(userProfile, "Projects");
+            var cacheDir = new DirectoryInfo(cacheDirName);
+            var cache = new CachingStrategy(cacheDir);
+
             var voiceListDecoder = new JsonFactory<Voice[]>();
+            var outputFormat = AudioFormat.Audio16KHz128KbitrateMonoMP3;
+            var audioDecoder = new NAudioAudioDataDecoder();
             var ttsClient = new TextToSpeechClient(
                 region,
                 subscriptionKey,
                 resourceName,
                 voiceListDecoder,
-                OutputFormat.Audio16KHz128KbitrateMonoMP3,
+                outputFormat,
                 audioDecoder,
                 cache);
 
             var voices = await ttsClient.GetVoices();
             var voice = voices.FirstOrDefault(v => v.Locale == "en-US" && v.Gender == "Female");
-            var audio = await ttsClient.Speak(text, voice.ShortName);
+            await DecodeAudio(text, audioDecoder, ttsClient, voice);
+            //await PlayAudio(text, audioDecoder, ttsClient, voice);
+        }
 
-            var min = audio.data.Min();
-            var max = audio.data.Max();
+        private static async Task DecodeAudio(string text, NAudioAudioDataDecoder audioDecoder, TextToSpeechClient ttsClient, Voice voice)
+        {
+            var audio = await ttsClient.GetDecodedAudio(text, voice.ShortName);
+            Console.WriteLine($"content type: {audio.format.ContentType.Value}");
+            Console.WriteLine($"min: {audio.data.Min()}, max: {audio.data.Max()}");
+            Console.WriteLine($"channels: {audio.format.channels}, samples: {audio.data.Length}, sample rate: {audio.format.sampleRate}");
+            await audioDecoder.Play(audio);
+        }
 
-            Console.WriteLine($"{min} -> {max}");
+        private static async Task PlayAudio(string text, NAudioAudioDataDecoder audioDecoder, TextToSpeechClient ttsClient, Voice voice)
+        {
+            var audioStream = await ttsClient.GetAudioDataStream(text, voice.ShortName);
+            var waveStream = audioDecoder.MakeDecodingStream(audioStream);
+            Console.WriteLine($"stream type: {waveStream.GetType().Name}");
+            Console.WriteLine($"channels: {waveStream.WaveFormat.Channels}, sample rate: {waveStream.WaveFormat.SampleRate}");
+            await audioDecoder.Play(waveStream);
         }
     }
 }

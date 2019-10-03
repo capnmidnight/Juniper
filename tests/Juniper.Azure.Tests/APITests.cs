@@ -2,11 +2,12 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Juniper.Audio;
 using Juniper.Audio.NAudio;
 using Juniper.Azure.CognitiveServices;
 using Juniper.HTTP;
 using Juniper.IO;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Azure.Tests
@@ -14,7 +15,6 @@ namespace Juniper.Azure.Tests
     [TestClass]
     public class APITests
     {
-        private readonly IDeserializer<string> plainText = new StringFactory();
         private readonly IDeserializer<Voice[]> voiceListDecoder = new JsonFactory<Voice[]>();
         private string subscriptionKey;
         private string region;
@@ -32,9 +32,7 @@ namespace Juniper.Azure.Tests
             resourceName = lines[2];
             var cacheDirName = Path.Combine(userProfile, "Projects");
             var cacheDir = new DirectoryInfo(cacheDirName);
-            var fileCache = new FileCacheLayer(cacheDir);
-            cache = new CachingStrategy();
-            cache.AddLayer(fileCache);
+            cache = new CachingStrategy(cacheDir);
         }
 
         private async Task<string> GetToken()
@@ -64,8 +62,8 @@ namespace Juniper.Azure.Tests
                          select v)
                         .First();
 
-            var format = OutputFormat.Audio16KHz128KbitrateMonoMP3;
-            var audioDecoder = new NAudioAudioDataDecoder(format.ContentType);
+            var format = AudioFormat.Audio16KHz128KbitrateMonoMP3;
+            var audioDecoder = new NAudioAudioDataDecoder();
             var audioRequest = new TextToSpeechRequest(region, resourceName, format)
             {
                 AuthToken = token,
@@ -114,11 +112,10 @@ namespace Juniper.Azure.Tests
         public async Task DecodeAudio()
         {
             var audioRequest = await MakeSpeechRequest();
-            var audioDecoder = new NAudioAudioDataDecoder(audioRequest.ContentType);
+            var audioDecoder = new NAudioAudioDataDecoder();
             var audio = await cache.Decode(audioRequest, audioDecoder);
-            Assert.AreEqual(MediaType.Audio.Mpeg, audio.contentType);
-            Assert.AreEqual(audio.samplesPerChannel * audio.numChannels, audio.data.Length);
-            Assert.AreEqual(16000, audio.frequency);
+            Assert.AreEqual(MediaType.Audio.Mpeg, audio.format.ContentType);
+            Assert.AreEqual(16000, audio.format.sampleRate);
         }
     }
 }

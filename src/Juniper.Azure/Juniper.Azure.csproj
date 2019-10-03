@@ -39,7 +39,6 @@
     <Compile Include="AbstractAzureRequest.cs" />
     <Compile Include="AuthTokenRequest.cs" />
     <Compile Include="CognitiveServices\AbstractAzureSpeechRequest.cs" />
-    <Compile Include="CognitiveServices\OutputFormat.cs" />
     <Compile Include="CognitiveServices\SpeechStyle.cs" />
     <Compile Include="CognitiveServices\TextToSpeechRequests.cs" />
     <Compile Include="CognitiveServices\TextToSpeechClient.cs" />

@@ -193,6 +193,16 @@ namespace Juniper.Speech
             IsStopping = false;
             IsRunning = false;
         }
+
+        public void Pause()
+        {
+            TearDown();
+        }
+
+        public void Resume()
+        {
+            Setup();
+        }
     }
 }
 

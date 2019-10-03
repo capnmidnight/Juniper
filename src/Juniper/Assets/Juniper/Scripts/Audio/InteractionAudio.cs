@@ -299,20 +299,20 @@ namespace Juniper.Audio
                     azureApiKey,
                     azureResourceName,
                     new JsonFactory<Voice[]>(),
-                    OutputFormat.Audio16KHz32KbitrateMonoMP3,
-                    new NAudioAudioDataDecoder(MediaType.Audio.Mpeg),
+                    AudioFormat.Audio24KHz160KbitrateMonoMP3,
+                    new NAudioAudioDataDecoder(),
                     cache);
             }
         }
 
         public async Task<AudioClip> PreloadSpeech(string text, string voiceName, float rateChange, float pitchChange)
         {
-            var audioData = await tts.Speak(text, voiceName, rateChange, pitchChange);
+            var audioData = await tts.GetDecodedAudio(text, voiceName, rateChange, pitchChange);
             var clip = AudioClip.Create(
                 text,
-                audioData.samplesPerChannel,
-                audioData.numChannels,
-                audioData.frequency,
+                audioData.data.Length,
+                audioData.format.channels,
+                audioData.format.sampleRate,
                 false);
             clip.SetData(audioData.data, 0);
             clip.LoadAudioData();

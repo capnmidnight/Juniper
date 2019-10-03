@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text;
-
+using Juniper.Audio;
 using Juniper.HTTP;
 
 namespace Juniper.Azure.CognitiveServices
@@ -37,12 +37,12 @@ namespace Juniper.Azure.CognitiveServices
 
         private readonly string resourceName;
 
-        private readonly OutputFormat outputFormat;
+        private readonly AudioFormat outputFormat;
 
         private string ssmlText;
         private int ssmlTextLength;
 
-        public TextToSpeechRequest(string region, string resourceName, OutputFormat outputFormat)
+        public TextToSpeechRequest(string region, string resourceName, AudioFormat outputFormat)
             : base(region, "cognitiveservices/v1", outputFormat.ContentType)
         {
             this.resourceName = resourceName;
@@ -110,6 +110,8 @@ namespace Juniper.Azure.CognitiveServices
                 var sb = new StringBuilder(base.CacheID);
 
                 sb.Append(VoiceName);
+                sb.Append(Text.GetHashCode());
+                sb.Append(outputFormat.Name);
 
                 if (UseStyle)
                 {
@@ -129,9 +131,6 @@ namespace Juniper.Azure.CognitiveServices
                 {
                     AddPercentField(sb, "volume", VolumeChange, false);
                 }
-
-                sb.Append("text=");
-                sb.Append(Text);
 
                 return sb.ToString();
             }
@@ -198,7 +197,7 @@ namespace Juniper.Azure.CognitiveServices
             base.ModifyRequest(request);
             request.KeepAlive()
                 .UserAgent(resourceName)
-                .Header("X-Microsoft-OutputFormat", outputFormat.Value);
+                .Header("X-Microsoft-OutputFormat", outputFormat.Name);
         }
 
         protected override ActionDelegate Action
