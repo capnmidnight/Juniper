@@ -12,8 +12,6 @@ using Juniper.Security;
 using System.IO;
 
 using Juniper.Azure.CognitiveServices;
-using Juniper.Audio.NAudio;
-using Juniper.HTTP;
 
 using System.Threading.Tasks;
 

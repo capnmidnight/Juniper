@@ -52,16 +52,6 @@
       <Version>2.0.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Juniper.Google\Juniper.Google.csproj">
-      <Project>{8b0f80d8-dd15-4d68-b1d5-17328cdf1db6}</Project>
-      <Name>Juniper.Google</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Json\Juniper.Json.csproj">
-      <Project>{b10a2ab6-5677-4f5e-b6fc-d81120787746}</Project>
-      <Name>Juniper.Json</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

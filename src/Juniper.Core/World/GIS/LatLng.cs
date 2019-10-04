@@ -1,5 +1,8 @@
 using System;
+
 using Juniper.World.GIS;
+
+using static System.Math;
 
 namespace Juniper.Units
 {
@@ -16,7 +19,7 @@ namespace Juniper.Units
             var b = B.ToUTM();
             var dx = b.X - a.X;
             var dy = b.Y - a.Y;
-            return (float)Math.Sqrt((dx * dx) + (dy * dy));
+            return (float)Sqrt((dx * dx) + (dy * dy));
         }
 
         /// <summary>
@@ -51,8 +54,8 @@ namespace Juniper.Units
             var k0 = 0.9996;
 
             double phi = Degrees.Radians(latlng.Latitude);
-            var sinPhi = Math.Sin(phi);
-            var cosPhi = Math.Cos(phi);
+            var sinPhi = Sin(phi);
+            var cosPhi = Cos(phi);
             var sin2Phi = 2 * sinPhi * cosPhi;
             var cos2Phi = 2 * cosPhi * cosPhi - 1;
             var sin4Phi = 2 * sin2Phi * cos2Phi;
@@ -60,9 +63,9 @@ namespace Juniper.Units
             var sin6Phi = sin4Phi * cos2Phi + cos4Phi * sin2Phi;
             var tanPhi = sinPhi / cosPhi;
             var ePhi = DatumWGS_84.e * sinPhi;
-            var N = DatumWGS_84.equatorialRadius / Math.Sqrt(1 - ePhi * ePhi);
+            var N = DatumWGS_84.equatorialRadius / Sqrt(1 - ePhi * ePhi);
 
-            var utmz = 1 + (int)Math.Floor((latlng.Longitude + 180) / 6.0);
+            var utmz = 1 + (int)Floor((latlng.Longitude + 180) / 6.0);
             var zcm = 3 + 6.0 * (utmz - 1) - 180;
             var A = Degrees.Radians((float)(latlng.Longitude - zcm)) * cosPhi;
 

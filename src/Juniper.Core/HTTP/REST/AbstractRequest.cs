@@ -50,7 +50,7 @@ namespace Juniper.HTTP.REST
         {
             get
             {
-                return BaseURI.PathAndQuery.Substring(1);
+                return PathExt.FixPath(BaseURI.PathAndQuery.Substring(1));
             }
         }
 

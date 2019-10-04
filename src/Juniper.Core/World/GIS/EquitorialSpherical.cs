@@ -2,6 +2,8 @@ using System;
 
 using Juniper.World.GIS;
 
+using static System.Math;
+
 namespace Juniper.Units
 {
     public static class EquitorialSpherical
@@ -18,22 +20,22 @@ namespace Juniper.Units
             var LST = GMST + Units.Degrees.Hours(location.Longitude);
             var RA = Units.Degrees.Hours(value.RightAscensionDegrees);
             var H = Units.Hours.Radians(LST - RA);
-            var sin_H = Math.Sin(H);
-            var cos_H = Math.Cos(H);
+            var sin_H = Sin(H);
+            var cos_H = Cos(H);
             var lat_rad = Units.Degrees.Radians(location.Latitude);
-            // var lng_rad = lng_deg * Math.Deg2Rad;
+            // var lng_rad = lng_deg * Deg2Rad;
             var delta_rad = Units.Degrees.Radians(value.DeclinationDegrees);
-            var sin_delta = Math.Sin(delta_rad);
-            var cos_delta = Math.Cos(delta_rad);
-            var sin_lat = Math.Sin(lat_rad);
-            var cos_lat = Math.Cos(lat_rad);
+            var sin_delta = Sin(delta_rad);
+            var cos_delta = Cos(delta_rad);
+            var sin_lat = Sin(lat_rad);
+            var cos_lat = Cos(lat_rad);
             var sin_alt = sin_delta * sin_lat + cos_delta * cos_lat * cos_H;
-            var cos_alt = Math.Sqrt(1 - sin_alt * sin_alt);
+            var cos_alt = Sqrt(1 - sin_alt * sin_alt);
             var sin_azm = sin_H * cos_delta / cos_alt;
             var cos_azm = (sin_delta - sin_lat * sin_alt) / (cos_lat * cos_alt);
 
-            var altitude_rad = (float)Math.Atan2(sin_alt, cos_alt);
-            var azimuth_rad = (float)Math.Atan2(sin_azm, cos_azm);
+            var altitude_rad = (float)Atan2(sin_alt, cos_alt);
+            var azimuth_rad = (float)Atan2(sin_azm, cos_azm);
 
             return new HorizontalSphericalPosition(
                 Units.Radians.Degrees(altitude_rad),

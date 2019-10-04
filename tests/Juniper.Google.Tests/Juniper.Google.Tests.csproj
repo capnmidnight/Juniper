@@ -42,11 +42,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GeocodingTests.cs" />
-    <Compile Include="ReverseGeocodingTests.cs" />
-    <Compile Include="ServicesTest.cs" />
-    <Compile Include="MapTilesTests.cs" />
-    <Compile Include="StreetViewTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,22 +52,6 @@
     <ProjectReference Include="..\..\src\Juniper.Core\Juniper.Core.csproj">
       <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
       <Name>Juniper.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Google\Juniper.Google.csproj">
-      <Project>{8b0f80d8-dd15-4d68-b1d5-17328cdf1db6}</Project>
-      <Name>Juniper.Google</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Imaging.LibJpegNET\Juniper.Imaging.LibJpegNET.csproj">
-      <Project>{a4d1924d-4417-48c8-8e1a-34b1af30c85a}</Project>
-      <Name>Juniper.Imaging.LibJpegNET</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Imaging.HjgPngcs\Juniper.Imaging.HjgPngcs.csproj">
-      <Project>{1a8d6a33-7144-4789-95ad-4bbc025ab100}</Project>
-      <Name>Juniper.Imaging.HjgPngcs</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Json\Juniper.Json.csproj">
-      <Project>{b10a2ab6-5677-4f5e-b6fc-d81120787746}</Project>
-      <Name>Juniper.Json</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,8 @@
 using System.Linq;
 using System.Text;
 
+using static System.Math;
+
 namespace System
 {
     /// <summary>
@@ -44,12 +46,12 @@ namespace System
                     value = -value;
                 }
 
-                var numLeftDigits = (int)Math.Log10(value) + 1;
+                var numLeftDigits = (int)Log10(value) + 1;
 
                 var numRightDigits = numDigits - numLeftDigits;
 
-                var clampingFactor = Math.Pow(10, numRightDigits);
-                var clampedValue = Math.Round(value * clampingFactor) / clampingFactor;
+                var clampingFactor = Pow(10, numRightDigits);
+                var clampedValue = Round(value * clampingFactor) / clampingFactor;
                 output.Append(clampedValue);
 
                 if (numRightDigits > 0)
@@ -109,7 +111,7 @@ namespace System
             var min = ints.Min();
             var max = ints.Max();
 
-            value = Math.Max(min, Math.Min(max, value));
+            value = Max(min, Min(max, value));
             var realValue = default(T);
             for (var i = 0; i < values.Length; ++i)
             {
@@ -140,7 +142,7 @@ namespace System
             return (here == null) != (there == null)
                 || (here != null
                     && there != null
-                    && Math.Abs(there.Value - here.Value) > ALPHA);
+                    && Abs(there.Value - here.Value) > ALPHA);
         }
 
         /// <summary>

@@ -2,13 +2,11 @@ using System;
 
 using Accord.Math;
 
-using Juniper.Accord.Math;
-
 using UnityEngine;
 
 using Vector3 = UnityEngine.Vector3;
 
-namespace Juniper.Statistics
+namespace Juniper.Mathematics
 {
     [Serializable]
     [CreateAssetMenu(fileName = "kalmanMotionFilter", menuName = "Motion Filters/Kalman")]

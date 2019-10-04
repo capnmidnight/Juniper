@@ -42,25 +42,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APITests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Juniper.Audio.NAudio\Juniper.Audio.NAudio.csproj">
-      <Project>{706d2f39-a6be-48cb-8442-ac0eac207f2a}</Project>
-      <Name>Juniper.Audio.NAudio</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Azure\Juniper.Azure.csproj">
-      <Project>{69886384-e67e-48b1-8edf-528ed9e699c5}</Project>
-      <Name>Juniper.Azure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Core\Juniper.Core.csproj">
       <Project>{CF395BB3-8967-44E3-8A02-3B570E218A83}</Project>
       <Name>Juniper.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Json\Juniper.Json.csproj">
-      <Project>{b10a2ab6-5677-4f5e-b6fc-d81120787746}</Project>
-      <Name>Juniper.Json</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

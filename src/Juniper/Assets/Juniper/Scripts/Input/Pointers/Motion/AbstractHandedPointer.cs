@@ -1,6 +1,6 @@
 using System;
 
-using Juniper.Statistics;
+using Juniper.Mathematics;
 
 using UnityEngine;
 

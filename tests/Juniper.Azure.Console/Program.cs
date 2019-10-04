@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Juniper.Audio;
-using Juniper.Audio.NAudio;
 using Juniper.Azure.CognitiveServices;
 using Juniper.IO;
 
@@ -31,10 +30,13 @@ namespace Juniper.Azure
             // caching
             var cacheDirName = Path.Combine(userProfile, "Projects");
             var cacheDir = new DirectoryInfo(cacheDirName);
-            var cache = new CachingStrategy(cacheDir);
+            var zipFileName = Path.Combine(cacheDirName, "cognitiveservices.zip");
+            var cache = new CachingStrategy()
+                .AddLayer(new ZipFileCacheLayer(zipFileName))
+                .AddLayer(new FileCacheLayer(cacheDir));
 
             var voiceListDecoder = new JsonFactory<Voice[]>();
-            var outputFormat = AudioFormat.Audio24KHz160KbitrateMonoMP3;
+            var outputFormat = AudioFormat.Audio24KHz48KbitrateMonoMP3;
             var audioDecoder = new NAudioAudioDataDecoder();
             var ttsClient = new TextToSpeechClient(
                 region,

@@ -1,6 +1,8 @@
 using System;
 using System.Runtime.Serialization;
 
+using static System.Math;
+
 namespace Juniper.Units
 {
     /// <summary>
@@ -325,9 +327,9 @@ namespace Juniper.Units
                 // figure out if it is adding the raw value, or whole rotations of the value, that
                 // results in a smaller magnitude of change.
                 d1 = v1 + r - v0;
-                d2 = Math.Abs(d1 + 360);
-                d3 = Math.Abs(d1 - 360);
-                d1 = Math.Abs(d1);
+                d2 = Abs(d1 + 360);
+                d3 = Abs(d1 - 360);
+                d1 = Abs(d1);
                 if (d2 < d1 && d2 < d3)
                 {
                     r += 360;

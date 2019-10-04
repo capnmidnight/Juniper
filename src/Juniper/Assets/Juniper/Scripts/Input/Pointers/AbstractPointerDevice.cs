@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+
 using Juniper.Audio;
 using Juniper.Display;
 using Juniper.Haptics;
-using Juniper.Statistics;
+using Juniper.Mathematics;
 
 using UnityEngine;
 using UnityEngine.EventSystems;

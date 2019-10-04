@@ -1,4 +1,4 @@
-using System;
+using static System.Math;
 
 namespace Juniper.Progress
 {
@@ -40,7 +40,7 @@ namespace Juniper.Progress
         public ProgressSubdivision(IProgress parent, float start, float length, string prefix)
         {
             this.parent = parent;
-            this.start = Math.Max(0, start);
+            this.start = Max(0, start);
             this.length = length;
             this.prefix = prefix;
         }

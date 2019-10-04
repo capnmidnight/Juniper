@@ -43,17 +43,12 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpWebRequestExtTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Juniper.Core\Juniper.Core.csproj">
       <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
       <Name>Juniper.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Imaging.LibJpegNET\Juniper.Imaging.LibJpegNET.csproj">
-      <Project>{a4d1924d-4417-48c8-8e1a-34b1af30c85a}</Project>
-      <Name>Juniper.Imaging.LibJpegNET</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

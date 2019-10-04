@@ -2,6 +2,8 @@ using System;
 
 using Juniper.World.GIS;
 
+using static System.Math;
+
 namespace Juniper.Units
 {
     public static class GeocentricEclipticSpherical
@@ -16,8 +18,8 @@ namespace Juniper.Units
             var L_deg = (280.460f + 0.9856474f * n).Repeat(360f);
             var g_deg = (357.528f + 0.9856003f * n).Repeat(360f);
             var g_rad = Units.Degrees.Radians(g_deg);
-            var sin_g = Math.Sin(g_rad);
-            var cos_g = Math.Cos(g_rad);
+            var sin_g = Sin(g_rad);
+            var cos_g = Cos(g_rad);
             var lambda_deg = ((float)(L_deg + 1.915f * sin_g + 0.020f * 2 * sin_g * cos_g)).Repeat(360);
             var R = 1.00014f - 0.01671f * cos_g - 0.00014f * (cos_g * cos_g - sin_g * sin_g);
             var ec = new GeocentricEclipticSphericalPosition(0, lambda_deg, (float)R);
@@ -33,14 +35,14 @@ namespace Juniper.Units
         {
             var epsilon_deg = 23.439f - 0.0000004f * n;
             var epsilon_rad = Units.Degrees.Radians(epsilon_deg);
-            var sin_epsilon = Math.Sin(epsilon_rad);
-            var cos_epsilon = Math.Cos(epsilon_rad);
+            var sin_epsilon = Sin(epsilon_rad);
+            var cos_epsilon = Cos(epsilon_rad);
             var lambda_rad = Units.Degrees.Radians(p.LongitudeDegrees);
-            var sin_lambda = Math.Sin(lambda_rad);
-            var cos_lambda = Math.Cos(lambda_rad);
+            var sin_lambda = Sin(lambda_rad);
+            var cos_lambda = Cos(lambda_rad);
 
-            var alpha_rad = (float)Math.Atan2(cos_epsilon * sin_lambda, cos_lambda);
-            var delta_rad = (float)Math.Asin(sin_epsilon * sin_lambda);
+            var alpha_rad = (float)Atan2(cos_epsilon * sin_lambda, cos_lambda);
+            var delta_rad = (float)Asin(sin_epsilon * sin_lambda);
 
             return new EquitorialSphericalPosition(
                 Units.Radians.Degrees(alpha_rad),

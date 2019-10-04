@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-namespace Juniper.Statistics
+namespace Juniper.Mathematics
 {
     [Serializable]
     public abstract class AbstractMotionFilter : ScriptableObject

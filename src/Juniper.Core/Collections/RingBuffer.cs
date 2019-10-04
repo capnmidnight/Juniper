@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+
+using static System.Math;
 
 namespace Juniper.Collections
 {
@@ -39,7 +40,7 @@ namespace Juniper.Collections
 
             set
             {
-                var direction = Math.Sign(value - start);
+                var direction = Sign(value - start);
                 start = (value + width) % width;
                 if (start == end)
                 {
@@ -67,7 +68,7 @@ namespace Juniper.Collections
 
             set
             {
-                var direction = Math.Sign(value - end);
+                var direction = Sign(value - end);
                 end = (value + width) % width;
                 if (start == end)
                 {

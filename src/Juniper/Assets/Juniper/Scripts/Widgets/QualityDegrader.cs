@@ -1,8 +1,8 @@
 using System;
 
-using Juniper.Collections.Statistics;
 using Juniper.Display;
 using Juniper.Ground;
+using Juniper.Mathematics;
 using Juniper.Units;
 
 using UnityEngine;

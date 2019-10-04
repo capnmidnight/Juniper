@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
+
+using static System.Math;
 
 namespace Juniper.Progress
 {
@@ -60,7 +60,7 @@ namespace Juniper.Progress
         /// <returns>True when progress is reasonably close to 1</returns>
         public static bool IsComplete(this IProgress prog)
         {
-            return Math.Abs(prog.Progress - 1) < ALPHA;
+            return Abs(prog.Progress - 1) < ALPHA;
         }
 
         /// <summary>

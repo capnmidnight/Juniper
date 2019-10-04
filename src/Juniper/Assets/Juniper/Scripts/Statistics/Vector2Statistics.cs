@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-using Juniper.Collections.Statistics;
-
 using UnityEngine;
 
-namespace Juniper.Statistics
+namespace Juniper.Mathematics
 {
     /// <summary>
     /// Computes statistics on UnityEngine.Vector2 values.
@@ -14,7 +12,7 @@ namespace Juniper.Statistics
     public class Vector2Statistics : AbstractCollectionStatistics<Vector2>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Juniper.Statistics.Vector2Statistics"/> class.
+        /// Initializes a new instance of the <see cref="T:Juniper.Mathematics.Vector2Statistics"/> class.
         /// </summary>
         /// <param name="collection">Collection.</param>
         public Vector2Statistics(IList<Vector2> collection)

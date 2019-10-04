@@ -1,5 +1,6 @@
-using System;
 using Juniper.World.GIS;
+
+using static System.Math;
 
 namespace Juniper.Units
 {
@@ -27,10 +28,10 @@ namespace Juniper.Units
                 var beta = DatumWGS_84.beta[j - 1];
                 var je2 = 2 * j * xi;
                 var jn2 = 2 * j * eta;
-                var sinje2 = Math.Sin(je2);
-                var coshjn2 = Math.Cosh(jn2);
-                var cosje2 = Math.Cos(je2);
-                var sinhjn2 = Math.Sinh(jn2);
+                var sinje2 = Sin(je2);
+                var coshjn2 = Cosh(jn2);
+                var cosje2 = Cos(je2);
+                var sinhjn2 = Sinh(jn2);
 
                 xiPrime -= beta * sinje2 * coshjn2;
                 etaPrime -= beta * cosje2 * sinhjn2;
@@ -38,17 +39,17 @@ namespace Juniper.Units
                 tauPrime -= 2 * j * beta * sinje2 * sinhjn2;
             }
 
-            var chi = Math.Asin(Math.Sin(xiPrime) / Math.Cosh(etaPrime));
+            var chi = Asin(Sin(xiPrime) / Cosh(etaPrime));
 
             var lat = chi;
 
             for (var j = 1; j <= 3; ++j)
             {
-                lat += DatumWGS_84.delta[j - 1] * Math.Sin(2 * j * chi);
+                lat += DatumWGS_84.delta[j - 1] * Sin(2 * j * chi);
             }
 
             float long0 = utm.Zone * 6 - 183;
-            var lng = Math.Atan(Math.Sinh(etaPrime) / Math.Cos(xiPrime));
+            var lng = Atan(Sinh(etaPrime) / Cos(xiPrime));
 
             return new LatLngPoint(
                 Radians.Degrees((float)lat),

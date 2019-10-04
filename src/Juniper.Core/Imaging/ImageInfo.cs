@@ -1,5 +1,7 @@
 using System;
 
+using static System.Math;
+
 namespace Juniper.Imaging
 {
     public sealed class ImageInfo
@@ -39,10 +41,10 @@ namespace Juniper.Imaging
                     var components = 0;
                     switch (colorType)
                     {
-                        case 0: components = (int)Math.Ceiling((float)bitDepth / 8); break;
+                        case 0: components = (int)Ceiling((float)bitDepth / 8); break;
                         case 2: components = 3; break;
                         case 3: components = 1; break;
-                        case 4: components = (int)Math.Ceiling((float)bitDepth / 8) + 1; break;
+                        case 4: components = (int)Ceiling((float)bitDepth / 8) + 1; break;
                         case 6: components = 4; break;
                     }
 

@@ -49,13 +49,9 @@
       <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
       <Name>Juniper.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Json\Juniper.Json.csproj">
-      <Project>{b10a2ab6-5677-4f5e-b6fc-d81120787746}</Project>
-      <Name>Juniper.Json</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.UnityAssetStore\Juniper.UnityAssetStore.csproj">
+    <ProjectReference Include="..\..\src\Juniper.UnityAssetStore\Juniper.Unity.csproj">
       <Project>{d1fbfa8a-db69-4cc3-94c8-cd921e1af4cf}</Project>
-      <Name>Juniper.UnityAssetStore</Name>
+      <Name>Juniper.Unity</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

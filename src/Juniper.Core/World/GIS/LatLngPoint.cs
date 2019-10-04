@@ -1,6 +1,8 @@
 using System;
 using System.Runtime.Serialization;
 
+using static System.Math;
+
 namespace Juniper.World.GIS
 {
     /// <summary>
@@ -268,7 +270,7 @@ namespace Juniper.World.GIS
         private static string ToDMS(float value, string negative, string positive, int sigfigs)
         {
             var hemisphere = value < 0 ? negative : positive;
-            value = Math.Abs(value);
+            value = Abs(value);
             var degrees = (int)value;
             var minutes = (value - degrees) * 60;
             var intMinutes = (int)minutes;

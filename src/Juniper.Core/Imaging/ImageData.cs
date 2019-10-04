@@ -3,6 +3,8 @@ using System;
 using Juniper.HTTP;
 using Juniper.Progress;
 
+using static System.Math;
+
 namespace Juniper.Imaging
 {
     /// <summary>
@@ -165,7 +167,7 @@ namespace Juniper.Imaging
         {
             var delta = v * s;
             h /= 60;
-            var x = delta * (1 - Math.Abs((h % 2) - 1));
+            var x = delta * (1 - Abs((h % 2) - 1));
             float r = 0;
             float g = 0;
             float b = 0;

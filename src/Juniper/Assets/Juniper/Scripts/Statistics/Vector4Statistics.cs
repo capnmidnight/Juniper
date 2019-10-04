@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-using Juniper.Collections.Statistics;
-
 using UnityEngine;
 
-namespace Juniper.Statistics
+namespace Juniper.Mathematics
 {
     /// <summary>
     /// A RingBuffer of UnityEngine.Vector4 values that also calculates some basic statistics along
@@ -15,7 +13,7 @@ namespace Juniper.Statistics
     public class Vector4Statistics : AbstractCollectionStatistics<Vector4>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Juniper.Statistics.Vector4Statistics"/> class.
+        /// Initializes a new instance of the <see cref="T:Juniper.Mathematics.Vector4Statistics"/> class.
         /// </summary>
         /// <param name="collection">Collection.</param>
         public Vector4Statistics(IList<Vector4> collection)

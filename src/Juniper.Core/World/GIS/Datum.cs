@@ -1,4 +1,4 @@
-using System;
+using static System.Math;
 
 namespace Juniper.World.GIS
 {
@@ -18,7 +18,7 @@ namespace Juniper.World.GIS
         private const double n = flattening / (2 - flattening);
         private const double flatteningComp = 1 - flattening;
 
-        public static readonly double e = Math.Sqrt(1 - flatteningComp * flatteningComp);
+        public static readonly double e = Sqrt(1 - flatteningComp * flatteningComp);
         public static readonly double esq = 1 - flatteningComp * flatteningComp;
         public static readonly double e0sq = e * e / (1 - e * e);
 

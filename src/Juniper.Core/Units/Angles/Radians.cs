@@ -1,3 +1,5 @@
+using static System.Math;
+
 namespace Juniper.Units
 {
     /// <summary>
@@ -8,7 +10,7 @@ namespace Juniper.Units
         /// <summary>
         /// Conversion factor from circles to radians.
         /// </summary>
-        public const float PER_CIRCLE = (float)(2 * System.Math.PI);
+        public const float PER_CIRCLE = (float)(2 * PI);
 
         /// <summary>
         /// Conversion factor from degrees to radians.

@@ -4,7 +4,6 @@ using Juniper.Animation;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-
 using InputButton = UnityEngine.EventSystems.PointerEventData.InputButton;
 
 namespace Juniper.Widgets

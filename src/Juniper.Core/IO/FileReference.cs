@@ -20,7 +20,7 @@ namespace Juniper.IO
         public FileReference(DirectoryInfo directory, string fileName, MediaTypeT contentType)
             : base(fileName, contentType)
         {
-            file = new FileInfo(Path.Combine(directory.FullName, PathExt.FixPath(fileName)));
+            file = new FileInfo(Path.Combine(directory.FullName, fileName));
         }
 
         public async Task<Stream> GetStream(IProgress prog)

@@ -1,6 +1,8 @@
 using System.IO;
 using System.Text.RegularExpressions;
 
+using static System.Math;
+
 namespace System
 {
     /// <summary>
@@ -164,11 +166,11 @@ namespace System
                     var insertCost = matrix[i, j - 1] + 1;
                     var subCost = (x == y ? 0 : 1);
                     var substitutionCost = matrix[i - 1, j - 1] + subCost;
-                    matrix[i, j] = Math.Min(Math.Min(deleteCost, insertCost), substitutionCost);
+                    matrix[i, j] = Min(Min(deleteCost, insertCost), substitutionCost);
                     if (j > 1 && i > 1 && a[i - 2] == y && b[j - 2] == x)
                     {
                         var transpositionCost = matrix[i - 2, j - 2] + subCost;
-                        matrix[i, j] = Math.Min(matrix[i, j], transpositionCost);
+                        matrix[i, j] = Min(matrix[i, j], transpositionCost);
                     }
                 }
             }
@@ -229,7 +231,7 @@ namespace System
                 return b.Length == 0 ? 1 : 0;
             }
 
-            var searchRange = Math.Max(0, Math.Max(a.Length, b.Length) / 2 - 1);
+            var searchRange = Max(0, Max(a.Length, b.Length) / 2 - 1);
 
             var matchesA = new bool[a.Length];
             var matchesB = new bool[b.Length];
@@ -237,8 +239,8 @@ namespace System
             var numCommon = 0;
             for (var i = 0; i < a.Length; ++i)
             {
-                var start = Math.Max(0, i - searchRange);
-                var end = Math.Min(i + searchRange + 1, b.Length);
+                var start = Max(0, i - searchRange);
+                var end = Min(i + searchRange + 1, b.Length);
                 for (var j = start; j < end; ++j)
                 {
                     if (!matchesB[j] && a[i] == b[j])
@@ -288,7 +290,7 @@ namespace System
                 return weight;
             }
 
-            var prefixLength = Math.Min(WinklerPrefixSize, Math.Min(a.Length, b.Length));
+            var prefixLength = Min(WinklerPrefixSize, Min(a.Length, b.Length));
             var position = 0;
             while (position < prefixLength
                 && a[position] == b[position])

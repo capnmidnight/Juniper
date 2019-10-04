@@ -7,8 +7,8 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Juniper.Animation;
-using Juniper.Google.Maps.Geocoding;
-using Juniper.Google.Maps.StreetView;
+using Juniper.GIS.Google.Geocoding;
+using Juniper.GIS.Google.StreetView;
 using Juniper.Imaging.Unity;
 using Juniper.Input;
 using Juniper.IO;
