@@ -25,53 +25,53 @@ namespace Juniper.IO
             }
         }
 
-        public Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> source, Stream stream)
+        public Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)
             where MediaTypeT : MediaType
         {
-            var cacheFile = GetCacheFile(source);
+            var cacheFile = GetCacheFile(fileRef);
             return new CachingStream(stream, cacheFile);
         }
 
-        public Stream OpenWrite<MediaTypeT>(IContentReference<MediaTypeT> source)
+        public Stream OpenWrite<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            var cacheFile = GetCacheFile(source);
+            var cacheFile = GetCacheFile(fileRef);
             cacheFile.Directory.Create();
             return cacheFile.OpenWrite();
         }
 
-        public void Copy<MediaTypeT>(IContentReference<MediaTypeT> source, FileInfo file)
+        public void Copy<MediaTypeT>(IContentReference<MediaTypeT> fileRef, FileInfo file)
             where MediaTypeT : MediaType
         {
-            var cacheFile = GetCacheFile(source);
+            var cacheFile = GetCacheFile(fileRef);
             cacheFile.Directory.Create();
             File.Copy(file.FullName, cacheFile.FullName, true);
         }
 
-        internal FileInfo GetCacheFile<MediaTypeT>(IContentReference<MediaTypeT> source)
+        internal FileInfo GetCacheFile<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            return new FileInfo(GetCacheFileName(source));
+            return new FileInfo(GetCacheFileName(fileRef));
         }
 
-        protected virtual string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> source)
+        protected virtual string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            var baseName = source.CacheID;
-            var cacheFileName = source.ContentType.AddExtension(baseName);
+            var baseName = fileRef.CacheID;
+            var cacheFileName = fileRef.ContentType.AddExtension(baseName);
             return Path.Combine(cacheLocation.FullName, cacheFileName);
         }
 
-        public bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> source)
+        public bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            return GetCacheFile(source).Exists;
+            return GetCacheFile(fileRef).Exists;
         }
 
-        public IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> source)
+        public IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            return new FileReference<MediaTypeT>(GetCacheFile(source), source.CacheID, source.ContentType);
+            return new FileReference<MediaTypeT>(GetCacheFile(fileRef), fileRef.CacheID, fileRef.ContentType);
         }
     }
 }

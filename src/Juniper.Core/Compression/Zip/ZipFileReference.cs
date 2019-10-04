@@ -11,21 +11,21 @@ namespace Juniper.Compression.Zip
         where MediaTypeT : MediaType
     {
         private readonly ZipFileCacheLayer layer;
-        private readonly IContentReference<MediaTypeT> source;
+        private readonly IContentReference<MediaTypeT> fileRef;
         private readonly string cacheFileName;
 
-        public ZipFileReference(ZipFileCacheLayer layer, string cacheFileName, IContentReference<MediaTypeT> source)
+        public ZipFileReference(ZipFileCacheLayer layer, string cacheFileName, IContentReference<MediaTypeT> fileRef)
         {
             this.layer = layer;
             this.cacheFileName = cacheFileName;
-            this.source = source;
+            this.fileRef = fileRef;
         }
 
         public string CacheID
         {
             get
             {
-                return source.CacheID;
+                return fileRef.CacheID;
             }
         }
 
@@ -33,7 +33,7 @@ namespace Juniper.Compression.Zip
         {
             get
             {
-                return source.ContentType;
+                return fileRef.ContentType;
             }
         }
 

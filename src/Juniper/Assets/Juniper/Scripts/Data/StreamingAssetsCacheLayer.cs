@@ -25,14 +25,14 @@ namespace Juniper.Data
 
 
 #if !UNITY_EDITOR && UNITY_ANDROID
-        protected override string GetCacheFileName<MediaTypeT>(IO.IContentReference<MediaTypeT> source)
+        protected override string GetCacheFileName<MediaTypeT>(IO.IContentReference<MediaTypeT> fileRef)
         {
             var newFileName = Path.Combine(
                 "assets",
-                PathExt.FixPath(source.CacheID));
+                PathExt.FixPath(fileRef.CacheID));
             var newRef = new IO.ContentReference<MediaTypeT>(
                 newFileName,
-                source.ContentType);
+                fileRef.ContentType);
             return base.GetCacheFileName(newRef);
         }
 #endif

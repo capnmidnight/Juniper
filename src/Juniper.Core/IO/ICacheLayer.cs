@@ -8,19 +8,19 @@ namespace Juniper.IO
     {
         bool CanCache { get; }
 
-        bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> source)
+        bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType;
 
-        Stream OpenWrite<MediaTypeT>(IContentReference<MediaTypeT> source)
+        Stream OpenWrite<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType;
 
-        void Copy<MediaTypeT>(IContentReference<MediaTypeT> source, FileInfo file)
+        void Copy<MediaTypeT>(IContentReference<MediaTypeT> fileRef, FileInfo file)
             where MediaTypeT : MediaType;
 
-        Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> source, Stream stream)
+        Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)
             where MediaTypeT : MediaType;
 
-        IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> source)
+        IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType;
     }
 }

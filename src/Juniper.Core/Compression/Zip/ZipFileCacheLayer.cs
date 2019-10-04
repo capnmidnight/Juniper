@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+
 using System.IO;
 
 using Juniper.Compression.Zip;
@@ -10,9 +12,16 @@ namespace Juniper.IO
     {
         internal readonly FileInfo zipFile;
 
+        private readonly Dictionary<string, bool> filesExist = new Dictionary<string, bool>();
+
         public ZipFileCacheLayer(FileInfo zipFile)
         {
             this.zipFile = zipFile;
+
+            if(!zipFile.Exists)
+            {
+                throw new FileNotFoundException("ZipFileCacheLayer: No zip file! " + zipFile.FullName);
+            }
         }
 
         public ZipFileCacheLayer(string fileName)
@@ -27,52 +36,59 @@ namespace Juniper.IO
             }
         }
 
-        public Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> source, Stream stream)
+        public Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)
             where MediaTypeT : MediaType
         {
             return stream;
         }
 
-        public Stream OpenWrite<MediaTypeT>(IContentReference<MediaTypeT> source)
+        public Stream OpenWrite<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
             throw new NotSupportedException();
         }
 
-        public void Copy<MediaTypeT>(IContentReference<MediaTypeT> source, FileInfo file)
+        public void Copy<MediaTypeT>(IContentReference<MediaTypeT> fileRef, FileInfo file)
             where MediaTypeT : MediaType
         {
             throw new NotSupportedException();
         }
 
-        protected virtual string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> source)
+        protected virtual string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            var baseName = source.CacheID.Replace('\\', '/');
-            var cacheFileName = source.ContentType.AddExtension(baseName);
+            var baseName = fileRef.CacheID.Replace('\\', '/');
+            var cacheFileName = fileRef.ContentType.AddExtension(baseName);
             return cacheFileName;
         }
 
-        public bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> source)
+        public bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            if(!zipFile.Exists)
+            if (!filesExist.ContainsKey(fileRef.CacheID))
             {
-                return false;
+                if (!zipFile.Exists)
+                {
+                    filesExist[fileRef.CacheID] = false;
+                }
+                else
+                {
+                    var cacheFileName = GetCacheFileName(fileRef);
+                    using (var zip = Decompressor.OpenZip(zipFile))
+                    {
+                        var entry = zip.GetEntry(cacheFileName);
+                        filesExist[fileRef.CacheID] = entry != null;
+                    }
+                }
             }
 
-            var cacheFileName = GetCacheFileName(source);
-            using (var zip = Decompressor.OpenZip(zipFile))
-            {
-                var entry = zip.GetEntry(cacheFileName);
-                return entry != null;
-            }
+            return filesExist[fileRef.CacheID];
         }
 
-        public IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> source)
+        public IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            return new ZipFileReference<MediaTypeT>(this, GetCacheFileName(source), source);
+            return new ZipFileReference<MediaTypeT>(this, GetCacheFileName(fileRef), fileRef);
         }
     }
 }

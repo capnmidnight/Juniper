@@ -11,19 +11,19 @@ namespace Juniper.IO
         where MediaTypeT : MediaType
     {
         protected readonly CacheLayerT layer;
-        protected readonly IContentReference<MediaTypeT> source;
+        protected readonly IContentReference<MediaTypeT> fileRef;
 
-        protected AbstractCacheContentReference(CacheLayerT layer, IContentReference<MediaTypeT> source)
+        protected AbstractCacheContentReference(CacheLayerT layer, IContentReference<MediaTypeT> fileRef)
         {
             this.layer = layer;
-            this.source = source;
+            this.fileRef = fileRef;
         }
 
         public string CacheID
         {
             get
             {
-                return source.CacheID;
+                return fileRef.CacheID;
             }
         }
 
@@ -31,7 +31,7 @@ namespace Juniper.IO
         {
             get
             {
-                return source.ContentType;
+                return fileRef.ContentType;
             }
         }
 
@@ -40,12 +40,12 @@ namespace Juniper.IO
         public async Task<Stream> GetStream(IProgress prog)
         {
             var stream = await InternalGetStream(prog);
-            if (stream == null && source is IStreamSource<MediaTypeT> streamSource)
+            if (stream == null && fileRef is IStreamSource<MediaTypeT> streamSource)
             {
                 stream = await streamSource.GetStream(prog);
                 if (layer.CanCache)
                 {
-                    stream = layer.Cache(source, stream);
+                    stream = layer.Cache(fileRef, stream);
                 }
             }
             return stream;
