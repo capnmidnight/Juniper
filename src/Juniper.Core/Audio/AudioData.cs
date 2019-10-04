@@ -1,4 +1,4 @@
-using Juniper.HTTP;
+using System.IO;
 
 namespace Juniper.Audio
 {
@@ -8,12 +8,14 @@ namespace Juniper.Audio
     public class AudioData
     {
         public readonly AudioFormat format;
-        public readonly float[] data;
+        public readonly long samples;
+        public readonly Stream dataStream;
 
-        public AudioData(AudioFormat format, float[] data)
+        public AudioData(AudioFormat format, Stream dataStream, long samples)
         {
             this.format = format;
-            this.data = data;
+            this.dataStream = dataStream;
+            this.samples = samples;
         }
     }
 }

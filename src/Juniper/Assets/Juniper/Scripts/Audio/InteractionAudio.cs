@@ -311,13 +311,25 @@ namespace Juniper.Audio
         public async Task<AudioClip> PreloadSpeech(string text, string voiceName, float rateChange, float pitchChange)
         {
             var audioData = await tts.GetDecodedAudio(text, voiceName, rateChange, pitchChange);
+            var reader = new BinaryReader(audioData.dataStream);
             var clip = AudioClip.Create(
                 text,
-                audioData.data.Length,
+                (int)audioData.samples,
                 audioData.format.channels,
                 audioData.format.sampleRate,
-                false);
-            clip.SetData(audioData.data, 0);
+                true,
+                floats =>
+                {
+                    for(int i = 0; i < floats.Length; ++i)
+                    {
+                        floats[i] = reader.ReadSingle();
+                    }
+                },
+                pos =>
+                {
+                    reader.BaseStream.Position = pos;
+                });
+
             clip.LoadAudioData();
             return clip;
         }

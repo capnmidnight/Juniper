@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using Juniper.Audio;
 using Juniper.Azure.CognitiveServices;
 using Juniper.IO;
+using NAudio.Wave;
 
 namespace Juniper.Azure
 {
-    class Program
+    internal class Program
     {
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
         {
             var text = "The quick brown fox jumps over the lazy dog.";
             if (args.Length > 1)
@@ -36,7 +37,7 @@ namespace Juniper.Azure
                 .AddLayer(new FileCacheLayer(cacheDir));
 
             var voiceListDecoder = new JsonFactory<Voice[]>();
-            var outputFormat = AudioFormat.Audio24KHz48KbitrateMonoMP3;
+            var outputFormat = AudioFormat.Audio16KHz128KbitrateMonoMP3;
             var audioDecoder = new NAudioAudioDataDecoder();
             var ttsClient = new TextToSpeechClient(
                 region,
@@ -57,9 +58,8 @@ namespace Juniper.Azure
         {
             var audio = await ttsClient.GetDecodedAudio(text, voice.ShortName);
             Console.WriteLine($"content type: {audio.format.ContentType.Value}");
-            Console.WriteLine($"min: {audio.data.Min()}, max: {audio.data.Max()}");
-            Console.WriteLine($"channels: {audio.format.channels}, samples: {audio.data.Length}, sample rate: {audio.format.sampleRate}");
-            await audioDecoder.Play(audio);
+            Console.WriteLine($"channels: {audio.format.channels}, samples: {audio.dataStream.Length / (audio.format.bitsPerSample * 8 * audio.format.channels)}, sample rate: {audio.format.sampleRate}");
+            await Play(audio);
         }
 
         private static async Task PlayAudio(string text, NAudioAudioDataDecoder audioDecoder, TextToSpeechClient ttsClient, Voice voice)
@@ -68,7 +68,33 @@ namespace Juniper.Azure
             var waveStream = audioDecoder.MakeDecodingStream(audioStream);
             Console.WriteLine($"stream type: {waveStream.GetType().Name}");
             Console.WriteLine($"channels: {waveStream.WaveFormat.Channels}, sample rate: {waveStream.WaveFormat.SampleRate}");
-            await audioDecoder.Play(waveStream);
+            await Play(waveStream);
+        }
+
+
+        public static Task Play(AudioData audio)
+        {
+            var format = new WaveFormat(audio.format.sampleRate, audio.format.bitsPerSample, audio.format.channels);
+            var sourceStream = new FloatsToPcmBytesStream(audio.dataStream, audio.format.bitsPerSample / 8);
+            //var mem = new MemoryStream();
+            //sourceStream.CopyTo(mem);
+            //var buffer = mem.ToArray();
+            var waveStream = new RawSourceWaveStream(audio.dataStream, format);
+            return Play(waveStream);
+        }
+
+        public static async Task Play(WaveStream waveStream)
+        {
+            using (waveStream)
+            using (var waveOut = new WaveOut())
+            {
+                waveOut.Init(waveStream);
+                waveOut.Play();
+                while (waveOut.PlaybackState == PlaybackState.Playing)
+                {
+                    await Task.Yield();
+                }
+            }
         }
     }
 }
