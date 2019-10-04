@@ -19,19 +19,6 @@ namespace Juniper
             }
         }
 
-        public void OnPostprocessBuild(BuildReport report)
-        {
-            var receivers = Find.All<ICredentialReceiver>();
-            foreach (var receiver in receivers)
-            {
-                receiver.ClearCredentials();
-            }
-
-            EditorSceneManager.SaveOpenScenes();
-
-            Debug.Log("<== Juniper.CredentialResolver ==>: Credentials cleared");
-        }
-
         public void OnPreprocessBuild(BuildReport report)
         {
             var receivers = Find.All<ICredentialReceiver>();
@@ -43,6 +30,17 @@ namespace Juniper
             EditorSceneManager.SaveOpenScenes();
 
             Debug.Log("<== Juniper.CredentialResolver ==>: Credentials set");
+        }
+
+        public void OnPostprocessBuild(BuildReport report)
+        {
+            var receivers = Find.All<ICredentialReceiver>();
+            foreach (var receiver in receivers)
+            {
+                receiver.ClearCredentials();
+            }
+
+            Debug.Log("<== Juniper.CredentialResolver ==>: Credentials cleared");
         }
     }
 }

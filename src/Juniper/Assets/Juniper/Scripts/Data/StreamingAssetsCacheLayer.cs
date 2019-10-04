@@ -1,14 +1,16 @@
 ﻿using System.IO;
 
+using Juniper.IO;
+
 using UnityEngine;
 
 namespace Juniper.Data
 {
     public class StreamingAssetsCacheLayer :
 #if !UNITY_EDITOR && UNITY_ANDROID
-        Juniper.Compression.Zip.ZipFileCacheLayer
+        ZipFileCacheLayer
 #else
-        Juniper.IO.FileCacheLayer
+        FileCacheLayer
 #endif
     {
         public StreamingAssetsCacheLayer()
