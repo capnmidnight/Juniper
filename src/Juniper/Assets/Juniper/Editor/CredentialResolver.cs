@@ -27,8 +27,6 @@ namespace Juniper
                 receiver.ReceiveCredentials();
             }
 
-            EditorSceneManager.SaveOpenScenes();
-
             Debug.Log("<== Juniper.CredentialResolver ==>: Credentials set");
         }
 
