@@ -60,7 +60,7 @@ namespace Juniper.World.LightEstimation
             {
                 if (VuforiaUnityExt.HasLightEstimation && !useCustomAnalyzer)
                 {
-                    StartCoroutine(GetIlluminationManagerCoroutine());
+                    this.Run(GetIlluminationManagerCoroutine());
                 }
                 else
                 {

@@ -439,7 +439,7 @@ namespace Juniper.Audio
                 var len = PlayClip(action, pose);
                 if (onComplete != null)
                 {
-                    StartCoroutine(Wait(len, onComplete));
+                    this.Run(Wait(len, onComplete));
                 }
                 return len;
             }

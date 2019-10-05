@@ -107,7 +107,7 @@ namespace Juniper.Imaging
                     CubemapName = CubemapNeeded?.Invoke(this);
                 }
 
-                StartCoroutine(ReadCubemapCoroutine(CubemapName));
+                this.Run(ReadCubemapCoroutine(CubemapName));
             }
 
             foreach (var child in transform.Children())
@@ -247,7 +247,7 @@ namespace Juniper.Imaging
                 else if (!locked)
                 {
                     locked = true;
-                    StartCoroutine(UpdateSphereCoroutine());
+                    this.Run(UpdateSphereCoroutine());
                 }
 
                 wasComplete = isComplete;
@@ -463,7 +463,7 @@ namespace Juniper.Imaging
             if (string.IsNullOrEmpty(CubemapName) && !cubemapLock)
             {
                 cubemapLock = true;
-                StartCoroutine(CaptureCubemapCoroutine());
+                this.Run(CaptureCubemapCoroutine());
             }
         }
 

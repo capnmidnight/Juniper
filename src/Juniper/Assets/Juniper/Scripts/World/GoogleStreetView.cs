@@ -219,7 +219,7 @@ namespace Juniper.Imaging
         private void SynchronizeData(Vector3 cursorPosition, IProgress prog)
         {
             locked = true;
-            StartCoroutine(SynchronizeDataCoroutine(cursorPosition, prog));
+            this.Run(SynchronizeDataCoroutine(cursorPosition, prog));
         }
 
         private IEnumerator SynchronizeDataCoroutine(Vector3 cursorPosition, IProgress prog)
@@ -357,7 +357,7 @@ namespace Juniper.Imaging
             if (!locked)
             {
                 locked = true;
-                StartCoroutine(LoadPhotosphereCoroutine());
+                this.Run(LoadPhotosphereCoroutine());
             }
         }
 

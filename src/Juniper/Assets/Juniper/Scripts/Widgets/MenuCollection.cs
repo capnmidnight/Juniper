@@ -54,7 +54,7 @@ namespace Juniper.Widgets
 
         public void ShowMenuView(string name)
         {
-            StartCoroutine(ShowMenuViewCoroutine(name));
+            this.Run(ShowMenuViewCoroutine(name));
         }
 
         private IEnumerator ShowMenuViewCoroutine(string name)
@@ -91,7 +91,7 @@ namespace Juniper.Widgets
         protected override void OnExiting()
         {
             base.OnExiting();
-            StartCoroutine(ExitingCouroutine());
+            this.Run(ExitingCouroutine());
         }
 
         private IEnumerator ExitingCouroutine()

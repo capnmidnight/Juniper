@@ -84,7 +84,9 @@ namespace Juniper
             {
                 if (Application.isPlaying)
                 {
-                    yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive).AsCoroutine(sceneLoadProg);
+                    yield return SceneManager
+                        .LoadSceneAsync(sceneName, LoadSceneMode.Additive)
+                        .AsCoroutine(sceneLoadProg);
                 }
 #if UNITY_EDITOR
                 else
@@ -187,7 +189,10 @@ namespace Juniper
 
         private void SetBuildSettings()
         {
-            subSceneNames = subSceneNames.Where(File.Exists).ToArray();
+            subSceneNames = subSceneNames
+                .Where(File.Exists)
+                .ToArray();
+
             if (!Application.isPlaying
                 && gameObject != null
                 && !string.IsNullOrEmpty(gameObject.scene.path))
@@ -208,21 +213,7 @@ namespace Juniper
         {
             using (var prog = new UnityEditorProgressDialog("Loading scenes"))
             {
-                var iters = new Stack<IEnumerator>();
-                iters.Push(LoadAllScenesCoroutine(prog));
-                while (iters.Count > 0)
-                {
-                    var iter = iters.Pop();
-                    while (iter.MoveNext())
-                    {
-                        var obj = iter.Current;
-                        if (obj is IEnumerator subIter)
-                        {
-                            iters.Push(iter);
-                            iter = subIter;
-                        }
-                    }
-                }
+                this.Run(LoadAllScenesCoroutine(prog));
             }
         }
 
@@ -240,51 +231,6 @@ namespace Juniper
                         prog.Subdivide(i, subSceneNames.Length));
                 }
             }
-        }
-
-        /// <summary>
-        /// Copy all of the root scene objects out of the sub scenes and into the master scene,
-        /// removing the subscenes along the way. This can also be executed from the editor by
-        /// accessing the component's context menu and selecting "Flatten".
-        /// </summary>
-        [ContextMenu("Flatten")]
-        private void Flatten()
-        {
-            var curScene = gameObject.scene;
-
-            if (subSceneNames.Length > 0)
-            {
-                var newPath = curScene.path.Replace(".unity", ".original.unity");
-                FileExt.Copy(curScene.path, newPath, true);
-
-                foreach (var path in subSceneNames)
-                {
-                    if (File.Exists(path))
-                    {
-                        var sceneName = SceneNamePattern.Match(path).Groups[1].Value;
-                        var iter = LoadScene(sceneName, path, null);
-                        while (iter.MoveNext())
-                        {
-                            print(path);
-                        }
-
-                        var scene = SceneManager.GetSceneByPath(path);
-                        SceneManager.MergeScenes(scene, curScene);
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"Invalid Scene Path: {path}");
-                    }
-                }
-
-                subSceneNames = new string[0];
-                EditorSceneManager.SaveScene(curScene);
-            }
-
-            EditorBuildSettings.scenes = new[]
-            {
-                new EditorBuildSettingsScene(curScene.path, true)
-            };
         }
 
         public void Reset()
@@ -351,7 +297,7 @@ namespace Juniper
 
         private void LoadFirstScene()
         {
-            StartCoroutine(LoadFirstSceneCoroutine());
+            this.Run(LoadFirstSceneCoroutine());
         }
 
         private IEnumerator LoadFirstSceneCoroutine()
@@ -386,17 +332,17 @@ namespace Juniper
         /// <returns></returns>
         public void SwitchToScene(string sceneName, bool fromView)
         {
-            StartCoroutine(SwitchToSceneCoroutine(sceneName, false, false, true, fromView));
+            this.Run(SwitchToSceneCoroutine(sceneName, false, false, true, fromView));
         }
 
         public void ShowScene(string sceneName)
         {
-            StartCoroutine(SwitchToSceneCoroutine(sceneName, false, false, false, false));
+            this.Run(SwitchToSceneCoroutine(sceneName, false, false, false, false));
         }
 
         public void ShowView(string viewName)
         {
-            StartCoroutine(SwitchToSceneCoroutine(viewName, true, true, false, false));
+            this.Run(SwitchToSceneCoroutine(viewName, true, true, false, false));
         }
 
         private IEnumerator SwitchToSceneCoroutine(string subSceneName, bool skipFadeOut, bool skipLoadingScreen, bool unloadOtherScenes, bool fromView)
@@ -555,7 +501,7 @@ namespace Juniper
 
         public void RemoveScene(string sceneName)
         {
-            StartCoroutine(RemoveSceneCoroutine(sceneName));
+            this.Run(RemoveSceneCoroutine(sceneName));
         }
 
         private IEnumerator RemoveSceneCoroutine(string sceneName)
@@ -648,7 +594,7 @@ namespace Juniper
         /// </summary>
         public void Quit()
         {
-            StartCoroutine(QuitCoroutine());
+            this.Run(QuitCoroutine());
         }
 
         /// <summary>

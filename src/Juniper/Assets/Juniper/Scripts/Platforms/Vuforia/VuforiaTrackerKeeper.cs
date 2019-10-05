@@ -100,7 +100,7 @@ namespace Juniper.ImageTracking
         protected override void OnTrackingStarting(string dataSetName, string targetName)
         {
             base.OnTrackingStarting(dataSetName, targetName);
-            StartCoroutine(StartTrackerCoroutine(dataSetName, targetName));
+            this.Run(StartTrackerCoroutine(dataSetName, targetName));
         }
 
         protected override void OnTrackingStarted()
@@ -261,7 +261,7 @@ namespace Juniper.ImageTracking
             }
             else
             {
-                StartCoroutine(EnablePETCoroutine());
+                this.Run(EnablePETCoroutine());
             }
         }
 

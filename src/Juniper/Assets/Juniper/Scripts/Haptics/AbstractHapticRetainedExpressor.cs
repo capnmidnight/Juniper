@@ -1,5 +1,7 @@
 using System.Collections;
 
+using UnityEngine;
+
 namespace Juniper.Haptics
 {
     /// <summary>
@@ -31,7 +33,7 @@ namespace Juniper.Haptics
         /// <param name="points"></param>
         public override void Play(params HapticPatternElement[] points)
         {
-            StartCoroutine(PlayCoroutine(points));
+            this.Run(PlayCoroutine(points));
         }
 
         /// <summary>
@@ -40,7 +42,7 @@ namespace Juniper.Haptics
         /// <param name="point"></param>
         public override void Vibrate(HapticPatternElement point)
         {
-            StartCoroutine(VibrateCoroutine(point));
+            this.Run(VibrateCoroutine(point));
         }
 
         /// <summary>
@@ -49,7 +51,7 @@ namespace Juniper.Haptics
         /// <param name="milliseconds">Milliseconds.</param>
         public override void Vibrate(long milliseconds)
         {
-            StartCoroutine(VibrateCoroutine(milliseconds));
+            this.Run(VibrateCoroutine(milliseconds));
         }
 
         /// <summary>
@@ -58,7 +60,7 @@ namespace Juniper.Haptics
         /// <param name="pattern">Pattern.</param>
         public override void Play(long[] pattern)
         {
-            StartCoroutine(PlayCoroutine(pattern));
+            this.Run(PlayCoroutine(pattern));
         }
 
         /// <summary>
@@ -68,7 +70,7 @@ namespace Juniper.Haptics
         /// <param name="amplitudes">Amplitudes.</param>
         public override void Play(long[] pattern, float[] amplitudes)
         {
-            StartCoroutine(PlayCoroutine(pattern, amplitudes));
+            this.Run(PlayCoroutine(pattern, amplitudes));
         }
 
         /// <summary>
@@ -78,7 +80,7 @@ namespace Juniper.Haptics
         /// <param name="amplitude">   Amplitudes.</param>
         public override void Vibrate(long milliseconds, float amplitude)
         {
-            StartCoroutine(VibrateCoroutine(milliseconds, amplitude));
+            this.Run(VibrateCoroutine(milliseconds, amplitude));
         }
 
         /// <summary>

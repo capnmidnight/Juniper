@@ -94,7 +94,7 @@ namespace Juniper.Widgets
         /// </summary>
         public void Scan(Action onFound)
         {
-            StartCoroutine(ScanCoroutine(onFound));
+            this.Run(ScanCoroutine(onFound));
         }
 
         public void Scan()
@@ -126,7 +126,7 @@ namespace Juniper.Widgets
         /// </summary>
         public void Found()
         {
-            StartCoroutine(FoundCoroutine());
+            this.Run(FoundCoroutine());
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Juniper.Widgets
         /// </summary>
         public void Lost()
         {
-            StartCoroutine(LostCoroutine());
+            this.Run(LostCoroutine());
         }
 
         /// <summary>

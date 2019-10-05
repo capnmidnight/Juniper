@@ -61,7 +61,7 @@ namespace Juniper.Animation
         {
             if (isActiveAndEnabled)
             {
-                StartCoroutine(PlayCoroutine(name));
+                this.Run(PlayCoroutine(name));
             }
         }
 

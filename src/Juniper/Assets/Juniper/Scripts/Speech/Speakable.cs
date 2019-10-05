@@ -93,7 +93,7 @@ namespace Juniper.Speech
                 lastPitch = pitch;
                 print("Loading speech " + text);
                 clip = null;
-                StartCoroutine(PreloadCoroutine());
+                this.Run(PreloadCoroutine());
             }
             else if (needsPlay && clip != null)
             {
@@ -119,7 +119,7 @@ namespace Juniper.Speech
                     StopCoroutine(lastCoroutine);
                 }
 
-                lastCoroutine = StartCoroutine(PlayCoroutine());
+                lastCoroutine = (Coroutine)this.Run(PlayCoroutine());
 
             }
         }

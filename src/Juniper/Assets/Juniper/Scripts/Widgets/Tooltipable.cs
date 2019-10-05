@@ -167,7 +167,7 @@ namespace Juniper.Widgets
         {
             if (isActiveAndEnabled)
             {
-                StartCoroutine(HideTooltipCoroutine());
+                this.Run(HideTooltipCoroutine());
             }
         }
 

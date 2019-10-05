@@ -153,7 +153,7 @@ namespace Juniper.World.Climate
         {
             if (Ready)
             {
-                StartCoroutine(GetReportCoroutine(true));
+                this.Run(GetReportCoroutine(true));
             }
         }
 
@@ -200,7 +200,7 @@ namespace Juniper.World.Climate
             {
                 weatherService.ReportRadiusMeters = MilesBetweenReports.Convert(UnitOfMeasure.Miles, UnitOfMeasure.Meters);
                 weatherService.ReportTTLMinutes = MinutesBetweenReports;
-                StartCoroutine(GetReportCoroutine(false));
+                this.Run(GetReportCoroutine(false));
             }
 
             wasFakeWeather = FakeWeather;

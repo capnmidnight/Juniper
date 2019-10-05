@@ -71,20 +71,6 @@ namespace UnityEngine
         /// <summary>
         /// A shortcut for
         /// <code>
-        /// SetActive(true)
-        /// </code>
-        /// . Also useful for feeding to higher-order functions that expect parameterless functions.
-        /// </summary>
-        /// <param name="parent">Parent.</param>
-        public static void Activate(this MonoBehaviour parent)
-        {
-            parent.gameObject.Activate();
-            parent.enabled = true;
-        }
-
-        /// <summary>
-        /// A shortcut for
-        /// <code>
         /// SetActive(false)
         /// </code>
         /// . Also useful for feeding to higher-order functions that expect parameterless functions.

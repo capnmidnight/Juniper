@@ -159,7 +159,7 @@ namespace Juniper.World
         {
             if (Location.isEnabledByUser && !UseFakeCoord)
             {
-                StartCoroutine(StartGPSTrackingCoroutine());
+                this.Run(StartGPSTrackingCoroutine());
             }
 #if !UNITY_EDITOR
             else
