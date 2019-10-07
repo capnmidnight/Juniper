@@ -120,7 +120,6 @@ namespace Juniper.Speech
                 }
 
                 lastCoroutine = (Coroutine)this.Run(PlayCoroutine());
-
             }
         }
 
