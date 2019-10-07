@@ -42,7 +42,7 @@ namespace Juniper.IO
             if (stream == null && fileRef is IStreamSource<MediaTypeT> streamSource)
             {
                 stream = await streamSource.GetStream(prog);
-                if (layer.CanCache)
+                if (layer.CanCache(fileRef))
                 {
                     stream = layer.Cache(fileRef, stream);
                 }

@@ -4,7 +4,8 @@ namespace Juniper.IO
 {
     public interface ICacheLayer
     {
-        bool CanCache { get; }
+        bool CanCache<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+            where MediaTypeT : MediaType;
 
         bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType;

@@ -15,12 +15,18 @@ namespace Juniper.IO
             : this(new DirectoryInfo(directoryName))
         { }
 
-        public bool CanCache
+        public virtual bool CanCache<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+            where MediaTypeT : MediaType
         {
-            get
-            {
                 return true;
-            }
+        }
+
+        protected virtual string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+            where MediaTypeT : MediaType
+        {
+            var baseName = fileRef.CacheID;
+            var cacheFileName = fileRef.ContentType.AddExtension(baseName);
+            return Path.Combine(cacheLocation.FullName, cacheFileName);
         }
 
         protected virtual FileInfo GetCacheFile<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
@@ -50,14 +56,6 @@ namespace Juniper.IO
             var cacheFile = GetCacheFile(fileRef);
             cacheFile.Directory.Create();
             File.Copy(file.FullName, cacheFile.FullName, true);
-        }
-
-        protected virtual string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
-        {
-            var baseName = fileRef.CacheID;
-            var cacheFileName = fileRef.ContentType.AddExtension(baseName);
-            return Path.Combine(cacheLocation.FullName, cacheFileName);
         }
 
         public bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> fileRef)

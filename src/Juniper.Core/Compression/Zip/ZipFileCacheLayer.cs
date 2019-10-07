@@ -17,7 +17,7 @@ namespace Juniper.IO
         {
             this.zipFile = zipFile;
 
-            if(!zipFile.Exists)
+            if (!zipFile.Exists)
             {
                 throw new FileNotFoundException("ZipFileCacheLayer: No zip file! " + zipFile.FullName);
             }
@@ -27,12 +27,10 @@ namespace Juniper.IO
             : this(new FileInfo(fileName))
         { }
 
-        public bool CanCache
+        public bool CanCache<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+            where MediaTypeT : MediaType
         {
-            get
-            {
-                return false;
-            }
+            return false;
         }
 
         public Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)

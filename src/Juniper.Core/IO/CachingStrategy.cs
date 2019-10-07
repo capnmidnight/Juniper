@@ -54,7 +54,8 @@ namespace Juniper.IO
             {
                 foreach (var layer in layers)
                 {
-                    if (layer.CanCache && !layer.IsCached(fileRef))
+                    if (layer.CanCache(fileRef)
+                        && !layer.IsCached(fileRef))
                     {
                         stream = layer.Cache(fileRef, stream);
                     }
@@ -69,20 +70,18 @@ namespace Juniper.IO
         /// Currently, only the <see cref="FileCacheLayer"/> supports writing
         /// streams.
         /// </summary>
-        public bool CanCache
+        public bool CanCache<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+            where MediaTypeT : MediaType
         {
-            get
+            foreach (var layer in layers)
             {
-                foreach (var layer in layers)
+                if (layer.CanCache(fileRef))
                 {
-                    if (layer.CanCache)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
-
-                return false;
             }
+
+            return false;
         }
 
         /// <summary>
@@ -98,7 +97,8 @@ namespace Juniper.IO
             var stream = new ForkedStream();
             foreach (var layer in layers)
             {
-                if (layer.CanCache && !layer.IsCached(fileRef))
+                if (layer.CanCache(fileRef)
+                    && !layer.IsCached(fileRef))
                 {
                     stream.AddStream(layer.OpenWrite(fileRef));
                 }
@@ -122,7 +122,7 @@ namespace Juniper.IO
         {
             foreach (var layer in layers)
             {
-                if (layer.CanCache)
+                if (layer.CanCache(fileRef))
                 {
                     layer.Copy(fileRef, file);
                 }
