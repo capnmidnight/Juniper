@@ -1,6 +1,5 @@
 using System;
 
-using Juniper.HTTP;
 using Juniper.HTTP.REST;
 
 namespace Juniper.Azure

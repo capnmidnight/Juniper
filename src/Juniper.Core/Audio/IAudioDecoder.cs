@@ -1,4 +1,3 @@
-using Juniper.HTTP;
 using Juniper.IO;
 
 namespace Juniper.Audio

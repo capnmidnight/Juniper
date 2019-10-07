@@ -1,6 +1,4 @@
-﻿using Juniper.HTTP;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Juniper.Imaging.Unity
 {

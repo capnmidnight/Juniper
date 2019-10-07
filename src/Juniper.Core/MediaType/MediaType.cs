@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Juniper.HTTP
+namespace Juniper
 {
     public partial class MediaType : IEquatable<MediaType>
     {

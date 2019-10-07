@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+
 using Juniper.Data;
 using Juniper.Display;
-using Juniper.HTTP;
 using Juniper.Imaging.Unity;
 using Juniper.IO;
 using Juniper.Progress;
 using Juniper.Units;
+
 using UnityEngine;
 
 namespace Juniper.Imaging

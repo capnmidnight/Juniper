@@ -1,6 +1,5 @@
 using System;
 
-using Juniper.HTTP;
 using Juniper.Progress;
 
 using static System.Math;

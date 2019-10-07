@@ -2,7 +2,6 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 
-using Juniper.HTTP;
 using Juniper.Progress;
 
 namespace Juniper.Imaging
@@ -34,7 +33,7 @@ namespace Juniper.Imaging
         public override Image Translate(ImageData image, IProgress prog)
         {
             var outImage = new Bitmap(image.info.dimensions.width, image.info.dimensions.height);
-            if (image.contentType == HTTP.MediaType.Image.Raw)
+            if (image.contentType == MediaType.Image.Raw)
             {
                 var imageData = outImage.LockBits(
                     new Rectangle(0, 0, image.info.dimensions.width, image.info.dimensions.height),

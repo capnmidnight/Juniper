@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Juniper.HTTP;
+
 using Juniper.Imaging;
 using Juniper.World.GIS;
 

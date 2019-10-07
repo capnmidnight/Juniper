@@ -1,4 +1,4 @@
-namespace Juniper.HTTP
+namespace Juniper
 {
     public partial class MediaType
     {
@@ -73,6 +73,7 @@ namespace Juniper.HTTP
             public static readonly Text VendorDMClientScript = new Text("vnd.dmclientscript");
             public static readonly Text VendorDvbSubtitle = new Text("vnd.dvb.subtitle", new string[] {"sub"});
             public static readonly Text VendorEsmertecTheme_Descriptor = new Text("vnd.esmertec.theme-descriptor");
+            public static readonly Text VendorFiclabFlt = new Text("vnd.ficlab.flt");
             public static readonly Text VendorFly = new Text("vnd.fly", new string[] {"fly"});
             public static readonly Text VendorFmiFlexstor = new Text("vnd.fmi.flexstor", new string[] {"flx"});
             public static readonly Text VendorGml = new Text("vnd.gml");
@@ -168,6 +169,7 @@ namespace Juniper.HTTP
                 VendorDMClientScript,
                 VendorDvbSubtitle,
                 VendorEsmertecTheme_Descriptor,
+                VendorFiclabFlt,
                 VendorFly,
                 VendorFmiFlexstor,
                 VendorGml,

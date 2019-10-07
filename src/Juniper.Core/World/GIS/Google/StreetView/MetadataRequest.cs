@@ -1,5 +1,3 @@
-using Juniper.HTTP;
-
 namespace Juniper.GIS.Google.StreetView
 {
     public class MetadataRequest : AbstractStreetViewRequest<MediaType.Application>

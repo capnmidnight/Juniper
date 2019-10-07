@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Juniper.HTTP;
+
 using Juniper.Progress;
 
 using UnityEngine;

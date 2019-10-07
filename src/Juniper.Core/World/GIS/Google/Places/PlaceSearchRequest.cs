@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-using Juniper.HTTP;
-
 namespace Juniper.GIS.Google.Places
 {
     internal class PlaceSearchRequest : AbstractGoogleMapsRequest<MediaType.Application>

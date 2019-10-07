@@ -2,7 +2,7 @@ using System;
 using System.IO;
 
 using BitMiracle.LibJpeg;
-using Juniper.HTTP;
+
 using Juniper.IO;
 using Juniper.Progress;
 

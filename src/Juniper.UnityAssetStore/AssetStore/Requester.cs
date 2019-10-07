@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using HtmlAgilityPack;
 
-using Juniper.HTTP;
 using Juniper.IO;
 using Juniper.Progress;
 

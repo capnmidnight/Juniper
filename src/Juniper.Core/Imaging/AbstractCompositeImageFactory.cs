@@ -1,6 +1,5 @@
 using System.IO;
 
-using Juniper.HTTP;
 using Juniper.Progress;
 
 namespace Juniper.Imaging

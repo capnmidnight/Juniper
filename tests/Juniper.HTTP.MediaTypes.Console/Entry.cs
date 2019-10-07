@@ -1,7 +1,7 @@
 using System.IO;
 using System.Linq;
 
-namespace Juniper.HTTP.MediaTypes
+namespace Juniper.MediaTypes
 {
     public class Entry
     {

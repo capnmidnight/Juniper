@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 
 using Juniper.Audio;
 using Juniper.Azure.CognitiveServices;
-using Juniper.HTTP;
 using Juniper.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;

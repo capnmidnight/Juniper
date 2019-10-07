@@ -1,4 +1,4 @@
-namespace Juniper.HTTP
+namespace Juniper
 {
     public partial class MediaType
     {
@@ -226,6 +226,7 @@ namespace Juniper.HTTP
             Application.Msc_MixerXml,
             Application.Msword,
             Application.MudJson,
+            Application.Multipart_Core,
             Application.Mxf,
             Application.N_Quads,
             Application.N_Triples,
@@ -679,6 +680,7 @@ namespace Juniper.HTTP
             Application.VendorFdsnMseed,
             Application.VendorFdsnSeed,
             Application.VendorFfsns,
+            Application.VendorFiclabFlbZip,
             Application.VendorFilmitZfc,
             Application.VendorFints,
             Application.VendorFiremonkeysCloudcell,
@@ -1919,6 +1921,7 @@ namespace Juniper.HTTP
             Text.VendorDMClientScript,
             Text.VendorDvbSubtitle,
             Text.VendorEsmertecTheme_Descriptor,
+            Text.VendorFiclabFlt,
             Text.VendorFly,
             Text.VendorFmiFlexstor,
             Text.VendorGml,

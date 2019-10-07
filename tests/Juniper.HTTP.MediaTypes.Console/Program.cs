@@ -6,7 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Juniper.HTTP.MediaTypes
+namespace Juniper.MediaTypes
 {
     public static partial class Program
     {
@@ -41,7 +41,7 @@ namespace Juniper.HTTP.MediaTypes
 
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var outDir = Path.Combine(home, "Projects", "Yarrow", "Juniper");
-            outDir = Path.Combine(outDir, "src", "Juniper.Core", "HTTP");
+            outDir = Path.Combine(outDir, "src", "Juniper.Core");
             outDir = Path.Combine(outDir, "MediaType");
 
             WriteGroups(groups, outDir);
@@ -125,7 +125,7 @@ namespace Juniper.HTTP.MediaTypes
         {
             using (var response = await HttpWebRequestExt
                 .Create("http://svn.apache.org/viewvc/httpd/httpd/trunk/docs/conf/mime.types?view=co")
-                .Accept(MediaType.Text.Plain)
+                .Accept("text/plain")
                 .Get())
             using (var stream = response.GetResponseStream())
             using (var reader = new StreamReader(stream))
@@ -182,7 +182,7 @@ namespace Juniper.HTTP.MediaTypes
             using (var response = await HttpWebRequestExt
                 .Create("https://www.iana.org/assignments/media-types/media-types.xml")
                 .UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36")
-                .Accept(MediaType.Text.Xml)
+                .Accept("text/xml")
                 .Get())
             using (var stream = response.GetResponseStream())
             {
@@ -326,7 +326,7 @@ namespace Juniper.HTTP.MediaTypes
                     writer.WriteLine(usingBlock);
                     writer.WriteLine();
                 }
-                writer.WriteLine("namespace Juniper.HTTP");
+                writer.WriteLine("namespace Juniper");
                 writer.WriteLine("{");
                 {
                     writer.WriteLine("    public partial class MediaType");

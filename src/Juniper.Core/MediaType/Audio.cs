@@ -1,4 +1,4 @@
-namespace Juniper.HTTP
+namespace Juniper
 {
     public partial class MediaType
     {
@@ -86,10 +86,10 @@ namespace Juniper.HTTP
             public static readonly Audio MP4A_LATM = new Audio("mp4a-latm");
             public static readonly Audio MPA = new Audio("mpa");
             public static readonly Audio Mpa_Robust = new Audio("mpa-robust");
-            public static readonly Audio Mpeg = new Audio("mpeg", new string[] { "mp3", "mpga", "mp2", "mp2a", "m2a", "m3a"});
+            public static readonly Audio Mpeg = new Audio("mpeg", new string[] {"mp3", "mp2", "mp2a", "mpga", "m2a", "m3a"});
             public static readonly Audio Mpeg4_Generic = new Audio("mpeg4-generic");
             public static readonly Audio Musepack = new Audio("musepack");
-            public static readonly Audio Ogg = new Audio("ogg", new string[] { "ogg", "oga", "spx"});
+            public static readonly Audio Ogg = new Audio("ogg", new string[] {"ogg", "oga", "spx"});
             public static readonly Audio Opus = new Audio("opus");
             public static readonly Audio Parityfec = new Audio("parityfec");
             public static readonly Audio PCMA = new Audio("pcma");

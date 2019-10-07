@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Juniper.Climate;
-using Juniper.HTTP;
 using Juniper.IO;
 using Juniper.Progress;
 using Juniper.Units;

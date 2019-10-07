@@ -1,4 +1,5 @@
 using System;
+
 using Hjg.Pngcs;
 
 using Juniper.Progress;
@@ -32,7 +33,7 @@ namespace Juniper.Imaging
                 rows.ImgInfo.BytesPerRow / rows.ImgInfo.BytesPixel,
                 rows.Nrows,
                 rows.channels,
-                HTTP.MediaType.Image.Png,
+                MediaType.Image.Png,
                 data);
         }
 

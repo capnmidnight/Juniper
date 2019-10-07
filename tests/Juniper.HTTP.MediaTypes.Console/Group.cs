@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Juniper.HTTP.MediaTypes
+namespace Juniper.MediaTypes
 {
     public class Group
     {

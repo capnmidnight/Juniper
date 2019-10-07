@@ -1,4 +1,4 @@
-namespace Juniper.HTTP
+namespace Juniper
 {
     public partial class MediaType
     {
@@ -239,6 +239,7 @@ namespace Juniper.HTTP
             public static readonly Application Msc_MixerXml = new Application("msc-mixer+xml", new string[] {"xml"});
             public static readonly Application Msword = new Application("msword", new string[] {"doc", "dot"});
             public static readonly Application MudJson = new Application("mud+json", new string[] {"json"});
+            public static readonly Application Multipart_Core = new Application("multipart-core");
             public static readonly Application Mxf = new Application("mxf", new string[] {"mxf"});
             public static readonly Application N_Quads = new Application("n-quads");
             public static readonly Application N_Triples = new Application("n-triples");
@@ -704,6 +705,7 @@ namespace Juniper.HTTP
             public static readonly Application VendorFdsnMseed = new Application("vnd.fdsn.mseed", new string[] {"mseed"});
             public static readonly Application VendorFdsnSeed = new Application("vnd.fdsn.seed", new string[] {"seed", "dataless"});
             public static readonly Application VendorFfsns = new Application("vnd.ffsns");
+            public static readonly Application VendorFiclabFlbZip = new Application("vnd.ficlab.flb+zip", new string[] {"zip"});
             public static readonly Application VendorFilmitZfc = new Application("vnd.filmit.zfc");
             public static readonly Application VendorFints = new Application("vnd.fints");
             public static readonly Application VendorFiremonkeysCloudcell = new Application("vnd.firemonkeys.cloudcell");
@@ -1804,6 +1806,7 @@ namespace Juniper.HTTP
                 Msc_MixerXml,
                 Msword,
                 MudJson,
+                Multipart_Core,
                 Mxf,
                 N_Quads,
                 N_Triples,
@@ -2257,6 +2260,7 @@ namespace Juniper.HTTP
                 VendorFdsnMseed,
                 VendorFdsnSeed,
                 VendorFfsns,
+                VendorFiclabFlbZip,
                 VendorFilmitZfc,
                 VendorFints,
                 VendorFiremonkeysCloudcell,

@@ -20,39 +20,39 @@ namespace Juniper.Imaging
             }
         }
 
-        public static HTTP.MediaType.Image ToMediaType(this System.Drawing.Imaging.ImageFormat format)
+        public static MediaType.Image ToMediaType(this System.Drawing.Imaging.ImageFormat format)
         {
             if (format == System.Drawing.Imaging.ImageFormat.Bmp)
             {
-                return HTTP.MediaType.Image.Bmp;
+                return MediaType.Image.Bmp;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Emf)
             {
-                return HTTP.MediaType.Image.Emf;
+                return MediaType.Image.Emf;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Gif)
             {
-                return HTTP.MediaType.Image.Gif;
+                return MediaType.Image.Gif;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Icon)
             {
-                return HTTP.MediaType.Image.X_Icon;
+                return MediaType.Image.X_Icon;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Jpeg)
             {
-                return HTTP.MediaType.Image.Jpeg;
+                return MediaType.Image.Jpeg;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Png)
             {
-                return HTTP.MediaType.Image.Png;
+                return MediaType.Image.Png;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Tiff)
             {
-                return HTTP.MediaType.Image.Tiff;
+                return MediaType.Image.Tiff;
             }
             else if (format == System.Drawing.Imaging.ImageFormat.Wmf)
             {
-                return HTTP.MediaType.Image.Wmf;
+                return MediaType.Image.Wmf;
             }
             else
             {
@@ -60,37 +60,37 @@ namespace Juniper.Imaging
             }
         }
 
-        public static System.Drawing.Imaging.ImageFormat ToGDIImageFormat(this HTTP.MediaType.Image format)
+        public static System.Drawing.Imaging.ImageFormat ToGDIImageFormat(this MediaType.Image format)
         {
-            if (format == HTTP.MediaType.Image.Bmp)
+            if (format == MediaType.Image.Bmp)
             {
                 return System.Drawing.Imaging.ImageFormat.Bmp;
             }
-            else if (format == HTTP.MediaType.Image.Emf)
+            else if (format == MediaType.Image.Emf)
             {
                 return System.Drawing.Imaging.ImageFormat.Emf;
             }
-            else if (format == HTTP.MediaType.Image.Gif)
+            else if (format == MediaType.Image.Gif)
             {
                 return System.Drawing.Imaging.ImageFormat.Gif;
             }
-            else if (format == HTTP.MediaType.Image.X_Icon)
+            else if (format == MediaType.Image.X_Icon)
             {
                 return System.Drawing.Imaging.ImageFormat.Icon;
             }
-            else if (format == HTTP.MediaType.Image.Jpeg)
+            else if (format == MediaType.Image.Jpeg)
             {
                 return System.Drawing.Imaging.ImageFormat.Jpeg;
             }
-            else if (format == HTTP.MediaType.Image.Png)
+            else if (format == MediaType.Image.Png)
             {
                 return System.Drawing.Imaging.ImageFormat.Png;
             }
-            else if (format == HTTP.MediaType.Image.Tiff)
+            else if (format == MediaType.Image.Tiff)
             {
                 return System.Drawing.Imaging.ImageFormat.Tiff;
             }
-            else if (format == HTTP.MediaType.Image.Wmf)
+            else if (format == MediaType.Image.Wmf)
             {
                 return System.Drawing.Imaging.ImageFormat.Wmf;
             }

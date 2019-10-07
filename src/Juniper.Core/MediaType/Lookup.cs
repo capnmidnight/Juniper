@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Juniper.HTTP
+namespace Juniper
 {
     public partial class MediaType
     {
@@ -1374,6 +1374,7 @@ namespace Juniper.HTTP
             { "application/mmt-aei+xml", Application.Mmt_AeiXml },
             { "application/mmt-usd+xml", Application.Mmt_UsdXml },
             { "application/mud+json", Application.MudJson },
+            { "application/multipart-core", Application.Multipart_Core },
             { "application/n-quads", Application.N_Quads },
             { "application/n-triples", Application.N_Triples },
             { "application/node", Application.Node },
@@ -1478,6 +1479,7 @@ namespace Juniper.HTTP
             { "application/vnd.evolv.ecig.theme", Application.VendorEvolvEcigTheme },
             { "application/vnd.exstream-empower+zip", Application.VendorExstream_EmpowerZip },
             { "application/vnd.exstream-package", Application.VendorExstream_Package },
+            { "application/vnd.ficlab.flb+zip", Application.VendorFiclabFlbZip },
             { "application/vnd.futoin+cbor", Application.VendorFutoinCbor },
             { "application/vnd.futoin+json", Application.VendorFutoinJson },
             { "application/vnd.hc+json", Application.VendorHcJson },
@@ -1953,6 +1955,7 @@ namespace Juniper.HTTP
             { "text/flexfec", Text.Flexfec },
             { "text/strings", Text.Strings },
             { "text/vnd.ascii-art", Text.VendorAscii_Art },
+            { "text/vnd.ficlab.flt", Text.VendorFiclabFlt },
             { "text/vnd.gml", Text.VendorGml },
             { "text/vnd.hgl", Text.VendorHgl },
             { "text/vnd.senx.warpscript", Text.VendorSenxWarpscript },

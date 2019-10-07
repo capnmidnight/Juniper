@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Juniper.HTTP
+namespace Juniper
 {
     public partial class MediaType
     {

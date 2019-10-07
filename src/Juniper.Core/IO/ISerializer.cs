@@ -1,7 +1,6 @@
 using System.IO;
 using System.Text;
 
-using Juniper.HTTP;
 using Juniper.Progress;
 
 namespace Juniper.IO

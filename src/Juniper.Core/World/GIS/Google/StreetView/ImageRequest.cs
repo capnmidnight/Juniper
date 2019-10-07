@@ -1,4 +1,3 @@
-using Juniper.HTTP;
 using Juniper.Imaging;
 
 namespace Juniper.GIS.Google.StreetView

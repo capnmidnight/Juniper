@@ -1,5 +1,4 @@
 using System.Drawing;
-using Juniper.HTTP;
 
 namespace Juniper.Imaging
 {

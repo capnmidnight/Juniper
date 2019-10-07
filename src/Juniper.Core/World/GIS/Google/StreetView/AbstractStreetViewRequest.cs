@@ -1,6 +1,5 @@
 using System.IO;
 
-using Juniper.HTTP;
 using Juniper.World.GIS;
 
 namespace Juniper.GIS.Google.StreetView

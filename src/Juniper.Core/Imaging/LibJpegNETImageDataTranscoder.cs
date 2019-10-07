@@ -33,7 +33,7 @@ namespace Juniper.Imaging
                 jpeg.Width,
                 jpeg.Height,
                 jpeg.ComponentsPerSample,
-                HTTP.MediaType.Image.Jpeg,
+                MediaType.Image.Jpeg,
                 data);
         }
 

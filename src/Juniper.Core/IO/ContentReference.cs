@@ -1,5 +1,3 @@
-using Juniper.HTTP;
-
 namespace Juniper.IO
 {
     public class ContentReference<MediaTypeT> : IContentReference<MediaTypeT>

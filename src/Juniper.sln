@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.NeuroSky.Console", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hjg.Pngcs", "Hjg.Pngcs\Hjg.Pngcs.csproj", "{D1A0316A-2512-4A58-AF0D-D4B6943B4992}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Units.Console", "..\tests\Juniper.Units.Console\Juniper.Units.Console.csproj", "{795F4DD4-E3CC-4663-915D-9D73F105336B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Units", "..\tests\Juniper.Units.Console\Juniper.Units.csproj", "{795F4DD4-E3CC-4663-915D-9D73F105336B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Third Party", "Third Party", "{C4555666-E293-4845-A479-FA86742283E3}"
 EndProject
@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{3F72
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Windows", "Juniper.Imaging.Windows\Juniper.Windows.csproj", "{F3190C12-08B7-42CB-A294-0D4F49A00851}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.HTTP.MediaTypes.Console", "..\tests\Juniper.HTTP.MediaTypes.Console\Juniper.HTTP.MediaTypes.Console.csproj", "{28550D32-3E1C-46B6-AD93-69DFCEAA0481}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Junipe.MediaTypes", "..\tests\Juniper.HTTP.MediaTypes.Console\Junipe.MediaTypes.csproj", "{28550D32-3E1C-46B6-AD93-69DFCEAA0481}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Core", "Juniper.Core\Juniper.Core.csproj", "{CF395BB3-8967-44E3-8A02-3B570E218A83}"
 EndProject

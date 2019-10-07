@@ -2,7 +2,6 @@ using System.IO;
 
 using Json.Lite;
 
-using Juniper.HTTP;
 using Juniper.Progress;
 
 namespace Juniper.IO

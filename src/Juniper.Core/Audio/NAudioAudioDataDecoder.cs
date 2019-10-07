@@ -1,15 +1,11 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
 
-using Juniper.HTTP;
 using Juniper.IO;
 using Juniper.Progress;
 
 using NAudio.Vorbis;
 using NAudio.Wave;
-
-using static System.Math;
 
 namespace Juniper.Audio
 {
@@ -53,11 +49,6 @@ namespace Juniper.Audio
 
         public WaveStream MakeDecodingStream(Stream stream)
         {
-            if (stream != null && !stream.CanSeek)
-            {
-                stream = new ErsatzSeekableStream(stream);
-            }
-
             if (Format.ContentType == MediaType.Audio.X_Wav)
             {
                 return new WaveFileReader(stream);
@@ -101,38 +92,58 @@ namespace Juniper.Audio
             AudioData audioData = null;
             if (stream != null)
             {
+                if (!stream.CanSeek)
+                {
+                    stream = new ErsatzSeekableStream(stream);
+                }
+
                 var waveStream = MakeDecodingStream(stream);
                 var format = waveStream.WaveFormat;
 
-                if (format.SampleRate != Format.sampleRate)
-                {
-                    throw new InvalidOperationException($"Sample Rate does not match between audio format and audio file. Expected: {Format.sampleRate}. Actual: {format.SampleRate}");
-                }
+                var sampleRate = format.SampleRate;
+                var bitsPerSample = format.BitsPerSample;
+                var bytesPerSample = bitsPerSample / 8;
+                var channels = format.Channels;
+                var samples = waveStream.Length / bytesPerSample;
 
-                if (format.BitsPerSample != Format.bitsPerSample)
-                {
-                    throw new InvalidOperationException($"Sample Size does not match between audio format and audio file. Expected: {Format.bitsPerSample}. Actual: {format.BitsPerSample}");
-                }
+                ValidateFormat(sampleRate, bitsPerSample, channels);
 
-
-                if (format.Channels != Format.channels)
-                {
-                    throw new InvalidOperationException($"Channel Count does not match between audio format and audio file. Expected: {Format.channels}. Actual: {format.Channels}");
-                }
-
-                var channelString = Format.channels == 1 ? "mono" : "stereo";
-                var formatName = $"float-{format.SampleRate / 1000}khz-{format.BitsPerSample}bit-{channelString}-pcm";
-                var audioFormat = new AudioFormat(
-                        formatName,
-                        MediaType.Audio.PCMA,
-                        format.SampleRate,
-                        format.BitsPerSample,
-                        format.Channels);
-                var dataStream = new PcmBytesToFloatsStream(waveStream, format.BitsPerSample / 8, prog);
-
-                audioData = new AudioData(audioFormat, dataStream, waveStream.Length * 8 / format.BitsPerSample);
+                var audioFormat = MakeAudioFormat(sampleRate, bitsPerSample, channels);
+                var dataStream = new PcmBytesToFloatsStream(waveStream, bytesPerSample, prog);
+                audioData = new AudioData(audioFormat, dataStream, samples);
             }
             return audioData;
+        }
+
+        private void ValidateFormat(int sampleRate, int bitsPerSample, int channels)
+        {
+            if (sampleRate != Format.sampleRate)
+            {
+                throw new InvalidOperationException($"Sample Rate does not match between audio format and audio file. Expected: {Format.sampleRate}. Actual: {sampleRate}");
+            }
+
+            if (bitsPerSample != Format.bitsPerSample)
+            {
+                throw new InvalidOperationException($"Sample Size does not match between audio format and audio file. Expected: {Format.bitsPerSample}. Actual: {bitsPerSample}");
+            }
+
+            if (channels != Format.channels)
+            {
+                throw new InvalidOperationException($"Channel Count does not match between audio format and audio file. Expected: {Format.channels}. Actual: {channels}");
+            }
+        }
+
+        private static AudioFormat MakeAudioFormat(int sampleRate, int bitsPerSample, int channels)
+        {
+            var channelString = channels == 1 ? "mono" : "stereo";
+            var formatName = $"float-{sampleRate / 1000}khz-{bitsPerSample}bit-{channelString}-pcm";
+            var audioFormat = new AudioFormat(
+                formatName,
+                MediaType.Audio.PCMA,
+                sampleRate,
+                bitsPerSample,
+                channels);
+            return audioFormat;
         }
     }
 }

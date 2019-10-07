@@ -25,7 +25,13 @@ namespace Juniper.IO
             }
         }
 
-        public Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)
+        protected virtual FileInfo GetCacheFile<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+            where MediaTypeT : MediaType
+        {
+            return new FileInfo(GetCacheFileName(fileRef));
+        }
+
+        public virtual Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)
             where MediaTypeT : MediaType
         {
             var cacheFile = GetCacheFile(fileRef);
@@ -46,12 +52,6 @@ namespace Juniper.IO
             var cacheFile = GetCacheFile(fileRef);
             cacheFile.Directory.Create();
             File.Copy(file.FullName, cacheFile.FullName, true);
-        }
-
-        internal FileInfo GetCacheFile<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
-        {
-            return new FileInfo(GetCacheFileName(fileRef));
         }
 
         protected virtual string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> fileRef)

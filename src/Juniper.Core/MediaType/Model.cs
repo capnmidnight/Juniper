@@ -1,4 +1,4 @@
-namespace Juniper.HTTP
+namespace Juniper
 {
     public partial class MediaType
     {

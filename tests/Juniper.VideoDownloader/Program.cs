@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Juniper.Progress;
 
 using static System.Console;
-using static Juniper.HTTP.MediaType;
+using static Juniper.MediaType;
 
 namespace Juniper.VideoDownloader
 {

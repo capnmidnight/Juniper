@@ -1,7 +1,5 @@
 using System.IO;
 
-using Juniper.HTTP;
-
 namespace Juniper.GIS.Google.Geocoding
 {
     public abstract class AbstractGeocodingRequest : AbstractGoogleMapsRequest<MediaType.Application>
