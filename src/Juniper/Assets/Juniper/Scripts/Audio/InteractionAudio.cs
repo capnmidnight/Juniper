@@ -14,8 +14,6 @@ using System.IO;
 using Juniper.Azure.CognitiveServices;
 
 using System.Threading.Tasks;
-
-using Juniper.Data;
 using Juniper.IO;
 
 #if UNITY_MODULES_AUDIO
@@ -291,7 +289,7 @@ namespace Juniper.Audio
                 InitializeInteractionAudioSources();
 #endif
 
-                var cache = new UnityCachingStrategy(UnityCachingStrategy.InUserProfile("Projects"));
+                var cache = new UnityCachingStrategy();
                 tts = new TextToSpeechClient(
                     azureRegion,
                     azureApiKey,

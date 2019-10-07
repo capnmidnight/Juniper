@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-
-using Juniper.Data;
 using Juniper.Display;
 using Juniper.Imaging.Unity;
 using Juniper.IO;
@@ -15,8 +13,9 @@ using UnityEngine;
 
 namespace Juniper.Imaging
 {
+    public delegate CachingStrategy CachingStrategyNeeded(Photosphere source);
+    public delegate IImageCodec<Texture2D> TextureDecoderNeeded(Photosphere source);
     public delegate string CubemapImageNeeded(Photosphere source);
-
     public delegate Task<Stream> PhotosphereImageNeeded(Photosphere source, int fov, int heading, int pitch);
 
     public class Photosphere : MonoBehaviour, IProgress
@@ -31,10 +30,6 @@ namespace Juniper.Imaging
         private readonly Dictionary<int, Dictionary<int, Transform>> detailSliceContainerCache = new Dictionary<int, Dictionary<int, Transform>>();
         private readonly Dictionary<int, Dictionary<int, Dictionary<int, Transform>>> detailSliceFrameContainerCache = new Dictionary<int, Dictionary<int, Dictionary<int, Transform>>>();
 
-        public string CubemapName;
-        public float ProgressToReady;
-        public float ProgressToComplete;
-
         private bool locked;
         private bool wasComplete;
         private bool trySkybox = true;
@@ -43,21 +38,22 @@ namespace Juniper.Imaging
         private Avatar avatar;
         private SkyboxManager skybox;
 
-        public event CubemapImageNeeded CubemapNeeded;
-
-        public event PhotosphereImageNeeded ImageNeeded;
-
-        public event Action<Photosphere> Complete;
-
-        public event Action<Photosphere> Ready;
-
-        internal UnityTextureCodec codec;
-
-        public bool IsReady { get; private set; }
-
-        private bool hasStarted;
+        private IImageCodec<Texture2D> codec;
 
         private CachingStrategy cache;
+
+        public string CubemapName;
+        public float ProgressToReady;
+        public float ProgressToComplete;
+
+        public event CachingStrategyNeeded CacheNeeded;
+        public event TextureDecoderNeeded DecoderNeeded;
+        public event CubemapImageNeeded CubemapNeeded;
+        public event PhotosphereImageNeeded ImageNeeded;
+        public event Action<Photosphere> Complete;
+        public event Action<Photosphere> Ready;
+
+        public bool IsReady { get; private set; }
 
         public void Awake()
         {
@@ -72,63 +68,35 @@ namespace Juniper.Imaging
             {
                 skybox = this.Ensure<SkyboxManager>();
             }
-
-            cache = new UnityCachingStrategy();
         }
 
-        public void Start()
+        private void OnEnable()
         {
-            ShowImage();
-            hasStarted = true;
-        }
-
-        public virtual void OnEnable()
-        {
-            if (hasStarted)
-            {
-                ShowImage();
-            }
-        }
-
-        public virtual void OnDisable()
-        {
-            foreach (var child in transform.Children())
-            {
-                child.Deactivate();
-            }
-        }
-
-        private void ShowImage()
-        {
-            if (trySkybox)
-            {
-                locked = true;
-                if (string.IsNullOrEmpty(CubemapName))
-                {
-                    CubemapName = CubemapNeeded?.Invoke(this);
-                }
-
-                this.Run(ReadCubemapCoroutine(CubemapName));
-            }
-
             foreach (var child in transform.Children())
             {
                 child.Activate();
             }
         }
 
+        public virtual void OnDisable()
+        {
+            trySkybox = true;
+
+            foreach (var child in transform.Children())
+            {
+                child.Deactivate();
+            }
+        }
+
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
-            print(filePath);
             var fileRef = new ContentReference<MediaType.Image>(filePath, MediaType.Image.Jpeg);
             var textureTask = cache.Decode(fileRef, codec);
             yield return textureTask.AsCoroutine();
 
-            trySkybox = false;
             if (textureTask.IsSuccessful()
                 && textureTask.Result != null)
             {
-                trySkybox = true;
                 if (mgr != null && mgr.lodLevelRequirements != null && mgr.FOVs != null)
                 {
                     for (var f = 0; f < mgr.lodLevelRequirements.Length; ++f)
@@ -181,78 +149,100 @@ namespace Juniper.Imaging
 
         public void Update()
         {
-            if (mgr != null
-                && mgr.lodLevelRequirements != null
-                && mgr.lodLevelRequirements.Length > 0
-                && !wasComplete)
+            if (!locked)
             {
-                var isComplete = false;
-                var isReady = IsReady;
-                if (mgr.lodLevelRequirements != null)
+                if (cache == null)
                 {
-                    var totalCompleted = 0;
-                    var totalNeeded = 0;
-                    for (var f = 0; f < mgr.lodLevelRequirements.Length; ++f)
+                    cache = CacheNeeded?.Invoke(this);
+                }
+                else if (codec == null)
+                {
+                    codec = DecoderNeeded?.Invoke(this);
+                }
+                else if (trySkybox)
+                {
+                    trySkybox = false;
+                    locked = true;
+                    if (string.IsNullOrEmpty(CubemapName))
                     {
-                        var t = DetailLevelCompleteCount(f);
-                        var n = mgr.lodLevelRequirements[f];
+                        CubemapName = CubemapNeeded?.Invoke(this);
+                    }
 
-                        if (f == 0)
+                    this.Run(ReadCubemapCoroutine(CubemapName));
+                }
+                else if (mgr != null
+                    && mgr.lodLevelRequirements != null
+                    && mgr.lodLevelRequirements.Length > 0
+                    && !wasComplete)
+                {
+                    var isComplete = false;
+                    var isReady = IsReady;
+                    if (mgr.lodLevelRequirements != null)
+                    {
+                        var totalCompleted = 0;
+                        var totalNeeded = 0;
+                        for (var f = 0; f < mgr.lodLevelRequirements.Length; ++f)
                         {
-                            ProgressToReady = t / (float)n;
+                            var t = DetailLevelCompleteCount(f);
+                            var n = mgr.lodLevelRequirements[f];
+
+                            if (f == 0)
+                            {
+                                ProgressToReady = t / (float)n;
+
+                                if (t == n)
+                                {
+                                    isReady = true;
+                                }
+                            }
 
                             if (t == n)
                             {
-                                isReady = true;
+                                if (f == 0)
+                                {
+                                    isReady = true;
+                                }
+                                else
+                                {
+                                    detailContainerCache[mgr.FOVs[f - 1]].Deactivate();
+                                }
                             }
+
+                            totalCompleted += t;
+                            totalNeeded += n;
                         }
 
-                        if (t == n)
+                        ProgressToComplete = totalCompleted / (float)totalNeeded;
+
+                        if (totalCompleted == totalNeeded)
                         {
-                            if (f == 0)
-                            {
-                                isReady = true;
-                            }
-                            else
-                            {
-                                detailContainerCache[mgr.FOVs[f - 1]].Deactivate();
-                            }
+                            isComplete = true;
                         }
-
-                        totalCompleted += t;
-                        totalNeeded += n;
                     }
 
-                    ProgressToComplete = totalCompleted / (float)totalNeeded;
-
-                    if (totalCompleted == totalNeeded)
+                    if (!IsReady && isReady)
                     {
-                        isComplete = true;
+                        ProgressToReady = 1;
+                        Ready?.Invoke(this);
                     }
-                }
 
-                if (!IsReady && isReady)
-                {
-                    ProgressToReady = 1;
-                    Ready?.Invoke(this);
-                }
-
-                if (isComplete)
-                {
-                    ProgressToComplete = 1;
-                    Complete?.Invoke(this);
+                    if (isComplete)
+                    {
+                        ProgressToComplete = 1;
+                        Complete?.Invoke(this);
 #if UNITY_EDITOR
-                    CaptureCubemap();
+                        CaptureCubemap();
 #endif
-                }
-                else if (!locked)
-                {
-                    locked = true;
-                    this.Run(UpdateSphereCoroutine());
-                }
+                    }
+                    else if (!locked)
+                    {
+                        locked = true;
+                        this.Run(UpdateSphereCoroutine());
+                    }
 
-                wasComplete = isComplete;
-                IsReady = isReady;
+                    wasComplete = isComplete;
+                    IsReady = isReady;
+                }
             }
         }
 

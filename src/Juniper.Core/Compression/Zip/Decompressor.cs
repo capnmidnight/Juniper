@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using ICSharpCode.SharpZipLib.Zip;
 
@@ -191,8 +193,10 @@ namespace Juniper.Compression.Zip
 
         public static IEnumerable<CompressedFileInfo> Entries(Stream zipStream, IProgress progress)
         {
-            var zip = new ZipFile(zipStream);
-            return zip.Entries(progress);
+            using (var zip = new ZipFile(zipStream))
+            {
+                return zip.Entries(progress);
+            }
         }
 
         public static IEnumerable<CompressedFileInfo> Entries(Stream zipStream)
@@ -223,7 +227,7 @@ namespace Juniper.Compression.Zip
             return Entries(zipFileName, null);
         }
 
-        public static void Decompress(this ZipFile zip, DirectoryInfo outputDirectory, IProgress prog)
+        public static void Decompress(this ZipFile zip, DirectoryInfo outputDirectory, bool overwrite, IProgress prog)
         {
             for (var i = 0L; i < zip.Count; ++i)
             {
@@ -246,7 +250,8 @@ namespace Juniper.Compression.Zip
 
                     outputFileDirectory.Create();
 
-                    if (outputFile != null)
+                    if (outputFile != null
+                        && (overwrite || !outputFile.Exists))
                     {
                         using (var outputStream = outputFile.Create())
                         using (var inputStream = zip.GetInputStream(entry))
@@ -254,78 +259,151 @@ namespace Juniper.Compression.Zip
                             inputStream.CopyTo(outputStream);
                         }
                     }
-                    prog.Report(i + 1, zip.Count);
                 }
                 catch { }
+                prog.Report(i + 1, zip.Count);
             }
+        }
+
+        public static void Decompress(this ZipFile zip, DirectoryInfo outputDirectory, bool overwrite)
+        {
+            zip.Decompress(outputDirectory, overwrite, null);
+        }
+
+        public static void Decompress(this ZipFile zip, DirectoryInfo outputDirectory, IProgress prog)
+        {
+            zip.Decompress(outputDirectory, true, prog);
         }
 
         public static void Decompress(this ZipFile zip, DirectoryInfo outputDirectory)
         {
-            zip.Decompress(outputDirectory, null);
+            zip.Decompress(outputDirectory, true, null);
+        }
+
+        public static void Decompress(this Stream stream, DirectoryInfo outputDirectory, bool overwrite, IProgress prog)
+        {
+            using (var zip = new ZipFile(stream))
+            {
+                zip.Decompress(outputDirectory, overwrite, prog);
+            }
         }
 
         public static void Decompress(this Stream stream, DirectoryInfo outputDirectory, IProgress prog)
         {
-            new ZipFile(stream).Decompress(outputDirectory, prog);
+            stream.Decompress(outputDirectory, true, prog);
+        }
+
+        public static void Decompress(this Stream stream, DirectoryInfo outputDirectory, bool overwrite)
+        {
+            stream.Decompress(outputDirectory, overwrite, null);
         }
 
         public static void Decompress(this Stream stream, DirectoryInfo outputDirectory)
         {
-            stream.Decompress(outputDirectory, null);
+            stream.Decompress(outputDirectory, true, null);
+        }
+
+        public static void Decompress(FileInfo zipFile, DirectoryInfo outputDirectory, bool overwrite, IProgress prog)
+        {
+            using (var stream = zipFile.OpenRead())
+            {
+                stream.Decompress(outputDirectory, overwrite, prog);
+            }
         }
 
         public static void Decompress(FileInfo zipFile, DirectoryInfo outputDirectory, IProgress prog)
         {
-            using (var stream = zipFile.OpenRead())
-            {
-                stream.Decompress(outputDirectory, prog);
-            }
+            Decompress(zipFile, outputDirectory, true, prog);
+        }
+
+        public static void Decompress(FileInfo zipFile, DirectoryInfo outputDirectory, bool overwrite)
+        {
+            Decompress(zipFile, outputDirectory, overwrite, null);
         }
 
         public static void Decompress(FileInfo zipFile, DirectoryInfo outputDirectory)
         {
-            Decompress(zipFile, outputDirectory, null);
+            Decompress(zipFile, outputDirectory, true, null);
+        }
+
+        public static void Decompress(this Stream stream, string outputDirectoryName, bool overwrite, IProgress prog)
+        {
+            stream.Decompress(new DirectoryInfo(outputDirectoryName), overwrite, prog);
         }
 
         public static void Decompress(this Stream stream, string outputDirectoryName, IProgress prog)
         {
-            stream.Decompress(new DirectoryInfo(outputDirectoryName), prog);
+            stream.Decompress(outputDirectoryName, true, prog);
+        }
+
+        public static void Decompress(this Stream stream, string outputDirectoryName, bool overwrite)
+        {
+            stream.Decompress(outputDirectoryName, overwrite, null);
         }
 
         public static void Decompress(this Stream stream, string outputDirectoryName)
         {
-            stream.Decompress(outputDirectoryName, null);
+            stream.Decompress(outputDirectoryName, true, null);
+        }
+
+        public static void Decompress(FileInfo zipFile, string outputDirectoryName, bool overwrite, IProgress prog)
+        {
+            Decompress(zipFile, new DirectoryInfo(outputDirectoryName), overwrite, prog);
         }
 
         public static void Decompress(FileInfo zipFile, string outputDirectoryName, IProgress prog)
         {
-            Decompress(zipFile, new DirectoryInfo(outputDirectoryName), prog);
+            Decompress(zipFile, outputDirectoryName, true, prog);
+        }
+
+        public static void Decompress(FileInfo zipFile, string outputDirectoryName, bool overwrite)
+        {
+            Decompress(zipFile, outputDirectoryName, overwrite, null);
         }
 
         public static void Decompress(FileInfo zipFile, string outputDirectoryName)
         {
-            Decompress(zipFile, outputDirectoryName, null);
+            Decompress(zipFile, outputDirectoryName, true, null);
+        }
+
+        public static void Decompress(string zipFileName, DirectoryInfo outputDirectory, bool overwrite, IProgress prog)
+        {
+            Decompress(new FileInfo(zipFileName), outputDirectory, overwrite, prog);
         }
 
         public static void Decompress(string zipFileName, DirectoryInfo outputDirectory, IProgress prog)
         {
-            Decompress(new FileInfo(zipFileName), outputDirectory, prog);
+            Decompress(zipFileName, outputDirectory, true, prog);
+        }
+
+        public static void Decompress(string zipFileName, DirectoryInfo outputDirectory, bool overwrite)
+        {
+            Decompress(zipFileName, outputDirectory, overwrite, null);
         }
 
         public static void Decompress(string zipFileName, DirectoryInfo outputDirectory)
         {
-            Decompress(zipFileName, outputDirectory, null);
+            Decompress(zipFileName, outputDirectory, true, null);
         }
 
-        public static void Decompress(string zipFileName, string outputDiretoryName, IProgress prog)
+        public static void Decompress(string zipFileName, string outputDiretoryName, bool overwrite, IProgress prog)
         {
-            Decompress(new FileInfo(zipFileName), new DirectoryInfo(outputDiretoryName), prog);
+            Decompress(zipFileName, new DirectoryInfo(outputDiretoryName), overwrite, prog);
         }
 
-        public static void Decompress(string zipFileName, string outputDiretoryName)
+        public static void Decompress(string zipFileName, string outputDirectoryName, IProgress prog)
         {
-            Decompress(zipFileName, outputDiretoryName, null);
+            Decompress(zipFileName, outputDirectoryName, true, prog);
+        }
+
+        public static void Decompress(string zipFileName, string outputDiretoryName, bool overwrite)
+        {
+            Decompress(zipFileName, outputDiretoryName, overwrite, null);
+        }
+
+        public static void Decompress(string zipFileName, string outputDirectoryName)
+        {
+            Decompress(zipFileName, outputDirectoryName, true, null);
         }
     }
 }

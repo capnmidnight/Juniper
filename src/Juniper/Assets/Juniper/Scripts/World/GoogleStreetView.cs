@@ -163,7 +163,9 @@ namespace Juniper.Imaging
             photospheres.CubemapNeeded += Photospheres_CubemapNeeded;
             photospheres.ImageNeeded += Photospheres_ImageNeeded;
             photospheres.PhotosphereReady += Photospheres_PhotosphereReady;
-            photospheres.codec = new UnityTextureCodec(80);
+            photospheres.SetIO(
+                new UnityCachingStrategy(),
+                new UnityTextureCodec(80));
 
             photospheres.SetDetailLevels(searchFOVs);
 

@@ -15,7 +15,11 @@ using Juniper.Widgets;
 using Juniper.Progress;
 
 using UnityImage = UnityEngine.UI.Image;
+
 using Juniper.Input;
+using Juniper.IO;
+
+using System.Threading.Tasks;
 
 #if UNITY_EDITOR
 
@@ -295,11 +299,6 @@ namespace Juniper
             splash = sys.Query<UnityImage>("Canvas/SplashImage");
         }
 
-        private void LoadFirstScene()
-        {
-            this.Run(LoadFirstSceneCoroutine());
-        }
-
         private IEnumerator LoadFirstSceneCoroutine()
         {
             var path = subSceneNames.FirstOrDefault();
@@ -316,7 +315,23 @@ namespace Juniper
                 }
                 else
                 {
-                    yield return SwitchToSceneCoroutine(name, true, false, true, false);
+                    IProgress prog;
+                    if (StreamingAssetsCacheLayer.NeedsUnpack)
+                    {
+                        loadingBar.Activate();
+                        var unpackProg = loadingBar.Subdivide(0, 0.25f);
+                        prog = loadingBar.Subdivide(0.25f, 0.75f);
+
+                        yield return StreamingAssetsCacheLayer
+                            .UnpackAPK(unpackProg)
+                            .AsCoroutine();
+                    }
+                    else
+                    {
+                        prog = loadingBar;
+                    }
+
+                    yield return SwitchToSceneCoroutine(name, true, false, true, false, prog);
                 }
             }
         }
@@ -332,20 +347,20 @@ namespace Juniper
         /// <returns></returns>
         public void SwitchToScene(string sceneName, bool fromView)
         {
-            this.Run(SwitchToSceneCoroutine(sceneName, false, false, true, fromView));
+            this.Run(SwitchToSceneCoroutine(sceneName, false, false, true, fromView, loadingBar));
         }
 
         public void ShowScene(string sceneName)
         {
-            this.Run(SwitchToSceneCoroutine(sceneName, false, false, false, false));
+            this.Run(SwitchToSceneCoroutine(sceneName, false, false, false, false, loadingBar));
         }
 
         public void ShowView(string viewName)
         {
-            this.Run(SwitchToSceneCoroutine(viewName, true, true, false, false));
+            this.Run(SwitchToSceneCoroutine(viewName, true, true, false, false, loadingBar));
         }
 
-        private IEnumerator SwitchToSceneCoroutine(string subSceneName, bool skipFadeOut, bool skipLoadingScreen, bool unloadOtherScenes, bool fromView)
+        private IEnumerator SwitchToSceneCoroutine(string subSceneName, bool skipFadeOut, bool skipLoadingScreen, bool unloadOtherScenes, bool fromView, IProgress prog)
         {
             var scenePath = GetScenePathFromName(subSceneName);
 
@@ -392,7 +407,7 @@ namespace Juniper
                     if (loadingBar != null && !skipLoadingScreen)
                     {
                         loadingBar.Activate();
-                        loadingBar.Report(0, subSceneName);
+                        prog.Report(0, subSceneName);
                     }
                 }
 
@@ -408,7 +423,7 @@ namespace Juniper
                     }
                 }
 
-                yield return LoadScenePathCoroutine(scenePath, loadingBar);
+                yield return LoadScenePathCoroutine(scenePath, prog);
 
                 for (var i = 1; i < SceneManager.sceneCount; ++i)
                 {
@@ -527,11 +542,6 @@ namespace Juniper
         /// </summary>
         public virtual void Awake()
         {
-            if (splash != null)
-            {
-                splash.Activate();
-            }
-
             if (Find.Any(out input))
             {
                 input.enabled = false;
@@ -570,7 +580,12 @@ namespace Juniper
                 fader.SkipEnter();
             }
 
-            Invoke(nameof(LoadFirstScene), 0.5f);
+            if (splash != null)
+            {
+                splash.Activate();
+            }
+
+            this.Run(LoadFirstSceneCoroutine());
         }
 
         /// <summary>

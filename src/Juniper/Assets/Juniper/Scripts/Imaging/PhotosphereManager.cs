@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Juniper.Imaging.Unity;
+using Juniper.IO;
 
 using UnityEngine;
 
@@ -49,23 +49,8 @@ namespace Juniper.Imaging
 
         public event Action<Photosphere> PhotosphereReady;
 
-        public UnityTextureCodec codec;
-        private UnityTextureCodec lastCodec;
-
-        public void Awake()
-        {
-            var existing = GetComponentsInChildren<Photosphere>();
-            foreach (var photo in existing)
-            {
-                photo.Ready += Photo_Ready;
-                photo.Complete += Photo_Complete;
-                photo.CubemapNeeded += Photo_CubemapNeeded;
-                photo.ImageNeeded += Photo_ImageNeeded;
-                photo.enabled = false;
-                photo.Deactivate();
-                photospheres.Add(photo.CubemapName, photo);
-            }
-        }
+        private CachingStrategy cache;
+        private IImageCodec<Texture2D> codec;
 
         public void SetDetailLevels(float[] fovs)
         {
@@ -117,12 +102,23 @@ namespace Juniper.Imaging
 
             var photo = photoGo.Ensure<T>().Value;
             photo.CubemapName = key;
-            photo.codec = codec;
+            photo.CacheNeeded += Photo_CacheNeeded;
+            photo.DecoderNeeded += Photo_DecoderNeeded;
             photo.CubemapNeeded += Photo_CubemapNeeded;
             photo.ImageNeeded += Photo_ImageNeeded;
             photo.Complete += Photo_Complete;
             photo.Ready += Photo_Ready;
             return photo;
+        }
+
+        private IImageCodec<Texture2D> Photo_DecoderNeeded(Photosphere source)
+        {
+            return codec;
+        }
+
+        private CachingStrategy Photo_CacheNeeded(Photosphere source)
+        {
+            return cache;
         }
 
         private string Photo_CubemapNeeded(Photosphere source)
@@ -147,15 +143,22 @@ namespace Juniper.Imaging
             PhotosphereComplete?.Invoke(obj);
         }
 
-        public void Update()
+        public void SetIO(CachingStrategy cache, IImageCodec<Texture2D> codec)
         {
-            if (codec != lastCodec)
+            this.cache = cache;
+            this.codec = codec;
+            var existing = GetComponentsInChildren<Photosphere>();
+            foreach (var photo in existing)
             {
-                lastCodec = codec;
-                foreach (var photo in photospheres.Values)
-                {
-                    photo.codec = codec;
-                }
+                photo.enabled = false;
+                photo.Deactivate();
+                photo.CacheNeeded += Photo_CacheNeeded;
+                photo.DecoderNeeded += Photo_DecoderNeeded;
+                photo.Ready += Photo_Ready;
+                photo.Complete += Photo_Complete;
+                photo.CubemapNeeded += Photo_CubemapNeeded;
+                photo.ImageNeeded += Photo_ImageNeeded;
+                photospheres.Add(photo.CubemapName, photo);
             }
         }
     }
