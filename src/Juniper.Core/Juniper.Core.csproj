@@ -146,6 +146,7 @@
     <Compile Include="World\GIS\Google\Geocoding\GeometryViewport.cs" />
     <Compile Include="World\GIS\Google\Geocoding\LocationTypes.cs" />
     <Compile Include="World\GIS\Google\Geocoding\ReverseGeocodingRequest.cs" />
+    <Compile Include="World\GIS\Google\GoogleMapsClient.cs" />
     <Compile Include="World\GIS\Google\MapTiles\LinePath.cs" />
     <Compile Include="World\GIS\Google\MapTiles\LinePathStyle.cs" />
     <Compile Include="World\GIS\Google\MapTiles\LocationTypes.cs" />
