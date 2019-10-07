@@ -1,7 +1,5 @@
 using System.IO;
 
-using Juniper.HTTP;
-
 namespace Juniper.IO
 {
     public class FileCacheLayer : ICacheLayer

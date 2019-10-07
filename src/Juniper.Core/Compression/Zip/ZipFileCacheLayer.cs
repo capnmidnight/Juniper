@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 
 using Juniper.Compression.Zip;
-using Juniper.HTTP;
 
 namespace Juniper.IO
 {
