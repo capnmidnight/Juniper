@@ -1,6 +1,7 @@
 using System;
 
 using Juniper.Units;
+using Juniper.World.GIS;
 
 using UnityEngine;
 

@@ -3,14 +3,13 @@ using System.Collections;
 
 using Juniper.IO;
 using Juniper.Units;
-using Juniper.World.GIS;
 
 using UnityEngine;
 using UnityEngine.Events;
 
 using UnityInput = UnityEngine.Input;
 
-namespace Juniper.World
+namespace Juniper.World.GIS
 {
     /// <summary>
     /// Retrieves the user's latitude, longitude, and altitude from satellites orbiting Spaceship

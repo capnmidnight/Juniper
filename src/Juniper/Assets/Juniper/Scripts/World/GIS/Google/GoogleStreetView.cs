@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Juniper.Animation;
 using Juniper.GIS.Google.Geocoding;
 using Juniper.GIS.Google.StreetView;
+using Juniper.Imaging;
 using Juniper.Imaging.Unity;
 using Juniper.Input;
 using Juniper.IO;
@@ -17,15 +18,11 @@ using Juniper.Security;
 using Juniper.Units;
 using Juniper.Unity;
 using Juniper.Widgets;
-using Juniper.World;
-using Juniper.World.GIS;
 
 using UnityEngine;
 using UnityEngine.Events;
 
-using Yarrow.Client;
-
-namespace Juniper.Imaging
+namespace Juniper.World.GIS.Google
 {
     public class GoogleStreetView : SubSceneController
 #if UNITY_EDITOR
@@ -39,8 +36,6 @@ namespace Juniper.Imaging
             new Regex("https?://www\\.google\\.com/maps/@(-?\\d+\\.\\d+,-?\\d+\\.\\d+)", RegexOptions.Compiled);
 
         private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
-
-        public string yarrowServerHost = "http://localhost";
 
         [SerializeField]
         [HideInInspector]
@@ -70,7 +65,7 @@ namespace Juniper.Imaging
         private Vector3 origin;
         private Vector3 navPointerPosition;
 
-        private YarrowClient<Texture2D> yarrow;
+        private GoogleMapsClient<Texture2D> gmaps;
         private FadeTransition fader;
         private GPSLocation gps;
         private PhotosphereManager photospheres;
@@ -150,21 +145,18 @@ namespace Juniper.Imaging
             }
             var baseCachePath = Application.persistentDataPath;
 #endif
-            var yarrowCacheDirName = Path.Combine(baseCachePath, "Yarrow");
-            var yarrowCacheDir = new DirectoryInfo(yarrowCacheDirName);
-            var gmapsCacheDirName = Path.Combine(baseCachePath, "GoogleMaps");
-            var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
-            var uri = new Uri(yarrowServerHost);
+            var cache = new GoogleMapsCachingStrategy(baseCachePath);
             var imageCodec = new UnityTextureCodec();
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
-            yarrow = new YarrowClient<Texture2D>(uri, yarrowCacheDir, imageCodec, metadataDecoder, geocodingDecoder, gmapsApiKey, gmapsSigningKey, gmapsCacheDir);
+
+            gmaps = new GoogleMapsClient<Texture2D>(gmapsApiKey, gmapsSigningKey, imageCodec, metadataDecoder, geocodingDecoder, cache);
 
             photospheres.CubemapNeeded += Photospheres_CubemapNeeded;
             photospheres.ImageNeeded += Photospheres_ImageNeeded;
             photospheres.PhotosphereReady += Photospheres_PhotosphereReady;
             photospheres.SetIO(
-                new UnityCachingStrategy(),
+                cache,
                 new UnityTextureCodec(80));
 
             photospheres.SetDetailLevels(searchFOVs);
@@ -182,9 +174,9 @@ namespace Juniper.Imaging
             return $"{source.name}.jpeg";
         }
 
-        private Task<Stream> Photospheres_ImageNeeded(Photosphere source, int fov, int heading, int pitch)
+        private Task<Texture2D> Photospheres_ImageNeeded(Photosphere source, int fov, int heading, int pitch)
         {
-            return yarrow.GetImageStream(source.name, fov, heading, pitch);
+            return gmaps.GetImage(source.name, fov, heading, pitch);
         }
 
         public override void Enter(IProgress prog)
@@ -289,7 +281,7 @@ namespace Juniper.Imaging
         {
             if (searchPano != null)
             {
-                yield return ValidateMetadata(yarrow.GetMetadata(searchPano, searchRadius, metadataProg));
+                yield return ValidateMetadata(gmaps.GetMetadata(searchPano, searchRadius, metadataProg));
             }
         }
 
@@ -297,7 +289,7 @@ namespace Juniper.Imaging
         {
             if (searchPoint != null)
             {
-                yield return ValidateMetadata(yarrow.GetMetadata(searchPoint, searchRadius, metadataProg));
+                yield return ValidateMetadata(gmaps.GetMetadata(searchPoint, searchRadius, metadataProg));
             }
         }
 
@@ -305,7 +297,7 @@ namespace Juniper.Imaging
         {
             if (!string.IsNullOrEmpty(searchLocation))
             {
-                yield return ValidateMetadata(yarrow.SearchMetadata(searchLocation, searchRadius, metadataProg));
+                yield return ValidateMetadata(gmaps.SearchMetadata(searchLocation, searchRadius, metadataProg));
             }
         }
 

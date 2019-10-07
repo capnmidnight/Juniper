@@ -1,11 +1,10 @@
 using System;
+
 using Juniper.Units;
-using Juniper;
-using Juniper.World.GIS;
 
 using UnityEngine;
 
-namespace Juniper.World
+namespace Juniper.World.GIS
 {
     /// <summary>
     /// Calculates the position of the Sun in relation to the user's current position on spaceship
