@@ -20,16 +20,13 @@ namespace UnityEngine
 
         public static object Run(this MonoBehaviour parent, IEnumerator routine)
         {
-            if (Application.isPlaying)
-            {
-                return parent.StartCoroutine(routine);
-            }
 #if UNITY_EDITOR
-            else
+            if (!Application.isPlaying)
             {
                 return new UnityEditor.EditorCoroutine(routine);
             }
 #endif
+            return parent.StartCoroutine(routine);
         }
     }
 }

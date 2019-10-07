@@ -159,7 +159,9 @@ namespace Juniper.World.GIS.Google
             photospheres.CubemapNeeded += Photospheres_CubemapNeeded;
             photospheres.ImageNeeded += Photospheres_ImageNeeded;
             photospheres.PhotosphereReady += Photospheres_PhotosphereReady;
+#if UNITY_EDITOR
             photospheres.PhotosphereComplete += Photospheres_PhotosphereComplete;
+#endif
             photospheres.SetIO(
                 cache,
                 new UnityTextureCodec(80));
@@ -173,6 +175,8 @@ namespace Juniper.World.GIS.Google
                 renderer.enabled = false;
             }
         }
+
+#if UNITY_EDITOR
 
         private static readonly string[] CAPTURE_CUBEMAP_FIELDS = {
             "Rendering cubemap",
@@ -290,6 +294,7 @@ namespace Juniper.World.GIS.Google
                 this.Run(CaptureCubemapCoroutine());
             }
         }
+#endif
 
         private string Photospheres_CubemapNeeded(Photosphere source)
         {
