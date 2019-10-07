@@ -3,8 +3,6 @@ using System;
 using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
 
-using DotImaging.Primitives2D;
-
 using static System.Math;
 
 namespace Juniper.Mathematics
@@ -457,30 +455,6 @@ namespace Juniper.Mathematics
             var innovationCov = KalmanGain.Multiply(innovationCovariance).Multiply(KalmanGain.Transpose());
 
             EstimateCovariance = priorErrorCovariance.Add(posterioriErrorCovariance).Add(innovationCov);
-        }
-
-        /// <summary>
-        /// Gets the spatial representation of the error covariance.
-        /// </summary>
-        /// <param name="positionSelector">Position selector function.</param>
-        /// <param name="confidence">
-        /// Confidence for the Chi-square distribution.
-        /// H * P * H' has the Chi-square distribution where H is measurement matrix and P is error covariance matrix.
-        /// </param>
-        /// <param name="positionSelectionMatrix">Measurement matrix which selects state position. If null the state measurement matrix will be used.</param>
-        /// <returns>2D representation of the error covariance.</returns>
-        [CLSCompliant(false)]
-        public Ellipse GetEllipse(Func<TState, PointF> positionSelector, double confidence = 0.99, double[,] positionSelectionMatrix = null)
-        {
-            positionSelectionMatrix = positionSelectionMatrix ?? MeasurementMatrix;
-
-            var measurementErrorCov = positionSelectionMatrix.Multiply(EstimateCovariance).Multiply(positionSelectionMatrix.Transpose());
-            var chiSquare = new ChiSquareDistribution(2).InverseDistributionFunction(confidence);
-
-            var cov = measurementErrorCov.Multiply(chiSquare);
-            var ellipse = Ellipse.Fit(cov);
-            ellipse.Center = positionSelector(State);
-            return ellipse;
         }
     }
 }
