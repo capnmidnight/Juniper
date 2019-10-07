@@ -81,7 +81,7 @@ namespace Juniper.Azure.CognitiveServices
                     {
                         voiceListRequest.AuthToken = await GetAuthToken();
                     }
-                    voices = await cache.Decode(voiceListRequest, voiceListDecoder);
+                    voices = await cache.Load(voiceListRequest, voiceListDecoder);
                 }
 
                 return voices;

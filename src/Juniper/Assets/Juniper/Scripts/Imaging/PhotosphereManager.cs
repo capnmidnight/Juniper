@@ -83,8 +83,7 @@ namespace Juniper.Imaging
             {
                 if (!photospheres.ContainsKey(key))
                 {
-                    var photo = CreatePhotosphere<Photosphere>(key);
-                    photospheres.Add(key, photo);
+                    CreatePhotosphere<Photosphere>(key);
                 }
 
                 curSphere = photospheres[key];
@@ -93,31 +92,21 @@ namespace Juniper.Imaging
             return (T)curSphere;
         }
 
-        public T CreatePhotosphere<T>(string key)
-            where T : Photosphere
-        {
-            var photoGo = new GameObject(key);
-            photoGo.Deactivate();
-            photoGo.transform.SetParent(transform, true);
-
-            var photo = photoGo.Ensure<T>().Value;
-            photo.CubemapName = key;
-            photo.CacheNeeded += Photo_CacheNeeded;
-            photo.DecoderNeeded += Photo_DecoderNeeded;
-            photo.CubemapNeeded += Photo_CubemapNeeded;
-            photo.ImageNeeded += Photo_ImageNeeded;
-            photo.Complete += Photo_Complete;
-            photo.Ready += Photo_Ready;
-            return photo;
-        }
-
         private IImageCodec<Texture2D> Photo_DecoderNeeded(Photosphere source)
         {
+            if(codec != null)
+            {
+                source.DecoderNeeded -= Photo_DecoderNeeded;
+            }
             return codec;
         }
 
         private CachingStrategy Photo_CacheNeeded(Photosphere source)
         {
+            if(cache != null)
+            {
+                source.CacheNeeded -= Photo_CacheNeeded;
+            }
             return cache;
         }
 
@@ -126,13 +115,14 @@ namespace Juniper.Imaging
             return CubemapNeeded?.Invoke(source);
         }
 
-        private Task<Stream> Photo_ImageNeeded(Photosphere source, int lodLevel, int heading, int pitch)
+        private Task<Texture2D> Photo_ImageNeeded(Photosphere source, int lodLevel, int heading, int pitch)
         {
             return ImageNeeded?.Invoke(source, lodLevel, heading, pitch);
         }
 
         private void Photo_Ready(Photosphere obj)
         {
+            obj.Ready -= Photo_Ready;
             PhotosphereReady?.Invoke(obj);
         }
 
@@ -140,7 +130,20 @@ namespace Juniper.Imaging
         {
             obj.CubemapNeeded -= Photo_CubemapNeeded;
             obj.ImageNeeded -= Photo_ImageNeeded;
+            obj.Complete -= Photo_Complete;
             PhotosphereComplete?.Invoke(obj);
+        }
+
+        private void CreatePhotosphere<T>(string key)
+            where T : Photosphere
+        {
+            var photoGo = new GameObject(key);
+            photoGo.Deactivate();
+            photoGo.transform.SetParent(transform, true);
+
+            var photo = photoGo.Ensure<T>().Value;
+            photo.CubemapName = key;
+            Initialize(photo);
         }
 
         public void SetIO(CachingStrategy cache, IImageCodec<Texture2D> codec)
@@ -150,16 +153,22 @@ namespace Juniper.Imaging
             var existing = GetComponentsInChildren<Photosphere>();
             foreach (var photo in existing)
             {
-                photo.enabled = false;
                 photo.Deactivate();
-                photo.CacheNeeded += Photo_CacheNeeded;
-                photo.DecoderNeeded += Photo_DecoderNeeded;
-                photo.Ready += Photo_Ready;
-                photo.Complete += Photo_Complete;
-                photo.CubemapNeeded += Photo_CubemapNeeded;
-                photo.ImageNeeded += Photo_ImageNeeded;
-                photospheres.Add(photo.CubemapName, photo);
+                Initialize(photo);
             }
+        }
+
+        private void Initialize<T>(T photo)
+            where T : Photosphere
+        {
+            photo.enabled = false;
+            photo.CacheNeeded += Photo_CacheNeeded;
+            photo.DecoderNeeded += Photo_DecoderNeeded;
+            photo.Ready += Photo_Ready;
+            photo.Complete += Photo_Complete;
+            photo.CubemapNeeded += Photo_CubemapNeeded;
+            photo.ImageNeeded += Photo_ImageNeeded;
+            photospheres.Add(photo.CubemapName, photo);
         }
     }
 }

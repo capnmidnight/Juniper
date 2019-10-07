@@ -16,15 +16,15 @@ namespace Juniper.Imaging
     public delegate CachingStrategy CachingStrategyNeeded(Photosphere source);
     public delegate IImageCodec<Texture2D> TextureDecoderNeeded(Photosphere source);
     public delegate string CubemapImageNeeded(Photosphere source);
-    public delegate Task<Stream> PhotosphereImageNeeded(Photosphere source, int fov, int heading, int pitch);
+    public delegate Task<Texture2D> PhotosphereImageNeeded(Photosphere source, int fov, int heading, int pitch);
 
     public class Photosphere : MonoBehaviour, IProgress
     {
         private static Material material;
         private const int MAX_REQUESTS = 4;
 
-        private const string PHOTOSPHERE_LAYER = "Photospheres";
-        private static readonly string[] PHOTOSPHERE_LAYER_ARR = { PHOTOSPHERE_LAYER };
+        public const string PHOTOSPHERE_LAYER = "Photospheres";
+        public static readonly string[] PHOTOSPHERE_LAYER_ARR = { PHOTOSPHERE_LAYER };
 
         private readonly Dictionary<int, Transform> detailContainerCache = new Dictionary<int, Transform>();
         private readonly Dictionary<int, Dictionary<int, Transform>> detailSliceContainerCache = new Dictionary<int, Dictionary<int, Transform>>();
@@ -91,11 +91,23 @@ namespace Juniper.Imaging
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
             var fileRef = new ContentReference<MediaType.Image>(filePath, MediaType.Image.Jpeg);
-            var textureTask = cache.Decode(fileRef, codec);
+            var textureTask = cache.Load(fileRef, codec);
             yield return textureTask.AsCoroutine();
 
-            if (textureTask.IsSuccessful()
-                && textureTask.Result != null)
+            if (textureTask.IsCanceled)
+            {
+                Debug.LogError("Cubemap canceled");
+            }
+            else if (textureTask.IsFaulted)
+            {
+                Debug.LogError("Cubemap load error");
+                Debug.LogException(textureTask.Exception);
+            }
+            else if (textureTask.Result == null)
+            {
+                Debug.Log("No cubemap found");
+            }
+            else
             {
                 if (mgr != null && mgr.lodLevelRequirements != null && mgr.FOVs != null)
                 {
@@ -123,19 +135,6 @@ namespace Juniper.Imaging
 
                 IsReady = wasComplete = true;
                 Ready?.Invoke(this);
-            }
-            else if (textureTask.IsCanceled)
-            {
-                Debug.LogError("Cubemap canceled");
-            }
-            else if (textureTask.IsFaulted)
-            {
-                Debug.LogError("Cubemap load error");
-                Debug.LogException(textureTask.Exception);
-            }
-            else
-            {
-                Debug.LogWarning("No cubemap found");
             }
 
             locked = false;
@@ -228,11 +227,9 @@ namespace Juniper.Imaging
 
                     if (isComplete)
                     {
+                        Debug.Log("Cubemap Complete");
                         ProgressToComplete = 1;
                         Complete?.Invoke(this);
-#if UNITY_EDITOR
-                        CaptureCubemap();
-#endif
                     }
                     else if (!locked)
                     {
@@ -347,12 +344,11 @@ namespace Juniper.Imaging
 
                         if (imageTask.IsSuccessful())
                         {
-                            var stream = imageTask.Result;
-                            if (stream != null)
+                            var image = imageTask.Result;
+                            if (image != null)
                             {
                                 var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
                                 var renderer = frame.GetComponent<MeshRenderer>();
-                                var image = codec.Deserialize(stream);
                                 var properties = new MaterialPropertyBlock();
                                 properties.SetTexture("_MainTex", image);
                                 renderer.SetMaterial(material);
@@ -447,116 +443,6 @@ namespace Juniper.Imaging
         public virtual void OnValidate()
         {
             ConfigurationManagement.TagManager.NormalizeLayer(PHOTOSPHERE_LAYER);
-        }
-
-        private void CaptureCubemap()
-        {
-            if (string.IsNullOrEmpty(CubemapName) && !cubemapLock)
-            {
-                cubemapLock = true;
-                this.Run(CaptureCubemapCoroutine());
-            }
-        }
-
-        private static readonly string[] CAPTURE_CUBEMAP_FIELDS = {
-            "Rendering cubemap",
-            "Copying cubemap faces",
-            "Concatenating faces",
-            "Saving image"
-        };
-
-        private static readonly CubemapFace[] CAPTURE_CUBEMAP_FACES = new[] {
-            CubemapFace.NegativeY,
-            CubemapFace.NegativeX,
-            CubemapFace.PositiveZ,
-            CubemapFace.PositiveX,
-            CubemapFace.NegativeZ,
-            CubemapFace.PositiveY
-        };
-
-        private static readonly Texture2D[] CAPTURE_CUBEMAP_SUB_IMAGES = new Texture2D[CAPTURE_CUBEMAP_FACES.Length];
-
-        private IEnumerator CaptureCubemapCoroutine()
-        {
-            using (var prog = new UnityEditorProgressDialog("Saving cubemap " + CubemapName))
-            {
-                var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
-
-                subProgs[0].Report(0);
-                const int dim = 2048;
-                var cubemap = new Cubemap(dim, TextureFormat.RGB24, false);
-                cubemap.Apply();
-
-                var curMask = DisplayManager.MainCamera.cullingMask;
-                DisplayManager.MainCamera.cullingMask = LayerMask.GetMask(PHOTOSPHERE_LAYER_ARR);
-
-                var curRotation = DisplayManager.MainCamera.transform.rotation;
-                DisplayManager.MainCamera.transform.rotation = Quaternion.identity;
-
-                DisplayManager.MainCamera.RenderToCubemap(cubemap, 63);
-
-                DisplayManager.MainCamera.cullingMask = curMask;
-                DisplayManager.MainCamera.transform.rotation = curRotation;
-                subProgs[0].Report(1);
-
-                var anyDestroyed = false;
-                foreach (var texture in CAPTURE_CUBEMAP_SUB_IMAGES)
-                {
-                    if (texture != null)
-                    {
-                        anyDestroyed = true;
-                        Destroy(texture);
-                    }
-                }
-
-                if (anyDestroyed)
-                {
-                    yield return JuniperSystem.Cleanup();
-                }
-
-                for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
-                {
-                    subProgs[1].Report(f, CAPTURE_CUBEMAP_FACES.Length, CAPTURE_CUBEMAP_FACES[f].ToString());
-                    try
-                    {
-                        var pixels = cubemap.GetPixels(CAPTURE_CUBEMAP_FACES[f]);
-                        var texture = new Texture2D(cubemap.width, cubemap.height);
-                        texture.SetPixels(pixels);
-                        texture.Apply();
-                        CAPTURE_CUBEMAP_SUB_IMAGES[f] = texture;
-                    }
-                    catch (Exception exp)
-                    {
-                        Debug.LogException(exp);
-                        cubemapLock = false;
-                        throw;
-                    }
-                    subProgs[1].Report(f + 1, CAPTURE_CUBEMAP_FACES.Length);
-                    yield return null;
-                }
-
-                try
-                {
-                    var img = codec.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]);
-                    var cubemapRef = new ContentReference<MediaType.Image>(CubemapName, MediaType.Image.Jpeg);
-                    using (var stream = cache.OpenWrite(cubemapRef))
-                    {
-                        codec.Serialize(stream, img, subProgs[3]);
-                    }
-
-                    Debug.Log("Cubemap saved " + CubemapName);
-                }
-                catch (Exception exp)
-                {
-                    Debug.LogException(exp);
-                    cubemapLock = false;
-                    throw;
-                }
-
-                yield return ReadCubemapCoroutine(CubemapName);
-            }
-
-            cubemapLock = false;
         }
 
 #endif

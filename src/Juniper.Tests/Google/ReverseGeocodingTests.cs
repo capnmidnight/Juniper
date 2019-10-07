@@ -21,7 +21,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
             {
                 Location = new LatLngPoint(36.080811f, -75.721568f)
             };
-            var results = await cache.Decode(searchRequest, searchDecoder);
+            var results = await cache.Load(searchRequest, searchDecoder);
             Assert.IsNotNull(results);
             Assert.AreEqual(HttpStatusCode.OK, results.status);
             Assert.IsNull(results.error_message);

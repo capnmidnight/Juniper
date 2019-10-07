@@ -20,7 +20,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
             {
                 Address = "4909 Rutland Place, Alexandria, VA 22304"
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             Assert.IsNotNull(results);
             Assert.AreEqual(HttpStatusCode.OK, results.status);
             Assert.IsNull(results.error_message);
@@ -35,7 +35,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                 Address = "High St, Hastings",
                 CountryFilter = "GB"
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             Assert.IsNotNull(results);
             Assert.AreEqual(HttpStatusCode.OK, results.status);
             Assert.IsNull(results.error_message);
@@ -56,7 +56,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                     "Alexandria", "VA", "22304")
                 .ToString()
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             Assert.IsNotNull(results);
             Assert.AreEqual(HttpStatusCode.OK, results.status);
             Assert.IsNull(results.error_message);
@@ -73,7 +73,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                     "Alexandria", "VA", "22304")
                 .ToString()
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             var res = results.results.FirstOrDefault();
             Assert.IsNotNull(res);
             Assert.AreEqual("4909 Rutland Pl, Alexandria, VA 22304, USA", res.formatted_address);
@@ -89,7 +89,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                     "Alexandria", "VA", "22304")
                 .ToString()
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             var res = results.results.FirstOrDefault();
             var type = res.types.FirstOrDefault();
             Assert.AreEqual(AddressComponentType.premise, type);
@@ -105,7 +105,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                     "Alexandria", "VA", "22304")
                 .ToString()
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             var res = results.results.FirstOrDefault();
             Assert.AreEqual(GeometryLocationType.ROOFTOP, res.geometry.location_type);
         }
@@ -120,7 +120,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                     "Alexandria", "VA", "22304")
                 .ToString()
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             var res = results.results.FirstOrDefault();
             var streetNumber = res.GetAddressComponent(AddressComponentType.street_number);
             Assert.IsNotNull(streetNumber);
@@ -138,7 +138,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                     "Alexandria", "VA", "22304")
                 .ToString()
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             var res = results.results.FirstOrDefault();
             var route = res.GetAddressComponent(AddressComponentType.route);
             Assert.IsNotNull(route);
@@ -156,7 +156,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                     "Alexandria", "VA", "22304")
                 .ToString()
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             var res = results.results.FirstOrDefault();
             var zip = res.GetAddressComponent(AddressComponentType.postal_code);
             Assert.IsNotNull(zip);
@@ -174,7 +174,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                     "Alexandria", "VA", "22304")
                 .ToString()
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             var res = results.results.FirstOrDefault();
             var zipSuffix = res.GetAddressComponent(AddressComponentType.postal_code_suffix);
             Assert.IsNotNull(zipSuffix);
@@ -192,7 +192,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                     "Alexandria", "VA", "22304")
                 .ToString()
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             var res = results.results.FirstOrDefault();
             var neighborhood = res.GetAddressComponent(AddressComponentType.neighborhood, AddressComponentType.political);
             var altNeighborhood = res.GetAddressComponent(AddressComponentType.political, AddressComponentType.neighborhood);
@@ -214,7 +214,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                     "Alexandria", "VA", "22304")
                 .ToString()
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             var res = results.results.FirstOrDefault();
             var locality = res.GetAddressComponent(AddressComponentType.locality, AddressComponentType.political);
             var altLocality = res.GetAddressComponent(AddressComponentType.political, AddressComponentType.locality);
@@ -236,7 +236,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                     "Alexandria", "VA", "22304")
                 .ToString()
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             var res = results.results.FirstOrDefault();
             var state = res.GetAddressComponent(AddressComponentType.administrative_area_level_1, AddressComponentType.political);
             var altState = res.GetAddressComponent(AddressComponentType.political, AddressComponentType.administrative_area_level_1);
@@ -258,7 +258,7 @@ namespace Juniper.GIS.Google.Geocoding.Tests
                     "Alexandria", "VA", "22304")
                 .ToString()
             };
-            var results = await cache.Decode(search, decoder);
+            var results = await cache.Load(search, decoder);
             var res = results.results.FirstOrDefault();
             var country = res.GetAddressComponent(AddressComponentType.country, AddressComponentType.political);
             var altCountry = res.GetAddressComponent(AddressComponentType.political, AddressComponentType.country);

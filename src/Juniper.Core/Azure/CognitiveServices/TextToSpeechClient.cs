@@ -82,7 +82,7 @@ namespace Juniper.Azure.CognitiveServices
                     ttsRequest.AuthToken = await GetAuthToken();
                 }
 
-                return await cache.Get(ttsRequest);
+                return await cache.Open(ttsRequest);
             }
             catch
             {

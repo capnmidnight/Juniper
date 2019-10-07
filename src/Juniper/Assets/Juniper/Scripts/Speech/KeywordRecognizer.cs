@@ -137,39 +137,45 @@ namespace Juniper.Speech
 
         protected void ProcessText(string text, bool isComplete)
         {
-            var resultText = new string(text
-                .ToLowerInvariant()
-                .Where(IsWordChar)
-                .ToArray());
-
-            var maxSimilarity = 0f;
-            Keywordable receiver = null;
-            string match = null;
-            foreach (var keywordable in keywordables)
+            if (!string.IsNullOrEmpty(text))
             {
-                foreach (var keyword in keywordable.keywords)
+                var resultText = new string(text
+                    .ToLowerInvariant()
+                    .Where(IsWordChar)
+                    .ToArray());
+
+                if (!string.IsNullOrEmpty(resultText))
                 {
-                    var similarity = keyword.Similarity(resultText);
-                    if (similarity > maxSimilarity)
+                    var maxSimilarity = 0f;
+                    Keywordable receiver = null;
+                    string match = null;
+                    foreach (var keywordable in keywordables)
                     {
-                        match = keyword;
-                        maxSimilarity = similarity;
-                        receiver = keywordable;
+                        foreach (var keyword in keywordable.keywords)
+                        {
+                            var similarity = keyword.Similarity(resultText);
+                            if (similarity > maxSimilarity)
+                            {
+                                match = keyword;
+                                maxSimilarity = similarity;
+                                receiver = keywordable;
+                            }
+                        }
+                    }
+
+                    ScreenDebugger.Print($"{text} => {resultText} = {match} ({Units.Converter.Label(maxSimilarity, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent)})");
+
+                    if (isComplete && maxSimilarity < minimumCompleteSimilarity
+                        || !isComplete && maxSimilarity < minimumIncompleteSimilarity)
+                    {
+                        receiver = null;
+                    }
+
+                    lock (syncRoot)
+                    {
+                        resultReceiver = receiver;
                     }
                 }
-            }
-
-            ScreenDebugger.Print($"{text} => {resultText} = {match} ({Units.Converter.Label(maxSimilarity, Units.UnitOfMeasure.Proportion, Units.UnitOfMeasure.Percent)})");
-
-            if (isComplete && maxSimilarity < minimumCompleteSimilarity
-                || !isComplete && maxSimilarity < minimumIncompleteSimilarity)
-            {
-                receiver = null;
-            }
-
-            lock (syncRoot)
-            {
-                resultReceiver = receiver;
             }
         }
 

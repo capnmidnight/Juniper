@@ -47,7 +47,7 @@ namespace Juniper.Azure.Tests
             {
                 AuthToken = token
             };
-            var voices = await cache.Decode(voiceListRequest, voiceListDecoder);
+            var voices = await cache.Load(voiceListRequest, voiceListDecoder);
             return voices;
         }
 
@@ -98,7 +98,7 @@ namespace Juniper.Azure.Tests
         {
             var audioRequest = await MakeSpeechRequest();
 
-            using (var audioStream = await cache.Get(audioRequest))
+            using (var audioStream = await cache.Open(audioRequest))
             {
                 var mem = new MemoryStream();
                 audioStream.CopyTo(mem);
@@ -112,7 +112,7 @@ namespace Juniper.Azure.Tests
         {
             var audioRequest = await MakeSpeechRequest();
             var audioDecoder = new NAudioAudioDataDecoder();
-            var audio = await cache.Decode(audioRequest, audioDecoder);
+            var audio = await cache.Load(audioRequest, audioDecoder);
             Assert.AreEqual(MediaType.Audio.Mpeg, audio.format.ContentType);
             Assert.AreEqual(16000, audio.format.sampleRate);
         }

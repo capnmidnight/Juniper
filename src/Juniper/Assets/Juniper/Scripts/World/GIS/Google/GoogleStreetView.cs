@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using Juniper.Animation;
+using Juniper.Display;
 using Juniper.GIS.Google.Geocoding;
 using Juniper.GIS.Google.StreetView;
 using Juniper.Imaging;
@@ -60,6 +61,7 @@ namespace Juniper.World.GIS.Google
 
         private MetadataResponse metadata;
         private bool locked;
+        private bool cubemapLock;
 
 
         private Vector3 origin;
@@ -73,6 +75,8 @@ namespace Juniper.World.GIS.Google
         private Avatar avatar;
         private Transform navPointer;
         private UnifiedInputModule input;
+        private CachingStrategy cache;
+        private IImageCodec<Texture2D> codec;
 
 #if UNITY_EDITOR
         private EditorTextInput locationInput;
@@ -145,16 +149,17 @@ namespace Juniper.World.GIS.Google
             }
             var baseCachePath = Application.persistentDataPath;
 #endif
-            var cache = new GoogleMapsCachingStrategy(baseCachePath);
-            var imageCodec = new UnityTextureCodec();
+            cache = new GoogleMapsCachingStrategy(baseCachePath);
+            codec = new UnityTextureCodec();
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
 
-            gmaps = new GoogleMapsClient<Texture2D>(gmapsApiKey, gmapsSigningKey, imageCodec, metadataDecoder, geocodingDecoder, cache);
+            gmaps = new GoogleMapsClient<Texture2D>(gmapsApiKey, gmapsSigningKey, codec, metadataDecoder, geocodingDecoder, cache);
 
             photospheres.CubemapNeeded += Photospheres_CubemapNeeded;
             photospheres.ImageNeeded += Photospheres_ImageNeeded;
             photospheres.PhotosphereReady += Photospheres_PhotosphereReady;
+            photospheres.PhotosphereComplete += Photospheres_PhotosphereComplete;
             photospheres.SetIO(
                 cache,
                 new UnityTextureCodec(80));
@@ -166,6 +171,123 @@ namespace Juniper.World.GIS.Google
             if (renderer != null)
             {
                 renderer.enabled = false;
+            }
+        }
+
+        private static readonly string[] CAPTURE_CUBEMAP_FIELDS = {
+            "Rendering cubemap",
+            "Copying cubemap faces",
+            "Concatenating faces",
+            "Saving image"
+        };
+
+        private static readonly CubemapFace[] CAPTURE_CUBEMAP_FACES = new[] {
+            CubemapFace.NegativeY,
+            CubemapFace.NegativeX,
+            CubemapFace.PositiveZ,
+            CubemapFace.PositiveX,
+            CubemapFace.NegativeZ,
+            CubemapFace.PositiveY
+        };
+
+        private static readonly Texture2D[] CAPTURE_CUBEMAP_SUB_IMAGES = new Texture2D[CAPTURE_CUBEMAP_FACES.Length];
+
+        private readonly Queue<Photosphere> captureQ = new Queue<Photosphere>();
+
+        private void Photospheres_PhotosphereComplete(Photosphere obj)
+        {
+            captureQ.Enqueue(obj);
+            if (!cubemapLock)
+            {
+                cubemapLock = true;
+                this.Run(CaptureCubemapCoroutine());
+            }
+        }
+
+        private IEnumerator CaptureCubemapCoroutine()
+        {
+            if (captureQ.Count == 0)
+            {
+                cubemapLock = false;
+            }
+            else
+            {
+                Debug.Log("Capturing Cubemap");
+                var photosphere = captureQ.Dequeue();
+                var cubemapName = photosphere.name;
+                using (var prog = new UnityEditorProgressDialog("Saving cubemap " + cubemapName))
+                {
+                    var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
+
+                    subProgs[0].Report(0);
+                    const int dim = 2048;
+                    var cubemap = new Cubemap(dim, TextureFormat.RGB24, false);
+                    cubemap.Apply();
+
+                    var curMask = DisplayManager.MainCamera.cullingMask;
+                    DisplayManager.MainCamera.cullingMask = LayerMask.GetMask(Photosphere.PHOTOSPHERE_LAYER_ARR);
+
+                    var curRotation = DisplayManager.MainCamera.transform.rotation;
+                    DisplayManager.MainCamera.transform.rotation = Quaternion.identity;
+
+                    DisplayManager.MainCamera.RenderToCubemap(cubemap, 63);
+
+                    DisplayManager.MainCamera.cullingMask = curMask;
+                    DisplayManager.MainCamera.transform.rotation = curRotation;
+                    subProgs[0].Report(1);
+
+                    var anyDestroyed = false;
+                    foreach (var texture in CAPTURE_CUBEMAP_SUB_IMAGES)
+                    {
+                        if (texture != null)
+                        {
+                            anyDestroyed = true;
+                            Destroy(texture);
+                        }
+                    }
+
+                    if (anyDestroyed)
+                    {
+                        yield return JuniperSystem.Cleanup();
+                    }
+
+                    for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
+                    {
+                        subProgs[1].Report(f, CAPTURE_CUBEMAP_FACES.Length, CAPTURE_CUBEMAP_FACES[f].ToString());
+                        try
+                        {
+                            var pixels = cubemap.GetPixels(CAPTURE_CUBEMAP_FACES[f]);
+                            var texture = new Texture2D(cubemap.width, cubemap.height);
+                            texture.SetPixels(pixels);
+                            texture.Apply();
+                            CAPTURE_CUBEMAP_SUB_IMAGES[f] = texture;
+                        }
+                        catch (Exception exp)
+                        {
+                            Debug.LogException(exp);
+                            cubemapLock = false;
+                            throw;
+                        }
+                        subProgs[1].Report(f + 1, CAPTURE_CUBEMAP_FACES.Length);
+                        yield return null;
+                    }
+
+                    try
+                    {
+                        var img = codec.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]);
+                        var cubemapRef = new ContentReference<MediaType.Image>(cubemapName, codec.ContentType);
+                        cache.Save(cubemapRef, img, codec, subProgs[3]);
+                        Debug.Log("Cubemap saved " + cubemapName);
+                    }
+                    catch (Exception exp)
+                    {
+                        Debug.LogException(exp);
+                        cubemapLock = false;
+                        throw;
+                    }
+                }
+
+                this.Run(CaptureCubemapCoroutine());
             }
         }
 

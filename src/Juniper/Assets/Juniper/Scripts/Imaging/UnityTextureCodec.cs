@@ -173,11 +173,18 @@ namespace Juniper.Imaging.Unity
 
         public Texture2D Deserialize(Stream stream, IProgress prog)
         {
-            var mem = new MemoryStream();
-            stream.CopyTo(mem);
-            stream.Flush();
-            var buffer = mem.ToArray();
-            return Deserialize(buffer, prog);
+            if (stream == null)
+            {
+                return null;
+            }
+            else
+            {
+                var mem = new MemoryStream();
+                stream.CopyTo(mem);
+                stream.Flush();
+                var buffer = mem.ToArray();
+                return Deserialize(buffer, prog);
+            }
         }
 
         public Texture2D Deserialize(byte[] buffer, IProgress prog)
