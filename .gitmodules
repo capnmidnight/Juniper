@@ -5,7 +5,3 @@
 [submodule "src/NLayer"]
 	path = src/NLayer
 	url = https://github.com/capnmidnight/NLayer.git
-[submodule "src/libjpeg.net"]
-	path = src/libjpeg.net
-	url = https://github.com/capnmidnight/libjpeg.net.git
-	branch = master
