@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Runtime.Remoting;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -139,11 +138,6 @@ namespace Juniper.Compression.Zip
         public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
         {
             return entryStream.CopyToAsync(destination, bufferSize, cancellationToken);
-        }
-
-        public override ObjRef CreateObjRef(Type requestedType)
-        {
-            return entryStream.CreateObjRef(requestedType);
         }
 
         public override int EndRead(IAsyncResult asyncResult)
