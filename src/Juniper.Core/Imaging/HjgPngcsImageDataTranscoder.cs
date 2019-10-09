@@ -6,18 +6,14 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
-    public class HjgPngcsImageDataTranscoder : AbstractCompositeImageFactory<ImageLines, ImageData>
+
+    public class HjgPngcsImageDataTranscoder : IImageTranscoder<ImageLines, ImageData>
     {
-        public HjgPngcsImageDataTranscoder(int compressionLevel = 9, int IDATMaxSize = 0x1000)
-            : base(new HjgPngcsCodec(compressionLevel, IDATMaxSize))
-        { }
-
-
         /// <summary>
         /// Decodes a raw file buffer of PNG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Png bytes.</param>
-        public override ImageData Translate(ImageLines rows, IProgress prog)
+        public ImageData Translate(ImageLines rows, IProgress prog)
         {
             var numRows = rows.Nrows;
             var data = new byte[numRows * rows.elementsPerRow];
@@ -33,7 +29,6 @@ namespace Juniper.Imaging
                 rows.ImgInfo.BytesPerRow / rows.ImgInfo.BytesPixel,
                 rows.Nrows,
                 rows.channels,
-                MediaType.Image.Png,
                 data);
         }
 
@@ -41,7 +36,7 @@ namespace Juniper.Imaging
         /// Encodes a raw file buffer of image data into a PNG image.
         /// </summary>
         /// <param name="outputStream">Png bytes.</param>
-        public override ImageLines Translate(ImageData image, IProgress prog)
+        public ImageLines Translate(ImageData image, IProgress prog)
         {
             var imageInfo = new Hjg.Pngcs.ImageInfo(
                 image.info.dimensions.width,
@@ -57,13 +52,13 @@ namespace Juniper.Imaging
                 image.info.dimensions.height,
                 image.info.stride);
 
-            for (var i = 0; i < image.info.dimensions.height; ++i)
+            for (var y = 0; y < image.info.dimensions.height; ++y)
             {
-                prog.Report(i, image.info.dimensions.height);
-                var dataIndex = i * image.info.stride;
-                var line = imageLines.ScanlinesB[i];
+                prog.Report(y, image.info.dimensions.height);
+                var dataIndex = y * image.info.stride;
+                var line = imageLines.ScanlinesB[y];
                 Array.Copy(image.data, dataIndex, line, 0, image.info.stride);
-                prog.Report(i + 1, image.info.dimensions.height);
+                prog.Report(y + 1, image.info.dimensions.height);
             }
 
             return imageLines;

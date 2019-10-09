@@ -6,17 +6,13 @@ using Juniper.Progress;
 
 namespace Juniper.Imaging
 {
-    public class LibJpegNETImageDataTranscoder : AbstractCompositeImageFactory<JpegImage, ImageData>
+    public class LibJpegNETImageDataTranscoder : IImageTranscoder<JpegImage, ImageData>
     {
-        public LibJpegNETImageDataTranscoder(int quality = 100, int smoothingFactor = 1, bool progressive = false)
-            : base(new LibJpegNETCodec(quality, smoothingFactor, progressive))
-        { }
-
         /// <summary>
         /// Decodes a raw file buffer of JPEG data into raw image buffer, with width and height saved.
         /// </summary>
         /// <param name="imageStream">Jpeg bytes.</param>
-        public override ImageData Translate(JpegImage jpeg, IProgress prog)
+        public ImageData Translate(JpegImage jpeg, IProgress prog)
         {
             var stride = jpeg.Width * jpeg.ComponentsPerSample;
             var numRows = jpeg.Height;
@@ -33,7 +29,6 @@ namespace Juniper.Imaging
                 jpeg.Width,
                 jpeg.Height,
                 jpeg.ComponentsPerSample,
-                MediaType.Image.Jpeg,
                 data);
         }
 
@@ -41,24 +36,30 @@ namespace Juniper.Imaging
         /// Encodes a raw file buffer of image data into a JPEG image.
         /// </summary>
         /// <param name="outputStream">Jpeg bytes.</param>
-        public override JpegImage Translate(ImageData image, IProgress prog)
+        public JpegImage Translate(ImageData image, IProgress prog)
         {
             var subProgs = prog.Split("Copying", "Saving");
             var copyProg = subProgs[0];
             var saveProg = subProgs[1];
             var rows = new SampleRow[image.info.dimensions.height];
             var rowBuffer = new byte[image.info.stride];
-            for (var i = 0; i < image.info.dimensions.height; ++i)
+            var components = (byte)Math.Min(image.info.components, 3);
+            for (var y = 0; y < image.info.dimensions.height; ++y)
             {
-                copyProg.Report(i, image.info.dimensions.height);
-                var imageDataIndex = i * image.info.stride;
-                Array.Copy(image.data, imageDataIndex, rowBuffer, 0, rowBuffer.Length);
-                rows[i] = new SampleRow(
+                copyProg.Report(y, image.info.dimensions.height);
+                for (int x = 0; x < image.info.dimensions.width; ++x)
+                {
+                    var imageDataIndex = y * image.info.stride + x * image.info.components;
+                    var rowIndex = x * components;
+                    Array.Copy(image.data, imageDataIndex, rowBuffer, rowIndex, components);
+                }
+
+                rows[y] = new SampleRow(
                     rowBuffer,
                     image.info.dimensions.width,
                     ImageData.BitsPerComponent,
-                    (byte)image.info.components);
-                copyProg.Report(i + 1, image.info.dimensions.height);
+                    components);
+                copyProg.Report(y + 1, image.info.dimensions.height);
             }
 
             saveProg.Report(0);

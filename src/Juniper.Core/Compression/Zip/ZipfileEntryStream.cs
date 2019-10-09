@@ -31,9 +31,11 @@ namespace Juniper.Compression.Zip
 
                 if (zip != null)
                 {
+#pragma warning disable CS0642 // Possible mistaken empty statement
                     // this value's dispose method is hidden, but we can get
                     // at it if we are tricksy hobittses.
                     using (zip) ;
+#pragma warning restore CS0642 // Possible mistaken empty statement
                     zip = null;
                 }
             }

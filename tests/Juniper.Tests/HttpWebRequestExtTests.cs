@@ -59,7 +59,10 @@ namespace Juniper.HTTP.Tests
                     new Uri("https://www.seanmcbeth.com"),
                     "2015-05.min.jpg");
 
-            var imageDecoder = new LibJpegNETImageDataTranscoder(80);
+            var imageDecoder = new TranscoderCodec<BitMiracle.LibJpeg.JpegImage, ImageData>(
+                new LibJpegNETCodec(80),
+                new LibJpegNETImageDataTranscoder());
+
             var image = await cache.Load(imageRequest, imageDecoder);
 
             if (runTest)

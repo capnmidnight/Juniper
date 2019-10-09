@@ -1,8 +1,6 @@
 using System.Net;
 using System.Threading.Tasks;
 
-using Hjg.Pngcs;
-
 using Juniper.GIS.Google.Tests;
 using Juniper.Imaging;
 using Juniper.IO;
@@ -14,16 +12,21 @@ namespace Juniper.GIS.Google.StreetView.Tests
     [TestClass]
     public class StreetViewTests : ServicesTests
     {
-        private LibJpegNETImageDataTranscoder jpegDecoder;
-        private HjgPngcsImageDataTranscoder pngDecoder;
+        private IImageCodec<ImageData> jpegDecoder;
+        private IImageCodec<ImageData> pngDecoder;
 
         [TestInitialize]
         public override void Init()
         {
             base.Init();
-            jpegDecoder = new LibJpegNETImageDataTranscoder(80);
 
-            pngDecoder = new HjgPngcsImageDataTranscoder();
+            jpegDecoder = new TranscoderCodec<BitMiracle.LibJpeg.JpegImage, ImageData>(
+                new LibJpegNETCodec(80),
+                new LibJpegNETImageDataTranscoder());
+
+            pngDecoder = new TranscoderCodec<Hjg.Pngcs.ImageLines, ImageData>(
+                new HjgPngcsCodec(),
+                new HjgPngcsImageDataTranscoder());
         }
 
         [TestMethod]

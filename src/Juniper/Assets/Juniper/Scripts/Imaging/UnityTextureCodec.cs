@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace Juniper.Imaging
 {
+
     public class UnityTextureCodec : IImageCodec<Texture2D>
     {
         private readonly Texture2D.EXRFlags exrFlags;
@@ -47,7 +48,7 @@ namespace Juniper.Imaging
             private set;
         }
 
-        public ImageInfo GetImageInfo(byte[] data)
+        private ImageInfo GetImageInfo(byte[] data)
         {
             if (ContentType == MediaType.Image.Jpeg)
             {
@@ -59,56 +60,8 @@ namespace Juniper.Imaging
             }
             else
             {
-                var img = this.Deserialize(data);
-                int components = img.alphaIsTransparency ? 4 : 3;
-                return new ImageInfo(
-                    new Size(img.width, img.height),
-                    components);
+                throw new NotSupportedException($"Don't know how to read image data for type {ContentType}");
             }
-        }
-
-        public int GetWidth(Texture2D img)
-        {
-            return img.width;
-        }
-
-        public int GetHeight(Texture2D img)
-        {
-            return img.height;
-        }
-
-        public int GetComponents(Texture2D img)
-        {
-            return img.GetComponents();
-        }
-
-        public Texture2D Concatenate(Texture2D[,] images, IProgress prog)
-        {
-            this.ValidateImages(images, prog,
-                out var rows, out var columns, out var components,
-                out var tileWidth, out var tileHeight);
-
-            var totalLen = rows * tileHeight * columns * tileWidth;
-
-            var outputImage = new Texture2D(columns * tileWidth, rows * tileHeight);
-            for (var r = 0; r < rows; ++r)
-            {
-                for (var c = 0; c < columns; ++c)
-                {
-                    var img = images[r, c];
-                    if (img != null)
-                    {
-                        for (var y = 0; y < tileHeight; ++y)
-                        {
-                            var pixels = img.GetPixels(0, tileHeight - y - 1, tileWidth, 1);
-                            outputImage.SetPixels(c * tileWidth, r * tileHeight + y, tileWidth, 1, pixels);
-                            prog?.Report(tileWidth * (r * tileHeight * columns + c * tileHeight + y), totalLen);
-                        }
-                    }
-                }
-            }
-
-            return outputImage;
         }
 
         public byte[] Serialize(Texture2D value, IProgress prog)
