@@ -39,7 +39,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Azure.Console", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLayer.NAudioSupport", "NLayer\NLayer.NAudioSupport\NLayer.NAudioSupport.csproj", "{33828999-1003-403C-BF78-59D9E02CE6A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Tests", "Juniper.Tests\Juniper.Tests.csproj", "{3BF7D2CD-A68D-468F-968F-8B2F1AFDDE0F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Juniper.Tests", "..\tests\Juniper.Tests\Juniper.Tests.csproj", "{3BF7D2CD-A68D-468F-968F-8B2F1AFDDE0F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{622B919C-1613-4A82-B0D7-F4BDC696C7CD}"
 EndProject
