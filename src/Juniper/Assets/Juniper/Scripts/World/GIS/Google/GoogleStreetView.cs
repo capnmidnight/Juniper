@@ -11,7 +11,6 @@ using Juniper.Display;
 using Juniper.GIS.Google.Geocoding;
 using Juniper.GIS.Google.StreetView;
 using Juniper.Imaging;
-using Juniper.Imaging.Unity;
 using Juniper.Input;
 using Juniper.IO;
 using Juniper.Progress;
@@ -252,7 +251,7 @@ namespace Juniper.World.GIS.Google
 
                     if (anyDestroyed)
                     {
-                        yield return JuniperSystem.Cleanup();
+                        yield return JuniperSystem.CleanupCoroutine();
                     }
 
                     for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)

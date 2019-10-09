@@ -36,7 +36,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         protected override float Abs(float value)
         {
-            return Abs(value);
+            return Math.Abs(value);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Juniper.Mathematics
         /// <returns></returns>
         protected override float Sqrt(float value)
         {
-            return (float)Sqrt(value);
+            return (float)Math.Sqrt(value);
         }
 
         /// <summary>

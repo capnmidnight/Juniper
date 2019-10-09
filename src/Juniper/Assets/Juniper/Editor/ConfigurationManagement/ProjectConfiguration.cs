@@ -19,7 +19,7 @@ namespace Juniper.ConfigurationManagement
             {
                 if (File.Exists(CONFIG_FILE_NAME))
                 {
-                    return json.Load(CONFIG_FILE_NAME);
+                    return json.Deserialize(CONFIG_FILE_NAME);
                 }
             }
             catch
@@ -66,7 +66,7 @@ namespace Juniper.ConfigurationManagement
 
         private void Save()
         {
-            json.Save(CONFIG_FILE_NAME, this);
+            json.Serialize(CONFIG_FILE_NAME, this);
         }
 
         public int BuildStep

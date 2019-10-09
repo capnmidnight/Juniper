@@ -76,37 +76,6 @@ namespace Juniper
         }
 
         /// <summary>
-        /// Get a scene by name (or path, if we're running in the editor).
-        /// </summary>
-        /// <returns>The scene.</returns>
-        /// <param name="sceneName">Scene name.</param>
-        /// <param name="path">     Path.</param>
-        private static IEnumerator LoadScene(string sceneName, string scenePath, IProgress sceneLoadProg)
-        {
-            sceneLoadProg.Report(0);
-            if (!IsSceneLoaded(scenePath))
-            {
-                if (Application.isPlaying)
-                {
-                    yield return SceneManager
-                        .LoadSceneAsync(sceneName, LoadSceneMode.Additive)
-                        .AsCoroutine(sceneLoadProg);
-                }
-#if UNITY_EDITOR
-                else
-                {
-                    EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
-                }
-#endif
-                while (!IsSceneLoaded(scenePath))
-                {
-                    yield return null;
-                }
-            }
-            sceneLoadProg.Report(1);
-        }
-
-        /// <summary>
         /// Quit out of the application, making sure any exit transitions for the current scene are
         /// ran first.
         /// </summary>
@@ -395,13 +364,13 @@ namespace Juniper
 
                 if (showFader)
                 {
-                    yield return JuniperSystem.Cleanup();
+                    yield return JuniperSystem.CleanupCoroutine();
 
                     yield return fader.EnterCoroutine();
 
                     if (input != null)
                     {
-                        input.enabled = false;
+                        input.paused = true;
                     }
 
                     if (loadingBar != null && !skipLoadingScreen)
@@ -470,7 +439,7 @@ namespace Juniper
                     {
                         if (input != null)
                         {
-                            input.enabled = true;
+                            input.paused = false;
                         }
 
                         if (skipLoadingScreen)
@@ -490,15 +459,36 @@ namespace Juniper
             }
         }
 
-        private static IEnumerator LoadScenePathCoroutine(string path, IProgress prog)
+        private static IEnumerator LoadScenePathCoroutine(string scenePath, IProgress prog)
         {
-            var sceneName = GetSceneNameFromPath(path);
+            var sceneName = GetSceneNameFromPath(scenePath);
             var sceneLoadProg = prog.Subdivide(0, 0.25f, sceneName + ": loading...");
             var subSceneLoadProg = prog.Subdivide(0.25f, 0.75f, sceneName + ": loading components...");
 
-            yield return LoadScene(sceneName, path, sceneLoadProg);
 
-            var scene = SceneManager.GetSceneByPath(path);
+            sceneLoadProg.Report(0);
+            if (!IsSceneLoaded(scenePath))
+            {
+                if (Application.isPlaying)
+                {
+                    yield return SceneManager
+                        .LoadSceneAsync(sceneName, LoadSceneMode.Additive)
+                        .AsCoroutine(sceneLoadProg);
+                }
+#if UNITY_EDITOR
+                else
+                {
+                    EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Additive);
+                }
+#endif
+                while (!IsSceneLoaded(scenePath))
+                {
+                    yield return null;
+                }
+            }
+            sceneLoadProg.Report(1);
+
+            var scene = SceneManager.GetSceneByPath(scenePath);
 
             if (Application.isPlaying)
             {
@@ -544,7 +534,7 @@ namespace Juniper
         {
             if (Find.Any(out input))
             {
-                input.enabled = false;
+                input.paused = true;
             }
 
             var faderFound = Find.Any(out fader);

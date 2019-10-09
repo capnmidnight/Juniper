@@ -1,5 +1,3 @@
-
-using System;
 using System.Collections;
 
 using UnityEngine;
@@ -106,7 +104,7 @@ namespace Juniper.Imaging
                 }
 
                 Destroy(curTexture);
-                yield return JuniperSystem.Cleanup();
+                yield return JuniperSystem.CleanupCoroutine();
             }
 
         }

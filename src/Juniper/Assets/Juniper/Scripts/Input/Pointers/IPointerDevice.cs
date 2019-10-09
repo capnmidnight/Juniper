@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Juniper.Input;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -204,7 +203,7 @@ namespace Juniper.Input.Pointers
 
         bool IsButtonUp(KeyCode button);
 
-        void Process(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses);
+        void Process(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses, bool paused);
 
         void OnProbeFound();
     }

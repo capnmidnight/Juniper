@@ -1,5 +1,7 @@
 using System.IO;
+using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 using Juniper.Progress;
 
@@ -7,122 +9,309 @@ namespace Juniper.IO
 {
     public interface ISerializer
     {
-        void Serialize<InputT>(Stream stream, InputT value, IProgress prog);
+        void Serialize<T>(Stream stream, T value, IProgress prog);
     }
 
-    public interface ISerializer<InputT>
+    public interface ISerializer<in T>
     {
-        void Serialize(Stream stream, InputT value, IProgress prog);
+        void Serialize(Stream stream, T value, IProgress prog);
     }
 
     public static class ISerializerExt
     {
-        public static void Serialize<InputT>(this ISerializer serializer, Stream stream, InputT value)
+        public static Task SerializeAsync<T>(this ISerializer serializer, Stream stream, T value, IProgress prog)
+        {
+            return Task.Run(() => serializer.Serialize(stream, value, prog));
+        }
+
+        public static void Serialize<T>(this ISerializer serializer, Stream stream, T value)
         {
             serializer.Serialize(stream, value, null);
         }
 
-        public static byte[] Serialize<InputT>(this ISerializer serializer, InputT value)
+        public static Task SerializeAsync<T>(this ISerializer serializer, Stream stream, T value)
+        {
+            return serializer.SerializeAsync(stream, value, null);
+        }
+        public static void Serialize<T>(this ISerializer serializer, HttpWebRequest request, T value, IProgress prog)
+        {
+            using (var stream = request.GetRequestStream())
+            {
+                serializer.Serialize(stream, value, prog);
+            }
+        }
+
+        public static async Task SerializeAsync<T>(this ISerializer serializer, HttpWebRequest request, T value, IProgress prog)
+        {
+            using (var stream = await request.GetRequestStreamAsync())
+            {
+                await serializer.SerializeAsync(stream, value, prog);
+            }
+        }
+
+        public static void Serialize<T>(this ISerializer serializer, HttpWebRequest request, T value)
+        {
+            serializer.Serialize(request, value, null);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer serializer, HttpWebRequest request, T value)
+        {
+            return serializer.SerializeAsync(request, value, null);
+        }
+
+        public static void Serialize<T>(this ISerializer<T> serializer, HttpWebRequest request, T value, IProgress prog)
+        {
+            using (var stream = request.GetRequestStream())
+            {
+                serializer.Serialize(stream, value, prog);
+            }
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer<T> serializer, HttpWebRequest request, T value, IProgress prog)
+        {
+            return Task.Run(() => serializer.Serialize(request, value, prog));
+        }
+
+        public static void Serialize<T>(this ISerializer<T> serializer, HttpWebRequest request, T value)
+        {
+            serializer.Serialize(request, value, null);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer<T> serializer, HttpWebRequest request, T value)
+        {
+            return serializer.SerializeAsync(request, value, null);
+        }
+
+        public static void Serialize<T>(this ISerializer serializer, HttpListenerResponse response, T value, IProgress prog)
+        {
+            serializer.Serialize(response.OutputStream, value, prog);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer serializer, HttpListenerResponse response, T value, IProgress prog)
+        {
+            return Task.Run(() => serializer.Serialize(response, value, prog));
+        }
+
+        public static void Serialize<T>(this ISerializer serializer, HttpListenerResponse response, T value)
+        {
+            serializer.Serialize(response.OutputStream, value);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer serializer, HttpListenerResponse response, T value)
+        {
+            return serializer.SerializeAsync(response, value, null);
+        }
+
+        public static byte[] Serialize<T>(this ISerializer serializer, T value)
         {
             return serializer.Serialize(value, null);
         }
 
-        public static byte[] Serialize<InputT>(this ISerializer serializer, InputT value, IProgress progress)
+        public static byte[] Serialize<T>(this ISerializer serializer, T value, IProgress prog)
         {
             using (var mem = new MemoryStream())
             {
-                serializer.Serialize(mem, value, progress);
+                serializer.Serialize(mem, value, prog);
+                mem.Flush();
+
+                return mem.ToArray();
+            }
+        }
+        public static Task<byte[]> SerializeAsync<T>(this ISerializer serializer, T value, IProgress prog)
+        {
+            return Task.Run(() => serializer.Serialize(value, prog));
+        }
+
+        public static Task<byte[]> SerializeAsync<T>(this ISerializer serializer, T value)
+        {
+            return serializer.SerializeAsync(value, null);
+        }
+
+        public static void Serialize<T>(this ISerializer serializer, FileInfo file, T value, IProgress prog)
+        {
+            using (var stream = file.Create())
+            {
+                serializer.Serialize(stream, value, prog);
+            }
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer serializer, FileInfo file, T value, IProgress prog)
+        {
+            return Task.Run(() => serializer.Serialize(file, value, prog));
+        }
+
+        public static void Serialize<T>(this ISerializer serializer, FileInfo file, T value)
+        {
+            serializer.Serialize(file, value, null);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer serializer, FileInfo file, T value)
+        {
+            return serializer.SerializeAsync(file, value, null);
+        }
+
+        public static void Serialize<T>(this ISerializer serializer, string fileName, T value, IProgress prog)
+        {
+            serializer.Serialize(new FileInfo(fileName), value, prog);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer serializer, string fileName, T value, IProgress prog)
+        {
+            return Task.Run(() => serializer.Serialize(fileName, value, prog));
+        }
+
+        public static void Serialize<T>(this ISerializer serializer, string fileName, T value)
+        {
+            serializer.Serialize(fileName, value, null);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer serializer, string fileName, T value)
+        {
+            return serializer.SerializeAsync(fileName, value, null);
+        }
+
+        public static string ToString<T>(this ISerializer serializer, T value, IProgress prog)
+        {
+            return Encoding.UTF8.GetString(serializer.Serialize(value, prog));
+        }
+
+        public static Task<string> ToStringAsync<T>(this ISerializer serializer, T value, IProgress prog)
+        {
+            return Task.Run(() => Encoding.UTF8.GetString(serializer.Serialize(value, prog)));
+        }
+
+        public static string ToString<T>(this ISerializer serializer, T value)
+        {
+            return serializer.ToString(value, null);
+        }
+
+        public static Task<string> ToStringAsync<T>(this ISerializer serializer, T value)
+        {
+            return serializer.ToStringAsync(value, null);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer<T> serializer, Stream stream, T value, IProgress prog)
+        {
+            return Task.Run(() => serializer.Serialize(stream, value, prog));
+        }
+
+        public static void Serialize<T>(this ISerializer<T> serializer, Stream stream, T value)
+        {
+            serializer.Serialize(stream, value, null);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer<T> serializer, Stream stream, T value)
+        {
+            return serializer.SerializeAsync(stream, value, null);
+        }
+
+        public static void Serialize<T>(this ISerializer<T> serializer, HttpListenerResponse response, T value, IProgress prog)
+        {
+            serializer.Serialize(response.OutputStream, value, prog);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer<T> serializer, HttpListenerResponse response, T value, IProgress prog)
+        {
+            return Task.Run(() => serializer.Serialize(response, value, prog));
+        }
+
+        public static void Serialize<T>(this ISerializer<T> serializer, HttpListenerResponse response, T value)
+        {
+            serializer.Serialize(response.OutputStream, value);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer<T> serializer, HttpListenerResponse response, T value)
+        {
+            return serializer.SerializeAsync(response, value, null);
+        }
+
+        public static byte[] Serialize<T>(this ISerializer<T> serializer, T value, IProgress prog)
+        {
+            using (var mem = new MemoryStream())
+            {
+                serializer.Serialize(mem, value, prog);
                 mem.Flush();
 
                 return mem.ToArray();
             }
         }
 
-        public static void Save<InputT>(this ISerializer serializer, FileInfo file, InputT value)
+        public static Task<byte[]> SerializeAsync<T>(this ISerializer<T> serializer, T value, IProgress prog)
         {
-            serializer.Save(file, value, null);
+            return Task.Run(() => serializer.Serialize(value, prog));
         }
 
-        public static void Save<InputT>(this ISerializer serializer, FileInfo file, InputT value, IProgress progress)
-        {
-            using (var stream = file.Create())
-            {
-                serializer.Serialize(stream, value, progress);
-            }
-        }
-
-        public static void Save<InputT>(this ISerializer serializer, string fileName, InputT value)
-        {
-            serializer.Save(fileName, value, null);
-        }
-
-        public static void Save<InputT>(this ISerializer serializer, string fileName, InputT value, IProgress progress)
-        {
-            serializer.Save(new FileInfo(fileName), value, progress);
-        }
-
-        public static string ToString<InputT>(this ISerializer serializer, InputT value)
-        {
-            return serializer.ToString(value, null);
-        }
-
-        public static string ToString<InputT>(this ISerializer serializer, InputT value, IProgress progress)
-        {
-            return Encoding.UTF8.GetString(serializer.Serialize(value, progress));
-        }
-
-        public static void Serialize<InputT>(this ISerializer<InputT> serializer, Stream stream, InputT value)
-        {
-            serializer.Serialize(stream, value, null);
-        }
-
-        public static byte[] Serialize<InputT>(this ISerializer<InputT> serializer, InputT value)
+        public static byte[] Serialize<T>(this ISerializer<T> serializer, T value)
         {
             return serializer.Serialize(value, null);
         }
 
-        public static byte[] Serialize<InputT>(this ISerializer<InputT> serializer, InputT value, IProgress progress)
+        public static Task<byte[]> SerializeAsync<T>(this ISerializer<T> serializer, T value)
         {
-            using (var mem = new MemoryStream())
-            {
-                serializer.Serialize(mem, value, progress);
-                mem.Flush();
-
-                return mem.ToArray();
-            }
+            return serializer.SerializeAsync(value, null);
         }
 
-        public static void Save<InputT>(this ISerializer<InputT> serializer, FileInfo file, InputT value)
-        {
-            serializer.Save(file, value, null);
-        }
-
-        public static void Save<InputT>(this ISerializer<InputT> serializer, FileInfo file, InputT value, IProgress progress)
+        public static void Serialize<T>(this ISerializer<T> serializer, FileInfo file, T value, IProgress prog)
         {
             using (var stream = file.Create())
             {
-                serializer.Serialize(stream, value, progress);
+                serializer.Serialize(stream, value, prog);
             }
         }
 
-        public static void Save<InputT>(this ISerializer<InputT> serializer, string fileName, InputT value)
+        public static Task SerializeAsync<T>(this ISerializer<T> serializer, FileInfo file, T value, IProgress prog)
         {
-            serializer.Save(fileName, value, null);
+            return Task.Run(() => serializer.Serialize(file, value, prog));
         }
 
-        public static void Save<InputT>(this ISerializer<InputT> serializer, string fileName, InputT value, IProgress progress)
+        public static void Serialize<T>(this ISerializer<T> serializer, FileInfo file, T value)
         {
-            serializer.Save(new FileInfo(fileName), value, progress);
+            serializer.Serialize(file, value, null);
         }
 
-        public static string ToString<InputT>(this ISerializer<InputT> serializer, InputT value)
+        public static Task SerializeAsync<T>(this ISerializer<T> serializer, FileInfo file, T value)
+        {
+            return serializer.SerializeAsync(file, value, null);
+        }
+
+        public static void Serialize<T>(this ISerializer<T> serializer, string fileName, T value, IProgress prog)
+        {
+            serializer.Serialize(new FileInfo(fileName), value, prog);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer<T> serializer, string fileName, T value, IProgress prog)
+        {
+            return Task.Run(() => serializer.Serialize(fileName, value, prog));
+        }
+
+        public static void Serialize<T>(this ISerializer<T> serializer, string fileName, T value)
+        {
+            serializer.Serialize(fileName, value, null);
+        }
+
+        public static Task SerializeAsync<T>(this ISerializer<T> serializer, string fileName, T value)
+        {
+            return serializer.SerializeAsync(fileName, value, null);
+        }
+
+        public static string ToString<T>(this ISerializer<T> serializer, T value, IProgress prog)
+        {
+            return Encoding.UTF8.GetString(serializer.Serialize(value, prog));
+        }
+
+        public static Task<string> ToStringAsync<T>(this ISerializer<T> serializer, T value, IProgress prog)
+        {
+            return Task.Run(() => Encoding.UTF8.GetString(serializer.Serialize(value, prog)));
+        }
+
+        public static string ToString<T>(this ISerializer<T> serializer, T value)
         {
             return serializer.ToString(value, null);
         }
 
-        public static string ToString<InputT>(this ISerializer<InputT> serializer, InputT value, IProgress progress)
+        public static Task<string> ToStringAsync<T>(this ISerializer<T> serializer, T value)
         {
-            return Encoding.UTF8.GetString(serializer.Serialize(value, progress));
+            return serializer.ToStringAsync(value, null);
         }
     }
 }

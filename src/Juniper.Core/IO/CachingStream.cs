@@ -26,20 +26,12 @@ namespace Juniper.IO
         {
             SourceStream = stream;
             file.Directory.Create();
-            if (file.Exists)
-            {
-                outStream = file.OpenWrite();
-            }
-            else
-            {
-                outStream = file.Create();
-            }
+            outStream = file.Open(FileMode.OpenOrCreate, FileAccess.Write);
         }
 
         public CachingStream(Stream stream, string fileName)
             : this(stream, new FileInfo(fileName))
-        {
-        }
+        { }
 
         public Stream SourceStream { get; }
 

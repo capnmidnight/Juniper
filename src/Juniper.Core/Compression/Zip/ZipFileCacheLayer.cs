@@ -39,7 +39,7 @@ namespace Juniper.IO
             return stream;
         }
 
-        public Stream OpenWrite<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+        public Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
             throw new NotSupportedException();

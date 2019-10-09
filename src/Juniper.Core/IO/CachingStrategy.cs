@@ -91,7 +91,7 @@ namespace Juniper.IO
         /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="fileRef"></param>
         /// <returns></returns>
-        public Stream OpenWrite<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+        public Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
             var stream = new ForkedStream();
@@ -100,7 +100,7 @@ namespace Juniper.IO
                 if (layer.CanCache(fileRef)
                     && !layer.IsCached(fileRef))
                 {
-                    stream.AddStream(layer.OpenWrite(fileRef));
+                    stream.AddStream(layer.Create(fileRef));
                 }
             }
 
@@ -218,7 +218,7 @@ namespace Juniper.IO
         public void Save<MediaTypeT, T>(IContentReference<MediaTypeT> fileRef, T value, ISerializer<T> serializer, IProgress prog)
             where MediaTypeT : MediaType
         {
-            using (var stream = OpenWrite(fileRef))
+            using (var stream = Create(fileRef))
             {
                 serializer.Serialize(stream, value, prog);
             }

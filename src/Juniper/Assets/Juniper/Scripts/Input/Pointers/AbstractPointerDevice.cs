@@ -498,18 +498,21 @@ namespace Juniper.Input.Pointers
             return InputModule?.Clone(pointerDataID, evtData);
         }
 
-        public virtual void Process(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses)
+        public virtual void Process(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses, bool paused)
         {
-            if (!IsDragging)
+            if (!paused)
             {
-                TestEnterExit(evtData);
-            }
+                if (!IsDragging)
+                {
+                    TestEnterExit(evtData);
+                }
 
-            EventTarget = ProcessButtons(evtData, pixelDragThresholdSquared, keyPresses);
+                EventTarget = ProcessButtons(evtData, pixelDragThresholdSquared, keyPresses);
 
-            if (evtData.clickCount == -1)
-            {
-                evtData.clickCount = 0;
+                if (evtData.clickCount == -1)
+                {
+                    evtData.clickCount = 0;
+                }
             }
 
             LastWorldPoint = evtData.pointerCurrentRaycast.worldPosition;

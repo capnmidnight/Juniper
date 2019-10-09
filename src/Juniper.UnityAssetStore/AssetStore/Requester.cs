@@ -40,7 +40,7 @@ namespace Juniper.UnityAssetStore
                         using (var reader = new StreamReader(stream))
                         {
                             var deserializer = new JsonFactory<T>();
-                            if (deserializer.TryParse(reader.ReadToEnd(), out T value))
+                            if (deserializer.TryParse(reader.ReadToEnd(), out var value))
                             {
                                 return value;
                             }

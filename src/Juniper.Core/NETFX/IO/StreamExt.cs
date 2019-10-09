@@ -15,9 +15,22 @@ namespace System.IO
             }
         }
 
+        public static async Task CopyToAsync(this Stream inStream, FileInfo outFile)
+        {
+            using (var outStream = outFile.Create())
+            {
+                await inStream.CopyToAsync(outStream);
+            }
+        }
+
         public static void CopyTo(this Stream inStream, string outFileName)
         {
             inStream.CopyTo(new FileInfo(outFileName));
+        }
+
+        public static Task CopyToAsync(this Stream inStream, string outFileName)
+        {
+            return inStream.CopyToAsync(new FileInfo(outFileName));
         }
 
         public static void CopyTo(this FileInfo inFile, Stream outStream)
@@ -28,19 +41,17 @@ namespace System.IO
             }
         }
 
+        public static async Task CopyToAsync(this FileInfo inFile, Stream outStream)
+        {
+            using(var inStream = inFile.OpenRead())
+            {
+                await inStream.CopyToAsync(outStream);
+            }
+        }
+
         public static void CopyTo(this FileInfo inFile, FileInfo outFile)
         {
             inFile.CopyTo(outFile.FullName, true);
-        }
-
-        public static ResultT Decode<ResultT>(this Stream stream, IDeserializer<ResultT> deserializer, IProgress prog)
-        {
-            return deserializer.Deserialize(stream, prog);
-        }
-
-        public static ResultT Decode<ResultT>(this Stream stream, IDeserializer<ResultT> deserializer)
-        {
-            return deserializer.Deserialize(stream);
         }
 
         public static async Task Proxy(this Stream stream, HttpListenerResponse response)

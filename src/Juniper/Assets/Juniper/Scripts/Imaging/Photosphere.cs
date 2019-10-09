@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Juniper.Display;
-using Juniper.Imaging.Unity;
+
 using Juniper.IO;
 using Juniper.Progress;
 using Juniper.Units;
@@ -338,13 +337,13 @@ namespace Juniper.Imaging
 
                         var frameContainer = frameContainerCache[pitch];
 
-                        var imageTask = ImageNeeded?.Invoke(this, (int)overlapFOV, heading, pitch);
+                        var textureTask = ImageNeeded?.Invoke(this, (int)overlapFOV, heading, pitch);
 
-                        yield return imageTask.AsCoroutine();
+                        yield return textureTask.AsCoroutine();
 
-                        if (imageTask.IsSuccessful())
+                        if (textureTask.IsSuccessful())
                         {
-                            var image = imageTask.Result;
+                            var image = textureTask.Result;
                             if (image != null)
                             {
                                 var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);

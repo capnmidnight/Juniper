@@ -64,11 +64,11 @@ namespace Juniper.Input.Pointers.Gaze
 
         private GameObject target;
 
-        public override void Process(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses)
+        public override void Process(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses, bool paused)
         {
             target = evtData.pointerCurrentRaycast.gameObject;
 
-            base.Process(evtData, pixelDragThresholdSquared, keyPresses);
+            base.Process(evtData, pixelDragThresholdSquared, keyPresses, paused);
         }
 
         protected override void InternalUpdate()

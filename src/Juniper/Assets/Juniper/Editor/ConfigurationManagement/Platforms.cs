@@ -90,7 +90,7 @@ namespace Juniper.ConfigurationManagement
                 var defines = (from kv in packageDefines
                                select new PackageDefineSymbol(kv.Key, kv.Value))
                             .ToArray();
-                json.Save(PACKAGE_DEFINES_FILE, defines);
+                json.Serialize(PACKAGE_DEFINES_FILE, defines);
 
                 foreach (var package in packageDB.Values)
                 {
@@ -112,7 +112,7 @@ namespace Juniper.ConfigurationManagement
         {
             if (File.Exists(PACKAGE_DEFINES_FILE))
             {
-                var defines = json.Load<PackageDefineSymbol[]>(PACKAGE_DEFINES_FILE);
+                var defines = json.Deserialize<PackageDefineSymbol[]>(PACKAGE_DEFINES_FILE);
                 foreach (var symbol in defines)
                 {
                     packageDefines[symbol.Name] = symbol.CompilerDefine;
@@ -125,7 +125,7 @@ namespace Juniper.ConfigurationManagement
                 package.ScanningProgressUpdated += Package_ScanningProgressUpdated;
             }
 
-            var config = json.Load<Platforms>(PLATFORMS_FILE);
+            var config = json.Deserialize<Platforms>(PLATFORMS_FILE);
 
             var commonPackages = ParsePackages(config.packages);
 

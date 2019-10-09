@@ -10,7 +10,7 @@ namespace Juniper.IO
         bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType;
 
-        Stream OpenWrite<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+        Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType;
 
         void Copy<MediaTypeT>(IContentReference<MediaTypeT> fileRef, FileInfo file)

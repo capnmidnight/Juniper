@@ -128,6 +128,8 @@ namespace Juniper.Input
         public InputMode mode = InputMode.Auto;
         private InputMode lastMode;
 
+        public bool paused;
+
         public bool AnyPointerDragging
         {
             get
@@ -438,30 +440,33 @@ namespace Juniper.Input
                 newKeyboardShortcuts.Clear();
             }
 
-            keyPresses.Clear();
-            toActivate.Clear();
+                keyPresses.Clear();
+                toActivate.Clear();
 
-            foreach (var pointer in Devices)
-            {
-                if (pointer.ProcessInUpdate)
+                foreach (var pointer in Devices)
                 {
-                    ProcessPointer(pointer);
+                    if (pointer.ProcessInUpdate)
+                    {
+                        ProcessPointer(pointer);
+                    }
                 }
-            }
 
-            foreach(var shortcut in keyboardShortcuts)
-            {
-                if (shortcut.IsInteractable()
-                    && (UnityInput.GetKeyUp(shortcut.KeyCode)
-                        || keyPresses.Contains(shortcut.KeyCode)))
+                foreach (var shortcut in keyboardShortcuts)
                 {
-                    toActivate.MaybeAdd(shortcut);
+                    if (shortcut.IsInteractable()
+                        && (UnityInput.GetKeyUp(shortcut.KeyCode)
+                            || keyPresses.Contains(shortcut.KeyCode)))
+                    {
+                        toActivate.MaybeAdd(shortcut);
+                    }
                 }
-            }
 
-            foreach(var shortcut in toActivate)
+            if (!paused)
             {
-                shortcut.ActivateEvent();
+                foreach (var shortcut in toActivate)
+                {
+                    shortcut.ActivateEvent();
+                }
             }
         }
 
@@ -478,7 +483,7 @@ namespace Juniper.Input
 
                 UpdateRay(pointer, evtData);
 
-                pointer.Process(evtData, eventSystem.pixelDragThreshold * eventSystem.pixelDragThreshold, keyPresses);
+                pointer.Process(evtData, eventSystem.pixelDragThreshold * eventSystem.pixelDragThreshold, keyPresses, paused);
             }
         }
 

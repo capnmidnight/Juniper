@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using Juniper.Anchoring;
 using Juniper.Audio;
 using Juniper.Display;
@@ -294,10 +294,22 @@ namespace Juniper
         }
 #endif
 
-        public static IEnumerator Cleanup()
+        public static async Task CleanupAsync()
         {
-            yield return Resources.UnloadUnusedAssets().AsCoroutine();
-            GC.Collect();
+            await Resources.UnloadUnusedAssets().AsTask();
+            await Task.Run(GC.Collect);
+        }
+
+        public static IEnumerator CleanupCoroutine()
+        {
+            var cleanupTask = CleanupAsync();
+            cleanupTask.ConfigureAwait(false);
+            return cleanupTask.AsCoroutine();
+        }
+
+        public void Cleanup()
+        {
+            this.Run(CleanupCoroutine());
         }
     }
 }

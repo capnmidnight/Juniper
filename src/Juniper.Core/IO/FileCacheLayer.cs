@@ -42,12 +42,12 @@ namespace Juniper.IO
             return new CachingStream(stream, cacheFile);
         }
 
-        public Stream OpenWrite<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+        public Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
             var cacheFile = GetCacheFile(fileRef);
             cacheFile.Directory.Create();
-            return cacheFile.OpenWrite();
+            return cacheFile.Create();
         }
 
         public void Copy<MediaTypeT>(IContentReference<MediaTypeT> fileRef, FileInfo file)
