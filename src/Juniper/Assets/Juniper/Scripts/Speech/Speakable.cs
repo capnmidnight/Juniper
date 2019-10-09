@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Threading.Tasks;
 
 using Juniper.Audio;
 using Juniper.Widgets;
@@ -75,7 +74,7 @@ namespace Juniper.Speech
             Preload();
         }
 
-        private void Preload()
+        public void Preload()
         {
             if (textElement != null && text != textElement.Text)
             {
@@ -93,20 +92,15 @@ namespace Juniper.Speech
                 lastPitch = pitch;
                 print("Loading speech " + text);
                 clip = null;
-                this.Run(PreloadCoroutine());
+                var clipTask = interaction.PreloadSpeech(text, voiceName, speakingRate - 1, pitch - 1)
+                    .ContinueWith(ct => clip = ct.Result);
+                clipTask.ConfigureAwait(false);
             }
             else if (needsPlay && clip != null)
             {
                 needsPlay = false;
                 Play();
             }
-        }
-
-        private IEnumerator PreloadCoroutine()
-        {
-            var clipTask = interaction.PreloadSpeech(text, voiceName, speakingRate - 1, pitch - 1);
-            yield return clipTask.AsCoroutine();
-            clip = clipTask.Result;
         }
 
         private Coroutine lastCoroutine;
