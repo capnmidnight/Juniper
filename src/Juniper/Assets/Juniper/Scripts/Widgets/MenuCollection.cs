@@ -12,6 +12,11 @@ namespace Juniper.Widgets
 
         public string firstView;
 
+        public void SetFirstView(string firstView)
+        {
+            this.firstView = firstView;
+        }
+
         public void OnValidate()
         {
             if (string.IsNullOrEmpty(firstView))
