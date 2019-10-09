@@ -38,9 +38,6 @@ namespace Juniper.Azure.CognitiveServices
         }
 
         private readonly string resourceName;
-
-        private readonly AudioFormat outputFormat;
-
         private string ssmlText;
         private int ssmlTextLength;
 
@@ -48,8 +45,10 @@ namespace Juniper.Azure.CognitiveServices
             : base(region, "cognitiveservices/v1", outputFormat.ContentType)
         {
             this.resourceName = resourceName;
-            this.outputFormat = outputFormat;
+            OutputFormat = outputFormat;
         }
+
+        public AudioFormat OutputFormat { get; }
 
         public string Text { get; set; }
         public string VoiceName { get; set; }
@@ -113,7 +112,7 @@ namespace Juniper.Azure.CognitiveServices
 
                 sb.Append(VoiceName);
                 sb.Append(Text.GetHashCode());
-                sb.Append(outputFormat.Name);
+                sb.Append(OutputFormat.Name);
 
                 if (UseStyle)
                 {
@@ -199,7 +198,7 @@ namespace Juniper.Azure.CognitiveServices
             base.ModifyRequest(request);
             request.KeepAlive()
                 .UserAgent(resourceName)
-                .Header("X-Microsoft-OutputFormat", outputFormat.Name);
+                .Header("X-Microsoft-OutputFormat", OutputFormat.Name);
         }
 
         protected override ActionDelegate Action

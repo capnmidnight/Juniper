@@ -8,9 +8,14 @@ namespace Juniper
     {
         public static readonly MediaType Any = new MediaType("*/*");
 
-        public static MediaType LookupExtension(string ext)
+        public static MediaType GuessByExtension(string ext)
         {
             return byExtensions.Get(ext);
+        }
+
+        public static MediaType Guess(FileInfo file)
+        {
+            return GuessByExtension(PathExt.GetShortExtension(file.Name));
         }
 
         public static MediaType Lookup(string value)

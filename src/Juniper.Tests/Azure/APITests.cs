@@ -62,7 +62,6 @@ namespace Juniper.Azure.Tests
                         .First();
 
             var format = AudioFormat.Audio16KHz128KbitrateMonoMP3;
-            var audioDecoder = new NAudioAudioDataDecoder();
             var audioRequest = new TextToSpeechRequest(region, resourceName, format)
             {
                 AuthToken = token,
@@ -112,9 +111,10 @@ namespace Juniper.Azure.Tests
         {
             var audioRequest = await MakeSpeechRequest();
             var audioDecoder = new NAudioAudioDataDecoder();
+            audioDecoder.Format = audioRequest.OutputFormat;
             var audio = await cache.Load(audioRequest, audioDecoder);
-            Assert.AreEqual(MediaType.Audio.Mpeg, audio.format.ContentType);
-            Assert.AreEqual(16000, audio.format.sampleRate);
+            Assert.AreEqual(MediaType.Audio.PCMA, audio.format.ContentType);
+            Assert.AreEqual(audioRequest.OutputFormat.sampleRate, audio.format.sampleRate);
         }
     }
 }

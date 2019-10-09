@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Compression.Zip.Tests
@@ -41,7 +42,10 @@ namespace Juniper.Compression.Zip.Tests
         [TestMethod]
         public void FileNames()
         {
-            var fileNames = Decompressor.Entries(TestZip).Files().Names();
+            var fileNames = Decompressor.Entries(TestZip)
+                .Files()
+                .Names()
+                .ToArray();
             Assert.IsTrue(fileNames.Matches(TestFiles));
         }
     }

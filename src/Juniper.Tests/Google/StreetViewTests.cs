@@ -15,7 +15,6 @@ namespace Juniper.GIS.Google.StreetView.Tests
     public class StreetViewTests : ServicesTests
     {
         private LibJpegNETImageDataTranscoder jpegDecoder;
-        private IImageCodec<ImageLines> png;
         private HjgPngcsImageDataTranscoder pngDecoder;
 
         [TestInitialize]
@@ -24,7 +23,6 @@ namespace Juniper.GIS.Google.StreetView.Tests
             base.Init();
             jpegDecoder = new LibJpegNETImageDataTranscoder(80);
 
-            png = new HjgPngcsCodec();
             pngDecoder = new HjgPngcsImageDataTranscoder();
         }
 
@@ -52,7 +50,7 @@ namespace Juniper.GIS.Google.StreetView.Tests
 
             var rawImg = await cache.Load(imageRequest, jpegDecoder);
             var data = pngDecoder.Serialize(rawImg);
-            var info = png.GetImageInfo(data);
+            var info = ImageInfo.ReadPNG(data);
             Assert.AreEqual(640, info.dimensions.width);
             Assert.AreEqual(640, info.dimensions.height);
         }

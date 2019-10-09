@@ -27,7 +27,7 @@ namespace Juniper.HTTP
             using (var input = file.OpenRead())
             {
                 response.SetStatus(HttpStatusCode.OK);
-                response.ContentType = file.GetContentType();
+                response.ContentType = MediaType.Guess(file);
                 response.ContentLength64 = input.Length;
                 response.AddHeader("Date", DateTime.Now.ToString("r"));
                 input.CopyTo(response.OutputStream);

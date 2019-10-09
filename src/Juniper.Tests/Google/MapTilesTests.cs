@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,35 +25,35 @@ namespace Juniper.GIS.Google.MapTiles.Tests
         [TestMethod]
         public void EncodePair()
         {
-            var input = "38.5, -120.2";
-            var expected = "_p~iF~ps|U";
-            EncodePolylinePartTest(expected, input);
+            EncodePolylinePartTest(
+                "_p~iF~ps|U",
+                "38.5, -120.2");
         }
 
         [TestMethod]
         public void EncodeString()
         {
-            var input = "38.5, -120.2|40.7, -120.95|43.252, -126.453".Split('|');
-            var expected = "_p~iF~ps|U_ulLnnqC_mqNvxq`@";
-            EncodePolylinePartTest(expected, input);
+            EncodePolylinePartTest(
+                "_p~iF~ps|U_ulLnnqC_mqNvxq`@",
+                "38.5, -120.2|40.7, -120.95|43.252, -126.453");
         }
 
-        private static void EncodePolylinePartTest(string expected, params string[] input)
+        private static void EncodePolylinePartTest(string expected, string input)
         {
-            var encoded = LinePath.EncodePolyline(input);
+            var parts = input.SplitX('|');
+            var encoded = LinePath.EncodePolyline(parts);
             Assert.AreEqual(expected, encoded);
         }
 
         [TestMethod]
         public async Task GetImage()
         {
-            var decoder = new HjgPngcsImageDataTranscoder();
             var search = new TileRequest(apiKey, signingKey, new Size(640, 640))
             {
                 Zoom = 20,
-                Address = (string)"4909 Rutland Pl, Alexandria, VA, 22304"
+                Address = "4909 Rutland Pl, Alexandria, VA, 22304"
             };
-
+            var decoder = new ImageDataCodec(search.ContentType);
             var results = await cache.Load(search, decoder);
             Assert.IsNotNull(results);
             Assert.AreEqual(640, results.info.dimensions.width);

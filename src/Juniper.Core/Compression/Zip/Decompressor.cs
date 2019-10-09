@@ -193,7 +193,10 @@ namespace Juniper.Compression.Zip
         {
             using (var zip = new ZipFile(zipStream))
             {
-                return zip.Entries(progress);
+                foreach(var entry in zip.Entries(progress))
+                {
+                    yield return entry;
+                }
             }
         }
 
@@ -204,9 +207,12 @@ namespace Juniper.Compression.Zip
 
         public static IEnumerable<CompressedFileInfo> Entries(FileInfo zipFile, IProgress prog)
         {
-            using (var stream = zipFile.OpenRead())
+            using (var stream = zipFile.Open(FileMode.Open, FileAccess.Read))
             {
-                return Entries(stream, prog);
+                foreach(var entry in Entries(stream, prog))
+                {
+                    yield return entry;
+                }
             }
         }
 
