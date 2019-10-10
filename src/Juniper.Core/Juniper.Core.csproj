@@ -58,8 +58,7 @@
     <Compile Include="Compression\Zip\Compressor.cs" />
     <Compile Include="Compression\Zip\Decompressor.cs" />
     <Compile Include="Compression\Zip\ZipFileCacheLayer.cs" />
-    <Compile Include="Compression\Zip\ZipfileEntryStream.cs" />
-    <Compile Include="Compression\Zip\ZipFileReference.cs" />
+    <Compile Include="Compression\Zip\ZipFileEntryStream.cs" />
     <Compile Include="Imaging\TranscoderCodec.cs" />
     <Compile Include="Imaging\HjgPngcsCodec.cs" />
     <Compile Include="Imaging\HjgPngcsImageDataTranscoder.cs" />
@@ -69,9 +68,9 @@
     <Compile Include="Imaging\LibJpegNETCodec.cs" />
     <Compile Include="Imaging\LibJpegNETImageDataTranscoder.cs" />
     <Compile Include="Imaging\LibJpegNETProcessor.cs" />
-    <Compile Include="IO\AbstractCacheContentReference.cs" />
     <Compile Include="Audio\PcmBytesToFloatsStream.cs" />
-    <Compile Include="IO\FileReference.cs" />
+    <Compile Include="IO\ICacheSourceLayer.cs" />
+    <Compile Include="IO\MemoryCacheLayer.cs" />
     <Compile Include="IO\ContentReference.cs" />
     <Compile Include="IO\ForkedStream.cs" />
     <Compile Include="Collections\NAryTree.cs" />
@@ -197,7 +196,7 @@
     <Compile Include="IO\IDeserializer.cs" />
     <Compile Include="IO\IFactory.cs" />
     <Compile Include="IO\ISerializer.cs" />
-    <Compile Include="IO\ICacheLayer.cs" />
+    <Compile Include="IO\ICacheDestinationLayer.cs" />
     <Compile Include="NETFX\Runtime\Serialization\SerializationInfoExt.cs" />
     <Compile Include="IO\StringFactory.cs" />
     <Compile Include="Speech\IKeywordTriggered.cs" />

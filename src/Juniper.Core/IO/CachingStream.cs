@@ -16,22 +16,18 @@ namespace Juniper.IO
         /// </summary>
         private readonly Stream outStream;
 
+
         /// <summary>
         /// Creates a stream that wraps around another stream, writing the contents out to disk
         /// as they are being read.
         /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="parent"></param>
-        public CachingStream(Stream stream, FileInfo file)
+        /// <param name="sourceStream"></param>
+        /// <param name="outStream"></param>
+        public CachingStream(Stream sourceStream, Stream outStream)
         {
-            SourceStream = stream;
-            file.Directory.Create();
-            outStream = file.Open(FileMode.OpenOrCreate, FileAccess.Write);
+            SourceStream = sourceStream;
+            this.outStream = outStream;
         }
-
-        public CachingStream(Stream stream, string fileName)
-            : this(stream, new FileInfo(fileName))
-        { }
 
         public Stream SourceStream { get; }
 

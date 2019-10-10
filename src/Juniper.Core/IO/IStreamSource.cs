@@ -22,12 +22,6 @@ namespace Juniper.IO
 
     public static class IStreamSourceExt
     {
-        public static Task<Stream> GetStream<MediaTypeT>(this IStreamSource<MediaTypeT> source)
-            where MediaTypeT : MediaType
-        {
-            return source.GetStream(null);
-        }
-
         public static async Task<T> Decode<MediaTypeT, T>(this IStreamSource<MediaTypeT> source, IDeserializer<T> deserializer, IProgress prog)
             where MediaTypeT : MediaType
         {
@@ -43,6 +37,12 @@ namespace Juniper.IO
             where MediaTypeT : MediaType
         {
             return Decode(source, deserializer, null);
+        }
+
+        public static Task<Stream> GetStream<MediaTypeT>(this IStreamSource<MediaTypeT> source)
+            where MediaTypeT : MediaType
+        {
+            return source.GetStream(null);
         }
 
         public static async Task Proxy<MediaTypeT>(this IStreamSource<MediaTypeT> source, HttpListenerResponse response)

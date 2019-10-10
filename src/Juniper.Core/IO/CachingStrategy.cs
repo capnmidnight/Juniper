@@ -7,12 +7,13 @@ using Juniper.Progress;
 
 namespace Juniper.IO
 {
-    public class CachingStrategy : ICacheLayer
+    public class CachingStrategy : ICacheDestinationLayer
     {
-        private readonly List<ICacheLayer> layers = new List<ICacheLayer>();
+        private readonly List<ICacheSourceLayer> sources = new List<ICacheSourceLayer>();
+        private readonly List<ICacheDestinationLayer> destinations = new List<ICacheDestinationLayer>();
 
         /// <summary>
-        /// Creates an empty caching strategy. Add cache layers to it with <see cref="AddLayer(ICacheLayer)"/>
+        /// Creates an empty caching strategy. Add cache layers to it with <see cref="AddLayer(ICacheSourceLayer)"/>
         /// or no caching will occur.
         /// </summary>
         public CachingStrategy()
@@ -32,12 +33,39 @@ namespace Juniper.IO
         /// Adds a layer to the caching strategy. Layers are checked in the order
         /// that they are added.
         /// </summary>
-        /// <param name="layer"></param>
+        /// <param name="source"></param>
         /// <returns></returns>
-        public CachingStrategy AddLayer(ICacheLayer layer)
+        public CachingStrategy AddLayer(ICacheSourceLayer source)
         {
-            layers.Add(layer);
+            sources.Add(source);
+            if(source is ICacheDestinationLayer dest)
+            {
+                destinations.Add(dest);
+            }
             return this;
+        }
+
+        /// <summary>
+        /// Creates a stream that will write to all of the cache layers that support
+        /// writing streams.
+        /// </summary>
+        /// <typeparam name="MediaTypeT"></typeparam>
+        /// <param name="fileRef"></param>
+        /// <returns></returns>
+        public Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+            where MediaTypeT : MediaType
+        {
+            var stream = new ForkedStream();
+            foreach (var dest in destinations)
+            {
+                if (dest.CanCache(fileRef)
+                    && !dest.IsCached(fileRef))
+                {
+                    stream.AddStream(dest.Create(fileRef));
+                }
+            }
+
+            return stream;
         }
 
         /// <summary>
@@ -52,12 +80,12 @@ namespace Juniper.IO
         {
             if (stream != null)
             {
-                foreach (var layer in layers)
+                foreach (var dest in destinations)
                 {
-                    if (layer.CanCache(fileRef)
-                        && !layer.IsCached(fileRef))
+                    if (dest.CanCache(fileRef)
+                        && !dest.IsCached(fileRef))
                     {
-                        stream = layer.Cache(fileRef, stream);
+                        stream = dest.Cache(fileRef, stream);
                     }
                 }
             }
@@ -73,38 +101,15 @@ namespace Juniper.IO
         public bool CanCache<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            foreach (var layer in layers)
+            foreach (var dest in destinations)
             {
-                if (layer.CanCache(fileRef))
+                if (dest.CanCache(fileRef))
                 {
                     return true;
                 }
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Creates a stream that will write to all of the cache layers that support
-        /// writing streams.
-        /// </summary>
-        /// <typeparam name="MediaTypeT"></typeparam>
-        /// <param name="fileRef"></param>
-        /// <returns></returns>
-        public Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
-        {
-            var stream = new ForkedStream();
-            foreach (var layer in layers)
-            {
-                if (layer.CanCache(fileRef)
-                    && !layer.IsCached(fileRef))
-                {
-                    stream.AddStream(layer.Create(fileRef));
-                }
-            }
-
-            return stream;
         }
 
         /// <summary>
@@ -120,11 +125,11 @@ namespace Juniper.IO
         public void Copy<MediaTypeT>(IContentReference<MediaTypeT> fileRef, FileInfo file)
             where MediaTypeT : MediaType
         {
-            foreach (var layer in layers)
+            foreach (var dest in destinations)
             {
-                if (layer.CanCache(fileRef))
+                if (dest.CanCache(fileRef))
                 {
-                    layer.Copy(fileRef, file);
+                    dest.Copy(fileRef, file);
                 }
             }
         }
@@ -138,9 +143,9 @@ namespace Juniper.IO
         public bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            foreach (var layer in layers)
+            foreach (var source in sources)
             {
-                if (layer.IsCached(fileRef))
+                if (source.IsCached(fileRef))
                 {
                     return true;
                 }
@@ -156,15 +161,15 @@ namespace Juniper.IO
         /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="fileRef"></param>
         /// <returns>Null, if the file does not exist in the cache</returns>
-        public IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+        public Stream Open<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            IStreamSource<MediaTypeT> cached = null;
-            foreach (var layer in layers)
+            Stream cached = null;
+            foreach (var source in sources)
             {
-                if (layer.IsCached(fileRef))
+                if (source.IsCached(fileRef))
                 {
-                    cached = layer.GetCachedSource(fileRef);
+                    cached = source.Open(fileRef);
                     break;
                 }
             }
@@ -172,40 +177,18 @@ namespace Juniper.IO
             return cached;
         }
 
-        /// <summary>
-        /// Searches for the first cache layer that contains the referenced file
-        /// and opens the reader stream from the cache.
-        /// </summary>
-        /// <typeparam name="MediaTypeT"></typeparam>
-        /// <param name="fileRef"></param>
-        /// <param name="prog"></param>
-        /// <returns>Null, if the file does not exist in the cache</returns>
-        public Task<Stream> Open<MediaTypeT>(IContentReference<MediaTypeT> fileRef, IProgress prog)
-            where MediaTypeT : MediaType
-        {
-            var cachedSource = GetCachedSource(fileRef);
-            return cachedSource.GetStream(prog);
-        }
-
-        public Task<Stream> Open<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
-        {
-            return Open(fileRef, null);
-        }
-
-        public async Task<T> Load<MediaTypeT, T>(IContentReference<MediaTypeT> fileRef, IDeserializer<T> deserializer, IProgress prog)
+        public Task<T> Load<MediaTypeT, T>(IContentReference<MediaTypeT> fileRef, IDeserializer<T> deserializer, IProgress prog)
             where MediaTypeT : MediaType
         {
             var progs = prog.Split("Read", "Decode");
-            var cachedSource = GetCachedSource(fileRef);
-            if (cachedSource == null)
+            var stream = Open(fileRef);
+            if (stream == null)
             {
-                return default;
+                return Task.FromResult(default(T));
             }
             else
             {
-                var stream = await cachedSource.GetStream(progs[0]);
-                return deserializer.Deserialize(stream, progs[1]);
+                return deserializer.DeserializeAsync(stream, progs[1]);
             }
         }
 
@@ -233,7 +216,7 @@ namespace Juniper.IO
         public async Task Proxy<MediaTypeT>(IContentReference<MediaTypeT> fileRef, HttpListenerResponse response)
             where MediaTypeT : MediaType
         {
-            var stream = await Open(fileRef);
+            var stream = Open(fileRef);
             await stream.Proxy(response);
         }
 
@@ -246,8 +229,11 @@ namespace Juniper.IO
         public async Task<Stream> Open<MediaTypeT>(IStreamSource<MediaTypeT> source, IProgress prog)
             where MediaTypeT : MediaType
         {
-            var bestSource = GetCachedSource(source) ?? source;
-            var stream = await bestSource.GetStream(prog);
+            var stream = Open((IContentReference<MediaTypeT>)source);
+            if (stream == null)
+            {
+                stream = await source.GetStream(prog);
+            }
             return Cache(source, stream);
         }
 
@@ -261,9 +247,7 @@ namespace Juniper.IO
             where MediaTypeT : MediaType
         {
             var progs = prog.Split("Read", "Decode");
-            var bestSource = GetCachedSource(source) ?? source;
-            var stream = await bestSource.GetStream(progs[0]);
-            stream = Cache(source, stream);
+            var stream = await Open(source, progs[0]);
             return deserializer.Deserialize(stream, progs[1]);
 
         }

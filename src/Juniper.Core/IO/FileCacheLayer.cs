@@ -2,7 +2,7 @@ using System.IO;
 
 namespace Juniper.IO
 {
-    public class FileCacheLayer : ICacheLayer
+    public class FileCacheLayer : ICacheDestinationLayer
     {
         private readonly DirectoryInfo cacheLocation;
 
@@ -21,25 +21,19 @@ namespace Juniper.IO
                 return true;
         }
 
-        protected virtual string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+        public bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+            where MediaTypeT : MediaType
+        {
+            return GetCacheFile(fileRef).Exists;
+        }
+
+        private FileInfo GetCacheFile<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
             var baseName = fileRef.CacheID;
-            var cacheFileName = fileRef.ContentType.AddExtension(baseName);
-            return Path.Combine(cacheLocation.FullName, cacheFileName);
-        }
-
-        protected virtual FileInfo GetCacheFile<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
-        {
-            return new FileInfo(GetCacheFileName(fileRef));
-        }
-
-        public virtual Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)
-            where MediaTypeT : MediaType
-        {
-            var cacheFile = GetCacheFile(fileRef);
-            return new CachingStream(stream, cacheFile);
+            var relativeName = fileRef.ContentType.AddExtension(baseName);
+            var absoluteName = Path.Combine(cacheLocation.FullName, relativeName);
+            return new FileInfo(absoluteName);
         }
 
         public Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
@@ -47,27 +41,27 @@ namespace Juniper.IO
         {
             var cacheFile = GetCacheFile(fileRef);
             cacheFile.Directory.Create();
-            return cacheFile.Create();
+            return cacheFile.Open(FileMode.OpenOrCreate, FileAccess.Write);
         }
 
-        public void Copy<MediaTypeT>(IContentReference<MediaTypeT> fileRef, FileInfo file)
+        public virtual Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)
             where MediaTypeT : MediaType
         {
-            var cacheFile = GetCacheFile(fileRef);
-            cacheFile.Directory.Create();
-            File.Copy(file.FullName, cacheFile.FullName, true);
+            var outStream = Create(fileRef);
+            return new CachingStream(stream, outStream);
         }
 
-        public bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+        public Stream Open<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            return GetCacheFile(fileRef).Exists;
-        }
+            Stream stream = null;
+            var file = GetCacheFile(fileRef);
+            if (file.Exists)
+            {
+                stream = file.Open(FileMode.Open, FileAccess.Read);
+            }
 
-        public IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
-        {
-            return new FileReference<MediaTypeT>(GetCacheFile(fileRef), fileRef.CacheID, fileRef.ContentType);
+            return stream;
         }
     }
 }

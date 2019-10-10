@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using ICSharpCode.SharpZipLib.Zip;
-using Juniper.Progress;
 
 namespace Juniper.Compression.Zip
 {
@@ -13,10 +12,10 @@ namespace Juniper.Compression.Zip
         private ZipFile zip;
         private Stream entryStream;
 
-        public ZipFileEntryStream(ZipFile zip, ZipEntry entry, IProgress prog)
+        public ZipFileEntryStream(ZipFile zip, ZipEntry entry)
         {
             this.zip = zip;
-            entryStream = zip.GetFile(entry, prog);
+            entryStream = zip.GetFile(entry);
         }
 
         protected override void Dispose(bool disposing)

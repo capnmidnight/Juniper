@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 using System.IO;
@@ -7,7 +6,7 @@ using Juniper.Compression.Zip;
 
 namespace Juniper.IO
 {
-    public class ZipFileCacheLayer : ICacheLayer
+    public class ZipFileCacheLayer : ICacheSourceLayer
     {
         internal readonly FileInfo zipFile;
 
@@ -27,31 +26,7 @@ namespace Juniper.IO
             : this(new FileInfo(fileName))
         { }
 
-        public bool CanCache<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
-        {
-            return false;
-        }
-
-        public Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)
-            where MediaTypeT : MediaType
-        {
-            return stream;
-        }
-
-        public Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
-        {
-            throw new NotSupportedException();
-        }
-
-        public void Copy<MediaTypeT>(IContentReference<MediaTypeT> fileRef, FileInfo file)
-            where MediaTypeT : MediaType
-        {
-            throw new NotSupportedException();
-        }
-
-        protected virtual string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+        private string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
             var baseName = fileRef.CacheID.Replace('\\', '/');
@@ -64,11 +39,7 @@ namespace Juniper.IO
         {
             if (!filesExist.ContainsKey(fileRef.CacheID))
             {
-                if (!zipFile.Exists)
-                {
-                    filesExist[fileRef.CacheID] = false;
-                }
-                else
+                if (zipFile.Exists)
                 {
                     var cacheFileName = GetCacheFileName(fileRef);
                     using (var zip = Decompressor.OpenZip(zipFile))
@@ -77,15 +48,31 @@ namespace Juniper.IO
                         filesExist[fileRef.CacheID] = entry != null;
                     }
                 }
+                else
+                {
+                    filesExist[fileRef.CacheID] = false;
+                }
             }
 
-            return filesExist[fileRef.CacheID];
+            return filesExist.ContainsKey(fileRef.CacheID)
+                && filesExist[fileRef.CacheID];
         }
 
-        public IStreamSource<MediaTypeT> GetCachedSource<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+        public Stream Open<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            return new ZipFileReference<MediaTypeT>(this, GetCacheFileName(fileRef), fileRef);
+            Stream stream = null;
+            if (IsCached(fileRef))
+            {
+                var cacheFileName = GetCacheFileName(fileRef);
+                var zip = Decompressor.OpenZip(zipFile);
+                var entry = zip.GetEntry(cacheFileName);
+                if (entry != null)
+                {
+                    stream = new ZipFileEntryStream(zip, entry);
+                }
+            }
+            return stream;
         }
     }
 }
