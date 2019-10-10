@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
-
-using Juniper.IO;
+using System.Threading.Tasks;
 using Juniper.Progress;
 
 using UnityEngine;
@@ -13,6 +12,7 @@ namespace Juniper.Imaging
     {
         private readonly Texture2D.EXRFlags exrFlags;
         private readonly int jpegEncodingQuality;
+        private readonly TaskFactory mainThreadFactory;
 
         public UnityTextureCodec(MediaType.Image format)
         {
@@ -24,6 +24,9 @@ namespace Juniper.Imaging
             {
                 throw new NotSupportedException($"Unity doesn't know how to encode {format.Value} image data.");
             }
+
+            var mainThreadScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            mainThreadFactory = new TaskFactory(mainThreadScheduler);
 
             ContentType = format;
             exrFlags = Texture2D.EXRFlags.None;
@@ -125,6 +128,14 @@ namespace Juniper.Imaging
         {
             prog?.Report(0);
             var info = GetImageInfo(buffer);
+            var texture = mainThreadFactory.StartNew(() =>
+                MakeTextureMainThread(buffer, info)).Result;
+            prog?.Report(1);
+            return texture;
+        }
+
+        private Texture2D MakeTextureMainThread(byte[] buffer, ImageInfo info)
+        {
             var texture = new Texture2D(
                 info.dimensions.width,
                 info.dimensions.height,
@@ -143,7 +154,6 @@ namespace Juniper.Imaging
                 texture.LoadRawTextureData(buffer);
             }
             texture.Apply();
-            prog?.Report(1);
             return texture;
         }
     }
