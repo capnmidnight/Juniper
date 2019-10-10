@@ -205,7 +205,7 @@ namespace Juniper.IO
             else
             {
                 var stream = await cachedSource.GetStream(progs[0]);
-                return await deserializer.DeserializeAsync(stream, progs[1]);
+                return deserializer.Deserialize(stream, progs[1]);
             }
         }
 
@@ -264,7 +264,7 @@ namespace Juniper.IO
             var bestSource = GetCachedSource(source) ?? source;
             var stream = await bestSource.GetStream(progs[0]);
             stream = Cache(source, stream);
-            return await deserializer.DeserializeAsync(stream, progs[1]);
+            return deserializer.Deserialize(stream, progs[1]);
 
         }
 
