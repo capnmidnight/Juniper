@@ -22,7 +22,7 @@ namespace Juniper.IO
             file = new FileInfo(Path.Combine(directory.FullName, fileName));
         }
 
-        public async Task<Stream> GetStream(IProgress prog)
+        public Task<Stream> GetStream(IProgress prog)
         {
             Stream stream = null;
 
@@ -35,7 +35,7 @@ namespace Juniper.IO
                 }
             }
 
-            return stream;
+            return Task.FromResult(stream);
         }
     }
 }
