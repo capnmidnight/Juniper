@@ -34,7 +34,7 @@ namespace Juniper.IO
             prog.Report(0);
             var progs = prog.Split("Read", "Decode");
             var stream = await source.GetStream(progs[0]);
-            var value = stream.Decode(deserializer, progs[1]);
+            var value = deserializer.Deserialize(stream, progs[1]);
             prog.Report(1);
             return value;
         }

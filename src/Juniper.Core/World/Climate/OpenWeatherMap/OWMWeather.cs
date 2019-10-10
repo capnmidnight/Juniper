@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Juniper.Imaging;
+using Juniper.IO;
 
 namespace Juniper.World.Climate.OpenWeatherMap
 {

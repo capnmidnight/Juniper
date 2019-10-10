@@ -50,7 +50,7 @@ namespace Juniper.GIS.Google.StreetView.Tests
 
             var rawImg = await cache.Load(imageRequest, jpegDecoder);
             var data = pngDecoder.Serialize(rawImg);
-            var info = ImageInfo.ReadPNG(data);
+            var info = Imaging.ImageInfo.ReadPNG(data);
             Assert.AreEqual(640, info.dimensions.width);
             Assert.AreEqual(640, info.dimensions.height);
         }

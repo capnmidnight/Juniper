@@ -41,20 +41,20 @@ namespace Juniper.Azure.Tests
             return token;
         }
 
-        private async Task<Voice[]> GetVoices(string token)
+        private async Task<Voice[]> GetVoices()
         {
-            var voiceListRequest = new VoiceListRequest(region)
+            var voiceListRequest = new VoiceListRequest(region);
+            if (!cache.IsCached(voiceListRequest))
             {
-                AuthToken = token
-            };
+                voiceListRequest.AuthToken = await GetToken();
+            }
             var voices = await cache.Load(voiceListRequest, voiceListDecoder);
             return voices;
         }
 
         private async Task<TextToSpeechRequest> MakeSpeechRequest()
         {
-            var token = await GetToken();
-            var voices = await GetVoices(token);
+            var voices = await GetVoices();
 
             var voice = (from v in voices
                          where v.ShortName == "en-US-JessaNeural"
@@ -64,13 +64,16 @@ namespace Juniper.Azure.Tests
             var format = AudioFormat.Audio16KHz128KbitrateMonoMP3;
             var audioRequest = new TextToSpeechRequest(region, resourceName, format)
             {
-                AuthToken = token,
                 Text = "Hello, world",
                 VoiceName = voice.ShortName,
                 Style = SpeechStyle.Cheerful,
                 RateChange = 0.75f,
                 PitchChange = -0.1f
             };
+            if (!cache.IsCached(audioRequest))
+            {
+                audioRequest.AuthToken = await GetToken();
+            }
             return audioRequest;
         }
 
@@ -85,8 +88,7 @@ namespace Juniper.Azure.Tests
         [TestMethod]
         public async Task GetVoiceList()
         {
-            var token = await GetToken();
-            var voices = await GetVoices(token);
+            var voices = await GetVoices();
 
             Assert.IsNotNull(voices);
             Assert.AreNotEqual(0, voices.Length);
