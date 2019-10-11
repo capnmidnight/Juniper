@@ -19,7 +19,8 @@ namespace UnityEngine
 
         public static bool IsInView(this Camera cam, Canvas target)
         {
-            if (target?.isActiveAndEnabled != true)
+            if (target == null
+                || !target.isActiveAndEnabled)
             {
                 return false;
             }

@@ -161,9 +161,7 @@ namespace Juniper.World.GIS.Google
 #if UNITY_EDITOR
             photospheres.PhotosphereComplete += Photospheres_PhotosphereComplete;
 #endif
-            photospheres.SetIO(
-                cache,
-                new UnityTextureCodec(80));
+            photospheres.SetIO(cache, codec);
 
             photospheres.SetDetailLevels(searchFOVs);
 

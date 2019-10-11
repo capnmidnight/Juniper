@@ -206,7 +206,10 @@ namespace Juniper.Widgets
         protected string ShowState(string enabledPart)
         {
             enabledPart = NormalizePart(enabledPart);
-            animator?.Play(enabledPart);
+            if (animator != null)
+            {
+                animator.Play(enabledPart);
+            }
             return enabledPart;
         }
 

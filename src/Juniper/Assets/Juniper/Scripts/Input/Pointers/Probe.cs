@@ -329,8 +329,16 @@ namespace Juniper.Input.Pointers
             }
 
             var p = 1 - (timeLeft / TransitionSeconds);
-            ring?.SetScale(Vector3.Lerp(ringStartScale, ringTargetScale, p));
-            center?.SetScale(Vector3.Lerp(centerStartScale, centerTargetScale, p));
+
+            if (ring != null)
+            {
+                ring.SetScale(Vector3.Lerp(ringStartScale, ringTargetScale, p));
+            }
+
+            if (center != null)
+            {
+                center.SetScale(Vector3.Lerp(centerStartScale, centerTargetScale, p));
+            }
 
             timeLeft = Mathf.Max(0, timeLeft - Time.deltaTime);
 

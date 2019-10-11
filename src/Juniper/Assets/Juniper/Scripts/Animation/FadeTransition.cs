@@ -55,11 +55,14 @@ namespace Juniper.Animation
         {
             get
             {
-                return
+
 #if UNITY_MODULES_AUDIO
-                    aud?.clip?.length ??
+                if (aud != null && aud.clip != null)
+                {
+                    return aud.clip.length;
+                }
 #endif
-                    fadeLength;
+                return fadeLength;
             }
         }
 
@@ -227,11 +230,11 @@ namespace Juniper.Animation
         private void FadeTransition_Enter_Exiting(object sender, EventArgs e)
         {
 #if UNITY_MODULES_AUDIO
-            if(State == Direction.Forward)
+            if (State == Direction.Forward)
             {
                 aud.clip = fadeOutSound;
             }
-            else if(State == Direction.Reverse)
+            else if (State == Direction.Reverse)
             {
                 aud.clip = fadeInSound;
             }

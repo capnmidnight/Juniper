@@ -51,9 +51,11 @@ namespace Juniper.Haptics
         {
             if (vibrator == null)
             {
-                var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                var currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-                vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", GET_SYSTEM_SERVICE_PARAMS);
+                using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+                using (var currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity"))
+                {
+                    vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", GET_SYSTEM_SERVICE_PARAMS);
+                }
             }
 
             if (vibrationEffect == null)
@@ -72,7 +74,21 @@ namespace Juniper.Haptics
             base.Cancel();
             vibrator.Call("cancel", CANCEL_PARAMS);
         }
-        private static readonly object[] CANCEL_PARAMS = {  };
+
+        private void OnDestroy()
+        {
+            if(vibrationEffect != null)
+            {
+                vibrationEffect.Dispose();
+            }
+
+            if(vibrator != null)
+            {
+                vibrator.Dispose();
+            }
+        }
+
+        private static readonly object[] CANCEL_PARAMS = Array.Empty<object>();
 
         /// <summary>
         /// Play a single vibration of a set length of time.

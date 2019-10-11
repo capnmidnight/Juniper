@@ -5,6 +5,7 @@ namespace UnityEngine.Android
     /// </summary>
     public static class Device
     {
+        private static int cachedAPILevel;
         /// <summary>
         /// Get the current Android SDK API version.
         /// </summary>
@@ -23,18 +24,15 @@ namespace UnityEngine.Android
                     return 0;
 #if UNITY_ANDROID
                 }
-                else
+                else if (cachedAPILevel == 0)
                 {
-                    var androidVersion = new AndroidJavaClass("android.os.Build$VERSION");
-                    if (androidVersion == null)
+                    using (var androidVersion = new AndroidJavaClass("android.os.Build$VERSION"))
                     {
-                        return 0;
-                    }
-                    else
-                    {
-                        return androidVersion.GetStatic<int>("SDK_INT");
+                        cachedAPILevel = androidVersion.GetStatic<int>("SDK_INT");
                     }
                 }
+
+                return cachedAPILevel;
 #endif
             }
         }
@@ -46,17 +44,29 @@ namespace UnityEngine.Android
         public static void ShowToastMessage(string message)
         {
 #if UNITY_ANDROID
-            var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-            var unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-
-            if (unityActivity != null)
+            using (var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
             {
-                var toastClass = new AndroidJavaClass("android.widget.Toast");
-                unityActivity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
+                var unityActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+                if (unityActivity != null)
                 {
-                    var toastObject = toastClass.CallStatic<AndroidJavaObject>("makeText", unityActivity, message, 0);
-                    toastObject.Call("show");
-                }));
+                    using (unityActivity)
+                    using (var toastClass = new AndroidJavaClass("android.widget.Toast"))
+                    {
+                        var args = new AndroidJavaRunnable(() =>
+                        {
+                            var toastObject = toastClass.CallStatic<AndroidJavaObject>("makeText", unityActivity, message, 0);
+                            if (toastObject != null)
+                            {
+                                using (toastObject)
+                                {
+                                    toastObject.Call("show");
+                                }
+                            }
+                        });
+
+                        unityActivity.Call("runOnUiThread", args);
+                    }
+                }
             }
 #endif
         }

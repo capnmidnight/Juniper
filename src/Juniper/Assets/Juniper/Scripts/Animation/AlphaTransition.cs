@@ -53,7 +53,11 @@ namespace Juniper.Animation
         {
             if (transitionMaterial == null)
             {
-                transitionMaterial = GetComponent<Renderer>()?.GetMaterial();
+                var rend = GetComponent<Renderer>();
+                if (rend != null)
+                {
+                    transitionMaterial = rend.GetMaterial();
+                }
             }
 
             if (transitionMaterial != null)

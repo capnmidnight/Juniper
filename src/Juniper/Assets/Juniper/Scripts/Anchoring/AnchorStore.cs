@@ -140,7 +140,7 @@ namespace Juniper.Anchoring
         /// <summary>
         /// An empty array for returning without creating the empty array all the time.
         /// </summary>
-        private static readonly string[] EMPTY_STRING_ARRAY = new string[0];
+        private static readonly string[] EMPTY_STRING_ARRAY = Array.Empty<string>();
 
         /// <summary>
         /// A list of all keys for all objects stored in the data store along with the anchor store.
@@ -293,7 +293,14 @@ namespace Juniper.Anchoring
         /// <returns></returns>
         protected virtual AnchorType FindAnchor(GameObject gameObject)
         {
-            return gameObject?.GetComponent<AnchorType>();
+            if (gameObject == null)
+            {
+                return default;
+            }
+            else
+            {
+                return gameObject.GetComponent<AnchorType>();
+            }
         }
 
         /// <summary>

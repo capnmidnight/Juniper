@@ -53,8 +53,6 @@ namespace Juniper.Audio
         , ICredentialReceiver
 #endif
     {
-        private static AbstractInteractionAudio instance;
-        private const float E = (float)Math.E;
         private const string INTERACTION_SOUND_TAG = "InteractionSound";
 
         /// <summary>
@@ -92,32 +90,6 @@ namespace Juniper.Audio
                 default:
                 return HapticExpression.None;
             }
-        }
-
-        /// <summary>
-        /// Play the specified action using the specified pose and haptic subsystem, with no callback.
-        /// </summary>
-        /// <returns>The play.</returns>
-        /// <param name="action"> Action.</param>
-        /// <param name="pose">   Pose.</param>
-        /// <param name="haptics">Haptics.</param>
-        public static float Play(Interaction action, Transform pose, AbstractHapticDevice haptics)
-        {
-            return instance?.Play_Internal(action, pose, haptics) ?? 0;
-        }
-
-        /// <summary>
-        /// Play the specified action using the specified pose and haptic subsystem, with a callback
-        /// on completion.
-        /// </summary>
-        /// <returns>The play.</returns>
-        /// <param name="action">    Action.</param>
-        /// <param name="pose">      Pose.</param>
-        /// <param name="haptics">   Haptics.</param>
-        /// <param name="onComplete"></param>
-        public static float Play(Interaction action, Transform pose, AbstractHapticDevice haptics, Action onComplete)
-        {
-            return instance?.Play_Internal(action, pose, haptics, onComplete) ?? 0;
         }
 
         /// <summary>
@@ -267,49 +239,48 @@ namespace Juniper.Audio
         /// </summary>
         public virtual void Awake()
         {
-            if (instance != null)
-            {
-                Debug.LogWarning("Juniper: There can be only one! (R2D2)");
-                this.DestroyImmediate();
-            }
-            else
-            {
 #if UNITY_EDITOR
-                this.ReceiveCredentials();
+            this.ReceiveCredentials();
 #endif
-                Install(false);
+            Install(false);
 
-                instance = this;
-                camT = DisplayManager.MainCamera.transform;
+            camT = DisplayManager.MainCamera.transform;
 
 #if UNITY_MODULES_AUDIO
-                startUp = new SingleAudioClipCollection(soundOnStartUp, false);
-                shutDown = new SingleAudioClipCollection(soundOnShutDown, false);
+            startUp = new SingleAudioClipCollection(soundOnStartUp, false);
+            shutDown = new SingleAudioClipCollection(soundOnShutDown, false);
 
-                InitializeInteractionAudioSources();
+            InitializeInteractionAudioSources();
 #endif
 
-                var cache = new UnityCachingStrategy();
-                tts = new TextToSpeechClient(
-                    azureRegion,
-                    azureApiKey,
-                    azureResourceName,
-                    new JsonFactory<Voice[]>(),
+            var cache = new UnityCachingStrategy();
+            tts = new TextToSpeechClient(
+                azureRegion,
+                azureApiKey,
+                azureResourceName,
+                new JsonFactory<Voice[]>(),
 #if UNITY_STANDALONE_WIN || UNITY_WSA
-                    AudioFormat.Audio24KHz160KbitrateMonoMP3
+                AudioFormat.Audio24KHz160KbitrateMonoMP3
 #else
-                    AudioFormat.Riff16KHz16BitMonoPCM,
+                AudioFormat.Riff16KHz16BitMonoPCM,
 #endif
-
-                    new NAudioAudioDataDecoder(),
-                    cache);
-            }
+                new NAudioAudioDataDecoder(),
+                cache);
         }
+
+        private BinaryReader reader;
 
         public async Task<AudioClip> PreloadSpeech(string text, string voiceName, float rateChange, float pitchChange)
         {
             var audioData = await tts.GetDecodedAudio(text, voiceName, rateChange, pitchChange);
-            var reader = new BinaryReader(audioData.dataStream);
+
+            if(reader != null)
+            {
+                reader.Dispose();
+                reader = null;
+            }
+
+            reader = new BinaryReader(audioData.dataStream);
             var clip = AudioClip.Create(
                 text,
                 (int)audioData.samples,
@@ -318,7 +289,7 @@ namespace Juniper.Audio
                 true,
                 floats =>
                 {
-                    for(int i = 0; i < floats.Length; ++i)
+                    for (int i = 0; i < floats.Length; ++i)
                     {
                         floats[i] = reader.ReadSingle();
                     }
@@ -327,7 +298,6 @@ namespace Juniper.Audio
                 {
                     reader.BaseStream.Position = pos;
                 });
-
             clip.LoadAudioData();
             return clip;
         }
@@ -394,38 +364,7 @@ namespace Juniper.Audio
             }
         }
 
-        /// <summary>
-        /// Waits a set number of seconds and then executes a callback function.
-        /// </summary>
-        /// <returns>The wait.</returns>
-        /// <param name="seconds">   Seconds.</param>
-        /// <param name="onComplete">On complete.</param>
-        private static IEnumerator Wait(float seconds, Action onComplete)
-        {
-            var end = DateTime.Now.AddSeconds(seconds);
-            while (DateTime.Now < end)
-            {
-                yield return null;
-            }
-            onComplete();
-        }
-
-        private float Play_Internal(Interaction action, AbstractHapticDevice haptics)
-        {
-            return Play_Internal(action, camT, haptics, null);
-        }
-
-        private float Play_Internal(Interaction action, Transform pose, AbstractHapticDevice haptics)
-        {
-            return Play_Internal(action, pose, haptics, null);
-        }
-
-        private float Play_Internal(Interaction action, AbstractHapticDevice haptics, Action onComplete)
-        {
-            return Play_Internal(action, camT, haptics, onComplete);
-        }
-
-        private float Play_Internal(Interaction action, Transform pose, AbstractHapticDevice haptics, Action onComplete)
+        public float PlayAction(Interaction action, Transform pose, AbstractHapticDevice haptics, bool randomizePitch)
         {
             if (action == Interaction.None)
             {
@@ -433,48 +372,61 @@ namespace Juniper.Audio
             }
             else
             {
-                PlayHaptics(action, haptics);
-                var len = PlayClip(action, pose);
-                if (onComplete != null)
+                if (haptics != null)
                 {
-                    this.Run(Wait(len, onComplete));
+                    var expr = GetHapticExpressions(action);
+                    if (expr != HapticExpression.None)
+                    {
+                        haptics.Play(expr);
+                    }
                 }
-                return len;
-            }
-        }
 
-        /// <summary>
-        /// Executes the haptic feedback portion of the interaction.
-        /// </summary>
-        /// <param name="action"> Action.</param>
-        /// <param name="haptics">Haptics.</param>
-        private static void PlayHaptics(Interaction action, AbstractHapticDevice haptics)
-        {
-            var expr = GetHapticExpressions(action);
-            if (expr != HapticExpression.None)
-            {
-                haptics?.Play(expr);
-            }
-        }
-
-        /// <summary>
-        /// Plays the audio portion of the interaction.
-        /// </summary>
-        /// <returns>The clip.</returns>
-        /// <param name="action">Action.</param>
-        /// <param name="pose">  Pose.</param>
-        private float PlayClip(Interaction action, Transform pose)
-        {
 #if UNITY_MODULES_AUDIO
-            var clips = GetClipCollection(action);
-            var randomizePitch = clips?.RandomizeClipPitch == true;
-            var clip = clips?.Random();
-            if (clip != null)
-            {
-                return PlayAudioClip(clip, pose, randomizePitch);
-            }
+                var clips = GetClipCollection(action);
+                var reallyRandomize = randomizePitch && clips?.RandomizeClipPitch == true;
+                var clip = clips?.Random();
+                if (clip != null)
+                {
+                    return PlayAudioClip(clip, pose, reallyRandomize);
+                }
 #endif
-            return 0;
+                return 0;
+            }
+        }
+
+        public float PlayAction(Interaction action, Transform pose, AbstractHapticDevice haptics)
+        {
+            return PlayAction(action, pose, haptics, false);
+        }
+
+        public float PlayAction(Interaction action, Transform pose, bool randomizePitch)
+        {
+            return PlayAction(action, pose, null, randomizePitch);
+        }
+
+        public float PlayAction(Interaction action, Transform pose)
+        {
+            return PlayAction(action, pose, null, false);
+        }
+
+        public float PlayAction(Interaction action, AbstractHapticDevice haptics, bool randomizePitch)
+        {
+            return PlayAction(action, camT, haptics, randomizePitch);
+        }
+
+        public float PlayAction(Interaction action, AbstractHapticDevice haptics)
+        {
+            return PlayAction(action, camT, haptics, false);
+        }
+
+        public float PlayAction(Interaction action, bool randomizePitch)
+        {
+            return PlayAction(action, camT, null, randomizePitch);
+        }
+
+        public float PlayAction(Interaction action)
+        {
+            return PlayAction(action, camT, null, false);
         }
 
         public float PlayAudioClip(AudioClip clip, Transform pose, bool randomizePitch)
@@ -502,6 +454,15 @@ namespace Juniper.Audio
         public float PlayAudioClip(AudioClip clip, Transform pose)
         {
             return PlayAudioClip(clip, pose, false);
+        }
+        public float PlayAudioClip(AudioClip clip, bool randomizePitch)
+        {
+            return PlayAudioClip(clip, camT, randomizePitch);
+        }
+
+        public float PlayAudioClip(AudioClip clip)
+        {
+            return PlayAudioClip(clip, camT, false);
         }
 
 #if UNITY_MODULES_AUDIO
@@ -577,9 +538,7 @@ namespace Juniper.Audio
         }
 
         protected virtual void UninstallSpatialization(AudioSource audioSource)
-        {
-
-        }
+        { }
 
         /// <summary>
         /// The audio mixer to use with ResonanceAudio
@@ -666,7 +625,9 @@ namespace Juniper.Audio
         protected virtual AudioSource InternalSpatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
         {
             audioSource.loop = loop;
-            audioSource.outputAudioMixerGroup = group ?? defaultMixerGroup;
+            audioSource.outputAudioMixerGroup = group == null
+                ? defaultMixerGroup
+                : group;
             audioSource.spatialBlend = 1;
             audioSource.spatialize = true;
             audioSource.spatializePostEffects = true;

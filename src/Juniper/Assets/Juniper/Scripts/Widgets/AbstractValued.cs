@@ -315,7 +315,10 @@ namespace Juniper.Widgets
                 lastTickValue = internalValue;
                 grabOffset = pointerPosition - transform.position;
                 var anchor = GetComponent<Anchored>();
-                anchor?.WeighAnchor();
+                if (anchor != null)
+                {
+                    anchor.WeighAnchor();
+                }
             }
         }
 
@@ -358,7 +361,11 @@ namespace Juniper.Widgets
                 interactionPoint = Vector3.zero;
                 interactionOffset = Vector3.zero;
                 grabOffset = Vector3.zero;
-                GetComponent<Anchored>()?.DropAnchor();
+                var anchored = GetComponent<Anchored>();
+                if (anchored != null)
+                {
+                    anchored.DropAnchor();
+                }
             }
         }
     }

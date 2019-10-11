@@ -1,6 +1,6 @@
 namespace Juniper
 {
-    public class HideInNormalInspectorAttribute : UnityEngine.PropertyAttribute
+    public sealed class HideInNormalInspectorAttribute : UnityEngine.PropertyAttribute
     {
     }
 }

@@ -85,7 +85,14 @@ namespace Juniper.Animation
         {
             get
             {
-                return step?.GetComponent<AbstractTransitionController>();
+                if (step == null)
+                {
+                    return default;
+                }
+                else
+                {
+                    return step.GetComponent<AbstractTransitionController>();
+                }
             }
         }
 
@@ -100,11 +107,13 @@ namespace Juniper.Animation
             EnableButtons();
 
             var trans = Transition;
-
-            trans?.Enter();
-            if (trans == null)
+            if (trans != null)
             {
-                step?.Activate();
+                trans.Enter();
+            }
+            else if(step != null)
+            {
+                step.Activate();
             }
 
 #if UNITY_MODULES_ANIMATION

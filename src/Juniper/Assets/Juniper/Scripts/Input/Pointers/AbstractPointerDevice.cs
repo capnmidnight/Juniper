@@ -148,6 +148,8 @@ namespace Juniper.Input.Pointers
             }
         }
 
+        private InteractionAudio interaction;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Juniper.Input.PointerDevice"/> class.
         /// </summary>
@@ -157,6 +159,7 @@ namespace Juniper.Input.Pointers
 
             Find.Any(out input);
             Find.Any(out stage);
+            Find.Any(out interaction);
 
             pointerOffset = MinimumPointerDistance * Vector3.forward;
 
@@ -271,7 +274,14 @@ namespace Juniper.Input.Pointers
         {
             get
             {
-                return motionFilter?.PredictedPosition ?? WorldPoint;
+                if (motionFilter == null)
+                {
+                    return WorldPoint;
+                }
+                else
+                {
+                    return motionFilter.PredictedPosition;
+                }
             }
         }
 
@@ -313,7 +323,15 @@ namespace Juniper.Input.Pointers
         {
             get
             {
-                return probe?.Cursor?.position ?? Vector3.zero;
+                if (probe != null
+                    && probe.Cursor != null)
+                {
+                    return probe.Cursor.position;
+                }
+                else
+                {
+                    return Vector3.zero;
+                }
             }
         }
 
@@ -433,7 +451,10 @@ namespace Juniper.Input.Pointers
             }
 
 #if UNITY_EDITOR
-            motionFilter?.Copy(parentMotionFilter);
+            if (motionFilter != null)
+            {
+                motionFilter.Copy(parentMotionFilter);
+            }
 #endif
 
             Connected = IsConnected;
@@ -446,9 +467,17 @@ namespace Juniper.Input.Pointers
 
             if (IsEnabled)
             {
-                motionFilter?.UpdateState(WorldPoint);
+                if (motionFilter != null)
+                {
+                    motionFilter.UpdateState(WorldPoint);
+                }
+
                 InternalUpdate();
-                probe?.AlignProbe(Direction, transform.up);
+
+                if (probe != null)
+                {
+                    probe?.AlignProbe(Direction, transform.up);
+                }
             }
         }
 
@@ -486,16 +515,25 @@ namespace Juniper.Input.Pointers
 
         public virtual void PlayInteraction(Interaction action)
         {
-            if (Time.unscaledTime > finishTime || action != lastAction)
+            if (interaction != null
+                && (Time.unscaledTime > finishTime
+                    || action != lastAction))
             {
                 lastAction = action;
-                finishTime = Time.unscaledTime + InteractionAudio.Play(action, probe.Cursor, Haptics);
+                finishTime = Time.unscaledTime + interaction.PlayAction(action, probe.Cursor, Haptics);
             }
         }
 
         protected JuniperPointerEventData Clone(int pointerDataID, JuniperPointerEventData evtData)
         {
-            return InputModule?.Clone(pointerDataID, evtData);
+            if (InputModule != null)
+            {
+                return InputModule.Clone(pointerDataID, evtData);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public virtual void Process(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses, bool paused)

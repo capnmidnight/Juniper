@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -189,7 +190,8 @@ namespace UnityEngine
         public static bool GetVisible(this Component parent)
         {
             var r = parent.GetComponent<Renderer>();
-            return r?.enabled == true;
+            return r != null
+                && r.enabled;
         }
 
         /// <summary>

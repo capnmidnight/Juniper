@@ -49,9 +49,15 @@ namespace Juniper.Input.Pointers
             SetButton(btn);
             var key = ButtonEvent.MakeKey(button);
             var btns = eventParent.GetComponents<ButtonEvent>();
-            buttonEvent = Array.Find(btns, e => e.Key == key)
-                ?? Array.Find(btns, e => e.inputKey == inputKey)
-                ?? eventParent.AddComponent<ButtonEvent>();
+            buttonEvent = Array.Find(btns, e => e.Key == key);
+            if (buttonEvent == null)
+            {
+                buttonEvent = Array.Find(btns, e => e.inputKey == inputKey);
+                if (buttonEvent == null)
+                {
+                    buttonEvent = eventParent.AddComponent<ButtonEvent>();
+                }
+            }
             buttonEvent.Key = key;
             buttonEvent.inputKey = inputKey;
         }
@@ -115,7 +121,14 @@ namespace Juniper.Input.Pointers
             TestUpDown(evtData, keyPresses);
             TestDrag(evtData, pixelDragThresholdSquared);
 
-            return evtData.pointerEnter?.GetComponent<IEventSystemHandler>();
+            if (evtData.pointerEnter != null)
+            {
+                return evtData.pointerEnter.GetComponent<IEventSystemHandler>();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private void TestUpDown(JuniperPointerEventData evtData, List<KeyCode> keyPresses)
@@ -232,7 +245,13 @@ namespace Juniper.Input.Pointers
                         IsDragging = true;
                     }
 
-                    evtData.pointerDrag = ExecuteEvents.ExecuteHierarchy(evtData.pointerDrag ?? evtData.pointerPress, evtData, ExecuteEvents.dragHandler);
+                    var dragObj = evtData.pointerDrag;
+                    if(dragObj == null)
+                    {
+                        dragObj = evtData.pointerPress;
+                    }
+
+                    evtData.pointerDrag = ExecuteEvents.ExecuteHierarchy(dragObj, evtData, ExecuteEvents.dragHandler);
                     InteractionNeeded(Interaction.Dragged);
                 }
                 else if (wasDragging && !IsPressed)

@@ -30,7 +30,10 @@ namespace System
         /// </summary>
         public static void Clear()
         {
-            instance?.ClearScreen();
+            if (instance != null)
+            {
+                instance.ClearScreen();
+            }
         }
 
         /// <summary>

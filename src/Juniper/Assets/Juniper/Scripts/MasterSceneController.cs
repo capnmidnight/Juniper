@@ -170,8 +170,11 @@ namespace Juniper
                 && gameObject != null
                 && !string.IsNullOrEmpty(gameObject.scene.path))
             {
-                var s = new List<EditorBuildSettingsScene>();
-                s.Add(new EditorBuildSettingsScene(gameObject.scene.path, true));
+                var s = new List<EditorBuildSettingsScene>
+                {
+                    new EditorBuildSettingsScene(gameObject.scene.path, true)
+                };
+
                 s.AddRange(from path in subSceneNames
                            select new EditorBuildSettingsScene(path, true));
                 EditorBuildSettings.scenes = s.ToArray();

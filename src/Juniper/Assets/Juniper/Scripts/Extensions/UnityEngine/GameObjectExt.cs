@@ -62,7 +62,8 @@ namespace UnityEngine
         /// <param name="parent">Parent.</param>
         public static bool IsActivated(this GameObject parent)
         {
-            return parent?.activeInHierarchy == true;
+            return parent != null
+                && parent.activeInHierarchy;
         }
 
         /// <summary>
@@ -162,7 +163,8 @@ namespace UnityEngine
         /// <returns>The center.</returns>
         /// <param name="obj">    Object.</param>
         /// <param name="exclude">Exclude.</param>
-        public static Vector3 Center(this GameObject obj, params Component[] exclude)
+        public static Vector3 Center<T>(this GameObject obj, params T[] exclude)
+            where T : Component
         {
             var output = Vector3.zero;
             var count = 0;

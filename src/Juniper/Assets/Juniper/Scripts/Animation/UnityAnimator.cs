@@ -65,23 +65,16 @@ namespace Juniper.Animation
         /// <returns></returns>
         public override IEnumerator PlayCoroutine(string name)
         {
-            if (animator?.runtimeAnimatorController != null)
+            if (animator != null
+                && animator.runtimeAnimatorController != null)
             {
                 animator.Play(name);
                 var animationState = animator.GetCurrentAnimatorStateInfo(0);
                 var len = animationState.length;
-                var end = DateTime.Now.AddSeconds(len);
-                while (DateTime.Now < end)
-                {
-                    yield return null;
-                }
+                yield return Wait.Seconds(len);
 
                 animationState = animator.GetCurrentAnimatorStateInfo(0);
-                end = DateTime.Now.AddSeconds(animationState.length - len);
-                while (DateTime.Now < end)
-                {
-                    yield return null;
-                }
+                yield return Wait.Seconds(animationState.length - len);
             }
         }
 

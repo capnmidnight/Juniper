@@ -80,7 +80,7 @@ namespace Juniper.Widgets
 
         public void Update()
         {
-            Progress = Mathf.Lerp(Progress, TargetValue, 0.1f);
+            Progress = Mathf.Lerp(Progress, TargetValue, 0.2f);
             var s = indicator.transform.localScale;
             s.x = Progress;
             indicator.transform.localScale = s;

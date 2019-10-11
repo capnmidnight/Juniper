@@ -101,11 +101,23 @@ namespace Juniper.ImageTracking
         {
             if (attachmentPoint == null)
             {
-                attachmentPoint = transform.Children().FirstOrDefault(t =>
-                    t.CompareTag(TAG_NAME))
-                        ?? transform.Children().FirstOrDefault(t =>
-                            t.name == TRANSFORM_NAME)
-                        ?? transform;
+                attachmentPoint = transform
+                    .Children()
+                    .FirstOrDefault(t =>
+                        t.CompareTag(TAG_NAME));
+
+                if (attachmentPoint == null)
+                {
+                    attachmentPoint = transform
+                        .Children()
+                        .FirstOrDefault(t =>
+                            t.name == TRANSFORM_NAME);
+
+                    if (attachmentPoint == null)
+                    {
+                        attachmentPoint = transform;
+                    }
+                }
             }
         }
 

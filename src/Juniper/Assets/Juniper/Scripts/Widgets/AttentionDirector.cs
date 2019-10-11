@@ -6,6 +6,7 @@ using Juniper.Display;
 using Juniper.Input;
 
 using UnityEngine;
+using System.Linq;
 
 #if UNITY_MODULES_AUDIO
 
@@ -33,13 +34,90 @@ namespace Juniper.Widgets
         public float minDistance = 0.01f;
 
         /// <summary>
+        /// The callback to execute when the target is found.
+        /// </summary>
+        private Action onTargetFound;
+
+        /// <summary>
+        /// The optional object we are targeting.
+        /// </summary>
+        private Transform targetTrans;
+
+        /// <summary>
+        /// The object we were targeting in the last frame.
+        /// </summary>
+        private Transform lastTargetTrans;
+
+        /// <summary>
+        /// The position in space that we are targeting, if there is no distinct target object.
+        /// </summary>
+        private Vector3 targetPos;
+
+        /// <summary>
+        /// The position in space that we were targeting last frame.
+        /// </summary>
+        private Vector3 lastTargetPosition;
+
+        /// <summary>
+        /// The pointer graphic.
+        /// </summary>
+        private Transform pointer;
+
+        /// <summary>
+        /// The arrow on the edge of the pointer graphic, pointer the user to the direction to turn.
+        /// </summary>
+        private Transform arrow;
+
+        /// <summary>
+        /// The offset from the center at which the arrow is located.
+        /// </summary>
+        private Vector3 tagRange;
+
+        /// <summary>
+        /// An optional image to display in the center of the attention director. Maybe use it for
+        /// displaying instructions to the user the first time they see the attention director.
+        /// </summary>
+        private Transform image;
+
+        /// <summary>
+        /// Whether or not to show the optional center image.
+        /// </summary>
+        private bool showImage;
+
+        /// <summary>
+        /// Whether or not to show the pointer graphic at all.
+        /// </summary>
+        private bool showPointer;
+
+        /// <summary>
+        /// Whether or not the optional center image was visible in the last frame.
+        /// </summary>
+        private bool wasShowImage;
+
+        /// <summary>
+        /// Whether or not the pointer graphic was visible in the last frame.
+        /// </summary>
+        private bool wasShowPointer;
+
+        /// <summary>
+        /// An optional animation object to show different attention director states.
+        /// </summary>
+#if UNITY_MODULES_ANIMATION
+        private AbstractAnimator animator;
+#endif
+
+        private InteractionAudio interaction;
+
+        /// <summary>
         /// The point we are trying to find with the attention director.
         /// </summary>
         public Vector3 Target
         {
             get
             {
-                if (targetTrans != lastTargetTrans || targetTrans != null && targetTrans.position != lastTargetPosition)
+                if (targetTrans != lastTargetTrans
+                    || targetTrans != null
+                    && targetTrans.position != lastTargetPosition)
                 {
                     if (targetTrans == null)
                     {
@@ -49,8 +127,13 @@ namespace Juniper.Widgets
                     else
                     {
                         lastTargetPosition = targetTrans.position;
-                        var tt = targetTrans.GetComponentInChildren<Tooltipable>();
-                        targetPos = targetTrans.gameObject.Center(tt?.tooltip);
+                        var tt = targetTrans
+                            .GetComponentsInChildren<Tooltipable>()
+                            .Select(t => t.tooltip)
+                            .ToArray();
+                        targetPos = targetTrans
+                            .gameObject
+                            .Center(tt);
                     }
 
                     lastTargetTrans = targetTrans;
@@ -67,7 +150,10 @@ namespace Juniper.Widgets
         public void Play(string anim)
         {
 #if UNITY_MODULES_ANIMATION
-            animator?.Play(anim);
+            if (animator != null)
+            {
+                animator.Play(anim);
+            }
 #endif
         }
 
@@ -77,6 +163,7 @@ namespace Juniper.Widgets
         /// </summary>
         public void Awake()
         {
+            Find.Any(out interaction);
             pointer = transform.Find("Pointer");
             arrow = pointer.Find("Tag");
             tagRange = arrow.localPosition;
@@ -121,28 +208,29 @@ namespace Juniper.Widgets
             return ScanCoroutine(null);
         }
 
-        /// <summary>
-        /// Executes an animation and a sound indicatingn to the user that the target has been found.
-        /// </summary>
-        public void Found()
+        private IEnumerator PlayAction(Interaction action, string animation)
         {
-            this.Run(FoundCoroutine());
+            this.Activate();
+
+#if UNITY_MODULES_AUDIO
+            if (interaction != null)
+            {
+                interaction.PlayAction(action, transform);
+            }
+#endif
+#if UNITY_MODULES_ANIMATION
+            return animator.PlayCoroutine(animation);
+#else
+            return null;
+#endif
         }
 
         /// <summary>
         /// Executes an animation and a sound indicating to the user that the target has been found.
         /// </summary>
-        public IEnumerator FoundCoroutine()
+        public void Found()
         {
-            this.Activate();
-#if UNITY_MODULES_AUDIO
-            InteractionAudio.Play(Interaction.Success, transform, null);
-#endif
-#if UNITY_MODULES_ANIMATION
-            return animator.PlayCoroutine("Found");
-#else
-            return null;
-#endif
+            this.Run(PlayAction(Interaction.Success, "Found"));
         }
 
         /// <summary>
@@ -150,28 +238,11 @@ namespace Juniper.Widgets
         /// </summary>
         public void Lost()
         {
-            this.Run(LostCoroutine());
+            this.Run(PlayAction(Interaction.Error, "Lost"));
         }
 
         /// <summary>
-        /// Executes an animation and a sound indicating to the user that the target has been lost.
-        /// </summary>
-        /// <returns>The coroutine.</returns>
-        public IEnumerator LostCoroutine()
-        {
-            this.Activate();
-#if UNITY_MODULES_AUDIO
-            InteractionAudio.Play(Interaction.Error, transform, null);
-#endif
-#if UNITY_MODULES_ANIMATION
-            return animator.PlayCoroutine("Lost");
-#else
-            return null;
-#endif
-        }
-
-        /// <summary>
-        /// Set the attenion director to targeting a specific object, withouth showing the optional
+        /// Set the attention director to targeting a specific object, without showing the optional
         /// center image.
         /// </summary>
         /// <returns>The target coroutine.</returns>
@@ -187,7 +258,7 @@ namespace Juniper.Widgets
         }
 
         /// <summary>
-        /// Set the attenion director to targeting a specific object, withouth showing the optional
+        /// Set the attention director to targeting a specific object, without showing the optional
         /// center image.
         /// </summary>
         /// <param name="target">       Target.</param>
@@ -270,78 +341,5 @@ namespace Juniper.Widgets
             wasShowImage = showImage;
             wasShowPointer = showPointer;
         }
-
-        /// <summary>
-        /// The callback to execute when the target is found.
-        /// </summary>
-        private Action onTargetFound;
-
-        /// <summary>
-        /// The optional object we are targeting.
-        /// </summary>
-        private Transform targetTrans;
-
-        /// <summary>
-        /// The object we were targeting in the last frame.
-        /// </summary>
-        private Transform lastTargetTrans;
-
-        /// <summary>
-        /// The position in space that we are targeting, if there is no distinct target object.
-        /// </summary>
-        private Vector3 targetPos;
-
-        /// <summary>
-        /// The position in space that we were targeting last frame.
-        /// </summary>
-        private Vector3 lastTargetPosition;
-
-        /// <summary>
-        /// The pointer graphic.
-        /// </summary>
-        private Transform pointer;
-
-        /// <summary>
-        /// The arrow on the edge of the pointer graphic, pointer the user to the direction to turn.
-        /// </summary>
-        private Transform arrow;
-
-        /// <summary>
-        /// The offset from the center at which the arrow is located.
-        /// </summary>
-        private Vector3 tagRange;
-
-        /// <summary>
-        /// An optional image to display in the center of the attention director. Maybe use it for
-        /// displaying instructions to the user the first time they see the attention director.
-        /// </summary>
-        private Transform image;
-
-        /// <summary>
-        /// Whether or not to show the optional center image.
-        /// </summary>
-        private bool showImage;
-
-        /// <summary>
-        /// Whether or not to show the pointer graphic at all.
-        /// </summary>
-        private bool showPointer;
-
-        /// <summary>
-        /// Whether or not the optional center image was visible in the last frame.
-        /// </summary>
-        private bool wasShowImage;
-
-        /// <summary>
-        /// Whether or not the pointer graphic was visible in the last frame.
-        /// </summary>
-        private bool wasShowPointer;
-
-        /// <summary>
-        /// An optional animation object to show different attention director states.
-        /// </summary>
-#if UNITY_MODULES_ANIMATION
-        private AbstractAnimator animator;
-#endif
     }
 }

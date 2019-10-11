@@ -53,7 +53,8 @@ namespace Juniper.World.GIS
             {
                 return compass != null
                     && compass.HasHeading
-                    && location?.HasCoord == true;
+                    && location != null
+                    && location.HasCoord;
             }
         }
 
@@ -138,7 +139,7 @@ namespace Juniper.World.GIS
                 ScreenDebugger.Print("  No compass heading yet");
             }
 
-            if (location?.HasCoord == true && compass?.HasHeading == true)
+            if (CanCalculateCurrentLocalPosition)
             {
                 ScreenDebugger.PrintFormat("  Azimuth {0}, Altitude {1}",
                     orientation.AzimuthDegrees.Label(UnitOfMeasure.Degrees, 3),
