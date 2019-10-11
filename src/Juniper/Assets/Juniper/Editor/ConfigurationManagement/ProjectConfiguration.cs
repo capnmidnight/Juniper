@@ -11,7 +11,7 @@ namespace Juniper.ConfigurationManagement
     public sealed class ProjectConfiguration : ISerializable
     {
         private const string CONFIG_FILE_NAME = "juniper.json";
-        private static readonly ITextDecoder<ProjectConfiguration> json = new JsonFactory<ProjectConfiguration>();
+        private static readonly JsonFactory<ProjectConfiguration> json = new JsonFactory<ProjectConfiguration>();
 
         public static ProjectConfiguration Load()
         {
