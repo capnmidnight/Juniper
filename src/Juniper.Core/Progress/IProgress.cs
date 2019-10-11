@@ -1,5 +1,5 @@
 using System;
-
+using System.Threading.Tasks;
 using static System.Math;
 
 namespace Juniper.Progress
@@ -185,6 +185,38 @@ namespace Juniper.Progress
         public static void Report(this IProgress prog, float count, float length)
         {
             prog.Report(count, length, null);
+        }
+
+        public static Task WaitOn(this IProgress parent, IProgress child, string prefix)
+        {
+            return Task.Run(() =>
+            {
+                while (child.Progress < 1)
+                {
+                    string message = null;
+
+                    if (string.IsNullOrEmpty(child.Status))
+                    {
+                        message = prefix;
+                    }
+                    else if (string.IsNullOrEmpty(prefix))
+                    {
+                        message = child.Status;
+                    }
+                    else
+                    {
+                        message = prefix + ": " + child.Status;
+                    }
+
+                    parent.Report(child.Progress, message);
+                    Task.Yield();
+                }
+            });
+        }
+
+        public static Task WaitOn(this IProgress parent, IProgress child)
+        {
+            return parent.WaitOn(child, null);
         }
     }
 }
