@@ -83,7 +83,7 @@ namespace Juniper.Compression.Tar.GZip
             }
             else
             {
-                using (var tar = new TarInputStream(inputTarFile.OpenRead()))
+                using (var tar = new TarInputStream(inputTarFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read)))
                 {
                     tar.IsStreamOwner = true;
                     return tar.Select();

@@ -24,7 +24,7 @@ namespace Juniper.HTTP
 
         public static void SendFile(this HttpListenerResponse response, FileInfo file)
         {
-            using (var input = file.OpenRead())
+            using (var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 response.SetStatus(HttpStatusCode.OK);
                 response.ContentType = MediaType.Guess(file);

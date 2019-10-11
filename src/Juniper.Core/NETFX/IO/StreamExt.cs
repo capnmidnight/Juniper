@@ -35,7 +35,7 @@ namespace System.IO
 
         public static void CopyTo(this FileInfo inFile, Stream outStream)
         {
-            using (var inStream = inFile.OpenRead())
+            using (var inStream = inFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 inStream.CopyTo(outStream);
             }
@@ -43,7 +43,7 @@ namespace System.IO
 
         public static async Task CopyToAsync(this FileInfo inFile, Stream outStream)
         {
-            using(var inStream = inFile.OpenRead())
+            using(var inStream = inFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 await inStream.CopyToAsync(outStream);
             }

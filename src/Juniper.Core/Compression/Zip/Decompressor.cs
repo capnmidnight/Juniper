@@ -30,7 +30,7 @@ namespace Juniper.Compression.Zip
             }
             else
             {
-                return new ZipFile(file.OpenRead())
+                return new ZipFile(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     IsStreamOwner = true
                 };
@@ -207,7 +207,7 @@ namespace Juniper.Compression.Zip
 
         public static IEnumerable<CompressedFileInfo> Entries(FileInfo zipFile, IProgress prog)
         {
-            using (var stream = zipFile.Open(FileMode.Open, FileAccess.Read))
+            using (var stream = zipFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 foreach(var entry in Entries(stream, prog))
                 {
@@ -342,7 +342,7 @@ namespace Juniper.Compression.Zip
 
         public static void Decompress(FileInfo zipFile, DirectoryInfo outputDirectory, string entryPrefix, bool overwrite, IProgress prog)
         {
-            using (var stream = zipFile.OpenRead())
+            using (var stream = zipFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 stream.Decompress(outputDirectory, entryPrefix, overwrite, prog);
             }

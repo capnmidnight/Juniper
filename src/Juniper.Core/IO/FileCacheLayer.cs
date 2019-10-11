@@ -39,9 +39,15 @@ namespace Juniper.IO
         public Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType
         {
-            var cacheFile = GetCacheFile(fileRef);
-            cacheFile.Directory.Create();
-            return cacheFile.Open(FileMode.OpenOrCreate, FileAccess.Write);
+            Stream stream = null;
+            var file = GetCacheFile(fileRef);
+            if (!file.Exists)
+            {
+                file.Directory.Create();
+                stream = file.Open(FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
+            }
+
+            return stream;
         }
 
         public virtual Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)
@@ -58,7 +64,7 @@ namespace Juniper.IO
             var file = GetCacheFile(fileRef);
             if (file.Exists)
             {
-                stream = file.Open(FileMode.Open, FileAccess.Read);
+                stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
             }
 
             return stream;

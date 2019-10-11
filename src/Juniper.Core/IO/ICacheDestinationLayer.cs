@@ -23,7 +23,7 @@ namespace Juniper.IO
             if (file.Exists && layer.CanCache(fileRef))
             {
                 var mem = layer.Create(fileRef);
-                using (var stream = file.Open(FileMode.Open, FileAccess.Read))
+                using (var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     stream.CopyTo(mem);
                 }
