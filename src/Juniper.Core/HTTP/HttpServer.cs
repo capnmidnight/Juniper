@@ -127,7 +127,8 @@ namespace Juniper.HTTP
             {
                 try
                 {
-                    Process(listener.GetContext());
+                    Process(listener.GetContext())
+                        .ConfigureAwait(false);
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
@@ -138,7 +139,7 @@ namespace Juniper.HTTP
             }
         }
 
-        private async void Process(HttpListenerContext context)
+        private async Task Process(HttpListenerContext context)
         {
             using (context.Response.OutputStream)
             using (context.Request.InputStream)
