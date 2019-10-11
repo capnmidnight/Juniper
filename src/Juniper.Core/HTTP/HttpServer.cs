@@ -18,25 +18,38 @@ namespace Juniper.HTTP
         private readonly Action<string> info;
         private readonly Action<string> warning;
 
+        private static void NoLog(string _) { }
+
         /// <summary>
         /// Construct server with given port.
         /// </summary>
         /// <param name="path">Directory path to serve.</param>
         /// <param name="httpPort">Port of the server.</param>
-        public HttpServer(int httpPort, int httpsPort, Action<string> info, Action<string> warning, Action<string> error)
+        public HttpServer(
+            int httpPort,
+            int httpsPort,
+            Action<string> info = null,
+            Action<string> warning = null,
+            Action<string> error = null)
         {
-            this.info = info;
-            this.warning = warning;
-            this.error = error;
+            this.info = info ?? NoLog;
+            this.warning = warning ?? NoLog;
+            this.error = error ?? NoLog;
 
             listener = new HttpListener();
             listener.Prefixes.Add($"http://*:{httpPort.ToString()}/");
             listener.Prefixes.Add($"https://*:{httpsPort.ToString()}/");
-            listener.AuthenticationSchemeSelectorDelegate = GetAuthenticationSchemeForRequest;
+            listener.AuthenticationSchemeSelectorDelegate
+                = GetAuthenticationSchemeForRequest;
             serverThread = new Thread(Listen);
         }
 
-        public HttpServer(string path, int httpPort, int httpsPort, Action<string> info, Action<string> warning, Action<string> error)
+        public HttpServer(string path,
+            int httpPort,
+            int httpsPort,
+            Action<string> info = null,
+            Action<string> warning = null,
+            Action<string> error = null)
             : this(httpPort, httpsPort, info, warning, error)
         {
             AddRoutesFrom(new DefaultFileController(path, warning));
@@ -127,8 +140,8 @@ namespace Juniper.HTTP
 
         private async void Process(HttpListenerContext context)
         {
-            using (context.Request.InputStream)
             using (context.Response.OutputStream)
+            using (context.Request.InputStream)
             {
                 try
                 {
