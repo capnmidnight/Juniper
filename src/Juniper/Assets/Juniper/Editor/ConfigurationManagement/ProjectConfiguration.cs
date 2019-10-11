@@ -30,7 +30,6 @@ namespace Juniper.ConfigurationManagement
         }
 
         private int buildStep;
-        private PlatformTypes currentPlatform;
         private PlatformTypes nextPlatform;
 
         private ProjectConfiguration()
@@ -41,14 +40,14 @@ namespace Juniper.ConfigurationManagement
         private ProjectConfiguration(SerializationInfo info, StreamingContext context)
         {
             buildStep = info.GetInt32(nameof(buildStep));
-            currentPlatform = info.GetEnumFromString<PlatformTypes>(nameof(currentPlatform));
+            CurrentPlatform = info.GetEnumFromString<PlatformTypes>(nameof(CurrentPlatform));
             nextPlatform = info.GetEnumFromString<PlatformTypes>(nameof(nextPlatform));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(buildStep), buildStep);
-            info.AddValue(nameof(currentPlatform), currentPlatform.ToString());
+            info.AddValue(nameof(CurrentPlatform), CurrentPlatform.ToString());
             info.AddValue(nameof(nextPlatform), nextPlatform.ToString());
         }
 
@@ -59,7 +58,7 @@ namespace Juniper.ConfigurationManagement
         public void Commit()
         {
             buildStep = 0;
-            currentPlatform = NextPlatform;
+            CurrentPlatform = NextPlatform;
             nextPlatform = PlatformTypes.None;
             Save();
         }
@@ -83,13 +82,7 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        public PlatformTypes CurrentPlatform
-        {
-            get
-            {
-                return currentPlatform;
-            }
-        }
+        public PlatformTypes CurrentPlatform { get; private set; }
 
         public PlatformTypes NextPlatform
         {
