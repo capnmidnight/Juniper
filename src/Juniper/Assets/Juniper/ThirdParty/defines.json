@@ -74,5 +74,9 @@
   {
     "Name": "UI Accessibility Plugin UAP",
     "CompilerDefine": "UI_ACCESSIBILITY_PLUGIN_UAP"
+  },
+  {
+    "Name": "Android Native Audio",
+    "CompilerDefine": "ANDROID_NATIVE_AUDIO"
   }
 ]

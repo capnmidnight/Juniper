@@ -254,7 +254,7 @@ namespace Juniper.ConfigurationManagement
                                 package.CompilerDefine = EditorGUILayout.TextField(package.CompilerDefine, nameFieldGWidth);
 
                                 EditorGUILayout.LabelField(
-                                    DesiredConfiguration.CompilerDefines.Contains(package.CompilerDefine) ? "Yes" : "No",
+                                    CurrentConfiguration.CompilerDefines.Contains(package.CompilerDefine) ? "Yes" : "No",
                                     EditorStyles.centeredGreyMiniLabel,
                                     narrowGWidth);
 
@@ -295,6 +295,7 @@ namespace Juniper.ConfigurationManagement
                                             nextDefines.Remove(package.CompilerDefine);
                                         }
                                     }
+
                                     EditorGUILayout.LabelField(string.Format(
                                         "({0,4:##0%} of {1,4:####} files)",
                                         package.InstallPercentage,
@@ -434,7 +435,9 @@ namespace Juniper.ConfigurationManagement
         {
             get
             {
-                return DesiredPlatform != CurrentPlatform && !BuildInProgress;
+                return DesiredPlatform != PlatformTypes.None
+                    && DesiredPlatform != CurrentPlatform
+                    && !BuildInProgress;
             }
         }
 
