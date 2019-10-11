@@ -273,9 +273,9 @@ namespace Juniper.ConfigurationManagement
             {
                 Version v;
                 if (Version.TryParse(iOSVersion, out v)
-                    && PlayerSettingsExt.iOS.TargetOSVersion < v)
+                    && Juniper.ApplleiOS.TargetOSVersion < v)
                 {
-                    PlayerSettingsExt.iOS.TargetOSVersion = v;
+                    Juniper.ApplleiOS.TargetOSVersion = v;
                 }
             }
         }
@@ -333,7 +333,7 @@ namespace Juniper.ConfigurationManagement
                 }
                 else if (TargetGroup == BuildTargetGroup.iOS)
                 {
-                    for (var i = PlayerSettingsExt.iOS.TargetOSVersion.Major; i > 0; --i)
+                    for (var i = Juniper.ApplleiOS.TargetOSVersion.Major; i > 0; --i)
                     {
                         defines.MaybeAdd("IOS_VERSION_" + i);
                         defines.MaybeAdd("IOS_VERSION_" + i + "_OR_GREATER");
@@ -353,7 +353,7 @@ namespace Juniper.ConfigurationManagement
             PlayerSettings.virtualRealitySupported = false;
             PlayerSettings.Android.androidTVCompatibility = false;
             PlayerSettings.Android.ARCoreEnabled = false;
-            PlayerSettingsExt.iOS.RequiresARKitSupport = false;
+            Juniper.ApplleiOS.RequiresARKitSupport = false;
             PlayerSettings.vuforiaEnabled = false;
         }
     }

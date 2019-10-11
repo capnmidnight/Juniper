@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-using Juniper.Collections;
 using Juniper.Compression;
 using Juniper.Compression.Zip;
 using Juniper.Progress;
@@ -81,7 +80,7 @@ namespace Juniper.ConfigurationManagement
             {
                 if (Name == "UnityARKitPlugin")
                 {
-                    PlayerSettingsExt.iOS.RequiresARKitSupport = true;
+                    Juniper.ApplleiOS.RequiresARKitSupport = true;
 
                     if (string.IsNullOrEmpty(PlayerSettings.iOS.cameraUsageDescription))
                     {

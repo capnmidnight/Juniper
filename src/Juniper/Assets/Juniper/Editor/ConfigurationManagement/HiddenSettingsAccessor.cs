@@ -15,7 +15,7 @@ namespace Juniper
         /// <param name="name">The name of the property.</param>
         /// <param name="value">The value to set.</param>
         /// <typeparam name="T">The class in which the property is hidden.</typeparam>
-        protected static bool SetHiddenStaticProperty<T>(string name, object value)
+        public static bool SetHiddenStaticProperty<T>(string name, object value)
         {
             var t = typeof(T);
             var p = t.GetProperty(name, HIDDEN_STATIC);
@@ -37,7 +37,7 @@ namespace Juniper
         /// <param name="name">The name of the property.</param>
         /// <typeparam name="T">The class in which the property is hidden.</typeparam>
         /// <typeparam name="U">The return type of the property.</typeparam>
-        protected static U GetHiddenStaticProperty<T, U>(string name)
+        public static U GetHiddenStaticProperty<T, U>(string name)
         {
             var t = typeof(T);
             var p = t.GetProperty(name, HIDDEN_STATIC);
@@ -57,7 +57,7 @@ namespace Juniper
         /// <param name="name">The name of the method.</param>
         /// <param name="args">Arguments to pass to the method.</param>
         /// <typeparam name="T">The 1st type parameter.</typeparam>
-        protected static void CallHiddenStaticMethod<T>(string name, params object[] args)
+        public static void CallHiddenStaticMethod<T>(string name, params object[] args)
         {
             var t = typeof(T);
             var m = t.GetMethod(name, HIDDEN_STATIC);

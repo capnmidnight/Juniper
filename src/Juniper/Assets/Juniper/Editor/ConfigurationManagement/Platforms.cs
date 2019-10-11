@@ -20,7 +20,7 @@ namespace Juniper.ConfigurationManagement
         private const int MAX_CONCURRENT_PACKAGE_SCAN = 100;
         private static readonly string PACKAGE_DEFINES_FILE = PathExt.FixPath("Assets/Juniper/ThirdParty/defines.json");
         private static readonly string PLATFORMS_FILE = PathExt.FixPath("Assets/Juniper/platforms.json");
-        private static readonly AbstractPackage[] EMPTY_PACKAGES = new AbstractPackage[0];
+        private static readonly AbstractPackage[] EMPTY_PACKAGES = Array.Empty<AbstractPackage>();
 
         public static void ForEachPackage<T>(T[] packages, IProgress prog, Action<T, IProgress> act)
             where T : AbstractPackage
