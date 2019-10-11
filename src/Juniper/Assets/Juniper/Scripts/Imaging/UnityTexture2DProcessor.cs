@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Juniper.Imaging
 {
-    public class UnityTextureProcessor : IImageProcessor<Texture2D>
+    public class UnityTexture2DProcessor : IImageProcessor<Texture2D>
     {
         public int GetWidth(Texture2D img)
         {

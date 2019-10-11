@@ -149,7 +149,7 @@ namespace Juniper.World.GIS.Google
             var baseCachePath = Application.persistentDataPath;
 #endif
             cache = new GoogleMapsCachingStrategy(baseCachePath);
-            codec = new UnityTextureCodec();
+            codec = new UnityTexture2DCodec(MediaType.Image.Jpeg);
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
 
@@ -275,7 +275,7 @@ namespace Juniper.World.GIS.Google
 
                     try
                     {
-                        var processor = new UnityTextureProcessor();
+                        var processor = new UnityTexture2DProcessor();
                         var img = processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]);
                         var cubemapRef = new ContentReference<MediaType.Image>(cubemapName, codec.ContentType);
                         cache.Save(cubemapRef, img, codec, subProgs[3]);
