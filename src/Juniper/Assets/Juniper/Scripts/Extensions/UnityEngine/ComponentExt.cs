@@ -82,12 +82,12 @@ namespace UnityEngine
             parent.gameObject.Deactivate();
         }
 
-        public static void DestroyImmediate(this Component obj)
+        public static void DestroyImmediate(this Object obj)
         {
             Object.DestroyImmediate(obj);
         }
 
-        public static void Destroy(this Component obj)
+        public static void Destroy(this Object obj)
         {
             Object.Destroy(obj);
         }

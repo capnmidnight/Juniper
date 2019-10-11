@@ -90,8 +90,11 @@ namespace Juniper.Speech
                 lastVoiceName = voiceName;
                 lastSpeakingRate = speakingRate;
                 lastPitch = pitch;
-                print("Loading speech " + text);
-                clip = null;
+                if (clip != null)
+                {
+                    clip.DestroyImmediate();
+                    clip = null;
+                }
                 var clipTask = interaction.PreloadSpeech(text, voiceName, speakingRate - 1, pitch - 1)
                     .ContinueWith(ct => clip = ct.Result);
                 clipTask.ConfigureAwait(false);
@@ -99,12 +102,25 @@ namespace Juniper.Speech
             else if (needsPlay && clip != null)
             {
                 needsPlay = false;
-                Play();
+                PlayInternal();
+            }
+        }
+
+        public void Play()
+        {
+            if(clip == null)
+            {
+                needsPlay = true;
+            }
+            else
+            {
+                PlayInternal();
             }
         }
 
         private Coroutine lastCoroutine;
-        public void Play()
+
+        private void PlayInternal()
         {
             if (IsAvailable && clip != null)
             {
