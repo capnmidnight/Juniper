@@ -38,7 +38,7 @@ namespace Juniper.Imaging
         public Texture2D Concatenate(Texture2D[,] images, IProgress prog)
         {
             this.ValidateImages(images, prog,
-                out var rows, out var columns, out var components,
+                out var rows, out var columns, out _,
                 out var tileWidth, out var tileHeight);
 
             var totalLen = rows * tileHeight * columns * tileWidth;

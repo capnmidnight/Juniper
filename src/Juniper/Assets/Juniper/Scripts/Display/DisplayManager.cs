@@ -19,6 +19,13 @@ using UnityEngine.XR;
 
 namespace Juniper.Display
 {
+
+    [Serializable]
+    [ComVisible(false)]
+    public class ARModeEvent : UnityEvent<AugmentedRealityTypes>
+    {
+    }
+
     /// <summary>
     /// Manages the camera FOV in the editor so that it matches the target system, or on desktop
     /// makes sure the FOV is a reasonable value for the current screen dimensions. Only one of these
@@ -238,7 +245,7 @@ namespace Juniper.Display
         {
         }
 
-#if UNITY_MODULES_XR
+#if UNITY_MODULES_XR && !UNITY_EDITOR
 
         private static bool ChangeXRDevice(DisplayTypes displayType)
         {
@@ -414,12 +421,6 @@ namespace Juniper.Display
                     Sys.m_ARMode = lastARMode;
                 }
             }
-        }
-
-        [Serializable]
-        [ComVisible(false)]
-        public class ARModeEvent : UnityEvent<AugmentedRealityTypes>
-        {
         }
 
         public ARModeEvent onARModeChange;

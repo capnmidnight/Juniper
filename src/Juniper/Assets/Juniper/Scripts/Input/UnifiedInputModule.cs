@@ -287,13 +287,27 @@ namespace Juniper.Input
 
             if(!(data is JuniperPointerEventData))
             {
-                var clone = new JuniperPointerEventData(eventSystem);
-                clone.button = data.button;
-                clone.clickCount = data.clickCount;
-                clone.clickTime = data.clickTime;
-                clone.delta = data.delta;
-                clone.dragging = data.dragging;
-                clone.eligibleForClick = data.eligibleForClick;
+                var clone = new JuniperPointerEventData(eventSystem)
+                {
+                    button = data.button,
+                    clickCount = data.clickCount,
+                    clickTime = data.clickTime,
+                    delta = data.delta,
+                    dragging = data.dragging,
+                    eligibleForClick = data.eligibleForClick,
+                    pointerCurrentRaycast = data.pointerCurrentRaycast,
+                    pointerDrag = data.pointerDrag,
+                    pointerEnter = data.pointerEnter,
+                    pointerId = data.pointerId,
+                    pointerPress = data.pointerPress,
+                    pointerPressRaycast = data.pointerPressRaycast,
+                    position = data.position,
+                    pressPosition = data.pressPosition,
+                    rawPointerPress = data.rawPointerPress,
+                    scrollDelta = data.scrollDelta,
+                    selectedObject = data.selectedObject,
+                    useDragThreshold = data.useDragThreshold
+                };
 
                 if (data.hovered != null)
                 {
@@ -304,19 +318,6 @@ namespace Juniper.Input
 
                     clone.hovered.AddRange(data.hovered);
                 }
-
-                clone.pointerCurrentRaycast = data.pointerCurrentRaycast;
-                clone.pointerDrag = data.pointerDrag;
-                clone.pointerEnter = data.pointerEnter;
-                clone.pointerId = data.pointerId;
-                clone.pointerPress = data.pointerPress;
-                clone.pointerPressRaycast = data.pointerPressRaycast;
-                clone.position = data.position;
-                clone.pressPosition = data.pressPosition;
-                clone.rawPointerPress = data.rawPointerPress;
-                clone.scrollDelta = data.scrollDelta;
-                clone.selectedObject = data.selectedObject;
-                clone.useDragThreshold = data.useDragThreshold;
 
                 data = clone;
             }

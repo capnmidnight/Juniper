@@ -13,7 +13,7 @@ namespace Juniper.Unity.Editor
             EditorGUI.BeginChangeCheck();
             serializedObject.UpdateIfRequiredOrScript();
             var value = (EditorTextInput)serializedObject.targetObject;
-            this.ShowScriptField(value);
+            EditorGUILayoutExt.ShowScriptField(value);
 
             if (GUILayout.Button("Submit"))
             {

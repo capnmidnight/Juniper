@@ -9,9 +9,6 @@ namespace Juniper.ConfigurationManagement
     internal sealed class UnityPackage : AbstractPackage
     {
         public string version;
-
-        private const string UNITY_SUBMODULE_PREFIX = "com.unity.modules.";
-
         internal UnityPackage(string name)
         {
             var parts = name.Split('@');

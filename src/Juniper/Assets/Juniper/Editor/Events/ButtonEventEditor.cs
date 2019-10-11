@@ -29,7 +29,7 @@ namespace Juniper.Events
             EditorGUI.BeginChangeCheck();
             serializedObject.UpdateIfRequiredOrScript();
             var value = (ButtonEvent)serializedObject.targetObject;
-            this.ShowScriptField(value);
+            EditorGUILayoutExt.ShowScriptField(value);
             var enumTypes = value.GetSupportedButtonTypes().ToArray();
             var enumTypeNames = enumTypes.Select(t => t.FullName).ToArray();
             var enumTypeLabels = enumTypeNames.ToGUIContents();

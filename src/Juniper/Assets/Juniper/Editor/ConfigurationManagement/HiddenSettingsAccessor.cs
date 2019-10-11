@@ -6,7 +6,7 @@ namespace Juniper
     /// A base class for all of the Settings extender classes to gain access to helper methods that
     /// do the hard work of finding the hidden settings.
     /// </summary>
-    public class HiddenSettingsAccessor
+    public static class HiddenSettingsAccessor
     {
         /// <summary>
         /// Sets a static property value that is hidden in a class.

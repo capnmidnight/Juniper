@@ -46,7 +46,7 @@ namespace Juniper.Animation
 
 #if UNITY_EDITOR
 
-        private void OnValidate()
+        public void OnValidate()
         {
             if (Tween.IsContinuous(tween))
             {
@@ -63,7 +63,7 @@ namespace Juniper.Animation
         /// <summary>
         /// Draw the <see cref="EndPosition"/> to help visualize <see cref="Delta"/>.
         /// </summary>
-        private void OnDrawGizmos()
+        public void OnDrawGizmos()
         {
             var start = transform.localToWorldMatrix.MultiplyPoint(StartPosition);
             var end = transform.localToWorldMatrix.MultiplyPoint(EndPosition);

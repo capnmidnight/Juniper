@@ -5,7 +5,7 @@ namespace Juniper
     /// <summary>
     /// A collection of extra settings that Unity doesn't expose natively.
     /// </summary>
-    public class AudioSettingsExt : HiddenSettingsAccessor
+    public static class AudioSettingsExt
     {
         /// <summary>
         /// Unity provides SetSpatializerPlugin, but it hides SetAmbisonicDecoderPlugin.
@@ -13,7 +13,7 @@ namespace Juniper
         /// <param name="name">Name.</param>
         public static void SetAmbisonicDecoderPluginName(string name)
         {
-            CallHiddenStaticMethod<AudioSettings>("SetAmbisonicDecoderPluginName", name);
+            HiddenSettingsAccessor.CallHiddenStaticMethod<AudioSettings>("SetAmbisonicDecoderPluginName", name);
         }
     }
 }

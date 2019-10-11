@@ -32,15 +32,10 @@ namespace Juniper.ConfigurationManagement
             EditorWindow.GetWindow<CompilerDefineManager>();
         }
 
-        private static readonly ProjectConfiguration config;
+        private static readonly ProjectConfiguration config = ProjectConfiguration.Load();
 
         private static string newDefine;
         private static Vector2 definesScrollPosition;
-
-        static CompilerDefineManager()
-        {
-            config = ProjectConfiguration.Load();
-        }
 
         private const float nameFieldWidth = 200;
         private const float narrowWidth = 50;
@@ -57,7 +52,7 @@ namespace Juniper.ConfigurationManagement
 
             var nextDefines = UnityCompiler.GetDefines(CurrentConfiguration.TargetGroup);
 
-            this.HeaderIndent("Defines", () =>
+            EditorGUILayoutExt.HeaderIndent("Defines", () =>
             {
                 if (GUILayout.Button("Refresh"))
                 {
@@ -65,13 +60,13 @@ namespace Juniper.ConfigurationManagement
                     PlayerSettings.SetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup, string.Join(";", nextDefines));
                 }
 
-                this.HGroup(() =>
+                EditorGUILayoutExt.HGroup(() =>
                 {
                     EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
                     EditorGUILayout.LabelField("Required", EditorStyles.centeredGreyMiniLabel, buttonGWidth);
                 });
 
-                this.HGroup(() =>
+                EditorGUILayoutExt.HGroup(() =>
                 {
                     newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidth + narrowWidth));
                     if (GUILayout.Button("Add", buttonGWidth))
@@ -88,7 +83,7 @@ namespace Juniper.ConfigurationManagement
                 definesScrollPosition = EditorGUILayout.BeginScrollView(definesScrollPosition);
                 for (var i = 0; i < nextDefines.Count; ++i)
                 {
-                    this.HGroup(() =>
+                    EditorGUILayoutExt.HGroup(() =>
                     {
                         var define = nextDefines[i];
                         EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldGWidth);

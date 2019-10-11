@@ -437,8 +437,6 @@ namespace Juniper.Imaging
         }
 
 #if UNITY_EDITOR
-        private bool cubemapLock;
-
         public virtual void OnValidate()
         {
             ConfigurationManagement.TagManager.NormalizeLayer(PHOTOSPHERE_LAYER);

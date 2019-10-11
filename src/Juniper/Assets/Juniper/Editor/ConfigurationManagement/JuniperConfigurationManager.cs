@@ -32,7 +32,7 @@ namespace Juniper.ConfigurationManagement
     public class JuniperConfigurationManager : EditorWindow
     {
         private const string MENU_NAME = "Juniper/";
-        private static readonly ProjectConfiguration config;
+        private static readonly ProjectConfiguration config = ProjectConfiguration.Load();
 
         private static readonly GUIContent TITLE = new GUIContent("Juniper");
 
@@ -40,7 +40,7 @@ namespace Juniper.ConfigurationManagement
         private static AbstractFilePackage[] packages;
         private static bool repaintNeeded;
         private static bool repaintBound;
-        private static readonly ProgressEventer currentProg;
+        private static readonly ProgressEventer currentProg = new ProgressEventer();
 
         private static string progressMessage;
 
@@ -49,11 +49,9 @@ namespace Juniper.ConfigurationManagement
             Platforms.PackagesUpdated += Platforms_PackagesUpdated;
             Platforms.ScanningProgressUpdated += RepaintWindow;
 
-            config = ProjectConfiguration.Load();
             config.PlatformChanged += Config_PlatformChanged;
             config.PlatformChangeConfirmed += StartBuild;
 
-            currentProg = new ProgressEventer();
             currentProg.ProgressUpdated += CurrentProg_ProgressUpdated;
 
             if (RebuildNeeded)
@@ -141,18 +139,18 @@ namespace Juniper.ConfigurationManagement
 
             var selectedPlatform = CurrentPlatform;
 
-            this.HeaderIndent("Status", () =>
+            EditorGUILayoutExt.HeaderIndent("Status", () =>
             {
                 if (BuildInProgress)
                 {
-                    this.HGroup(() =>
+                    EditorGUILayoutExt.HGroup(() =>
                     {
                         EditorGUILayout.LabelField("Build in progress", nameFieldGWidth);
                         EditorGUILayout.LabelField(progressMessage);
                     });
                 }
 
-                this.HGroup(() =>
+                EditorGUILayoutExt.HGroup(() =>
                 {
                     EditorGUILayout.LabelField("Build step", nameFieldGWidth);
                     EditorGUILayout.LabelField(BuildStepName, nameFieldGWidth);
@@ -160,13 +158,13 @@ namespace Juniper.ConfigurationManagement
 
                 if (!BuildInProgress)
                 {
-                    this.HGroup(() =>
+                    EditorGUILayoutExt.HGroup(() =>
                     {
                         EditorGUILayout.LabelField("Current platform", nameFieldGWidth);
                         EditorGUILayout.LabelField(CurrentPlatform.ToString(), nameFieldGWidth);
                     });
 
-                    this.HGroup(() =>
+                    EditorGUILayoutExt.HGroup(() =>
                     {
                         EditorGUILayout.LabelField("Current build target", nameFieldGWidth);
                         EditorGUILayout.LabelField(CurrentConfiguration.TargetGroup.ToString(), nameFieldGWidth);
@@ -175,14 +173,14 @@ namespace Juniper.ConfigurationManagement
                     if (CurrentConfiguration.TargetGroup == BuildTargetGroup.Android)
                     {
 
-                        this.HGroup(() =>
+                        EditorGUILayoutExt.HGroup(() =>
                         {
                             EditorGUILayout.LabelField("Min Android SDK version", nameFieldGWidth);
                             EditorGUILayout.LabelField(CurrentConfiguration.androidSdkVersion, nameFieldGWidth);
                         });
                     }
 
-                    this.HGroup(() =>
+                    EditorGUILayoutExt.HGroup(() =>
                     {
                         EditorGUILayout.LabelField("Change platform", nameFieldGWidth);
                         selectedPlatform = (PlatformTypes)EditorGUILayout.EnumPopup(selectedPlatform, nameFieldGWidth);
@@ -229,7 +227,7 @@ namespace Juniper.ConfigurationManagement
 
         private void DrawPackages(string label, IEnumerable<AbstractFilePackage> packages, List<string> nextDefines)
         {
-            this.HeaderIndent(label + " Packages", () =>
+            EditorGUILayoutExt.HeaderIndent(label + " Packages", () =>
             {
                 if (packages.Empty())
                 {
@@ -237,7 +235,7 @@ namespace Juniper.ConfigurationManagement
                 }
                 else
                 {
-                    this.HGroup(() =>
+                    EditorGUILayoutExt.HGroup(() =>
                     {
                         EditorGUILayout.LabelField("Name", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
                         EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
@@ -248,7 +246,7 @@ namespace Juniper.ConfigurationManagement
                     packageScrollPosition = EditorGUILayout.BeginScrollView(packageScrollPosition);
                     foreach (var package in packages.OrderBy(p => p.CompilerDefine))
                     {
-                        this.HGroup(() =>
+                        EditorGUILayoutExt.HGroup(() =>
                         {
                             try
                             {

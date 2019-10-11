@@ -26,7 +26,10 @@ namespace Juniper.Haptics
             CreateVibrationEffect_params[0] = vibrationEffect;
             vibrator.Call("vibrate", CreateVibrationEffect_params);
         }
+
         private static readonly object[] CreateVibrationEffect_params = new object[1];
+
+        private static readonly object[] CANCEL_PARAMS = Array.Empty<object>();
 
         /// <summary>
         /// The android.os.VibrationEffect class, which contains the API 26 features.
@@ -43,6 +46,8 @@ namespace Juniper.Haptics
         /// the context switching cost of reading it repeatedly.
         /// </summary>
         private static int DefaultAmplitude;
+
+        private static readonly object[] GET_SYSTEM_SERVICE_PARAMS = { "vibrator" };
 
         /// <summary>
         /// Creates the haptic interface specific to Android API 26+.
@@ -64,7 +69,6 @@ namespace Juniper.Haptics
                 DefaultAmplitude = vibrationEffect.GetStatic<int>("DEFAULT_AMPLITUDE");
             }
         }
-        private static readonly object[] GET_SYSTEM_SERVICE_PARAMS = { "vibrator" };
 
         /// <summary>
         /// Cancel the current vibration, whatever it is.
@@ -87,8 +91,6 @@ namespace Juniper.Haptics
                 vibrator.Dispose();
             }
         }
-
-        private static readonly object[] CANCEL_PARAMS = Array.Empty<object>();
 
         /// <summary>
         /// Play a single vibration of a set length of time.

@@ -134,7 +134,7 @@ namespace Juniper.World.GIS
             OnValidate();
         }
 
-        private ITextDecoder<LatLngPoint> coordFactory = new JsonFactory<LatLngPoint>();
+        private readonly ITextDecoder<LatLngPoint> coordFactory = new JsonFactory<LatLngPoint>();
 
         public void OnValidate()
         {

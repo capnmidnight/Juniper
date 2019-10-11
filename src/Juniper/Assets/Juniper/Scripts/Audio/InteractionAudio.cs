@@ -268,19 +268,10 @@ namespace Juniper.Audio
                 cache);
         }
 
-        private BinaryReader reader;
-
         public async Task<AudioClip> PreloadSpeech(string text, string voiceName, float rateChange, float pitchChange)
         {
             var audioData = await tts.GetDecodedAudio(text, voiceName, rateChange, pitchChange);
-
-            if(reader != null)
-            {
-                reader.Dispose();
-                reader = null;
-            }
-
-            reader = new BinaryReader(audioData.dataStream);
+            var reader = new BinaryReader(audioData.dataStream);
             var clip = AudioClip.Create(
                 text,
                 (int)audioData.samples,

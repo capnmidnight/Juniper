@@ -23,7 +23,7 @@ namespace UnityEngine.Events
         /// Trigger the onEnter event, if it's valid.
         /// </summary>
         /// <param name="other"></param>
-        private void OnTriggerEnter(Collider other)
+        public void OnTriggerEnter(Collider other)
         {
             onEnter?.Invoke(other);
         }
@@ -32,7 +32,7 @@ namespace UnityEngine.Events
         /// Trigger the onExit event, if it's valid.
         /// </summary>
         /// <param name="other"></param>
-        private void OnTriggerExit(Collider other)
+        public void OnTriggerExit(Collider other)
         {
             onExit?.Invoke(other);
         }

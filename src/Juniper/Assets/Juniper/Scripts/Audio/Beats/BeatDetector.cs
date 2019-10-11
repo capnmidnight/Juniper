@@ -344,8 +344,7 @@ public class BeatDetector : MonoBehaviour
             }
 
             // calculate DP-ish function to update the best-score function
-            float maxBeatScore = -999999;
-            var maxBeatScoreIndex = 0;
+            float maxBeatScore = float.MinValue;
             // consider all possible preceding beat times from 0.5 to 2.0 x current tempo period
             for (var i = tempopd / 2; i < Mathf.Min(Configuration.RingBufferSize, 2 * tempopd); ++i)
             {
@@ -357,7 +356,6 @@ public class BeatDetector : MonoBehaviour
                 if (score > maxBeatScore)
                 {
                     maxBeatScore = score;
-                    maxBeatScoreIndex = i;
                 }
             }
 
@@ -378,7 +376,7 @@ public class BeatDetector : MonoBehaviour
 
             // find the largest value in the score fn window, to decide if we emit a blip
             maxBeatScore = beatScores[0];
-            maxBeatScoreIndex = 0;
+            var maxBeatScoreIndex = 0;
             for (var i = 0; i < Configuration.RingBufferSize; ++i)
             {
                 if (beatScores[i] > maxBeatScore)
@@ -533,7 +531,7 @@ public class BeatDetector : MonoBehaviour
         nowT = CurrentTime;
         diff = nowT - lastT;
         lastT = nowT;
-        sum = sum + diff;
+        sum += diff;
         entries++;
 
         return sum / entries;

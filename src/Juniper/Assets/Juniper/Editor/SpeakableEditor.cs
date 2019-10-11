@@ -20,30 +20,28 @@ namespace Juniper.Events
         private static readonly GUIContent VoiceLocaleDropdownLabel = new GUIContent("Locale");
         private static readonly GUIContent VoiceGenderDropdownLabel = new GUIContent("Gender");
         private static readonly GUIContent VoiceNameDropdownLabel = new GUIContent("Voice");
+        private static readonly Voice[] voices = GetVoices();
 
-        private static Voice[] voices;
-
-        static SpeakableEditor()
+        private static Voice[] GetVoices()
         {
-            if (voices == null)
+            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "azure-speech.txt");
+            Voice[] voices = null;
+            if (File.Exists(keyFile))
             {
-                var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                var keyFile = Path.Combine(userProfile, "Projects", "DevKeys", "azure-speech.txt");
-                if (File.Exists(keyFile))
-                {
-                    var lines = File.ReadAllLines(keyFile);
-                    var azureApiKey = lines[0];
-                    var azureRegion = lines[1];
-                    var cache = new CachingStrategy()
-                        .AddLayer(new FileCacheLayer(Path.Combine("Assets", "StreamingAssets")));
-                    var voicesDecoder = new JsonFactory<Voice[]>();
-                    var voicesClient = new VoicesClient(azureRegion, azureApiKey, voicesDecoder, cache);
-                    var voicesTask = voicesClient.GetVoices();
-                    voicesTask.ContinueWith(tV =>
-                        voices = tV.Result)
-                        .ConfigureAwait(false);
-                }
+                var lines = File.ReadAllLines(keyFile);
+                var azureApiKey = lines[0];
+                var azureRegion = lines[1];
+                var cache = new CachingStrategy()
+                    .AddLayer(new FileCacheLayer(Path.Combine("Assets", "StreamingAssets")));
+                var voicesDecoder = new JsonFactory<Voice[]>();
+                var voicesClient = new VoicesClient(azureRegion, azureApiKey, voicesDecoder, cache);
+                var voicesTask = voicesClient.GetVoices();
+                voicesTask.ConfigureAwait(false);
+                voices = voicesTask.Result;
             }
+
+            return voices;
         }
 
         public override void OnInspectorGUI()
@@ -51,7 +49,7 @@ namespace Juniper.Events
             EditorGUI.BeginChangeCheck();
             serializedObject.UpdateIfRequiredOrScript();
             var value = (Speakable)serializedObject.targetObject;
-            this.ShowScriptField(value);
+            EditorGUILayoutExt.ShowScriptField(value);
             if (voices == null)
             {
                 using (new EditorGUI.DisabledScope(true))

@@ -12,7 +12,7 @@ public class VMU : MonoBehaviour
     private readonly List<Transform> bars = new List<Transform>();
     private bool hasLayout;
 
-    private void Start()
+    public void Start()
     {
         transform.ClearChildren();
         hasLayout = GetComponent<HorizontalLayoutGroup>() != null || GetComponent<VerticalLayoutGroup>() != null;
