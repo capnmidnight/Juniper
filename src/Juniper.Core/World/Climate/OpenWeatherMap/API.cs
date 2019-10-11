@@ -39,7 +39,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// Factory used to serialize objects for local caching.
         /// </summary>
-        private readonly ITextDecoder factory;
+        private readonly IFactory factory;
 
         /// <summary>
         /// The key to authenticate with the API
@@ -77,7 +77,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <param name="factory">Factory used to serialize and deserialize objects.</param>
         /// <param name="apiKey">The OpenWeatherMap API key to use for authentication.</param>
         /// <param name="lastReportJSON">The value of the last report we received, if there was any.</param>
-        public API(ITextDecoder factory, string apiKey, string lastReportJSON)
+        public API(IFactory factory, string apiKey, string lastReportJSON)
         {
             this.factory = factory;
             this.apiKey = apiKey;
@@ -91,7 +91,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
             }
         }
 
-        public API(ITextDecoder factory, string apiKey)
+        public API(IFactory factory, string apiKey)
             : this(factory, apiKey, null) { }
 
         /// <summary>

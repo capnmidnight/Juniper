@@ -4,7 +4,7 @@ using Juniper.Progress;
 
 namespace Juniper.IO
 {
-    public class StringFactory : IFactory<string>
+    public class StringFactory : IFactory<string, MediaType.Text>
     {
         public StringFactory(MediaType.Text contentType)
         {

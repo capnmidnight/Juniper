@@ -47,6 +47,21 @@ namespace Juniper.Audio
             }
         }
 
+        public MediaType.Audio ContentType
+        {
+            get
+            {
+                if (Format == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return Format.ContentType;
+                }
+            }
+        }
+
         public WaveStream MakeDecodingStream(Stream stream)
         {
             if (Format.ContentType == MediaType.Audio.X_Wav)

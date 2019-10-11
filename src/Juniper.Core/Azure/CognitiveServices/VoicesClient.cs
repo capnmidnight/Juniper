@@ -8,7 +8,7 @@ namespace Juniper.Azure.CognitiveServices
     public class VoicesClient
     {
         private readonly string azureSubscriptionKey;
-        private readonly ITextDecoder<Voice[]> voiceListDecoder;
+        private readonly IJsonDecoder<Voice[]> voiceListDecoder;
 
         private string authToken;
         private Voice[] voices;
@@ -16,7 +16,7 @@ namespace Juniper.Azure.CognitiveServices
         protected readonly string azureRegion;
         protected readonly CachingStrategy cache;
 
-        public VoicesClient(string azureRegion, string azureSubscriptionKey, ITextDecoder<Voice[]> voiceListDecoder, CachingStrategy cache)
+        public VoicesClient(string azureRegion, string azureSubscriptionKey, IJsonDecoder<Voice[]> voiceListDecoder, CachingStrategy cache)
         {
             if (string.IsNullOrEmpty(azureRegion))
             {
@@ -40,7 +40,7 @@ namespace Juniper.Azure.CognitiveServices
             this.cache = cache ?? new CachingStrategy();
         }
 
-        public VoicesClient(string azureRegion, string azureSubscriptionKey, ITextDecoder<Voice[]> voiceListDecoder)
+        public VoicesClient(string azureRegion, string azureSubscriptionKey, IJsonDecoder<Voice[]> voiceListDecoder)
             : this(azureRegion, azureSubscriptionKey, voiceListDecoder, null)
         { }
 

@@ -13,7 +13,7 @@ namespace Juniper.Azure.CognitiveServices
         private AudioFormat outputFormat;
         private readonly IAudioDecoder audioDecoder;
 
-        public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, ITextDecoder<Voice[]> voiceListDecoder, AudioFormat outputFormat, IAudioDecoder audioDecoder, CachingStrategy cache)
+        public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder, AudioFormat outputFormat, IAudioDecoder audioDecoder, CachingStrategy cache)
             : base(azureRegion, azureSubscriptionKey, voiceListDecoder, cache)
         {
             if (string.IsNullOrEmpty(azureResourceName))
@@ -61,7 +61,7 @@ namespace Juniper.Azure.CognitiveServices
             }
         }
 
-        public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, ITextDecoder<Voice[]> voiceListDecoder, AudioFormat outputFormat, IAudioDecoder audioDecoder)
+        public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder, AudioFormat outputFormat, IAudioDecoder audioDecoder)
             : this(azureRegion, azureSubscriptionKey, azureResourceName, voiceListDecoder, outputFormat, audioDecoder, null)
         { }
 

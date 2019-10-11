@@ -14,7 +14,7 @@ namespace Juniper.Azure.Tests
     [TestClass]
     public class APITests
     {
-        private readonly IDeserializer<Voice[]> voiceListDecoder = new JsonFactory<Voice[]>();
+        private readonly IJsonDecoder<Voice[]> voiceListDecoder = new JsonFactory<Voice[]>();
         private string subscriptionKey;
         private string region;
         private string resourceName;

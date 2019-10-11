@@ -22,7 +22,7 @@ namespace Juniper.IO
 
     public static class IStreamSourceExt
     {
-        public static async Task<T> Decode<MediaTypeT, T>(this IStreamSource<MediaTypeT> source, IDeserializer<T> deserializer, IProgress prog)
+        public static async Task<T> Decode<MediaTypeT, T>(this IStreamSource<MediaTypeT> source, IDeserializer<T, MediaTypeT> deserializer, IProgress prog)
             where MediaTypeT : MediaType
         {
             prog.Report(0);
@@ -33,7 +33,7 @@ namespace Juniper.IO
             return value;
         }
 
-        public static Task<T> Decode<MediaTypeT, T>(this IStreamSource<MediaTypeT> source, IDeserializer<T> deserializer)
+        public static Task<T> Decode<MediaTypeT, T>(this IStreamSource<MediaTypeT> source, IDeserializer<T, MediaTypeT> deserializer)
             where MediaTypeT : MediaType
         {
             return Decode(source, deserializer, null);

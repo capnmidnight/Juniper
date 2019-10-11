@@ -9,11 +9,11 @@ using Juniper.Progress;
 
 namespace Juniper.World.GIS.Google
 {
-    public class GoogleMapsClient<T>
+    public class GoogleMapsClient<ImageType>
     {
-        private readonly IImageCodec<T> imageDecoder;
-        private readonly IDeserializer<GeocodingResponse> geocodingDecoder;
-        private readonly IDeserializer<MetadataResponse> metadataDecoder;
+        private readonly IImageCodec<ImageType> imageDecoder;
+        private readonly IJsonDecoder<GeocodingResponse> geocodingDecoder;
+        private readonly IJsonDecoder<MetadataResponse> metadataDecoder;
 
         private readonly string apiKey;
         private readonly string signingKey;
@@ -21,7 +21,7 @@ namespace Juniper.World.GIS.Google
 
         private Exception lastError;
 
-        public GoogleMapsClient(string apiKey, string signingKey, IImageCodec<T> imageDecoder, IDeserializer<MetadataResponse> metadataDecoder, IDeserializer<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
+        public GoogleMapsClient(string apiKey, string signingKey, IImageCodec<ImageType> imageDecoder, IJsonDecoder<MetadataResponse> metadataDecoder, IJsonDecoder<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
         {
             this.imageDecoder = imageDecoder;
             this.metadataDecoder = metadataDecoder;
@@ -86,7 +86,7 @@ namespace Juniper.World.GIS.Google
             return cache.Load(metadataRequest, metadataDecoder);
         }
 
-        public Task<T> GetImage(string pano, int fov, int heading, int pitch, IProgress prog = null)
+        public Task<ImageType> GetImage(string pano, int fov, int heading, int pitch, IProgress prog = null)
         {
             var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640))
             {
