@@ -35,7 +35,6 @@ namespace Juniper.ConfigurationManagement
         private static readonly ProjectConfiguration config = ProjectConfiguration.Load();
 
         private static string newDefine;
-        private static Vector2 definesScrollPosition;
 
         private const float nameFieldWidth = 200;
         private const float narrowWidth = 50;
@@ -45,6 +44,11 @@ namespace Juniper.ConfigurationManagement
         private static readonly GUILayoutOption narrowGWidth = GUILayout.Width(narrowWidth);
         private static readonly GUILayoutOption buttonGWidth = GUILayout.Width(buttonWidth);
 
+        private static readonly TableView definesTable = new TableView(
+            ("Define", nameFieldWidth),
+            ("Required", buttonWidth)
+        );
+
 
         public void OnGUI()
         {
@@ -52,7 +56,7 @@ namespace Juniper.ConfigurationManagement
 
             var nextDefines = UnityCompiler.GetDefines(CurrentConfiguration.TargetGroup);
 
-            EditorGUILayoutExt.HeaderIndent("Defines", () =>
+            using (_ = new Header("Defines"))
             {
                 if (GUILayout.Button("Refresh"))
                 {
@@ -60,48 +64,42 @@ namespace Juniper.ConfigurationManagement
                     PlayerSettings.SetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup, string.Join(";", nextDefines));
                 }
 
-                EditorGUILayoutExt.HGroup(() =>
+                using (_ = definesTable.Begin())
                 {
-                    EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
-                    EditorGUILayout.LabelField("Required", EditorStyles.centeredGreyMiniLabel, buttonGWidth);
-                });
-
-                EditorGUILayoutExt.HGroup(() =>
-                {
-                    newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidth + narrowWidth));
-                    if (GUILayout.Button("Add", buttonGWidth))
+                    using (_ = new HGroup())
                     {
-                        if (!string.IsNullOrEmpty(newDefine))
+                        newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidth + narrowWidth));
+                        if (GUILayout.Button("Add", buttonGWidth))
                         {
-                            nextDefines.Add(newDefine);
+                            if (!string.IsNullOrEmpty(newDefine))
+                            {
+                                nextDefines.Add(newDefine);
+                            }
+                            newDefine = string.Empty;
                         }
-                        newDefine = string.Empty;
                     }
-                });
 
-
-                definesScrollPosition = EditorGUILayout.BeginScrollView(definesScrollPosition);
-                for (var i = 0; i < nextDefines.Count; ++i)
-                {
-                    EditorGUILayoutExt.HGroup(() =>
+                    for (var i = 0; i < nextDefines.Count; ++i)
                     {
                         var define = nextDefines[i];
-                        EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldGWidth);
-
-                        EditorGUILayout.LabelField(
-                            DesiredConfiguration.CompilerDefines.Contains(define) ? "Yes" : "No",
-                            EditorStyles.centeredGreyMiniLabel,
-                            narrowGWidth);
-
-                        if (GUILayout.Button("Remove", buttonGWidth))
+                        using (_ = new HGroup())
                         {
-                            nextDefines.RemoveAt(i);
-                            --i;
+                            EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldGWidth);
+
+                            EditorGUILayout.LabelField(
+                                DesiredConfiguration.CompilerDefines.Contains(define) ? "Yes" : "No",
+                                EditorStyles.centeredGreyMiniLabel,
+                                narrowGWidth);
+
+                            if (GUILayout.Button("Remove", buttonGWidth))
+                            {
+                                nextDefines.RemoveAt(i);
+                                --i;
+                            }
                         }
-                    });
+                    }
                 }
-                EditorGUILayout.EndScrollView();
-            });
+            }
 
             UnityCompiler.SetDefines(CurrentConfiguration.TargetGroup, nextDefines);
         }

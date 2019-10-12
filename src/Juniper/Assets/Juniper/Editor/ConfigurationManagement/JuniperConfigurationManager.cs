@@ -32,11 +32,10 @@ namespace Juniper.ConfigurationManagement
     public class JuniperConfigurationManager : EditorWindow
     {
         private const string MENU_NAME = "Juniper/";
-        private static readonly ProjectConfiguration config = ProjectConfiguration.Load();
-
         private static readonly GUIContent TITLE = new GUIContent("Juniper");
 
-        private static Vector2 packageScrollPosition;
+        private static readonly ProjectConfiguration config = ProjectConfiguration.Load();
+
         private static AbstractFilePackage[] packages;
         private static bool repaintNeeded;
         private static bool repaintBound;
@@ -116,12 +115,27 @@ namespace Juniper.ConfigurationManagement
 
         private const float nameFieldWidth = 200;
         private const float narrowWidth = 50;
+        private const float statusWidth = 120;
         private const float buttonWidth = 100;
 
         private static readonly GUILayoutOption nameFieldGWidth = GUILayout.Width(nameFieldWidth);
         private static readonly GUILayoutOption narrowGWidth = GUILayout.Width(narrowWidth);
-        private static readonly GUILayoutOption statusWidth = GUILayout.Width(120);
+        private static readonly GUILayoutOption statusGWidth = GUILayout.Width(statusWidth);
         private static readonly GUILayoutOption buttonGWidth = GUILayout.Width(buttonWidth);
+
+        private static readonly TableView requiredPackageTable = new TableView(
+            ("Name", nameFieldWidth),
+            ("Define", nameFieldWidth),
+            ("Active", narrowWidth),
+            ("Status", statusWidth)
+        );
+
+        private static readonly TableView optionalPackageTable = new TableView(
+            ("Name", nameFieldWidth),
+            ("Define", nameFieldWidth),
+            ("Active", narrowWidth),
+            ("Status", statusWidth)
+        );
 
 
         public void OnGUI()
@@ -139,54 +153,32 @@ namespace Juniper.ConfigurationManagement
 
             var selectedPlatform = CurrentPlatform;
 
-            EditorGUILayoutExt.HeaderIndent("Status", () =>
+            using (_ = new Header("Status"))
             {
                 if (BuildInProgress)
                 {
-                    EditorGUILayoutExt.HGroup(() =>
-                    {
-                        EditorGUILayout.LabelField("Build in progress", nameFieldGWidth);
-                        EditorGUILayout.LabelField(progressMessage);
-                    });
+                    EditorGUILayoutExt.LabeledField("Build in progress", nameFieldGWidth, progressMessage);
                 }
 
-                EditorGUILayoutExt.HGroup(() =>
-                {
-                    EditorGUILayout.LabelField("Build step", nameFieldGWidth);
-                    EditorGUILayout.LabelField(BuildStepName, nameFieldGWidth);
-                });
+                EditorGUILayoutExt.LabeledField("Build step", nameFieldGWidth, BuildStepName, nameFieldGWidth);
 
                 if (!BuildInProgress)
                 {
-                    EditorGUILayoutExt.HGroup(() =>
-                    {
-                        EditorGUILayout.LabelField("Current platform", nameFieldGWidth);
-                        EditorGUILayout.LabelField(CurrentPlatform.ToString(), nameFieldGWidth);
-                    });
-
-                    EditorGUILayoutExt.HGroup(() =>
-                    {
-                        EditorGUILayout.LabelField("Current build target", nameFieldGWidth);
-                        EditorGUILayout.LabelField(CurrentConfiguration.TargetGroup.ToString(), nameFieldGWidth);
-                    });
+                    EditorGUILayoutExt.LabeledField("Current platform", nameFieldGWidth, CurrentPlatform, nameFieldGWidth);
+                    EditorGUILayoutExt.LabeledField("Current build target", nameFieldGWidth, CurrentConfiguration.TargetGroup, nameFieldGWidth);
 
                     if (CurrentConfiguration.TargetGroup == BuildTargetGroup.Android)
                     {
-
-                        EditorGUILayoutExt.HGroup(() =>
-                        {
-                            EditorGUILayout.LabelField("Min Android SDK version", nameFieldGWidth);
-                            EditorGUILayout.LabelField(CurrentConfiguration.androidSdkVersion, nameFieldGWidth);
-                        });
+                        EditorGUILayoutExt.LabeledField("Min Android SDK version", nameFieldGWidth, CurrentConfiguration.androidSdkVersion, nameFieldGWidth);
                     }
 
-                    EditorGUILayoutExt.HGroup(() =>
+                    using (_ = new HGroup())
                     {
                         EditorGUILayout.LabelField("Change platform", nameFieldGWidth);
                         selectedPlatform = (PlatformTypes)EditorGUILayout.EnumPopup(selectedPlatform, nameFieldGWidth);
-                    });
+                    }
                 }
-            });
+            }
 
             if (!BuildInProgress)
             {
@@ -216,8 +208,8 @@ namespace Juniper.ConfigurationManagement
                     }
                     else
                     {
-                        DrawPackages("Required", packages.Where(p => nextDefines.Contains(p.CompilerDefine)), nextDefines);
-                        DrawPackages("Optional", packages.Where(p => !nextDefines.Contains(p.CompilerDefine)), nextDefines);
+                        DrawPackages("Required", packages.Where(p => nextDefines.Contains(p.CompilerDefine)), nextDefines, requiredPackageTable);
+                        DrawPackages("Optional", packages.Where(p => !nextDefines.Contains(p.CompilerDefine)), nextDefines, optionalPackageTable);
                     }
 
                     UnityCompiler.SetDefines(CurrentConfiguration.TargetGroup, nextDefines);
@@ -225,9 +217,9 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private void DrawPackages(string label, IEnumerable<AbstractFilePackage> packages, List<string> nextDefines)
+        private void DrawPackages(string label, IEnumerable<AbstractFilePackage> packages, List<string> nextDefines, TableView table)
         {
-            EditorGUILayoutExt.HeaderIndent(label + " Packages", () =>
+            using (_ = new Header(label + " Packages"))
             {
                 if (packages.Empty())
                 {
@@ -235,111 +227,104 @@ namespace Juniper.ConfigurationManagement
                 }
                 else
                 {
-                    EditorGUILayoutExt.HGroup(() =>
+                    using (_ = table.Begin())
                     {
-                        EditorGUILayout.LabelField("Name", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
-                        EditorGUILayout.LabelField("Define", EditorStyles.centeredGreyMiniLabel, nameFieldGWidth);
-                        EditorGUILayout.LabelField("Active", EditorStyles.centeredGreyMiniLabel, narrowGWidth);
-                        EditorGUILayout.LabelField("Status", EditorStyles.centeredGreyMiniLabel, statusWidth);
-                    });
-
-                    packageScrollPosition = EditorGUILayout.BeginScrollView(packageScrollPosition);
-                    foreach (var package in packages.OrderBy(p => p.CompilerDefine))
-                    {
-                        EditorGUILayoutExt.HGroup(() =>
+                        foreach (var package in packages.OrderBy(p => p.CompilerDefine))
                         {
-                            try
+                            using (_ = new HGroup())
                             {
-                                EditorGUILayout.LabelField(package.GUILabel, nameFieldGWidth);
-                                package.CompilerDefine = EditorGUILayout.TextField(package.CompilerDefine, nameFieldGWidth);
+                                try
+                                {
+                                    EditorGUILayout.LabelField(package.GUILabel, nameFieldGWidth);
+                                    package.CompilerDefine = EditorGUILayout.TextField(package.CompilerDefine, nameFieldGWidth);
 
-                                EditorGUILayout.LabelField(
-                                    CurrentConfiguration.CompilerDefines.Contains(package.CompilerDefine) ? "Yes" : "No",
-                                    EditorStyles.centeredGreyMiniLabel,
-                                    narrowGWidth);
-
-                                if (package.ScanningProgress == PackageScanStatus.None)
-                                {
-                                    EditorGUILayout.LabelField("Identified", EditorStyles.centeredGreyMiniLabel, statusWidth);
-                                }
-                                else if (package.ScanningProgress == PackageScanStatus.Found
-                                    || package.ScanningProgress == PackageScanStatus.List)
-                                {
-                                    EditorGUILayout.LabelField("Found", EditorStyles.centeredGreyMiniLabel, statusWidth);
-                                }
-                                else if (package.ScanningProgress == PackageScanStatus.NotFound)
-                                {
-                                    EditorGUILayout.LabelField("Not Found!", statusWidth);
-                                }
-                                else if (package.ScanningProgress == PackageScanStatus.Listing
-                                    || package.ScanningProgress == PackageScanStatus.Listed
-                                    || package.ScanningProgress == PackageScanStatus.Scan
-                                    || package.ScanningProgress == PackageScanStatus.Scanning)
-                                {
-                                    EditorGUILayout.LabelField(string.Format(
-                                        "({0} files) Scanning",
-                                        package.TotalFiles),
+                                    EditorGUILayout.LabelField(
+                                        CurrentConfiguration.CompilerDefines.Contains(package.CompilerDefine) ? "Yes" : "No",
                                         EditorStyles.centeredGreyMiniLabel,
-                                        statusWidth);
-                                }
-                                else if (package.ScanningProgress == PackageScanStatus.Scanned)
-                                {
-                                    if (package.InstallPercentage > 0 != nextDefines.Contains(package.CompilerDefine))
+                                        narrowGWidth);
+
+                                    if (package.ScanningProgress == PackageScanStatus.None)
                                     {
-                                        if (package.InstallPercentage > 0)
+                                        EditorGUILayout.LabelField("Identified", EditorStyles.centeredGreyMiniLabel, statusGWidth);
+                                    }
+                                    else if (package.ScanningProgress == PackageScanStatus.Found
+                                        || package.ScanningProgress == PackageScanStatus.List)
+                                    {
+                                        EditorGUILayout.LabelField("Found", EditorStyles.centeredGreyMiniLabel, statusGWidth);
+                                    }
+                                    else if (package.ScanningProgress == PackageScanStatus.NotFound)
+                                    {
+                                        EditorGUILayout.LabelField("Not Found!", statusGWidth);
+                                    }
+                                    else if (package.ScanningProgress == PackageScanStatus.Listing
+                                        || package.ScanningProgress == PackageScanStatus.Listed
+                                        || package.ScanningProgress == PackageScanStatus.Scan
+                                        || package.ScanningProgress == PackageScanStatus.Scanning)
+                                    {
+                                        EditorGUILayout.LabelField(string.Format(
+                                            "({0} files) Scanning",
+                                            package.TotalFiles),
+                                            EditorStyles.centeredGreyMiniLabel,
+                                            statusGWidth);
+                                    }
+                                    else if (package.ScanningProgress == PackageScanStatus.Scanned)
+                                    {
+                                        if (package.InstallPercentage > 0 != nextDefines.Contains(package.CompilerDefine))
                                         {
-                                            nextDefines.MaybeAdd(package.CompilerDefine);
+                                            if (package.InstallPercentage > 0)
+                                            {
+                                                nextDefines.MaybeAdd(package.CompilerDefine);
+                                            }
+                                            else
+                                            {
+                                                nextDefines.Remove(package.CompilerDefine);
+                                            }
                                         }
-                                        else
+
+                                        EditorGUILayout.LabelField(string.Format(
+                                            "({0,4:##0%} of {1,4:####} files)",
+                                            package.InstallPercentage,
+                                            package.TotalFiles),
+                                            EditorStyles.centeredGreyMiniLabel,
+                                            statusGWidth);
+
+                                        var installLabel = package.InstallPercentage == 0 ? "Install" : "Refresh";
+                                        if (package.InstallPercentage == 1)
                                         {
-                                            nextDefines.Remove(package.CompilerDefine);
+                                            GUILayout.Space(buttonWidth);
+                                        }
+                                        else if (GUILayout.Button(installLabel, buttonGWidth))
+                                        {
+                                            package.Install(currentProg);
+                                        }
+
+                                        if (package.InstallPercentage > 0 && GUILayout.Button("Remove", buttonGWidth))
+                                        {
+                                            package.Uninstall(currentProg);
                                         }
                                     }
-
-                                    EditorGUILayout.LabelField(string.Format(
-                                        "({0,4:##0%} of {1,4:####} files)",
-                                        package.InstallPercentage,
-                                        package.TotalFiles),
-                                        EditorStyles.centeredGreyMiniLabel,
-                                        statusWidth);
-
-                                    var installLabel = package.InstallPercentage == 0 ? "Install" : "Refresh";
-                                    if (package.InstallPercentage == 1)
+                                    else if (package.ScanningProgress == PackageScanStatus.Error)
                                     {
-                                        GUILayout.Space(buttonWidth);
-                                    }
-                                    else if (GUILayout.Button(installLabel, buttonGWidth))
-                                    {
-                                        package.Install(currentProg);
-                                    }
-
-                                    if (package.InstallPercentage > 0 && GUILayout.Button("Remove", buttonGWidth))
-                                    {
-                                        package.Uninstall(currentProg);
+                                        if (GUILayout.Button(
+                                            new GUIContent("ERROR!", package.Error.Message),
+                                            EditorStyles.miniBoldLabel,
+                                            buttonGWidth))
+                                        {
+                                            package.ClearError();
+                                        }
                                     }
                                 }
-                                else if (package.ScanningProgress == PackageScanStatus.Error)
+                                catch
                                 {
-                                    if (GUILayout.Button(
-                                        new GUIContent("ERROR!", package.Error.Message),
-                                        EditorStyles.miniBoldLabel,
-                                        buttonGWidth))
-                                    {
-                                        package.ClearError();
-                                    }
+
                                 }
                             }
-                            catch
-                            {
-
-                            }
-                        });
+                        }
                     }
-                    EditorGUILayout.EndScrollView();
 
                     Platforms.Save();
                 }
-            });
+            }
         }
 
         private static string BuildStepName
@@ -539,7 +524,7 @@ namespace Juniper.ConfigurationManagement
         {
             if (test == null)
             {
-                test = AlwaysTrue;
+                test = Always.True;
             }
 
             void exec()
@@ -562,24 +547,9 @@ namespace Juniper.ConfigurationManagement
             EditorApplication.update += exec;
         }
 
-        private static bool AlwaysTrue()
-        {
-            return true;
-        }
-
-        private static void OnEditorUpdate(Action resolve, Action reject)
-        {
-            OnEditorUpdate(resolve, reject, null);
-        }
-
         private static void OnEditorUpdate(Action resolve, Func<bool> test)
         {
             OnEditorUpdate(resolve, null, test);
-        }
-
-        private static void OnEditorUpdate(Action resolve)
-        {
-            OnEditorUpdate(resolve, null, null);
         }
 
         private static void DelayedUpdate(IProgress prog, float maxTime, Action onComplete)
