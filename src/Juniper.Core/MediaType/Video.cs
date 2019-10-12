@@ -4,9 +4,9 @@ namespace Juniper
     {
         public sealed class Video : MediaType
         {
-            public Video(string value, string[] extensions) : base("video/" + value, extensions) {}
+            private Video(string value, string[] extensions) : base("video/" + value, extensions) {}
 
-            public Video(string value) : this(value, null) {}
+            private Video(string value) : this(value, null) {}
 
             public static readonly Video BMPEG = new Video("bmpeg");
             public static readonly Video BT656 = new Video("bt656");

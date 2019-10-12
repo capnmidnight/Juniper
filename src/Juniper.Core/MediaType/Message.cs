@@ -4,9 +4,9 @@ namespace Juniper
     {
         public sealed class Message : MediaType
         {
-            public Message(string value, string[] extensions) : base("message/" + value, extensions) {}
+            private Message(string value, string[] extensions) : base("message/" + value, extensions) {}
 
-            public Message(string value) : this(value, null) {}
+            private Message(string value) : this(value, null) {}
 
             public static readonly Message CPIM = new Message("cpim");
             public static readonly Message Delivery_Status = new Message("delivery-status");

@@ -38,6 +38,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Always.cs" />
     <Compile Include="Audio\AbstractPcmConversionStream.cs" />
     <Compile Include="Audio\AudioData.cs" />
     <Compile Include="Audio\AudioFormat.cs" />
@@ -94,15 +95,14 @@
     <Compile Include="MediaType\Application.cs" />
     <Compile Include="MediaType\Audio.cs" />
     <Compile Include="MediaType\Chemical.cs" />
-    <Compile Include="MediaType\ExtensionLookup.cs" />
     <Compile Include="MediaType\Font.cs" />
     <Compile Include="MediaType\Image.cs" />
-    <Compile Include="MediaType\Lookup.cs" />
     <Compile Include="MediaType\MediaType.cs" />
     <Compile Include="MediaType\Message.cs" />
     <Compile Include="MediaType\Model.cs" />
     <Compile Include="MediaType\Multipart.cs" />
     <Compile Include="MediaType\Text.cs" />
+    <Compile Include="MediaType\Unknown.cs" />
     <Compile Include="MediaType\Values.cs" />
     <Compile Include="MediaType\Video.cs" />
     <Compile Include="MediaType\XConference.cs" />

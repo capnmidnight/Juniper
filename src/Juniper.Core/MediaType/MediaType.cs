@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.IO;
 
 namespace Juniper
@@ -8,39 +10,119 @@ namespace Juniper
     {
         public static readonly MediaType Any = new MediaType("*/*");
 
+        private static Dictionary<string, MediaType> byExtensions;
+
+        private static Dictionary<string, MediaType> byValue;
+
         public static MediaType GuessByExtension(string ext)
         {
-            return byExtensions.Get(ext);
+            if(ext == null)
+            {
+                ext = "unknown";
+            }
+
+            if (byExtensions.ContainsKey(ext))
+            {
+                return byExtensions[ext];
+            }
+            else
+            {
+                return new Unknown("unknown/" + ext);
+            }
+        }
+
+        public static MediaType Guess(string fileName)
+        {
+            return GuessByExtension(PathExt.GetShortExtension(fileName));
         }
 
         public static MediaType Guess(FileInfo file)
         {
-            return GuessByExtension(PathExt.GetShortExtension(file.Name));
+            return Guess(file.Name);
         }
 
         public static MediaType Lookup(string value)
         {
             var parts = value.SplitX(';');
-            return byValue.Get(parts[0]);
-        }
-
-        public readonly string Value;
-        public readonly string[] Extensions;
-        public readonly string PrimaryExtension;
-
-        public MediaType(string value, string[] extensions)
-        {
-            Value = value;
-            Extensions = extensions;
-            if(extensions?.Length >= 1)
+            foreach (var part in parts)
             {
-                PrimaryExtension = extensions[0];
+                if (byValue.ContainsKey(part))
+                {
+                    return byValue[part];
+                }
+            }
+
+            parts = parts
+                .Where(p => p.Length > 0)
+                .ToArray();
+
+            if (parts.Length == 0)
+            {
+                return Lookup("unknown/unknown");
+            }
+            else
+            {
+                return new Unknown(parts[0]);
             }
         }
 
-        public MediaType(string value)
+        public readonly string Value;
+        public readonly ReadOnlyCollection<string> Extensions;
+        public readonly string PrimaryExtension;
+
+        protected MediaType(string value, string[] extensions)
+        {
+            Value = value;
+            if(extensions == null)
+            {
+                extensions = Array.Empty<string>();
+            }
+
+            Extensions = Array.AsReadOnly(extensions);
+            if (Extensions.Count >= 1)
+            {
+                PrimaryExtension = extensions[0];
+            }
+
+            if(byValue == null)
+            {
+                byValue = new Dictionary<string, MediaType>(1000);
+            }
+
+            if(byExtensions == null)
+            {
+                byExtensions = new Dictionary<string, MediaType>(1000);
+            }
+
+            if (!byValue.ContainsKey(Value))
+            {
+                byValue.Add(Value, this);
+            }
+
+            foreach (var ext in Extensions)
+            {
+                if (!byExtensions.ContainsKey(ext))
+                {
+                    byExtensions.Add(ext, this);
+                }
+            }
+        }
+
+        protected MediaType(string value)
             : this(value, null)
         { }
+
+        public bool Matches(string fileName)
+        {
+            return this == Any
+                || Extensions.Contains(PathExt.GetLongExtension(fileName))
+                || Extensions.Contains(PathExt.GetShortExtension(fileName));
+        }
+
+        public bool Matches(FileInfo file)
+        {
+            return Matches(file.Name);
+        }
 
         public static implicit operator string(MediaType mediaType)
         {
@@ -59,13 +141,13 @@ namespace Juniper
                 && Equals(mediaType);
         }
 
-        public static bool operator==(MediaType left, MediaType right)
+        public static bool operator ==(MediaType left, MediaType right)
         {
             return left is null && right is null
                 || left is object && left.Equals(right);
         }
 
-        public static bool operator!=(MediaType left, MediaType right)
+        public static bool operator !=(MediaType left, MediaType right)
         {
             return !(left == right);
         }
@@ -73,6 +155,11 @@ namespace Juniper
         public override int GetHashCode()
         {
             return Value.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Value;
         }
     }
 
@@ -84,7 +171,7 @@ namespace Juniper
                 && contentType.PrimaryExtension != null)
             {
                 var currentExtension = PathExt.GetShortExtension(fileName);
-                if (Array.IndexOf(contentType.Extensions, currentExtension) == -1)
+                if (contentType.Extensions.IndexOf(currentExtension) == -1)
                 {
                     fileName += "." + contentType.PrimaryExtension;
                 }

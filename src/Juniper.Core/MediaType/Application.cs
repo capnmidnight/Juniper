@@ -4,9 +4,9 @@ namespace Juniper
     {
         public sealed class Application : MediaType
         {
-            public Application(string value, string[] extensions) : base("application/" + value, extensions) {}
+            private Application(string value, string[] extensions) : base("application/" + value, extensions) {}
 
-            public Application(string value) : this(value, null) {}
+            private Application(string value) : this(value, null) {}
 
             public static readonly Application A2L = new Application("a2l");
             public static readonly Application Activemessage = new Application("activemessage");

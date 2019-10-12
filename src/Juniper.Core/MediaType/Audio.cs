@@ -4,9 +4,9 @@ namespace Juniper
     {
         public sealed class Audio : MediaType
         {
-            public Audio(string value, string[] extensions) : base("audio/" + value, extensions) {}
+            private Audio(string value, string[] extensions) : base("audio/" + value, extensions) {}
 
-            public Audio(string value) : this(value, null) {}
+            private Audio(string value) : this(value, null) {}
 
             public static readonly Audio Aac = new Audio("aac");
             public static readonly Audio Ac3 = new Audio("ac3");

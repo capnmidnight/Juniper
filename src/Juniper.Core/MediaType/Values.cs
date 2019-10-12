@@ -1,8 +1,11 @@
+using System;
+using System.Collections.ObjectModel;
+
 namespace Juniper
 {
     public partial class MediaType
     {
-        public static readonly MediaType[] Values = {
+        public static readonly ReadOnlyCollection<MediaType> Values = Array.AsReadOnly(new MediaType[]{
             Application.A2L,
             Application.Activemessage,
             Application.ActivityJson,
@@ -2059,6 +2062,6 @@ namespace Juniper
             Video.X_Sgi_Movie,
             Video.X_Smv,
             XConference.X_Cooltalk,
-        };
+        });
     }
 }

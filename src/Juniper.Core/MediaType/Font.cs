@@ -4,9 +4,9 @@ namespace Juniper
     {
         public sealed class Font : MediaType
         {
-            public Font(string value, string[] extensions) : base("font/" + value, extensions) {}
+            private Font(string value, string[] extensions) : base("font/" + value, extensions) {}
 
-            public Font(string value) : this(value, null) {}
+            private Font(string value) : this(value, null) {}
 
             public static readonly Font Collection = new Font("collection", new string[] {"ttc"});
             public static readonly Font Otf = new Font("otf", new string[] {"otf"});

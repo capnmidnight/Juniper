@@ -4,9 +4,9 @@ namespace Juniper
     {
         public sealed class Model : MediaType
         {
-            public Model(string value, string[] extensions) : base("model/" + value, extensions) {}
+            private Model(string value, string[] extensions) : base("model/" + value, extensions) {}
 
-            public Model(string value) : this(value, null) {}
+            private Model(string value) : this(value, null) {}
 
             public static readonly Model Example = new Model("example");
             public static readonly Model Gltf_Binary = new Model("gltf-binary");
