@@ -25,10 +25,27 @@ namespace System.IO
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch
-                {
-                }
+                { }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
+            return false;
+        }
+
+        public static bool TryDelete(this DirectoryInfo directory)
+        {
+            if (directory.Exists)
+            {
+                try
+                {
+                    directory.Delete();
+                    return true;
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch
+                { }
+#pragma warning restore CA1031 // Do not catch general exception types
+            }
+
             return false;
         }
 

@@ -45,8 +45,6 @@ namespace Juniper.MediaTypes
             outDir = Path.Combine(outDir, "MediaType");
 
             WriteGroups(groups, outDir);
-            WriteLookup(groups, outDir);
-            WriteExtensionLookup(groups, outDir);
             WriteValues(groups, outDir);
         }
 
@@ -56,48 +54,6 @@ namespace Juniper.MediaTypes
             {
                 group.Write(outDir);
             }
-        }
-
-        private static void WriteLookup(Dictionary<string, Group> groups, string outDir)
-        {
-            var byValue =
-              from g in groups.Values
-              from e in g.entries.Values
-              where e.DeprecationMessage == null
-              select e;
-            "Lookup.cs".MakeFile(outDir, (writer) =>
-            {
-                writer.WriteLine("        private static readonly Dictionary<string, MediaType> byValue = new Dictionary<string, MediaType>() {");
-                foreach (var ext in byValue)
-                {
-                    writer.WriteLine("            {{ \"{0}\", {1}.{2} }},", ext.Value, ext.Group.ClassName, ext.FieldName);
-                }
-                writer.WriteLine("        };");
-            }, "using System.Collections.Generic;");
-        }
-
-        private static void WriteExtensionLookup(Dictionary<string, Group> groups, string outDir)
-        {
-            var byExtension =
-              from grp in groups.Values
-              from entry in grp.entries.Values
-              where entry.Extensions != null
-                && entry.DeprecationMessage == null
-              from extension in entry.Extensions
-              orderby entry.Value.IndexOf('+')
-              group (entry, extension) by extension into L
-              let first = L.First()
-              orderby first.extension
-              select first;
-            "ExtensionLookup.cs".MakeFile(outDir, (writer) =>
-            {
-                writer.WriteLine("        private static readonly Dictionary<string, MediaType> byExtensions = new Dictionary<string, MediaType>() {");
-                foreach (var ext in byExtension)
-                {
-                    writer.WriteLine("            {{ \"{0}\", {1}.{2} }},", ext.extension, ext.entry.Group.ClassName, ext.entry.FieldName);
-                }
-                writer.WriteLine("        };");
-            }, "using System.Collections.Generic;");
         }
 
         private static void WriteValues(Dictionary<string, Group> groups, string outDir)
@@ -112,13 +68,13 @@ namespace Juniper.MediaTypes
 
             "Values.cs".MakeFile(outDir, (writer) =>
             {
-                writer.WriteLine("        public static readonly MediaType[] Values = {");
+                writer.WriteLine("        public static readonly ReadOnlyCollection<MediaType> Values = Array.AsReadOnly(new MediaType[]{");
                 foreach(var value in allValues)
                 {
                     writer.WriteLine("            {0},", value);
                 }
-                writer.WriteLine("        };");
-            });
+                writer.WriteLine("        });");
+            }, "using System;\r\nusing System.Collections.ObjectModel;");
         }
 
         private static async Task ParseApacheConf(Dictionary<string, Group> groups)

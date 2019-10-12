@@ -45,6 +45,38 @@ namespace Juniper.IO
             return this;
         }
 
+        public bool GetSource<T>(out T layer)
+            where T : ICacheSourceLayer
+        {
+            layer = default;
+            foreach (var source in sources)
+            {
+                if (source is T)
+                {
+                    layer = (T)source;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public bool GetDestination<T>(out T layer)
+            where T : ICacheDestinationLayer
+        {
+            layer = default;
+            foreach (var dest in destinations)
+            {
+                if (dest is T)
+                {
+                    layer = (T)dest;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Creates a stream that will write to all of the cache layers that support
         /// writing streams.
@@ -52,7 +84,7 @@ namespace Juniper.IO
         /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="fileRef"></param>
         /// <returns></returns>
-        public Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+        public Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef, bool overwrite)
             where MediaTypeT : MediaType
         {
             var stream = new ForkedStream();
@@ -61,7 +93,7 @@ namespace Juniper.IO
                 if (dest.CanCache(fileRef)
                     && !dest.IsCached(fileRef))
                 {
-                    stream.AddStream(dest.Create(fileRef));
+                    stream.AddStream(dest.Create(fileRef, overwrite));
                 }
             }
 
@@ -110,28 +142,6 @@ namespace Juniper.IO
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Copies a file to all of the cache layers that support writing streams.
-        /// </summary>
-        /// <remarks>
-        /// If none of the cache layers support writing, then no copy operation
-        /// takes place.
-        /// </remarks>
-        /// <typeparam name="MediaTypeT"></typeparam>
-        /// <param name="fileRef"></param>
-        /// <param name="file"></param>
-        public void Copy<MediaTypeT>(IContentReference<MediaTypeT> fileRef, FileInfo file)
-            where MediaTypeT : MediaType
-        {
-            foreach (var dest in destinations)
-            {
-                if (dest.CanCache(fileRef))
-                {
-                    dest.Copy(fileRef, file);
-                }
-            }
         }
 
         /// <summary>
@@ -201,7 +211,7 @@ namespace Juniper.IO
         public void Save<MediaTypeT, ResultType>(IContentReference<MediaTypeT> fileRef, ResultType value, ISerializer<ResultType> serializer, IProgress prog)
             where MediaTypeT : MediaType
         {
-            using (var stream = Create(fileRef))
+            using (var stream = Create(fileRef, true))
             {
                 serializer.Serialize(stream, value, prog);
             }
@@ -270,6 +280,28 @@ namespace Juniper.IO
             where MediaTypeT : MediaType
         {
             return Proxy(source, context.Response);
+        }
+
+        public IEnumerable<IContentReference<MediaTypeT>> Get<MediaTypeT>(MediaTypeT ofType) where MediaTypeT : MediaType
+        {
+            foreach(var source in sources)
+            {
+                foreach(var fileRef in source.Get(ofType))
+                {
+                    yield return fileRef;
+                }
+            }
+        }
+
+        public bool Delete<MediaTypeT>(IContentReference<MediaTypeT> fileRef) where MediaTypeT : MediaType
+        {
+            bool anyDelete = false;
+            foreach(var dest in destinations)
+            {
+                anyDelete |= dest.Delete(fileRef);
+            }
+
+            return anyDelete;
         }
     }
 }

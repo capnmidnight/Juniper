@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 
 namespace Juniper.IO
@@ -8,6 +9,9 @@ namespace Juniper.IO
             where MediaTypeT : MediaType;
 
         Stream Open<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+            where MediaTypeT : MediaType;
+
+        IEnumerable<IContentReference<MediaTypeT>> Get<MediaTypeT>(MediaTypeT ofType)
             where MediaTypeT : MediaType;
     }
 }

@@ -116,7 +116,7 @@ namespace System.IO
         public static string GetLongExtension(string path)
         {
             var i = path.IndexOf('.');
-            if (i < 0)
+            if (i <= 0)
             {
                 return null;
             }
@@ -129,7 +129,7 @@ namespace System.IO
         public static string GetShortExtension(string path)
         {
             var i = path.LastIndexOf('.');
-            if (i < 0)
+            if (i <= 0)
             {
                 return null;
             }
@@ -137,6 +137,25 @@ namespace System.IO
             {
                 return path.Substring(i + 1);
             }
+        }
+
+        private static string Remove(string name, string ext)
+        {
+            if (ext != null)
+            {
+                name = name.Substring(0, name.Length - ext.Length - 1);
+            }
+            return name;
+        }
+
+        public static string RemoveShortExtension(string name)
+        {
+            return Remove(name, GetShortExtension(name));
+        }
+
+        public static string RemoveLongExtension(string name)
+        {
+            return Remove(name, GetLongExtension(name));
         }
 
         public static string Abs2Rel(string fullPath)

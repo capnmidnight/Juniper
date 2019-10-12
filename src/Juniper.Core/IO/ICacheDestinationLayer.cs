@@ -8,27 +8,45 @@ namespace Juniper.IO
         bool CanCache<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType;
 
-        Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+        Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef, bool overwrite)
             where MediaTypeT : MediaType;
 
         Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)
+            where MediaTypeT : MediaType;
+
+        bool Delete<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
             where MediaTypeT : MediaType;
     }
 
     public static class ICacheLayerExt
     {
-        public static void Copy<MediaTypeT>(this ICacheDestinationLayer layer, IContentReference<MediaTypeT> fileRef, FileInfo file)
+        public static void CopyTo<MediaTypeT>(
+            this ICacheSourceLayer fromLayer,
+            ICacheDestinationLayer toLayer,
+            IContentReference<MediaTypeT> fromRef,
+            IContentReference<MediaTypeT> toRef,
+            bool overwrite)
             where MediaTypeT : MediaType
         {
-            if (file.Exists && layer.CanCache(fileRef))
+            if (fromLayer.IsCached(fromRef)
+                && (overwrite || !toLayer.IsCached(toRef)))
             {
-                var mem = layer.Create(fileRef);
-                using (var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var inStream = fromLayer.Open(fromRef))
+                using (var outStream = toLayer.Create(toRef, overwrite))
                 {
-                    stream.CopyTo(mem);
+                    inStream.CopyTo(outStream);
                 }
             }
         }
 
+        public static void CopyTo<MediaTypeT>(
+            this ICacheSourceLayer fromLayer,
+            ICacheDestinationLayer toLayer,
+            IContentReference<MediaTypeT> fromRef,
+            IContentReference<MediaTypeT> toRef)
+            where MediaTypeT : MediaType
+        {
+            fromLayer.CopyTo(toLayer, fromRef, toRef, false);
+        }
     }
 }

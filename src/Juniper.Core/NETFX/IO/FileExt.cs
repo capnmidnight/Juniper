@@ -29,6 +29,24 @@ namespace System.IO
             return false;
         }
 
+        public static bool TryDelete(this FileInfo file)
+        {
+            if (file.Exists)
+            {
+                try
+                {
+                    file.Delete();
+                    return true;
+                }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch
+                { }
+#pragma warning restore CA1031 // Do not catch general exception types
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Creates a copy of a file, making sure the destination directory exists.
         /// </summary>

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 using System.IO;
-
+using Juniper.Compression;
 using Juniper.Compression.Zip;
 
 namespace Juniper.IO
@@ -73,6 +73,20 @@ namespace Juniper.IO
                 }
             }
             return stream;
+        }
+
+        public IEnumerable<IContentReference<MediaTypeT>> Get<MediaTypeT>(MediaTypeT ofType)
+            where MediaTypeT : MediaType
+        {
+            foreach (var file in Decompressor.Entries(zipFile).Files())
+            {
+                var fileType = MediaType.Guess(file.Name);
+                if (fileType is MediaTypeT mediaType)
+                {
+                    var cacheID = PathExt.RemoveShortExtension(file.Name);
+                    yield return new ContentReference<MediaTypeT>(cacheID, mediaType);
+                }
+            }
         }
     }
 }

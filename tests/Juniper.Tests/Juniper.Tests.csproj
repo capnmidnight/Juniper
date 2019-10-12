@@ -50,6 +50,7 @@
     <Compile Include="SingleStatisticsTests.cs" />
     <Compile Include="FileTreeTests.cs" />
     <Compile Include="UnitsTests.cs" />
+    <Compile Include="CachingTests.cs" />
     <Compile Include="ZipTest.cs" />
     <Compile Include="Google\GeocodingTests.cs" />
     <Compile Include="Google\MapTilesTests.cs" />
