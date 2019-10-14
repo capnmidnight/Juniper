@@ -16,7 +16,7 @@ namespace Juniper.Audio
         {
             get
             {
-                return sourceStream.Length * bytesPerFloat / sizeof(float);
+                return ToPCMSpace(sourceStream.Length);
             }
         }
 
@@ -24,78 +24,40 @@ namespace Juniper.Audio
         {
             get
             {
-                return sourceStream.Position * bytesPerFloat / sizeof(float);
+                return ToPCMSpace(sourceStream.Position);
             }
 
             set
             {
-                sourceStream.Position = value * sizeof(float) / bytesPerFloat;
+                sourceStream.Position = ToFloatSpace(value);
             }
         }
 
         protected override void InternalSetLength(long value)
         {
-            sourceStream.SetLength(value * sizeof(float) / bytesPerFloat);
+            sourceStream.SetLength(ToFloatSpace(value));
         }
 
-        protected override unsafe int InternalRead(byte[] buffer, int offset, int count)
+        protected override int InternalRead(byte[] buffer, int offset, int count)
         {
             int read = 0;
             while (read < count && sourceStream.Position < sourceStream.Length)
             {
                 sourceStream.Read(tempBuffer, 0, sizeof(float));
-
-                uint uv = 0;
-                for (var b = 0; b < sizeof(float); ++b)
-                {
-                    uv <<= 8;
-                    var c = tempBuffer[b];
-                    uv |= c;
-                }
-
-                var v = *(float*)&uv;
-                int accum = (int)(v * scalar);
-                accum >>= shift;
-
-                for (var b = bytesPerFloat; b >= 0; --b)
-                {
-                    var c = (byte)(accum & 0xff);
-                    buffer[offset + read + b] = c;
-                    accum >>= 8;
-                }
-
+                CopyFloat(tempBuffer, 0, buffer, offset + read);
                 read += bytesPerFloat;
             }
 
             return read;
         }
 
-        protected override unsafe void InternalWrite(byte[] buffer, int offset, int count)
+        protected override void InternalWrite(byte[] buffer, int offset, int count)
         {
             int wrote = 0;
             while(wrote < count)
             {
-                int accum = 0;
-                for(var b = bytesPerFloat; b >= 0; --b)
-                {
-                    accum <<= 8;
-                    var c = buffer[offset + wrote + b];
-                    accum |= c;
-                }
-
-                accum <<= shift;
-                var v = accum / scalar;
-                uint uv = *(uint*)&v;
-
-                for(var b = 0; b < sizeof(float); ++b)
-                {
-                    var c = (byte)uv;
-                    tempBuffer[b] = c;
-                    uv >>= 8;
-                }
-
+                CopyUInt32(buffer, offset + wrote, tempBuffer, 0);
                 sourceStream.Write(tempBuffer, 0, sizeof(float));
-
                 wrote += bytesPerFloat;
             }
         }

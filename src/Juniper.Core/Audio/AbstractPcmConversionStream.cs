@@ -83,6 +83,60 @@ namespace Juniper.Audio
             InternalWrite(buffer, offset, count);
         }
 
+        protected long ToFloatSpace(long value)
+        {
+            return value * sizeof(float) / bytesPerFloat;
+        }
+
+        protected long ToPCMSpace(long value)
+        {
+            return value * bytesPerFloat / sizeof(float);
+        }
+
+        protected unsafe void CopyFloat(byte[] inBuffer, int inOffset, byte[] outBuffer, int outOffset)
+        {
+            uint uv = 0;
+            for (var b = 0; b < sizeof(float); ++b)
+            {
+                uv <<= 8;
+                var c = inBuffer[inOffset + b];
+                uv |= c;
+            }
+
+            var v = *(float*)&uv;
+            int accum = (int)(v * scalar);
+            accum >>= shift;
+
+            for (var b = bytesPerFloat - 1; b >= 0; --b)
+            {
+                var c = (byte)(accum & 0xff);
+                outBuffer[outOffset + b] = c;
+                accum >>= 8;
+            }
+        }
+
+        protected unsafe void CopyUInt32(byte[] inBuffer, int inOffset, byte[] outBuffer, int outOffset)
+        {
+            int accum = 0;
+            for (var b = bytesPerFloat - 1; b >= 0; --b)
+            {
+                accum <<= 8;
+                var c = inBuffer[inOffset + b];
+                accum |= c;
+            }
+
+            accum <<= shift;
+            var v = accum / scalar;
+            uint uv = *(uint*)&v;
+
+            for (var b = 0; b < sizeof(float); ++b)
+            {
+                var c = (byte)uv;
+                outBuffer[outOffset + b] = c;
+                uv >>= 8;
+            }
+        }
+
         protected abstract void InternalSetLength(long value);
 
         protected abstract int InternalRead(byte[] buffer, int offset, int count);
