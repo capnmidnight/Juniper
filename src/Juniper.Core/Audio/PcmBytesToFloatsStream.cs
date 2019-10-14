@@ -6,9 +6,13 @@ namespace Juniper.Audio
 {
     public class PcmBytesToFloatsStream : AbstractPcmConversionStream
     {
+        protected readonly byte[] readBuffer;
+
         public PcmBytesToFloatsStream(Stream sourceStream, int bytesPerFloat)
             : base(sourceStream, bytesPerFloat)
-        { }
+        {
+            readBuffer = new byte[bytesPerFloat];
+        }
 
         public override long Length
         {

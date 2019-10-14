@@ -12,8 +12,6 @@ namespace Juniper.Audio
         protected readonly int shift;
         protected readonly float scalar;
 
-        protected readonly byte[] readBuffer;
-
 
         protected AbstractPcmConversionStream(Stream sourceStream, int bytesPerFloat)
         {
@@ -23,7 +21,6 @@ namespace Juniper.Audio
             var bitsPerFloat = bytesPerFloat * 8;
             shift = sizeof(int) * 8 - bitsPerFloat;
             scalar = (float)Pow(2, sizeof(int) * 8 - 1);
-            readBuffer = new byte[bytesPerFloat];
         }
 
         protected override void Dispose(bool disposing)
