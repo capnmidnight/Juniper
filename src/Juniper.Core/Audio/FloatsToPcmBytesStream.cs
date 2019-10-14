@@ -8,8 +8,8 @@ namespace Juniper.Audio
     {
         private BinaryReader floatReader;
 
-        public FloatsToPcmBytesStream(Stream sourceStream, int bytesPerFloat, IProgress prog = null)
-            : base(sourceStream, bytesPerFloat, prog)
+        public FloatsToPcmBytesStream(Stream sourceStream, int bytesPerFloat)
+            : base(sourceStream, bytesPerFloat)
         {
             floatReader = new BinaryReader(sourceStream);
         }

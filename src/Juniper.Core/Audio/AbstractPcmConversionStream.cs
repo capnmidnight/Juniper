@@ -1,7 +1,5 @@
 using System.IO;
 
-using Juniper.Progress;
-
 using static System.Math;
 
 namespace Juniper.Audio
@@ -16,13 +14,11 @@ namespace Juniper.Audio
 
         protected readonly byte[] readBuffer;
 
-        private readonly IProgress prog;
 
-        protected AbstractPcmConversionStream(Stream sourceStream, int bytesPerFloat, IProgress prog)
+        protected AbstractPcmConversionStream(Stream sourceStream, int bytesPerFloat)
         {
             this.sourceStream = sourceStream;
             this.bytesPerFloat = bytesPerFloat;
-            this.prog = prog;
 
             var bitsPerFloat = bytesPerFloat * 8;
             shift = sizeof(int) * 8 - bitsPerFloat;
@@ -48,10 +44,7 @@ namespace Juniper.Audio
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            prog.Report(Position, Length);
-            var read = InternalRead(buffer, offset, count);
-            prog.Report(Position, Length);
-            return read;
+            return InternalRead(buffer, offset, count);
         }
 
         protected abstract int InternalRead(byte[] buffer, int offset, int count);

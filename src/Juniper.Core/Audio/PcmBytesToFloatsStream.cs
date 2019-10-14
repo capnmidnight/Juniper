@@ -6,8 +6,8 @@ namespace Juniper.Audio
 {
     public class PcmBytesToFloatsStream : AbstractPcmConversionStream
     {
-        public PcmBytesToFloatsStream(Stream sourceStream, int bytesPerFloat, IProgress prog = null)
-            : base(sourceStream, bytesPerFloat, prog)
+        public PcmBytesToFloatsStream(Stream sourceStream, int bytesPerFloat)
+            : base(sourceStream, bytesPerFloat)
         { }
 
         public override long Length

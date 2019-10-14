@@ -113,6 +113,7 @@ namespace Juniper.Audio
                 }
 
                 var waveStream = MakeDecodingStream(stream);
+
                 var format = waveStream.WaveFormat;
 
                 var sampleRate = format.SampleRate;
@@ -124,8 +125,16 @@ namespace Juniper.Audio
                 ValidateFormat(sampleRate, bitsPerSample, channels);
 
                 var audioFormat = MakeAudioFormat(sampleRate, bitsPerSample, channels);
-                var dataStream = new PcmBytesToFloatsStream(waveStream, bytesPerSample, prog);
-                audioData = new AudioData(audioFormat, dataStream, samples);
+
+                stream = waveStream;
+                if (prog != null)
+                {
+                    stream = new ProgressStream(stream, stream.Length, prog);
+                }
+
+                stream = new PcmBytesToFloatsStream(stream, bytesPerSample);
+
+                audioData = new AudioData(audioFormat, stream, samples);
             }
             return audioData;
         }
