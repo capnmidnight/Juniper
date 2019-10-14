@@ -34,23 +34,11 @@ namespace Juniper.Audio
             base.Dispose(disposing);
         }
 
-        public override long Seek(long offset, SeekOrigin origin)
-        {
-            return sourceStream.Seek(offset, origin);
-        }
-
-        public override int Read(byte[] buffer, int offset, int count)
-        {
-            return InternalRead(buffer, offset, count);
-        }
-
-        protected abstract int InternalRead(byte[] buffer, int offset, int count);
-
         public override bool CanRead
         {
             get
             {
-                return true;
+                return sourceStream.CanRead;
             }
         }
 
@@ -66,23 +54,39 @@ namespace Juniper.Audio
         {
             get
             {
-                return false;
+                return sourceStream.CanWrite;
             }
+        }
+
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            return sourceStream.Seek(offset, origin);
         }
 
         public override void Flush()
         {
-            throw new System.NotSupportedException();
+            sourceStream.Flush();
         }
 
         public override void SetLength(long value)
         {
-            throw new System.NotSupportedException();
+            InternalSetLength(value);
+        }
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            return InternalRead(buffer, offset, count);
         }
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            throw new System.NotSupportedException();
+            InternalWrite(buffer, offset, count);
         }
+
+        protected abstract void InternalSetLength(long value);
+
+        protected abstract int InternalRead(byte[] buffer, int offset, int count);
+
+        protected abstract void InternalWrite(byte[] buffer, int offset, int count);
     }
 }
