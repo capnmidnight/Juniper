@@ -11,9 +11,8 @@ namespace Juniper.IO
 
     public class JsonFactory<T> : JsonFactory<T, MediaType.Application>, IJsonDecoder<T>
     {
-        public JsonFactory() : base(MediaType.Application.Javascript)
-        {
-        }
+        public JsonFactory() : base(MediaType.Application.Json)
+        { }
     }
 
     public class JsonFactory<ResultT, MediaTypeT> : IFactory<ResultT, MediaTypeT>

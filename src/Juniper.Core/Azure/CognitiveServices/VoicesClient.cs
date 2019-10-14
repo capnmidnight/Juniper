@@ -31,7 +31,7 @@ namespace Juniper.Azure.CognitiveServices
             if (voiceListDecoder == null
                 || voiceListDecoder.ContentType != MediaType.Application.Json)
             {
-                throw new ArgumentException("Most provide a JSON deserializer for the voice list data", nameof(voiceListDecoder));
+                throw new ArgumentException("Must provide a JSON deserializer for the voice list data", nameof(voiceListDecoder));
             }
 
             this.azureRegion = azureRegion;

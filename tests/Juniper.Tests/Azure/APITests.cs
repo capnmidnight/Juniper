@@ -95,6 +95,16 @@ namespace Juniper.Azure.Tests
         }
 
         [TestMethod]
+        public async Task GetVoiceListClient()
+        {
+            var voicesClient = new VoicesClient(region, subscriptionKey, new JsonFactory<Voice[]>());
+            var voices = await voicesClient.GetVoices();
+
+            Assert.IsNotNull(voices);
+            Assert.AreNotEqual(0, voices.Length);
+        }
+
+        [TestMethod]
         public async Task GetAudioFile()
         {
             var audioRequest = await MakeSpeechRequest();
