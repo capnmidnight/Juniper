@@ -1,7 +1,5 @@
 using System.IO;
 
-using Juniper.Progress;
-
 namespace Juniper.Audio
 {
     public class PcmBytesToFloatsStream : AbstractPcmConversionStream
@@ -35,14 +33,13 @@ namespace Juniper.Audio
             }
         }
 
-        protected override int InternalRead(byte[] buffer, int offset, int count)
+        protected override unsafe int InternalRead(byte[] buffer, int offset, int count)
         {
-            var mem = new MemoryStream(buffer, offset, count);
-            var writer = new BinaryWriter(mem);
             int read = 0;
             while (read < count && sourceStream.Position < sourceStream.Length)
             {
                 sourceStream.Read(readBuffer, 0, bytesPerFloat);
+
                 int accum = 0;
                 for (var b = bytesPerFloat - 1; b >= 0; --b)
                 {
@@ -50,9 +47,17 @@ namespace Juniper.Audio
                     var c = readBuffer[b];
                     accum |= c;
                 }
+
                 accum <<= shift;
                 var v = accum / scalar;
-                writer.Write(v);
+                uint uv = *(uint*)&v;
+
+                for (var b = 0; b < sizeof(float); ++b)
+                {
+                    var c = (byte)uv;
+                    buffer[offset + b] = c;
+                    uv >>= 8;
+                }
 
                 read += sizeof(float);
             }

@@ -1,28 +1,15 @@
 using System.IO;
 
-using Juniper.Progress;
-
 namespace Juniper.Audio
 {
     public class FloatsToPcmBytesStream : AbstractPcmConversionStream
     {
-        private BinaryReader floatReader;
+        private byte[] readBuffer;
 
         public FloatsToPcmBytesStream(Stream sourceStream, int bytesPerFloat)
             : base(sourceStream, bytesPerFloat)
         {
-            floatReader = new BinaryReader(sourceStream);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                floatReader.Dispose();
-                floatReader = null;
-            }
-
-            base.Dispose(disposing);
+            readBuffer = new byte[sizeof(float)];
         }
 
         public override long Length
@@ -46,20 +33,29 @@ namespace Juniper.Audio
             }
         }
 
-        protected override int InternalRead(byte[] buffer, int offset, int count)
+        protected override unsafe int InternalRead(byte[] buffer, int offset, int count)
         {
             int read = 0;
-            var mem = new MemoryStream(buffer, offset, count);
             while (read < count && sourceStream.Position < sourceStream.Length)
             {
-                var v = floatReader.ReadSingle();
+                sourceStream.Read(readBuffer, 0, sizeof(float));
 
+                uint uv = 0;
+                for (var b = 0; b < sizeof(float); ++b)
+                {
+                    uv <<= 8;
+                    var c = buffer[offset + b];
+                    uv |= c;
+                }
+
+                var v = *(float*)&uv;
                 int accum = (int)(v * scalar);
                 accum >>= shift;
-                for (var b = 0; b < bytesPerFloat; ++b)
+
+                for (var b = bytesPerFloat; b >= 0; --b)
                 {
                     var c = (byte)(accum & 0xff);
-                    mem.WriteByte(c);
+                    buffer[offset + b] = c;
                     accum >>= 8;
                 }
 
