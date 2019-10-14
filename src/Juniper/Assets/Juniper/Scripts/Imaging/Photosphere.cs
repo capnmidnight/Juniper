@@ -49,7 +49,7 @@ namespace Juniper.Imaging
         public event TextureDecoderNeeded DecoderNeeded;
         public event CubemapImageNeeded CubemapNeeded;
         public event PhotosphereImageNeeded ImageNeeded;
-        public event Action<Photosphere> Complete;
+        public event Action<Photosphere, bool> Complete;
         public event Action<Photosphere> Ready;
 
         public bool IsReady { get; private set; }
@@ -134,6 +134,7 @@ namespace Juniper.Imaging
 
                 IsReady = wasComplete = true;
                 Ready?.Invoke(this);
+                Complete?.Invoke(this, false);
             }
 
             locked = false;
@@ -228,7 +229,7 @@ namespace Juniper.Imaging
                     {
                         Debug.Log("Cubemap Complete");
                         ProgressToComplete = 1;
-                        Complete?.Invoke(this);
+                        Complete?.Invoke(this, true);
                     }
                     else if (!locked)
                     {

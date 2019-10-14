@@ -45,7 +45,7 @@ namespace Juniper.Imaging
 
         public event PhotosphereImageNeeded ImageNeeded;
 
-        public event Action<Photosphere> PhotosphereComplete;
+        public event Action<Photosphere, bool> PhotosphereComplete;
 
         public event Action<Photosphere> PhotosphereReady;
 
@@ -126,12 +126,12 @@ namespace Juniper.Imaging
             PhotosphereReady?.Invoke(obj);
         }
 
-        private void Photo_Complete(Photosphere obj)
+        private void Photo_Complete(Photosphere obj, bool captureCubemap)
         {
             obj.CubemapNeeded -= Photo_CubemapNeeded;
             obj.ImageNeeded -= Photo_ImageNeeded;
             obj.Complete -= Photo_Complete;
-            PhotosphereComplete?.Invoke(obj);
+            PhotosphereComplete?.Invoke(obj, captureCubemap);
         }
 
         private void CreatePhotosphere<T>(string key)

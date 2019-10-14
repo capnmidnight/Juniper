@@ -19,7 +19,8 @@ namespace Juniper.World.GIS.Google
 
         public override bool CanCache<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
         {
-            return fileRef is AbstractRequest<MediaTypeT>
+            return (fileRef is AbstractRequest<MediaTypeT>
+                    || fileRef.ContentType == MediaType.Image.Jpeg)
                 && base.CanCache(fileRef);
         }
     }

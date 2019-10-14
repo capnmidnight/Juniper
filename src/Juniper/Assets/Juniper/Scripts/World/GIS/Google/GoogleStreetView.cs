@@ -56,14 +56,14 @@ namespace Juniper.World.GIS.Google
 
         [ReadOnly]
         public string searchLocation;
-        private string lastSearchLocation = string.Empty;
 
         private MetadataResponse metadata;
-        private bool locked;
         private bool cubemapLock;
 
 
-        private Vector3 origin;
+        private LatLngPoint origin;
+        private Vector3 cursorPosition;
+        private Vector3 lastCursorPosition;
         private Vector3 navPointerPosition;
 
         private GoogleMapsClient<Texture2D> gmaps;
@@ -195,13 +195,20 @@ namespace Juniper.World.GIS.Google
 
         private readonly Queue<Photosphere> captureQ = new Queue<Photosphere>();
 
-        private void Photospheres_PhotosphereComplete(Photosphere obj)
+        private void Photospheres_PhotosphereComplete(Photosphere obj, bool captureCubemap)
         {
-            captureQ.Enqueue(obj);
-            if (!cubemapLock)
+            if (captureCubemap)
             {
-                cubemapLock = true;
-                this.Run(CaptureCubemapCoroutine());
+                captureQ.Enqueue(obj);
+                if (!cubemapLock)
+                {
+                    cubemapLock = true;
+                    this.Run(CaptureCubemapCoroutine());
+                }
+            }
+            else
+            {
+                Searching = false;
             }
         }
 
@@ -209,6 +216,7 @@ namespace Juniper.World.GIS.Google
         {
             if (captureQ.Count == 0)
             {
+                Searching = false;
                 cubemapLock = false;
             }
             else
@@ -279,7 +287,6 @@ namespace Juniper.World.GIS.Google
                         var img = processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]);
                         var cubemapRef = new ContentReference<MediaType.Image>(cubemapName, codec.ContentType);
                         cache.Save(cubemapRef, img, codec, subProgs[3]);
-                        Debug.Log("Cubemap saved " + cubemapName);
                     }
                     catch (Exception exp)
                     {
@@ -287,6 +294,12 @@ namespace Juniper.World.GIS.Google
                         cubemapLock = false;
                         throw;
                     }
+
+                    Debug.Log("Cubemap saved " + cubemapName);
+
+                    photosphere.enabled = false;
+                    yield return null;
+                    photosphere.enabled = true;
                 }
 
                 this.Run(CaptureCubemapCoroutine());
@@ -304,17 +317,128 @@ namespace Juniper.World.GIS.Google
             return gmaps.GetImage(source.name, fov, heading, pitch);
         }
 
+        private void NavPlane_Click(object sender, EventArgs e)
+        {
+            if (!Searching && origin != null && metadata != null)
+            {
+                searchLocation = GetRelativeLatLng(navPointerPosition).ToString();
+            }
+        }
+
         public override void Enter(IProgress prog)
         {
             base.Enter(prog);
-            SynchronizeData(Vector3.zero, prog);
+            SynchronizeData(prog);
         }
 
         public void Update()
         {
-            if (IsEntered && IsComplete && !locked)
+            if (IsEntered && IsComplete && !Searching)
             {
-                var point = input.MouseEnabled
+                SynchronizeData();
+            }
+        }
+
+        private void SynchronizeData()
+        {
+            SynchronizeData(null);
+        }
+
+        private void SynchronizeData(IProgress prog)
+        {
+            this.Run(SynchronizeDataTask(prog).AsCoroutine());
+        }
+
+        private bool ParseSearchParams(string searchLocation, out string searchPano, out LatLngPoint searchPoint)
+        {
+            searchPano = null;
+            searchPoint = null;
+
+            if (!string.IsNullOrEmpty(searchLocation))
+            {
+                var panoMatch = GMAPS_URL_PANO_PATTERN.Match(searchLocation);
+                var latLngMatch = GMAPS_URL_LATLNG_PATTERN.Match(searchLocation);
+
+                if (panoMatch.Success && MetadataResponse.IsPano(panoMatch.Groups[1].Value))
+                {
+                    searchPano = panoMatch.Groups[1].Value;
+                }
+                else if (MetadataResponse.IsPano(searchLocation))
+                {
+                    searchPano = searchLocation;
+                }
+
+                if (latLngMatch.Success && LatLngPoint.TryParseDecimal(latLngMatch.Groups[1].Value, out var point))
+                {
+                    searchPoint = point;
+                }
+                else if (LatLngPoint.TryParseDecimal(searchLocation, out var point2))
+                {
+                    searchPoint = point2;
+                }
+            }
+
+            return metadata == null
+                || searchPano != null && metadata.pano_id != searchPano
+                || searchPoint != null && metadata.location.Distance(searchPoint) > 0.1f;
+        }
+
+        public bool Searching { get; private set; }
+
+        private async Task SynchronizeDataTask(IProgress prog)
+        {
+            var isNewSearch = ParseSearchParams(searchLocation, out var searchPano, out var searchPoint);
+            if (isNewSearch)
+            {
+                Searching = true;
+                metadata = null;
+
+                var metadataProg = prog.Subdivide(0, 0.1f);
+                var subProg = prog.Subdivide(0.1f, 0.9f);
+                if (metadataCache.ContainsKey(searchLocation))
+                {
+                    Searching = false;
+                    metadata = metadataCache[searchLocation];
+                }
+                else
+                {
+                    var metaSubProgs = metadataProg.Split("Searching by PanoID", "Searching by Lat/Lng", "Searching by Location Name");
+                    if (metadata == null && searchPano != null)
+                    {
+                        metadata = await RequestMetadata(searchPano, metaSubProgs[0]);
+                    }
+
+                    if (metadata == null && searchPoint != null)
+                    {
+                        metadata = await RequestMetadata(searchPoint, metaSubProgs[1]);
+                    }
+
+                    if (metadata == null && searchLocation != null)
+                    {
+                        metadata = await SearchMetadata(searchLocation, metaSubProgs[2]);
+                    }
+
+                    if (metadata != null && !string.IsNullOrEmpty(metadata.pano_id))
+                    {
+                        metadataCache[metadata.pano_id] = metadata;
+                        metadataCache[metadata.location.ToString()] = metadata;
+                        metadataCache[searchLocation] = metadata;
+                    }
+                }
+
+                if (metadata != null)
+                {
+                    if (lastSphere == null)
+                    {
+                        origin = metadata.location;
+                    }
+
+                    await LoadPhotosphereCoroutine(subProg).AsTask();
+                }
+            }
+            else if (origin != null && metadata != null)
+            {
+                cursorPosition = input.MouseEnabled
                     ? input.Mouse.CursorPosition
                     : input.ControllersEnabled
                         ? input.Controllers[0].IsConnected
@@ -323,126 +447,92 @@ namespace Juniper.World.GIS.Google
                         : input.GazeEnabled
                             ? input.Gaze.CursorPosition
                             : Vector3.zero;
-
-                SynchronizeData(point);
-            }
-
-            navPointer.position = navPointerPosition;
-        }
-
-        private void SynchronizeData(Vector3 cursorPosition)
-        {
-            SynchronizeData(cursorPosition, null);
-        }
-
-        private void SynchronizeData(Vector3 cursorPosition, IProgress prog)
-        {
-            locked = true;
-            this.Run(SynchronizeDataCoroutine(cursorPosition, prog));
-        }
-
-        private IEnumerator SynchronizeDataCoroutine(Vector3 cursorPosition, IProgress prog)
-        {
-            string searchPano = null;
-            LatLngPoint searchPoint = null;
-            var panoMatch = GMAPS_URL_PANO_PATTERN.Match(searchLocation);
-            var latLngMatch = GMAPS_URL_LATLNG_PATTERN.Match(searchLocation);
-
-            if (panoMatch.Success && MetadataResponse.IsPano(panoMatch.Groups[1].Value))
-            {
-                searchPano = panoMatch.Groups[1].Value;
-            }
-
-            if (latLngMatch.Success && LatLngPoint.TryParseDecimal(latLngMatch.Groups[1].Value, out var point))
-            {
-                searchPoint = point;
-            }
-
-            var loadImmediately = true;
-            if (lastSphere != null && searchLocation == lastSearchLocation && metadata != null)
-            {
-                var nextVec = cursorPosition + origin;
-                nextVec.y = 0;
-                var curUTM = LatLng.ToUTM(metadata.location);
-                var nextPoint = nextVec.ToUTM(curUTM.Zone, curUTM.Hemisphere).ToLatLng();
-                searchLocation = nextPoint.ToString();
-                loadImmediately = false;
-            }
-
-            if (!string.IsNullOrEmpty(searchLocation) && searchLocation != lastSearchLocation)
-            {
-                var metadataProg = prog.Subdivide(0, 0.1f);
-                var subProg = prog.Subdivide(0.1f, 0.9f);
-                if (metadataCache.ContainsKey(searchLocation))
+                var cursorDelta = cursorPosition - lastCursorPosition;
+                if (cursorDelta.magnitude > 0.1f)
                 {
-                    yield return CacheMetadata(loadImmediately, subProg);
-                }
-                else
-                {
-                    var metaSubProgs = metadataProg.Split("Searching by PanoID", "Searching by Lat/Lng", "Searching by Location Name");
-                    metadata = null;
-                    yield return RequestMetadata(searchPano, metaSubProgs[0]);
-                    if (metadata == null)
+                    lastCursorPosition = cursorPosition;
+                    Searching = true;
+                    var nextPoint = GetRelativeLatLng(cursorPosition);
+                    var nextMetadata = ValidateMetadata(await RequestMetadata(nextPoint, null));
+                    if (nextMetadata != null)
                     {
-                        yield return RequestMetadata(searchPoint, metaSubProgs[1]);
+                        navPointerPosition = GetRelativeVector3(nextMetadata);
+                        navPointer.position = navPointerPosition;
                     }
-
-                    if (metadata == null)
-                    {
-                        yield return SearchMetadata(searchLocation, metaSubProgs[2]);
-                    }
-
-                    if (metadata != null)
-                    {
-                        yield return CacheMetadata(loadImmediately, subProg);
-                    }
+                    Searching = false;
                 }
             }
-
-            locked = false;
         }
 
-        private IEnumerator RequestMetadata(string searchPano, IProgress metadataProg)
+        private LatLngPoint GetRelativeLatLng(Vector3 cursorPosition)
         {
-            if (searchPano != null)
+            var curUTM = origin.ToUTM();
+            var curVec = curUTM.ToVector3();
+            var nextVec = cursorPosition + curVec;
+            nextVec.y = 0;
+            var nextPoint = nextVec.ToUTM(curUTM.Zone, curUTM.Hemisphere).ToLatLng();
+            return nextPoint;
+        }
+
+        private Vector3 GetRelativeVector3(MetadataResponse metadata)
+        {
+            var nextUTM = metadata.location.ToUTM();
+            var nextVec = nextUTM.ToVector3();
+            var start = origin.ToVector3();
+            var delta = nextVec - start;
+            return delta;
+        }
+
+        private async Task<MetadataResponse> RequestMetadata(string searchPano, IProgress metadataProg)
+        {
+            if (searchPano == null)
             {
-                yield return ValidateMetadata(gmaps.GetMetadata(searchPano, searchRadius, metadataProg));
+                return null;
+            }
+            else
+            {
+                return ValidateMetadata(await gmaps.GetMetadata(searchPano, searchRadius, metadataProg));
             }
         }
 
-        private IEnumerator RequestMetadata(LatLngPoint searchPoint, IProgress metadataProg)
+        private async Task<MetadataResponse> RequestMetadata(LatLngPoint searchPoint, IProgress metadataProg)
         {
-            if (searchPoint != null)
+            if (searchPoint == null)
             {
-                yield return ValidateMetadata(gmaps.GetMetadata(searchPoint, searchRadius, metadataProg));
+                return null;
+            }
+            else
+            {
+                return ValidateMetadata(await gmaps.GetMetadata(searchPoint, searchRadius, metadataProg));
             }
         }
 
-        private IEnumerator SearchMetadata(string searchLocation, IProgress metadataProg)
+        private async Task<MetadataResponse> SearchMetadata(string searchLocation, IProgress metadataProg)
         {
-            if (!string.IsNullOrEmpty(searchLocation))
+            if (string.IsNullOrEmpty(searchLocation))
             {
-                yield return ValidateMetadata(gmaps.SearchMetadata(searchLocation, searchRadius, metadataProg));
+                return null;
+            }
+            else
+            {
+                return ValidateMetadata(await gmaps.SearchMetadata(searchLocation, searchRadius, metadataProg));
             }
         }
 
-        private IEnumerator ValidateMetadata(Task<MetadataResponse> metadataTask)
+        private MetadataResponse ValidateMetadata(MetadataResponse metadata)
         {
-            yield return metadataTask.AsCoroutine();
-
-            metadata = metadataTask.Result;
             if (metadata?.status != HttpStatusCode.OK)
             {
                 metadata = null;
             }
+
+            return metadata;
         }
 
-        private IEnumerator CacheMetadata(bool loadImmediately, IProgress subProg)
+        private Photosphere lastSphere;
+
+        private IEnumerator LoadPhotosphereCoroutine(IProgress prog)
         {
-            metadataCache[metadata.pano_id] = metadata;
-            metadataCache[metadata.location.ToString()] = metadata;
-            metadataCache[searchLocation] = metadata;
-            lastSearchLocation = searchLocation;
             if (gps != null)
             {
                 gps.FakeCoord = true;
@@ -455,39 +545,6 @@ namespace Juniper.World.GIS.Google
             }
 #endif
 
-            var nextVec = metadata.location.ToVector3();
-            if (lastSphere == null)
-            {
-                origin = nextVec;
-            }
-            else if (!loadImmediately)
-            {
-                navPointerPosition = nextVec - origin;
-            }
-
-            if (loadImmediately)
-            {
-                yield return LoadPhotosphereCoroutine(subProg);
-            }
-        }
-
-        private void NavPlane_Click(object sender, EventArgs e)
-        {
-            if (!locked)
-            {
-                locked = true;
-                this.Run(LoadPhotosphereCoroutine());
-            }
-        }
-
-        private Photosphere lastSphere;
-        private IEnumerator LoadPhotosphereCoroutine()
-        {
-            return LoadPhotosphereCoroutine(null);
-        }
-
-        private IEnumerator LoadPhotosphereCoroutine(IProgress prog)
-        {
             var curSphere = photospheres.GetPhotosphere<Photosphere>(metadata.pano_id);
 
             if (lastSphere != null)
@@ -498,11 +555,9 @@ namespace Juniper.World.GIS.Google
 
             curSphere.Activate();
 
-            while (!curSphere.IsReady)
-            {
-                prog?.Report(curSphere.ProgressToReady, "Loading photosphere");
-                yield return null;
-            }
+            yield return prog
+                .WaitOn(curSphere, "Loading photosphere")
+                .AsCoroutine();
 
             if (lastSphere != null)
             {
@@ -513,14 +568,12 @@ namespace Juniper.World.GIS.Google
                 Complete();
             }
 
-            locked = false;
             lastSphere = curSphere;
         }
 
         private void Photospheres_PhotosphereReady(Photosphere obj)
         {
-            var nextVec = metadata.location.ToVector3();
-            var delta = nextVec - origin;
+            var delta = GetRelativeVector3(metadata);
             navPlane.transform.position = avatar.transform.position = delta;
             obj.transform.position = avatar.Head.position;
         }
