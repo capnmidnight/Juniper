@@ -1,7 +1,5 @@
 using System.IO;
 
-using static System.Math;
-
 namespace Juniper.Audio
 {
     /// <summary>
@@ -45,7 +43,7 @@ namespace Juniper.Audio
 
             var bitsPerFloat = bytesPerFloat * 8;
             shift = sizeof(int) * 8 - bitsPerFloat;
-            scalar = (float)Pow(2, sizeof(int) * 8 - 1);
+            scalar = (float)System.Math.Pow(2, sizeof(int) * 8 - 1);
         }
 
         /// <summary>
@@ -170,6 +168,13 @@ namespace Juniper.Audio
             return value * bytesPerFloat / sizeof(float);
         }
 
+        /// <summary>
+        /// Read in a 4-byte floating point value and convert it to an N-byte PCM value.
+        /// </summary>
+        /// <param name="inBuffer"></param>
+        /// <param name="inOffset"></param>
+        /// <param name="outBuffer"></param>
+        /// <param name="outOffset"></param>
         protected unsafe void FloatToPCM(byte[] inBuffer, int inOffset, byte[] outBuffer, int outOffset)
         {
             uint uv = 0;
@@ -192,6 +197,13 @@ namespace Juniper.Audio
             }
         }
 
+        /// <summary>
+        /// Read in an N-byte PCM value and convert it to a 4-byte floating point value.
+        /// </summary>
+        /// <param name="inBuffer"></param>
+        /// <param name="inOffset"></param>
+        /// <param name="outBuffer"></param>
+        /// <param name="outOffset"></param>
         protected unsafe void PCMToFloat(byte[] inBuffer, int inOffset, byte[] outBuffer, int outOffset)
         {
             int accum = 0;
