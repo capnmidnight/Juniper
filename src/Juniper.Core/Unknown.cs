@@ -15,7 +15,7 @@ namespace Juniper
                 return value;
             }
 
-            public Unknown(string value)
+            internal Unknown(string value)
                 : base(value, new string[] { MakeExtension(value) })
             { }
         }

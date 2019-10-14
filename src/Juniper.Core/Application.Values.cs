@@ -2,12 +2,8 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed class Application : MediaType
+        public sealed partial class Application : MediaType
         {
-            private Application(string value, string[] extensions) : base("application/" + value, extensions) {}
-
-            private Application(string value) : this(value, null) {}
-
             public static readonly Application A2L = new Application("a2l");
             public static readonly Application Activemessage = new Application("activemessage");
             public static readonly Application ActivityJson = new Application("activity+json", new string[] {"json"});
@@ -45,6 +41,7 @@ namespace Juniper
             public static readonly Application Call_Completion = new Application("call-completion");
             public static readonly Application CALS_1840 = new Application("cals-1840");
             public static readonly Application Cbor = new Application("cbor");
+            public static readonly Application Cbor_Seq = new Application("cbor-seq");
             public static readonly Application Cccex = new Application("cccex");
             public static readonly Application CcmpXml = new Application("ccmp+xml", new string[] {"xml"});
             public static readonly Application CcxmlXml = new Application("ccxml+xml", new string[] {"ccxml"});
@@ -1620,6 +1617,7 @@ namespace Juniper
                 Call_Completion,
                 CALS_1840,
                 Cbor,
+                Cbor_Seq,
                 Cccex,
                 CcmpXml,
                 CcxmlXml,

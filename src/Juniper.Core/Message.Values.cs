@@ -2,12 +2,8 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed class Message : MediaType
+        public sealed partial class Message : MediaType
         {
-            private Message(string value, string[] extensions) : base("message/" + value, extensions) {}
-
-            private Message(string value) : this(value, null) {}
-
             public static readonly Message CPIM = new Message("cpim");
             public static readonly Message Delivery_Status = new Message("delivery-status");
             public static readonly Message Disposition_Notification = new Message("disposition-notification");

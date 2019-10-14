@@ -92,20 +92,67 @@
     <Compile Include="HTTP\HttpListenerResponseExt.cs" />
     <Compile Include="HTTP\HttpServer.cs" />
     <Compile Include="HTTP\HttpWebRequestExt.cs" />
-    <Compile Include="MediaType\Application.cs" />
-    <Compile Include="MediaType\Audio.cs" />
-    <Compile Include="MediaType\Chemical.cs" />
-    <Compile Include="MediaType\Font.cs" />
-    <Compile Include="MediaType\Image.cs" />
-    <Compile Include="MediaType\MediaType.cs" />
-    <Compile Include="MediaType\Message.cs" />
-    <Compile Include="MediaType\Model.cs" />
-    <Compile Include="MediaType\Multipart.cs" />
-    <Compile Include="MediaType\Text.cs" />
-    <Compile Include="MediaType\Unknown.cs" />
-    <Compile Include="MediaType\Values.cs" />
-    <Compile Include="MediaType\Video.cs" />
-    <Compile Include="MediaType\XConference.cs" />
+    <Compile Include="Application.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Application.Values.cs">
+      <DependentUpon>Application.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Audio.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Audio.Values.cs">
+      <DependentUpon>Audio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Chemical.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Chemical.Values.cs">
+      <DependentUpon>Chemical.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Font.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Font.Values.cs">
+      <DependentUpon>Font.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Image.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Image.Values.cs">
+      <DependentUpon>Image.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MediaType.cs" />
+    <Compile Include="MediaType.Values.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Message.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Message.Values.cs">
+      <DependentUpon>Message.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model.Values.cs">
+      <DependentUpon>Model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Multipart.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Multipart.Values.cs">
+      <DependentUpon>Multipart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Text.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Text.Values.cs">
+      <DependentUpon>Text.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Unknown.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
     <Compile Include="HTTP\REST\AbstractRequest.cs" />
     <Compile Include="IO\CachingStrategy.cs" />
     <Compile Include="HTTP\RouteAttribute.cs" />
@@ -123,6 +170,18 @@
     <Compile Include="Input\Interaction.cs" />
     <Compile Include="Input\IPointerButtons.cs" />
     <Compile Include="IO\JsonFactory.cs" />
+    <Compile Include="Video.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Video.Values.cs">
+      <DependentUpon>Video.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XConference.cs">
+      <DependentUpon>MediaType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XConference.Values.cs">
+      <DependentUpon>XConference.cs</DependentUpon>
+    </Compile>
     <Compile Include="Progress\IPreloadable.cs" />
     <Compile Include="World\Climate\OpenWeatherMap\API.cs" />
     <Compile Include="World\Climate\OpenWeatherMap\OWMClouds.cs" />

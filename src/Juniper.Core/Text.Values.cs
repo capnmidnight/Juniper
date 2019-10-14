@@ -2,12 +2,8 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed class Text : MediaType
+        public sealed partial class Text : MediaType
         {
-            private Text(string value, string[] extensions) : base("text/" + value, extensions) {}
-
-            private Text(string value) : this(value, null) {}
-
             public static readonly Text Cache_Manifest = new Text("cache-manifest", new string[] {"appcache"});
             public static readonly Text Calendar = new Text("calendar", new string[] {"ics", "ifb"});
             public static readonly Text Css = new Text("css", new string[] {"css"});

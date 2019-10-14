@@ -2,12 +2,8 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed class Multipart : MediaType
+        public sealed partial class Multipart : MediaType
         {
-            private Multipart(string value, string[] extensions) : base("multipart/" + value, extensions) {}
-
-            private Multipart(string value) : this(value, null) {}
-
             public static readonly Multipart Alternative = new Multipart("alternative");
             public static readonly Multipart Appledouble = new Multipart("appledouble");
             public static readonly Multipart Byteranges = new Multipart("byteranges");

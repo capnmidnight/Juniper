@@ -112,9 +112,9 @@ namespace Juniper
             : this(value, null)
         { }
 
-        public bool Matches(string fileName)
+        public virtual bool Matches(string fileName)
         {
-            return this == Any
+            return this == Any && Values.Any(v => v.Matches(fileName))
                 || Extensions.Contains(PathExt.GetLongExtension(fileName))
                 || Extensions.Contains(PathExt.GetShortExtension(fileName));
         }

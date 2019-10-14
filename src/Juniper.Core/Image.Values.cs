@@ -2,12 +2,8 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed class Image : MediaType
+        public sealed partial class Image : MediaType
         {
-            private Image(string value, string[] extensions) : base("image/" + value, extensions) {}
-
-            private Image(string value) : this(value, null) {}
-
             public static readonly Image Aces = new Image("aces");
             public static readonly Image Avci = new Image("avci");
             public static readonly Image Avcs = new Image("avcs");

@@ -43,6 +43,7 @@ namespace Juniper
             Application.Call_Completion,
             Application.CALS_1840,
             Application.Cbor,
+            Application.Cbor_Seq,
             Application.Cccex,
             Application.CcmpXml,
             Application.CcxmlXml,

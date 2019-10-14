@@ -2,12 +2,8 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed class Video : MediaType
+        public sealed partial class Video : MediaType
         {
-            private Video(string value, string[] extensions) : base("video/" + value, extensions) {}
-
-            private Video(string value) : this(value, null) {}
-
             public static readonly Video BMPEG = new Video("bmpeg");
             public static readonly Video BT656 = new Video("bt656");
             public static readonly Video CelB = new Video("celb");

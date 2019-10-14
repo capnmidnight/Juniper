@@ -2,12 +2,8 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed class Chemical : MediaType
+        public sealed partial class Chemical : MediaType
         {
-            private Chemical(string value, string[] extensions) : base("chemical/" + value, extensions) {}
-
-            private Chemical(string value) : this(value, null) {}
-
             public static readonly Chemical X_Cdx = new Chemical("x-cdx", new string[] {"cdx"});
             public static readonly Chemical X_Cif = new Chemical("x-cif", new string[] {"cif"});
             public static readonly Chemical X_Cmdf = new Chemical("x-cmdf", new string[] {"cmdf"});

@@ -2,12 +2,8 @@ namespace Juniper
 {
     public partial class MediaType
     {
-        public sealed class Model : MediaType
+        public sealed partial class Model : MediaType
         {
-            private Model(string value, string[] extensions) : base("model/" + value, extensions) {}
-
-            private Model(string value) : this(value, null) {}
-
             public static readonly Model Example = new Model("example");
             public static readonly Model Gltf_Binary = new Model("gltf-binary");
             public static readonly Model GltfJson = new Model("gltf+json", new string[] {"json"});

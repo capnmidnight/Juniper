@@ -42,7 +42,6 @@ namespace Juniper.MediaTypes
             var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var outDir = Path.Combine(home, "Projects", "Yarrow", "Juniper");
             outDir = Path.Combine(outDir, "src", "Juniper.Core");
-            outDir = Path.Combine(outDir, "MediaType");
 
             WriteGroups(groups, outDir);
             WriteValues(groups, outDir);
@@ -66,7 +65,7 @@ namespace Juniper.MediaTypes
                 orderby value
                 select value;
 
-            "Values.cs".MakeFile(outDir, (writer) =>
+            "MediaType.Values.cs".MakeFile(outDir, (writer) =>
             {
                 writer.WriteLine("        public static readonly ReadOnlyCollection<MediaType> Values = Array.AsReadOnly(new MediaType[]{");
                 foreach(var value in allValues)
