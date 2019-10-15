@@ -85,12 +85,12 @@ namespace Juniper.IO
                 var here = q.Dequeue();
                 q.AddRange(here.GetDirectories());
 
-                var files = here.GetFiles();
+                var files = Directory.GetFiles(here.FullName);
                 foreach(var file in files)
                 {
                     if(ofType.Matches(file))
                     {
-                        var shortName = file.FullName.Substring(cacheLocation.FullName.Length + 1);
+                        var shortName = file.Substring(cacheLocation.FullName.Length + 1);
                         var cacheID = PathExt.RemoveShortExtension(shortName);
                         yield return new ContentReference<MediaTypeT>(cacheID, ofType);
                     }
