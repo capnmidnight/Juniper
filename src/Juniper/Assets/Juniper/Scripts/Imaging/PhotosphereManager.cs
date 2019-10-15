@@ -77,13 +77,14 @@ namespace Juniper.Imaging
             }
         }
 
-        public T GetPhotosphere<T>(string key) where T : Photosphere
+        public T GetPhotosphere<T>(string key)
+            where T : Photosphere
         {
             if (curSphere == null || curSphere.CubemapName != key)
             {
                 if (!photospheres.ContainsKey(key))
                 {
-                    CreatePhotosphere<Photosphere>(key);
+                    CreatePhotosphere<T>(key);
                 }
 
                 curSphere = photospheres[key];
