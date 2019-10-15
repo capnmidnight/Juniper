@@ -85,6 +85,10 @@
       <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
       <Name>Juniper.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Juniper.Imaging\Juniper.Imaging.csproj">
+      <Project>{23445a1e-526c-4edb-a0c3-140fed91b32b}</Project>
+      <Name>Juniper.Imaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\NLayer\NLayer.NAudioSupport\NLayer.NAudioSupport.csproj">
       <Project>{33828999-1003-403c-bf78-59d9e02ce6a2}</Project>
       <Name>NLayer.NAudioSupport</Name>

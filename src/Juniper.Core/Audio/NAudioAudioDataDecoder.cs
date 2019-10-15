@@ -4,7 +4,6 @@ using System.IO;
 using Juniper.IO;
 using Juniper.Progress;
 
-using NAudio.Vorbis;
 using NAudio.Wave;
 
 namespace Juniper.Audio
@@ -16,7 +15,6 @@ namespace Juniper.Audio
         {
             MediaType.Audio.X_Wav,
             MediaType.Audio.Mpeg,
-            MediaType.Audio.Vorbis,
             MediaType.Audio.PCMA,
         };
 
@@ -71,10 +69,6 @@ namespace Juniper.Audio
             else if (Format.ContentType == MediaType.Audio.Mpeg)
             {
                 return new Mp3FileReader(stream, CreateMp3FrameDecompressor);
-            }
-            else if (Format.ContentType == MediaType.Audio.Vorbis)
-            {
-                return new VorbisWaveReader(stream);
             }
             else if (Format.ContentType == MediaType.Audio.PCMA)
             {
