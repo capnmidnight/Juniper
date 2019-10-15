@@ -87,17 +87,25 @@ namespace Juniper.IO
         public Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef, bool overwrite)
             where MediaTypeT : MediaType
         {
-            var stream = new ForkedStream();
+            var streams = new List<Stream>();
+
             foreach (var dest in destinations)
             {
                 if (dest.CanCache(fileRef)
-                    && !dest.IsCached(fileRef))
+                    && (overwrite || !dest.IsCached(fileRef)))
                 {
-                    stream.AddStream(dest.Create(fileRef, overwrite));
+                    streams.Add(dest.Create(fileRef, overwrite));
                 }
             }
 
-            return stream;
+            if (streams.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return new ForkedStream(streams.ToArray());
+            }
         }
 
         /// <summary>
