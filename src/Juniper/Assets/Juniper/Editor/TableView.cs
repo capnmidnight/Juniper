@@ -8,11 +8,12 @@ namespace UnityEditor
     public class TableView
     {
         private readonly (string Header, GUILayoutOption Width)[] headers;
-
+        private readonly string title;
         private Vector2 scrollPosition;
 
-        public TableView(params (string Header, float Width)[] headers)
+        public TableView(string title, params (string Header, float Width)[] headers)
         {
+            this.title = title;
             this.headers = (from h in headers
                             select (h.Header, GUILayout.Width(h.Width)))
                         .ToArray();
@@ -20,6 +21,7 @@ namespace UnityEditor
 
         public IDisposable Begin()
         {
+            using(_ = new Header(title))
             using (_ = new HGroup())
             {
                 foreach (var header in headers)

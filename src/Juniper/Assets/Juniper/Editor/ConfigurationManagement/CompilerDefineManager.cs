@@ -45,6 +45,7 @@ namespace Juniper.ConfigurationManagement
         private static readonly GUILayoutOption buttonGWidth = GUILayout.Width(buttonWidth);
 
         private static readonly TableView definesTable = new TableView(
+            "Defines",
             ("Define", nameFieldWidth),
             ("Required", buttonWidth)
         );
@@ -56,46 +57,43 @@ namespace Juniper.ConfigurationManagement
 
             var nextDefines = UnityCompiler.GetDefines(CurrentConfiguration.TargetGroup);
 
-            using (_ = new Header("Defines"))
+            if (GUILayout.Button("Refresh"))
             {
-                if (GUILayout.Button("Refresh"))
+                nextDefines = UnityCompiler.CleanupDefines(CurrentConfiguration.CompilerDefines);
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup, string.Join(";", nextDefines));
+            }
+
+            using (_ = definesTable.Begin())
+            {
+                using (_ = new HGroup())
                 {
-                    nextDefines = UnityCompiler.CleanupDefines(CurrentConfiguration.CompilerDefines);
-                    PlayerSettings.SetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup, string.Join(";", nextDefines));
+                    newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidth + narrowWidth));
+                    if (GUILayout.Button("Add", buttonGWidth))
+                    {
+                        if (!string.IsNullOrEmpty(newDefine))
+                        {
+                            nextDefines.Add(newDefine);
+                        }
+                        newDefine = string.Empty;
+                    }
                 }
 
-                using (_ = definesTable.Begin())
+                for (var i = 0; i < nextDefines.Count; ++i)
                 {
+                    var define = nextDefines[i];
                     using (_ = new HGroup())
                     {
-                        newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidth + narrowWidth));
-                        if (GUILayout.Button("Add", buttonGWidth))
+                        EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldGWidth);
+
+                        EditorGUILayout.LabelField(
+                            DesiredConfiguration.CompilerDefines.Contains(define) ? "Yes" : "No",
+                            EditorStyles.centeredGreyMiniLabel,
+                            narrowGWidth);
+
+                        if (GUILayout.Button("Remove", buttonGWidth))
                         {
-                            if (!string.IsNullOrEmpty(newDefine))
-                            {
-                                nextDefines.Add(newDefine);
-                            }
-                            newDefine = string.Empty;
-                        }
-                    }
-
-                    for (var i = 0; i < nextDefines.Count; ++i)
-                    {
-                        var define = nextDefines[i];
-                        using (_ = new HGroup())
-                        {
-                            EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldGWidth);
-
-                            EditorGUILayout.LabelField(
-                                DesiredConfiguration.CompilerDefines.Contains(define) ? "Yes" : "No",
-                                EditorStyles.centeredGreyMiniLabel,
-                                narrowGWidth);
-
-                            if (GUILayout.Button("Remove", buttonGWidth))
-                            {
-                                nextDefines.RemoveAt(i);
-                                --i;
-                            }
+                            nextDefines.RemoveAt(i);
+                            --i;
                         }
                     }
                 }
