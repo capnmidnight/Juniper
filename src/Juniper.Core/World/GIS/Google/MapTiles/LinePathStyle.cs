@@ -2,7 +2,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Juniper.GIS.Google.MapTiles
+namespace Juniper.World.GIS.Google.MapTiles
 {
     [Serializable]
     public sealed class LinePathStyle : ISerializable, IEquatable<LinePathStyle>

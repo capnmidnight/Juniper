@@ -1,13 +1,13 @@
 using System.Net;
 using System.Threading.Tasks;
 
-using Juniper.GIS.Google.Tests;
 using Juniper.Imaging;
 using Juniper.IO;
+using Juniper.World.GIS.Google.Tests;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Juniper.GIS.Google.StreetView.Tests
+namespace Juniper.World.GIS.Google.StreetView.Tests
 {
     [TestClass]
     public class StreetViewTests : ServicesTests

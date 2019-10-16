@@ -2,12 +2,12 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 
-using Juniper.GIS.Google.Tests;
 using Juniper.Imaging;
+using Juniper.World.GIS.Google.Tests;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Juniper.GIS.Google.MapTiles.Tests
+namespace Juniper.World.GIS.Google.MapTiles.Tests
 {
     [TestClass]
     public class MapTilesTests : ServicesTests

@@ -1,8 +1,6 @@
 using System;
 
-using Juniper.World.GIS;
-
-namespace Juniper.GIS.Google.TimeZone
+namespace Juniper.World.GIS.Google.TimeZone
 {
     public class TimeZoneRequest: AbstractGoogleMapsRequest<MediaType.Application>
     {

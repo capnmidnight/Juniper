@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Juniper.World.GIS;
-
 using static System.Math;
 
-namespace Juniper.GIS.Google.MapTiles
+namespace Juniper.World.GIS.Google.MapTiles
 {
     public class LinePath : IList<string>
     {

@@ -1,9 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-using Juniper.World.GIS;
-
-namespace Juniper.GIS.Google.Geocoding
+namespace Juniper.World.GIS.Google.Geocoding
 {
     [Serializable]
     public class GeometryResult : ISerializable

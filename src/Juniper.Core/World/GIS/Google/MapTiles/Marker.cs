@@ -1,8 +1,7 @@
 using System;
 using System.Runtime.Serialization;
-using Juniper.World.GIS;
 
-namespace Juniper.GIS.Google.MapTiles
+namespace Juniper.World.GIS.Google.MapTiles
 {
     [Serializable]
     public sealed class Marker : IEquatable<Marker>, ISerializable

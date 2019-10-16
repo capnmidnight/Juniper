@@ -1,9 +1,10 @@
 using System;
 using System.Net;
 using System.Runtime.Serialization;
+
 using Juniper.Google;
 
-namespace Juniper.GIS.Google.Geocoding
+namespace Juniper.World.GIS.Google.Geocoding
 {
     [Serializable]
     public class GeocodingResponse : ISerializable

@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-using Juniper.World.GIS;
-
-namespace Juniper.GIS.Google.Geocoding
+namespace Juniper.World.GIS.Google.Geocoding
 {
     public class GeocodingRequest : AbstractGeocodingRequest
     {

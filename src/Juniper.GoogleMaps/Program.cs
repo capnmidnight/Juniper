@@ -4,12 +4,12 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Juniper.GIS.Google.Geocoding;
-using Juniper.GIS.Google.StreetView;
 using Juniper.Imaging;
 using Juniper.IO;
 using Juniper.World.GIS;
 using Juniper.World.GIS.Google;
+using Juniper.World.GIS.Google.Geocoding;
+using Juniper.World.GIS.Google.StreetView;
 
 namespace Juniper.GoogleMaps
 {

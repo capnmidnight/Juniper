@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 using Juniper.Google;
 
-namespace Juniper.GIS.Google.TimeZone
+namespace Juniper.World.GIS.Google.TimeZone
 {
     [Serializable]
     public class TimeZoneResponse : ISerializable

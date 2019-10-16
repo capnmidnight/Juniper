@@ -1,4 +1,4 @@
-namespace Juniper.GIS.Google.Geocoding
+namespace Juniper.World.GIS.Google.Geocoding
 {
     public enum LocationTypes
     {

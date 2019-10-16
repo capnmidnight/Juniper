@@ -4,9 +4,8 @@ using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
 using Juniper.Google;
-using Juniper.World.GIS;
 
-namespace Juniper.GIS.Google.StreetView
+namespace Juniper.World.GIS.Google.StreetView
 {
     [Serializable]
     public class MetadataResponse : ISerializable

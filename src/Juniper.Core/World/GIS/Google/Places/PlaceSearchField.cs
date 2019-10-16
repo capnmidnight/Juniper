@@ -1,4 +1,4 @@
-namespace Juniper.GIS.Google.Places
+namespace Juniper.World.GIS.Google.Places
 {
     public enum PlaceSearchField
     {

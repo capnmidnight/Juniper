@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Juniper.GIS.Google
+namespace Juniper.World.GIS.Google
 {
     [Serializable]
     public sealed class USAddress :

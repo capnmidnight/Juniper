@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Juniper.GIS.Google.Places
+namespace Juniper.World.GIS.Google.Places
 {
     [Serializable]
     public class PlaceSearchResponse : ISerializable

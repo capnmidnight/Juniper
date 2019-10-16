@@ -1,4 +1,4 @@
-namespace Juniper.GIS.Google.MapTiles
+namespace Juniper.World.GIS.Google.MapTiles
 {
     public enum TileImageFormat
     {

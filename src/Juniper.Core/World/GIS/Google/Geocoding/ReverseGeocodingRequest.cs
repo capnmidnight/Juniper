@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 
-using Juniper.World.GIS;
-
-namespace Juniper.GIS.Google.Geocoding
+namespace Juniper.World.GIS.Google.Geocoding
 {
     public class ReverseGeocodingRequest : AbstractGeocodingRequest
     {

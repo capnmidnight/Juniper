@@ -2,13 +2,12 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-using Juniper.GIS.Google.Tests;
 using Juniper.IO;
-using Juniper.World.GIS;
+using Juniper.World.GIS.Google.Tests;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Juniper.GIS.Google.Geocoding.Tests
+namespace Juniper.World.GIS.Google.Geocoding.Tests
 {
     [TestClass]
     public class GoogleReverseGeocodingTests : ServicesTests

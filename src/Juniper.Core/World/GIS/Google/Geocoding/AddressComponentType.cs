@@ -1,6 +1,6 @@
 using System;
 
-namespace Juniper.GIS.Google.Geocoding
+namespace Juniper.World.GIS.Google.Geocoding
 {
     /// <summary>
     /// Note: This list is not exhaustive, and is subject to change. <see

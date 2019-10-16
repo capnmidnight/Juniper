@@ -4,7 +4,7 @@ using System.Text;
 
 using Juniper.HTTP.REST;
 
-namespace Juniper.GIS.Google
+namespace Juniper.World.GIS.Google
 {
     public abstract class AbstractGoogleMapsRequest<MediaTypeT> : AbstractRequest<MediaTypeT>
         where MediaTypeT : MediaType

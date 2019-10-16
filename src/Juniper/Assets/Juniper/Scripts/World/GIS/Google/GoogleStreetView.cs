@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 using Juniper.Animation;
 using Juniper.Display;
-using Juniper.GIS.Google.Geocoding;
-using Juniper.GIS.Google.StreetView;
 using Juniper.Imaging;
 using Juniper.Input;
 using Juniper.IO;
@@ -18,6 +16,8 @@ using Juniper.Security;
 using Juniper.Units;
 using Juniper.Unity;
 using Juniper.Widgets;
+using Juniper.World.GIS.Google.Geocoding;
+using Juniper.World.GIS.Google.StreetView;
 
 using UnityEngine;
 using UnityEngine.Events;

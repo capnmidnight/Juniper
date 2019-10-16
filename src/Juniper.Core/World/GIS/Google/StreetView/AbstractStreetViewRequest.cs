@@ -1,8 +1,6 @@
 using System.IO;
 
-using Juniper.World.GIS;
-
-namespace Juniper.GIS.Google.StreetView
+namespace Juniper.World.GIS.Google.StreetView
 {
     public abstract class AbstractStreetViewRequest<MediaTypeT> : AbstractGoogleMapsRequest<MediaTypeT>
         where MediaTypeT : MediaType
