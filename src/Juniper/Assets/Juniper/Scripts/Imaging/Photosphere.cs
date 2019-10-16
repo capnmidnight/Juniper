@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Juniper.IO;
 using Juniper.Progress;
 using Juniper.Units;
-
+using UnityEditor;
 using UnityEngine;
 
 namespace Juniper.Imaging
@@ -243,8 +243,21 @@ namespace Juniper.Imaging
             }
         }
 
+        private static GUIStyle centered;
+
         protected virtual void OnDrawGizmos()
         {
+            if(centered == null)
+            {
+                 centered = new GUIStyle()
+                 {
+                     alignment = TextAnchor.LowerCenter,
+                     normal =
+                     {
+                         textColor = Color.white
+                     }
+                 };
+            }
             if (string.IsNullOrEmpty(CubemapName))
             {
                 CubemapName = name;
@@ -256,6 +269,7 @@ namespace Juniper.Imaging
             {
                 Gizmos.DrawIcon(transform.position + Vector3.up, imageName);
             }
+            Handles.Label(transform.position - Vector3.up, name, centered);
             Gizmos.DrawSphere(transform.position, 1);
         }
 
