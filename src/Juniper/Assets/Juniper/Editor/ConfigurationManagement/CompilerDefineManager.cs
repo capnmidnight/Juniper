@@ -37,13 +37,12 @@ namespace Juniper.ConfigurationManagement
 
         private static string newDefine;
 
-        private const float nameFieldWidth = 200;
-        private const float narrowWidth = 50;
-        private const float buttonWidth = 100;
+        private const float nameFieldWidthValue = 200;
+        private const float narrowWidthValue = 50;
 
-        private static readonly GUILayoutOption nameFieldGWidth = GUILayout.Width(nameFieldWidth);
-        private static readonly GUILayoutOption narrowGWidth = GUILayout.Width(narrowWidth);
-        private static readonly GUILayoutOption buttonGWidth = GUILayout.Width(buttonWidth);
+        private static readonly GUILayoutOption nameFieldWidth = GUILayout.Width(nameFieldWidthValue);
+        private static readonly GUILayoutOption narrowWidth = GUILayout.Width(narrowWidthValue);
+        private static readonly GUILayoutOption buttonWidth = GUILayout.Width(100);
 
         private static readonly TableView definesTable = new TableView(
             "Defines",
@@ -68,8 +67,8 @@ namespace Juniper.ConfigurationManagement
             {
                 using (_ = new HGroup())
                 {
-                    newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidth + narrowWidth));
-                    if (GUILayout.Button("Add", buttonGWidth))
+                    newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidthValue + narrowWidthValue));
+                    if (GUILayout.Button("Add", buttonWidth))
                     {
                         if (!string.IsNullOrEmpty(newDefine))
                         {
@@ -84,14 +83,14 @@ namespace Juniper.ConfigurationManagement
                     var define = nextDefines[i];
                     using (_ = new HGroup())
                     {
-                        EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldGWidth);
+                        EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldWidth);
 
                         EditorGUILayout.LabelField(
                             DesiredConfiguration.CompilerDefines.Contains(define).ToYesNo(),
                             EditorStyles.centeredGreyMiniLabel,
-                            narrowGWidth);
+                            narrowWidth);
 
-                        if (GUILayout.Button("Remove", buttonGWidth))
+                        if (GUILayout.Button("Remove", buttonWidth))
                         {
                             nextDefines.RemoveAt(i);
                             --i;

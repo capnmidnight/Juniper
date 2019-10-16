@@ -113,15 +113,12 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private const float nameFieldWidth = 200;
-        private const float narrowWidth = 50;
-        private const float statusWidth = 120;
-        private const float buttonWidth = 100;
+        private const int buttonWidthValue = 100;
 
-        private static readonly GUILayoutOption nameFieldGWidth = GUILayout.Width(nameFieldWidth);
-        private static readonly GUILayoutOption narrowGWidth = GUILayout.Width(narrowWidth);
-        private static readonly GUILayoutOption statusGWidth = GUILayout.Width(statusWidth);
-        private static readonly GUILayoutOption buttonGWidth = GUILayout.Width(buttonWidth);
+        private static readonly GUILayoutOption nameFieldWidth = GUILayout.Width(200);
+        private static readonly GUILayoutOption narrowWidth = GUILayout.Width(50);
+        private static readonly GUILayoutOption statusWidth = GUILayout.Width(120);
+        private static readonly GUILayoutOption buttonWidth = GUILayout.Width(buttonWidthValue);
 
         private static readonly TableView requiredPackageTable = new TableView(
             "Required Packages",
@@ -159,25 +156,25 @@ namespace Juniper.ConfigurationManagement
             {
                 if (BuildInProgress)
                 {
-                    EditorGUILayoutExt.LabeledField("Build in progress", nameFieldGWidth, progressMessage);
+                    EditorGUILayoutExt.LabeledField("Build in progress", nameFieldWidth, progressMessage);
                 }
 
-                EditorGUILayoutExt.LabeledField("Build step", nameFieldGWidth, BuildStepName, nameFieldGWidth);
+                EditorGUILayoutExt.LabeledField("Build step", nameFieldWidth, BuildStepName, nameFieldWidth);
 
                 if (!BuildInProgress)
                 {
-                    EditorGUILayoutExt.LabeledField("Current platform", nameFieldGWidth, CurrentPlatform, nameFieldGWidth);
-                    EditorGUILayoutExt.LabeledField("Current build target", nameFieldGWidth, CurrentConfiguration.TargetGroup, nameFieldGWidth);
+                    EditorGUILayoutExt.LabeledField("Current platform", nameFieldWidth, CurrentPlatform, nameFieldWidth);
+                    EditorGUILayoutExt.LabeledField("Current build target", nameFieldWidth, CurrentConfiguration.TargetGroup, nameFieldWidth);
 
                     if (CurrentConfiguration.TargetGroup == BuildTargetGroup.Android)
                     {
-                        EditorGUILayoutExt.LabeledField("Min Android SDK version", nameFieldGWidth, CurrentConfiguration.androidSdkVersion, nameFieldGWidth);
+                        EditorGUILayoutExt.LabeledField("Min Android SDK version", nameFieldWidth, CurrentConfiguration.androidSdkVersion, nameFieldWidth);
                     }
 
                     using (_ = new HGroup())
                     {
-                        EditorGUILayout.LabelField("Change platform", nameFieldGWidth);
-                        selectedPlatform = (PlatformTypes)EditorGUILayout.EnumPopup(selectedPlatform, nameFieldGWidth);
+                        EditorGUILayout.LabelField("Change platform", nameFieldWidth);
+                        selectedPlatform = (PlatformTypes)EditorGUILayout.EnumPopup(selectedPlatform, nameFieldWidth);
                     }
                 }
             }
@@ -235,26 +232,26 @@ namespace Juniper.ConfigurationManagement
                         {
                             try
                             {
-                                EditorGUILayout.LabelField(package.GUILabel, nameFieldGWidth);
-                                package.CompilerDefine = EditorGUILayout.TextField(package.CompilerDefine, nameFieldGWidth);
+                                EditorGUILayout.LabelField(package.GUILabel, nameFieldWidth);
+                                package.CompilerDefine = EditorGUILayout.TextField(package.CompilerDefine, nameFieldWidth);
 
                                 EditorGUILayout.LabelField(
                                     CurrentConfiguration.CompilerDefines.Contains(package.CompilerDefine).ToYesNo(),
                                     EditorStyles.centeredGreyMiniLabel,
-                                    narrowGWidth);
+                                    narrowWidth);
 
                                 if (package.ScanningProgress == PackageScanStatus.None)
                                 {
-                                    EditorGUILayout.LabelField("Identified", EditorStyles.centeredGreyMiniLabel, statusGWidth);
+                                    EditorGUILayout.LabelField("Identified", EditorStyles.centeredGreyMiniLabel, statusWidth);
                                 }
                                 else if (package.ScanningProgress == PackageScanStatus.Found
                                     || package.ScanningProgress == PackageScanStatus.List)
                                 {
-                                    EditorGUILayout.LabelField("Found", EditorStyles.centeredGreyMiniLabel, statusGWidth);
+                                    EditorGUILayout.LabelField("Found", EditorStyles.centeredGreyMiniLabel, statusWidth);
                                 }
                                 else if (package.ScanningProgress == PackageScanStatus.NotFound)
                                 {
-                                    EditorGUILayout.LabelField("Not Found!", statusGWidth);
+                                    EditorGUILayout.LabelField("Not Found!", statusWidth);
                                 }
                                 else if (package.ScanningProgress == PackageScanStatus.Listing
                                     || package.ScanningProgress == PackageScanStatus.Listed
@@ -265,7 +262,7 @@ namespace Juniper.ConfigurationManagement
                                         "({0} files) Scanning",
                                         package.TotalFiles),
                                         EditorStyles.centeredGreyMiniLabel,
-                                        statusGWidth);
+                                        statusWidth);
                                 }
                                 else if (package.ScanningProgress == PackageScanStatus.Scanned)
                                 {
@@ -286,19 +283,19 @@ namespace Juniper.ConfigurationManagement
                                         package.InstallPercentage,
                                         package.TotalFiles),
                                         EditorStyles.centeredGreyMiniLabel,
-                                        statusGWidth);
+                                        statusWidth);
 
                                     var installLabel = package.InstallPercentage == 0 ? "Install" : "Refresh";
                                     if (package.InstallPercentage == 1)
                                     {
-                                        GUILayout.Space(buttonWidth);
+                                        GUILayout.Space(buttonWidthValue);
                                     }
-                                    else if (GUILayout.Button(installLabel, buttonGWidth))
+                                    else if (GUILayout.Button(installLabel, buttonWidth))
                                     {
                                         package.Install(currentProg);
                                     }
 
-                                    if (package.InstallPercentage > 0 && GUILayout.Button("Remove", buttonGWidth))
+                                    if (package.InstallPercentage > 0 && GUILayout.Button("Remove", buttonWidth))
                                     {
                                         package.Uninstall(currentProg);
                                     }
@@ -308,7 +305,7 @@ namespace Juniper.ConfigurationManagement
                                     if (GUILayout.Button(
                                         new GUIContent("ERROR!", package.Error.Message),
                                         EditorStyles.miniBoldLabel,
-                                        buttonGWidth))
+                                        buttonWidth))
                                     {
                                         package.ClearError();
                                     }
