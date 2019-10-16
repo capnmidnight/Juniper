@@ -1,7 +1,6 @@
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 using Juniper.Progress;
 
@@ -17,22 +16,10 @@ namespace Juniper.IO
 
     public static class IDeserializerGenericExt
     {
-        public static Task<ResultT> DeserializeAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, Stream stream, IProgress prog)
-            where MediaTypeT : MediaType
-        {
-            return Task.Run(() => deserializer.Deserialize(stream, prog));
-        }
-
         public static ResultT Deserialize<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, Stream stream)
             where MediaTypeT : MediaType
         {
             return deserializer.Deserialize(stream, null);
-        }
-
-        public static Task<ResultT> DeserializeAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, Stream stream)
-            where MediaTypeT : MediaType
-        {
-            return deserializer.DeserializeAsync(stream, null);
         }
 
         public static ResultT Deserialize<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, Stream stream, long length, IProgress prog)
@@ -40,17 +27,6 @@ namespace Juniper.IO
         {
             var subProgs = prog.Split(2);
             return deserializer.Deserialize(new ProgressStream(stream, length, subProgs[0]), subProgs[1]);
-        }
-
-        public static Task<ResultT> DeserializeAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, Stream stream, long length, IProgress prog)
-            where MediaTypeT : MediaType
-        {
-            return Task.Run(() => deserializer.Deserialize(stream, length, prog));
-        }
-        public static Task<ResultT> DeserializeAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, HttpWebResponse response, IProgress prog)
-            where MediaTypeT : MediaType
-        {
-            return Task.Run(() => deserializer.Deserialize(response, prog));
         }
 
         public static ResultT Deserialize<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, HttpWebResponse response, IProgress prog)
@@ -66,12 +42,6 @@ namespace Juniper.IO
             where MediaTypeT : MediaType
         {
             return deserializer.Deserialize(response, null);
-        }
-
-        public static Task<ResultT> DeserializeAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, HttpWebResponse response)
-            where MediaTypeT : MediaType
-        {
-            return deserializer.DeserializeAsync(response, null);
         }
 
         public static bool TryDeserialize<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, HttpWebResponse response, out ResultT value, IProgress prog)
@@ -126,22 +96,10 @@ namespace Juniper.IO
             return deserializer.Deserialize(stream, data.Length, prog);
         }
 
-        public static Task<ResultT> DeserializeAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, byte[] data, IProgress prog)
-            where MediaTypeT : MediaType
-        {
-            return Task.Run(() => deserializer.Deserialize(data, prog));
-        }
-
         public static ResultT Deserialize<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, byte[] data)
             where MediaTypeT : MediaType
         {
             return deserializer.Deserialize(data, null);
-        }
-
-        public static Task<ResultT> DeserializeAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, byte[] data)
-            where MediaTypeT : MediaType
-        {
-            return deserializer.DeserializeAsync(data, null);
         }
 
         public static bool TryDeserialize<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, byte[] data, out ResultT value, IProgress prog)
@@ -163,22 +121,10 @@ namespace Juniper.IO
             return deserializer.Deserialize(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), file.Length, prog);
         }
 
-        public static Task<ResultT> DeserializeAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, FileInfo file, IProgress prog)
-            where MediaTypeT : MediaType
-        {
-            return Task.Run(() => deserializer.Deserialize(file, prog));
-        }
-
         public static ResultT Deserialize<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, FileInfo file)
             where MediaTypeT : MediaType
         {
             return deserializer.Deserialize(file, null);
-        }
-
-        public static Task<ResultT> DeserializeAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, FileInfo file)
-            where MediaTypeT : MediaType
-        {
-            return deserializer.DeserializeAsync(file, null);
         }
 
         public static bool TryDeserialize<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, FileInfo file, out ResultT value, IProgress prog)
@@ -199,22 +145,10 @@ namespace Juniper.IO
             return deserializer.Deserialize(new FileInfo(fileName), prog);
         }
 
-        public static Task<ResultT> DeserializeAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, string fileName, IProgress prog)
-            where MediaTypeT : MediaType
-        {
-            return Task.Run(() => deserializer.Deserialize(fileName, prog));
-        }
-
         public static ResultT Deserialize<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, string fileName)
             where MediaTypeT : MediaType
         {
             return deserializer.Deserialize(fileName, null);
-        }
-
-        public static Task<ResultT> DeserializeAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, string fileName)
-            where MediaTypeT : MediaType
-        {
-            return deserializer.DeserializeAsync(fileName, null);
         }
 
         public static bool TryDeserialize<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, string fileName, out ResultT value, IProgress prog)
@@ -236,22 +170,10 @@ namespace Juniper.IO
             return deserializer.Deserialize(stream, stream.Length, prog);
         }
 
-        public static Task<ResultT> ParseAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, string text, IProgress prog)
-            where MediaTypeT : MediaType
-        {
-            return Task.Run(() => deserializer.Parse(text, prog));
-        }
-
         public static ResultT Parse<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, string text)
             where MediaTypeT : MediaType
         {
             return deserializer.Parse(text, null);
-        }
-
-        public static Task<ResultT> ParseAsync<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, string text)
-            where MediaTypeT : MediaType
-        {
-            return deserializer.ParseAsync(text, null);
         }
 
         public static bool TryParse<ResultT, MediaTypeT>(this IDeserializer<ResultT, MediaTypeT> deserializer, string text, out ResultT value, IProgress prog)

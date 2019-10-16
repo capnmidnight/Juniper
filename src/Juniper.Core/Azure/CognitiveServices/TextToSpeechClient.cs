@@ -119,7 +119,7 @@ namespace Juniper.Azure.CognitiveServices
         public async Task<AudioData> GetDecodedAudio(string text, string voiceName, float rateChange, float pitchChange)
         {
             var stream = await GetAudioDataStream(text, voiceName, rateChange, pitchChange);
-            return await audioDecoder.DeserializeAsync(stream);
+            return audioDecoder.Deserialize(stream);
         }
 
         public Task<AudioData> GetDecodedAudio(string text, Voice voice, float rateChange, float pitchChange)

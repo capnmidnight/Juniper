@@ -1,7 +1,6 @@
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 using Juniper.Progress;
 
@@ -16,30 +15,15 @@ namespace Juniper.IO
 
     public static class IDeserializerExt
     {
-        public static Task<T> DeserializeAsync<T>(this IDeserializer deserializer, Stream stream, IProgress prog)
-        {
-            return Task.Run(() => deserializer.Deserialize<T>(stream, prog));
-        }
-
         public static T Deserialize<T>(this IDeserializer deserializer, Stream stream)
         {
             return deserializer.Deserialize<T>(stream, null);
-        }
-
-        public static Task<T> DeserializeAsync<T>(this IDeserializer deserializer, Stream stream)
-        {
-            return deserializer.DeserializeAsync<T>(stream, null);
         }
 
         public static T Deserialize<T>(this IDeserializer deserializer, Stream stream, long length, IProgress prog)
         {
             var subProgs = prog.Split(2);
             return deserializer.Deserialize<T>(new ProgressStream(stream, length, subProgs[0]), subProgs[1]);
-        }
-
-        public static Task<T> DeserializeAsync<T>(this IDeserializer deserializer, Stream stream, long length, IProgress prog)
-        {
-            return Task.Run(() => deserializer.Deserialize<T>(stream, length, prog));
         }
 
         public static bool TryDeserialize<T>(this IDeserializer deserializer, Stream stream, out T value, IProgress prog)
@@ -77,19 +61,9 @@ namespace Juniper.IO
             }
         }
 
-        public static Task<T> DeserializeAsync<T>(this IDeserializer deserializer, HttpWebResponse response, IProgress prog)
-        {
-            return Task.Run(() => deserializer.Deserialize<T>(response, prog));
-        }
-
         public static T Deserialize<T>(this IDeserializer deserializer, HttpWebResponse response)
         {
             return deserializer.Deserialize<T>(response, null);
-        }
-
-        public static Task<T> DeserializeAsync<T>(this IDeserializer deserializer, HttpWebResponse response)
-        {
-            return deserializer.DeserializeAsync<T>(response, null);
         }
 
         public static bool TryDeserialize<T>(this IDeserializer deserializer, HttpWebResponse response, out T value, IProgress prog)
@@ -111,19 +85,9 @@ namespace Juniper.IO
             return deserializer.Deserialize<T>(stream, data.Length, prog);
         }
 
-        public static Task<T> DeserializeAsync<T>(this IDeserializer deserializer, byte[] data, IProgress prog)
-        {
-            return Task.Run(() => deserializer.Deserialize<T>(data, prog));
-        }
-
         public static T Deserialize<T>(this IDeserializer deserializer, byte[] data)
         {
             return deserializer.Deserialize<T>(data, null);
-        }
-
-        public static Task<T> DeserializeAsync<T>(this IDeserializer deserializer, byte[] data)
-        {
-            return deserializer.DeserializeAsync<T>(data, null);
         }
 
         public static bool TryDeserialize<T>(this IDeserializer deserializer, byte[] data, out T value, IProgress prog)
@@ -142,19 +106,9 @@ namespace Juniper.IO
             return deserializer.Deserialize<T>(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), file.Length, prog);
         }
 
-        public static Task<T> DeserializeAsync<T>(this IDeserializer deserializer, FileInfo file, IProgress prog)
-        {
-            return Task.Run(() => deserializer.Deserialize<T>(file, prog));
-        }
-
         public static T Deserialize<T>(this IDeserializer deserializer, FileInfo file)
         {
             return deserializer.Deserialize<T>(file, null);
-        }
-
-        public static Task<T> DeserializeAsync<T>(this IDeserializer deserializer, FileInfo file)
-        {
-            return deserializer.DeserializeAsync<T>(file, null);
         }
 
         public static bool TryDeserialize<T>(this IDeserializer deserializer, FileInfo file, out T value, IProgress prog)
@@ -172,19 +126,9 @@ namespace Juniper.IO
             return deserializer.Deserialize<T>(new FileInfo(fileName), prog);
         }
 
-        public static Task<T> DeserializeAsync<T>(this IDeserializer deserializer, string fileName, IProgress prog)
-        {
-            return Task.Run(() => deserializer.Deserialize<T>(fileName, prog));
-        }
-
         public static T Deserialize<T>(this IDeserializer deserializer, string fileName)
         {
             return deserializer.Deserialize<T>(fileName, null);
-        }
-
-        public static Task<T> DeserializeAsync<T>(this IDeserializer deserializer, string fileName)
-        {
-            return deserializer.DeserializeAsync<T>(fileName, null);
         }
 
         public static bool TryDeserialize<T>(this IDeserializer deserializer, string fileName, out T value, IProgress prog)
@@ -203,19 +147,9 @@ namespace Juniper.IO
             return deserializer.Deserialize<T>(stream, stream.Length, prog);
         }
 
-        public static Task<T> ParseAsync<T>(this IDeserializer deserializer, string text, IProgress prog)
-        {
-            return Task.Run(() => deserializer.Parse<T>(text, prog));
-        }
-
         public static T Parse<T>(this IDeserializer deserializer, string text)
         {
             return deserializer.Parse<T>(text, null);
-        }
-
-        public static Task<T> ParseAsync<T>(this IDeserializer deserializer, string text)
-        {
-            return deserializer.ParseAsync<T>(text, null);
         }
 
         public static bool TryParse<T>(this IDeserializer deserializer, string text, out T value, IProgress prog)

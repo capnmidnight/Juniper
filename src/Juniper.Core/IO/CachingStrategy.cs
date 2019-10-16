@@ -198,16 +198,23 @@ namespace Juniper.IO
         public Task<ResultType> Load<MediaTypeT, ResultType>(IContentReference<MediaTypeT> fileRef, IDeserializer<ResultType, MediaTypeT> deserializer, IProgress prog)
             where MediaTypeT : MediaType
         {
-            var progs = prog.Split("Read", "Decode");
-            var stream = Open(fileRef);
-            if (stream == null)
             {
-                return Task.FromResult(default(ResultType));
             }
-            else
             {
-                return deserializer.DeserializeAsync(stream, progs[1]);
             }
+            return Task.Run(() =>
+            {
+                var progs = prog.Split("Read", "Decode");
+                var stream = Open(fileRef, progs[0]);
+                if (stream == null)
+                {
+                    return default;
+                }
+                else
+                {
+                    return deserializer.Deserialize(stream, progs[1]);
+                }
+            });
         }
 
         public Task<ResultType> Load<MediaTypeT, ResultType>(IContentReference<MediaTypeT> fileRef, IDeserializer<ResultType, MediaTypeT> deserializer)
