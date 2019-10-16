@@ -270,7 +270,7 @@ namespace Juniper.Imaging
                 Gizmos.DrawIcon(transform.position + Vector3.up, imageName);
             }
             Handles.Label(transform.position - Vector3.up, name, centered);
-            Gizmos.DrawSphere(transform.position, 1);
+            Gizmos.DrawSphere(transform.position, 0.5f);
         }
 
         private IEnumerator UpdateSphereCoroutine()
