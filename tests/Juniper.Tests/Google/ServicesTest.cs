@@ -5,7 +5,7 @@ using Juniper.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Juniper.GIS.Google.Tests
+namespace Juniper.World.GIS.Google.Tests
 {
     public abstract class ServicesTests
     {

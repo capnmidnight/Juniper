@@ -9,7 +9,7 @@ using Juniper.Progress;
 
 namespace Juniper.HTTP.REST
 {
-    public abstract class AbstractRequest<MediaTypeT> : IStreamSource<MediaTypeT>
+    public abstract class AbstractRequest<MediaTypeT> : IStreamSource
         where MediaTypeT : MediaType
     {
         protected static Uri AddPath(Uri baseURI, string path)
@@ -26,12 +26,20 @@ namespace Juniper.HTTP.REST
         protected AbstractRequest(Uri serviceURI, MediaTypeT contentType)
         {
             this.serviceURI = serviceURI;
-            ContentType = contentType;
+            MediaType = contentType;
         }
 
-        public MediaTypeT ContentType
+        public MediaTypeT MediaType
         {
             get;
+        }
+
+        public MediaType ContentType
+        {
+            get
+            {
+                return MediaType;
+            }
         }
 
         public override int GetHashCode()
@@ -146,9 +154,9 @@ namespace Juniper.HTTP.REST
             {
                 request.Header("Upgrade-Insecure-Requests", 1);
             }
-            if (ContentType != null)
+            if (MediaType != null)
             {
-                request.Accept = ContentType;
+                request.Accept = MediaType;
             }
             ModifyRequest(request);
             return request;

@@ -6,7 +6,10 @@ using Juniper.HTTP.REST;
 
 namespace Juniper.World.GIS.Google
 {
-    public abstract class AbstractGoogleMapsRequest<MediaTypeT> : AbstractRequest<MediaTypeT>
+    public interface IGoogleMapsRequest
+    { }
+
+    public abstract class AbstractGoogleMapsRequest<MediaTypeT> : AbstractRequest<MediaTypeT>, IGoogleMapsRequest
         where MediaTypeT : MediaType
     {
         private static readonly Uri gmaps = new Uri("https://maps.googleapis.com/maps/api/");

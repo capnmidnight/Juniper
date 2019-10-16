@@ -8,7 +8,7 @@ namespace Juniper.World.GIS.Google.TimeZone
         private DateTime timestamp;
 
         public TimeZoneRequest(string apiKey)
-            : base("timezone/json", apiKey, null, MediaType.Application.Json)
+            : base("timezone/json", apiKey, null, Juniper.MediaType.Application.Json)
         { }
 
         public LatLngPoint Location

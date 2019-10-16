@@ -273,7 +273,7 @@ namespace Juniper.World.GIS.Google
                     {
                         var processor = new UnityTexture2DProcessor();
                         var img = processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]);
-                        var cubemapRef = new ContentReference<MediaType.Image>(cubemapName, codec.ContentType);
+                        var cubemapRef = cubemapName.ToRef(codec.ContentType);
                         cache.Save(cubemapRef, img, codec, subProgs[3]);
                     }
                     catch (Exception exp)

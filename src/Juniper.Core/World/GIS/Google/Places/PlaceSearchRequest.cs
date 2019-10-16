@@ -12,7 +12,7 @@ namespace Juniper.World.GIS.Google.Places
         private readonly HashSet<PlaceSearchField> fields = new HashSet<PlaceSearchField>();
 
         public PlaceSearchRequest(string apiKey)
-            : base("place/findplacefromtext/json", apiKey, null, MediaType.Application.Json)
+            : base("place/findplacefromtext/json", apiKey, null, Juniper.MediaType.Application.Json)
         { }
 
         public override string CacheID

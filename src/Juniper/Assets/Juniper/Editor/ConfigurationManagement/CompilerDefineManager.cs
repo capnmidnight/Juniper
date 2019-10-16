@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -86,7 +87,7 @@ namespace Juniper.ConfigurationManagement
                         EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldGWidth);
 
                         EditorGUILayout.LabelField(
-                            DesiredConfiguration.CompilerDefines.Contains(define) ? "Yes" : "No",
+                            DesiredConfiguration.CompilerDefines.Contains(define).ToYesNo(),
                             EditorStyles.centeredGreyMiniLabel,
                             narrowGWidth);
 

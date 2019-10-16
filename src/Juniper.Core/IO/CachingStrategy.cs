@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -84,8 +85,7 @@ namespace Juniper.IO
         /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="fileRef"></param>
         /// <returns></returns>
-        public Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef, bool overwrite)
-            where MediaTypeT : MediaType
+        public Stream Create(IContentReference fileRef, bool overwrite)
         {
             var streams = new List<Stream>();
 
@@ -115,8 +115,7 @@ namespace Juniper.IO
         /// <param name="fileRef"></param>
         /// <param name="stream"></param>
         /// <returns>null if the file does not exist in any of the cache layers.</returns>
-        public Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)
-            where MediaTypeT : MediaType
+        public Stream Cache(IContentReference fileRef, Stream stream)
         {
             if (stream != null)
             {
@@ -138,8 +137,7 @@ namespace Juniper.IO
         /// Currently, only the <see cref="FileCacheLayer"/> supports writing
         /// streams.
         /// </summary>
-        public bool CanCache<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
+        public bool CanCache(IContentReference fileRef)
         {
             foreach (var dest in destinations)
             {
@@ -158,8 +156,7 @@ namespace Juniper.IO
         /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="fileRef"></param>
         /// <returns>False, if none of the cache layers contain the file</returns>
-        public bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
+        public bool IsCached(IContentReference fileRef)
         {
             foreach (var source in sources)
             {
@@ -179,15 +176,14 @@ namespace Juniper.IO
         /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="fileRef"></param>
         /// <returns>Null, if the file does not exist in the cache</returns>
-        public Stream Open<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
+        public Stream Open(IContentReference fileRef, IProgress prog)
         {
             Stream cached = null;
             foreach (var source in sources)
             {
                 if (source.IsCached(fileRef))
                 {
-                    cached = source.Open(fileRef);
+                    cached = source.Open(fileRef, prog);
                     break;
                 }
             }
@@ -195,13 +191,24 @@ namespace Juniper.IO
             return cached;
         }
 
-        public Task<ResultType> Load<MediaTypeT, ResultType>(IContentReference<MediaTypeT> fileRef, IDeserializer<ResultType, MediaTypeT> deserializer, IProgress prog)
+        public Task<ResultType> Load<MediaTypeT, ResultType>(IContentReference fileRef, IDeserializer<ResultType, MediaTypeT> deserializer, IProgress prog)
             where MediaTypeT : MediaType
         {
+            if(fileRef == null)
             {
+                throw new ArgumentNullException(nameof(fileRef));
             }
+
+            if(deserializer == null)
             {
+                throw new ArgumentNullException(nameof(deserializer));
             }
+
+            if(fileRef.ContentType != deserializer.ContentType)
+            {
+                throw new ArgumentException($"{nameof(fileRef)} parameter's content type ({fileRef.ContentType.Value}) does not match {nameof(deserializer)} parameter's content type ({deserializer.ContentType.Value})");
+            }
+
             return Task.Run(() =>
             {
                 var progs = prog.Split("Read", "Decode");
@@ -217,14 +224,13 @@ namespace Juniper.IO
             });
         }
 
-        public Task<ResultType> Load<MediaTypeT, ResultType>(IContentReference<MediaTypeT> fileRef, IDeserializer<ResultType, MediaTypeT> deserializer)
+        public Task<ResultType> Load<MediaTypeT, ResultType>(IContentReference fileRef, IDeserializer<ResultType, MediaTypeT> deserializer)
             where MediaTypeT : MediaType
         {
             return Load(fileRef, deserializer, null);
         }
 
-        public void Save<MediaTypeT, ResultType>(IContentReference<MediaTypeT> fileRef, ResultType value, ISerializer<ResultType> serializer, IProgress prog)
-            where MediaTypeT : MediaType
+        public void Save<ResultType>(IContentReference fileRef, ResultType value, ISerializer<ResultType> serializer, IProgress prog)
         {
             using (var stream = Create(fileRef, true))
             {
@@ -232,29 +238,26 @@ namespace Juniper.IO
             }
         }
 
-        public void Save<MediaTypeT, ResultType>(IContentReference<MediaTypeT> fileRef, ResultType value, ISerializer<ResultType> serializer)
-            where MediaTypeT : MediaType
+        public void Save<ResultType>(IContentReference fileRef, ResultType value, ISerializer<ResultType> serializer)
         {
             Save(fileRef, value, serializer, null);
         }
 
-        public async Task Proxy<MediaTypeT>(IContentReference<MediaTypeT> fileRef, HttpListenerResponse response)
-            where MediaTypeT : MediaType
+        public async Task Proxy(IContentReference fileRef, HttpListenerResponse response)
         {
-            var stream = Open(fileRef);
+            var stream = Open(fileRef, null);
             await stream.Proxy(response);
         }
 
-        public Task Proxy<MediaTypeT>(IContentReference<MediaTypeT> fileRef, HttpListenerContext context)
+        public Task Proxy<MediaTypeT>(IContentReference fileRef, HttpListenerContext context)
             where MediaTypeT : MediaType
         {
             return Proxy(fileRef, context.Response);
         }
 
-        public async Task<Stream> Open<MediaTypeT>(IStreamSource<MediaTypeT> source, IProgress prog)
-            where MediaTypeT : MediaType
+        public async Task<Stream> Open(IStreamSource source, IProgress prog)
         {
-            var stream = Open((IContentReference<MediaTypeT>)source);
+            var stream = Open((IContentReference)source, prog);
             if (stream == null)
             {
                 stream = await source.GetStream(prog);
@@ -262,42 +265,55 @@ namespace Juniper.IO
             return Cache(source, stream);
         }
 
-        public Task<Stream> Open<MediaTypeT>(IStreamSource<MediaTypeT> source)
-            where MediaTypeT : MediaType
+        public Task<Stream> Open(IStreamSource source)
         {
             return Open(source, null);
         }
 
-        public async Task<ResultType> Load<MediaTypeT, ResultType>(IStreamSource<MediaTypeT> source, IDeserializer<ResultType, MediaTypeT> deserializer, IProgress prog)
+        public async Task<ResultType> Load<ResultType, MediaTypeT>(IStreamSource source, IDeserializer<ResultType, MediaTypeT> deserializer, IProgress prog)
             where MediaTypeT : MediaType
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (deserializer == null)
+            {
+                throw new ArgumentNullException(nameof(deserializer));
+            }
+
+            if (source.ContentType != deserializer.ContentType)
+            {
+                throw new ArgumentException($"{nameof(source)} parameter's content type ({source.ContentType.Value}) does not match {nameof(deserializer)} parameter's content type ({deserializer.ContentType.Value})");
+            }
+
             var progs = prog.Split("Read", "Decode");
             var stream = await Open(source, progs[0]);
             return deserializer.Deserialize(stream, progs[1]);
 
         }
 
-        public Task<ResultType> Load<MediaTypeT, ResultType>(IStreamSource<MediaTypeT> source, IDeserializer<ResultType, MediaTypeT> deserializer)
+        public Task<ResultType> Load<ResultType, MediaTypeT>(IStreamSource source, IDeserializer<ResultType, MediaTypeT> deserializer)
             where MediaTypeT : MediaType
         {
             return Load(source, deserializer, null);
         }
 
 
-        public async Task Proxy<MediaTypeT>(IStreamSource<MediaTypeT> source, HttpListenerResponse response)
-            where MediaTypeT : MediaType
+        public async Task Proxy(IStreamSource source, HttpListenerResponse response)
         {
             var stream = await Open(source);
             await stream.Proxy(response);
         }
 
-        public Task Proxy<MediaTypeT>(IStreamSource<MediaTypeT> source, HttpListenerContext context)
-            where MediaTypeT : MediaType
+        public Task Proxy(IStreamSource source, HttpListenerContext context)
         {
             return Proxy(source, context.Response);
         }
 
-        public IEnumerable<IContentReference<MediaTypeT>> Get<MediaTypeT>(MediaTypeT ofType) where MediaTypeT : MediaType
+        public IEnumerable<IContentReference> Get<MediaTypeT>(MediaTypeT ofType)
+            where MediaTypeT : MediaType
         {
             foreach(var source in sources)
             {
@@ -308,7 +324,7 @@ namespace Juniper.IO
             }
         }
 
-        public bool Delete<MediaTypeT>(IContentReference<MediaTypeT> fileRef) where MediaTypeT : MediaType
+        public bool Delete(IContentReference fileRef)
         {
             bool anyDelete = false;
             foreach(var dest in destinations)

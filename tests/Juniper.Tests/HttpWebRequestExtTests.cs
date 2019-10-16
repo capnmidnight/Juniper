@@ -29,7 +29,7 @@ namespace Juniper.HTTP.Tests
         private class ImageRequest : AbstractRequest<MediaType.Image>
         {
             public ImageRequest(Uri baseURI, string path)
-                : base(AddPath(baseURI, path), MediaType.Image.Jpeg) { }
+                : base(AddPath(baseURI, path), Juniper.MediaType.Image.Jpeg) { }
 
             protected override ActionDelegate Action
             {

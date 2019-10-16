@@ -1,52 +1,72 @@
 using System.IO;
 
+using Juniper.Progress;
+
 namespace Juniper.IO
 {
 
     public interface ICacheDestinationLayer : ICacheSourceLayer
     {
-        bool CanCache<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType;
+        bool CanCache(IContentReference fileRef);
 
-        Stream Create<MediaTypeT>(IContentReference<MediaTypeT> fileRef, bool overwrite)
-            where MediaTypeT : MediaType;
+        Stream Create(IContentReference fileRef, bool overwrite);
 
-        Stream Cache<MediaTypeT>(IContentReference<MediaTypeT> fileRef, Stream stream)
-            where MediaTypeT : MediaType;
+        Stream Cache(IContentReference fileRef, Stream stream);
 
-        bool Delete<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType;
+        bool Delete(IContentReference fileRef);
     }
 
     public static class ICacheLayerExt
     {
-        public static void CopyTo<MediaTypeT>(
+        public static void CopyTo(
             this ICacheSourceLayer fromLayer,
             ICacheDestinationLayer toLayer,
-            IContentReference<MediaTypeT> fromRef,
-            IContentReference<MediaTypeT> toRef,
-            bool overwrite)
-            where MediaTypeT : MediaType
+            IContentReference fromRef,
+            IContentReference toRef,
+            bool overwrite,
+            IProgress prog)
         {
             if (fromLayer.IsCached(fromRef)
                 && (overwrite || !toLayer.IsCached(toRef)))
             {
-                using (var inStream = fromLayer.Open(fromRef))
+                using (var inStream = fromLayer.Open(fromRef, prog))
                 using (var outStream = toLayer.Create(toRef, overwrite))
                 {
                     inStream.CopyTo(outStream);
                 }
             }
         }
-
-        public static void CopyTo<MediaTypeT>(
+        public static void CopyTo(
             this ICacheSourceLayer fromLayer,
             ICacheDestinationLayer toLayer,
-            IContentReference<MediaTypeT> fromRef,
-            IContentReference<MediaTypeT> toRef)
-            where MediaTypeT : MediaType
+            IContentReference fromRef,
+            IContentReference toRef,
+            bool overwrite)
         {
-            fromLayer.CopyTo(toLayer, fromRef, toRef, false);
+            fromLayer.CopyTo(toLayer, fromRef, toRef, overwrite, null);
+        }
+        public static void CopyTo(
+            this ICacheSourceLayer fromLayer,
+            ICacheDestinationLayer toLayer,
+            IContentReference fromRef,
+            IContentReference toRef,
+            IProgress prog)
+        {
+            fromLayer.CopyTo(toLayer, fromRef, toRef, false, prog);
+        }
+
+        public static void CopyTo(
+            this ICacheSourceLayer fromLayer,
+            ICacheDestinationLayer toLayer,
+            IContentReference fromRef,
+            IContentReference toRef)
+        {
+            fromLayer.CopyTo(toLayer, fromRef, toRef, false, null);
+        }
+
+        public static IContentReference ToRef(this string cacheID, MediaType contentType)
+        {
+            return new ContentReference(cacheID, contentType);
         }
     }
 }

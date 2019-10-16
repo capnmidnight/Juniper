@@ -1,6 +1,5 @@
 using System.IO;
 
-using Juniper.HTTP.REST;
 using Juniper.IO;
 
 namespace Juniper.World.GIS.Google
@@ -17,9 +16,9 @@ namespace Juniper.World.GIS.Google
         {
         }
 
-        public override bool CanCache<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
+        public override bool CanCache(IContentReference fileRef)
         {
-            return (fileRef is AbstractRequest<MediaTypeT>
+            return (fileRef is IGoogleMapsRequest
                     || fileRef.ContentType == MediaType.Image.Jpeg)
                 && base.CanCache(fileRef);
         }

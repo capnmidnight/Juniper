@@ -239,7 +239,7 @@ namespace Juniper.ConfigurationManagement
                                 package.CompilerDefine = EditorGUILayout.TextField(package.CompilerDefine, nameFieldGWidth);
 
                                 EditorGUILayout.LabelField(
-                                    CurrentConfiguration.CompilerDefines.Contains(package.CompilerDefine) ? "Yes" : "No",
+                                    CurrentConfiguration.CompilerDefines.Contains(package.CompilerDefine).ToYesNo(),
                                     EditorStyles.centeredGreyMiniLabel,
                                     narrowGWidth);
 

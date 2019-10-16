@@ -7,7 +7,7 @@ namespace Juniper.World.GIS.Google.Geocoding
         private string language;
 
         protected AbstractGeocodingRequest(string apiKey)
-            : base("geocode/json", apiKey, null, MediaType.Application.Json)
+            : base("geocode/json", apiKey, null, Juniper.MediaType.Application.Json)
         {
         }
 

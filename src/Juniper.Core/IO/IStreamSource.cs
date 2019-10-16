@@ -6,23 +6,21 @@ using Juniper.Progress;
 
 namespace Juniper.IO
 {
-    public interface IContentReference<MediaTypeT>
-        where MediaTypeT : MediaType
+    public interface IContentReference
     {
         string CacheID { get; }
 
-        MediaTypeT ContentType { get; }
+        MediaType ContentType { get; }
     }
 
-    public interface IStreamSource<MediaTypeT> : IContentReference<MediaTypeT>
-        where MediaTypeT : MediaType
+    public interface IStreamSource : IContentReference
     {
         Task<Stream> GetStream(IProgress prog);
     }
 
     public static class IStreamSourceExt
     {
-        public static async Task<T> Decode<MediaTypeT, T>(this IStreamSource<MediaTypeT> source, IDeserializer<T, MediaTypeT> deserializer, IProgress prog)
+        public static async Task<ResultT> Decode<ResultT, MediaTypeT>(this IStreamSource source, IDeserializer<ResultT, MediaTypeT> deserializer, IProgress prog)
             where MediaTypeT : MediaType
         {
             prog.Report(0);
@@ -33,27 +31,25 @@ namespace Juniper.IO
             return value;
         }
 
-        public static Task<T> Decode<MediaTypeT, T>(this IStreamSource<MediaTypeT> source, IDeserializer<T, MediaTypeT> deserializer)
+        public static Task<ResultT> Decode<ResultT, MediaTypeT>(this IStreamSource source, IDeserializer<ResultT, MediaTypeT> deserializer)
             where MediaTypeT : MediaType
         {
             return Decode(source, deserializer, null);
         }
 
-        public static Task<Stream> GetStream<MediaTypeT>(this IStreamSource<MediaTypeT> source)
-            where MediaTypeT : MediaType
+        public static Task<Stream> GetStream(this IStreamSource source)
         {
             return source.GetStream(null);
         }
 
-        public static async Task Proxy<MediaTypeT>(this IStreamSource<MediaTypeT> source, HttpListenerResponse response)
-            where MediaTypeT : MediaType
+        public static async Task Proxy(this IStreamSource source, HttpListenerResponse response)
         {
             var stream = await source.GetStream();
             response.ContentType = source.ContentType;
             await stream.Proxy(response);
         }
 
-        public static Task Proxy<MediaTypeT>(this IStreamSource<MediaTypeT> source, HttpListenerContext context)
+        public static Task Proxy<MediaTypeT>(this IStreamSource source, HttpListenerContext context)
             where MediaTypeT : MediaType
         {
             return source.Proxy(context.Response);

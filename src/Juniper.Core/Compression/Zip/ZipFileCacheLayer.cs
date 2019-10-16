@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Juniper.Compression;
 using Juniper.Compression.Zip;
+using Juniper.Progress;
 
 namespace Juniper.IO
 {
@@ -26,16 +27,14 @@ namespace Juniper.IO
             : this(new FileInfo(fileName))
         { }
 
-        private string GetCacheFileName<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
+        private string GetCacheFileName(IContentReference fileRef)
         {
             var baseName = fileRef.CacheID.Replace('\\', '/');
             var cacheFileName = fileRef.ContentType.AddExtension(baseName);
             return cacheFileName;
         }
 
-        public bool IsCached<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
+        public bool IsCached(IContentReference fileRef)
         {
             if (!filesExist.ContainsKey(fileRef.CacheID))
             {
@@ -58,8 +57,7 @@ namespace Juniper.IO
                 && filesExist[fileRef.CacheID];
         }
 
-        public Stream Open<MediaTypeT>(IContentReference<MediaTypeT> fileRef)
-            where MediaTypeT : MediaType
+        public Stream Open(IContentReference fileRef, IProgress prog)
         {
             Stream stream = null;
             if (IsCached(fileRef))
@@ -70,12 +68,17 @@ namespace Juniper.IO
                 if (entry != null)
                 {
                     stream = new ZipFileEntryStream(zip, entry);
+
+                    if(prog != null)
+                    {
+                        stream = new ProgressStream(stream, entry.Size, prog);
+                    }
                 }
             }
             return stream;
         }
 
-        public IEnumerable<IContentReference<MediaTypeT>> Get<MediaTypeT>(MediaTypeT ofType)
+        public IEnumerable<IContentReference> Get<MediaTypeT>(MediaTypeT ofType)
             where MediaTypeT : MediaType
         {
             foreach (var file in Decompressor.Entries(zipFile).Files())
@@ -84,7 +87,7 @@ namespace Juniper.IO
                 if (fileType is MediaTypeT mediaType)
                 {
                     var cacheID = PathExt.RemoveShortExtension(file.Name);
-                    yield return new ContentReference<MediaTypeT>(cacheID, mediaType);
+                    yield return cacheID.ToRef(mediaType);
                 }
             }
         }

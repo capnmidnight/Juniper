@@ -182,7 +182,7 @@ namespace Juniper.Azure.CognitiveServices
 
             ssmlText = sb.ToString();
             ssmlTextLength = System.Text.Encoding.UTF8.GetByteCount(ssmlText);
-            return new BodyInfo(MediaType.Application.SsmlXml, ssmlTextLength);
+            return new BodyInfo(Juniper.MediaType.Application.SsmlXml, ssmlTextLength);
         }
 
         protected override void WriteBody(Stream stream)

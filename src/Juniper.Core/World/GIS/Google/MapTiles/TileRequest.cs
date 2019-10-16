@@ -22,7 +22,7 @@ namespace Juniper.World.GIS.Google.MapTiles
         private Size size;
 
         public TileRequest(string apiKey, string signingKey, Size size)
-            : base("staticmap", apiKey, signingKey, MediaType.Image.Png)
+            : base("staticmap", apiKey, signingKey, Juniper.MediaType.Image.Png)
         {
             Size = size;
         }
