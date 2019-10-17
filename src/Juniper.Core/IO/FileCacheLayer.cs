@@ -18,28 +18,21 @@ namespace Juniper.IO
             : this(new DirectoryInfo(directoryName))
         { }
 
-        public virtual bool CanCache(IContentReference fileRef)
+        public virtual bool CanCache(ContentReference fileRef)
         {
             return true;
         }
 
-        public bool IsCached(IContentReference fileRef)
+        public bool IsCached(ContentReference fileRef)
         {
-            return GetCacheFile(fileRef).Exists;
+            var file = cacheLocation + fileRef;
+            return file.Exists;
         }
 
-        private FileInfo GetCacheFile(IContentReference fileRef)
-        {
-            var baseName = fileRef.CacheID;
-            var relativeName = fileRef.ContentType.AddExtension(baseName);
-            var absoluteName = Path.Combine(cacheLocation.FullName, relativeName);
-            return new FileInfo(absoluteName);
-        }
-
-        public Stream Create(IContentReference fileRef, bool overwrite)
+        public Stream Create(ContentReference fileRef, bool overwrite)
         {
             Stream stream = null;
-            var file = GetCacheFile(fileRef);
+            var file = cacheLocation + fileRef;
             if (CanCache(fileRef)
                 && (overwrite || !file.Exists))
             {
@@ -50,16 +43,16 @@ namespace Juniper.IO
             return stream;
         }
 
-        public virtual Stream Cache(IContentReference fileRef, Stream stream)
+        public virtual Stream Cache(ContentReference fileRef, Stream stream)
         {
             var outStream = Create(fileRef, false);
             return new CachingStream(stream, outStream);
         }
 
-        public Stream Open(IContentReference fileRef, IProgress prog)
+        public Stream Open(ContentReference fileRef, IProgress prog)
         {
             Stream stream = null;
-            var file = GetCacheFile(fileRef);
+            var file = cacheLocation + fileRef;
             if (file.Exists)
             {
                 stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -73,7 +66,7 @@ namespace Juniper.IO
             return stream;
         }
 
-        public IEnumerable<IContentReference> Get<MediaTypeT>(MediaTypeT ofType)
+        public IEnumerable<ContentReference> Get<MediaTypeT>(MediaTypeT ofType)
             where MediaTypeT : MediaType
         {
             var q = new Queue<DirectoryInfo>()
@@ -93,15 +86,15 @@ namespace Juniper.IO
                     {
                         var shortName = file.Substring(cacheLocation.FullName.Length + 1);
                         var cacheID = PathExt.RemoveShortExtension(shortName);
-                        yield return cacheID.ToRef(ofType);
+                        yield return cacheID + ofType;
                     }
                 }
             }
         }
 
-        public bool Delete(IContentReference fileRef)
+        public bool Delete(ContentReference fileRef)
         {
-            var file = GetCacheFile(fileRef);
+            var file = cacheLocation + fileRef;
             return file.TryDelete();
         }
     }

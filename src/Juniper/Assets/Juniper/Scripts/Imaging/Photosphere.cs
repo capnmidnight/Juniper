@@ -54,7 +54,7 @@ namespace Juniper.Imaging
 
         public bool IsReady { get; private set; }
 
-        public void Awake()
+        public virtual void Awake()
         {
             if (material == null)
             {
@@ -89,7 +89,7 @@ namespace Juniper.Imaging
 
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
-            var fileRef = filePath.ToRef(MediaType.Image.Jpeg);
+            var fileRef = filePath + MediaType.Image.Jpeg;
             var textureTask = cache.Load(fileRef, codec, this);
             yield return textureTask.AsCoroutine();
 

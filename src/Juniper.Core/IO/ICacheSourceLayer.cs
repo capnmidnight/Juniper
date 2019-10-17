@@ -7,17 +7,17 @@ namespace Juniper.IO
 {
     public interface ICacheSourceLayer
     {
-        bool IsCached(IContentReference fileRef);
+        bool IsCached(ContentReference fileRef);
 
-        Stream Open(IContentReference fileRef, IProgress prog);
+        Stream Open(ContentReference fileRef, IProgress prog);
 
-        IEnumerable<IContentReference> Get<MediaTypeT>(MediaTypeT ofType)
+        IEnumerable<ContentReference> Get<MediaTypeT>(MediaTypeT ofType)
             where MediaTypeT : MediaType;
     }
 
     public static class ICacheSourceLayerExt
     {
-        public static Stream Open(this ICacheSourceLayer layer, IContentReference fileRef)
+        public static Stream Open(this ICacheSourceLayer layer, ContentReference fileRef)
         {
             return layer.Open(fileRef, null);
         }

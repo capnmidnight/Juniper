@@ -16,7 +16,7 @@ namespace Juniper.World.GIS.Google
         {
         }
 
-        public override bool CanCache(IContentReference fileRef)
+        public override bool CanCache(ContentReference fileRef)
         {
             return (fileRef is IGoogleMapsRequest
                     || fileRef.ContentType == MediaType.Image.Jpeg)

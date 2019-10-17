@@ -1,26 +1,38 @@
 using System;
+using System.IO;
 
 namespace Juniper.IO
 {
-    public class ContentReference : IContentReference, IEquatable<IContentReference>
+    public class ContentReference : IEquatable<ContentReference>
     {
-        public ContentReference(string fileName, MediaType contentType)
+        public static FileInfo operator+(DirectoryInfo directory, ContentReference fileRef)
         {
-            CacheID = fileName;
+            var fileName = (string)fileRef;
+            return new FileInfo(Path.Combine(directory.FullName, fileName));
+        }
+
+        protected ContentReference(MediaType contentType)
+        {
             ContentType = contentType;
         }
 
-        public string CacheID
+        public ContentReference(string cacheID, MediaType contentType)
+            : this(contentType)
+        {
+            CacheID = cacheID;
+        }
+
+        public virtual string CacheID
         {
             get;
         }
 
-        public MediaType ContentType
+        public virtual MediaType ContentType
         {
             get;
         }
 
-        public bool Equals(IContentReference other)
+        public bool Equals(ContentReference other)
         {
             return other is object
                 && other.ContentType == ContentType
@@ -29,7 +41,7 @@ namespace Juniper.IO
 
         public override bool Equals(object obj)
         {
-            return obj is IContentReference other
+            return obj is ContentReference other
                 && Equals(other);
         }
 
@@ -49,13 +61,13 @@ namespace Juniper.IO
             return fileRef.ContentType.AddExtension(fileRef.CacheID);
         }
 
-        public static bool operator ==(ContentReference left, IContentReference right)
+        public static bool operator ==(ContentReference left, ContentReference right)
         {
             return left is null && right is null
                 || left is object && left.Equals(right);
         }
 
-        public static bool operator !=(ContentReference left, IContentReference right)
+        public static bool operator !=(ContentReference left, ContentReference right)
         {
             return !(left == right);
         }

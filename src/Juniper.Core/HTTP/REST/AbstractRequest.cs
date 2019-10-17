@@ -9,7 +9,7 @@ using Juniper.Progress;
 
 namespace Juniper.HTTP.REST
 {
-    public abstract class AbstractRequest<MediaTypeT> : IStreamSource
+    public abstract class AbstractRequest<MediaTypeT> : StreamSource
         where MediaTypeT : MediaType
     {
         protected static Uri AddPath(Uri baseURI, string path)
@@ -24,6 +24,7 @@ namespace Juniper.HTTP.REST
             new SortedDictionary<string, List<string>>();
 
         protected AbstractRequest(Uri serviceURI, MediaTypeT contentType)
+            : base(contentType)
         {
             this.serviceURI = serviceURI;
             MediaType = contentType;
@@ -213,7 +214,7 @@ namespace Juniper.HTTP.REST
             return response;
         }
 
-        public async Task<Stream> GetStream(IProgress prog)
+        public override async Task<Stream> GetStream(IProgress prog)
         {
             var progs = prog.Split("Get", "Read");
             prog = progs[1];

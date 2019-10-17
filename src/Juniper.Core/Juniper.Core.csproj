@@ -260,7 +260,7 @@
     <Compile Include="Speech\KeywordRecognizedEventArgs.cs" />
     <Compile Include="IO\CachingStream.cs" />
     <Compile Include="IO\ErsatzSeekableStream.cs" />
-    <Compile Include="IO\IStreamSource.cs" />
+    <Compile Include="IO\StreamSource.cs" />
     <Compile Include="IO\IStreamWrapper.cs" />
     <Compile Include="Progress\ProgressStream.cs" />
     <Compile Include="NETFX\IO\StreamExt.cs" />

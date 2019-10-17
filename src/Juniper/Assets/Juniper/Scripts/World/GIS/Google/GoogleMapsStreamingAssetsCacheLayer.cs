@@ -4,7 +4,7 @@ namespace Juniper.World.GIS.Google
 {
     public class GoogleMapsStreamingAssetsCacheLayer : StreamingAssetsCacheLayer
     {
-        public override bool CanCache(IContentReference fileRef)
+        public override bool CanCache(ContentReference fileRef)
         {
             return !(fileRef is IGoogleMapsRequest)
                 && base.CanCache(fileRef);

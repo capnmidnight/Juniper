@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.IO;
+using System.Linq;
+
+using Juniper.IO;
 
 namespace Juniper
 {
@@ -16,7 +18,7 @@ namespace Juniper
 
         public static MediaType GuessByExtension(string ext)
         {
-            if(ext == null)
+            if (ext == null)
             {
                 ext = "unknown";
             }
@@ -31,16 +33,6 @@ namespace Juniper
             }
         }
 
-        public static MediaType Guess(string fileName)
-        {
-            return GuessByExtension(PathExt.GetShortExtension(fileName));
-        }
-
-        public static MediaType Guess(FileInfo file)
-        {
-            return Guess(file.Name);
-        }
-
         public static MediaType Lookup(string value)
         {
             var parts = value.SplitX(';');
@@ -52,18 +44,38 @@ namespace Juniper
                 }
             }
 
-            parts = parts
+            var name = parts
                 .Where(p => p.Length > 0)
-                .ToArray();
+                .FirstOrDefault();
 
-            if (parts.Length == 0)
+            if (string.IsNullOrEmpty(name))
             {
                 return Lookup("unknown/unknown");
             }
             else
             {
-                return new Unknown(parts[0]);
+                return new Unknown(name);
             }
+        }
+
+        public static ContentReference operator +(string cacheID, MediaType contentType)
+        {
+            return new ContentReference(cacheID, contentType);
+        }
+
+        public static explicit operator MediaType(string fileName)
+        {
+            return GuessByExtension(PathExt.GetShortExtension(fileName));
+        }
+
+        public static explicit operator MediaType(FileInfo file)
+        {
+            return (MediaType)file.Name;
+        }
+
+        public static implicit operator string(MediaType mediaType)
+        {
+            return mediaType.Value;
         }
 
         public readonly string Value;
@@ -73,7 +85,7 @@ namespace Juniper
         protected MediaType(string value, string[] extensions)
         {
             Value = value;
-            if(extensions == null)
+            if (extensions == null)
             {
                 extensions = Array.Empty<string>();
             }
@@ -84,12 +96,12 @@ namespace Juniper
                 PrimaryExtension = extensions[0];
             }
 
-            if(byValue == null)
+            if (byValue == null)
             {
                 byValue = new Dictionary<string, MediaType>(1000);
             }
 
-            if(byExtensions == null)
+            if (byExtensions == null)
             {
                 byExtensions = new Dictionary<string, MediaType>(1000);
             }
@@ -122,11 +134,6 @@ namespace Juniper
         public bool Matches(FileInfo file)
         {
             return Matches(file.Name);
-        }
-
-        public static implicit operator string(MediaType mediaType)
-        {
-            return mediaType.Value;
         }
 
         public bool Equals(MediaType other)

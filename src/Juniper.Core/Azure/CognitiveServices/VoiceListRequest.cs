@@ -1,5 +1,3 @@
-using Juniper.HTTP;
-
 namespace Juniper.Azure.CognitiveServices
 {
     public class VoiceListRequest : AbstractAzureSpeechRequest<MediaType.Application>

@@ -7,13 +7,13 @@ namespace Juniper.IO
 
     public interface ICacheDestinationLayer : ICacheSourceLayer
     {
-        bool CanCache(IContentReference fileRef);
+        bool CanCache(ContentReference fileRef);
 
-        Stream Create(IContentReference fileRef, bool overwrite);
+        Stream Create(ContentReference fileRef, bool overwrite);
 
-        Stream Cache(IContentReference fileRef, Stream stream);
+        Stream Cache(ContentReference fileRef, Stream stream);
 
-        bool Delete(IContentReference fileRef);
+        bool Delete(ContentReference fileRef);
     }
 
     public static class ICacheLayerExt
@@ -21,8 +21,8 @@ namespace Juniper.IO
         public static void CopyTo(
             this ICacheSourceLayer fromLayer,
             ICacheDestinationLayer toLayer,
-            IContentReference fromRef,
-            IContentReference toRef,
+            ContentReference fromRef,
+            ContentReference toRef,
             bool overwrite,
             IProgress prog)
         {
@@ -39,8 +39,8 @@ namespace Juniper.IO
         public static void CopyTo(
             this ICacheSourceLayer fromLayer,
             ICacheDestinationLayer toLayer,
-            IContentReference fromRef,
-            IContentReference toRef,
+            ContentReference fromRef,
+            ContentReference toRef,
             bool overwrite)
         {
             fromLayer.CopyTo(toLayer, fromRef, toRef, overwrite, null);
@@ -48,8 +48,8 @@ namespace Juniper.IO
         public static void CopyTo(
             this ICacheSourceLayer fromLayer,
             ICacheDestinationLayer toLayer,
-            IContentReference fromRef,
-            IContentReference toRef,
+            ContentReference fromRef,
+            ContentReference toRef,
             IProgress prog)
         {
             fromLayer.CopyTo(toLayer, fromRef, toRef, false, prog);
@@ -58,15 +58,10 @@ namespace Juniper.IO
         public static void CopyTo(
             this ICacheSourceLayer fromLayer,
             ICacheDestinationLayer toLayer,
-            IContentReference fromRef,
-            IContentReference toRef)
+            ContentReference fromRef,
+            ContentReference toRef)
         {
             fromLayer.CopyTo(toLayer, fromRef, toRef, false, null);
-        }
-
-        public static IContentReference ToRef(this string cacheID, MediaType contentType)
-        {
-            return new ContentReference(cacheID, contentType);
         }
     }
 }

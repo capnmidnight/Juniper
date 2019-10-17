@@ -10,18 +10,18 @@ namespace Juniper.IO
     {
         private readonly ConcurrentDictionary<MediaType, ConcurrentDictionary<string, MemoryStream>> store = new ConcurrentDictionary<MediaType, ConcurrentDictionary<string, MemoryStream>>();
 
-        public virtual bool CanCache(IContentReference fileRef)
+        public virtual bool CanCache(ContentReference fileRef)
         {
             return true;
         }
 
-        public bool IsCached(IContentReference fileRef)
+        public bool IsCached(ContentReference fileRef)
         {
             return store.ContainsKey(fileRef.ContentType)
                 && store[fileRef.ContentType].ContainsKey(fileRef.CacheID);
         }
 
-        public Stream Create(IContentReference fileRef, bool overwrite)
+        public Stream Create(ContentReference fileRef, bool overwrite)
         {
             Stream stream = null;
             if (!store.ContainsKey(fileRef.ContentType))
@@ -40,13 +40,13 @@ namespace Juniper.IO
             return stream;
         }
 
-        public Stream Cache(IContentReference fileRef, Stream stream)
+        public Stream Cache(ContentReference fileRef, Stream stream)
         {
             var outStream = Create(fileRef, false);
             return new CachingStream(stream, outStream);
         }
 
-        public Stream Open(IContentReference fileRef, IProgress prog)
+        public Stream Open(ContentReference fileRef, IProgress prog)
         {
             Stream stream = null;
             if (IsCached(fileRef))
@@ -63,19 +63,19 @@ namespace Juniper.IO
             return stream;
         }
 
-        public IEnumerable<IContentReference> Get<MediaTypeT>(MediaTypeT contentType)
+        public IEnumerable<ContentReference> Get<MediaTypeT>(MediaTypeT contentType)
             where MediaTypeT : MediaType
         {
             if (store.ContainsKey(contentType))
             {
                 foreach (var cacheID in store[contentType].Keys)
                 {
-                    yield return cacheID.ToRef(contentType);
+                    yield return cacheID + contentType;
                 }
             }
         }
 
-        public bool Delete(IContentReference fileRef)
+        public bool Delete(ContentReference fileRef)
         {
             if (IsCached(fileRef))
             {

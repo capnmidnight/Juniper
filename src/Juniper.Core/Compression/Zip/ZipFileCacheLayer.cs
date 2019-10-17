@@ -27,14 +27,14 @@ namespace Juniper.IO
             : this(new FileInfo(fileName))
         { }
 
-        private string GetCacheFileName(IContentReference fileRef)
+        private string GetCacheFileName(ContentReference fileRef)
         {
             var baseName = fileRef.CacheID.Replace('\\', '/');
             var cacheFileName = fileRef.ContentType.AddExtension(baseName);
             return cacheFileName;
         }
 
-        public bool IsCached(IContentReference fileRef)
+        public bool IsCached(ContentReference fileRef)
         {
             if (!filesExist.ContainsKey(fileRef.CacheID))
             {
@@ -57,7 +57,7 @@ namespace Juniper.IO
                 && filesExist[fileRef.CacheID];
         }
 
-        public Stream Open(IContentReference fileRef, IProgress prog)
+        public Stream Open(ContentReference fileRef, IProgress prog)
         {
             Stream stream = null;
             if (IsCached(fileRef))
@@ -78,16 +78,16 @@ namespace Juniper.IO
             return stream;
         }
 
-        public IEnumerable<IContentReference> Get<MediaTypeT>(MediaTypeT ofType)
+        public IEnumerable<ContentReference> Get<MediaTypeT>(MediaTypeT ofType)
             where MediaTypeT : MediaType
         {
             foreach (var file in Decompressor.Entries(zipFile).Files())
             {
-                var fileType = MediaType.Guess(file.Name);
+                var fileType = (MediaType)file.Name;
                 if (fileType is MediaTypeT mediaType)
                 {
                     var cacheID = PathExt.RemoveShortExtension(file.Name);
-                    yield return cacheID.ToRef(mediaType);
+                    yield return cacheID + mediaType;
                 }
             }
         }
