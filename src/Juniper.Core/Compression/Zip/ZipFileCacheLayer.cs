@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using System.IO;
+using System.Threading.Tasks;
 using Juniper.Compression;
 using Juniper.Compression.Zip;
 using Juniper.Progress;
@@ -57,7 +58,7 @@ namespace Juniper.IO
                 && filesExist[fileRef.CacheID];
         }
 
-        public Stream Open(ContentReference fileRef, IProgress prog)
+        public Task<Stream> Open(ContentReference fileRef, IProgress prog)
         {
             Stream stream = null;
             if (IsCached(fileRef))
@@ -75,7 +76,7 @@ namespace Juniper.IO
                     }
                 }
             }
-            return stream;
+            return Task.FromResult(stream);
         }
 
         public IEnumerable<ContentReference> Get<MediaTypeT>(MediaTypeT ofType)

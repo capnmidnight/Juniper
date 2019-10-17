@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Threading.Tasks;
 using Juniper.Progress;
 
 namespace Juniper.IO
@@ -46,7 +46,7 @@ namespace Juniper.IO
             return new CachingStream(stream, outStream);
         }
 
-        public Stream Open(ContentReference fileRef, IProgress prog)
+        public Task<Stream> Open(ContentReference fileRef, IProgress prog)
         {
             Stream stream = null;
             if (IsCached(fileRef))
@@ -60,7 +60,7 @@ namespace Juniper.IO
                 }
             }
 
-            return stream;
+            return Task.FromResult(stream);
         }
 
         public IEnumerable<ContentReference> Get<MediaTypeT>(MediaTypeT contentType)

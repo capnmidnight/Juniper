@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Juniper.Imaging;
+using Juniper.IO;
 using Juniper.World.GIS.Google.Tests;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;

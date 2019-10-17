@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 
 using Juniper.Progress;
@@ -39,7 +37,7 @@ namespace Juniper.IO
         public CachingStrategy AddLayer(ICacheSourceLayer source)
         {
             sources.Add(source);
-            if(source is ICacheDestinationLayer dest)
+            if (source is ICacheDestinationLayer dest)
             {
                 destinations.Add(dest);
             }
@@ -176,148 +174,39 @@ namespace Juniper.IO
         /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="fileRef"></param>
         /// <returns>Null, if the file does not exist in the cache</returns>
-        public Stream Open(ContentReference fileRef, IProgress prog)
+        public async Task<Stream> Open(ContentReference fileRef, IProgress prog)
         {
             Stream cached = null;
             foreach (var source in sources)
             {
                 if (source.IsCached(fileRef))
                 {
-                    cached = source.Open(fileRef, prog);
+                    cached = await source.Open(fileRef, prog);
                     break;
                 }
+            }
+
+            if (cached == null && fileRef is StreamSource fileSource)
+            {
+                cached = await fileSource.GetStream(prog);
             }
 
             return cached;
         }
 
-        public Task<ResultType> Load<MediaTypeT, ResultType>(ContentReference fileRef, IDeserializer<ResultType, MediaTypeT> deserializer, IProgress prog)
-            where MediaTypeT : MediaType
-        {
-            if(fileRef == null)
-            {
-                throw new ArgumentNullException(nameof(fileRef));
-            }
-
-            if(deserializer == null)
-            {
-                throw new ArgumentNullException(nameof(deserializer));
-            }
-
-            if(fileRef.ContentType != deserializer.ContentType)
-            {
-                throw new ArgumentException($"{nameof(fileRef)} parameter's content type ({fileRef.ContentType.Value}) does not match {nameof(deserializer)} parameter's content type ({deserializer.ContentType.Value})");
-            }
-
-            return Task.Run(() =>
-            {
-                var progs = prog.Split("Read", "Decode");
-                var stream = Open(fileRef, progs[0]);
-                if (stream == null)
-                {
-                    return default;
-                }
-                else
-                {
-                    return deserializer.Deserialize(stream, progs[1]);
-                }
-            });
-        }
-
-        public Task<ResultType> Load<MediaTypeT, ResultType>(ContentReference fileRef, IDeserializer<ResultType, MediaTypeT> deserializer)
-            where MediaTypeT : MediaType
-        {
-            return Load(fileRef, deserializer, null);
-        }
-
-        public void Save<ResultType>(ContentReference fileRef, ResultType value, ISerializer<ResultType> serializer, IProgress prog)
-        {
-            using (var stream = Create(fileRef, true))
-            {
-                serializer.Serialize(stream, value, prog);
-            }
-        }
-
-        public void Save<ResultType>(ContentReference fileRef, ResultType value, ISerializer<ResultType> serializer)
-        {
-            Save(fileRef, value, serializer, null);
-        }
-
-        public async Task Proxy(ContentReference fileRef, HttpListenerResponse response)
-        {
-            var stream = Open(fileRef, null);
-            await stream.Proxy(response);
-        }
-
-        public Task Proxy<MediaTypeT>(ContentReference fileRef, HttpListenerContext context)
-            where MediaTypeT : MediaType
-        {
-            return Proxy(fileRef, context.Response);
-        }
-
-        public async Task<Stream> Open(StreamSource source, IProgress prog)
-        {
-            var stream = Open((ContentReference)source, prog);
-            if (stream == null)
-            {
-                stream = await source.GetStream(prog);
-            }
-            return Cache(source, stream);
-        }
-
-        public Task<Stream> Open(StreamSource source)
-        {
-            return Open(source, null);
-        }
-
-        public async Task<ResultType> Load<ResultType, MediaTypeT>(StreamSource source, IDeserializer<ResultType, MediaTypeT> deserializer, IProgress prog)
-            where MediaTypeT : MediaType
-        {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (deserializer == null)
-            {
-                throw new ArgumentNullException(nameof(deserializer));
-            }
-
-            if (source.ContentType != deserializer.ContentType)
-            {
-                throw new ArgumentException($"{nameof(source)} parameter's content type ({source.ContentType.Value}) does not match {nameof(deserializer)} parameter's content type ({deserializer.ContentType.Value})");
-            }
-
-            var progs = prog.Split("Read", "Decode");
-            var stream = await Open(source, progs[0]);
-            return deserializer.Deserialize(stream, progs[1]);
-
-        }
-
-        public Task<ResultType> Load<ResultType, MediaTypeT>(StreamSource source, IDeserializer<ResultType, MediaTypeT> deserializer)
-            where MediaTypeT : MediaType
-        {
-            return Load(source, deserializer, null);
-        }
-
-
-        public async Task Proxy(StreamSource source, HttpListenerResponse response)
-        {
-            var stream = await Open(source);
-            await stream.Proxy(response);
-        }
-
-        public Task Proxy(StreamSource source, HttpListenerContext context)
-        {
-            return Proxy(source, context.Response);
-        }
-
+        /// <summary>
+        /// Retrieve all the content references that match the given type within
+        /// the cache layer.
+        /// </summary>
+        /// <typeparam name="MediaTypeT"></typeparam>
+        /// <param name="ofType"></param>
+        /// <returns></returns>
         public IEnumerable<ContentReference> Get<MediaTypeT>(MediaTypeT ofType)
             where MediaTypeT : MediaType
         {
-            foreach(var source in sources)
+            foreach (var source in sources)
             {
-                foreach(var fileRef in source.Get(ofType))
+                foreach (var fileRef in source.Get(ofType))
                 {
                     yield return fileRef;
                 }
@@ -327,7 +216,7 @@ namespace Juniper.IO
         public bool Delete(ContentReference fileRef)
         {
             bool anyDelete = false;
-            foreach(var dest in destinations)
+            foreach (var dest in destinations)
             {
                 anyDelete |= dest.Delete(fileRef);
             }

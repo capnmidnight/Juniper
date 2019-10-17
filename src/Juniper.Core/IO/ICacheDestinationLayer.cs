@@ -1,4 +1,5 @@
 using System.IO;
+using System.Threading.Tasks;
 
 using Juniper.Progress;
 
@@ -18,7 +19,7 @@ namespace Juniper.IO
 
     public static class ICacheLayerExt
     {
-        public static void CopyTo(
+        public static async Task CopyTo(
             this ICacheSourceLayer fromLayer,
             ICacheDestinationLayer toLayer,
             ContentReference fromRef,
@@ -29,39 +30,52 @@ namespace Juniper.IO
             if (fromLayer.IsCached(fromRef)
                 && (overwrite || !toLayer.IsCached(toRef)))
             {
-                using (var inStream = fromLayer.Open(fromRef, prog))
+                using (var inStream = await fromLayer.Open(fromRef, prog))
                 using (var outStream = toLayer.Create(toRef, overwrite))
                 {
-                    inStream.CopyTo(outStream);
+                    await inStream.CopyToAsync(outStream);
                 }
             }
         }
-        public static void CopyTo(
+        public static Task CopyTo(
             this ICacheSourceLayer fromLayer,
             ICacheDestinationLayer toLayer,
             ContentReference fromRef,
             ContentReference toRef,
             bool overwrite)
         {
-            fromLayer.CopyTo(toLayer, fromRef, toRef, overwrite, null);
+            return fromLayer.CopyTo(toLayer, fromRef, toRef, overwrite, null);
         }
-        public static void CopyTo(
+        public static Task CopyTo(
             this ICacheSourceLayer fromLayer,
             ICacheDestinationLayer toLayer,
             ContentReference fromRef,
             ContentReference toRef,
             IProgress prog)
         {
-            fromLayer.CopyTo(toLayer, fromRef, toRef, false, prog);
+            return fromLayer.CopyTo(toLayer, fromRef, toRef, false, prog);
         }
 
-        public static void CopyTo(
+        public static Task CopyTo(
             this ICacheSourceLayer fromLayer,
             ICacheDestinationLayer toLayer,
             ContentReference fromRef,
             ContentReference toRef)
         {
-            fromLayer.CopyTo(toLayer, fromRef, toRef, false, null);
+            return fromLayer.CopyTo(toLayer, fromRef, toRef, false, null);
+        }
+
+        public static void Save<ResultType>(this ICacheDestinationLayer layer, ContentReference fileRef, ResultType value, ISerializer<ResultType> serializer, IProgress prog)
+        {
+            using (var stream = layer.Create(fileRef, true))
+            {
+                serializer.Serialize(stream, value, prog);
+            }
+        }
+
+        public static void Save<ResultType>(this ICacheDestinationLayer layer, ContentReference fileRef, ResultType value, ISerializer<ResultType> serializer)
+        {
+            layer.Save(fileRef, value, serializer, null);
         }
     }
 }
