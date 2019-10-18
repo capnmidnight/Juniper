@@ -35,7 +35,7 @@ namespace Juniper.HTTP.REST
             get;
         }
 
-        public MediaType ContentType
+        public override MediaType ContentType
         {
             get
             {
@@ -55,7 +55,7 @@ namespace Juniper.HTTP.REST
                 && req.CacheID == CacheID;
         }
 
-        public virtual string CacheID
+        public override string CacheID
         {
             get
             {
