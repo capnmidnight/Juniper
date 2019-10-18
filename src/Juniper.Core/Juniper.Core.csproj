@@ -56,6 +56,8 @@
     <Compile Include="Azure\CognitiveServices\Voice.cs" />
     <Compile Include="Azure\CognitiveServices\VoiceListRequest.cs" />
     <Compile Include="Azure\CognitiveServices\VoicesClient.cs" />
+    <Compile Include="Collections\Graph.cs" />
+    <Compile Include="Collections\IPath.cs" />
     <Compile Include="Compression\CompressedFileInfo.cs" />
     <Compile Include="Compression\Tar.GZip\Decompressor.cs" />
     <Compile Include="Compression\Zip\Compressor.cs" />
