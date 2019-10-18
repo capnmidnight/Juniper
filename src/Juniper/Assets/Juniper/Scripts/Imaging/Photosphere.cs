@@ -42,7 +42,11 @@ namespace Juniper.Imaging
         private CachingStrategy cache;
 
         public string CubemapName;
+
+        [Range(0, 1)]
         public float ProgressToReady;
+
+        [Range(0, 1)]
         public float ProgressToComplete;
 
         public event CachingStrategyNeeded CacheNeeded;
@@ -242,21 +246,8 @@ namespace Juniper.Imaging
             }
         }
 
-        private static GUIStyle centered;
-
         protected virtual void OnDrawGizmos()
         {
-            if(centered == null)
-            {
-                 centered = new GUIStyle()
-                 {
-                     alignment = TextAnchor.LowerCenter,
-                     normal =
-                     {
-                         textColor = Color.white
-                     }
-                 };
-            }
             if (string.IsNullOrEmpty(CubemapName))
             {
                 CubemapName = name;
@@ -268,7 +259,6 @@ namespace Juniper.Imaging
             {
                 Gizmos.DrawIcon(transform.position + Vector3.up, imageName);
             }
-            Handles.Label(transform.position - Vector3.up, name, centered);
             Gizmos.DrawSphere(transform.position, 0.5f);
         }
 
