@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace Juniper.Collections
 {
@@ -12,32 +13,38 @@ namespace Juniper.Collections
             IComparable<ValueType>,
             IEquatable<ValueType>
     {
+        private class Schedule : Dictionary<ValueType, Route<ValueType>> { }
+
+        private class Network : Dictionary<ValueType, Schedule> { }
+
         private bool dirty;
 
-        private readonly Dictionary<ValueType, Dictionary<ValueType, Path<ValueType>>> network;
+        private readonly Network network;
         private readonly List<ValueType> endPoints;
+        private readonly Func<ValueType, ValueType, float> costFunc;
 
-        public Graph()
+        public Graph(Func<ValueType, ValueType, float> costFunc)
         {
             dirty = false;
             endPoints = new List<ValueType>();
-            network = new Dictionary<ValueType, Dictionary<ValueType, Path<ValueType>>>();
+            network = new Network();
+            this.costFunc = costFunc;
         }
 
         protected Graph(SerializationInfo info, StreamingContext context)
         {
             dirty = info.GetBoolean(nameof(dirty));
             endPoints = info.GetList<ValueType>(nameof(endPoints));
-            network = new Dictionary<ValueType, Dictionary<ValueType, Path<ValueType>>>();
-            var paths = info.GetValue<Path<ValueType>[]>(nameof(network));
-            foreach (var path in paths)
+            network = new Network();
+            var routes = info.GetValue<Route<ValueType>[]>(nameof(network));
+            foreach (var route in routes)
             {
-                if (!network.ContainsKey(path.Start))
+                if (!network.ContainsKey(route.Start))
                 {
-                    network[path.Start] = new Dictionary<ValueType, Path<ValueType>>();
+                    network[route.Start] = new Schedule();
                 }
 
-                network[path.Start][path.End] = path;
+                network[route.Start][route.End] = route;
             }
         }
 
@@ -45,15 +52,86 @@ namespace Juniper.Collections
         {
             info.AddValue(nameof(dirty), dirty);
             info.AddList(nameof(endPoints), endPoints);
-            var paths = (from x in network
+            var routes = (from x in network
                          from y in x.Value
                          select y.Value)
                 .ToArray();
-            info.AddValue(nameof(network), paths);
+            info.AddValue(nameof(network), routes);
+        }
+
+        public TimeSpan TimeSpent
+        {
+            get;
+            private set;
+        }
+
+        private void ReadOnlyCheck()
+        {
+            if (costFunc == null)
+            {
+                throw new InvalidOperationException("This graph is read-only");
+            }
+        }
+
+        private bool IsBest(Route<ValueType> nextRoute)
+        {
+            return !Exists(nextRoute.Start, nextRoute.End)
+                || nextRoute < network[nextRoute.Start][nextRoute.End];
+        }
+
+        private void FillMatrix(ValueType startPoint)
+        {
+            if (!network.ContainsKey(startPoint))
+            {
+                network[startPoint] = new Schedule();
+            }
+        }
+
+        private void Add(Route<ValueType> nextRoute)
+        {
+            AddSingle(nextRoute);
+            AddSingle(~nextRoute);
+        }
+
+        private void AddSingle(Route<ValueType> nextRoute)
+        {
+            network[nextRoute.Start][nextRoute.End] = nextRoute;
+        }
+
+        public bool Exists(ValueType startPoint, ValueType endPoint)
+        {
+            return network.ContainsKey(startPoint)
+                && network[startPoint].ContainsKey(endPoint);
+        }
+
+        public IRoute<ValueType> this[ValueType startPoint, ValueType endPoint]
+        {
+            get
+            {
+                return Exists(startPoint, endPoint)
+                    ? network[startPoint][endPoint]
+                    : null;
+            }
+        }
+
+        public void Connect(ValueType startPoint, ValueType endPoint)
+        {
+            ReadOnlyCheck();
+            FillMatrix(startPoint);
+            FillMatrix(endPoint);
+
+            var cost = costFunc(startPoint, endPoint);
+            var nextRoute = new Route<ValueType>(startPoint, endPoint, cost);
+            if (IsBest(nextRoute))
+            {
+                dirty = true;
+                Add(nextRoute);
+            }
         }
 
         public void AddEndPoint(ValueType endPoint)
         {
+            ReadOnlyCheck();
             if (!endPoints.Contains(endPoint))
             {
                 dirty = true;
@@ -61,96 +139,50 @@ namespace Juniper.Collections
             }
         }
 
-        public IPath<ValueType> this[ValueType startPoint, ValueType endPoint]
+        public Task SolveAsync()
         {
-            get
-            {
-                return PathExists(startPoint, endPoint)
-                    ? network[startPoint][endPoint]
-                    : null;
-            }
+            var task = Task.Run(Solve);
+            task.ConfigureAwait(false);
+            return task;
         }
-
-        public bool PathExists(ValueType startPoint, ValueType endPoint)
-        {
-            return network.ContainsKey(startPoint)
-                && network[startPoint].ContainsKey(endPoint);
-        }
-
-        private bool IsBest(Path<ValueType> nextPath)
-        {
-            return !PathExists(nextPath.Start, nextPath.End)
-                || nextPath < network[nextPath.Start][nextPath.End];
-        }
-
-        public void Connect(ValueType startPoint, ValueType endPoint, float cost)
-        {
-            var nextPath = new Path<ValueType>(startPoint, endPoint, cost);
-            if (IsBest(nextPath))
-            {
-                dirty = true;
-                AddPath(nextPath);
-            }
-        }
-
-        private void AddPath(Path<ValueType> nextPath)
-        {
-            AddSinglePath(nextPath);
-            AddSinglePath(~nextPath);
-        }
-
-        private void AddSinglePath(Path<ValueType> nextPath)
-        {
-            if (!network.ContainsKey(nextPath.Start))
-            {
-                network[nextPath.Start] = new Dictionary<ValueType, Path<ValueType>>();
-            }
-
-            network[nextPath.Start][nextPath.End] = nextPath;
-        }
-
-        public TimeSpan TimeSpent { get; private set; }
 
         public void Solve()
         {
+            ReadOnlyCheck();
             if (dirty)
             {
                 var start = DateTime.Now;
-                var startPoints = network.Keys.ToArray();
-                foreach (var startPoint in network)
+
+                var q = new Queue<Route<ValueType>>(
+                    from endPoint in endPoints
+                    from path in network[endPoint].Values
+                    select path);
+
+                var shortPaths = new Network();
+                foreach (var startPoint in network.Keys)
                 {
-                    if (startPoint.Value.Count > 1
-                        && !endPoints.Contains(startPoint.Key))
+                    shortPaths[startPoint] = new Schedule();
+                    foreach (var endPoint in network[startPoint].Keys)
                     {
-                        endPoints.Add(startPoint.Key);
+                        shortPaths[startPoint][endPoint]
+                            = network[startPoint][endPoint];
                     }
                 }
 
-                foreach (var startA in startPoints)
+                while (q.Count > 0)
                 {
-                    var pathsA = network[startA];
-                    foreach (var endA in startPoints)
+                    var curPath = q.Dequeue();
+                    if (shortPaths.ContainsKey(curPath.End))
                     {
-                        if (!startA.Equals(endA)
-                            && pathsA.ContainsKey(endA))
+                        var neighbors = shortPaths[curPath.End].Values;
+                        foreach (var neighbor in neighbors)
                         {
-                            var pathA = pathsA[endA];
-                            var pathsB = network[endA];
-                            foreach (var endB in startPoints)
+                            var additionalCost = costFunc(curPath.End, neighbor.End);
+                            var nextPath = curPath.Extend(neighbor.End, additionalCost);
+                            if (IsBest(nextPath))
                             {
-                                if (pathsB.ContainsKey(endB)
-                                    && !pathA.Contains(endB))
-                                {
-                                    var pathB = pathsB[endB];
-                                    if (endPoints.Contains(pathB.End))
-                                    {
-                                        var pathC = pathA + pathB;
-                                        if (IsBest(pathC))
-                                        {
-                                            AddPath(pathC);
-                                        }
-                                    }
-                                }
+                                Add(nextPath);
+                                q.Enqueue(nextPath);
                             }
                         }
                     }

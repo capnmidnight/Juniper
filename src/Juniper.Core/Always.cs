@@ -1,3 +1,5 @@
+using System;
+
 namespace Juniper
 {
     public static class Always
@@ -20,6 +22,18 @@ namespace Juniper
         public static T Identity<T>(T value)
         {
             return value;
+        }
+
+        public static bool Null<T>(T value)
+            where T : class
+        {
+            return value == null;
+        }
+
+        public static bool NotNull<T>(T value)
+            where T : class
+        {
+            return value != null;
         }
     }
 }

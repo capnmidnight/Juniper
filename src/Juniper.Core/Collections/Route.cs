@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Juniper.Collections
 {
-    public interface IPath<out ValueType>
+    public interface IRoute<out ValueType>
         where ValueType :
             IComparable<ValueType>,
             IEquatable<ValueType>
@@ -22,39 +22,44 @@ namespace Juniper.Collections
     }
 
     [Serializable]
-    internal class Path<ValueType> :
-        IPath<ValueType>,
+    internal class Route<ValueType> :
+        IRoute<ValueType>,
         ISerializable,
-        IComparable<Path<ValueType>>
+        IComparable<Route<ValueType>>
         where ValueType :
             IComparable<ValueType>,
             IEquatable<ValueType>
     {
-        public static Path<ValueType> operator +(Path<ValueType> start, Path<ValueType> end)
+        public static Route<ValueType> operator +(Route<ValueType> route, Route<ValueType> extension)
         {
-            return new Path<ValueType>(start.nodes
-               .Concat(end.nodes.Skip(1)),
-               start.Cost + end.Cost);
+            var newNodes = route.nodes.Concat(extension.nodes.Skip(1));
+            return new Route<ValueType>(newNodes, route.Cost + extension.Cost);
         }
 
-        public static Path<ValueType> operator ~(Path<ValueType> path)
+        public Route<ValueType> Extend(ValueType x, float cost)
         {
-            return new Path<ValueType>(path.nodes.Reverse(), path.Cost);
+            var newNodes = nodes.Append(x);
+            return new Route<ValueType>(newNodes, Cost + cost);
+        }
+
+        public static Route<ValueType> operator ~(Route<ValueType> path)
+        {
+            return new Route<ValueType>(path.nodes.Reverse(), path.Cost);
         }
 
         private readonly ValueType[] nodes;
 
-        internal Path(IEnumerable<ValueType> edges, float cost)
+        internal Route(IEnumerable<ValueType> edges, float cost)
         {
             nodes = edges.ToArray();
             Cost = cost;
         }
 
-        internal Path(ValueType a, ValueType b, float cost)
+        internal Route(ValueType a, ValueType b, float cost)
             : this(new[] { a, b }, cost)
         { }
 
-        protected Path(SerializationInfo info, StreamingContext context)
+        protected Route(SerializationInfo info, StreamingContext context)
         {
             Cost = info.GetSingle(nameof(Cost));
             nodes = info.GetValue<ValueType[]>(nameof(nodes));
@@ -107,7 +112,7 @@ namespace Juniper.Collections
             }
         }
 
-        public int CompareTo(Path<ValueType> other)
+        public int CompareTo(Route<ValueType> other)
         {
             if (other is null
                 || Cost < other.Cost
@@ -127,37 +132,37 @@ namespace Juniper.Collections
             }
         }
 
-        public static bool operator <(Path<ValueType> a, Path<ValueType> b)
+        public static bool operator <(Route<ValueType> a, Route<ValueType> b)
         {
             return a is object
                 && a.CompareTo(b) < 0;
         }
 
-        public static bool operator >(Path<ValueType> a, Path<ValueType> b)
+        public static bool operator >(Route<ValueType> a, Route<ValueType> b)
         {
             return a is object
                 && a.CompareTo(b) > 0;
         }
 
-        public static bool operator <=(Path<ValueType> a, Path<ValueType> b)
+        public static bool operator <=(Route<ValueType> a, Route<ValueType> b)
         {
             return a is object
                 && a.CompareTo(b) <= 0;
         }
 
-        public static bool operator >=(Path<ValueType> a, Path<ValueType> b)
+        public static bool operator >=(Route<ValueType> a, Route<ValueType> b)
         {
             return a is object
                 && a.CompareTo(b) >= 0;
         }
 
-        public static bool operator ==(Path<ValueType> a, Path<ValueType> b)
+        public static bool operator ==(Route<ValueType> a, Route<ValueType> b)
         {
             return a is object
                 && a.CompareTo(b) == 0;
         }
 
-        public static bool operator !=(Path<ValueType> a, Path<ValueType> b)
+        public static bool operator !=(Route<ValueType> a, Route<ValueType> b)
         {
             return a is object
                 && a.CompareTo(b) != 0;
@@ -165,7 +170,7 @@ namespace Juniper.Collections
 
         public override bool Equals(object obj)
         {
-            return obj is Path<ValueType> other
+            return obj is Route<ValueType> other
                 && Equals(other);
         }
 
