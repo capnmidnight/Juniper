@@ -21,14 +21,12 @@ namespace Juniper.Collections
 
         private readonly Network network;
         private readonly List<ValueType> endPoints;
-        private readonly Func<ValueType, ValueType, float> costFunc;
 
-        public Graph(Func<ValueType, ValueType, float> costFunc)
+        public Graph()
         {
             dirty = false;
             endPoints = new List<ValueType>();
             network = new Network();
-            this.costFunc = costFunc;
         }
 
         protected Graph(SerializationInfo info, StreamingContext context)
@@ -53,8 +51,8 @@ namespace Juniper.Collections
             info.AddValue(nameof(dirty), dirty);
             info.AddList(nameof(endPoints), endPoints);
             var routes = (from x in network
-                         from y in x.Value
-                         select y.Value)
+                          from y in x.Value
+                          select y.Value)
                 .ToArray();
             info.AddValue(nameof(network), routes);
         }
@@ -63,14 +61,6 @@ namespace Juniper.Collections
         {
             get;
             private set;
-        }
-
-        private void ReadOnlyCheck()
-        {
-            if (costFunc == null)
-            {
-                throw new InvalidOperationException("This graph is read-only");
-            }
         }
 
         private bool IsBest(Route<ValueType> nextRoute)
@@ -114,13 +104,11 @@ namespace Juniper.Collections
             }
         }
 
-        public void Connect(ValueType startPoint, ValueType endPoint)
+        public void Connect(ValueType startPoint, ValueType endPoint, float cost)
         {
-            ReadOnlyCheck();
             FillMatrix(startPoint);
             FillMatrix(endPoint);
 
-            var cost = costFunc(startPoint, endPoint);
             var nextRoute = new Route<ValueType>(startPoint, endPoint, cost);
             if (IsBest(nextRoute))
             {
@@ -131,7 +119,6 @@ namespace Juniper.Collections
 
         public void AddEndPoint(ValueType endPoint)
         {
-            ReadOnlyCheck();
             if (!endPoints.Contains(endPoint))
             {
                 dirty = true;
@@ -148,42 +135,27 @@ namespace Juniper.Collections
 
         public void Solve()
         {
-            ReadOnlyCheck();
             if (dirty)
             {
                 var start = DateTime.Now;
 
                 var q = new Queue<Route<ValueType>>(
                     from endPoint in endPoints
-                    from path in network[endPoint].Values
+                    let schedule = network[endPoint]
+                    from path in schedule.Values
                     select path);
-
-                var shortPaths = new Network();
-                foreach (var startPoint in network.Keys)
-                {
-                    shortPaths[startPoint] = new Schedule();
-                    foreach (var endPoint in network[startPoint].Keys)
-                    {
-                        shortPaths[startPoint][endPoint]
-                            = network[startPoint][endPoint];
-                    }
-                }
 
                 while (q.Count > 0)
                 {
                     var curPath = q.Dequeue();
-                    if (shortPaths.ContainsKey(curPath.End))
+                    var middle = curPath.End;
+                    foreach (var extension in network[middle].Values)
                     {
-                        var neighbors = shortPaths[curPath.End].Values;
-                        foreach (var neighbor in neighbors)
+                        var nextPath = curPath + extension;
+                        if (IsBest(nextPath))
                         {
-                            var additionalCost = costFunc(curPath.End, neighbor.End);
-                            var nextPath = curPath.Extend(neighbor.End, additionalCost);
-                            if (IsBest(nextPath))
-                            {
-                                Add(nextPath);
-                                q.Enqueue(nextPath);
-                            }
+                            Add(nextPath);
+                            q.Enqueue(nextPath);
                         }
                     }
                 }
