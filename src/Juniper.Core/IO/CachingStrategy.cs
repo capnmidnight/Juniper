@@ -198,11 +198,9 @@ namespace Juniper.IO
         /// Retrieve all the content references that match the given type within
         /// the cache layer.
         /// </summary>
-        /// <typeparam name="MediaTypeT"></typeparam>
         /// <param name="ofType"></param>
         /// <returns></returns>
-        public IEnumerable<ContentReference> Get<MediaTypeT>(MediaTypeT ofType)
-            where MediaTypeT : MediaType
+        public IEnumerable<ContentReference> Get(MediaType ofType)
         {
             foreach (var source in sources)
             {

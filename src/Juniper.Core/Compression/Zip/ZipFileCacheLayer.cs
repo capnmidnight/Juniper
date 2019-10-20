@@ -79,16 +79,14 @@ namespace Juniper.IO
             return Task.FromResult(stream);
         }
 
-        public IEnumerable<ContentReference> Get<MediaTypeT>(MediaTypeT ofType)
-            where MediaTypeT : MediaType
+        public IEnumerable<ContentReference> Get(MediaType ofType)
         {
             foreach (var file in Decompressor.Entries(zipFile).Files())
             {
-                var fileType = (MediaType)file.Name;
-                if (fileType is MediaTypeT mediaType)
+                if (ofType.Matches(file.Name))
                 {
                     var cacheID = PathExt.RemoveShortExtension(file.Name);
-                    yield return cacheID + mediaType;
+                    yield return cacheID + ofType;
                 }
             }
         }

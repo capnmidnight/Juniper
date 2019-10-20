@@ -66,8 +66,7 @@ namespace Juniper.IO
             return Task.FromResult(stream);
         }
 
-        public IEnumerable<ContentReference> Get<MediaTypeT>(MediaTypeT ofType)
-            where MediaTypeT : MediaType
+        public IEnumerable<ContentReference> Get(MediaType ofType)
         {
             var q = new Queue<DirectoryInfo>()
             {

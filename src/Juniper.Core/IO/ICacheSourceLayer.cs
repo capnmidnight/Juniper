@@ -14,8 +14,7 @@ namespace Juniper.IO
 
         Task<Stream> Open(ContentReference fileRef, IProgress prog);
 
-        IEnumerable<ContentReference> Get<MediaTypeT>(MediaTypeT ofType)
-            where MediaTypeT : MediaType;
+        IEnumerable<ContentReference> Get(MediaType ofType);
     }
 
     public static class ICacheSourceLayerExt
