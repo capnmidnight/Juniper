@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -123,7 +122,6 @@ namespace Juniper.Imaging
 
         private void Photo_Ready(Photosphere obj)
         {
-            obj.Ready -= Photo_Ready;
             PhotosphereReady?.Invoke(obj);
         }
 
