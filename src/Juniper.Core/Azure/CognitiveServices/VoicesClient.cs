@@ -20,7 +20,7 @@ namespace Juniper.Azure.CognitiveServices
         {
             if (string.IsNullOrEmpty(azureRegion))
             {
-                throw new ArgumentException("Must provide an service region", nameof(azureRegion));
+                throw new ArgumentException("Must provide a service region", nameof(azureRegion));
             }
 
             if (string.IsNullOrEmpty(azureSubscriptionKey))
@@ -81,7 +81,7 @@ namespace Juniper.Azure.CognitiveServices
                     {
                         voiceListRequest.AuthToken = await GetAuthToken();
                     }
-                    voices = await cache.Load(voiceListRequest, voiceListDecoder);
+                    voices = await cache.Load(voiceListDecoder, voiceListRequest);
                 }
 
                 return voices;

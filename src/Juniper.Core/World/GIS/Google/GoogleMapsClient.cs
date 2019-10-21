@@ -50,7 +50,7 @@ namespace Juniper.World.GIS.Google
             {
                 Location = latLng
             };
-            return cache.Load(geocodingRequest, geocodingDecoder);
+            return cache.Load(geocodingDecoder, geocodingRequest);
         }
 
         public Task<MetadataResponse> GetMetadata(string pano, int searchRadius = 50, IProgress prog = null)
@@ -61,7 +61,7 @@ namespace Juniper.World.GIS.Google
                 Radius = searchRadius
             };
 
-            return cache.Load(metadataRequest, metadataDecoder);
+            return cache.Load(metadataDecoder, metadataRequest);
         }
 
         public Task<MetadataResponse> SearchMetadata(string placeName, int searchRadius = 50, IProgress prog = null)
@@ -72,7 +72,7 @@ namespace Juniper.World.GIS.Google
                 Radius = searchRadius
             };
 
-            return cache.Load(metadataRequest, metadataDecoder);
+            return cache.Load(metadataDecoder, metadataRequest);
         }
 
         public Task<MetadataResponse> GetMetadata(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null)
@@ -83,7 +83,7 @@ namespace Juniper.World.GIS.Google
                 Radius = searchRadius
             };
 
-            return cache.Load(metadataRequest, metadataDecoder);
+            return cache.Load(metadataDecoder, metadataRequest);
         }
 
         public Task<ImageType> GetImage(string pano, int fov, int heading, int pitch, IProgress prog = null)
@@ -96,7 +96,7 @@ namespace Juniper.World.GIS.Google
                 Pitch = pitch
             };
 
-            return cache.Load(imageRequest, imageDecoder);
+            return cache.Load(imageDecoder, imageRequest);
         }
     }
 }

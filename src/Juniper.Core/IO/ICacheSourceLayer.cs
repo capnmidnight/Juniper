@@ -19,13 +19,18 @@ namespace Juniper.IO
 
     public static class ICacheSourceLayerExt
     {
-        public static Task<Stream> Open(this ICacheSourceLayer layer, ContentReference fileRef)
+        public static Task<Stream> Open(
+            this ICacheSourceLayer layer,
+            ContentReference fileRef)
         {
             return layer.Open(fileRef, null);
         }
 
-
-        public static async Task<ResultType> Load<ResultType>(this ICacheSourceLayer layer, ContentReference fileRef, IDeserializer<ResultType> deserializer, IProgress prog)
+        public static async Task<ResultType> Load<ResultType>(
+            this ICacheSourceLayer layer,
+            IDeserializer<ResultType> deserializer,
+            ContentReference fileRef,
+            IProgress prog)
         {
             if (fileRef == null)
             {
@@ -49,20 +54,29 @@ namespace Juniper.IO
             }
         }
 
-        public static Task<ResultType> Load<ResultType>(this ICacheSourceLayer layer, ContentReference fileRef, IDeserializer<ResultType> deserializer)
+        public static Task<ResultType> Load<ResultType>(
+            this ICacheSourceLayer layer,
+            IDeserializer<ResultType> deserializer,
+            ContentReference fileRef)
         {
-            return layer.Load(fileRef, deserializer, null);
+            return layer.Load(deserializer, fileRef, null);
         }
 
-        public static async Task Proxy(this ICacheSourceLayer layer, ContentReference fileRef, HttpListenerResponse response)
+        public static async Task Proxy(
+            this ICacheSourceLayer layer,
+            HttpListenerResponse response,
+            ContentReference fileRef)
         {
             var stream = await layer.Open(fileRef, null);
             await stream.Proxy(response);
         }
 
-        public static Task Proxy(this ICacheSourceLayer layer, ContentReference fileRef, HttpListenerContext context)
+        public static Task Proxy(
+            this ICacheSourceLayer layer,
+            HttpListenerContext context,
+            ContentReference fileRef)
         {
-            return layer.Proxy(fileRef, context.Response);
+            return layer.Proxy(context.Response, fileRef);
         }
     }
 }

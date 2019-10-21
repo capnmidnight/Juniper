@@ -17,12 +17,12 @@ namespace Juniper.IO
         bool Delete(ContentReference fileRef);
     }
 
-    public static class ICacheLayerExt
+    public static class ICacheDestinationLayerExt
     {
         public static async Task CopyTo(
             this ICacheSourceLayer fromLayer,
-            ICacheDestinationLayer toLayer,
             ContentReference fromRef,
+            ICacheDestinationLayer toLayer,
             ContentReference toRef,
             bool overwrite,
             IProgress prog)
@@ -37,35 +37,42 @@ namespace Juniper.IO
                 }
             }
         }
+
         public static Task CopyTo(
             this ICacheSourceLayer fromLayer,
-            ICacheDestinationLayer toLayer,
             ContentReference fromRef,
+            ICacheDestinationLayer toLayer,
             ContentReference toRef,
             bool overwrite)
         {
-            return fromLayer.CopyTo(toLayer, fromRef, toRef, overwrite, null);
+            return fromLayer.CopyTo(fromRef, toLayer, toRef, overwrite, null);
         }
+
         public static Task CopyTo(
             this ICacheSourceLayer fromLayer,
-            ICacheDestinationLayer toLayer,
             ContentReference fromRef,
+            ICacheDestinationLayer toLayer,
             ContentReference toRef,
             IProgress prog)
         {
-            return fromLayer.CopyTo(toLayer, fromRef, toRef, false, prog);
+            return fromLayer.CopyTo(fromRef, toLayer, toRef, false, prog);
         }
 
         public static Task CopyTo(
             this ICacheSourceLayer fromLayer,
-            ICacheDestinationLayer toLayer,
             ContentReference fromRef,
+            ICacheDestinationLayer toLayer,
             ContentReference toRef)
         {
-            return fromLayer.CopyTo(toLayer, fromRef, toRef, false, null);
+            return fromLayer.CopyTo(fromRef, toLayer, toRef, false, null);
         }
 
-        public static void Save<ResultType>(this ICacheDestinationLayer layer, ContentReference fileRef, ResultType value, ISerializer<ResultType> serializer, IProgress prog)
+        public static void Save<ResultType>(
+            this ICacheDestinationLayer layer,
+            ISerializer<ResultType> serializer,
+            ContentReference fileRef,
+            ResultType value,
+            IProgress prog)
         {
             using (var stream = layer.Create(fileRef, true))
             {
@@ -73,9 +80,13 @@ namespace Juniper.IO
             }
         }
 
-        public static void Save<ResultType>(this ICacheDestinationLayer layer, ContentReference fileRef, ResultType value, ISerializer<ResultType> serializer)
+        public static void Save<ResultType>(
+            this ICacheDestinationLayer layer,
+            ISerializer<ResultType> serializer,
+            ContentReference fileRef,
+            ResultType value)
         {
-            layer.Save(fileRef, value, serializer, null);
+            layer.Save(serializer, fileRef, value, null);
         }
     }
 }

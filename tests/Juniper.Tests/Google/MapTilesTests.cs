@@ -57,7 +57,7 @@ namespace Juniper.World.GIS.Google.MapTiles.Tests
             var decoder = new TranscoderCodec<Hjg.Pngcs.ImageLines, ImageData>(
                 new HjgPngcsCodec(),
                 new HjgPngcsImageDataTranscoder());
-            var results = await cache.Load(search, decoder);
+            var results = await cache.Load(decoder, search);
             Assert.IsNotNull(results);
             Assert.AreEqual(640, results.info.dimensions.width);
             Assert.AreEqual(640, results.info.dimensions.height);

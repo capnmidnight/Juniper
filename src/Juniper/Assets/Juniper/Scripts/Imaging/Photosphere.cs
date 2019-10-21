@@ -93,7 +93,7 @@ namespace Juniper.Imaging
 
         private IEnumerator ReadCubemapCoroutine(string filePath)
         {
-            var textureTask = cache.Load(filePath + codec.ContentType, codec, this);
+            var textureTask = cache.Load(codec, filePath + codec.ContentType, this);
             yield return textureTask.AsCoroutine();
 
             if (textureTask.IsCanceled)

@@ -48,7 +48,7 @@ namespace Juniper.Azure.Tests
             {
                 voiceListRequest.AuthToken = await GetToken();
             }
-            var voices = await cache.Load(voiceListRequest, voiceListDecoder);
+            var voices = await cache.Load(voiceListDecoder, voiceListRequest);
             return voices;
         }
 
@@ -124,7 +124,7 @@ namespace Juniper.Azure.Tests
             var audioRequest = await MakeSpeechRequest();
             var audioDecoder = new NAudioAudioDataDecoder();
             audioDecoder.Format = audioRequest.OutputFormat;
-            var audio = await cache.Load(audioRequest, audioDecoder);
+            var audio = await cache.Load(audioDecoder, audioRequest);
             Assert.AreEqual(MediaType.Audio.PCMA, audio.format.ContentType);
             Assert.AreEqual(audioRequest.OutputFormat.sampleRate, audio.format.sampleRate);
         }

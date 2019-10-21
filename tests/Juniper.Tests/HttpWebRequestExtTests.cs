@@ -63,7 +63,7 @@ namespace Juniper.HTTP.Tests
                 new LibJpegNETCodec(80),
                 new LibJpegNETImageDataTranscoder());
 
-            var image = await cache.Load(imageRequest, imageDecoder);
+            var image = await cache.Load(imageDecoder, imageRequest);
 
             if (runTest)
             {

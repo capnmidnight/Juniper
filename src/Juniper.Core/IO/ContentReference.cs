@@ -5,10 +5,31 @@ namespace Juniper.IO
 {
     public class ContentReference : IEquatable<ContentReference>
     {
+        public static bool operator ==(ContentReference left, ContentReference right)
+        {
+            return left is null && right is null
+                || left is object && left.Equals(right);
+        }
+
+        public static bool operator !=(ContentReference left, ContentReference right)
+        {
+            return !(left == right);
+        }
+
+        public static explicit operator string(ContentReference fileRef)
+        {
+            return fileRef.ContentType.AddExtension(fileRef.CacheID);
+        }
+
         public static FileInfo operator+(DirectoryInfo directory, ContentReference fileRef)
         {
             var fileName = (string)fileRef;
             return new FileInfo(Path.Combine(directory.FullName, fileName));
+        }
+
+        public static FileInfo operator +(ContentReference fileRef, DirectoryInfo directory)
+        {
+            return directory + fileRef;
         }
 
         protected ContentReference(MediaType contentType)
@@ -54,22 +75,6 @@ namespace Juniper.IO
         public override string ToString()
         {
             return string.Format("{0} ({1})", CacheID, ContentType);
-        }
-
-        public static implicit operator string(ContentReference fileRef)
-        {
-            return fileRef.ContentType.AddExtension(fileRef.CacheID);
-        }
-
-        public static bool operator ==(ContentReference left, ContentReference right)
-        {
-            return left is null && right is null
-                || left is object && left.Equals(right);
-        }
-
-        public static bool operator !=(ContentReference left, ContentReference right)
-        {
-            return !(left == right);
         }
     }
 }
