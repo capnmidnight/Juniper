@@ -25,8 +25,8 @@ namespace Juniper.Collections.Tests
             graph.AddEndPoint("b");
             graph.Solve();
 
-            var path = graph["a", "b"];
-            Assert.AreEqual(1, path.Cost);
+            var route = graph.GetRoute("a", "b");
+            Assert.AreEqual(1, route.Cost);
         }
 
         [TestMethod]
@@ -38,8 +38,8 @@ namespace Juniper.Collections.Tests
             graph.AddEndPoint("c");
             graph.Solve();
 
-            var path = graph["a", "c"];
-            Assert.AreEqual(2, path.Cost);
+            var route = graph.GetRoute("a", "c");
+            Assert.AreEqual(2, route.Cost);
         }
 
         [TestMethod]
@@ -51,8 +51,8 @@ namespace Juniper.Collections.Tests
             graph.AddEndPoint("c");
             graph.Solve();
 
-            var path = graph["a", "c"];
-            Assert.AreEqual(2, path.Cost);
+            var route = graph.GetRoute("a", "c");
+            Assert.AreEqual(2, route.Cost);
         }
 
         [TestMethod]
@@ -72,8 +72,8 @@ namespace Juniper.Collections.Tests
             graph.AddEndPoint("k");
             graph.Solve();
 
-            var path = graph["a", "k"];
-            Assert.AreEqual(10, path.Cost);
+            var route = graph.GetRoute("a", "k");
+            Assert.AreEqual(10, route.Cost);
         }
 
         [TestMethod]
@@ -85,8 +85,8 @@ namespace Juniper.Collections.Tests
             graph.AddEndPoint("c");
             graph.Solve();
 
-            var path = graph["a", "c"];
-            Assert.IsNull(path);
+            var route = graph.GetRoute("a", "c");
+            Assert.IsNull(route);
         }
 
         [TestMethod]
@@ -99,12 +99,12 @@ namespace Juniper.Collections.Tests
             graph.AddEndPoint("d");
             graph.Solve();
 
-            var path = graph["a", "d"];
-            Assert.AreEqual(3, path.Cost);
+            var route = graph.GetRoute("a", "d");
+            Assert.AreEqual(3, route.Cost);
         }
 
         [TestMethod]
-        public void ShortcutConnection()
+        public void Shortcut()
         {
             var graph = new Graph<string>();
             graph.Connect("a", "b", 1);
@@ -114,12 +114,12 @@ namespace Juniper.Collections.Tests
             graph.AddEndPoint("d");
             graph.Solve();
 
-            var path = graph["a", "d"];
-            Assert.AreEqual(1, path.Cost);
+            var route = graph.GetRoute("a", "d");
+            Assert.AreEqual(1, route.Cost);
         }
 
         [TestMethod]
-        public void InterestingGraph()
+        public void AddShortcut()
         {
             var graph = new Graph<int>();
             var start = 7216;
@@ -136,13 +136,40 @@ namespace Juniper.Collections.Tests
             graph.AddEndPoint(end);
             graph.Solve();
 
-            var pathA = graph[start, end];
+            var routeA = graph.GetRoute(start, end);
 
             graph.Connect(4673, 1371, 1);
             graph.Solve();
 
-            var pathB = graph[start, end];
-            Assert.IsTrue(pathB.Cost < pathA.Cost);
+            var routeB = graph.GetRoute(start, end);
+            Assert.IsTrue(routeB.Cost < routeA.Cost);
+        }
+
+        [TestMethod]
+        public void AddTraffic()
+        {
+            var graph = new Graph<int>();
+            var start = 7216;
+            var end = 5666;
+            graph.Connect(start, 4673, 1);
+            graph.Connect(4673, 3416, 1);
+            graph.Connect(4673, 4756, 1);
+            graph.Connect(4673, 9713, 1);
+            graph.Connect(4756, 1371, 1);
+            graph.Connect(9713, 1371, 1);
+            graph.Connect(1371, 3464, 1);
+            graph.Connect(3464, 2656, 1);
+            graph.Connect(3464, end, 1);
+            graph.AddEndPoint(end);
+            graph.Solve();
+
+            var routeA = graph.GetRoute(start, end);
+
+            graph.Connect(1371, 3464, 2);
+            graph.Solve();
+
+            var routeB = graph.GetRoute(start, end);
+            Assert.IsTrue(routeB.Cost > routeA.Cost);
         }
 
         [TestMethod]
@@ -158,13 +185,13 @@ namespace Juniper.Collections.Tests
             graph.AddEndPoint(3);
             graph.Solve();
 
-            var pathA = graph[0, 1];
-            var pathB = graph[0, 2];
-            var pathC = graph[0, 3];
+            var routeA = graph.GetRoute(0, 1);
+            var routeB = graph.GetRoute(0, 2);
+            var routeC = graph.GetRoute(0, 3);
 
-            Assert.AreEqual(1, pathA.Cost);
-            Assert.AreEqual(2, pathB.Cost);
-            Assert.AreEqual(1, pathC.Cost);
+            Assert.AreEqual(1, routeA.Cost);
+            Assert.AreEqual(2, routeB.Cost);
+            Assert.AreEqual(1, routeC.Cost);
         }
 
         [TestMethod]
@@ -177,8 +204,8 @@ namespace Juniper.Collections.Tests
             graph.AddEndPoint(1);
             graph.Solve();
 
-            var path = graph[0, 1];
-            Assert.AreEqual(2, path.Cost);
+            var route = graph.GetRoute(0, 1);
+            Assert.AreEqual(2, route.Cost);
         }
 
         [TestMethod]
@@ -200,53 +227,66 @@ namespace Juniper.Collections.Tests
             graph.AddEndPoint(end);
             graph.Solve();
 
-            var pathA = graph[start, end];
+            var routeA = graph.GetRoute(start, end);
 
             var text = json.ToString(graph);
             graph = json.Parse(text);
 
-            var pathB = graph[start, end];
+            var routeB = graph.GetRoute(start, end);
 
-            Assert.AreEqual(pathA.Start, pathB.Start);
-            Assert.AreEqual(pathA.End, pathB.End);
-            Assert.AreEqual(pathA.Cost, pathB.Cost);
-            Assert.AreEqual(pathA.Count, pathB.Count);
-            Assert.AreEqual(pathA.ToString(), pathB.ToString());
+            Assert.AreEqual(routeA.Start, routeB.Start);
+            Assert.AreEqual(routeA.End, routeB.End);
+            Assert.AreEqual(routeA.Cost, routeB.Cost);
+            Assert.AreEqual(routeA.Count, routeB.Count);
+            Assert.AreEqual(routeA.ToString(), routeB.ToString());
         }
 
         [TestMethod]
         public void RealTest()
         {
-            BuildFullMap(out var graph, out var points);
+            BuildFullMap(out var graph);
 
-            var startPoint = points["Ancestor Hall"];
-            var endPoint = points["Tea Shop"];
+            var startPoint = graph.NamedEndPoints["Ancestor Hall"];
+            var endPoint = graph.NamedEndPoints["Tea Shop"];
             Assert.IsTrue(graph.Exists(startPoint, endPoint));
 
-            var path = graph[startPoint, endPoint];
-            Assert.IsNotNull(path);
+            var route = graph.GetRoute(startPoint, endPoint);
+            Assert.IsNotNull(route);
+        }
+
+        [TestMethod]
+        public void GetNamedRoute()
+        {
+            BuildFullMap(out var graph);
+
+            var startPoint = graph.NamedEndPoints["Ancestor Hall"];
+            var route = graph.GetNamedRoute(startPoint, "Tea Shop");
+            Assert.IsNotNull(route);
         }
 
         [TestMethod]
         public void DeserializationIsFasterThanComputing()
         {
-            var start = DateTime.Now;
-            BuildFullMap(out var graph, out var points);
-            var timeSpent1 = DateTime.Now - start;
             var json = new JsonFactory<Graph<string>>();
+
+            var start = DateTime.Now;
+            BuildFullMap(out var graph);
+            var timeSpent1 = DateTime.Now - start;
+
             var text = json.ToString(graph);
 
             start = DateTime.Now;
-            graph = json.Parse(text);
+            _ = json.Parse(text);
             var timeSpent2 = DateTime.Now - start;
+
             Assert.IsTrue(timeSpent1 > timeSpent2);
         }
 
-        private static void BuildFullMap(out Graph<string> graph, out Dictionary<string, string> points)
+        private static void BuildFullMap(out Graph<string> graph)
         {
             var userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var filesPath = Path.Combine(userHome, "Projects", "Yarrow", "shared", "StreamingAssets");
-            var files = Directory.GetFiles(filesPath, "*.json");
+            var filesRoute = Path.Combine(userHome, "Projects", "Yarrow", "shared", "StreamingAssets");
+            var files = Directory.GetFiles(filesRoute, "*.json");
             var json = new JsonFactory<Metadata>();
             var metadata = files
                 .Select(f =>
@@ -264,13 +304,11 @@ namespace Juniper.Collections.Tests
                 .ToDictionary(x => x.pano_id);
 
             graph = new Graph<string>();
-            points = new Dictionary<string, string>();
             foreach (var start in metadata.Values)
             {
                 if (start.label != null)
                 {
-                    graph.AddEndPoint(start.pano_id);
-                    points.Add(start.label, start.pano_id);
+                    graph.AddEndPoint(start.pano_id, start.label);
                 }
 
                 foreach (var endID in start.navPoints)

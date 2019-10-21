@@ -6,9 +6,6 @@ using System.Runtime.Serialization;
 namespace Juniper.Collections
 {
     public interface IRoute<out ValueType>
-        where ValueType :
-            IComparable<ValueType>,
-            IEquatable<ValueType>
     {
         float Cost { get; }
 
@@ -26,20 +23,11 @@ namespace Juniper.Collections
         IRoute<ValueType>,
         ISerializable,
         IComparable<Route<ValueType>>
-        where ValueType :
-            IComparable<ValueType>,
-            IEquatable<ValueType>
     {
         public static Route<ValueType> operator +(Route<ValueType> route, Route<ValueType> extension)
         {
             var newNodes = route.nodes.Concat(extension.nodes.Skip(1));
             return new Route<ValueType>(newNodes, route.Cost + extension.Cost);
-        }
-
-        public Route<ValueType> Extend(ValueType x, float cost)
-        {
-            var newNodes = nodes.Append(x);
-            return new Route<ValueType>(newNodes, Cost + cost);
         }
 
         public static Route<ValueType> operator ~(Route<ValueType> path)
