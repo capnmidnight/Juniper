@@ -12,11 +12,6 @@ namespace Juniper.Collections.Tests
     [TestClass]
     public class GraphTests
     {
-        private static float One<T>(T a, T b)
-        {
-            return 1;
-        }
-
         [TestMethod]
         public void OneConnection()
         {
@@ -246,21 +241,11 @@ namespace Juniper.Collections.Tests
         {
             BuildFullMap(out var graph);
 
-            var startPoint = graph.NamedEndPoints["Ancestor Hall"];
-            var endPoint = graph.NamedEndPoints["Tea Shop"];
+            var startPoint = graph.GetNamedEndPoint("Ancestor Hall");
+            var endPoint = graph.GetNamedEndPoint("Tea Shop");
             Assert.IsTrue(graph.Exists(startPoint, endPoint));
 
             var route = graph.GetRoute(startPoint, endPoint);
-            Assert.IsNotNull(route);
-        }
-
-        [TestMethod]
-        public void GetNamedRoute()
-        {
-            BuildFullMap(out var graph);
-
-            var startPoint = graph.NamedEndPoints["Ancestor Hall"];
-            var route = graph.GetNamedRoute(startPoint, "Tea Shop");
             Assert.IsNotNull(route);
         }
 

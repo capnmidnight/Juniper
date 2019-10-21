@@ -21,8 +21,7 @@ namespace Juniper.Collections
     [Serializable]
     internal class Route<ValueType> :
         IRoute<ValueType>,
-        ISerializable,
-        IComparable<Route<ValueType>>
+        ISerializable
     {
         public static Route<ValueType> operator +(Route<ValueType> route, Route<ValueType> extension)
         {
@@ -98,62 +97,6 @@ namespace Juniper.Collections
                   ? nodes[nodes.Length - 1]
                   : default;
             }
-        }
-
-        public int CompareTo(Route<ValueType> other)
-        {
-            if (other is null
-                || Cost < other.Cost
-                || Cost == other.Cost
-                    && nodes.Length < other.nodes.Length)
-            {
-                return -1;
-            }
-            else if (Cost == other.Cost
-                && nodes.Length == other.nodes.Length)
-            {
-                return 0;
-            }
-            else
-            {
-                return 1;
-            }
-        }
-
-        public static bool operator <(Route<ValueType> a, Route<ValueType> b)
-        {
-            return a is object
-                && a.CompareTo(b) < 0;
-        }
-
-        public static bool operator >(Route<ValueType> a, Route<ValueType> b)
-        {
-            return a is object
-                && a.CompareTo(b) > 0;
-        }
-
-        public static bool operator <=(Route<ValueType> a, Route<ValueType> b)
-        {
-            return a is object
-                && a.CompareTo(b) <= 0;
-        }
-
-        public static bool operator >=(Route<ValueType> a, Route<ValueType> b)
-        {
-            return a is object
-                && a.CompareTo(b) >= 0;
-        }
-
-        public static bool operator ==(Route<ValueType> a, Route<ValueType> b)
-        {
-            return a is object
-                && a.CompareTo(b) == 0;
-        }
-
-        public static bool operator !=(Route<ValueType> a, Route<ValueType> b)
-        {
-            return a is object
-                && a.CompareTo(b) != 0;
         }
 
         public override bool Equals(object obj)

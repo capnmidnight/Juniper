@@ -89,20 +89,30 @@ namespace Juniper.Collections
         {
             return Exists(startPoint, endPoint)
                 ? network[startPoint][endPoint]
-                : null;
+                : default;
         }
 
-        public IRoute<NodeT> GetNamedRoute(NodeT startPoint, string endPointName)
+        public string GetEndPointName(NodeT node)
         {
-            var endPoint = GetEndPoint(endPointName);
-            if(endPoint == default)
+            foreach (var endPoint in namedEndPoints)
             {
-                return default;
+                if (endPoint.Value.CompareTo(node) == 0)
+                {
+                    return endPoint.Key;
+                }
             }
-            else
+
+            return null;
+        }
+
+        public NodeT GetNamedEndPoint(string name)
+        {
+            if (namedEndPoints.ContainsKey(name))
             {
-                return GetRoute(startPoint, endPoint);
+                return namedEndPoints[name];
             }
+
+            return default;
         }
 
         public void Connect(NodeT startPoint, NodeT endPoint, float cost)
@@ -113,28 +123,61 @@ namespace Juniper.Collections
             FillMatrix(endPoint);
 
             var nextRoute = new Route<NodeT>(startPoint, endPoint, cost);
+            Remove(startPoint, endPoint);
+            Add(nextRoute);
+        }
+
+        public void Remove(NodeT startPoint, NodeT endPoint)
+        {
             if (Exists(startPoint, endPoint))
             {
                 var toRemove = new List<Route<NodeT>>();
                 foreach (var schedule in network.Values)
                 {
-                    foreach (var path in schedule.Values)
+                    foreach (var route in schedule.Values)
                     {
-                        if (path.Contains(startPoint)
-                            && path.Contains(endPoint))
+                        if (route.Contains(startPoint)
+                            && route.Contains(endPoint))
                         {
-                            toRemove.Add(path);
+                            toRemove.Add(route);
                         }
                     }
                 }
 
-                foreach (var path in toRemove)
+                dirty = toRemove.Count > 0;
+
+                foreach (var route in toRemove)
                 {
-                    network[path.Start].Remove(path.End);
+                    network[route.Start].Remove(route.End);
+                }
+            }
+        }
+
+        public void Remove(IRoute<NodeT> route)
+        {
+            Remove(route.Start, route.End);
+        }
+
+        public void Remove(NodeT node)
+        {
+            var toRemove = new List<Route<NodeT>>();
+            foreach (var schedule in network.Values)
+            {
+                foreach (var route in schedule.Values)
+                {
+                    if (route.Contains(node))
+                    {
+                        toRemove.Add(route);
+                    }
                 }
             }
 
-            Add(nextRoute);
+            dirty = toRemove.Count > 0;
+
+            foreach (var route in toRemove)
+            {
+                network[route.Start].Remove(route.End);
+            }
         }
 
         public void AddEndPoint(NodeT endPoint)
@@ -184,24 +227,23 @@ namespace Juniper.Collections
                 var q = new Queue<Route<NodeT>>(
                     from endPoint in endPoints
                     let schedule = network[endPoint]
-                    from path in schedule.Values
-                    select path);
+                    from route in schedule.Values
+                    select route);
 
                 while (q.Count > 0)
                 {
-                    var curPath = q.Dequeue();
-                    var middle = curPath.End;
-                    foreach (var extension in network[middle].Values)
+                    var route = q.Dequeue();
+                    foreach (var extension in network[route.End].Values)
                     {
-                        var start = curPath.Start;
-                        var end = extension.End;
-                        var isBest = !Exists(start, end)
-                            || curPath.Cost + extension.Cost < network[start][end].Cost;
-                        if (isBest)
+                        var nextRoute = route + extension;
+                        var curRoute = GetRoute(nextRoute.Start, nextRoute.End);
+                        if (curRoute == null
+                            || nextRoute.Cost < curRoute.Cost
+                            || nextRoute.Cost == curRoute.Cost
+                                && nextRoute.Count < curRoute.Count)
                         {
-                            var nextPath = curPath + extension;
-                            Add(nextPath);
-                            q.Enqueue(nextPath);
+                            Add(nextRoute);
+                            q.Enqueue(nextRoute);
                         }
                     }
                 }
