@@ -2,7 +2,7 @@ using Juniper.IO;
 
 namespace Juniper.Audio
 {
-    public interface IAudioDecoder : IDeserializer<AudioData, MediaType.Audio>
+    public interface IAudioDecoder : IDeserializer<AudioData>, IContentHandler<MediaType.Audio>
     {
         bool SupportsFormat(AudioFormat format);
 

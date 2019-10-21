@@ -7,34 +7,34 @@ using System.Threading.Tasks;
 namespace Juniper.Collections
 {
     [Serializable]
-    public class Graph<ValueType> :
+    public class Graph<NodeT> :
         ISerializable
-        where ValueType :
-            IComparable<ValueType>,
-            IEquatable<ValueType>
+        where NodeT :
+            IComparable<NodeT>,
+            IEquatable<NodeT>
     {
-        private class Schedule : Dictionary<ValueType, Route<ValueType>> { }
+        private class Schedule : Dictionary<NodeT, Route<NodeT>> { }
 
-        private class Network : Dictionary<ValueType, Schedule> { }
+        private class Network : Dictionary<NodeT, Schedule> { }
 
         private bool dirty;
 
         private readonly Network network;
-        private readonly List<ValueType> endPoints;
+        private readonly List<NodeT> endPoints;
 
         public Graph()
         {
             dirty = false;
-            endPoints = new List<ValueType>();
+            endPoints = new List<NodeT>();
             network = new Network();
         }
 
         protected Graph(SerializationInfo info, StreamingContext context)
         {
             dirty = info.GetBoolean(nameof(dirty));
-            endPoints = info.GetList<ValueType>(nameof(endPoints));
+            endPoints = info.GetList<NodeT>(nameof(endPoints));
             network = new Network();
-            var routes = info.GetValue<Route<ValueType>[]>(nameof(network));
+            var routes = info.GetValue<Route<NodeT>[]>(nameof(network));
             foreach (var route in routes)
             {
                 if (!network.ContainsKey(route.Start))
@@ -63,13 +63,13 @@ namespace Juniper.Collections
             private set;
         }
 
-        private bool IsBest(Route<ValueType> nextRoute)
+        private bool IsBest(Route<NodeT> nextRoute)
         {
             return !Exists(nextRoute.Start, nextRoute.End)
                 || nextRoute < network[nextRoute.Start][nextRoute.End];
         }
 
-        private void FillMatrix(ValueType startPoint)
+        private void FillMatrix(NodeT startPoint)
         {
             if (!network.ContainsKey(startPoint))
             {
@@ -77,24 +77,24 @@ namespace Juniper.Collections
             }
         }
 
-        private void Add(Route<ValueType> nextRoute)
+        private void Add(Route<NodeT> nextRoute)
         {
             AddSingle(nextRoute);
             AddSingle(~nextRoute);
         }
 
-        private void AddSingle(Route<ValueType> nextRoute)
+        private void AddSingle(Route<NodeT> nextRoute)
         {
             network[nextRoute.Start][nextRoute.End] = nextRoute;
         }
 
-        public bool Exists(ValueType startPoint, ValueType endPoint)
+        public bool Exists(NodeT startPoint, NodeT endPoint)
         {
             return network.ContainsKey(startPoint)
                 && network[startPoint].ContainsKey(endPoint);
         }
 
-        public IRoute<ValueType> this[ValueType startPoint, ValueType endPoint]
+        public IRoute<NodeT> this[NodeT startPoint, NodeT endPoint]
         {
             get
             {
@@ -104,12 +104,12 @@ namespace Juniper.Collections
             }
         }
 
-        public void Connect(ValueType startPoint, ValueType endPoint, float cost)
+        public void Connect(NodeT startPoint, NodeT endPoint, float cost)
         {
             FillMatrix(startPoint);
             FillMatrix(endPoint);
 
-            var nextRoute = new Route<ValueType>(startPoint, endPoint, cost);
+            var nextRoute = new Route<NodeT>(startPoint, endPoint, cost);
             if (IsBest(nextRoute))
             {
                 dirty = true;
@@ -117,7 +117,7 @@ namespace Juniper.Collections
             }
         }
 
-        public void AddEndPoint(ValueType endPoint)
+        public void AddEndPoint(NodeT endPoint)
         {
             if (!endPoints.Contains(endPoint))
             {
@@ -126,20 +126,13 @@ namespace Juniper.Collections
             }
         }
 
-        public Task SolveAsync()
-        {
-            var task = Task.Run(Solve);
-            task.ConfigureAwait(false);
-            return task;
-        }
-
         public void Solve()
         {
             if (dirty)
             {
                 var start = DateTime.Now;
 
-                var q = new Queue<Route<ValueType>>(
+                var q = new Queue<Route<NodeT>>(
                     from endPoint in endPoints
                     let schedule = network[endPoint]
                     from path in schedule.Values

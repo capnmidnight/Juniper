@@ -64,6 +64,7 @@
     <Compile Include="Compression\Zip\Decompressor.cs" />
     <Compile Include="Compression\Zip\ZipFileCacheLayer.cs" />
     <Compile Include="Compression\Zip\ZipFileEntryStream.cs" />
+    <Compile Include="IO\IContentHandler.cs" />
     <Compile Include="IO\IDeserializerGeneric.cs" />
     <Compile Include="IO\ISerializerGeneric.cs" />
     <Compile Include="Imaging\TranscoderCodec.cs" />

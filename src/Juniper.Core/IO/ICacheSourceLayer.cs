@@ -25,8 +25,7 @@ namespace Juniper.IO
         }
 
 
-        public static async Task<ResultType> Load<MediaTypeT, ResultType>(this ICacheSourceLayer layer, ContentReference fileRef, IDeserializer<ResultType, MediaTypeT> deserializer, IProgress prog)
-            where MediaTypeT : MediaType
+        public static async Task<ResultType> Load<ResultType>(this ICacheSourceLayer layer, ContentReference fileRef, IDeserializer<ResultType> deserializer, IProgress prog)
         {
             if (fileRef == null)
             {
@@ -36,11 +35,6 @@ namespace Juniper.IO
             if (deserializer == null)
             {
                 throw new ArgumentNullException(nameof(deserializer));
-            }
-
-            if (fileRef.ContentType != deserializer.ContentType)
-            {
-                throw new ArgumentException($"{nameof(fileRef)} parameter's content type ({fileRef.ContentType.Value}) does not match {nameof(deserializer)} parameter's content type ({deserializer.ContentType.Value})");
             }
 
             var progs = prog.Split("Read", "Decode");
@@ -55,22 +49,9 @@ namespace Juniper.IO
             }
         }
 
-        public static Task<ResultType> Load<MediaTypeT, ResultType>(this ICacheSourceLayer layer, ContentReference fileRef, IDeserializer<ResultType, MediaTypeT> deserializer)
-            where MediaTypeT : MediaType
+        public static Task<ResultType> Load<ResultType>(this ICacheSourceLayer layer, ContentReference fileRef, IDeserializer<ResultType> deserializer)
         {
             return layer.Load(fileRef, deserializer, null);
-        }
-
-        public static Task<ResultType> Load<MediaTypeT, ResultType>(this ICacheSourceLayer layer, string cacheID, IDeserializer<ResultType, MediaTypeT> deserializer, IProgress prog)
-            where MediaTypeT : MediaType
-        {
-            return layer.Load(cacheID + deserializer.ContentType, deserializer, prog);
-        }
-
-        public static Task<ResultType> Load<MediaTypeT, ResultType>(this ICacheSourceLayer layer, string cacheID, IDeserializer<ResultType, MediaTypeT> deserializer)
-            where MediaTypeT : MediaType
-        {
-            return layer.Load(cacheID, deserializer, null);
         }
 
         public static async Task Proxy(this ICacheSourceLayer layer, ContentReference fileRef, HttpListenerResponse response)

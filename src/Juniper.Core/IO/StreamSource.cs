@@ -21,8 +21,7 @@ namespace Juniper.IO
 
     public static class StreamSourceExt
     {
-        public static async Task<ResultT> Decode<ResultT, MediaTypeT>(this StreamSource source, IDeserializer<ResultT, MediaTypeT> deserializer, IProgress prog)
-            where MediaTypeT : MediaType
+        public static async Task<ResultT> Decode<ResultT>(this StreamSource source, IDeserializer<ResultT> deserializer, IProgress prog)
         {
             prog.Report(0);
             var progs = prog.Split("Read", "Decode");
@@ -32,10 +31,9 @@ namespace Juniper.IO
             return value;
         }
 
-        public static Task<ResultT> Decode<ResultT, MediaTypeT>(this StreamSource source, IDeserializer<ResultT, MediaTypeT> deserializer)
-            where MediaTypeT : MediaType
+        public static Task<ResultT> Decode<ResultT>(this StreamSource source, IDeserializer<ResultT> deserializer)
         {
-            return Decode(source, deserializer, null);
+            return source.Decode(deserializer, null);
         }
 
         public static Task<Stream> GetStream(this StreamSource source)

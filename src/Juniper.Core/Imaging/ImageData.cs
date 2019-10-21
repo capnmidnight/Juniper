@@ -1,7 +1,3 @@
-using System;
-
-using static System.Math;
-
 namespace Juniper.Imaging
 {
     /// <summary>
