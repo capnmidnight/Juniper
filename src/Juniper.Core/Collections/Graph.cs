@@ -235,13 +235,15 @@ namespace Juniper.Collections
                     var route = q.Dequeue();
                     foreach (var extension in network[route.End].Values)
                     {
-                        var nextRoute = route + extension;
-                        var curRoute = GetRoute(nextRoute.Start, nextRoute.End);
+                        var nextCost = route.Cost + extension.Cost;
+                        var nextCount = route.Count + extension.Count - 1;
+                        var curRoute = GetRoute(route.Start, extension.End);
                         if (curRoute == null
-                            || nextRoute.Cost < curRoute.Cost
-                            || nextRoute.Cost == curRoute.Cost
-                                && nextRoute.Count < curRoute.Count)
+                            || nextCost < curRoute.Cost
+                            || nextCost == curRoute.Cost
+                                && nextCount < curRoute.Count)
                         {
+                            var nextRoute = route + extension;
                             Add(nextRoute);
                             q.Enqueue(nextRoute);
                         }
