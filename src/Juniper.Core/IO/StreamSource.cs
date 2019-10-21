@@ -48,8 +48,7 @@ namespace Juniper.IO
             await stream.Proxy(response);
         }
 
-        public static Task Proxy<MediaTypeT>(this StreamSource source, HttpListenerContext context)
-            where MediaTypeT : MediaType
+        public static Task Proxy(this StreamSource source, HttpListenerContext context)
         {
             return source.Proxy(context.Response);
         }

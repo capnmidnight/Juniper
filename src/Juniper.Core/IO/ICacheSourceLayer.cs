@@ -60,8 +60,7 @@ namespace Juniper.IO
             await stream.Proxy(response);
         }
 
-        public static Task Proxy<MediaTypeT>(this ICacheSourceLayer layer, ContentReference fileRef, HttpListenerContext context)
-            where MediaTypeT : MediaType
+        public static Task Proxy(this ICacheSourceLayer layer, ContentReference fileRef, HttpListenerContext context)
         {
             return layer.Proxy(fileRef, context.Response);
         }
