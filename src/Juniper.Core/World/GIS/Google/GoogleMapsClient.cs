@@ -44,59 +44,61 @@ namespace Juniper.World.GIS.Google
             lastError = null;
         }
 
+        private async Task<T> Load<T>(IDeserializer<T> deserializer, ContentReference fileRef, IProgress prog)
+        {
+            var value = await cache.Load(deserializer, fileRef, prog);
+            if(value is MetadataRequest metadata)
+            {
+                var metadataRef = new ContentReference(metadata.Pano, MediaType.Application.Json);
+                await cache.CopyTo(fileRef, cache, metadataRef);
+            }
+            return value;
+        }
+
         public Task<GeocodingResponse> ReverseGeocode(LatLngPoint latLng, IProgress prog = null)
         {
-            var geocodingRequest = new ReverseGeocodingRequest(apiKey)
+            return Load(geocodingDecoder, new ReverseGeocodingRequest(apiKey)
             {
                 Location = latLng
-            };
-            return cache.Load(geocodingDecoder, geocodingRequest);
+            }, prog);
         }
 
         public Task<MetadataResponse> GetMetadata(string pano, int searchRadius = 50, IProgress prog = null)
         {
-            var metadataRequest = new MetadataRequest(apiKey, signingKey)
+            return Load(metadataDecoder, new MetadataRequest(apiKey, signingKey)
             {
                 Pano = pano,
                 Radius = searchRadius
-            };
-
-            return cache.Load(metadataDecoder, metadataRequest);
+            }, prog);
         }
 
         public Task<MetadataResponse> SearchMetadata(string placeName, int searchRadius = 50, IProgress prog = null)
         {
-            var metadataRequest = new MetadataRequest(apiKey, signingKey)
+            return Load(metadataDecoder, new MetadataRequest(apiKey, signingKey)
             {
                 Place = placeName,
                 Radius = searchRadius
-            };
-
-            return cache.Load(metadataDecoder, metadataRequest);
+            }, prog);
         }
 
         public Task<MetadataResponse> GetMetadata(LatLngPoint latLng, int searchRadius = 50, IProgress prog = null)
         {
-            var metadataRequest = new MetadataRequest(apiKey, signingKey)
+            return Load(metadataDecoder, new MetadataRequest(apiKey, signingKey)
             {
                 Location = latLng,
                 Radius = searchRadius
-            };
-
-            return cache.Load(metadataDecoder, metadataRequest);
+            }, prog);
         }
 
         public Task<ImageType> GetImage(string pano, int fov, int heading, int pitch, IProgress prog = null)
         {
-            var imageRequest = new ImageRequest(apiKey, signingKey, new Size(640, 640))
+            return Load(imageDecoder, new ImageRequest(apiKey, signingKey, new Size(640, 640))
             {
                 Pano = pano,
                 FOV = fov,
                 Heading = heading,
                 Pitch = pitch
-            };
-
-            return cache.Load(imageDecoder, imageRequest);
+            }, prog);
         }
     }
 }
