@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -21,7 +20,6 @@ namespace Juniper.Imaging
 
         private SkyboxManager skybox;
 
-        protected bool locked;
         protected bool trySkybox = true;
         protected IImageCodec<Texture2D> codec;
         protected CachingStrategy cache;
@@ -35,6 +33,7 @@ namespace Juniper.Imaging
         public event TextureDecoderNeeded DecoderNeeded;
         public event CubemapImageNeeded CubemapNeeded;
         public event Action<Photosphere> Ready;
+        private TaskFactory mainThread;
 
         public bool IsReady
         {
@@ -44,6 +43,9 @@ namespace Juniper.Imaging
 
         public virtual void Awake()
         {
+            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            mainThread = new TaskFactory(scheduler);
+
             if (!Find.Any(out skybox))
             {
                 skybox = this.Ensure<SkyboxManager>();
@@ -70,42 +72,48 @@ namespace Juniper.Imaging
             }
         }
 
-        private IEnumerator ReadCubemapCoroutine(string filePath)
+        private async Task ReadCubemap(string filePath)
         {
-            var textureTask = cache.Load(codec, filePath + codec.ContentType, this);
-            yield return textureTask.AsCoroutine();
-
-            if (textureTask.IsCanceled)
+            try
             {
-                Debug.LogError("Cubemap canceled");
+                var progs = this.Split("Load", "Decode");
+                var imageStream = await cache.Open(filePath + codec.ContentType, progs[0]);
+                if (imageStream == null)
+                {
+                    Debug.Log("No cubemap found");
+                }
+                else
+                {
+                    using (imageStream)
+                    {
+                        var co = await mainThread.StartNew(() =>
+                        {
+                            var texture = codec.Deserialize(imageStream, progs[1]);
+
+                            skybox.exposure = 1;
+                            skybox.imageType = SkyboxManager.ImageType.Degrees360;
+                            skybox.layout = SkyboxManager.Mode.Cube;
+                            skybox.mirror180OnBack = false;
+                            skybox.rotation = 0;
+                            skybox.stereoLayout = SkyboxManager.StereoLayout.None;
+                            skybox.tint = Color.gray;
+                            skybox.useMipMap = false;
+                            return skybox.SetTexture(texture);
+
+                        });
+
+                        await co.AsTask();
+
+                        OnReady();
+                    }
+                }
             }
-            else if (textureTask.IsFaulted)
+            catch (Exception exp)
             {
                 Debug.LogError("Cubemap load error");
-                Debug.LogException(textureTask.Exception);
+                Debug.LogException(exp);
+                throw;
             }
-            else if (textureTask.Result == null)
-            {
-                Debug.Log("No cubemap found");
-            }
-            else
-            {
-                var texture = textureTask.Result;
-
-                skybox.exposure = 1;
-                skybox.imageType = SkyboxManager.ImageType.Degrees360;
-                skybox.layout = SkyboxManager.Mode.Cube;
-                skybox.mirror180OnBack = false;
-                skybox.rotation = 0;
-                skybox.stereoLayout = SkyboxManager.StereoLayout.None;
-                skybox.tint = UnityEngine.Color.gray;
-                skybox.useMipMap = false;
-                yield return skybox.SetTexture(texture);
-
-                OnReady();
-            }
-
-            locked = false;
         }
 
         protected void OnReady()
@@ -121,9 +129,10 @@ namespace Juniper.Imaging
             ProgressToReady = progress;
         }
 
+        protected Task readingTask;
         public virtual void Update()
         {
-            if (!locked)
+            if (!readingTask.IsRunning())
             {
                 if (cache == null)
                 {
@@ -147,8 +156,7 @@ namespace Juniper.Imaging
                 {
                     this.Report(0);
                     trySkybox = false;
-                    locked = true;
-                    this.Run(ReadCubemapCoroutine(CubemapName));
+                    readingTask = ReadCubemap(CubemapName);
                 }
             }
         }

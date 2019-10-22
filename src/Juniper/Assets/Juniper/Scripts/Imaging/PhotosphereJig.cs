@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+
 using Juniper.IO;
 using Juniper.Progress;
 using Juniper.Units;
@@ -86,7 +87,7 @@ namespace Juniper.Imaging
         public override void Update()
         {
             base.Update();
-            if (!locked
+            if (!readingTask.IsRunning()
                 && !IsComplete
                 && !trySkybox
                 && cache != null
@@ -150,10 +151,9 @@ namespace Juniper.Imaging
                     Debug.Log("Cubemap Complete");
                     OnComplete(true);
                 }
-                else if (!locked)
+                else
                 {
-                    locked = true;
-                    this.Run(UpdatePhotosphere().AsCoroutine());
+                    readingTask = UpdatePhotosphere();
                 }
             }
         }
@@ -283,8 +283,6 @@ namespace Juniper.Imaging
                     }
                 }
             }
-
-            locked = false;
         }
 
         public int DetailLevelCompleteCount(int f)
