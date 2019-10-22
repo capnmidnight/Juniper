@@ -67,7 +67,6 @@ namespace Juniper.World.GIS.Google
         private Vector3 navPointerPosition;
 
         private GoogleMapsClient<Texture2D> gmaps;
-        private FadeTransition fader;
         private GPSLocation gps;
         private PhotosphereManager photospheres;
         private Clickable navPlane;
@@ -121,7 +120,6 @@ namespace Juniper.World.GIS.Google
             var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
             mainThread = new TaskFactory(scheduler);
 
-            Find.Any(out fader);
             Find.Any(out gps);
             if (!this.FindClosest(out photospheres))
             {
@@ -163,7 +161,6 @@ namespace Juniper.World.GIS.Google
             gmaps = new GoogleMapsClient<Texture2D>(gmapsApiKey, gmapsSigningKey, codec, metadataDecoder, geocodingDecoder, cache);
 
             photospheres.CubemapNeeded += Photosphere_CubemapNeeded;
-            photospheres.PhotosphereReady += Photosphere_Ready;
 
             photospheres.SetIO(cache, codec);
             photospheres.SetDetailLevels(searchFOVs);
@@ -298,7 +295,7 @@ namespace Juniper.World.GIS.Google
             {
                 Searching = false;
             }
-            else if(obj is PhotosphereJig jig)
+            else if (obj is PhotosphereJig jig)
             {
                 jig.ImageNeeded -= Photosphere_ImageNeeded;
                 jig.Complete -= Photosphere_Complete;
@@ -322,13 +319,6 @@ namespace Juniper.World.GIS.Google
         private string Photosphere_CubemapNeeded(Photosphere source)
         {
             return $"{source.name}.jpeg";
-        }
-
-        private void Photosphere_Ready(Photosphere obj)
-        {
-            var delta = GetRelativeVector3(metadata);
-            navPlane.transform.position = avatar.transform.position = delta;
-            obj.transform.position = avatar.Head.position;
         }
 
         private Task<Texture2D> Photosphere_ImageNeeded(PhotosphereJig source, int fov, int heading, int pitch)
@@ -488,6 +478,17 @@ namespace Juniper.World.GIS.Google
                     await prog.WaitOn(curSphere, "Loading photosphere");
                     Complete();
                 }
+
+                await mainThread.StartNew(() =>
+                {
+                    var delta = GetRelativeVector3(metadata);
+
+                    navPlane.transform.position
+                        = avatar.transform.position
+                        = delta;
+
+                    curSphere.transform.position = avatar.Head.position;
+                });
 
                 prog.Report(1);
 
