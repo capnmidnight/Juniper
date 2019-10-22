@@ -77,9 +77,9 @@ namespace Juniper.World.GIS.Google
         private TaskFactory mainThread;
         private UnityTexture2DProcessor processor;
         private Task searchTask;
-        private Task captureTask;
 
 #if UNITY_EDITOR
+        private Task captureTask;
         private EditorTextInput locationInput;
 
         public void OnValidate()
@@ -117,7 +117,9 @@ namespace Juniper.World.GIS.Google
             get
             {
                 return searchTask.IsRunning()
+#if UNITY_EDITOR
                     || captureTask.IsRunning()
+#endif
                     || lastSphere != null
                         && lastSphere.IsBusy;
             }
@@ -310,11 +312,6 @@ namespace Juniper.World.GIS.Google
                 captureTask = CaptureCubemap(jig);
             }
         }
-#else
-        private void Photosphere_Complete(Photosphere obj, bool captureCubemap)
-        {
-            Searching = false;
-        }
 #endif
 
         private string Photosphere_CubemapNeeded(Photosphere source)
@@ -503,7 +500,9 @@ namespace Juniper.World.GIS.Google
                 {
                     imageNeededSet.Add(metadata.pano_id);
                     jig.ImageStreamNeeded += Photosphere_ImageStreamNeeded;
+#if UNITY_EDITOR
                     jig.Complete += Photosphere_Complete;
+#endif
                 }
                 return jig;
             });
