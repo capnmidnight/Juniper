@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 using Juniper.Imaging;
@@ -9,9 +10,8 @@ using Juniper.World.GIS.Google.StreetView;
 
 namespace Juniper.World.GIS.Google
 {
-    public class GoogleMapsClient<ImageType>
+    public class GoogleMapsClient
     {
-        private readonly IImageCodec<ImageType> imageDecoder;
         private readonly IJsonDecoder<GeocodingResponse> geocodingDecoder;
         private readonly IJsonDecoder<MetadataResponse> metadataDecoder;
 
@@ -21,9 +21,8 @@ namespace Juniper.World.GIS.Google
 
         private Exception lastError;
 
-        public GoogleMapsClient(string apiKey, string signingKey, IImageCodec<ImageType> imageDecoder, IJsonDecoder<MetadataResponse> metadataDecoder, IJsonDecoder<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
+        public GoogleMapsClient(string apiKey, string signingKey, IJsonDecoder<MetadataResponse> metadataDecoder, IJsonDecoder<GeocodingResponse> geocodingDecoder, CachingStrategy cache)
         {
-            this.imageDecoder = imageDecoder;
             this.metadataDecoder = metadataDecoder;
             this.geocodingDecoder = geocodingDecoder;
             this.apiKey = apiKey;
@@ -90,9 +89,9 @@ namespace Juniper.World.GIS.Google
             }, prog);
         }
 
-        public Task<ImageType> GetImage(string pano, int fov, int heading, int pitch, IProgress prog = null)
+        public Task<Stream> GetImage(string pano, int fov, int heading, int pitch, IProgress prog = null)
         {
-            return Load(imageDecoder, new ImageRequest(apiKey, signingKey, new Size(640, 640))
+            return cache.Open(new ImageRequest(apiKey, signingKey, new Size(640, 640))
             {
                 Pano = pano,
                 FOV = fov,

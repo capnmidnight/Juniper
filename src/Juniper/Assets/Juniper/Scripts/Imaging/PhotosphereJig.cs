@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using Juniper.IO;
 using Juniper.Progress;
 using Juniper.Units;
 
@@ -9,6 +10,8 @@ using UnityEngine;
 
 namespace Juniper.Imaging
 {
+    public delegate Task<Stream> PhotosphereJigImageNeeded(PhotosphereJig source, int fov, int heading, int pitch);
+
     public class PhotosphereJig : Photosphere
     {
         private static Material material;
@@ -21,16 +24,21 @@ namespace Juniper.Imaging
         private PhotosphereManager mgr;
         private Avatar avatar;
 
-        public event PhotosphereJigImageNeeded ImageNeeded;
+        public event PhotosphereJigImageNeeded ImageStreamNeeded;
         public event Action<PhotosphereJig, bool> Complete;
 
         [Range(0, 1)]
         public float ProgressToComplete;
         private bool wasComplete;
 
+        private TaskFactory mainThread;
+
         public override void Awake()
         {
             base.Awake();
+
+            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            mainThread = new TaskFactory(scheduler);
 
             mgr = this.FindClosest<PhotosphereManager>();
             Find.Any(out avatar);
@@ -145,12 +153,12 @@ namespace Juniper.Imaging
                 else if (!locked)
                 {
                     locked = true;
-                    this.Run(UpdateSphereCoroutine());
+                    this.Run(UpdatePhotosphere().AsCoroutine());
                 }
             }
         }
 
-        private IEnumerator UpdateSphereCoroutine()
+        private async Task UpdatePhotosphere()
         {
             var euler = (Vector2)avatar.Head.rotation.eulerAngles;
 
@@ -196,11 +204,14 @@ namespace Juniper.Imaging
                     {
                         if (needLodLevel)
                         {
-                            var detail = new GameObject(fov.ToString()).transform;
-                            detail.SetParent(transform, false);
-                            detailContainerCache[fov] = detail;
-                            detailSliceContainerCache[fov] = new Dictionary<int, Transform>();
-                            detailSliceFrameContainerCache[fov] = new Dictionary<int, Dictionary<int, Transform>>();
+                            await mainThread.StartNew(() =>
+                            {
+                                var detail = new GameObject(fov.ToString()).transform;
+                                detail.SetParent(transform, false);
+                                detailContainerCache[fov] = detail;
+                                detailSliceContainerCache[fov] = new Dictionary<int, Transform>();
+                                detailSliceFrameContainerCache[fov] = new Dictionary<int, Dictionary<int, Transform>>();
+                            });
                         }
 
                         var detailContainer = detailContainerCache[fov];
@@ -209,10 +220,13 @@ namespace Juniper.Imaging
 
                         if (needSlice)
                         {
-                            var slice = new GameObject(heading.ToString()).transform;
-                            slice.SetParent(detailContainer, false);
-                            sliceContainerCache[heading] = slice;
-                            sliceFrameContainerCache[heading] = new Dictionary<int, Transform>();
+                            await mainThread.StartNew(() =>
+                            {
+                                var slice = new GameObject(heading.ToString()).transform;
+                                slice.SetParent(detailContainer, false);
+                                sliceContainerCache[heading] = slice;
+                                sliceFrameContainerCache[heading] = new Dictionary<int, Transform>();
+                            });
                         }
 
                         var sliceContainer = sliceContainerCache[heading];
@@ -220,33 +234,42 @@ namespace Juniper.Imaging
 
                         if (needFrame)
                         {
-                            var frame = new GameObject(pitch.ToString()).transform;
-                            frame.rotation = Quaternion.Euler(-pitch, heading, 0);
-                            frame.position = frame.rotation * (radius * Vector3.forward);
-                            frame.SetParent(sliceContainer, false);
-                            frameContainerCache[pitch] = frame;
+                            await mainThread.StartNew(() =>
+                            {
+                                var frame = new GameObject(pitch.ToString()).transform;
+                                frame.rotation = Quaternion.Euler(-pitch, heading, 0);
+                                frame.position = frame.rotation * (radius * Vector3.forward);
+                                frame.SetParent(sliceContainer, false);
+                                frameContainerCache[pitch] = frame;
+                            });
                         }
 
-                        var frameContainer = frameContainerCache[pitch];
-
-                        var textureTask = ImageNeeded?.Invoke(this, (int)overlapFOV, heading, pitch);
-
-                        yield return textureTask.AsCoroutine();
-
-                        if (textureTask.IsSuccessful())
+                        var imageStreamTask = ImageStreamNeeded?.Invoke(this, (int)overlapFOV, heading, pitch);
+                        if (imageStreamTask != null)
                         {
-                            var image = textureTask.Result;
-                            if (image != null)
+                            var imageStream = await imageStreamTask;
+                            if (imageStream != null)
                             {
-                                var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                                var renderer = frame.GetComponent<MeshRenderer>();
-                                var properties = new MaterialPropertyBlock();
-                                properties.SetTexture("_MainTex", image);
-                                renderer.SetMaterial(material);
-                                renderer.SetPropertyBlock(properties);
-                                frame.layer = LayerMask.NameToLayer(PHOTOSPHERE_LAYER);
-                                frame.transform.SetParent(frameContainer, false);
-                                frame.transform.localScale = scale * Vector3.one;
+                                using (imageStream)
+                                {
+                                    await mainThread.StartNew(() =>
+                                    {
+                                        var image = codec.Deserialize(imageStream);
+                                        if (image != null)
+                                        {
+                                            var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                                            var renderer = frame.GetComponent<MeshRenderer>();
+                                            var properties = new MaterialPropertyBlock();
+                                            properties.SetTexture("_MainTex", image);
+                                            renderer.SetMaterial(material);
+                                            renderer.SetPropertyBlock(properties);
+                                            frame.layer = LayerMask.NameToLayer(PHOTOSPHERE_LAYER);
+                                            var frameContainer = frameContainerCache[pitch];
+                                            frame.transform.SetParent(frameContainer, false);
+                                            frame.transform.localScale = scale * Vector3.one;
+                                        }
+                                    });
+                                }
                             }
                         }
 

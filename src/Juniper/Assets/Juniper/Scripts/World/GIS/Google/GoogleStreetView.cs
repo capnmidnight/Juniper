@@ -65,7 +65,7 @@ namespace Juniper.World.GIS.Google
         private Vector3 navPointerPosition;
         private string navPointerPano;
 
-        private GoogleMapsClient<Texture2D> gmaps;
+        private GoogleMapsClient gmaps;
         private GPSLocation gps;
         private PhotosphereManager photospheres;
         private Clickable navPlane;
@@ -157,7 +157,7 @@ namespace Juniper.World.GIS.Google
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
 
-            gmaps = new GoogleMapsClient<Texture2D>(gmapsApiKey, gmapsSigningKey, codec, metadataDecoder, geocodingDecoder, cache);
+            gmaps = new GoogleMapsClient(gmapsApiKey, gmapsSigningKey, metadataDecoder, geocodingDecoder, cache);
 
             photospheres.CubemapNeeded += Photosphere_CubemapNeeded;
 
@@ -293,7 +293,7 @@ namespace Juniper.World.GIS.Google
         {
             if (obj is PhotosphereJig jig)
             {
-                jig.ImageNeeded -= Photosphere_ImageNeeded;
+                jig.ImageStreamNeeded -= Photosphere_ImageStreamNeeded;
                 jig.Complete -= Photosphere_Complete;
             }
 
@@ -320,7 +320,7 @@ namespace Juniper.World.GIS.Google
             return $"{source.name}.jpeg";
         }
 
-        private Task<Texture2D> Photosphere_ImageNeeded(PhotosphereJig source, int fov, int heading, int pitch)
+        private Task<Stream> Photosphere_ImageStreamNeeded(PhotosphereJig source, int fov, int heading, int pitch)
         {
             return gmaps.GetImage(source.name, fov, heading, pitch);
         }
@@ -505,7 +505,7 @@ namespace Juniper.World.GIS.Google
                 if (!imageNeededSet.Contains(metadata.pano_id))
                 {
                     imageNeededSet.Add(metadata.pano_id);
-                    sphere.ImageNeeded += Photosphere_ImageNeeded;
+                    sphere.ImageStreamNeeded += Photosphere_ImageStreamNeeded;
                     sphere.Complete += Photosphere_Complete;
                 }
                 return sphere;

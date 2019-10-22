@@ -9,8 +9,6 @@ using UnityEngine;
 
 namespace Juniper.Imaging
 {
-    public delegate Task<Texture2D> PhotosphereJigImageNeeded(PhotosphereJig source, int fov, int heading, int pitch);
-
     public class PhotosphereManager : MonoBehaviour
     {
         private static Vector2[] MakeTestAngles(float fov, bool allAngles)

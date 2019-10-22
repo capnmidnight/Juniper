@@ -18,7 +18,8 @@ namespace Juniper.GoogleMaps
         private static readonly string MY_PICTURES = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
         private static ImageViewer form;
-        private static GoogleMapsClient<Image> gmaps;
+        private static GoogleMapsClient gmaps;
+        private static IImageCodec<Image> imageDecoder;
 
         /// <summary>
         /// The main entry point for the application.
@@ -30,7 +31,6 @@ namespace Juniper.GoogleMaps
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
 
-            var imageDecoder = new GDICodec(MediaType.Image.Jpeg);
             var json = new JsonFactory();
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
@@ -44,10 +44,12 @@ namespace Juniper.GoogleMaps
             var lines = File.ReadAllLines(keyFileName);
             var apiKey = lines[0];
             var signingKey = lines[1];
-            gmaps = new GoogleMapsClient<Image>(
+            gmaps = new GoogleMapsClient(
                 apiKey, signingKey,
-                imageDecoder, metadataDecoder, geocodingDecoder,
+                metadataDecoder, geocodingDecoder,
                 cache);
+
+            imageDecoder = new GDICodec(MediaType.Image.Jpeg);
 
             form = new ImageViewer();
             form.LocationSubmitted += Form_LocationSubmitted;
@@ -66,8 +68,11 @@ namespace Juniper.GoogleMaps
                 var geo = await gmaps.ReverseGeocode(metadata.location);
                 try
                 {
-                    var image = await gmaps.GetImage(metadata.pano_id, 20, 0, 0);
-                    form.SetImage(metadata, geo, image);
+                    using (var stream = await gmaps.GetImage(metadata.pano_id, 20, 0, 0))
+                    {
+                        var image = imageDecoder.Deserialize(stream);
+                        form.SetImage(metadata, geo, image);
+                    }
                 }
                 catch (Exception exp)
                 {
