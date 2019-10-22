@@ -20,7 +20,6 @@ namespace Juniper.Imaging
 
         private SkyboxManager skybox;
 
-        protected bool trySkybox = true;
         protected IImageCodec<Texture2D> codec;
         protected CachingStrategy cache;
 
@@ -62,25 +61,21 @@ namespace Juniper.Imaging
 
         public virtual void OnDisable()
         {
-            trySkybox = true;
-            IsReady = false;
-            this.Report(0);
-
             foreach (var child in transform.Children())
             {
                 child.Deactivate();
             }
         }
 
-        private async Task ReadCubemap(string filePath)
+        private async Task ReadCubemap()
         {
             try
             {
                 var progs = this.Split("Load", "Decode");
-                var imageStream = await cache.Open(filePath + codec.ContentType, progs[0]);
+                var imageStream = await cache.Open(CubemapName + codec.ContentType, progs[0]);
                 if (imageStream == null)
                 {
-                    Debug.Log("No cubemap found");
+                    Debug.Log("No cubemap found " + CubemapName);
                 }
                 else
                 {
@@ -110,8 +105,8 @@ namespace Juniper.Imaging
             }
             catch (Exception exp)
             {
-                Debug.LogError("Cubemap load error");
-                Debug.LogException(exp);
+                Debug.LogError("Cubemap load error " + CubemapName, this);
+                Debug.LogException(exp, this);
                 throw;
             }
         }
@@ -129,10 +124,19 @@ namespace Juniper.Imaging
             ProgressToReady = progress;
         }
 
-        protected Task readingTask;
+        private Task readingTask;
+
+        public virtual bool IsBusy
+        {
+            get
+            {
+                return readingTask.IsRunning();
+            }
+        }
+
         public virtual void Update()
         {
-            if (!readingTask.IsRunning())
+            if (!IsBusy)
             {
                 if (cache == null)
                 {
@@ -152,11 +156,11 @@ namespace Juniper.Imaging
                 if (cache != null
                     && codec != null
                     && !string.IsNullOrEmpty(CubemapName)
-                    && trySkybox)
+                    && !IsReady
+                    && cache.IsCached(CubemapName + codec.ContentType))
                 {
                     this.Report(0);
-                    trySkybox = false;
-                    readingTask = ReadCubemap(CubemapName);
+                    readingTask = ReadCubemap();
                 }
             }
         }

@@ -33,6 +33,7 @@ namespace Juniper.Imaging
         private bool wasComplete;
 
         private TaskFactory mainThread;
+        private Task updateTask;
 
         public override void Awake()
         {
@@ -48,8 +49,6 @@ namespace Juniper.Imaging
             {
                 material = new Material(Shader.Find("Unlit/Texture"));
             }
-
-            Complete += PhotosphereJig_Complete;
         }
 
         private void OnComplete(bool captureCubemap)
@@ -67,36 +66,59 @@ namespace Juniper.Imaging
             ProgressToComplete = 0;
         }
 
-        private void PhotosphereJig_Complete(Photosphere arg1, bool arg2)
+        public void DestroyJig()
         {
-            if (mgr != null
-                && mgr.lodLevelRequirements != null
-                && mgr.FOVs != null)
+            Debug.Log("Destroying Jig");
+            foreach(var sliceFrames in detailSliceFrameContainerCache.Values)
             {
-                for (var f = 0; f < mgr.lodLevelRequirements.Length; ++f)
+                foreach(var frames in sliceFrames.Values)
                 {
-                    var lodLevel = mgr.FOVs[f];
-                    if (detailContainerCache.ContainsKey(lodLevel))
-                    {
-                        detailContainerCache[lodLevel].Deactivate();
-                    }
+                    frames.Clear();
                 }
+
+                sliceFrames.Clear();
+            }
+
+            detailSliceFrameContainerCache.Clear();
+
+            foreach(var slices in detailSliceContainerCache.Values)
+            {
+                slices.Clear();
+            }
+
+            detailSliceContainerCache.Clear();
+
+            detailContainerCache.Clear();
+
+            foreach(var child in transform.Children())
+            {
+                child.gameObject.DestroyImmediate();
+            }
+        }
+
+        public override bool IsBusy
+        {
+            get
+            {
+                return base.IsBusy
+                    || updateTask.IsRunning();
             }
         }
 
         public override void Update()
         {
             base.Update();
-            if (!readingTask.IsRunning()
+
+            if (!IsBusy
                 && !IsComplete
-                && !trySkybox
                 && cache != null
                 && codec != null
                 && mgr != null
                 && mgr.lodLevelRequirements != null
-                && mgr.lodLevelRequirements.Length > 0)
+                && mgr.lodLevelRequirements.Length > 0
+                && !cache.IsCached(CubemapName + codec.ContentType))
             {
-                var isComplete = false;
+                var isComplete = wasComplete;
                 var isReady = IsReady;
                 if (mgr.lodLevelRequirements != null)
                 {
@@ -153,7 +175,7 @@ namespace Juniper.Imaging
                 }
                 else
                 {
-                    readingTask = UpdatePhotosphere();
+                    updateTask = UpdatePhotosphere();
                 }
             }
         }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -76,6 +75,9 @@ namespace Juniper.World.GIS.Google
         private IImageCodec<Texture2D> codec;
         private PhotosphereJig lastSphere;
         private TaskFactory mainThread;
+        private UnityTexture2DProcessor processor;
+        private Task searchTask;
+        private Task captureTask;
 
 #if UNITY_EDITOR
         private EditorTextInput locationInput;
@@ -110,12 +112,22 @@ namespace Juniper.World.GIS.Google
         }
 #endif
 
-        public bool Searching { get; private set; }
+        public bool IsBusy
+        {
+            get
+            {
+                return searchTask.IsRunning()
+                    || captureTask.IsRunning()
+                    || lastSphere != null
+                        && lastSphere.IsBusy;
+            }
+        }
 
         public override void Awake()
         {
             base.Awake();
 
+            processor = new UnityTexture2DProcessor();
             var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
             mainThread = new TaskFactory(scheduler);
 
@@ -192,24 +204,21 @@ namespace Juniper.World.GIS.Google
 
         private static readonly Texture2D[] CAPTURE_CUBEMAP_SUB_IMAGES = new Texture2D[CAPTURE_CUBEMAP_FACES.Length];
 
-        private async Task CaptureCubemap(Photosphere photosphere)
+        private async Task CaptureCubemap(PhotosphereJig photosphere)
         {
             try
             {
-                var cubemapName = photosphere.name;
-                var cubemapRef = cubemapName + codec.ContentType;
-                if (cache.IsCached(cubemapRef))
+                if (cache.IsCached(photosphere.name + codec.ContentType))
                 {
                     Debug.Log("Cubemap already cached");
                 }
                 else
                 {
-                    var prog = await mainThread.StartNew(() => new UnityEditorProgressDialog("Saving cubemap " + cubemapName));
+                    var prog = await mainThread.StartNew(() => new UnityEditorProgressDialog("Saving cubemap " + photosphere.name));
                     using (prog)
                     {
                         var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
                         const int dim = 2048;
-                        var anyDestroyed = false;
                         var cubemap = await mainThread.StartNew(() =>
                         {
                             subProgs[0].Report(0);
@@ -228,24 +237,8 @@ namespace Juniper.World.GIS.Google
                             DisplayManager.MainCamera.transform.rotation = curRotation;
                             subProgs[0].Report(1);
 
-                            foreach (var texture in CAPTURE_CUBEMAP_SUB_IMAGES)
-                            {
-                                if (texture != null)
-                                {
-                                    anyDestroyed = true;
-                                    Destroy(texture);
-                                }
-                            }
-
                             return cb;
                         });
-
-                        if (anyDestroyed)
-                        {
-                            var co = await mainThread.StartNew(() => Resources.UnloadUnusedAssets().AsCoroutine());
-                            await co.AsTask();
-                            await Task.Run(GC.Collect);
-                        }
 
 
                         for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
@@ -262,15 +255,37 @@ namespace Juniper.World.GIS.Google
                             });
                         }
 
-                        await mainThread.StartNew(() =>
-                        {
-                            var processor = new UnityTexture2DProcessor();
-                            var img = processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]);
-                            cache.Save(codec, cubemapRef, img, subProgs[3]);
-                        });
+                        var img = await mainThread.StartNew(() =>
+                            processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]));
 
-                        Debug.Log("Cubemap saved " + cubemapName);
+                        cache.Save(codec, photosphere.name + codec.ContentType, img, subProgs[3]);
+
+                        Debug.Log("Cubemap saved " + photosphere.name);
                     }
+                }
+
+                await mainThread.StartNew(photosphere.DestroyJig);
+
+                var anyDestroyed = await mainThread.StartNew(() =>
+                {
+                    var any = false;
+                    foreach (var texture in CAPTURE_CUBEMAP_SUB_IMAGES)
+                    {
+                        if (texture != null)
+                        {
+                            any = true;
+                            Destroy(texture);
+                        }
+                    }
+
+                    return any;
+                });
+
+                if (anyDestroyed)
+                {
+                    var co = await mainThread.StartNew(Resources.UnloadUnusedAssets().AsCoroutine);
+                    await co.AsTask();
+                    await Task.Run(GC.Collect);
                 }
 
                 photosphere.enabled = false;
@@ -283,29 +298,16 @@ namespace Juniper.World.GIS.Google
                 Debug.LogException(exp, this);
                 throw;
             }
-            finally
-            {
-                Searching = false;
-            }
         }
 
-        private void Photosphere_Complete(Photosphere obj, bool captureCubemap)
+        private void Photosphere_Complete(PhotosphereJig jig, bool captureCubemap)
         {
-            if (obj is PhotosphereJig jig)
-            {
-                jig.ImageStreamNeeded -= Photosphere_ImageStreamNeeded;
-                jig.Complete -= Photosphere_Complete;
-            }
+            jig.ImageStreamNeeded -= Photosphere_ImageStreamNeeded;
+            jig.Complete -= Photosphere_Complete;
 
             if (captureCubemap)
             {
-                print("start cubemap capture");
-                this.Run(CaptureCubemap(obj).AsCoroutine());
-                print("started cubemap capture");
-            }
-            else
-            {
-                Searching = false;
+                captureTask = CaptureCubemap(jig);
             }
         }
 #else
@@ -327,7 +329,7 @@ namespace Juniper.World.GIS.Google
 
         private void NavPlane_Click(object sender, EventArgs e)
         {
-            if (!Searching && !string.IsNullOrEmpty(navPointerPano))
+            if (!IsBusy && !string.IsNullOrEmpty(navPointerPano))
             {
                 searchLocation = navPointerPano;
             }
@@ -353,7 +355,7 @@ namespace Juniper.World.GIS.Google
         public void Update()
         {
             navPointer.position = navPointerPosition;
-            if (IsEntered && IsComplete && !Searching)
+            if (IsEntered && IsComplete && !IsBusy)
             {
                 SyncData(null);
             }
@@ -364,8 +366,7 @@ namespace Juniper.World.GIS.Google
             var isNewSearch = ParseSearchParams(searchLocation, out var searchPano, out var searchPoint);
             if (isNewSearch)
             {
-                Searching = true;
-                Task.Run(() => SearchData(searchPano, searchPoint, prog));
+                searchTask = SearchData(searchPano, searchPoint, prog);
             }
             else if (origin != null && metadata != null)
             {
@@ -381,8 +382,7 @@ namespace Juniper.World.GIS.Google
                 var cursorDelta = cursorPosition - lastCursorPosition;
                 if (cursorDelta.magnitude > 0.1f)
                 {
-                    Searching = true;
-                    Task.Run(SearchPoint);
+                    searchTask = SearchPoint();
                 }
             }
         }
@@ -398,8 +398,6 @@ namespace Juniper.World.GIS.Google
                 navPointerPano = nextMetadata.pano_id;
                 navPointerPosition = GetRelativeVector3(nextMetadata);
             }
-
-            Searching = false;
         }
 
         private async Task SearchData(string searchPano, LatLngPoint searchPoint, IProgress prog)
@@ -411,7 +409,6 @@ namespace Juniper.World.GIS.Google
 
             if (metadataCache.ContainsKey(searchLocation))
             {
-                Searching = false;
                 metadata = metadataCache[searchLocation];
             }
             else
@@ -501,14 +498,14 @@ namespace Juniper.World.GIS.Google
         {
             return mainThread.StartNew(() =>
             {
-                var sphere = photospheres.GetPhotosphere<PhotosphereJig>(metadata.pano_id);
+                var jig = photospheres.GetPhotosphere<PhotosphereJig>(metadata.pano_id);
                 if (!imageNeededSet.Contains(metadata.pano_id))
                 {
                     imageNeededSet.Add(metadata.pano_id);
-                    sphere.ImageStreamNeeded += Photosphere_ImageStreamNeeded;
-                    sphere.Complete += Photosphere_Complete;
+                    jig.ImageStreamNeeded += Photosphere_ImageStreamNeeded;
+                    jig.Complete += Photosphere_Complete;
                 }
-                return sphere;
+                return jig;
             });
         }
 
