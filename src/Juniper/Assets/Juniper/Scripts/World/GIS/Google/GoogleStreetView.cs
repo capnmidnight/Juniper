@@ -76,7 +76,7 @@ namespace Juniper.World.GIS.Google
         private UnifiedInputModule input;
         private CachingStrategy cache;
         private IImageCodec<Texture2D> codec;
-        private Photosphere lastSphere;
+        private PhotosphereJig lastSphere;
         private TaskFactory mainThread;
 
 #if UNITY_EDITOR
@@ -162,10 +162,8 @@ namespace Juniper.World.GIS.Google
 
             gmaps = new GoogleMapsClient<Texture2D>(gmapsApiKey, gmapsSigningKey, codec, metadataDecoder, geocodingDecoder, cache);
 
-            photospheres.CubemapNeeded += Photospheres_CubemapNeeded;
-            photospheres.ImageNeeded += Photospheres_ImageNeeded;
-            photospheres.PhotosphereReady += Photospheres_PhotosphereReady;
-            photospheres.PhotosphereComplete += Photospheres_PhotosphereComplete;
+            photospheres.CubemapNeeded += Photosphere_CubemapNeeded;
+            photospheres.PhotosphereReady += Photosphere_Ready;
 
             photospheres.SetIO(cache, codec);
             photospheres.SetDetailLevels(searchFOVs);
@@ -198,7 +196,7 @@ namespace Juniper.World.GIS.Google
 
         private static readonly Texture2D[] CAPTURE_CUBEMAP_SUB_IMAGES = new Texture2D[CAPTURE_CUBEMAP_FACES.Length];
 
-        private readonly Queue<Photosphere> captureQ = new Queue<Photosphere>();
+        private readonly Queue<PhotosphereJig> captureQ = new Queue<PhotosphereJig>();
 
         private IEnumerator CaptureCubemapCoroutine()
         {
@@ -294,11 +292,17 @@ namespace Juniper.World.GIS.Google
             }
         }
 
-        private void Photospheres_PhotosphereComplete(Photosphere obj, bool captureCubemap)
+        private void Photosphere_Complete(Photosphere obj, bool captureCubemap)
         {
-            if (captureCubemap)
+            if (!captureCubemap)
             {
-                captureQ.Enqueue(obj);
+                Searching = false;
+            }
+            else if(obj is PhotosphereJig jig)
+            {
+                jig.ImageNeeded -= Photosphere_ImageNeeded;
+                jig.Complete -= Photosphere_Complete;
+                captureQ.Enqueue(jig);
                 if (!cubemapLock)
                 {
                     cubemapLock = true;
@@ -307,31 +311,27 @@ namespace Juniper.World.GIS.Google
                     print("started cubemap capture");
                 }
             }
-            else
-            {
-                Searching = false;
-            }
         }
 #else
-        private void Photospheres_PhotosphereComplete(Photosphere obj, bool captureCubemap)
+        private void Photosphere_Complete(Photosphere obj, bool captureCubemap)
         {
             Searching = false;
         }
 #endif
 
-        private string Photospheres_CubemapNeeded(Photosphere source)
+        private string Photosphere_CubemapNeeded(Photosphere source)
         {
             return $"{source.name}.jpeg";
         }
 
-        private void Photospheres_PhotosphereReady(Photosphere obj)
+        private void Photosphere_Ready(Photosphere obj)
         {
             var delta = GetRelativeVector3(metadata);
             navPlane.transform.position = avatar.transform.position = delta;
             obj.transform.position = avatar.Head.position;
         }
 
-        private Task<Texture2D> Photospheres_ImageNeeded(Photosphere source, int fov, int heading, int pitch)
+        private Task<Texture2D> Photosphere_ImageNeeded(PhotosphereJig source, int fov, int heading, int pitch)
         {
             return gmaps.GetImage(source.name, fov, heading, pitch);
         }
@@ -495,10 +495,21 @@ namespace Juniper.World.GIS.Google
             }
         }
 
-        private Task<Photosphere> GetPhotosphere()
+        private readonly HashSet<string> imageNeededSet = new HashSet<string>();
+
+        private Task<PhotosphereJig> GetPhotosphere()
         {
             return mainThread.StartNew(() =>
-                photospheres.GetPhotosphere<Photosphere>(metadata.pano_id));
+            {
+                var sphere = photospheres.GetPhotosphere<PhotosphereJig>(metadata.pano_id);
+                if (!imageNeededSet.Contains(metadata.pano_id))
+                {
+                    imageNeededSet.Add(metadata.pano_id);
+                    sphere.ImageNeeded += Photosphere_ImageNeeded;
+                    sphere.Complete += Photosphere_Complete;
+                }
+                return sphere;
+            });
         }
 
         private bool ParseSearchParams(string searchLocation, out string searchPano, out LatLngPoint searchPoint)

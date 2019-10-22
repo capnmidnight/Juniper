@@ -9,6 +9,8 @@ using UnityEngine;
 
 namespace Juniper.Imaging
 {
+    public delegate Task<Texture2D> PhotosphereJigImageNeeded(PhotosphereJig source, int fov, int heading, int pitch);
+
     public class PhotosphereManager : MonoBehaviour
     {
         private static Vector2[] MakeTestAngles(float fov, bool allAngles)
@@ -41,10 +43,6 @@ namespace Juniper.Imaging
         private Photosphere curSphere;
 
         public event CubemapImageNeeded CubemapNeeded;
-
-        public event PhotosphereImageNeeded ImageNeeded;
-
-        public event Action<Photosphere, bool> PhotosphereComplete;
 
         public event Action<Photosphere> PhotosphereReady;
 
@@ -115,22 +113,10 @@ namespace Juniper.Imaging
             return CubemapNeeded?.Invoke(source);
         }
 
-        private Task<Texture2D> Photo_ImageNeeded(Photosphere source, int lodLevel, int heading, int pitch)
-        {
-            return ImageNeeded?.Invoke(source, lodLevel, heading, pitch);
-        }
-
         private void Photo_Ready(Photosphere obj)
         {
-            PhotosphereReady?.Invoke(obj);
-        }
-
-        private void Photo_Complete(Photosphere obj, bool captureCubemap)
-        {
             obj.CubemapNeeded -= Photo_CubemapNeeded;
-            obj.ImageNeeded -= Photo_ImageNeeded;
-            obj.Complete -= Photo_Complete;
-            PhotosphereComplete?.Invoke(obj, captureCubemap);
+            PhotosphereReady?.Invoke(obj);
         }
 
         private void CreatePhotosphere<T>(string key)
@@ -174,9 +160,7 @@ namespace Juniper.Imaging
             photo.CacheNeeded += Photo_CacheNeeded;
             photo.DecoderNeeded += Photo_DecoderNeeded;
             photo.Ready += Photo_Ready;
-            photo.Complete += Photo_Complete;
             photo.CubemapNeeded += Photo_CubemapNeeded;
-            photo.ImageNeeded += Photo_ImageNeeded;
             photospheres.Add(photo.CubemapName, photo);
         }
     }
