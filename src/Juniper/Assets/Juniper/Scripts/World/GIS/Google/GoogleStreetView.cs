@@ -63,6 +63,7 @@ namespace Juniper.World.GIS.Google
         private Vector3 cursorPosition;
         private Vector3 lastCursorPosition;
         private Vector3 navPointerPosition;
+        private string navPointerPano;
 
         private GoogleMapsClient<Texture2D> gmaps;
         private GPSLocation gps;
@@ -326,13 +327,9 @@ namespace Juniper.World.GIS.Google
 
         private void NavPlane_Click(object sender, EventArgs e)
         {
-            if (!Searching && origin != null && metadata != null)
+            if (!Searching && !string.IsNullOrEmpty(navPointerPano))
             {
-                var searchPoint = GetRelativeLatLng(navPointerPosition);
-                gmaps.GetMetadata(searchPoint, searchRadius)
-                    .ContinueWith(task =>
-                        searchLocation = task.Result.pano_id)
-                    .ConfigureAwait(false);
+                searchLocation = navPointerPano;
             }
         }
 
@@ -355,6 +352,7 @@ namespace Juniper.World.GIS.Google
 
         public void Update()
         {
+            navPointer.position = navPointerPosition;
             if (IsEntered && IsComplete && !Searching)
             {
                 SyncData(null);
@@ -397,9 +395,8 @@ namespace Juniper.World.GIS.Google
             nextMetadata = ValidateMetadata(nextMetadata);
             if (nextMetadata != null)
             {
+                navPointerPano = nextMetadata.pano_id;
                 navPointerPosition = GetRelativeVector3(nextMetadata);
-                await mainThread.StartNew(() =>
-                    navPointer.position = navPointerPosition);
             }
 
             Searching = false;
@@ -439,6 +436,8 @@ namespace Juniper.World.GIS.Google
 
                 if (metadata != null && !string.IsNullOrEmpty(metadata.pano_id))
                 {
+                    searchLocation = searchPano = metadata.pano_id;
+
                     metadataCache[metadata.pano_id] = metadata;
                     metadataCache[metadata.location.ToString()] = metadata;
                     metadataCache[searchLocation] = metadata;
