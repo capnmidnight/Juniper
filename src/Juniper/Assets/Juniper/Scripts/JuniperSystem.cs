@@ -270,6 +270,7 @@ namespace Juniper
 
 
         private static readonly Dictionary<string, EditorApplication.CallbackFunction> delegates = new Dictionary<string, EditorApplication.CallbackFunction>();
+
         public static void OnEditorUpdateIn(string key, TimeSpan time, Action act)
         {
             var end = DateTime.Now + time;
@@ -294,22 +295,9 @@ namespace Juniper
         }
 #endif
 
-        public static async Task CleanupAsync()
-        {
-            await Resources.UnloadUnusedAssets().AsTask();
-            await Task.Run(GC.Collect);
-        }
-
         public static IEnumerator CleanupCoroutine()
         {
-            var cleanupTask = CleanupAsync();
-            cleanupTask.ConfigureAwait(false);
-            return cleanupTask.AsCoroutine();
-        }
-
-        public void Cleanup()
-        {
-            this.Run(CleanupCoroutine());
+            return Resources.UnloadUnusedAssets().AsCoroutine();
         }
     }
 }

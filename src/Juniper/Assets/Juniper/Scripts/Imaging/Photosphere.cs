@@ -18,11 +18,6 @@ namespace Juniper.Imaging
         public const string PHOTOSPHERE_LAYER = "Photospheres";
         public static readonly string[] PHOTOSPHERE_LAYER_ARR = { PHOTOSPHERE_LAYER };
 
-        private SkyboxManager skybox;
-
-        protected IImageCodec<Texture2D> codec;
-        protected CachingStrategy cache;
-
         public string CubemapName;
 
         [Range(0, 1)]
@@ -32,12 +27,53 @@ namespace Juniper.Imaging
         public event TextureDecoderNeeded DecoderNeeded;
         public event CubemapImageNeeded CubemapNeeded;
         public event Action<Photosphere> Ready;
-        private TaskFactory mainThread;
+
+        protected void OnReady()
+        {
+            this.Report(1);
+            IsReady = true;
+            Ready?.Invoke(this);
+        }
 
         public bool IsReady
         {
             get;
             private set;
+        }
+
+        protected IImageCodec<Texture2D> codec;
+        protected CachingStrategy cache;
+
+        private TaskFactory mainThread;
+        private Task readingTask;
+        private SkyboxManager skybox;
+
+        public virtual bool IsBusy
+        {
+            get
+            {
+                return readingTask.IsRunning();
+            }
+        }
+
+        public float Progress
+        {
+            get
+            {
+                return ProgressToReady;
+            }
+        }
+
+        public string Status
+        {
+            get;
+            private set;
+        }
+
+        public void ReportWithStatus(float progress, string status)
+        {
+            Status = status;
+            ProgressToReady = progress;
         }
 
         public virtual void Awake()
@@ -61,76 +97,11 @@ namespace Juniper.Imaging
 
         public virtual void OnDisable()
         {
+            this.Report(0);
+            IsReady = false;
             foreach (var child in transform.Children())
             {
                 child.Deactivate();
-            }
-        }
-
-        private async Task ReadCubemap()
-        {
-            try
-            {
-                var progs = this.Split("Load", "Decode");
-                var imageStream = await cache.Open(CubemapName + codec.ContentType, progs[0]);
-                if (imageStream == null)
-                {
-                    Debug.Log("No cubemap found " + CubemapName);
-                }
-                else
-                {
-                    using (imageStream)
-                    {
-                        var co = await mainThread.StartNew(() =>
-                        {
-                            var texture = codec.Deserialize(imageStream, progs[1]);
-
-                            skybox.exposure = 1;
-                            skybox.imageType = SkyboxManager.ImageType.Degrees360;
-                            skybox.layout = SkyboxManager.Mode.Cube;
-                            skybox.mirror180OnBack = false;
-                            skybox.rotation = 0;
-                            skybox.stereoLayout = SkyboxManager.StereoLayout.None;
-                            skybox.tint = Color.gray;
-                            skybox.useMipMap = false;
-                            return skybox.SetTexture(texture);
-
-                        });
-
-                        await co.AsTask();
-
-                        OnReady();
-                    }
-                }
-            }
-            catch (Exception exp)
-            {
-                Debug.LogError("Cubemap load error " + CubemapName, this);
-                Debug.LogException(exp, this);
-                throw;
-            }
-        }
-
-        protected void OnReady()
-        {
-            this.Report(1);
-            IsReady = true;
-            Ready?.Invoke(this);
-        }
-
-        public void ReportWithStatus(float progress, string status)
-        {
-            Status = status;
-            ProgressToReady = progress;
-        }
-
-        private Task readingTask;
-
-        public virtual bool IsBusy
-        {
-            get
-            {
-                return readingTask.IsRunning();
             }
         }
 
@@ -165,6 +136,55 @@ namespace Juniper.Imaging
             }
         }
 
+        private async Task ReadCubemap()
+        {
+            try
+            {
+                var progs = this.Split("Load", "Decode");
+                var imageStream = await cache.Open(CubemapName + codec.ContentType, progs[0]);
+                if (imageStream == null)
+                {
+                    Debug.Log("No cubemap found " + CubemapName);
+                }
+                else
+                {
+                    using (imageStream)
+                    {
+                        var co = await mainThread.StartNew(() =>
+                        {
+                            var texture = codec.Deserialize(imageStream, progs[1]);
+
+                            skybox.exposure = 1;
+                            skybox.imageType = SkyboxManager.ImageType.Degrees360;
+                            skybox.layout = SkyboxManager.Mode.Cube;
+                            skybox.mirror180OnBack = false;
+                            skybox.rotation = 0;
+                            skybox.stereoLayout = SkyboxManager.StereoLayout.None;
+                            skybox.tint = Color.gray;
+                            skybox.useMipMap = false;
+                            return skybox.SetTexture(texture);
+                        });
+
+                        await co.AsTask();
+
+                        OnReady();
+                    }
+                }
+            }
+            catch (Exception exp)
+            {
+                Debug.LogError("Cubemap load error " + CubemapName, this);
+                Debug.LogException(exp, this);
+                throw;
+            }
+        }
+
+#if UNITY_EDITOR
+        public virtual void OnValidate()
+        {
+            ConfigurationManagement.TagManager.NormalizeLayer(PHOTOSPHERE_LAYER);
+        }
+
         protected virtual void OnDrawGizmos()
         {
             if (string.IsNullOrEmpty(CubemapName))
@@ -179,26 +199,6 @@ namespace Juniper.Imaging
                 Gizmos.DrawIcon(transform.position + Vector3.up, imageName);
             }
             Gizmos.DrawSphere(transform.position, 0.5f);
-        }
-
-        public float Progress
-        {
-            get
-            {
-                return ProgressToReady;
-            }
-        }
-
-        public string Status
-        {
-            get;
-            private set;
-        }
-
-#if UNITY_EDITOR
-        public virtual void OnValidate()
-        {
-            ConfigurationManagement.TagManager.NormalizeLayer(PHOTOSPHERE_LAYER);
         }
 
 #endif
