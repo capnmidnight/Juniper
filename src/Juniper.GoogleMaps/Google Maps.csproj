@@ -7,7 +7,7 @@
     <ProjectGuid>{C7061267-84C6-4AA9-AA62-4A1D9F0A5F93}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Juniper.GoogleMaps</RootNamespace>
-    <AssemblyName>Juniper.GoogleMaps</AssemblyName>
+    <AssemblyName>gmaps</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
