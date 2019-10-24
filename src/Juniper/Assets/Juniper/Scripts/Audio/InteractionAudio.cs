@@ -437,6 +437,7 @@ namespace Juniper.Audio
                     + 0.05f * listener.transform.right;
             }
             audioSource.transform.rotation = pose.rotation;
+            audioSource.Activate();
             audioSource.Play();
 
             return audioSource.clip.length;
