@@ -40,7 +40,7 @@ namespace Juniper.Imaging
 
         private Photosphere curSphere;
 
-        public event CubemapImageNeeded CubemapNeeded;
+        public event TextureNeeded CubemapNeeded;
 
         public event Action<Photosphere> PhotosphereReady;
 
@@ -88,32 +88,19 @@ namespace Juniper.Imaging
             return (T)curSphere;
         }
 
-        private IImageCodec<Texture2D> Photo_DecoderNeeded(Photosphere source)
+        private bool Photo_CheckIsCubemapAvailable(Photosphere source)
         {
-            if(codec != null)
-            {
-                source.DecoderNeeded -= Photo_DecoderNeeded;
-            }
-            return codec;
+            return cache.IsCached(source.CubemapName + codec.ContentType);
         }
 
-        private CachingStrategy Photo_CacheNeeded(Photosphere source)
-        {
-            if(cache != null)
-            {
-                source.CacheNeeded -= Photo_CacheNeeded;
-            }
-            return cache;
-        }
-
-        private string Photo_CubemapNeeded(Photosphere source)
+        private Task<Texture2D> Photo_CubemapNeeded(Photosphere source)
         {
             return CubemapNeeded?.Invoke(source);
         }
 
         private void Photo_Ready(Photosphere obj)
         {
-            obj.CubemapNeeded -= Photo_CubemapNeeded;
+            obj.GetCubemap -= Photo_CubemapNeeded;
             PhotosphereReady?.Invoke(obj);
         }
 
@@ -155,10 +142,9 @@ namespace Juniper.Imaging
             where T : Photosphere
         {
             photo.enabled = false;
-            photo.CacheNeeded += Photo_CacheNeeded;
-            photo.DecoderNeeded += Photo_DecoderNeeded;
             photo.Ready += Photo_Ready;
-            photo.CubemapNeeded += Photo_CubemapNeeded;
+            photo.GetCubemap += Photo_CubemapNeeded;
+            photo.CheckIsCubemapAvailable += Photo_CheckIsCubemapAvailable;
             photospheres.Add(photo.CubemapName, photo);
         }
     }

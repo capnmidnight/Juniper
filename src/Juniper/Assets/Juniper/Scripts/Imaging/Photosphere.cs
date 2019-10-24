@@ -2,16 +2,14 @@
 using System.IO;
 using System.Threading.Tasks;
 
-using Juniper.IO;
 using Juniper.Progress;
 
 using UnityEngine;
 
 namespace Juniper.Imaging
 {
-    public delegate CachingStrategy CachingStrategyNeeded(Photosphere source);
-    public delegate IImageCodec<Texture2D> TextureDecoderNeeded(Photosphere source);
-    public delegate string CubemapImageNeeded(Photosphere source);
+    public delegate bool CubemapAvailabilityNeeded(Photosphere source);
+    public delegate Task<Texture2D> TextureNeeded(Photosphere source);
 
     public class Photosphere : MonoBehaviour, IProgress
     {
@@ -23,9 +21,17 @@ namespace Juniper.Imaging
         [Range(0, 1)]
         public float ProgressToReady;
 
-        public event CachingStrategyNeeded CacheNeeded;
-        public event TextureDecoderNeeded DecoderNeeded;
-        public event CubemapImageNeeded CubemapNeeded;
+        public event CubemapAvailabilityNeeded CheckIsCubemapAvailable;
+
+        protected bool? IsCubemapAvailable
+        {
+            get
+            {
+                return CheckIsCubemapAvailable?.Invoke(this);
+            }
+        }
+
+        public event TextureNeeded GetCubemap;
         public event Action<Photosphere> Ready;
 
         protected void OnReady()
@@ -40,9 +46,6 @@ namespace Juniper.Imaging
             get;
             private set;
         }
-
-        protected IImageCodec<Texture2D> codec;
-        protected CachingStrategy cache;
 
         private TaskFactory mainThread;
         private Task readingTask;
@@ -107,32 +110,12 @@ namespace Juniper.Imaging
 
         public virtual void Update()
         {
-            if (!IsBusy)
+            if (!IsBusy
+                && !IsReady
+                && IsCubemapAvailable == true)
             {
-                if (cache == null)
-                {
-                    cache = CacheNeeded?.Invoke(this);
-                }
-
-                if (codec == null)
-                {
-                    codec = DecoderNeeded?.Invoke(this);
-                }
-
-                if (string.IsNullOrEmpty(CubemapName))
-                {
-                    CubemapName = CubemapNeeded?.Invoke(this);
-                }
-
-                if (cache != null
-                    && codec != null
-                    && !string.IsNullOrEmpty(CubemapName)
-                    && !IsReady
-                    && cache.IsCached(CubemapName + codec.ContentType))
-                {
-                    this.Report(0);
-                    readingTask = ReadCubemap();
-                }
+                this.Report(0);
+                readingTask = ReadCubemap();
             }
         }
 
@@ -141,19 +124,23 @@ namespace Juniper.Imaging
             try
             {
                 var progs = this.Split("Load", "Decode");
-                var imageStream = await cache.Open(CubemapName + codec.ContentType, progs[0]);
-                if (imageStream == null)
+                var textureTask = GetCubemap?.Invoke(this);
+                if (textureTask == null)
                 {
                     Debug.Log("No cubemap found " + CubemapName);
                 }
                 else
                 {
-                    using (imageStream)
+                    var texture = await textureTask;
+
+                    if (texture == null)
+                    {
+                        Debug.Log("No cubemap found " + CubemapName);
+                    }
+                    else
                     {
                         var co = await mainThread.StartNew(() =>
                         {
-                            var texture = codec.Deserialize(imageStream, progs[1]);
-
                             skybox.exposure = 1;
                             skybox.imageType = SkyboxManager.ImageType.Degrees360;
                             skybox.layout = SkyboxManager.Mode.Cube;

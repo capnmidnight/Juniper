@@ -304,7 +304,7 @@ namespace Juniper.World.GIS.Google
 
         private void Photosphere_Complete(PhotosphereJig jig, bool captureCubemap)
         {
-            jig.ImageStreamNeeded -= Photosphere_ImageStreamNeeded;
+            jig.ImageNeeded -= Photosphere_ImageNeeded;
             jig.Complete -= Photosphere_Complete;
 
             if (captureCubemap)
@@ -314,14 +314,49 @@ namespace Juniper.World.GIS.Google
         }
 #endif
 
-        private string Photosphere_CubemapNeeded(Photosphere source)
+        private async Task<Texture2D> Photosphere_CubemapNeeded(Photosphere source)
         {
-            return $"{source.name}.jpeg";
+            var cubemapRef = source.CubemapName + codec.ContentType;
+            if (cache == null
+                || codec == null
+                || string.IsNullOrEmpty(source.CubemapName)
+                || !cache.IsCached(cubemapRef))
+            {
+                return null;
+            }
+            else
+            {
+                return await Decode(await cache.Open(cubemapRef));
+            }
         }
 
-        private Task<Stream> Photosphere_ImageStreamNeeded(PhotosphereJig source, int fov, int heading, int pitch)
+        private async Task<Texture2D> Photosphere_ImageNeeded(PhotosphereJig source, int fov, int heading, int pitch)
         {
-            return gmaps.GetImage(source.name, fov, heading, pitch);
+            if (gmaps == null
+                || codec == null)
+            {
+                return null;
+            }
+            else
+            {
+                return await Decode(await gmaps.GetImage(source.CubemapName, fov, heading, pitch));
+            }
+        }
+
+        private async Task<Texture2D> Decode(Stream imageStream)
+        {
+            if (imageStream == null)
+            {
+                return null;
+            }
+            else
+            {
+                using (imageStream)
+                {
+                    return await mainThread.StartNew(() =>
+                    codec.Deserialize(imageStream));
+                }
+            }
         }
 
         private void NavPlane_Click(object sender, EventArgs e)
@@ -499,7 +534,7 @@ namespace Juniper.World.GIS.Google
                 if (!imageNeededSet.Contains(metadata.pano_id))
                 {
                     imageNeededSet.Add(metadata.pano_id);
-                    jig.ImageStreamNeeded += Photosphere_ImageStreamNeeded;
+                    jig.ImageNeeded += Photosphere_ImageNeeded;
 #if UNITY_EDITOR
                     jig.Complete += Photosphere_Complete;
 #endif

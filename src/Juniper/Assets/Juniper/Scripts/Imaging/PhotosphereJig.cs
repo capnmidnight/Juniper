@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
-using Juniper.IO;
 using Juniper.Progress;
 using Juniper.Units;
 
@@ -11,7 +9,7 @@ using UnityEngine;
 
 namespace Juniper.Imaging
 {
-    public delegate Task<Stream> PhotosphereJigImageNeeded(PhotosphereJig source, int fov, int heading, int pitch);
+    public delegate Task<Texture2D> PhotosphereJigImageNeeded(PhotosphereJig source, int fov, int heading, int pitch);
 
     public class PhotosphereJig : Photosphere
     {
@@ -25,7 +23,7 @@ namespace Juniper.Imaging
         private PhotosphereManager mgr;
         private Avatar avatar;
 
-        public event PhotosphereJigImageNeeded ImageStreamNeeded;
+        public event PhotosphereJigImageNeeded ImageNeeded;
         public event Action<PhotosphereJig, bool> Complete;
 
         [Range(0, 1)]
@@ -69,9 +67,9 @@ namespace Juniper.Imaging
         public void DestroyJig()
         {
             Debug.Log("Destroying Jig");
-            foreach(var sliceFrames in detailSliceFrameContainerCache.Values)
+            foreach (var sliceFrames in detailSliceFrameContainerCache.Values)
             {
-                foreach(var frames in sliceFrames.Values)
+                foreach (var frames in sliceFrames.Values)
                 {
                     frames.Clear();
                 }
@@ -81,7 +79,7 @@ namespace Juniper.Imaging
 
             detailSliceFrameContainerCache.Clear();
 
-            foreach(var slices in detailSliceContainerCache.Values)
+            foreach (var slices in detailSliceContainerCache.Values)
             {
                 slices.Clear();
             }
@@ -90,7 +88,7 @@ namespace Juniper.Imaging
 
             detailContainerCache.Clear();
 
-            foreach(var child in transform.Children())
+            foreach (var child in transform.Children())
             {
                 child.gameObject.DestroyImmediate();
             }
@@ -111,12 +109,10 @@ namespace Juniper.Imaging
 
             if (!IsBusy
                 && !IsComplete
-                && cache != null
-                && codec != null
+                && IsCubemapAvailable == false
                 && mgr != null
                 && mgr.lodLevelRequirements != null
-                && mgr.lodLevelRequirements.Length > 0
-                && !cache.IsCached(CubemapName + codec.ContentType))
+                && mgr.lodLevelRequirements.Length > 0)
             {
                 var isComplete = wasComplete;
                 var isReady = IsReady;
@@ -266,32 +262,25 @@ namespace Juniper.Imaging
                             });
                         }
 
-                        var imageStreamTask = ImageStreamNeeded?.Invoke(this, (int)overlapFOV, heading, pitch);
-                        if (imageStreamTask != null)
+                        var imageTask = ImageNeeded?.Invoke(this, (int)overlapFOV, heading, pitch);
+                        if (imageTask != null)
                         {
-                            var imageStream = await imageStreamTask;
-                            if (imageStream != null)
+                            var image = await imageTask;
+                            if (image != null)
                             {
-                                using (imageStream)
+                                await mainThread.StartNew(() =>
                                 {
-                                    await mainThread.StartNew(() =>
-                                    {
-                                        var image = codec.Deserialize(imageStream);
-                                        if (image != null)
-                                        {
-                                            var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
-                                            var renderer = frame.GetComponent<MeshRenderer>();
-                                            var properties = new MaterialPropertyBlock();
-                                            properties.SetTexture("_MainTex", image);
-                                            renderer.SetMaterial(material);
-                                            renderer.SetPropertyBlock(properties);
-                                            frame.layer = LayerMask.NameToLayer(PHOTOSPHERE_LAYER);
-                                            var frameContainer = frameContainerCache[pitch];
-                                            frame.transform.SetParent(frameContainer, false);
-                                            frame.transform.localScale = scale * Vector3.one;
-                                        }
-                                    });
-                                }
+                                    var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                                    var renderer = frame.GetComponent<MeshRenderer>();
+                                    var properties = new MaterialPropertyBlock();
+                                    properties.SetTexture("_MainTex", image);
+                                    renderer.SetMaterial(material);
+                                    renderer.SetPropertyBlock(properties);
+                                    frame.layer = LayerMask.NameToLayer(PHOTOSPHERE_LAYER);
+                                    var frameContainer = frameContainerCache[pitch];
+                                    frame.transform.SetParent(frameContainer, false);
+                                    frame.transform.localScale = scale * Vector3.one;
+                                });
                             }
                         }
 
