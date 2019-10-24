@@ -100,7 +100,6 @@ namespace Juniper.Imaging
 
         private void Photo_Ready(Photosphere obj)
         {
-            obj.GetCubemap -= Photo_CubemapNeeded;
             PhotosphereReady?.Invoke(obj);
         }
 
