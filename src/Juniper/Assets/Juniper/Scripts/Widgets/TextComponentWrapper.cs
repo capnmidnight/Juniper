@@ -36,28 +36,45 @@ namespace Juniper.Widgets
 #if UNITY_EDITOR
         private void OnValidate()
         {
+            unityText = null;
+            unityTextMesh = null;
+            textMeshPro = null;
             SetupControls();
         }
 #endif
+
+        private T Get<T>()
+        {
+            foreach(var trans in transform.Family())
+            {
+                var v = trans.GetComponent<T>();
+                if(v != null)
+                {
+                    return v;
+                }
+            }
+
+            return default;
+        }
 
         internal void SetupControls()
         {
 #if UNITY_MODULES_UI
             if (unityText == null)
             {
-                unityText = GetComponentInChildren<Text>(true);
+                unityText = Get<Text>();
             }
 
             if (unityTextMesh == null)
             {
-                unityTextMesh = GetComponentInChildren<TextMesh>(true);
+                unityTextMesh = Get<TextMesh>();
             }
 #endif
 
 #if UNITY_TEXTMESHPRO
             if (textMeshPro == null)
             {
-                textMeshPro = GetComponentInChildren<TMP_Text>(true);
+                textMeshPro = Get<TMP_Text>();
             }
 #endif
         }

@@ -69,18 +69,20 @@ namespace Juniper.Settings
 
             if (disablerCount == 1)
             {
-                EnableButton(onlyDisablerButton, false);
+                EnableButton(onlyDisablerButton, false, true);
             }
         }
 
         private void SetButtonView(string name, GameObject button, bool deviceAvailable, bool deviceEnabled, ref bool? lastAvailable, ref bool? lastEnabled)
         {
-            if (button != null && (deviceAvailable != lastAvailable || deviceEnabled != lastEnabled))
+            if (button != null
+                && (deviceAvailable != lastAvailable
+                    || deviceEnabled != lastEnabled))
             {
                 lastAvailable = deviceAvailable;
                 lastEnabled = deviceEnabled;
 
-                EnableButton(button, deviceAvailable);
+                EnableButton(button, deviceAvailable, deviceEnabled);
 
                 if (deviceAvailable && deviceEnabled && button != EnableVoiceButton)
                 {
@@ -94,9 +96,13 @@ namespace Juniper.Settings
                         ? "Disable " + name.ToLowerInvariant()
                         : "Enable " + name.ToLowerInvariant();
 
+                print($"{deviceAvailable}, {deviceEnabled}, {text}");
 
-                var textElement = button.Ensure<TextComponentWrapper>().Value;
-                textElement.Text = text;
+                var textElement = button.GetComponent<TextComponentWrapper>();
+                if (textElement != null)
+                {
+                    textElement.Text = text;
+                }
 
                 var keywordable = button.GetComponent<Keywordable>();
                 if (keywordable != null)
@@ -106,7 +112,7 @@ namespace Juniper.Settings
             }
         }
 
-        private static void EnableButton(GameObject button, bool deviceAvailable)
+        private static void EnableButton(GameObject button, bool deviceAvailable, bool deviceEnabled)
         {
             var sel = button.GetComponent<Selectable>();
             if (sel != null)
@@ -126,7 +132,7 @@ namespace Juniper.Settings
                 var keywords = keywordable.keywords;
                 for(int i = 0; i < keywords.Length; ++i)
                 {
-                    if (deviceAvailable)
+                    if (!deviceEnabled)
                     {
                         keywords[i] = keywords[i]
                             .Replace("disable", "enable")
@@ -141,14 +147,7 @@ namespace Juniper.Settings
                 }
 
                 keywords = keywords.Distinct().ToArray();
-                if (deviceAvailable)
-                {
-                    var newKeywords = keywords.Select(x => x.Replace("enable", "use"));
-                    keywords = keywords.Union(newKeywords).ToArray();
-                }
-
                 Array.Sort(keywords);
-
                 keywordable.keywords = keywords;
                 keywordable.SetTooltips();
             }
@@ -181,6 +180,15 @@ namespace Juniper.Settings
 
         public void ToggleVoice()
         {
+            if (input.mode.HasFlag(InputMode.Voice))
+            {
+                print("has voice");
+            }
+            else
+            {
+                print("no voice");
+            }
+
             if (input.VoiceEnabled)
             {
                 input.mode &= ~InputMode.Voice;
@@ -188,6 +196,15 @@ namespace Juniper.Settings
             else
             {
                 input.mode |= InputMode.Voice;
+            }
+
+            if (input.mode.HasFlag(InputMode.Voice))
+            {
+                print("has voice");
+            }
+            else
+            {
+                print("no voice");
             }
         }
     }
