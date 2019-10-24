@@ -42,6 +42,8 @@ namespace Juniper.Imaging
 
         public event TextureNeeded CubemapNeeded;
 
+        public event CubemapRotationNeeded RotationNeeded;
+
         public event Action<Photosphere> PhotosphereReady;
 
         private CachingStrategy cache;
@@ -144,7 +146,13 @@ namespace Juniper.Imaging
             photo.Ready += Photo_Ready;
             photo.GetCubemap += Photo_CubemapNeeded;
             photo.CheckIsCubemapAvailable += Photo_CheckIsCubemapAvailable;
+            photo.GetRotation += Photo_GetRotation;
             photospheres.Add(photo.CubemapName, photo);
+        }
+
+        private float Photo_GetRotation(Photosphere source)
+        {
+            return RotationNeeded?.Invoke(source) ?? 0;
         }
     }
 }
