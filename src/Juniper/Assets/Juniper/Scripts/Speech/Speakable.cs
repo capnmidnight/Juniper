@@ -5,6 +5,7 @@ using Juniper.Audio;
 using Juniper.Widgets;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Juniper.Speech
 {
@@ -23,6 +24,7 @@ namespace Juniper.Speech
 
         private InteractionAudio interaction;
 
+        public bool playOnAwake;
         public string text;
         private string lastText;
 
@@ -39,9 +41,9 @@ namespace Juniper.Speech
         public float pitch = 1;
         private float lastPitch;
 
-        public bool playOnAwake;
-        private bool needsPlay;
+        public UnityEvent OnEnd;
 
+        private bool needsPlay;
         private AudioClip clip;
 
         [SerializeField]
@@ -142,6 +144,7 @@ namespace Juniper.Speech
             {
                 yield return null;
             }
+            OnEnd?.Invoke();
             KeywordRecognizer.Resume();
         }
 #endif

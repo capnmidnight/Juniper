@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Juniper.Progress;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Juniper.Imaging
 {
@@ -23,6 +24,8 @@ namespace Juniper.Imaging
         public float ProgressToReady;
 
         public event CubemapAvailabilityNeeded CheckIsCubemapAvailable;
+
+        public UnityEvent OnEnter;
 
         protected bool? IsCubemapAvailable
         {
@@ -101,22 +104,15 @@ namespace Juniper.Imaging
             }
         }
 
-        private void OnEnable()
+        public virtual void OnEnable()
         {
-            foreach (var child in transform.Children())
-            {
-                child.Activate();
-            }
+            OnEnter?.Invoke();
         }
 
         public virtual void OnDisable()
         {
             this.Report(0);
             IsReady = false;
-            foreach (var child in transform.Children())
-            {
-                child.Deactivate();
-            }
         }
 
         public virtual void Update()

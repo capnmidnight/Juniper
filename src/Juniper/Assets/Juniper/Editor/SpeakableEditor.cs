@@ -10,6 +10,8 @@ using UnityEditor;
 
 using UnityEngine;
 
+using static UnityEditor.EditorGUILayout;
+
 namespace Juniper.Events
 {
 
@@ -44,106 +46,113 @@ namespace Juniper.Events
             return voices;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "HAA0101:Array allocation for params parameter", Justification = "<Pending>")]
         public override void OnInspectorGUI()
         {
-            EditorGUI.BeginChangeCheck();
-            serializedObject.Update();
-            var value = (Speakable)serializedObject.targetObject;
-            EditorGUILayoutExt.ShowScriptField(value);
-            if (voices == null)
+            using (_ = new EditorGUI.ChangeCheckScope())
             {
-                using (new EditorGUI.DisabledScope(true))
-                {
-                    EditorGUILayout.Popup(VoiceLocaleDropdownLabel, 0, Array.Empty<GUIContent>());
-                }
-            }
-            else
-            {
-                value.text = EditorGUILayout.TextField("Text", value.text);
+                serializedObject.Update();
 
-                var voiceLanguages = voices
-                    .Select(v => v.Locale)
-                    .Distinct()
-                    .OrderBy(v => v)
-                    .ToArray();
+                var value = (Speakable)serializedObject.targetObject;
+                EditorGUILayoutExt.ShowScriptField(value);
 
-                var voiceLanguagesLabels = voiceLanguages.ToGUIContents();
+                PropertyField(serializedObject.FindProperty("playOnAwake"), new GUIContent("Play on Awake"));
+                PropertyField(serializedObject.FindProperty("text"), new GUIContent("Text"));
 
-                var selectedLocaleIndex = ArrayUtility.IndexOf(voiceLanguages, value.voiceLanguage);
-                selectedLocaleIndex = EditorGUILayout.Popup(VoiceLocaleDropdownLabel, selectedLocaleIndex, voiceLanguagesLabels);
-
-                if (selectedLocaleIndex < 0)
+                if (voices == null)
                 {
                     using (new EditorGUI.DisabledScope(true))
                     {
-                        EditorGUILayout.Popup(VoiceGenderDropdownLabel, 0, Array.Empty<GUIContent>());
+                        Popup(VoiceLocaleDropdownLabel, 0, Array.Empty<GUIContent>());
                     }
                 }
                 else
                 {
-                    var selectedLanguage = voiceLanguages[selectedLocaleIndex];
-                    if (selectedLanguage != value.voiceLanguage)
-                    {
-                        value.voiceLanguage = selectedLanguage;
-                        value.voiceGender = string.Empty;
-                        value.voiceName = string.Empty;
-                    }
 
-                    var langVoices = voices
-                        .Where(v => v.Locale == selectedLanguage);
-
-                    var voiceGenders = langVoices
-                        .Select(v => v.Gender)
+                    var voiceLanguages = voices
+                        .Select(v => v.Locale)
                         .Distinct()
+                        .OrderBy(v => v)
                         .ToArray();
 
-                    var voiceGenderLabels = voiceGenders.ToGUIContents();
+                    var voiceLanguagesLabels = voiceLanguages.ToGUIContents();
 
-                    var selectedGenderIndex = ArrayUtility.IndexOf(voiceGenders, value.voiceGender);
-                    selectedGenderIndex = EditorGUILayout.Popup(VoiceGenderDropdownLabel, selectedGenderIndex, voiceGenderLabels);
+                    var selectedLocaleIndex = ArrayUtility.IndexOf(voiceLanguages, value.voiceLanguage);
+                    selectedLocaleIndex = Popup(VoiceLocaleDropdownLabel, selectedLocaleIndex, voiceLanguagesLabels);
 
-                    if (selectedGenderIndex < 0)
+                    if (selectedLocaleIndex < 0)
                     {
-                        EditorGUILayout.Popup(VoiceNameDropdownLabel, 0, Array.Empty<GUIContent>());
+                        using (new EditorGUI.DisabledScope(true))
+                        {
+                            Popup(VoiceGenderDropdownLabel, 0, Array.Empty<GUIContent>());
+                        }
                     }
                     else
                     {
-                        var selectedGender = voiceGenders[selectedGenderIndex];
-                        if (selectedGender != value.voiceGender)
+                        var selectedLanguage = voiceLanguages[selectedLocaleIndex];
+                        if (selectedLanguage != value.voiceLanguage)
                         {
-                            value.voiceGender = selectedGender;
+                            value.voiceLanguage = selectedLanguage;
+                            value.voiceGender = string.Empty;
                             value.voiceName = string.Empty;
                         }
 
-                        var gendVoices = langVoices
-                            .Where(v => v.Gender == selectedGender);
+                        var langVoices = voices
+                            .Where(v => v.Locale == selectedLanguage);
 
-                        var voiceNames = gendVoices
-                            .Select(v => v.ShortName)
+                        var voiceGenders = langVoices
+                            .Select(v => v.Gender)
+                            .Distinct()
                             .ToArray();
 
-                        var voiceNameLabels = voiceNames.ToGUIContents();
+                        var voiceGenderLabels = voiceGenders.ToGUIContents();
 
-                        var selectedNameIndex = ArrayUtility.IndexOf(voiceNames, value.voiceName);
-                        selectedNameIndex = EditorGUILayout.Popup(VoiceNameDropdownLabel, selectedNameIndex, voiceNameLabels);
-                        if (0 <= selectedNameIndex)
+                        var selectedGenderIndex = ArrayUtility.IndexOf(voiceGenders, value.voiceGender);
+                        selectedGenderIndex = Popup(VoiceGenderDropdownLabel, selectedGenderIndex, voiceGenderLabels);
+
+                        if (selectedGenderIndex < 0)
                         {
-                            value.voiceName = voiceNames[selectedNameIndex];
+                            Popup(VoiceNameDropdownLabel, 0, Array.Empty<GUIContent>());
                         }
                         else
                         {
-                            value.voiceName = string.Empty;
-                        }
+                            var selectedGender = voiceGenders[selectedGenderIndex];
+                            if (selectedGender != value.voiceGender)
+                            {
+                                value.voiceGender = selectedGender;
+                                value.voiceName = string.Empty;
+                            }
 
-                        value.pitch = EditorGUILayout.Slider("Pitch", value.pitch, -0.1f, 3f);
-                        value.speakingRate = EditorGUILayout.Slider("Rate", value.speakingRate, -0.1f, 5f);
+                            var gendVoices = langVoices
+                                .Where(v => v.Gender == selectedGender);
+
+                            var voiceNames = gendVoices
+                                .Select(v => v.ShortName)
+                                .ToArray();
+
+                            var voiceNameLabels = voiceNames.ToGUIContents();
+
+                            var selectedNameIndex = ArrayUtility.IndexOf(voiceNames, value.voiceName);
+                            selectedNameIndex = Popup(VoiceNameDropdownLabel, selectedNameIndex, voiceNameLabels);
+                            if (0 <= selectedNameIndex)
+                            {
+                                value.voiceName = voiceNames[selectedNameIndex];
+
+                                value.pitch = Slider("Pitch", value.pitch, -0.1f, 3f);
+                                value.speakingRate = Slider("Rate", value.speakingRate, -0.1f, 5f);
+                            }
+                            else
+                            {
+                                value.voiceName = string.Empty;
+                            }
+                        }
                     }
+
                 }
 
+                PropertyField(serializedObject.FindProperty("OnEnd"), new GUIContent("On End Event"));
+                serializedObject.ApplyModifiedProperties();
             }
-
-            serializedObject.ApplyModifiedProperties();
-            EditorGUI.EndChangeCheck();
         }
 #endif
     }

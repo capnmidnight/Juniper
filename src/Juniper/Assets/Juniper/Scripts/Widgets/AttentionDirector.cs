@@ -19,7 +19,7 @@ namespace Juniper.Widgets
     /// <summary>
     /// Shows a pointer that directs the user to where to look next.
     /// </summary>
-    [RequireComponent(typeof(AbstractAnimator))]
+    [RequireComponent(typeof(UnityAnimator))]
     public class AttentionDirector : MonoBehaviour
     {
         /// <summary>
