@@ -14,8 +14,17 @@ namespace UnityEditor
 
         public void Dispose()
         {
-            EditorGUILayout.EndHorizontal();
-            EditorGUI.indentLevel -= indent;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                EditorGUILayout.EndHorizontal();
+                EditorGUI.indentLevel -= indent;
+            }
         }
     }
 }
