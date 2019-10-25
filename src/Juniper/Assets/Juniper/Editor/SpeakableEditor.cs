@@ -47,7 +47,7 @@ namespace Juniper.Events
         public override void OnInspectorGUI()
         {
             EditorGUI.BeginChangeCheck();
-            serializedObject.UpdateIfRequiredOrScript();
+            serializedObject.Update();
             var value = (Speakable)serializedObject.targetObject;
             EditorGUILayoutExt.ShowScriptField(value);
             if (voices == null)
@@ -141,6 +141,7 @@ namespace Juniper.Events
                 }
 
             }
+
             serializedObject.ApplyModifiedProperties();
             EditorGUI.EndChangeCheck();
         }
