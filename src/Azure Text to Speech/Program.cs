@@ -81,6 +81,8 @@ namespace Juniper.Speech
 
         private static void SaveStream(Stream newStream, string fileName)
         {
+            StopPlayback();
+
             using (var outFile = File.OpenWrite(fileName))
             using (newStream)
             {
@@ -90,16 +92,21 @@ namespace Juniper.Speech
 
         private static void PlayStream(Stream newStream)
         {
-            player.Stop();
-            if (player.Stream != null)
-            {
-                var stream = player.Stream;
-                player.Stream = null;
-                stream.Dispose();
-            }
+            StopPlayback();
 
             player.Stream = newStream;
             player.Play();
+        }
+
+        private static void StopPlayback()
+        {
+            if (player.Stream != null)
+            {
+                var stream = player.Stream;
+                player.Stop();
+                player.Stream = null;
+                stream.Dispose();
+            }
         }
     }
 }
