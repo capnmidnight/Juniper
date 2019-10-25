@@ -24,6 +24,12 @@ namespace Juniper.Unity.Editor
             "ERROR",
             ("Stack Trace", 300));
 
+        protected static readonly GUILayoutOption availFieldWidth = Width(50);
+        protected static readonly GUILayoutOption shortLabelWidth = Width(75);
+        protected static readonly GUILayoutOption distFieldWidth = Width(100);
+        protected static readonly GUILayoutOption panoFieldWidth = Width(200);
+        protected static readonly GUILayoutOption latLngFieldWidth = Width(250);
+
         private static bool initialized;
         private static Task watcherTask;
 
