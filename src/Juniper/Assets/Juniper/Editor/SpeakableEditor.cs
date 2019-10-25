@@ -134,6 +134,9 @@ namespace Juniper.Events
                         {
                             value.voiceName = string.Empty;
                         }
+
+                        value.pitch = EditorGUILayout.Slider("Pitch", value.pitch, -0.1f, 3f);
+                        value.speakingRate = EditorGUILayout.Slider("Rate", value.speakingRate, -0.1f, 5f);
                     }
                 }
 
