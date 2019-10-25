@@ -8,24 +8,33 @@ namespace Juniper.Widgets
 {
     public class MenuCollection : SubSceneController
     {
+        public const string START_GAME_KEY = "Juniper.Game.Start";
+
         private readonly Dictionary<string, MenuView> views = new Dictionary<string, MenuView>();
 
-        public string firstView;
+        public string mainMenuView;
+        private string nextView;
 
-        public void SetFirstView(string firstView)
+        public void SetReturnMenuView(string nextView)
         {
-            this.firstView = firstView;
+            this.nextView = nextView;
+        }
+
+        public void ReturnToMainMenu()
+        {
+            SetReturnMenuView(mainMenuView);
+            SwitchToScene(gameObject.scene.name);
         }
 
         public void OnValidate()
         {
-            if (string.IsNullOrEmpty(firstView))
+            if (string.IsNullOrEmpty(mainMenuView))
             {
                 var views = GetComponentsInChildren<MenuView>(true);
                 if (views.Length > 0)
                 {
 
-                    firstView = views[0].name;
+                    mainMenuView = views[0].name;
                 }
             }
         }
@@ -33,6 +42,8 @@ namespace Juniper.Widgets
         public override void Awake()
         {
             base.Awake();
+
+            nextView = mainMenuView;
 
             this.views.Clear();
 
@@ -60,6 +71,11 @@ namespace Juniper.Widgets
         public void ShowMenuView(string name)
         {
             this.Run(ShowMenuViewCoroutine(name));
+        }
+
+        public void SetStartValues(string json)
+        {
+            PlayerPrefs.SetString(START_GAME_KEY, json);
         }
 
         private IEnumerator ShowMenuViewCoroutine(string name)
@@ -90,7 +106,7 @@ namespace Juniper.Widgets
         protected override void OnEntered()
         {
             base.OnEntered();
-            ShowMenuView(firstView);
+            ShowMenuView(nextView);
         }
 
         protected override void OnExiting()

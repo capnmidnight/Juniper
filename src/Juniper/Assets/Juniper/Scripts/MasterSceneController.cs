@@ -499,6 +499,11 @@ namespace Juniper
                 for (var i = 0; i < toLoad.Length; ++i)
                 {
                     var ss = toLoad[i];
+                    if(!ss.CanEnter && ss.CanExit)
+                    {
+                        yield return ss.ExitCoroutine();
+                    }
+
                     if (ss.CanEnter)
                     {
                         yield return ss.EnterCoroutine(subSceneLoadProg.Subdivide(i, toLoad.Length, ss.name));
