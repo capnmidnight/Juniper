@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Juniper.Progress;
+
 using UnityEngine;
 
 namespace Juniper.Widgets
@@ -22,7 +23,8 @@ namespace Juniper.Widgets
 
         public void ReturnToMainMenu()
         {
-            ShowMenuView(mainMenuView);
+            SetReturnMenuView(mainMenuView);
+            SwitchToScene(gameObject.scene.name);
         }
 
         public void ShowMenuView(string name)
