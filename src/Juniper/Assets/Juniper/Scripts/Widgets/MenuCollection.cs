@@ -22,21 +22,35 @@ namespace Juniper.Widgets
 
         public void ReturnToMainMenu()
         {
-            SetReturnMenuView(mainMenuView);
-            SwitchToScene(gameObject.scene.name);
+            ShowMenuView(mainMenuView);
         }
 
-        public void OnValidate()
+        public void ShowMenuView(string name)
         {
-            if (string.IsNullOrEmpty(mainMenuView))
-            {
-                var views = GetComponentsInChildren<MenuView>(true);
-                if (views.Length > 0)
-                {
+            this.Run(ShowMenuViewCoroutine(name));
+        }
 
-                    mainMenuView = views[0].name;
+        private IEnumerator ShowMenuViewCoroutine(string name)
+        {
+            foreach (var view in views)
+            {
+                if (view.Key != name && view.Value.CanExit)
+                {
+                    yield return view.Value.ExitCoroutine();
+                    view.Value.Deactivate();
                 }
             }
+
+            if (name != null)
+            {
+                views[name].Activate();
+                yield return views[name].EnterCoroutine();
+            }
+        }
+
+        public void SetStartValues(string json)
+        {
+            PlayerPrefs.SetString(START_GAME_KEY, json);
         }
 
         public override void Awake()
@@ -68,34 +82,6 @@ namespace Juniper.Widgets
             views.Add(view.name, view);
         }
 
-        public void ShowMenuView(string name)
-        {
-            this.Run(ShowMenuViewCoroutine(name));
-        }
-
-        public void SetStartValues(string json)
-        {
-            PlayerPrefs.SetString(START_GAME_KEY, json);
-        }
-
-        private IEnumerator ShowMenuViewCoroutine(string name)
-        {
-            foreach (var view in views)
-            {
-                if (view.Key != name && view.Value.CanExit)
-                {
-                    yield return view.Value.ExitCoroutine();
-                    view.Value.Deactivate();
-                }
-            }
-
-            if (name != null)
-            {
-                views[name].Activate();
-                yield return views[name].EnterCoroutine();
-            }
-        }
-
         public override void Enter(IProgress prog)
         {
             base.Enter(prog);
@@ -120,5 +106,22 @@ namespace Juniper.Widgets
             yield return ShowMenuViewCoroutine(null);
             Complete();
         }
+
+#if UNITY_EDITOR
+
+        public void OnValidate()
+        {
+            if (string.IsNullOrEmpty(mainMenuView))
+            {
+                var views = GetComponentsInChildren<MenuView>(true);
+                if (views.Length > 0)
+                {
+
+                    mainMenuView = views[0].name;
+                }
+            }
+        }
+
+#endif
     }
 }
