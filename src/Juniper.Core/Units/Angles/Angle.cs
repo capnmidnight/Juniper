@@ -12,7 +12,7 @@ namespace Juniper.Units
     /// 351) &lt; Abs(1 - 351)</c>.
     /// </summary>
     [Serializable]
-    public sealed class Angle : ISerializable, IEquatable<Angle>
+    public struct Angle : ISerializable, IEquatable<Angle>
     {
         /// <summary>
         /// Create an angle value at set starting point
@@ -239,16 +239,9 @@ namespace Juniper.Units
 
         public bool Equals(Angle other)
         {
-            if (other is null)
-            {
-                return false;
-            }
-            else
-            {
-                var l = Repeat(currentValue);
-                var r = Repeat(other.currentValue);
-                return l.Equals(r);
-            }
+            var l = Repeat(currentValue);
+            var r = Repeat(other.currentValue);
+            return l.Equals(r);
         }
 
         /// <summary>
@@ -259,8 +252,7 @@ namespace Juniper.Units
         /// <returns></returns>
         public static bool operator ==(Angle left, Angle right)
         {
-            return ReferenceEquals(left, right)
-                || left is object && left.Equals(right);
+            return left.Equals(right);
         }
 
         /// <summary>
