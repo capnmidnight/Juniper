@@ -474,9 +474,17 @@ namespace Juniper
             {
                 if (Application.isPlaying)
                 {
-                    yield return SceneManager
-                        .LoadSceneAsync(sceneName, LoadSceneMode.Additive)
-                        .AsCoroutine(sceneLoadProg);
+                    var curPriority = Application.backgroundLoadingPriority;
+                    Application.backgroundLoadingPriority = ThreadPriority.Low;
+
+                    var op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+                    while (!op.isDone)
+                    {
+                        sceneLoadProg.Report(op.progress);
+                        yield return null;
+                    }
+
+                    Application.backgroundLoadingPriority = curPriority;
                 }
 #if UNITY_EDITOR
                 else
