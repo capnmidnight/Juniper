@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
-
+using System.Threading.Tasks;
 using Juniper.Input;
 using Juniper.Progress;
 
@@ -305,31 +305,31 @@ namespace Juniper
             }
         }
 
-        public IEnumerator EnterCoroutine()
+        public Task EnterAsync()
         {
-            return EnterCoroutine(null);
+            return EnterAsync(null);
         }
 
-        public IEnumerator EnterCoroutine(IProgress prog)
+        public async Task EnterAsync(IProgress prog)
         {
             Enter(prog);
             while (IsRunning)
             {
-                yield return null;
+                await Task.Yield();
             }
         }
 
-        public IEnumerator ExitCoroutine()
+        public Task ExitAsync()
         {
-            return ExitCoroutine(null);
+            return ExitAsync(null);
         }
 
-        public IEnumerator ExitCoroutine(IProgress prog)
+        public async Task ExitAsync(IProgress prog)
         {
             Exit(prog);
             while (IsRunning)
             {
-                yield return null;
+                await Task.Yield();
             }
         }
 

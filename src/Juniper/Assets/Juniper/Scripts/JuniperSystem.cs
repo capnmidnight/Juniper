@@ -1,8 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 using Juniper.Anchoring;
 using Juniper.Audio;
 using Juniper.Display;
@@ -294,10 +293,5 @@ namespace Juniper
             EditorApplication.update += delegates[key];
         }
 #endif
-
-        public static IEnumerator CleanupCoroutine()
-        {
-            return Resources.UnloadUnusedAssets().AsCoroutine();
-        }
     }
 }

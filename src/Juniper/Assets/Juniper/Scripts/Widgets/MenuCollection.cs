@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 using Juniper.Progress;
 
 using UnityEngine;
@@ -38,7 +38,7 @@ namespace Juniper.Widgets
             {
                 if (view.Key != name && view.Value.CanExit)
                 {
-                    yield return view.Value.ExitCoroutine();
+                    yield return view.Value.ExitAsync().AsCoroutine();
                     view.Value.Deactivate();
                 }
             }
@@ -46,7 +46,7 @@ namespace Juniper.Widgets
             if (name != null)
             {
                 views[name].Activate();
-                yield return views[name].EnterCoroutine();
+                yield return views[name].EnterAsync().AsCoroutine();
             }
         }
 

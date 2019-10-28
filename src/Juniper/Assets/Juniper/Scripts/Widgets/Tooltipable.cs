@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-
+using System.Threading.Tasks;
 using Juniper.Speech;
 
 using UnityEngine;
@@ -175,7 +175,7 @@ namespace Juniper.Widgets
         {
             if (trans != null && trans.CanExit)
             {
-                yield return trans.ExitCoroutine();
+                yield return trans.ExitAsync().AsCoroutine();
             }
             tooltip.Deactivate();
         }

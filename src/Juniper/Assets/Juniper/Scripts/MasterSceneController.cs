@@ -367,9 +367,9 @@ namespace Juniper
 
                 if (showFader)
                 {
-                    yield return JuniperSystem.CleanupCoroutine();
+                    yield return Resources.UnloadUnusedAssets().AsCoroutine();
 
-                    yield return fader.EnterCoroutine();
+                    yield return fader.EnterAsync().AsCoroutine();
 
                     if (input != null)
                     {
@@ -451,7 +451,7 @@ namespace Juniper
                         }
                         else
                         {
-                            yield return fader.ExitCoroutine();
+                            yield return fader.ExitAsync().AsCoroutine();
                         }
                     }
 #if UNITY_MODULES_AUDIO
@@ -501,12 +501,12 @@ namespace Juniper
                     var ss = toLoad[i];
                     if(!ss.CanEnter && ss.CanExit)
                     {
-                        yield return ss.ExitCoroutine();
+                        yield return ss.ExitAsync().AsCoroutine();
                     }
 
                     if (ss.CanEnter)
                     {
-                        yield return ss.EnterCoroutine(subSceneLoadProg.Subdivide(i, toLoad.Length, ss.name));
+                        yield return ss.EnterAsync(subSceneLoadProg.Subdivide(i, toLoad.Length, ss.name)).AsCoroutine();
                     }
                 }
             }
@@ -528,7 +528,7 @@ namespace Juniper
                 {
                     if (subScene.CanExit)
                     {
-                        yield return subScene.ExitCoroutine();
+                        yield return subScene.ExitAsync().AsCoroutine();
                     }
                 }
                 yield return SceneManager.UnloadSceneAsync(scene.buildIndex).AsCoroutine();
@@ -624,7 +624,7 @@ namespace Juniper
                 fader.fadeOutSound = interaction.soundOnShutDown;
                 fader.volume = 0.5f;
 #endif
-                yield return fader.EnterCoroutine();
+                yield return fader.EnterAsync().AsCoroutine();
             }
 
             Exit();
