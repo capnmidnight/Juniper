@@ -11,7 +11,6 @@ namespace Juniper.Imaging
     {
         private readonly Texture2D.EXRFlags exrFlags;
         private readonly int jpegEncodingQuality;
-        private readonly TaskFactory mainThreadFactory;
 
         public UnityTexture2DCodec(MediaType.Image format)
         {
@@ -28,38 +27,6 @@ namespace Juniper.Imaging
 
             exrFlags = Texture2D.EXRFlags.None;
             jpegEncodingQuality = 80;
-
-            var mainThreadScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            mainThreadFactory = new TaskFactory(mainThreadScheduler);
-        }
-
-        protected Texture2D MakeTexture(byte[] buffer, ImageInfo info)
-        {
-            return mainThreadFactory.StartNew(() =>
-                MakeTextureMainThread(info, buffer)).Result;
-        }
-
-        private Texture2D MakeTextureMainThread(ImageInfo info, byte[] buffer)
-        {
-            var texture = new Texture2D(
-                info.dimensions.width,
-                info.dimensions.height,
-                info.components == 3 ? TextureFormat.RGB24 : TextureFormat.RGBA32,
-                false);
-
-            if (ContentType == MediaType.Image.EXR
-                || ContentType == MediaType.Image.Jpeg
-                || ContentType == MediaType.Image.Png
-                || ContentType == MediaType.Image.X_Tga)
-            {
-                texture.LoadImage(buffer);
-            }
-            else if (ContentType == MediaType.Image.Raw)
-            {
-                texture.LoadRawTextureData(buffer);
-            }
-            texture.Apply();
-            return texture;
         }
 
         public UnityTexture2DCodec(Texture2D.EXRFlags exrFlags)
@@ -157,8 +124,32 @@ namespace Juniper.Imaging
         {
             prog?.Report(0);
             var info = GetImageInfo(buffer);
-            var texture = MakeTexture(buffer, info);
+            var texture = JuniperSystem.OnMainThread(() =>
+                MakeTexture(info, buffer)).Result;
             prog?.Report(1);
+            return texture;
+        }
+
+        private Texture2D MakeTexture(ImageInfo info, byte[] buffer)
+        {
+            var texture = new Texture2D(
+                info.dimensions.width,
+                info.dimensions.height,
+                info.components == 3 ? TextureFormat.RGB24 : TextureFormat.RGBA32,
+                false);
+
+            if (ContentType == MediaType.Image.EXR
+                || ContentType == MediaType.Image.Jpeg
+                || ContentType == MediaType.Image.Png
+                || ContentType == MediaType.Image.X_Tga)
+            {
+                texture.LoadImage(buffer);
+            }
+            else if (ContentType == MediaType.Image.Raw)
+            {
+                texture.LoadRawTextureData(buffer);
+            }
+            texture.Apply();
             return texture;
         }
     }

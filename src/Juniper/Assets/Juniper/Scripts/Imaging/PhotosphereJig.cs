@@ -30,15 +30,11 @@ namespace Juniper.Imaging
         public float ProgressToComplete;
         private bool wasComplete;
 
-        private TaskFactory mainThread;
         private Task updateTask;
 
         public override void Awake()
         {
             base.Awake();
-
-            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            mainThread = new TaskFactory(scheduler);
 
             mgr = this.FindClosest<PhotosphereManager>();
             Find.Any(out avatar);
@@ -222,7 +218,7 @@ namespace Juniper.Imaging
                     {
                         if (needLodLevel)
                         {
-                            await mainThread.StartNew(() =>
+                            await JuniperSystem.OnMainThread(() =>
                             {
                                 var detail = new GameObject(fov.ToString()).transform;
                                 detail.SetParent(transform, false);
@@ -238,7 +234,7 @@ namespace Juniper.Imaging
 
                         if (needSlice)
                         {
-                            await mainThread.StartNew(() =>
+                            await JuniperSystem.OnMainThread(() =>
                             {
                                 var slice = new GameObject(heading.ToString()).transform;
                                 slice.SetParent(detailContainer, false);
@@ -252,7 +248,7 @@ namespace Juniper.Imaging
 
                         if (needFrame)
                         {
-                            await mainThread.StartNew(() =>
+                            await JuniperSystem.OnMainThread(() =>
                             {
                                 var frame = new GameObject(pitch.ToString()).transform;
                                 frame.rotation = Quaternion.Euler(-pitch, heading, 0);
@@ -268,7 +264,7 @@ namespace Juniper.Imaging
                             var image = await imageTask;
                             if (image != null)
                             {
-                                await mainThread.StartNew(() =>
+                                await JuniperSystem.OnMainThread(() =>
                                 {
                                     var frame = GameObject.CreatePrimitive(PrimitiveType.Quad);
                                     var renderer = frame.GetComponent<MeshRenderer>();

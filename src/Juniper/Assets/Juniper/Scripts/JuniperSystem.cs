@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Juniper.Anchoring;
 using Juniper.Audio;
@@ -20,6 +21,18 @@ namespace Juniper
     [DisallowMultipleComponent]
     public class JuniperSystem : MonoBehaviour, IInstallable
     {
+        private static TaskFactory mainThread;
+
+        public static Task OnMainThread(Action act)
+        {
+            return mainThread.StartNew(act);
+        }
+
+        public static Task<T> OnMainThread<T>(Func<T> act)
+        {
+            return mainThread.StartNew(act);
+        }
+
         private static List<IInstallable> GetInstallables()
         {
             return Find.All<IInstallable>().ToList();
@@ -222,6 +235,9 @@ namespace Juniper
         /// </summary>
         public void Awake()
         {
+            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            mainThread = new TaskFactory(scheduler);
+
             if (Find.Any(out MasterSceneController scenes)
                 && scenes.gameObject.scene != gameObject.scene)
             {

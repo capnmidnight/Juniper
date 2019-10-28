@@ -61,7 +61,6 @@ namespace Juniper.Imaging
             private set;
         }
 
-        private TaskFactory mainThread;
         private Task readingTask;
         private SkyboxManager skybox;
 
@@ -95,9 +94,6 @@ namespace Juniper.Imaging
 
         public virtual void Awake()
         {
-            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            mainThread = new TaskFactory(scheduler);
-
             if (!Find.Any(out skybox))
             {
                 skybox = this.Ensure<SkyboxManager>();

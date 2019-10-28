@@ -74,7 +74,6 @@ namespace Juniper.World.GIS.Google
         private CachingStrategy cache;
         private IImageCodec<Texture2D> codec;
         private PhotosphereJig lastSphere;
-        private TaskFactory mainThread;
         private UnityTexture2DProcessor processor;
         private Task searchTask;
 
@@ -130,8 +129,6 @@ namespace Juniper.World.GIS.Google
             base.Awake();
 
             processor = new UnityTexture2DProcessor();
-            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            mainThread = new TaskFactory(scheduler);
 
             Find.Any(out gps);
             if (!this.FindClosest(out photospheres))
@@ -216,12 +213,12 @@ namespace Juniper.World.GIS.Google
                 }
                 else
                 {
-                    var prog = await mainThread.StartNew(() => new UnityEditorProgressDialog("Saving cubemap " + photosphere.name));
+                    var prog = await JuniperSystem.OnMainThread(() => new UnityEditorProgressDialog("Saving cubemap " + photosphere.name));
                     using (prog)
                     {
                         var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
                         const int dim = 2048;
-                        var cubemap = await mainThread.StartNew(() =>
+                        var cubemap = await JuniperSystem.OnMainThread(() =>
                         {
                             subProgs[0].Report(0);
                             var cb = new Cubemap(dim, TextureFormat.RGB24, false);
@@ -245,7 +242,7 @@ namespace Juniper.World.GIS.Google
 
                         for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
                         {
-                            await mainThread.StartNew(() =>
+                            await JuniperSystem.OnMainThread(() =>
                             {
                                 subProgs[1].Report(f, CAPTURE_CUBEMAP_FACES.Length, CAPTURE_CUBEMAP_FACES[f].ToString());
                                 var pixels = cubemap.GetPixels(CAPTURE_CUBEMAP_FACES[f]);
@@ -257,7 +254,7 @@ namespace Juniper.World.GIS.Google
                             });
                         }
 
-                        var img = await mainThread.StartNew(() =>
+                        var img = await JuniperSystem.OnMainThread(() =>
                             processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]));
 
                         cache.Save(codec, photosphere.name + codec.ContentType, img, subProgs[3]);
@@ -266,9 +263,9 @@ namespace Juniper.World.GIS.Google
                     }
                 }
 
-                await mainThread.StartNew(photosphere.DestroyJig);
+                await JuniperSystem.OnMainThread(photosphere.DestroyJig);
 
-                var anyDestroyed = await mainThread.StartNew(() =>
+                var anyDestroyed = await JuniperSystem.OnMainThread(() =>
                 {
                     var any = false;
                     foreach (var texture in CAPTURE_CUBEMAP_SUB_IMAGES)
@@ -352,7 +349,7 @@ namespace Juniper.World.GIS.Google
             {
                 using (imageStream)
                 {
-                    return await mainThread.StartNew(() =>
+                    return await JuniperSystem.OnMainThread(() =>
                     codec.Deserialize(imageStream));
                 }
             }
@@ -495,10 +492,10 @@ namespace Juniper.World.GIS.Google
 
                 if (lastSphere != null)
                 {
-                    await mainThread.StartNew(lastSphere.Deactivate);
+                    await JuniperSystem.OnMainThread(lastSphere.Deactivate);
                 }
 
-                await mainThread.StartNew(curSphere.Activate);
+                await JuniperSystem.OnMainThread(curSphere.Activate);
 
                 if (lastSphere == null)
                 {
@@ -506,7 +503,7 @@ namespace Juniper.World.GIS.Google
                     Complete();
                 }
 
-                await mainThread.StartNew(() =>
+                await JuniperSystem.OnMainThread(() =>
                 {
                     var delta = GetRelativeVector3(metadata);
 
@@ -527,7 +524,7 @@ namespace Juniper.World.GIS.Google
 
         private Task<PhotosphereJig> GetPhotosphere()
         {
-            return mainThread.StartNew(() =>
+            return JuniperSystem.OnMainThread(() =>
             {
                 var jig = photospheres.GetPhotosphere<PhotosphereJig>(metadata.pano_id);
                 if (!imageNeededSet.Contains(metadata.pano_id))
