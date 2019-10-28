@@ -6,7 +6,7 @@ namespace Juniper.Widgets
 {
     public class TeleportPad : Clickable
     {
-        protected override void OnClick()
+        public override void OnClick()
         {
             if (!running)
             {

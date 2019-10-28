@@ -52,7 +52,7 @@ namespace Juniper.Widgets
         /// <summary>
         /// Trigger the onClick/click events, if they are valid;
         /// </summary>
-        protected virtual void OnClick()
+        public virtual void OnClick()
         {
             onClick?.Invoke();
             Click?.Invoke(this, EventArgs.Empty);
@@ -74,7 +74,7 @@ namespace Juniper.Widgets
             }
         }
 
-        protected virtual void OnLongPress()
+        public virtual void OnLongPress()
         {
             onLongPress?.Invoke();
             LongPress?.Invoke(this, EventArgs.Empty);
