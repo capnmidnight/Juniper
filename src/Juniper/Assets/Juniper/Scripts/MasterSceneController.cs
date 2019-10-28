@@ -367,7 +367,7 @@ namespace Juniper
 
                 if (showFader)
                 {
-                    yield return Resources.UnloadUnusedAssets().AsCoroutine();
+                    Resources.UnloadUnusedAssets();
 
                     yield return fader.EnterAsync().AsCoroutine();
 

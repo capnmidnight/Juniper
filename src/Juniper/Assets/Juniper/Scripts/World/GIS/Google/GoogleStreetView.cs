@@ -285,9 +285,8 @@ namespace Juniper.World.GIS.Google
 
                 if (anyDestroyed)
                 {
-                    var co = await mainThread.StartNew(Resources.UnloadUnusedAssets().AsCoroutine);
-                    await co.AsTask();
-                    await Task.Run(GC.Collect);
+                    Resources.UnloadUnusedAssets();
+                    GC.Collect();
                 }
 
                 photosphere.enabled = false;

@@ -146,7 +146,7 @@ namespace Juniper.Imaging
                     }
                     else
                     {
-                        var co = await mainThread.StartNew(() =>
+                        await JuniperSystem.OnMainThread(() =>
                         {
                             skybox.exposure = 1;
                             skybox.imageType = SkyboxManager.ImageType.Degrees360;
@@ -156,10 +156,8 @@ namespace Juniper.Imaging
                             skybox.stereoLayout = SkyboxManager.StereoLayout.None;
                             skybox.tint = Color.gray;
                             skybox.useMipMap = false;
-                            return skybox.SetTexture(texture);
+                            skybox.SetTexture(texture);
                         });
-
-                        await co.AsTask();
 
                         OnReady();
                     }

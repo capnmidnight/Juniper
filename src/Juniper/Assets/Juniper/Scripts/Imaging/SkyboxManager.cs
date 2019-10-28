@@ -60,7 +60,7 @@ namespace Juniper.Imaging
             }
         }
 
-        public IEnumerator SetTexture(Texture value)
+        public void SetTexture(Texture value)
         {
             if (layout == Mode.Spherical)
             {
@@ -104,7 +104,7 @@ namespace Juniper.Imaging
                 }
 
                 Destroy(curTexture);
-                yield return Resources.UnloadUnusedAssets().AsCoroutine();
+                Resources.UnloadUnusedAssets();
             }
 
         }
