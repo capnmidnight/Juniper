@@ -17,7 +17,8 @@ namespace Juniper.Progress
         public UnityEditorProgressDialog(string title)
         {
             this.title = title;
-            EditorApplication.update += ShowStatus;
+            JuniperSystem.OnMainThread(() =>
+                EditorApplication.update += ShowStatus);
         }
 
         public string Status
@@ -60,8 +61,11 @@ namespace Juniper.Progress
 
         public void Close()
         {
-            EditorApplication.update -= ShowStatus;
-            EditorUtility.ClearProgressBar();
+            JuniperSystem.OnMainThread(() =>
+            {
+                EditorApplication.update -= ShowStatus;
+                EditorUtility.ClearProgressBar();
+            });
         }
 
         #region IDisposable Support

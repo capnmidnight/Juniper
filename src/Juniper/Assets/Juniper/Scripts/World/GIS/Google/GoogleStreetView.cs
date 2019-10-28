@@ -213,8 +213,7 @@ namespace Juniper.World.GIS.Google
                 }
                 else
                 {
-                    var prog = await JuniperSystem.OnMainThread(() => new UnityEditorProgressDialog("Saving cubemap " + photosphere.name));
-                    using (prog)
+                    using (var prog = new UnityEditorProgressDialog("Saving cubemap " + photosphere.name))
                     {
                         var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
                         const int dim = 2048;
@@ -349,8 +348,7 @@ namespace Juniper.World.GIS.Google
             {
                 using (imageStream)
                 {
-                    return await JuniperSystem.OnMainThread(() =>
-                    codec.Deserialize(imageStream));
+                    return codec.Deserialize(imageStream);
                 }
             }
         }
@@ -522,21 +520,19 @@ namespace Juniper.World.GIS.Google
 
         private readonly HashSet<string> imageNeededSet = new HashSet<string>();
 
-        private Task<PhotosphereJig> GetPhotosphere()
+        private async Task<PhotosphereJig> GetPhotosphere()
         {
-            return JuniperSystem.OnMainThread(() =>
+            var jig = await JuniperSystem.OnMainThread(() =>
+                photospheres.GetPhotosphere<PhotosphereJig>(metadata.pano_id));
+            if (!imageNeededSet.Contains(metadata.pano_id))
             {
-                var jig = photospheres.GetPhotosphere<PhotosphereJig>(metadata.pano_id);
-                if (!imageNeededSet.Contains(metadata.pano_id))
-                {
-                    imageNeededSet.Add(metadata.pano_id);
-                    jig.ImageNeeded += Photosphere_ImageNeeded;
+                imageNeededSet.Add(metadata.pano_id);
+                jig.ImageNeeded += Photosphere_ImageNeeded;
 #if UNITY_EDITOR
-                    jig.Complete += Photosphere_Complete;
+                jig.Complete += Photosphere_Complete;
 #endif
-                }
-                return jig;
-            });
+            }
+            return jig;
         }
 
         private bool ParseSearchParams(string searchLocation, out string searchPano, out LatLngPoint searchPoint)
