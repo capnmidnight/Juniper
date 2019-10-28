@@ -99,6 +99,11 @@ namespace Juniper.World.Climate
         public bool DebugReport;
 
         /// <summary>
+        /// An object on which to wait for completion of the report.
+        /// </summary>
+        private Task reportTask;
+
+        /// <summary>
         /// If there is a valid <see cref="currentWeather"/> value, returns the SunsetTime from it.
         /// </summary>
         /// <value>The sunset.</value>
@@ -153,7 +158,7 @@ namespace Juniper.World.Climate
         {
             if (Ready)
             {
-                this.Run(GetReportCoroutine(true));
+                reportTask = GetReport(true);
             }
         }
 
@@ -200,7 +205,7 @@ namespace Juniper.World.Climate
             {
                 weatherService.ReportRadiusMeters = MilesBetweenReports.Convert(UnitOfMeasure.Miles, UnitOfMeasure.Meters);
                 weatherService.ReportTTLMinutes = MinutesBetweenReports;
-                this.Run(GetReportCoroutine(false));
+                reportTask = GetReport(false);
             }
 
             wasFakeWeather = FakeWeather;
@@ -241,24 +246,22 @@ namespace Juniper.World.Climate
         {
             get
             {
-                return location != null && location.HasCoord && weatherService != null;
+                return !reportTask.IsRunning()
+                    && location != null
+                    && location.HasCoord
+                    && weatherService != null;
             }
-        }
-
-        private IEnumerator GetReportCoroutine(bool force)
-        {
-            return GetReportCoroutine(force, null);
         }
         /// <summary>
         /// Retrieves a new weather report.
         /// </summary>
         /// <returns>The report coroutine.</returns>
         /// <param name="force">If set to <c>true</c> force.</param>
-        private IEnumerator GetReportCoroutine(bool force, IProgress prog)
+        private async Task GetReport(bool force, IProgress prog)
         {
             if (Ready)
             {
-                yield return RequestCoroutine(location.Coord, force, prog);
+                await Request(location.Coord, force, prog);
             }
 
             currentWeather = weatherService.LastReport;
@@ -275,9 +278,9 @@ namespace Juniper.World.Climate
             }
         }
 
-        public IEnumerator RequestCoroutine(LatLngPoint location, bool force)
+        private Task GetReport(bool force)
         {
-            return RequestCoroutine(location, force, null);
+            return GetReport(force, null);
         }
 
         /// <summary>
@@ -286,14 +289,11 @@ namespace Juniper.World.Climate
         /// <param name="location"></param>
         /// <param name="force">   </param>
         /// <returns></returns>
-        public IEnumerator RequestCoroutine(LatLngPoint location, bool force, IProgress prog)
+        public async Task Request(LatLngPoint location, bool force, IProgress prog)
         {
             if (Application.internetReachability != NetworkReachability.NotReachable || force)
             {
-                var reportTask = weatherService.Request(location, force, prog);
-                yield return reportTask.AsCoroutine();
-
-                var report = reportTask.Result;
+                var report = await weatherService.Request(location, force, prog);
                 var reportJSON = serializer.ToString(report);
                 if (reportJSON != lastReportJSON)
                 {
@@ -301,6 +301,11 @@ namespace Juniper.World.Climate
                     lastReportJSON = reportJSON;
                 }
             }
+        }
+
+        public Task Request(LatLngPoint location, bool force)
+        {
+            return Request(location, force, null);
         }
 
         /// <summary>

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-
+using System.Threading.Tasks;
 using Juniper.Audio;
 using Juniper.Widgets;
 
@@ -43,7 +43,6 @@ namespace Juniper.Speech
 
         public UnityEvent OnEnd;
 
-        private bool needsPlay;
         private AudioClip clip;
 
         [SerializeField]
@@ -53,7 +52,14 @@ namespace Juniper.Speech
         public void Awake()
         {
             Find.Any(out interaction);
-            needsPlay = playOnAwake;
+        }
+
+        public void Start()
+        {
+            if (playOnAwake)
+            {
+                Play();
+            }
         }
 
 #if UNITY_EDITOR
@@ -97,53 +103,31 @@ namespace Juniper.Speech
                     clip.DestroyImmediate();
                     clip = null;
                 }
-                var clipTask = interaction.PreloadSpeech(text, voiceName, speakingRate - 1, pitch - 1)
-                    .ContinueWith(ct => clip = ct.Result);
+
+                var clipTask = LoadTask();
                 clipTask.ConfigureAwait(false);
             }
-            else if (needsPlay && clip != null)
-            {
-                needsPlay = false;
-                PlayInternal();
-            }
+        }
+
+        private async Task LoadTask()
+        {
+            clip = await interaction.PreloadSpeech(text, voiceName, speakingRate - 1, pitch - 1);
         }
 
         public void Play()
         {
-            if(clip == null)
-            {
-                needsPlay = true;
-            }
-            else
-            {
-                PlayInternal();
-            }
-        }
-
-        private Coroutine lastCoroutine;
-
-        private void PlayInternal()
-        {
             if (IsAvailable && clip != null)
             {
-                if (lastCoroutine != null)
-                {
-                    StopCoroutine(lastCoroutine);
-                }
-
-                lastCoroutine = (Coroutine)this.Run(PlayCoroutine());
+                var playTask = PlayTask();
+                playTask.ConfigureAwait(false);
             }
         }
 
-        private IEnumerator PlayCoroutine()
+        private async Task PlayTask()
         {
             KeywordRecognizer.Pause();
             var time = interaction.PlayAudioClip(clip, transform);
-            var end = DateTime.Now.AddSeconds(time);
-            while (DateTime.Now < end)
-            {
-                yield return null;
-            }
+            await Task.Delay((int)Units.Seconds.Milliseconds(time));
             OnEnd?.Invoke();
             KeywordRecognizer.Resume();
         }

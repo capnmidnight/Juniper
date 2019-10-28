@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Threading.Tasks;
 
 using Juniper.IO;
 using Juniper.Units;
@@ -20,6 +20,18 @@ namespace Juniper.World.GIS
     [DisallowMultipleComponent]
     public class GPSLocation : MonoBehaviour
     {
+        /// <summary>
+        /// The location service that gets us live GPS values.
+        /// </summary>
+        /// <value>The location.</value>
+        private static LocationService Location
+        {
+            get
+            {
+                return UnityInput.location;
+            }
+        }
+
         /// <summary>
         /// The time in seconds to wait before checking for the next GPS update.
         /// </summary>
@@ -44,6 +56,11 @@ namespace Juniper.World.GIS
         /// specified in <see cref="Coord"/>.
         /// </summary>
         public bool FakeCoord;
+
+        /// <summary>
+        /// A task tracker for detecting when startup has succeeded.
+        /// </summary>
+        private Task startingTask;
 
         /// <summary>
         /// Returns true if both the latitude and longitude or non-zero.
@@ -125,6 +142,18 @@ namespace Juniper.World.GIS
         private bool lastUseFakeCoord;
 
         /// <summary>
+        /// The current tracking status of <see cref="Location"/>.
+        /// </summary>
+        /// <value>The status.</value>
+        public LocationServiceStatus Status
+        {
+            get
+            {
+                return Location.status;
+            }
+        }
+
+        /// <summary>
         /// Enables the compass (which is necessary for GPS updates), and attempts to retrieve the
         /// last GPS report value from the previous session out of PlayerPrefs.
         /// </summary>
@@ -158,7 +187,7 @@ namespace Juniper.World.GIS
         {
             if (Location.isEnabledByUser && !UseFakeCoord)
             {
-                this.Run(StartGPSTrackingCoroutine());
+                StartTracking();
             }
 #if !UNITY_EDITOR
             else
@@ -168,35 +197,22 @@ namespace Juniper.World.GIS
 #endif
         }
 
+        public void StartTracking()
+        {
+            FakeCoord = false;
+            startingTask = StartGPSTracking();
+            startingTask.ConfigureAwait(true);
+            enabled = true;
+        }
+
         /// <summary>
         /// Shuts down location services.
         /// </summary>
         public void OnDisable()
         {
-            Location.Stop();
-        }
-
-        /// <summary>
-        /// The location service that gets us live GPS values.
-        /// </summary>
-        /// <value>The location.</value>
-        private static LocationService Location
-        {
-            get
+            if (Status != LocationServiceStatus.Stopped)
             {
-                return UnityInput.location;
-            }
-        }
-
-        /// <summary>
-        /// The current tracking status of <see cref="Location"/>.
-        /// </summary>
-        /// <value>The status.</value>
-        public LocationServiceStatus Status
-        {
-            get
-            {
-                return Location.status;
+                Location.Stop();
             }
         }
 
@@ -205,7 +221,7 @@ namespace Juniper.World.GIS
         /// case, this component will be disabled), or successfully start running.
         /// </summary>
         /// <returns>The GPST racking coroutine.</returns>
-        private IEnumerator StartGPSTrackingCoroutine()
+        private async Task StartGPSTracking()
         {
             if (Status == LocationServiceStatus.Stopped)
             {
@@ -215,13 +231,14 @@ namespace Juniper.World.GIS
             while (Status != LocationServiceStatus.Running
                 && Status != LocationServiceStatus.Failed)
             {
-                yield return null;
-            }
-
-            if (Status == LocationServiceStatus.Failed)
-            {
-                Debug.LogError("Could not start the GPS service");
-                enabled = false;
+                if (Status == LocationServiceStatus.Failed)
+                {
+                    throw new InvalidOperationException("Starting GPS service failed");
+                }
+                else
+                {
+                    await Task.Yield();
+                }
             }
         }
 
@@ -232,25 +249,40 @@ namespace Juniper.World.GIS
         /// </summary>
         public void Update()
         {
-            if (UseFakeCoord != lastUseFakeCoord)
+            if (!startingTask.IsRunning())
             {
-                UnityInput.compass.enabled = !UseFakeCoord;
-            }
-
-            lastUseFakeCoord = UseFakeCoord;
-
-            if (Status == LocationServiceStatus.Running
-                && !UseFakeCoord
-                && Time.unscaledTime >= nextUpdateTime)
-            {
-                nextUpdateTime += timeBetweenUpdates;
-                var newLocation = Location.lastData;
-                if (newLocation.timestamp > lastLocation.timestamp)
+                if (startingTask != null)
                 {
-                    Coord = new LatLngPoint(newLocation.latitude, newLocation.longitude, newLocation.altitude);
-                    PlayerPrefs.SetString(COORD_KEY, coordFactory.ToString(Coord));
-                    lastLocation = newLocation;
-                    OnPositionUpdated();
+                    if (startingTask.IsFaulted)
+                    {
+                        enabled = false;
+                    }
+                    else
+                    {
+                        startingTask = null;
+                    }
+                }
+
+                if (UseFakeCoord != lastUseFakeCoord)
+                {
+                    UnityInput.compass.enabled = !UseFakeCoord;
+                }
+
+                lastUseFakeCoord = UseFakeCoord;
+
+                if (Status == LocationServiceStatus.Running
+                    && !UseFakeCoord
+                    && Time.unscaledTime >= nextUpdateTime)
+                {
+                    nextUpdateTime += timeBetweenUpdates;
+                    var newLocation = Location.lastData;
+                    if (newLocation.timestamp > lastLocation.timestamp)
+                    {
+                        Coord = new LatLngPoint(newLocation.latitude, newLocation.longitude, newLocation.altitude);
+                        PlayerPrefs.SetString(COORD_KEY, coordFactory.ToString(Coord));
+                        lastLocation = newLocation;
+                        OnPositionUpdated();
+                    }
                 }
             }
 
