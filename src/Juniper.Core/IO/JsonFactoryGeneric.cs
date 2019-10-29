@@ -6,8 +6,6 @@ using Juniper.Progress;
 
 namespace Juniper.IO
 {
-    public interface IJsonDecoder<T> : IDeserializer<T>, IContentHandler<MediaType.Application>
-    { }
 
     public class JsonFactory<T> : JsonFactory<T, MediaType.Application>, IJsonDecoder<T>
     {

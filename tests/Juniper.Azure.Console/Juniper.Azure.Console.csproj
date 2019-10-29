@@ -60,6 +60,10 @@
       <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
       <Name>Juniper.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj">
+      <Project>{bd5b6e34-ca14-4636-83c0-da4aaddf08be}</Project>
+      <Name>Juniper.Root</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

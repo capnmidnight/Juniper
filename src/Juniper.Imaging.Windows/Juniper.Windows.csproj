@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Juniper</RootNamespace>
     <AssemblyName>Juniper.Windows</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -61,6 +62,10 @@
     <ProjectReference Include="..\Juniper.Core\Juniper.Core.csproj">
       <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
       <Name>Juniper.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj">
+      <Project>{bd5b6e34-ca14-4636-83c0-da4aaddf08be}</Project>
+      <Name>Juniper.Root</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
