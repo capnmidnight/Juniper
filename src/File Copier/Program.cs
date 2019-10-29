@@ -1,25 +1,32 @@
 using System;
 using System.IO;
+using System.Linq;
+
+using static System.IO.Path;
+using static System.Console;
 
 namespace File_Copier
 {
     class Program
     {
+        private const string NEWTONSOFT_JSON_DLL = "Newtonsoft.Json.dll";
+        private const string NETSTANDARD = "netstandard";
+
         static void Main(string[] args)
         {
             if (args.Length != 2)
             {
-                Console.Error.WriteLine("Command expects two arguments");
-                for(int i = 0; i < args.Length; ++i)
+                Error.WriteLine("Command expects two arguments");
+                for (int i = 0; i < args.Length; ++i)
                 {
-                    Console.Error.WriteLine("{0}: {1}", i, args[i]);
+                    Error.WriteLine("{0}: {1}", i, args[i]);
                 }
             }
             else
             {
-                for(int i = 0; i < args.Length; ++i)
+                for (int i = 0; i < args.Length; ++i)
                 {
-                    if(args[i].EndsWith("\"")
+                    if (args[i].EndsWith("\"")
                         || args[i].EndsWith("'"))
                     {
                         args[i] = args[i].Substring(1, args[i].Length - 2);
@@ -30,31 +37,89 @@ namespace File_Copier
                 var dest1 = new DirectoryInfo(args[1]);
                 if (!source.Exists)
                 {
-                    Console.Error.WriteLine("Source directory does not exist");
+                    Error.WriteLine("Source directory does not exist");
                 }
                 else
                 {
                     var dest2 = dest1.Parent;
 
-                    Console.WriteLine("Copying from {0} to {1}", source.FullName, dest1.FullName);
+                    WriteLine("Copying from {0} to {1}", source.FullName, dest1.FullName);
 
-                    foreach(var file in source.GetFiles())
+                    foreach (var file in source.GetFiles())
                     {
-                        var dest = file.Name.StartsWith("Juniper")
+                        var sourceFile = file;
+                        if (sourceFile.Name == NEWTONSOFT_JSON_DLL)
+                        {
+                            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                            var newtonsoft = new DirectoryInfo(Combine(userProfile, ".nuget", "packages", "newtonsoft.json"));
+                            if (!newtonsoft.Exists)
+                            {
+                                WriteLine("No Newtonsoft NuGet package found");
+                            }
+                            else
+                            {
+                                var maxVersionDir = (from dir in newtonsoft.EnumerateDirectories()
+                                                     let version = new Version(dir.Name)
+                                                     orderby version descending
+                                                     select dir)
+                                                .FirstOrDefault();
+                                if (maxVersionDir == null)
+                                {
+                                    WriteLine("No versions of Newtonsoft package installed");
+                                }
+                                else
+                                {
+                                    var versionDir = new DirectoryInfo(Combine(maxVersionDir.FullName, "lib"));
+                                    if (!versionDir.Exists)
+                                    {
+                                        WriteLine("Error constructing version directory {0}", versionDir.FullName);
+                                    }
+                                    else
+                                    {
+                                        var suitableDir = (from dir in versionDir.EnumerateDirectories()
+                                                           where dir.Name.StartsWith(NETSTANDARD)
+                                                           let versionName = dir.Name.Substring(NETSTANDARD.Length)
+                                                           let version = new Version(versionName)
+                                                           orderby version descending
+                                                           select dir)
+                                                        .FirstOrDefault();
+                                        if (suitableDir == null)
+                                        {
+                                            WriteLine("No Netstandard versions found");
+                                        }
+                                        else
+                                        {
+                                            var suitable = new FileInfo(Combine(suitableDir.FullName, NEWTONSOFT_JSON_DLL));
+                                            if (!suitable.Exists)
+                                            {
+                                                WriteLine("No suitable version of Newtonsoft.JSON found.");
+                                            }
+                                            else
+                                            {
+                                                sourceFile = suitable;
+                                                WriteLine("Found a suitable version of Newtonsoft.JSON at {0}", sourceFile.FullName);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        var dest = sourceFile.Name.StartsWith("Juniper")
                             ? dest1
                             : dest2;
 
-                        if (file.Extension != ".pdb"
+                        if (sourceFile.Extension != ".pdb"
                             || dest.Name.EndsWith("Debug"))
                         {
                             dest.Create();
 
-                            var destFileName = Path.Combine(
+                            var destFileName = Combine(
                                 dest.FullName,
-                                file.Name);
+                                sourceFile.Name);
 
-                            Console.WriteLine(destFileName);
-                            file.CopyTo(destFileName, true);
+                            WriteLine(destFileName);
+                            sourceFile.CopyTo(destFileName, true);
                         }
                     }
                 }

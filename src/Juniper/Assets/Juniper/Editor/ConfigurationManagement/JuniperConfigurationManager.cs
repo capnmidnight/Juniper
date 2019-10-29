@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-using Json.Lite;
-using Json.Lite.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using Juniper.Compression.Tar.GZip;
 using Juniper.Progress;

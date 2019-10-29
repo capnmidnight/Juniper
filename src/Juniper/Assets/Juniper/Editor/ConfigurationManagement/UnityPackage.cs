@@ -1,8 +1,9 @@
+using System;
 using System.Linq;
 
 using Juniper.Progress;
 
-using Json.Lite.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Juniper.ConfigurationManagement
 {
@@ -16,7 +17,7 @@ namespace Juniper.ConfigurationManagement
             version = parts[1];
 
             parts = Name.ToUpperInvariant()
-                .Split('.')
+                .SplitX('.')
                 .Skip(1)
                 .ToArray();
             CompilerDefine = string.Join("_", parts).Replace('-', '_');

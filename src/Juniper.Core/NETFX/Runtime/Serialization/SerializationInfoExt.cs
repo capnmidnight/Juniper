@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Numerics;
 
 namespace System.Runtime.Serialization
