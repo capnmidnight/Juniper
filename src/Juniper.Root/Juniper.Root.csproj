@@ -19,6 +19,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Accord.Statistics" Version="3.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Application.cs">
       <DependentUpon>MediaType.cs</DependentUpon>
     </Compile>
