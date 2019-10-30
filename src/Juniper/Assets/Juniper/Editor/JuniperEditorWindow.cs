@@ -144,10 +144,7 @@ namespace Juniper.Unity.Editor
                     using (_ = new HGroup())
                     {
                         LabelField("Watcher task running");
-                        if (Button("Stop", Width(75)))
-                        {
-                            StopWatcher();
-                        }
+                        Button("Stop", StopWatcher, Width(75));
                     }
                 }
                 else if (watcherTask != null)
@@ -159,10 +156,7 @@ namespace Juniper.Unity.Editor
                             LabelField("Watcher task canceled");
                         }
 
-                        if (Button("Start", Width(75)))
-                        {
-                            StartWatcher();
-                        }
+                        Button("Start", StartWatcher, Width(75));
                     }
 
                     if (watcherTask.IsFaulted == true
@@ -176,6 +170,8 @@ namespace Juniper.Unity.Editor
 
             if (CurrentError != null)
             {
+                Button("Clear error", ClearError);
+
                 using (_ = errorView.Begin())
                 {
                     var head = CurrentError;
@@ -197,11 +193,40 @@ namespace Juniper.Unity.Editor
             }
         }
 
+        protected bool Button(bool enabled, string title, Action act, params GUILayoutOption[] options)
+        {
+            using (_ = new EditorGUI.DisabledScope(!enabled))
+            {
+                return Button(title, act, options);
+            }
+        }
+
+        protected bool Button(string title, Action act, params GUILayoutOption[] options)
+        {
+            if(GUILayout.Button(title, options))
+            {
+                act();
+                return true;
+            }
+
+            return false;
+        }
+
+        protected bool Button(string title, params GUILayoutOption[] options)
+        {
+            return GUILayout.Button(title, options);
+        }
+
         private void Init()
         {
-            CurrentError = null;
+            ClearError();
             OnInitInternal();
             OnSelectionChangedInternal();
+        }
+
+        private void ClearError()
+        {
+            CurrentError = null;
         }
 
         private void StartWatcher()
