@@ -30,7 +30,7 @@ namespace Juniper.IO
             var apk = Application.dataPath;
             var appData = Application.persistentDataPath;
             return Task.Run(() =>
-                Decompressor.Decompress(apk, appData, "assets/", false, prog));
+                Decompressor.Decompress(apk, appData, "assets/", true, prog));
         }
 
         public StreamingAssetsCacheLayer()
