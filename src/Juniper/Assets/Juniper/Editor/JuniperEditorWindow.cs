@@ -59,23 +59,6 @@ namespace Juniper.Unity.Editor
             Selection.selectionChanged += OnSelectionChangedInternal;
         }
 
-        protected virtual void OnInit() { }
-        private void OnInitInternal()
-        {
-            try
-            {
-                if (!initialized)
-                {
-                    OnInit();
-                    initialized = true;
-                }
-            }
-            catch (Exception exp)
-            {
-                CurrentError = new Exception("Error occured during initialization", exp);
-            }
-        }
-
         protected virtual void OnEditorUpdate() { }
         private void OnEditorUpdateInternal()
         {
@@ -220,7 +203,6 @@ namespace Juniper.Unity.Editor
         private void Init()
         {
             ClearError();
-            OnInitInternal();
             OnSelectionChangedInternal();
         }
 
