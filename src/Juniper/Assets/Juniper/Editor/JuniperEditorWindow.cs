@@ -31,19 +31,21 @@ namespace Juniper.Unity.Editor
         protected static readonly GUILayoutOption panoFieldWidth = Width(200);
         protected static readonly GUILayoutOption latLngFieldWidth = Width(250);
 
+        private readonly GUIContent windowTitle;
+        private readonly TaskFactory mainThread;
+        private readonly bool startWatcher;
+
         private CancellationTokenSource tokenSource;
         private CancellationToken cancelToken;
-        private TaskFactory mainThread;
         private Task watcherTask;
+
+        private Exception CurrentError;
         private bool initialized;
-        private bool startWatcher;
 
         protected Task RepaintAsync()
         {
             return mainThread.StartNew(Repaint);
         }
-
-        private readonly GUIContent windowTitle;
 
         protected JuniperEditorWindow(string title, bool startWatcher)
         {
@@ -56,9 +58,8 @@ namespace Juniper.Unity.Editor
             EditorApplication.update += OnEditorUpdateInternal;
             Selection.selectionChanged += OnSelectionChangedInternal;
         }
-        protected virtual void OnInit()
-        { }
 
+        protected virtual void OnInit() { }
         private void OnInitInternal()
         {
             try
@@ -74,9 +75,8 @@ namespace Juniper.Unity.Editor
                 CurrentError = new Exception("Error occured during initialization", exp);
             }
         }
-        protected virtual void OnEditorUpdate()
-        { }
 
+        protected virtual void OnEditorUpdate() { }
         private void OnEditorUpdateInternal()
         {
             try
@@ -88,9 +88,8 @@ namespace Juniper.Unity.Editor
                 CurrentError = new Exception("Error occured during editor update", exp);
             }
         }
-        protected virtual void OnBackgroundUpdate()
-        { }
 
+        protected virtual void OnBackgroundUpdate() { }
         private void OnBackgroundUpdateInternal()
         {
             try
@@ -102,9 +101,8 @@ namespace Juniper.Unity.Editor
                 CurrentError = new Exception("Error occured during background update", exp);
             }
         }
-        protected virtual void OnSelectionChanged()
-        { }
 
+        protected virtual void OnSelectionChanged() { }
         private void OnSelectionChangedInternal()
         {
             try
@@ -116,9 +114,9 @@ namespace Juniper.Unity.Editor
                 CurrentError = new Exception("Error occured during selection change", exp);
             }
         }
+
         protected virtual void OnPaint()
         { }
-
         private void OnPaintInternal()
         {
             try
@@ -130,8 +128,6 @@ namespace Juniper.Unity.Editor
                 CurrentError = new Exception("Error occured during repaint", exp);
             }
         }
-
-        private Exception CurrentError;
 
         private void OnGUI()
         {

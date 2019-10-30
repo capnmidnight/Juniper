@@ -258,10 +258,9 @@ namespace Juniper.Imaging
                             });
                         }
 
-                        var imageTask = ImageNeeded?.Invoke(this, (int)overlapFOV, heading, pitch);
-                        if (imageTask != null)
+                        if (ImageNeeded != null)
                         {
-                            var image = await imageTask;
+                            var image = await ImageNeeded(this, (int)overlapFOV, heading, pitch);
                             if (image != null)
                             {
                                 await JuniperSystem.OnMainThread(() =>
