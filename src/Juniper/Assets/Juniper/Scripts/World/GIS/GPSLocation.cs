@@ -201,7 +201,6 @@ namespace Juniper.World.GIS
         {
             FakeCoord = false;
             startingTask = StartGPSTracking();
-            startingTask.ConfigureAwait(true);
             enabled = true;
         }
 

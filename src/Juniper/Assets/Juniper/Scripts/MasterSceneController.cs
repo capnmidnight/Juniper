@@ -296,6 +296,7 @@ namespace Juniper
 
                         yield return StreamingAssetsCacheLayer
                             .UnpackAPK(unpackProg)
+                            .ConfigureAwait(false)
                             .AsCoroutine();
                     }
                     else

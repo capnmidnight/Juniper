@@ -29,10 +29,8 @@ namespace Juniper.IO
         {
             var apk = Application.dataPath;
             var appData = Application.persistentDataPath;
-            var task = Task.Run(() =>
+            return Task.Run(() =>
                 Decompressor.Decompress(apk, appData, "assets/", false, prog));
-            task.ConfigureAwait(false);
-            return task;
         }
 
         public StreamingAssetsCacheLayer()

@@ -242,7 +242,6 @@ namespace Juniper.ConfigurationManagement
         public static void StartFileWatcher()
         {
             fileWatcherTask = Task.Run(FileWatcher);
-            fileWatcherTask.ConfigureAwait(false);
         }
 
         public static bool IsRunning

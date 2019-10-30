@@ -99,8 +99,7 @@ namespace Juniper.Speech
 
         private void ErrorTrap(Task task)
         {
-            task.ContinueWith(OnError, TaskContinuationOptions.OnlyOnFaulted)
-                .ConfigureAwait(false);
+            task.ContinueWith(OnError, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         private void OnError(Task t)

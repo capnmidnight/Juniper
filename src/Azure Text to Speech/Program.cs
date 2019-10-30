@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Media;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Juniper.Audio;
@@ -60,12 +59,12 @@ namespace Juniper.Speech
             form.SetError(e.Exception);
         }
 
-        private static void Form_GenerateSpeech(object sender, GenerateSpeechEventArgs e)
+        private static async void Form_GenerateSpeech(object sender, GenerateSpeechEventArgs e)
         {
-            Task.Run(async () =>
+            try
             {
                 client.OutputFormat = e.format;
-                var newStream = await client.GetAudioDataStream(e.text, e.voice, e.rateChange, e.pitchChange);
+                var newStream = await client.GetAudioDataStream(e.text, e.voice, e.rateChange, e.pitchChange).ConfigureAwait(true);
                 if (e.fileName != null)
                 {
                     SaveStream(newStream, e.fileName);
@@ -74,9 +73,11 @@ namespace Juniper.Speech
                 {
                     PlayStream(newStream);
                 }
-            })
-                .ContinueWith((t) => form.SetError(t.Exception), TaskContinuationOptions.OnlyOnFaulted)
-                .ConfigureAwait(false);
+            }
+            catch (Exception exp)
+            {
+                form.SetError(exp);
+            }
         }
 
         private static void SaveStream(Stream newStream, string fileName)

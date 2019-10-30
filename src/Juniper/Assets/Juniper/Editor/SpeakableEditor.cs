@@ -39,7 +39,6 @@ namespace Juniper.Events
                 var voicesDecoder = new JsonFactory<Voice[]>();
                 var voicesClient = new VoicesClient(azureRegion, azureApiKey, voicesDecoder, cache);
                 var voicesTask = voicesClient.GetVoices();
-                voicesTask.ConfigureAwait(false);
                 voices = voicesTask.Result;
             }
 

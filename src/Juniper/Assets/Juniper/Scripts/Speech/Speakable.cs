@@ -104,12 +104,11 @@ namespace Juniper.Speech
                     clip = null;
                 }
 
-                var clipTask = LoadTask();
-                clipTask.ConfigureAwait(false);
+                LoadTask();
             }
         }
 
-        private async Task LoadTask()
+        private async void LoadTask()
         {
             clip = await interaction.PreloadSpeech(text, voiceName, speakingRate - 1, pitch - 1);
         }
@@ -118,12 +117,11 @@ namespace Juniper.Speech
         {
             if (IsAvailable && clip != null)
             {
-                var playTask = PlayTask();
-                playTask.ConfigureAwait(false);
+                PlayTask();
             }
         }
 
-        private async Task PlayTask()
+        private async void PlayTask()
         {
             KeywordRecognizer.Pause();
             var time = interaction.PlayAudioClip(clip, transform);
