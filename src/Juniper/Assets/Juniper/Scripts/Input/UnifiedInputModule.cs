@@ -125,8 +125,8 @@ namespace Juniper.Input
         private readonly List<Keyboardable> toActivate = new List<Keyboardable>(10);
         private readonly List<KeyCode> keyPresses = new List<KeyCode>();
 
-        public InputMode mode = InputMode.Auto;
-        private InputMode lastMode;
+        private InputMode requestedMode = InputMode.Auto;
+        private InputMode currentMode;
 
         public bool paused;
 
@@ -262,7 +262,7 @@ namespace Juniper.Input
 
         public virtual void Uninstall()
         {
-            mode = InputMode.Auto;
+            requestedMode = InputMode.Auto;
         }
 
 #if UNITY_EDITOR
@@ -285,7 +285,7 @@ namespace Juniper.Input
 
             var data = m_PointerData[pointerDataID];
 
-            if(!(data is JuniperPointerEventData))
+            if (!(data is JuniperPointerEventData))
             {
                 var clone = new JuniperPointerEventData(eventSystem)
                 {
@@ -348,35 +348,27 @@ namespace Juniper.Input
         /// </summary>
         public override void Process()
         {
-            if (mode != lastMode)
+            if (requestedMode != currentMode)
             {
-                if (mode == InputMode.Auto)
+                if (requestedMode == InputMode.Auto)
                 {
-                    mode = SavedInputMode;
+                    requestedMode = SavedInputMode;
                 }
 
                 // Validate the InputMode that has been set
-                var voice = VoiceRequested && VoiceAvailable;
-                var motion = ControllersRequested && ControllersAvailable;
-                var hands = HandsRequested && HandsAvailable;
-                var mouse = MouseRequested && MouseAvailable;
-
-                // Don't enable touch if we're using controllers
-                var touch = TouchRequested && TouchAvailable
-                    && !motion
-                    && !hands;
-
-                // Don't enable gaze if we're using the screen
-                var gaze = GazeRequested && GazeAvailable
-                    && !mouse
-                    && !touch;
+                var voice = VoiceRequestApproved;
+                var controllers = ControllersRequestApproved;
+                var hands = HandsRequestApproved;
+                var mouse = MouseRequestApproved;
+                var gaze = GazeRequestApproved;
+                var touch = TouchRequestApproved;
 
                 // Enable a default device if no devices are enabled
-                if (!motion && !hands && !mouse && !touch && !gaze)
+                if (!controllers && !hands && !mouse && !touch && !gaze)
                 {
                     if (ControllersAvailable)
                     {
-                        motion = true;
+                        controllers = true;
                     }
                     else if (HandsAvailable)
                     {
@@ -415,18 +407,18 @@ namespace Juniper.Input
 
                 foreach (var motionController in Controllers)
                 {
-                    motionController.SetActive(motion);
+                    motionController.SetActive(controllers);
                 }
 
                 // record the actual input mode
                 VoiceRequested = voice;
-                ControllersRequested = motion;
+                ControllersRequested = controllers;
                 MouseRequested = mouse;
                 TouchRequested = touch;
                 HandsRequested = hands;
                 GazeRequested = gaze;
 
-                SavedInputMode = lastMode = mode;
+                SavedInputMode = currentMode = requestedMode;
             }
 
             if (newDevices.Count > 0)
@@ -441,26 +433,26 @@ namespace Juniper.Input
                 newKeyboardShortcuts.Clear();
             }
 
-                keyPresses.Clear();
-                toActivate.Clear();
+            keyPresses.Clear();
+            toActivate.Clear();
 
-                foreach (var pointer in Devices)
+            foreach (var pointer in Devices)
+            {
+                if (pointer.ProcessInUpdate)
                 {
-                    if (pointer.ProcessInUpdate)
-                    {
-                        ProcessPointer(pointer);
-                    }
+                    ProcessPointer(pointer);
                 }
+            }
 
-                foreach (var shortcut in keyboardShortcuts)
+            foreach (var shortcut in keyboardShortcuts)
+            {
+                if (shortcut.IsInteractable()
+                    && (UnityInput.GetKeyUp(shortcut.KeyCode)
+                        || keyPresses.Contains(shortcut.KeyCode)))
                 {
-                    if (shortcut.IsInteractable()
-                        && (UnityInput.GetKeyUp(shortcut.KeyCode)
-                            || keyPresses.Contains(shortcut.KeyCode)))
-                    {
-                        toActivate.MaybeAdd(shortcut);
-                    }
+                    toActivate.MaybeAdd(shortcut);
                 }
+            }
 
             if (!paused)
             {
@@ -565,21 +557,26 @@ namespace Juniper.Input
 #endif
         }
 
-        private void ToggleMode(InputMode newMode, bool value)
+        public void RequestMode(InputMode newMode, bool value)
         {
             if (value)
             {
-                mode |= newMode;
+                requestedMode |= newMode;
             }
             else
             {
-                mode &= ~newMode;
+                requestedMode &= ~newMode;
             }
         }
 
-        private bool CheckMode(InputMode checkMode)
+        public bool IsModeRequested(InputMode checkMode)
         {
-            return (mode & checkMode) != 0;
+            return requestedMode.HasFlag(checkMode);
+        }
+
+        public void ToggleModeRequested(InputMode newMode)
+        {
+            RequestMode(newMode, !IsModeRequested(newMode));
         }
 
         public bool VoiceAvailable
@@ -589,6 +586,7 @@ namespace Juniper.Input
                 return Voice.IsAvailable;
             }
         }
+
         public bool VoiceEnabled
         {
             get
@@ -596,10 +594,19 @@ namespace Juniper.Input
                 return Voice.isActiveAndEnabled;
             }
         }
+
+        private bool VoiceRequestApproved
+        {
+            get
+            {
+                return VoiceRequested && VoiceAvailable;
+            }
+        }
+
         public bool VoiceRequested
         {
-            get { return CheckMode(InputMode.Voice); }
-            set { ToggleMode(InputMode.Voice, value); }
+            get { return IsModeRequested(InputMode.Voice); }
+            set { RequestMode(InputMode.Voice, value); }
         }
 
         public bool GazeAvailable
@@ -609,6 +616,7 @@ namespace Juniper.Input
                 return Gaze.IsConnected;
             }
         }
+
         public bool GazeEnabled
         {
             get
@@ -616,10 +624,22 @@ namespace Juniper.Input
                 return Gaze.IsEnabled;
             }
         }
+
         public bool GazeRequested
         {
-            get { return CheckMode(InputMode.Gaze); }
-            set { ToggleMode(InputMode.Gaze, value); }
+            get { return IsModeRequested(InputMode.Gaze); }
+            set { RequestMode(InputMode.Gaze, value); }
+        }
+
+        private bool GazeRequestApproved
+        {
+            get
+            {
+                return GazeRequested
+                    && GazeAvailable
+                    && !MouseRequestApproved
+                    && !TouchRequestApproved;
+            }
         }
 
         public bool MouseAvailable
@@ -629,6 +649,7 @@ namespace Juniper.Input
                 return Mouse.IsConnected;
             }
         }
+
         public bool MouseEnabled
         {
             get
@@ -638,8 +659,16 @@ namespace Juniper.Input
         }
         public bool MouseRequested
         {
-            get { return CheckMode(InputMode.Mouse); }
-            set { ToggleMode(InputMode.Mouse, value); }
+            get { return IsModeRequested(InputMode.Mouse); }
+            set { RequestMode(InputMode.Mouse, value); }
+        }
+
+        private bool MouseRequestApproved
+        {
+            get
+            {
+                return MouseRequested && MouseAvailable;
+            }
         }
 
         public bool TouchAvailable
@@ -649,6 +678,7 @@ namespace Juniper.Input
                 return AnyDeviceConnected(Touches);
             }
         }
+
         public bool TouchEnabled
         {
             get
@@ -656,10 +686,22 @@ namespace Juniper.Input
                 return AnyDeviceEnabled(Touches);
             }
         }
+
         public bool TouchRequested
         {
-            get { return CheckMode(InputMode.Touch); }
-            set { ToggleMode(InputMode.Touch, value); }
+            get { return IsModeRequested(InputMode.Touch); }
+            set { RequestMode(InputMode.Touch, value); }
+        }
+
+        private bool TouchRequestApproved
+        {
+            get
+            {
+                return TouchRequested
+                    && TouchAvailable
+                    && !ControllersRequestApproved
+                    && !HandsRequestApproved;
+            }
         }
 
         public bool HandsAvailable
@@ -669,6 +711,7 @@ namespace Juniper.Input
                 return AnyDeviceConnected(Hands);
             }
         }
+
         public bool HandsEnabled
         {
             get
@@ -676,10 +719,19 @@ namespace Juniper.Input
                 return AnyDeviceEnabled(Hands);
             }
         }
+
         public bool HandsRequested
         {
-            get { return CheckMode(InputMode.Hands); }
-            set { ToggleMode(InputMode.Hands, value); }
+            get { return IsModeRequested(InputMode.Hands); }
+            set { RequestMode(InputMode.Hands, value); }
+        }
+
+        private bool HandsRequestApproved
+        {
+            get
+            {
+                return HandsRequested && HandsAvailable;
+            }
         }
 
         public bool ControllersAvailable
@@ -689,6 +741,7 @@ namespace Juniper.Input
                 return AnyDeviceConnected(Controllers);
             }
         }
+
         public bool ControllersEnabled
         {
             get
@@ -696,12 +749,20 @@ namespace Juniper.Input
                 return AnyDeviceEnabled(Controllers);
             }
         }
+
         public bool ControllersRequested
         {
-            get { return CheckMode(InputMode.Motion); }
-            set { ToggleMode(InputMode.Mouse, value); }
+            get { return IsModeRequested(InputMode.Motion); }
+            set { RequestMode(InputMode.Mouse, value); }
         }
 
+        private bool ControllersRequestApproved
+        {
+            get
+            {
+                return ControllersRequested && ControllersAvailable;
+            }
+        }
 
         public abstract bool HasFloorPosition { get; }
 

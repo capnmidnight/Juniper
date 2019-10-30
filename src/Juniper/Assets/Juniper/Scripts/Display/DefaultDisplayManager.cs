@@ -25,7 +25,7 @@ namespace Juniper.Display
                 if (Find.Any(out UnifiedInputModule input))
                 {
 #if UNITY_EDITOR
-                    if ((input.mode & InputMode.Touch) != 0)
+                    if (input.TouchRequested)
                     {
 #if UNITY_STANDALONE || UNITY_WSA
                         cameraCtrl.mode = CameraControl.Mode.MouseLocked;
@@ -33,7 +33,7 @@ namespace Juniper.Display
                         cameraCtrl.mode = CameraControl.Mode.Touch;
 #endif
                     }
-                    else if ((input.mode & InputMode.Mouse) != 0)
+                    else if (input.MouseRequested)
                     {
                         cameraCtrl.mode = CameraControl.Mode.MouseScreenEdge;
                     }
@@ -42,30 +42,30 @@ namespace Juniper.Display
                         cameraCtrl.mode = CameraControl.Mode.Gamepad;
                     }
 #elif UNITY_WSA
-                    if ((input.mode & InputMode.Touch) != 0
+                    if (input.TouchRequested
                         && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
                     {
                         cameraCtrl.mode = CameraControl.Mode.Touch;
                     }
-                    else if ((input.mode & InputMode.Mouse) != 0
+                    else if (input.MouseRequested
                         && Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily != "Windows.Mobile")
                     {
                         cameraCtrl.mode = CameraControl.Mode.MouseLocked;
                     }
 
 #else
-                    if ((input.mode & InputMode.Touch) != 0
+                    if (input.TouchRequested
                         && Application.isMobilePlatform)
                     {
                         cameraCtrl.mode = CameraControl.Mode.Touch;
                     }
-                    else if ((input.mode & InputMode.Mouse) != 0
+                    else if (input.MouseRequested
                         && UnityInput.mousePresent)
                     {
                         cameraCtrl.mode = CameraControl.Mode.MouseLocked;
                     }
 #endif
-                    else if ((input.mode & InputMode.Mouse) != 0)
+                    else if (input.MouseRequested)
                     {
                         cameraCtrl.mode = CameraControl.Mode.MouseScreenEdge;
                     }
