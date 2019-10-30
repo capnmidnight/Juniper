@@ -76,10 +76,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Juniper.Core\Juniper.Core.csproj">
-      <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
-      <Name>Juniper.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Juniper.Imaging.Windows\Juniper.Windows.csproj">
       <Project>{f3190c12-08b7-42cb-a294-0d4f49a00851}</Project>
       <Name>Juniper.Windows</Name>

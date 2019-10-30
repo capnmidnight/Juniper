@@ -68,10 +68,6 @@
     <None Include="Juniper.MediaTypes.Console.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Juniper.Core\Juniper.Core.csproj">
-      <Project>{CF395BB3-8967-44E3-8A02-3B570E218A83}</Project>
-      <Name>Juniper.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Root\Juniper.Root.csproj">
       <Project>{bd5b6e34-ca14-4636-83c0-da4aaddf08be}</Project>
       <Name>Juniper.Root</Name>

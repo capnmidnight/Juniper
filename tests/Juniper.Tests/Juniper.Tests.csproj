@@ -81,10 +81,6 @@
       <Project>{d1a0316a-2512-4a58-af0d-d4b6943b4992}</Project>
       <Name>Hjg.Pngcs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Juniper.Core\Juniper.Core.csproj">
-      <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
-      <Name>Juniper.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Juniper.Imaging\Juniper.Imaging.csproj">
       <Project>{23445a1e-526c-4edb-a0c3-140fed91b32b}</Project>
       <Name>Juniper.Imaging</Name>

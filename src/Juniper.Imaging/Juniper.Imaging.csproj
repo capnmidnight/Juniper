@@ -50,10 +50,6 @@
       <Project>{d1a0316a-2512-4a58-af0d-d4b6943b4992}</Project>
       <Name>Hjg.Pngcs</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Juniper.Core\Juniper.Core.csproj">
-      <Project>{cf395bb3-8967-44e3-8a02-3b570e218a83}</Project>
-      <Name>Juniper.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj">
       <Project>{bd5b6e34-ca14-4636-83c0-da4aaddf08be}</Project>
       <Name>Juniper.Root</Name>
