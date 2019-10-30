@@ -214,14 +214,14 @@ namespace Hjg.Pngcs.Chunks
                 Stream inx = inb;
                 if (!compress)
                 {
-                    inx = ZlibStreamFactory.createZlibInputStream(inb);
+                    inx = new ZlibInputStream(inb, false);
                 }
 
                 var outb = new MemoryStream();
                 Stream outx = outb;
                 if (compress)
                 {
-                    outx = ZlibStreamFactory.createZlibOutputStream(outb);
+                    outx = new ZlibOutputStream(outb, DeflateCompressLevel.DEFAULT, EDeflateCompressStrategy.Default, false);
                 }
 
                 shovelInToOut(inx, outx);

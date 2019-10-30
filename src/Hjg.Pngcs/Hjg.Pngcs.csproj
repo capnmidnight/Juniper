@@ -110,7 +110,6 @@
     <Compile Include="Zlib\ZlibInputStreamMs.cs" />
     <Compile Include="Zlib\ZlibOutputStreamIs.cs" />
     <Compile Include="Zlib\ZlibOutputStreamMs.cs" />
-    <Compile Include="Zlib\ZlibStreamFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />

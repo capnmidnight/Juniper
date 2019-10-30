@@ -420,7 +420,7 @@ namespace Hjg.Pngcs
             }
 
             iIdatCstream = new PngIDatChunkInputStream(inputStream, idatLen, offset);
-            idatIstream = ZlibStreamFactory.createZlibInputStream(iIdatCstream, true);
+            idatIstream = new ZlibInputStream(iIdatCstream, true);
             if (!crcEnabled)
             {
                 iIdatCstream.DisableCrcCheck();

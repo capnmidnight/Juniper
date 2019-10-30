@@ -1,4 +1,4 @@
-#if !NETFX_CORE
+#if !(NETFX_CORE || NET_STANDARD2_0)
 
 using System.IO;
 

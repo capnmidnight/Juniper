@@ -1,4 +1,4 @@
-#if !NETFX_CORE
+#if !(NETFX_CORE || NET_STANDARD2_0)
 
 using System.IO;
 
@@ -64,7 +64,7 @@ namespace Hjg.Pngcs.Zlib
             ost.Flush();
         }
 
-        public override string getImplementationId()
+        public override string GetImplementationId()
         {
             return "Zlib deflater: SharpZipLib";
         }

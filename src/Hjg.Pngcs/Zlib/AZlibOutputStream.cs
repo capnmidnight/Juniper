@@ -86,6 +86,6 @@ namespace Hjg.Pngcs.Zlib
         /// mainly for debugging
         /// </summary>
         /// <returns></returns>
-        public abstract string getImplementationId();
+        public abstract string GetImplementationId();
     }
 }

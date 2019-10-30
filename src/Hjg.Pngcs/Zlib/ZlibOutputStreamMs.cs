@@ -1,4 +1,5 @@
-#if NETFX_CORE
+#if NETFX_CORE || NET_STANDARD2_0
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -82,7 +83,7 @@ namespace Hjg.Pngcs.Zlib {
             if(deflateStream!=null) deflateStream.Flush();
         }
 
-        public override string getImplementationId() {
+        public override string GetImplementationId() {
             return "Zlib deflater: .Net CLR 4.5";
         }
     }
