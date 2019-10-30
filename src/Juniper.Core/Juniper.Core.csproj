@@ -37,15 +37,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compression\CompressedFileInfo.cs" />
-    <Compile Include="Compression\Tar.GZip\Decompressor.cs" />
-    <Compile Include="Compression\Zip\Compressor.cs" />
-    <Compile Include="Compression\Zip\Decompressor.cs" />
-    <Compile Include="Compression\Zip\ZipFileCacheLayer.cs" />
-    <Compile Include="Compression\Zip\ZipFileEntryStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -53,11 +46,6 @@
       <Project>{bd5b6e34-ca14-4636-83c0-da4aaddf08be}</Project>
       <Name>Juniper.Root</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="SharpZipLib">
-      <Version>1.2.0</Version>
-    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

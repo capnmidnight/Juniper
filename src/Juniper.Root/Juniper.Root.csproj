@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net472</TargetFrameworks>
     <AssemblyName>Juniper</AssemblyName>
     <RootNamespace>Juniper</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -23,6 +23,7 @@
     <PackageReference Include="NAudio" Version="1.9.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="NLayer.Core" Version="1.15.0" />
+    <PackageReference Include="SharpZipLib" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -103,5 +104,9 @@
       <DependentUpon>XConference.cs</DependentUpon>
     </Compile>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="&quot;..\File Copier\bin\Release\jcopy&quot; &quot;$(ProjectDir)bin\$(ConfigurationName)\net472&quot; '$(SolutionDir)Juniper\Assets\Juniper\Plugins\Juniper\$(ConfigurationName)\'" />
+  </Target>
 
 </Project>
