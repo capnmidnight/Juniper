@@ -34,13 +34,13 @@ namespace File_Copier
                 }
 
                 var source = new DirectoryInfo(args[0]);
-                var dest1 = new DirectoryInfo(args[1]);
                 if (!source.Exists)
                 {
                     Error.WriteLine("Source directory does not exist");
                 }
-                else
+                else if(source.Name != "netstandard2.0")
                 {
+                    var dest1 = new DirectoryInfo(args[1]);
                     var dest2 = dest1.Parent;
 
                     WriteLine("Copying from {0} to {1}", source.FullName, dest1.FullName);
