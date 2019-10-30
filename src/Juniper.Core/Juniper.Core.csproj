@@ -51,7 +51,6 @@
     <Compile Include="Compression\Zip\ZipFileEntryStream.cs" />
     <Compile Include="IO\JsonFactory.cs" />
     <Compile Include="IO\JsonFactoryGeneric.cs" />
-    <Compile Include="NETFX\Runtime\Serialization\SerializationInfoExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
