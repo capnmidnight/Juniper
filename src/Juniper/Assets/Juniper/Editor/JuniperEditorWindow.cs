@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,12 +31,12 @@ namespace Juniper.Unity.Editor
         protected static readonly GUILayoutOption panoFieldWidth = Width(200);
         protected static readonly GUILayoutOption latLngFieldWidth = Width(250);
 
-        private static bool initialized;
-        private static Task watcherTask;
-
         private CancellationTokenSource tokenSource;
         private CancellationToken cancelToken;
         private TaskFactory mainThread;
+        private Task watcherTask;
+        private bool initialized;
+        private bool startWatcher;
 
         protected Task RepaintAsync()
         {
@@ -44,103 +45,190 @@ namespace Juniper.Unity.Editor
 
         private readonly GUIContent windowTitle;
 
-        protected JuniperEditorWindow(string title)
+        protected JuniperEditorWindow(string title, bool startWatcher)
         {
             windowTitle = new GUIContent(title);
+            this.startWatcher = startWatcher;
 
             var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
             mainThread = new TaskFactory(scheduler);
 
-            EditorApplication.update += OnEditorUpdate;
-            Selection.selectionChanged += OnSelectionChanged;
+            EditorApplication.update += OnEditorUpdateInternal;
+            Selection.selectionChanged += OnSelectionChangedInternal;
         }
-
         protected virtual void OnInit()
         { }
 
+        private void OnInitInternal()
+        {
+            try
+            {
+                if (!initialized)
+                {
+                    OnInit();
+                    initialized = true;
+                }
+            }
+            catch (Exception exp)
+            {
+                CurrentError = new Exception("Error occured during initialization", exp);
+            }
+        }
         protected virtual void OnEditorUpdate()
         { }
 
+        private void OnEditorUpdateInternal()
+        {
+            try
+            {
+                OnEditorUpdate();
+            }
+            catch (Exception exp)
+            {
+                CurrentError = new Exception("Error occured during editor update", exp);
+            }
+        }
         protected virtual void OnBackgroundUpdate()
         { }
 
+        private void OnBackgroundUpdateInternal()
+        {
+            try
+            {
+                OnBackgroundUpdate();
+            }
+            catch (Exception exp)
+            {
+                CurrentError = new Exception("Error occured during background update", exp);
+            }
+        }
         protected virtual void OnSelectionChanged()
         { }
 
+        private void OnSelectionChangedInternal()
+        {
+            try
+            {
+                OnSelectionChanged();
+            }
+            catch (Exception exp)
+            {
+                CurrentError = new Exception("Error occured during selection change", exp);
+            }
+        }
         protected virtual void OnPaint()
         { }
+
+        private void OnPaintInternal()
+        {
+            try
+            {
+                OnPaint();
+            }
+            catch (Exception exp)
+            {
+                CurrentError = new Exception("Error occured during repaint", exp);
+            }
+        }
+
+        private Exception CurrentError;
 
         private void OnGUI()
         {
             titleContent = windowTitle;
 
-            if (!initialized)
+            if (!startWatcher)
             {
-                initialized = true;
-                OnInit();
-            }
-
-            if (watcherTask.IsRunning())
-            {
-                using (_ = new HGroup())
-                {
-                    LabelField("Watcher task running");
-                    if (Button("Stop", Width(75)))
-                    {
-                        StopWatcher();
-                    }
-                }
+                Init();
             }
             else
             {
-                using (_ = new HGroup())
+                if (watcherTask.IsRunning())
                 {
-                    if (watcherTask?.IsCanceled == true)
+                    using (_ = new HGroup())
                     {
-                        LabelField("Watcher task canceled");
-                    }
-                    if (Button("Start", Width(75)))
-                    {
-                        StartWatcher();
+                        LabelField("Watcher task running");
+                        if (Button("Stop", Width(75)))
+                        {
+                            StopWatcher();
+                        }
                     }
                 }
-
-                if (watcherTask?.IsFaulted == true)
+                else if (watcherTask != null)
+                {
+                    using (_ = new HGroup())
                     {
-                        using (_ = errorView.Begin())
+                        if (watcherTask.IsCanceled == true)
                         {
-                            LabelField(watcherTask.Exception.Message);
-                            LabelField(watcherTask.Exception.StackTrace, EditorStyles.wordWrappedLabel);
-                            foreach (var exp in watcherTask.Exception.InnerExceptions)
-                            {
-                                LabelField(exp.Message);
-                                LabelField(exp.StackTrace, EditorStyles.wordWrappedLabel);
-                            }
+                            LabelField("Watcher task canceled");
                         }
+
+                        if (Button("Start", Width(75)))
+                        {
+                            StartWatcher();
+                        }
+                    }
+
+                    if (watcherTask.IsFaulted == true
+                        && CurrentError == null)
+                    {
+                        CurrentError = new Exception("Error occured on background task", watcherTask.Exception);
+                        initialized = false;
+                    }
                 }
             }
 
-            OnPaint();
+            if (CurrentError != null)
+            {
+                using (_ = errorView.Begin())
+                {
+                    var head = CurrentError;
+                    while (head != null)
+                    {
+                        LabelField(CurrentError.Message);
+                        LabelField(CurrentError.StackTrace, EditorStyles.wordWrappedLabel);
+                        head = head.InnerException;
+                    }
+                }
+            }
 
-            if (watcherTask == null)
+            OnPaintInternal();
+
+            if (startWatcher
+                && watcherTask == null)
             {
                 StartWatcher();
             }
         }
 
+        private void Init()
+        {
+            CurrentError = null;
+            OnInitInternal();
+            OnSelectionChangedInternal();
+        }
+
         private void StartWatcher()
         {
-            if (tokenSource != null)
+            Init();
+
+            try
             {
-                tokenSource.Dispose();
-                tokenSource = null;
+                if (tokenSource != null)
+                {
+                    tokenSource.Dispose();
+                    tokenSource = null;
+                }
+
+                tokenSource = new CancellationTokenSource();
+                cancelToken = tokenSource.Token;
+
+                watcherTask = Task.Run(BackgroundThread, cancelToken);
             }
-
-            tokenSource = new CancellationTokenSource();
-            cancelToken = tokenSource.Token;
-
-            watcherTask = Task.Run(BackgroundThread, cancelToken);
-            watcherTask.ConfigureAwait(false);
+            catch (Exception exp)
+            {
+                CurrentError = new Exception("Error occured while starting watcher", exp);
+            }
         }
 
         private void StopWatcher()
@@ -154,7 +242,7 @@ namespace Juniper.Unity.Editor
             {
                 cancelToken.ThrowIfCancellationRequested();
 
-                OnBackgroundUpdate();
+                OnBackgroundUpdateInternal();
             }
         }
     }
