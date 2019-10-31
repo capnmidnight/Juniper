@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Numerics;
 
 namespace System.Runtime.Serialization
 {
@@ -23,16 +22,24 @@ namespace System.Runtime.Serialization
         }
 
         public static T GetEnumFromString<T>(this SerializationInfo info, string name)
+            where T : struct, Enum
         {
             var value = info.GetString(name);
-            if (!string.IsNullOrEmpty(value))
+            if (!string.IsNullOrEmpty(value)
+                && Enum.TryParse(value, out T result))
             {
-                return (T)Enum.Parse(typeof(T), value);
+                return result;
             }
             else
             {
                 return default;
             }
+        }
+
+        public static void SetEnumAsString<T>(this SerializationInfo info, string name, T value)
+            where T : struct, Enum
+        {
+            info.AddValue(name, value.ToString());
         }
 
         public static bool MaybeAddValue<T>(this SerializationInfo info, string name, T value)

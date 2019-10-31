@@ -38,7 +38,7 @@ namespace Juniper.World.GIS
         /// <summary>
         /// The globe hemispheres in which the UTM point could sit.
         /// </summary>
-        public enum GlobeHemisphere
+        public enum GlobeHemisphere : byte
         {
             Northern,
             Southern
@@ -91,7 +91,7 @@ namespace Juniper.World.GIS
             info.AddValue(nameof(Y), Y);
             info.AddValue(nameof(Z), Z);
             info.AddValue(nameof(Zone), Zone);
-            info.AddValue(nameof(Hemisphere), Hemisphere.ToString());
+            info.SetEnumAsString(nameof(Hemisphere), Hemisphere);
         }
 
         /// <summary>
@@ -110,7 +110,8 @@ namespace Juniper.World.GIS
 
         public override int GetHashCode()
         {
-            return Hemisphere.GetHashCode()
+            var H = (byte)Hemisphere;
+            return H.GetHashCode()
                 ^ X.GetHashCode()
                 ^ Y.GetHashCode()
                 ^ Z.GetHashCode()
