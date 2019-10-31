@@ -41,28 +41,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Imaging\GDIImageDataTranscoder.cs" />
-    <Compile Include="Imaging\GDICodec.cs" />
-    <Compile Include="Imaging\GDIProcessor.cs" />
-    <Compile Include="Imaging\ImageDataExt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serial\ISerialPort.cs" />
-    <Compile Include="Serial\ISerialPortFactory.cs" />
-    <Compile Include="Serial\ISerialPortListing.cs" />
-    <Compile Include="Serial\MockSerialPort.cs" />
-    <Compile Include="Serial\MockSerialPortListing.cs" />
-    <Compile Include="Serial\SafeSerialPort.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Serial\SafeSerialPortFactory.cs" />
-    <Compile Include="Serial\SafeSerialPortListing.cs" />
-    <Compile Include="Serial\SerialPortDevice.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Juniper.Root\Juniper.Root.csproj">
       <Project>{bd5b6e34-ca14-4636-83c0-da4aaddf08be}</Project>
       <Name>Juniper.Root</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Imaging\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
