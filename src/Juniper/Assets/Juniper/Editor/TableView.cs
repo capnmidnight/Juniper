@@ -39,17 +39,18 @@ namespace UnityEditor
             {
                 using (_ = new Header(title))
                 {
-                    DrawBody();
+                    DrawHeaders();
                 }
             }
             else
             {
-                DrawBody();
+                DrawHeaders();
             }
+
             return new ScrollViewState(ref scrollPosition);
         }
 
-        private void DrawBody()
+        private void DrawHeaders()
         {
             using (_ = new HGroup())
             {
