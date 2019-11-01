@@ -1,4 +1,4 @@
-#if NET472
+#if !NETSTANDARD
 using System;
 using System.IO;
 using System.IO.Ports;

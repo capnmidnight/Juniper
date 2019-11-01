@@ -1,72 +1,67 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.Serialization;
 
-using ICSharpCode.SharpZipLib.Tar;
-using ICSharpCode.SharpZipLib.Zip;
-
 using Juniper.Collections;
+using Juniper.Compression.Tar;
 
 namespace Juniper.Compression
 {
     [Serializable]
     public sealed class CompressedFileInfo : IEquatable<CompressedFileInfo>, IComparable<CompressedFileInfo>, ISerializable
     {
-        public readonly string Name;
-        public readonly bool IsDirectory;
+        public readonly string FullName;
         public readonly bool IsFile;
-        public readonly long Size;
+        public readonly long Length;
 
         internal readonly string[] pathParts;
 
-        public CompressedFileInfo(string name, bool isDirectory, bool isFile, long size, string[] pathParts)
+        internal CompressedFileInfo()
+            : this(null, false, 0, Array.Empty<string>())
+        { }
+
+        private CompressedFileInfo(string name, bool isFile, long size, string[] pathParts)
         {
-            Name = name;
-            IsDirectory = isDirectory;
+            FullName = name;
             IsFile = isFile;
-            Size = size;
+            Length = size;
             this.pathParts = pathParts;
         }
 
-        internal CompressedFileInfo()
-            : this(null, true, false, 0, Array.Empty<string>())
+        internal CompressedFileInfo(string name, bool isFile, long size)
+            : this(name, isFile, size, PathExt.PathParts(name))
         { }
 
         public CompressedFileInfo(string name)
-            : this(name, true, false, 0) { }
+            : this(name, false, 0, PathExt.PathParts(name)) { }
 
-        public CompressedFileInfo(string name, bool isDirectory, bool isFile, long size)
-            : this(name, isDirectory, isFile, size, PathExt.PathParts(name))
+        public CompressedFileInfo(ZipArchiveEntry entry)
+            : this(entry.FullName, true, entry.Length)
         { }
 
-        public CompressedFileInfo(ZipEntry entry)
-            : this(entry.Name, entry.IsDirectory, entry.IsFile, entry.Size)
-        { }
-
-        public CompressedFileInfo(TarEntry entry)
-            : this(entry.Name, entry.IsDirectory, !entry.IsDirectory, entry.Size)
+        public CompressedFileInfo(TarArchiveEntry entry)
+            : this(entry.FullName, true, entry.Length)
         { }
 
         private CompressedFileInfo(SerializationInfo info, StreamingContext context)
-            : this(info.GetString(nameof(Name)),
-                  info.GetBoolean(nameof(IsDirectory)),
-                  info.GetBoolean(nameof(IsFile)),
-                  info.GetInt64(nameof(Size)))
+            : this(info.GetString(nameof(FullName)),
+                info.GetBoolean(nameof(IsFile)),
+                info.GetInt64(nameof(Length)))
         { }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(nameof(Name), Name);
-            info.AddValue(nameof(IsDirectory), IsDirectory);
+            info.AddValue(nameof(FullName), FullName);
             info.AddValue(nameof(IsFile), IsFile);
-            info.AddValue(nameof(Size), Size);
+            info.AddValue(nameof(Length), Length);
         }
 
         public bool Contains(CompressedFileInfo other)
         {
-            return IsDirectory
+            return !IsFile
                 && other.pathParts.Length >= pathParts.Length
                 && other.pathParts.Take(pathParts.Length).Matches(pathParts);
         }
@@ -74,10 +69,9 @@ namespace Juniper.Compression
         public bool Equals(CompressedFileInfo other)
         {
             return other is object
-                && Name == other.Name
-                && IsDirectory == other.IsDirectory
+                && FullName == other.FullName
                 && IsFile == other.IsFile
-                && Size == other.Size;
+                && Length == other.Length;
         }
 
         public override bool Equals(object obj)
@@ -86,59 +80,48 @@ namespace Juniper.Compression
                 && Equals(cfi);
         }
 
-        public static bool operator==(CompressedFileInfo left, CompressedFileInfo right)
+        public static bool operator ==(CompressedFileInfo left, CompressedFileInfo right)
         {
             return left is null && right is null
                 || left is object && left.Equals(right);
         }
 
-        public static bool operator!=(CompressedFileInfo left, CompressedFileInfo right)
+        public static bool operator !=(CompressedFileInfo left, CompressedFileInfo right)
         {
             return !(left == right);
         }
 
         public override int GetHashCode()
         {
-            return Name.GetHashCode()
-                ^ IsDirectory.GetHashCode()
+            return FullName.GetHashCode()
                 ^ IsFile.GetHashCode()
-                ^ Size.GetHashCode();
+                ^ Length.GetHashCode();
         }
 
         public override string ToString()
         {
-            if (IsDirectory)
+            if (IsFile)
             {
-                return "+" + Name;
-            }
-            else if(IsFile)
-            {
-                return "-" + Name;
+                return "-" + FullName;
             }
             else
             {
-                return "?" + Name;
+                return "+" + FullName;
             }
         }
 
         public int CompareTo(CompressedFileInfo other)
         {
-            var name = Name.CompareTo(other?.Name);
+            var name = FullName.CompareTo(other?.FullName);
             if (name != 0)
             {
                 return name;
             }
 
-            var size = Size.CompareTo(other?.Size ?? 0);
-            if(size != 0)
+            var size = Length.CompareTo(other?.Length ?? 0);
+            if (size != 0)
             {
                 return size;
-            }
-
-            var dir = IsDirectory.CompareTo(other?.IsDirectory == true);
-            if(dir != 0)
-            {
-                return dir;
             }
 
             var file = IsFile.CompareTo(other?.IsFile == true);
@@ -151,7 +134,7 @@ namespace Juniper.Compression
         public static IEnumerable<string> Names(this IEnumerable<CompressedFileInfo> entries)
         {
             return from entry in entries
-                   select entry.Name;
+                   select entry.FullName;
         }
 
         public static IEnumerable<CompressedFileInfo> Files(this IEnumerable<CompressedFileInfo> entries)
@@ -163,15 +146,24 @@ namespace Juniper.Compression
 
         public static IEnumerable<CompressedFileInfo> Directories(this IEnumerable<CompressedFileInfo> entries)
         {
-            return from entry in entries
-                   where entry.IsDirectory
-                   select entry;
+            return (from entry in entries
+                    where !entry.IsFile
+                    select entry.FullName)
+                .Union(from entry in entries
+                       where entry.IsFile
+                       let parts = PathExt.PathParts(entry.FullName)
+                       let name = string.Join("/", parts.Take(parts.Length - 1))
+                       where name.Length > 0
+                       select name)
+                .Distinct()
+                .Select(d => new CompressedFileInfo(d));
         }
 
         public static NAryTree<CompressedFileInfo> Tree(this IEnumerable<CompressedFileInfo> entries)
         {
             var tree = new NAryTree<CompressedFileInfo>(new CompressedFileInfo());
-            foreach(var entry in entries)
+
+            foreach (var entry in entries.Directories().Concat(entries.Files()))
             {
                 tree.Add(entry, (parent, child) => parent.Contains(child));
             }

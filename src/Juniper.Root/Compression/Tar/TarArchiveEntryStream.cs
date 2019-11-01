@@ -3,19 +3,17 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-using ICSharpCode.SharpZipLib.Zip;
-
-namespace Juniper.Compression.Zip
+namespace Juniper.Compression.Tar
 {
-    public class ZipFileEntryStream : Stream
+    public class TarArchiveEntryStream : Stream
     {
-        private ZipFile zip;
-        private Stream entryStream;
+        private readonly TarArchive tar;
+        private readonly Stream entryStream;
 
-        public ZipFileEntryStream(ZipFile zip, ZipEntry entry)
+        public TarArchiveEntryStream(TarArchive tar, TarArchiveEntry entry)
         {
-            this.zip = zip;
-            entryStream = zip.GetFile(entry);
+            this.tar = tar;
+            entryStream = entry.Open();
         }
 
         protected override void Dispose(bool disposing)
@@ -25,17 +23,11 @@ namespace Juniper.Compression.Zip
                 if (entryStream != null)
                 {
                     entryStream.Dispose();
-                    entryStream = null;
                 }
 
-                if (zip != null)
+                if (tar != null)
                 {
-#pragma warning disable CS0642 // Possible mistaken empty statement
-                    // this value's dispose method is hidden, but we can get
-                    // at it if we are tricksy hobittses.
-                    using (zip) ;
-#pragma warning restore CS0642 // Possible mistaken empty statement
-                    zip = null;
+                    tar.Dispose();
                 }
             }
 
@@ -132,8 +124,7 @@ namespace Juniper.Compression.Zip
 
         public override void Close()
         {
-            entryStream?.Close();
-            zip?.Close();
+            entryStream.Close();
         }
 
         public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)

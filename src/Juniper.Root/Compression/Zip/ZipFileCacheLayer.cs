@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 using System.IO;
 using System.Threading.Tasks;
+
 using Juniper.Compression;
 using Juniper.Compression.Zip;
 using Juniper.Progress;
@@ -42,7 +43,7 @@ namespace Juniper.IO
                 if (zipFile.Exists)
                 {
                     var cacheFileName = GetCacheFileName(fileRef);
-                    using (var zip = Decompressor.OpenZip(zipFile))
+                    using (var zip = Decompressor.Open(zipFile))
                     {
                         var entry = zip.GetEntry(cacheFileName);
                         filesExist[fileRef.CacheID] = entry != null;
@@ -63,18 +64,9 @@ namespace Juniper.IO
             Stream stream = null;
             if (IsCached(fileRef))
             {
+                var zip = Decompressor.Open(zipFile);
                 var cacheFileName = GetCacheFileName(fileRef);
-                var zip = Decompressor.OpenZip(zipFile);
-                var entry = zip.GetEntry(cacheFileName);
-                if (entry != null)
-                {
-                    stream = new ZipFileEntryStream(zip, entry);
-
-                    if(prog != null)
-                    {
-                        stream = new ProgressStream(stream, entry.Size, prog);
-                    }
-                }
+                stream = zip.GetFile(cacheFileName);
             }
             return Task.FromResult(stream);
         }
@@ -83,9 +75,9 @@ namespace Juniper.IO
         {
             foreach (var file in Decompressor.Entries(zipFile).Files())
             {
-                if (ofType.Matches(file.Name))
+                if (ofType.Matches(file.FullName))
                 {
-                    var cacheID = PathExt.RemoveShortExtension(file.Name);
+                    var cacheID = PathExt.RemoveShortExtension(file.FullName);
                     yield return cacheID + ofType;
                 }
             }
