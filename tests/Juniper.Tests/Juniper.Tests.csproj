@@ -7,7 +7,7 @@
     <ProjectGuid>{3BF7D2CD-A68D-468F-968F-8B2F1AFDDE0F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Junipe</RootNamespace>
+    <RootNamespace>Juniper</RootNamespace>
     <AssemblyName>Juniper.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

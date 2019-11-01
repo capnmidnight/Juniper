@@ -310,10 +310,10 @@ namespace Juniper.ConfigurationManagement
 
         private bool PathIsInstalled(NAryTree<CompressedFileInfo> path)
         {
-            var fullPath = path.Value.Name == null
+            var fullPath = path.Value.FullName == null
                 ? installDirectory.FullName
-                : Path.Combine(installDirectory.FullName, path.Value.Name);
-            return path.Value.IsDirectory && Directory.Exists(fullPath)
+                : Path.Combine(installDirectory.FullName, path.Value.FullName);
+            return !path.Value.IsFile && Directory.Exists(fullPath)
                 || path.Value.IsFile && File.Exists(fullPath);
         }
 
@@ -336,7 +336,7 @@ namespace Juniper.ConfigurationManagement
 
             var paths = (from p in Paths
                          where PathIsInstalled(p)
-                         orderby p.Value.Name descending
+                         orderby p.Value.FullName descending
                          select p.Value)
                 .ToArray();
 
@@ -346,14 +346,14 @@ namespace Juniper.ConfigurationManagement
                 {
                     prog.Report(i, paths.Length);
                     var path = paths[i];
-                    if (path.Name != null)
+                    if (path.FullName != null)
                     {
-                        var fullPath = Path.Combine(installDirectory.FullName, path.Name);
+                        var fullPath = Path.Combine(installDirectory.FullName, path.FullName);
                         if (path.IsFile)
                         {
                             File.Delete(fullPath);
                         }
-                        else if (path.IsDirectory)
+                        else
                         {
                             Directory.Delete(fullPath);
                         }
