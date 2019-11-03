@@ -20,7 +20,7 @@ namespace Lesson_Builder
         }
 
         VertexArray vertices;
-        // ElementBuffer elements;
+        ElementBuffer elements;
         ShaderProgram program;
 
         private Program()
@@ -48,26 +48,25 @@ namespace Lesson_Builder
 
             vertices = new VertexArray(
                 program.GetAttributeLocation("pos"),
-                new []{
+                new[]{
                      0.5f,  0.5f, 0.0f,  //Top-right vertex
                      0.5f, -0.5f, 0.0f, //Bottom-right vertex
                     -0.5f, -0.5f, 0.0f, //Bottom-left vertex
-                   // -0.5f,  0.5f, 0.0f  //Top-left vertex
+                    -0.5f,  0.5f, 0.0f  //Top-left vertex
+                });
+            elements = new ElementBuffer(new uint[] {
+                    0, 1, 3,
+                    1, 2, 3
                 });
 
-            //elements = new ElementBuffer(new uint[] {
-            //    0, 1, 3,
-            //    1, 2, 3
-            //});
-
             ClearColor(Color4.Red);
-
 
             base.OnLoad(e);
         }
 
         protected override void Dispose(bool manual)
         {
+            elements.Dispose();
             vertices.Dispose();
             program.Dispose();
             base.Dispose(manual);
@@ -96,8 +95,9 @@ namespace Lesson_Builder
 
             program.Enable();
             vertices.Enable();
+            elements.Enable();
 
-            vertices.Draw();
+            elements.Draw();
 
             Context.SwapBuffers();
             base.OnRenderFrame(e);
