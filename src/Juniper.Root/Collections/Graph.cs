@@ -91,13 +91,6 @@ namespace Juniper.Collections
                 && network[startPoint].ContainsKey(endPoint);
         }
 
-        public IRoute<NodeT> GetRoute(NodeT startPoint, NodeT endPoint)
-        {
-            return Exists(startPoint, endPoint)
-                ? network[startPoint][endPoint]
-                : default;
-        }
-
         public IReadOnlyList<NodeT> EndPoints
         {
             get
@@ -291,6 +284,27 @@ namespace Juniper.Collections
                 }
 
                 dirty = false;
+            }
+        }
+
+        public IRoute<NodeT> GetRoute(NodeT startPoint, NodeT endPoint)
+        {
+            return Exists(startPoint, endPoint)
+                ? network[startPoint][endPoint]
+                : default;
+        }
+
+        public IEnumerable<NodeT> GetExits(NodeT startPoint)
+        {
+            if (Exists(startPoint))
+            {
+                foreach (var route in network[startPoint].Values)
+                {
+                    if (route.Count == 2)
+                    {
+                        yield return route.End;
+                    }
+                }
             }
         }
     }
