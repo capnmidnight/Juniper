@@ -21,17 +21,25 @@ namespace Juniper
             }
         }
 
-        VertexBuffer vertexBuffer;
-        VertexArray vertexArray;
-        ElementBuffer elements;
-        Program program;
+        private VertexBuffer vertexBuffer;
+        private VertexArray vertexArray;
+        private ElementBuffer elementBuffer;
+        private Program program;
 
         private GameProgram()
             : base(800, 600, GraphicsMode.Default, "Lesson Builder")
         { }
 
+        protected override void OnResize(EventArgs e)
+        {
+            Viewport(0, 0, Width, Height);
+            base.OnResize(e);
+        }
+
         protected override void OnLoad(EventArgs e)
         {
+            ClearColor(Color4.Red);
+
             program = new Program();
 
             using (var vert = new Shader(ShaderType.VertexShader, "Shaders/copy.vert"))
@@ -49,40 +57,32 @@ namespace Juniper
                 Console.WriteLine(">: " + program.InfoLog);
             }
 
-            vertexBuffer = new VertexBuffer(
-                program.GetAttributeLocation("pos"),
-                new[]{
-                     0.5f,  0.5f, 0.0f,  //Top-right vertex
-                     0.5f, -0.5f, 0.0f, //Bottom-right vertex
-                    -0.5f, -0.5f, 0.0f, //Bottom-left vertex
-                    -0.5f,  0.5f, 0.0f  //Top-left vertex
-                });
+            vertexBuffer = new VertexBuffer(new[]{
+                 0.5f,  0.5f, 0.0f,  //Top-right vertex
+                 0.5f, -0.5f, 0.0f, //Bottom-right vertex
+                -0.5f, -0.5f, 0.0f, //Bottom-left vertex
+                -0.5f,  0.5f, 0.0f  //Top-left vertex
+            });
 
-            vertexArray = new VertexArray(vertexBuffer);
+            var attrIndex = program.GetAttributeLocation("pos");
+            vertexArray = new VertexArray(attrIndex, vertexBuffer);
 
-            elements = new ElementBuffer(new uint[] {
-                    0, 1, 3,
-                    1, 2, 3
-                });
-
-            ClearColor(Color4.Red);
+            elementBuffer = new ElementBuffer(new uint[] {
+                0, 1, 3,
+                1, 2, 3
+            });
 
             base.OnLoad(e);
         }
 
         protected override void Dispose(bool manual)
         {
-            elements.Dispose();
-            vertexArray.Dispose();
+            elementBuffer.Dispose();
             vertexBuffer.Dispose();
+            vertexArray.Dispose();
             program.Dispose();
-            base.Dispose(manual);
-        }
 
-        protected override void OnResize(EventArgs e)
-        {
-            Viewport(0, 0, Width, Height);
-            base.OnResize(e);
+            base.Dispose(manual);
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -100,15 +100,14 @@ namespace Juniper
         {
             Clear(ClearBufferMask.ColorBufferBit);
 
-            program.Enable();
-            vertexArray.Enable();
-            //elements.Enable();
-            //elements.Draw();
-            vertexArray.Draw();
-            //verticesState.Disable();
-
-            Context.SwapBuffers();
-            base.OnRenderFrame(e);
+            using (var _ = program.Scope())
+            using (var __ = vertexArray.Scope())
+            using (var ___ = elementBuffer.Scope())
+            {
+                elementBuffer.Draw();
+                Context.SwapBuffers();
+                base.OnRenderFrame(e);
+            }
         }
     }
 }

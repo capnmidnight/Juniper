@@ -4,16 +4,21 @@ using static OpenTK.Graphics.OpenGL4.GL;
 
 namespace Juniper.OpenGL
 {
-    public class ProgramPipeline : GLHandle
+    public class ProgramPipeline : GLScopedHandle
     {
         public ProgramPipeline()
             : base(GenProgramPipeline(), DeleteProgramPipeline)
         {
         }
 
-        public void Enable()
+        public override void Enable()
         {
             BindProgramPipeline(this);
+        }
+
+        public override void Disable()
+        {
+            BindProgramPipeline(0);
         }
 
         public string InfoLog

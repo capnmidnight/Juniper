@@ -4,7 +4,7 @@ using static OpenTK.Graphics.OpenGL4.GL;
 
 namespace Juniper.OpenGL
 {
-    public abstract class GLBuffer : GLHandle
+    public abstract class GLBuffer : GLScopedHandle
     {
         private readonly BufferTarget type;
 
@@ -14,16 +14,14 @@ namespace Juniper.OpenGL
             this.type = type;
         }
 
-        public virtual void Enable()
+        public override void Enable()
         {
             BindBuffer(type, this);
         }
 
-        public virtual void Disable()
+        public override void Disable()
         {
             BindBuffer(type, 0);
         }
-
-        public virtual void Draw() { }
     }
 }

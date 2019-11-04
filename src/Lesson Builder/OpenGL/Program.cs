@@ -16,7 +16,7 @@ using static OpenTK.Graphics.OpenGL4.GL;
 
 namespace Juniper.OpenGL
 {
-    public class Program : GLHandle
+    public class Program : GLScopedHandle
     {
         public static Program operator +(Program program, Shader shader)
         {
@@ -54,9 +54,14 @@ namespace Juniper.OpenGL
             return InfoLog;
         }
 
-        public void Enable()
+        public override void Enable()
         {
             UseProgram(this);
+        }
+
+        public override void Disable()
+        {
+            UseProgram(0);
         }
 
         public int[] AttachedShaders

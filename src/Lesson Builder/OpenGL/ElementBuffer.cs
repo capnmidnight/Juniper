@@ -6,20 +6,27 @@ namespace Juniper.OpenGL
 {
     public class ElementBuffer : GLBuffer
     {
-        private readonly int Length;
+        private readonly int length;
 
         public ElementBuffer(uint[] indices)
             : base(BufferTarget.ElementArrayBuffer)
         {
-            Length = indices.Length;
-            BufferData(BufferTarget.ElementArrayBuffer, indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
+            length = indices.Length;
+            Enable();
+            BufferData(
+                BufferTarget.ElementArrayBuffer,
+                indices.Length * sizeof(uint),
+                indices,
+                BufferUsageHint.StaticDraw);
         }
 
-        public override void Draw()
+        public void Draw()
         {
-            base.Draw();
-
-            DrawElements(PrimitiveType.Triangles, Length, DrawElementsType.UnsignedInt, 0);
+            DrawElements(
+                PrimitiveType.Triangles,
+                length,
+                DrawElementsType.UnsignedInt,
+                0);
         }
     }
 }

@@ -4,27 +4,35 @@ using static OpenTK.Graphics.OpenGL4.GL;
 
 namespace Juniper.OpenGL
 {
-    public class VertexArray : GLHandle
+    public class VertexArray : GLScopedHandle
     {
-        private readonly int length;
-
-        public VertexArray(VertexBuffer buffer)
+        public VertexArray(int attrIndex, VertexBuffer vertexBuffer)
             : base(GenVertexArray(), DeleteVertexArray)
         {
-            length = buffer.Length;
             Enable();
-            buffer.Enable();
-            buffer.Disable();
+
+            using (var _ = vertexBuffer.Scope())
+            {
+                VertexAttribPointer(
+                    attrIndex,
+                    VertexBuffer.NUM_ELEMENTS,
+                    VertexAttribPointerType.Float,
+                    false,
+                    VertexBuffer.NUM_ELEMENTS * sizeof(float),
+                    0);
+
+                EnableVertexAttribArray(attrIndex);
+            }
         }
 
-        public void Enable()
+        public override void Enable()
         {
             BindVertexArray(this);
         }
 
-        public void Draw()
+        public override void Disable()
         {
-            DrawArrays(PrimitiveType.Triangles, 0, length);
+            BindVertexArray(0);
         }
     }
 }
