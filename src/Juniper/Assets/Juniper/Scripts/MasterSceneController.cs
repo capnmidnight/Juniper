@@ -508,7 +508,7 @@ namespace Juniper
                 for (var i = 0; i < toLoad.Length; ++i)
                 {
                     var ss = toLoad[i];
-                    if(!ss.CanEnter && ss.CanExit)
+                    if (!ss.CanEnter && ss.CanExit)
                     {
                         yield return ss.ExitAsync().AsCoroutine();
                     }
@@ -641,11 +641,12 @@ namespace Juniper
 
         private IEnumerator ExitAllSubScenesExcept(IEnumerable<SubSceneController> subScenes, string excludePath)
         {
-            subScenes = subScenes.ToArray();
+            subScenes = subScenes
+                .Where(scene => scene.gameObject.scene.path != excludePath)
+                .ToArray();
             foreach (var subScene in subScenes)
             {
-                if (subScene.gameObject.scene.path != excludePath
-                    && subScene.CanExit)
+                if (subScene.CanExit)
                 {
                     subScene.Exit();
                 }
@@ -657,14 +658,11 @@ namespace Juniper
                 anyIncomplete = false;
                 foreach (var subScene in subScenes)
                 {
-                    if (subScene.gameObject.scene.path != excludePath)
-                    {
-                        anyIncomplete |= !subScene.IsComplete;
+                    anyIncomplete |= !subScene.IsComplete;
 
-                        if (subScene.IsComplete)
-                        {
-                            subScene.Deactivate();
-                        }
+                    if (subScene.IsComplete)
+                    {
+                        subScene.Deactivate();
                     }
                 }
                 if (anyIncomplete)
@@ -672,6 +670,16 @@ namespace Juniper
                     yield return null;
                 }
             } while (anyIncomplete);
+
+            foreach(var subScene in subScenes)
+            {
+                if (subScene.unloadSceneOnExit)
+                {
+                    yield return SceneManager
+                        .UnloadSceneAsync(subScene.gameObject.scene)
+                        .AsCoroutine();
+                }
+            }
         }
     }
 }
