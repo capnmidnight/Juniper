@@ -123,6 +123,7 @@ namespace Juniper.Input
         private readonly List<Keyboardable> newKeyboardShortcuts = new List<Keyboardable>(10);
         private readonly List<Keyboardable> keyboardShortcuts = new List<Keyboardable>(10);
         private readonly List<Keyboardable> toActivate = new List<Keyboardable>(10);
+        private readonly List<Keyboardable> toRemove = new List<Keyboardable>(10);
         private readonly List<KeyCode> keyPresses = new List<KeyCode>();
 
         private InputMode requestedMode = InputMode.Auto;
@@ -435,6 +436,7 @@ namespace Juniper.Input
 
             keyPresses.Clear();
             toActivate.Clear();
+            toRemove.Clear();
 
             foreach (var pointer in Devices)
             {
@@ -446,12 +448,22 @@ namespace Juniper.Input
 
             foreach (var shortcut in keyboardShortcuts)
             {
-                if (shortcut.IsInteractable()
+                if(shortcut == null
+                    || !shortcut.gameObject.scene.isLoaded)
+                {
+                    toRemove.MaybeAdd(shortcut);
+                }
+                else if (shortcut.IsInteractable()
                     && (UnityInput.GetKeyUp(shortcut.KeyCode)
                         || keyPresses.Contains(shortcut.KeyCode)))
                 {
                     toActivate.MaybeAdd(shortcut);
                 }
+            }
+
+            foreach(var shortcut in toRemove)
+            {
+                keyboardShortcuts.Remove(shortcut);
             }
 
             if (!paused)
