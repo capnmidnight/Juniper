@@ -18,16 +18,9 @@ namespace Juniper.OpenGL
 {
     public class Program : GLScopedHandle
     {
-        public static Program operator +(Program program, Shader shader)
+        public static ShaderBinding operator +(Program program, Shader shader)
         {
-            program.Attach(shader);
-            return program;
-        }
-
-        public static Program operator -(Program program, Shader shader)
-        {
-            program.Detach(shader);
-            return program;
+            return new ShaderBinding(program, shader);
         }
 
         public Program()

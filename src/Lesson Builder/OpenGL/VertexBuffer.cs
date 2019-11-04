@@ -12,13 +12,14 @@ namespace Juniper.OpenGL
             : base(BufferTarget.ArrayBuffer)
         {
             Length = vertices.Length / NUM_ELEMENTS;
-            Enable();
-            BufferData(
-                BufferTarget.ArrayBuffer,
-                vertices.Length * sizeof(float),
-                vertices,
-                BufferUsageHint.StaticDraw);
-            Disable();
+            using (var _ = Scope())
+            {
+                BufferData(
+                    BufferTarget.ArrayBuffer,
+                    vertices.Length * sizeof(float),
+                    vertices,
+                    BufferUsageHint.StaticDraw);
+            }
         }
 
         public int Length

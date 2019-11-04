@@ -44,12 +44,10 @@ namespace Juniper
 
             using (var vert = new Shader(ShaderType.VertexShader, "Shaders/copy.vert"))
             using (var frag = new Shader(ShaderType.FragmentShader, "Shaders/orange.frag"))
+            using (var vertBinding = program + vert)
+            using (var fragBinding = program + frag)
             {
-                program += vert;
-                program += frag;
                 program.Link();
-                program -= vert;
-                program -= frag;
             }
 
             if (program.InfoLogLength > 0)

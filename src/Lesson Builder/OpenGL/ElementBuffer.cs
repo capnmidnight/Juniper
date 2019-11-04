@@ -12,12 +12,14 @@ namespace Juniper.OpenGL
             : base(BufferTarget.ElementArrayBuffer)
         {
             length = indices.Length;
-            Enable();
-            BufferData(
-                BufferTarget.ElementArrayBuffer,
-                indices.Length * sizeof(uint),
-                indices,
-                BufferUsageHint.StaticDraw);
+            using (var _ = Scope())
+            {
+                BufferData(
+                    BufferTarget.ElementArrayBuffer,
+                    indices.Length * sizeof(uint),
+                    indices,
+                    BufferUsageHint.StaticDraw);
+            }
         }
 
         public void Draw()
