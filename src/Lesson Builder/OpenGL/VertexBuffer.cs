@@ -12,7 +12,7 @@ namespace Juniper.OpenGL
             : base(BufferTarget.ArrayBuffer)
         {
             Length = vertices.Length / NUM_ELEMENTS;
-            using (Scope())
+            using (Use())
             {
                 BufferData(
                     BufferTarget.ArrayBuffer,

@@ -11,7 +11,7 @@ namespace Juniper.OpenGL
         public abstract void Enable();
         public abstract void Disable();
 
-        public EnableScope Scope()
+        public EnableScope Use()
         {
             return new EnableScope(this);
         }

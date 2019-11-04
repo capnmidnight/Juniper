@@ -98,9 +98,9 @@ namespace Juniper
         {
             Clear(ClearBufferMask.ColorBufferBit);
 
-            using (program.Scope())
-            using (vertexArray.Scope())
-            using (elementBuffer.Scope())
+            using (program.Use())
+            using (vertexArray.Use())
+            using (elementBuffer.Use())
             {
                 elementBuffer.Draw();
                 Context.SwapBuffers();
