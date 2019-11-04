@@ -21,7 +21,8 @@ namespace Juniper
             }
         }
 
-        VertexBuffer vertices;
+        VertexBuffer vertexBuffer;
+        VertexArray vertexArray;
         ElementBuffer elements;
         Program program;
 
@@ -48,7 +49,7 @@ namespace Juniper
                 Console.WriteLine(">: " + program.InfoLog);
             }
 
-            vertices = new VertexBuffer(
+            vertexBuffer = new VertexBuffer(
                 program.GetAttributeLocation("pos"),
                 new[]{
                      0.5f,  0.5f, 0.0f,  //Top-right vertex
@@ -56,6 +57,9 @@ namespace Juniper
                     -0.5f, -0.5f, 0.0f, //Bottom-left vertex
                     -0.5f,  0.5f, 0.0f  //Top-left vertex
                 });
+
+            vertexArray = new VertexArray(vertexBuffer);
+
             elements = new ElementBuffer(new uint[] {
                     0, 1, 3,
                     1, 2, 3
@@ -69,7 +73,8 @@ namespace Juniper
         protected override void Dispose(bool manual)
         {
             elements.Dispose();
-            vertices.Dispose();
+            vertexArray.Dispose();
+            vertexBuffer.Dispose();
             program.Dispose();
             base.Dispose(manual);
         }
@@ -95,12 +100,12 @@ namespace Juniper
         {
             Clear(ClearBufferMask.ColorBufferBit);
 
-            vertices.Enable();
-            elements.Enable();
             program.Enable();
+            vertexArray.Enable();
+            //elements.Enable();
             //elements.Draw();
-            vertices.Draw();
-            vertices.Disable();
+            vertexArray.Draw();
+            //verticesState.Disable();
 
             Context.SwapBuffers();
             base.OnRenderFrame(e);

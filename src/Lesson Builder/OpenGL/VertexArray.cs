@@ -6,15 +6,13 @@ namespace Juniper.OpenGL
 {
     public class VertexArray : GLHandle
     {
-        private readonly int index;
-        private readonly VertexBuffer buffer;
+        private readonly int length;
 
-        public VertexArray(int index, float[] vertices)
+        public VertexArray(VertexBuffer buffer)
             : base(GenVertexArray(), DeleteVertexArray)
         {
-            this.index = index;
+            length = buffer.Length;
             Enable();
-            buffer = new VertexBuffer(index, vertices);
             buffer.Enable();
             buffer.Disable();
         }
@@ -22,18 +20,11 @@ namespace Juniper.OpenGL
         public void Enable()
         {
             BindVertexArray(this);
-            EnableVertexAttribArray(index);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            buffer.Dispose();
-            base.Dispose(disposing);
         }
 
         public void Draw()
         {
-            DrawArrays(PrimitiveType.Triangles, 0, buffer.Length);
+            DrawArrays(PrimitiveType.Triangles, 0, length);
         }
     }
 }
