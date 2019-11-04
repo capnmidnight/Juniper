@@ -1,6 +1,18 @@
 using System;
 
+#if OPENGL_ES10
+using OpenTK.Graphics.ES10;
+#elif OPENGL_ES11
+using OpenTK.Graphics.ES11;
+#elif OPENGL_ES20
+using OpenTK.Graphics.ES20;
+#elif OPENGL_ES30
+using OpenTK.Graphics.ES30;
+#elif OPENGL
+using OpenTK.Graphics.OpenGL;
+#elif OPENGL4
 using OpenTK.Graphics.OpenGL4;
+#endif
 
 namespace Juniper.OpenGL
 {
@@ -42,6 +54,7 @@ namespace Juniper.OpenGL
             }
         }
 
+#if !OPENGL_ES10
         public bool IsBuffer
         {
             get
@@ -49,6 +62,16 @@ namespace Juniper.OpenGL
                 return GL.IsBuffer(this);
             }
         }
+
+        public bool IsTexture
+        {
+            get
+            {
+                return GL.IsTexture(this);
+            }
+        }
+
+#if !OPENGL_ES11
 
         public bool IsFrameBuffer
         {
@@ -66,35 +89,11 @@ namespace Juniper.OpenGL
             }
         }
 
-        public bool IsProgramPipeline
-        {
-            get
-            {
-                return GL.IsProgramPipeline(this);
-            }
-        }
-
-        public bool IsQuery
-        {
-            get
-            {
-                return GL.IsQuery(this);
-            }
-        }
-
         public bool IsRenderBuffer
         {
             get
             {
                 return GL.IsRenderbuffer(this);
-            }
-        }
-
-        public bool IsSampler
-        {
-            get
-            {
-                return GL.IsSampler(this);
             }
         }
 
@@ -106,11 +105,21 @@ namespace Juniper.OpenGL
             }
         }
 
-        public bool IsTexture
+#if !OPENGL_ES20
+
+        public bool IsQuery
         {
             get
             {
-                return GL.IsTexture(this);
+                return GL.IsQuery(this);
+            }
+        }
+
+        public bool IsSampler
+        {
+            get
+            {
+                return GL.IsSampler(this);
             }
         }
 
@@ -129,5 +138,18 @@ namespace Juniper.OpenGL
                 return GL.IsVertexArray(this);
             }
         }
+
+#if !OPENGL_ES30
+        public bool IsProgramPipeline
+        {
+            get
+            {
+                return GL.IsProgramPipeline(this);
+            }
+        }
+#endif
+#endif
+#endif
+#endif
     }
 }

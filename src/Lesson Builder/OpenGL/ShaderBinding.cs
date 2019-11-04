@@ -1,3 +1,5 @@
+#if !OPENGL_ES10 && !OPENGL_ES11
+
 using System;
 
 namespace Juniper.OpenGL
@@ -20,3 +22,4 @@ namespace Juniper.OpenGL
         }
     }
 }
+#endif

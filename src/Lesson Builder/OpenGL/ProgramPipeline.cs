@@ -1,6 +1,12 @@
-using OpenTK.Graphics.OpenGL4;
+#if !OPENGL_ES10 && !OPENGL_ES11 && !OPENGL_ES20 && !OPENGL_ES30
 
+#if OPENGL
+using OpenTK.Graphics.OpenGL;
+using static OpenTK.Graphics.OpenGL.GL;
+#elif OPENGL4
+using OpenTK.Graphics.OpenGL4;
 using static OpenTK.Graphics.OpenGL4.GL;
+#endif
 
 namespace Juniper.OpenGL
 {
@@ -117,3 +123,4 @@ namespace Juniper.OpenGL
         }
     }
 }
+#endif

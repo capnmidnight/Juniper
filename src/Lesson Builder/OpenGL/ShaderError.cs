@@ -1,3 +1,5 @@
+#if !OPENGL_ES10 && !OPENGL_ES11
+
 using System;
 using System.Runtime.Serialization;
 
@@ -23,3 +25,5 @@ namespace Juniper.OpenGL
         }
     }
 }
+
+#endif
