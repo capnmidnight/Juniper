@@ -23,13 +23,24 @@ namespace Juniper
     {
         private static TaskFactory mainThread;
 
+        private static void CreateFactory()
+        {
+            if (mainThread == null)
+            {
+                var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                mainThread = new TaskFactory(scheduler);
+            }
+        }
+
         public static Task OnMainThread(Action act)
         {
+            CreateFactory();
             return mainThread.StartNew(act);
         }
 
         public static Task<T> OnMainThread<T>(Func<T> act)
         {
+            CreateFactory();
             return mainThread.StartNew(act);
         }
 
@@ -235,8 +246,7 @@ namespace Juniper
         /// </summary>
         public void Awake()
         {
-            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            mainThread = new TaskFactory(scheduler);
+            CreateFactory();
 
             if (Find.Any(out MasterSceneController scenes)
                 && scenes.gameObject.scene != gameObject.scene)
