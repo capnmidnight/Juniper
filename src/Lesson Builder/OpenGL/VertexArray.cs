@@ -11,7 +11,7 @@ namespace Juniper.OpenGL
         {
             Enable();
 
-            using (var _ = vertexBuffer.Scope())
+            using (vertexBuffer.Scope())
             {
                 VertexAttribPointer(
                     attrIndex,
