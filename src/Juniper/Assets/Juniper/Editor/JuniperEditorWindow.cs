@@ -160,8 +160,8 @@ namespace Juniper.Unity.Editor
                     var head = CurrentError;
                     while (head != null)
                     {
-                        LabelField(CurrentError.Message);
-                        LabelField(CurrentError.StackTrace, EditorStyles.wordWrappedLabel);
+                        LabelField(head.Message);
+                        LabelField(head.StackTrace, EditorStyles.wordWrappedLabel);
                         head = head.InnerException;
                     }
                 }
