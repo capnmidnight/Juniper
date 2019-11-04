@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL4;
 
 using static OpenTK.Graphics.OpenGL4.GL;
 
-namespace Lesson_Builder
+namespace Juniper.OpenGL
 {
     public class Shader : GLHandle
     {
@@ -30,7 +30,7 @@ namespace Lesson_Builder
         }
 
         public Shader(ShaderType type)
-            : base(CreateShader(type))
+            : base(CreateShader(type), DeleteShader)
         { }
 
         public string Source
@@ -58,11 +58,6 @@ namespace Lesson_Builder
             {
                 return GetShaderInfoLog(this);
             }
-        }
-
-        protected override void OnDispose(bool disposing)
-        {
-            DeleteShader(this);
         }
     }
 }

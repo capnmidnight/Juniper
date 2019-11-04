@@ -1,19 +1,21 @@
 using System;
 
+using Juniper.OpenGL;
+
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Input;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Input;
 
 using static OpenTK.Graphics.OpenGL4.GL;
 
-namespace Lesson_Builder
+namespace Juniper
 {
-    class Program : GameWindow
+    public class GameProgram : GameWindow
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            using (var game = new Program())
+            using (var game = new GameProgram())
             {
                 game.Run(120, 60);
             }
@@ -21,18 +23,18 @@ namespace Lesson_Builder
 
         VertexArray vertices;
         ElementBuffer elements;
-        ShaderProgram program;
+        Program program;
 
-        private Program()
+        private GameProgram()
             : base(800, 600, GraphicsMode.Default, "Lesson Builder")
         { }
 
         protected override void OnLoad(EventArgs e)
         {
-            program = new ShaderProgram();
+            program = new Program();
 
-            using (var vert = new Shader(ShaderType.VertexShader, "copy.vert"))
-            using (var frag = new Shader(ShaderType.FragmentShader, "orange.frag"))
+            using (var vert = new Shader(ShaderType.VertexShader, "Shaders/copy.vert"))
+            using (var frag = new Shader(ShaderType.FragmentShader, "Shaders/orange.frag"))
             {
                 program += vert;
                 program += frag;

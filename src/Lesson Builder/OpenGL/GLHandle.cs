@@ -2,7 +2,7 @@ using System;
 
 using OpenTK.Graphics.OpenGL4;
 
-namespace Lesson_Builder
+namespace Juniper.OpenGL
 {
     public abstract class GLHandle : IDisposable
     {
@@ -11,13 +11,15 @@ namespace Lesson_Builder
             return obj.handle;
         }
 
-        protected readonly int handle;
+        private readonly int handle;
+        private readonly Action<int> delete;
 
         private bool disposedValue = false;
 
-        protected GLHandle(int handle)
+        protected GLHandle(int handle, Action<int> delete)
         {
             this.handle = handle;
+            this.delete = delete;
         }
 
         ~GLHandle()
@@ -35,10 +37,12 @@ namespace Lesson_Builder
         {
             if (!disposedValue)
             {
-                OnDispose(disposing);
+                delete(this);
                 disposedValue = true;
             }
         }
+
+        public virtual void Enable() { }
 
         public bool IsBuffer
         {
@@ -127,9 +131,5 @@ namespace Lesson_Builder
                 return GL.IsVertexArray(this);
             }
         }
-
-        protected abstract void OnDispose(bool disposing);
-
-        public virtual void Enable() { }
     }
 }

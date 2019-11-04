@@ -2,7 +2,7 @@ using OpenTK.Graphics.OpenGL4;
 
 using static OpenTK.Graphics.OpenGL4.GL;
 
-namespace Lesson_Builder
+namespace Juniper.OpenGL
 {
     public class VertexBuffer : GLBuffer
     {

@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 
-namespace Lesson_Builder
+namespace Juniper.OpenGL
 {
     [Serializable]
     internal class ShaderError : Exception

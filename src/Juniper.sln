@@ -42,7 +42,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Juniper.Root", "Juniper.Roo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "File Copier", "File Copier\File Copier.csproj", "{24306EF6-771E-4AE4-82E1-A65B4EA75DDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lesson Builder", "Lesson Builder\Lesson Builder.csproj", "{1F140295-3EEC-4151-BA35-7CCBE82BD23D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lesson Builder", "Lesson Builder\Lesson Builder.csproj", "{1F140295-3EEC-4151-BA35-7CCBE82BD23D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
