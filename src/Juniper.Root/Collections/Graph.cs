@@ -79,9 +79,14 @@ namespace Juniper.Collections
             network[nextRoute.Start][nextRoute.End] = nextRoute;
         }
 
+        public bool Exists(NodeT node)
+        {
+            return network.ContainsKey(node);
+        }
+
         public bool Exists(NodeT startPoint, NodeT endPoint)
         {
-            return network.ContainsKey(startPoint)
+            return Exists(startPoint)
                 && network[startPoint].ContainsKey(endPoint);
         }
 
