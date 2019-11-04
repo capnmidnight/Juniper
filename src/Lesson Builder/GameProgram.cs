@@ -4,10 +4,21 @@ using Juniper.OpenGL;
 
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 
+#if OPENGL_ES20
+using OpenTK.Graphics.ES20;
+using static OpenTK.Graphics.ES20.GL;
+#elif OPENGL_ES30
+using OpenTK.Graphics.ES30;
+using static OpenTK.Graphics.ES30.GL;
+#elif OPENGL
+using OpenTK.Graphics.OpenGL;
+using static OpenTK.Graphics.OpenGL.GL;
+#elif OPENGL4
+using OpenTK.Graphics.OpenGL4;
 using static OpenTK.Graphics.OpenGL4.GL;
+#endif
 
 namespace Juniper
 {
@@ -21,14 +32,17 @@ namespace Juniper
             }
         }
 
-        private VertexBuffer vertexBuffer;
-        private VertexArray vertexArray;
-        private ElementBuffer elementBuffer;
-        private Program program;
-
         private GameProgram()
             : base(800, 600, GraphicsMode.Default, "Lesson Builder")
         { }
+
+        private VertexBuffer vertexBuffer;
+        private ElementBuffer elementBuffer;
+        private Program program;
+
+#if !OPENGL_ES20
+        private VertexArray vertexArray;
+#endif
 
         protected override void OnResize(EventArgs e)
         {
@@ -62,8 +76,10 @@ namespace Juniper
                 -0.5f,  0.5f, 0.0f  //Top-left vertex
             });
 
+#if !OPENGL_ES20
             var attrIndex = program.GetAttributeLocation("pos");
             vertexArray = new VertexArray(attrIndex, vertexBuffer);
+#endif
 
             elementBuffer = new ElementBuffer(new uint[] {
                 0, 1, 3,
@@ -77,7 +93,9 @@ namespace Juniper
         {
             elementBuffer.Dispose();
             vertexBuffer.Dispose();
+#if !OPENGL_ES20
             vertexArray.Dispose();
+#endif
             program.Dispose();
 
             base.Dispose(manual);
@@ -99,7 +117,11 @@ namespace Juniper
             Clear(ClearBufferMask.ColorBufferBit);
 
             using (program.Use())
+#if OPENGL_ES20
+            using (vertexBuffer.Use())
+#else
             using (vertexArray.Use())
+#endif
             using (elementBuffer.Use())
             {
                 elementBuffer.Draw();

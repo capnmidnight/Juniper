@@ -1,10 +1,4 @@
-#if !OPENGL_ES10
-
-#if OPENGL_ES11
-using OpenTK.Graphics.ES11;
-using static OpenTK.Graphics.ES11.GL;
-using BufferTarget = OpenTK.Graphics.ES11.BufferTargetArb;
-#elif OPENGL_ES20
+#if OPENGL_ES20
 using OpenTK.Graphics.ES20;
 using static OpenTK.Graphics.ES20.GL;
 #elif OPENGL_ES30
@@ -41,5 +35,3 @@ namespace Juniper.OpenGL
         }
     }
 }
-
-#endif

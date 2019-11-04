@@ -1,10 +1,4 @@
-#if OPENGL_ES10
-using OpenTK.Graphics.ES10;
-using static OpenTK.Graphics.ES10.GL;
-#elif OPENGL_ES11
-using OpenTK.Graphics.ES11;
-using static OpenTK.Graphics.ES11.GL;
-#elif OPENGL_ES20
+#if OPENGL_ES20
 using OpenTK.Graphics.ES20;
 using static OpenTK.Graphics.ES20.GL;
 #elif OPENGL_ES30
@@ -24,9 +18,16 @@ namespace Juniper.OpenGL
     {
         private readonly int length;
 
+#if OPENGL_ES30
+        private readonly uint[] indices;
+#endif
+
         public ElementBuffer(uint[] indices)
             : base(BufferTarget.ElementArrayBuffer)
         {
+#if OPENGL_ES30
+            this.indices = indices;
+#endif
             length = indices.Length;
             using (Use())
             {
@@ -41,10 +42,19 @@ namespace Juniper.OpenGL
         public void Draw()
         {
             DrawElements(
+#if OPENGL_ES20
+                BeginMode.Triangles,
+#else
                 PrimitiveType.Triangles,
+#endif
                 length,
                 DrawElementsType.UnsignedInt,
-                0);
+#if OPENGL_ES30
+                indices
+#else
+                0
+#endif
+            );
         }
     }
 }

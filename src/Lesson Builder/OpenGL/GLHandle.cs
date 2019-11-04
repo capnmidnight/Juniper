@@ -1,10 +1,6 @@
 using System;
 
-#if OPENGL_ES10
-using OpenTK.Graphics.ES10;
-#elif OPENGL_ES11
-using OpenTK.Graphics.ES11;
-#elif OPENGL_ES20
+#if OPENGL_ES20
 using OpenTK.Graphics.ES20;
 #elif OPENGL_ES30
 using OpenTK.Graphics.ES30;
@@ -54,7 +50,6 @@ namespace Juniper.OpenGL
             }
         }
 
-#if !OPENGL_ES10
         public bool IsBuffer
         {
             get
@@ -70,8 +65,6 @@ namespace Juniper.OpenGL
                 return GL.IsTexture(this);
             }
         }
-
-#if !OPENGL_ES11
 
         public bool IsFrameBuffer
         {
@@ -147,8 +140,6 @@ namespace Juniper.OpenGL
                 return GL.IsProgramPipeline(this);
             }
         }
-#endif
-#endif
 #endif
 #endif
     }

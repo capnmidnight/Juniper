@@ -1,4 +1,3 @@
-#if !OPENGL_ES10 && !OPENGL_ES11
 using System.IO;
 
 #if OPENGL_ES20
@@ -72,4 +71,3 @@ namespace Juniper.OpenGL
         }
     }
 }
-#endif

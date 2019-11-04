@@ -1,4 +1,4 @@
-#if !OPENGL_ES10 && !OPENGL_ES11 && !OPENGL_ES20 && !OPENGL_ES30
+#if !OPENGL_ES20 && !OPENGL_ES30
 
 #if OPENGL
 using OpenTK.Graphics.OpenGL;

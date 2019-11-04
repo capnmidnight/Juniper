@@ -1,5 +1,3 @@
-#if !OPENGL_ES10 && !OPENGL_ES11
-
 #if OPENGL_ES20
 using OpenTK.Graphics.ES20;
 using static OpenTK.Graphics.ES20.GL;
@@ -360,5 +358,3 @@ namespace Juniper.OpenGL
 #endif
     }
 }
-
-#endif
