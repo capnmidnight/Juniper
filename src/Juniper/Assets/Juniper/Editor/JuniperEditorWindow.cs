@@ -124,7 +124,7 @@ namespace Juniper.Unity.Editor
             {
                 if (watcherTask.IsRunning())
                 {
-                    using (_ = new HGroup())
+                    using (new HGroup())
                     {
                         LabelField("Watcher task running");
                         Button("Stop", StopWatcher, Width(75));
@@ -132,7 +132,7 @@ namespace Juniper.Unity.Editor
                 }
                 else if (watcherTask != null)
                 {
-                    using (_ = new HGroup())
+                    using (new HGroup())
                     {
                         if (watcherTask.IsCanceled == true)
                         {
@@ -155,7 +155,7 @@ namespace Juniper.Unity.Editor
             {
                 Button("Clear error", ClearError);
 
-                using (_ = errorView.Begin())
+                using (errorView.Begin())
                 {
                     var head = CurrentError;
                     while (head != null)
@@ -178,7 +178,7 @@ namespace Juniper.Unity.Editor
 
         protected bool Button(bool enabled, string title, Action act, params GUILayoutOption[] options)
         {
-            using (_ = new EditorGUI.DisabledScope(!enabled))
+            using (new EditorGUI.DisabledScope(!enabled))
             {
                 return Button(title, act, options);
             }

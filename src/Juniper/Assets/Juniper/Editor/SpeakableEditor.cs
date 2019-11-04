@@ -48,7 +48,7 @@ namespace Juniper.Events
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "HAA0101:Array allocation for params parameter", Justification = "<Pending>")]
         public override void OnInspectorGUI()
         {
-            using (_ = new EditorGUI.ChangeCheckScope())
+            using (new EditorGUI.ChangeCheckScope())
             {
                 serializedObject.Update();
 

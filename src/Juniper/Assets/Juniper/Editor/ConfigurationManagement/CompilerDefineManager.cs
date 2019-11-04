@@ -63,9 +63,9 @@ namespace Juniper.ConfigurationManagement
                 PlayerSettings.SetScriptingDefineSymbolsForGroup(CurrentConfiguration.TargetGroup, string.Join(";", nextDefines));
             }
 
-            using (_ = definesTable.Begin())
+            using (definesTable.Begin())
             {
-                using (_ = new HGroup())
+                using (new HGroup())
                 {
                     newDefine = EditorGUILayout.TextField(newDefine, GUILayout.Width(nameFieldWidthValue + narrowWidthValue));
                     if (GUILayout.Button("Add", buttonWidth))
@@ -81,7 +81,7 @@ namespace Juniper.ConfigurationManagement
                 for (var i = 0; i < nextDefines.Count; ++i)
                 {
                     var define = nextDefines[i];
-                    using (_ = new HGroup())
+                    using (new HGroup())
                     {
                         EditorGUILayout.LabelField(new GUIContent(define, define), nameFieldWidth);
 

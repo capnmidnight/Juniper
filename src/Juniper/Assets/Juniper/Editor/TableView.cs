@@ -37,7 +37,7 @@ namespace UnityEditor
         {
             if (title != null)
             {
-                using (_ = new Header(title))
+                using (new Header(title))
                 {
                     DrawHeaders();
                 }
@@ -52,7 +52,7 @@ namespace UnityEditor
 
         private void DrawHeaders()
         {
-            using (_ = new HGroup())
+            using (new HGroup())
             {
                 foreach (var header in headers)
                 {

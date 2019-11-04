@@ -15,7 +15,7 @@ namespace UnityEditor
 
         public static void LabeledField<T>(string label, GUILayoutOption labelWidth, T value, GUILayoutOption valueWidth)
         {
-            using (_ = new HGroup())
+            using (new HGroup())
             {
                 EditorGUILayout.LabelField(label, labelWidth);
                 EditorGUILayout.LabelField(value.ToString(), valueWidth);
@@ -24,7 +24,7 @@ namespace UnityEditor
 
         public static void LabeledField<T>(string label, GUILayoutOption labelWidth, T value)
         {
-            using (_ = new HGroup())
+            using (new HGroup())
             {
                 EditorGUILayout.LabelField(label, labelWidth);
                 EditorGUILayout.LabelField(value.ToString());

@@ -152,7 +152,7 @@ namespace Juniper.ConfigurationManagement
 
             var selectedPlatform = CurrentPlatform;
 
-            using (_ = new Header("Status"))
+            using (new Header("Status"))
             {
                 if (BuildInProgress)
                 {
@@ -171,7 +171,7 @@ namespace Juniper.ConfigurationManagement
                         EditorGUILayoutExt.LabeledField("Min Android SDK version", nameFieldWidth, CurrentConfiguration.androidSdkVersion, nameFieldWidth);
                     }
 
-                    using (_ = new HGroup())
+                    using (new HGroup())
                     {
                         EditorGUILayout.LabelField("Change platform", nameFieldWidth);
                         selectedPlatform = (PlatformTypes)EditorGUILayout.EnumPopup(selectedPlatform, nameFieldWidth);
@@ -224,11 +224,11 @@ namespace Juniper.ConfigurationManagement
             }
             else
             {
-                using (_ = table.Begin())
+                using (table.Begin())
                 {
                     foreach (var package in packages.OrderBy(p => p.CompilerDefine))
                     {
-                        using (_ = new HGroup())
+                        using (new HGroup())
                         {
                             try
                             {
