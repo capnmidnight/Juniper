@@ -2,23 +2,26 @@ using OpenTK.Graphics.OpenGL4;
 
 using static OpenTK.Graphics.OpenGL4.GL;
 
-namespace Lesson_Builder
+namespace Juniper.OpenGL
 {
-    public class GLBuffer : GLHandle
+    public abstract class GLBuffer : GLHandle
     {
         private readonly BufferTarget type;
 
         public GLBuffer(BufferTarget type)
-            : base(GenBuffer())
+            : base(GenBuffer(), DeleteBuffer)
         {
             this.type = type;
+        }
+
+        public virtual void Enable()
+        {
             BindBuffer(type, this);
         }
 
-        protected override void OnDispose(bool disposing)
+        public virtual void Disable()
         {
             BindBuffer(type, 0);
-            DeleteBuffer(this);
         }
 
         public virtual void Draw() { }

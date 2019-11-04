@@ -8,7 +8,7 @@ namespace Juniper.OpenGL
     {
         private const int NUM_ELEMENTS = 3;
 
-        public readonly int Length;
+        private readonly float[] vertices;
 
         public readonly int index;
 
@@ -16,8 +16,20 @@ namespace Juniper.OpenGL
             : base(BufferTarget.ArrayBuffer)
         {
             this.index = index;
+            this.vertices = vertices;
+        }
 
-            Length = vertices.Length / NUM_ELEMENTS;
+        public int Length
+        {
+            get
+            {
+                return vertices.Length / NUM_ELEMENTS;
+            }
+        }
+
+        public override void Enable()
+        {
+            base.Enable();
 
             BufferData(
                 BufferTarget.ArrayBuffer,
@@ -32,13 +44,15 @@ namespace Juniper.OpenGL
                 false,
                 NUM_ELEMENTS * sizeof(float),
                 0);
-        }
-
-        public override void Enable()
-        {
-            base.Enable();
 
             EnableVertexAttribArray(index);
+        }
+
+        public override void Draw()
+        {
+            base.Draw();
+
+            DrawArrays(PrimitiveType.Triangles, 0, 3);
         }
     }
 }

@@ -54,9 +54,8 @@ namespace Juniper.OpenGL
             return InfoLog;
         }
 
-        public override void Enable()
+        public void Enable()
         {
-            base.Enable();
             UseProgram(this);
         }
 

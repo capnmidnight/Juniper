@@ -21,7 +21,7 @@ namespace Juniper
             }
         }
 
-        VertexArray vertices;
+        VertexBuffer vertices;
         ElementBuffer elements;
         Program program;
 
@@ -48,7 +48,7 @@ namespace Juniper
                 Console.WriteLine(">: " + program.InfoLog);
             }
 
-            vertices = new VertexArray(
+            vertices = new VertexBuffer(
                 program.GetAttributeLocation("pos"),
                 new[]{
                      0.5f,  0.5f, 0.0f,  //Top-right vertex
@@ -95,11 +95,12 @@ namespace Juniper
         {
             Clear(ClearBufferMask.ColorBufferBit);
 
-            program.Enable();
             vertices.Enable();
             elements.Enable();
-
-            elements.Draw();
+            program.Enable();
+            //elements.Draw();
+            vertices.Draw();
+            vertices.Disable();
 
             Context.SwapBuffers();
             base.OnRenderFrame(e);

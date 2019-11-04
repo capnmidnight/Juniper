@@ -11,10 +11,9 @@ namespace Juniper.OpenGL
         {
         }
 
-        public override void Enable()
+        public void Enable()
         {
             BindProgramPipeline(this);
-            base.Enable();
         }
 
         public string InfoLog

@@ -42,8 +42,6 @@ namespace Juniper.OpenGL
             }
         }
 
-        public virtual void Enable() { }
-
         public bool IsBuffer
         {
             get
