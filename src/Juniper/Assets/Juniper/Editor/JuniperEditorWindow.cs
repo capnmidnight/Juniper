@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -39,7 +40,23 @@ namespace Juniper.Unity.Editor
         private CancellationToken cancelToken;
         private Task watcherTask;
 
-        private Exception CurrentError;
+        private Exception curError;
+        private Exception CurrentError
+        {
+            get
+            {
+                return curError;
+            }
+            set
+            {
+                curError = value;
+                if (value != null)
+                {
+                    Debug.LogError(value, this);
+                }
+            }
+        }
+
         private bool initialized;
 
         protected Task RepaintAsync()
@@ -79,16 +96,9 @@ namespace Juniper.Unity.Editor
         protected virtual void OnBackgroundUpdate() { }
         private void OnBackgroundUpdateInternal()
         {
-            try
+            if (JuniperSystem.IsMainThreadReady)
             {
-                if (JuniperSystem.IsMainThreadReady)
-                {
-                    OnBackgroundUpdate();
-                }
-            }
-            catch (Exception exp)
-            {
-                CurrentError = new Exception("Error occured during background update", exp);
+                OnBackgroundUpdate();
             }
         }
 
@@ -149,10 +159,13 @@ namespace Juniper.Unity.Editor
                         Button("Start", StartWatcher, Width(75));
                     }
 
-                    if (watcherTask.IsFaulted == true
-                        && CurrentError == null)
+                    if (watcherTask != null
+                        && watcherTask.IsFaulted == true
+                        && CurrentError == null
+                        && !(watcherTask.Exception.InnerExceptions.All(exp => exp is ThreadAbortException)))
                     {
                         CurrentError = new Exception("Error occured on background task", watcherTask.Exception);
+                        watcherTask = null;
                         initialized = false;
                     }
                 }
@@ -177,7 +190,8 @@ namespace Juniper.Unity.Editor
             OnPaintInternal();
 
             if (startWatcher
-                && watcherTask == null)
+                && watcherTask == null
+                && CurrentError == null)
             {
                 StartWatcher();
             }
@@ -193,7 +207,7 @@ namespace Juniper.Unity.Editor
 
         protected bool Button(string title, Action act, params GUILayoutOption[] options)
         {
-            if(GUILayout.Button(title, options))
+            if (GUILayout.Button(title, options))
             {
                 act();
                 return true;
