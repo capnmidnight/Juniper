@@ -16,9 +16,7 @@ namespace Juniper.Collections
         private bool dirty;
 
         private readonly List<NodeT> endPoints;
-
         private readonly Dictionary<string, NodeT> namedEndPoints;
-
         private readonly Network network;
 
         public Graph()
@@ -46,10 +44,13 @@ namespace Juniper.Collections
 
                 network[route.Start][route.End] = route;
             }
+
+            Solve();
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            Compress();
             info.AddValue(nameof(dirty), dirty);
             info.AddList(nameof(endPoints), endPoints);
             info.AddValue(nameof(namedEndPoints), namedEndPoints);
@@ -231,10 +232,38 @@ namespace Juniper.Collections
             }
         }
 
+        /// <summary>
+        /// Deletes all routes that have more than 2 nodes. 2-node routes
+        /// are "raw connections" that define the overall graph. Without them,
+        /// the structure cannot be rebuilt.
+        /// </summary>
+        public void Compress()
+        {
+            foreach (var schedule in network.Values)
+            {
+                var toRemove = new List<NodeT>();
+                foreach (var route in schedule.Values)
+                {
+                    if (route.Count > 2)
+                    {
+                        toRemove.Add(route.End);
+                    }
+                }
+
+                dirty |= toRemove.Count > 0;
+                foreach (var endPoint in toRemove)
+                {
+                    schedule.Remove(endPoint);
+                }
+            }
+        }
+
         public void Solve()
         {
             if (dirty)
             {
+                Compress();
+
                 var q = new Queue<Route<NodeT>>(
                     from endPoint in endPoints
                     let schedule = network[endPoint]
