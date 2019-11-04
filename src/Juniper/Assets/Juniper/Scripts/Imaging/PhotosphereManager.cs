@@ -120,11 +120,14 @@ namespace Juniper.Imaging
         public void RemovePhotosphere(string key)
         {
             var sphere = transform.Find(key);
-            if (photospheres.ContainsKey(key))
+            if (sphere != null)
             {
-                photospheres.Remove(key);
+                if (photospheres.ContainsKey(key))
+                {
+                    photospheres.Remove(key);
+                }
+                sphere.gameObject.DestroyImmediate();
             }
-            sphere.gameObject.DestroyImmediate();
         }
 
         public void SetIO(CachingStrategy cache, IImageCodec<Texture2D> codec)
