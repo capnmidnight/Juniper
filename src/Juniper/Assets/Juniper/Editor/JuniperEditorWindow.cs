@@ -64,6 +64,10 @@ namespace Juniper.Unity.Editor
         {
             try
             {
+                if (!JuniperSystem.IsMainThreadReady)
+                {
+                    JuniperSystem.CreateFactory();
+                }
                 OnEditorUpdate();
             }
             catch (Exception exp)
@@ -77,7 +81,10 @@ namespace Juniper.Unity.Editor
         {
             try
             {
-                OnBackgroundUpdate();
+                if (JuniperSystem.IsMainThreadReady)
+                {
+                    OnBackgroundUpdate();
+                }
             }
             catch (Exception exp)
             {

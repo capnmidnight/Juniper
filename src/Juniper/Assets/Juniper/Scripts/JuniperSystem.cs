@@ -23,7 +23,7 @@ namespace Juniper
     {
         private static TaskFactory mainThread;
 
-        private static void CreateFactory()
+        public static void CreateFactory()
         {
             if (mainThread == null)
             {
@@ -32,15 +32,21 @@ namespace Juniper
             }
         }
 
+        public static bool IsMainThreadReady
+        {
+            get
+            {
+                return mainThread != null;
+            }
+        }
+
         public static Task OnMainThread(Action act)
         {
-            CreateFactory();
             return mainThread.StartNew(act);
         }
 
         public static Task<T> OnMainThread<T>(Func<T> act)
         {
-            CreateFactory();
             return mainThread.StartNew(act);
         }
 
