@@ -69,6 +69,18 @@ namespace Juniper.Collections
             }
         }
 
+        public void Connect(NodeT startPoint, NodeT endPoint, float cost)
+        {
+            dirty = true;
+
+            FillMatrix(startPoint);
+            FillMatrix(endPoint);
+
+            var nextRoute = new Route<NodeT>(startPoint, endPoint, cost);
+            Remove(startPoint, endPoint);
+            Add(nextRoute);
+        }
+
         private void Add(Route<NodeT> nextRoute)
         {
             AddSingle(nextRoute);
@@ -160,19 +172,7 @@ namespace Juniper.Collections
             }
         }
 
-        public void Connect(NodeT startPoint, NodeT endPoint, float cost)
-        {
-            dirty = true;
-
-            FillMatrix(startPoint);
-            FillMatrix(endPoint);
-
-            var nextRoute = new Route<NodeT>(startPoint, endPoint, cost);
-            Remove(startPoint, endPoint);
-            Add(nextRoute);
-        }
-
-        public void Remove(NodeT startPoint, NodeT endPoint)
+        private void RemoveSingle(NodeT startPoint, NodeT endPoint)
         {
             if (Exists(startPoint, endPoint))
             {
@@ -195,33 +195,40 @@ namespace Juniper.Collections
                 {
                     network[route.Start].Remove(route.End);
                 }
+
+                if(network[startPoint].Count == 0)
+                {
+                    network.Remove(startPoint);
+                }
             }
         }
 
-        public void Remove(IRoute<NodeT> route)
+        public void Remove(NodeT startPoint, NodeT endPoint)
         {
-            Remove(route.Start, route.End);
+            RemoveSingle(startPoint, endPoint);
+            RemoveSingle(endPoint, startPoint);
+        }
+
+        public void Disconnect(NodeT startPoint, NodeT endPoint)
+        {
+            var route = GetRoute(startPoint, endPoint);
+            if(route != null)
+            {
+                Remove(route.Start, route.End);
+            }
         }
 
         public void Remove(NodeT node)
         {
-            var toRemove = new List<Route<NodeT>>();
-            foreach (var schedule in network.Values)
+            if (Exists(node))
             {
-                foreach (var route in schedule.Values)
+                var toRemove = network[node].Values.ToArray();
+                foreach (var route in toRemove)
                 {
-                    if (route.Contains(node))
-                    {
-                        toRemove.Add(route);
-                    }
+                    Remove(route.Start, route.End);
                 }
-            }
 
-            dirty = toRemove.Count > 0;
-
-            foreach (var route in toRemove)
-            {
-                network[route.Start].Remove(route.End);
+                dirty = true;
             }
         }
 
@@ -232,22 +239,15 @@ namespace Juniper.Collections
         /// </summary>
         public void Compress()
         {
-            foreach (var schedule in network.Values)
-            {
-                var toRemove = new List<NodeT>();
-                foreach (var route in schedule.Values)
-                {
-                    if (route.Count > 2)
-                    {
-                        toRemove.Add(route.End);
-                    }
-                }
+            var longRoutes = (from schedule in network.Values
+                              from route in schedule.Values
+                              where route.Count > 2
+                              select route)
+                            .ToArray();
 
-                dirty |= toRemove.Count > 0;
-                foreach (var endPoint in toRemove)
-                {
-                    schedule.Remove(endPoint);
-                }
+            foreach (var route in longRoutes)
+            {
+                Remove(route.Start, route.End);
             }
         }
 
