@@ -291,9 +291,10 @@ namespace Juniper.Collections.Tests
             graph = new Graph<string>();
             foreach (var start in metadata.Values)
             {
+                graph.AddEndPoint(start.pano_id);
                 if (start.label != null)
                 {
-                    graph.AddEndPoint(start.pano_id, start.label);
+                    graph.SetEndPointName(start.pano_id, start.label);
                 }
 
                 foreach (var endID in start.navPoints)

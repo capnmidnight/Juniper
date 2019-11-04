@@ -97,6 +97,40 @@ namespace Juniper.Collections
                 : default;
         }
 
+        public IReadOnlyList<NodeT> EndPoints
+        {
+            get
+            {
+                return endPoints;
+            }
+        }
+
+        public void AddEndPoint(NodeT endPoint)
+        {
+            if (!endPoints.Contains(endPoint))
+            {
+                dirty = true;
+                endPoints.Add(endPoint);
+            }
+        }
+
+        public void RemoveEndPoint(NodeT endPoint)
+        {
+            if (endPoints.Contains(endPoint))
+            {
+                dirty = true;
+                endPoints.Remove(endPoint);
+            }
+        }
+
+        public IReadOnlyDictionary<string, NodeT> NamedEndPoints
+        {
+            get
+            {
+                return namedEndPoints;
+            }
+        }
+
         public string GetEndPointName(NodeT node)
         {
             foreach (var endPoint in namedEndPoints)
@@ -110,14 +144,26 @@ namespace Juniper.Collections
             return null;
         }
 
+        public void SetEndPointName(NodeT endPoint, string name)
+        {
+            namedEndPoints[name] = endPoint;
+        }
+
+        public void RemoveEndPointName(string name)
+        {
+            namedEndPoints.Remove(name);
+        }
+
         public NodeT GetNamedEndPoint(string name)
         {
             if (namedEndPoints.ContainsKey(name))
             {
                 return namedEndPoints[name];
             }
-
-            return default;
+            else
+            {
+                return default;
+            }
         }
 
         public void Connect(NodeT startPoint, NodeT endPoint, float cost)
@@ -182,46 +228,6 @@ namespace Juniper.Collections
             foreach (var route in toRemove)
             {
                 network[route.Start].Remove(route.End);
-            }
-        }
-
-        public void AddEndPoint(NodeT endPoint)
-        {
-            if (!endPoints.Contains(endPoint))
-            {
-                dirty = true;
-                endPoints.Add(endPoint);
-            }
-        }
-
-        public void AddEndPoint(NodeT endPoint, string name)
-        {
-            AddEndPoint(endPoint);
-            Name(endPoint, name);
-        }
-
-        public void Name(NodeT endPoint, string name)
-        {
-            namedEndPoints[name] = endPoint;
-        }
-
-        public IReadOnlyDictionary<string, NodeT> NamedEndPoints
-        {
-            get
-            {
-                return namedEndPoints;
-            }
-        }
-
-        public NodeT GetEndPoint(string name)
-        {
-            if (namedEndPoints.ContainsKey(name))
-            {
-                return namedEndPoints[name];
-            }
-            else
-            {
-                return default;
             }
         }
 
