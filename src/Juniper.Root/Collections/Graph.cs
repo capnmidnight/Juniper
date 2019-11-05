@@ -61,20 +61,9 @@ namespace Juniper.Collections
             info.AddValue(nameof(network), routes);
         }
 
-        private void FillMatrix(NodeT startPoint)
-        {
-            if (!network.ContainsKey(startPoint))
-            {
-                network[startPoint] = new Schedule();
-            }
-        }
-
         public void Connect(NodeT startPoint, NodeT endPoint, float cost)
         {
             dirty = true;
-
-            FillMatrix(startPoint);
-            FillMatrix(endPoint);
 
             var nextRoute = new Route<NodeT>(startPoint, endPoint, cost);
             Remove(startPoint, endPoint);
@@ -87,9 +76,13 @@ namespace Juniper.Collections
             AddSingle(~nextRoute);
         }
 
-        private void AddSingle(Route<NodeT> nextRoute)
+        private void AddSingle(Route<NodeT> route)
         {
-            network[nextRoute.Start][nextRoute.End] = nextRoute;
+            if (!network.ContainsKey(route.Start))
+            {
+                network[route.Start] = new Schedule();
+            }
+            network[route.Start][route.End] = route;
         }
 
         public bool Exists(NodeT node)
