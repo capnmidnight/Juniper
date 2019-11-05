@@ -14,11 +14,17 @@ namespace System.Collections.Generic
         /// <typeparam name="T"></typeparam>
         /// <param name="collect"></param>
         /// <param name="value"></param>
-        public static void MaybeAdd<T>(this List<T> collect, T value)
+        /// <returns>True if the item was actually added.</returns>
+        public static bool MaybeAdd<T>(this List<T> collect, T value)
         {
             if (!collect.Contains(value))
             {
                 collect.Add(value);
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

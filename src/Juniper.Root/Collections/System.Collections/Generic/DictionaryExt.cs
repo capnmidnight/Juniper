@@ -45,6 +45,52 @@ namespace System.Collections.Generic
             }
         }
 
+        /// <summary>
+        /// Get the key for a value out of the dictionary, or the default value if dictionary doesn't
+        /// contain the given value.
+        /// </summary>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="dict">        The dictionary to search.</param>
+        /// <param name="value">         The value to look for in <paramref name="dict"/>.</param>
+        /// <returns>
+        /// If <paramref name="value"/> exists in <paramref name="dict"/>, returns the mapped key. If
+        /// it doesn't, returns they default value of <typeparamref name="KeyT"/>.
+        /// </returns>
+        /// <example><code><![CDATA[
+        /// var dict = new Dictionary<string, int>
+        /// {
+        ///     { "a", 1 }, { "b", 2 }
+        /// };
+        /// dict.Get("a"); // --> 1
+        /// dict.Get("b"); // --> 2
+        /// dict.Get("c"); // --> 0
+        /// dict.Get("d", 3); // --> 3
+        /// ]]></code></example>
+        public static KeyT GetKey<KeyT, ValueT>(this Dictionary<KeyT, ValueT> dict, ValueT value)
+        {
+            foreach (var pair in dict)
+            {
+                if (pair.Value.Equals(value))
+                {
+                    return pair.Key;
+                }
+            }
+
+            return default;
+        }
+
+        public static bool MaybeRemove<KeyT, ValueT>(this Dictionary<KeyT, ValueT> dict, KeyT key)
+        {
+            if (dict.ContainsKey(key))
+            {
+                dict.Remove(key);
+                return true;
+            }
+
+            return false;
+        }
+
         public static string ToString<KeyType, ValueType>(this IDictionary<KeyType, ValueType> dict, string kvSeperator, string entrySeperator)
         {
             return (from kv in dict
