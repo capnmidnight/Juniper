@@ -32,6 +32,75 @@ namespace Juniper.Collections.Tests
         }
 
         [TestMethod]
+        public void ConcatShortRoutes()
+        {
+            var routeA = new Route<int>(0xbad, 0xbeef, 1);
+            var routeB = new Route<int>(0xbeef, 0xdead, 1);
+            var routeC = ~routeA;
+            var routeD = ~routeB;
+
+            var a = routeA + routeB;
+            var b = routeA + routeD;
+            var c = routeB + routeA;
+            var d = routeB + routeC;
+
+            Assert.AreEqual(a, b);
+            Assert.AreEqual(a, c);
+            Assert.AreEqual(a, d);
+            Assert.AreEqual(b, c);
+            Assert.AreEqual(b, d);
+            Assert.AreEqual(c, d);
+        }
+
+        [TestMethod]
+        public void ConcatMediumRoutes()
+        {
+            var routeA = new Route<int>(0xbad, 0xbeef, 1)
+                + new Route<int>(0xbeef, 0xdead, 1);
+            var routeB = new Route<int>(0xdead, 0xf00f, 1)
+                + new Route<int>(0xf00f, 0x1337, 1);
+            var routeC = ~routeA;
+            var routeD = ~routeB;
+
+            var a = routeA + routeB;
+            var b = routeA + routeD;
+            var c = routeB + routeA;
+            var d = routeB + routeC;
+
+            Assert.AreEqual(a, b);
+            Assert.AreEqual(a, c);
+            Assert.AreEqual(a, d);
+            Assert.AreEqual(b, c);
+            Assert.AreEqual(b, d);
+            Assert.AreEqual(c, d);
+        }
+
+        [TestMethod]
+        public void ConcatLongRoutes()
+        {
+            var routeA = new Route<int>(0xbad, 0xbeef, 1)
+                + new Route<int>(0xbeef, 0xdead, 1)
+                + new Route<int>(0xdead, 0xf00f, 1);
+            var routeB = new Route<int>(0xf00f, 0x1337, 1)
+                + new Route<int>(0x1337, 0x4444, 1)
+                + new Route<int>(0x4444, 0xaaaa, 1);
+            var routeC = ~routeA;
+            var routeD = ~routeB;
+
+            var a = routeA + routeB;
+            var b = routeA + routeD;
+            var c = routeB + routeA;
+            var d = routeB + routeC;
+
+            Assert.AreEqual(a, b);
+            Assert.AreEqual(a, c);
+            Assert.AreEqual(a, d);
+            Assert.AreEqual(b, c);
+            Assert.AreEqual(b, d);
+            Assert.AreEqual(c, d);
+        }
+
+        [TestMethod]
         public void OneConnection()
         {
             var graph = new Graph<string>();
@@ -143,6 +212,28 @@ namespace Juniper.Collections.Tests
 
             Assert.IsNotNull(route);
             Assert.AreEqual(1, route.Cost);
+        }
+
+        [TestMethod]
+        public void RemoveShortcut()
+        {
+            var graph = new Graph<string>();
+            graph.Connect("a", "b", 1);
+            graph.Connect("b", "c", 1);
+            graph.Connect("c", "d", 1);
+            graph.Connect("a", "d", 1);
+            graph.AddEndPoint("d");
+
+            graph.Solve();
+            var routeA = graph.GetRoute("a", "d");
+
+            graph.Disconnect("a", "d");
+            graph.Solve();
+            var routeB = graph.GetRoute("a", "d");
+
+            Assert.IsNotNull(routeA);
+            Assert.IsNotNull(routeB);
+            Assert.IsTrue(routeA.Cost < routeB.Cost);
         }
 
         [TestMethod]

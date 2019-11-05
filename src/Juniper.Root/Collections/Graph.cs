@@ -9,10 +9,8 @@ namespace Juniper.Collections
     public class Graph<NodeT> : ISerializable
         where NodeT : IComparable<NodeT>
     {
-        [Serializable]
         private class Schedule : Dictionary<NodeT, Route<NodeT>> { }
 
-        [Serializable]
         private class Network : Dictionary<NodeT, Schedule> { }
 
         private readonly List<NodeT> endPoints;
@@ -101,7 +99,7 @@ namespace Juniper.Collections
 
                     if (curRoute != null)
                     {
-                        RemoveRoute(curRoute);
+                        Remove(curRoute);
                     }
 
                     FillNetworks(newRoute);
@@ -127,23 +125,45 @@ namespace Juniper.Collections
 
         private void Compress()
         {
-            RemoveRoutes((from schedule in network.Values
+            RemoveRoutes(from schedule in network.Values
                          from r in schedule.Values
                          where r.Count > 2
-                         select r).ToArray());
+                         select r);
         }
 
-        public void RemoveRoute(Route<NodeT> route)
+        public void Remove(Route<NodeT> route)
         {
-            RemoveRoutes((from schedule in network.Values
+            RemoveRoutes(from schedule in network.Values
                          from r in schedule.Values
-                         where r.Contains(route.Start)
-                              && r.Contains(route.End)
-                         select r).ToArray());
+                         where r.Overlaps(route)
+                         select r);
         }
 
-        private void RemoveRoutes(Route<NodeT>[] toRemove)
+        public void Remove(NodeT node)
         {
+            RemoveRoutes(from schedule in network.Values
+                         from route in schedule.Values
+                         where route.Contains(node)
+                         select route);
+        }
+
+        public void Disconnect(NodeT start, NodeT end)
+        {
+            var connections = (from schedule in network.Values
+                               from route in schedule.Values
+                               where route.Count == 2
+                                  && route.Contains(start)
+                                  && route.Contains(end)
+                               select route).ToArray();
+            foreach(var connection in connections)
+            {
+                Remove(connection);
+            }
+        }
+
+        private void RemoveRoutes(IEnumerable<Route<NodeT>> toRemove)
+        {
+            toRemove = toRemove.ToArray();
             foreach (var r in toRemove)
             {
                 dirty = true;
@@ -266,7 +286,7 @@ namespace Juniper.Collections
                     var route = q.Dequeue();
                     foreach (var extension in GetRoutes(route.End))
                     {
-                        if (!extension.Contains(route))
+                        if (!extension.Overlaps(route))
                         {
                             var nextRoute = route + extension;
                             var curRoute = (Route<NodeT>)GetRoute(nextRoute.Start, nextRoute.End);
@@ -277,7 +297,7 @@ namespace Juniper.Collections
                         }
                     }
 
-                    foreach(var nextRoute in toAdd)
+                    foreach (var nextRoute in toAdd)
                     {
                         FillNetworks(nextRoute);
                         q.Add(nextRoute);
