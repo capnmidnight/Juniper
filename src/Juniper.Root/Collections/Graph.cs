@@ -30,7 +30,7 @@ namespace Juniper.Collections
         public Graph<NodeT> Clone()
         {
             var graph = new Graph<NodeT>();
-            graph.dirty = dirty;
+            graph.dirty = true;
             graph.endPoints.AddRange(endPoints);
             foreach(var pair in namedEndPoints)
             {
