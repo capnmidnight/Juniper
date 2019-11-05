@@ -1,5 +1,6 @@
+using System;
 using System.Collections.Generic;
-
+using System.IO;
 using Juniper.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -370,6 +371,16 @@ namespace Juniper.Collections.Tests
             Assert.AreEqual(routeA.Cost, routeB.Cost);
             Assert.AreEqual(routeA.Count, routeB.Count);
             Assert.AreEqual(routeA.ToString(), routeB.ToString());
+        }
+
+        [TestMethod]
+        public void Deserialization()
+        {
+            var json = new JsonFactory<Graph<string>>();
+            var userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var file = Path.Combine(userHome, "Projects", "Yarrow", "shared", "StreamingAssets", "Hotel.json");
+            var text = File.ReadAllText(file);
+            var graph = json.Parse(text);
         }
     }
 }

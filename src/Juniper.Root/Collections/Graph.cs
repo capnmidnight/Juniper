@@ -65,7 +65,17 @@ namespace Juniper.Collections
             endPoints = info.GetList<NodeT>(nameof(endPoints));
             namedEndPoints = info.GetValue<Dictionary<string, NodeT>>(nameof(namedEndPoints));
             endPointNames = namedEndPoints.Invert();
-            network = info.GetValue<Network>(nameof(network));
+            network = new Network();
+            var routes = info.GetValue<Route<NodeT>[]>(nameof(network));
+            foreach(var route in routes)
+            {
+                if (!network.ContainsKey(route.Start))
+                {
+                    network[route.Start] = new Schedule();
+                }
+
+                network[route.Start][route.End] = route;
+            }
             dirty = true;
         }
 
@@ -76,7 +86,10 @@ namespace Juniper.Collections
             Compress();
             info.AddList(nameof(endPoints), endPoints);
             info.AddValue(nameof(namedEndPoints), namedEndPoints);
-            info.AddValue(nameof(network), network);
+            var routes = (from schedule in network.Values
+                          from route in schedule.Values
+                          select route).ToArray();
+            info.AddValue(nameof(network), routes);
         }
 
         public IReadOnlyList<NodeT> EndPoints
