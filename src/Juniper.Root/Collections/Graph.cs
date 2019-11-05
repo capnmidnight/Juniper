@@ -69,12 +69,7 @@ namespace Juniper.Collections
             var routes = info.GetValue<Route<NodeT>[]>(nameof(network));
             foreach(var route in routes)
             {
-                if (!network.ContainsKey(route.Start))
-                {
-                    network[route.Start] = new Schedule();
-                }
-
-                network[route.Start][route.End] = route;
+                FillNetworks(route);
             }
             dirty = true;
         }
@@ -88,7 +83,9 @@ namespace Juniper.Collections
             info.AddValue(nameof(namedEndPoints), namedEndPoints);
             var routes = (from schedule in network.Values
                           from route in schedule.Values
-                          select route).ToArray();
+                          select route)
+                        .Distinct()
+                        .ToArray();
             info.AddValue(nameof(network), routes);
         }
 

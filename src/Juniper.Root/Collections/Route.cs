@@ -8,7 +8,9 @@ namespace Juniper.Collections
     [Serializable]
     public class Route<ValueT> :
         IRoute<ValueT>,
-        ISerializable
+        ISerializable,
+        IEquatable<Route<ValueT>>,
+        IComparable<Route<ValueT>>
         where ValueT : IComparable<ValueT>
     {
         private static bool CheckOverlap(ValueT[] nodesA, ValueT[] nodesB, int i, int start, int delta)
@@ -172,6 +174,16 @@ namespace Juniper.Collections
             return CompareTo(other) == 0;
         }
 
+        public bool Equals(Route<ValueT> other)
+        {
+            return Equals((IRoute<ValueT>)other);
+        }
+
+        public int CompareTo(object obj)
+        {
+            return CompareTo(obj as Route<ValueT>);                
+        }
+
         public int CompareTo(IRoute<ValueT> other)
         {
             if (other is null)
@@ -196,10 +208,19 @@ namespace Juniper.Collections
             }
         }
 
+        public int CompareTo(Route<ValueT> other)
+        {
+            return CompareTo((IRoute<ValueT>)other);
+        }
+
         public override int GetHashCode()
         {
-            return nodes.GetHashCode()
-                ^ Cost.GetHashCode();
+            int hash = Cost.GetHashCode();
+            foreach(var node in nodes)
+            {
+                hash ^= node.GetHashCode();
+            }
+            return hash;
         }
 
         public bool Contains(ValueT x)

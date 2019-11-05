@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Juniper.IO;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -30,6 +31,23 @@ namespace Juniper.Collections.Tests
             var reverse = ~route;
             list.Remove(reverse);
             Assert.AreEqual(0, list.Count);
+        }
+
+        [TestMethod]
+        public void DistinctRoutes()
+        {
+            var route = new Route<int>(0xbad, 0xf00d, 5);
+            var routes = new[]
+            {
+                route,
+                ~route
+            };
+
+            var distinctRoutes = routes.Distinct().ToArray();
+
+            Assert.AreEqual(routes[0], routes[1]);
+            Assert.AreEqual(1, distinctRoutes.Length);
+            Assert.AreEqual(route, distinctRoutes[0]);
         }
 
         [TestMethod]
