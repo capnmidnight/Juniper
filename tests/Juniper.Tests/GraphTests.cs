@@ -10,6 +10,28 @@ namespace Juniper.Collections.Tests
     public class GraphTests
     {
         [TestMethod]
+        public void ListContainsReversedRoute()
+        {
+            var list = new List<Route<int>>();
+            var route = new Route<int>(0xbad, 0xf00d, 5);
+            list.Add(route);
+            var reverse = ~route;
+            Assert.IsTrue(list.Contains(route));
+            Assert.IsTrue(list.Contains(reverse));
+        }
+
+        [TestMethod]
+        public void ListRemoveReversedRoute()
+        {
+            var list = new List<Route<int>>();
+            var route = new Route<int>(0xbad, 0xf00d, 5);
+            list.Add(route);
+            var reverse = ~route;
+            list.Remove(reverse);
+            Assert.AreEqual(0, list.Count);
+        }
+
+        [TestMethod]
         public void OneConnection()
         {
             var graph = new Graph<string>();

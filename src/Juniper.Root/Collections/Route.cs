@@ -5,51 +5,63 @@ using System.Runtime.Serialization;
 
 namespace Juniper.Collections
 {
-    public interface IRoute<out ValueType>
-    {
-        float Cost { get; }
-
-        int Count { get; }
-
-        ValueType Start { get; }
-
-        ValueType End { get; }
-
-        IReadOnlyList<ValueType> Nodes { get; }
-    }
-
     [Serializable]
-    internal class Route<ValueType> :
-        IRoute<ValueType>,
+    public class Route<ValueT> :
+        IRoute<ValueT>,
         ISerializable
+        where ValueT : IComparable<ValueT>
     {
-        public static Route<ValueType> operator +(Route<ValueType> route, Route<ValueType> extension)
+        public static Route<ValueT> operator +(Route<ValueT> route, Route<ValueT> extension)
         {
             var newNodes = route.nodes.Concat(extension.nodes.Skip(1));
-            return new Route<ValueType>(newNodes, route.Cost + extension.Cost);
+            return new Route<ValueT>(newNodes, route.Cost + extension.Cost);
         }
 
-        public static Route<ValueType> operator ~(Route<ValueType> path)
+        public static Route<ValueT> operator ~(Route<ValueT> path)
         {
-            return new Route<ValueType>(path.nodes.Reverse(), path.Cost);
+            return new Route<ValueT>(path.nodes.Reverse(), path.Cost);
         }
 
-        private readonly ValueType[] nodes;
+        public static bool operator ==(Route<ValueT> left, Route<ValueT> right)
+        {
+            return left is null && right is null
+                || left is object && left.CompareTo(right) == 0
+                || right is object && right.CompareTo(left) == 0;
+        }
 
-        internal Route(IEnumerable<ValueType> edges, float cost)
+        public static bool operator !=(Route<ValueT> left, Route<ValueT> right)
+        {
+            return !(left == right);
+        }
+
+        public static bool operator >(Route<ValueT> left, Route<ValueT> right)
+        {
+            return left is object && left.CompareTo(right) == 1
+                || right is object && right.CompareTo(left) == -1;
+        }
+
+        public static bool operator <(Route<ValueT> left, Route<ValueT> right)
+        {
+            return left is object && left.CompareTo(right) == -1
+                || right is object && right.CompareTo(left) == 1;
+        }
+
+        private readonly ValueT[] nodes;
+
+        private Route(IEnumerable<ValueT> edges, float cost)
         {
             nodes = edges.ToArray();
             Cost = cost;
         }
 
-        internal Route(ValueType a, ValueType b, float cost)
+        public Route(ValueT a, ValueT b, float cost)
             : this(new[] { a, b }, cost)
         { }
 
         protected Route(SerializationInfo info, StreamingContext context)
         {
             Cost = info.GetSingle(nameof(Cost));
-            nodes = info.GetValue<ValueType[]>(nameof(nodes));
+            nodes = info.GetValue<ValueT[]>(nameof(nodes));
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -63,7 +75,7 @@ namespace Juniper.Collections
             get;
         }
 
-        public IReadOnlyList<ValueType> Nodes
+        public IReadOnlyList<ValueT> Nodes
         {
             get
             {
@@ -79,45 +91,113 @@ namespace Juniper.Collections
             }
         }
 
-        public ValueType Start
+        public ValueT Start
         {
             get
             {
-                return nodes.Length > 0
-                  ? nodes[0]
-                  : default;
+                return nodes.FirstOrDefault();
             }
         }
 
-        public ValueType End
+        public ValueT End
         {
             get
             {
-                return nodes.Length > 0
-                  ? nodes[nodes.Length - 1]
-                  : default;
+                return nodes.LastOrDefault();
             }
         }
 
         public override bool Equals(object obj)
         {
-            return obj is Route<ValueType> other
+            return obj is Route<ValueT> other
                 && Equals(other);
+        }
+
+        public bool Equals(IRoute<ValueT> other)
+        {
+            return CompareTo(other) == 0;
+        }
+
+        public virtual int CompareTo(IRoute<ValueT> other)
+        {
+            if (other is null)
+            {
+                return -1;
+            }
+            else if (Start.Equals(other.Start) && End.Equals(other.End)
+                || Start.Equals(other.End) && End.Equals(other.Start))
+            {
+                if (Cost == other.Cost)
+                {
+                    return Count.CompareTo(other.Count);
+                }
+                else
+                {
+                    return Cost.CompareTo(other.Cost);
+                }
+            }
+            else if (Start.Equals(other.End))
+            {
+                return End.CompareTo(other.Start);
+            }
+            else if (End.Equals(other.Start))
+            {
+                return Start.CompareTo(other.End);
+            }
+            else if (Start.Equals(other.Start))
+            {
+                return End.CompareTo(other.End);
+            }
+            else
+            {
+                return Start.CompareTo(other.Start);
+            }
         }
 
         public override int GetHashCode()
         {
-            int code = 0;
-            foreach (var x in nodes)
-            {
-                code ^= x.GetHashCode();
-            }
-            return code;
+            return nodes.GetHashCode()
+                ^ Cost.GetHashCode();
         }
 
-        public bool Contains(ValueType x)
+        public bool Contains(ValueT x)
         {
             return nodes.Contains(x);
+        }
+
+        public bool Contains(Route<ValueT> other)
+        {
+            return Contain(other)
+                || Contain(~other);
+        }
+
+        private bool Contain(Route<ValueT> other)
+        {
+            var a = this;
+            var b = other;
+            var delta = a.Count - b.Count;
+            if (delta < 0)
+            {
+                a = other;
+                b = this;
+                delta = -delta;
+            }
+
+            for (int i = 0; i <= delta; ++i)
+            {
+                var matches = true;
+                for (int j = 0; j < b.Count && matches; ++j)
+                {
+                    matches &= a.nodes[i + j].Equals(b.Nodes[j]);
+                }
+
+                if (matches)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public override string ToString()
