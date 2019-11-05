@@ -51,7 +51,7 @@ namespace Juniper.Collections
 
         protected Graph(SerializationInfo info, StreamingContext context)
         {
-            dirty = info.GetBoolean(nameof(dirty));
+            dirty = true;
             endPoints = info.GetList<NodeT>(nameof(endPoints));
             namedEndPoints = info.GetValue<Dictionary<string, NodeT>>(nameof(namedEndPoints));
 
@@ -66,14 +66,12 @@ namespace Juniper.Collections
 
                 network[route.Start][route.End] = route;
             }
-
-            Solve();
         }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             Compress();
-            info.AddValue(nameof(dirty), dirty);
+
             info.AddList(nameof(endPoints), endPoints);
             info.AddValue(nameof(namedEndPoints), namedEndPoints);
             var routes = (from x in network
