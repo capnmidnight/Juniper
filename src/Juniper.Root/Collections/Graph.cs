@@ -191,7 +191,13 @@ namespace Juniper.Collections
 
                 if(network[startPoint].Count == 0)
                 {
+                    dirty = true;
                     network.Remove(startPoint);
+
+                    if (endPoints.Contains(startPoint))
+                    {
+                        endPoints.Remove(startPoint);
+                    }
                 }
             }
         }
@@ -252,6 +258,7 @@ namespace Juniper.Collections
 
                 var q = new Queue<Route<NodeT>>(
                     from endPoint in endPoints
+                    where network.ContainsKey(endPoint)
                     let schedule = network[endPoint]
                     from route in schedule.Values
                     select route);
