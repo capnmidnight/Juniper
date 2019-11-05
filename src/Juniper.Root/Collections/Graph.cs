@@ -187,7 +187,7 @@ namespace Juniper.Collections
             }
         }
 
-        private void RemoveSingle(NodeT startPoint, NodeT endPoint)
+        private void RemoveSingle(NodeT startPoint, NodeT endPoint, bool removeRaw)
         {
             if (Exists(startPoint, endPoint))
             {
@@ -197,7 +197,9 @@ namespace Juniper.Collections
                     foreach (var route in schedule.Values)
                     {
                         if (route.Contains(startPoint)
-                            && route.Contains(endPoint))
+                            && route.Contains(endPoint)
+                            && (route.Count > 2
+                                || removeRaw))
                         {
                             toRemove.Add(route);
                         }
@@ -220,12 +222,12 @@ namespace Juniper.Collections
             }
         }
 
-        public void Remove(NodeT startPoint, NodeT endPoint)
+        public void Remove(NodeT startPoint, NodeT endPoint, bool removeRaw = false)
         {
             if (!startPoint.Equals(endPoint))
             {
-                RemoveSingle(startPoint, endPoint);
-                RemoveSingle(endPoint, startPoint);
+                RemoveSingle(startPoint, endPoint, removeRaw);
+                RemoveSingle(endPoint, startPoint, removeRaw);
             }
         }
 
@@ -236,7 +238,7 @@ namespace Juniper.Collections
                 var route = GetRoute(startPoint, endPoint);
                 if (route != null)
                 {
-                    Remove(route.Start, route.End);
+                    Remove(route.Start, route.End, true);
                 }
             }
         }
@@ -248,7 +250,7 @@ namespace Juniper.Collections
                 var toRemove = network[node].Values.ToArray();
                 foreach (var route in toRemove)
                 {
-                    Remove(route.Start, route.End);
+                    Remove(route.Start, route.End, true);
                 }
             }
         }
@@ -268,7 +270,7 @@ namespace Juniper.Collections
 
             foreach (var route in longRoutes)
             {
-                Remove(route.Start, route.End);
+                Remove(route.Start, route.End, false);
             }
 
             var toRemove = new List<string>();
