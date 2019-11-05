@@ -27,6 +27,28 @@ namespace Juniper.Collections
             network = new Network();
         }
 
+        public Graph<NodeT> Clone()
+        {
+            var graph = new Graph<NodeT>();
+            graph.dirty = dirty;
+            graph.endPoints.AddRange(endPoints);
+            foreach(var pair in namedEndPoints)
+            {
+                graph.namedEndPoints.Add(pair.Key, pair.Value);
+            }
+            foreach(var schedule in network.Values)
+            {
+                foreach (var route in schedule.Values)
+                {
+                    if(route.Count == 2)
+                    {
+                        graph.Connect(route.Start, route.End, route.Cost);
+                    }
+                }
+            }
+            return graph;
+        }
+
         protected Graph(SerializationInfo info, StreamingContext context)
         {
             dirty = info.GetBoolean(nameof(dirty));
