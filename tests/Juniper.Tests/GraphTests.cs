@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+
 using Juniper.IO;
-using Juniper.Units;
-using Juniper.World.GIS;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Collections.Tests

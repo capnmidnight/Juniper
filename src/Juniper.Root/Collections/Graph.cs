@@ -141,6 +141,12 @@ namespace Juniper.Collections
             {
                 dirty = true;
                 endPoints.Remove(endPoint);
+
+                if (namedEndPoints.ContainsValue(endPoint))
+                {
+                    var name = GetEndPointName(endPoint);
+                    RemoveEndPointName(name);
+                }
             }
         }
 
@@ -215,11 +221,7 @@ namespace Juniper.Collections
                 {
                     dirty = true;
                     network.Remove(startPoint);
-
-                    if (endPoints.Contains(startPoint))
-                    {
-                        endPoints.Remove(startPoint);
-                    }
+                    RemoveEndPoint(startPoint);
                 }
             }
         }
