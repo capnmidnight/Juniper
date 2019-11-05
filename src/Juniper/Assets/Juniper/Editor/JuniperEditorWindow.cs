@@ -129,6 +129,22 @@ namespace Juniper.Unity.Editor
             }
         }
 
+        protected virtual void OnReset()
+        { }
+        private void OnResetInternal()
+        {
+            try
+            {
+                CurrentError = null;
+                watcherTask = null;
+                OnReset();
+            }
+            catch(Exception exp)
+            {
+                CurrentError = new Exception("Error occured during reset", exp);
+            }
+        }
+
         private void OnGUI()
         {
             titleContent = windowTitle;
@@ -156,6 +172,7 @@ namespace Juniper.Unity.Editor
                             LabelField("Watcher task canceled");
                         }
 
+                        Button("Reset", OnResetInternal, Width(75));
                         Button("Start", StartWatcher, Width(75));
                     }
 
