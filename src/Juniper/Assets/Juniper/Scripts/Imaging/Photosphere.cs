@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
+using Juniper.IO;
 using Juniper.Progress;
 
 using UnityEngine;
@@ -175,19 +176,24 @@ namespace Juniper.Imaging
 
         protected virtual void OnDrawGizmos()
         {
-            if (string.IsNullOrEmpty(CubemapName))
+            if (!hideGizmo)
             {
-                CubemapName = name;
-            }
+                if (string.IsNullOrEmpty(CubemapName))
+                {
+                    CubemapName = name;
+                }
 
-            var imageName = CubemapName + ".jpeg";
-            var gizmoPath = Path.Combine("Assets", "Gizmos", imageName);
-            if (File.Exists(gizmoPath))
-            {
-                Gizmos.DrawIcon(transform.position + Vector3.up, imageName);
+                var gizmos = new FileCacheLayer(Path.Combine("Assets", "Gizmos"));
+                var imageRef = CubemapName + MediaType.Image.Jpeg;
+                if (gizmos.IsCached(imageRef))
+                {
+                    Gizmos.DrawIcon(transform.position + Vector3.up, (string)imageRef);
+                }
+
+                Gizmos.DrawSphere(transform.position, 0.5f);
             }
-            Gizmos.DrawSphere(transform.position, 0.5f);
         }
+        public bool hideGizmo;
 
 #endif
     }
