@@ -141,12 +141,6 @@ namespace Juniper.Collections
             {
                 dirty = true;
                 endPoints.Remove(endPoint);
-
-                if (namedEndPoints.ContainsValue(endPoint))
-                {
-                    var name = GetEndPointName(endPoint);
-                    RemoveEndPointName(name);
-                }
             }
         }
 
@@ -275,6 +269,20 @@ namespace Juniper.Collections
             foreach (var route in longRoutes)
             {
                 Remove(route.Start, route.End);
+            }
+
+            var toRemove = new List<string>();
+            foreach(var name in namedEndPoints.Keys)
+            {
+                if (!endPoints.Contains(namedEndPoints[name]))
+                {
+                    toRemove.Add(name);
+                }
+            }
+
+            foreach(var name in toRemove)
+            {
+                namedEndPoints.Remove(name);
             }
         }
 
