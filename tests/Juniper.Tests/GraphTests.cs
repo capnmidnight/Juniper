@@ -21,6 +21,8 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var route = graph.GetRoute("a", "b");
+
+            Assert.IsNotNull(route);
             Assert.AreEqual(1, route.Cost);
         }
 
@@ -34,6 +36,8 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var route = graph.GetRoute("a", "c");
+
+            Assert.IsNotNull(route);
             Assert.AreEqual(2, route.Cost);
         }
 
@@ -47,6 +51,8 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var route = graph.GetRoute("a", "c");
+
+            Assert.IsNotNull(route);
             Assert.AreEqual(2, route.Cost);
         }
 
@@ -68,6 +74,8 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var route = graph.GetRoute("a", "k");
+
+            Assert.IsNotNull(route);
             Assert.AreEqual(10, route.Cost);
         }
 
@@ -81,6 +89,7 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var route = graph.GetRoute("a", "c");
+
             Assert.IsNull(route);
         }
 
@@ -95,6 +104,8 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var route = graph.GetRoute("a", "d");
+
+            Assert.IsNotNull(route);
             Assert.AreEqual(3, route.Cost);
         }
 
@@ -110,6 +121,8 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var route = graph.GetRoute("a", "d");
+
+            Assert.IsNotNull(route);
             Assert.AreEqual(1, route.Cost);
         }
 
@@ -137,6 +150,9 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var routeB = graph.GetRoute(start, end);
+
+            Assert.IsNotNull(routeA);
+            Assert.IsNotNull(routeB);
             Assert.IsTrue(routeB.Cost < routeA.Cost);
         }
 
@@ -159,11 +175,13 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var routeA = graph.GetRoute(start, end);
-
             graph.Connect(1371, 3464, 2);
             graph.Solve();
 
             var routeB = graph.GetRoute(start, end);
+
+            Assert.IsNotNull(routeA);
+            Assert.IsNotNull(routeB);
             Assert.IsTrue(routeB.Cost > routeA.Cost);
         }
 
@@ -184,6 +202,9 @@ namespace Juniper.Collections.Tests
             var routeB = graph.GetRoute(0, 2);
             var routeC = graph.GetRoute(0, 3);
 
+            Assert.IsNotNull(routeA);
+            Assert.IsNotNull(routeB);
+            Assert.IsNotNull(routeC);
             Assert.AreEqual(1, routeA.Cost);
             Assert.AreEqual(2, routeB.Cost);
             Assert.AreEqual(1, routeC.Cost);
@@ -200,6 +221,8 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var route = graph.GetRoute(0, 1);
+
+            Assert.IsNotNull(route);
             Assert.AreEqual(2, route.Cost);
         }
 
@@ -226,94 +249,17 @@ namespace Juniper.Collections.Tests
 
             var text = json.ToString(graph);
             graph = json.Parse(text);
+            graph.Solve();
 
             var routeB = graph.GetRoute(start, end);
 
+            Assert.IsNotNull(routeA);
+            Assert.IsNotNull(routeB);
             Assert.AreEqual(routeA.Start, routeB.Start);
             Assert.AreEqual(routeA.End, routeB.End);
             Assert.AreEqual(routeA.Cost, routeB.Cost);
             Assert.AreEqual(routeA.Count, routeB.Count);
             Assert.AreEqual(routeA.ToString(), routeB.ToString());
-        }
-
-        [TestMethod]
-        public void RealTest()
-        {
-            BuildFullMap(out var graph);
-
-            var startPoint = graph.GetNamedEndPoint("Ancestor Hall");
-            var endPoint = graph.GetNamedEndPoint("Tea Shop");
-            Assert.IsTrue(graph.Exists(startPoint, endPoint));
-
-            var route = graph.GetRoute(startPoint, endPoint);
-            Assert.IsNotNull(route);
-        }
-
-        [TestMethod]
-        public void DeserializationIsFasterThanComputing()
-        {
-            var json = new JsonFactory<Graph<string>>();
-
-            var start = DateTime.Now;
-            BuildFullMap(out var graph);
-            var timeSpent1 = DateTime.Now - start;
-
-            var text = json.ToString(graph);
-
-            start = DateTime.Now;
-            _ = json.Parse(text);
-            var timeSpent2 = DateTime.Now - start;
-
-            Assert.IsTrue(timeSpent1 > timeSpent2);
-        }
-
-        private static void BuildFullMap(out Graph<string> graph)
-        {
-            var userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var filesRoute = Path.Combine(userHome, "Projects", "Yarrow", "shared", "StreamingAssets");
-            var files = Directory.GetFiles(filesRoute, "*.json");
-            var json = new JsonFactory<Metadata>();
-            var metadata = files
-                .Select(f =>
-                {
-                    if (json.TryDeserialize(f, out var datum))
-                    {
-                        return datum;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                })
-                .Where(x => x?.pano_id != null)
-                .ToDictionary(x => x.pano_id);
-
-            graph = new Graph<string>();
-            foreach (var start in metadata.Values)
-            {
-                graph.AddEndPoint(start.pano_id);
-                if (start.label != null)
-                {
-                    graph.SetEndPointName(start.pano_id, start.label);
-                }
-
-                foreach (var endID in start.navPoints)
-                {
-                    var end = metadata[endID];
-                    var distance = start.location.Distance(end.location);
-                    graph.Connect(start.pano_id, end.pano_id, distance);
-                }
-            }
-
-            graph.Solve();
-        }
-
-        private class Metadata
-        {
-            public string pano_id;
-            public string label;
-            public LatLngPoint location;
-            public string[] navPoints;
         }
     }
 }

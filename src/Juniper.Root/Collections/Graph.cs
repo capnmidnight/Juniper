@@ -83,11 +83,13 @@ namespace Juniper.Collections
 
         public void Connect(NodeT startPoint, NodeT endPoint, float cost)
         {
-            dirty = true;
-
-            var nextRoute = new Route<NodeT>(startPoint, endPoint, cost);
-            Remove(startPoint, endPoint);
-            Add(nextRoute);
+            if (!startPoint.Equals(endPoint))
+            {
+                dirty = true;
+                var nextRoute = new Route<NodeT>(startPoint, endPoint, cost);
+                Remove(startPoint, endPoint);
+                Add(nextRoute);
+            }
         }
 
         private void Add(Route<NodeT> nextRoute)
@@ -224,16 +226,22 @@ namespace Juniper.Collections
 
         public void Remove(NodeT startPoint, NodeT endPoint)
         {
-            RemoveSingle(startPoint, endPoint);
-            RemoveSingle(endPoint, startPoint);
+            if (!startPoint.Equals(endPoint))
+            {
+                RemoveSingle(startPoint, endPoint);
+                RemoveSingle(endPoint, startPoint);
+            }
         }
 
         public void Disconnect(NodeT startPoint, NodeT endPoint)
         {
-            var route = GetRoute(startPoint, endPoint);
-            if(route != null)
+            if (!startPoint.Equals(endPoint))
             {
-                Remove(route.Start, route.End);
+                var route = GetRoute(startPoint, endPoint);
+                if (route != null)
+                {
+                    Remove(route.Start, route.End);
+                }
             }
         }
 
@@ -246,8 +254,6 @@ namespace Juniper.Collections
                 {
                     Remove(route.Start, route.End);
                 }
-
-                dirty = true;
             }
         }
 
