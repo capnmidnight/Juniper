@@ -356,7 +356,7 @@ namespace Juniper.Collections.Tests
         }
 
         [TestMethod]
-        public void Serialization()
+        public void JsonSerialization()
         {
             var json = new JsonFactory<Graph<int>>();
             var graph = new Graph<int>();
@@ -392,13 +392,14 @@ namespace Juniper.Collections.Tests
         }
 
         [TestMethod]
-        public void Deserialization()
+        public void JsonDeserialization()
         {
             var json = new JsonFactory<Graph<string>>();
             var userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var file = Path.Combine(userHome, "Projects", "Yarrow", "shared", "StreamingAssets", "Hotel.json");
             var text = File.ReadAllText(file);
-            var graph = json.Parse(text);
+            Assert.IsTrue(json.TryParse(text, out var graph));
+            Assert.IsNotNull(graph);
         }
     }
 }
