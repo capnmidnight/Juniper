@@ -120,6 +120,30 @@ namespace Juniper.Collections.Tests
         }
 
         [TestMethod]
+        public void SinglePointOverlap()
+        {
+            var routeA = new Route<int>(0xbad, 0xbeef, 1)
+                + new Route<int>(0xbeef, 0xdead, 1);
+            var routeB = new Route<int>(0xdead, 0xbeef, 1)
+                + new Route<int>(0xbeef, 0x1337, 1);
+            Assert.IsTrue(routeA.Overlaps(routeB));
+            Assert.IsTrue(routeB.Overlaps(routeA));
+        }
+
+        [TestMethod]
+        public void TwoPointOverlap()
+        {
+            var routeA = new Route<int>(0xbad, 0xbeef, 1)
+                + new Route<int>(0xbeef, 0xdead, 1)
+                + new Route<int>(0xdead, 0xf00f, 1);
+            var routeB = new Route<int>(0xf00f, 0xbeef, 1)
+                + new Route<int>(0xbeef, 0xdead, 1)
+                + new Route<int>(0xdead, 0xaaaa, 1);
+            Assert.IsTrue(routeA.Overlaps(routeB));
+            Assert.IsTrue(routeB.Overlaps(routeA));
+        }
+
+        [TestMethod]
         public void OneConnection()
         {
             var graph = new Graph<string>();
@@ -396,10 +420,12 @@ namespace Juniper.Collections.Tests
         {
             var json = new JsonFactory<Graph<string>>();
             var userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var file = Path.Combine(userHome, "Projects", "Yarrow", "shared", "StreamingAssets", "Hotel.json");
+            var file = Path.Combine(userHome, "Projects", "Yarrow", "shared", "StreamingAssets", "paths.json");
             var text = File.ReadAllText(file);
             Assert.IsTrue(json.TryParse(text, out var graph));
             Assert.IsNotNull(graph);
+
+            graph.Solve();
         }
     }
 }

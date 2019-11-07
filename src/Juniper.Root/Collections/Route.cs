@@ -44,7 +44,14 @@ namespace Juniper.Collections
 
             if (!left.CanConnectTo(right))
             {
-                throw new InvalidOperationException("The ends of the provided routes do not match");
+                if (left.Overlaps(right))
+                {
+                    throw new InvalidOperationException($"The provided routes overlap:\n\t{left}\n\t{right}");
+                }
+                else
+                {
+                    throw new InvalidOperationException($"The ends of the provided routes do not match:\n\t{left}\n\t{right}");
+                }
             }
 
             return left.Extend(

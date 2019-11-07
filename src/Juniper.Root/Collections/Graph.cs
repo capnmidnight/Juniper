@@ -296,7 +296,7 @@ namespace Juniper.Collections
                     var route = q.Dequeue();
                     foreach (var extension in GetRoutes(route.End))
                     {
-                        if (!extension.Overlaps(route))
+                        if (!route.Overlaps(extension))
                         {
                             var nextRoute = route + extension;
                             var curRoute = (Route<NodeT>)GetRoute(nextRoute.Start, nextRoute.End);
