@@ -214,7 +214,8 @@ namespace Juniper.Collections.Tests
 
             Assert.IsNotNull(routeA);
             Assert.IsNotNull(routeB);
-            Assert.IsTrue(routeB.Cost < routeA.Cost);
+            Assert.AreNotEqual(routeA, routeB);
+            Assert.IsTrue(routeA.Cost > routeB.Cost);
         }
 
         [TestMethod]
@@ -244,7 +245,8 @@ namespace Juniper.Collections.Tests
             var routeB = graph.GetRoute(start, end);
 
             Assert.IsNotNull(routeB);
-            Assert.IsTrue(routeB.Cost > routeA.Cost);
+            Assert.AreNotEqual(routeA, routeB);
+            Assert.IsTrue(routeA.Cost < routeB.Cost);
         }
 
         [TestMethod]

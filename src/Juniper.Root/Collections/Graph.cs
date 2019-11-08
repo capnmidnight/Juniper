@@ -293,25 +293,29 @@ namespace Juniper.Collections
             {
                 RemoveRoutes(Paths);
 
-                var q = new Queue<Route<NodeT>>(
+                var stack = new Stack<Route<NodeT>>(
                     from endPoint in endPoints
                     from route in GetRoutes(endPoint)
                     select route);
 
                 var toAdd = new List<Route<NodeT>>();
 
-                while (q.Count > 0)
+                while (stack.Count > 0)
                 {
-                    var route = q.Dequeue();
+                    var route = stack.Pop();
                     foreach (var extension in GetRoutes(route.End))
                     {
                         if (route.CanConnectTo(extension))
                         {
-                            var nextRoute = route + extension;
-                            var curRoute = GetRoute(nextRoute.Start, nextRoute.End);
-                            if (nextRoute < curRoute)
+                            var nextCost = route.Cost + extension.Cost;
+                            var nextCount = route.Count + extension.Count - 1;
+                            var curRoute = GetRoute(route.Start, extension.End);
+                            if (curRoute is null
+                                || curRoute.Cost > nextCost
+                                || curRoute.Cost == nextCost
+                                    && curRoute.Count > nextCount)
                             {
-                                toAdd.Add(nextRoute);
+                                toAdd.MaybeAdd(route + extension);
                             }
                         }
                     }
@@ -319,7 +323,7 @@ namespace Juniper.Collections
                     foreach (var nextRoute in toAdd)
                     {
                         FillNetworks(nextRoute);
-                        q.Add(nextRoute);
+                        stack.Push(nextRoute);
                     }
 
                     toAdd.Clear();
