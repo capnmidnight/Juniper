@@ -58,12 +58,12 @@ namespace Juniper.Collections
                 Array.Reverse(newNodes, left.nodes.Length, right.nodes.Length - 1);
             }
 
-            return new Route<ValueT>(newNodes, left.Cost + right.Cost);
+            return new Route<ValueT>(left.Cost + right.Cost, newNodes);
         }
 
         public static Route<ValueT> operator ~(Route<ValueT> path)
         {
-            return new Route<ValueT>(path.nodes.Reverse(), path.Cost);
+            return new Route<ValueT>(true, path.nodes.Reverse(), path.Cost);
         }
 
         public static bool operator ==(Route<ValueT> left, Route<ValueT> right)
@@ -92,13 +92,22 @@ namespace Juniper.Collections
 
         private readonly ValueT[] nodes;
 
-        private Route(IEnumerable<ValueT> edges, float cost)
+        private Route(bool validate, IEnumerable<ValueT> edges, float cost)
         {
+            IsValid = true;
+
             nodes = edges.ToArray();
 
             if (nodes.Length < 2)
             {
-                throw new InvalidOperationException("Route must have more than 1 node.");
+                if (validate)
+                {
+                    throw new InvalidOperationException("Route must have more than 1 node.");
+                }
+                else
+                {
+                    IsValid = false;
+                }
             }
 
             for (var i = 0; i < nodes.Length - 1; ++i)
@@ -107,7 +116,14 @@ namespace Juniper.Collections
                 {
                     if (nodes[i].Equals(nodes[j]))
                     {
-                        throw new InvalidOperationException($"Edges must be a collection of distinct values. Found a duplicate at indices {i} and {j}");
+                        if (validate)
+                        {
+                            throw new InvalidOperationException($"Edges must be a collection of distinct values. Found a duplicate at indices {i} and {j}");
+                        }
+                        else
+                        {
+                            IsValid = false;
+                        }
                     }
                 }
             }
@@ -115,14 +131,14 @@ namespace Juniper.Collections
         }
 
         public Route(float cost, params ValueT[] nodes)
-            : this(nodes, cost)
+            : this(true, nodes, cost)
         { }
 
         protected Route(SerializationInfo info, StreamingContext context)
-        {
-            Cost = info.GetSingle(nameof(Cost));
-            nodes = info.GetValue<ValueT[]>(nameof(nodes));
-        }
+            : this(false,
+                info.GetValue<ValueT[]>(nameof(nodes)),
+                info.GetSingle(nameof(Cost)))
+        { }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -150,6 +166,8 @@ namespace Juniper.Collections
                 return nodes.Length;
             }
         }
+
+        internal bool IsValid { get; }
 
         public bool IsConnection
         {

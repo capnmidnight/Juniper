@@ -329,7 +329,7 @@ namespace Juniper.Collections.Tests
         {
             var json = new JsonFactory<Graph<string>>();
             var userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var file = Path.Combine(userHome, "Projects", "Yarrow", "shared", "StreamingAssets", "paths.json");
+            var file = Path.Combine(userHome, "Projects", "Yarrow", "shared", "StreamingAssets", "TaxiaVillageFull.json");
             var text = File.ReadAllText(file);
             Assert.IsTrue(json.TryParse(text, out var graph));
             Assert.IsNotNull(graph);

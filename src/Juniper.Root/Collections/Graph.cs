@@ -63,7 +63,10 @@ namespace Juniper.Collections
             var routes = info.GetValue<Route<NodeT>[]>(nameof(network));
             foreach (var route in routes)
             {
-                FillNetworks(route);
+                if (route.IsValid)
+                {
+                    FillNetworks(route);
+                }
             }
             dirty = true;
         }
