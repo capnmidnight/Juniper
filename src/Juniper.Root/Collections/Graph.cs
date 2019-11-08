@@ -160,11 +160,6 @@ namespace Juniper.Collections
             }
         }
 
-        private void Compress()
-        {
-            RemoveRoutes(Paths);
-        }
-
         public void Disconnect(NodeT start, NodeT end)
         {
             RemoveRoutes(from connect in Connections
@@ -296,7 +291,7 @@ namespace Juniper.Collections
         {
             if (dirty)
             {
-                Compress();
+                RemoveRoutes(Paths);
 
                 var q = new Queue<Route<NodeT>>(
                     from endPoint in endPoints
