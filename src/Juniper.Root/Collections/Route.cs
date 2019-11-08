@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -7,10 +8,10 @@ namespace Juniper.Collections
 {
     [Serializable]
     public class Route<ValueT> :
-        IRoute<ValueT>,
         ISerializable,
-        IEquatable<Route<ValueT>>,
-        IComparable<Route<ValueT>>
+        IComparable,
+        IComparable<Route<ValueT>>,
+        IEquatable<Route<ValueT>>
         where ValueT : IComparable<ValueT>
     {
         public static Route<ValueT> operator +(Route<ValueT> left, Route<ValueT> right)
@@ -41,21 +42,21 @@ namespace Juniper.Collections
                 }
             }
 
-            var newNodes = new ValueT[left.nodes.Length + right.nodes.Length - 1];
+            var newNodes = new ValueT[left.Count + right.Count - 1];
             var reverseNodes = left.Start.Equals(right.Start) || left.Start.Equals(right.End);
             var reverseExtra = left.Start.Equals(right.Start) || left.End.Equals(right.End);
             reverseExtra = reverseExtra != reverseNodes;
 
-            Array.Copy(left.nodes, newNodes, left.nodes.Length);
+            Array.Copy(left.nodes, newNodes, left.Count);
             if (reverseNodes)
             {
-                Array.Reverse(newNodes, 0, left.nodes.Length);
+                Array.Reverse(newNodes, 0, left.Count);
             }
 
-            Array.Copy(right.nodes, reverseExtra ? 0 : 1, newNodes, left.nodes.Length, right.nodes.Length - 1);
+            Array.Copy(right.nodes, reverseExtra ? 0 : 1, newNodes, left.Count, right.Count - 1);
             if (reverseExtra)
             {
-                Array.Reverse(newNodes, left.nodes.Length, right.nodes.Length - 1);
+                Array.Reverse(newNodes, left.Count, right.Count - 1);
             }
 
             return new Route<ValueT>(left.Cost + right.Cost, newNodes);
@@ -88,6 +89,16 @@ namespace Juniper.Collections
         {
             return left is object && left.CompareTo(right) == 1
                 || right is object && right.CompareTo(left) == -1;
+        }
+
+        public static bool operator <=(Route<ValueT> left, Route<ValueT> right)
+        {
+            return left < right || left == right;
+        }
+
+        public static bool operator >=(Route<ValueT> left, Route<ValueT> right)
+        {
+            return left > right || left == right;
         }
 
         private readonly ValueT[] nodes;
@@ -207,14 +218,9 @@ namespace Juniper.Collections
                 && Equals(other);
         }
 
-        public bool Equals(IRoute<ValueT> other)
-        {
-            return CompareTo(other) == 0;
-        }
-
         public bool Equals(Route<ValueT> other)
         {
-            return Equals((IRoute<ValueT>)other);
+            return CompareTo(other) == 0;
         }
 
         public int CompareTo(object obj)
@@ -222,7 +228,7 @@ namespace Juniper.Collections
             return CompareTo(obj as Route<ValueT>);
         }
 
-        public int CompareTo(IRoute<ValueT> other)
+        public int CompareTo(Route<ValueT> other)
         {
             if (other is null)
             {
@@ -246,11 +252,6 @@ namespace Juniper.Collections
             }
         }
 
-        public int CompareTo(Route<ValueT> other)
-        {
-            return CompareTo((IRoute<ValueT>)other);
-        }
-
         public override int GetHashCode()
         {
             var hash = Cost.GetHashCode();
@@ -269,34 +270,35 @@ namespace Juniper.Collections
         public bool Contains(Route<ValueT> other)
         {
             if (other is null
-                || nodes.Length < other.nodes.Length)
+                || nodes.Length < other.Count)
             {
                 return false;
             }
 
-            var offset = Array.IndexOf(nodes, other.nodes[0]);
+            var otherNodes = other.Nodes.ToArray();
+            var offset = Array.IndexOf(nodes, otherNodes[0]);
             if (offset == -1)
             {
                 return false;
             }
 
-            return Contain(other, offset, 1)
-                || Contain(other, offset, -1);
+            return Contain(otherNodes, offset, 1)
+                || Contain(otherNodes, offset, -1);
         }
 
-        private bool Contain(Route<ValueT> other, int offset, int direction)
+        private bool Contain(ValueT[] otherNodes, int offset, int direction)
         {
-            var end = offset + direction * (other.nodes.Length - 1);
+            var end = offset + direction * (otherNodes.Length - 1);
             if (!(0 <= end && end < nodes.Length))
             {
                 return false;
             }
 
-            for (int a = offset, b = 0; b < other.nodes.Length;
+            for (int a = offset, b = 0; b < otherNodes.Length;
                 a += direction,
                 ++b)
             {
-                if (!nodes[a].Equals(other.nodes[b]))
+                if (!nodes[a].Equals(otherNodes[b]))
                 {
                     return false;
                 }
@@ -325,14 +327,15 @@ namespace Juniper.Collections
             }
             else
             {
+                var otherNodes = other.Nodes.ToArray();
                 for (var i = 0; i < nodes.Length; ++i)
                 {
                     var a = nodes[i];
                     var isInternalA = i != 0 && i != nodes.Length - 1;
-                    for (var j = 0; j < other.nodes.Length; ++j)
+                    for (var j = 0; j < otherNodes.Length; ++j)
                     {
-                        var b = other.nodes[j];
-                        var isInternalB = j != 0 && j != other.nodes.Length - 1;
+                        var b = otherNodes[j];
+                        var isInternalB = j != 0 && j != otherNodes.Length - 1;
                         if (a.Equals(b)
                             && (isInternalA
                                 || isInternalB))

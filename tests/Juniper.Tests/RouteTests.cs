@@ -304,5 +304,59 @@ namespace Juniper.Collections.Tests
             Assert.IsFalse(routeA.Contains(routeB));
             Assert.IsTrue(routeB.Contains(routeA));
         }
+
+        [TestMethod]
+        public void Path3ContainsPath3()
+        {
+            var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xf00d);
+            var routeB = new Route<int>(1, 0xbad, 0xbeef, 0xf00d);
+            Assert.IsTrue(routeA.Contains(routeB));
+            Assert.IsTrue(routeB.Contains(routeA));
+        }
+
+        [TestMethod]
+        public void ReversePath3ContainsPath3()
+        {
+            var routeA = ~new Route<int>(1, 0xbad, 0xbeef, 0xf00d);
+            var routeB = new Route<int>(1, 0xbad, 0xbeef, 0xf00d);
+            Assert.IsTrue(routeA.Contains(routeB));
+            Assert.IsTrue(routeB.Contains(routeA));
+        }
+
+        [TestMethod]
+        public void Path3ContainsReversePath3()
+        {
+            var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xf00d);
+            var routeB = ~new Route<int>(1, 0xbad, 0xbeef, 0xf00d);
+            Assert.IsTrue(routeA.Contains(routeB));
+            Assert.IsTrue(routeB.Contains(routeA));
+        }
+
+        [TestMethod]
+        public void Path3DoesntContainPath3()
+        {
+            var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xf003);
+            var routeB = new Route<int>(1, 0xbad, 0xbeef, 0xf00d);
+            Assert.IsFalse(routeA.Contains(routeB));
+            Assert.IsFalse(routeB.Contains(routeA));
+        }
+
+        [TestMethod]
+        public void ReversePath3DoesntContainPath3()
+        {
+            var routeA = ~new Route<int>(1, 0xbad, 0xbeef, 0xf003);
+            var routeB = new Route<int>(1, 0xbad, 0xbeef, 0xf00d);
+            Assert.IsFalse(routeA.Contains(routeB));
+            Assert.IsFalse(routeB.Contains(routeA));
+        }
+
+        [TestMethod]
+        public void Path3DoesntContainReversePath3()
+        {
+            var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xf003);
+            var routeB = ~new Route<int>(1, 0xbad, 0xbeef, 0xf00d);
+            Assert.IsFalse(routeA.Contains(routeB));
+            Assert.IsFalse(routeB.Contains(routeA));
+        }
     }
 }

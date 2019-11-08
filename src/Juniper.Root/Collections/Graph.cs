@@ -97,7 +97,7 @@ namespace Juniper.Collections
             if (!startPoint.Equals(endPoint))
             {
                 var newRoute = new Route<NodeT>(cost, startPoint, endPoint);
-                var curRoute = (Route<NodeT>)GetRoute(startPoint, endPoint);
+                var curRoute = GetRoute(startPoint, endPoint);
                 if (newRoute != curRoute)
                 {
                     dirty = true;
@@ -206,7 +206,7 @@ namespace Juniper.Collections
                 && network[startPoint].ContainsKey(endPoint);
         }
 
-        public IRoute<NodeT> GetRoute(NodeT startPoint, NodeT endPoint)
+        public Route<NodeT> GetRoute(NodeT startPoint, NodeT endPoint)
         {
             return RouteExists(startPoint, endPoint)
                 ? network[startPoint][endPoint]
@@ -308,7 +308,7 @@ namespace Juniper.Collections
                         if (route.CanConnectTo(extension))
                         {
                             var nextRoute = route + extension;
-                            var curRoute = (Route<NodeT>)GetRoute(nextRoute.Start, nextRoute.End);
+                            var curRoute = GetRoute(nextRoute.Start, nextRoute.End);
                             if (nextRoute < curRoute)
                             {
                                 toAdd.Add(nextRoute);
