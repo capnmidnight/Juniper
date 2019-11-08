@@ -14,6 +14,10 @@ namespace Juniper.Collections
 
         int Count { get; }
 
+        bool IsConnection { get; }
+
+        bool IsPath { get; }
+
         ValueT Start { get; }
 
         ValueT End { get; }

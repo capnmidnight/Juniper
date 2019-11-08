@@ -39,20 +39,14 @@ namespace Juniper.Collections
                 graph.endPointNames.Add(pair.Value, pair.Key);
             }
 
-            foreach (var schedule in network.Values)
+            foreach (var route in Connections)
             {
-                foreach (var route in schedule.Values)
+                if (!graph.network.ContainsKey(route.Start))
                 {
-                    if (route.Count == 2)
-                    {
-                        if (!graph.network.ContainsKey(route.Start))
-                        {
-                            graph.network[route.Start] = new Schedule();
-                        }
-
-                        graph.network[route.Start][route.End] = route;
-                    }
+                    graph.network[route.Start] = new Schedule();
                 }
+
+                graph.network[route.Start][route.End] = route;
             }
 
             graph.dirty = true;
@@ -67,7 +61,7 @@ namespace Juniper.Collections
             endPointNames = namedEndPoints.Invert();
             network = new Network();
             var routes = info.GetValue<Route<NodeT>[]>(nameof(network));
-            foreach(var route in routes)
+            foreach (var route in routes)
             {
                 FillNetworks(route);
             }
@@ -101,7 +95,7 @@ namespace Juniper.Collections
         {
             if (!startPoint.Equals(endPoint))
             {
-                var newRoute = new Route<NodeT>(startPoint, endPoint, cost);
+                var newRoute = new Route<NodeT>(cost, startPoint, endPoint);
                 var curRoute = (Route<NodeT>)GetRoute(startPoint, endPoint);
                 if (newRoute != curRoute)
                 {
@@ -109,7 +103,9 @@ namespace Juniper.Collections
 
                     if (curRoute != null)
                     {
-                        Remove(curRoute);
+                        RemoveRoutes(from route in Routes
+                                     where route.Contains(curRoute)
+                                     select route);
                     }
 
                     FillNetworks(newRoute);
@@ -133,50 +129,67 @@ namespace Juniper.Collections
             network[route.Start][route.End] = route;
         }
 
+        public IEnumerable<Route<NodeT>> Routes
+        {
+            get
+            {
+                return from schedule in network.Values
+                       from r in schedule.Values
+                       select r;
+            }
+        }
+
+        public IEnumerable<Route<NodeT>> Connections
+        {
+            get
+            {
+                return from route in Routes
+                       where route.IsConnection
+                       select route;
+            }
+        }
+
+        public IEnumerable<Route<NodeT>> Paths
+        {
+            get
+            {
+                return from route in Routes
+                       where route.IsPath
+                       select route;
+            }
+        }
+
         private void Compress()
         {
-            RemoveRoutes(from schedule in network.Values
-                         from r in schedule.Values
-                         where r.Count > 2
-                         select r);
-        }
-
-        public void Remove(Route<NodeT> route)
-        {
-            RemoveRoutes(from schedule in network.Values
-                         from r in schedule.Values
-                         where r.Overlaps(route)
-                         select r);
-        }
-
-        public void Remove(NodeT node)
-        {
-            RemoveRoutes(from schedule in network.Values
-                         from route in schedule.Values
-                         where route.Contains(node)
-                         select route);
+            RemoveRoutes(Paths);
         }
 
         public void Disconnect(NodeT start, NodeT end)
         {
-            var connections = (from schedule in network.Values
-                               from route in schedule.Values
-                               where route.Count == 2
-                                  && route.Contains(start)
-                                  && route.Contains(end)
-                               select route).ToArray();
-            foreach(var connection in connections)
-            {
-                Remove(connection);
-            }
+            RemoveRoutes(from connect in Connections
+                         where connect.Contains(start)
+                            && connect.Contains(end)
+                         from route in Routes
+                         where route == connect
+                            || ((route.Contains(connect.Start)
+                                    || route.Contains(connect.End))
+                                && route.IntersectsWith(connect))
+                         select route);
+        }
+
+        public void Remove(NodeT node)
+        {
+            RemoveRoutes(from route in Routes
+                         where route.Contains(node)
+                         select route);
         }
 
         private void RemoveRoutes(IEnumerable<Route<NodeT>> toRemove)
         {
-            toRemove = toRemove.ToArray();
-            foreach (var r in toRemove)
+            var arr = toRemove.ToArray();
+            dirty |= arr.Length > 0;
+            foreach (var r in arr)
             {
-                dirty = true;
                 network[r.Start].Remove(r.End);
                 if (network[r.Start].Count == 0)
                 {
@@ -219,7 +232,7 @@ namespace Juniper.Collections
         {
             foreach (var route in GetRoutes(node))
             {
-                if (route.Count == 2)
+                if (route.IsConnection)
                 {
                     yield return route.End;
                 }
@@ -296,7 +309,7 @@ namespace Juniper.Collections
                     var route = q.Dequeue();
                     foreach (var extension in GetRoutes(route.End))
                     {
-                        if (!route.Overlaps(extension))
+                        if (route.CanConnectTo(extension))
                         {
                             var nextRoute = route + extension;
                             var curRoute = (Route<NodeT>)GetRoute(nextRoute.Start, nextRoute.End);

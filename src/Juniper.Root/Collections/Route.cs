@@ -13,23 +13,6 @@ namespace Juniper.Collections
         IComparable<Route<ValueT>>
         where ValueT : IComparable<ValueT>
     {
-        private static bool CheckOverlap(ValueT[] nodesA, ValueT[] nodesB, int i, int start, int delta)
-        {
-            for (int j = start + delta;
-                0 <= j && j < nodesB.Length && i < nodesA.Length;
-                j += delta, ++i)
-            {
-                var a = nodesA[i];
-                var b = nodesB[j];
-                if (a.Equals(b))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         public static Route<ValueT> operator +(Route<ValueT> left, Route<ValueT> right)
         {
             if (left is null)
@@ -44,9 +27,13 @@ namespace Juniper.Collections
 
             if (!left.CanConnectTo(right))
             {
-                if (left.Overlaps(right))
+                if (left.IntersectsWith(right))
                 {
                     throw new InvalidOperationException($"The provided routes overlap:\n\t{left}\n\t{right}");
+                }
+                else if (left.IsParallelTo(right))
+                {
+                    throw new InvalidOperationException($"The provided routes start and end at the same location:\n\t{left}\n\t{right}");
                 }
                 else
                 {
@@ -54,30 +41,24 @@ namespace Juniper.Collections
                 }
             }
 
-            return left.Extend(
-                right.nodes, right.Cost,
-                left.Start.Equals(right.Start) || left.Start.Equals(right.End),
-                left.Start.Equals(right.Start) || left.End.Equals(right.End));
-        }
+            var newNodes = new ValueT[left.nodes.Length + right.nodes.Length - 1];
+            var reverseNodes = left.Start.Equals(right.Start) || left.Start.Equals(right.End);
+            var reverseExtra = left.Start.Equals(right.Start) || left.End.Equals(right.End);
+            reverseExtra = reverseExtra != reverseNodes;
 
-        private Route<ValueT> Extend(ValueT[] extraNodes, float extraCost, bool reverseNodes, bool reverseExtra)
-        {
-            var newNodes = new ValueT[nodes.Length + extraNodes.Length - 1];
-
-            Array.Copy(nodes, newNodes, nodes.Length);
+            Array.Copy(left.nodes, newNodes, left.nodes.Length);
             if (reverseNodes)
             {
-                Array.Reverse(newNodes, 0, nodes.Length);
+                Array.Reverse(newNodes, 0, left.nodes.Length);
             }
 
-            reverseExtra = reverseExtra != reverseNodes;
-            Array.Copy(extraNodes, reverseExtra ? 0 : 1, newNodes, nodes.Length, extraNodes.Length - 1);
+            Array.Copy(right.nodes, reverseExtra ? 0 : 1, newNodes, left.nodes.Length, right.nodes.Length - 1);
             if (reverseExtra)
             {
-                Array.Reverse(newNodes, nodes.Length, extraNodes.Length - 1);
+                Array.Reverse(newNodes, left.nodes.Length, right.nodes.Length - 1);
             }
 
-            return new Route<ValueT>(newNodes, Cost + extraCost);
+            return new Route<ValueT>(newNodes, left.Cost + right.Cost);
         }
 
         public static Route<ValueT> operator ~(Route<ValueT> path)
@@ -114,11 +95,27 @@ namespace Juniper.Collections
         private Route(IEnumerable<ValueT> edges, float cost)
         {
             nodes = edges.ToArray();
+
+            if (nodes.Length < 2)
+            {
+                throw new InvalidOperationException("Route must have more than 1 node.");
+            }
+
+            for (var i = 0; i < nodes.Length - 1; ++i)
+            {
+                for (var j = i + 1; j < nodes.Length; ++j)
+                {
+                    if (nodes[i].Equals(nodes[j]))
+                    {
+                        throw new InvalidOperationException($"Edges must be a collection of distinct values. Found a duplicate at indices {i} and {j}");
+                    }
+                }
+            }
             Cost = cost;
         }
 
-        public Route(ValueT a, ValueT b, float cost)
-            : this(new[] { a, b }, cost)
+        public Route(float cost, params ValueT[] nodes)
+            : this(nodes, cost)
         { }
 
         protected Route(SerializationInfo info, StreamingContext context)
@@ -151,6 +148,22 @@ namespace Juniper.Collections
             get
             {
                 return nodes.Length;
+            }
+        }
+
+        public bool IsConnection
+        {
+            get
+            {
+                return Count == 2;
+            }
+        }
+
+        public bool IsPath
+        {
+            get
+            {
+                return Count > 2;
             }
         }
 
@@ -188,7 +201,7 @@ namespace Juniper.Collections
 
         public int CompareTo(object obj)
         {
-            return CompareTo(obj as Route<ValueT>);                
+            return CompareTo(obj as Route<ValueT>);
         }
 
         public int CompareTo(IRoute<ValueT> other)
@@ -222,8 +235,8 @@ namespace Juniper.Collections
 
         public override int GetHashCode()
         {
-            int hash = Cost.GetHashCode();
-            foreach(var node in nodes)
+            var hash = Cost.GetHashCode();
+            foreach (var node in nodes)
             {
                 hash ^= node.GetHashCode();
             }
@@ -235,7 +248,58 @@ namespace Juniper.Collections
             return nodes.Contains(x);
         }
 
-        public bool Overlaps(Route<ValueT> other)
+        public bool Contains(Route<ValueT> other)
+        {
+            if (other is null
+                || nodes.Length < other.nodes.Length)
+            {
+                return false;
+            }
+
+            var offset = Array.IndexOf(nodes, other.nodes[0]);
+            if (offset == -1)
+            {
+                return false;
+            }
+
+            return Contain(other, offset, 1)
+                || Contain(other, offset, -1);
+        }
+
+        private bool Contain(Route<ValueT> other, int offset, int direction)
+        {
+            var end = offset + direction * (other.nodes.Length - 1);
+            if (!(0 <= end && end < nodes.Length))
+            {
+                return false;
+            }
+
+            for (int a = offset, b = 0; b < other.nodes.Length;
+                a += direction,
+                ++b)
+            {
+                if (!nodes[a].Equals(other.nodes[b]))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool CanConnectTo(Route<ValueT> other)
+        {
+            return other is object
+                && !IsParallelTo(other)
+                && !IntersectsWith(other);
+        }
+
+        public bool IsParallelTo(Route<ValueT> right)
+        {
+            return Start.Equals(right.Start) && End.Equals(right.End)
+                || Start.Equals(right.End) && End.Equals(right.Start);
+        }
+
+        public bool IntersectsWith(Route<ValueT> other)
         {
             if (other is null)
             {
@@ -246,31 +310,21 @@ namespace Juniper.Collections
                 for (var i = 0; i < nodes.Length; ++i)
                 {
                     var a = nodes[i];
-                    var start = Array.IndexOf(other.nodes, a);
-                    if (start > -1)
+                    var isInternalA = i != 0 && i != nodes.Length - 1;
+                    for (var j = 0; j < other.nodes.Length; ++j)
                     {
-                        return CheckOverlap(nodes, other.nodes, i + 1, start, 1)
-                            || CheckOverlap(nodes, other.nodes, i + 1, start, -1);
+                        var b = other.nodes[j];
+                        var isInternalB = j != 0 && j != other.nodes.Length - 1;
+                        if (a.Equals(b)
+                            && (isInternalA
+                                || isInternalB))
+                        {
+                            return true;
+                        }
                     }
                 }
 
                 return false;
-            }
-        }
-
-        public bool CanConnectTo(Route<ValueT> other)
-        {
-            if (other is null)
-            {
-                return false;
-            }
-            else
-            {
-                return (Start.Equals(other.Start)
-                        || End.Equals(other.End)
-                        || Start.Equals(other.End)
-                        || End.Equals(other.Start))
-                    && !Overlaps(other);
             }
         }
 

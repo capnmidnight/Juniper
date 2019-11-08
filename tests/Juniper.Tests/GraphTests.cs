@@ -8,141 +8,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Collections.Tests
 {
+
     [TestClass]
     public class GraphTests
     {
-        [TestMethod]
-        public void ListContainsReversedRoute()
-        {
-            var list = new List<Route<int>>();
-            var route = new Route<int>(0xbad, 0xf00d, 5);
-            list.Add(route);
-            var reverse = ~route;
-            Assert.IsTrue(list.Contains(route));
-            Assert.IsTrue(list.Contains(reverse));
-        }
-
-        [TestMethod]
-        public void ListRemoveReversedRoute()
-        {
-            var list = new List<Route<int>>();
-            var route = new Route<int>(0xbad, 0xf00d, 5);
-            list.Add(route);
-            var reverse = ~route;
-            list.Remove(reverse);
-            Assert.AreEqual(0, list.Count);
-        }
-
-        [TestMethod]
-        public void DistinctRoutes()
-        {
-            var route = new Route<int>(0xbad, 0xf00d, 5);
-            var routes = new[]
-            {
-                route,
-                ~route
-            };
-
-            var distinctRoutes = routes.Distinct().ToArray();
-
-            Assert.AreEqual(routes[0], routes[1]);
-            Assert.AreEqual(1, distinctRoutes.Length);
-            Assert.AreEqual(route, distinctRoutes[0]);
-        }
-
-        [TestMethod]
-        public void ConcatShortRoutes()
-        {
-            var routeA = new Route<int>(0xbad, 0xbeef, 1);
-            var routeB = new Route<int>(0xbeef, 0xdead, 1);
-            var routeC = ~routeA;
-            var routeD = ~routeB;
-
-            var a = routeA + routeB;
-            var b = routeA + routeD;
-            var c = routeB + routeA;
-            var d = routeB + routeC;
-
-            Assert.AreEqual(a, b);
-            Assert.AreEqual(a, c);
-            Assert.AreEqual(a, d);
-            Assert.AreEqual(b, c);
-            Assert.AreEqual(b, d);
-            Assert.AreEqual(c, d);
-        }
-
-        [TestMethod]
-        public void ConcatMediumRoutes()
-        {
-            var routeA = new Route<int>(0xbad, 0xbeef, 1)
-                + new Route<int>(0xbeef, 0xdead, 1);
-            var routeB = new Route<int>(0xdead, 0xf00f, 1)
-                + new Route<int>(0xf00f, 0x1337, 1);
-            var routeC = ~routeA;
-            var routeD = ~routeB;
-
-            var a = routeA + routeB;
-            var b = routeA + routeD;
-            var c = routeB + routeA;
-            var d = routeB + routeC;
-
-            Assert.AreEqual(a, b);
-            Assert.AreEqual(a, c);
-            Assert.AreEqual(a, d);
-            Assert.AreEqual(b, c);
-            Assert.AreEqual(b, d);
-            Assert.AreEqual(c, d);
-        }
-
-        [TestMethod]
-        public void ConcatLongRoutes()
-        {
-            var routeA = new Route<int>(0xbad, 0xbeef, 1)
-                + new Route<int>(0xbeef, 0xdead, 1)
-                + new Route<int>(0xdead, 0xf00f, 1);
-            var routeB = new Route<int>(0xf00f, 0x1337, 1)
-                + new Route<int>(0x1337, 0x4444, 1)
-                + new Route<int>(0x4444, 0xaaaa, 1);
-            var routeC = ~routeA;
-            var routeD = ~routeB;
-
-            var a = routeA + routeB;
-            var b = routeA + routeD;
-            var c = routeB + routeA;
-            var d = routeB + routeC;
-
-            Assert.AreEqual(a, b);
-            Assert.AreEqual(a, c);
-            Assert.AreEqual(a, d);
-            Assert.AreEqual(b, c);
-            Assert.AreEqual(b, d);
-            Assert.AreEqual(c, d);
-        }
-
-        [TestMethod]
-        public void SinglePointOverlap()
-        {
-            var routeA = new Route<int>(0xbad, 0xbeef, 1)
-                + new Route<int>(0xbeef, 0xdead, 1);
-            var routeB = new Route<int>(0xdead, 0xbeef, 1)
-                + new Route<int>(0xbeef, 0x1337, 1);
-            Assert.IsTrue(routeA.Overlaps(routeB));
-            Assert.IsTrue(routeB.Overlaps(routeA));
-        }
-
-        [TestMethod]
-        public void TwoPointOverlap()
-        {
-            var routeA = new Route<int>(0xbad, 0xbeef, 1)
-                + new Route<int>(0xbeef, 0xdead, 1)
-                + new Route<int>(0xdead, 0xf00f, 1);
-            var routeB = new Route<int>(0xf00f, 0xbeef, 1)
-                + new Route<int>(0xbeef, 0xdead, 1)
-                + new Route<int>(0xdead, 0xaaaa, 1);
-            Assert.IsTrue(routeA.Overlaps(routeB));
-            Assert.IsTrue(routeB.Overlaps(routeA));
-        }
-
         [TestMethod]
         public void OneConnection()
         {
@@ -152,9 +21,15 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var route = graph.GetRoute("a", "b");
+            var connectsA = graph.GetConnections("a");
+            var connectsB = graph.GetConnections("b");
 
             Assert.IsNotNull(route);
             Assert.AreEqual(1, route.Cost);
+            Assert.IsTrue(connectsA.Contains("b"));
+            Assert.IsTrue(connectsB.Contains("a"));
+            Assert.IsFalse(connectsA.Contains("a"));
+            Assert.IsFalse(connectsB.Contains("b"));
         }
 
         [TestMethod]
@@ -167,9 +42,12 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var route = graph.GetRoute("a", "c");
+            var connectsB = graph.GetConnections("b");
 
             Assert.IsNotNull(route);
             Assert.AreEqual(2, route.Cost);
+            Assert.IsTrue(connectsB.Contains("a"));
+            Assert.IsTrue(connectsB.Contains("c"));
         }
 
         [TestMethod]
@@ -182,9 +60,12 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var route = graph.GetRoute("a", "c");
+            var connectsB = graph.GetConnections("b");
 
             Assert.IsNotNull(route);
             Assert.AreEqual(2, route.Cost);
+            Assert.IsTrue(connectsB.Contains("a"));
+            Assert.IsTrue(connectsB.Contains("c"));
         }
 
         [TestMethod]
@@ -216,10 +97,10 @@ namespace Juniper.Collections.Tests
             var graph = new Graph<string>();
             graph.Connect("a", "b", 1);
             graph.Connect("c", "d", 1);
-            graph.AddEndPoint("c");
+            graph.AddEndPoint("d");
             graph.Solve();
 
-            var route = graph.GetRoute("a", "c");
+            var route = graph.GetRoute("a", "d");
 
             Assert.IsNull(route);
         }
@@ -234,10 +115,15 @@ namespace Juniper.Collections.Tests
             graph.AddEndPoint("d");
             graph.Solve();
 
-            var route = graph.GetRoute("a", "d");
+            var routeA = graph.GetRoute("a", "d");
+            var routeB = graph.GetRoute("d", "a");
+            var paths = graph.GetRoutes("d");
 
-            Assert.IsNotNull(route);
-            Assert.AreEqual(3, route.Cost);
+            Assert.IsNotNull(routeA);
+            Assert.IsNotNull(routeB);
+            Assert.AreEqual(3, routeA.Cost);
+            Assert.AreEqual(routeA, routeB);
+            Assert.AreEqual(3, paths.Count());
         }
 
         [TestMethod]
@@ -276,7 +162,29 @@ namespace Juniper.Collections.Tests
 
             Assert.IsNotNull(routeA);
             Assert.IsNotNull(routeB);
-            Assert.IsTrue(routeA.Cost < routeB.Cost);
+            Assert.AreNotEqual(routeA, routeB);
+        }
+
+        [TestMethod]
+        public void SimpleClone()
+        {
+            var graphA = new Graph<string>();
+            graphA.Connect("a", "b", 1);
+            graphA.Connect("b", "c", 1);
+            graphA.Connect("c", "d", 1);
+            graphA.Connect("a", "d", 1);
+            graphA.AddEndPoint("d");
+            graphA.Solve();
+
+            var graphB = graphA.Clone();
+            graphB.Solve();
+
+            var routeA = graphA.GetRoute("a", "d");
+            var routeB = graphB.GetRoute("d", "a");
+
+            Assert.IsNotNull(routeA);
+            Assert.IsNotNull(routeB);
+            Assert.AreEqual(routeA, routeB);
         }
 
         [TestMethod]
@@ -328,12 +236,13 @@ namespace Juniper.Collections.Tests
             graph.Solve();
 
             var routeA = graph.GetRoute(start, end);
+            Assert.IsNotNull(routeA);
+
             graph.Connect(1371, 3464, 2);
             graph.Solve();
 
             var routeB = graph.GetRoute(start, end);
 
-            Assert.IsNotNull(routeA);
             Assert.IsNotNull(routeB);
             Assert.IsTrue(routeB.Cost > routeA.Cost);
         }
