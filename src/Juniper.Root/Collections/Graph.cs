@@ -75,11 +75,9 @@ namespace Juniper.Collections
         {
             // Serialize only the minimal information that we need to restore
             // the graph.
-            Compress();
             info.AddList(nameof(endPoints), endPoints);
             info.AddValue(nameof(namedEndPoints), namedEndPoints);
-            var routes = (from schedule in network.Values
-                          from route in schedule.Values
+            var routes = (from route in Connections
                           select route)
                         .Distinct()
                         .ToArray();
