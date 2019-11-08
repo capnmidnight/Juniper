@@ -96,21 +96,23 @@ namespace Juniper.Collections
         {
             if (!startPoint.Equals(endPoint))
             {
-                var newRoute = new Route<NodeT>(cost, startPoint, endPoint);
-                var curRoute = GetRoute(startPoint, endPoint);
-                if (newRoute != curRoute)
+                AddRoute(new Route<NodeT>(cost, startPoint, endPoint));
+            }
+        }
+
+        private void AddRoute(Route<NodeT> route)
+        {
+            var curRoute = GetRoute(route.Start, route.End);
+            if (route != curRoute)
+            {
+                if (curRoute != null)
                 {
-                    dirty = true;
-
-                    if (curRoute != null)
-                    {
-                        RemoveRoutes(from route in Routes
-                                     where route.Contains(curRoute)
-                                     select route);
-                    }
-
-                    FillNetworks(newRoute);
+                    RemoveRoutes(from r in Routes
+                                 where r.Contains(curRoute)
+                                 select r);
                 }
+
+                FillNetworks(route);
             }
         }
 
@@ -127,7 +129,12 @@ namespace Juniper.Collections
                 network[route.Start] = new Schedule();
             }
 
-            network[route.Start][route.End] = route;
+            if (!network[route.Start].ContainsKey(route.End)
+                || route != network[route.Start][route.End])
+            {
+                dirty = true;
+                network[route.Start][route.End] = route;
+            }
         }
 
         public IEnumerable<Route<NodeT>> Routes
@@ -293,41 +300,48 @@ namespace Juniper.Collections
             {
                 RemoveRoutes(Paths);
 
-                var stack = new Stack<Route<NodeT>>(
-                    from endPoint in endPoints
-                    from route in GetRoutes(endPoint)
-                    select route);
-
-                var toAdd = new List<Route<NodeT>>();
-
-                while (stack.Count > 0)
+                int added;
+                do
                 {
-                    var route = stack.Pop();
-                    foreach (var extension in GetRoutes(route.End))
+                    added = 0;
+
+                    var stack = new Stack<Route<NodeT>>(
+                        from endPoint in endPoints
+                        from route in GetRoutes(endPoint)
+                        select route);
+
+                    var toAdd = new List<Route<NodeT>>();
+
+                    while (stack.Count > 0)
                     {
-                        if (route.CanConnectTo(extension))
+                        var route = stack.Pop();
+                        foreach (var extension in GetRoutes(route.End))
                         {
-                            var nextCost = route.Cost + extension.Cost;
-                            var nextCount = route.Count + extension.Count - 1;
-                            var curRoute = GetRoute(route.Start, extension.End);
-                            if (curRoute is null
-                                || curRoute.Cost > nextCost
-                                || curRoute.Cost == nextCost
-                                    && curRoute.Count > nextCount)
+                            if (route.CanConnectTo(extension))
                             {
-                                toAdd.MaybeAdd(route + extension);
+                                var nextCost = route.Cost + extension.Cost;
+                                var nextCount = route.Count + extension.Count - 1;
+                                var curRoute = GetRoute(route.Start, extension.End);
+                                if (curRoute is null
+                                    || curRoute.Cost > nextCost
+                                    || curRoute.Cost == nextCost
+                                        && curRoute.Count > nextCount)
+                                {
+                                    toAdd.MaybeAdd(route + extension);
+                                }
                             }
                         }
-                    }
 
-                    foreach (var nextRoute in toAdd)
-                    {
-                        FillNetworks(nextRoute);
-                        stack.Push(nextRoute);
-                    }
+                        foreach (var nextRoute in toAdd)
+                        {
+                            AddRoute(nextRoute);
+                            stack.Push(nextRoute);
+                        }
 
-                    toAdd.Clear();
-                }
+                        added += toAdd.Count;
+                        toAdd.Clear();
+                    }
+                } while (added > 0);
 
                 dirty = false;
             }
