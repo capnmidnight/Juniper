@@ -10,15 +10,6 @@ namespace Juniper.Collections.Tests
     public class RouteTests
     {
         [TestMethod]
-        public void InvalidRoutes()
-        {
-            Assert.ThrowsException<InvalidOperationException>(() =>
-                new Route<int>(1));
-            Assert.ThrowsException<InvalidOperationException>(() =>
-                new Route<int>(1, 2));
-        }
-
-        [TestMethod]
         public void ValidShortRoute()
         {
             Assert.IsNotNull(new Route<int>(1, 2, 3));

@@ -284,6 +284,7 @@ namespace Juniper.Collections
             {
                 RemoveRoutes(Paths);
             }
+
             while (dirty)
             {
                 dirty = false;

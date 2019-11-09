@@ -59,7 +59,7 @@ namespace Juniper.Collections
                 Array.Reverse(newNodes, left.Count, right.Count - 1);
             }
 
-            return new Route<ValueT>(left.Cost + right.Cost, newNodes);
+            return new Route<ValueT>(false, newNodes, left.Cost + right.Cost);
         }
 
         public static Route<ValueT> operator ~(Route<ValueT> path)
@@ -109,16 +109,9 @@ namespace Juniper.Collections
 
             nodes = edges.ToArray();
 
-            if (nodes.Length < 2)
+            if (!validate && nodes.Length < 2)
             {
-                if (validate)
-                {
-                    throw new InvalidOperationException("Route must have more than 1 node.");
-                }
-                else
-                {
-                    IsValid = false;
-                }
+                IsValid = false;
             }
 
             for (var i = 0; i < nodes.Length - 1; ++i)
@@ -141,8 +134,8 @@ namespace Juniper.Collections
             Cost = cost;
         }
 
-        public Route(float cost, params ValueT[] nodes)
-            : this(true, nodes, cost)
+        public Route(float cost, ValueT firstNode, ValueT secondNode, params ValueT[] nodes)
+            : this(true, nodes.Prepend(secondNode).Prepend(firstNode), cost)
         { }
 
         protected Route(SerializationInfo info, StreamingContext context)
@@ -275,15 +268,14 @@ namespace Juniper.Collections
                 return false;
             }
 
-            var otherNodes = other.Nodes.ToArray();
-            var offset = Array.IndexOf(nodes, otherNodes[0]);
+            var offset = Array.IndexOf(nodes, other.nodes[0]);
             if (offset == -1)
             {
                 return false;
             }
 
-            return Contain(otherNodes, offset, 1)
-                || Contain(otherNodes, offset, -1);
+            return Contain(other.nodes, offset, 1)
+                || Contain(other.nodes, offset, -1);
         }
 
         private bool Contain(ValueT[] otherNodes, int offset, int direction)
@@ -327,15 +319,14 @@ namespace Juniper.Collections
             }
             else
             {
-                var otherNodes = other.Nodes.ToArray();
                 for (var i = 0; i < nodes.Length; ++i)
                 {
                     var a = nodes[i];
                     var isInternalA = i != 0 && i != nodes.Length - 1;
-                    for (var j = 0; j < otherNodes.Length; ++j)
+                    for (var j = 0; j < other.nodes.Length; ++j)
                     {
-                        var b = otherNodes[j];
-                        var isInternalB = j != 0 && j != otherNodes.Length - 1;
+                        var b = other.nodes[j];
+                        var isInternalB = j != 0 && j != other.nodes.Length - 1;
                         if (a.Equals(b)
                             && (isInternalA
                                 || isInternalB))
