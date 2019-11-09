@@ -1,0 +1,393 @@
+{
+  "endPoints": [
+    "-ojOxjRVre4AAAQ7Lu2wRw",
+    "amiaXM5R3cwAAAQ7LugBgA",
+    "CAoSLEFGMVFpcE5zc2JyWTlvTmtqbUlXRkpHOUdENjlFTUx0eU1qZDJQRU1XbGdv",
+    "CAoSLEFGMVFpcE9yUWwyVXhnTWNPTGt6YlE2OTRjbTkyWTlEdVkwSzFWTm9KODVX",
+    "qoV9Rva1Vf8AAAQ7LvHLQg",
+    "ssMUo5VMsAIAAAQZA4Psaw",
+    "ve91n9ThX8IAAAQY__G9Fw"
+  ],
+  "namedEndPoints": {
+    "Hotel": "-ojOxjRVre4AAAQ7Lu2wRw",
+    "Ask for directions to hotel": "amiaXM5R3cwAAAQ7LugBgA",
+    "View of Town": "CAoSLEFGMVFpcE5zc2JyWTlvTmtqbUlXRkpHOUdENjlFTUx0eU1qZDJQRU1XbGdv",
+    "Ancestor Hall": "CAoSLEFGMVFpcE9yUWwyVXhnTWNPTGt6YlE2OTRjbTkyWTlEdVkwSzFWTm9KODVX",
+    "Tea Shop": "qoV9Rva1Vf8AAAQ7LvHLQg",
+    "Ask for directions to restaurant": "ssMUo5VMsAIAAAQZA4Psaw",
+    "Restaurant": "ve91n9ThX8IAAAQY__G9Fw"
+  },
+  "network": [
+    {
+      "Cost": 11.6609411,
+      "nodes": [
+        "-ojOxjRVre4AAAQ7Lu2wRw",
+        "38AFaWTY1JwAAAQ7LutshQ"
+      ]
+    },
+    {
+      "Cost": 12.64637,
+      "nodes": [
+        "-ojOxjRVre4AAAQ7Lu2wRw",
+        "hLwzBUrfXGIAAAQY_y72Vw"
+      ]
+    },
+    {
+      "Cost": 17.14825,
+      "nodes": [
+        "38AFaWTY1JwAAAQ7LutshQ",
+        "Jr-rdaZSXXgAAAQ7Lu2tJA"
+      ]
+    },
+    {
+      "Cost": 10.1088314,
+      "nodes": [
+        "hLwzBUrfXGIAAAQY_y72Vw",
+        "seQwTh1UaEUAAAQZAPaYCg"
+      ]
+    },
+    {
+      "Cost": 11.5625,
+      "nodes": [
+        "Jr-rdaZSXXgAAAQ7Lu2tJA",
+        "lfjJBDOPnv0AAAQY_zEISQ"
+      ]
+    },
+    {
+      "Cost": 10.3684092,
+      "nodes": [
+        "seQwTh1UaEUAAAQZAPaYCg",
+        "KpUgnkiqGtEAAAQY__G9Hg"
+      ]
+    },
+    {
+      "Cost": 14.0870962,
+      "nodes": [
+        "lfjJBDOPnv0AAAQY_zEISQ",
+        "v-E7Vj-OuQoAAAQZAxFnmg"
+      ]
+    },
+    {
+      "Cost": 12.2348442,
+      "nodes": [
+        "KpUgnkiqGtEAAAQY__G9Hg",
+        "lxooyHVv4EUAAAQY__G9LQ"
+      ]
+    },
+    {
+      "Cost": 14.8588409,
+      "nodes": [
+        "v-E7Vj-OuQoAAAQZAxFnmg",
+        "B8VWNiDKsvQAAAQY__G9MA"
+      ]
+    },
+    {
+      "Cost": 11.0977545,
+      "nodes": [
+        "W_qS6GuLAVkAAAQ7Lutx8A",
+        "eJ7-Y7HA_1IAAAQY__G9Fg"
+      ]
+    },
+    {
+      "Cost": 12.5047255,
+      "nodes": [
+        "W_qS6GuLAVkAAAQ7Lutx8A",
+        "IivLMhWaTJgAAAQ7LuKC6w"
+      ]
+    },
+    {
+      "Cost": 30.9275875,
+      "nodes": [
+        "eJ7-Y7HA_1IAAAQY__G9Fg",
+        "ssMUo5VMsAIAAAQZA4Psaw"
+      ]
+    },
+    {
+      "Cost": 8.860023,
+      "nodes": [
+        "IivLMhWaTJgAAAQ7LuKC6w",
+        "tMthhMslwlYAAAQY_-0EbQ"
+      ]
+    },
+    {
+      "Cost": 11.8100605,
+      "nodes": [
+        "tMthhMslwlYAAAQY_-0EbQ",
+        "bMcdK82i2JEAAAQ7LuJ-Ow"
+      ]
+    },
+    {
+      "Cost": 11.4443283,
+      "nodes": [
+        "lxooyHVv4EUAAAQY__G9LQ",
+        "ydozjqOCm2wAAAQY_y72YA"
+      ]
+    },
+    {
+      "Cost": 7.09781,
+      "nodes": [
+        "B8VWNiDKsvQAAAQY__G9MA",
+        "lmJMiO4Xl5MAAAQY__G9Dw"
+      ]
+    },
+    {
+      "Cost": 5.05941248,
+      "nodes": [
+        "bMcdK82i2JEAAAQ7LuJ-Ow",
+        "lhbhTNq32Q0AAAQ7LuuiQA"
+      ]
+    },
+    {
+      "Cost": 5.76433325,
+      "nodes": [
+        "ydozjqOCm2wAAAQY_y72YA",
+        "4Gz5wOZ6KgQAAAQY__Nj_w"
+      ]
+    },
+    {
+      "Cost": 13.1482306,
+      "nodes": [
+        "ydozjqOCm2wAAAQY_y72YA",
+        "WHVXDIoJLeQAAAQ7LuuqZg"
+      ]
+    },
+    {
+      "Cost": 16.9719734,
+      "nodes": [
+        "lmJMiO4Xl5MAAAQY__G9Dw",
+        "TXhojDUtH88AAAQ7LvG7oA"
+      ]
+    },
+    {
+      "Cost": 9.753655,
+      "nodes": [
+        "lhbhTNq32Q0AAAQ7LuuiQA",
+        "tckK-rI4Sb0AAAQ7LugXdQ"
+      ]
+    },
+    {
+      "Cost": 5.06760931,
+      "nodes": [
+        "4Gz5wOZ6KgQAAAQY__Nj_w",
+        "GQ-IBjucyiMAAAQ7LuuvWQ"
+      ]
+    },
+    {
+      "Cost": 4.00195265,
+      "nodes": [
+        "WHVXDIoJLeQAAAQ7LuuqZg",
+        "amiaXM5R3cwAAAQ7LugBgA"
+      ]
+    },
+    {
+      "Cost": 5.950397,
+      "nodes": [
+        "tckK-rI4Sb0AAAQ7LugXdQ",
+        "2YG5AKDYRyYAAAQ7LuJllA"
+      ]
+    },
+    {
+      "Cost": 10.6360235,
+      "nodes": [
+        "GQ-IBjucyiMAAAQ7LuuvWQ",
+        "OgCcPBDsDyoAAAQ7LuPlDw"
+      ]
+    },
+    {
+      "Cost": 7.65471935,
+      "nodes": [
+        "amiaXM5R3cwAAAQ7LugBgA",
+        "TIj6vkd35-gAAAQY__G9Jw"
+      ]
+    },
+    {
+      "Cost": 7.91464472,
+      "nodes": [
+        "ssMUo5VMsAIAAAQZA4Psaw",
+        "PQcgUKTSVAoAAAQZAQPSLA"
+      ]
+    },
+    {
+      "Cost": 5.96637726,
+      "nodes": [
+        "2YG5AKDYRyYAAAQ7LuJllA",
+        "TIj6vkd35-gAAAQY__G9Jw"
+      ]
+    },
+    {
+      "Cost": 11.4401035,
+      "nodes": [
+        "OgCcPBDsDyoAAAQ7LuPlDw",
+        "yzL1T76g_sAAAAQ7Ltv5vA"
+      ]
+    },
+    {
+      "Cost": 8.310385,
+      "nodes": [
+        "yzL1T76g_sAAAAQ7Ltv5vA",
+        "ErUhGFGk2U8AAAQY_-0EdA"
+      ]
+    },
+    {
+      "Cost": 6.43021441,
+      "nodes": [
+        "55N6XX5F84kAAAQ7LuyQfw",
+        "o76j2pfILG4AAAQY_-0EZw"
+      ]
+    },
+    {
+      "Cost": 3.25135183,
+      "nodes": [
+        "o76j2pfILG4AAAQY_-0EZw",
+        "uhcItnt8KxIAAAQ7Lu4LkQ"
+      ]
+    },
+    {
+      "Cost": 12.34818,
+      "nodes": [
+        "uhcItnt8KxIAAAQ7Lu4LkQ",
+        "ve91n9ThX8IAAAQY__G9Fw"
+      ]
+    },
+    {
+      "Cost": 4.625,
+      "nodes": [
+        "ve91n9ThX8IAAAQY__G9Fw",
+        "uLUUvZ3DxPoAAAQ7LuygiA"
+      ]
+    },
+    {
+      "Cost": 6.50270367,
+      "nodes": [
+        "uLUUvZ3DxPoAAAQ7LuygiA",
+        "tAqxH31cPA4AAAQY__AKgA"
+      ]
+    },
+    {
+      "Cost": 9.981233,
+      "nodes": [
+        "tAqxH31cPA4AAAQY__AKgA",
+        "Osj-8TQUiFQAAAQ7Lu3BIg"
+      ]
+    },
+    {
+      "Cost": 8.475205,
+      "nodes": [
+        "Osj-8TQUiFQAAAQ7Lu3BIg",
+        "QaiZGeWmwmQAAAQZAxFmnQ"
+      ]
+    },
+    {
+      "Cost": 6.98911,
+      "nodes": [
+        "QaiZGeWmwmQAAAQZAxFmnQ",
+        "YgDR80rVPMcAAAQ7LuXaqw"
+      ]
+    },
+    {
+      "Cost": 3.52723765,
+      "nodes": [
+        "ErUhGFGk2U8AAAQY_-0EdA",
+        "vEs1UeZw2EIAAAQ7LuX8sw"
+      ]
+    },
+    {
+      "Cost": 4.15519238,
+      "nodes": [
+        "YgDR80rVPMcAAAQ7LuXaqw",
+        "cEm3CjSW_XQAAAQY_zEIQw"
+      ]
+    },
+    {
+      "Cost": 11.6001081,
+      "nodes": [
+        "cEm3CjSW_XQAAAQY_zEIQw",
+        "Pqnq8tDdLicAAAQ7LuXtQQ"
+      ]
+    },
+    {
+      "Cost": 8.974138,
+      "nodes": [
+        "Pqnq8tDdLicAAAQ7LuXtQQ",
+        "HjLwtXeXaPcAAAQ7Lu2ssQ"
+      ]
+    },
+    {
+      "Cost": 12.0208149,
+      "nodes": [
+        "HjLwtXeXaPcAAAQ7Lu2ssQ",
+        "VMIjqg42vK8AAAQ7LuyRWA"
+      ]
+    },
+    {
+      "Cost": 18.20124,
+      "nodes": [
+        "VMIjqg42vK8AAAQ7LuyRWA",
+        "Q1bD-KiuBi0AAAQZAxFnoQ"
+      ]
+    },
+    {
+      "Cost": 25.55908,
+      "nodes": [
+        "VMIjqg42vK8AAAQ7LuyRWA",
+        "bZ58Nms7hpAAAAQ7LugqWQ"
+      ]
+    },
+    {
+      "Cost": 16.9489117,
+      "nodes": [
+        "VMIjqg42vK8AAAQ7LuyRWA",
+        "CAoSLEFGMVFpcE50UzVia3NfUm9tMF9PVktQcWJzM2JnU3lQeTJxY3dSMkhiLVky"
+      ]
+    },
+    {
+      "Cost": 19.95466,
+      "nodes": [
+        "Q1bD-KiuBi0AAAQZAxFnoQ",
+        "bZ58Nms7hpAAAAQ7LugqWQ"
+      ]
+    },
+    {
+      "Cost": 12.2463322,
+      "nodes": [
+        "Q1bD-KiuBi0AAAQZAxFnoQ",
+        "CAoSLEFGMVFpcE50UzVia3NfUm9tMF9PVktQcWJzM2JnU3lQeTJxY3dSMkhiLVky"
+      ]
+    },
+    {
+      "Cost": 19.9492512,
+      "nodes": [
+        "bZ58Nms7hpAAAAQ7LugqWQ",
+        "T2JnkIkQg0IAAAQ7Lutt-A"
+      ]
+    },
+    {
+      "Cost": 11.3648653,
+      "nodes": [
+        "vEs1UeZw2EIAAAQ7LuX8sw",
+        "LQ3ExiIGnrgAAAQY__G9KQ"
+      ]
+    },
+    {
+      "Cost": 12.0908422,
+      "nodes": [
+        "T2JnkIkQg0IAAAQ7Lutt-A",
+        "cYzcEue3ooIAAAQ7Lu4JLQ"
+      ]
+    },
+    {
+      "Cost": 12.1309586,
+      "nodes": [
+        "LQ3ExiIGnrgAAAQY__G9KQ",
+        "GIJpnq4Y9P0AAAQY__G9Hw"
+      ]
+    },
+    {
+      "Cost": 5.284947,
+      "nodes": [
+        "cYzcEue3ooIAAAQ7Lu4JLQ",
+        "GIJpnq4Y9P0AAAQY__G9Hw"
+      ]
+    }
+  ]
+}

@@ -13,7 +13,6 @@ namespace Juniper.Collections
 
         private class Network : Dictionary<NodeT, Schedule> { }
 
-        private readonly List<NodeT> endPoints;
         private readonly Dictionary<string, NodeT> namedNodes;
         private readonly Dictionary<NodeT, string> nodeNames;
         private readonly Network network;
@@ -22,7 +21,6 @@ namespace Juniper.Collections
 
         public Graph()
         {
-            endPoints = new List<NodeT>();
             namedNodes = new Dictionary<string, NodeT>();
             nodeNames = new Dictionary<NodeT, string>();
             network = new Network();
@@ -32,7 +30,6 @@ namespace Juniper.Collections
         public Graph<NodeT> Clone()
         {
             var graph = new Graph<NodeT>();
-            graph.endPoints.AddRange(endPoints);
             foreach (var pair in namedNodes)
             {
                 graph.namedNodes.Add(pair.Key, pair.Value);
@@ -51,7 +48,6 @@ namespace Juniper.Collections
 
         protected Graph(SerializationInfo info, StreamingContext context)
         {
-            endPoints = info.GetList<NodeT>(nameof(endPoints));
             foreach (var pair in info)
             {
                 if (pair.Name == nameof(namedNodes) || pair.Name == "namedEndPoints")
@@ -80,21 +76,8 @@ namespace Juniper.Collections
         {
             // Serialize only the minimal information that we need to restore
             // the graph.
-            info.AddList(nameof(endPoints), endPoints);
-            info.AddValue(nameof(namedEndPoints), namedEndPoints);
-            var routes = (from route in Connections
-                          select route)
-                        .Distinct()
-                        .ToArray();
-            info.AddValue(nameof(network), routes);
-        }
-
-        public IReadOnlyList<NodeT> EndPoints
-        {
-            get
-            {
-                return endPoints;
-            }
+            info.AddValue(nameof(namedNodes), namedNodes);
+            info.AddValue(nameof(network), Connections.Distinct());
         }
 
         public void Connect(NodeT startPoint, NodeT endPoint, float cost)
@@ -182,14 +165,10 @@ namespace Juniper.Collections
 
         public void Disconnect(NodeT start, NodeT end)
         {
-            RemoveRoutes(from connect in Connections
-                         where connect.Contains(start)
-                            && connect.Contains(end)
+            RemoveRoutes(from connect in GetConnections(start)
+                         where connect.End.Equals(end)
                          from route in Routes
-                         where route == connect
-                            || ((route.Contains(connect.Start)
-                                    || route.Contains(connect.End))
-                                && route.IntersectsWith(connect))
+                         where route.Contains(connect)
                          select route);
         }
 
@@ -244,25 +223,17 @@ namespace Juniper.Collections
             }
         }
 
-        public IEnumerable<NodeT> GetConnections(NodeT node)
+        private IEnumerable<Route<NodeT>> GetConnections(NodeT node)
         {
-            foreach (var route in GetRoutes(node))
-            {
-                if (route.IsConnection)
-                {
-                    yield return route.End;
-                }
-            }
+            return from route in GetRoutes(node)
+                   where route.IsConnection
+                   select route;
         }
 
-        public void AddEndPoint(NodeT endPoint)
+        public IEnumerable<NodeT> GetExits(NodeT node)
         {
-            dirty |= endPoints.MaybeAdd(endPoint);
-        }
-
-        public void RemoveEndPoint(NodeT endPoint)
-        {
-            dirty |= endPoints.Remove(endPoint);
+            return from route in GetConnections(node)
+                   select route.End;
         }
 
         public IReadOnlyDictionary<string, NodeT> NamedNodes
@@ -312,51 +283,27 @@ namespace Juniper.Collections
             if (dirty)
             {
                 RemoveRoutes(Paths);
-
-                int added;
-                do
-                {
-                    added = 0;
-
-                    var stack = new Stack<Route<NodeT>>(
-                        from endPoint in endPoints
-                        from route in GetRoutes(endPoint)
-                        select route);
-
-                    var toAdd = new List<Route<NodeT>>();
-
-                    while (stack.Count > 0)
-                    {
-                        var route = stack.Pop();
-                        foreach (var extension in GetRoutes(route.End))
-                        {
-                            if (route.CanConnectTo(extension))
-                            {
-                                var nextCost = route.Cost + extension.Cost;
-                                var nextCount = route.Count + extension.Count - 1;
-                                var curRoute = GetRoute(route.Start, extension.End);
-                                if (curRoute is null
-                                    || curRoute.Cost > nextCost
-                                    || curRoute.Cost == nextCost
-                                        && curRoute.Count > nextCount)
-                                {
-                                    toAdd.MaybeAdd(route + extension);
-                                }
-                            }
-                        }
-
-                        foreach (var nextRoute in toAdd)
-                        {
-                            AddRoute(nextRoute);
-                            stack.Push(nextRoute);
-                        }
-
-                        added += toAdd.Count;
-                        toAdd.Clear();
-                    }
-                } while (added > 0);
-
+            }
+            while (dirty)
+            {
                 dirty = false;
+
+                var stack = new Stack<Route<NodeT>>(Connections);
+
+                while (stack.Count > 0)
+                {
+                    var route = stack.Pop();
+                    foreach (var nextRoute in (from extension in GetConnections(route.End)
+                                               where route.CanConnectTo(extension)
+                                               let curRoute = GetRoute(route.Start, extension.End)
+                                               where curRoute is null
+                                                || curRoute.Cost > route.Cost + extension.Cost
+                                               select route + extension))
+                    {
+                        AddRoute(nextRoute);
+                        stack.Push(nextRoute);
+                    }
+                }
             }
         }
     }

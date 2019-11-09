@@ -17,12 +17,11 @@ namespace Juniper.Collections.Tests
         {
             var graph = new Graph<string>();
             graph.Connect("a", "b", 1);
-            graph.AddEndPoint("b");
             graph.Solve();
 
             var route = graph.GetRoute("a", "b");
-            var connectsA = graph.GetConnections("a");
-            var connectsB = graph.GetConnections("b");
+            var connectsA = graph.GetExits("a");
+            var connectsB = graph.GetExits("b");
 
             Assert.IsNotNull(route);
             Assert.AreEqual(1, route.Cost);
@@ -38,11 +37,10 @@ namespace Juniper.Collections.Tests
             var graph = new Graph<string>();
             graph.Connect("a", "b", 1);
             graph.Connect("b", "c", 1);
-            graph.AddEndPoint("c");
             graph.Solve();
 
             var route = graph.GetRoute("a", "c");
-            var connectsB = graph.GetConnections("b");
+            var connectsB = graph.GetExits("b");
 
             Assert.IsNotNull(route);
             Assert.AreEqual(2, route.Cost);
@@ -56,11 +54,10 @@ namespace Juniper.Collections.Tests
             var graph = new Graph<string>();
             graph.Connect("b", "c", 1);
             graph.Connect("a", "b", 1);
-            graph.AddEndPoint("c");
             graph.Solve();
 
             var route = graph.GetRoute("a", "c");
-            var connectsB = graph.GetConnections("b");
+            var connectsB = graph.GetExits("b");
 
             Assert.IsNotNull(route);
             Assert.AreEqual(2, route.Cost);
@@ -82,7 +79,6 @@ namespace Juniper.Collections.Tests
             graph.Connect("c", "d", 1);
             graph.Connect("b", "c", 1);
             graph.Connect("a", "b", 1);
-            graph.AddEndPoint("k");
             graph.Solve();
 
             var route = graph.GetRoute("a", "k");
@@ -97,7 +93,6 @@ namespace Juniper.Collections.Tests
             var graph = new Graph<string>();
             graph.Connect("a", "b", 1);
             graph.Connect("c", "d", 1);
-            graph.AddEndPoint("d");
             graph.Solve();
 
             var route = graph.GetRoute("a", "d");
@@ -112,7 +107,6 @@ namespace Juniper.Collections.Tests
             graph.Connect("a", "b", 1);
             graph.Connect("b", "c", 1);
             graph.Connect("c", "d", 1);
-            graph.AddEndPoint("d");
             graph.Solve();
 
             var routeA = graph.GetRoute("a", "d");
@@ -134,7 +128,6 @@ namespace Juniper.Collections.Tests
             graph.Connect("b", "c", 1);
             graph.Connect("c", "d", 1);
             graph.Connect("a", "d", 1);
-            graph.AddEndPoint("d");
             graph.Solve();
 
             var route = graph.GetRoute("a", "d");
@@ -151,7 +144,6 @@ namespace Juniper.Collections.Tests
             graph.Connect("b", "c", 1);
             graph.Connect("c", "d", 1);
             graph.Connect("a", "d", 1);
-            graph.AddEndPoint("d");
 
             graph.Solve();
             var routeA = graph.GetRoute("a", "d");
@@ -173,7 +165,6 @@ namespace Juniper.Collections.Tests
             graphA.Connect("b", "c", 1);
             graphA.Connect("c", "d", 1);
             graphA.Connect("a", "d", 1);
-            graphA.AddEndPoint("d");
             graphA.Solve();
 
             var graphB = graphA.Clone();
@@ -202,7 +193,6 @@ namespace Juniper.Collections.Tests
             graph.Connect(1371, 3464, 1);
             graph.Connect(3464, 2656, 1);
             graph.Connect(3464, end, 1);
-            graph.AddEndPoint(end);
             graph.Solve();
 
             var routeA = graph.GetRoute(start, end);
@@ -233,7 +223,6 @@ namespace Juniper.Collections.Tests
             graph.Connect(1371, 3464, 1);
             graph.Connect(3464, 2656, 1);
             graph.Connect(3464, end, 1);
-            graph.AddEndPoint(end);
             graph.Solve();
 
             var routeA = graph.GetRoute(start, end);
@@ -257,9 +246,6 @@ namespace Juniper.Collections.Tests
             graph.Connect(1, 2, 1);
             graph.Connect(2, 3, 1);
             graph.Connect(3, 0, 1);
-            graph.AddEndPoint(1);
-            graph.AddEndPoint(2);
-            graph.AddEndPoint(3);
             graph.Solve();
 
             var routeA = graph.GetRoute(0, 1);
@@ -281,7 +267,6 @@ namespace Juniper.Collections.Tests
             graph.Connect(0, 1, 100);
             graph.Connect(0, 2, 1);
             graph.Connect(2, 1, 1);
-            graph.AddEndPoint(1);
             graph.Solve();
 
             var route = graph.GetRoute(0, 1);
@@ -306,7 +291,6 @@ namespace Juniper.Collections.Tests
             graph.Connect(1371, 3464, 1);
             graph.Connect(3464, 2656, 1);
             graph.Connect(3464, end, 1);
-            graph.AddEndPoint(end);
             graph.Solve();
 
             var routeA = graph.GetRoute(start, end);
@@ -330,8 +314,7 @@ namespace Juniper.Collections.Tests
         public void JsonDeserialization()
         {
             var json = new JsonFactory<Graph<string>>();
-            var userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var file = Path.Combine(userHome, "Projects", "Yarrow", "shared", "StreamingAssets", "TaxiaVillageFull.json");
+            var file = Path.Combine("..", "..", "..", "test.json");
             var text = File.ReadAllText(file);
             Assert.IsTrue(json.TryParse(text, out var graph));
             Assert.IsNotNull(graph);
