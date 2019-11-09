@@ -282,14 +282,7 @@ namespace Juniper.Collections
         {
             if (dirty)
             {
-                RemoveRoutes(Paths);
-            }
-
-            while (dirty)
-            {
-                dirty = false;
-
-                var stack = new Stack<Route<NodeT>>(Connections);
+                var stack = new Stack<Route<NodeT>>(Routes);
 
                 while (stack.Count > 0)
                 {
@@ -305,6 +298,8 @@ namespace Juniper.Collections
                         stack.Push(nextRoute);
                     }
                 }
+
+                dirty = false;
             }
         }
     }
