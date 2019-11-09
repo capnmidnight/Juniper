@@ -14,8 +14,8 @@ namespace Juniper.Collections
         private class Network : Dictionary<NodeT, Schedule> { }
 
         private readonly List<NodeT> endPoints;
-        private readonly Dictionary<string, NodeT> namedEndPoints;
-        private readonly Dictionary<NodeT, string> endPointNames;
+        private readonly Dictionary<string, NodeT> namedNodes;
+        private readonly Dictionary<NodeT, string> nodeNames;
         private readonly Network network;
 
         private bool dirty;
@@ -23,8 +23,8 @@ namespace Juniper.Collections
         public Graph()
         {
             endPoints = new List<NodeT>();
-            namedEndPoints = new Dictionary<string, NodeT>();
-            endPointNames = new Dictionary<NodeT, string>();
+            namedNodes = new Dictionary<string, NodeT>();
+            nodeNames = new Dictionary<NodeT, string>();
             network = new Network();
             dirty = false;
         }
@@ -33,10 +33,10 @@ namespace Juniper.Collections
         {
             var graph = new Graph<NodeT>();
             graph.endPoints.AddRange(endPoints);
-            foreach (var pair in namedEndPoints)
+            foreach (var pair in namedNodes)
             {
-                graph.namedEndPoints.Add(pair.Key, pair.Value);
-                graph.endPointNames.Add(pair.Value, pair.Key);
+                graph.namedNodes.Add(pair.Key, pair.Value);
+                graph.nodeNames.Add(pair.Value, pair.Key);
             }
 
             foreach (var route in Connections)
@@ -52,9 +52,18 @@ namespace Juniper.Collections
         protected Graph(SerializationInfo info, StreamingContext context)
         {
             endPoints = info.GetList<NodeT>(nameof(endPoints));
-            namedEndPoints = info.GetValue<Dictionary<string, NodeT>>(nameof(namedEndPoints));
-            endPointNames = namedEndPoints.Invert();
+            foreach (var pair in info)
+            {
+                if (pair.Name == nameof(namedNodes) || pair.Name == "namedEndPoints")
+                {
+                    namedNodes = info.GetValue<Dictionary<string, NodeT>>(pair.Name);
+                }
+            }
+
+            nodeNames = namedNodes.Invert();
+
             network = new Network();
+
             var routes = info.GetValue<Route<NodeT>[]>(nameof(network));
             foreach (var route in routes)
             {
@@ -63,6 +72,7 @@ namespace Juniper.Collections
                     FillNetworks(route);
                 }
             }
+
             dirty = true;
         }
 
@@ -255,45 +265,45 @@ namespace Juniper.Collections
             dirty |= endPoints.Remove(endPoint);
         }
 
-        public IReadOnlyDictionary<string, NodeT> NamedEndPoints
+        public IReadOnlyDictionary<string, NodeT> NamedNodes
         {
             get
             {
-                return namedEndPoints;
+                return namedNodes;
             }
         }
 
-        public IReadOnlyDictionary<NodeT, string> EndPointNames
+        public IReadOnlyDictionary<NodeT, string> NodeNames
         {
             get
             {
-                return endPointNames;
+                return nodeNames;
             }
         }
 
-        public string GetEndPointName(NodeT node)
+        public string GetNodeName(NodeT node)
         {
-            return endPointNames.Get(node);
+            return nodeNames.Get(node);
         }
 
-        public NodeT GetNamedEndPoint(string name)
+        public NodeT GetNamedNode(string name)
         {
-            return namedEndPoints.Get(name);
+            return namedNodes.Get(name);
         }
 
-        public void SetEndPointName(NodeT endPoint, string name)
+        public void SetNodeName(NodeT endPoint, string name)
         {
-            namedEndPoints[name] = endPoint;
-            endPointNames[endPoint] = name;
+            namedNodes[name] = endPoint;
+            nodeNames[endPoint] = name;
         }
 
-        public void RemoveEndPointName(string name)
+        public void RemoveNodeName(string name)
         {
-            if (namedEndPoints.ContainsKey(name))
+            if (namedNodes.ContainsKey(name))
             {
-                var endPoint = namedEndPoints[name];
-                namedEndPoints.Remove(name);
-                endPointNames.Remove(endPoint);
+                var endPoint = namedNodes[name];
+                namedNodes.Remove(name);
+                nodeNames.Remove(endPoint);
             }
         }
 
