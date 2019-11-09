@@ -287,15 +287,16 @@ namespace Juniper.Collections
                 while (stack.Count > 0)
                 {
                     var route = stack.Pop();
-                    foreach (var nextRoute in (from extension in GetConnections(route.End)
-                                               where route.CanConnectTo(extension)
-                                               let curRoute = GetRoute(route.Start, extension.End)
-                                               where curRoute is null
-                                                || curRoute.Cost > route.Cost + extension.Cost
-                                               select route + extension))
+                    foreach (var next
+                        in from extension in GetConnections(route.End)
+                           where route.CanConnectTo(extension)
+                           let curRoute = GetRoute(route.Start, extension.End)
+                           where curRoute is null
+                            || curRoute.Cost > route.Cost + extension.Cost
+                           select route + extension)
                     {
-                        AddRoute(nextRoute);
-                        stack.Push(nextRoute);
+                        AddRoute(next);
+                        stack.Push(next);
                     }
                 }
 
