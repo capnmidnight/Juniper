@@ -41,12 +41,7 @@ namespace Juniper.Collections
 
             foreach (var route in Connections)
             {
-                if (!graph.network.ContainsKey(route.Start))
-                {
-                    graph.network[route.Start] = new Schedule();
-                }
-
-                graph.network[route.Start][route.End] = route;
+                graph.AddRoute(route);
             }
 
             graph.dirty = true;
