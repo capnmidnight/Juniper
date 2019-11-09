@@ -132,6 +132,14 @@ namespace Juniper.Collections
             }
         }
 
+        public IEnumerable<NodeT> Nodes
+        {
+            get
+            {
+                return network.Keys;
+            }
+        }
+
         public IEnumerable<Route<NodeT>> Routes
         {
             get
