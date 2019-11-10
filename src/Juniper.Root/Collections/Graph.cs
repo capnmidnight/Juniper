@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace Juniper.Collections
 {
     [Serializable]
-    public class Graph<NodeT> : ISerializable
+    public class Graph<NodeT> : ISaveable<Graph<NodeT>>
         where NodeT : IComparable<NodeT>
     {
         public static Graph<NodeT> Load(Stream stream)
@@ -93,14 +93,14 @@ namespace Juniper.Collections
             dirty = true;
         }
 
-        private bool saveAllPaths;
+        public bool SaveAllPaths { get; set; }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             // Serialize only the minimal information that we need to restore
             // the graph.
             info.AddValue(nameof(namedNodes), namedNodes);
-            if (saveAllPaths)
+            if (SaveAllPaths)
             {
                 info.AddValue(nameof(network), Routes);
             }
@@ -108,26 +108,6 @@ namespace Juniper.Collections
             {
                 info.AddValue(nameof(network), Connections.Distinct());
             }
-        }
-
-        public void Save(Stream stream, bool saveAll = false)
-        {
-            saveAllPaths = saveAll;
-            var json = new JsonFactory<Graph<NodeT>>();
-            json.Serialize(stream, this);
-        }
-
-        public void Save(FileInfo file, bool saveAll = false)
-        {
-            using(var stream = file.Open(FileMode.Create, FileAccess.Write, FileShare.None))
-            {
-                Save(stream, saveAll);
-            }
-        }
-
-        public void Save(string path, bool saveAll = false)
-        {
-            Save(new FileInfo(path), saveAll);
         }
 
         public void Connect(NodeT startPoint, NodeT endPoint, float cost)
