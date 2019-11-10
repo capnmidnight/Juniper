@@ -1,5 +1,7 @@
+using Juniper.IO;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -9,6 +11,25 @@ namespace Juniper.Collections
     public class Graph<NodeT> : ISerializable
         where NodeT : IComparable<NodeT>
     {
+        public static Graph<NodeT> Load(Stream stream)
+        {
+            var json = new JsonFactory<Graph<NodeT>>();
+            return json.Deserialize(stream);
+        }
+
+        public static Graph<NodeT> Load(FileInfo file)
+        {
+            using (var stream = file.OpenRead())
+            {
+                return Load(stream);
+            }
+        }
+
+        public static Graph<NodeT> Load(string path)
+        {
+            return Load(new FileInfo(path));
+        }
+
         private class Schedule : Dictionary<NodeT, Route<NodeT>> { }
 
         private class Network : Dictionary<NodeT, Schedule> { }
@@ -72,12 +93,41 @@ namespace Juniper.Collections
             dirty = true;
         }
 
+        private bool saveAllPaths;
+
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             // Serialize only the minimal information that we need to restore
             // the graph.
             info.AddValue(nameof(namedNodes), namedNodes);
-            info.AddValue(nameof(network), Connections.Distinct());
+            if (saveAllPaths)
+            {
+                info.AddValue(nameof(network), Routes);
+            }
+            else
+            {
+                info.AddValue(nameof(network), Connections.Distinct());
+            }
+        }
+
+        public void Save(Stream stream, bool saveAll = false)
+        {
+            saveAllPaths = saveAll;
+            var json = new JsonFactory<Graph<NodeT>>();
+            json.Serialize(stream, this);
+        }
+
+        public void Save(FileInfo file, bool saveAll = false)
+        {
+            using(var stream = file.Open(FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                Save(stream, saveAll);
+            }
+        }
+
+        public void Save(string path, bool saveAll = false)
+        {
+            Save(new FileInfo(path), saveAll);
         }
 
         public void Connect(NodeT startPoint, NodeT endPoint, float cost)
