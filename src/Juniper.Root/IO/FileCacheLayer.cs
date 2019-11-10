@@ -38,7 +38,7 @@ namespace Juniper.IO
                 && (overwrite || !file.Exists))
             {
                 file.Directory.Create();
-                stream = file.Open(FileMode.Create, FileAccess.Write, FileShare.Write);
+                stream = file.Open(FileMode.Create, FileAccess.Write, FileShare.None);
             }
 
             return stream;
