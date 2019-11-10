@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -12,9 +11,9 @@ using static Juniper.MediaType;
 
 namespace Juniper.VideoDownloader
 {
-    class Program
+    internal static class Program
     {
-        class ConsoleProgress : IProgress
+        private class ConsoleProgress : IProgress
         {
             public string Status { get; private set; }
 
@@ -30,7 +29,7 @@ namespace Juniper.VideoDownloader
                 if (Status != lastStatus)
                 {
                     lastStatus = Status;
-                    for(int i = 0; i < lastStatus.Length; ++i)
+                    for (int i = 0; i < lastStatus.Length; ++i)
                     {
                         Write('\b');
                     }

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.UnityAssetStore
 {
-    internal class Program
+    internal static class Program
     {
         private static async Task Main()
         {

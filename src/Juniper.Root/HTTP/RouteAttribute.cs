@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP
 {
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class RouteAttribute : Attribute
     {
         private readonly Regex pattern;

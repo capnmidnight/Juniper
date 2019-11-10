@@ -11,7 +11,7 @@ using NAudio.Wave;
 
 namespace Juniper.Azure
 {
-    internal class Program
+    internal static class Program
     {
         private static async Task Main(string[] args)
         {
@@ -72,7 +72,7 @@ namespace Juniper.Azure
                     await PlayAudio(text, audioDecoder, ttsClient, voice);
                     Console.WriteLine("Success!");
                 }
-                catch(Exception exp)
+                catch (Exception exp)
                 {
                     Console.WriteLine(exp.Message);
                 }

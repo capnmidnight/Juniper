@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace Juniper.Units
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main()
         {

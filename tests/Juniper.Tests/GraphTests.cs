@@ -1,10 +1,8 @@
-using System;
+using Juniper.IO;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Juniper.IO;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Collections.Tests
 {
@@ -311,15 +309,36 @@ namespace Juniper.Collections.Tests
         }
 
         [TestMethod]
-        public void JsonDeserialization()
+        public void JsonDeserialization1()
         {
             var json = new JsonFactory<Graph<string>>();
             var file = Path.Combine("..", "..", "..", "test.json");
             var text = File.ReadAllText(file);
             Assert.IsTrue(json.TryParse(text, out var graph));
-            Assert.IsNotNull(graph);
-
             graph.Solve();
+            Assert.IsTrue(graph.Nodes.Count() > 0);
+        }
+
+        [TestMethod]
+        public void JsonDeserialization2()
+        {
+            var json = new JsonFactory<Graph<string>>();
+            var file1 = Path.Combine("..", "..", "..", "test.json");
+            var graph1 = json.Deserialize(file1);
+            graph1.Solve();
+
+            var file2 = Path.Combine("..", "..", "..", "test2.json");
+            var graph2 = json.Deserialize(file2);
+
+            foreach(var node in graph1.Nodes)
+            {
+                Assert.IsTrue(graph2.NodeExists(node));
+
+                foreach(var route in graph1.GetRoutes(node))
+                {
+                    Assert.IsTrue(graph2.RouteExists(route.Start, route.End));
+                }
+            }
         }
     }
 }

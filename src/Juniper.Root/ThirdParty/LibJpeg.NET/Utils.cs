@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.IO;
 
 namespace BitMiracle.LibJpeg
 {
-    class Utils
+    internal static class Utils
     {
         public static MemoryStream CopyStream(Stream stream)
         {
@@ -16,7 +16,7 @@ namespace BitMiracle.LibJpeg
             MemoryStream result = new MemoryStream((int)stream.Length);
 
             byte[] block = new byte[2048];
-            for ( ; ; )
+            for (; ; )
             {
                 int bytesRead = stream.Read(block, 0, 2048);
                 result.Write(block, 0, bytesRead);

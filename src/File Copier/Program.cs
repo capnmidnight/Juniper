@@ -2,12 +2,12 @@ using System;
 using System.IO;
 using System.Linq;
 
-using static System.IO.Path;
 using static System.Console;
+using static System.IO.Path;
 
 namespace File_Copier
 {
-    class Program
+    internal static class Program
     {
         private const string NEWTONSOFT_JSON_DLL = "Newtonsoft.Json.dll";
         private const string NETSTANDARD = "netstandard";
@@ -38,7 +38,7 @@ namespace File_Copier
                 {
                     Error.WriteLine("Source directory does not exist");
                 }
-                else if(source.Name != "netstandard2.0")
+                else if (source.Name != "netstandard2.0")
                 {
                     var dest1 = new DirectoryInfo(args[1]);
                     var dest2 = dest1.Parent;
