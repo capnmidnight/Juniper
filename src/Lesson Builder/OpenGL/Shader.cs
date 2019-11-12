@@ -24,7 +24,7 @@ namespace Juniper.OpenGL
             : this(type, new FileInfo(sourceFilePath)) { }
 
         public Shader(ShaderType type, FileInfo sourceFile)
-            : this(type, sourceFile.OpenRead()) { }
+            : this(type, sourceFile.Open(FileMode.Open, FileAccess.Read, FileShare.Read)) { }
 
         public Shader(ShaderType type, Stream sourceStream)
             : this(type)
