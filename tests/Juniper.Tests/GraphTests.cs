@@ -13,6 +13,25 @@ namespace Juniper.Collections.Tests
     [TestClass]
     public class GraphTests
     {
+        private static void CheckGraph(string label, Graph<string> graph1, Graph<string> graph2)
+        {
+            foreach (var node in graph1.Nodes)
+            {
+                Assert.IsTrue(graph2.NodeExists(node), $"{label}: Node {node} does not exist");
+
+                foreach (var route in graph1.GetRoutes(node))
+                {
+                    Assert.IsTrue(graph2.RouteExists(route.Start, route.End), $"{label}: Route {route.Start} => {route.End} does not exist");
+                }
+            }
+        }
+
+        private static void CheckGraphs(string label, Graph<string> graph1, Graph<string> graph2)
+        {
+            CheckGraph(label + " A->B", graph1, graph2);
+            CheckGraph(label + " B->A", graph2, graph1);
+        }
+
         [TestMethod]
         public void OneConnection()
         {
@@ -156,27 +175,6 @@ namespace Juniper.Collections.Tests
             Assert.IsNotNull(routeA);
             Assert.IsNotNull(routeB);
             Assert.AreNotEqual(routeA, routeB);
-        }
-
-        [TestMethod]
-        public void SimpleClone()
-        {
-            var graphA = new Graph<string>();
-            graphA.Connect("a", "b", 1);
-            graphA.Connect("b", "c", 1);
-            graphA.Connect("c", "d", 1);
-            graphA.Connect("a", "d", 1);
-            graphA.Solve();
-
-            var graphB = graphA.Clone();
-            graphB.Solve();
-
-            var routeA = graphA.GetRoute("a", "d");
-            var routeB = graphB.GetRoute("d", "a");
-
-            Assert.IsNotNull(routeA);
-            Assert.IsNotNull(routeB);
-            Assert.AreEqual(routeA, routeB);
         }
 
         [TestMethod]
@@ -333,25 +331,36 @@ namespace Juniper.Collections.Tests
             Assert.IsTrue(graph.Nodes.Count() > 0);
         }
 
-        private static T Time<T>(out TimeSpan delta, Func<T> act)
+        [TestMethod]
+        public void SimpleClone()
         {
-            var start = DateTime.Now;
-            var value = act();
-            delta = DateTime.Now - start;
-            return value;
+            var graph1 = new Graph<string>();
+            graph1.Connect("a", "b", 1);
+            graph1.Connect("b", "c", 1);
+            graph1.Connect("c", "d", 1);
+            graph1.Connect("a", "d", 1);
+            graph1.Solve();
+
+            var graph2 = graph1.Clone();
+            graph2.Solve();
+
+            CheckGraphs("Clone", graph1, graph2);
         }
 
-        private static void CheckGraphs(string label, Graph<string> graph1, Graph<string> graph2)
+        [TestMethod]
+        public void FullClone()
         {
-            foreach (var node in graph1.Nodes)
-            {
-                Assert.IsTrue(graph2.NodeExists(node), $"{label}: Node {node} does not exist");
+            var graph1 = new Graph<string>();
+            graph1.Connect("a", "b", 1);
+            graph1.Connect("b", "c", 1);
+            graph1.Connect("c", "d", 1);
+            graph1.Connect("a", "d", 1);
+            graph1.Solve();
 
-                foreach (var route in graph1.GetRoutes(node))
-                {
-                    Assert.IsTrue(graph2.RouteExists(route.Start, route.End), $"{label}: Route {route.Start} => {route.End} does not exist");
-                }
-            }
+            graph1.SaveAllPaths = true;
+            var graph2 = graph1.Clone();
+
+            CheckGraphs("Clone", graph1, graph2);
         }
 
         private static void DeserializationTest(string ext)
@@ -361,8 +370,7 @@ namespace Juniper.Collections.Tests
 
             var graph2 = Graph<string>.Load(Path.Combine("..", "..", "..", "test2." + ext));
 
-            CheckGraphs("Bin A->B", graph1, graph2);
-            CheckGraphs("Bin B->A", graph2, graph1);
+            CheckGraphs("Bin", graph1, graph2);
         }
 
         [TestMethod]
