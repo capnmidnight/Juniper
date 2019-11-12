@@ -354,28 +354,27 @@ namespace Juniper.Collections.Tests
             }
         }
 
+        private static void DeserializationTest(string ext)
+        {
+            var graph1 = Graph<string>.Load(Path.Combine("..", "..", "..", "test." + ext));
+            graph1.Solve();
+
+            var graph2 = Graph<string>.Load(Path.Combine("..", "..", "..", "test2." + ext));
+
+            CheckGraphs("Bin A->B", graph1, graph2);
+            CheckGraphs("Bin B->A", graph2, graph1);
+        }
+
         [TestMethod]
         public void JsonDeserializationExactlyDuplicatesGraph()
         {
-            var graph1 = Graph<string>.Load(Path.Combine("..", "..", "..", "test.json"));
-            graph1.Solve();
-
-            var graph2 = Graph<string>.Load(Path.Combine("..", "..", "..", "test2.json"));
-
-            CheckGraphs("Json A->B", graph1, graph2);
-            CheckGraphs("Json B->A", graph2, graph1);
+            DeserializationTest("json");
         }
 
         [TestMethod]
         public void BinaryDeserializationExactlyDuplicatesGraph()
         {
-            var graph1 = Graph<string>.Load(Path.Combine("..", "..", "..", "test.bin"));
-            graph1.Solve();
-
-            var graph2 = Graph<string>.Load(Path.Combine("..", "..", "..", "test2.bin"));
-
-            CheckGraphs("Bin A->B", graph1, graph2);
-            CheckGraphs("Bin B->A", graph2, graph1);
+            DeserializationTest("bin");
         }
     }
 }
