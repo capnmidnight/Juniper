@@ -1,8 +1,11 @@
-using Juniper.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+
+using Juniper.IO;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Juniper.Collections.Tests
 {
@@ -309,7 +312,7 @@ namespace Juniper.Collections.Tests
         }
 
         [TestMethod]
-        public void JsonDeserialization1()
+        public void JsonDeserialization()
         {
             var json = new JsonFactory<Graph<string>>();
             var file = Path.Combine("..", "..", "..", "test.json");
@@ -320,25 +323,59 @@ namespace Juniper.Collections.Tests
         }
 
         [TestMethod]
-        public void JsonDeserialization2()
+        public void BinaryDeserialization()
         {
-            var json = new JsonFactory<Graph<string>>();
-            var file1 = Path.Combine("..", "..", "..", "test.json");
-            var graph1 = json.Deserialize(file1);
-            graph1.Solve();
+            var json = new BinaryFactory<Graph<string>>();
+            var file = Path.Combine("..", "..", "..", "test.bin");
+            var bytes = File.ReadAllBytes(file);
+            Assert.IsTrue(json.TryDeserialize(bytes, out var graph));
+            graph.Solve();
+            Assert.IsTrue(graph.Nodes.Count() > 0);
+        }
 
-            var file2 = Path.Combine("..", "..", "..", "test2.json");
-            var graph2 = json.Deserialize(file2);
+        private static T Time<T>(out TimeSpan delta, Func<T> act)
+        {
+            var start = DateTime.Now;
+            var value = act();
+            delta = DateTime.Now - start;
+            return value;
+        }
 
-            foreach(var node in graph1.Nodes)
+        private static void CheckGraphs(string label, Graph<string> graph1, Graph<string> graph2)
+        {
+            foreach (var node in graph1.Nodes)
             {
-                Assert.IsTrue(graph2.NodeExists(node));
+                Assert.IsTrue(graph2.NodeExists(node), $"{label}: Node {node} does not exist");
 
-                foreach(var route in graph1.GetRoutes(node))
+                foreach (var route in graph1.GetRoutes(node))
                 {
-                    Assert.IsTrue(graph2.RouteExists(route.Start, route.End));
+                    Assert.IsTrue(graph2.RouteExists(route.Start, route.End), $"{label}: Route {route.Start} => {route.End} does not exist");
                 }
             }
+        }
+
+        [TestMethod]
+        public void JsonDeserializationExactlyDuplicatesGraph()
+        {
+            var graph1 = Graph<string>.Load(Path.Combine("..", "..", "..", "test.json"));
+            graph1.Solve();
+
+            var graph2 = Graph<string>.Load(Path.Combine("..", "..", "..", "test2.json"));
+
+            CheckGraphs("Json A->B", graph1, graph2);
+            CheckGraphs("Json B->A", graph2, graph1);
+        }
+
+        [TestMethod]
+        public void BinaryDeserializationExactlyDuplicatesGraph()
+        {
+            var graph1 = Graph<string>.Load(Path.Combine("..", "..", "..", "test.bin"));
+            graph1.Solve();
+
+            var graph2 = Graph<string>.Load(Path.Combine("..", "..", "..", "test2.bin"));
+
+            CheckGraphs("Bin A->B", graph1, graph2);
+            CheckGraphs("Bin B->A", graph2, graph1);
         }
     }
 }

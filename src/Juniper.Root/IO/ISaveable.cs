@@ -34,19 +34,24 @@ namespace Juniper.IO
             obj.Save(new FileInfo(outputPath), serializer);
         }
 
-        public static void Save<T>(this T obj, Stream outputStream)
-            where T : ISaveable<T>
-        {
-            var json = new JsonFactory<T>();
-            obj.Save(outputStream, json);
-        }
-
         public static void Save<T>(this T obj, FileInfo outputFile)
             where T : ISaveable<T>
         {
-            using(var outputStream = outputFile.Open(FileMode.Create, FileAccess.Write, FileShare.None))
+            if (MediaType.Application.Json.Matches(outputFile))
             {
-                obj.Save(outputStream);
+                var json = new JsonFactory<T>();
+                using (var stream = outputFile.Open(FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    obj.Save(stream, json);
+                }
+            }
+            else if (MediaType.Application.Octet_Stream.Matches(outputFile))
+            {
+                var bin = new BinaryFactory<T>();
+                using (var stream = outputFile.Open(FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    obj.Save(stream, bin);
+                }
             }
         }
 

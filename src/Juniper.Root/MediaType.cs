@@ -33,6 +33,12 @@ namespace Juniper
             }
         }
 
+        public static MediaType GuessByExtension(FileInfo file)
+        {
+            var ext = file.Extension.Substring(1);
+            return GuessByExtension(ext);
+        }
+
         public static MediaType Lookup(string value)
         {
             var parts = value.SplitX(';');

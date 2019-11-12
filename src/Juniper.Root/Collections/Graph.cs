@@ -1,9 +1,10 @@
-using Juniper.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+
+using Juniper.IO;
 
 namespace Juniper.Collections
 {
@@ -11,17 +12,27 @@ namespace Juniper.Collections
     public class Graph<NodeT> : ISaveable<Graph<NodeT>>
         where NodeT : IComparable<NodeT>
     {
-        public static Graph<NodeT> Load(Stream stream)
-        {
-            var json = new JsonFactory<Graph<NodeT>>();
-            return json.Deserialize(stream);
-        }
-
         public static Graph<NodeT> Load(FileInfo file)
         {
-            using (var stream = file.OpenRead())
+            if (MediaType.Application.Json.Matches(file))
             {
-                return Load(stream);
+                var json = new JsonFactory<Graph<NodeT>>();
+                using (var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    return json.Deserialize(stream);
+                }
+            }
+            else if (MediaType.Application.Octet_Stream.Matches(file))
+            {
+                var bin = new BinaryFactory<Graph<NodeT>>();
+                using (var stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    return bin.Deserialize(stream);
+                }
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -57,30 +68,51 @@ namespace Juniper.Collections
                 graph.nodeNames.Add(pair.Value, pair.Key);
             }
 
-            foreach (var route in Connections)
+            var routesToClone = SaveAllPaths
+                ? Routes
+                : Connections;
+
+            foreach (var route in routesToClone)
             {
                 graph.AddRoute(route);
             }
 
-            graph.dirty = true;
+            graph.dirty = !SaveAllPaths || dirty;
 
             return graph;
         }
 
         protected Graph(SerializationInfo info, StreamingContext context)
         {
+            dirty = true;
+
             foreach (var pair in info)
             {
-                if (pair.Name == nameof(namedNodes) || pair.Name == "namedEndPoints")
+                switch (pair.Name)
                 {
+                    case nameof(namedNodes):
+                    case "namedEndPoints":
                     namedNodes = info.GetValue<Dictionary<string, NodeT>>(pair.Name);
+                    break;
+                    case nameof(dirty):
+                    dirty = info.GetBoolean(nameof(dirty));
+                    break;
                 }
             }
 
-            nodeNames = namedNodes.Invert();
+            if (namedNodes == null)
+            {
+                namedNodes = new Dictionary<string, NodeT>();
+                nodeNames = new Dictionary<NodeT, string>();
+            }
+            else
+            {
+                nodeNames = namedNodes.Invert();
+            }
 
             network = new Network();
 
+            var wasDirty = dirty;
             var routes = info.GetValue<Route<NodeT>[]>(nameof(network));
             foreach (var route in routes)
             {
@@ -90,7 +122,7 @@ namespace Juniper.Collections
                 }
             }
 
-            dirty = true;
+            dirty = wasDirty;
         }
 
         public bool SaveAllPaths { get; set; }
@@ -100,14 +132,13 @@ namespace Juniper.Collections
             // Serialize only the minimal information that we need to restore
             // the graph.
             info.AddValue(nameof(namedNodes), namedNodes);
-            if (SaveAllPaths)
-            {
-                info.AddValue(nameof(network), Routes);
-            }
-            else
-            {
-                info.AddValue(nameof(network), Connections.Distinct());
-            }
+
+            var routesToSave = SaveAllPaths
+                ? Routes
+                : Connections.Distinct();
+
+
+            info.AddValue(nameof(network), routesToSave.ToArray());
         }
 
         public void Connect(NodeT startPoint, NodeT endPoint, float cost)
