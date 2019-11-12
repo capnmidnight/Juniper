@@ -323,19 +323,29 @@ namespace Juniper.Collections
             return namedNodes.Get(name);
         }
 
-        public void SetNodeName(NodeT endPoint, string name)
+        public void SetNodeName(NodeT node, string name)
         {
-            namedNodes[name] = endPoint;
-            nodeNames[endPoint] = name;
+            namedNodes[name] = node;
+            nodeNames[node] = name;
         }
 
         public void RemoveNodeName(string name)
         {
             if (namedNodes.ContainsKey(name))
             {
-                var endPoint = namedNodes[name];
+                var node = namedNodes[name];
                 namedNodes.Remove(name);
-                nodeNames.Remove(endPoint);
+                nodeNames.Remove(node);
+            }
+        }
+
+        public void RemoveNamedNode(NodeT node)
+        {
+            if (nodeNames.ContainsKey(node))
+            {
+                var name = nodeNames[node];
+                nodeNames.Remove(node);
+                namedNodes.Remove(name);
             }
         }
 
