@@ -4,9 +4,13 @@
  * DATE: JAN-24-2007
  */
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace System.Collections.Generic.Tests
+namespace Juniper.Collections.Tests
 {
     /// <summary>
     /// Unit tests for PriorityQueue class.
@@ -78,7 +82,7 @@ namespace System.Collections.Generic.Tests
         [TestMethod]
         public void ConstructorWithComparer()
         {
-            IComparer<object> comp = new MockComparer();
+            var comp = new MockComparer();
             var pq = new PriorityQueue<object>(comp);
             Assert.IsNotNull(pq);
         }

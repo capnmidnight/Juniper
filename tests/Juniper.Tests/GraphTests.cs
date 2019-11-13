@@ -13,6 +13,12 @@ namespace Juniper.Collections.Tests
     [TestClass]
     public class GraphTests
     {
+        private static void CheckGraphs(string label, Graph<string> graph1, Graph<string> graph2)
+        {
+            CheckGraph(label + " A->B", graph1, graph2);
+            CheckGraph(label + " B->A", graph2, graph1);
+        }
+
         private static void CheckGraph(string label, Graph<string> graph1, Graph<string> graph2)
         {
             foreach (var node in graph1.Nodes)
@@ -24,12 +30,6 @@ namespace Juniper.Collections.Tests
                     Assert.IsTrue(graph2.RouteExists(route.Start, route.End), $"{label}: Route {route.Start} => {route.End} does not exist");
                 }
             }
-        }
-
-        private static void CheckGraphs(string label, Graph<string> graph1, Graph<string> graph2)
-        {
-            CheckGraph(label + " A->B", graph1, graph2);
-            CheckGraph(label + " B->A", graph2, graph1);
         }
 
         [TestMethod]
@@ -275,63 +275,6 @@ namespace Juniper.Collections.Tests
         }
 
         [TestMethod]
-        public void JsonSerialization()
-        {
-            var json = new JsonFactory<Graph<int>>();
-            var graph = new Graph<int>();
-            var start = 7216;
-            var end = 5666;
-            graph.Connect(start, 4673, 1);
-            graph.Connect(4673, 3416, 1);
-            graph.Connect(4673, 4756, 1);
-            graph.Connect(4673, 9713, 1);
-            graph.Connect(4756, 1371, 1);
-            graph.Connect(9713, 1371, 1);
-            graph.Connect(1371, 3464, 1);
-            graph.Connect(3464, 2656, 1);
-            graph.Connect(3464, end, 1);
-            graph.Solve();
-
-            var routeA = graph.GetRoute(start, end);
-
-            var text = json.ToString(graph);
-            graph = json.Parse(text);
-            graph.Solve();
-
-            var routeB = graph.GetRoute(start, end);
-
-            Assert.IsNotNull(routeA);
-            Assert.IsNotNull(routeB);
-            Assert.AreEqual(routeA.Start, routeB.Start);
-            Assert.AreEqual(routeA.End, routeB.End);
-            Assert.AreEqual(routeA.Cost, routeB.Cost);
-            Assert.AreEqual(routeA.Count, routeB.Count);
-            Assert.AreEqual(routeA.ToString(), routeB.ToString());
-        }
-
-        [TestMethod]
-        public void JsonDeserialization()
-        {
-            var json = new JsonFactory<Graph<string>>();
-            var file = Path.Combine("..", "..", "..", "test.json");
-            var text = File.ReadAllText(file);
-            Assert.IsTrue(json.TryParse(text, out var graph));
-            graph.Solve();
-            Assert.IsTrue(graph.Nodes.Count() > 0);
-        }
-
-        [TestMethod]
-        public void BinaryDeserialization()
-        {
-            var json = new BinaryFactory<Graph<string>>();
-            var file = Path.Combine("..", "..", "..", "test.bin");
-            var bytes = File.ReadAllBytes(file);
-            Assert.IsTrue(json.TryDeserialize(bytes, out var graph));
-            graph.Solve();
-            Assert.IsTrue(graph.Nodes.Count() > 0);
-        }
-
-        [TestMethod]
         public void SimpleClone()
         {
             var graph1 = new Graph<string>();
@@ -363,6 +306,76 @@ namespace Juniper.Collections.Tests
             CheckGraphs("Clone", graph1, graph2);
         }
 
+        private static void SerializationTest<FactoryT>()
+            where FactoryT : IFactory<Graph<int>, MediaType.Application>, new()
+        {
+            var factory = new FactoryT();
+            var graph = new Graph<int>();
+            var start = 7216;
+            var end = 5666;
+            graph.Connect(start, 4673, 1);
+            graph.Connect(4673, 3416, 1);
+            graph.Connect(4673, 4756, 1);
+            graph.Connect(4673, 9713, 1);
+            graph.Connect(4756, 1371, 1);
+            graph.Connect(9713, 1371, 1);
+            graph.Connect(1371, 3464, 1);
+            graph.Connect(3464, 2656, 1);
+            graph.Connect(3464, end, 1);
+            graph.Solve();
+
+            var routeA = graph.GetRoute(start, end);
+
+            var bytes = factory.Serialize(graph);
+            graph = factory.Deserialize(bytes);
+            graph.Solve();
+
+            var routeB = graph.GetRoute(start, end);
+
+            Assert.IsNotNull(routeA);
+            Assert.IsNotNull(routeB);
+            Assert.AreEqual(routeA.Start, routeB.Start);
+            Assert.AreEqual(routeA.End, routeB.End);
+            Assert.AreEqual(routeA.Cost, routeB.Cost);
+            Assert.AreEqual(routeA.Count, routeB.Count);
+            Assert.AreEqual(routeA.ToString(), routeB.ToString());
+        }
+
+        [TestMethod]
+        public void SerializationJson()
+        {
+            SerializationTest<JsonFactory<Graph<int>>>();
+        }
+
+        [TestMethod]
+        public void SerializationBinary()
+        {
+            SerializationTest<BinaryFactory<Graph<int>>>();
+        }
+
+        private static void DeserializationTest<FactoryT>(string ext)
+            where FactoryT : IFactory<Graph<string>, MediaType.Application>, new()
+        {
+            var factory = new FactoryT();
+            var file = Path.Combine("..", "..", "..", "test." + ext);
+            var bytes = File.ReadAllBytes(file);
+            Assert.IsTrue(factory.TryDeserialize(bytes, out var graph));
+            graph.Solve();
+            Assert.IsTrue(graph.Nodes.Count() > 0);
+        }
+
+        [TestMethod]
+        public void DeserializationJson()
+        {
+            DeserializationTest<JsonFactory<Graph<string>>>("json");
+        }
+
+        [TestMethod]
+        public void DeserializationBinary()
+        {
+            DeserializationTest<BinaryFactory<Graph<string>>>("bin");
+        }
+
         private static void DeserializationTest(string ext)
         {
             var graph1 = Graph<string>.Load(Path.Combine("..", "..", "..", "test." + ext));
@@ -374,13 +387,13 @@ namespace Juniper.Collections.Tests
         }
 
         [TestMethod]
-        public void JsonDeserializationExactlyDuplicatesGraph()
+        public void DeserializationJsonExactlyDuplicatesGraph()
         {
             DeserializationTest("json");
         }
 
         [TestMethod]
-        public void BinaryDeserializationExactlyDuplicatesGraph()
+        public void DeserializationBinaryExactlyDuplicatesGraph()
         {
             DeserializationTest("bin");
         }

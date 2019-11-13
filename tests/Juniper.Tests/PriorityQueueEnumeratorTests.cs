@@ -4,9 +4,13 @@
  * DATE: JAN-25-2007
  */
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace System.Collections.Generic.Tests
+namespace Juniper.Collections.Tests
 {
     /// <summary>
     /// Unit tests for PriorityQueueEnumerator class.

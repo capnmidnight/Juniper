@@ -28,11 +28,11 @@ namespace Juniper.Collections
 
             if (!left.CanConnectTo(right))
             {
-                if (left.IntersectsWith(right))
+                if (left.Intersects(right))
                 {
                     throw new InvalidOperationException($"The provided routes overlap:\n\t{left}\n\t{right}");
                 }
-                else if (left.IsParallelTo(right))
+                else if (left.Parallels(right))
                 {
                     throw new InvalidOperationException($"The provided routes start and end at the same location:\n\t{left}\n\t{right}");
                 }
@@ -102,6 +102,7 @@ namespace Juniper.Collections
         }
 
         private readonly ValueT[] nodes;
+        internal bool dirty;
 
         private Route(bool validate, IEnumerable<ValueT> edges, float cost)
         {
@@ -131,6 +132,7 @@ namespace Juniper.Collections
                     }
                 }
             }
+
             Cost = cost;
         }
 
@@ -148,6 +150,22 @@ namespace Juniper.Collections
         {
             info.AddValue(nameof(Cost), Cost);
             info.AddValue(nameof(nodes), nodes);
+        }
+
+        public override int GetHashCode()
+        {
+            var hash = Cost.GetHashCode();
+            foreach (var node in nodes)
+            {
+                hash ^= node.GetHashCode();
+            }
+            return hash;
+        }
+
+        public override string ToString()
+        {
+            var pathString = string.Join(" -> ", nodes);
+            return $"[{Cost}] {pathString}";
         }
 
         public float Cost
@@ -171,7 +189,10 @@ namespace Juniper.Collections
             }
         }
 
-        internal bool IsValid { get; }
+        internal bool IsValid
+        {
+            get;
+        }
 
         public bool IsConnection
         {
@@ -227,8 +248,7 @@ namespace Juniper.Collections
             {
                 return -1;
             }
-            else if (Start.Equals(other.Start) && End.Equals(other.End)
-                || Start.Equals(other.End) && End.Equals(other.Start))
+            else if (Parallels(other))
             {
                 if (Cost == other.Cost)
                 {
@@ -239,20 +259,14 @@ namespace Juniper.Collections
                     return Cost.CompareTo(other.Cost);
                 }
             }
+            else if(End.Equals(other.End))
+            {
+                return Start.CompareTo(other.Start);
+            }
             else
             {
-                return 1;
+                return End.CompareTo(other.End);
             }
-        }
-
-        public override int GetHashCode()
-        {
-            var hash = Cost.GetHashCode();
-            foreach (var node in nodes)
-            {
-                hash ^= node.GetHashCode();
-            }
-            return hash;
         }
 
         public bool Contains(ValueT x)
@@ -268,50 +282,57 @@ namespace Juniper.Collections
                 return false;
             }
 
+            return Contain(other)
+                || Contain(~other);
+        }
+
+        private bool Contain(Route<ValueT> other)
+        {
             var offset = Array.IndexOf(nodes, other.nodes[0]);
             if (offset == -1)
             {
                 return false;
             }
 
-            return Contain(other.nodes, offset, 1)
-                || Contain(other.nodes, offset, -1);
-        }
-
-        private bool Contain(ValueT[] otherNodes, int offset, int direction)
-        {
-            var end = offset + direction * (otherNodes.Length - 1);
+            var end = offset + other.Count - 1;
             if (!(0 <= end && end < nodes.Length))
             {
                 return false;
             }
 
-            for (int a = offset, b = 0; b < otherNodes.Length;
-                a += direction,
-                ++b)
+            for (var i = 0; i < other.Count; ++i)
             {
-                if (!nodes[a].Equals(otherNodes[b]))
+                var a = nodes[i + offset];
+                var b = other.nodes[i];
+                if (!a.Equals(b))
                 {
                     return false;
                 }
             }
+
             return true;
         }
 
         public bool CanConnectTo(Route<ValueT> other)
         {
             return other is object
-                && !IsParallelTo(other)
-                && !IntersectsWith(other);
+                && !Parallels(other)
+                && !Intersects(other);
         }
 
-        public bool IsParallelTo(Route<ValueT> right)
+        public bool Parallels(Route<ValueT> other)
         {
-            return Start.Equals(right.Start) && End.Equals(right.End)
-                || Start.Equals(right.End) && End.Equals(right.Start);
+            return other is object
+                && (Parallel(other)
+                    || Parallel(~other));
         }
 
-        public bool IntersectsWith(Route<ValueT> other)
+        private bool Parallel(Route<ValueT> other)
+        {
+            return Start.Equals(other.Start) && End.Equals(other.End);
+        }
+
+        public bool Intersects(Route<ValueT> other)
         {
             if (other is null)
             {
@@ -338,12 +359,6 @@ namespace Juniper.Collections
 
                 return false;
             }
-        }
-
-        public override string ToString()
-        {
-            var pathString = string.Join(" -> ", nodes);
-            return $"[{Cost}] {pathString}";
         }
     }
 }

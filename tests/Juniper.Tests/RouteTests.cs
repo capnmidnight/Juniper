@@ -175,8 +175,8 @@ namespace Juniper.Collections.Tests
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xdead);
             var routeB = new Route<int>(1, 0xdead, 0xbeef, 0x1337);
-            Assert.IsTrue(routeA.IntersectsWith(routeB));
-            Assert.IsTrue(routeB.IntersectsWith(routeA));
+            Assert.IsTrue(routeA.Intersects(routeB));
+            Assert.IsTrue(routeB.Intersects(routeA));
         }
 
         [TestMethod]
@@ -184,8 +184,8 @@ namespace Juniper.Collections.Tests
         {
             var routeA = new Route<int>(1, 0xbad, 0xbeef, 0xdead, 0xf00f);
             var routeB = new Route<int>(1, 0xf00f, 0xbeef, 0xdead, 0xaaaa);
-            Assert.IsTrue(routeA.IntersectsWith(routeB));
-            Assert.IsTrue(routeB.IntersectsWith(routeA));
+            Assert.IsTrue(routeA.Intersects(routeB));
+            Assert.IsTrue(routeB.Intersects(routeA));
         }
 
         [TestMethod]

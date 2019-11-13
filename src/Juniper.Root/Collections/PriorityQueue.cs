@@ -4,7 +4,11 @@
  * DATE: JAN-25-2007
  */
 
-namespace System.Collections.Generic
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace Juniper.Collections
 {
     /// <summary>
     /// A queue data structure that places emphasis on some items over others.
