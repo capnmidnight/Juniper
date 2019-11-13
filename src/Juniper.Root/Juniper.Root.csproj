@@ -106,7 +106,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="&quot;..\File Copier\bin\Release\jcopy&quot; '$(TargetDir)' '$(SolutionDir)Juniper\Assets\Juniper\Plugins\Juniper\$(ConfigurationName)\'" />
+    <Exec Command="&quot;..\File Copier\bin\Release\jcopy&quot; '$(TargetDir)' '$(ProjectDir)..\Juniper\Assets\Juniper\Plugins\Juniper\$(ConfigurationName)\'" />
   </Target>
 
 </Project>
