@@ -15,26 +15,37 @@ namespace Juniper.Collections
     /// </summary>
     /// <typeparam name="T">The type of objects that will be placed in the PriorityQueue</typeparam>
     public class PriorityQueue<T> : ICollection, IEnumerable<T>
+        where T : IComparable<T>
     {
+        private readonly List<T> q = new List<T>();
+
         /// <summary>
         /// Default constructor, uses natural ordering comparator for objects
         /// </summary>
         public PriorityQueue()
-        {
-            Init(new PQComparer());
-        }
+            : this(new PQComparer(), Array.Empty<T>())
+        { }
+
+        public PriorityQueue(IEnumerable<T> values)
+            : this(new PQComparer(), values)
+        { }
 
         /// <summary>
         /// Constructor using explicit comparer for objects
         /// </summary>
         /// <param name="comparer"></param>
         public PriorityQueue(IComparer<T> comparer)
+            : this(comparer, Array.Empty<T>())
+        { }
+
+        public PriorityQueue(IComparer<T> comparer, IEnumerable<T> values)
         {
-            if (comparer == null)
+            Comparer = comparer ?? throw new ArgumentNullException(nameof(comparer));
+
+            foreach (var value in values)
             {
-                throw new NullReferenceException();
+                Enqueue(value);
             }
-            Init(comparer);
         }
 
         /// <summary>
@@ -42,10 +53,7 @@ namespace Juniper.Collections
         /// </summary>
         public IComparer<T> Comparer
         {
-            get
-            {
-                return comparer;
-            }
+            get;
         }
 
         /// <summary>
@@ -55,12 +63,7 @@ namespace Juniper.Collections
         {
             get
             {
-                var total = 0;
-                for (var i = 0; i < qs.Count; ++i)
-                {
-                    total += qs[i].Count;
-                }
-                return total;
+                return q.Count;
             }
         }
 
@@ -82,7 +85,7 @@ namespace Juniper.Collections
         {
             get
             {
-                return qs;
+                return q;
             }
         }
 
@@ -91,14 +94,7 @@ namespace Juniper.Collections
         /// </summary>
         public void Clear()
         {
-            for (var i = 0; i < qs.Count; ++i)
-            {
-                qs[i].Clear();
-            }
-            while (qs.Count > 1)
-            {
-                qs.RemoveAt(1);
-            }
+            q.Clear();
         }
 
         /// <summary>
@@ -109,14 +105,7 @@ namespace Juniper.Collections
         //[Obsolete("WARNING: this method has an O(n^2) runtime profile. Use with caution.")]
         public bool Contains(T obj)
         {
-            for (var i = 0; i < qs.Count; ++i)
-            {
-                if (qs[i].Contains(obj))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return q.Contains(obj);
         }
 
         /// <summary>
@@ -130,12 +119,7 @@ namespace Juniper.Collections
         /// <param name="startIndex"></param>
         public void CopyTo(T[] arr, int startIndex)
         {
-            var curIndex = startIndex;
-            foreach (var q in qs)
-            {
-                q.CopyTo(arr, curIndex);
-                curIndex += q.Count;
-            }
+            q.CopyTo(arr, startIndex);
         }
 
         /// <summary>
@@ -143,15 +127,8 @@ namespace Juniper.Collections
         /// </summary>
         public T Dequeue()
         {
-            var obj = default(T);
-            if (qs.Count > 0)
-            {
-                obj = qs[0].Dequeue();
-                if (qs[0].Count == 0 && qs.Count > 1)
-                {
-                    qs.RemoveAt(0);
-                }
-            }
+            var obj = q[0];
+            q.RemoveAt(0);
             return obj;
         }
 
@@ -162,60 +139,20 @@ namespace Juniper.Collections
         /// <param name="obj">The object to add</param>
         public void Enqueue(T obj)
         {
-            if (obj == null)
+
+            //figure out which queue to add the object to
+            int addIndex;
+            for (addIndex = 0; addIndex < q.Count; ++addIndex)
             {
-                //Most collections allow addition of null references. However, I do
-                // not feel it is a good idea.
-                throw new NullReferenceException("Cannot enqueue null references");
-            }
-            if (Count == 0)
-            {
-                //if the queue is empty, we can simply add to
-                // the very first position without any consideration
-                qs[0].Enqueue(obj);
-            }
-            else
-            {
-                //figure out which queue to add the object to
-                var added = false;
-                for (var i = 0; i < qs.Count && !added; ++i)
+                var t = q[addIndex];
+                var n = Comparer.Compare(t, obj);
+                if (n == 1)
                 {
-                    var t = qs[i].Peek();
-                    var n = Comparer.Compare(t, obj);
-                    if (n == 0)
-                    {
-                        //this index is the right queue
-                        qs[i].Enqueue(obj);
-                        added = true;
-                    }
-                    else if (n < 0) //this index is just after the correct queue.
-                    {
-                        //If we got this far, then there wasn't a queue ready for
-                        // this object, so we need to create a new one.
-                        added = InsertQueueAt(i, obj);
-                    }
-                    else //this index is just before the correct queue.
-                    {
-                        if (i == qs.Count - 1)
-                        {
-                            //we are at the end of the queue list, so append a new queue
-                            added = InsertQueueAt(qs.Count, obj);
-                        }
-                        else
-                        {
-                            var nextT = qs[i + 1].Peek();
-                            var nextN = Comparer.Compare(nextT, obj);
-                            if (nextN < 0)
-                            {
-                                //The next index is after the correct queue, so we must
-                                // create a new queue in between the current one and the
-                                // next one.
-                                added = InsertQueueAt(i + 1, obj);
-                            }
-                        }
-                    }
+                    break;
                 }
             }
+
+            q.Insert(addIndex, obj);
         }
 
         /// <summary>
@@ -224,13 +161,7 @@ namespace Juniper.Collections
         /// <returns></returns>
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (var q in qs)
-            {
-                foreach (var item in q)
-                {
-                    yield return item;
-                }
-            }
+            return q.GetEnumerator();
         }
 
         /// <summary>
@@ -239,7 +170,7 @@ namespace Juniper.Collections
         /// <returns></returns>
         public T Peek()
         {
-            return qs[0].Peek();
+            return q[0];
         }
 
         /// <summary>
@@ -248,9 +179,7 @@ namespace Juniper.Collections
         /// <returns></returns>
         public T[] ToArray()
         {
-            var temp = new T[Count];
-            CopyTo(temp, 0);
-            return temp;
+            return q.ToArray();
         }
 
         void ICollection.CopyTo(Array arr, int startIndex)
@@ -272,26 +201,6 @@ namespace Juniper.Collections
             return GetEnumerator();
         }
 
-        private IComparer<T> comparer;
-        private List<Queue<T>> qs;
-
-        private void Init(IComparer<T> comparer)
-        {
-            qs = new List<Queue<T>>
-            {
-                new Queue<T>()
-            };
-            this.comparer = comparer;
-        }
-
-        private bool InsertQueueAt(int i, T obj)
-        {
-            var q = new Queue<T>();
-            q.Enqueue(obj);
-            qs.Insert(i, q);
-            return true;
-        }
-
         /// <summary> A default Comparer to use when a comparer is not defined. If the type
         /// implements the IComparable<T> or IComparable interface, then it will use the object's own
         /// CompareTo method. </summary>
@@ -299,20 +208,7 @@ namespace Juniper.Collections
         {
             public int Compare(T t1, T t2)
             {
-                if (typeof(IComparable<T>).IsAssignableFrom(typeof(T)))
-                {
-                    var ic = (IComparable<T>)t2;
-                    return ic.CompareTo(t1);
-                }
-                else if (typeof(IComparable).IsAssignableFrom(typeof(T)))
-                {
-                    var ic = (IComparable)t2;
-                    return ic.CompareTo(t1);
-                }
-                //The object type for this queue are not comparable in any way, so just
-                // throw them all into a single queue, i.e., the first queue will always
-                // evaluate as the "right" queue to which to add items.
-                return 0;
+                return t1.CompareTo(t2);
             }
         }
     }

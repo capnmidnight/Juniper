@@ -25,7 +25,7 @@ namespace Juniper.Collections.Tests
         public void CurrentGetsItemsThatAreInQueue()
         {
             var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
+            var en = pq.GetEnumerator();
             while (en.MoveNext())
             {
                 Assert.IsTrue(pq.Contains(en.Current), "found an item that wasn't in the queue");
@@ -36,7 +36,7 @@ namespace Juniper.Collections.Tests
         public void ExtendsGenericIEnumerator()
         {
             var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
+            var en = pq.GetEnumerator();
             Assert.IsInstanceOfType(en, typeof(IEnumerator));
         }
 
@@ -44,7 +44,7 @@ namespace Juniper.Collections.Tests
         public void ExtendsIDisposable()
         {
             var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
+            var en = pq.GetEnumerator();
             Assert.IsInstanceOfType(en, typeof(IDisposable));
         }
 
@@ -52,8 +52,8 @@ namespace Juniper.Collections.Tests
         public void ExtendsIEnumerator()
         {
             var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
-            Assert.IsInstanceOfType(en, typeof(IEnumerator<object>));
+            var en = pq.GetEnumerator();
+            Assert.IsInstanceOfType(en, typeof(IEnumerator<int>));
         }
 
         /// <summary>
@@ -62,8 +62,8 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void MoveNextOnEmptyQueueReturnsFalse()
         {
-            var pq = new PriorityQueue<object>();
-            IEnumerator en = pq.GetEnumerator();
+            var pq = new PriorityQueue<int>();
+            var en = pq.GetEnumerator();
             Assert.IsFalse(en.MoveNext(), "MoveNext did not return false");
         }
 
@@ -74,7 +74,7 @@ namespace Juniper.Collections.Tests
         public void MoveNextReturnsFalsePastEnd()
         {
             var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
+            var en = pq.GetEnumerator();
             en.MoveNext();
             en.MoveNext();
             en.MoveNext();
@@ -88,7 +88,7 @@ namespace Juniper.Collections.Tests
         public void MoveNextReturnsTrue()
         {
             var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
+            var en = pq.GetEnumerator();
             Assert.IsTrue(en.MoveNext(), "MoveNext did not return true");
         }
 
@@ -100,7 +100,7 @@ namespace Juniper.Collections.Tests
         public void MoveNextThrowsExceptionAfterDequeue()
         {
             var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
+            var en = pq.GetEnumerator();
             en.MoveNext();
             pq.Dequeue();
             en.MoveNext();
@@ -114,9 +114,9 @@ namespace Juniper.Collections.Tests
         public void MoveNextThrowsExceptionAfterEnqueue()
         {
             var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
+            var en = pq.GetEnumerator();
             en.MoveNext();
-            pq.Enqueue(new object());
+            pq.Enqueue(3);
             en.MoveNext();
         }
 
@@ -124,11 +124,11 @@ namespace Juniper.Collections.Tests
         /// Changing the queue should invalidate the enumeration
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void ResetThrowsExceptionAfterDequeue()
         {
             var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
+            var en = pq.GetEnumerator();
             en.MoveNext();
             pq.Dequeue();
             en.Reset();
@@ -138,22 +138,22 @@ namespace Juniper.Collections.Tests
         /// Changing the queue should invalidate the enumeration
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void ResetThrowsExceptionAfterEnqueue()
         {
             var pq = MakeBasicPQ();
-            IEnumerator en = pq.GetEnumerator();
+            var en = pq.GetEnumerator();
             en.MoveNext();
-            pq.Enqueue(new object());
+            pq.Enqueue(3);
             en.Reset();
         }
 
-        private PriorityQueue<object> MakeBasicPQ()
+        private PriorityQueue<int> MakeBasicPQ()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             for (var i = 0; i < 3; ++i)
             {
-                pq.Enqueue(new object());
+                pq.Enqueue(i);
             }
             return pq;
         }

@@ -24,7 +24,7 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void ClearHasNoEffectOnEmptyQueue()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             pq.Clear();
             Assert.AreEqual(0, pq.Count);
         }
@@ -35,10 +35,10 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void ClearResetsCountToZero()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             for (var i = 0; i < 10; ++i)
             {
-                pq.Enqueue(new object());
+                pq.Enqueue(i);
             }
 
             pq.Clear();
@@ -51,8 +51,8 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void ComparerPropertyExplicit()
         {
-            IComparer<object> comp = new MockComparer();
-            var pq = new PriorityQueue<object>(comp);
+            var comp = new MockComparer();
+            var pq = new PriorityQueue<int>(comp);
             Assert.AreSame(comp, pq.Comparer);
         }
 
@@ -62,8 +62,8 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void ComparerPropertyImplicit1()
         {
-            var pq = new PriorityQueue<object>();
-            Assert.IsInstanceOfType(pq.Comparer, typeof(IComparer<object>));
+            var pq = new PriorityQueue<int>();
+            Assert.IsInstanceOfType(pq.Comparer, typeof(IComparer<int>));
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void ConstructorSimple()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             Assert.IsNotNull(pq);
         }
 
@@ -83,18 +83,18 @@ namespace Juniper.Collections.Tests
         public void ConstructorWithComparer()
         {
             var comp = new MockComparer();
-            var pq = new PriorityQueue<object>(comp);
+            var pq = new PriorityQueue<int>(comp);
             Assert.IsNotNull(pq);
         }
 
         /// <summary>
-        /// using a null comparer parameter should throw a NullReferenceException
+        /// using a null comparer parameter should throw an ArgumentNullException
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorWithNullComparer()
         {
-            var pq = new PriorityQueue<object>(null);
+            var pq = new PriorityQueue<int>(null, null);
             Assert.IsNotNull(pq);
         }
 
@@ -104,11 +104,11 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void ContainsFindsReferenceTypes()
         {
-            var pq = new PriorityQueue<object>();
-            var o = new object();
-            pq.Enqueue(new object());
+            var pq = new PriorityQueue<int>();
+            var o = 2;
+            pq.Enqueue(3);
             pq.Enqueue(o);
-            pq.Enqueue(new object());
+            pq.Enqueue(5);
             Assert.IsTrue(pq.Contains(o));
         }
 
@@ -118,7 +118,7 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void ContainsFindsValueTypes()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             pq.Enqueue(1);
             pq.Enqueue(1);
             pq.Enqueue(1);
@@ -131,32 +131,32 @@ namespace Juniper.Collections.Tests
         }
 
         /// <summary>
-        /// Checking for an object in an empty queue should return false
+        /// Checking for an int in an empty queue should return false
         /// </summary>
         [TestMethod]
         public void ContainsReturnsFalseOnEmpty()
         {
-            var pq = new PriorityQueue<object>();
-            Assert.IsFalse(pq.Contains(new object()));
+            var pq = new PriorityQueue<int>();
+            Assert.IsFalse(pq.Contains(5));
         }
 
         /// <summary>
-        /// Checking for an object that isn't in the queue should return false
+        /// Checking for an int that isn't in the queue should return false
         /// </summary>
         [TestMethod]
         public void ContainsReturnsFalseOnNonExistant()
         {
-            var pq = new PriorityQueue<object>();
-            pq.Enqueue(new object());
-            Assert.IsFalse(pq.Contains(new object()));
+            var pq = new PriorityQueue<int>();
+            pq.Enqueue(5);
+            Assert.IsFalse(pq.Contains(7));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CopyToThrowsExceptionFromNullArray()
         {
-            var pq = new PriorityQueue<object>();
-            pq.Enqueue(new object());
+            var pq = new PriorityQueue<int>();
+            pq.Enqueue(5);
             pq.CopyTo(null, 0);
         }
 
@@ -164,11 +164,11 @@ namespace Juniper.Collections.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void CopyToThrowsExceptionIfArrayIsTooSmall()
         {
-            var pq = new PriorityQueue<object>();
-            pq.Enqueue(new object());
-            pq.Enqueue(new object());
-            pq.Enqueue(new object());
-            var arr = new object[1];
+            var pq = new PriorityQueue<int>();
+            pq.Enqueue(3);
+            pq.Enqueue(5);
+            pq.Enqueue(7);
+            var arr = new int[1];
             pq.CopyTo(arr, 0);
         }
 
@@ -176,9 +176,9 @@ namespace Juniper.Collections.Tests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void CopyToThrowsExceptionIfIndexIsLessThanZero()
         {
-            var pq = new PriorityQueue<object>();
-            pq.Enqueue(new object());
-            var arr = new object[1];
+            var pq = new PriorityQueue<int>();
+            pq.Enqueue(3);
+            var arr = new int[1];
             pq.CopyTo(arr, -1);
         }
 
@@ -186,9 +186,9 @@ namespace Juniper.Collections.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void CopyToThrowsExceptionIfIndexIsPastEnd()
         {
-            var pq = new PriorityQueue<object>();
-            pq.Enqueue(new object());
-            var arr = new object[1];
+            var pq = new PriorityQueue<int>();
+            pq.Enqueue(3);
+            var arr = new int[1];
             pq.CopyTo(arr, 1);
         }
 
@@ -198,11 +198,11 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void CopyToWithOneElement()
         {
-            var pq = new PriorityQueue<object>();
-            pq.Enqueue(new object());
-            var arr = new object[1];
+            var pq = new PriorityQueue<int>();
+            pq.Enqueue(3);
+            var arr = new int[1];
             pq.CopyTo(arr, 0);
-            Assert.AreSame(pq.Peek(), arr[0]);
+            Assert.AreEqual(pq.Peek(), arr[0]);
         }
 
         /// <summary>
@@ -211,12 +211,12 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void CopyToWithOneElementAndOffset()
         {
-            var pq = new PriorityQueue<object>();
-            pq.Enqueue(new object());
-            var arr = new object[2];
+            var pq = new PriorityQueue<int>();
+            pq.Enqueue(3);
+            var arr = new int[2];
             pq.CopyTo(arr, 1);
-            Assert.IsNull(arr[0]);
-            Assert.AreSame(pq.Peek(), arr[1]);
+            Assert.AreEqual(0, arr[0]);
+            Assert.AreEqual(pq.Peek(), arr[1]);
         }
 
         /// <summary>
@@ -245,18 +245,18 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void CopyToWithTenElementsWithOffset()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             for (var i = 0; i < 10; ++i)
             {
-                pq.Enqueue(new object());
+                pq.Enqueue(i + 1);
             }
-            var arr = new object[13];
+            var arr = new int[13];
             pq.CopyTo(arr, 3);
             for (var i = 0; i < arr.Length; ++i)
             {
                 if (i < 3)
                 {
-                    Assert.IsNull(arr[i]);
+                    Assert.AreEqual(0, arr[i]);
                 }
                 else
                 {
@@ -271,10 +271,10 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void CreateArrayFromQueue()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             for (var i = 0; i < 10; ++i)
             {
-                pq.Enqueue(new object());
+                pq.Enqueue(i);
             }
             var arr = pq.ToArray();
             for (var i = 0; i < 10; ++i)
@@ -293,7 +293,7 @@ namespace Juniper.Collections.Tests
             var comp = pq.Comparer;
             var x = 11;
             var y = 13;
-            Assert.AreEqual(x.CompareTo(y), comp.Compare(y, x));
+            Assert.AreEqual(x.CompareTo(y), comp.Compare(x, y));
         }
 
         /// <summary>
@@ -302,10 +302,10 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void DequeueDecreasesCount()
         {
-            var pq = new PriorityQueue<object>();
-            pq.Enqueue(new object());
-            pq.Enqueue(new object());
-            pq.Enqueue(new object());
+            var pq = new PriorityQueue<int>();
+            pq.Enqueue(3);
+            pq.Enqueue(5);
+            pq.Enqueue(7);
             Assert.AreEqual(3, pq.Count);
             pq.Dequeue();
             Assert.AreEqual(2, pq.Count);
@@ -315,23 +315,23 @@ namespace Juniper.Collections.Tests
         /// Dequeueing an empty queue should throw an Exception
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void DequeueThrowsExceptionOnEmptyQueue()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             pq.Dequeue();
         }
 
         /// <summary>
-        /// Enqueueing a single object should return that object when it is dequeued
+        /// Enqueueing a single int should return that int when it is dequeued
         /// </summary>
         [TestMethod]
         public void EnqueueDequeueOneItem()
         {
-            var obj = new object();
-            var pq = new PriorityQueue<object>();
+            var obj = 3;
+            var pq = new PriorityQueue<int>();
             pq.Enqueue(obj);
-            Assert.AreSame(obj, pq.Dequeue());
+            Assert.AreEqual(obj, pq.Dequeue());
         }
 
         /// <summary>
@@ -340,33 +340,22 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void EnqueueIncreasesCount()
         {
-            var pq = new PriorityQueue<object>();
-            pq.Enqueue(new object());
+            var pq = new PriorityQueue<int>();
+            pq.Enqueue(3);
             Assert.AreEqual(1, pq.Count);
-        }
-
-        /// <summary>
-        /// Trying to enqueue a null object should throw an exception
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void EnqueueingNullThrowsException()
-        {
-            var pq = new PriorityQueue<object>();
-            pq.Enqueue(null);
         }
 
         [TestMethod]
         public void ExtendsGenericIEnumerable()
         {
-            var pq = new PriorityQueue<object>();
-            Assert.IsInstanceOfType(pq, typeof(IEnumerable<object>));
+            var pq = new PriorityQueue<int>();
+            Assert.IsInstanceOfType(pq, typeof(IEnumerable<int>));
         }
 
         [TestMethod]
         public void ExtendsICollection()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             Assert.IsInstanceOfType(pq, typeof(ICollection));
         }
 
@@ -376,7 +365,7 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void ExtendsIEnumerable()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             Assert.IsInstanceOfType(pq, typeof(IEnumerable));
         }
 
@@ -386,7 +375,7 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void GetEnumeratorOnEmpty()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             Assert.IsNotNull(pq.GetEnumerator());
         }
 
@@ -396,7 +385,7 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void InitiallyEmpty()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             Assert.AreEqual(0, pq.Count);
         }
 
@@ -406,29 +395,8 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void IsSynchronizedReturnsTrue()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             Assert.IsTrue(pq.IsSynchronized);
-        }
-
-        /// <summary>
-        /// Non-comparable objects placed in the priority queue should make the PQ act like a normal queue
-        /// </summary>
-        [TestMethod]
-        public void NonComparableObjectsCreatesNormalQueue()
-        {
-            object o1, o2, o3;
-            o1 = new object();
-            o2 = new object();
-            o3 = new object();
-
-            var pq = new PriorityQueue<object>();
-            pq.Enqueue(o1);
-            pq.Enqueue(o2);
-            pq.Enqueue(o3);
-
-            Assert.AreSame(o1, pq.Dequeue());
-            Assert.AreSame(o2, pq.Dequeue());
-            Assert.AreSame(o3, pq.Dequeue());
         }
 
         /// <summary>
@@ -437,8 +405,8 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void PeekDoesntChangeCount()
         {
-            var pq = new PriorityQueue<object>();
-            var obj = new object();
+            var pq = new PriorityQueue<int>();
+            var obj = 3;
             pq.Enqueue(obj);
             pq.Peek();
             Assert.AreEqual(1, pq.Count);
@@ -450,31 +418,31 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void PeekGetsTheOnlyItemInQueue()
         {
-            var pq = new PriorityQueue<object>();
-            var obj = new object();
+            var pq = new PriorityQueue<int>();
+            var obj = 3;
             pq.Enqueue(obj);
-            Assert.AreSame(obj, pq.Peek());
+            Assert.AreEqual(obj, pq.Peek());
         }
 
         /// <summary>
-        /// Peeking before Dequeueing should return the same object
+        /// Peeking before Dequeueing should return the same int
         /// </summary>
         [TestMethod]
         public void PeekRetrievesTheSameItemAsDequeue()
         {
-            var pq = new PriorityQueue<object>();
-            pq.Enqueue(new object());
-            Assert.AreSame(pq.Peek(), pq.Dequeue());
+            var pq = new PriorityQueue<int>();
+            pq.Enqueue(3);
+            Assert.AreEqual(pq.Peek(), pq.Dequeue());
         }
 
         /// <summary>
         /// Peeking an empty queue should thow an exception
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void PeekThrowsExceptionOnEmptyQueue()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             pq.Peek();
         }
 
@@ -521,22 +489,22 @@ namespace Juniper.Collections.Tests
         [TestMethod]
         public void SyncRootReturnsNonNullReference()
         {
-            var pq = new PriorityQueue<object>();
+            var pq = new PriorityQueue<int>();
             Assert.IsNotNull(pq.SyncRoot);
         }
 
         [TestMethod]
         public void SyncRootReturnsUniqueReferences()
         {
-            var pq1 = new PriorityQueue<object>();
-            var pq2 = new PriorityQueue<object>();
+            var pq1 = new PriorityQueue<int>();
+            var pq2 = new PriorityQueue<int>();
             Assert.AreNotSame(pq1.SyncRoot, pq2.SyncRoot);
         }
     }
 
-    internal class MockComparer : IComparer<object>
+    internal class MockComparer : IComparer<int>
     {
-        public int Compare(object obj1, object obj2)
+        public int Compare(int obj1, int obj2)
         {
             return 0;
         }
