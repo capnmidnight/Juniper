@@ -102,7 +102,6 @@ namespace Juniper.Collections
         }
 
         private readonly ValueT[] nodes;
-        internal bool dirty;
 
         private Route(bool validate, IEnumerable<ValueT> edges, float cost)
         {
@@ -316,6 +315,10 @@ namespace Juniper.Collections
         public bool CanConnectTo(Route<ValueT> other)
         {
             return other is object
+                && (Start.Equals(other.Start)
+                    || Start.Equals(other.End)
+                    || End.Equals(other.Start)
+                    || End.Equals(other.End))
                 && !Parallels(other)
                 && !Intersects(other);
         }

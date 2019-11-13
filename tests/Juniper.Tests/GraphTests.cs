@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -24,11 +23,11 @@ namespace Juniper.Collections.Tests
         {
             foreach (var node in graph1.Nodes)
             {
-                Assert.IsTrue(graph2.NodeExists(node), $"{label}: Node {node} does not exist");
+                Assert.IsTrue(graph2.Exists(node), $"{label}: Node {node} does not exist");
 
                 foreach (var route in graph1.GetRoutes(node))
                 {
-                    Assert.IsTrue(graph2.RouteExists(route.Start, route.End), $"{label}: Route {route.Start} => {route.End} does not exist");
+                    Assert.IsTrue(graph2.Exists(route.Start, route.End), $"{label}: Route {route.Start} => {route.End} does not exist");
                 }
             }
         }
@@ -169,7 +168,7 @@ namespace Juniper.Collections.Tests
             graph.Solve();
             var routeA = graph.GetRoute("a", "d");
 
-            graph.Disconnect("a", "d");
+            graph.Remove("a", "d");
             graph.Solve();
             var routeB = graph.GetRoute("a", "d");
 
@@ -276,7 +275,7 @@ namespace Juniper.Collections.Tests
         }
 
         [TestMethod]
-        public void SimpleClone()
+        public void Clone()
         {
             var graph1 = new Graph<string>();
             graph1.Connect("a", "b", 1);
@@ -285,23 +284,6 @@ namespace Juniper.Collections.Tests
             graph1.Connect("a", "d", 1);
             graph1.Solve();
 
-            var graph2 = graph1.Clone();
-            graph2.Solve();
-
-            CheckGraphs("Clone", graph1, graph2);
-        }
-
-        [TestMethod]
-        public void FullClone()
-        {
-            var graph1 = new Graph<string>();
-            graph1.Connect("a", "b", 1);
-            graph1.Connect("b", "c", 1);
-            graph1.Connect("c", "d", 1);
-            graph1.Connect("a", "d", 1);
-            graph1.Solve();
-
-            graph1.SaveAllPaths = true;
             var graph2 = graph1.Clone();
 
             CheckGraphs("Clone", graph1, graph2);
@@ -390,8 +372,8 @@ namespace Juniper.Collections.Tests
             stopwatch.Stop();
             var time1 = stopwatch.Elapsed;
 
-            graph1.SaveAllPaths = true;
             graph1.Save(outPath);
+
             stopwatch.Restart();
             var graph2 = Graph<string>.Load(outPath);
             stopwatch.Stop();
@@ -412,6 +394,23 @@ namespace Juniper.Collections.Tests
         public void DeserializationBinaryExactlyDuplicatesGraph()
         {
             DeserializationTest("bin");
+        }
+
+        [TestMethod]
+        public void ConvertGraphs()
+        {
+            var userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            var assetsPath = Path.Combine(userHome, "Projects", "Yarrow", "shared", "StreamingAssets");
+            var files = Directory.GetFiles(assetsPath, "*.json");
+            var json = new JsonFactory<Graph<string>>();
+            foreach(var file in files)
+            {
+                if(json.TryDeserialize(file, out var graph))
+                {
+                    graph.Solve();
+                    graph.Save(file, json);
+                }
+            }
         }
     }
 }
