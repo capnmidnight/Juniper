@@ -298,14 +298,14 @@ namespace Juniper.Collections
                 && network[nodes[startPoint], nodes[endPoint]] is object;
         }
 
-        private IEnumerable<Route<NodeT>> GetConnections(NodeT node)
+        public IEnumerable<Route<NodeT>> GetConnections(NodeT node)
         {
             return from connect in Connections
                    where connect.Contains(node)
                    select connect;
         }
 
-        private IEnumerable<Route<NodeT>> GetConnections(Route<NodeT> route)
+        public IEnumerable<Route<NodeT>> GetConnections(Route<NodeT> route)
         {
             return Connections.Where(route.CanConnectTo);
         }
