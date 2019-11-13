@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -378,12 +379,27 @@ namespace Juniper.Collections.Tests
 
         private static void DeserializationTest(string ext)
         {
-            var graph1 = Graph<string>.Load(Path.Combine("..", "..", "..", "test." + ext));
-            graph1.Solve();
+            var inPath = Path.Combine("..", "..", "..", "test." + ext);
+            var outPath = Path.Combine("..", "..", "..", "test2." + ext);
 
-            var graph2 = Graph<string>.Load(Path.Combine("..", "..", "..", "test2." + ext));
+            var stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+            var graph1 = Graph<string>.Load(inPath);
+            graph1.Solve();
+            stopwatch.Stop();
+            var time1 = stopwatch.Elapsed;
+
+            graph1.SaveAllPaths = true;
+            graph1.Save(outPath);
+            stopwatch.Restart();
+            var graph2 = Graph<string>.Load(outPath);
+            stopwatch.Stop();
+            var time2 = stopwatch.Elapsed;
 
             CheckGraphs("Bin", graph1, graph2);
+
+            Assert.IsTrue(time2 < time1, $"{time2.TotalMilliseconds} > {time1.TotalMilliseconds}");
         }
 
         [TestMethod]

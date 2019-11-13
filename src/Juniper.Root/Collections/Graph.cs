@@ -72,9 +72,10 @@ namespace Juniper.Collections
                 ? Routes
                 : Connections;
 
-            foreach (var route in routesToClone)
+            foreach (var route in routesToClone
+                .Distinct())
             {
-                graph.AddRoute(route);
+                graph.FillNetworks(route);
             }
 
             graph.dirty = !SaveAllPaths || dirty;
@@ -113,7 +114,8 @@ namespace Juniper.Collections
             network = new Network();
 
             var wasDirty = dirty;
-            var routes = info.GetValue<Route<NodeT>[]>(nameof(network));
+            var routes = info.GetValue<Route<NodeT>[]>(nameof(network))
+                .Distinct();
             foreach (var route in routes)
             {
                 if (route.IsValid)
@@ -131,14 +133,16 @@ namespace Juniper.Collections
         {
             // Serialize only the minimal information that we need to restore
             // the graph.
+            info.AddValue(nameof(dirty), !SaveAllPaths || dirty);
             info.AddValue(nameof(namedNodes), namedNodes);
 
             var routesToSave = SaveAllPaths
                 ? Routes
-                : Connections.Distinct();
+                : Connections;
 
-
-            info.AddValue(nameof(network), routesToSave.ToArray());
+            info.AddValue(nameof(network), routesToSave
+                .Distinct()
+                .ToArray());
         }
 
         public void Connect(NodeT startPoint, NodeT endPoint, float cost)
@@ -351,8 +355,9 @@ namespace Juniper.Collections
 
         public void Solve()
         {
-            if (dirty)
+            while (dirty)
             {
+                dirty = false;
                 var stack = new Stack<Route<NodeT>>(Routes);
 
                 while (stack.Count > 0)
@@ -370,8 +375,6 @@ namespace Juniper.Collections
                         stack.Push(next);
                     }
                 }
-
-                dirty = false;
             }
         }
     }
