@@ -240,6 +240,7 @@ namespace Juniper.Collections
                 }
 
                 nodes.Remove(node);
+                dirty = true;
             }
         }
 
@@ -259,15 +260,9 @@ namespace Juniper.Collections
                     && connect.Contains(end))
                 {
                     connections.RemoveAt(i);
+                    dirty = true;
                 }
             }
-        }
-
-        private void Remove(Route<NodeT> route)
-        {
-            Remove(from r in Routes
-                   where r.Contains(route)
-                   select r);
         }
 
         private void Remove(IEnumerable<Route<NodeT>> toRemove)
