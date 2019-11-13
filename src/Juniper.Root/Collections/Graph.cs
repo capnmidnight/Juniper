@@ -239,7 +239,16 @@ namespace Juniper.Collections
                     }
                 }
 
+                var index = nodes[node];
                 nodes.Remove(node);
+                foreach (var key in nodes.Keys.ToArray())
+                {
+                    if (nodes[key] > index)
+                    {
+                        --nodes[key];
+                    }
+                }
+
                 dirty = true;
             }
         }
