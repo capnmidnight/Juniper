@@ -55,8 +55,9 @@ namespace Juniper.Collections.Tests
         public void TwoConnection()
         {
             var graph = new Graph<string>();
-            graph.Connect("a", "b", 1);
-            graph.Connect("b", "c", 1);
+            graph.Connect(
+                ("a", "b", 1),
+                ("b", "c", 1));
             graph.Solve();
 
             var route = graph.GetRoute("a", "c");
@@ -72,8 +73,9 @@ namespace Juniper.Collections.Tests
         public void ReversedTwoConnection()
         {
             var graph = new Graph<string>();
-            graph.Connect("b", "c", 1);
-            graph.Connect("a", "b", 1);
+            graph.Connect(
+                ("b", "c", 1),
+                ("a", "b", 1));
             graph.Solve();
 
             var route = graph.GetRoute("a", "c");
@@ -89,16 +91,17 @@ namespace Juniper.Collections.Tests
         public void Reversed10Connection()
         {
             var graph = new Graph<string>();
-            graph.Connect("j", "k", 1);
-            graph.Connect("i", "j", 1);
-            graph.Connect("h", "i", 1);
-            graph.Connect("g", "h", 1);
-            graph.Connect("f", "g", 1);
-            graph.Connect("e", "f", 1);
-            graph.Connect("d", "e", 1);
-            graph.Connect("c", "d", 1);
-            graph.Connect("b", "c", 1);
-            graph.Connect("a", "b", 1);
+            graph.Connect(
+                ("j", "k", 1),
+                ("i", "j", 1),
+                ("h", "i", 1),
+                ("g", "h", 1),
+                ("f", "g", 1),
+                ("e", "f", 1),
+                ("d", "e", 1),
+                ("c", "d", 1),
+                ("b", "c", 1),
+                ("a", "b", 1));
             graph.Solve();
 
             var route = graph.GetRoute("a", "k");
@@ -111,8 +114,9 @@ namespace Juniper.Collections.Tests
         public void Disconnected()
         {
             var graph = new Graph<string>();
-            graph.Connect("a", "b", 1);
-            graph.Connect("c", "d", 1);
+            graph.Connect(
+                ("a", "b", 1),
+                ("c", "d", 1));
             graph.Solve();
 
             var route = graph.GetRoute("a", "d");
@@ -124,9 +128,10 @@ namespace Juniper.Collections.Tests
         public void MiddleConnection()
         {
             var graph = new Graph<string>();
-            graph.Connect("a", "b", 1);
-            graph.Connect("b", "c", 1);
-            graph.Connect("c", "d", 1);
+            graph.Connect(
+                ("a", "b", 1),
+                ("b", "c", 1),
+                ("c", "d", 1));
             graph.Solve();
 
             var routeA = graph.GetRoute("a", "d");
@@ -144,10 +149,11 @@ namespace Juniper.Collections.Tests
         public void Shortcut()
         {
             var graph = new Graph<string>();
-            graph.Connect("a", "b", 1);
-            graph.Connect("b", "c", 1);
-            graph.Connect("c", "d", 1);
-            graph.Connect("a", "d", 1);
+            graph.Connect(
+                ("a", "b", 1),
+                ("b", "c", 1),
+                ("c", "d", 1),
+                ("a", "d", 1));
             graph.Solve();
 
             var route = graph.GetRoute("a", "d");
@@ -160,10 +166,11 @@ namespace Juniper.Collections.Tests
         public void RemoveShortcut()
         {
             var graph = new Graph<string>();
-            graph.Connect("a", "b", 1);
-            graph.Connect("b", "c", 1);
-            graph.Connect("c", "d", 1);
-            graph.Connect("a", "d", 1);
+            graph.Connect(
+                ("a", "b", 1),
+                ("b", "c", 1),
+                ("c", "d", 1),
+                ("a", "d", 1));
 
             graph.Solve();
             var routeA = graph.GetRoute("a", "d");
@@ -183,15 +190,16 @@ namespace Juniper.Collections.Tests
             var graph = new Graph<int>();
             var start = 7216;
             var end = 5666;
-            graph.Connect(start, 4673, 1);
-            graph.Connect(4673, 3416, 1);
-            graph.Connect(4673, 4756, 1);
-            graph.Connect(4673, 9713, 1);
-            graph.Connect(4756, 1371, 1);
-            graph.Connect(9713, 1371, 1);
-            graph.Connect(1371, 3464, 1);
-            graph.Connect(3464, 2656, 1);
-            graph.Connect(3464, end, 1);
+            graph.Connect(
+                (start, 4673, 1),
+                (4673, 3416, 1),
+                (4673, 4756, 1),
+                (4673, 9713, 1),
+                (4756, 1371, 1),
+                (9713, 1371, 1),
+                (1371, 3464, 1),
+                (3464, 2656, 1),
+                (3464, end, 1));
             graph.Solve();
 
             var routeA = graph.GetRoute(start, end);
@@ -213,15 +221,16 @@ namespace Juniper.Collections.Tests
             var graph = new Graph<int>();
             var start = 7216;
             var end = 5666;
-            graph.Connect(start, 4673, 1);
-            graph.Connect(4673, 3416, 1);
-            graph.Connect(4673, 4756, 1);
-            graph.Connect(4673, 9713, 1);
-            graph.Connect(4756, 1371, 1);
-            graph.Connect(9713, 1371, 1);
-            graph.Connect(1371, 3464, 1);
-            graph.Connect(3464, 2656, 1);
-            graph.Connect(3464, end, 1);
+            graph.Connect(
+                (start, 4673, 1),
+                (4673, 3416, 1),
+                (4673, 4756, 1),
+                (4673, 9713, 1),
+                (4756, 1371, 1),
+                (9713, 1371, 1),
+                (1371, 3464, 1),
+                (3464, 2656, 1),
+                (3464, end, 1));
             graph.Solve();
 
             var routeA = graph.GetRoute(start, end);
@@ -241,10 +250,11 @@ namespace Juniper.Collections.Tests
         public void ClosedLoop()
         {
             var graph = new Graph<int>();
-            graph.Connect(0, 1, 1);
-            graph.Connect(1, 2, 1);
-            graph.Connect(2, 3, 1);
-            graph.Connect(3, 0, 1);
+            graph.Connect(
+                (0, 1, 1),
+                (1, 2, 1),
+                (2, 3, 1),
+                (3, 0, 1));
             graph.Solve();
 
             var routeA = graph.GetRoute(0, 1);
@@ -263,9 +273,10 @@ namespace Juniper.Collections.Tests
         public void DetourExpensiveRoute()
         {
             var graph = new Graph<int>();
-            graph.Connect(0, 1, 100);
-            graph.Connect(0, 2, 1);
-            graph.Connect(2, 1, 1);
+            graph.Connect(
+                (0, 1, 100),
+                (0, 2, 1),
+                (2, 1, 1));
             graph.Solve();
 
             var route = graph.GetRoute(0, 1);
@@ -278,10 +289,11 @@ namespace Juniper.Collections.Tests
         public void Clone()
         {
             var graph1 = new Graph<string>();
-            graph1.Connect("a", "b", 1);
-            graph1.Connect("b", "c", 1);
-            graph1.Connect("c", "d", 1);
-            graph1.Connect("a", "d", 1);
+            graph1.Connect(
+                ("a", "b", 1),
+                ("b", "c", 1),
+                ("c", "d", 1),
+                ("a", "d", 1));
             graph1.Solve();
 
             var graph2 = graph1.Clone();
@@ -296,15 +308,16 @@ namespace Juniper.Collections.Tests
             var graph = new Graph<int>();
             var start = 7216;
             var end = 5666;
-            graph.Connect(start, 4673, 1);
-            graph.Connect(4673, 3416, 1);
-            graph.Connect(4673, 4756, 1);
-            graph.Connect(4673, 9713, 1);
-            graph.Connect(4756, 1371, 1);
-            graph.Connect(9713, 1371, 1);
-            graph.Connect(1371, 3464, 1);
-            graph.Connect(3464, 2656, 1);
-            graph.Connect(3464, end, 1);
+            graph.Connect(
+                (start, 4673, 1),
+                (4673, 3416, 1),
+                (4673, 4756, 1),
+                (4673, 9713, 1),
+                (4756, 1371, 1),
+                (9713, 1371, 1),
+                (1371, 3464, 1),
+                (3464, 2656, 1),
+                (3464, end, 1));
             graph.Solve();
 
             var routeA = graph.GetRoute(start, end);
@@ -394,23 +407,6 @@ namespace Juniper.Collections.Tests
         public void DeserializationBinaryExactlyDuplicatesGraph()
         {
             DeserializationTest("bin");
-        }
-
-        [TestMethod]
-        public void ConvertGraphs()
-        {
-            var userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-            var assetsPath = Path.Combine(userHome, "Projects", "Yarrow", "shared", "StreamingAssets");
-            var files = Directory.GetFiles(assetsPath, "*.json");
-            var json = new JsonFactory<Graph<string>>();
-            foreach(var file in files)
-            {
-                if(json.TryDeserialize(file, out var graph))
-                {
-                    graph.Solve();
-                    graph.Save(file, json);
-                }
-            }
         }
     }
 }

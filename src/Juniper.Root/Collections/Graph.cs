@@ -57,6 +57,7 @@ namespace Juniper.Collections
             connections = new List<Route<NodeT>>();
             namedNodes = new Dictionary<string, NodeT>();
             nodeNames = new Dictionary<NodeT, string>();
+            network = new Route<NodeT>[0, 0];
         }
 
         public Graph<NodeT> Clone()
@@ -165,7 +166,7 @@ namespace Juniper.Collections
         {
             get
             {
-                if (nodes != null)
+                if (network != null)
                 {
                     for (var x = 0; x < network.GetLength(0); ++x)
                     {
@@ -208,18 +209,70 @@ namespace Juniper.Collections
             }
         }
 
+        private void ResetNetwork(int indexRemoved = -1)
+        {
+            var oldNetwork = network;
+            var newNetwork = new Route<NodeT>[nodes.Count, nodes.Count];
+
+            if (oldNetwork != null
+                && indexRemoved != -1)
+            {
+                for (int oldX = 0; oldX < nodes.Count + 1; ++oldX)
+                {
+                    int newX = oldX < indexRemoved ? oldX : oldX - 1;
+                    for (int oldY = 0; oldY < nodes.Count + 1; ++oldY)
+                    {
+                        int newY = oldY < indexRemoved ? oldY : oldY - 1;
+                        newNetwork[newX, newY] = oldNetwork[oldX, oldY];
+                    }
+                }
+            }
+
+            foreach (var route in Connections)
+            {
+                var x = nodes[route.Start];
+                var y = nodes[route.End];
+                newNetwork[x, y] = route;
+                newNetwork[y, x] = ~route;
+            }
+
+            network = newNetwork;
+        }
+
+        private void AddConnection(NodeT start, NodeT end, float cost)
+        {
+            AddNode(start);
+            AddNode(end);
+
+            connections.RemoveAll(connect =>
+                connect.Contains(start)
+                && connect.Contains(end));
+
+            connections.Add(new Route<NodeT>(cost, start, end));
+        }
+
         public void Connect(NodeT start, NodeT end, float cost)
         {
             if (!start.Equals(end))
             {
-                AddNode(start);
-                AddNode(end);
+                AddConnection(start, end, cost);
 
-                connections.RemoveAll(connect => connect.Contains(start) && connect.Contains(end));
-                connections.Add(new Route<NodeT>(cost, start, end));
+                ResetNetwork();
 
                 dirty = true;
             }
+        }
+
+        public void Connect(params (NodeT start, NodeT end, float cost)[] connections)
+        {
+            foreach(var (start, end, cost) in connections)
+            {
+                AddConnection(start, end, cost);
+            }
+
+            ResetNetwork();
+
+            dirty = true;
         }
 
         public void Remove(NodeT node)
@@ -249,28 +302,35 @@ namespace Juniper.Collections
                     }
                 }
 
+                ResetNetwork(index);
+
                 dirty = true;
             }
         }
 
         public void Remove(NodeT start, NodeT end)
         {
-            Remove(from connect in connections
-                   where connect.Contains(start)
-                    && connect.Contains(end)
-                   from route in Routes
-                   where route.Contains(connect)
-                   select route);
-
-            for (int i = connections.Count - 1; i >= 0; --i)
+            if (Exists(start, end))
             {
-                var connect = connections[i];
-                if (connect.Contains(start)
-                    && connect.Contains(end))
+                Remove(from connect in connections
+                       where connect.Contains(start)
+                        && connect.Contains(end)
+                       from route in Routes
+                       where route.Contains(connect)
+                       select route);
+
+                for (int i = connections.Count - 1; i >= 0; --i)
                 {
-                    connections.RemoveAt(i);
-                    dirty = true;
+                    var connect = connections[i];
+                    if (connect.Contains(start)
+                        && connect.Contains(end))
+                    {
+                        connections.RemoveAt(i);
+                        dirty = true;
+                    }
                 }
+
+                ResetNetwork();
             }
         }
 
@@ -301,7 +361,6 @@ namespace Juniper.Collections
             return !startPoint.Equals(endPoint)
                 && Exists(startPoint)
                 && Exists(endPoint)
-                && !dirty
                 && network[nodes[startPoint], nodes[endPoint]] is object;
         }
 
@@ -407,16 +466,6 @@ namespace Juniper.Collections
 
             if (dirty)
             {
-                network = new Route<NodeT>[nodes.Count, nodes.Count];
-
-                foreach (var route in Connections)
-                {
-                    var x = nodes[route.Start];
-                    var y = nodes[route.End];
-                    network[x, y] = route;
-                    network[y, x] = ~route;
-                }
-
                 var q = new Queue<Route<NodeT>>(connections);
                 while (q.Count > 0)
                 {
