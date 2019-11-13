@@ -276,11 +276,18 @@ namespace Juniper.Collections
 
         private void Remove(IEnumerable<Route<NodeT>> toRemove)
         {
-            var arr = toRemove.ToArray();
-            dirty |= arr.Length > 0;
-            foreach (var r in arr)
+            if (network != null)
             {
-                network[nodes[r.Start], nodes[r.End]] = null;
+                var arr = toRemove.ToArray();
+                dirty |= arr.Length > 0;
+                foreach (var r in arr)
+                {
+                    if (Exists(r.Start)
+                        && Exists(r.End))
+                    {
+                        network[nodes[r.Start], nodes[r.End]] = null;
+                    }
+                }
             }
         }
 
