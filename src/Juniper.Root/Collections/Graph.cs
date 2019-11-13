@@ -394,8 +394,10 @@ namespace Juniper.Collections
             }
         }
 
-        public void Solve()
+        public bool Solve()
         {
+            var wasDirty = dirty;
+
             if (dirty)
             {
                 network = new Route<NodeT>[nodes.Count, nodes.Count];
@@ -429,6 +431,8 @@ namespace Juniper.Collections
 
                 dirty = false;
             }
+
+            return wasDirty;
         }
     }
 }
