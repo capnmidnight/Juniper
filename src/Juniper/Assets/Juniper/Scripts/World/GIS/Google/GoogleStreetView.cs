@@ -387,12 +387,28 @@ namespace Juniper.World.GIS.Google
             }
         }
 
+        private static void LogError(Task erroredTask)
+        {
+            Debug.LogError(erroredTask.Exception);
+            var stack = new Stack<Exception>(erroredTask.Exception.InnerExceptions);
+            while (stack.Count > 0)
+            {
+                var here = stack.Pop();
+                if (here != null)
+                {
+                    Debug.LogError(here);
+                    stack.Push(here.InnerException);
+                }
+            }
+        }
+
         private void SyncData(IProgress prog)
         {
             var isNewSearch = ParseSearchParams(searchLocation, out var searchPano, out var searchPoint);
             if (isNewSearch)
             {
-                searchTask = SearchData(searchPano, searchPoint, prog);
+                searchTask = SearchData(searchPano, searchPoint, prog)
+                    .ContinueWith(LogError, TaskContinuationOptions.OnlyOnFaulted);
             }
             else if (origin != null && metadata != null)
             {
