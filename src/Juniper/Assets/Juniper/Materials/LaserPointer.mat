@@ -5,7 +5,8 @@ Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: LaserPointer
   m_Shader: {fileID: 4800000, guid: 72c43c3cc6632f740bff9837a5060728, type: 3}
   m_ShaderKeywords: 
