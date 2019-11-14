@@ -337,7 +337,7 @@ namespace Juniper.World.GIS.Google
             }
             else
             {
-                return await Decode(await cache.Open(cubemapRef));
+                return Decode(await cache.Open(cubemapRef));
             }
         }
 
@@ -350,11 +350,11 @@ namespace Juniper.World.GIS.Google
             }
             else
             {
-                return await Decode(await gmaps.GetImage(source.CubemapName, fov, heading, pitch));
+                return Decode(await gmaps.GetImage(source.CubemapName, fov, heading, pitch));
             }
         }
 
-        private async Task<Texture2D> Decode(Stream imageStream)
+        private Texture2D Decode(Stream imageStream)
         {
             if (imageStream == null)
             {
