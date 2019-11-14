@@ -30,7 +30,7 @@ namespace Juniper.IO
             this ICacheSourceLayer layer,
             IDeserializer<ResultType> deserializer,
             ContentReference fileRef,
-            IProgress prog)
+            IProgress prog = null)
         {
             if (fileRef == null)
             {
@@ -54,12 +54,32 @@ namespace Juniper.IO
             }
         }
 
-        public static Task<ResultType> Load<ResultType>(
+        public static bool TryLoad<ResultType>(
             this ICacheSourceLayer layer,
             IDeserializer<ResultType> deserializer,
-            ContentReference fileRef)
+            ContentReference fileRef,
+            out ResultType value,
+            IProgress prog = null)
         {
-            return layer.Load(deserializer, fileRef, null);
+            var task = layer.Load(deserializer, fileRef, prog);
+
+            try
+            {
+                task.Wait();
+            }
+            finally
+            {
+                if (task.IsSuccessful())
+                {
+                    value = task.Result;
+                }
+                else
+                {
+                    value = default;
+                }
+            }
+
+            return task.IsSuccessful();
         }
 
         public static async Task Proxy(
