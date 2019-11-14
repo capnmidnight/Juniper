@@ -141,6 +141,7 @@ namespace Juniper.World.GIS.Google
             navPlane = transform.Find("NavPlane").Ensure<Clickable>();
             Find.Any(out avatar);
             navPointer = transform.Find("NavPointer");
+            navPointer.Deactivate();
             Find.Any(out input);
 
 #if UNITY_EDITOR
@@ -410,6 +411,8 @@ namespace Juniper.World.GIS.Google
                             newPointer.parent = navPointer.parent;
                             newPointer.position = GetRelativeVector3(metadata);
                             newPointer.name = "nav-" + metadata.pano_id;
+                            newPointer.Activate();
+
                             navPointers[metadata.pano_id] = newPointer;
                         }
                     }
