@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -34,6 +35,7 @@ namespace Juniper.World.GIS.Google
             new Regex("https?://www\\.google\\.com/maps/@(-?\\d+\\.\\d+,-?\\d+\\.\\d+)", RegexOptions.Compiled);
 
         private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
+        private readonly Dictionary<string, Transform> navPointers = new Dictionary<string, Transform>();
 
         [SerializeField]
         [HideInInspector]
@@ -396,7 +398,45 @@ namespace Juniper.World.GIS.Google
 
         public void Update()
         {
-            navPointer.position = navPointerPosition;
+            if (!string.IsNullOrEmpty(navPointerPano))
+            {
+                if (!navPointers.ContainsKey(navPointerPano))
+                {
+                    foreach (var metadata in metadataCache.Values.Distinct())
+                    {
+                        if (!navPointers.ContainsKey(metadata.pano_id))
+                        {
+                            var newPointer = Instantiate(navPointer);
+                            newPointer.parent = navPointer.parent;
+                            newPointer.position = GetRelativeVector3(metadata);
+                            newPointer.name = "nav-" + metadata.pano_id;
+                            navPointers[metadata.pano_id] = newPointer;
+                        }
+                    }
+                }
+
+                foreach (var pointer in navPointers)
+                {
+                    var renderer = pointer.Value.GetComponentInChildren<MeshRenderer>();
+                    var material = renderer.GetMaterial();
+                    var color = Color.red;
+                    if (pointer.Key == navPointerPano)
+                    {
+                        color = Color.green;
+                    }
+                    else if (metadataCache.ContainsKey(pointer.Key))
+                    {
+                        var metadata = metadataCache[pointer.Key];
+                        if (cache.IsCached(metadata.pano_id + codec.ContentType))
+                        {
+                            color = Color.blue;
+                        }
+                    }
+
+                    material.SetColor("_Color", color);
+                }
+            }
+
             if (IsEntered && IsComplete && !IsBusy)
             {
                 SyncData(null);
