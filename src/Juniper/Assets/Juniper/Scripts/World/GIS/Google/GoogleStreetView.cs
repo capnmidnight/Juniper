@@ -405,11 +405,13 @@ namespace Juniper.World.GIS.Google
                 {
                     foreach (var metadata in metadataCache.Values.Distinct())
                     {
-                        if (!navPointers.ContainsKey(metadata.pano_id))
+                        var position = GetRelativeVector3(metadata);
+                        if(position.magnitude < 1000
+                            && !navPointers.ContainsKey(metadata.pano_id))
                         {
                             var newPointer = Instantiate(navPointer);
                             newPointer.parent = navPointer.parent;
-                            newPointer.position = GetRelativeVector3(metadata);
+                            newPointer.position = position;
                             newPointer.name = "nav-" + metadata.pano_id;
                             newPointer.Activate();
 
