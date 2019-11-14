@@ -170,6 +170,22 @@ namespace Juniper.World.GIS.Google
 
             gmaps = new GoogleMapsClient(gmapsApiKey, gmapsSigningKey, metadataDecoder, geocodingDecoder, cache);
 
+            foreach(var fileRef in cache.Get(metadataDecoder.ContentType))
+            {
+                if(cache.TryLoad(metadataDecoder, fileRef, out var metadata))
+                {
+                    if (metadata.location != null)
+                    {
+                        metadataCache[metadata.location.ToString()] = metadata;
+                        metadataCache[metadata.pano_id] = metadata;
+                    }
+                    else
+                    {
+                        cache.Delete(fileRef);
+                    }
+                }
+            }
+
             photospheres.CubemapNeeded += Photosphere_CubemapNeeded;
 
             photospheres.SetIO(cache, codec);
