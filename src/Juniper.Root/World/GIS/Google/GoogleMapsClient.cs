@@ -48,8 +48,15 @@ namespace Juniper.World.GIS.Google
             var value = await cache.Load(deserializer, fileRef, prog);
             if(value is MetadataResponse metadata)
             {
-                var metadataRef = new ContentReference(metadata.pano_id, MediaType.Application.Json);
-                await cache.CopyTo(fileRef, cache, metadataRef);
+                if (string.IsNullOrEmpty(metadata.pano_id))
+                {
+                    value = default;
+                }
+                else
+                {
+                    var metadataRef = new ContentReference(metadata.pano_id, MediaType.Application.Json);
+                    await cache.CopyTo(fileRef, cache, metadataRef);
+                }
             }
             return value;
         }
