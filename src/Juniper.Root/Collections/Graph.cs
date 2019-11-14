@@ -69,7 +69,7 @@ namespace Juniper.Collections
                 graph.AddNode(node);
             }
 
-            graph.connections.AddRange(Connections);
+            graph.connections.AddRange(Connections.Distinct());
             graph.network = new Route<NodeT>[nodes.Count, nodes.Count];
 
             foreach (var route in Routes)
@@ -109,12 +109,16 @@ namespace Juniper.Collections
             {
                 if (route.IsValid)
                 {
-                    if (route.IsConnection)
+                    if (route.IsConnection
+                        && !connections.Contains(route))
                     {
                         connections.Add(route);
                     }
 
-                    network[nodes[route.Start], nodes[route.End]] = route;
+                    var x = nodes[route.Start];
+                    var y = nodes[route.End];
+                    network[x, y] = route;
+                    network[y, x] = ~route;
                 }
             }
 
@@ -151,7 +155,7 @@ namespace Juniper.Collections
             // the graph.
             info.AddValue(nameof(dirty), dirty);
             info.AddValue(nameof(namedNodes), namedNodes);
-            info.AddValue(nameof(network), Routes.ToArray());
+            info.AddValue(nameof(network), Routes.Distinct().ToArray());
         }
 
         public IEnumerable<NodeT> Nodes
@@ -265,7 +269,7 @@ namespace Juniper.Collections
 
         public void Connect(params (NodeT start, NodeT end, float cost)[] connections)
         {
-            foreach(var (start, end, cost) in connections)
+            foreach (var (start, end, cost) in connections)
             {
                 AddConnection(start, end, cost);
             }
@@ -378,11 +382,12 @@ namespace Juniper.Collections
 
         public IEnumerable<NodeT> GetExits(NodeT node)
         {
-            return from route in GetConnections(node)
-                   let isReverse = route.End.Equals(node)
-                   select isReverse
-                    ? route.Start
-                    : route.End;
+            return (from route in GetConnections(node)
+                    let isReverse = route.End.Equals(node)
+                    select isReverse
+                     ? route.Start
+                     : route.End)
+                    .Distinct();
         }
 
         public IEnumerable<Route<NodeT>> GetRoutes(NodeT node)
