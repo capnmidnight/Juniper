@@ -86,7 +86,7 @@ namespace Juniper.Imaging
 
             foreach (var child in transform.Children())
             {
-                child.gameObject.DestroyImmediate();
+                child.gameObject.Destroy();
             }
         }
 
