@@ -174,6 +174,8 @@ namespace Juniper.Imaging
             ConfigurationManagement.TagManager.NormalizeLayer(PHOTOSPHERE_LAYER);
         }
 
+        public bool hideGizmo;
+
         protected virtual void OnDrawGizmos()
         {
             if (!hideGizmo)
@@ -193,8 +195,6 @@ namespace Juniper.Imaging
                 Gizmos.DrawSphere(transform.position, 0.5f);
             }
         }
-        public bool hideGizmo;
-
 #endif
     }
 }

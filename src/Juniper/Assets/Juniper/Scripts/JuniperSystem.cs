@@ -88,6 +88,21 @@ namespace Juniper
 
         public void Uninstall() { }
 
+        public static void LogError(Task erroredTask)
+        {
+            Debug.LogError(erroredTask.Exception);
+            var stack = new Stack<Exception>(erroredTask.Exception.InnerExceptions);
+            while (stack.Count > 0)
+            {
+                var here = stack.Pop();
+                if (here != null)
+                {
+                    Debug.LogError(here);
+                    stack.Push(here.InnerException);
+                }
+            }
+        }
+
         /// <summary>
         /// Get all of the scenes defined in the Build settings.
         /// </summary>
