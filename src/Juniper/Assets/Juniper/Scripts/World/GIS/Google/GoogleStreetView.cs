@@ -475,10 +475,11 @@ namespace Juniper.World.GIS.Google
 
                 if (metadata != null && !string.IsNullOrEmpty(metadata.pano_id))
                 {
+                    searchPoint = metadata.location;
                     searchLocation = searchPano = metadata.pano_id;
 
-                    metadataCache[metadata.pano_id] = metadata;
-                    metadataCache[metadata.location.ToString()] = metadata;
+                    metadataCache[searchPano] = metadata;
+                    metadataCache[searchPoint.ToString()] = metadata;
                     metadataCache[searchLocation] = metadata;
                 }
             }
