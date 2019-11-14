@@ -67,6 +67,8 @@ namespace Juniper.IO
             {
                 task.Wait();
             }
+            catch
+            { }
             finally
             {
                 if (task.IsSuccessful())
