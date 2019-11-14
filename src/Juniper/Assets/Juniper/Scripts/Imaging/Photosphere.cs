@@ -39,11 +39,22 @@ namespace Juniper.Imaging
         public event TextureNeeded GetCubemap;
 
         public event CubemapRotationNeeded GetRotation;
+
+        private bool gotRotation;
+        [Range(0, 360)]
+        public float rotation;
         private float Rotation
         {
             get
             {
-                return GetRotation?.Invoke(this) ?? 0;
+                if (!gotRotation
+                    && GetRotation != null)
+                {
+                    gotRotation = true;
+                    rotation = GetRotation(this);
+                }
+
+                return rotation;
             }
         }
 
@@ -121,6 +132,13 @@ namespace Juniper.Imaging
                 this.Report(0);
                 readingTask = ReadCubemap();
             }
+
+#if UNITY_EDITOR
+            else
+            {
+                skybox.rotation = rotation;
+            }
+#endif
         }
 
         private async Task ReadCubemap()
