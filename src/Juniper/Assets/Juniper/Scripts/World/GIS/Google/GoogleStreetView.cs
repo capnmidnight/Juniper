@@ -179,8 +179,7 @@ namespace Juniper.World.GIS.Google
                 {
                     if (metadata.location != null)
                     {
-                        metadataCache[metadata.location.ToString()] = metadata;
-                        metadataCache[metadata.pano_id] = metadata;
+                        Cache(metadata);
                     }
                     else
                     {
@@ -200,6 +199,12 @@ namespace Juniper.World.GIS.Google
             {
                 renderer.enabled = false;
             }
+        }
+
+        private void Cache(MetadataResponse metadata)
+        {
+            metadataCache[metadata.location.ToString()] = metadata;
+            metadataCache[metadata.pano_id] = metadata;
         }
 
 #if UNITY_EDITOR
@@ -397,15 +402,14 @@ namespace Juniper.World.GIS.Google
 
         public void Update()
         {
-            if (!string.IsNullOrEmpty(navPointerPano))
+            if (origin != null)
             {
-                if (!navPointers.ContainsKey(navPointerPano))
+                foreach (var metadata in metadataCache.Values.Distinct())
                 {
-                    foreach (var metadata in metadataCache.Values.Distinct())
+                    if (!navPointers.ContainsKey(metadata.pano_id))
                     {
                         var position = GetRelativeVector3(metadata);
-                        if(position.magnitude < 1000
-                            && !navPointers.ContainsKey(metadata.pano_id))
+                        if (position.magnitude < 1000)
                         {
                             var newPointer = Instantiate(navPointer);
                             newPointer.parent = navPointer.parent;
@@ -417,7 +421,10 @@ namespace Juniper.World.GIS.Google
                         }
                     }
                 }
+            }
 
+            if (!string.IsNullOrEmpty(navPointerPano))
+            {
                 foreach (var pointer in navPointers)
                 {
                     var renderer = pointer.Value.GetComponentInChildren<MeshRenderer>();
@@ -476,13 +483,29 @@ namespace Juniper.World.GIS.Google
         private async Task SearchPoint()
         {
             lastCursorPosition = cursorPosition;
-            var nextPoint = GetRelativeLatLng(cursorPosition);
-            var nextMetadata = await gmaps.GetMetadata(nextPoint, searchRadius, null);
-            nextMetadata = ValidateMetadata(nextMetadata);
-            if (nextMetadata != null)
+            var point = GetRelativeLatLng(cursorPosition);
+            var pointMetadata = await gmaps.GetMetadata(point, searchRadius, null);
+            if (pointMetadata != null)
             {
-                navPointerPano = nextMetadata.pano_id;
-                navPointerPosition = GetRelativeVector3(nextMetadata);
+                Cache(pointMetadata);
+
+                MetadataResponse closestMetadata = null;
+                float minDistance = float.MaxValue;
+                foreach(var metadata in metadataCache.Values)
+                {
+                    var distance = point.Distance(metadata.location);
+                    if(distance < minDistance)
+                    {
+                        minDistance = distance;
+                        closestMetadata = metadata;
+                    }
+                }
+
+                if (closestMetadata != null)
+                {
+                    navPointerPano = closestMetadata.pano_id;
+                    navPointerPosition = GetRelativeVector3(closestMetadata);
+                }
             }
         }
 
@@ -514,15 +537,12 @@ namespace Juniper.World.GIS.Google
                     metadata = await gmaps.SearchMetadata(searchLocation, searchRadius, metaSubProgs[2]);
                 }
 
-                metadata = ValidateMetadata(metadata);
-
-                if (metadata != null && !string.IsNullOrEmpty(metadata.pano_id))
+                if (metadata != null)
                 {
                     searchPoint = metadata.location;
                     searchLocation = searchPano = metadata.pano_id;
 
-                    metadataCache[searchPano] = metadata;
-                    metadataCache[searchPoint.ToString()] = metadata;
+                    Cache(metadata);
                     metadataCache[searchLocation] = metadata;
                 }
             }
@@ -648,16 +668,6 @@ namespace Juniper.World.GIS.Google
             var start = origin.ToVector3();
             var delta = nextVec - start;
             return delta;
-        }
-
-        private MetadataResponse ValidateMetadata(MetadataResponse metadata)
-        {
-            if (metadata?.status != HttpStatusCode.OK)
-            {
-                metadata = null;
-            }
-
-            return metadata;
         }
     }
 }
