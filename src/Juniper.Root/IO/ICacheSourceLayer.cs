@@ -61,27 +61,17 @@ namespace Juniper.IO
             out ResultType value,
             IProgress prog = null)
         {
+            value = default;
+
             var task = layer.Load(deserializer, fileRef, prog);
+            Task.WaitAny(task);
 
-            try
+            if (task.IsSuccessful())
             {
-                task.Wait();
-            }
-            catch
-            { }
-            finally
-            {
-                if (task.IsSuccessful())
-                {
-                    value = task.Result;
-                }
-                else
-                {
-                    value = default;
-                }
+                value = task.Result;
             }
 
-            return task.IsSuccessful();
+            return value != default;
         }
 
         public static async Task Proxy(
