@@ -48,8 +48,15 @@ namespace Juniper.World.GIS.Google
             var value = await cache.Load(deserializer, fileRef, prog);
             if(value is MetadataResponse metadata)
             {
-                if (string.IsNullOrEmpty(metadata.pano_id))
+                if (metadata.status != System.Net.HttpStatusCode.OK
+                    || string.IsNullOrEmpty(metadata.pano_id)
+                    || metadata.location is null)
                 {
+                    if (cache.IsCached(fileRef))
+                    {
+                        cache.Delete(fileRef);
+                    }
+
                     value = default;
                 }
                 else
