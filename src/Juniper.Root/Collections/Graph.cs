@@ -74,7 +74,7 @@ namespace Juniper.Collections
 
             foreach (var route in Routes)
             {
-                graph.network[graph.nodes[route.Start], graph.nodes[route.End]] = route;
+                graph.SetRoute(route);
             }
 
             foreach (var pair in namedNodes)
@@ -115,10 +115,7 @@ namespace Juniper.Collections
                         connections.Add(route);
                     }
 
-                    var x = nodes[route.Start];
-                    var y = nodes[route.End];
-                    network[x, y] = route;
-                    network[y, x] = ~route;
+                    SetRoute(route);
                 }
             }
 
@@ -204,43 +201,33 @@ namespace Juniper.Collections
             }
         }
 
+        public bool HasContent
+        {
+            get
+            {
+                return nodes.Count > 0
+                    && connections.Count > 0;
+            }
+        }
+
         private void AddNode(NodeT node)
         {
             if (!nodes.ContainsKey(node))
             {
-                dirty = true;
                 nodes.Add(node, nodes.Count);
             }
         }
 
-        private void ResetNetwork(int indexRemoved = -1)
+        private void ResetNetwork()
         {
-            var oldNetwork = network;
-            var newNetwork = new Route<NodeT>[nodes.Count, nodes.Count];
-
-            if (oldNetwork != null
-                && indexRemoved != -1)
-            {
-                for (int oldX = 0; oldX < nodes.Count + 1; ++oldX)
-                {
-                    int newX = oldX < indexRemoved ? oldX : oldX - 1;
-                    for (int oldY = 0; oldY < nodes.Count + 1; ++oldY)
-                    {
-                        int newY = oldY < indexRemoved ? oldY : oldY - 1;
-                        newNetwork[newX, newY] = oldNetwork[oldX, oldY];
-                    }
-                }
-            }
+            network = new Route<NodeT>[nodes.Count, nodes.Count];
 
             foreach (var route in Connections)
             {
-                var x = nodes[route.Start];
-                var y = nodes[route.End];
-                newNetwork[x, y] = route;
-                newNetwork[y, x] = ~route;
+                SetRoute(route);
             }
 
-            network = newNetwork;
+            dirty = true;
         }
 
         private void AddConnection(NodeT start, NodeT end, float cost)
@@ -255,19 +242,17 @@ namespace Juniper.Collections
             connections.Add(new Route<NodeT>(cost, start, end));
         }
 
-        public void Connect(NodeT start, NodeT end, float cost)
+        public void SetConnection(NodeT start, NodeT end, float cost)
         {
             if (!start.Equals(end))
             {
                 AddConnection(start, end, cost);
 
                 ResetNetwork();
-
-                dirty = true;
             }
         }
 
-        public void Connect(params (NodeT start, NodeT end, float cost)[] connections)
+        public void SetConnections(params (NodeT start, NodeT end, float cost)[] connections)
         {
             foreach (var (start, end, cost) in connections)
             {
@@ -275,8 +260,6 @@ namespace Juniper.Collections
             }
 
             ResetNetwork();
-
-            dirty = true;
         }
 
         public void Remove(NodeT node)
@@ -287,7 +270,7 @@ namespace Juniper.Collections
                        where route.Contains(node)
                        select route);
 
-                for (int i = connections.Count - 1; i >= 0; --i)
+                for (var i = connections.Count - 1; i >= 0; --i)
                 {
                     var connect = connections[i];
                     if (connect.Contains(node))
@@ -306,9 +289,7 @@ namespace Juniper.Collections
                     }
                 }
 
-                ResetNetwork(index);
-
-                dirty = true;
+                ResetNetwork();
             }
         }
 
@@ -323,14 +304,13 @@ namespace Juniper.Collections
                        where route.Contains(connect)
                        select route);
 
-                for (int i = connections.Count - 1; i >= 0; --i)
+                for (var i = connections.Count - 1; i >= 0; --i)
                 {
                     var connect = connections[i];
                     if (connect.Contains(start)
                         && connect.Contains(end))
                     {
                         connections.RemoveAt(i);
-                        dirty = true;
                     }
                 }
 
@@ -346,8 +326,7 @@ namespace Juniper.Collections
                 dirty |= arr.Length > 0;
                 foreach (var r in arr)
                 {
-                    if (Exists(r.Start)
-                        && Exists(r.End))
+                    if (Exists(r.Start, r.End))
                     {
                         network[nodes[r.Start], nodes[r.End]] = null;
                     }
@@ -395,7 +374,7 @@ namespace Juniper.Collections
             if (Exists(node))
             {
                 var x = nodes[node];
-                for (int y = 0; y < network.GetLength(1); ++y)
+                for (var y = 0; y < network.GetLength(1); ++y)
                 {
                     var route = network[x, y];
                     if (route is object)
@@ -411,6 +390,14 @@ namespace Juniper.Collections
             return Exists(startPoint, endPoint)
                 ? network[nodes[startPoint], nodes[endPoint]]
                 : default;
+        }
+
+        private void SetRoute(Route<NodeT> route)
+        {
+            var x = nodes[route.Start];
+            var y = nodes[route.End];
+            network[x, y] = route;
+            network[y, x] = ~route;
         }
 
         public IReadOnlyDictionary<string, NodeT> NamedNodes
@@ -478,13 +465,10 @@ namespace Juniper.Collections
                     foreach (var extension in GetConnections(route))
                     {
                         var next = route + extension;
-                        var x = nodes[next.Start];
-                        var y = nodes[next.End];
-                        var cur = network[x, y];
+                        var cur = GetRoute(next.Start, next.End);
                         if (next < cur)
                         {
-                            network[x, y] = next;
-                            network[y, x] = ~next;
+                            SetRoute(next);
                             q.Add(next);
                         }
                     }
