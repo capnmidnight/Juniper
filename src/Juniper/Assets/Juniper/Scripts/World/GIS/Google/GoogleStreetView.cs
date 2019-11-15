@@ -276,8 +276,6 @@ namespace Juniper.World.GIS.Google
                             processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]));
 
                         cache.Save(codec, photosphere.name + codec.ContentType, img, subProgs[3]);
-
-                        Debug.Log("Cubemap saved " + photosphere.name);
                     }
                 }
 
@@ -490,7 +488,6 @@ namespace Juniper.World.GIS.Google
 
         private async Task SearchData(string searchPano, LatLngPoint searchPoint, IProgress prog)
         {
-            print("start new search");
             metadata = null;
 
             prog.Report(0);
@@ -627,25 +624,11 @@ namespace Juniper.World.GIS.Google
                 }
             }
 
-            if (metadata == null)
-            {
-                Debug.Log("No existing search");
-                return true;
-            }
-            else if (searchPano != null && metadata.pano_id != searchPano)
-            {
-                Debug.Log("Search pano changed " + searchPano);
-                return true;
-            }
-            else if (searchPoint != null && searchPoint.Distance(metadata.location) > 3f)
-            {
-                Debug.Log($"Search point changed {metadata.location} -> {searchPoint}");
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return metadata == null
+                || searchPano != null 
+                    && metadata.pano_id != searchPano
+                || searchPoint != null 
+                    && searchPoint.Distance(metadata.location) > 3f;
         }
 
         private LatLngPoint GetRelativeLatLng(Vector3 cursorPosition)

@@ -62,7 +62,6 @@ namespace Juniper.Imaging
 
         public void DestroyJig()
         {
-            Debug.Log("Destroying Jig");
             foreach (var sliceFrames in detailSliceFrameContainerCache.Values)
             {
                 foreach (var frames in sliceFrames.Values)
@@ -162,7 +161,6 @@ namespace Juniper.Imaging
 
                 if (isComplete)
                 {
-                    Debug.Log("Cubemap Complete");
                     OnComplete(true);
                 }
                 else
