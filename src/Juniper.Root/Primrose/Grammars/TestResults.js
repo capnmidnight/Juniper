@@ -6,7 +6,7 @@ pliny.value({
 });
 */
 
-import Grammar from "./Grammar";
+import Grammar from "../Grammar";
 export default new Grammar("TestResults", [
   ["newlines", /(?:\r\n|\r|\n)/, true],
   ["numbers", /(\[)(o+)/, true],

@@ -53,7 +53,7 @@ namespace System.Collections.Generic
         {
             var temp = items.ToList();
             items.Clear();
-            while(temp.Count > 0)
+            while (temp.Count > 0)
             {
                 items.Add(temp.RemoveRandom());
             }
@@ -72,6 +72,58 @@ namespace System.Collections.Generic
             var output = list.GetRange(index, count);
             list.RemoveRange(index, count);
             return output;
+        }
+
+        /// <summary>
+        /// JavaScript's Array.prototype.splice method, for System.Collections.Generic.List{<typeparamref name="T"/>}'s
+        /// </summary>
+        /// <seealso cref="https://developer.mozilla.org/en-US/docs/web/javascript/reference/global_objects/array/splice"/>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">The collection to modify.</param>
+        /// <param name="start">The index at which to start deleting and inserting items.</param>
+        /// <param name="deleteCount">The number of items to delete.</param>
+        /// <param name="insert">The new values to insert (if any).</param>
+        /// <returns></returns>
+        public static T[] Splice<T>(this List<T> list, int start, int deleteCount, params T[] insert)
+        {
+            if (start < 0)
+            {
+                start = list.Count + start;
+            }
+
+            if (start > list.Count)
+            {
+                start = list.Count;
+            }
+
+            var itemsLeft = list.Count - start;
+            if (deleteCount > itemsLeft)
+            {
+                deleteCount = itemsLeft;
+            }
+
+            var removed = new T[deleteCount];
+            list.CopyTo(start, removed, 0, deleteCount);
+            list.RemoveRange(start, deleteCount);
+            list.InsertRange(start, insert);
+
+            return removed;
+        }
+
+        public static T[] Splice<T>(this List<T> list, int start, params T[] insert)
+        {
+            if (start > list.Count)
+            {
+                start = list.Count;
+            }
+            else if (start < 0)
+            {
+                start = list.Count - start;
+            }
+
+            var deleteCount = list.Count - start;
+
+            return list.Splice(start, deleteCount, insert);
         }
     }
 }

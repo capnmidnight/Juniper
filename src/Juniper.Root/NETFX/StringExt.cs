@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 using static System.Math;
@@ -316,6 +319,20 @@ namespace System
         public static float Similarity(this string a, string b)
         {
             return a.JaroWinkler_Similarity(b);
+        }
+
+        private static IEnumerable<string> GraphemeClusters(this string s)
+        {
+            var enumerator = StringInfo.GetTextElementEnumerator(s);
+            while (enumerator.MoveNext())
+            {
+                yield return (string)enumerator.Current;
+            }
+        }
+
+        public static string Reverse(this string s)
+        {
+            return string.Concat(s.GraphemeClusters().Reverse());
         }
     }
 }

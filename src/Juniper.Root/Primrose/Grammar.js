@@ -67,9 +67,9 @@ See [`Primrose.Text.Rule`](#Primrose_Text_Rule) for a list of valid token names.
 });
 */
 
-import Rule from "../Rule";
+import Rule from "./Grammars/Rule";
 import Token from "../Token";
-import DefaultTheme from "../Themes/Default";
+import DefaultTheme from "./Themes/Default";
 export default class Grammar {
   constructor(grammarName, rules) {
     /*

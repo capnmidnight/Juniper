@@ -6,7 +6,7 @@ pliny.value({
 });
 */
 
-import Grammar from "./Grammar";
+import Grammar from "../Grammar";
 export default new Grammar("HTML", [
   ["newlines", /(?:\r\n|\r|\n)/],
   ["startBlockComments", /(?:<|&lt;)!--/],

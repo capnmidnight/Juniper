@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Azure\APITests.cs" />
     <Compile Include="IEnumerableExtTests.cs" />
+    <Compile Include="ListExtTests.cs" />
     <Compile Include="PriorityQueueEnumeratorTests.cs" />
     <Compile Include="PriorityQueueTests.cs" />
     <Compile Include="RouteTests.cs" />
@@ -129,22 +130,10 @@
     <None Include="demos\shared_assets\models\teleport.blend" />
     <None Include="demos\shared_assets\models\teleport.mtl" />
     <None Include="demos\shared_assets\models\teleport.obj" />
-    <None Include="test\Basic.js" />
+    <None Include="Basic.js" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="test\Grammar.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="test\Point.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="test\Rectangle.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="test\Size.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="test\testing.js" />
+    <None Include="Grammar.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="demos\calendar\app.js" />

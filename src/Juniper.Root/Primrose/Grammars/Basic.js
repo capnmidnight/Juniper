@@ -6,7 +6,7 @@ pliny.value({
 });
 */
 
-import Grammar from "./Grammar";
+import Grammar from "../Grammar";
 import Token from "../Token";
 
 const eval2 = eval;
