@@ -188,7 +188,7 @@ namespace Juniper.Primrose
           }]
         });
         */
-        public List<Token> Tokenize(string text)
+        public virtual List<Token> Tokenize(string text)
         {
             // all text starts off as regular text, then gets cut up into tokens of
             // more specific type
