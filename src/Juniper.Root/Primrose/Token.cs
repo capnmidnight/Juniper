@@ -13,6 +13,10 @@ namespace Juniper.Primrose
             this.line = line;
         }
 
+        public Token(string value, string type)
+            : this(value, type, -1, -1)
+        { }
+
         public Token Clone()
         {
             return new Token(value, type, index, line);

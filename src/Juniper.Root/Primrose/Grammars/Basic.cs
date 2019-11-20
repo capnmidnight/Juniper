@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace Juniper.Primrose
@@ -41,115 +44,126 @@ namespace Juniper.Primrose
     new Rule("identifiers", new Regex("\\w+\\$?")))
         { }
 
-        public override List<Token> Tokenize(string text)
+        public override List<Token> Tokenize(string code)
         {
-            return base.Tokenize(text.ToUpperInvariant());
+            return base.Tokenize(code.ToUpperInvariant());
         }
 
-        /*
-        Basic.interpret = function(sourceCode, input, output, errorOut, next,
-          clearScreen, loadFile, done)
+        private static readonly Token EQUAL_SIGN = new Token("=", "operators");
+        private static readonly DateTime EPOCH = new DateTime(1970, 1, 1, 0, 0, 0);
+
+        public void Interpret(string code,
+            Stream input, Stream output, Stream errorOut,
+            Action clearScreen, Func<string, string> loadFile,
+            Action next, Action done)
         {
-            var tokens = this.tokenize(sourceCode),
-              EQUAL_SIGN = new Token("=", "operators"),
-              counter = 0,
-              isDone = false,
-              program = { },
-              lineNumbers = [],
-              currentLine = [],
-              lines = [currentLine],
-              data = [],
-              returnStack = [],
-              forLoopCounters = { },
-              dataCounter = 0,
-              state = {
-      INT: function(v) {
-                return v | 0;
-            },
-      RND: function() {
-                return Math.random();
-            },
-      CLK: function() {
-                return Date.now() / 3600000;
-            },
-      LEN: function(id) {
-                return id.length;
-            },
-      LINE: function() {
-                return lineNumbers[counter];
-            },
-      TAB: function(v) {
-                var str = "";
-                for (var i = 0; i < v; ++i)
+            var program = new Dictionary<int, List<Token>>();
+            var lineNumbers = new List<int>();
+            var currentLine = new List<Token>();
+            var lines = new List<List<Token>>();
+            var data = new List<byte>();
+            var returnStack = new List<int>();
+            var forLoopCounters = new Dictionary<int, int>();
+            var random = new Random();
+            int counter = 0;
+            var isDone = false;
+            var dataCounter = 0;
+
+            var state = new Dictionary<string, object>
+            {
+                { "INT", new Func<float, int>(v => (int) v) },
+                { "RND", new Func<float>(() => (float)random.NextDouble()) },
+                { "CLK", new Func<float>(() => (float)(DateTime.Now - EPOCH).TotalHours) },
+                { "LEN", new Func<string, int>(str => str.Length) },
+                { "LINE", new Func<int>(() => lineNumbers[counter]) },
+                { "POW", new Func<float, float, float>((b, e) => (float)Math.Pow(b, e)) },
+                { "TAB", new Func<int, string>(num =>
                 {
-                    str += " ";
+                    var str = "";
+                    for(var i = 0; i < num; ++i)
+                    {
+                        str += '\t';
+                    }
+                    return str;
+                }) }
+            };
+
+            Func<int, Token> toNum = i => new Token(i.ToString(), "numbers");
+            Func<string, Token> toStr = str => new Token("\"" + str
+                .Replace("\n", "\\n")
+                .Replace("\"", "\\\"") + "\"", "strings");
+
+            var tokenMap = new Dictionary<string, string>
+            {
+                { "OR", "||" },
+                { "AND", "&&" },
+                { "NOT", "!" },
+                { "MOD", "%" },
+                { "<>", "!=" }
+            };
+
+            var tokens = Tokenize(code);
+
+            // Remove comments and whitespace, and do a light translation of
+            // operator tokens.
+            while (tokens.Count > 0)
+            {
+                var token = tokens[0];
+                tokens.RemoveAt(0);
+                if (token.type == "newlines")
+                {
+                    currentLine = new List<Token>();
+                    lines.Add(currentLine);
                 }
-                return str;
-            },
-      POW: function(a, b) {
-                return Math.pow(a, b);
+                else if (token.type != "regular" && token.type != "comments")
+                {
+                    token.value = tokenMap.Get(token.value, token.value);
+                    currentLine.Add(token);
+                }
             }
-        };
 
-        function toNum(ln)
-        {
-            return new Token(ln.toString(), "numbers");
+            // Parse the line numbers for the program
+            int? lastLineNumber = null;
+            for (var i = 0; i < lines.Count; ++i)
+            {
+                var line = lines[i];
+                if (line.Count > 0)
+                {
+                    var lineNumberToken = line[0];
+                    line.RemoveAt(0);
+
+                    // If the first token of a line is not actually a line number,
+                    // we will auto-generate a line number and re-insert the token
+                    // to be processed as normal code.
+                    if (lineNumberToken.type != "lineNumbers")
+                    {
+                        line.Insert(0, lineNumberToken);
+                        lineNumberToken = toNum((lastLineNumber ?? -1) + 1);
+                    }
+
+                    var lineNumber = int.Parse(
+                        lineNumberToken.value,
+                        NumberStyles.AllowLeadingWhite
+                            | NumberStyles.AllowTrailingWhite);
+
+                    // Line numbers should be ordered correctly, or we throw a syntax error.
+                    if (lastLineNumber.HasValue && lineNumber <= lastLineNumber)
+                    {
+                        throw new Exception($"expected line number greater than {lastLineNumber}, but received {lineNumberToken.value}.");
+                    }
+                    // deleting empty lines
+                    else if (line.Count > 0) 
+                    {
+                        lineNumberToken.value = lineNumber.ToString();
+                        lineNumbers.Add(lineNumber);
+                        program[lineNumber] = line;
+                    }
+
+                    lastLineNumber = lineNumber;
+                }
+            }
         }
-
-        function toStr(str)
-        {
-            return new Token("\"" + str.replace("\n", "\\n")
-              .replace("\"", "\\\"") + "\"", "strings");
-        }
-
-        var tokenMap = {
-    "OR": "||",
-    "AND": "&&",
-    "NOT": "!",
-    "MOD": "%",
-    "<>": "!="
-  };
-
-  while (tokens.length > 0) {
-    var token = tokens.shift();
-    if (token.type === "newlines") {
-      currentLine = [];
-      lines.push(currentLine);
-    }
-    else if (token.type !== "regular" && token.type !== "comments") {
-      token.value = tokenMap[token.value] || token.value;
-      currentLine.push(token);
-    }
-  }
-
-  for (var i = 0; i<lines.length; ++i) {
-    var line = lines[i];
-    if (line.length > 0) {
-      var lastLine = lineNumbers[lineNumbers.length - 1];
-var lineNumber = line.shift();
-
-      if (lineNumber.type !== "lineNumbers") {
-        line.unshift(lineNumber);
-
-        if (lastLine === undefined) {
-          lastLine = -1;
-        }
-
-        lineNumber = toNum(lastLine + 1);
-      }
-
-      lineNumber = parseFloat(lineNumber.value);
-      if (lastLine && lineNumber <= lastLine) {
-        throw new Error("expected line number greater than " + lastLine +
-          ", but received " + lineNumber + ".");
-      }
-      else if (line.length > 0) {
-        lineNumbers.push(lineNumber);
-        program[lineNumber] = line;
-      }
-    }
-  }
-
+        /*
 
   function process(line)
 {

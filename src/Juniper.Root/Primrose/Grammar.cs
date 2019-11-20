@@ -193,7 +193,7 @@ namespace Juniper.Primrose
             // all text starts off as regular text, then gets cut up into tokens of
             // more specific type
             var tokens = new List<Token>{
-                new Token(text, "regular", 0, 0)
+                new Token(text, "regular")
             };
 
             for (var i = 0; i < grammar.Length; ++i)
