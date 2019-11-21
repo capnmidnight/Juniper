@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -18,28 +19,47 @@ namespace Juniper.HTTP
         /// Construct server with given port.
         /// </summary>
         /// <param name="path">Directory path to serve.</param>
-        /// <param name="httpPort">Port of the server.</param>
-        public HttpServer(
-            int httpPort,
-            int httpsPort)
+        /// <param name="httpPort">Insecure port of the server.</param>
+        /// <param name="httpsPort">Secure port of the server.</param>
+        public HttpServer(string path, int httpPort, int httpsPort)
         {
-            listener = new HttpListener();
-            listener.Prefixes.Add($"http://*:{httpPort.ToString()}/");
-            listener.Prefixes.Add($"https://*:{httpsPort.ToString()}/");
-            listener.AuthenticationSchemeSelectorDelegate
-                = GetAuthenticationSchemeForRequest;
             serverThread = new Thread(Listen);
+
+            listener = new HttpListener
+            {
+                AuthenticationSchemeSelectorDelegate = GetAuthenticationSchemeForRequest
+            };
+
+            if (httpPort > -1)
+            {
+                listener.Prefixes.Add($"http://*:{httpPort}/");
+            }
+
+            if (httpsPort > -1)
+            {
+                listener.Prefixes.Add($"https://*:{httpsPort}/");
+            }
+
+            if (!string.IsNullOrEmpty(path)
+                && Directory.Exists(path))
+            {
+                var defaultFileHandler = new DefaultFileController(path);
+                defaultFileHandler.Warning += OnWarning;
+                AddRoutesFrom(defaultFileHandler);
+            }
         }
 
-        public HttpServer(string path,
-            int httpPort,
-            int httpsPort)
-            : this(httpPort, httpsPort)
-        {
-            var defaultFileHandler = new DefaultFileController(path);
-            defaultFileHandler.Warning += OnWarning;
-            AddRoutesFrom(defaultFileHandler);
-        }
+        public HttpServer(string path, int httpsPort)
+            : this(path, -1, httpsPort)
+        { }
+
+        public HttpServer(int httpPort, int httpsPort)
+            : this(null, httpPort, httpsPort)
+        { }
+
+        public HttpServer(int httpsPort)
+            : this(null, -1, httpsPort)
+        { }
 
         public event EventHandler<string> Info;
         private void OnInfo(string message)
