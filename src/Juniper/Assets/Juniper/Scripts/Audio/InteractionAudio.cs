@@ -422,6 +422,7 @@ namespace Juniper.Audio
 
         public float PlayAudioClip(AudioClip clip, Transform pose, bool randomizePitch)
         {
+#if UNITY_MODULES_AUDIO
             var audioSource = GetAudioSource(clip);
             if (randomizePitch)
             {
@@ -441,6 +442,9 @@ namespace Juniper.Audio
             audioSource.Play();
 
             return audioSource.clip.length;
+#else
+            return 0;
+#endif
         }
 
         public float PlayAudioClip(AudioClip clip, Transform pose)

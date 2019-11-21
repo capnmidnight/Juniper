@@ -36,9 +36,15 @@ namespace Juniper.Widgets
 #if UNITY_EDITOR
         private void OnValidate()
         {
+#if UNITY_MODULES_UI
             unityText = null;
             unityTextMesh = null;
+#endif
+
+#if UNITY_TEXTMESHPRO
             textMeshPro = null;
+#endif
+
             SetupControls();
         }
 #endif

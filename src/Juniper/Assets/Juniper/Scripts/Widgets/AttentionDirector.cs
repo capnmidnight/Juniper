@@ -1,17 +1,19 @@
 using System;
 using System.Collections;
 
-using Juniper.Animation;
 using Juniper.Display;
 using Juniper.Input;
 
 using UnityEngine;
 using System.Linq;
 
+
+#if UNITY_MODULES_ANIMATION
+using Juniper.Animation;
+#endif
+
 #if UNITY_MODULES_AUDIO
-
 using Juniper.Audio;
-
 #endif
 
 namespace Juniper.Widgets
@@ -19,7 +21,9 @@ namespace Juniper.Widgets
     /// <summary>
     /// Shows a pointer that directs the user to where to look next.
     /// </summary>
+#if UNITY_MODULES_ANIMATION
     [RequireComponent(typeof(UnityAnimator))]
+#endif
     public class AttentionDirector : MonoBehaviour
     {
         /// <summary>
@@ -106,7 +110,9 @@ namespace Juniper.Widgets
         private AbstractAnimator animator;
 #endif
 
+#if UNITY_MODULES_AUDIO
         private InteractionAudio interaction;
+#endif
 
         /// <summary>
         /// The point we are trying to find with the attention director.
@@ -163,7 +169,9 @@ namespace Juniper.Widgets
         /// </summary>
         public void Awake()
         {
+#if UNITY_MODULES_AUDIO
             Find.Any(out interaction);
+#endif
             pointer = transform.Find("Pointer");
             arrow = pointer.Find("Tag");
             tagRange = arrow.localPosition;
