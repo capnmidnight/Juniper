@@ -170,6 +170,10 @@ namespace Juniper.HTTP
 
                     context.Response.OutputStream.Flush();
                 }
+                catch
+                {
+                    context.Response.Error(HttpStatusCode.InternalServerError, "Internal error");
+                }
                 finally
                 {
                     context.Response.Close();
