@@ -57,12 +57,16 @@ namespace Juniper.HTTP
         }
 
         private readonly string rootDirectory;
-        private readonly Action<string> warning;
 
-        public DefaultFileController(string rootDirectory, Action<string> warning)
+        public event EventHandler<string> Warning;
+        private void OnWarning(string message)
+        {
+            Warning?.Invoke(this, message);
+        }
+
+        public DefaultFileController(string rootDirectory)
         {
             this.rootDirectory = rootDirectory;
-            this.warning = warning;
         }
 
         [Route(".*", Priority = int.MaxValue)]
@@ -97,7 +101,7 @@ namespace Juniper.HTTP
                 catch (Exception exp)
                 {
                     var message = $"ERRRRRROR: '{shortName}' > {exp.Message}";
-                    warning(message);
+                    OnWarning(message);
                     response.Error(HttpStatusCode.InternalServerError, message);
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
@@ -105,7 +109,7 @@ namespace Juniper.HTTP
             else
             {
                 var message = $"request '{shortName}'";
-                warning(message);
+                OnWarning(message);
                 response.Error(HttpStatusCode.NotFound, message);
             }
 

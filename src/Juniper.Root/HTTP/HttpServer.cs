@@ -14,12 +14,6 @@ namespace Juniper.HTTP
         private readonly HttpListener listener;
         private readonly List<RouteAttribute> routes = new List<RouteAttribute>();
 
-        private readonly Action<string> error;
-        private readonly Action<string> info;
-        private readonly Action<string> warning;
-
-        private static void NoLog(string _) { }
-
         /// <summary>
         /// Construct server with given port.
         /// </summary>
@@ -27,15 +21,8 @@ namespace Juniper.HTTP
         /// <param name="httpPort">Port of the server.</param>
         public HttpServer(
             int httpPort,
-            int httpsPort,
-            Action<string> info = null,
-            Action<string> warning = null,
-            Action<string> error = null)
+            int httpsPort)
         {
-            this.info = info ?? NoLog;
-            this.warning = warning ?? NoLog;
-            this.error = error ?? NoLog;
-
             listener = new HttpListener();
             listener.Prefixes.Add($"http://*:{httpPort.ToString()}/");
             listener.Prefixes.Add($"https://*:{httpsPort.ToString()}/");
@@ -46,13 +33,30 @@ namespace Juniper.HTTP
 
         public HttpServer(string path,
             int httpPort,
-            int httpsPort,
-            Action<string> info = null,
-            Action<string> warning = null,
-            Action<string> error = null)
-            : this(httpPort, httpsPort, info, warning, error)
+            int httpsPort)
+            : this(httpPort, httpsPort)
         {
-            AddRoutesFrom(new DefaultFileController(path, warning));
+            var defaultFileHandler = new DefaultFileController(path);
+            defaultFileHandler.Warning += OnWarning;
+            AddRoutesFrom(defaultFileHandler);
+        }
+
+        public event EventHandler<string> Info;
+        private void OnInfo(string message)
+        {
+            Info?.Invoke(this, message);
+        }
+
+        public event EventHandler<string> Warning;
+        private void OnWarning(object sender, string message)
+        {
+            Warning?.Invoke(this, message);
+        }
+
+        public event EventHandler<string> Error;
+        private void OnError(string message)
+        {
+            Error?.Invoke(this, message);
         }
 
         private AuthenticationSchemes GetAuthenticationSchemeForRequest(HttpListenerRequest request)
@@ -83,19 +87,19 @@ namespace Juniper.HTTP
                         && parameters.Skip(1).All(p => p.ParameterType == typeof(string))
                         && method.ReturnType == typeof(Task))
                     {
-                        info($"Found controller {type.Name}::{method.Name} > {route.Priority.ToString()}.");
+                        OnInfo($"Found controller {type.Name}::{method.Name} > {route.Priority.ToString()}.");
                         route.source = controller;
                         route.method = method;
                         routes.Add(route);
                     }
                     else
                     {
-                        error($"Method {type.Name}::{method.Name} must signature (System.Net.HttpListenerContext, string[]) => void.");
+                        OnError($"Method {type.Name}::{method.Name} must signature (System.Net.HttpListenerContext, string[]) => void.");
                     }
                 }
             }
 
-            routes.Sort((a, b) => a.Priority - b.Priority);
+            routes.Sort();
         }
 
         public void Start()
@@ -132,7 +136,7 @@ namespace Juniper.HTTP
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
                 {
-                    error($"ERRROR: {exp.Message}");
+                    OnError($"ERRROR: {exp.Message}");
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
@@ -140,12 +144,13 @@ namespace Juniper.HTTP
 
         private async void Process(HttpListenerContext context)
         {
+            var requestID = $"[{context.Request.HttpMethod}] {context.Request.Url.PathAndQuery}";
             using (context.Response.OutputStream)
             using (context.Request.InputStream)
             {
                 try
                 {
-                    info($"Serving request {context.Request.Url.PathAndQuery}");
+                    OnInfo($"Serving request {requestID}");
 
                     var handled = false;
                     foreach (var route in routes)
@@ -163,8 +168,8 @@ namespace Juniper.HTTP
 
                     if (!handled)
                     {
-                        var message = $"Not found: {context.Request.Url.PathAndQuery}";
-                        warning(message);
+                        var message = $"Not found: {requestID}";
+                        OnWarning(this, message);
                         context.Response.Error(HttpStatusCode.NotFound, message);
                     }
 
