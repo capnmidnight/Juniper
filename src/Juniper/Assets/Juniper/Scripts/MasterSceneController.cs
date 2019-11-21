@@ -187,6 +187,7 @@ namespace Juniper
         [ContextMenu("Load Scenes")]
         private void LoadScenes_MenuItem()
         {
+            JuniperSystem.CreateFactory();
             using (var prog = new UnityEditorProgressDialog("Loading scenes"))
             {
                 this.Run(LoadAllScenesCoroutine(prog));
