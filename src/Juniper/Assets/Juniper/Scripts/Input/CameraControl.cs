@@ -22,7 +22,8 @@ namespace Juniper.Input
             MouseScreenEdge,
             Gamepad,
             Touch,
-            MagicWindow
+            MagicWindow,
+            NetworkView
         }
 
         public Mode mode = Mode.Auto;
@@ -117,6 +118,8 @@ namespace Juniper.Input
             Find.Any(out input);
         }
 
+        public Juniper.XR.Pose? networkPose;
+
         private bool GestureSatisfied(Mode mode)
         {
             if (mode == Mode.None)
@@ -139,6 +142,10 @@ namespace Juniper.Input
                     return touchPhase == TouchPhase.Moved
                         || touchPhase == TouchPhase.Stationary;
                 }
+            }
+            else if(mode == Mode.NetworkView)
+            {
+                return networkPose.HasValue;
             }
             else
             {
@@ -226,11 +233,10 @@ namespace Juniper.Input
 
         private Quaternion OrientationDelta(Mode mode, bool disableVertical)
         {
-            if (mode == Mode.MagicWindow)
+            if (mode == Mode.MagicWindow
+                || mode == Mode.NetworkView)
             {
-                var endQuat = NEUTRAL_POSITION_RESET
-                        * UnityInput.gyro.attitude
-                        * FLIP_IMAGE;
+                var endQuat = AbsoluteOrientation;
                 var dRot = Quaternion.Inverse(lastGyro) * endQuat;
                 lastGyro = endQuat;
                 return dRot;
@@ -262,11 +268,33 @@ namespace Juniper.Input
             }
         }
 
+        private Quaternion AbsoluteOrientation
+        {
+            get
+            {
+                if (mode == Mode.MagicWindow)
+                {
+                    return NEUTRAL_POSITION_RESET
+                        * UnityInput.gyro.attitude
+                        * FLIP_IMAGE;
+                }
+                else if(mode == Mode.NetworkView)
+                {
+                    return networkPose.Value.orientation.ToUnityQuaternion();
+                }
+                else
+                {
+                    return Quaternion.identity;
+                }
+            }
+        }
+
         private bool DragRequired(Mode mode)
         {
-            return mode == Mode.Touch
-                || (mode == Mode.MouseLocked
-                    && requiredMouseButton != InputEventButton.None);
+            return mode != Mode.NetworkView
+                && (mode == Mode.Touch
+                    || (mode == Mode.MouseLocked
+                        && requiredMouseButton != InputEventButton.None));
         }
 
         private bool DragSatisfied(Mode mode)
@@ -326,18 +354,19 @@ namespace Juniper.Input
 
             CheckMouseLock();
 
-            if (!input.AnyPointerDragging || Cursor.lockState == CursorLockMode.Locked)
+            if (mode != Mode.None
+                && (!input.AnyPointerDragging 
+                    || Cursor.lockState == CursorLockMode.Locked))
             {
-                if (mode == Mode.MouseLocked && Cursor.lockState != CursorLockMode.Locked)
+                if (mode == Mode.MouseLocked)
                 {
-                    CheckMode(Mode.MouseScreenEdge, disableVertical);
+                    CheckMode(
+                        Cursor.lockState != CursorLockMode.Locked
+                            ? Mode.MouseScreenEdge
+                            : mode, 
+                        disableVertical);
                 }
-                else
-                {
-                    CheckMode(mode, disableVertical);
-                }
-
-                if (mode == Mode.MagicWindow)
+                else if (mode == Mode.MagicWindow)
                 {
                     CheckMode(Mode.Touch, true);
                 }
@@ -352,13 +381,18 @@ namespace Juniper.Input
                         CheckMode(Mode.MouseLocked, disableVertical);
                     }
                 }
+                else
+                {
+                    CheckMode(mode, disableVertical);
+                }
             }
         }
 
         private void CheckMode(Mode mode, bool disableVertical)
         {
             var gest = GestureSatisfied(mode);
-            var wasGest = wasGestureSatisfied.ContainsKey(mode) && wasGestureSatisfied[mode];
+            var wasGest = wasGestureSatisfied.ContainsKey(mode) 
+                && wasGestureSatisfied[mode];
             if (gest)
             {
                 if (!wasGest)
