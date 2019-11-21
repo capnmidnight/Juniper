@@ -126,7 +126,7 @@ namespace Juniper.Input
         private readonly List<Keyboardable> toRemove = new List<Keyboardable>(10);
         private readonly List<KeyCode> keyPresses = new List<KeyCode>();
 
-        private InputMode requestedMode = InputMode.Auto;
+        private InputMode requestedMode;
         private InputMode currentMode;
 
         public bool paused;
@@ -210,6 +210,8 @@ namespace Juniper.Input
                 .Select(d => (int?)d.Layer)
                 .FirstOrDefault()
                 ?? LayerMask.NameToLayer("Ignore Raycast");
+
+            requestedMode = SavedInputMode;
         }
 
         public virtual void Reinstall()

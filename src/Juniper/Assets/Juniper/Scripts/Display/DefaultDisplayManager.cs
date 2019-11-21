@@ -18,7 +18,7 @@ namespace Juniper.Display
             }
         }
 
-        public void Start()
+        public override void Update()
         {
             if (cameraCtrl.mode == CameraControl.Mode.Auto)
             {
@@ -65,10 +65,6 @@ namespace Juniper.Display
                         cameraCtrl.mode = CameraControl.Mode.MouseLocked;
                     }
 #endif
-                    else if (input.MouseRequested)
-                    {
-                        cameraCtrl.mode = CameraControl.Mode.MouseScreenEdge;
-                    }
                     else
                     {
                         cameraCtrl.mode = CameraControl.Mode.None;
@@ -81,6 +77,8 @@ namespace Juniper.Display
                 UnityInput.gyro.enabled = true;
                 UnityInput.compensateSensors = true;
             }
+
+            base.Update();
         }
     }
 }
