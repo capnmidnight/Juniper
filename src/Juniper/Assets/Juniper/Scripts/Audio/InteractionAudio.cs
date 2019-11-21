@@ -260,7 +260,7 @@ namespace Juniper.Audio
                 azureResourceName,
                 new JsonFactory<Voice[]>(),
 #if UNITY_STANDALONE_WIN || UNITY_WSA
-                AudioFormat.Audio24KHz160KbitrateMonoMP3
+                AudioFormat.Audio24KHz160KbitrateMonoMP3,
 #else
                 AudioFormat.Riff16KHz16BitMonoPCM,
 #endif
