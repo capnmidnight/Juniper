@@ -1,6 +1,8 @@
+using System;
+
 namespace Juniper.Primrose
 {
-    public class Token
+    public class Token : ICloneable
     {
         public string value, type;
         public int index, line;
@@ -16,6 +18,11 @@ namespace Juniper.Primrose
         public Token(string value, string type)
             : this(value, type, -1, -1)
         { }
+
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
 
         public Token Clone()
         {

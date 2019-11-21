@@ -125,5 +125,13 @@ namespace System.Collections.Generic
 
             return list.Splice(start, deleteCount, insert);
         }
+
+        public static List<T> Clone<T>(this List<T> list)
+            where T : ICloneable
+        {
+            return list.Select(v => v.Clone())
+                .Cast<T>()
+                .ToList();
+        }
     }
 }
