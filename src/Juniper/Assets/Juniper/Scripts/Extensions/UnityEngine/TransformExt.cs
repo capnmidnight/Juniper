@@ -115,5 +115,30 @@ namespace UnityEngine
         {
             t.gameObject.Destroy();
         }
+
+        public static Juniper.XR.Pose ToJuniperPose(this Transform t)
+        {
+            return new Juniper.XR.Pose(t.position.ToNETFXVector(), t.rotation.ToNETFXQuaternion());
+        }
+
+        public static System.Numerics.Vector3 ToNETFXVector(this Vector3 vector)
+        {
+            return new System.Numerics.Vector3(vector.x, vector.y, vector.z);
+        }
+
+        public static System.Numerics.Quaternion ToNETFXQuaternion(this Quaternion quat)
+        {
+            return new System.Numerics.Quaternion(quat.x, quat.y, quat.z, quat.w);
+        }
+
+        public static Vector3 ToUnityVector(this System.Numerics.Vector3 vector)
+        {
+            return new Vector3(vector.X, vector.Y, vector.Z);
+        }
+
+        public static Quaternion ToUnityQuaternion(this System.Numerics.Quaternion quat)
+        {
+            return new Quaternion(quat.X, quat.Y, quat.Z, quat.W);
+        }
     }
 }
