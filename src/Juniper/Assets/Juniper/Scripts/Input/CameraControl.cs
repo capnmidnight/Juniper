@@ -280,7 +280,7 @@ namespace Juniper.Input
                 }
                 else if(mode == Mode.NetworkView)
                 {
-                    return networkPose.Value.orientation.ToUnityQuaternion();
+                    return networkPose.Value.GetUnityQuaternion();
                 }
                 else
                 {
