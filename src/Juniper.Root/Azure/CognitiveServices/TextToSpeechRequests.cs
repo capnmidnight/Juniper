@@ -181,7 +181,7 @@ namespace Juniper.Azure.CognitiveServices
             sb.Append("</speak>");
 
             ssmlText = sb.ToString();
-            ssmlTextLength = System.Text.Encoding.UTF8.GetByteCount(ssmlText);
+            ssmlTextLength = Encoding.UTF8.GetByteCount(ssmlText);
             return new BodyInfo(Juniper.MediaType.Application.SsmlXml, ssmlTextLength);
         }
 
