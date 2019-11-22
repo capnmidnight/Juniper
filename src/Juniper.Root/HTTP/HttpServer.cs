@@ -126,6 +126,8 @@ namespace Juniper.HTTP
         {
             if (!listener.IsListening)
             {
+                var prefixes = string.Join(", ", listener.Prefixes);
+                OnInfo($"Listening on: {prefixes}");
                 listener.Start();
             }
 
