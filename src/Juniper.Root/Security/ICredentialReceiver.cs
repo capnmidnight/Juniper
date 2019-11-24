@@ -23,7 +23,10 @@ namespace Juniper.Security
 
         public static void ReceiveCredentials(this ICredentialReceiver receiver, string fileName)
         {
-            receiver.ReceiveCredentials(File.ReadAllLines(fileName));
+            if (File.Exists(fileName))
+            {
+                receiver.ReceiveCredentials(File.ReadAllLines(fileName));
+            }
         }
     }
 }

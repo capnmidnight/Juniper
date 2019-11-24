@@ -77,19 +77,23 @@ namespace Juniper.Speech
 
         protected void Setup()
         {
-            IsStarting = true;
+            if (!string.IsNullOrEmpty(azureApiKey)
+                && !string.IsNullOrEmpty(azureRegion))
+            {
+                IsStarting = true;
 
-            var config = SpeechConfig.FromSubscription(azureApiKey, azureRegion);
-            config.SetProfanity(ProfanityOption.Raw);
-            config.SpeechRecognitionLanguage = "en-us";
+                var config = SpeechConfig.FromSubscription(azureApiKey, azureRegion);
+                config.SetProfanity(ProfanityOption.Raw);
+                config.SpeechRecognitionLanguage = "en-us";
 
-            recognizer = new SpeechRecognizer(config);
-            recognizer.SessionStarted += Recognizer_SessionStarted;
-            recognizer.Recognizing += Recognizer_OnPhraseRecognizing;
-            recognizer.Recognized += Recognizer_OnPhraseRecognized;
-            recognizer.SessionStopped += Recognizer_SessionStopped;
-            recognizer.Canceled += Recognizer_Canceled;
-            ErrorTrap(recognizer.StartContinuousRecognitionAsync());
+                recognizer = new SpeechRecognizer(config);
+                recognizer.SessionStarted += Recognizer_SessionStarted;
+                recognizer.Recognizing += Recognizer_OnPhraseRecognizing;
+                recognizer.Recognized += Recognizer_OnPhraseRecognized;
+                recognizer.SessionStopped += Recognizer_SessionStopped;
+                recognizer.Canceled += Recognizer_Canceled;
+                ErrorTrap(recognizer.StartContinuousRecognitionAsync());
+            }
         }
 
         private void Recognizer_OnPhraseRecognizing(object sender, SpeechRecognitionEventArgs e)

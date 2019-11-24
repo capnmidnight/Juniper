@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 
 using Juniper.Haptics;
 using Juniper.Display;
@@ -14,6 +13,7 @@ using System.IO;
 using Juniper.Azure.CognitiveServices;
 
 using System.Threading.Tasks;
+
 using Juniper.IO;
 
 #if UNITY_MODULES_AUDIO
@@ -253,19 +253,24 @@ namespace Juniper.Audio
             InitializeInteractionAudioSources();
 #endif
 
-            var cache = new UnityCachingStrategy();
-            tts = new TextToSpeechClient(
-                azureRegion,
-                azureApiKey,
-                azureResourceName,
-                new JsonFactory<Voice[]>(),
+            if (!string.IsNullOrEmpty(azureRegion)
+                && !string.IsNullOrEmpty(azureApiKey)
+                && !string.IsNullOrEmpty(azureResourceName))
+            {
+                var cache = new UnityCachingStrategy();
+                tts = new TextToSpeechClient(
+                    azureRegion,
+                    azureApiKey,
+                    azureResourceName,
+                    new JsonFactory<Voice[]>(),
 #if UNITY_STANDALONE_WIN || UNITY_WSA
-                AudioFormat.Audio24KHz160KbitrateMonoMP3,
+                    AudioFormat.Audio24KHz160KbitrateMonoMP3,
 #else
-                AudioFormat.Riff16KHz16BitMonoPCM,
+                    AudioFormat.Riff16KHz16BitMonoPCM,
 #endif
-                new NAudioAudioDataDecoder(),
-                cache);
+                    new NAudioAudioDataDecoder(),
+                    cache);
+            }
         }
 
         public async Task<AudioClip> PreloadSpeech(string text, string voiceName, float rateChange, float pitchChange)
