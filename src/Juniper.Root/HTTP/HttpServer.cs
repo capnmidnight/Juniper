@@ -276,13 +276,13 @@ namespace Juniper.HTTP
 
         private async void HandleConnection(HttpListenerContext context)
         {
-            var requestID = $"{{{DateTime.Now.ToShortTimeString()}}} [{context.Request.HttpMethod}] {context.Request.Url.PathAndQuery}";
+            var requestID = $"{{{DateTime.Now.ToShortTimeString()}}} {context.Request.UrlReferrer} [{context.Request.HttpMethod}] {context.Request.Url.PathAndQuery} => {context.Request.RemoteEndPoint}";
             using (context.Response.OutputStream)
             using (context.Request.InputStream)
             {
                 try
                 {
-                    OnInfo($"Serving request {requestID}");
+                    OnInfo(requestID);
 
                     var handled = false;
                     foreach (var route in routes)
