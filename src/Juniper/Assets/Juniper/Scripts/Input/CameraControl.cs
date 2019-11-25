@@ -77,6 +77,25 @@ namespace Juniper.Input
         /// </summary>
         public float maximumY = 85F;
 
+        private Quaternion target = Quaternion.identity;
+        private Juniper.XR.Pose? networkPose;
+        public Juniper.XR.Pose? NetworkPose
+        {
+            get
+            {
+                return networkPose;
+            }
+            set
+            {
+                networkPose = value;
+                if (networkPose.HasValue)
+                {
+                    target = networkPose.Value.GetUnityQuaternion();
+                }
+            }
+        }
+
+
         public UnityEvent onModeChange;
 
         public event Action<Mode> ModeChange;
@@ -120,8 +139,6 @@ namespace Juniper.Input
             Find.Any(out input);
         }
 
-        public Juniper.XR.Pose? networkPose;
-
         private bool GestureSatisfied(Mode mode)
         {
             if (mode == Mode.None)
@@ -147,7 +164,7 @@ namespace Juniper.Input
             }
             else if (mode == Mode.NetworkView)
             {
-                return networkPose.HasValue;
+                return NetworkPose.HasValue;
             }
             else
             {
@@ -308,7 +325,7 @@ namespace Juniper.Input
                 }
                 else if (mode == Mode.NetworkView)
                 {
-                    return networkPose.Value.GetUnityQuaternion();
+                    return NetworkPose.Value.GetUnityQuaternion();
                 }
                 else
                 {
@@ -359,7 +376,7 @@ namespace Juniper.Input
                         Cursor.lockState = CursorLockMode.Confined;
                     }
                 }
-                else if (UnityInput.GetKeyDown(KeyCode.Escape))
+                else if (UnityInput.GetKeyDown(KeyCode.F1))
                 {
                     Cursor.lockState = CursorLockMode.None;
                 }
@@ -431,7 +448,17 @@ namespace Juniper.Input
 
                 if (DragSatisfied(mode))
                 {
-                    stage.RotateView(OrientationDelta(mode, disableVertical), minimumY, maximumY);
+                    if (mode == Mode.NetworkView)
+                    {
+                        stage.SetViewRotation(Quaternion.Slerp(stage.Head.rotation, target, 0.25f));
+                    }
+                    else
+                    {
+                        stage.RotateView(
+                            OrientationDelta(mode, disableVertical),
+                            minimumY,
+                            maximumY);
+                    }
                 }
             }
 

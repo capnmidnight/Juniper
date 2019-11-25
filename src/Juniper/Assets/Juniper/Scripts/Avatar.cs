@@ -306,7 +306,6 @@ namespace Juniper
 
         private void SetBodyPositionAndShape()
         {
-            //shoulders.localPosition = LocalUserTop;
             body.localScale = new Vector3(0.5f, HalfHeight, 0.5f);
 #if UNITY_MODULES_PHYSICS
             var center = LocalUserCenter;
@@ -320,9 +319,13 @@ namespace Juniper
         {
         }
 
-        public void RotateView(Quaternion dQuat, float minX, float maxX)
+        public void RotateView(Quaternion dQuat, float minX = -180, float maxX = 180)
         {
-            var quat = Head.rotation * dQuat;
+            SetViewRotation(Head.rotation * dQuat, minX, maxX);
+        }
+
+        public void SetViewRotation(Quaternion quat, float minX = -180, float maxX = 180)
+        {
             var eul = quat.eulerAngles;
 
             transform.localRotation = Quaternion.AngleAxis(eul.y, Vector3.up);
