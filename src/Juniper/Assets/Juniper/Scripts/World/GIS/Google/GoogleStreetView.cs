@@ -331,7 +331,7 @@ namespace Juniper.World.GIS.Google
         }
 #endif
 
-        private async Task<Texture2D> Photosphere_CubemapNeeded(Photosphere source)
+        private Texture2D Photosphere_CubemapNeeded(Photosphere source)
         {
             var cubemapRef = source.CubemapName + codec.ContentType;
             if (cache == null
@@ -343,7 +343,7 @@ namespace Juniper.World.GIS.Google
             }
             else
             {
-                return Decode(await cache.Open(cubemapRef));
+                return Decode(cache.Open(cubemapRef).Result);
             }
         }
 

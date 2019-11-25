@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Juniper.Collections;
 using Juniper.Compression;
 using Juniper.Progress;
@@ -249,7 +250,7 @@ namespace Juniper.ConfigurationManagement
                 else if (ScanningProgress == PackageScanStatus.List)
                 {
                     ScanningProgress = PackageScanStatus.Listing;
-                    Task.Run(List).ConfigureAwait(false);
+                    Task.Run(List);
                 }
                 else if (ScanningProgress == PackageScanStatus.Listed)
                 {
@@ -258,7 +259,7 @@ namespace Juniper.ConfigurationManagement
                 else if (ScanningProgress == PackageScanStatus.Scan)
                 {
                     ScanningProgress = PackageScanStatus.Scanning;
-                    Task.Run(Scan).ConfigureAwait(false);
+                    Task.Run(Scan);
                 }
             }
             catch (Exception exp)

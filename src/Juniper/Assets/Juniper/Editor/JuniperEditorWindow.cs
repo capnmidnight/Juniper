@@ -83,7 +83,7 @@ namespace Juniper.Unity.Editor
             {
                 if (!JuniperSystem.IsMainThreadReady)
                 {
-                    JuniperSystem.CreateFactory();
+                    JuniperSystem.EnsureFactory();
                 }
                 OnEditorUpdate();
             }

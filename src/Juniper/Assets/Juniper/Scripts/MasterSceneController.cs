@@ -187,7 +187,7 @@ namespace Juniper
         [ContextMenu("Load Scenes")]
         private void LoadScenes_MenuItem()
         {
-            JuniperSystem.CreateFactory();
+            JuniperSystem.EnsureFactory();
             using (var prog = new UnityEditorProgressDialog("Loading scenes"))
             {
                 this.Run(LoadAllScenesCoroutine(prog));
@@ -297,7 +297,6 @@ namespace Juniper
 
                         yield return StreamingAssetsCacheLayer
                             .UnpackAPK(unpackProg)
-                            .ConfigureAwait(false)
                             .AsCoroutine();
                     }
                     else

@@ -135,7 +135,9 @@ namespace Juniper.Imaging
             var texture = new Texture2D(
                 info.dimensions.width,
                 info.dimensions.height,
-                info.components == 3 ? TextureFormat.RGB24 : TextureFormat.RGBA32,
+                info.components == 3 
+                    ? TextureFormat.RGB24 
+                    : TextureFormat.RGBA32,
                 false);
 
             if (ContentType == MediaType.Image.EXR

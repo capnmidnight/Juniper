@@ -11,7 +11,7 @@ using UnityEngine.Events;
 namespace Juniper.Imaging
 {
     public delegate bool CubemapAvailabilityNeeded(Photosphere source);
-    public delegate Task<Texture2D> TextureNeeded(Photosphere source);
+    public delegate Texture2D TextureNeeded(Photosphere source);
     public delegate float CubemapRotationNeeded(Photosphere source);
 
     public class Photosphere : MonoBehaviour, IProgress
@@ -28,11 +28,12 @@ namespace Juniper.Imaging
 
         public UnityEvent OnEnter;
 
-        protected bool? IsCubemapAvailable
+        protected bool IsCubemapAvailable
         {
             get
             {
-                return CheckIsCubemapAvailable?.Invoke(this);
+                return CheckIsCubemapAvailable?.Invoke(this) == true
+                    && GetCubemap != null;
             }
         }
 
@@ -62,16 +63,10 @@ namespace Juniper.Imaging
             private set;
         }
 
-        private Task readingTask;
+        private Texture2D texture;
         private SkyboxManager skybox;
 
-        public virtual bool IsBusy
-        {
-            get
-            {
-                return readingTask.IsRunning();
-            }
-        }
+        public virtual bool IsBusy { get; protected set; }
 
         public float Progress
         {
@@ -116,55 +111,26 @@ namespace Juniper.Imaging
         {
             if (!IsBusy
                 && !IsReady
-                && IsCubemapAvailable == true)
+                && IsCubemapAvailable
+                && texture == null)
             {
                 this.Report(0);
-                readingTask = ReadCubemap();
-            }
-        }
+                texture = GetCubemap(this);
 
-        private async Task ReadCubemap()
-        {
-            try
-            {
-                var progs = this.Split("Load", "Decode");
-                var textureTask = GetCubemap?.Invoke(this);
-                if (textureTask == null)
+                if (texture != null)
                 {
-                    Debug.Log("No cubemap found " + CubemapName);
-                }
-                else
-                {
-                    var texture = await textureTask;
+                    skybox.exposure = 1;
+                    skybox.imageType = SkyboxManager.ImageType.Degrees360;
+                    skybox.layout = SkyboxManager.Mode.Cube;
+                    skybox.mirror180OnBack = false;
+                    skybox.rotation = Rotation;
+                    skybox.stereoLayout = SkyboxManager.StereoLayout.None;
+                    skybox.tint = Color.gray;
+                    skybox.useMipMap = false;
+                    skybox.SetTexture(texture);
 
-                    if (texture == null)
-                    {
-                        Debug.Log("No cubemap found " + CubemapName);
-                    }
-                    else
-                    {
-                        await JuniperSystem.OnMainThread(() =>
-                        {
-                            skybox.exposure = 1;
-                            skybox.imageType = SkyboxManager.ImageType.Degrees360;
-                            skybox.layout = SkyboxManager.Mode.Cube;
-                            skybox.mirror180OnBack = false;
-                            skybox.rotation = Rotation;
-                            skybox.stereoLayout = SkyboxManager.StereoLayout.None;
-                            skybox.tint = Color.gray;
-                            skybox.useMipMap = false;
-                            skybox.SetTexture(texture);
-                        });
-
-                        OnReady();
-                    }
+                    OnReady();
                 }
-            }
-            catch (Exception exp)
-            {
-                Debug.LogError("Cubemap load error " + CubemapName, this);
-                Debug.LogException(exp, this);
-                throw;
             }
         }
 

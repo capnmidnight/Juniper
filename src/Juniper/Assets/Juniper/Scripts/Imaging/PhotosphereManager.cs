@@ -95,7 +95,7 @@ namespace Juniper.Imaging
             return cache.IsCached(source.CubemapName + codec.ContentType);
         }
 
-        private Task<Texture2D> Photo_CubemapNeeded(Photosphere source)
+        private Texture2D Photo_CubemapNeeded(Photosphere source)
         {
             return CubemapNeeded?.Invoke(source);
         }

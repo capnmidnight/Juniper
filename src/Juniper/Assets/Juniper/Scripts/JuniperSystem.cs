@@ -21,14 +21,23 @@ namespace Juniper
     [DisallowMultipleComponent]
     public class JuniperSystem : MonoBehaviour, IInstallable
     {
+        private static TaskScheduler mainThreadScheduler;
         private static TaskFactory mainThread;
 
-        public static void CreateFactory()
+        public static void EnsureFactory()
         {
             if (mainThread == null)
             {
-                var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-                mainThread = new TaskFactory(scheduler);
+                mainThreadScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                mainThread = new TaskFactory(mainThreadScheduler);
+            }
+        }
+
+        private static bool IsOnMainThread
+        {
+            get
+            {
+                return Task.Factory.Scheduler == mainThreadScheduler;
             }
         }
 
@@ -42,12 +51,35 @@ namespace Juniper
 
         public static Task OnMainThread(Action act)
         {
-            return mainThread.StartNew(act);
+            if (mainThread is null)
+            {
+                throw new InvalidOperationException("Main thread starter isn't setup correctly");
+            }
+            else if (IsOnMainThread)
+            {
+                act();
+                return Task.CompletedTask;
+            }
+            else
+            {
+                return mainThread.StartNew(act);
+            }
         }
 
         public static Task<T> OnMainThread<T>(Func<T> act)
         {
-            return mainThread.StartNew(act);
+            if(mainThread is null)
+            {
+                throw new InvalidOperationException("Main thread starter isn't setup correctly");
+            }
+            else if (IsOnMainThread)
+            {
+                return Task.FromResult(act());
+            }
+            else
+            {
+                return mainThread.StartNew(act);
+            }
         }
 
         private static List<IInstallable> GetInstallables()
@@ -267,7 +299,7 @@ namespace Juniper
         /// </summary>
         public void Awake()
         {
-            CreateFactory();
+            EnsureFactory();
 
             if (Find.Any(out MasterSceneController scenes)
                 && scenes.gameObject.scene != gameObject.scene)
@@ -278,6 +310,11 @@ namespace Juniper
             {
                 Install(false);
             }
+        }
+
+        public void Update()
+        {
+            EnsureFactory();
         }
 
         public virtual void Reinstall()
