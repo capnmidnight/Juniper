@@ -30,12 +30,18 @@ namespace Juniper.Input
         private Mode lastMode = Mode.None;
 
         public InputEventButton requiredMouseButton = InputEventButton.None;
+
+        public float edgeFactor = 0.5f;
+
         public bool showCustomCursor;
         public int requiredTouchCount = 1;
         public float dragThreshold = 2;
 
         public bool disableHorizontal;
         public bool disableVertical;
+
+        public bool invertHorizontal;
+        public bool invertVertical = true;
 
         /// <summary>
         /// The mouse is not as sensitive as the motion controllers, so we have to bump up the
@@ -107,10 +113,6 @@ namespace Juniper.Input
             }
 
             lastMousePosition = UnityInput.mousePosition;
-
-#if UNITY_EDITOR
-            showCustomCursor = true;
-#endif
         }
 
         public void Start()
@@ -143,7 +145,7 @@ namespace Juniper.Input
                         || touchPhase == TouchPhase.Stationary;
                 }
             }
-            else if(mode == Mode.NetworkView)
+            else if (mode == Mode.NetworkView)
             {
                 return networkPose.HasValue;
             }
@@ -185,8 +187,6 @@ namespace Juniper.Input
             }
         }
 
-        private const float EDGE_FACTOR = 0.8f;
-
         private Vector2 RadiusMovement
         {
             get
@@ -201,16 +201,44 @@ namespace Juniper.Input
                     && trueMousePosition.y >= 0
                     && trueMousePosition.y < Screen.height)
                 {
-                    var viewport = 2 * new Vector2(
-                        mousePosition.y / Screen.height,
-                        mousePosition.x / Screen.width) - Vector2.one;
-                    var square = viewport.Square2Round();
-                    if (square.magnitude > EDGE_FACTOR)
+                    var viewport = 2
+                        * new Vector2(
+                            mousePosition.y / Screen.height,
+                            mousePosition.x / Screen.width)
+                        - Vector2.one;
+
+                    if (invertVertical)
                     {
-                        viewport.x = (int)(viewport.x / -EDGE_FACTOR);
-                        viewport.y = (int)(viewport.y / EDGE_FACTOR);
-                        return viewport;
+                        viewport.x *= -1;
                     }
+
+                    if (invertHorizontal)
+                    {
+                        viewport.y *= -1;
+                    }
+
+                    var absX = Math.Abs(viewport.x);
+                    var absY = Math.Abs(viewport.y);
+
+                    viewport.x -= absX * edgeFactor;
+                    viewport.y -= absY * edgeFactor;
+
+                    viewport /= (1 - edgeFactor);
+
+                    viewport.x = absX * viewport.x;
+                    viewport.y = absY * viewport.y;
+
+                    if (absX <= edgeFactor)
+                    {
+                        viewport.x = 0;
+                    }
+
+                    if (absY <= edgeFactor)
+                    {
+                        viewport.y = 0;
+                    }
+
+                    return viewport;
                 }
 
                 return Vector2.zero;
@@ -278,7 +306,7 @@ namespace Juniper.Input
                         * UnityInput.gyro.attitude
                         * FLIP_IMAGE;
                 }
-                else if(mode == Mode.NetworkView)
+                else if (mode == Mode.NetworkView)
                 {
                     return networkPose.Value.GetUnityQuaternion();
                 }
@@ -355,7 +383,7 @@ namespace Juniper.Input
             CheckMouseLock();
 
             if (mode != Mode.None
-                && (!input.AnyPointerDragging 
+                && (!input.AnyPointerDragging
                     || Cursor.lockState == CursorLockMode.Locked))
             {
                 if (mode == Mode.MouseLocked)
@@ -363,7 +391,7 @@ namespace Juniper.Input
                     CheckMode(
                         Cursor.lockState != CursorLockMode.Locked
                             ? Mode.MouseScreenEdge
-                            : mode, 
+                            : mode,
                         disableVertical);
                 }
                 else if (mode == Mode.MagicWindow)
@@ -391,7 +419,7 @@ namespace Juniper.Input
         private void CheckMode(Mode mode, bool disableVertical)
         {
             var gest = GestureSatisfied(mode);
-            var wasGest = wasGestureSatisfied.ContainsKey(mode) 
+            var wasGest = wasGestureSatisfied.ContainsKey(mode)
                 && wasGestureSatisfied[mode];
             if (gest)
             {
