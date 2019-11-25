@@ -16,9 +16,11 @@ namespace Juniper.HTTP
 {
     public class HttpServer
     {
+        private const int MAX_CONNECTIONS = 100;
         private readonly Thread serverThread;
         private readonly HttpListener listener;
         private readonly List<RouteAttribute> routes = new List<RouteAttribute>();
+        private readonly List<Task> waiters = new List<Task>();
 
         /// <summary>
         /// Beging constructing a server.
@@ -80,6 +82,8 @@ namespace Juniper.HTTP
         {
             Error?.Invoke(this, message);
         }
+
+        public event EventHandler Update;
 
         private AuthenticationSchemes GetAuthenticationSchemeForRequest(HttpListenerRequest request)
         {
@@ -263,7 +267,20 @@ namespace Juniper.HTTP
             {
                 try
                 {
-                    HandleConnection(listener.GetContext());
+                    Update?.Invoke(this, EventArgs.Empty);
+
+                    for (int i = waiters.Count - 1; i >= 0; --i)
+                    {
+                        if (!waiters[i].IsRunning())
+                        {
+                            waiters.RemoveAt(i);
+                        }
+                    }
+
+                    while(waiters.Count < MAX_CONNECTIONS)
+                    {
+                        waiters.Add(HandleConnection());
+                    }
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
@@ -274,8 +291,9 @@ namespace Juniper.HTTP
             }
         }
 
-        private async void HandleConnection(HttpListenerContext context)
+        private async Task HandleConnection()
         {
+            var context = await listener.GetContextAsync();
             var requestID = $"{{{DateTime.Now.ToShortTimeString()}}} {context.Request.UrlReferrer} [{context.Request.HttpMethod}] {context.Request.Url.PathAndQuery} => {context.Request.RemoteEndPoint}";
             using (context.Response.OutputStream)
             using (context.Request.InputStream)
