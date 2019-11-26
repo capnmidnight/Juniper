@@ -35,6 +35,12 @@ namespace Juniper.HTTP
             };
         }
 
+        public bool RedirectHttp2Https
+        {
+            get;
+            set;
+        }
+
         public string Domain
         {
             get;
@@ -180,9 +186,22 @@ namespace Juniper.HTTP
                 }
             }
 
-            if (HttpPort > 0)
+            if (HttpPort > 0 || RedirectHttp2Https)
             {
-                OnWarning(this, "You probably shouldn't be serving raw HTTP content, unless you're behind a secure reverse proxy");
+                if (RedirectHttp2Https)
+                {
+                    if (HttpPort == 0)
+                    {
+                        HttpPort = 80;
+                    }
+
+                    AddRoutesFrom(new HttpsRedirectController());
+                }
+                else if (HttpPort > 0)
+                {
+                    OnWarning(this, "You probably shouldn't be serving raw HTTP content, unless you're behind a secure reverse proxy");
+                }
+
                 SetPrefix("http", HttpPort);
             }
 
