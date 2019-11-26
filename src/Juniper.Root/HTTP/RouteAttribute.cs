@@ -19,8 +19,9 @@ namespace Juniper.HTTP
         private readonly string regexSource;
         public readonly int parameterCount;
 
-        public int Priority = 50;
-        public string Method = "GET";
+        public int Priority;
+        public HttpProtocol Protocol = HttpProtocol.All;
+        public HttpMethod Method = HttpMethod.GET;
         public bool Continue = false;
         public AuthenticationSchemes Authentication = AuthenticationSchemes.Anonymous;
 
@@ -41,7 +42,10 @@ namespace Juniper.HTTP
 
         public bool IsMatch(HttpListenerRequest request)
         {
-            return request.HttpMethod == Method
+            return Enum.TryParse<HttpProtocol>(request.Url.Scheme.ToUpperInvariant(), out var protocol)
+                && Enum.TryParse<HttpMethod>(request.HttpMethod.ToUpperInvariant(), out var method)
+                && Protocol.HasFlag(protocol)
+                && Method.HasFlag(method)
                 && pattern.IsMatch(request.Url.PathAndQuery);
         }
 

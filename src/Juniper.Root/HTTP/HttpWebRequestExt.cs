@@ -226,14 +226,14 @@ namespace System.Net
         /// <returns>The request that was passed as the first argument, so that literate calls may be chained together.</returns>
         /// <example><![CDATA[
         /// var request = HttpWebRequestExt.Create("https://www.example.com");
-        /// request.Method("GET")
+        /// request.Method(HttpMethod.GET)
         ///     .Header("Keep-Alive", 1)
         ///     .Header("DNT", 1")
         ///     .Accept(MediaType.Text.Plain");
         /// ]]></example>
-        public static HttpWebRequest Method(this HttpWebRequest request, string verb)
+        public static HttpWebRequest Method(this HttpWebRequest request, HttpMethod verb)
         {
-            request.Method = verb;
+            request.Method = verb.ToString();
             return request;
         }
 
@@ -298,8 +298,9 @@ namespace System.Net
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
         public static async Task<HttpWebResponse> Delete(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
         {
-            request.Method = "DELETE";
-            await request.WriteBody(getInfo, writeBody, prog);
+            request = request.Method(HttpMethod.DELETE);
+            await request
+                .WriteBody(getInfo, writeBody, prog);
             return (HttpWebResponse)await request.GetResponseAsync();
         }
 
@@ -320,8 +321,9 @@ namespace System.Net
         /// <returns>A stream that contains the response body, and an HTTP status code</returns>
         public static async Task<HttpWebResponse> Get(this HttpWebRequest request)
         {
-            request.Method = "GET";
-            return (HttpWebResponse)await request.GetResponseAsync();
+            return (HttpWebResponse)await request
+                .Method(HttpMethod.GET)
+                .GetResponseAsync();
         }
     }
 }

@@ -165,8 +165,8 @@ namespace Juniper.HTTP.REST
 
         protected async Task<HttpWebResponse> Post(IProgress prog)
         {
-            var request = CreateRequest();
-            request.Method = "POST";
+            var request = CreateRequest()
+                .Method(HttpMethod.POST);
             var info = GetBodyInfo();
             if (info == null)
             {
@@ -207,9 +207,10 @@ namespace Juniper.HTTP.REST
         protected async Task<HttpWebResponse> Get(IProgress prog)
         {
             prog.Report(0);
-            var request = CreateRequest();
-            request.Method = "GET";
-            var response = (HttpWebResponse)await request.GetResponseAsync();
+            var request = CreateRequest()
+                .Method(HttpMethod.GET);
+            var response = (HttpWebResponse)await request
+                .GetResponseAsync();
             prog.Report(1);
             return response;
         }
