@@ -26,12 +26,26 @@ namespace Juniper.HTTP
         {
             using (var input = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                response.SetStatus(HttpStatusCode.OK);
-                response.ContentType = (MediaType)file ;
-                response.ContentLength64 = input.Length;
-                response.AddHeader("Date", DateTime.Now.ToString("r"));
-                input.CopyTo(response.OutputStream);
+                SendStream(response, (MediaType)file, input);
             }
+        }
+
+        public static void SendStream(this HttpListenerResponse response, MediaType contentType, FileStream input)
+        {
+            response.SetStatus(HttpStatusCode.OK);
+            response.ContentType = contentType;
+            response.ContentLength64 = input.Length;
+            response.AddHeader("Date", DateTime.Now.ToString("r"));
+            input.CopyTo(response.OutputStream);
+        }
+
+        public static void SendBytes(this HttpListenerResponse response, MediaType contentType, byte[] data)
+        {
+            response.SetStatus(HttpStatusCode.OK);
+            response.ContentType = contentType;
+            response.ContentLength64 = data.Length;
+            response.AddHeader("Date", DateTime.Now.ToString("r"));
+            response.OutputStream.Write(data, 0, data.Length);
         }
 
         public static void SetStatus(this HttpListenerResponse response, HttpStatusCode code)

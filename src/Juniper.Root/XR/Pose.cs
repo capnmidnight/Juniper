@@ -25,12 +25,12 @@ namespace Juniper.XR
 
         private Pose(SerializationInfo info, StreamingContext context)
             : this(info.GetSingle(nameof(px)),
-                 info.GetSingle(nameof(py)),
-                 info.GetSingle(nameof(pz)),
-                 info.GetSingle(nameof(ox)),
-                 info.GetSingle(nameof(oy)),
-                 info.GetSingle(nameof(oz)),
-                 info.GetSingle(nameof(ow)))
+                   info.GetSingle(nameof(py)),
+                   info.GetSingle(nameof(pz)),
+                   info.GetSingle(nameof(ox)),
+                   info.GetSingle(nameof(oy)),
+                   info.GetSingle(nameof(oz)),
+                   info.GetSingle(nameof(ow)))
         { }
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
