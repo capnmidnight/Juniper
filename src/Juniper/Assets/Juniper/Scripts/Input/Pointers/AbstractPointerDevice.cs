@@ -42,7 +42,7 @@ namespace Juniper.Input.Pointers
         {
             get
             {
-                return true;;
+                return true;
             }
         }
 
@@ -451,10 +451,7 @@ namespace Juniper.Input.Pointers
             }
 
 #if UNITY_EDITOR
-            if (motionFilter != null)
-            {
-                motionFilter.Copy(parentMotionFilter);
-            }
+            motionFilter?.Copy(parentMotionFilter);
 #endif
 
             Connected = IsConnected;
@@ -467,10 +464,7 @@ namespace Juniper.Input.Pointers
 
             if (IsEnabled)
             {
-                if (motionFilter != null)
-                {
-                    motionFilter.UpdateState(WorldPoint);
-                }
+                motionFilter?.UpdateState(WorldPoint);
 
                 InternalUpdate();
 

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 
+using Juniper.Mathematics;
+
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -42,6 +44,12 @@ namespace Juniper.Input
 
         public bool invertHorizontal;
         public bool invertVertical = true;
+
+        public AbstractMotionFilter motionFilter;
+        private AbstractMotionFilter lastMotionFilter;
+#if UNITY_EDITOR
+        private AbstractMotionFilter parentMotionFilter;
+#endif
 
         /// <summary>
         /// The mouse is not as sensitive as the motion controllers, so we have to bump up the
@@ -92,6 +100,8 @@ namespace Juniper.Input
                 {
                     target = networkPose.Value.GetUnityQuaternion();
                 }
+
+                motionFilter?.UpdateState(target.eulerAngles);
             }
         }
 
@@ -181,16 +191,16 @@ namespace Juniper.Input
             {
                 case Mode.MouseLocked:
                 case Mode.Gamepad:
-                return AxialMovement;
+                    return AxialMovement;
 
                 case Mode.MouseScreenEdge:
-                return RadiusMovement;
+                    return RadiusMovement;
 
                 case Mode.Touch:
-                return MeanTouchPointMovement;
+                    return MeanTouchPointMovement;
 
                 default:
-                return Vector3.zero;
+                    return Vector3.zero;
             }
         }
 
@@ -391,6 +401,19 @@ namespace Juniper.Input
 
         public void Update()
         {
+            if (motionFilter != lastMotionFilter)
+            {
+#if UNITY_EDITOR
+                parentMotionFilter = motionFilter;
+#endif
+                motionFilter = Instantiate(motionFilter);
+                lastMotionFilter = motionFilter;
+            }
+
+#if UNITY_EDITOR
+            motionFilter?.Copy(parentMotionFilter);
+#endif
+
             if (mode != lastMode)
             {
                 OnModeChange();
@@ -450,7 +473,15 @@ namespace Juniper.Input
                 {
                     if (mode == Mode.NetworkView)
                     {
-                        stage.SetViewRotation(Quaternion.Slerp(stage.Head.rotation, target, 0.25f));
+                        if (motionFilter != null)
+                        {
+                            var euler = motionFilter.PredictedPosition;
+                            stage.SetViewRotation(Quaternion.Euler(euler));
+                        }
+                        else
+                        {
+                            stage.SetViewRotation(Quaternion.Slerp(stage.Head.rotation, target, 0.25f));
+                        }
                     }
                     else
                     {
