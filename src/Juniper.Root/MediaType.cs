@@ -112,17 +112,11 @@ namespace Juniper
                 byExtensions = new Dictionary<string, MediaType>(1000);
             }
 
-            if (!byValue.ContainsKey(Value))
-            {
-                byValue.Add(Value, this);
-            }
+            byValue.Default(Value, this);
 
             foreach (var ext in Extensions)
             {
-                if (!byExtensions.ContainsKey(ext))
-                {
-                    byExtensions.Add(ext, this);
-                }
+                byExtensions.Default(ext, this);
             }
         }
 

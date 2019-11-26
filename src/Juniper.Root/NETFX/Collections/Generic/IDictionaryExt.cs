@@ -6,7 +6,7 @@ namespace System.Collections.Generic
     /// <summary>
     /// Extension methods for <c>System.Collections.Generic.Dictionary{TKey, TValue}</c>
     /// </summary>
-    public static class DictionaryExt
+    public static class IDictionaryExt
     {
         /// <summary>
         /// Get a value out of the dictionary, or return a default value if dictionary doesn't
@@ -67,7 +67,7 @@ namespace System.Collections.Generic
         /// dict.Get("c"); // --> 0
         /// dict.Get("d", 3); // --> 3
         /// ]]></code></example>
-        public static KeyT GetKey<KeyT, ValueT>(this Dictionary<KeyT, ValueT> dict, ValueT value)
+        public static KeyT GetKey<KeyT, ValueT>(this IDictionary<KeyT, ValueT> dict, ValueT value)
         {
             foreach (var pair in dict)
             {
@@ -80,7 +80,38 @@ namespace System.Collections.Generic
             return default;
         }
 
-        public static bool MaybeRemove<KeyT, ValueT>(this Dictionary<KeyT, ValueT> dict, KeyT key)
+        public static ValueT Default<KeyT, ValueT>(this IDictionary<KeyT, ValueT> dict, KeyT key)
+            where ValueT : new()
+        {
+            if (!dict.ContainsKey(key))
+            {
+                dict.Add(key, new ValueT());
+            }
+
+            return dict[key];
+        }
+
+        public static ValueT Default<KeyT, ValueT>(this IDictionary<KeyT, ValueT> dict, KeyT key, ValueT value)
+        {
+            if (!dict.ContainsKey(key))
+            {
+                dict.Add(key, value);
+            }
+
+            return dict[key];
+        }
+
+        public static ValueT Default<KeyT, ValueT>(this IDictionary<KeyT, ValueT> dict, KeyT key, Func<ValueT> constructor)
+        {
+            if (!dict.ContainsKey(key))
+            {
+                dict.Add(key, constructor());
+            }
+
+            return dict[key];
+        }
+
+        public static bool MaybeRemove<KeyT, ValueT>(this IDictionary<KeyT, ValueT> dict, KeyT key)
         {
             if (dict.ContainsKey(key))
             {

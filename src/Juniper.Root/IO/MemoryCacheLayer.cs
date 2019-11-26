@@ -24,13 +24,8 @@ namespace Juniper.IO
         public Stream Create(ContentReference fileRef, bool overwrite)
         {
             Stream stream = null;
-            if (!store.ContainsKey(fileRef.ContentType))
-            {
-                store[fileRef.ContentType] = new ConcurrentDictionary<string, MemoryStream>();
-            }
 
-            var subStore = store[fileRef.ContentType];
-
+            var subStore = store.Default(fileRef.ContentType);
             if (overwrite || !subStore.ContainsKey(fileRef.CacheID))
             {
                 var mem = new MemoryStream();

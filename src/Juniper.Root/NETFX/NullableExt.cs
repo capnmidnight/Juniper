@@ -20,7 +20,7 @@ namespace System
         }
 
         /// <summary>
-        /// Sets a veriable value, it has a value. Otherwise, ignores it.
+        /// Sets a variable value, if it has a value. Otherwise, ignores it.
         /// </summary>
         /// <typeparam name="T">Any value type.</typeparam>
         /// <param name="obj">The object to unpack.</param>

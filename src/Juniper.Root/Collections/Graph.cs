@@ -212,10 +212,7 @@ namespace Juniper.Collections
 
         private void AddNode(NodeT node)
         {
-            if (!nodes.ContainsKey(node))
-            {
-                nodes.Add(node, nodes.Count);
-            }
+            nodes.Default(node, nodes.Count);
         }
 
         private void ResetNetwork()
