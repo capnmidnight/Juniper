@@ -59,6 +59,14 @@ namespace Juniper.HTTP
             set;
         }
 
+#if DEBUG
+        public string StartPage
+        {
+            get;
+            set;
+        }
+#endif
+
         public void AddContentPath(string path)
         {
             if (!string.IsNullOrEmpty(path)
@@ -216,6 +224,27 @@ namespace Juniper.HTTP
             {
                 serverThread.Start();
             }
+
+#if DEBUG
+            if (!string.IsNullOrEmpty(StartPage))
+            {
+                var protocol = HttpsPort > 0
+                    ? "https"
+                    : "http";
+
+                var port = HttpsPort > 0
+                    ? HttpsPort == 443
+                        ? ""
+                        : ":" + HttpsPort
+                    : ":" + HttpPort;
+
+                Process.Start(new ProcessStartInfo($"explorer", $"\"{protocol}://{Domain}{port}/{StartPage}\"")
+                {
+                    UseShellExecute = true,
+                    WindowStyle = ProcessWindowStyle.Maximized
+                });
+            }
+#endif
         }
 
         private void GetTLSParameters(out string guid, out string certHash)
@@ -242,7 +271,8 @@ namespace Juniper.HTTP
         {
             var procInfo = new ProcessStartInfo("netsh", $"http add sslcert ipport=0.0.0.0:{HttpsPort} certhash={certHash} appid={{{appGuid}}}")
             {
-                CreateNoWindow = false,
+                UseShellExecute = false,
+                CreateNoWindow = true,
                 ErrorDialog = false,
                 LoadUserProfile = false,
                 RedirectStandardError = true,
@@ -250,7 +280,6 @@ namespace Juniper.HTTP
                 RedirectStandardOutput = true,
                 StandardErrorEncoding = Encoding.UTF8,
                 StandardOutputEncoding = Encoding.UTF8,
-                UseShellExecute = false,
                 WindowStyle = ProcessWindowStyle.Hidden
             };
 
