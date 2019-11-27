@@ -13,12 +13,24 @@ using System.Collections.Generic;
 using UnityInput = UnityEngine.Input;
 #endif
 
+#if UNITY_XR_OCULUS || UNITY_EDITOR
+using HapticType = Juniper.Haptics.NoHaptics;
+#elif ANDROID_API_26_OR_GREATER
+using HapticType = Juniper.Haptics.AndroidHaptics;
+#elif IOS_VERSION_10_OR_GREATER
+using HapticType = Juniper.Haptics.iOS10Haptics;
+#elif IOS_VERSION_9
+using HapticType = Juniper.Haptics.iOS9Haptics;
+#else
+using HapticType = Juniper.Haptics.DefaultHaptics;
+#endif
+
 namespace Juniper.Input.Pointers.Screen
 {
     /// <summary>
     /// Perform pointer events on touch screens.
     /// </summary>
-    public class TouchPoint : AbstractScreenDevice<Unary, UnaryPointerConfiguration>
+    public class TouchPoint : AbstractScreenDevice<Unary, UnaryPointerConfiguration, HapticType>
     {
 #if USE_NATIVE_TOUCH
         private static readonly Dictionary<int, TouchPoint> pointers = new Dictionary<int, TouchPoint>();
@@ -141,21 +153,6 @@ namespace Juniper.Input.Pointers.Screen
             {
                 return lastWorldPoint;
             }
-        }
-
-        protected override AbstractHapticDevice MakeHapticsDevice()
-        {
-#if UNITY_XR_OCULUS || UNITY_EDITOR
-            return this.Ensure<NoHaptics>();
-#elif ANDROID_API_26_OR_GREATER
-            return this.Ensure<AndroidHaptics>();
-#elif IOS_VERSION_10_OR_GREATER
-            return this.Ensure<iOS10Haptics>();
-#elif IOS_VERSION_9
-            return this.Ensure<iOS9Haptics>();
-#else
-            return this.Ensure<DefaultHaptics>();
-#endif
         }
     }
 }

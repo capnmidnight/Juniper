@@ -1,20 +1,21 @@
 using System;
-
+using Juniper.Haptics;
 using Juniper.Mathematics;
 
 using UnityEngine;
 
 namespace Juniper.Input.Pointers.Motion
 {
-    public abstract class AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType> :
-        AbstractPointerDevice<ButtonIDType, ConfigType>,
+    public abstract class AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType, HapticType> :
+        AbstractPointerDevice<ButtonIDType, ConfigType, HapticType>,
         IHandedPointer
         where HandIDType : struct, IComparable
         where ButtonIDType : struct
         where ConfigType : AbstractHandedPointerConfiguration<HandIDType, ButtonIDType>, new()
+        where HapticType : AbstractHapticDevice
     {
         public static T[] MakeControllers<T>(Func<string, T> MakePointer)
-            where T : AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType>
+            where T : AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType, HapticType>
         {
             return new[] {
                 MakeMotionController(MakePointer, Hands.Left),
@@ -26,7 +27,7 @@ namespace Juniper.Input.Pointers.Motion
         /// Create a new hand pointer object for an interaction source that hasn't yet been seen.
         /// </summary>
         private static T MakeMotionController<T>(Func<string, T> MakePointer, Hands hand)
-            where T : AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType>
+            where T : AbstractHandedPointer<HandIDType, ButtonIDType, ConfigType, HapticType>
         {
             var pointer = MakePointer(PointerConfig.MakePointerName(hand));
 #if UNITY_EDITOR

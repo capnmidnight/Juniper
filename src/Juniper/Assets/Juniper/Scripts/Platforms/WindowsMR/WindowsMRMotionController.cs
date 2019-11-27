@@ -10,12 +10,19 @@ using UnityEngine;
 using UnityEngine.XR.WSA.Input;
 #endif
 
+
+#if UNITY_EDITOR
+using HapticType = Juniper.Haptics.NoHaptics;
+#else
+using HapticType = Juniper.Haptics.WindowsMRHaptics;
+#endif
+
 namespace Juniper.Input.Pointers.Motion
 {
     /// <summary>
     /// A motion controller or hand-tracking. Currently only implements WindowsMR.
     /// </summary>
-    public abstract class WindowsMRMotionController : AbstractMotionController<InteractionSourceHandedness, WindowsMRButtons, WindowsMRMotionControllerConfiguration>
+    public abstract class WindowsMRMotionController : AbstractMotionController<InteractionSourceHandedness, WindowsMRButtons, WindowsMRMotionControllerConfiguration, HapticType>
     {
         private static InteractionSourceState[] states;
 
@@ -266,15 +273,6 @@ namespace Juniper.Input.Pointers.Motion
             {
                 return InputState.selectPressedAmount;
             }
-        }
-
-        protected override AbstractHapticDevice MakeHapticsDevice()
-        {
-#if UNITY_EDITOR
-            return this.Ensure<NoHaptics>();
-#else
-            return this.Ensure<WindowsMRHaptics>();
-#endif
         }
     }
 }

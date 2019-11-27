@@ -12,7 +12,7 @@ namespace Juniper.Input.Pointers.Motion
     /// <summary>
     /// A motion controller or hand-tracking. Currently only implements WindowsMR.
     /// </summary>
-    public abstract class ViveFocusMotionController : AbstractMotionController<WVR_DeviceType, WVR_InputId, ViveFocusMotionControllerConfiguration>
+    public abstract class ViveFocusMotionController : AbstractMotionController<WVR_DeviceType, WVR_InputId, ViveFocusMotionControllerConfiguration, ViveFocusHaptics>
     {
         public override bool IsConnected
         {
@@ -196,11 +196,6 @@ namespace Juniper.Input.Pointers.Motion
                 }
                 return _controller;
             }
-        }
-
-        protected override AbstractHapticDevice MakeHapticsDevice()
-        {
-            return this.Ensure<ViveFocusHaptics>();
         }
     }
 }

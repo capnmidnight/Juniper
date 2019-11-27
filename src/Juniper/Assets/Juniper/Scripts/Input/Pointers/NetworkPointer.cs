@@ -6,14 +6,18 @@ using UnityEngine;
 
 namespace Juniper.Input.Pointers
 {
-    public class NetworkPointer 
-        : AbstractPointerDevice<Unary, UnaryPointerConfiguration>
+    public class NetworkPointer
+        : AbstractPointerDevice<Unary, UnaryPointerConfiguration, NoHaptics>
     {
         private static readonly TimeSpan CONNECTION_TIMEOUT = TimeSpan.FromSeconds(5);
 
+        public DateTime lastClickTime;
+
         private DateTime lastUpdate = DateTime.MinValue;
+        private bool pressed, wasPressed;
+
         private Ray ray;
-        
+
         public Ray Ray
         {
             get
@@ -27,11 +31,13 @@ namespace Juniper.Input.Pointers
             }
         }
 
-        public DateTime lastClickTime;
-
-        private bool pressed, wasPressed;
-
-        public override bool IsConnected { get { return (DateTime.Now - lastUpdate) < CONNECTION_TIMEOUT; } }
+        public override bool IsConnected
+        {
+            get
+            {
+                return (DateTime.Now - lastUpdate) < CONNECTION_TIMEOUT;
+            }
+        }
 
         public override bool IsButtonPressed(Unary button)
         {
@@ -58,16 +64,11 @@ namespace Juniper.Input.Pointers
             transform.rotation = Quaternion.LookRotation(ray.direction);
         }
 
-        protected override AbstractHapticDevice MakeHapticsDevice()
-        {
-            return this.Ensure<NoHaptics>();
-        }
-
         public override Vector3 WorldPoint
         {
             get
             {
-                return transform.position 
+                return transform.position
                     + transform.forward * MinimumPointerDistance;
             }
         }

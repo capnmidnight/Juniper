@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Juniper.Input.Pointers.Motion
 {
-    public abstract class NoMotionController : AbstractMotionController<Unary, Unary, NoMotionControllerConfiguration>
+    public abstract class NoMotionController : AbstractMotionController<Unary, Unary, NoMotionControllerConfiguration, NoHaptics>
     {
         public override bool IsConnected
         {
@@ -104,11 +104,6 @@ namespace Juniper.Input.Pointers.Motion
         public override float Trigger
         {
             get;
-        }
-
-        protected override AbstractHapticDevice MakeHapticsDevice()
-        {
-            return this.Ensure<NoHaptics>();
         }
     }
 }

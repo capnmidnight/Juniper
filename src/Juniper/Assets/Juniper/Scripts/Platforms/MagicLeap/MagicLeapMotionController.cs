@@ -15,7 +15,7 @@ namespace Juniper.Input.Pointers.Motion
     /// A motion controller or hand-tracking. Currently only implements WindowsMR.
     /// </summary>
     public abstract class MagicLeapMotionController :
-        AbstractMotionController<MLInput.Hand, MLInputControllerButton, MagicLeapMotionControllerConfiguration>
+        AbstractMotionController<MLInput.Hand, MLInputControllerButton, MagicLeapMotionControllerConfiguration, MagicLeapHaptics>
     {
         public override bool IsConnected
         {
@@ -299,11 +299,6 @@ namespace Juniper.Input.Pointers.Motion
         public override bool IsButtonUp(MLInputControllerButton button)
         {
             return !pressed[button] && wasPressed[button];
-        }
-
-        protected override AbstractHapticDevice MakeHapticsDevice()
-        {
-            return this.Ensure<MagicLeapHaptics>();
         }
     }
 }

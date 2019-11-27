@@ -20,8 +20,9 @@ namespace Juniper.Input.Pointers.Gaze
     {
     }
 
-    public abstract class AbstractGazePointer :
-        AbstractScreenDevice<Unary, UnaryPointerConfiguration>
+    public abstract class AbstractGazePointer<HapticType> :
+        AbstractScreenDevice<Unary, UnaryPointerConfiguration, HapticType>
+        where HapticType : AbstractHapticDevice
     {
         protected bool gazed, wasGazed;
 
@@ -93,11 +94,6 @@ namespace Juniper.Input.Pointers.Gaze
                     && deltaTime < (gazeThreshold + 0.125f);
                 Probe.SetGaze(deltaTime / gazeThreshold);
             }
-        }
-
-        protected override AbstractHapticDevice MakeHapticsDevice()
-        {
-            return this.Ensure<NoHaptics>();
         }
     }
 }
