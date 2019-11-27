@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
 
-using Juniper.Input;
-
 using UnityEditor;
 
 using UnityEngine;
@@ -10,7 +8,7 @@ using UnityEngine;
 namespace Juniper.Events
 {
     [CustomEditor(typeof(ButtonEvent))]
-    public class ButtonEventEditor : UnityEditor.Editor
+    public class ButtonEventEditor : Editor
     {
         private static readonly ButtonEvent _;
         private const string FIELD_ONCLICK = nameof(_.onClick);

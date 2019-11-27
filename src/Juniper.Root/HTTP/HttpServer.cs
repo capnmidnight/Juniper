@@ -121,7 +121,8 @@ namespace Juniper.HTTP
                         && parameters.Skip(1).All(p => p.ParameterType == typeof(string))
                         && method.ReturnType == typeof(Task))
                     {
-                        OnInfo($"Found controller {type.Name}::{method.Name} > {route.Priority.ToString()}.");
+                        route.name = $"{type.Name}::{method.Name}";
+                        OnInfo($"Found controller {route.name} > {route.Priority.ToString()}.");
                         route.source = controller;
                         route.method = method;
                         routes.Add(route);
@@ -379,6 +380,7 @@ namespace Juniper.HTTP
                 }
                 finally
                 {
+                    context.Response.StatusDescription = HttpStatusDescription.Get(context.Response.StatusCode);
                     context.Response.Close();
                 }
             }

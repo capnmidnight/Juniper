@@ -1,5 +1,6 @@
 using System;
 
+using Juniper.HTTP;
 using Juniper.HTTP.REST;
 
 namespace Juniper.Azure
@@ -12,8 +13,8 @@ namespace Juniper.Azure
             return new Uri($"https://{region}.{component}.microsoft.com/");
         }
 
-        protected AbstractAzureRequest(string region, string component, string path, MediaTypeT contentType)
-            : base(AddPath(MakeURI(region, component), path), contentType)
+        protected AbstractAzureRequest(HttpMethod method, string region, string component, string path, MediaTypeT contentType)
+            : base(method, AddPath(MakeURI(region, component), path), contentType)
         { }
     }
 }

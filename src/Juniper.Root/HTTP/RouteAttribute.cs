@@ -27,6 +27,7 @@ namespace Juniper.HTTP
 
         internal object source;
         internal MethodInfo method;
+        internal string name;
 
         public RouteAttribute(Regex pattern)
         {
@@ -42,11 +43,12 @@ namespace Juniper.HTTP
 
         public bool IsMatch(HttpListenerRequest request)
         {
-            return Enum.TryParse<HttpProtocol>(request.Url.Scheme.ToUpperInvariant(), out var protocol)
-                && Enum.TryParse<HttpMethod>(request.HttpMethod.ToUpperInvariant(), out var method)
+            var urlMatch = pattern.IsMatch(request.Url.PathAndQuery);
+            return Enum.TryParse<HttpProtocol>(request.Url.Scheme, true, out var protocol)
+                && Enum.TryParse<HttpMethod>(request.HttpMethod, true, out var method)
                 && Protocol.HasFlag(protocol)
                 && Method.HasFlag(method)
-                && pattern.IsMatch(request.Url.PathAndQuery);
+                && urlMatch;
         }
 
         public Task Invoke(HttpListenerContext context)

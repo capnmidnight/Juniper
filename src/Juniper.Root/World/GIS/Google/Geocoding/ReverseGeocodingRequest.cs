@@ -1,4 +1,8 @@
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+
+using Juniper.Progress;
 
 namespace Juniper.World.GIS.Google.Geocoding
 {

@@ -6,7 +6,6 @@ using Juniper.Input;
 using Juniper.Input.Pointers;
 
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 #if !NET_4_6 && !NET_3_5
 using System.Reflection;

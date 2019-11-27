@@ -36,7 +36,7 @@ namespace Juniper.Input.Pointers.Screen
         {
             get
             {
-                return false;;
+                return false;
             }
         }
 
@@ -139,7 +139,7 @@ namespace Juniper.Input.Pointers.Screen
         {
             get
             {
-                return lastWorldPoint;;
+                return lastWorldPoint;
             }
         }
 

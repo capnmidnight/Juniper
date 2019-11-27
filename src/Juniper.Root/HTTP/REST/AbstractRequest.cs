@@ -19,13 +19,15 @@ namespace Juniper.HTTP.REST
             return uriBuilder.Uri;
         }
 
+        private readonly HttpMethod method;
         private readonly Uri serviceURI;
         private readonly IDictionary<string, List<string>> queryParams =
             new SortedDictionary<string, List<string>>();
 
-        protected AbstractRequest(Uri serviceURI, MediaTypeT contentType)
+        protected AbstractRequest(HttpMethod method, Uri serviceURI, MediaTypeT contentType)
             : base(contentType)
         {
+            this.method = method;
             this.serviceURI = serviceURI;
             MediaType = contentType;
         }
@@ -67,8 +69,10 @@ namespace Juniper.HTTP.REST
         {
             get
             {
-                var uriBuilder = new UriBuilder(serviceURI);
-                uriBuilder.Query = queryParams.ToString("=", "&");
+                var uriBuilder = new UriBuilder(serviceURI)
+                {
+                    Query = queryParams.ToString("=", "&")
+                };
                 return uriBuilder.Uri;
             }
         }
@@ -148,25 +152,30 @@ namespace Juniper.HTTP.REST
             return RemoveQuery(key, value.ToString());
         }
 
-        private HttpWebRequest CreateRequest()
+        protected virtual void ModifyRequest(HttpWebRequest request) { }
+
+        protected virtual BodyInfo GetBodyInfo() { return null; }
+
+        protected virtual void WriteBody(Stream stream) { }
+
+        public async Task<HttpWebResponse> GetResponse(IProgress prog = null)
         {
             var request = (HttpWebRequest)WebRequest.Create(AuthenticatedURI);
+
+            request = request.Method(method);
+
             if (AuthenticatedURI.Scheme == "http")
             {
                 request.Header("Upgrade-Insecure-Requests", 1);
             }
+
             if (MediaType != null)
             {
                 request.Accept = MediaType;
             }
-            ModifyRequest(request);
-            return request;
-        }
 
-        protected async Task<HttpWebResponse> Post(IProgress prog)
-        {
-            var request = CreateRequest()
-                .Method(HttpMethod.POST);
+            ModifyRequest(request);
+
             var info = GetBodyInfo();
             if (info == null)
             {
@@ -186,40 +195,15 @@ namespace Juniper.HTTP.REST
                     stream.Flush();
                 }
             }
+
             return (HttpWebResponse)await request.GetResponseAsync();
         }
 
-        protected async Task<Dictionary<string, string>> PostHead(IProgress prog)
-        {
-            var dict = new Dictionary<string, string>();
-            using (var response = await Post(prog))
-            {
-                var headers = response.Headers;
-                foreach (var key in headers.AllKeys)
-                {
-                    dict[key] = headers[key];
-                }
-            }
-
-            return dict;
-        }
-
-        protected async Task<HttpWebResponse> Get(IProgress prog)
-        {
-            prog.Report(0);
-            var request = CreateRequest()
-                .Method(HttpMethod.GET);
-            var response = (HttpWebResponse)await request
-                .GetResponseAsync();
-            prog.Report(1);
-            return response;
-        }
-
-        public override async Task<Stream> GetStream(IProgress prog)
+        public override async Task<Stream> GetStream(IProgress prog = null)
         {
             var progs = prog.Split("Get", "Read");
             prog = progs[1];
-            var response = await Action(progs[0]);
+            var response = await GetResponse(progs[0]);
             var stream = response.GetResponseStream();
             if (prog != null)
             {
@@ -228,20 +212,5 @@ namespace Juniper.HTTP.REST
             }
             return stream;
         }
-
-        public Task<Stream> GetStream()
-        {
-            return GetStream(null);
-        }
-
-        protected virtual void ModifyRequest(HttpWebRequest request) { }
-
-        protected virtual BodyInfo GetBodyInfo() { return null; }
-
-        protected virtual void WriteBody(Stream stream) { }
-
-        protected delegate Task<HttpWebResponse> ActionDelegate(IProgress prog);
-
-        protected abstract ActionDelegate Action { get; }
     }
 }

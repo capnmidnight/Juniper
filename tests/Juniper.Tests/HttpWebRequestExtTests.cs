@@ -29,15 +29,7 @@ namespace Juniper.HTTP.Tests
         private class ImageRequest : AbstractRequest<MediaType.Image>
         {
             public ImageRequest(Uri baseURI, string path)
-                : base(AddPath(baseURI, path), Juniper.MediaType.Image.Jpeg) { }
-
-            protected override ActionDelegate Action
-            {
-                get
-                {
-                    return Get;
-                }
-            }
+                : base(HttpMethod.GET, AddPath(baseURI, path), Juniper.MediaType.Image.Jpeg) { }
         }
 
         private static async Task<ImageData> RunFileTest(string imageFileName, bool deleteFile, bool runTest)

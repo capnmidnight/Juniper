@@ -42,7 +42,7 @@ namespace Juniper.Azure.CognitiveServices
         private int ssmlTextLength;
 
         public TextToSpeechRequest(string region, string resourceName, AudioFormat outputFormat)
-            : base(region, "cognitiveservices/v1", outputFormat.ContentType)
+            : base(HttpMethod.POST, region, "cognitiveservices/v1", outputFormat.ContentType)
         {
             this.resourceName = resourceName;
             OutputFormat = outputFormat;
@@ -199,14 +199,6 @@ namespace Juniper.Azure.CognitiveServices
             request.KeepAlive()
                 .UserAgent(resourceName)
                 .Header("X-Microsoft-OutputFormat", OutputFormat.Name);
-        }
-
-        protected override ActionDelegate Action
-        {
-            get
-            {
-                return Post;
-            }
         }
     }
 }

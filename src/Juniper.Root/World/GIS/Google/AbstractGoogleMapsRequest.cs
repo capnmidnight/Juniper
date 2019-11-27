@@ -2,6 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
+using Juniper.HTTP;
 using Juniper.HTTP.REST;
 
 namespace Juniper.World.GIS.Google
@@ -18,7 +19,7 @@ namespace Juniper.World.GIS.Google
         private readonly string signingKey;
 
         protected AbstractGoogleMapsRequest(string path, string apiKey, string signingKey, MediaTypeT contentType)
-            : base(AddPath(gmaps, path), contentType)
+            : base(HttpMethod.GET, AddPath(gmaps, path), contentType)
         {
             this.apiKey = apiKey;
             this.signingKey = signingKey;
@@ -50,14 +51,6 @@ namespace Juniper.World.GIS.Google
                         return signedUri.Uri;
                     }
                 }
-            }
-        }
-
-        protected override ActionDelegate Action
-        {
-            get
-            {
-                return Get;
             }
         }
     }
