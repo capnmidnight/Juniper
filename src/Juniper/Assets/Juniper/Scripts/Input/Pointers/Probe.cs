@@ -400,5 +400,15 @@ namespace Juniper.Input.Pointers
         {
             gameObject.SetActive(active);
         }
+
+        public XR.Pose ToJuniperPose()
+        {
+            var p = transform.position;
+            var d = (Cursor.position - transform.position).normalized;
+            var o = Quaternion.LookRotation(d);
+            return new XR.Pose(
+                p.x, p.y, p.z,
+                o.x, o.y, o.z, o.w);
+        }
     }
 }

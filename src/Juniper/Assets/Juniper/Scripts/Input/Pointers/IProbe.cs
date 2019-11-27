@@ -42,5 +42,7 @@ namespace Juniper.Input.Pointers
         void Destroy();
 
         void SetActive(bool active);
+
+        XR.Pose ToJuniperPose();
     }
 }

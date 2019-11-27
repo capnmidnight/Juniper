@@ -68,7 +68,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return Time.unscaledTime - updateTime > 1;;
+                return Time.unscaledTime - updateTime > 1;
             }
         }
 
@@ -76,7 +76,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return IsRightHand;;
+                return IsRightHand;
             }
         }
 
@@ -200,7 +200,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return InputState.touchpadTouched;;
+                return InputState.touchpadTouched;
             }
         }
 
@@ -208,7 +208,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return TouchPadTouched && !lastInputState.touchpadTouched;;
+                return TouchPadTouched && !lastInputState.touchpadTouched;
             }
         }
 
@@ -216,7 +216,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return !TouchPadTouched && lastInputState.touchpadTouched;;
+                return !TouchPadTouched && lastInputState.touchpadTouched;
             }
         }
 
@@ -224,7 +224,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return InputState.touchpadPressed;;
+                return InputState.touchpadPressed;
             }
         }
 
@@ -232,7 +232,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return TouchPadPressed && !lastInputState.touchpadPressed;;
+                return TouchPadPressed && !lastInputState.touchpadPressed;
             }
         }
 
@@ -240,7 +240,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return !TouchPadPressed && lastInputState.touchpadPressed;;
+                return !TouchPadPressed && lastInputState.touchpadPressed;
             }
         }
 
@@ -248,7 +248,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return InputState.touchpadPosition;;
+                return InputState.touchpadPosition;
             }
         }
 
@@ -256,7 +256,7 @@ namespace Juniper.Input.Pointers.Motion
         {
             get
             {
-                return SquareTouchPoint.Square2Round();;
+                return SquareTouchPoint.Square2Round();
             }
         }
 

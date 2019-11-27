@@ -134,7 +134,7 @@ namespace Juniper.Input.Pointers
         {
             get
             {
-                return probe?.Raycaster;
+                return Probe?.Raycaster;
             }
         }
 
@@ -208,13 +208,13 @@ namespace Juniper.Input.Pointers
         /// The cursor probe that shows the physical location of the current selection.
         /// </summary>
         [SerializeField]
-        public IProbe probe;
+        public IProbe Probe { get; private set; }
 
         public virtual void OnProbeFound()
         {
-            if (probe == null)
+            if (Probe == null)
             {
-                probe = Probe.Ensure(transform, ProbeName);
+                Probe = Pointers.Probe.Ensure(transform, ProbeName);
             }
         }
 
@@ -323,10 +323,10 @@ namespace Juniper.Input.Pointers
         {
             get
             {
-                if (probe != null
-                    && probe.Cursor != null)
+                if (Probe != null
+                    && Probe.Cursor != null)
                 {
-                    return probe.Cursor.position;
+                    return Probe.Cursor.position;
                 }
                 else
                 {
@@ -456,10 +456,10 @@ namespace Juniper.Input.Pointers
 
             Connected = IsConnected;
 
-            if (probe != null)
+            if (Probe != null)
             {
-                probe.SetActive(IsEnabled && showProbe);
-                probe.LaserPointerMaterial = LaserPointerMaterial;
+                Probe.SetActive(IsEnabled && showProbe);
+                Probe.LaserPointerMaterial = LaserPointerMaterial;
             }
 
             if (IsEnabled)
@@ -468,9 +468,9 @@ namespace Juniper.Input.Pointers
 
                 InternalUpdate();
 
-                if (probe != null)
+                if (Probe != null)
                 {
-                    probe?.AlignProbe(Direction, transform.up);
+                    Probe?.AlignProbe(Direction, transform.up);
                 }
             }
         }
@@ -514,7 +514,7 @@ namespace Juniper.Input.Pointers
                     || action != lastAction))
             {
                 lastAction = action;
-                finishTime = Time.unscaledTime + interaction.PlayAction(action, probe.Cursor, Haptics);
+                finishTime = Time.unscaledTime + interaction.PlayAction(action, Probe.Cursor, Haptics);
             }
         }
 
@@ -551,7 +551,7 @@ namespace Juniper.Input.Pointers
             LastSmoothedWorldPoint = SmoothedWorldPoint;
             LastOrigin = Origin;
 
-            probe?.SetCursor(
+            Probe?.SetCursor(
                 evtData.pointerCurrentRaycast.gameObject != null,
                 AnyButtonPressed,
                 LastWorldPoint,
@@ -601,6 +601,36 @@ namespace Juniper.Input.Pointers
 
         protected virtual void InternalUpdate()
         {
+        }
+
+        public virtual bool IsButtonPressed(VirtualTouchPadButton button)
+        {
+            return false;
+        }
+
+        public virtual bool IsButtonDown(VirtualTouchPadButton button)
+        {
+            return false;
+        }
+
+        public virtual bool IsButtonUp(VirtualTouchPadButton button)
+        {
+            return false;
+        }
+
+        public virtual bool IsButtonPressed(VirtualTriggerButton button)
+        {
+            return false;
+        }
+
+        public virtual bool IsButtonDown(VirtualTriggerButton button)
+        {
+            return false;
+        }
+
+        public virtual bool IsButtonUp(VirtualTriggerButton button)
+        {
+            return false;
         }
 
         public abstract bool IsButtonPressed(ButtonIDType button);

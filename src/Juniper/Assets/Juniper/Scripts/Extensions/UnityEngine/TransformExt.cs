@@ -119,13 +119,31 @@ namespace UnityEngine
         public static Juniper.XR.Pose ToJuniperPose(this Transform t)
         {
             return new Juniper.XR.Pose(
-                t.position.x, t.position.y, t.position.z, 
+                t.position.x, t.position.y, t.position.z,
                 t.rotation.x, t.rotation.y, t.rotation.z, t.rotation.w);
+        }
+
+        public static Vector3 GetUnityVector3(this Juniper.XR.Pose pose)
+        {
+            return new Vector3(pose.px, pose.py, pose.pz);
         }
 
         public static Quaternion GetUnityQuaternion(this Juniper.XR.Pose pose)
         {
             return new Quaternion(pose.ox, pose.oy, pose.oz, pose.ow);
+        }
+
+        public static Pose ToUnityPose(this Juniper.XR.Pose pose)
+        {
+            return new Pose(
+                pose.GetUnityVector3(),
+                pose.GetUnityQuaternion());
+        }
+
+        public static Ray ToUnityRay(this Juniper.XR.Pose pose)
+        {
+            var p = pose.ToUnityPose();
+            return new Ray(p.position, p.forward);
         }
     }
 }

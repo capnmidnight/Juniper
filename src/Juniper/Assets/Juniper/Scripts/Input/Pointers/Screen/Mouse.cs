@@ -96,9 +96,9 @@ namespace Juniper.Input.Pointers.Screen
         {
             base.OnProbeFound();
 
-            if (probe != null)
+            if (Probe != null)
             {
-                probe.CanGaze = false;
+                Probe.CanGaze = false;
             }
         }
 

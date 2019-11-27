@@ -164,22 +164,12 @@ namespace Juniper.Input
 
         private const string INPUT_MODE_KEY = "Juniper.Input.UnifiedInputModule::mode";
 
-        [FormerlySerializedAs("gazePointer")]
         public GazePointer Gaze;
-
-        [FormerlySerializedAs("mouse")]
         public Mouse Mouse;
-
-        [FormerlySerializedAs("touches")]
         public TouchPoint[] Touches;
-
-        [FormerlySerializedAs("motionControllers")]
         public MotionController[] Controllers;
-
-        [FormerlySerializedAs("handTrackers")]
         public HandTracker[] Hands;
-
-        [FormerlySerializedAs("keyer")]
+        public NetworkPointer Helper;
         public KeywordRecognizer Voice;
 
         public float minPointerDistance = 1.5f;
@@ -214,9 +204,10 @@ namespace Juniper.Input
             requestedMode = SavedInputMode;
         }
 
+        [ContextMenu("Reinstall")]
         public virtual void Reinstall()
         {
-            Install(true);
+            Install(false);
         }
 
         public virtual void Install(bool reset)
@@ -229,10 +220,13 @@ namespace Juniper.Input
 #endif
 
             Find.Any(out stage);
+
+            stage.Install(reset);
             stage.IndependentHead = HasFloorPosition;
 
             Gaze = MakePointer<GazePointer>(stage.Head, "GazePointer");
             Mouse = MakePointer<Mouse>(stage.Head, "Mouse");
+            Helper = MakePointer<NetworkPointer>(stage.Hands, "Network");
 
             Touches = new TouchPoint[10];
             for (var i = 0; i < Touches.Length; ++i)

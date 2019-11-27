@@ -34,6 +34,10 @@ namespace Juniper.Input.Pointers
             get;
         }
 
+        void OnProbeFound();
+
+        IProbe Probe { get; }
+
         Type ButtonType
         {
             get;
@@ -203,8 +207,18 @@ namespace Juniper.Input.Pointers
 
         bool IsButtonUp(KeyCode button);
 
-        void Process(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses, bool paused);
+        bool IsButtonDown(VirtualTouchPadButton button);
 
-        void OnProbeFound();
+        bool IsButtonPressed(VirtualTouchPadButton button);
+
+        bool IsButtonUp(VirtualTouchPadButton button);
+
+        bool IsButtonDown(VirtualTriggerButton button);
+
+        bool IsButtonPressed(VirtualTriggerButton button);
+
+        bool IsButtonUp(VirtualTriggerButton button);
+
+        void Process(JuniperPointerEventData evtData, float pixelDragThresholdSquared, List<KeyCode> keyPresses, bool paused);
     }
 }

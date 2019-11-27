@@ -1,5 +1,3 @@
-using Juniper.Haptics;
-
 using UnityEngine;
 
 namespace Juniper.Input.Pointers.Gaze

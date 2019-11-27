@@ -1,9 +1,9 @@
 using System.Collections.Generic;
+
 using Juniper.Haptics;
 using Juniper.Input.Pointers.Screen;
 
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Juniper.Input.Pointers.Gaze
 {
@@ -56,9 +56,9 @@ namespace Juniper.Input.Pointers.Gaze
         {
             base.OnProbeFound();
 
-            if (probe != null)
+            if (Probe != null)
             {
-                probe.CanGaze = gazeThreshold > 0;
+                Probe.CanGaze = gazeThreshold > 0;
             }
         }
 
@@ -84,14 +84,14 @@ namespace Juniper.Input.Pointers.Gaze
             if (target == null)
             {
                 gazed = false;
-                probe?.SetGaze(0);
+                Probe?.SetGaze(0);
             }
             else if (gazeThreshold > 0)
             {
                 var deltaTime = Time.unscaledTime - gazeTime;
                 gazed = gazeThreshold <= deltaTime
                     && deltaTime < (gazeThreshold + 0.125f);
-                probe.SetGaze(deltaTime / gazeThreshold);
+                Probe.SetGaze(deltaTime / gazeThreshold);
             }
         }
 

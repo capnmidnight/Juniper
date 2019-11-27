@@ -126,33 +126,33 @@ namespace Juniper.Input.Pointers.Motion
 
         private Vector2? lastTouchPosition;
 
-        public bool IsButtonPressed(VirtualTouchPadButton button)
+        public override bool IsButtonPressed(VirtualTouchPadButton button)
         {
             return VirtualButtonInBounds(button) && TouchPadPressed;
         }
 
-        public bool IsButtonDown(VirtualTouchPadButton button)
+        public override bool IsButtonDown(VirtualTouchPadButton button)
         {
             return VirtualButtonInBounds(button) && TouchPadPressedDown;
         }
 
-        public bool IsButtonUp(VirtualTouchPadButton button)
+        public override bool IsButtonUp(VirtualTouchPadButton button)
         {
             return VirtualButtonInBounds(button) && TouchPadPressedUp;
         }
 
-        public bool IsButtonPressed(VirtualTriggerButton button)
+        public override bool IsButtonPressed(VirtualTriggerButton button)
         {
             return VirtualTriggerButtonThreshold(button, Trigger);
         }
 
-        public bool IsButtonDown(VirtualTriggerButton button)
+        public override bool IsButtonDown(VirtualTriggerButton button)
         {
             return VirtualTriggerButtonThreshold(button, Trigger)
                 && !VirtualTriggerButtonThreshold(button, lastTrigger);
         }
 
-        public bool IsButtonUp(VirtualTriggerButton button)
+        public override bool IsButtonUp(VirtualTriggerButton button)
         {
             return !VirtualTriggerButtonThreshold(button, Trigger)
                 && VirtualTriggerButtonThreshold(button, lastTrigger);
@@ -218,9 +218,9 @@ namespace Juniper.Input.Pointers.Motion
 
             lastTrigger = Trigger;
 
-            if (probe != null)
+            if (Probe != null)
             {
-                probe.TouchPoint = RoundTouchPoint;
+                Probe.TouchPoint = RoundTouchPoint;
             }
         }
 
