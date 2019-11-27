@@ -101,7 +101,10 @@ namespace Juniper.Input
                     target = networkPose.Value.GetUnityQuaternion();
                 }
 
-                motionFilter?.UpdateState(target.eulerAngles);
+                if (motionFilter != null)
+                {
+                    motionFilter.UpdateState(target * Vector3.forward);
+                }
             }
         }
 
@@ -411,7 +414,10 @@ namespace Juniper.Input
             }
 
 #if UNITY_EDITOR
-            motionFilter?.Copy(parentMotionFilter);
+            if (motionFilter != null)
+            {
+                motionFilter.Copy(parentMotionFilter);
+            }
 #endif
 
             if (mode != lastMode)
@@ -475,8 +481,8 @@ namespace Juniper.Input
                     {
                         if (motionFilter != null)
                         {
-                            var euler = motionFilter.PredictedPosition;
-                            stage.SetViewRotation(Quaternion.Euler(euler));
+                            var direction = motionFilter.PredictedPosition;
+                            stage.SetViewRotation(Quaternion.LookRotation(direction));
                         }
                         else
                         {
