@@ -25,9 +25,9 @@ namespace Juniper.HTTP
         public bool Continue = false;
         public AuthenticationSchemes Authentication = AuthenticationSchemes.Anonymous;
 
-        internal object source;
-        internal MethodInfo method;
-        internal string name;
+        private object source;
+        private MethodInfo method;
+        private string name;
 
         public RouteAttribute(Regex pattern)
         {
@@ -40,6 +40,13 @@ namespace Juniper.HTTP
         public RouteAttribute(string pattern)
             : this(new Regex(pattern, RegexOptions.Compiled))
         { }
+
+        public void SetInfo(string name, object source, MethodInfo method)
+        {
+            this.name = name;
+            this.source = source;
+            this.method = method;
+        }
 
         public bool IsMatch(HttpListenerRequest request)
         {
@@ -55,6 +62,9 @@ namespace Juniper.HTTP
         {
             var path = context.Request.Url.PathAndQuery;
             var match = pattern.Match(path);
+            var source = method.IsStatic
+                ? null
+                : this.source;
             var args = match
                 .Groups
                 .Cast<Group>()
@@ -79,7 +89,7 @@ namespace Juniper.HTTP
 
         public override string ToString()
         {
-            return $"[{Priority} {regexSource}";
+            return $"[{Priority}] {name}({regexSource})";
         }
 
         public override int GetHashCode()

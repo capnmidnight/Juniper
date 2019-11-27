@@ -107,10 +107,25 @@ namespace Juniper.HTTP
                 .FirstOrDefault();
         }
 
+        public void AddRoutesFrom<T>()
+        {
+            AddRoutesFrom(null, typeof(T));
+        }
+
         public void AddRoutesFrom(object controller)
         {
-            var type = controller.GetType();
-            foreach (var method in type.GetMethods(BindingFlags.Instance | BindingFlags.Public))
+            AddRoutesFrom(controller, controller.GetType());
+        }
+
+        private void AddRoutesFrom(object controller, Type type)
+        {
+            var flags = BindingFlags.Public | BindingFlags.Static;
+            if(controller is object)
+            {
+                flags |= BindingFlags.Instance;
+            }
+            
+            foreach (var method in type.GetMethods(flags))
             {
                 var route = method.GetCustomAttribute<RouteAttribute>();
                 if (route != null)
@@ -121,10 +136,9 @@ namespace Juniper.HTTP
                         && parameters.Skip(1).All(p => p.ParameterType == typeof(string))
                         && method.ReturnType == typeof(Task))
                     {
-                        route.name = $"{type.Name}::{method.Name}";
-                        OnInfo($"Found controller {route.name} > {route.Priority.ToString()}.");
-                        route.source = controller;
-                        route.method = method;
+                        var name = $"{type.Name}::{method.Name}";
+                        route.SetInfo(name, controller, method);
+                        OnInfo($"Found controller {route}");
                         routes.Add(route);
                     }
                     else
@@ -204,7 +218,7 @@ namespace Juniper.HTTP
                         HttpPort = 80;
                     }
 
-                    AddRoutesFrom(new HttpsRedirectController());
+                    AddRoutesFrom<HttpsRedirectController>();
                 }
                 else if (HttpPort > 0)
                 {
