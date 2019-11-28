@@ -11,8 +11,7 @@ namespace Juniper.HTTP
 
         [Route(".*",
             Priority = int.MinValue,
-            Protocol = HttpProtocol.HTTP,
-            Method = HttpMethod.GET)]
+            Protocol = HttpProtocol.HTTP)]
         public static Task Redirect(HttpListenerContext context)
         {
             var secureUrl = new UriBuilder(context.Request.Url)

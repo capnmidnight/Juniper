@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace System.IO
 {
@@ -76,6 +77,25 @@ namespace System.IO
             }
 
             return allErrors;
+        }
+
+        public static bool Contains(this DirectoryInfo dir, FileInfo file)
+        {
+            return Contains(dir, file.Directory);
+        }
+
+        private static bool Contains(this DirectoryInfo dir, DirectoryInfo subDir)
+        {
+            var subDirParts = subDir.FullName.SplitX(Path.DirectorySeparatorChar);
+            var dirParts = dir.FullName.SplitX(Path.DirectorySeparatorChar);
+            if (subDirParts.Length < dirParts.Length)
+            {
+                return false;
+            }
+            else
+            {
+                return dirParts.Matches(subDirParts.Take(dirParts.Length));
+            }
         }
     }
 }

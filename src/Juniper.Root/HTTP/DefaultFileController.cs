@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Juniper.HTTP
@@ -56,7 +58,8 @@ namespace Juniper.HTTP
             return requestPath;
         }
 
-        private readonly string rootDirectory;
+        private readonly string rootDirectoryPath;
+        private readonly DirectoryInfo rootDirectory;
 
         public event EventHandler<string> Warning;
         private void OnWarning(string message)
@@ -64,19 +67,20 @@ namespace Juniper.HTTP
             Warning?.Invoke(this, message);
         }
 
-        public DefaultFileController(string rootDirectory)
+        public DefaultFileController(string rootDirectoryPath)
         {
-            this.rootDirectory = rootDirectory;
+            this.rootDirectoryPath = rootDirectoryPath;
+            rootDirectory = new DirectoryInfo(rootDirectoryPath);
         }
 
         [Route(".*", Priority = int.MaxValue)]
-        public Task ServeFile(HttpListenerContext context)
+        public async Task ServeFile(HttpListenerContext context)
         {
             var request = context.Request;
             var response = context.Response;
             var requestPath = request.Url.AbsolutePath;
             var requestFile = MassageRequestPath(requestPath);
-            var filename = Path.Combine(rootDirectory, requestFile);
+            var filename = Path.Combine(rootDirectoryPath, requestFile);
             var isDirectory = Directory.Exists(filename);
 
             if (isDirectory)
@@ -85,26 +89,23 @@ namespace Juniper.HTTP
             }
 
             var file = new FileInfo(filename);
-            var shortName = MakeShortName(rootDirectory, filename);
+            var shortName = MakeShortName(rootDirectoryPath, filename);
 
-            if (isDirectory && requestPath[requestPath.Length - 1] != '/')
+            if (!rootDirectory.Contains(file))
+            {
+                response.Error(HttpStatusCode.Unauthorized, "Unauthorized");
+            }
+            else if (isDirectory && requestPath[requestPath.Length - 1] != '/')
             {
                 response.Redirect(requestPath + "/");
             }
             else if (file.Exists)
             {
-                try
-                {
-                    response.SendFile(file);
-                }
-#pragma warning disable CA1031 // Do not catch general exception types
-                catch (Exception exp)
-                {
-                    var message = $"ERRRRRROR: '{shortName}' > {exp.Message}";
-                    OnWarning(message);
-                    response.Error(HttpStatusCode.InternalServerError, message);
-                }
-#pragma warning restore CA1031 // Do not catch general exception types
+                await SendFile(response, file, shortName);
+            }
+            else if (isDirectory)
+            {
+                await ListDirectory(response, new DirectoryInfo(filename));
             }
             else
             {
@@ -112,8 +113,52 @@ namespace Juniper.HTTP
                 OnWarning(message);
                 response.Error(HttpStatusCode.NotFound, message);
             }
+        }
 
-            return Task.CompletedTask;
+        private async Task ListDirectory(HttpListenerResponse response, DirectoryInfo dir)
+        {
+            var sb = new StringBuilder();
+            var shortName = MakeShortName(rootDirectory.FullName, dir.FullName);
+            sb.AppendFormat("<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>{0}</title></head><body><h1>Directory Listing: {0}</h1><ul>", shortName);
+
+            
+            var paths = (from subPath in dir.GetFileSystemInfos()
+                         select MakeShortName(dir.FullName, subPath.FullName));
+
+            if (!dir.Parent.FullName.Equals(rootDirectory.FullName, StringComparison.InvariantCultureIgnoreCase))
+            {
+                paths = paths.Prepend("..");
+            }
+
+            foreach (var subPath in paths)
+            {
+                sb.AppendFormat("<li><a href=\"{0}\">{0}</a></li>", subPath);
+            }
+
+            sb.Append("</ul></body></html>");
+
+            response.ContentLength64 = sb.Length;
+            response.ContentType = MediaType.Text.Html;
+            using (var writer = new StreamWriter(response.OutputStream))
+            {
+                await writer.WriteAsync(sb.ToString());
+            }
+        }
+
+        private async Task SendFile(HttpListenerResponse response, FileInfo file, string shortName)
+        {
+            try
+            {
+                await response.SendFileAsync(file);
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception exp)
+            {
+                var message = $"ERRRRRROR: '{shortName}' > {exp.Message}";
+                OnWarning(message);
+                response.Error(HttpStatusCode.InternalServerError, message);
+            }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
     }
 }
