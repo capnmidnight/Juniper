@@ -13,6 +13,7 @@ namespace Juniper.Imaging
     public delegate bool CubemapAvailabilityNeeded(Photosphere source);
     public delegate Texture2D TextureNeeded(Photosphere source);
     public delegate float CubemapRotationNeeded(Photosphere source);
+    public delegate void CubemapRotationUpdated(Photosphere source, float rotation);
 
     public class Photosphere : MonoBehaviour, IProgress
     {
@@ -40,11 +41,18 @@ namespace Juniper.Imaging
         public event TextureNeeded GetCubemap;
 
         public event CubemapRotationNeeded GetRotation;
+        public event CubemapRotationUpdated SetRotation;
+
+        public float rotation;
         private float Rotation
         {
             get
             {
                 return GetRotation?.Invoke(this) ?? 0;
+            }
+            set
+            {
+                SetRotation?.Invoke(this, rotation);
             }
         }
 
@@ -123,7 +131,7 @@ namespace Juniper.Imaging
                     skybox.imageType = SkyboxManager.ImageType.Degrees360;
                     skybox.layout = SkyboxManager.Mode.Cube;
                     skybox.mirror180OnBack = false;
-                    skybox.rotation = Rotation;
+                    rotation = skybox.rotation = Rotation;
                     skybox.stereoLayout = SkyboxManager.StereoLayout.None;
                     skybox.tint = Color.gray;
                     skybox.useMipMap = false;
@@ -131,6 +139,11 @@ namespace Juniper.Imaging
 
                     OnReady();
                 }
+            }
+            else if(rotation != Rotation)
+            {
+                skybox.rotation = rotation;
+                Rotation = rotation;
             }
         }
 

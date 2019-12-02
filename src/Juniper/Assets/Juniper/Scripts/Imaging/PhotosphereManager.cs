@@ -43,6 +43,7 @@ namespace Juniper.Imaging
         public event TextureNeeded CubemapNeeded;
 
         public event CubemapRotationNeeded RotationNeeded;
+        public event CubemapRotationUpdated RotationUpdated;
 
         public event Action<Photosphere> PhotosphereReady;
 
@@ -150,7 +151,13 @@ namespace Juniper.Imaging
             photo.GetCubemap += Photo_CubemapNeeded;
             photo.CheckIsCubemapAvailable += Photo_CheckIsCubemapAvailable;
             photo.GetRotation += Photo_GetRotation;
+            photo.SetRotation += Photo_SetRotation;
             photospheres.Add(photo.CubemapName, photo);
+        }
+
+        private void Photo_SetRotation(Photosphere source, float rotation)
+        {
+            RotationUpdated?.Invoke(source, rotation);
         }
 
         private float Photo_GetRotation(Photosphere source)
