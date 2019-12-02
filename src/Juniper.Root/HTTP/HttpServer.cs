@@ -388,10 +388,12 @@ namespace Juniper.HTTP
 
                     context.Response.OutputStream.Flush();
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch
                 {
                     context.Response.Error(HttpStatusCode.InternalServerError, "Internal error");
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
                 finally
                 {
                     context.Response.StatusDescription = HttpStatusDescription.Get(context.Response.StatusCode);
