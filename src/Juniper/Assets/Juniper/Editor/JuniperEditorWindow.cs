@@ -57,8 +57,6 @@ namespace Juniper.Unity.Editor
             }
         }
 
-        private bool initialized;
-
         protected Task RepaintAsync()
         {
             return mainThread.StartNew(Repaint);
@@ -183,7 +181,6 @@ namespace Juniper.Unity.Editor
                     {
                         CurrentError = new Exception("Error occured on background task", watcherTask.Exception);
                         watcherTask = null;
-                        initialized = false;
                     }
                 }
             }

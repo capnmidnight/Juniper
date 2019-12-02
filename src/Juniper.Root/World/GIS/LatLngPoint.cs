@@ -182,13 +182,40 @@ namespace Juniper.World.GIS
         /// <returns>A printed format for the latitude/longitude in degrees/minutes/seconds</returns>
         public string ToDMS(int sigfigs)
         {
-            return $"<{ToDMS(Latitude, "S", "N", sigfigs)}, {ToDMS(Longitude, "W", "E", sigfigs)}>";
+            var latStr = ToDMS(Latitude, "S", "N", sigfigs);
+            var lngStr = ToDMS(Longitude, "W", "E", sigfigs);
+            var altStr = Units.Converter.Label(Altitude, Units.UnitOfMeasure.Meters);
+            return $"<{latStr}, {lngStr}> alt {altStr}";
+        }
+
+        /// <summary>
+        /// Pretty-print the Degrees/Minutes/Second version of the Latitude/Longitude angles.
+        /// </summary>
+        /// <param name="value">The decimal degree value to format</param>
+        /// <param name="negative">The string prefix to use when the value is negative</param>
+        /// <param name="positive">The string prefix to use when the value is positive</param>
+        /// <param name="sigfigs">The number of significant figures to which to print the value</param>
+        /// <returns>The degrees/minutes/seconds version of the decimal degree</returns>
+        private static string ToDMS(float value, string negative, string positive, int sigfigs)
+        {
+            var hemisphere = value < 0 ? negative : positive;
+            value = Abs(value);
+            var degrees = (int)value;
+            var minutes = (value - degrees) * 60;
+            var intMinutes = (int)minutes;
+            var seconds = (minutes - intMinutes) * 60;
+            var secondsStr = seconds.SigFig(sigfigs);
+            while (secondsStr.IndexOf(".", StringComparison.Ordinal) <= 1)
+            {
+                secondsStr = "0" + secondsStr;
+            }
+            return $"{hemisphere} {degrees.ToString()}° {intMinutes.ToString()}' {secondsStr}\"";
         }
 
         /// <summary>
         /// Pretty-print the LatLngPoint for easier debugging.
         /// </summary>
-        /// <returns>A decimal degrees printed format with no rounding</returns>
+        /// <returns>A decimal degrees printed format</returns>
         public override string ToString()
         {
             return Latitude.ToString("0.000000") + "," + Longitude.ToString("0.000000");
@@ -257,30 +284,6 @@ namespace Juniper.World.GIS
             return Latitude.GetHashCode()
                 ^ Longitude.GetHashCode()
                 ^ Altitude.GetHashCode();
-        }
-
-        /// <summary>
-        /// Pretty-print the Degrees/Minutes/Second version of the Latitude/Longitude angles.
-        /// </summary>
-        /// <param name="value">The decimal degree value to format</param>
-        /// <param name="negative">The string prefix to use when the value is negative</param>
-        /// <param name="positive">The string prefix to use when the value is positive</param>
-        /// <param name="sigfigs">The number of significant figures to which to print the value</param>
-        /// <returns>The degrees/minutes/seconds version of the decimal degree</returns>
-        private static string ToDMS(float value, string negative, string positive, int sigfigs)
-        {
-            var hemisphere = value < 0 ? negative : positive;
-            value = Abs(value);
-            var degrees = (int)value;
-            var minutes = (value - degrees) * 60;
-            var intMinutes = (int)minutes;
-            var seconds = (minutes - intMinutes) * 60;
-            var secondsStr = seconds.SigFig(sigfigs);
-            while (secondsStr.IndexOf(".", StringComparison.Ordinal) <= 1)
-            {
-                secondsStr = "0" + secondsStr;
-            }
-            return $"{hemisphere} {degrees.ToString()}° {intMinutes.ToString()}' {secondsStr}\"";
         }
     }
 }

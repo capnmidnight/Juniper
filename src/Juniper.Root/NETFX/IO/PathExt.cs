@@ -128,6 +128,11 @@ namespace System.IO
 
         public static string GetShortExtension(string path)
         {
+            if(path == null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
             var i = path.LastIndexOf('.');
             if (i <= 0)
             {

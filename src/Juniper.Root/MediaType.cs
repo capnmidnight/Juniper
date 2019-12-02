@@ -174,6 +174,11 @@ namespace Juniper
     {
         public static string AddExtension(this MediaType contentType, string fileName)
         {
+            if(fileName == null)
+            {
+                throw new ArgumentNullException(nameof(fileName));
+            }
+
             if (contentType != null
                 && contentType.PrimaryExtension != null)
             {
