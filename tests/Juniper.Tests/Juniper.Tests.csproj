@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Azure\APITests.cs" />
     <Compile Include="IEnumerableExtTests.cs" />
+    <Compile Include="Iteration\IterationTests.cs" />
     <Compile Include="ListExtTests.cs" />
     <Compile Include="PriorityQueueEnumeratorTests.cs" />
     <Compile Include="PriorityQueueTests.cs" />
