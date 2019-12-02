@@ -138,8 +138,8 @@ namespace Juniper.World.GIS.Google
                 photospheres = this.Ensure<PhotosphereManager>();
             }
 
-            navPlane = transform.Find("NavPlane").Ensure<Clickable>();
             Find.Any(out avatar);
+            navPlane = avatar.GroundPlane.Ensure<Clickable>();
             navPointer = transform.Find("NavPointer");
             navPointer.Deactivate();
             Find.Any(out input);
@@ -192,13 +192,16 @@ namespace Juniper.World.GIS.Google
 
             photospheres.SetIO(cache, codec);
             photospheres.SetDetailLevels(searchFOVs);
+        }
 
+        public void OnEnable()
+        {
             navPlane.Click += NavPlane_Click;
-            var renderer = navPlane.GetComponent<Renderer>();
-            if (renderer != null)
-            {
-                renderer.enabled = false;
-            }
+        }
+
+        public void OnDisable()
+        {
+            navPlane.Click -= NavPlane_Click;
         }
 
         private void Cache(MetadataResponse metadata)
@@ -583,12 +586,7 @@ namespace Juniper.World.GIS.Google
 
                 await JuniperSystem.OnMainThread(() =>
                 {
-                    var delta = GetRelativeVector3(metadata);
-
-                    navPlane.transform.position
-                        = avatar.transform.position
-                        = delta;
-
+                    avatar.transform.position = GetRelativeVector3(metadata);
                     curSphere.transform.position = avatar.Head.position;
                 });
 

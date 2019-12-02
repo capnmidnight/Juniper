@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 using Juniper.Anchoring;
 using Juniper.Display;
@@ -24,8 +22,8 @@ namespace Juniper
 
                 var pivot = head.EnsureParent("Pivot", sysT);
                 var neck = pivot.EnsureParent("Neck", sysT);
-
-                var stage = neck.EnsureParent("Stage", sysT);
+                var avatar = neck.EnsureParent("Avatar", sysT);
+                var stage = avatar.EnsureParent("Stage", sysT);
                 stage.Ensure<Avatar>();
                 stage.transform.SetParent(sysT, false);
             }
@@ -48,6 +46,14 @@ namespace Juniper
             }
         }
 
+        public Vector3 UserBottom
+        {
+            get
+            {
+                return Head.position - FullUp;
+            }
+        }
+
         private Vector3 LocalUserTop
         {
             get
@@ -65,6 +71,14 @@ namespace Juniper
             get
             {
                 return LocalUserTop.y;
+            }
+        }
+
+        private Vector3 FullUp
+        {
+            get
+            {
+                return AvatarHeight * Vector3.up;
             }
         }
 
@@ -118,6 +132,14 @@ namespace Juniper
         private CapsuleCollider bodyShape;
 
 #endif
+
+        [HideInNormalInspector]
+        [SerializeField]
+        private Transform avatar;
+
+        [HideInNormalInspector]
+        [SerializeField]
+        public Transform GroundPlane;
 
         [HideInNormalInspector]
         [SerializeField]
@@ -220,41 +242,70 @@ namespace Juniper
         {
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
+            GroundPlane = this.Ensure<Transform>("GroundPlane");
+            {
+                var renderer = GroundPlane.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    renderer.enabled = false;
+                }
+            }
+
             Head = DisplayManager.MainCamera.transform;
             {
                 Head.localPosition = Vector3.zero;
 
+                if (Head.parent == null)
+                {
+                    Head.parent = new GameObject("Pivot").transform;
+                }
                 pivot = Head.parent;
                 pivot.localPosition = Vector3.zero;
 
+                if (pivot.parent == null)
+                {
+                    pivot.parent = new GameObject("Neck").transform;
+                }
                 neck = pivot.parent;
                 neck.localPosition = defaultAvatarHeight * Vector3.up;
+
+                if (neck.parent == null)
+                {
+                    neck.parent = new GameObject("Avatar").transform;
+                }
+                avatar = neck.parent;
+                avatar.localPosition = Vector3.zero;
+
+                if (avatar.parent != transform)
+                {
+                    avatar.parent = transform;
+                }
 
                 headShadow = Head.Ensure<Transform>("HeadShadow", new Func<GameObject>(MakeHead));
                 var goggles = headShadow.Ensure<Transform>("Goggles", new Func<GameObject>(MakeGoogles));
                 goggles.Value.localPosition = new Vector3(0, 0, 0.311f);
-            }
 
-            shoulders = this.Ensure<Transform>("Shoulders");
-            {
-                Hands = shoulders.Ensure<Transform>("Hands");
-                body = shoulders.Ensure<Transform>("Body", new Func<GameObject>(MakeBody));
-
-#if UNITY_MODULES_PHYSICS
-                var bs = shoulders.Ensure<CapsuleCollider>();
-                if (bs.IsNew)
+                shoulders = avatar.Ensure<Transform>("Shoulders");
                 {
-                    bs.Value.SetMaterial(shoes);
-                    bs.Value.height = AvatarHeight;
-                    bs.Value.radius = 0.25f;
-                    bs.Value.direction = (int)CartesianAxis.Y;
-                }
-                bodyShape = bs;
+                    Hands = shoulders.Ensure<Transform>("Hands");
+                    body = shoulders.Ensure<Transform>("Body", new Func<GameObject>(MakeBody));
+
+#if UNITY_MODULES_PHYSICS
+                    var bs = shoulders.Ensure<CapsuleCollider>();
+                    if (bs.IsNew)
+                    {
+                        bs.Value.SetMaterial(shoes);
+                        bs.Value.height = AvatarHeight;
+                        bs.Value.radius = 0.25f;
+                        bs.Value.direction = (int)CartesianAxis.Y;
+                    }
+                    bodyShape = bs;
 #endif
+                }
             }
 
 #if UNITY_MODULES_PHYSICS
-            var bp = this.Ensure<Rigidbody>();
+            var bp = avatar.Ensure<Rigidbody>();
             if (bp.IsNew)
             {
                 bp.Value.mass = 80;
@@ -266,7 +317,7 @@ namespace Juniper
             BodyPhysics.velocity = Vector3.zero;
             BodyPhysics.Ensure<RunningMovement>();
 
-            grounder = this.Ensure<Grounded>();
+            grounder = avatar.Ensure<Grounded>();
             grounder.GroundFound += DestroyGrounder;
 #endif
 
@@ -328,7 +379,7 @@ namespace Juniper
         {
             var eul = quat.eulerAngles;
 
-            transform.localRotation = Quaternion.AngleAxis(eul.y, Vector3.up);
+            avatar.localRotation = Quaternion.AngleAxis(eul.y, Vector3.up);
 
             var x = eul.x;
             if (x > 180)
