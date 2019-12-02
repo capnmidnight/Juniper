@@ -79,3 +79,5 @@ tobii_gameintegration_*.dll
 /src/packages/
 **/StreamingAssets/Juniper.meta
 /src/MigrationBackup/
+*.blend1
+*.blend1.meta
