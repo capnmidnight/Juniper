@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 using Juniper.IO;
 
@@ -44,6 +43,7 @@ namespace Juniper.Imaging
 
         public event CubemapRotationNeeded RotationNeeded;
         public event CubemapRotationUpdated RotationUpdated;
+        public event CubemapPositionUpdated PositionUpdated;
 
         public event Action<Photosphere> PhotosphereReady;
 
@@ -152,7 +152,13 @@ namespace Juniper.Imaging
             photo.CheckIsCubemapAvailable += Photo_CheckIsCubemapAvailable;
             photo.GetRotation += Photo_GetRotation;
             photo.SetRotation += Photo_SetRotation;
+            photo.SetPosition += Photo_SetPosition;
             photospheres.Add(photo.CubemapName, photo);
+        }
+
+        private void Photo_SetPosition(Photosphere source, Vector3 position)
+        {
+            PositionUpdated?.Invoke(source, position);
         }
 
         private void Photo_SetRotation(Photosphere source, float rotation)

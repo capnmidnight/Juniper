@@ -14,6 +14,7 @@ namespace Juniper.Imaging
     public delegate Texture2D TextureNeeded(Photosphere source);
     public delegate float CubemapRotationNeeded(Photosphere source);
     public delegate void CubemapRotationUpdated(Photosphere source, float rotation);
+    public delegate void CubemapPositionUpdated(Photosphere source, Vector3 position);
 
     public class Photosphere : MonoBehaviour, IProgress
     {
@@ -42,9 +43,10 @@ namespace Juniper.Imaging
 
         public event CubemapRotationNeeded GetRotation;
         public event CubemapRotationUpdated SetRotation;
+        public event CubemapPositionUpdated SetPosition;
 
         public float rotation;
-        private float Rotation
+        private float LastRotation
         {
             get
             {
@@ -55,6 +57,8 @@ namespace Juniper.Imaging
                 SetRotation?.Invoke(this, rotation);
             }
         }
+
+        private Vector3 lastPosition;
 
         public event Action<Photosphere> Ready;
 
@@ -131,7 +135,7 @@ namespace Juniper.Imaging
                     skybox.imageType = SkyboxManager.ImageType.Degrees360;
                     skybox.layout = SkyboxManager.Mode.Cube;
                     skybox.mirror180OnBack = false;
-                    rotation = skybox.rotation = Rotation;
+                    rotation = skybox.rotation = LastRotation;
                     skybox.stereoLayout = SkyboxManager.StereoLayout.None;
                     skybox.tint = Color.gray;
                     skybox.useMipMap = false;
@@ -140,10 +144,15 @@ namespace Juniper.Imaging
                     OnReady();
                 }
             }
-            else if(rotation != Rotation)
+            else if(rotation != LastRotation)
             {
                 skybox.rotation = rotation;
-                Rotation = rotation;
+                LastRotation = rotation;
+            }
+            else if(transform.position != lastPosition)
+            {
+                SetPosition?.Invoke(this, transform.position);
+                lastPosition = transform.position;
             }
         }
 

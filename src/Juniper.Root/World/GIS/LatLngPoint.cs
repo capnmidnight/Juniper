@@ -60,7 +60,7 @@ namespace Juniper.World.GIS
                 {
                     case "lat": Latitude = info.GetSingle(pair.Name); break;
                     case "lon": case "lng": Longitude = info.GetSingle(pair.Name); break;
-                    case "alt": Altitude = info.GetSingle(nameof(Altitude)); break;
+                    case "alt": Altitude = info.GetSingle(pair.Name); break;
                 }
             }
         }

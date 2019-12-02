@@ -46,7 +46,8 @@ namespace Juniper.World.GIS.Google.StreetView
                 info.MaybeAddValue(nameof(location), new
                 {
                     lat = location.Latitude,
-                    lng = location.Longitude
+                    lng = location.Longitude,
+                    alt = location.Altitude
                 });
             }
         }

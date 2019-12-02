@@ -375,6 +375,11 @@ namespace Juniper
             SetViewRotation(Head.rotation * dQuat, minX, maxX);
         }
 
+        public void SetPosition(Vector3 position)
+        {
+            avatar.position = position;
+        }
+
         public void SetViewRotation(Quaternion quat, float minX = -180, float maxX = 180)
         {
             var eul = quat.eulerAngles;
@@ -418,7 +423,7 @@ namespace Juniper
             var acceleration = (velocity - BodyPhysics.velocity) / Time.fixedDeltaTime;
             BodyPhysics.AddForce(acceleration, ForceMode.Acceleration);
 #else
-            transform.position += velocity * Time.fixedDeltaTime;
+            avatar.position += velocity * Time.fixedDeltaTime;
 #endif
 
             SetBodyPositionAndShape();
