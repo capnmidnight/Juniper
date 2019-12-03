@@ -9,7 +9,10 @@ namespace Juniper.World.GIS
     /// A point in geographic space on a radial coordinate system.
     /// </summary>
     [Serializable]
-    public sealed class LatLngPoint : ISerializable, IEquatable<LatLngPoint>
+    public sealed class LatLngPoint :
+        ISerializable,
+        IComparable<LatLngPoint>,
+        IEquatable<LatLngPoint>
     {
         /// <summary>
         /// An altitude value thrown in just for kicks. It makes some calculations and conversions
@@ -284,6 +287,60 @@ namespace Juniper.World.GIS
             return Latitude.GetHashCode()
                 ^ Longitude.GetHashCode()
                 ^ Altitude.GetHashCode();
+        }
+
+        public int CompareTo(LatLngPoint other)
+        {
+            if(other is null)
+            {
+                return -1;
+            }
+            else
+            {
+                int byLat = Latitude.CompareTo(other.Latitude),
+                    byLng = Longitude.CompareTo(other.Longitude),
+                    byAlt = Altitude.CompareTo(other.Altitude);
+
+                if(byLat == 0
+                    && byLng == 0)
+                {
+                    return byAlt;
+                }
+                else if(byLat == 0)
+                {
+                    return byLng;
+                }
+                else
+                {
+                    return byLat;
+                }
+            }
+        }
+
+        public static bool operator <(LatLngPoint left, LatLngPoint right)
+        {
+            return left is null
+                ? right is object
+                : left.CompareTo(right) < 0;
+        }
+
+        public static bool operator <=(LatLngPoint left, LatLngPoint right)
+        {
+            return left is null
+                || left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(LatLngPoint left, LatLngPoint right)
+        {
+            return left is object
+                && left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(LatLngPoint left, LatLngPoint right)
+        {
+            return left is null
+                ? right is null
+                : left.CompareTo(right) >= 0;
         }
     }
 }

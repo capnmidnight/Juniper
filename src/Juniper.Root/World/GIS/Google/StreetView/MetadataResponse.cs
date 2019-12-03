@@ -8,7 +8,10 @@ using Juniper.Google;
 namespace Juniper.World.GIS.Google.StreetView
 {
     [Serializable]
-    public class MetadataResponse : ISerializable
+    public class MetadataResponse :
+        ISerializable,
+        IEquatable<MetadataResponse>,
+        IComparable<MetadataResponse>
     {
         private static readonly Regex PANO_PATTERN = new Regex("^[a-zA-Z0-9_\\-]+$", RegexOptions.Compiled);
 
@@ -50,6 +53,99 @@ namespace Juniper.World.GIS.Google.StreetView
                     alt = location.Altitude
                 });
             }
+        }
+
+        public int CompareTo(MetadataResponse other)
+        {
+            if(other is null)
+            {
+                return -1;
+            }
+            else
+            {
+                int byPano = pano_id.CompareTo(other.pano_id),
+                    byLocation = location.CompareTo(other.location),
+                    byDate = date.CompareTo(other.date),
+                    byCopyright = copyright.CompareTo(other.copyright);
+
+                if(byPano == 0
+                    && byLocation == 0
+                    && byDate == 0)
+                {
+                    return byCopyright;
+                }
+                else if(byPano == 0
+                    && byLocation == 0)
+                {
+                    return byDate;
+                }
+                else if(byPano == 0)
+                {
+                    return byLocation;
+                }
+                else
+                {
+                    return byPano;
+                }
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is MetadataResponse other
+                && Equals(other);
+        }
+
+        public bool Equals(MetadataResponse other)
+        {
+            return other is object
+                && CompareTo(other) == 0;
+        }
+
+        public override int GetHashCode()
+        {
+            return status.GetHashCode()
+                ^ copyright.GetHashCode()
+                ^ date.GetHashCode()
+                ^ location.GetHashCode()
+                ^ pano_id.GetHashCode();
+        }
+
+        public static bool operator ==(MetadataResponse left, MetadataResponse right)
+        {
+            return left is null && right is null
+                || left is object && left.Equals(right);
+        }
+
+        public static bool operator !=(MetadataResponse left, MetadataResponse right)
+        {
+            return !(left == right);
+        }
+
+        public static bool operator <(MetadataResponse left, MetadataResponse right)
+        {
+            return left is null
+                ? right is object
+                : left.CompareTo(right) < 0;
+        }
+
+        public static bool operator <=(MetadataResponse left, MetadataResponse right)
+        {
+            return left is null
+                || left.CompareTo(right) <= 0;
+        }
+
+        public static bool operator >(MetadataResponse left, MetadataResponse right)
+        {
+            return left is object
+                && left.CompareTo(right) > 0;
+        }
+
+        public static bool operator >=(MetadataResponse left, MetadataResponse right)
+        {
+            return left is null
+                ? right is null
+                : left.CompareTo(right) >= 0;
         }
     }
 }

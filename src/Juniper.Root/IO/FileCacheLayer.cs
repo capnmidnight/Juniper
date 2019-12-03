@@ -24,16 +24,27 @@ namespace Juniper.IO
             return true;
         }
 
+        /// <summary>
+        /// Converts a ContentReference to a FileInfo as if the file exists
+        /// in this cache layer. Check FileInfo.Exists to make sure the file
+        /// actually exists.
+        /// </summary>
+        /// <param name="fileRef"></param>
+        /// <returns></returns>
+        public FileInfo Resolve(ContentReference fileRef)
+        {
+            return cacheLocation + fileRef;
+        }
+
         public bool IsCached(ContentReference fileRef)
         {
-            var file = cacheLocation + fileRef;
-            return file.Exists;
+            return Resolve(fileRef).Exists;
         }
 
         public Stream Create(ContentReference fileRef, bool overwrite)
         {
             Stream stream = null;
-            var file = cacheLocation + fileRef;
+            var file = Resolve(fileRef);
             if (CanCache(fileRef)
                 && (overwrite || !file.Exists))
             {
@@ -53,7 +64,7 @@ namespace Juniper.IO
         public Task<Stream> Open(ContentReference fileRef, IProgress prog)
         {
             Stream stream = null;
-            var file = cacheLocation + fileRef;
+            var file = Resolve(fileRef);
             if (file.Exists)
             {
                 stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -94,8 +105,7 @@ namespace Juniper.IO
 
         public bool Delete(ContentReference fileRef)
         {
-            var file = cacheLocation + fileRef;
-            return file.TryDelete();
+            return Resolve(fileRef).TryDelete();
         }
     }
 }

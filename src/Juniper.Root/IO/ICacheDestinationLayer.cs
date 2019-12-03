@@ -24,8 +24,8 @@ namespace Juniper.IO
             ContentReference fromRef,
             ICacheDestinationLayer toLayer,
             ContentReference toRef,
-            bool overwrite,
-            IProgress prog)
+            bool overwrite = false,
+            IProgress prog = null)
         {
             if (fromLayer.IsCached(fromRef)
                 && (overwrite || !toLayer.IsCached(toRef)))
@@ -38,55 +38,18 @@ namespace Juniper.IO
             }
         }
 
-        public static Task CopyTo(
-            this ICacheSourceLayer fromLayer,
-            ContentReference fromRef,
-            ICacheDestinationLayer toLayer,
-            ContentReference toRef,
-            bool overwrite)
-        {
-            return fromLayer.CopyTo(fromRef, toLayer, toRef, overwrite, null);
-        }
-
-        public static Task CopyTo(
-            this ICacheSourceLayer fromLayer,
-            ContentReference fromRef,
-            ICacheDestinationLayer toLayer,
-            ContentReference toRef,
-            IProgress prog)
-        {
-            return fromLayer.CopyTo(fromRef, toLayer, toRef, false, prog);
-        }
-
-        public static Task CopyTo(
-            this ICacheSourceLayer fromLayer,
-            ContentReference fromRef,
-            ICacheDestinationLayer toLayer,
-            ContentReference toRef)
-        {
-            return fromLayer.CopyTo(fromRef, toLayer, toRef, false, null);
-        }
-
         public static void Save<ResultType>(
             this ICacheDestinationLayer layer,
             ISerializer<ResultType> serializer,
             ContentReference fileRef,
             ResultType value,
-            IProgress prog)
+            bool overwrite = false,
+            IProgress prog = null)
         {
-            using (var stream = layer.Create(fileRef, true))
+            using (var stream = layer.Create(fileRef, overwrite))
             {
                 serializer.Serialize(stream, value, prog);
             }
-        }
-
-        public static void Save<ResultType>(
-            this ICacheDestinationLayer layer,
-            ISerializer<ResultType> serializer,
-            ContentReference fileRef,
-            ResultType value)
-        {
-            layer.Save(serializer, fileRef, value, null);
         }
     }
 }

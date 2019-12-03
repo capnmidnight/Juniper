@@ -6,6 +6,11 @@ using Juniper.Progress;
 
 namespace Juniper.IO
 {
+    /// <summary>
+    /// A collection of source and destination layers for file content. Files
+    /// originate from source layers and get cached in destination layers. Caching
+    /// occurs automatically when a file is retrieved from a source.
+    /// </summary>
     public class CachingStrategy : ICacheDestinationLayer
     {
         private readonly List<ICacheSourceLayer> sources = new List<ICacheSourceLayer>();
@@ -30,7 +35,8 @@ namespace Juniper.IO
 
         /// <summary>
         /// Adds a layer to the caching strategy. Layers are checked in the order
-        /// that they are added.
+        /// that they are added, so make sure to add the highest-latency cache
+        /// layers last.
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
@@ -44,6 +50,12 @@ namespace Juniper.IO
             return this;
         }
 
+        /// <summary>
+        /// Retrieve the first source layer of a given type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="layer"></param>
+        /// <returns></returns>
         public bool GetSource<T>(out T layer)
             where T : ICacheSourceLayer
         {
@@ -60,6 +72,12 @@ namespace Juniper.IO
             return false;
         }
 
+        /// <summary>
+        /// Retrieve the first destination layer of a given type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="layer"></param>
+        /// <returns></returns>
         public bool GetDestination<T>(out T layer)
             where T : ICacheDestinationLayer
         {
@@ -212,6 +230,11 @@ namespace Juniper.IO
             }
         }
 
+        /// <summary>
+        /// Remove a file from all caching destinations.
+        /// </summary>
+        /// <param name="fileRef"></param>
+        /// <returns>True, if any content was deleted. False, if the file was not found.</returns>
         public bool Delete(ContentReference fileRef)
         {
             bool anyDelete = false;

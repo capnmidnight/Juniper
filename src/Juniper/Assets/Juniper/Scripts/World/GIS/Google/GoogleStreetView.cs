@@ -283,7 +283,7 @@ namespace Juniper.World.GIS.Google
                         var img = await JuniperSystem.OnMainThread(() =>
                             processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]));
 
-                        cache.Save(codec, photosphere.name + codec.ContentType, img, subProgs[3]);
+                        cache.Save(codec, photosphere.name + codec.ContentType, img, true, subProgs[3]);
                     }
                 }
 

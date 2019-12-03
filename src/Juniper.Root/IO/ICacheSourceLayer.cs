@@ -90,5 +90,26 @@ namespace Juniper.IO
         {
             return layer.Proxy(context.Response, fileRef);
         }
+
+
+        /// <summary>
+        /// Retrieve all the content references that can be deserialized by the
+        /// given deserializer.
+        /// </summary>
+        /// <typeparam name="ResultT"></typeparam>
+        /// <typeparam name="MediaTypeT"></typeparam>
+        /// <param name="deserializer"></param>
+        /// <returns></returns>
+        public static IEnumerable<(ContentReference contentRef, ResultT result)> Get<ResultT, MediaTypeT>(this ICacheSourceLayer source, IFactory<ResultT, MediaTypeT> deserializer)
+            where MediaTypeT : MediaType
+        {
+            foreach (var contentRef in source.Get(deserializer.ContentType))
+            {
+                if (source.TryLoad(deserializer, contentRef, out var result))
+                {
+                    yield return (contentRef, result);
+                }
+            }
+        }
     }
 }

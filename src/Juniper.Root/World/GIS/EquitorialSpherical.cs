@@ -17,14 +17,14 @@ namespace Juniper.Units
         public static HorizontalSphericalPosition ToHorizontal(this EquitorialSphericalPosition value, LatLngPoint location, float n)
         {
             var GMST = (18.697374558f + 24.06570982441908f * n).Repeat(24);
-            var LST = GMST + Units.Degrees.Hours(location.Longitude);
-            var RA = Units.Degrees.Hours(value.RightAscensionDegrees);
-            var H = Units.Hours.Radians(LST - RA);
+            var LST = GMST + Degrees.Hours(location.Longitude);
+            var RA = Degrees.Hours(value.RightAscensionDegrees);
+            var H = Hours.Radians(LST - RA);
             var sin_H = Sin(H);
             var cos_H = Cos(H);
-            var lat_rad = Units.Degrees.Radians(location.Latitude);
+            var lat_rad = Degrees.Radians(location.Latitude);
             // var lng_rad = lng_deg * Deg2Rad;
-            var delta_rad = Units.Degrees.Radians(value.DeclinationDegrees);
+            var delta_rad = Degrees.Radians(value.DeclinationDegrees);
             var sin_delta = Sin(delta_rad);
             var cos_delta = Cos(delta_rad);
             var sin_lat = Sin(lat_rad);
@@ -38,8 +38,8 @@ namespace Juniper.Units
             var azimuth_rad = (float)Atan2(sin_azm, cos_azm);
 
             return new HorizontalSphericalPosition(
-                Units.Radians.Degrees(altitude_rad),
-                (180 - Units.Radians.Degrees(azimuth_rad)).Repeat(360),
+                Radians.Degrees(altitude_rad),
+                (180 - Radians.Degrees(azimuth_rad)).Repeat(360),
                 value.RadiusAU);
         }
     }

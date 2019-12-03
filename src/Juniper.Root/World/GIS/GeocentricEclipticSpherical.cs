@@ -17,7 +17,7 @@ namespace Juniper.Units
         {
             var L_deg = (280.460f + 0.9856474f * n).Repeat(360f);
             var g_deg = (357.528f + 0.9856003f * n).Repeat(360f);
-            var g_rad = Units.Degrees.Radians(g_deg);
+            var g_rad = Degrees.Radians(g_deg);
             var sin_g = Sin(g_rad);
             var cos_g = Cos(g_rad);
             var lambda_deg = ((float)(L_deg + 1.915f * sin_g + 0.020f * 2 * sin_g * cos_g)).Repeat(360);
@@ -34,10 +34,10 @@ namespace Juniper.Units
         public static EquitorialSphericalPosition ToEquitorial(this GeocentricEclipticSphericalPosition p, float n)
         {
             var epsilon_deg = 23.439f - 0.0000004f * n;
-            var epsilon_rad = Units.Degrees.Radians(epsilon_deg);
+            var epsilon_rad = Degrees.Radians(epsilon_deg);
             var sin_epsilon = Sin(epsilon_rad);
             var cos_epsilon = Cos(epsilon_rad);
-            var lambda_rad = Units.Degrees.Radians(p.LongitudeDegrees);
+            var lambda_rad = Degrees.Radians(p.LongitudeDegrees);
             var sin_lambda = Sin(lambda_rad);
             var cos_lambda = Cos(lambda_rad);
 
@@ -45,8 +45,8 @@ namespace Juniper.Units
             var delta_rad = (float)Asin(sin_epsilon * sin_lambda);
 
             return new EquitorialSphericalPosition(
-                Units.Radians.Degrees(alpha_rad),
-                Units.Radians.Degrees(delta_rad),
+                Radians.Degrees(alpha_rad),
+                Radians.Degrees(delta_rad),
                 p.RadiusAU);
         }
     }
