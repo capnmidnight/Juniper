@@ -146,7 +146,7 @@ namespace Juniper.Collections
             }
         }
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             // Serialize only the minimal information that we need to restore
             // the graph.
