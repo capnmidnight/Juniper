@@ -52,7 +52,7 @@ namespace Juniper.Unity.Editor
                 curError = value;
                 if (value != null)
                 {
-                    Debug.LogError(value, this);
+                    Debug.LogException(value, this);
                 }
             }
         }
