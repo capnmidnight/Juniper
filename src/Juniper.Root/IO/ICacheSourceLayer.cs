@@ -26,9 +26,9 @@ namespace Juniper.IO
             return layer.Open(fileRef, null);
         }
 
-        public static async Task<ResultType> Load<ResultType>(
+        public static async Task<ResultT> Load<ResultT>(
             this ICacheSourceLayer layer,
-            IDeserializer<ResultType> deserializer,
+            IDeserializer<ResultT> deserializer,
             ContentReference fileRef,
             IProgress prog = null)
         {
@@ -54,12 +54,13 @@ namespace Juniper.IO
             }
         }
 
-        public static bool TryLoad<ResultType>(
+        public static bool TryLoad<ResultT>(
             this ICacheSourceLayer layer,
-            IDeserializer<ResultType> deserializer,
+            IDeserializer<ResultT> deserializer,
             ContentReference fileRef,
-            out ResultType value,
+            out ResultT value,
             IProgress prog = null)
+            where ResultT : class
         {
             value = default;
 
@@ -101,6 +102,7 @@ namespace Juniper.IO
         /// <param name="deserializer"></param>
         /// <returns></returns>
         public static IEnumerable<(ContentReference contentRef, ResultT result)> Get<ResultT, MediaTypeT>(this ICacheSourceLayer source, IFactory<ResultT, MediaTypeT> deserializer)
+            where ResultT : class
             where MediaTypeT : MediaType
         {
             foreach (var contentRef in source.Get(deserializer.ContentType))

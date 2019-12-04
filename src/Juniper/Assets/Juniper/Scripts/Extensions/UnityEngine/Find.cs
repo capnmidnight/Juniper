@@ -21,6 +21,7 @@ namespace UnityEngine
         }
 
         public static bool Any<T>(Func<T, bool> filter, out T value)
+            where T : class
         {
             value = Any(filter);
             return value != default;
@@ -37,6 +38,7 @@ namespace UnityEngine
         }
 
         public static bool Any<T>(out T value)
+            where T : class
         {
             value = Any<T>();
             return value != default;
@@ -49,6 +51,7 @@ namespace UnityEngine
         /// <param name="obj"></param>
         /// <returns></returns>
         public static T FindClosest<T>(this Component obj)
+            where T : class
         {
             var v = obj.GetComponent<T>();
 
@@ -71,6 +74,7 @@ namespace UnityEngine
         }
 
         public static bool FindClosest<T>(this Component obj, out T value)
+            where T : class
         {
             value = obj.FindClosest<T>();
             return value != default;
