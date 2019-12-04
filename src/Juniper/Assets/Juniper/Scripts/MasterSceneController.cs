@@ -162,22 +162,15 @@ namespace Juniper
 
         private void SetBuildSettings()
         {
-            subSceneNames = subSceneNames
-                .Where(File.Exists)
-                .ToArray();
-
             if (!Application.isPlaying
                 && gameObject != null
                 && !string.IsNullOrEmpty(gameObject.scene.path))
             {
-                var s = new List<EditorBuildSettingsScene>
-                {
-                    new EditorBuildSettingsScene(gameObject.scene.path, true)
-                };
-
-                s.AddRange(from path in subSceneNames
-                           select new EditorBuildSettingsScene(path, true));
-                EditorBuildSettings.scenes = s.ToArray();
+                EditorBuildSettings.scenes = subSceneNames
+                    .Where(File.Exists)
+                    .Select(path => new EditorBuildSettingsScene(path, true))
+                    .Prepend(new EditorBuildSettingsScene(gameObject.scene.path, true))
+                    .ToArray();
             }
         }
 
