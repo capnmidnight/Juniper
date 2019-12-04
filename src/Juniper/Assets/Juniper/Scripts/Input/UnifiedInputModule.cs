@@ -238,7 +238,7 @@ namespace Juniper.Input
             Controllers = MotionController.MakeControllers(MakeHandPointer<MotionController>);
             Hands = HandTracker.MakeControllers(MakeHandPointer<HandTracker>);
 
-            Voice = this.Ensure<KeywordRecognizer>();
+            Voice = this.FindClosest<KeywordRecognizer>();
         }
 
         private T MakeHandPointer<T>(string name)
@@ -385,8 +385,10 @@ namespace Juniper.Input
                     }
                 }
 
-
-                Voice.enabled = voice;
+                if (Voice != null)
+                {
+                    Voice.enabled = voice;
+                }
 
                 Gaze.SetActive(gaze);
 
@@ -591,7 +593,8 @@ namespace Juniper.Input
         {
             get
             {
-                return Voice.IsAvailable;
+                return Voice != null 
+                    && Voice.IsAvailable;
             }
         }
 
@@ -599,7 +602,8 @@ namespace Juniper.Input
         {
             get
             {
-                return Voice.isActiveAndEnabled;
+                return Voice != null
+                    && Voice.isActiveAndEnabled;
             }
         }
 
