@@ -123,7 +123,10 @@ namespace Juniper.Unity.Editor
             }
             catch (Exception exp)
             {
-                CurrentError = new Exception("Error occured during repaint", exp);
+                if (!exp.Message.StartsWith("Getting control"))
+                {
+                    CurrentError = new Exception("Error occured during repaint", exp);
+                }
             }
         }
 
