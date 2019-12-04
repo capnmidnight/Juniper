@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 
 using Juniper.IO;
 using Juniper.Progress;
@@ -42,8 +41,11 @@ namespace Juniper.Imaging
         public event TextureNeeded GetCubemap;
 
         public event CubemapRotationNeeded GetRotation;
+
+#if UNITY_EDITOR
         public event CubemapRotationUpdated SetRotation;
         public event CubemapPositionUpdated SetPosition;
+#endif
 
         public float rotation;
         private float LastRotation
@@ -52,10 +54,12 @@ namespace Juniper.Imaging
             {
                 return GetRotation?.Invoke(this) ?? 0;
             }
+#if UNITY_EDITOR
             set
             {
                 SetRotation?.Invoke(this, rotation);
             }
+#endif
         }
 
         private Vector3 lastPosition;
@@ -144,16 +148,18 @@ namespace Juniper.Imaging
                     OnReady();
                 }
             }
+#if UNITY_EDITOR
             else if(rotation != LastRotation)
             {
                 skybox.rotation = rotation;
                 LastRotation = rotation;
             }
-            else if(transform.position != lastPosition)
+            else if(transform.localPosition != lastPosition)
             {
-                SetPosition?.Invoke(this, transform.position);
-                lastPosition = transform.position;
+                SetPosition?.Invoke(this, transform.localPosition);
+                lastPosition = transform.localPosition;
             }
+#endif
         }
 
 #if UNITY_EDITOR
