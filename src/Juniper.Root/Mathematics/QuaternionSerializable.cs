@@ -1,5 +1,4 @@
 using System;
-using System.Numerics;
 using System.Runtime.Serialization;
 
 namespace Juniper.Mathematics
@@ -7,10 +6,10 @@ namespace Juniper.Mathematics
     [Serializable]
     public struct QuaternionSerializable : ISerializable
     {
-        private readonly float X;
-        private readonly float Y;
-        private readonly float Z;
-        private readonly float W;
+        public readonly float X;
+        public readonly float Y;
+        public readonly float Z;
+        public readonly float W;
 
         public QuaternionSerializable(float x, float y, float z, float w)
         {
@@ -34,16 +33,6 @@ namespace Juniper.Mathematics
             info.AddValue(nameof(Y), Y);
             info.AddValue(nameof(Z), Z);
             info.AddValue(nameof(W), W);
-        }
-
-        public static implicit operator Quaternion(QuaternionSerializable v)
-        {
-            return new Quaternion(v.X, v.Y, v.Z, v.W);
-        }
-
-        public static explicit operator QuaternionSerializable(Quaternion v)
-        {
-            return new QuaternionSerializable(v.X, v.Y, v.Z, v.W);
         }
     }
 }

@@ -6,21 +6,23 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
+using Juniper.Mathematics;
+
 namespace Juniper.XR
 {
     [Serializable]
     public struct Pose : ISerializable, IEquatable<Pose>
     {
-        public readonly Vector3 position;
-        public readonly Quaternion orientation;
+        public readonly Vector3Serializable position;
+        public readonly QuaternionSerializable orientation;
 
         public Pose(float px, float py, float pz, float ox, float oy, float oz, float ow)
         {
-            position = new Vector3(px, py, pz);
-            orientation = new Quaternion(ox, oy, oz, ow);
+            position = new Vector3Serializable(px, py, pz);
+            orientation = new QuaternionSerializable(ox, oy, oz, ow);
         }
 
-        public Pose(Vector3 position, Quaternion orientation)
+        public Pose(Vector3Serializable position, QuaternionSerializable orientation)
         {
             this.position = position;
             this.orientation = orientation;

@@ -1,5 +1,4 @@
 using System;
-using System.Numerics;
 using System.Runtime.Serialization;
 
 namespace Juniper.Mathematics
@@ -7,10 +6,10 @@ namespace Juniper.Mathematics
     [Serializable]
     public struct Vector4Serializable : ISerializable
     {
-        private readonly float X;
-        private readonly float Y;
-        private readonly float Z;
-        private readonly float W;
+        public readonly float X;
+        public readonly float Y;
+        public readonly float Z;
+        public readonly float W;
 
         public Vector4Serializable(float x, float y, float z, float w)
         {
@@ -34,16 +33,6 @@ namespace Juniper.Mathematics
             info.AddValue(nameof(Y), Y);
             info.AddValue(nameof(Z), Z);
             info.AddValue(nameof(W), W);
-        }
-
-        public static implicit operator Vector4(Vector4Serializable v)
-        {
-            return new Vector4(v.X, v.Y, v.Z, v.W);
-        }
-
-        public static explicit operator Vector4Serializable(Vector4 v)
-        {
-            return new Vector4Serializable(v.X, v.Y, v.Z, v.W);
         }
     }
 }

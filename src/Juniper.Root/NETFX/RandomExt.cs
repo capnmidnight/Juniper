@@ -26,15 +26,6 @@ namespace System
             return min + (rand.Next(0, (1 + max - min) / steps) * steps);
         }
 
-        public static Vector3 Vector3(this Random rand, float min, float max)
-        {
-            var delta = max - min;
-            var x = min + rand.NextDouble() * delta;
-            var y = min + rand.NextDouble() * delta;
-            var z = min + rand.NextDouble() * delta;
-            return new Vector3((float)x, (float)y, (float)z);
-        }
-
         public static T Item<T>(this Random rand, T[] arr)
         {
             return arr[rand.Next(0, arr.Length)];
