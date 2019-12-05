@@ -242,14 +242,25 @@ namespace Juniper
         {
             gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
-            GroundPlane = this.Ensure<Transform>("GroundPlane");
+            GroundPlane = transform.Find("GroundPlane");
+
+            if(GroundPlane != null 
+                && !GroundPlane.HasComponent<Collider>())
             {
-                var renderer = GroundPlane.GetComponent<Renderer>();
-                if (renderer != null)
-                {
-                    renderer.enabled = false;
-                }
+                GroundPlane.gameObject.DestroyImmediate();
+                GroundPlane = null;
             }
+
+            if(GroundPlane == null)
+            {
+                GroundPlane = GameObject.CreatePrimitive(PrimitiveType.Quad).transform;
+                GroundPlane.parent = transform;
+                GroundPlane.name = "GroundPlane";
+                GroundPlane.localScale = new Vector3(100, 100, 1);
+                GroundPlane.localRotation = Quaternion.Euler(90, 0, 0);
+            }
+
+            GroundPlane.Remove<Renderer>();
 
             Head = DisplayManager.MainCamera.transform;
             {

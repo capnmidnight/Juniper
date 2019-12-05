@@ -215,6 +215,11 @@ namespace UnityEngine
             }
         }
 
+        public static bool HasComponent<T>(this Component parent)
+        {
+            return parent.GetComponent<T>() != null;
+        }
+
         /// <summary>
         /// Attempts to get a component of type <typeparamref name="T"/> from <paramref name="obj"/>.
         /// If one is not available, this function creates one on the gameObject and returns that.
@@ -258,7 +263,10 @@ namespace UnityEngine
         public static bool Remove<T>(this Component obj) where T : Component
         {
             var o = obj.GetComponent<T>();
-            o?.DestroyImmediate();
+            if (o != null)
+            {
+                o.DestroyImmediate();
+            }
             return o != null;
         }
 

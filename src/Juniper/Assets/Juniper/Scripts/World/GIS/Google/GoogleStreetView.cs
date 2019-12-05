@@ -235,8 +235,8 @@ namespace Juniper.World.GIS.Google
                 }
                 else
                 {
-                    var prog = loadingBar.Split("Saving cubemap " + photosphere.name).First();
-                    var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
+                    loadingBar.Activate();
+                    var subProgs = loadingBar.Split(CAPTURE_CUBEMAP_FIELDS);
                     const int dim = 2048;
                     var cubemap = await JuniperSystem.OnMainThread(() =>
                     {
@@ -278,6 +278,7 @@ namespace Juniper.World.GIS.Google
                         processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]));
 
                     cache.Save(codec, photosphere.name + codec.ContentType, img, true, subProgs[3]);
+                    loadingBar.Deactivate();
                 }
 
                 await JuniperSystem.OnMainThread(photosphere.DestroyJig);
