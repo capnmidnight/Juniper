@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -23,10 +22,7 @@ using UnityEngine.Events;
 
 namespace Juniper.World.GIS.Google
 {
-    public class GoogleStreetView : SubSceneController
-#if UNITY_EDITOR
-        , ICredentialReceiver
-#endif
+    public class GoogleStreetView : SubSceneController, ICredentialReceiver
     {
         private static readonly Regex GMAPS_URL_PANO_PATTERN =
             new Regex("https?://www\\.google\\.com/maps/@-?\\d+\\.\\d+,-?\\d+\\.\\d+(?:,[a-zA-Z0-9.]+)*/data=(?:![a-z0-9]+)*!1s([a-zA-Z0-9_\\-]+)(?:![a-z0-9]+)*", RegexOptions.Compiled);
@@ -80,14 +76,16 @@ namespace Juniper.World.GIS.Google
         private Task searchTask;
         private LoadingBar loadingBar;
 
-#if UNITY_EDITOR
         private Task captureTask;
+
+#if UNITY_EDITOR
         private EditorTextInput locationInput;
 
         public void OnValidate()
         {
             locationInput = this.Ensure<EditorTextInput>();
         }
+#endif
 
         public string CredentialFile
         {
@@ -112,16 +110,13 @@ namespace Juniper.World.GIS.Google
                 gmapsSigningKey = args[1];
             }
         }
-#endif
 
         public bool IsBusy
         {
             get
             {
                 return searchTask.IsRunning()
-#if UNITY_EDITOR
                     || captureTask.IsRunning()
-#endif
                     || lastSphere != null
                         && lastSphere.IsBusy;
             }
@@ -175,9 +170,9 @@ namespace Juniper.World.GIS.Google
 
             gmaps = new GoogleMapsClient(gmapsApiKey, gmapsSigningKey, metadataDecoder, geocodingDecoder, cache);
 
-            foreach(var fileRef in cache.Get(metadataDecoder.ContentType))
+            foreach (var fileRef in cache.Get(metadataDecoder.ContentType))
             {
-                if(cache.TryLoad(metadataDecoder, fileRef, out var metadata))
+                if (cache.TryLoad(metadataDecoder, fileRef, out var metadata))
                 {
                     if (metadata.location != null)
                     {
@@ -211,9 +206,7 @@ namespace Juniper.World.GIS.Google
             metadataCache[metadata.location.ToString()] = metadata;
             metadataCache[metadata.pano_id] = metadata;
         }
-
-#if UNITY_EDITOR
-
+        
         private static readonly string[] CAPTURE_CUBEMAP_FIELDS = {
             "Rendering cubemap",
             "Copying cubemap faces",
@@ -242,51 +235,49 @@ namespace Juniper.World.GIS.Google
                 }
                 else
                 {
-                    using (var prog = new UnityEditorProgressDialog("Saving cubemap " + photosphere.name))
+                    var prog = loadingBar.Split("Saving cubemap " + photosphere.name).First();
+                    var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
+                    const int dim = 2048;
+                    var cubemap = await JuniperSystem.OnMainThread(() =>
                     {
-                        var subProgs = prog.Split(CAPTURE_CUBEMAP_FIELDS);
-                        const int dim = 2048;
-                        var cubemap = await JuniperSystem.OnMainThread(() =>
+                        subProgs[0].Report(0);
+                        var cb = new Cubemap(dim, TextureFormat.RGB24, false);
+                        cb.Apply();
+
+                        var curMask = DisplayManager.MainCamera.cullingMask;
+                        DisplayManager.MainCamera.cullingMask = LayerMask.GetMask(Photosphere.PHOTOSPHERE_LAYER_ARR);
+
+                        var curRotation = DisplayManager.MainCamera.transform.rotation;
+                        DisplayManager.MainCamera.transform.rotation = Quaternion.identity;
+
+                        DisplayManager.MainCamera.RenderToCubemap(cb, 63);
+
+                        DisplayManager.MainCamera.cullingMask = curMask;
+                        DisplayManager.MainCamera.transform.rotation = curRotation;
+                        subProgs[0].Report(1);
+
+                        return cb;
+                    });
+
+
+                    for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
+                    {
+                        await JuniperSystem.OnMainThread(() =>
                         {
-                            subProgs[0].Report(0);
-                            var cb = new Cubemap(dim, TextureFormat.RGB24, false);
-                            cb.Apply();
-
-                            var curMask = DisplayManager.MainCamera.cullingMask;
-                            DisplayManager.MainCamera.cullingMask = LayerMask.GetMask(Photosphere.PHOTOSPHERE_LAYER_ARR);
-
-                            var curRotation = DisplayManager.MainCamera.transform.rotation;
-                            DisplayManager.MainCamera.transform.rotation = Quaternion.identity;
-
-                            DisplayManager.MainCamera.RenderToCubemap(cb, 63);
-
-                            DisplayManager.MainCamera.cullingMask = curMask;
-                            DisplayManager.MainCamera.transform.rotation = curRotation;
-                            subProgs[0].Report(1);
-
-                            return cb;
+                            subProgs[1].Report(f, CAPTURE_CUBEMAP_FACES.Length, CAPTURE_CUBEMAP_FACES[f].ToString());
+                            var pixels = cubemap.GetPixels(CAPTURE_CUBEMAP_FACES[f]);
+                            var texture = new Texture2D(cubemap.width, cubemap.height);
+                            texture.SetPixels(pixels);
+                            texture.Apply();
+                            CAPTURE_CUBEMAP_SUB_IMAGES[f] = texture;
+                            subProgs[1].Report(f + 1, CAPTURE_CUBEMAP_FACES.Length);
                         });
-
-
-                        for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
-                        {
-                            await JuniperSystem.OnMainThread(() =>
-                            {
-                                subProgs[1].Report(f, CAPTURE_CUBEMAP_FACES.Length, CAPTURE_CUBEMAP_FACES[f].ToString());
-                                var pixels = cubemap.GetPixels(CAPTURE_CUBEMAP_FACES[f]);
-                                var texture = new Texture2D(cubemap.width, cubemap.height);
-                                texture.SetPixels(pixels);
-                                texture.Apply();
-                                CAPTURE_CUBEMAP_SUB_IMAGES[f] = texture;
-                                subProgs[1].Report(f + 1, CAPTURE_CUBEMAP_FACES.Length);
-                            });
-                        }
-
-                        var img = await JuniperSystem.OnMainThread(() =>
-                            processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]));
-
-                        cache.Save(codec, photosphere.name + codec.ContentType, img, true, subProgs[3]);
                     }
+
+                    var img = await JuniperSystem.OnMainThread(() =>
+                        processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]));
+
+                    cache.Save(codec, photosphere.name + codec.ContentType, img, true, subProgs[3]);
                 }
 
                 await JuniperSystem.OnMainThread(photosphere.DestroyJig);
@@ -335,7 +326,6 @@ namespace Juniper.World.GIS.Google
                 captureTask = CaptureCubemap(jig);
             }
         }
-#endif
 
         private Texture2D Photosphere_CubemapNeeded(Photosphere source)
         {
@@ -420,7 +410,7 @@ namespace Juniper.World.GIS.Google
                             var newPointer = Instantiate(navPointer);
                             newPointer.parent = navPointer.parent;
                             newPointer.position = position;
-                            newPointer.name = "nav-" + metadata.pano_id;
+                            newPointer.name = "jump-to-" + metadata.pano_id;
                             newPointer.Activate();
 
                             navPointers[metadata.pano_id] = newPointer;
@@ -459,7 +449,7 @@ namespace Juniper.World.GIS.Google
                 {
                     SyncData(null);
                 }
-                else if(lastSphere != null)
+                else if (lastSphere != null)
                 {
                     loadingBar.Report(lastSphere.ProgressToComplete);
                 }
@@ -504,10 +494,10 @@ namespace Juniper.World.GIS.Google
 
                 MetadataResponse closestMetadata = null;
                 float minDistance = float.MaxValue;
-                foreach(var metadata in metadataCache.Values)
+                foreach (var metadata in metadataCache.Values)
                 {
                     var distance = point.Distance(metadata.location);
-                    if(distance < minDistance)
+                    if (distance < minDistance)
                     {
                         minDistance = distance;
                         closestMetadata = metadata;
@@ -572,6 +562,7 @@ namespace Juniper.World.GIS.Google
                     gps.FakeCoord = true;
                     gps.Coord = metadata.location;
                 }
+
 #if UNITY_EDITOR
                 if (locationInput != null)
                 {
@@ -654,9 +645,9 @@ namespace Juniper.World.GIS.Google
             }
 
             return metadata == null
-                || searchPano != null 
+                || searchPano != null
                     && metadata.pano_id != searchPano
-                || searchPoint != null 
+                || searchPoint != null
                     && searchPoint.Distance(metadata.location) > 3f;
         }
 
