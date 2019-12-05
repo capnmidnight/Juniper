@@ -38,7 +38,7 @@ namespace Juniper.Speech
                 new JsonFactory<Voice[]>(),
                 AudioFormat.Raw24KHz16BitMonoPCM,
                 new CachingStrategy()
-                    .AddLayer(new FileCacheLayer(new DirectoryInfo(Path
+                    .AppendLayer(new FileCacheLayer(new DirectoryInfo(Path
                         .Combine(userProfile, "Projects")))));
 
             form = new SpeechGen();

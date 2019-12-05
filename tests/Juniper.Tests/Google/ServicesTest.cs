@@ -28,7 +28,7 @@ namespace Juniper.World.GIS.Google.Tests
             var cacheDir = new DirectoryInfo(cacheDirName);
             var fileCache = new FileCacheLayer(cacheDir);
             cache = new CachingStrategy()
-                .AddLayer(fileCache);
+                .AppendLayer(fileCache);
         }
     }
 }

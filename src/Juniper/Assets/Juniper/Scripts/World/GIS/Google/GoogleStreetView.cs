@@ -34,7 +34,6 @@ namespace Juniper.World.GIS.Google
         private static readonly Regex GMAPS_URL_LATLNG_PATTERN =
             new Regex("https?://www\\.google\\.com/maps/@(-?\\d+\\.\\d+,-?\\d+\\.\\d+)", RegexOptions.Compiled);
 
-        private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
         private readonly Dictionary<string, Transform> navPointers = new Dictionary<string, Transform>();
 
         [SerializeField]
@@ -78,6 +77,7 @@ namespace Juniper.World.GIS.Google
         private PhotosphereJig lastSphere;
         private UnityTexture2DProcessor processor;
         private Task searchTask;
+        private LoadingBar loadingBar;
 
 #if UNITY_EDITOR
         private Task captureTask;
@@ -132,6 +132,7 @@ namespace Juniper.World.GIS.Google
 
             processor = new UnityTexture2DProcessor();
 
+            Find.Any(out loadingBar);
             Find.Any(out gps);
             if (!this.FindClosest(out photospheres))
             {
@@ -167,6 +168,7 @@ namespace Juniper.World.GIS.Google
             var baseCachePath = Application.persistentDataPath;
 #endif
             cache = new GoogleMapsCachingStrategy(baseCachePath);
+            cache.PrependLayer(new MemoryCacheLayer());
             codec = new UnityTexture2DCodec(MediaType.Image.Jpeg);
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
@@ -324,6 +326,7 @@ namespace Juniper.World.GIS.Google
 
         private void Photosphere_Complete(PhotosphereJig jig, bool captureCubemap)
         {
+            loadingBar.Deactivate();
             jig.ImageNeeded -= Photosphere_ImageNeeded;
             jig.Complete -= Photosphere_Complete;
 
@@ -450,9 +453,16 @@ namespace Juniper.World.GIS.Google
                 }
             }
 
-            if (IsEntered && IsComplete && !IsBusy)
+            if (IsEntered && IsComplete)
             {
-                SyncData(null);
+                if (!IsBusy)
+                {
+                    SyncData(null);
+                }
+                else if(lastSphere != null)
+                {
+                    loadingBar.Report(lastSphere.ProgressToComplete);
+                }
             }
         }
 
@@ -569,6 +579,7 @@ namespace Juniper.World.GIS.Google
                 }
 #endif
 
+                loadingBar.Activate();
                 var curSphere = await GetPhotosphere();
 
                 if (lastSphere != null)

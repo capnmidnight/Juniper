@@ -45,7 +45,7 @@ namespace Juniper.HTTP.Tests
 
             var fileCache = new FileCacheLayer(cacheFile.Directory);
             var cache = new CachingStrategy()
-                .AddLayer(fileCache);
+                .AppendLayer(fileCache);
 
             var imageRequest = new ImageRequest(
                     new Uri("https://www.seanmcbeth.com"),

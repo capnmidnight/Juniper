@@ -35,7 +35,7 @@ namespace Juniper.Azure
             var zipFileName = Path.Combine(cacheDirName, "cognitiveservices.zip");
             var cache = new CachingStrategy()
                 //.AddLayer(new ZipFileCacheLayer(zipFileName))
-                .AddLayer(new FileCacheLayer(cacheDir));
+                .AppendLayer(new FileCacheLayer(cacheDir));
 
             var voiceListDecoder = new JsonFactory<Voice[]>();
             var outputFormats = new[]

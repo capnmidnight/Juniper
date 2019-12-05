@@ -15,7 +15,7 @@ namespace Juniper.IO
             return true;
         }
 
-        public bool IsCached(ContentReference fileRef)
+        public virtual bool IsCached(ContentReference fileRef)
         {
             return store.ContainsKey(fileRef.ContentType)
                 && store[fileRef.ContentType].ContainsKey(fileRef.CacheID);
@@ -35,7 +35,7 @@ namespace Juniper.IO
             return stream;
         }
 
-        public Stream Cache(ContentReference fileRef, Stream stream)
+        public virtual Stream Cache(ContentReference fileRef, Stream stream)
         {
             var outStream = Create(fileRef, false);
             return new CachingStream(stream, outStream);

@@ -108,7 +108,7 @@ namespace UnityEngine
             {
                 t.transform.localScale = s;
             }
-            return t;
+            return t; 
         }
 
         public static void Destroy(this Transform t)

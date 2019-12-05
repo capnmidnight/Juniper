@@ -37,7 +37,7 @@ namespace Juniper.GoogleMaps
             var gmapsCacheDirName = Path.Combine(MY_PICTURES, "GoogleMaps");
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
             var cache = new CachingStrategy()
-                .AddLayer(new FileCacheLayer(gmapsCacheDir));
+                .AppendLayer(new FileCacheLayer(gmapsCacheDir));
 
             var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
             var keyFileName = Path.Combine(userProfile, "Projects", "DevKeys", "google-streetview.txt");
