@@ -34,6 +34,7 @@ namespace Juniper.World.GIS.Google
         private static readonly Regex GMAPS_URL_LATLNG_PATTERN =
             new Regex("https?://www\\.google\\.com/maps/@(-?\\d+\\.\\d+,-?\\d+\\.\\d+)", RegexOptions.Compiled);
 
+        private readonly Dictionary<string, MetadataResponse> metadataCache = new Dictionary<string, MetadataResponse>();
         private readonly Dictionary<string, Transform> navPointers = new Dictionary<string, Transform>();
 
         [SerializeField]
@@ -168,7 +169,6 @@ namespace Juniper.World.GIS.Google
             var baseCachePath = Application.persistentDataPath;
 #endif
             cache = new GoogleMapsCachingStrategy(baseCachePath);
-            cache.PrependLayer(new MemoryCacheLayer());
             codec = new UnityTexture2DCodec(MediaType.Image.Jpeg);
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();

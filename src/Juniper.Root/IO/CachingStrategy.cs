@@ -17,7 +17,7 @@ namespace Juniper.IO
         private readonly List<ICacheDestinationLayer> destinations = new List<ICacheDestinationLayer>();
 
         /// <summary>
-        /// Creates an empty caching strategy. Add cache layers to it with <see cref="AddLayer(ICacheSourceLayer)"/>
+        /// Creates an empty caching strategy. Add cache layers to it with <see cref="AppendLayer(ICacheSourceLayer)"/>
         /// or no caching will occur.
         /// </summary>
         public CachingStrategy()
@@ -30,7 +30,7 @@ namespace Juniper.IO
         /// <param name="cacheLocation"></param>
         public CachingStrategy(DirectoryInfo cacheLocation)
         {
-            AddLayer(new FileCacheLayer(cacheLocation));
+            AppendLayer(new FileCacheLayer(cacheLocation));
         }
 
         /// <summary>
@@ -40,12 +40,29 @@ namespace Juniper.IO
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        public CachingStrategy AddLayer(ICacheSourceLayer source)
+        public CachingStrategy AppendLayer(ICacheSourceLayer source)
         {
             sources.Add(source);
             if (source is ICacheDestinationLayer dest)
             {
                 destinations.Add(dest);
+            }
+            return this;
+        }
+
+        /// <summary>
+        /// Adds a layer to the caching strategy. Layers are checked in the order
+        /// that they are added, so make sure to add the lowest-latency cache
+        /// layers to the front of the list.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public CachingStrategy PrependLayer(ICacheSourceLayer source)
+        {
+            sources.Insert(0, source);
+            if (source is ICacheDestinationLayer dest)
+            {
+                destinations.Insert(0, dest);
             }
             return this;
         }
