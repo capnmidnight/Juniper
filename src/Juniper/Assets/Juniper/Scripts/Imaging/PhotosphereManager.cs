@@ -149,17 +149,20 @@ namespace Juniper.Imaging
         private void Initialize<T>(T photo)
             where T : Photosphere
         {
-            photo.enabled = false;
-            photo.Ready += Photo_Ready;
-            photo.GetCubemap += Photo_CubemapNeeded;
-            photo.CheckIsCubemapAvailable += Photo_CheckIsCubemapAvailable;
-            photo.GetRotation += Photo_GetRotation;
+            if (!photospheres.ContainsKey(photo.CubemapName))
+            {
+                photo.enabled = false;
+                photo.Ready += Photo_Ready;
+                photo.GetCubemap += Photo_CubemapNeeded;
+                photo.CheckIsCubemapAvailable += Photo_CheckIsCubemapAvailable;
+                photo.GetRotation += Photo_GetRotation;
 
 #if UNITY_EDITOR
-            photo.SetRotation += Photo_SetRotation;
-            photo.SetPosition += Photo_SetPosition;
+                photo.SetRotation += Photo_SetRotation;
+                photo.SetPosition += Photo_SetPosition;
 #endif
-            photospheres.Add(photo.CubemapName, photo);
+                photospheres.Add(photo.CubemapName, photo);
+            }
         }
 
 #if UNITY_EDITOR
