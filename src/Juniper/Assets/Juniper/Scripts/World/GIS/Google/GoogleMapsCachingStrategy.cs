@@ -10,8 +10,8 @@ namespace Juniper.World.GIS.Google
         {
             var gmapsCacheDirName = Path.Combine(baseCachePath, "GoogleMaps");
             var gmapsCacheDir = new DirectoryInfo(gmapsCacheDirName);
-            AddLayer(new GoogleMapsCacheLayer(gmapsCacheDir));
-            AddLayer(new GoogleMapsStreamingAssetsCacheLayer());
+            AppendLayer(new GoogleMapsCacheLayer(gmapsCacheDir));
+            AppendLayer(new GoogleMapsStreamingAssetsCacheLayer());
         }
     }
 }

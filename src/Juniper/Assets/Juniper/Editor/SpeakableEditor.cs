@@ -35,7 +35,7 @@ namespace Juniper.Events
                 var azureApiKey = lines[0];
                 var azureRegion = lines[1];
                 var cache = new CachingStrategy()
-                    .AddLayer(new FileCacheLayer(Path.Combine("Assets", "StreamingAssets")));
+                    .AppendLayer(new FileCacheLayer(Path.Combine("Assets", "StreamingAssets")));
                 var voicesDecoder = new JsonFactory<Voice[]>();
                 var voicesClient = new VoicesClient(azureRegion, azureApiKey, voicesDecoder, cache);
                 var voicesTask = voicesClient.GetVoices();

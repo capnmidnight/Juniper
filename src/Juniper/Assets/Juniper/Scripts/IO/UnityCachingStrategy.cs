@@ -4,7 +4,7 @@
     {
         public UnityCachingStrategy()
         {
-            AddLayer(new StreamingAssetsCacheLayer());
+            AppendLayer(new StreamingAssetsCacheLayer());
         }
     }
 }
