@@ -143,7 +143,7 @@ namespace Juniper.HTTP
                     }
                     else
                     {
-                        OnError($"Method {type.Name}::{method.Name} must signature (System.Net.HttpListenerContext, string[]) => void.");
+                        OnError($"Method {type.Name}::{method.Name} must signature (System.Net.HttpListenerContext, params string[]) => Task.");
                     }
                 }
             }

@@ -353,7 +353,14 @@ namespace Juniper.Collections
 
         public IEnumerable<Route<NodeT>> GetConnections(Route<NodeT> route)
         {
-            return Connections.Where(route.CanConnectTo);
+            if (route != null)
+            {
+                return Connections.Where(route.CanConnectTo);
+            }
+            else
+            {
+                return Array.Empty<Route<NodeT>>();
+            }
         }
 
         public IEnumerable<NodeT> GetExits(NodeT node)
@@ -420,18 +427,29 @@ namespace Juniper.Collections
 
         public NodeT GetNamedNode(string name)
         {
-            return namedNodes.Get(name);
+            if (string.IsNullOrEmpty(name))
+            {
+                return default;
+            }
+            else
+            {
+                return namedNodes.Get(name);
+            }
         }
 
         public void SetNodeName(NodeT node, string name)
         {
-            namedNodes[name] = node;
-            nodeNames[node] = name;
+            if (!string.IsNullOrEmpty(name))
+            {
+                namedNodes[name] = node;
+                nodeNames[node] = name;
+            }
         }
 
         public void RemoveNodeName(string name)
         {
-            if (namedNodes.ContainsKey(name))
+            if (!string.IsNullOrEmpty(name)
+                && namedNodes.ContainsKey(name))
             {
                 var node = namedNodes[name];
                 namedNodes.Remove(name);
