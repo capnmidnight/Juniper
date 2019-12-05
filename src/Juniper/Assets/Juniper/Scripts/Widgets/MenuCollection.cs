@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Juniper.Progress;
 
 using UnityEngine;
@@ -9,8 +10,6 @@ namespace Juniper.Widgets
 {
     public class MenuCollection : SubSceneController
     {
-        public const string START_GAME_KEY = "Juniper.Game.Start";
-
         private readonly Dictionary<string, MenuView> views = new Dictionary<string, MenuView>();
 
         public string mainMenuView;
@@ -48,11 +47,6 @@ namespace Juniper.Widgets
                 views[name].Activate();
                 yield return views[name].EnterAsync().AsCoroutine();
             }
-        }
-
-        public void SetStartValues(string json)
-        {
-            PlayerPrefs.SetString(START_GAME_KEY, json);
         }
 
         public override void Awake()
