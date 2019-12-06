@@ -50,9 +50,9 @@ namespace Juniper.Audio
             base.Uninstall();
         }
 
-        protected override AudioSource InternalSpatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
+        protected override AudioSource InternalSpatialize(AudioSource audioSource, AudioMixerGroup group)
         {
-            audioSource = base.InternalSpatialize(audioSource, loop, group);
+            audioSource = base.InternalSpatialize(audioSource, group);
 
             var resSource = audioSource.Ensure<ResonanceAudioSource>().Value;
             resSource.quality = ResonanceAudioSource.Quality.High;

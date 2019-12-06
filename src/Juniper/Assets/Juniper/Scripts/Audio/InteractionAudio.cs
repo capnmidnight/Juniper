@@ -429,6 +429,7 @@ namespace Juniper.Audio
         {
 #if UNITY_MODULES_AUDIO
             var audioSource = GetAudioSource(clip);
+            audioSource.loop = false;
             if (randomizePitch)
             {
                 audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
@@ -518,24 +519,14 @@ namespace Juniper.Audio
         /// </summary>
         private List<AudioSource> audioSources;
 
-        public AudioSource Spatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
-        {
-            return InternalSpatialize(audioSource, loop, group);
-        }
-
-        public AudioSource Spatialize(AudioSource audioSource, bool loop)
-        {
-            return InternalSpatialize(audioSource, loop, defaultMixerGroup);
-        }
-
         public AudioSource Spatialize(AudioSource audioSource, AudioMixerGroup group)
         {
-            return InternalSpatialize(audioSource, false, group);
+            return InternalSpatialize(audioSource, group);
         }
 
         public AudioSource Spatialize(AudioSource audioSource)
         {
-            return InternalSpatialize(audioSource, false, defaultMixerGroup);
+            return InternalSpatialize(audioSource, defaultMixerGroup);
         }
 
         protected virtual void UninstallSpatialization(AudioSource audioSource)
@@ -608,7 +599,6 @@ namespace Juniper.Audio
             var name = "AudioSource" + (audioSources.Count + 1).ToString("00");
             var audioSource = Spatialize(
                 new GameObject(name).AddComponent<AudioSource>(),
-                false,
                 defaultMixerGroup);
             audioSources.Add(audioSource);
             audioSource.tag = INTERACTION_SOUND_TAG;
@@ -620,12 +610,11 @@ namespace Juniper.Audio
         /// necessary spatialization component for the platforms spatialization plugin.
         /// </summary>
         /// <param name="audioSource"></param>
-        /// <param name="loop">       </param>
         /// <param name="group">      </param>
+        /// 
         /// <returns></returns>
-        protected virtual AudioSource InternalSpatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
+        protected virtual AudioSource InternalSpatialize(AudioSource audioSource, AudioMixerGroup group)
         {
-            audioSource.loop = loop;
             audioSource.outputAudioMixerGroup = group == null
                 ? defaultMixerGroup
                 : group;

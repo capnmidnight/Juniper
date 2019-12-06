@@ -8,9 +8,9 @@ namespace Juniper.Audio
     public abstract class WindowsMRInteractionAudio : AbstractInteractionAudio
     {
 #if UNITY_MODULES_AUDIO
-        protected override AudioSource InternalSpatialize(AudioSource audioSource, bool loop, AudioMixerGroup group)
+        protected override AudioSource InternalSpatialize(AudioSource audioSource, AudioMixerGroup group)
         {
-            audioSource = base.InternalSpatialize(audioSource, loop, group);
+            audioSource = base.InternalSpatialize(audioSource, group);
 
             var ms = audioSource.Ensure<AudioSpatializerMicrosoft>();
             ms.Value.roomSize = AudioSpatializerMicrosoft.RoomSize.Medium;
