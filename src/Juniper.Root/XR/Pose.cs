@@ -13,6 +13,8 @@ namespace Juniper.XR
     [Serializable]
     public struct Pose : ISerializable, IEquatable<Pose>
     {
+        public static readonly Pose Identity = new Pose(0, 0, 0, 0, 0, 0, 1);
+
         public readonly Vector3Serializable position;
         public readonly QuaternionSerializable orientation;
 
