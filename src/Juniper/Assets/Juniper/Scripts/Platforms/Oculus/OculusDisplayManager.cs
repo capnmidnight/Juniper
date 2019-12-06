@@ -28,6 +28,7 @@ namespace Juniper.Display
                 mgr.Value.trackingOriginType = OVRManager.TrackingOrigin.EyeLevel;
                 mgr.Value.usePositionTracking = true;
                 mgr.Value.useRotationTracking = true;
+                mgr.Value.monoscopic = false;
                 mgr.Value.useIPDInPositionTracking = true;
                 mgr.Value.resetTrackerOnLoad = false;
                 mgr.Value.AllowRecenter = false;
