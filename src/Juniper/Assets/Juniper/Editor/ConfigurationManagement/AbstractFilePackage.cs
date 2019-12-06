@@ -36,17 +36,16 @@ namespace Juniper.ConfigurationManagement
                 .ToArray();
 
             var subProgs = prog.Split(prefixedPath.Length);
-            var index = 0;
-            foreach (var path in prefixedPath)
+            for(int i = 0; i < prefixedPath.Length; ++i)
             {
+                var path = prefixedPath[i];
                 try
                 {
-                    subProgs[index]?.Report(0);
+                    subProgs[i]?.Report(0);
                     if (tryDelete(path))
                     {
-                        subProgs[index]?.Report(1);
+                        subProgs[i]?.Report(1);
                     }
-                    ++index;
                 }
                 catch (OperationCanceledException)
                 {
