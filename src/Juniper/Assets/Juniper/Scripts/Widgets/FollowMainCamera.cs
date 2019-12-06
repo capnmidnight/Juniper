@@ -31,9 +31,9 @@ namespace Juniper.Widgets
                 f.Value.interpolate = true;
                 f.Value.FollowThreshold = 0.5f;
                 f.Value.FollowRotation = CartesianAxisFlags.Y;
-                f.Value.RotationThreshold = 25 * Vector3.up;
+                f.Value.RotationThreshold = 10 * Vector3.up;
                 f.Value.maxSpeed = 5;
-                f.Value.maxRotationRate = 250;
+                f.Value.maxRotationRate = 75;
 #endif
             }
         }

@@ -388,7 +388,7 @@ namespace Juniper
 
         public void SetPosition(Vector3 position)
         {
-            avatar.position = position;
+            transform.position = position;
         }
 
         public void SetViewRotation(Quaternion quat, float minX = -180, float maxX = 180)
