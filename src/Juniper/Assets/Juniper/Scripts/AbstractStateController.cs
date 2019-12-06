@@ -328,31 +328,17 @@ namespace Juniper
             }
         }
 
-        public Task EnterAsync()
+        public Task EnterAsync(IProgress prog = null)
         {
-            return EnterAsync(null);
+            return Stopper(Enter, prog);
         }
 
-        public Task EnterAsync(IProgress prog)
+        public Task ExitAsync(IProgress prog = null)
         {
-            var stopper = Stopper();
-            Enter(prog);
-            return stopper;
+            return Stopper(Exit, prog);
         }
 
-        public Task ExitAsync()
-        {
-            return ExitAsync(null);
-        }
-
-        public Task ExitAsync(IProgress prog)
-        {
-            var stopper = Stopper();
-            Exit(prog);
-            return stopper;
-        }
-
-        private Task Stopper()
+        private Task Stopper(Action<IProgress> actor, IProgress prog)
         {
             var onStoppedCompleter = new TaskCompletionSource<bool>();
             void stopper(object _, EventArgs __)
@@ -361,6 +347,7 @@ namespace Juniper
                 onStoppedCompleter.SetResult(true);
             }
             Stopped += stopper;
+            actor(prog);
             return onStoppedCompleter.Task;
         }
 

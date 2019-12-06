@@ -126,13 +126,23 @@ namespace Juniper.Progress
 
             return arr;
         }
-        public static IProgress[] Split(this IProgress parent, string a, string b)
+
+        public static void Run(this IProgress parent, params Action<IProgress>[] actors)
         {
-            return new IProgress[2]
+            var subProgs = parent.Split(actors.Length);
+            for (int i = 0; i < actors.Length; ++i)
             {
-                parent?.Subdivide(0, 0.5f, a),
-                parent?.Subdivide(0.5f, 0.5f, b)
-            };
+                actors[i]?.Invoke(subProgs[i]);
+            }
+        }
+
+        public static async Task Run(this IProgress parent, params Func<IProgress, Task>[] actors)
+        {
+            var subProgs = parent.Split(actors.Length);
+            for (int i = 0; i < actors.Length; ++i)
+            {
+                await actors[i]?.Invoke(subProgs[i]);
+            }
         }
 
         /// <summary>
@@ -143,14 +153,9 @@ namespace Juniper.Progress
         /// <returns></returns>
         public static IProgress[] Split(this IProgress parent, params string[] prefixes)
         {
-            if (prefixes == null)
+            if (prefixes.Length == 0)
             {
-                throw new ArgumentNullException(nameof(prefixes));
-            }
-
-            if (prefixes.Length < 3)
-            {
-                throw new ArgumentException("Must provide at least three prefixes", nameof(prefixes));
+                throw new ArgumentException("Must provide at least 1 prefix", nameof(prefixes));
             }
 
             var arr = new IProgress[prefixes.Length];
@@ -161,6 +166,34 @@ namespace Juniper.Progress
             }
 
             return arr;
+        }
+
+        public static void Run(this IProgress parent, params (string label, Action<IProgress> action)[] actors)
+        {
+            var labels = new string[actors.Length];
+            for (int i = 0; i < actors.Length; ++i)
+            {
+                labels[i] = actors[i].label;
+            }
+            var subProgs = parent.Split(labels);
+            for (int i = 0; i < actors.Length; ++i)
+            {
+                actors[i].action?.Invoke(subProgs[i]);
+            }
+        }
+
+        public static async Task Run(this IProgress parent, params (string label, Func<IProgress, Task> action)[] actors)
+        {
+            var labels = new string[actors.Length];
+            for (int i = 0; i < actors.Length; ++i)
+            {
+                labels[i] = actors[i].label;
+            }
+            var subProgs = parent.Split(labels);
+            for (int i = 0; i < actors.Length; ++i)
+            {
+                await actors[i].action?.Invoke(subProgs[i]);
+            }
         }
 
         /// <summary>
