@@ -206,13 +206,6 @@ namespace Juniper.World.GIS.Google
             metadataCache[metadata.location.ToString()] = metadata;
             metadataCache[metadata.pano_id] = metadata;
         }
-        
-        private static readonly string[] CAPTURE_CUBEMAP_FIELDS = {
-            "Rendering cubemap",
-            "Copying cubemap faces",
-            "Concatenating faces",
-            "Saving image"
-        };
 
         private static readonly CubemapFace[] CAPTURE_CUBEMAP_FACES = new[] {
             CubemapFace.NegativeY,
@@ -236,48 +229,62 @@ namespace Juniper.World.GIS.Google
                 else
                 {
                     loadingBar.Activate();
-                    var subProgs = loadingBar.Split(CAPTURE_CUBEMAP_FIELDS);
+
                     const int dim = 2048;
-                    var cubemap = await JuniperSystem.OnMainThread(() =>
-                    {
-                        subProgs[0].Report(0);
-                        var cb = new Cubemap(dim, TextureFormat.RGB24, false);
-                        cb.Apply();
+                    Cubemap cubemap = null;
+                    Texture2D img = null;
 
-                        var curMask = DisplayManager.MainCamera.cullingMask;
-                        DisplayManager.MainCamera.cullingMask = LayerMask.GetMask(Photosphere.PHOTOSPHERE_LAYER_ARR);
-
-                        var curRotation = DisplayManager.MainCamera.transform.rotation;
-                        DisplayManager.MainCamera.transform.rotation = Quaternion.identity;
-
-                        DisplayManager.MainCamera.RenderToCubemap(cb, 63);
-
-                        DisplayManager.MainCamera.cullingMask = curMask;
-                        DisplayManager.MainCamera.transform.rotation = curRotation;
-                        subProgs[0].Report(1);
-
-                        return cb;
-                    });
-
-
-                    for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
-                    {
-                        await JuniperSystem.OnMainThread(() =>
+                    await loadingBar.Run(
+                        ("Rendering cubemap", async (prog) =>
                         {
-                            subProgs[1].Report(f, CAPTURE_CUBEMAP_FACES.Length, CAPTURE_CUBEMAP_FACES[f].ToString());
-                            var pixels = cubemap.GetPixels(CAPTURE_CUBEMAP_FACES[f]);
-                            var texture = new Texture2D(cubemap.width, cubemap.height);
-                            texture.SetPixels(pixels);
-                            texture.Apply();
-                            CAPTURE_CUBEMAP_SUB_IMAGES[f] = texture;
-                            subProgs[1].Report(f + 1, CAPTURE_CUBEMAP_FACES.Length);
-                        });
-                    }
+                            cubemap = await JuniperSystem.OnMainThread(() =>
+                            {
+                                prog.Report(0);
+                                var cb = new Cubemap(dim, TextureFormat.RGB24, false);
+                                cb.Apply();
 
-                    var img = await JuniperSystem.OnMainThread(() =>
-                        processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), subProgs[2]));
+                                var curMask = DisplayManager.MainCamera.cullingMask;
+                                DisplayManager.MainCamera.cullingMask = LayerMask.GetMask(Photosphere.PHOTOSPHERE_LAYER_ARR);
 
-                    cache.Save(codec, photosphere.name + codec.ContentType, img, true, subProgs[3]);
+                                var curRotation = DisplayManager.MainCamera.transform.rotation;
+                                DisplayManager.MainCamera.transform.rotation = Quaternion.identity;
+
+                                DisplayManager.MainCamera.RenderToCubemap(cb, 63);
+
+                                DisplayManager.MainCamera.cullingMask = curMask;
+                                DisplayManager.MainCamera.transform.rotation = curRotation;
+                                prog.Report(1);
+
+                                return cb;
+                            });
+                        }),
+                        ("Copying cubemap faces", async (prog) =>
+                        {
+                            for (var f = 0; f < CAPTURE_CUBEMAP_FACES.Length; ++f)
+                            {
+                                await JuniperSystem.OnMainThread(() =>
+                                {
+                                    prog.Report(f, CAPTURE_CUBEMAP_FACES.Length, CAPTURE_CUBEMAP_FACES[f].ToString());
+                                    var pixels = cubemap.GetPixels(CAPTURE_CUBEMAP_FACES[f]);
+                                    var texture = new Texture2D(cubemap.width, cubemap.height);
+                                    texture.SetPixels(pixels);
+                                    texture.Apply();
+                                    CAPTURE_CUBEMAP_SUB_IMAGES[f] = texture;
+                                    prog.Report(f + 1, CAPTURE_CUBEMAP_FACES.Length);
+                                });
+                            }
+                        }),
+                        ("Concatenating faces", async (prog) =>
+                        {
+                            img = await JuniperSystem.OnMainThread(() =>
+                            processor.Concatenate(ImageData.CubeCross(CAPTURE_CUBEMAP_SUB_IMAGES), prog));
+                        }),
+                        ("Saving image", (prog) =>
+                        {
+                            cache.Save(codec, photosphere.name + codec.ContentType, img, true, prog);
+                            return Task.CompletedTask;
+                        }));
+
                     loadingBar.Deactivate();
                 }
 
