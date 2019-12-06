@@ -472,17 +472,11 @@ namespace Juniper.World.GIS.Google
                 searchTask = SearchData(searchPano, searchPoint, prog)
                     .ContinueWith(JuniperSystem.LogError, TaskContinuationOptions.OnlyOnFaulted);
             }
-            else if (origin != null && metadata != null)
+            else if (origin != null 
+                && metadata != null
+                && input.ActiveController != null)
             {
-                cursorPosition = input.MouseEnabled
-                    ? input.Mouse.CursorPosition
-                    : input.ControllersEnabled
-                        ? input.Controllers[0].IsConnected
-                            ? input.Controllers[0].CursorPosition
-                            : input.Controllers[1].CursorPosition
-                        : input.GazeEnabled
-                            ? input.Gaze.CursorPosition
-                            : Vector3.zero;
+                cursorPosition = input.ActiveController.CursorPosition;
                 var cursorDelta = cursorPosition - lastCursorPosition;
                 if (cursorDelta.magnitude > 0.1f)
                 {

@@ -169,7 +169,9 @@ namespace Juniper.Input
         public TouchPoint[] Touches;
         public MotionController[] Controllers;
         public HandTracker[] Hands;
+
         public NetworkPointer Helper;
+
         public KeywordRecognizer Voice;
 
         public float minPointerDistance = 1.5f;
@@ -446,7 +448,7 @@ namespace Juniper.Input
 
             foreach (var shortcut in keyboardShortcuts)
             {
-                if(shortcut == null
+                if (shortcut == null
                     || !shortcut.gameObject.scene.isLoaded)
                 {
                     toRemove.MaybeAdd(shortcut);
@@ -459,7 +461,7 @@ namespace Juniper.Input
                 }
             }
 
-            foreach(var shortcut in toRemove)
+            foreach (var shortcut in toRemove)
             {
                 keyboardShortcuts.Remove(shortcut);
             }
@@ -593,7 +595,7 @@ namespace Juniper.Input
         {
             get
             {
-                return Voice != null 
+                return Voice != null
                     && Voice.IsAvailable;
             }
         }
@@ -773,6 +775,57 @@ namespace Juniper.Input
             get
             {
                 return ControllersRequested && ControllersAvailable;
+            }
+        }
+
+        public IPointerDevice ActiveController
+        {
+            get
+            {
+                if (MouseEnabled)
+                {
+                    return Mouse;
+                }
+
+                if (ControllersEnabled)
+                {
+                    foreach (var controller in Controllers)
+                    {
+                        if (controller.IsConnected)
+                        {
+                            return controller;
+                        }
+                    }
+                }
+
+                if (TouchEnabled)
+                {
+                    foreach (var touch in Touches)
+                    {
+                        if (touch.IsConnected)
+                        {
+                            return touch;
+                        }
+                    }
+                }
+
+                if (HandsEnabled)
+                {
+                    foreach (var hand in Hands)
+                    {
+                        if (hand.IsConnected)
+                        {
+                            return hand;
+                        }
+                    }
+                }
+
+                if (GazeEnabled)
+                {
+                    return Gaze;
+                }
+
+                return null;
             }
         }
 

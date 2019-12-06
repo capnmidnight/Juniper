@@ -44,7 +44,8 @@ namespace Juniper.Input.Pointers.Screen
         {
             get
             {
-                return UnityInput.mousePresent && (mouseActive = mouseActive || ActiveThisFrame);
+                return UnityInput.mousePresent 
+                    && (mouseActive = mouseActive || ActiveThisFrame);
             }
         }
 
