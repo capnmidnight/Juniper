@@ -56,6 +56,15 @@ namespace Juniper
         public UnityEvent onExited = new UnityEvent();
 
         /// <summary>
+        /// An event that occurs when the controller has finished going through the Enter or Exit transition.
+        /// Prefer <see cref="Stopped"/> if you are programmatically adding event handlers at runtime.
+        /// If you are adding event handlers in the Unity Editor, prefer <see cref="onStopped"/>. If
+        /// you are waiting for this event in a subclass of StateController, prefer overriding the
+        /// <see cref="OnStopped"/> method.
+        /// </summary>
+        public UnityEvent onStopped = new UnityEvent();
+
+        /// <summary>
         /// An event that occurs when the controller is starting to go through the Enter transition.
         /// Prefer <see cref="Entering"/> if you are programmatically adding event handlers at
         /// runtime. If you are adding event handlers in the Unity Editor, prefer <see
@@ -92,6 +101,15 @@ namespace Juniper
         public event EventHandler Exited;
 
         /// <summary>
+        /// An event that occurs when the controller has finished going through the Enter or Exit 
+        /// transition. Prefer <see cref="Stopped"/> if you are programmatically adding event handlers 
+        /// at runtime. If you are adding event handlers in the Unity Editor, prefer <see cref="onStopped"/>.
+        /// If you are waiting for this event in a subclass of StateController, prefer overriding the
+        /// <see cref="OnStopped"/> method.
+        /// </summary>
+        public event EventHandler Stopped;
+
+        /// <summary>
         /// Whether or not the transition is running in the forward or backward direction (which is
         /// important for Fade(in|out) and Shrink(in|out) transitions).
         /// </summary>
@@ -120,13 +138,18 @@ namespace Juniper
                     {
                         OnExiting();
                     }
-                    else if (lastState == Direction.Forward)
+                    else
                     {
-                        OnEntered();
-                    }
-                    else if (lastState == Direction.Reverse)
-                    {
-                        OnExited();
+                        OnStopped();
+
+                        if (lastState == Direction.Forward)
+                        {
+                            OnEntered();
+                        }
+                        else if (lastState == Direction.Reverse)
+                        {
+                            OnExited();
+                        }
                     }
                 }
             }
@@ -310,13 +333,11 @@ namespace Juniper
             return EnterAsync(null);
         }
 
-        public async Task EnterAsync(IProgress prog)
+        public Task EnterAsync(IProgress prog)
         {
+            var stopper = Stopper();
             Enter(prog);
-            while (IsRunning)
-            {
-                await Task.Yield();
-            }
+            return stopper;
         }
 
         public Task ExitAsync()
@@ -324,13 +345,23 @@ namespace Juniper
             return ExitAsync(null);
         }
 
-        public async Task ExitAsync(IProgress prog)
+        public Task ExitAsync(IProgress prog)
         {
+            var stopper = Stopper();
             Exit(prog);
-            while (IsRunning)
+            return stopper;
+        }
+
+        private Task Stopper()
+        {
+            var onStoppedCompleter = new TaskCompletionSource<bool>();
+            void stopper(object _, EventArgs __)
             {
-                await Task.Yield();
+                Stopped -= stopper;
+                onStoppedCompleter.SetResult(true);
             }
+            Stopped += stopper;
+            return onStoppedCompleter.Task;
         }
 
         /// <summary>
@@ -343,7 +374,10 @@ namespace Juniper
         {
             if (!skipEvents)
             {
-                onEntering?.Invoke();
+                if (onEntering != null)
+                {
+                    onEntering?.Invoke();
+                }
                 Entering?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -359,7 +393,10 @@ namespace Juniper
         {
             if (!skipEvents)
             {
-                onEntered?.Invoke();
+                if (onEntered != null)
+                {
+                    onEntered.Invoke();
+                }
                 Entered?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -375,7 +412,10 @@ namespace Juniper
         {
             if (!skipEvents)
             {
-                onExiting?.Invoke();
+                if (onExiting != null)
+                {
+                    onExiting.Invoke();
+                }
                 Exiting?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -391,10 +431,22 @@ namespace Juniper
         {
             if (!skipEvents)
             {
-                onExited?.Invoke();
+                if (onExited != null)
+                {
+                    onExited.Invoke();
+                }
                 Exited?.Invoke(this, EventArgs.Empty);
             }
             enabled = false;
+        }
+
+        protected virtual void OnStopped()
+        {
+            if (onStopped != null)
+            {
+                onStopped?.Invoke();
+            }
+            Stopped?.Invoke(this, EventArgs.Empty);
         }
     }
 }
