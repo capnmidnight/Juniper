@@ -12,6 +12,7 @@ namespace Juniper.Input.Pointers
         private static readonly TimeSpan CONNECTION_TIMEOUT = TimeSpan.FromSeconds(5);
 
         public DateTime lastClickTime;
+        public Vector3 offset = Vector3.zero;
 
         private DateTime lastUpdate = DateTime.MinValue;
         private bool pressed, wasPressed;
@@ -60,7 +61,7 @@ namespace Juniper.Input.Pointers
             wasPressed = pressed;
 
             pressed = delta.TotalMilliseconds <= 0.25;
-            transform.position = ray.origin;
+            transform.position = ray.origin + offset;
             transform.rotation = Quaternion.LookRotation(ray.direction);
         }
 
