@@ -54,24 +54,31 @@ namespace Juniper.HTTP
                 requestPath = requestPath.Substring(0, requestPath.Length - 1);
             }
 
-            requestPath = requestPath.Replace('/', Path.DirectorySeparatorChar);
-            return requestPath;
+            return requestPath.Replace('/', Path.DirectorySeparatorChar);
         }
 
-        private readonly string rootDirectoryPath;
         private readonly DirectoryInfo rootDirectory;
 
         public event EventHandler<string> Warning;
+
         private void OnWarning(string message)
         {
             Warning?.Invoke(this, message);
         }
 
-        public DefaultFileController(string rootDirectoryPath)
+        public DefaultFileController(DirectoryInfo rootDirectory)
         {
-            this.rootDirectoryPath = rootDirectoryPath;
-            rootDirectory = new DirectoryInfo(rootDirectoryPath);
+            if (!rootDirectory.Exists)
+            {
+                throw new InvalidOperationException($"Directory {rootDirectory.FullName} does not exist");
+            }
+
+            this.rootDirectory = rootDirectory;
         }
+
+        public DefaultFileController(string rootDirectoryPath)
+            : this(new DirectoryInfo(rootDirectoryPath))
+        { }
 
         [Route(".*", Priority = int.MaxValue)]
         public async Task ServeFile(HttpListenerContext context)
@@ -80,7 +87,7 @@ namespace Juniper.HTTP
             var response = context.Response;
             var requestPath = request.Url.AbsolutePath;
             var requestFile = MassageRequestPath(requestPath);
-            var filename = Path.Combine(rootDirectoryPath, requestFile);
+            var filename = Path.Combine(rootDirectory.FullName, requestFile);
             var isDirectory = Directory.Exists(filename);
 
             if (isDirectory)
@@ -89,7 +96,7 @@ namespace Juniper.HTTP
             }
 
             var file = new FileInfo(filename);
-            var shortName = MakeShortName(rootDirectoryPath, filename);
+            var shortName = MakeShortName(rootDirectory.FullName, filename);
 
             if (!rootDirectory.Contains(file))
             {
