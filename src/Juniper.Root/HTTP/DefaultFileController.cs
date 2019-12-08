@@ -101,11 +101,13 @@ namespace Juniper.HTTP
             }
             else if (file.Exists)
             {
-                await SendFile(response, file, shortName);
+                await SendFile(response, file, shortName)
+                    .ConfigureAwait(false);
             }
             else if (isDirectory)
             {
-                await ListDirectory(response, new DirectoryInfo(filename));
+                await ListDirectory(response, new DirectoryInfo(filename))
+                    .ConfigureAwait(false);
             }
             else
             {
@@ -121,7 +123,6 @@ namespace Juniper.HTTP
             var shortName = MakeShortName(rootDirectory.FullName, dir.FullName);
             sb.AppendFormat("<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>{0}</title></head><body><h1>Directory Listing: {0}</h1><ul>", shortName);
 
-            
             var paths = (from subPath in dir.GetFileSystemInfos()
                          select MakeShortName(dir.FullName, subPath.FullName));
 
@@ -141,7 +142,8 @@ namespace Juniper.HTTP
             response.ContentType = MediaType.Text.Html;
             using (var writer = new StreamWriter(response.OutputStream))
             {
-                await writer.WriteAsync(sb.ToString());
+                await writer.WriteAsync(sb.ToString())
+                    .ConfigureAwait(false);
             }
         }
 
@@ -149,7 +151,8 @@ namespace Juniper.HTTP
         {
             try
             {
-                await response.SendFileAsync(file);
+                await response.SendFileAsync(file)
+                    .ConfigureAwait(false);
             }
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception exp)
