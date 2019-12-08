@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    Hello, world
+    <script type="text/javascript">
+        var socket = null;
+
+        function connect() {
+            socket = new WebSocket("ws://localhost:8080/connect/");
+
+            socket.addEventListener("open", function (evt) {
+                console.log("open");
+                console.log(evt);
+                socket.send("hello");
+            });
+
+            socket.addEventListener("close", function (evt) {
+                console.log("close");
+                console.log(evt);
+            });
+
+            socket.addEventListener("error", function (evt) {
+                console.error(evt);
+            });
+
+            socket.addEventListener("message", function (evt) {
+                console.log("message: ", evt.data);
+            });
+        }
+
+        connect();
+    </script>
+
+    <button onclick="connect()">Connect</button>
+</body>
+</html>
