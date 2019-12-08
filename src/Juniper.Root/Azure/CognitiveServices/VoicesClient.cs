@@ -59,7 +59,8 @@ namespace Juniper.Azure.CognitiveServices
                 {
                     var plainText = new StringFactory();
                     var authRequest = new AuthTokenRequest(azureRegion, azureSubscriptionKey);
-                    authToken = await authRequest.Decode(plainText);
+                    authToken = await authRequest.Decode(plainText)
+                        .ConfigureAwait(false);
                 }
                 return authToken;
             }
@@ -79,9 +80,11 @@ namespace Juniper.Azure.CognitiveServices
                     var voiceListRequest = new VoiceListRequest(azureRegion);
                     if (!cache.IsCached(voiceListRequest))
                     {
-                        voiceListRequest.AuthToken = await GetAuthToken();
+                        voiceListRequest.AuthToken = await GetAuthToken()
+                            .ConfigureAwait(false);
                     }
-                    voices = await cache.Load(voiceListDecoder, voiceListRequest);
+                    voices = await cache.Load(voiceListDecoder, voiceListRequest)
+                        .ConfigureAwait(false);
                 }
 
                 return voices;

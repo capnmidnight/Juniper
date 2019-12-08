@@ -65,10 +65,12 @@ namespace Juniper.GoogleMaps
         {
             if (metadata.status == System.Net.HttpStatusCode.OK)
             {
-                var geo = await gmaps.ReverseGeocode(metadata.location);
+                var geo = await gmaps.ReverseGeocode(metadata.location)
+                    .ConfigureAwait(false);
                 try
                 {
-                    using (var stream = await gmaps.GetImage(metadata.pano_id, 20, 0, 0))
+                    using (var stream = await gmaps.GetImage(metadata.pano_id, 20, 0, 0)
+                        .ConfigureAwait(false))
                     {
                         var image = imageDecoder.Deserialize(stream);
                         form.SetImage(metadata, geo, image);
@@ -87,20 +89,26 @@ namespace Juniper.GoogleMaps
 
         private static async void Form_LocationSubmitted(object sender, string location)
         {
-            var metadata = await gmaps.SearchMetadata(location);
-            await GetImageData(metadata);
+            var metadata = await gmaps.SearchMetadata(location)
+                .ConfigureAwait(false);
+            await GetImageData(metadata)
+                .ConfigureAwait(false);
         }
 
         private static async void Form_LatLngSubmitted(object sender, string latlng)
         {
-            var metadata = await gmaps.GetMetadata(LatLngPoint.ParseDecimal(latlng));
-            await GetImageData(metadata);
+            var metadata = await gmaps.GetMetadata(LatLngPoint.ParseDecimal(latlng))
+                .ConfigureAwait(false);
+            await GetImageData(metadata)
+                .ConfigureAwait(false);
         }
 
         private static async void Form_PanoSubmitted(object sender, string pano)
         {
-            var metadata = await gmaps.GetMetadata(pano);
-            await GetImageData(metadata);
+            var metadata = await gmaps.GetMetadata(pano)
+                .ConfigureAwait(false);
+            await GetImageData(metadata)
+                .ConfigureAwait(false);
         }
 
         private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)

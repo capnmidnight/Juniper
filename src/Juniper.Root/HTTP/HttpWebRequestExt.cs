@@ -264,7 +264,7 @@ namespace System.Net
         /// <param name="getInfo"></param>
         /// <param name="writeBody"></param>
         /// <returns></returns>
-        private static async Task WriteBody(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog)
+        private static async Task WriteBody(this HttpWebRequest request, Func<BodyInfo> getInfo, Action<Stream> writeBody, IProgress prog = null)
         {
             if (getInfo != null)
             {
@@ -281,14 +281,25 @@ namespace System.Net
                         request.ContentLength = info.Length;
                         if (info.Length > 0)
                         {
-                            using (var stream = await request.GetRequestStreamAsync())
+                            using (var stream = await request.GetRequestStreamAsync()
+                                   .ConfigureAwait(false))
                             {
-                                writeBody(stream);
+                                WiteContent(writeBody, prog, info, stream);
                             }
                         }
                     }
                 }
             }
+        }
+
+        private static void WiteContent(Action<Stream> writeBody, IProgress prog, BodyInfo info, Stream stream)
+        {
+            if (prog != null)
+            {
+                stream = new ProgressStream(stream, info.Length, prog);
+            }
+
+            writeBody(stream);
         }
 
         /// <summary>
@@ -300,8 +311,10 @@ namespace System.Net
         {
             request = request.Method(HttpMethod.DELETE);
             await request
-                .WriteBody(getInfo, writeBody, prog);
-            return (HttpWebResponse)await request.GetResponseAsync();
+                .WriteBody(getInfo, writeBody, prog)
+                .ConfigureAwait(false);
+            return (HttpWebResponse)await request.GetResponseAsync()
+                .ConfigureAwait(false);
         }
 
         /// <summary>
@@ -323,7 +336,8 @@ namespace System.Net
         {
             return (HttpWebResponse)await request
                 .Method(HttpMethod.GET)
-                .GetResponseAsync();
+                .GetResponseAsync()
+                .ConfigureAwait(false);
         }
     }
 }

@@ -10,7 +10,6 @@ namespace Juniper.Azure.CognitiveServices
     public class TextToSpeechStreamClient : VoicesClient
     {
         private readonly string azureResourceName;
-        private AudioFormat outputFormat;
 
         public TextToSpeechStreamClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder, AudioFormat outputFormat, CachingStrategy cache)
             : base(azureRegion, azureSubscriptionKey, voiceListDecoder, cache)
@@ -20,26 +19,16 @@ namespace Juniper.Azure.CognitiveServices
                 throw new ArgumentException("Must provide a resource name that is tied to the subscription", nameof(azureResourceName));
             }
 
-            if (outputFormat == null)
-            {
-                throw new ArgumentException("Must provide an audio output format", nameof(outputFormat));
-            }
-
             this.azureResourceName = azureResourceName;
-            OutputFormat = outputFormat;
+
+            OutputFormat = outputFormat
+                ?? throw new ArgumentException("Must provide an audio output format", nameof(outputFormat));
         }
 
         public virtual AudioFormat OutputFormat
         {
-            get
-            {
-                return outputFormat;
-            }
-
-            set
-            {
-                outputFormat = value;
-            }
+            get;
+            set;
         }
 
         public TextToSpeechStreamClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder, AudioFormat outputFormat)
@@ -60,10 +49,12 @@ namespace Juniper.Azure.CognitiveServices
 
                 if (!cache.IsCached(ttsRequest))
                 {
-                    ttsRequest.AuthToken = await GetAuthToken();
+                    ttsRequest.AuthToken = await GetAuthToken()
+                        .ConfigureAwait(false);
                 }
 
-                return await cache.Open(ttsRequest);
+                return await cache.Open(ttsRequest)
+                    .ConfigureAwait(false);
             }
             catch
             {
@@ -105,12 +96,9 @@ namespace Juniper.Azure.CognitiveServices
         public TextToSpeechClient(string azureRegion, string azureSubscriptionKey, string azureResourceName, IJsonDecoder<Voice[]> voiceListDecoder, AudioFormat outputFormat, IAudioDecoder audioDecoder, CachingStrategy cache)
             : base(azureRegion, azureSubscriptionKey, azureResourceName, voiceListDecoder, outputFormat, cache)
         {
-            if (audioDecoder == null)
-            {
-                throw new ArgumentException("Must provide an audio decoder", nameof(audioDecoder));
-            }
+            this.audioDecoder = audioDecoder
+                ?? throw new ArgumentException("Must provide an audio decoder", nameof(audioDecoder));
 
-            this.audioDecoder = audioDecoder;
             CheckDecoderFormat();
         }
 
@@ -153,7 +141,8 @@ namespace Juniper.Azure.CognitiveServices
 
         public async Task<AudioData> GetDecodedAudio(string text, string voiceName, float rateChange, float pitchChange)
         {
-            var stream = await GetAudioDataStream(text, voiceName, rateChange, pitchChange);
+            var stream = await GetAudioDataStream(text, voiceName, rateChange, pitchChange)
+                .ConfigureAwait(false);
             return audioDecoder.Deserialize(stream);
         }
 

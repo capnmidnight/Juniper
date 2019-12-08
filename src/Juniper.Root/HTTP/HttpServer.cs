@@ -80,18 +80,21 @@ namespace Juniper.HTTP
         }
 
         public event EventHandler<string> Info;
+
         private void OnInfo(string message)
         {
             Info?.Invoke(this, message);
         }
 
         public event EventHandler<string> Warning;
+
         private void OnWarning(object sender, string message)
         {
             Warning?.Invoke(this, message);
         }
 
         public event EventHandler<string> Error;
+
         private void OnError(string message)
         {
             Error?.Invoke(this, message);
@@ -120,11 +123,11 @@ namespace Juniper.HTTP
         private void AddRoutesFrom(object controller, Type type)
         {
             var flags = BindingFlags.Public | BindingFlags.Static;
-            if(controller is object)
+            if (controller is object)
             {
                 flags |= BindingFlags.Instance;
             }
-            
+
             foreach (var method in type.GetMethods(flags))
             {
                 var route = method.GetCustomAttribute<RouteAttribute>();
@@ -340,7 +343,7 @@ namespace Juniper.HTTP
                         }
                     }
 
-                    while(waiters.Count < MAX_CONNECTIONS)
+                    while (waiters.Count < MAX_CONNECTIONS)
                     {
                         waiters.Add(HandleConnection());
                     }
@@ -356,7 +359,8 @@ namespace Juniper.HTTP
 
         private async Task HandleConnection()
         {
-            var context = await listener.GetContextAsync();
+            var context = await listener.GetContextAsync()
+                .ConfigureAwait(false);
             var requestID = $"{{{DateTime.Now.ToShortTimeString()}}} {context.Request.UrlReferrer} [{context.Request.HttpMethod}] {context.Request.Url.PathAndQuery} => {context.Request.RemoteEndPoint}";
             using (context.Response.OutputStream)
             using (context.Request.InputStream)
@@ -370,7 +374,8 @@ namespace Juniper.HTTP
                     {
                         if (route.IsMatch(context.Request))
                         {
-                            await route.Invoke(context);
+                            await route.Invoke(context)
+                                .ConfigureAwait(false);
                             handled = true;
                             if (!route.Continue)
                             {
