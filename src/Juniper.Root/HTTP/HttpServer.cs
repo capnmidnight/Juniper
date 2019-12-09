@@ -386,10 +386,6 @@ or
 
                     AddRoutesFrom<HttpsRedirectController>();
                 }
-                else if (HttpPort > 0)
-                {
-                    OnWarning(this, "You probably shouldn't be serving raw HTTP content, unless you're behind a secure reverse proxy");
-                }
 
                 SetPrefix("http", HttpPort);
             }

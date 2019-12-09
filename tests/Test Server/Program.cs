@@ -33,15 +33,22 @@ namespace Juniper.HTTP
         {
             sockets.Add(socket);
             socket.Message += Socket_Message;
+            socket.Error += Socket_Error;
             WriteLine("Got socket");
             return Task.CompletedTask;
         }
 
-        private static void Socket_Message(object sender, string e)
+        private static void Socket_Error(object sender, System.Exception e)
         {
-            WriteLine($"[SOCKET] {e}");
+            Error.WriteLine($"[SOCKET ERROR] {e}");
+        }
+
+        private static void Socket_Message(object sender, string msg)
+        {
             var socket = (WebSocketConnection)sender;
-            socket.Send(e + "from server");
+            WriteLine($"[SOCKET] {msg}");
+            msg += " from server";
+            socket.Send(msg);
         }
 
         private static void Server_Info(object sender, string e)

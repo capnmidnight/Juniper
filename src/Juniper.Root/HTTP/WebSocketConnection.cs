@@ -17,24 +17,17 @@ namespace Juniper.HTTP
         private readonly CancellationTokenSource canceller = new CancellationTokenSource();
         private readonly WebSocket socket;
 
-        private readonly Queue<string> rxQueue = new Queue<string>();
-
         private Task tx = Task.CompletedTask;
-        private Task rx = Task.CompletedTask;
-
-        public bool QueueMessages
-        {
-            get;
-            set;
-        }
+        private Task rx;
 
         public event EventHandler<string> Message;
+        public event EventHandler<byte[]> Data;
+        public event EventHandler<Exception> Error;
 
         public WebSocketConnection(HttpListenerContext httpContext, WebSocketContext wsContext)
         {
             this.httpContext = httpContext;
             socket = wsContext.WebSocket;
-            QueueMessages = true;
         }
 
         public WebSocketState State
@@ -58,69 +51,75 @@ namespace Juniper.HTTP
 
         public void Update()
         {
-            while (rxQueue.Count > 0
-                && Message != null)
-            {
-                var item = rxQueue.Dequeue();
-                Message.Invoke(this, item);
-            }
-
             if (!rx.IsRunning())
             {
-                rx = rx.ContinueWith(HandleSocketRx, canceller.Token);
+                rx = Task.Run(HandleSocketRx, canceller.Token)
+                    .ContinueWith(LogError, TaskContinuationOptions.OnlyOnFaulted);
             }
         }
 
-        public void Send(string item)
+        private void OnError(Exception exp)
         {
-            if (QueueMessages)
-            {
-                tx = tx.ContinueWith(HandleSocketTx(item), canceller.Token);
-            }
-            else if (!tx.IsRunning())
-            {
-                tx = Task.Run(() => SendAsync(item), canceller.Token);
-            }
+            Error?.Invoke(this, exp);
         }
 
-        private Func<Task, Task> HandleSocketTx(string item)
+        private void LogError(Task t)
         {
-            return _ => SendAsync(item);
+            OnError(t.Exception);
         }
 
-        private Task SendAsync(string item)
-        {
-            var buffer = Encoding.UTF8.GetBytes(item);
-            var segment = new ArraySegment<byte>(buffer);
-            return socket.SendAsync(segment, WebSocketMessageType.Text, true, canceller.Token);
-        }
-
-        private async Task HandleSocketRx(Task _)
+        private async Task HandleSocketRx()
         {
             var data = new List<byte>();
             var buffer = new byte[BUFFER_SIZE];
             var seg = new ArraySegment<byte>(buffer);
             bool done;
+            var msgType = WebSocketMessageType.Close;
             do
             {
                 var result = await socket.ReceiveAsync(seg, canceller.Token)
                     .ConfigureAwait(false);
+                msgType = result.MessageType;
                 var rx = new byte[result.Count];
                 Array.Copy(buffer, 0, rx, 0, result.Count);
                 data.AddRange(rx);
                 done = result.EndOfMessage;
             } while (!done);
 
-            var msg = Encoding.UTF8.GetString(data.ToArray());
+            buffer = data.ToArray();
 
-            if (QueueMessages)
+            if (msgType == WebSocketMessageType.Text)
             {
-                rxQueue.Enqueue(msg);
-            }
-            else
-            {
+                var msg = Encoding.UTF8.GetString(buffer);
                 Message?.Invoke(this, msg);
             }
+            else if (msgType == WebSocketMessageType.Binary)
+            {
+                Data?.Invoke(this, buffer);
+            }
+            else if (msgType == WebSocketMessageType.Close)
+            {
+                Close();
+            }
+        }
+
+        public void Send(string msg)
+        {
+            Send(Encoding.UTF8.GetBytes(msg), WebSocketMessageType.Text);
+        }
+
+        public void Send(byte[] buffer)
+        {
+            Send(buffer, WebSocketMessageType.Binary);
+        }
+
+        private void Send(byte[] buffer, WebSocketMessageType messageType)
+        {
+            var segment = new ArraySegment<byte>(buffer);
+            tx = tx.ContinueWith(
+                _ => socket.SendAsync(segment, messageType, true, canceller.Token),
+                canceller.Token)
+                .ContinueWith(LogError, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         #region IDisposable Support
@@ -136,9 +135,6 @@ namespace Juniper.HTTP
                     canceller.Dispose();
                     httpContext.Response.Close();
                 }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
 
                 disposedValue = true;
             }
