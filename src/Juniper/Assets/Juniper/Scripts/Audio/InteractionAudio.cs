@@ -636,16 +636,12 @@ namespace Juniper.Audio
                 var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
                 foreach (var audioSource in audioSources)
                 {
-                    string sourceZoneName = "Outdoors";
-                    var zone = audioSource.GetComponentInParent<Zone>();
-                    if (zone != null)
-                    {
-                        sourceZoneName = zone.zoneName;
-                    }
-
+                    string sourceZoneName = audioSource.GetZoneName();
                     if (sourceZoneName == zoneName
-                        && audioSource.playOnAwake)
+                        && audioSource.playOnAwake
+                        && !audioSource.isPlaying)
                     {
+                        audioSource.Activate();
                         audioSource.Play();
                     }
                     else

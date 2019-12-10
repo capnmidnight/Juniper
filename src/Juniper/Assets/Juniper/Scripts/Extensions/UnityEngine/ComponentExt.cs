@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Juniper;
+using Juniper.World;
 
 namespace UnityEngine
 {
@@ -362,6 +363,18 @@ namespace UnityEngine
             }
 
             return transName;
+        }
+
+        public static string GetZoneName(this Component child, string defaultZoneName = "Outdoors")
+        {
+            string zoneName = defaultZoneName;
+            var zone = child.GetComponentInParent<Zone>();
+            if (zone != null)
+            {
+                zoneName = zone.zoneName;
+            }
+
+            return zoneName;
         }
     }
 }
