@@ -15,6 +15,7 @@ using Juniper.Azure.CognitiveServices;
 using System.Threading.Tasks;
 
 using Juniper.IO;
+using Juniper.World;
 
 #if UNITY_MODULES_AUDIO
 
@@ -497,7 +498,7 @@ namespace Juniper.Audio
         }
 
         private static readonly Func<AudioSource, bool> hasInteractionSoundTag = a =>
-            a.tag == INTERACTION_SOUND_TAG;
+            a.CompareTag(INTERACTION_SOUND_TAG);
 
 
         /// <summary>
@@ -626,6 +627,34 @@ namespace Juniper.Audio
             return audioSource;
         }
 
+        private string currentZoneName;
+        public void PlayZone(string zoneName)
+        {
+            if (zoneName != currentZoneName)
+            {
+                currentZoneName = zoneName;
+                var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
+                foreach (var audioSource in audioSources)
+                {
+                    string sourceZoneName = "Outdoors";
+                    var zone = audioSource.GetComponentInParent<Zone>();
+                    if (zone != null)
+                    {
+                        sourceZoneName = zone.zoneName;
+                    }
+
+                    if (sourceZoneName == zoneName
+                        && audioSource.playOnAwake)
+                    {
+                        audioSource.Play();
+                    }
+                    else
+                    {
+                        audioSource.Stop();
+                    }
+                }
+            }
+        }
 #endif
     }
 }
