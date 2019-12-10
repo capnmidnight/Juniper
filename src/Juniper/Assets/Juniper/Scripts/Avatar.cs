@@ -261,6 +261,7 @@ namespace Juniper
             }
 
             GroundPlane.Remove<Renderer>();
+            GroundPlane.Deactivate();
 
             Head = DisplayManager.MainCamera.transform;
             {
