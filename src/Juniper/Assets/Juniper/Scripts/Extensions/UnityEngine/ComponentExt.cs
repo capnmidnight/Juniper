@@ -392,6 +392,11 @@ namespace UnityEngine
             return zones.ToArray();
         }
 
+        public static bool IsInAnyZone(this Component child)
+        {
+            return child.GetComponentInParent<Zone>() != null;
+        }
+
         public static bool IsInZones(this Component child, string[] zoneNames)
         {
             var here = child.transform;
