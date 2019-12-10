@@ -350,5 +350,18 @@ namespace UnityEngine
         {
             return obj.Ensure<T>(path, null, null);
         }
+
+        public static string GetRelativeName(this Component child, Component root)
+        {
+            var parent = child.transform.parent;
+            string transName = child.name;
+            while (parent != root.transform)
+            {
+                transName = parent.name + "/" + transName;
+                parent = parent.parent;
+            }
+
+            return transName;
+        }
     }
 }
