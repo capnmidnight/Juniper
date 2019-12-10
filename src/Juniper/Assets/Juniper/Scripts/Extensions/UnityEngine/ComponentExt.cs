@@ -365,14 +365,14 @@ namespace UnityEngine
             return transName;
         }
 
-        public static string[] GetZoneNames(this Component child, string defaultZoneName = "Outdoors")
+        public static string[] GetZoneNames(this Component child)
         {
             var zones = new List<string>();
             var here = child.transform;
             while (here != null)
             {
                 var zone = here.GetComponent<Zone>();
-                if(zone != null)
+                if (zone != null)
                 {
                     zones.MaybeAdd(zone.zoneName);
                 }
@@ -380,14 +380,7 @@ namespace UnityEngine
                 here = here.parent;
             }
 
-            if (zones.Count == 0)
-            {
-                zones.Add(defaultZoneName);
-            }
-            else
-            {
-                zones.Sort();
-            }
+            zones.Sort();
 
             return zones.ToArray();
         }
@@ -400,7 +393,7 @@ namespace UnityEngine
         public static bool IsInZones(this Component child, string[] zoneNames)
         {
             var here = child.transform;
-            while(here != null)
+            while (here != null)
             {
                 var zones = here.GetComponents<Zone>();
                 foreach (var zone in zones)
