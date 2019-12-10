@@ -367,44 +367,20 @@ namespace UnityEngine
 
         public static string GetZoneName(this Component child)
         {
-            var here = child.transform;
-            while (here != null)
+            var zone = child.GetComponent<Zone>();
+            if (zone != null)
             {
-                var zone = here.GetComponent<Zone>();
-                if (zone != null)
-                {
-                    return zone.zoneName;
-                }
-
-                here = here.parent;
+                return zone.zoneName;
             }
-
-            return null;
-        }
-
-        public static bool IsInAnyZone(this Component child)
-        {
-            return child.GetComponentInParent<Zone>() != null;
+            else
+            {
+                return null;
+            }
         }
 
         public static bool IsInZone(this Component child, string zoneName)
         {
-            var here = child.transform;
-            while (here != null)
-            {
-                var zones = here.GetComponents<Zone>();
-                foreach (var zone in zones)
-                {
-                    if (zone.zoneName == zoneName)
-                    {
-                        return true;
-                    }
-                }
-
-                here = here.parent;
-            }
-
-            return false;
+            return child.GetZoneName() == zoneName;
         }
     }
 }

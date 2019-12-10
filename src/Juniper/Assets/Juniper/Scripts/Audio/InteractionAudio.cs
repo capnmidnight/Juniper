@@ -632,15 +632,28 @@ namespace Juniper.Audio
             return audioSource;
         }
 
-        public void StopAllZones()
+        public void StopZone(string zoneName)
         {
             var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
             foreach (var audioSource in audioSources)
             {
-                if (audioSource.IsInAnyZone()
+                if (audioSource.IsInZone(zoneName)
                     && audioSource.isPlaying)
                 {
                     audioSource.Stop();
+                }
+            }
+        }
+
+        public void PauseZone(string zoneName)
+        {
+            var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
+            foreach (var audioSource in audioSources)
+            {
+                if (audioSource.IsInZone(zoneName)
+                    && audioSource.isPlaying)
+                {
+                    audioSource.Pause();
                 }
             }
         }
@@ -651,11 +664,12 @@ namespace Juniper.Audio
             foreach (var audioSource in audioSources)
             {
                 if (!audioSource.IsInZone(zoneName)
-                    || !audioSource.playOnAwake)
+                    && audioSource.isPlaying)
                 {
                     audioSource.Stop();
                 }
-                else if (!audioSource.isPlaying)
+                else if (audioSource.playOnAwake
+                    && !audioSource.isPlaying)
                 {
                     audioSource.Activate();
                     audioSource.Play();
