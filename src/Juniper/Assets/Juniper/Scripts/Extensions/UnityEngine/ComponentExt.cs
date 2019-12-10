@@ -365,16 +365,51 @@ namespace UnityEngine
             return transName;
         }
 
-        public static string GetZoneName(this Component child, string defaultZoneName = "Outdoors")
+        public static string[] GetZoneNames(this Component child, string defaultZoneName = "Outdoors")
         {
-            string zoneName = defaultZoneName;
-            var zone = child.GetComponentInParent<Zone>();
-            if (zone != null)
+            var zones = new List<string>();
+            var here = child.transform;
+            while (here != null)
             {
-                zoneName = zone.zoneName;
+                var zone = here.GetComponent<Zone>();
+                if(zone != null)
+                {
+                    zones.MaybeAdd(zone.zoneName);
+                }
+
+                here = here.parent;
             }
 
-            return zoneName;
+            if (zones.Count == 0)
+            {
+                zones.Add(defaultZoneName);
+            }
+            else
+            {
+                zones.Sort();
+            }
+
+            return zones.ToArray();
+        }
+
+        public static bool IsInZones(this Component child, string[] zoneNames)
+        {
+            var here = child.transform;
+            while(here != null)
+            {
+                var zones = here.GetComponents<Zone>();
+                foreach (var zone in zones)
+                {
+                    if (zoneNames.Contains(zone.zoneName))
+                    {
+                        return true;
+                    }
+                }
+
+                here = here.parent;
+            }
+
+            return false;
         }
     }
 }

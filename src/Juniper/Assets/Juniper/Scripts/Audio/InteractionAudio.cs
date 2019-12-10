@@ -627,17 +627,16 @@ namespace Juniper.Audio
             return audioSource;
         }
 
-        private string currentZoneName;
-        public void PlayZone(string zoneName)
+        private string[] currentZoneNames;
+        public void PlayZones(string[] zoneNames)
         {
-            if (zoneName != currentZoneName)
+            if (!zoneNames.Matches(currentZoneNames))
             {
-                currentZoneName = zoneName;
+                currentZoneNames = zoneNames;
                 var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
                 foreach (var audioSource in audioSources)
                 {
-                    string sourceZoneName = audioSource.GetZoneName();
-                    if (sourceZoneName == zoneName
+                    if (audioSource.IsInZones(zoneNames)
                         && audioSource.playOnAwake
                         && !audioSource.isPlaying)
                     {
