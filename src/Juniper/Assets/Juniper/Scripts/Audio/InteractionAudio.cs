@@ -645,12 +645,12 @@ namespace Juniper.Audio
             }
         }
 
-        public void PlayZones(string[] zoneNames)
+        public void PlayZone(string zoneName)
         {
             var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
             foreach (var audioSource in audioSources)
             {
-                if (!audioSource.IsInZones(zoneNames)
+                if (!audioSource.IsInZone(zoneName)
                     || !audioSource.playOnAwake)
                 {
                     audioSource.Stop();

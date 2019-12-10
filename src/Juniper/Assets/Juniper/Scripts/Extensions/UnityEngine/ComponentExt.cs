@@ -365,24 +365,21 @@ namespace UnityEngine
             return transName;
         }
 
-        public static string[] GetZoneNames(this Component child)
+        public static string GetZoneName(this Component child)
         {
-            var zones = new List<string>();
             var here = child.transform;
             while (here != null)
             {
                 var zone = here.GetComponent<Zone>();
                 if (zone != null)
                 {
-                    zones.MaybeAdd(zone.zoneName);
+                    return zone.zoneName;
                 }
 
                 here = here.parent;
             }
 
-            zones.Sort();
-
-            return zones.ToArray();
+            return null;
         }
 
         public static bool IsInAnyZone(this Component child)
@@ -390,7 +387,7 @@ namespace UnityEngine
             return child.GetComponentInParent<Zone>() != null;
         }
 
-        public static bool IsInZones(this Component child, string[] zoneNames)
+        public static bool IsInZone(this Component child, string zoneName)
         {
             var here = child.transform;
             while (here != null)
@@ -398,7 +395,7 @@ namespace UnityEngine
                 var zones = here.GetComponents<Zone>();
                 foreach (var zone in zones)
                 {
-                    if (zoneNames.Contains(zone.zoneName))
+                    if (zone.zoneName == zoneName)
                     {
                         return true;
                     }
