@@ -410,7 +410,14 @@ namespace Juniper
                     var audioSources = scene.FindAll<AudioSource>((a) => a.spatialize);
                     foreach (var audioSource in audioSources)
                     {
-                        interaction.Spatialize(audioSource);
+                        if (audioSource.spatialize)
+                        {
+                            interaction.Spatialize(audioSource);
+                        }
+                        else
+                        {
+                            interaction.SetDefaultMixerGroup(audioSource);
+                        }
                     }
 #endif
                 }
@@ -664,7 +671,7 @@ namespace Juniper
                 }
             } while (anyIncomplete);
 
-            foreach(var subScene in subScenes)
+            foreach (var subScene in subScenes)
             {
                 if (subScene.unloadSceneOnExit)
                 {

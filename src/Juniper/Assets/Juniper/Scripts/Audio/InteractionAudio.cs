@@ -530,6 +530,11 @@ namespace Juniper.Audio
             return InternalSpatialize(audioSource, defaultMixerGroup);
         }
 
+        public void SetDefaultMixerGroup(AudioSource audioSource)
+        {
+            audioSource.outputAudioMixerGroup = defaultMixerGroup;
+        }
+
         protected virtual void UninstallSpatialization(AudioSource audioSource)
         { }
 
