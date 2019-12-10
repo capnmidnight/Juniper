@@ -632,6 +632,16 @@ namespace Juniper.Audio
             return audioSource;
         }
 
+        public void EnableDoppler(bool value)
+        {
+            var audioSources = Find.All<AudioSource>();
+            var doppler = value ? dopplerLevel : 0;
+            foreach (var audioSource in audioSources)
+            {
+                audioSource.dopplerLevel = doppler;
+            }
+        }
+
         public void StopZone(string zoneName)
         {
             var audioSources = Find.All<AudioSource>(a => !a.CompareTag(INTERACTION_SOUND_TAG));
