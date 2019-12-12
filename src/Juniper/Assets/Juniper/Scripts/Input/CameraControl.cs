@@ -409,7 +409,10 @@ namespace Juniper.Input
 #if UNITY_EDITOR
                 parentMotionFilter = motionFilter;
 #endif
-                motionFilter = Instantiate(motionFilter);
+                if (motionFilter != null)
+                {
+                    motionFilter = Instantiate(motionFilter);
+                }
                 lastMotionFilter = motionFilter;
             }
 
