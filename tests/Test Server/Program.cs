@@ -24,10 +24,10 @@ namespace Juniper.HTTP
             server.AddRoutesFrom(new DefaultFileController("content"));
             server.AddRoutesFrom<Program>();
 
-#if DEBUG
-            server.Start("index.html");
-#else
             server.Start();
+
+#if DEBUG
+            server.StartBrowser("index.html");
 #endif
         }
 

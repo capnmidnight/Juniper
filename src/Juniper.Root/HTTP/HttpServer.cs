@@ -149,28 +149,45 @@ namespace Juniper.HTTP
             set;
         }
 
+        /// <summary>
+        /// Event for handling information-level logs.
+        /// </summary>
         public event EventHandler<string> Info;
 
-        private void OnInfo(object source, string message)
+        protected void OnInfo(object source, string message)
         {
             Info?.Invoke(source, message);
         }
 
+        /// <summary>
+        /// Event for handling error logs that don't stop execution.
+        /// </summary>
         public event EventHandler<string> Warning;
 
-        private void OnWarning(object sender, string message)
+        protected void OnWarning(object sender, string message)
         {
             Warning?.Invoke(this, message);
         }
 
+        /// <summary>
+        /// Event for handling error logs that prevent execution.
+        /// </summary>
         public event EventHandler<string> Error;
 
-        private void OnError(object sender, string message)
+        protected void OnError(object sender, string message)
         {
             Error?.Invoke(sender, message);
         }
 
+        /// <summary>
+        /// Event for handling background processing in controllers.
+        /// </summary>
         public event EventHandler Update;
+
+        private void OnUpdate()
+        {
+            Update?.Invoke(this, EventArgs.Empty);
+        }
 
         private AuthenticationSchemes GetAuthenticationSchemeForRequest(HttpListenerRequest request)
         {
@@ -193,26 +210,7 @@ namespace Juniper.HTTP
             if (controller is object)
             {
                 flags |= BindingFlags.Instance;
-
-                if (controller is AbstractRouteHandler handler)
-                {
-                    routes.Add(handler);
-                }
-
-                if (controller is IInfoSource infoSource)
-                {
-                    infoSource.Info += OnInfo;
-                }
-
-                if (controller is IWarningSource warningSource)
-                {
-                    warningSource.Warning += OnWarning;
-                }
-
-                if (controller is IErrorSource errorSource)
-                {
-                    errorSource.Error += OnError;
-                }
+                AddController(controller);
             }
 
             var type = typeof(T);
@@ -251,20 +249,54 @@ or
                         else if (isWebSocket)
                         {
                             var wsHandler = new WebSocketRouteHandler(name, route, source, method);
-                            wsHandler.SocketConnected += sockets.Add;
+                            wsHandler.SocketConnected += WsHandler_SocketConnected; ;
                             handler = wsHandler;
                         }
 
                         if (handler != null)
                         {
                             OnInfo(this, $"Found controller {handler}");
-                            routes.Add(handler);
+                            AddController(handler);
                         }
                     }
                 }
             }
 
             routes.Sort();
+        }
+
+        private void AddController<T>(T controller) where T : class
+        {
+            if (controller is AbstractRouteHandler handler)
+            {
+                routes.Add(handler);
+            }
+
+            if (controller is IInfoSource infoSource)
+            {
+                infoSource.Info += OnInfo;
+            }
+
+            if (controller is IWarningSource warningSource)
+            {
+                warningSource.Warning += OnWarning;
+            }
+
+            if (controller is IErrorSource errorSource)
+            {
+                errorSource.Error += OnError;
+            }
+
+            if (controller is IUpdatable updatable)
+            {
+                Update += updatable.Update;
+            }
+        }
+
+        private void WsHandler_SocketConnected(WebSocketConnection socket)
+        {
+            Update += socket.Update;
+            sockets.Add(socket);
         }
 
         public bool IsRunning
@@ -360,32 +392,28 @@ or
         }
 
 #if DEBUG
-        public void Start(string StartPage)
+        public void StartBrowser(string startPage = null)
         {
-            Start();
+            startPage = startPage ?? string.Empty;
+            var protocol = HttpsPort > 0
+                ? "https"
+                : "http";
 
-            if (!string.IsNullOrEmpty(StartPage))
+            var port = HttpsPort > 0
+                ? HttpsPort == 443
+                    ? ""
+                    : ":" + HttpsPort
+                : HttpPort == 80
+                    ? ""
+                    : ":" + HttpPort;
+
+            var page = $"{protocol}://{ListenAddress}{port}/{startPage}";
+
+            Process.Start(new ProcessStartInfo($"explorer", $"\"{page}\"")
             {
-                var protocol = HttpsPort > 0
-                    ? "https"
-                    : "http";
-
-                var port = HttpsPort > 0
-                    ? HttpsPort == 443
-                        ? ""
-                        : ":" + HttpsPort
-                    : HttpPort == 80
-                        ? ""
-                        : ":" + HttpPort;
-
-                var page = $"{protocol}://{ListenAddress}{port}/{StartPage}";
-
-                Process.Start(new ProcessStartInfo($"explorer", $"\"{page}\"")
-                {
-                    UseShellExecute = true,
-                    WindowStyle = ProcessWindowStyle.Maximized
-                });
-            }
+                UseShellExecute = true,
+                WindowStyle = ProcessWindowStyle.Maximized
+            });
         }
 #endif
 
@@ -464,7 +492,7 @@ or
             {
                 try
                 {
-                    Update?.Invoke(this, EventArgs.Empty);
+                    OnUpdate();
 
                     for (var i = sockets.Count - 1; i >= 0; --i)
                     {
@@ -477,11 +505,8 @@ or
                             || socket.State == WebSocketState.Aborted)
                         {
                             sockets.RemoveAt(i);
+                            Update -= socket.Update;
                             socket.Dispose();
-                        }
-                        else
-                        {
-                            socket.Update();
                         }
                     }
 

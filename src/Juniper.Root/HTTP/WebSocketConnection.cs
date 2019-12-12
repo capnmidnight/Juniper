@@ -9,13 +9,41 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP
 {
-    public class WebSocketConnection : IDisposable
+    public class ServerWebSocketConnection : WebSocketConnection
+    {
+        public readonly HttpListenerContext httpContext;
+
+        public ServerWebSocketConnection(HttpListenerContext httpContext, WebSocket socket)
+            : base(socket)
+        {
+            this.httpContext = httpContext;
+        }
+
+        private bool disposedValue;
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    httpContext.Response.Close();
+                }
+
+                disposedValue = true;
+            }
+        }
+    }
+    public class WebSocketConnection :
+        IDisposable,
+        IUpdatable
     {
         private const int BUFFER_SIZE = 1000;
 
-        private readonly HttpListenerContext httpContext;
         private readonly CancellationTokenSource canceller = new CancellationTokenSource();
         private readonly WebSocket socket;
+        private readonly Uri connectionURI;
 
         private Task tx = Task.CompletedTask;
         private Task rx;
@@ -24,10 +52,34 @@ namespace Juniper.HTTP
         public event EventHandler<byte[]> Data;
         public event EventHandler<Exception> Error;
 
-        public WebSocketConnection(HttpListenerContext httpContext, WebSocketContext wsContext)
+        public event EventHandler Disposed;
+
+        private void OnDisposed()
         {
-            this.httpContext = httpContext;
-            socket = wsContext.WebSocket;
+            Disposed?.Invoke(this, EventArgs.Empty);
+        }
+
+        public WebSocketConnection(WebSocket socket)
+        {
+            this.socket = socket;
+        }
+
+        public WebSocketConnection(Uri uri)
+        {
+            socket = new ClientWebSocket();
+            connectionURI = uri;
+        }
+
+        public async Task ConnectAsync()
+        {
+            if(socket is ClientWebSocket clientSocket)
+            {
+                await clientSocket.ConnectAsync(connectionURI, canceller.Token); 
+            }
+            else
+            {
+                throw new InvalidOperationException("This is not a client socket");
+            }
         }
 
         public WebSocketState State
@@ -49,7 +101,7 @@ namespace Juniper.HTTP
             tx = rx = socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Close requested", canceller.Token);
         }
 
-        public void Update()
+        public void Update(object sender, EventArgs args)
         {
             if (!rx.IsRunning())
             {
@@ -74,7 +126,7 @@ namespace Juniper.HTTP
             var buffer = new byte[BUFFER_SIZE];
             var seg = new ArraySegment<byte>(buffer);
             bool done;
-            var msgType = WebSocketMessageType.Close;
+            WebSocketMessageType msgType;
             do
             {
                 var result = await socket.ReceiveAsync(seg, canceller.Token)
@@ -108,18 +160,31 @@ namespace Juniper.HTTP
             Send(Encoding.UTF8.GetBytes(msg), WebSocketMessageType.Text);
         }
 
+        public Task SendAsync(string msg)
+        {
+            return SendAsync(Encoding.UTF8.GetBytes(msg), WebSocketMessageType.Text);
+        }
+
         public void Send(byte[] buffer)
         {
             Send(buffer, WebSocketMessageType.Binary);
         }
 
+        public Task SendAsync(byte[] buffer)
+        {
+            return SendAsync(buffer, WebSocketMessageType.Binary);
+        }
+
         private void Send(byte[] buffer, WebSocketMessageType messageType)
         {
-            var segment = new ArraySegment<byte>(buffer);
-            tx = tx.ContinueWith(
-                _ => socket.SendAsync(segment, messageType, true, canceller.Token),
-                canceller.Token)
+            tx = tx.ContinueWith( _=> SendAsync(buffer, messageType))
                 .ContinueWith(LogError, TaskContinuationOptions.OnlyOnFaulted);
+        }
+
+        private Task SendAsync(byte[] buffer, WebSocketMessageType messageType)
+        {
+            var segment = new ArraySegment<byte>(buffer);
+            return socket.SendAsync(segment, messageType, true, canceller.Token);
         }
 
         #region IDisposable Support
@@ -131,9 +196,9 @@ namespace Juniper.HTTP
             {
                 if (disposing)
                 {
+                    OnDisposed();
                     canceller.Cancel();
                     canceller.Dispose();
-                    httpContext.Response.Close();
                 }
 
                 disposedValue = true;

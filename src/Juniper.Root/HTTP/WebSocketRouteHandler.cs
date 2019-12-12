@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP
 {
-    public class WebSocketRouteHandler : AbstractRouteHandler
+    public class WebSocketRouteHandler :
+        AbstractRouteHandler
     {
         public WebSocketRouteHandler(string name, RouteAttribute route, object source, MethodInfo method)
             : base(name, route, source, method)
@@ -29,7 +30,7 @@ namespace Juniper.HTTP
             var wsContext = await httpContext.AcceptWebSocketAsync(null)
                 .ConfigureAwait(false);
 
-            var ws = new WebSocketConnection(httpContext, wsContext);
+            var ws = new ServerWebSocketConnection(httpContext, wsContext.WebSocket);
             SocketConnected?.Invoke(ws);
 
             await Invoke(GetStringArguments(httpContext)
