@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Juniper.HTTP
 {
-    public class DefaultFileController
+    public class DefaultFileController : IWarningSource
     {
         private static readonly string[] INDEX_FILES = {
             "index.html",

@@ -14,18 +14,21 @@ namespace Juniper.HTTP
             var server = new HttpServer
             {
                 HttpPort = 8080,
-                MaxConnections = 2,
-                StartPage = "index.html"
+                ListenerCount = 10
             };
 
             server.Info += Server_Info;
             server.Warning += Server_Warning;
             server.Error += Server_Error;
 
-            server.AddContentPath("content");
+            server.AddRoutesFrom(new DefaultFileController("content"));
             server.AddRoutesFrom<Program>();
 
+#if DEBUG
+            server.Start("index.html");
+#else
             server.Start();
+#endif
         }
 
         [Route("connect/")]

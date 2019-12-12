@@ -20,7 +20,7 @@ namespace Juniper.HTTP
     /// A wrapper around <see cref="HttpListener"/> that handles
     /// routing, HTTPS, and a default start page for DEBUG running.
     /// </summary>
-    public class HttpServer
+    public class HttpServer : ILoggingSource
     {
         private readonly Thread serverThread;
         private readonly HttpListener listener;
@@ -43,7 +43,7 @@ namespace Juniper.HTTP
         /// </summary>
         public HttpServer()
         {
-            MaxConnections = 100;
+            ListenerCount = 100;
             EnableWebSockets = true;
 
 #if DEBUG
@@ -67,7 +67,7 @@ namespace Juniper.HTTP
         /// <value>
         /// The maximum connections.
         /// </value>
-        public int MaxConnections
+        public int ListenerCount
         {
             get;
             set;
@@ -149,58 +149,11 @@ namespace Juniper.HTTP
             set;
         }
 
-#if DEBUG        
-        /// <summary>
-        /// When running in DEBUG mode, sets the page that will be opened
-        /// by the default web browser when the server process starts.
-        /// </summary>
-        /// <value>
-        /// The start page.
-        /// </value>
-        public string StartPage
-        {
-            get;
-            set;
-        }
-#endif
-
-        /// <summary>
-        /// Set a directory for static content serving.
-        /// </summary>
-        /// <param name="directory">The directory in which to find the static content.</param>
-        public void AddContentPath(DirectoryInfo directory)
-        {
-            if (directory is null)
-            {
-                throw new ArgumentNullException(nameof(directory));
-            }
-
-            if (directory.Exists)
-            {
-                OnInfo($"Serving content from path {directory.FullName}");
-                var defaultFileHandler = new DefaultFileController(directory);
-                defaultFileHandler.Warning += OnWarning;
-                AddRoutesFrom(defaultFileHandler);
-            }
-        }
-
-        /// <summary>
-        /// Set a directory for static content serving.
-        /// </summary>
-        /// <param name="path">The name of the directory in which to find the static content.</param>
-        public void AddContentPath(string path)
-        {
-            if (!string.IsNullOrEmpty(path))
-            {
-                AddContentPath(new DirectoryInfo(path));
-            }
-        }
-
         public event EventHandler<string> Info;
 
-        private void OnInfo(string message)
+        private void OnInfo(object source, string message)
         {
-            Info?.Invoke(this, message);
+            Info?.Invoke(source, message);
         }
 
         public event EventHandler<string> Warning;
@@ -212,9 +165,9 @@ namespace Juniper.HTTP
 
         public event EventHandler<string> Error;
 
-        private void OnError(string message)
+        private void OnError(object sender, string message)
         {
-            Error?.Invoke(this, message);
+            Error?.Invoke(sender, message);
         }
 
         public event EventHandler Update;
@@ -228,45 +181,41 @@ namespace Juniper.HTTP
         }
 
         public void AddRoutesFrom<T>()
+            where T : class
         {
-            AddRoutesFrom(typeof(T));
+            AddRoutesFrom<T>(null);
         }
 
-        public void AddRoutesFrom(Type type)
-        {
-            if (type is null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            AddRoutesFrom(null, type);
-        }
-
-        public void AddRoutesFrom(object controller)
-        {
-            if (controller is null)
-            {
-                throw new ArgumentNullException(nameof(controller));
-            }
-
-            AddRoutesFrom(controller, controller.GetType());
-        }
-
-        private void AddRoutesFrom(object controller, Type type)
+        public void AddRoutesFrom<T>(T controller)
+            where T : class
         {
             var flags = BindingFlags.Public | BindingFlags.Static;
             if (controller is object)
             {
                 flags |= BindingFlags.Instance;
+
+                if (controller is AbstractRouteHandler handler)
+                {
+                    routes.Add(handler);
+                }
+
+                if (controller is IInfoSource infoSource)
+                {
+                    infoSource.Info += OnInfo;
+                }
+
+                if (controller is IWarningSource warningSource)
+                {
+                    warningSource.Warning += OnWarning;
+                }
+
+                if (controller is IErrorSource errorSource)
+                {
+                    errorSource.Error += OnError;
+                }
             }
 
-            var handler = controller as AbstractRouteHandler;
-
-            if (handler != null)
-            {
-                routes.Add(handler);
-            }
-
+            var type = typeof(T);
             foreach (var method in type.GetMethods(flags))
             {
                 var route = method.GetCustomAttribute<RouteAttribute>();
@@ -278,19 +227,22 @@ namespace Juniper.HTTP
                         && parameters.Length == route.parameterCount
                         && parameters.Skip(1).All(p => p.ParameterType == typeof(string)))
                     {
+                        AbstractRouteHandler handler = null;
                         var name = $"{type.Name}::{method.Name}";
                         var contextParamType = parameters[0].ParameterType;
                         var isHttp = contextParamType == typeof(HttpListenerContext);
                         var isWebSocket = contextParamType == typeof(WebSocketConnection);
-                        var source = method.IsStatic ? null : controller;
+
+                        var source = method.IsStatic
+                            ? null
+                            : controller;
 
                         if (!isHttp && !isWebSocket)
                         {
-                            OnError($@"Method {type.Name}::{method.Name} must hava a signature:
+                            OnError(this, $@"Method {type.Name}::{method.Name} must have a signature:
     (System.Net.HttpListenerContext, string...) => Task
 or
     (Juniper.HTTP.WebSocketConnection, string...) => Task");
-                            handler = null;
                         }
                         else if (isHttp)
                         {
@@ -305,12 +257,9 @@ or
 
                         if (handler != null)
                         {
-                            OnInfo($"Found controller {handler}");
+                            OnInfo(this, $"Found controller {handler}");
                             routes.Add(handler);
                         }
-                    }
-                    else
-                    {
                     }
                 }
             }
@@ -332,7 +281,7 @@ or
         /// </summary>
         public void Stop()
         {
-            OnInfo("Stopping server");
+            OnInfo(this, "Stopping server");
             listener.Stop();
             listener.Close();
             serverThread.Abort();
@@ -357,11 +306,7 @@ or
                 }
                 else
                 {
-                    OnInfo($"Application GUID: {guid}");
-                    OnInfo($"TLS cert: {certHash}");
                     var message = AssignCertToApp(certHash, guid);
-
-                    OnInfo(message);
 
                     if (message.Equals("SSL Certificate added successfully", StringComparison.InvariantCultureIgnoreCase)
                         || message.StartsWith("SSL Certificate add failed, Error: 183", StringComparison.InvariantCultureIgnoreCase))
@@ -370,7 +315,10 @@ or
                     }
                     else if (message.Equals("The parameter is incorrect.", StringComparison.InvariantCultureIgnoreCase))
                     {
-                        OnWarning(this, "Couldn't configure the certificate correctly");
+                        OnWarning(this, $@"Couldn't configure the certificate correctly:
+    Application GUID: {guid}
+    TLS cert: {certHash}
+    {message}");
                     }
                 }
             }
@@ -379,9 +327,17 @@ or
             {
                 if (RedirectHttp2Https)
                 {
-                    if (HttpPort == 0)
+                    if (HttpPort == 0
+                        && HttpsPort > 0)
                     {
-                        HttpPort = 80;
+                        if (HttpsPort == 443)
+                        {
+                            HttpPort = 80;
+                        }
+                        else
+                        {
+                            HttpPort = (ushort)(HttpsPort - 1);
+                        }
                     }
 
                     AddRoutesFrom<HttpsRedirectController>();
@@ -393,7 +349,7 @@ or
             if (!listener.IsListening)
             {
                 var prefixes = string.Join(", ", listener.Prefixes);
-                OnInfo($"Listening on: {prefixes}");
+                OnInfo(this, $"Listening on: {prefixes}");
                 listener.Start();
             }
 
@@ -401,8 +357,13 @@ or
             {
                 serverThread.Start();
             }
+        }
 
 #if DEBUG
+        public void Start(string StartPage)
+        {
+            Start();
+
             if (!string.IsNullOrEmpty(StartPage))
             {
                 var protocol = HttpsPort > 0
@@ -425,8 +386,8 @@ or
                     WindowStyle = ProcessWindowStyle.Maximized
                 });
             }
-#endif
         }
+#endif
 
         private void SetPrefix(string protocol, ushort port)
         {
@@ -434,7 +395,7 @@ or
             {
                 if (port > 0)
                 {
-                    OnInfo($"Listening for {protocol} on port {port}");
+                    OnInfo(this, $"Listening for {protocol} on port {port}");
                     listener.Prefixes.Add($"{protocol}://{ListenAddress}:{port}/");
                 }
                 else
@@ -442,7 +403,7 @@ or
                     var prefix = listener.Prefixes.FirstOrDefault(p => p.EndsWith(":" + port));
                     if (!string.IsNullOrEmpty(prefix))
                     {
-                        OnInfo($"Deleting prefix {prefix}");
+                        OnInfo(this, $"Deleting prefix {prefix}");
                         listener.Prefixes.Remove(prefix);
                     }
                 }
@@ -533,7 +494,7 @@ or
                         }
                     }
 
-                    while (waiters.Count < MaxConnections)
+                    while (waiters.Count < ListenerCount)
                     {
                         waiters.Add(HandleConnection());
                     }
@@ -541,7 +502,7 @@ or
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
                 {
-                    OnError($"ERRROR: {exp.Message}");
+                    OnError(this, $"ERRROR: {exp.Message}");
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
@@ -554,7 +515,7 @@ or
             var requestID = $"{{{DateTime.Now.ToShortTimeString()}}} {context.Request.UrlReferrer} [{context.Request.HttpMethod}] {context.Request.Url.PathAndQuery} => {context.Request.RemoteEndPoint}";
             try
             {
-                OnInfo(requestID);
+                OnInfo(this, requestID);
 
                 var handled = false;
 
@@ -585,7 +546,7 @@ or
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception exp)
             {
-                OnError(exp.Message);
+                OnError(this, exp.Message);
                 context.Response.Error(HttpStatusCode.InternalServerError, "Internal error");
             }
 #pragma warning restore CA1031 // Do not catch general exception types
