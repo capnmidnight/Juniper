@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -8,6 +7,7 @@ using Juniper.IO;
 using Juniper.Progress;
 using Juniper.Security;
 using Juniper.Units;
+using Juniper.World.Climate.OpenWeatherMap;
 using Juniper.World.GIS;
 
 using UnityEngine;
@@ -162,7 +162,7 @@ namespace Juniper.World.Climate
             }
         }
 
-        private ISerializer serializer;
+        private ISerializer<WeatherReport> serializer;
 
         /// <summary>
         /// If the <see cref="MinutesBetweenReports"/> expires, or the user has traveled more than
@@ -181,7 +181,7 @@ namespace Juniper.World.Climate
                 {
                     lastReportJSON = PlayerPrefs.GetString(REPORT_KEY);
                 }
-                var json = new JsonFactory();
+                var json = new JsonFactory<WeatherReport>();
                 serializer = json;
                 weatherService = new OpenWeatherMap.API(json, owmApiKey, lastReportJSON);
             }
@@ -293,7 +293,7 @@ namespace Juniper.World.Climate
         {
             if (Application.internetReachability != NetworkReachability.NotReachable || force)
             {
-                var report = await weatherService.Request(location, force, prog);
+                var report = (WeatherReport)(await weatherService.Request(location, force, prog));
                 var reportJSON = serializer.ToString(report);
                 if (reportJSON != lastReportJSON)
                 {
