@@ -288,17 +288,12 @@ or
             {
                 errorSource.Error += OnError;
             }
-
-            if (controller is IUpdatable updatable)
-            {
-                Update += updatable.Update;
-            }
         }
 
         private void WsHandler_SocketConnected(WebSocketConnection socket)
         {
-            sockets.Add(socket);
             socket.Closed += Socket_Closed;
+            sockets.Add(socket);
         }
 
         private void Socket_Closed(object sender, EventArgs e)
@@ -306,6 +301,7 @@ or
             if (sender is WebSocketConnection socket)
             {
                 sockets.Remove(socket);
+                socket.Closed -= Socket_Closed;
                 socket.Dispose();
             }
         }
