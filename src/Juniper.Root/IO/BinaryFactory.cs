@@ -35,7 +35,7 @@ namespace Juniper.IO
             return value;
         }
 
-        public void Serialize(Stream stream, ResultT value, IProgress prog)
+        public void Serialize(Stream stream, ResultT value, IProgress prog = null)
         {
             prog.Report(0);
             var serializer = new BinaryFormatter();

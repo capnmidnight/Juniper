@@ -31,7 +31,7 @@ namespace Juniper.Imaging
             return transcoder.Translate(img, progs[1]);
         }
 
-        public void Serialize(Stream stream, ToImageT value, IProgress prog)
+        public void Serialize(Stream stream, ToImageT value, IProgress prog = null)
         {
             var progs = prog.Split("Translate", "Write");
             var img = transcoder.Translate(value, progs[0]);

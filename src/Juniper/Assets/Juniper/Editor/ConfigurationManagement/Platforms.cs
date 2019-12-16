@@ -5,7 +5,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
-using Juniper.Compression.Tar.GZip;
 using Juniper.IO;
 using Juniper.Progress;
 using Juniper.XR;
@@ -38,7 +37,8 @@ namespace Juniper.ConfigurationManagement
             }
         }
 
-        private static readonly JsonFactory json = new JsonFactory();
+        private static readonly JsonFactory<PackageDefineSymbol[]> packageFactory = new JsonFactory<PackageDefineSymbol[]>();
+        private static readonly JsonFactory<Platforms> platformFactory = new JsonFactory<Platforms>();
         private static readonly Dictionary<string, string> packageDefines = new Dictionary<string, string>();
 
         public static readonly Dictionary<string, AbstractFilePackage> packageDB;
@@ -90,7 +90,7 @@ namespace Juniper.ConfigurationManagement
                 var defines = (from kv in packageDefines
                                select new PackageDefineSymbol(kv.Key, kv.Value))
                             .ToArray();
-                json.Serialize(PACKAGE_DEFINES_FILE, defines);
+                packageFactory.Serialize(PACKAGE_DEFINES_FILE, defines);
 
                 foreach (var package in packageDB.Values)
                 {
@@ -112,7 +112,7 @@ namespace Juniper.ConfigurationManagement
         {
             if (File.Exists(PACKAGE_DEFINES_FILE))
             {
-                var defines = json.Deserialize<PackageDefineSymbol[]>(PACKAGE_DEFINES_FILE);
+                var defines = packageFactory.Deserialize<PackageDefineSymbol[]>(PACKAGE_DEFINES_FILE);
                 foreach (var symbol in defines)
                 {
                     packageDefines[symbol.Name] = symbol.CompilerDefine;
@@ -125,7 +125,7 @@ namespace Juniper.ConfigurationManagement
                 package.ScanningProgressUpdated += Package_ScanningProgressUpdated;
             }
 
-            var config = json.Deserialize<Platforms>(PLATFORMS_FILE);
+            var config = platformFactory.Deserialize<Platforms>(PLATFORMS_FILE);
 
             var commonPackages = ParsePackages(config.packages);
 

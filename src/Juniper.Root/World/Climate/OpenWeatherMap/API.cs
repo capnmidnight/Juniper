@@ -39,7 +39,8 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <summary>
         /// Factory used to serialize objects for local caching.
         /// </summary>
-        private readonly IFactory factory;
+        private readonly IFactory<WeatherReport, MediaType.Application> weatherFactory;
+        private readonly IFactory<Error, MediaType.Application> errorFactory;
 
         /// <summary>
         /// The key to authenticate with the API
@@ -77,21 +78,22 @@ namespace Juniper.World.Climate.OpenWeatherMap
         /// <param name="factory">Factory used to serialize and deserialize objects.</param>
         /// <param name="apiKey">The OpenWeatherMap API key to use for authentication.</param>
         /// <param name="lastReportJSON">The value of the last report we received, if there was any.</param>
-        public API(IFactory factory, string apiKey, string lastReportJSON)
+        public API(IFactory<WeatherReport, MediaType.Application> factory, string apiKey, string lastReportJSON)
         {
-            this.factory = factory;
+            weatherFactory = factory;
+            errorFactory = new JsonFactory<Error>();
             this.apiKey = apiKey;
 
             if (lastReportJSON != null)
             {
-                if (factory.TryParse<WeatherReport>(lastReportJSON, out var report))
+                if (factory.TryParse(lastReportJSON, out var report))
                 {
                     LastReport = report;
                 }
             }
         }
 
-        public API(IFactory factory, string apiKey)
+        public API(IFactory<WeatherReport, MediaType.Application> factory, string apiKey)
             : this(factory, apiKey, null) { }
 
         /// <summary>
@@ -195,7 +197,7 @@ namespace Juniper.World.Climate.OpenWeatherMap
                     requester.Accept = MediaType.Application.Json;
                     using (var response = await requester.Get())
                     {
-                        if (factory.TryDeserialize<WeatherReport>(response, out var report))
+                        if (weatherFactory.TryDeserialize<WeatherReport>(response, out var report))
                         {
                             LastReport = report;
                         }
@@ -219,8 +221,8 @@ namespace Juniper.World.Climate.OpenWeatherMap
         {
             set
             {
-                var reportJSON = factory.ToString(value);
-                factory.TryParse<WeatherReport>(reportJSON, out var errorReport);
+                var reportJSON = errorFactory.ToString(value);
+                weatherFactory.TryParse(reportJSON, out var errorReport);
                 LastReport = errorReport;
             }
         }

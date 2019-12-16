@@ -57,7 +57,7 @@ namespace Juniper.Imaging
         /// Encodes a raw file buffer of image data into a PNG image.
         /// </summary>
         /// <param name="outputStream">Png bytes.</param>
-        public void Serialize(Stream outputStream, ImageLines image, IProgress prog)
+        public void Serialize(Stream outputStream, ImageLines image, IProgress prog = null)
         {
             var subProgs = prog.Split("Copying", "Saving");
             var copyProg = subProgs[0];

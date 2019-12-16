@@ -24,7 +24,7 @@ namespace Juniper.Imaging
             gdiFormat = format.ToGDIImageFormat();
         }
 
-        public void Serialize(Stream stream, Image value, IProgress prog)
+        public void Serialize(Stream stream, Image value, IProgress prog = null)
         {
             prog.Report(0);
             value.Save(stream, gdiFormat);

@@ -6,31 +6,61 @@ using Juniper.Progress;
 
 namespace Juniper.IO
 {
-    public interface IDeserializer
+    public interface IDeserializer<out ResultT>
     {
-        MediaType ContentType { get; }
-
-        T Deserialize<T>(Stream stream, IProgress prog);
+        ResultT Deserialize(Stream stream, IProgress prog);
     }
 
-    public static class IDeserializerExt
+    public static class IDeserializerGenericExt
     {
-        public static T Deserialize<T>(this IDeserializer deserializer, Stream stream)
+        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, Stream stream)
         {
-            return deserializer.Deserialize<T>(stream, null);
+            return deserializer.Deserialize(stream, null);
         }
 
-        public static T Deserialize<T>(this IDeserializer deserializer, Stream stream, long length, IProgress prog)
+        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, Stream stream, long length, IProgress prog)
         {
             var subProgs = prog.Split(2);
-            return deserializer.Deserialize<T>(new ProgressStream(stream, length, subProgs[0]), subProgs[1]);
+            return deserializer.Deserialize(new ProgressStream(stream, length, subProgs[0]), subProgs[1]);
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, Stream stream, out T value, IProgress prog)
+        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, HttpWebResponse response, IProgress prog = null)
+        {
+            using (var stream = response.GetResponseStream())
+            {
+                return deserializer.Deserialize(stream, response.ContentLength, prog);
+            }
+        }
+
+        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, HttpWebResponse response, out ResultT value, IProgress prog = null)
+        {
+            using (var stream = response.GetResponseStream())
+            {
+                return deserializer.TryDeserialize(stream, out value, response.ContentLength, prog);
+            }
+        }
+
+        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, HttpListenerRequest request, IProgress prog = null)
+        {
+            using (var stream = request.InputStream)
+            {
+                return deserializer.Deserialize(stream, request.ContentLength64, prog);
+            }
+        }
+
+        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, HttpListenerRequest request, out ResultT value, IProgress prog = null)
+        {
+            using (var stream = request.InputStream)
+            {
+                return deserializer.TryDeserialize(stream, out value, request.ContentLength64, prog);
+            }
+        }
+
+        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, Stream stream, out ResultT value, IProgress prog)
         {
             try
             {
-                value = deserializer.Deserialize<T>(stream, prog);
+                value = deserializer.Deserialize(stream, prog);
                 return true;
             }
 #pragma warning disable CA1031 // Do not catch general exception types
@@ -42,123 +72,97 @@ namespace Juniper.IO
 #pragma warning restore CA1031 // Do not catch general exception types
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, Stream stream, out T value)
+        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, Stream stream, out ResultT value)
         {
             return deserializer.TryDeserialize(stream, out value, null);
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, Stream stream, out T value, long length, IProgress prog)
+        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, Stream stream, out ResultT value, long length, IProgress prog)
         {
             var subProgs = prog.Split(2);
             return deserializer.TryDeserialize(new ProgressStream(stream, length, subProgs[0]), out value, subProgs[1]);
         }
 
-        public static T Deserialize<T>(this IDeserializer deserializer, HttpWebResponse response, IProgress prog)
-        {
-            using (var stream = response.GetResponseStream())
-            {
-                return deserializer.Deserialize<T>(stream, response.ContentLength, prog);
-            }
-        }
-
-        public static T Deserialize<T>(this IDeserializer deserializer, HttpWebResponse response)
-        {
-            return deserializer.Deserialize<T>(response, null);
-        }
-
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, HttpWebResponse response, out T value, IProgress prog)
-        {
-            using (var stream = response.GetResponseStream())
-            {
-                return deserializer.TryDeserialize(stream, out value, response.ContentLength, prog);
-            }
-        }
-
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, HttpWebResponse response, out T value)
-        {
-            return deserializer.TryDeserialize<T>(response, out value, null);
-        }
-
-        public static T Deserialize<T>(this IDeserializer deserializer, byte[] data, IProgress prog)
+        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, byte[] data, IProgress prog)
         {
             var stream = new MemoryStream(data);
-            return deserializer.Deserialize<T>(stream, data.Length, prog);
+            return deserializer.Deserialize(stream, data.Length, prog);
         }
 
-        public static T Deserialize<T>(this IDeserializer deserializer, byte[] data)
+        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, byte[] data)
         {
-            return deserializer.Deserialize<T>(data, null);
+            return deserializer.Deserialize(data, null);
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, byte[] data, out T value, IProgress prog)
+        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, byte[] data, out ResultT value, IProgress prog)
         {
             var stream = new MemoryStream(data);
             return deserializer.TryDeserialize(stream, out value, data.Length, prog);
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, byte[] data, out T value)
+        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, byte[] data, out ResultT value)
         {
             return deserializer.TryDeserialize(data, out value, null);
         }
 
-        public static T Deserialize<T>(this IDeserializer deserializer, FileInfo file, IProgress prog)
+        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, FileInfo file, IProgress prog)
         {
-            return deserializer.Deserialize<T>(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), file.Length, prog);
+            return deserializer.Deserialize(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), file.Length, prog);
         }
 
-        public static T Deserialize<T>(this IDeserializer deserializer, FileInfo file)
+        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, FileInfo file)
         {
-            return deserializer.Deserialize<T>(file, null);
+            return deserializer.Deserialize(file, null);
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, FileInfo file, out T value, IProgress prog)
+        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, FileInfo file, out ResultT value, IProgress prog)
         {
             return deserializer.TryDeserialize(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read), out value, file.Length, prog);
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, FileInfo file, out T value)
+        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, FileInfo file, out ResultT value)
         {
             return deserializer.TryDeserialize(file, out value, null);
         }
 
-        public static T Deserialize<T>(this IDeserializer deserializer, string fileName, IProgress prog)
+        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, string fileName, IProgress prog)
         {
-            return deserializer.Deserialize<T>(new FileInfo(fileName), prog);
+            return deserializer.Deserialize(new FileInfo(fileName), prog);
         }
 
-        public static T Deserialize<T>(this IDeserializer deserializer, string fileName)
+        public static ResultT Deserialize<ResultT>(this IDeserializer<ResultT> deserializer, string fileName)
         {
-            return deserializer.Deserialize<T>(fileName, null);
+            return deserializer.Deserialize(fileName, null);
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, string fileName, out T value, IProgress prog)
+        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, string fileName, out ResultT value, IProgress prog)
         {
             return deserializer.TryDeserialize(new FileInfo(fileName), out value, prog);
         }
 
-        public static bool TryDeserialize<T>(this IDeserializer deserializer, string fileName, out T value)
+        public static bool TryDeserialize<ResultT>(this IDeserializer<ResultT> deserializer, string fileName, out ResultT value)
         {
             return deserializer.TryDeserialize(fileName, out value, null);
         }
 
-        public static T Parse<T>(this IDeserializer deserializer, string text, IProgress prog)
+        public static ResultT Parse<ResultT>(this IDeserializer<ResultT> deserializer, string text, IProgress prog)
         {
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(text));
-            return deserializer.Deserialize<T>(stream, stream.Length, prog);
+            return deserializer.Deserialize(stream, stream.Length, prog);
         }
 
-        public static T Parse<T>(this IDeserializer deserializer, string text)
+        public static ResultT Parse<ResultT>(this IDeserializer<ResultT> deserializer, string text)
         {
-            return deserializer.Parse<T>(text, null);
+            return deserializer.Parse(text, null);
         }
 
-        public static bool TryParse<T>(this IDeserializer deserializer, string text, out T value, IProgress prog)
+        public static bool TryParse<ResultT>(this IDeserializer<ResultT> deserializer, string text, out ResultT value, IProgress prog)
         {
             var stream = new MemoryStream(Encoding.UTF8.GetBytes(text));
             return deserializer.TryDeserialize(stream, out value, stream.Length, prog);
         }
 
-        public static bool TryParse<T>(this IDeserializer deserializer, string text, out T value)
+        public static bool TryParse<ResultT>(this IDeserializer<ResultT> deserializer, string text, out ResultT value)
         {
             return deserializer.TryParse(text, out value, null);
         }

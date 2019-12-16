@@ -54,7 +54,7 @@ namespace Juniper.Imaging
         /// Encodes a raw file buffer of image data into a JPEG image.
         /// </summary>
         /// <param name="outputStream">Jpeg bytes.</param>
-        public void Serialize(Stream outputStream, JpegImage image, IProgress prog)
+        public void Serialize(Stream outputStream, JpegImage image, IProgress prog = null)
         {
             prog.Report(0);
             image.WriteJpeg(outputStream, compressionParams);

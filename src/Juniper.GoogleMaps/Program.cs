@@ -31,7 +31,6 @@ namespace Juniper.GoogleMaps
             Application.SetCompatibleTextRenderingDefault(false);
             Application.ThreadException += Application_ThreadException;
 
-            var json = new JsonFactory();
             var metadataDecoder = new JsonFactory<MetadataResponse>();
             var geocodingDecoder = new JsonFactory<GeocodingResponse>();
             var gmapsCacheDirName = Path.Combine(MY_PICTURES, "GoogleMaps");

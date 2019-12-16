@@ -1,39 +1,50 @@
 using System.IO;
 
-using Newtonsoft.Json;
-
 using Juniper.Progress;
+
+using Newtonsoft.Json;
 
 namespace Juniper.IO
 {
-    public class JsonFactory : IFactory
+
+    public class JsonFactory<T> : JsonFactory<T, MediaType.Application>, IJsonDecoder<T>
     {
-        public JsonFactory(MediaType contentType)
+        public JsonFactory() : base(MediaType.Application.Json)
+        { }
+    }
+
+    public class JsonFactory<ResultT, MediaTypeT> : IFactory<ResultT, MediaTypeT>
+        where MediaTypeT : MediaType
+    {
+        public JsonFactory(MediaTypeT contentType)
         {
             ContentType = contentType;
         }
 
-        public JsonFactory()
-            : this(MediaType.Application.Json)
-        { }
-
-        public MediaType ContentType
+        public MediaTypeT ContentType
         {
             get;
         }
 
-        public T Deserialize<T>(Stream stream, IProgress prog)
+        public ResultT Deserialize(Stream stream, IProgress prog)
         {
             prog.Report(0);
-            var reader = new StreamReader(stream);
-            var jsonReader = new JsonTextReader(reader);
-            var serializer = new JsonSerializer();
-            var obj = serializer.Deserialize<T>(jsonReader);
+            ResultT value = default;
+            if (stream != null)
+            {
+                using (stream)
+                {
+                    var reader = new StreamReader(stream);
+                    var jsonReader = new JsonTextReader(reader);
+                    var serializer = new JsonSerializer();
+                    value = serializer.Deserialize<ResultT>(jsonReader);
+                }
+            }
             prog.Report(1);
-            return obj;
+            return value;
         }
 
-        public void Serialize<T>(Stream stream, T value, IProgress prog)
+        public void Serialize(Stream stream, ResultT value, IProgress prog = null)
         {
             prog.Report(0);
             var writer = new StreamWriter(stream);
