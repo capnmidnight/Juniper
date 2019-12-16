@@ -160,10 +160,13 @@ namespace Juniper.HTTP.WebSockets
 
         private void WebSocketConnection_Data(object sender, byte[] data)
         {
-            var dataMessageDeserializer = new BinaryFactory<DataMessage>();
-            if (dataMessageDeserializer.TryDeserialize(data, out var dataMsg))
+            if (DataMessage != null)
             {
-                OnDataMessage(dataMsg);
+                var dataMessageDeserializer = new BinaryFactory<DataMessage>();
+                if (dataMessageDeserializer.TryDeserialize(data, out var dataMsg))
+                {
+                    OnDataMessage(dataMsg);
+                }
             }
         }
 
