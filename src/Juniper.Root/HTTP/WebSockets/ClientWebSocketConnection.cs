@@ -1,5 +1,6 @@
 using System;
 using System.Net.WebSockets;
+using System.Threading;
 using System.Threading.Tasks;
 using Juniper.HTTP.WebSockets;
 
@@ -19,7 +20,7 @@ namespace Juniper.HTTP.WebSockets
         {
             var clientSocket = (ClientWebSocket)socket;
             await clientSocket
-                .ConnectAsync(uri, canceller.Token)
+                .ConnectAsync(uri, CancellationToken.None)
                 .ConfigureAwait(false);
         }
     }
