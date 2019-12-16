@@ -9,8 +9,8 @@ namespace Juniper.HTTP.WebSockets
     {
         private readonly Uri uri;
 
-        public ClientWebSocketConnection(Uri uri)
-            : base(new ClientWebSocket())
+        public ClientWebSocketConnection(Uri uri, int rxBufferSize = DEFAULT_RX_BUFFER_SIZE, int dataBufferSize = DEFAULT_DATA_BUFFER_SIZE)
+            : base(new ClientWebSocket(), rxBufferSize, dataBufferSize)
         {
             this.uri = uri;
         }

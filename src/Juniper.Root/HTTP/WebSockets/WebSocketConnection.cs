@@ -16,12 +16,12 @@ namespace Juniper.HTTP.WebSockets
         /// <summary>
         /// The default rx buffer size 1KiB
         /// </summary>
-        private const int DEFAULT_RX_BUFFER_SIZE = 1000;
+        public const int DEFAULT_RX_BUFFER_SIZE = 1000;
 
         /// <summary>
         /// The default data buffer size is 10MiB
         /// </summary>
-        private const int DEFAULT_DATA_BUFFER_SIZE = 10000000;
+        public const int DEFAULT_DATA_BUFFER_SIZE = 10000000;
 
         protected readonly WebSocket socket;
         protected CancellationTokenSource canceller = new CancellationTokenSource();
