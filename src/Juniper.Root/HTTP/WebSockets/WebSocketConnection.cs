@@ -68,34 +68,31 @@ namespace Juniper.HTTP.WebSockets
         {
             try
             {
-                while (socket.State == WebSocketState.None)
+                while (State == WebSocketState.None)
                 {
                     await Task.Yield();
                 }
 
-                if (socket.State == WebSocketState.Connecting)
+                if (State == WebSocketState.Connecting)
                 {
                     OnConnecting();
                 }
 
-                while (socket.State == WebSocketState.Connecting)
+                while (State == WebSocketState.Connecting)
                 {
                     await Task.Yield();
                 }
 
-                if (socket.State == WebSocketState.Open)
+                if (State == WebSocketState.Open)
                 {
                     OnConnected();
                 }
 
-                while (socket.State == WebSocketState.Open)
+                while (State == WebSocketState.Open
+                    || State == WebSocketState.CloseSent)
                 {
-                    await ReceiveAsync().ConfigureAwait(false);
-                }
-
-                if(socket.State == WebSocketState.CloseSent)
-                {
-                    await Task.Yield();
+                    await ReceiveAsync()
+                        .ConfigureAwait(false);
                 }
             }
             catch (Exception exp)
@@ -104,11 +101,11 @@ namespace Juniper.HTTP.WebSockets
             }
             finally
             {
-                if (socket.State == WebSocketState.Aborted)
+                if (State == WebSocketState.Aborted)
                 {
                     OnAborted();
                 }
-                else if (socket.State == WebSocketState.CloseReceived)
+                else if (State == WebSocketState.CloseReceived)
                 {
                     await CloseAsync()
                         .ConfigureAwait(false);
@@ -134,6 +131,7 @@ namespace Juniper.HTTP.WebSockets
 
                 if (accum.Count > dataBufferSize)
                 {
+                    done = true;
                     await CloseAsync(WebSocketCloseStatus.MessageTooBig)
                         .ConfigureAwait(false);
                 }
@@ -199,21 +197,21 @@ namespace Juniper.HTTP.WebSockets
                 .ConfigureAwait(false);
         }
 
-        public async Task CloseAsync(WebSocketCloseStatus closeState = WebSocketCloseStatus.Empty)
+        public async Task CloseAsync(WebSocketCloseStatus closeState = WebSocketCloseStatus.NormalClosure)
         {
             OnDebug("Closing");
             OnClosing();
 
+            var closeMessage = closeState == WebSocketCloseStatus.NormalClosure
+                ? null
+                : closeState.ToString();
+
             await socket
-                .CloseAsync(
-                    closeState,
-                    closeState == WebSocketCloseStatus.Empty
-                        ? null
-                        : closeState.ToString(),
-                    CancellationToken.None)
+                .CloseAsync(closeState, closeMessage, CancellationToken.None)
                 .ConfigureAwait(false);
 
-            while (socket.State == WebSocketState.CloseSent)
+            while (State == WebSocketState.Open
+                || State == WebSocketState.CloseSent)
             {
                 await Task.Yield();
             }
