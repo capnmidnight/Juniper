@@ -38,6 +38,10 @@ namespace Juniper.HTTP.WebSockets
         public event EventHandler Canceled;
         public event EventHandler Aborted;
 
+#if DEBUG
+        public event EventHandler<string> Debug;
+#endif
+
         private readonly byte[] rxBuffer;
         private readonly ArraySegment<byte> rxSegment;
         private readonly int dataBufferSize;
@@ -68,57 +72,47 @@ namespace Juniper.HTTP.WebSockets
         {
             try
             {
-                while (socket.State == WebSocketState.None
-                    && IsRunning)
+                var lastState = WebSocketState.None;
+                while (IsRunning)
                 {
-                    await Task.Yield();
-                }
+                    var state = socket.State;
+                    if (state != lastState)
+                    {
+                        switch (state)
+                        {
+                            case WebSocketState.Connecting: OnConnecting(); break;
+                            case WebSocketState.Open: OnConnected(); break;
+                            case WebSocketState.Aborted: OnAborted(); break;
+                        }
+                    }
 
-                if (socket.State == WebSocketState.Connecting
-                    && !canceller.IsCancellationRequested)
-                {
-                    OnConnecting();
-                }
+                    switch (state)
+                    {
+                        case WebSocketState.None:
+                        case WebSocketState.Connecting:
+                        await Task.Yield();
+                        break;
 
-                while (socket.State == WebSocketState.Connecting
-                    && !canceller.IsCancellationRequested)
-                {
-                    await Task.Yield();
-                }
+                        case WebSocketState.Open:
+                        await ReceiveAsync().ConfigureAwait(false);
+                        break;
+                    }
 
-                if (socket.State == WebSocketState.Open
-                    && !canceller.IsCancellationRequested)
-                {
-                    OnConnected();
+                    lastState = state;
                 }
-
-                while (socket.State == WebSocketState.Open
-                    && !canceller.IsCancellationRequested)
-                {
-                    await ReceiveAsync()
-                        .ContinueWith(t =>
-                            t.Exception
-                                .InnerExceptions
-                                .ToList()
-                                .ForEach(e => OnError("Receiving", e)),
-                            TaskContinuationOptions.OnlyOnFaulted)
-                        .ConfigureAwait(false);
-                }
-
-                if (socket.State == WebSocketState.Aborted
-                    && !canceller.IsCancellationRequested)
-                {
-                    OnAborted();
-                }
-
-                while (socket.State == WebSocketState.CloseSent
-                    && !canceller.IsCancellationRequested)
-                {
-                    await Task.Yield();
-                }
+            }
+            catch (Exception exp)
+            {
+                OnError("Update", exp);
             }
             finally
             {
+                if (socket.State == WebSocketState.CloseReceived)
+                {
+                    await CloseAsync()
+                        .ConfigureAwait(false);
+                }
+
                 OnClosed();
             }
         }
@@ -165,7 +159,7 @@ namespace Juniper.HTTP.WebSockets
                         .ConfigureAwait(false);
                 }
 
-            } while (!done);
+            } while (!done && IsRunning);
 
             var data = accum.ToArray();
 
@@ -177,26 +171,23 @@ namespace Juniper.HTTP.WebSockets
             {
                 OnData(data);
             }
-            else if (msgType == WebSocketMessageType.Close)
-            {
-                OnClosing();
-                await CloseAsync()
-                    .ConfigureAwait(false);
-            }
         }
 
         public Task SendAsync(string msg)
         {
+            OnDebug($"Send: {msg}");
             return SendAsync(Encoding.UTF8.GetBytes(msg), WebSocketMessageType.Text);
         }
 
         public Task SendAsync(byte[] buffer)
         {
+            OnDebug($"Send: {buffer.Length} bytes");
             return SendAsync(buffer, WebSocketMessageType.Binary);
         }
 
         public Task SendAsync<T>(string message, T value, ISerializer<T> serializer)
         {
+            OnDebug($"Send: {value} => {message}");
             var data = serializer.Serialize(value);
             var dataMessage = new DataMessage(message, data);
             var msgSerializer = new BinaryFactory<DataMessage>();
@@ -228,6 +219,8 @@ namespace Juniper.HTTP.WebSockets
 
         public async Task CloseAsync(WebSocketCloseStatus closeState = WebSocketCloseStatus.NormalClosure)
         {
+            OnDebug("Closing");
+
             canceller.Cancel();
             canceller.Dispose();
 
@@ -244,6 +237,12 @@ namespace Juniper.HTTP.WebSockets
                         .ForEach(e => OnError("Closing", e)),
                     TaskContinuationOptions.OnlyOnFaulted)
                 .ConfigureAwait(false);
+
+            while (socket.State == WebSocketState.CloseSent
+                && IsRunning)
+            {
+                await Task.Yield();
+            }
         }
 
         #region IDisposable Support
@@ -270,6 +269,13 @@ namespace Juniper.HTTP.WebSockets
             Dispose(true);
         }
         #endregion
+
+        private void OnDebug(string msg)
+        {
+#if DEBUG
+            Debug?.Invoke(this, msg);
+#endif
+        }
 
         private void OnMessage(string msg)
         {
