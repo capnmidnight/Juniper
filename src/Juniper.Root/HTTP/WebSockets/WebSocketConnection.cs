@@ -34,6 +34,8 @@ namespace Juniper.HTTP.WebSockets
         public event EventHandler Connected;
         public event EventHandler Closing;
         public event EventHandler Closed;
+        public event EventHandler Started;
+        public event EventHandler Canceled;
         public event EventHandler Aborted;
 
         private readonly byte[] rxBuffer;
@@ -67,7 +69,7 @@ namespace Juniper.HTTP.WebSockets
             try
             {
                 while (socket.State == WebSocketState.None
-                    && !canceller.IsCancellationRequested)
+                    && IsRunning)
                 {
                     await Task.Yield();
                 }
@@ -94,7 +96,12 @@ namespace Juniper.HTTP.WebSockets
                     && !canceller.IsCancellationRequested)
                 {
                     await ReceiveAsync()
-                        .ContinueWith(LogError, TaskContinuationOptions.OnlyOnFaulted)
+                        .ContinueWith(t =>
+                            t.Exception
+                                .InnerExceptions
+                                .ToList()
+                                .ForEach(e => OnError("Receiving", e)),
+                            TaskContinuationOptions.OnlyOnFaulted)
                         .ConfigureAwait(false);
                 }
 
@@ -113,6 +120,28 @@ namespace Juniper.HTTP.WebSockets
             finally
             {
                 OnClosed();
+            }
+        }
+
+        private bool wasRunning;
+        private bool IsRunning
+        {
+            get
+            {
+                var isRunning = !canceller.IsCancellationRequested;
+                if (isRunning != wasRunning)
+                {
+                    if (isRunning)
+                    {
+                        OnStarted();
+                    }
+                    else
+                    {
+                        OnCanceled();
+                    }
+                }
+                wasRunning = isRunning;
+                return isRunning;
             }
         }
 
@@ -188,7 +217,12 @@ namespace Juniper.HTTP.WebSockets
             var segment = new ArraySegment<byte>(buffer);
             await socket
                 .SendAsync(segment, messageType, true, canceller.Token)
-                .ContinueWith(LogError, TaskContinuationOptions.OnlyOnFaulted)
+                .ContinueWith(t =>
+                    t.Exception
+                        .InnerExceptions
+                        .ToList()
+                        .ForEach(e => OnError("Sending", e)),
+                    TaskContinuationOptions.OnlyOnFaulted)
                 .ConfigureAwait(false);
         }
 
@@ -203,7 +237,12 @@ namespace Juniper.HTTP.WebSockets
 
             await socket
                 .CloseAsync(closeState, closeState.ToString(), canceller.Token)
-                .ContinueWith(LogError, TaskContinuationOptions.OnlyOnFaulted)
+                .ContinueWith(t =>
+                    t.Exception
+                        .InnerExceptions
+                        .ToList()
+                        .ForEach(e => OnError("Closing", e)),
+                    TaskContinuationOptions.OnlyOnFaulted)
                 .ConfigureAwait(false);
         }
 
@@ -247,14 +286,9 @@ namespace Juniper.HTTP.WebSockets
             DataMessage?.Invoke(this, dataMsg);
         }
 
-        private void LogError(Task t)
+        private void OnError(string label, Exception exp)
         {
-            OnError(t.Exception);
-        }
-
-        private void OnError(Exception exp)
-        {
-            Error?.Invoke(this, exp);
+            Error?.Invoke(this, new Exception(label, exp));
         }
 
         private void OnConnecting()
@@ -275,6 +309,16 @@ namespace Juniper.HTTP.WebSockets
         private void OnClosed()
         {
             Closed?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OnStarted()
+        {
+            Started?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OnCanceled()
+        {
+            Canceled?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnAborted()

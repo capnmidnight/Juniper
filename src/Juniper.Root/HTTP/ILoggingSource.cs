@@ -14,7 +14,7 @@ namespace Juniper.HTTP
 
     public interface IErrorSource
     {
-        event EventHandler<string> Error;
+        event EventHandler<Exception> Error;
     }
 
     public interface ILoggingSource :

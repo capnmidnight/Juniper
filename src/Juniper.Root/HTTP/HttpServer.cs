@@ -156,30 +156,15 @@ namespace Juniper.HTTP
         /// </summary>
         public event EventHandler<string> Info;
 
-        protected void OnInfo(object source, string message)
-        {
-            Info?.Invoke(source, message);
-        }
-
         /// <summary>
         /// Event for handling error logs that don't stop execution.
         /// </summary>
         public event EventHandler<string> Warning;
 
-        protected void OnWarning(object sender, string message)
-        {
-            Warning?.Invoke(this, message);
-        }
-
         /// <summary>
         /// Event for handling error logs that prevent execution.
         /// </summary>
-        public event EventHandler<string> Error;
-
-        protected void OnError(object sender, string message)
-        {
-            Error?.Invoke(sender, message);
-        }
+        public event EventHandler<Exception> Error;
 
         /// <summary>
         /// Event for handling background processing in controllers.
@@ -239,10 +224,10 @@ namespace Juniper.HTTP
 
                         if (!isHttp && !isWebSocket)
                         {
-                            OnError(this, $@"Method {type.Name}::{method.Name} must have a signature:
+                            OnError(this, new InvalidOperationException($@"Method {type.Name}::{method.Name} must have a signature:
     (System.Net.HttpListenerContext, string...) => Task
 or
-    (Juniper.HTTP.WebSocketConnection, string...) => Task");
+    (Juniper.HTTP.WebSocketConnection, string...) => Task"));
                         }
                         else if (isHttp)
                         {
@@ -518,7 +503,7 @@ or
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception exp)
                 {
-                    OnError(this, $"ERRROR: {exp.Message}");
+                    OnError(this, exp);
                 }
 #pragma warning restore CA1031 // Do not catch general exception types
             }
@@ -562,7 +547,7 @@ or
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception exp)
             {
-                OnError(this, exp.Message);
+                OnError(this, exp);
                 context.Response.Error(HttpStatusCode.InternalServerError, "Internal error");
             }
 #pragma warning restore CA1031 // Do not catch general exception types
@@ -575,6 +560,22 @@ or
                     context.Response.Close();
                 }
             }
+        }
+
+
+        protected void OnInfo(object source, string message)
+        {
+            Info?.Invoke(source, message);
+        }
+
+        protected void OnWarning(object sender, string message)
+        {
+            Warning?.Invoke(this, message);
+        }
+
+        protected void OnError(object sender, Exception exp)
+        {
+            Error?.Invoke(sender, exp);
         }
     }
 }
