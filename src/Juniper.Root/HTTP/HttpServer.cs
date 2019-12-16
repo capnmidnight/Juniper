@@ -14,6 +14,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Juniper.HTTP.WebSockets;
+
 namespace Juniper.HTTP
 {
     /// <summary>
@@ -249,7 +251,7 @@ or
                         else if (isWebSocket)
                         {
                             var wsHandler = new WebSocketRouteHandler(name, route, source, method);
-                            wsHandler.SocketConnected += WsHandler_SocketConnected; ;
+                            wsHandler.SocketConnected += WsHandler_SocketConnected;
                             handler = wsHandler;
                         }
 
@@ -295,8 +297,17 @@ or
 
         private void WsHandler_SocketConnected(WebSocketConnection socket)
         {
-            Update += socket.Update;
             sockets.Add(socket);
+            socket.Closed += Socket_Closed;
+        }
+
+        private void Socket_Closed(object sender, EventArgs e)
+        {
+            if (sender is WebSocketConnection socket)
+            {
+                sockets.Remove(socket);
+                socket.Dispose();
+            }
         }
 
         public bool IsRunning
@@ -493,22 +504,6 @@ or
                 try
                 {
                     OnUpdate();
-
-                    for (var i = sockets.Count - 1; i >= 0; --i)
-                    {
-                        var socket = sockets[i];
-                        if (socket.State == WebSocketState.CloseReceived)
-                        {
-                            socket.Close();
-                        }
-                        else if (socket.State == WebSocketState.Closed
-                            || socket.State == WebSocketState.Aborted)
-                        {
-                            sockets.RemoveAt(i);
-                            Update -= socket.Update;
-                            socket.Dispose();
-                        }
-                    }
 
                     for (int i = waiters.Count - 1; i >= 0; --i)
                     {

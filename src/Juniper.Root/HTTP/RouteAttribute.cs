@@ -9,7 +9,6 @@ namespace Juniper.HTTP
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class RouteAttribute : Attribute
-
     {
         public readonly Regex pattern;
         public readonly string regexSource;

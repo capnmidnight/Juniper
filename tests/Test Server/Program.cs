@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Juniper.HTTP.WebSockets;
+
 using static System.Console;
 
 namespace Juniper.HTTP
@@ -51,7 +53,7 @@ namespace Juniper.HTTP
             var socket = (WebSocketConnection)sender;
             WriteLine($"[SOCKET] {msg}");
             msg += " from server";
-            socket.Send(msg);
+            Task.Run(() => socket.SendAsync(msg));
         }
 
         private static void Server_Info(object sender, string e)
