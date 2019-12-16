@@ -40,12 +40,15 @@ namespace Juniper.Speech
 #if UNITY_EDITOR
         public void OnValidate()
         {
-            keywords = (from keyword in keywords
-                        let k = keyword.ToLowerInvariant()
-                        select k)
-                    .ToArray();
+            if (keywords != null)
+            {
+                keywords = (from keyword in keywords
+                            let k = keyword.ToLowerInvariant()
+                            select k)
+                        .ToArray();
 
-            SetTooltips(false);
+                SetTooltips(false);
+            }
         }
 #endif
 
