@@ -4,18 +4,18 @@ using System.Runtime.Serialization;
 namespace Juniper.HTTP.WebSockets
 {
     [Serializable]
-    public sealed class WebSocketDataMessage : ISerializable
+    public sealed class DataMessage : ISerializable
     {
         public readonly string Message;
         public readonly byte[] Data;
 
-        public WebSocketDataMessage(string message, byte[] data)
+        public DataMessage(string message, byte[] data)
         {
             Message = message;
             Data = data;
         }
 
-        private WebSocketDataMessage(SerializationInfo info, StreamingContext context)
+        private DataMessage(SerializationInfo info, StreamingContext context)
         {
             Message = info.GetString(nameof(Message));
             Data = info.GetValue<byte[]>(nameof(Data));

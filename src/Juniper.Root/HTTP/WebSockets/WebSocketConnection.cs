@@ -28,7 +28,7 @@ namespace Juniper.HTTP.WebSockets
 
         public event EventHandler<string> Message;
         public event EventHandler<byte[]> Data;
-        public event EventHandler<WebSocketDataMessage> DataMessage;
+        public event EventHandler<DataMessage> DataMessage;
         public event EventHandler<Exception> Error;
         public event EventHandler Connecting;
         public event EventHandler Connected;
@@ -169,52 +169,18 @@ namespace Juniper.HTTP.WebSockets
         public Task SendAsync<T>(string message, T value, ISerializer<T> serializer)
         {
             var data = serializer.Serialize(value);
-            var dataMessage = new WebSocketDataMessage(message, data);
-            var msgSerializer = new BinaryFactory<WebSocketDataMessage>();
+            var dataMessage = new DataMessage(message, data);
+            var msgSerializer = new BinaryFactory<DataMessage>();
             return SendAsync(msgSerializer.Serialize(dataMessage));
         }
 
         private void WebSocketConnection_Data(object sender, byte[] data)
         {
-            var dataMessageDeserializer = new BinaryFactory<WebSocketDataMessage>();
+            var dataMessageDeserializer = new BinaryFactory<DataMessage>();
             if (dataMessageDeserializer.TryDeserialize(data, out var dataMsg))
             {
                 OnDataMessage(dataMsg);
             }
-        }
-
-        public void AddDataMessageListener<T>(string message, IDeserializer<T> deserializer, EventHandler<T> callback)
-        {
-            if (string.IsNullOrEmpty(message))
-            {
-                throw new ArgumentNullException(nameof(message), $"{nameof(message)} parameter must not be null or empty.");
-            }
-
-            if (deserializer is null)
-            {
-                throw new ArgumentNullException(nameof(deserializer));
-            }
-
-            if (callback is null)
-            {
-                throw new ArgumentNullException(nameof(callback));
-            }
-
-            DataMessage += (_, dataMsg) =>
-            {
-                if (dataMsg.Message == message)
-                {
-                    try
-                    {
-                        var value = deserializer.Deserialize(dataMsg.Data);
-                        callback(this, value);
-                    }
-                    catch (Exception exp)
-                    {
-                        OnError(exp);
-                    }
-                }
-            };
         }
 
         private async Task SendAsync(byte[] buffer, WebSocketMessageType messageType)
@@ -276,7 +242,7 @@ namespace Juniper.HTTP.WebSockets
             Data?.Invoke(this, data);
         }
 
-        private void OnDataMessage(WebSocketDataMessage dataMsg)
+        private void OnDataMessage(DataMessage dataMsg)
         {
             DataMessage?.Invoke(this, dataMsg);
         }

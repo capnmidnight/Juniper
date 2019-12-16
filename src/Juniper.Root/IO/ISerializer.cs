@@ -13,7 +13,7 @@ namespace Juniper.IO
         void Serialize(Stream stream, T value, IProgress prog = null);
     }
 
-    public static class ISerializerGenericExt
+    public static class ISerializerExt
     {
         public static void Serialize<T>(this ISerializer<T> serializer, HttpWebRequest request, T value, IProgress prog = null)
         {
