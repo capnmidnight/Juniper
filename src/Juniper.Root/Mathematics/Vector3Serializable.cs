@@ -30,5 +30,17 @@ namespace Juniper.Mathematics
             info.AddValue(nameof(Y), Y);
             info.AddValue(nameof(Z), Z);
         }
+
+        public override string ToString()
+        {
+            return $"<{X}, {Y}, {Z}>";
+        }
+
+        public override int GetHashCode()
+        {
+            return X.GetHashCode()
+                ^ Y.GetHashCode()
+                ^ Z.GetHashCode();
+        }
     }
 }
