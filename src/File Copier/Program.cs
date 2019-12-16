@@ -11,12 +11,13 @@ namespace File_Copier
     {
         private const string NEWTONSOFT_JSON_DLL = "Newtonsoft.Json.dll";
         private const string NETSTANDARD = "netstandard";
+        private const string EXCLUDE_DEPENDENCIES_KEY = "--excludeDeps";
 
         static void Main(string[] args)
         {
-            if (args.Length != 2)
+            if (args.Length < 3)
             {
-                Error.WriteLine("Command expects two arguments");
+                Error.WriteLine("Command expects at least three arguments");
                 for (int i = 0; i < args.Length; ++i)
                 {
                     Error.WriteLine("{0}: {1}", i, args[i]);
@@ -33,84 +34,41 @@ namespace File_Copier
                     }
                 }
 
-                var source = new DirectoryInfo(args[0]);
+                var allArgs = args.ToList();
+
+                var excludeDependencies = allArgs.Contains(EXCLUDE_DEPENDENCIES_KEY);
+                if (excludeDependencies)
+                {
+                    allArgs.Remove(EXCLUDE_DEPENDENCIES_KEY);
+                    args = allArgs.ToArray();
+                }
+
+                var projectName = args[0];
+
+                var source = new DirectoryInfo(args[1]);
                 if (!source.Exists)
                 {
                     Error.WriteLine("Source directory does not exist");
                 }
                 else if (source.Name != "netstandard2.0")
                 {
-                    var dest1 = new DirectoryInfo(args[1]);
+                    var dest1 = new DirectoryInfo(args[2]);
                     var dest2 = dest1.Parent;
 
                     WriteLine("Copying from {0} to {1}", source.FullName, dest1.FullName);
 
-                    foreach (var file in source.GetFiles())
+                    foreach (var sourceFile in source.GetFiles()
+                        .Select(ReplaceNewtonsoft))
                     {
-                        var sourceFile = file;
-                        if (sourceFile.Name == NEWTONSOFT_JSON_DLL)
-                        {
-                            var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                            var newtonsoft = new DirectoryInfo(Combine(userProfile, ".nuget", "packages", "newtonsoft.json"));
-                            if (!newtonsoft.Exists)
-                            {
-                                WriteLine("No Newtonsoft NuGet package found");
-                            }
-                            else
-                            {
-                                var maxVersionDir = (from dir in newtonsoft.EnumerateDirectories()
-                                                     let version = new Version(dir.Name)
-                                                     orderby version descending
-                                                     select dir)
-                                                .FirstOrDefault();
-                                if (maxVersionDir == null)
-                                {
-                                    WriteLine("No versions of Newtonsoft package installed");
-                                }
-                                else
-                                {
-                                    var versionDir = new DirectoryInfo(Combine(maxVersionDir.FullName, "lib"));
-                                    if (!versionDir.Exists)
-                                    {
-                                        WriteLine("Error constructing version directory {0}", versionDir.FullName);
-                                    }
-                                    else
-                                    {
-                                        var suitableDir = (from dir in versionDir.EnumerateDirectories()
-                                                           where dir.Name.StartsWith(NETSTANDARD)
-                                                           let versionName = dir.Name.Substring(NETSTANDARD.Length)
-                                                           let version = new Version(versionName)
-                                                           orderby version descending
-                                                           select dir)
-                                                        .FirstOrDefault();
-                                        if (suitableDir == null)
-                                        {
-                                            WriteLine("No Netstandard versions found");
-                                        }
-                                        else
-                                        {
-                                            var suitable = new FileInfo(Combine(suitableDir.FullName, NEWTONSOFT_JSON_DLL));
-                                            if (!suitable.Exists)
-                                            {
-                                                WriteLine("No suitable version of Newtonsoft.JSON found.");
-                                            }
-                                            else
-                                            {
-                                                sourceFile = suitable;
-                                                WriteLine("Found a suitable version of Newtonsoft.JSON at {0}", sourceFile.FullName);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        var isDependency = !sourceFile.Name.StartsWith(projectName);
+                        var dest = isDependency
+                            ? dest2
+                            : dest1;
 
-                        var dest = sourceFile.Name.StartsWith("Juniper")
-                            ? dest1
-                            : dest2;
-
-                        if (sourceFile.Extension != ".pdb"
-                            || dest.Name.EndsWith("Debug"))
+                        if ((!isDependency
+                                || !excludeDependencies)
+                            && (sourceFile.Extension != ".pdb"
+                                || dest.Name.EndsWith("Debug")))
                         {
                             dest.Create();
 
@@ -124,6 +82,68 @@ namespace File_Copier
                     }
                 }
             }
+        }
+
+        private static FileInfo ReplaceNewtonsoft(FileInfo sourceFile)
+        {
+            if (sourceFile.Name == NEWTONSOFT_JSON_DLL)
+            {
+                var userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var newtonsoft = new DirectoryInfo(Combine(userProfile, ".nuget", "packages", "newtonsoft.json"));
+                if (!newtonsoft.Exists)
+                {
+                    WriteLine("No Newtonsoft NuGet package found");
+                }
+                else
+                {
+                    var maxVersionDir = (from dir in newtonsoft.EnumerateDirectories()
+                                         let version = new Version(dir.Name)
+                                         orderby version descending
+                                         select dir)
+                                    .FirstOrDefault();
+                    if (maxVersionDir == null)
+                    {
+                        WriteLine("No versions of Newtonsoft package installed");
+                    }
+                    else
+                    {
+                        var versionDir = new DirectoryInfo(Combine(maxVersionDir.FullName, "lib"));
+                        if (!versionDir.Exists)
+                        {
+                            WriteLine("Error constructing version directory {0}", versionDir.FullName);
+                        }
+                        else
+                        {
+                            var suitableDir = (from dir in versionDir.EnumerateDirectories()
+                                               where dir.Name.StartsWith(NETSTANDARD)
+                                               let versionName = dir.Name.Substring(NETSTANDARD.Length)
+                                               let version = new Version(versionName)
+                                               orderby version descending
+                                               select dir)
+                                            .FirstOrDefault();
+                            if (suitableDir == null)
+                            {
+                                WriteLine("No NetStandard versions found");
+                            }
+                            else
+                            {
+                                var suitable = new FileInfo(Combine(suitableDir.FullName, NEWTONSOFT_JSON_DLL));
+                                if (!suitable.Exists)
+                                {
+                                    WriteLine("No suitable version of Newtonsoft.JSON found.");
+                                }
+                                else
+                                {
+                                    sourceFile = suitable;
+                                    WriteLine("Found a suitable version of Newtonsoft.JSON at {0}", sourceFile.FullName);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return sourceFile;
         }
     }
 }
