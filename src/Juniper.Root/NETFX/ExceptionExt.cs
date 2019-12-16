@@ -34,17 +34,19 @@ namespace System
             while (q.Count > 0)
             {
                 var here = q.Dequeue();
-
-                sb.AppendLine(here.ToShortString(string.Empty));
-                sb.AppendLine(here.StackTrace);
-
-                if (here is AggregateException agg)
+                if (here != null)
                 {
-                    q.AddRange(agg.InnerExceptions);
-                }
-                else
-                {
-                    q.Enqueue(here.InnerException);
+                    sb.AppendLine(here.ToShortString(string.Empty));
+                    sb.AppendLine(here.StackTrace);
+
+                    if (here is AggregateException agg)
+                    {
+                        q.AddRange(agg.InnerExceptions);
+                    }
+                    else
+                    {
+                        q.Enqueue(here.InnerException);
+                    }
                 }
             }
 
